@@ -1924,19 +1924,17 @@ namespace OneStoryProjectEditor
             while (theCurrentST.NextState != theNewST.CurrentStage);
             InitAllPanes();
         }
-
-        private void buttonsStoryStage_ButtonClick(object sender, EventArgs e)
-        {
-            StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[theCurrentStory.ProjStage.ProjectStage];
-            if (st.PreviousButtonState != StoryStageLogic.ProjectStages.eUndefined)
-                DoNextSeveral(StoryStageLogic.stateTransitions[st.PreviousButtonState]);
-        }
-
-        private void toolNextStateLabel_ButtonClick(object sender, EventArgs e)
-        {
-            DoNextState(true);
-        }
         */
+
+        private void buttonsStoryStage_Click_1(object sender, EventArgs e)
+        {
+            if ((StoryProject == null) || (StoryProject.ProjSettings == null) || (theCurrentStory == null))
+                return;
+
+            StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[theCurrentStory.ProjStage.ProjectStage];
+            SetNextState(st.DefaultNextState(StoryProject, theCurrentStory), true);
+        }
+
         protected bool SetNextState(StoryStageLogic.ProjectStages stateToSet, bool bDoUpdateCtrls)
         {
             if ((StoryProject == null) || (StoryProject.ProjSettings == null) || (theCurrentStory == null))

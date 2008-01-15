@@ -463,9 +463,18 @@ namespace OneStoryProjectEditor
             internal bool IsCoachNotesVisible { get; set; }
             internal bool IsNetBibleVisible { get; set; }
 
-            internal string PreviousStateButtonLabel { get; set; }
-            internal ProjectStages PreviousButtonState { get; set; }
-            internal string NextStateButtonLabel { get; set; }
+            internal ProjectStages DefaultNextState(StoryProjectData storyProjectData,
+                StoryData theCurrentStory)
+            {
+                // allowed transition states (could be previous or forward)
+                foreach (AllowableTransition aps in AllowableForewardsTransitions)
+                {
+                    // see if this transition is allowed from our current situation
+                    if (aps.IsThisTransitionAllow(storyProjectData, theCurrentStory))
+                        return aps.ProjectStage;
+                }
+                return theCurrentStory.ProjStage.ProjectStage;
+            }
 
             internal bool RequiresUsingVernacular { get; set; }
             internal bool RequiresUsingNationalBT { get; set; }

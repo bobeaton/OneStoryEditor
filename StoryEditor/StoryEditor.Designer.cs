@@ -115,6 +115,7 @@ namespace OneStoryProjectEditor
             this.advancedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changeProjectFolderRootToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resetStoredInformationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkForProgramUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
@@ -132,15 +133,15 @@ namespace OneStoryProjectEditor
             this.linkLabelCoachNotes = new System.Windows.Forms.LinkLabel();
             this.htmlCoachNotesControl = new OneStoryProjectEditor.HtmlCoachNotesControl();
             this.textBoxCoachNotes = new System.Windows.Forms.TextBox();
-            this.statusStrip = new System.Windows.Forms.StatusStrip();
-            this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.helpProvider = new System.Windows.Forms.HelpProvider();
             this.toolStripRecordNavigation = new System.Windows.Forms.ToolStrip();
             this.toolStripButtonFirst = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonPrevious = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonNext = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonLast = new System.Windows.Forms.ToolStripButton();
-            this.checkForProgramUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonsStoryStage = new System.Windows.Forms.ToolStripSplitButton();
+            this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.menuStrip.SuspendLayout();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
             this.splitContainerLeftRight.Panel2.SuspendLayout();
@@ -151,8 +152,8 @@ namespace OneStoryProjectEditor
             this.splitContainerMentorNotes.Panel1.SuspendLayout();
             this.splitContainerMentorNotes.Panel2.SuspendLayout();
             this.splitContainerMentorNotes.SuspendLayout();
-            this.statusStrip.SuspendLayout();
             this.toolStripRecordNavigation.SuspendLayout();
+            this.statusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -893,6 +894,13 @@ namespace OneStoryProjectEditor
             this.resetStoredInformationToolStripMenuItem.ToolTipText = resources.GetString("resetStoredInformationToolStripMenuItem.ToolTipText");
             this.resetStoredInformationToolStripMenuItem.Click += new System.EventHandler(this.resetStoredInformationToolStripMenuItem_Click);
             // 
+            // checkForProgramUpdatesToolStripMenuItem
+            // 
+            this.checkForProgramUpdatesToolStripMenuItem.Name = "checkForProgramUpdatesToolStripMenuItem";
+            this.checkForProgramUpdatesToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+            this.checkForProgramUpdatesToolStripMenuItem.Text = "&Check for program updates";
+            this.checkForProgramUpdatesToolStripMenuItem.Click += new System.EventHandler(this.checkForProgramUpdatesToolStripMenuItem_Click);
+            // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
@@ -1124,28 +1132,6 @@ namespace OneStoryProjectEditor
             this.textBoxCoachNotes.Text = "Coach Notes";
             this.textBoxCoachNotes.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // statusStrip
-            // 
-            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.statusLabel});
-            this.statusStrip.Location = new System.Drawing.Point(0, 501);
-            this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(881, 22);
-            this.statusStrip.TabIndex = 1;
-            this.statusStrip.Text = "statusStrip1";
-            // 
-            // statusLabel
-            // 
-            this.statusLabel.AutoSize = false;
-            this.statusLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
-            this.statusLabel.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken;
-            this.statusLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(866, 17);
-            this.statusLabel.Spring = true;
-            this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.statusLabel.Click += new System.EventHandler(this.statusLabel_Click);
-            // 
             // toolStripRecordNavigation
             // 
             this.toolStripRecordNavigation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -1210,12 +1196,39 @@ namespace OneStoryProjectEditor
                 "fields visible)";
             this.toolStripButtonLast.Click += new System.EventHandler(this.toolStripButtonLast_Click);
             // 
-            // checkForProgramUpdatesToolStripMenuItem
+            // buttonsStoryStage
             // 
-            this.checkForProgramUpdatesToolStripMenuItem.Name = "checkForProgramUpdatesToolStripMenuItem";
-            this.checkForProgramUpdatesToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
-            this.checkForProgramUpdatesToolStripMenuItem.Text = "&Check for program updates";
-            this.checkForProgramUpdatesToolStripMenuItem.Click += new System.EventHandler(this.checkForProgramUpdatesToolStripMenuItem_Click);
+            this.buttonsStoryStage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.buttonsStoryStage.DropDownButtonWidth = 0;
+            this.buttonsStoryStage.Image = ((System.Drawing.Image)(resources.GetObject("buttonsStoryStage.Image")));
+            this.buttonsStoryStage.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.buttonsStoryStage.Name = "buttonsStoryStage";
+            this.buttonsStoryStage.Size = new System.Drawing.Size(65, 20);
+            this.buttonsStoryStage.Text = "Next State";
+            this.buttonsStoryStage.ToolTipText = "Use the \'Select State\' menu to move to a previous state";
+            this.buttonsStoryStage.Click += new System.EventHandler(this.buttonsStoryStage_Click_1);
+            // 
+            // statusLabel
+            // 
+            this.statusLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            this.statusLabel.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken;
+            this.statusLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.statusLabel.Name = "statusLabel";
+            this.statusLabel.Size = new System.Drawing.Size(770, 17);
+            this.statusLabel.Spring = true;
+            this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.statusLabel.Click += new System.EventHandler(this.statusLabel_Click);
+            // 
+            // statusStrip
+            // 
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.buttonsStoryStage,
+            this.statusLabel});
+            this.statusStrip.Location = new System.Drawing.Point(0, 501);
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Size = new System.Drawing.Size(881, 22);
+            this.statusStrip.TabIndex = 1;
+            this.statusStrip.Text = "statusStrip1";
             // 
             // StoryEditor
             // 
@@ -1246,10 +1259,10 @@ namespace OneStoryProjectEditor
             this.splitContainerMentorNotes.Panel2.ResumeLayout(false);
             this.splitContainerMentorNotes.Panel2.PerformLayout();
             this.splitContainerMentorNotes.ResumeLayout(false);
-            this.statusStrip.ResumeLayout(false);
-            this.statusStrip.PerformLayout();
             this.toolStripRecordNavigation.ResumeLayout(false);
             this.toolStripRecordNavigation.PerformLayout();
+            this.statusStrip.ResumeLayout(false);
+            this.statusStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1292,7 +1305,6 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem newToolStripMenuItem;
         private ToolStripMenuItem recentProjectsToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator4;
-        private StatusStrip statusStrip;
         private HelpProvider helpProvider;
         private ToolStripMenuItem insertNewStoryToolStripMenuItem;
         private ToolStripMenuItem deleteStoryToolStripMenuItem;
@@ -1350,7 +1362,6 @@ namespace OneStoryProjectEditor
         private ContextMenuStrip contextMenuStripVerseList;
         private ToolStripMenuItem resetStoredInformationToolStripMenuItem;
         private ToolStripMenuItem historicalDifferencesToolStripMenuItem;
-        private ToolStripStatusLabel statusLabel;
         private ToolStripMenuItem useSameSettingsForAllStoriesToolStripMenuItem;
         private ToolStripMenuItem printPreviewToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator12;
@@ -1363,6 +1374,9 @@ namespace OneStoryProjectEditor
         private ToolStripButton toolStripButtonNext;
         private ToolStripButton toolStripButtonLast;
         private ToolStripMenuItem checkForProgramUpdatesToolStripMenuItem;
+        private ToolStripSplitButton buttonsStoryStage;
+        private ToolStripStatusLabel statusLabel;
+        private StatusStrip statusStrip;
     }
 
 #if UsingHtmlDisplayForConNotes
