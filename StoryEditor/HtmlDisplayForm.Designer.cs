@@ -39,11 +39,13 @@
             this.radioButtonRevsByChangeOfState = new System.Windows.Forms.RadioButton();
             this.groupBoxViewOptions = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.checkBoxFrontMatter = new System.Windows.Forms.CheckBox();
             this.checkBoxLangVernacular = new System.Windows.Forms.CheckBox();
             this.checkBoxLangNationalBT = new System.Windows.Forms.CheckBox();
             this.checkBoxLangInternationalBT = new System.Windows.Forms.CheckBox();
             this.checkBoxAnchors = new System.Windows.Forms.CheckBox();
             this.checkBoxStoryTestingQuestions = new System.Windows.Forms.CheckBox();
+            this.checkBoxAnswers = new System.Windows.Forms.CheckBox();
             this.checkBoxRetellings = new System.Windows.Forms.CheckBox();
             this.dataGridViewRevisions = new System.Windows.Forms.DataGridView();
             this.ColumnOldParent = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -54,11 +56,9 @@
             this.ColumnState = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.tabPageDisplayChangeReport = new System.Windows.Forms.TabPage();
+            this.htmlStoryBtControl = new OneStoryProjectEditor.HtmlStoryBtControl();
             this.backgroundWorkerCheckRevisions = new System.ComponentModel.BackgroundWorker();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.checkBoxFrontMatter = new System.Windows.Forms.CheckBox();
-            this.checkBoxAnswers = new System.Windows.Forms.CheckBox();
-            this.htmlStoryBtControl = new OneStoryProjectEditor.HtmlStoryBtControl();
             this.tabControl.SuspendLayout();
             this.tabPageSelectReportOptions.SuspendLayout();
             this.tableLayoutPanelSettings.SuspendLayout();
@@ -192,6 +192,20 @@
             this.flowLayoutPanel1.Size = new System.Drawing.Size(510, 73);
             this.flowLayoutPanel1.TabIndex = 3;
             // 
+            // checkBoxFrontMatter
+            // 
+            this.checkBoxFrontMatter.AutoSize = true;
+            this.checkBoxFrontMatter.Checked = true;
+            this.checkBoxFrontMatter.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxFrontMatter.Location = new System.Drawing.Point(3, 3);
+            this.checkBoxFrontMatter.Name = "checkBoxFrontMatter";
+            this.checkBoxFrontMatter.Size = new System.Drawing.Size(143, 17);
+            this.checkBoxFrontMatter.TabIndex = 6;
+            this.checkBoxFrontMatter.Text = "Story Header Information";
+            this.toolTip.SetToolTip(this.checkBoxFrontMatter, "Check this box to have the Story Header Information (e.g. Crafter, UNSs, etc) sho" +
+                    "wn in the report");
+            this.checkBoxFrontMatter.UseVisualStyleBackColor = true;
+            // 
             // checkBoxLangVernacular
             // 
             this.checkBoxLangVernacular.AutoSize = true;
@@ -258,6 +272,18 @@
             this.toolTip.SetToolTip(this.checkBoxStoryTestingQuestions, "Check this box to have the Testing Questions (and answers, if available) shown in" +
                     " the report");
             this.checkBoxStoryTestingQuestions.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxAnswers
+            // 
+            this.checkBoxAnswers.AutoSize = true;
+            this.checkBoxAnswers.Checked = true;
+            this.checkBoxAnswers.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxAnswers.Location = new System.Drawing.Point(323, 3);
+            this.checkBoxAnswers.Name = "checkBoxAnswers";
+            this.checkBoxAnswers.Size = new System.Drawing.Size(132, 17);
+            this.checkBoxAnswers.TabIndex = 9;
+            this.checkBoxAnswers.Text = "Test question &answers";
+            this.checkBoxAnswers.UseVisualStyleBackColor = true;
             // 
             // checkBoxRetellings
             // 
@@ -357,40 +383,6 @@
             this.tabPageDisplayChangeReport.Text = "View changes";
             this.tabPageDisplayChangeReport.UseVisualStyleBackColor = true;
             // 
-            // backgroundWorkerCheckRevisions
-            // 
-            this.backgroundWorkerCheckRevisions.WorkerReportsProgress = true;
-            this.backgroundWorkerCheckRevisions.WorkerSupportsCancellation = true;
-            this.backgroundWorkerCheckRevisions.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerCheckRevisions_DoWork);
-            this.backgroundWorkerCheckRevisions.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorkerCheckRevisions_RunWorkerCompleted);
-            this.backgroundWorkerCheckRevisions.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorkerCheckRevisions_ProgressChanged);
-            // 
-            // checkBoxFrontMatter
-            // 
-            this.checkBoxFrontMatter.AutoSize = true;
-            this.checkBoxFrontMatter.Checked = true;
-            this.checkBoxFrontMatter.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxFrontMatter.Location = new System.Drawing.Point(3, 3);
-            this.checkBoxFrontMatter.Name = "checkBoxFrontMatter";
-            this.checkBoxFrontMatter.Size = new System.Drawing.Size(143, 17);
-            this.checkBoxFrontMatter.TabIndex = 6;
-            this.checkBoxFrontMatter.Text = "Story Header Information";
-            this.toolTip.SetToolTip(this.checkBoxFrontMatter, "Check this box to have the Story Header Information (e.g. Crafter, UNSs, etc) sho" +
-                    "wn in the report");
-            this.checkBoxFrontMatter.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxAnswers
-            // 
-            this.checkBoxAnswers.AutoSize = true;
-            this.checkBoxAnswers.Checked = true;
-            this.checkBoxAnswers.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxAnswers.Location = new System.Drawing.Point(323, 3);
-            this.checkBoxAnswers.Name = "checkBoxAnswers";
-            this.checkBoxAnswers.Size = new System.Drawing.Size(132, 17);
-            this.checkBoxAnswers.TabIndex = 9;
-            this.checkBoxAnswers.Text = "Test question &answers";
-            this.checkBoxAnswers.UseVisualStyleBackColor = true;
-            // 
             // htmlStoryBtControl
             // 
             this.htmlStoryBtControl.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -404,6 +396,14 @@
             this.htmlStoryBtControl.TheSE = null;
             this.htmlStoryBtControl.ViewItemsToInsureOn = OneStoryProjectEditor.VerseData.ViewItemToInsureOn.eUndefined;
             // 
+            // backgroundWorkerCheckRevisions
+            // 
+            this.backgroundWorkerCheckRevisions.WorkerReportsProgress = true;
+            this.backgroundWorkerCheckRevisions.WorkerSupportsCancellation = true;
+            this.backgroundWorkerCheckRevisions.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerCheckRevisions_DoWork);
+            this.backgroundWorkerCheckRevisions.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorkerCheckRevisions_RunWorkerCompleted);
+            this.backgroundWorkerCheckRevisions.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorkerCheckRevisions_ProgressChanged);
+            // 
             // HtmlDisplayForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -413,6 +413,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "HtmlDisplayForm";
             this.Text = "Revision History";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.HtmlDisplayForm_FormClosing);
             this.tabControl.ResumeLayout(false);
             this.tabPageSelectReportOptions.ResumeLayout(false);
             this.tableLayoutPanelSettings.ResumeLayout(false);

@@ -21,6 +21,7 @@ namespace OneStoryProjectEditor
         {
             InitializeComponent();
 
+            Text = String.Format("Revision History: {0}", theSE.theCurrentStory.Name);
             _strStoryToDiff = storyData.Name;
             _strProjectFolder = theSE.StoryProject.ProjSettings.ProjectFolder;
 
@@ -68,9 +69,10 @@ namespace OneStoryProjectEditor
         {
             if (e.TabPage == tabPageDisplayChangeReport)
             {
+                /*
                 if (backgroundWorkerCheckRevisions.IsBusy)
                     backgroundWorkerCheckRevisions.CancelAsync();
-
+                */
                 htmlStoryBtControl.ViewItemsToInsureOn = VerseData.SetItemsToInsureOn(
                     checkBoxLangVernacular.Checked,
                     checkBoxLangNationalBT.Checked,
@@ -141,7 +143,7 @@ namespace OneStoryProjectEditor
                         }
 
                         // get a new one (since we're going to keep track of this one)
-                        object[] ao = new object[] { false, false, rev.Number, dateString, rev.UserId, _strLastState };
+                        object[] ao = new object[] { false, false, rev.Number.LocalRevisionNumber, dateString, rev.UserId, _strLastState };
                         ri = new RevisionInfo { RowInfo = ao, Revision = rev, StoryProjectNode = nodeStoryProject };
                     }
 
@@ -256,6 +258,15 @@ namespace OneStoryProjectEditor
             ColumnState.Visible = (radioButtonRevsByChangeOfState.Checked
                 || radioButtonShowAllWithState.Checked);
             backgroundWorkerCheckRevisions.RunWorkerAsync(this);
+        }
+
+        private void HtmlDisplayForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (backgroundWorkerCheckRevisions.IsBusy)
+                backgroundWorkerCheckRevisions.CancelAsync();
+
+            while (backgroundWorkerCheckRevisions.IsBusy)
+                Application.DoEvents();
         }
 
         /*
