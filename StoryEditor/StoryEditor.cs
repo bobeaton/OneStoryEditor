@@ -722,15 +722,18 @@ namespace OneStoryProjectEditor
             // BUT to avoid the multiple repaints, temporarily disable the painting
             SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage, true);
 
+            // forget things:
+            CtrlTextBox._nLastVerse = -1;
+            
+            if (m_frmFind != null)
+                // if the user switches stories, then we need to reindex the search
+                m_frmFind.ResetSearchParameters();
+            
             // finally, initialize the verse controls
             InitAllPanes();
 
             // get the focus off the combo box, so mouse scroll doesn't rip thru the stories!
             flowLayoutPanelVerses.Focus();
-
-            // if the user switches stories, then we need to reindex the search
-            if (m_frmFind != null)
-                m_frmFind.ResetSearchParameters();
         }
 
         private bool _bNagOnce = true;
@@ -811,6 +814,12 @@ namespace OneStoryProjectEditor
             flowLayoutPanelCoachNotes.ResumeLayout(true);
 #endif
             ResumeLayout(true);
+
+            if ((nLastVerseInFocus == -1) && (theVerses.Count > 0))
+            {
+                FocusOnVerse(1, false, false);
+                nLastVerseInFocus = 0;
+            }
 
             FocusOnVerse(nLastVerseInFocus, true, true);
             if ((stLast != null) && (stLast.TextBox != null))
@@ -3780,6 +3789,21 @@ namespace OneStoryProjectEditor
         {
             if ((TheCurrentStoriesSet != null) && (theCurrentStory != null))
                 comboBoxStorySelector.SelectedIndex = (TheCurrentStoriesSet.Count - 1);
+        }
+
+        private void checkForProgramUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Program.CheckForProgramUpdate(true);
+            }
+            catch (Exception ex)
+            {
+                string strMessage = String.Format("Error occurred:{0}{0}{1}", Environment.NewLine, ex.Message);
+                if (ex.InnerException != null)
+                    strMessage += String.Format("{0}{1}", Environment.NewLine, ex.InnerException.Message);
+                MessageBox.Show(strMessage, OseResources.Properties.Resources.IDS_Caption);
+            }
         }
     }
 }

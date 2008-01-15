@@ -34,17 +34,11 @@ namespace OneStoryProjectEditor
                 // do auto-upgrade handling
                 InitializeLocalSettingsCollections(true);
 
-                // since we expect to have internet at this point, check for program updates as well
 #if !DEBUG
-                AutoUpgrade autoUpgrade = AutoUpgrade.Create(Properties.Resources.IDS_OSEUpgradeServer);
-                if (autoUpgrade.IsUpgradeAvailable(false))
-                {
-                    splashScreen.StartTimer();
-                    autoUpgrade.StartUpgradeStub();
-                    splashScreen.Close();   // if it isn't already closed by now
-                    return;
-                }
+                // since we expect to have internet at this point, check for program updates as well
+                CheckForProgramUpdate(false);
 #endif
+
                 // make sure we have HG (or we can't really do much)
                 HgSanityCheck();
 
@@ -102,8 +96,23 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public class RestartException : Exception
+        internal class RestartException : Exception
         {
+        }
+
+        internal static void CheckForProgramUpdate(bool bThrowErrors)
+        {
+            string strManifestAddress = Properties.Resources.IDS_OSEUpgradeServer;
+            /*
+            strManifestAddress = 
+                @"\\StudioXPS-1340\src\StoryEditor\OneStory Releases\OSE1.4.0\StoryEditor.exe.manifest.xml";
+            */
+            AutoUpgrade autoUpgrade = AutoUpgrade.Create(strManifestAddress, bThrowErrors);
+            if (autoUpgrade.IsUpgradeAvailable(false))
+            {
+                autoUpgrade.StartUpgradeStub();
+                throw new RestartException();
+            }
         }
 
         private static void HgSanityCheck()
