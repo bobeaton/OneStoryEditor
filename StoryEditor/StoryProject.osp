@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StoryProject xmlns="http://www.sil.org/computing/schemas/StoryProject.xsd">
+  <stories ProjectLanguage="Kangri">
+    <Members>
+      <Member name="Pawan" memberType="Crafter" phone="93571-99065" altPhone="1862230839" email="koundal@kastanet.org" memberKey="mem-99CDE60E-453A-4947-8627-83B33223EF0B" />
+      <Member name="Karn" memberType="Crafter" phone="93189-69891" email="Karan_Dogra@kastanet.org" memberKey="mem-68A82D25-D414-4489-A484-8F17D8808818" />
+      <Member name="Bob" memberType="Consultant-in-Training" phone="972-283-3741" altPhone="92185-51466" email="bob_eaton@sall.com" memberKey="mem-8B45075E-6434-4755-81AE-E1EEB9134D5B" />
+      <Member name="Judy" memberType="Coach" email="judy_payne@sil.org" memberKey="mem-7064CC55-73C4-48bf-B2DC-9989A5ED9D1B" />
+      <Member name="Vandna" memberType="UNS" address="c/o Sunshine Cottages; Suggar; Palampur, HP; 176061" memberKey="mem-B83F07A1-71D4-4358-82C3-9B2F7205E121"/>
+      <Member name="Reena Kashyap" memberType="UNS" address="c/o Sunshine Cottages; Suggar; Palampur, HP; 176061" memberKey="mem-FCAC1BB2-827F-47b8-B1BD-60245BB15392"/>
+    </Members>
+    <story name="Spiritual World" guid="7408CC4B-E0B7-4227-9645-829082B3F637">
+      <CraftingInfo>
+        <StoryCrafter memberID="mem-99CDE60E-453A-4947-8627-83B33223EF0B" />
+        <StoryPurpose lang="en">To explain where our enemy came from</StoryPurpose>
+        <BackTranslator memberID="mem-B83F07A1-71D4-4358-82C3-9B2F7205E121" />
+        <Tests>
+          <Test number="1" memberID="mem-B83F07A1-71D4-4358-82C3-9B2F7205E121" />
+          <Test number="2" memberID="mem-FCAC1BB2-827F-47b8-B1BD-60245BB15392" />
+        </Tests>
+      </CraftingInfo>
+      <edits>
+        <edit editor="mem-99CDE60E-453A-4947-8627-83B33223EF0B" dateModified="2009-07-23T02:35:17Z" editKey="edt-B4B88666-925E-4234-AF2E-174E2E501ED1">
+          <description lang="hi">जोड़ा आयत 1-5</description>
+        </edit>
+        <edit editor="mem-8B45075E-6434-4755-81AE-E1EEB9134D5B" dateModified="2009-07-24T02:33:17Z" editKey="edt-AF372D37-C3DA-43b0-9B73-5220798DD467">
+          <description lang="en">added consultant notes for round 1</description>
+        </edit>
+        <edit editor="mem-7064CC55-73C4-48bf-B2DC-9989A5ED9D1B" dateModified="2009-07-25T02:37:17Z" editKey="edt-14216F87-94C3-43ff-81C5-7917B56478BC">
+          <description lang="en">added coaching notes for round 1</description>
+        </edit>
+        <edit editor="mem-99CDE60E-453A-4947-8627-83B33223EF0B" dateModified="2009-07-25T02:47:17Z" editKey="edt-2FDE3A5D-BE48-4682-AB97-9CAF14769CDA">
+          <description lang="en">responded to consultant notes for round 1</description>
+        </edit>
+        <edit editor="mem-8B45075E-6434-4755-81AE-E1EEB9134D5B" dateModified="2009-07-25T02:57:17Z" editKey="edt-45C313DC-C122-4a1f-8B4F-DCF7E4F638D5">
+          <description lang="en">took UNS#1 test</description>
+        </edit>
+        <edit editor="mem-8B45075E-6434-4755-81AE-E1EEB9134D5B" dateModified="2009-07-26T02:40:17Z" editKey="edt-A3156B2B-81ED-41e9-BC9D-40C041B70853">
+          <description lang="en">added consultant notes for round 2</description>
+        </edit>
+        <edit editor="mem-99CDE60E-453A-4947-8627-83B33223EF0B" dateModified="2009-07-27T02:42:17Z" editKey="edt-FD8785BB-8149-4b68-9DBD-FBA086F52FE4">
+          <description lang="en">responded to consultant notes for round 2</description>
+        </edit>
+      </edits>
+      <verses>
+        <verse guid="8B2A9897-B79E-4b86-ADF9-FC73BD7CAF1E">
+          <Vernacular lang="xnr">अज चौंह़ईं पास्‍सेआं जितनिआं भी चीज़ा असां दिखदे हन, इह़ना जो परमेसरैं ई बणाया है ।</Vernacular>
+          <NationalBT lang="hi">आज चारों तरफ जितनी भी चीजें हम देखते हैं, इन्‍हें परमेश्‍वर ने ही बनाया है।</NationalBT>
+          <InternationalBT lang="en">Whatever things we see around us today, God had made it only.</InternationalBT>
+          <anchors>
+            <anchor jumpTarget="gen.02:04">
+              <text>gen.02:04</text>
+              <exegeticalHelps>
+                <exegeticalHelp source="TN" memberID="mem-8B45075E-6434-4755-81AE-E1EEB9134D5B">
+                  <quote>This is the account of the heavens and the earth when/after [God] created them.</quote>
+                  <EHComment>i.e. the agent was *God*</EHComment>
+                </exegeticalHelp>
+              </exegeticalHelps>
+            </anchor>
+            <anchor jumpTarget="col.01:16">
+              <text>also implied by col.01:16</text>
+            </anchor>
+          </anchors>
+          <TestQuestions>
+            <TestQuestion visible="true">
+              <TQVernacular lang="xnr">हमारे चारों तरफ जितनी भी चीजें हैं इनसे आप क्‍या समझते हैं?</TQVernacular>
+              <TQInternationalBT lang="en">What do you understand the things are that we see around us?</TQInternationalBT>
+              <Answers>
+                <answer memberID="mem-B83F07A1-71D4-4358-82C3-9B2F7205E121" lang="en">Everything in the whole world</answer>
+                <answer memberID="mem-FCAC1BB2-827F-47b8-B1BD-60245BB15392" lang="en">This mean only that whatever is around us - Air, Water, Plants, creature everything in the world etc.</answer>
+              </Answers>
+            </TestQuestion>
+          </TestQuestions>
+          <Retellings>
+            <Retelling memberID="mem-B83F07A1-71D4-4358-82C3-9B2F7205E121" lang="en">We see whatever around us god has made it.</Retelling>
+            <Retelling memberID="mem-FCAC1BB2-827F-47b8-B1BD-60245BB15392" lang="en">Whatever we see around us, god has made it.</Retelling>
+          </Retellings>
+          <ConsultantNotes>
+            <ConsultantNote round="2">
+              <ConsultantComment editRef="edt-A3156B2B-81ED-41e9-BC9D-40C041B70853">note in the retelling, she said "... God has made it", whereas in the original story, it says, "... God was before them all" (which gets repeated in the next verse). Do you think we should change 00.01 to be more like her retelling? The "God made everything" concept is really from the next story, from which she might be getting confused, but it might work here too.</ConsultantComment>
+              <CrafterResponse editRef="edt-FD8785BB-8149-4b68-9DBD-FBA086F52FE4">Yes, it is more natural and I have changed it.</CrafterResponse>
+            </ConsultantNote>
+            <ConsultantNote round="1">
+              <ConsultantComment editRef="edt-AF372D37-C3DA-43b0-9B73-5220798DD467">just a reminder to word the question as much as possible as the original text (i.e. जितनी भी 'whatever' rather than जितनी 'what')</ConsultantComment>
+              <CrafterResponse editRef="edt-2FDE3A5D-BE48-4682-AB97-9CAF14769CDA">done</CrafterResponse>
+            </ConsultantNote>
+            <ConsultantNote round="1">
+              <ConsultantComment editRef="edt-AF372D37-C3DA-43b0-9B73-5220798DD467">good question: given the Hindu perspective of maya 'illusion', it'd be interesting to see what they think is actually around them.</ConsultantComment>
+              <CrafterResponse editRef="edt-2FDE3A5D-BE48-4682-AB97-9CAF14769CDA">done</CrafterResponse>
+            </ConsultantNote>
+          </ConsultantNotes>
+          <CoachNotes>
+            <CoachNote round="1">
+              <CoachComment editRef="edt-14216F87-94C3-43ff-81C5-7917B56478BC">since the anchored verse doesn't actually say who the agent of creation was, add an exegetical comment indicating God was (e.g. from TN on gen.02:04)</CoachComment>
+              <ConsultantResponse editRef="edt-A3156B2B-81ED-41e9-BC9D-40C041B70853">done</ConsultantResponse>
+            </CoachNote>
+          </CoachNotes>
+        </verse>
+        <verse guid="25F6726D-F0A8-4b38-9EC9-8DBB2919B764">
+          <Vernacular lang="xnr">अपर परमेसर इह़ना चीज़ा ते पैह़ले थे, हुण हन, कने तिह़ना म्‍हे़सा तिकर रैह़णा है।</Vernacular>
+          <NationalBT lang="hi">परन्‍तु परमेश्‍वर इन चीजों से पहले थे, अब हैं और उन्‍होंने हमेशा तक रहना है, क्‍योंकि परमेश्‍वर अमर हैं ।</NationalBT>
+          <InternationalBT lang="en">but before these things God was before, is now and he will remain forever, because God is immortal.</InternationalBT>
+          <anchors>
+            <anchor jumpTarget="heb.13:08">
+              <text>heb.13:08</text>
+            </anchor>
+          </anchors>
+        </verse>
+      </verses>
+    </story>
+  </stories>
+</StoryProject>
