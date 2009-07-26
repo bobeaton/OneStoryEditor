@@ -14,6 +14,13 @@ namespace StoryEditor
         internal const string cstrCaption = "OneStory Project Editor";
         protected string m_strProjectFilename = null;
 
+        public Font VernacularFont = new Font("Arial Unicode MS", 12);
+        public Color VernacularFontColor = Color.Maroon;
+        public Font NationalBTFont = new Font("Arial Unicode MS", 12);
+        public Color NationalBTFontColor = Color.Green;
+        public Font InternationalBTFont = new Font("Times New Roman", 10);
+        public Color InternationalBTFontColor = Color.Blue;
+
         public enum UserTypes
         {
             eUndefined = 0,
@@ -49,13 +56,25 @@ namespace StoryEditor
             {
                 aProj.ReadXml(strProjectFilename);
                 SetupTitleBar(strProjectFilename, aProj.story[0].name);
+                /*
+                StoryProject.VernacularFontRow aVFRow = aProj.VernacularFont[0];
+                VernacularFont = new Font(aVFRow.FontName, aVFRow.FontSize);
+                VernacularFontColor = Color.FromName(aVFRow.FontColor);
 
+                StoryProject.NationalBTFontRow aNFRow = aProj.NationalBTFont[0];
+                NationalBTFont = new Font(aNFRow.FontName, aNFRow.FontSize);
+                NationalBTFontColor = Color.FromName(aNFRow.FontColor);
+
+                StoryProject.InternationalBTFontRow aIFRow = aProj.InternationalBTFont[0];
+                InternationalBTFont = new Font(aIFRow.FontName, aIFRow.FontSize);
+                InternationalBTFontColor = Color.FromName(aIFRow.FontColor);
+                */
                 flowLayoutPanelVerses.VerticalScroll.Enabled = true;
                 int i = 1;
                 foreach (StoryProject.verseRow aRow in aProj.stories[0].GetstoryRows()[0].GetversesRows()[0].GetverseRows())
                 {
-                    VerseBtControl aVerseCtrl = new VerseBtControl(aRow, i++);
-                    aVerseCtrl.SetWidth(splitContainerUpper.Panel1.Width - splitContainerUpper.Margin.Right - splitContainerUpper.Margin.Left);
+                    VerseBtControl aVerseCtrl = new VerseBtControl(this, aRow, i++);
+                    aVerseCtrl.SetWidth(Panel1_Width);
                     flowLayoutPanelVerses.Controls.Add(aVerseCtrl);
                 }
             }
@@ -66,12 +85,20 @@ namespace StoryEditor
             }
         }
 
+        protected int Panel1_Width
+        {
+            get
+            {
+                return splitContainerUpper.Panel1.Width - splitContainerUpper.Margin.Right - splitContainerUpper.Margin.Left;
+            }
+        }
+
         private void splitContainerUpper_SplitterMoved(object sender, SplitterEventArgs e)
         {
             foreach (Control ctrl in flowLayoutPanelVerses.Controls)
             {
                 VerseBtControl aVerseCtrl = (VerseBtControl)ctrl;
-                aVerseCtrl.SetWidth(splitContainerUpper.Panel1.Width - splitContainerUpper.Margin.Right - splitContainerUpper.Margin.Left);
+                aVerseCtrl.SetWidth(Panel1_Width);
             }
         }
 

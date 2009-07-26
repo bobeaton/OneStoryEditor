@@ -9,6 +9,11 @@
       <Member name="Vandna" memberType="UNS" address="c/o Sunshine Cottages; Suggar; Palampur, HP; 176061" memberKey="mem-B83F07A1-71D4-4358-82C3-9B2F7205E121"/>
       <Member name="Reena Kashyap" memberType="UNS" address="c/o Sunshine Cottages; Suggar; Palampur, HP; 176061" memberKey="mem-FCAC1BB2-827F-47b8-B1BD-60245BB15392"/>
     </Members>
+    <Fonts>
+      <VernacularFont FontName="Arial Unicode MS" FontSize="12" FontColor="Color [CornflowerBlue]" />
+      <NationalBTFont FontName="Arial Unicode MS" FontSize="12" FontColor="Color [Green]" />
+      <InternationalBTFont FontName="Arial Unicode MS" FontSize="11" FontColor="Color [Blue]" />
+    </Fonts>
     <story name="Spiritual World" guid="7408CC4B-E0B7-4227-9645-829082B3F637">
       <CraftingInfo>
         <StoryCrafter memberID="mem-99CDE60E-453A-4947-8627-83B33223EF0B" />

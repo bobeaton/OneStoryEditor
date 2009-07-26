@@ -1,317 +1,332 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="http://www.sil.org/computing/schemas/StoryProject.xsd" xmlns="http://www.sil.org/computing/schemas/StoryProject.xsd"
-	xmlns:NS="http://www.sil.org/computing/schemas/StoryProject.xsd" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata"
-	version="0.1">
-	<xs:element name="StoryProject">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="stories" minOccurs="0" maxOccurs="unbounded">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="Members" minOccurs="1" maxOccurs="1">
-								<xs:complexType>
-									<xs:choice maxOccurs="unbounded">
-										<xs:element name="Member" maxOccurs="unbounded">
-											<xs:complexType>
-												<xs:attribute name="name" type="xs:string" use="optional" />
-												<xs:attribute name="memberType" type="MemberType" use="required" />
-												<xs:attribute name="email" type="xs:string" use="optional" />
-												<xs:attribute name="altPhone" type="xs:string" use="optional" />
-												<xs:attribute name="phone" type="xs:string" use="optional" />
-												<xs:attribute name="address" type="xs:string" use="optional" />
-												<xs:attribute name="memberKey" type="xs:ID" use="required" />
-											</xs:complexType>
-										</xs:element>
-									</xs:choice>
-								</xs:complexType>
-							</xs:element>
-							<xs:element name="story" maxOccurs="unbounded">
-								<xs:complexType>
-									<xs:sequence>
-										<xs:element name="CraftingInfo" minOccurs="1" maxOccurs="1">
-											<xs:complexType>
-												<xs:sequence>
-													<xs:element name="StoryCrafter" maxOccurs="1" minOccurs="1">
-														<xs:complexType>
-															<xs:attribute name="memberID" type="xs:IDREF" use="optional" />
-														</xs:complexType>
-													</xs:element>
-													<xs:element name="StoryPurpose" minOccurs="1" maxOccurs="1">
-														<xs:complexType>
-															<xs:simpleContent>
-																<xs:extension base="xs:string">
-																	<xs:attribute name="lang" type="xs:string" use="required" />
-																</xs:extension>
-															</xs:simpleContent>
-														</xs:complexType>
-													</xs:element>
-													<xs:element name="BackTranslator"  minOccurs="1" maxOccurs="1">
-														<xs:complexType>
-															<xs:attribute name="memberID" type="xs:IDREF" use="optional" />
-														</xs:complexType>
-													</xs:element>
-													<xs:element name="Tests" minOccurs="1" maxOccurs="1">
-														<xs:complexType>
-															<xs:sequence>
-																<xs:element name="Test" maxOccurs="unbounded">
-																	<xs:complexType>
-																		<xs:attribute name="number" type="xs:unsignedByte" use="required" />
-																		<xs:attribute name="memberID" type="xs:IDREF" use="optional" />
-																	</xs:complexType>
-																</xs:element>
-															</xs:sequence>
-														</xs:complexType>
-													</xs:element>
-												</xs:sequence>
-											</xs:complexType>
-										</xs:element>
-										<xs:element name="edits" minOccurs="1" maxOccurs="1">
-											<xs:complexType>
-												<xs:sequence>
-													<xs:element name="edit" maxOccurs="unbounded" >
-														<xs:complexType>
-															<xs:sequence>
-																<xs:element name="description" minOccurs="1" maxOccurs="1">
-																	<xs:complexType>
-																		<xs:simpleContent>
-																			<xs:extension base="xs:string">
-																				<xs:attribute name="lang" type="xs:string" use="required" />
-																			</xs:extension>
-																		</xs:simpleContent>
-																	</xs:complexType>
-																</xs:element>
-															</xs:sequence>
-															<xs:attribute name="editor" type="xs:IDREF" use="optional" />
-															<xs:attribute name="dateModified" type="xs:dateTime" use="optional" />
-															<xs:attribute name="editKey" type="xs:ID" use="required" />
-														</xs:complexType>
-													</xs:element>
-												</xs:sequence>
-											</xs:complexType>
-										</xs:element>
-										<xs:element name="verses" minOccurs="1" maxOccurs="1">
-											<xs:complexType>
-												<xs:sequence>
-													<xs:element name="verse" maxOccurs="unbounded">
-														<xs:complexType>
-															<xs:sequence>
-																<xs:element name="Vernacular" minOccurs="0" maxOccurs="1">
-																	<xs:complexType>
-																		<xs:simpleContent>
-																			<xs:extension base="xs:string">
-																				<xs:attribute name="lang" type="xs:string" use="required" />
-																			</xs:extension>
-																		</xs:simpleContent>
-																	</xs:complexType>
-																</xs:element>
-																<xs:element name="NationalBT" minOccurs="0" maxOccurs="1">
-																	<xs:complexType>
-																		<xs:simpleContent>
-																			<xs:extension base="xs:string">
-																				<xs:attribute name="lang" type="xs:string" use="required" />
-																			</xs:extension>
-																		</xs:simpleContent>
-																	</xs:complexType>
-																</xs:element>
-																<xs:element name="InternationalBT" minOccurs="0" maxOccurs="1">
-																	<xs:complexType>
-																		<xs:simpleContent>
-																			<xs:extension base="xs:string">
-																				<xs:attribute name="lang" type="xs:string" use="required" />
-																			</xs:extension>
-																		</xs:simpleContent>
-																	</xs:complexType>
-																</xs:element>
-																<xs:element name="anchors" minOccurs="1" maxOccurs="1">
-																	<xs:complexType>
-																		<xs:sequence>
-																			<xs:element maxOccurs="unbounded" name="anchor">
-																				<xs:complexType>
-																					<xs:sequence>
-																						<xs:element name="text" type="xs:string" minOccurs="0" maxOccurs="1" />
-																						<xs:element name="exegeticalHelps" minOccurs="0" maxOccurs="1">
-																							<xs:complexType>
-																								<xs:sequence>
-																									<xs:element name="exegeticalHelp" minOccurs="1" maxOccurs="unbounded">
-																										<xs:complexType>
-																											<xs:sequence>
-																												<xs:element name="quote" type="xs:string" minOccurs="1" maxOccurs="1" />
-																												<xs:element name="EHComment" type="xs:string" minOccurs="0" maxOccurs="1" />
-																											</xs:sequence>
-																											<xs:attribute name="source" type="xs:string" use="required" />
-																											<xs:attribute name="memberID" type="xs:IDREF" use="optional" />
-																										</xs:complexType>
-																									</xs:element>
-																								</xs:sequence>
-																							</xs:complexType>
-																						</xs:element>
-																					</xs:sequence>
-																					<xs:attribute name="jumpTarget" type="xs:string" use="required" />
-																				</xs:complexType>
-																			</xs:element>
-																		</xs:sequence>
-																	</xs:complexType>
-																</xs:element>
-																<xs:element name="TestQuestions" minOccurs="0" maxOccurs="1">
-																	<xs:complexType>
-																		<xs:sequence>
-																			<xs:element name="TestQuestion" minOccurs="1" maxOccurs="unbounded">
-																				<xs:complexType>
-																					<xs:sequence>
-																						<xs:element name="TQVernacular" minOccurs="0" maxOccurs="1">
-																							<xs:complexType>
-																								<xs:simpleContent>
-																									<xs:extension base="xs:string">
-																										<xs:attribute name="lang" type="xs:string" use="required" />
-																									</xs:extension>
-																								</xs:simpleContent>
-																							</xs:complexType>
-																						</xs:element>
-																						<xs:element name="TQInternationalBT" minOccurs="0" maxOccurs="1">
-																							<xs:complexType>
-																								<xs:simpleContent>
-																									<xs:extension base="xs:string">
-																										<xs:attribute name="lang" type="xs:string" use="required" />
-																									</xs:extension>
-																								</xs:simpleContent>
-																							</xs:complexType>
-																						</xs:element>
-																						<xs:element name="Answers" minOccurs="0" maxOccurs="1">
-																							<xs:complexType>
-																								<xs:sequence>
-																									<xs:element name="answer" minOccurs="1" maxOccurs="unbounded">
-																										<xs:complexType>
-																											<xs:simpleContent>
-																												<xs:extension base="xs:string">
-																													<xs:attribute name="memberID" type="xs:IDREF" use="optional" />
-																													<xs:attribute name="lang" type="xs:string" use="required" />
-																												</xs:extension>
-																											</xs:simpleContent>
-																										</xs:complexType>
-																									</xs:element>
-																								</xs:sequence>
-																							</xs:complexType>
-																						</xs:element>
-																					</xs:sequence>
-																					<xs:attribute name="visible" type="xs:boolean" use="required" />
-																				</xs:complexType>
-																			</xs:element>
-																		</xs:sequence>
-																	</xs:complexType>
-																</xs:element>
-																<xs:element name="Retellings" minOccurs="0" maxOccurs="1">
-																	<xs:complexType>
-																		<xs:sequence>
-																			<xs:element name="Retelling" minOccurs="1" maxOccurs="unbounded">
-																				<xs:complexType>
-																					<xs:simpleContent>
-																						<xs:extension base="xs:string">
-																							<xs:attribute name="memberID" type="xs:IDREF" use="optional" />
-																							<xs:attribute name="lang" type="xs:string" use="required" />
-																						</xs:extension>
-																					</xs:simpleContent>
-																				</xs:complexType>
-																			</xs:element>
-																		</xs:sequence>
-																	</xs:complexType>
-																</xs:element>
-																<xs:element name="ConsultantNotes" minOccurs="0" maxOccurs="1">
-																	<xs:complexType>
-																		<xs:sequence>
-																			<xs:element name="ConsultantNote" minOccurs="1" maxOccurs="unbounded">
-																				<xs:complexType>
-																					<xs:sequence>
-																						<xs:element name="ConsultantComment" minOccurs="1" maxOccurs="1">
-																							<xs:complexType>
-																								<xs:simpleContent>
-																									<xs:extension base="xs:string">
-																										<xs:attribute name="editRef" type="xs:IDREF" use="optional" />
-																									</xs:extension>
-																								</xs:simpleContent>
-																							</xs:complexType>
-																						</xs:element>
-																						<xs:element name="CrafterResponse" minOccurs="0" maxOccurs="1">
-																							<xs:complexType>
-																								<xs:simpleContent>
-																									<xs:extension base="xs:string">
-																										<xs:attribute name="editRef" type="xs:IDREF" use="optional" />
-																									</xs:extension>
-																								</xs:simpleContent>
-																							</xs:complexType>
-																						</xs:element>
-																					</xs:sequence>
-																					<xs:attribute name="round" type="xs:unsignedByte" use="required" />
-																				</xs:complexType>
-																			</xs:element>
-																		</xs:sequence>
-																	</xs:complexType>
-																</xs:element>
-																<xs:element name="CoachNotes" minOccurs="0" maxOccurs="1">
-																	<xs:complexType>
-																		<xs:sequence>
-																			<xs:element name="CoachNote" minOccurs="1" maxOccurs="unbounded">
-																				<xs:complexType>
-																					<xs:sequence>
-																						<xs:element name="CoachComment" minOccurs="1" maxOccurs="1">
-																							<xs:complexType>
-																								<xs:simpleContent>
-																									<xs:extension base="xs:string">
-																										<xs:attribute name="editRef" type="xs:IDREF" use="optional" />
-																									</xs:extension>
-																								</xs:simpleContent>
-																							</xs:complexType>
-																						</xs:element>
-																						<xs:element name="ConsultantResponse" minOccurs="0" maxOccurs="1">
-																							<xs:complexType>
-																								<xs:simpleContent>
-																									<xs:extension base="xs:string">
-																										<xs:attribute name="editRef" type="xs:IDREF" use="optional" />
-																									</xs:extension>
-																								</xs:simpleContent>
-																							</xs:complexType>
-																						</xs:element>
-																					</xs:sequence>
-																					<xs:attribute name="round" type="xs:unsignedByte" use="required" />
-																				</xs:complexType>
-																			</xs:element>
-																		</xs:sequence>
-																	</xs:complexType>
-																</xs:element>
-															</xs:sequence>
-															<xs:attribute name="guid" type="xs:string" use="required" />
-														</xs:complexType>
-													</xs:element>
-												</xs:sequence>
-											</xs:complexType>
-										</xs:element>
-									</xs:sequence>
-									<xs:attribute name="name" type="xs:string" use="required" />
-									<xs:attribute name="guid" type="xs:string" use="required" />
-								</xs:complexType>
-							</xs:element>
-						</xs:sequence>
-						<xs:attribute name="ProjectLanguage" type="xs:string" use="required" />
-					</xs:complexType>
-				</xs:element>
-			</xs:sequence>
-		</xs:complexType>
-		<xs:key name="MemberKey" msdata:PrimaryKey="true">
-			<xs:selector xpath=".//NS:Member" />
-			<xs:field xpath="@memberKey" />
-		</xs:key>
-		<xs:key name="EditEventKey" msdata:PrimaryKey="true">
-			<xs:selector xpath=".//NS:edit" />
-			<xs:field xpath="@editKey" />
-		</xs:key>
-	</xs:element>
-	<xs:simpleType name="MemberType">
-		<xs:restriction base="xs:string">
-			<xs:enumeration value="Crafter" />
-			<xs:enumeration value="Consultant" />
-			<xs:enumeration value="Consultant-in-Training" />
-			<xs:enumeration value="Coach" />
-			<xs:enumeration value="UNS" />
-		</xs:restriction>
-	</xs:simpleType>
+  targetNamespace="http://www.sil.org/computing/schemas/StoryProject.xsd" xmlns="http://www.sil.org/computing/schemas/StoryProject.xsd"
+  xmlns:NS="http://www.sil.org/computing/schemas/StoryProject.xsd" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata"
+  version="0.1">
+  <xs:element name="StoryProject">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="stories" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Members" minOccurs="1" maxOccurs="1">
+                <xs:complexType>
+                  <xs:choice maxOccurs="unbounded">
+                    <xs:element name="Member" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:attribute name="name" type="xs:string" use="optional" />
+                        <xs:attribute name="memberType" type="MemberType" use="required" />
+                        <xs:attribute name="email" type="xs:string" use="optional" />
+                        <xs:attribute name="altPhone" type="xs:string" use="optional" />
+                        <xs:attribute name="phone" type="xs:string" use="optional" />
+                        <xs:attribute name="address" type="xs:string" use="optional" />
+                        <xs:attribute name="memberKey" type="xs:ID" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:choice>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Fonts" minOccurs="1" maxOccurs="1">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="VernacularFont" type="FontInfo" minOccurs="1" maxOccurs="1" />
+                    <xs:element name="NationalBTFont" type="FontInfo" minOccurs="1" maxOccurs="1" />
+                    <xs:element name="InternationalBTFont" type="FontInfo" minOccurs="1" maxOccurs="1" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="story" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="CraftingInfo" minOccurs="1" maxOccurs="1">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="StoryCrafter" maxOccurs="1" minOccurs="1">
+                            <xs:complexType>
+                              <xs:attribute name="memberID" type="xs:IDREF" use="optional" />
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="StoryPurpose" minOccurs="1" maxOccurs="1">
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                  <xs:attribute name="lang" type="xs:string" use="required" />
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="BackTranslator"  minOccurs="1" maxOccurs="1">
+                            <xs:complexType>
+                              <xs:attribute name="memberID" type="xs:IDREF" use="optional" />
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="Tests" minOccurs="1" maxOccurs="1">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="Test" maxOccurs="unbounded">
+                                  <xs:complexType>
+                                    <xs:attribute name="number" type="xs:unsignedByte" use="required" />
+                                    <xs:attribute name="memberID" type="xs:IDREF" use="optional" />
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="edits" minOccurs="1" maxOccurs="1">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="edit" maxOccurs="unbounded" >
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="description" minOccurs="1" maxOccurs="1">
+                                  <xs:complexType>
+                                    <xs:simpleContent>
+                                      <xs:extension base="xs:string">
+                                        <xs:attribute name="lang" type="xs:string" use="required" />
+                                      </xs:extension>
+                                    </xs:simpleContent>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="editor" type="xs:IDREF" use="optional" />
+                              <xs:attribute name="dateModified" type="xs:dateTime" use="optional" />
+                              <xs:attribute name="editKey" type="xs:ID" use="required" />
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="verses" minOccurs="1" maxOccurs="1">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="verse" maxOccurs="unbounded">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="Vernacular" minOccurs="0" maxOccurs="1">
+                                  <xs:complexType>
+                                    <xs:simpleContent>
+                                      <xs:extension base="xs:string">
+                                        <xs:attribute name="lang" type="xs:string" use="required" />
+                                      </xs:extension>
+                                    </xs:simpleContent>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element name="NationalBT" minOccurs="0" maxOccurs="1">
+                                  <xs:complexType>
+                                    <xs:simpleContent>
+                                      <xs:extension base="xs:string">
+                                        <xs:attribute name="lang" type="xs:string" use="required" />
+                                      </xs:extension>
+                                    </xs:simpleContent>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element name="InternationalBT" minOccurs="0" maxOccurs="1">
+                                  <xs:complexType>
+                                    <xs:simpleContent>
+                                      <xs:extension base="xs:string">
+                                        <xs:attribute name="lang" type="xs:string" use="required" />
+                                      </xs:extension>
+                                    </xs:simpleContent>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element name="anchors" minOccurs="1" maxOccurs="1">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element maxOccurs="unbounded" name="anchor">
+                                        <xs:complexType>
+                                          <xs:sequence>
+                                            <xs:element name="text" type="xs:string" minOccurs="0" maxOccurs="1" />
+                                            <xs:element name="exegeticalHelps" minOccurs="0" maxOccurs="1">
+                                              <xs:complexType>
+                                                <xs:sequence>
+                                                  <xs:element name="exegeticalHelp" minOccurs="1" maxOccurs="unbounded">
+                                                    <xs:complexType>
+                                                      <xs:sequence>
+                                                        <xs:element name="quote" type="xs:string" minOccurs="1" maxOccurs="1" />
+                                                        <xs:element name="EHComment" type="xs:string" minOccurs="0" maxOccurs="1" />
+                                                      </xs:sequence>
+                                                      <xs:attribute name="source" type="xs:string" use="required" />
+                                                      <xs:attribute name="memberID" type="xs:IDREF" use="optional" />
+                                                    </xs:complexType>
+                                                  </xs:element>
+                                                </xs:sequence>
+                                              </xs:complexType>
+                                            </xs:element>
+                                          </xs:sequence>
+                                          <xs:attribute name="jumpTarget" type="xs:string" use="required" />
+                                        </xs:complexType>
+                                      </xs:element>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element name="TestQuestions" minOccurs="0" maxOccurs="1">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="TestQuestion" minOccurs="1" maxOccurs="unbounded">
+                                        <xs:complexType>
+                                          <xs:sequence>
+                                            <xs:element name="TQVernacular" minOccurs="0" maxOccurs="1">
+                                              <xs:complexType>
+                                                <xs:simpleContent>
+                                                  <xs:extension base="xs:string">
+                                                    <xs:attribute name="lang" type="xs:string" use="required" />
+                                                  </xs:extension>
+                                                </xs:simpleContent>
+                                              </xs:complexType>
+                                            </xs:element>
+                                            <xs:element name="TQInternationalBT" minOccurs="0" maxOccurs="1">
+                                              <xs:complexType>
+                                                <xs:simpleContent>
+                                                  <xs:extension base="xs:string">
+                                                    <xs:attribute name="lang" type="xs:string" use="required" />
+                                                  </xs:extension>
+                                                </xs:simpleContent>
+                                              </xs:complexType>
+                                            </xs:element>
+                                            <xs:element name="Answers" minOccurs="0" maxOccurs="1">
+                                              <xs:complexType>
+                                                <xs:sequence>
+                                                  <xs:element name="answer" minOccurs="1" maxOccurs="unbounded">
+                                                    <xs:complexType>
+                                                      <xs:simpleContent>
+                                                        <xs:extension base="xs:string">
+                                                          <xs:attribute name="memberID" type="xs:IDREF" use="optional" />
+                                                          <xs:attribute name="lang" type="xs:string" use="required" />
+                                                        </xs:extension>
+                                                      </xs:simpleContent>
+                                                    </xs:complexType>
+                                                  </xs:element>
+                                                </xs:sequence>
+                                              </xs:complexType>
+                                            </xs:element>
+                                          </xs:sequence>
+                                          <xs:attribute name="visible" type="xs:boolean" use="required" />
+                                        </xs:complexType>
+                                      </xs:element>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element name="Retellings" minOccurs="0" maxOccurs="1">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="Retelling" minOccurs="1" maxOccurs="unbounded">
+                                        <xs:complexType>
+                                          <xs:simpleContent>
+                                            <xs:extension base="xs:string">
+                                              <xs:attribute name="memberID" type="xs:IDREF" use="optional" />
+                                              <xs:attribute name="lang" type="xs:string" use="required" />
+                                            </xs:extension>
+                                          </xs:simpleContent>
+                                        </xs:complexType>
+                                      </xs:element>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element name="ConsultantNotes" minOccurs="0" maxOccurs="1">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="ConsultantNote" minOccurs="1" maxOccurs="unbounded">
+                                        <xs:complexType>
+                                          <xs:sequence>
+                                            <xs:element name="ConsultantComment" minOccurs="1" maxOccurs="1">
+                                              <xs:complexType>
+                                                <xs:simpleContent>
+                                                  <xs:extension base="xs:string">
+                                                    <xs:attribute name="editRef" type="xs:IDREF" use="optional" />
+                                                  </xs:extension>
+                                                </xs:simpleContent>
+                                              </xs:complexType>
+                                            </xs:element>
+                                            <xs:element name="CrafterResponse" minOccurs="0" maxOccurs="1">
+                                              <xs:complexType>
+                                                <xs:simpleContent>
+                                                  <xs:extension base="xs:string">
+                                                    <xs:attribute name="editRef" type="xs:IDREF" use="optional" />
+                                                  </xs:extension>
+                                                </xs:simpleContent>
+                                              </xs:complexType>
+                                            </xs:element>
+                                          </xs:sequence>
+                                          <xs:attribute name="round" type="xs:unsignedByte" use="required" />
+                                        </xs:complexType>
+                                      </xs:element>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element name="CoachNotes" minOccurs="0" maxOccurs="1">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="CoachNote" minOccurs="1" maxOccurs="unbounded">
+                                        <xs:complexType>
+                                          <xs:sequence>
+                                            <xs:element name="CoachComment" minOccurs="1" maxOccurs="1">
+                                              <xs:complexType>
+                                                <xs:simpleContent>
+                                                  <xs:extension base="xs:string">
+                                                    <xs:attribute name="editRef" type="xs:IDREF" use="optional" />
+                                                  </xs:extension>
+                                                </xs:simpleContent>
+                                              </xs:complexType>
+                                            </xs:element>
+                                            <xs:element name="ConsultantResponse" minOccurs="0" maxOccurs="1">
+                                              <xs:complexType>
+                                                <xs:simpleContent>
+                                                  <xs:extension base="xs:string">
+                                                    <xs:attribute name="editRef" type="xs:IDREF" use="optional" />
+                                                  </xs:extension>
+                                                </xs:simpleContent>
+                                              </xs:complexType>
+                                            </xs:element>
+                                          </xs:sequence>
+                                          <xs:attribute name="round" type="xs:unsignedByte" use="required" />
+                                        </xs:complexType>
+                                      </xs:element>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="guid" type="xs:string" use="required" />
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="name" type="xs:string" use="required" />
+                  <xs:attribute name="guid" type="xs:string" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="ProjectLanguage" type="xs:string" use="required" />
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+    <xs:key name="MemberKey" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//NS:Member" />
+      <xs:field xpath="@memberKey" />
+    </xs:key>
+    <xs:key name="EditEventKey" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//NS:edit" />
+      <xs:field xpath="@editKey" />
+    </xs:key>
+  </xs:element>
+  <xs:simpleType name="MemberType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Crafter" />
+      <xs:enumeration value="Consultant" />
+      <xs:enumeration value="Consultant-in-Training" />
+      <xs:enumeration value="Coach" />
+      <xs:enumeration value="UNS" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="FontInfo">
+    <xs:sequence />
+    <xs:attribute name="FontName" type="xs:string" />
+    <xs:attribute name="FontSize" type="xs:float" />
+    <xs:attribute name="FontColor" type="xs:string" />
+  </xs:complexType>
 </xs:schema>
