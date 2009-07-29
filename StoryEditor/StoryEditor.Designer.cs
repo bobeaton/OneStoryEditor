@@ -229,6 +229,8 @@
             // 
             this.toolStripComboBoxBookName.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.toolStripComboBoxBookName.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.toolStripComboBoxBookName.AutoSize = false;
+            this.toolStripComboBoxBookName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.toolStripComboBoxBookName.Items.AddRange(new object[] {
             "Gen",
             "Exod",
@@ -298,7 +300,7 @@
             "Rev"});
             this.toolStripComboBoxBookName.MergeAction = System.Windows.Forms.MergeAction.MatchOnly;
             this.toolStripComboBoxBookName.Name = "toolStripComboBoxBookName";
-            this.toolStripComboBoxBookName.Size = new System.Drawing.Size(75, 25);
+            this.toolStripComboBoxBookName.Size = new System.Drawing.Size(55, 23);
             this.toolStripComboBoxBookName.ToolTipText = "Choose the book of the Bible you want to see";
             this.toolStripComboBoxBookName.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBoxBookName_SelectedIndexChanged);
             // 
@@ -311,6 +313,7 @@
             this.toolStripButtonPrevBook.Size = new System.Drawing.Size(23, 22);
             this.toolStripButtonPrevBook.Text = "PrevBook";
             this.toolStripButtonPrevBook.ToolTipText = "Click here to go to the previous book";
+            this.toolStripButtonPrevBook.Click += new System.EventHandler(this.toolStripButtonPrevBook_Click);
             // 
             // toolStripButtonNextBook
             // 
@@ -324,36 +327,14 @@
             // 
             // toolStripComboBoxChapterNumber
             // 
-            this.toolStripComboBoxChapterNumber.AutoCompleteCustomSource.AddRange(new string[] {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9",
-            "10",
-            "11"});
             this.toolStripComboBoxChapterNumber.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.toolStripComboBoxChapterNumber.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.toolStripComboBoxChapterNumber.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9",
-            "10",
-            "11",
-            "12"});
+            this.toolStripComboBoxChapterNumber.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.toolStripComboBoxChapterNumber.AutoSize = false;
+            this.toolStripComboBoxChapterNumber.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.toolStripComboBoxChapterNumber.Name = "toolStripComboBoxChapterNumber";
-            this.toolStripComboBoxChapterNumber.Size = new System.Drawing.Size(75, 25);
+            this.toolStripComboBoxChapterNumber.Size = new System.Drawing.Size(45, 23);
             this.toolStripComboBoxChapterNumber.ToolTipText = "Choose the Chapter you want to see";
+            this.toolStripComboBoxChapterNumber.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBoxChapterNumber_SelectedIndexChanged);
             // 
             // toolStripButtonPrevChap
             // 
@@ -363,6 +344,7 @@
             this.toolStripButtonPrevChap.Name = "toolStripButtonPrevChap";
             this.toolStripButtonPrevChap.Size = new System.Drawing.Size(23, 22);
             this.toolStripButtonPrevChap.Text = "toolStripButton1";
+            this.toolStripButtonPrevChap.Click += new System.EventHandler(this.toolStripButtonPrevChap_Click);
             // 
             // toolStripButtonNextChap
             // 
@@ -372,38 +354,18 @@
             this.toolStripButtonNextChap.Name = "toolStripButtonNextChap";
             this.toolStripButtonNextChap.Size = new System.Drawing.Size(23, 22);
             this.toolStripButtonNextChap.Text = "toolStripButton1";
+            this.toolStripButtonNextChap.Click += new System.EventHandler(this.toolStripButtonNextChap_Click);
             // 
             // toolStripComboBoxVerseNumber
             // 
-            this.toolStripComboBoxVerseNumber.AutoCompleteCustomSource.AddRange(new string[] {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9",
-            "10",
-            "11"});
             this.toolStripComboBoxVerseNumber.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.toolStripComboBoxVerseNumber.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.toolStripComboBoxVerseNumber.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9",
-            "10",
-            "11"});
+            this.toolStripComboBoxVerseNumber.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.toolStripComboBoxVerseNumber.AutoSize = false;
+            this.toolStripComboBoxVerseNumber.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.toolStripComboBoxVerseNumber.Name = "toolStripComboBoxVerseNumber";
-            this.toolStripComboBoxVerseNumber.Size = new System.Drawing.Size(75, 25);
+            this.toolStripComboBoxVerseNumber.Size = new System.Drawing.Size(45, 23);
             this.toolStripComboBoxVerseNumber.ToolTipText = "Choose the Verse you want to see";
+            this.toolStripComboBoxVerseNumber.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBoxVerseNumber_SelectedIndexChanged);
             // 
             // toolStripButtonPrevVerse
             // 
@@ -414,6 +376,7 @@
             this.toolStripButtonPrevVerse.Size = new System.Drawing.Size(23, 22);
             this.toolStripButtonPrevVerse.Text = "PrevVerse";
             this.toolStripButtonPrevVerse.ToolTipText = "Click here to go to the previous verse";
+            this.toolStripButtonPrevVerse.Click += new System.EventHandler(this.toolStripButtonPrevVerse_Click);
             // 
             // toolStripButtonNextVerse
             // 
@@ -424,6 +387,7 @@
             this.toolStripButtonNextVerse.Size = new System.Drawing.Size(23, 22);
             this.toolStripButtonNextVerse.Text = "NextVerse";
             this.toolStripButtonNextVerse.ToolTipText = "Click here to go to the next verse";
+            this.toolStripButtonNextVerse.Click += new System.EventHandler(this.toolStripButtonNextVerse_Click);
             // 
             // toolStripSeparator3
             // 

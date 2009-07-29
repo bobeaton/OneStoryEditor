@@ -129,8 +129,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="GoLtrHS.bmp" />
-    <None Include="GoRtlHS.bmp" />
     <Content Include="OneStory.ico" />
     <Content Include="Resources\GoLtrHS.bmp" />
     <Content Include="Resources\GoRtlHS.bmp" />

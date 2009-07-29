@@ -334,11 +334,75 @@ namespace StoryEditor
             return new string[] { strSwordProjectPath };
         }
 
+        protected void toolStripComboBox_SelectedIndexChanged(ToolStripComboBox theSender, ToolStripButton buttonPrev, ToolStripButton buttonNext)
+        {
+            buttonPrev.Enabled = theSender.SelectedIndex > 0;
+            buttonNext.Enabled = theSender.SelectedIndex < (theSender.Items.Count - 1);
+        }
+
         private void toolStripComboBoxBookName_SelectedIndexChanged(object sender, EventArgs e)
         {
             // disable the prev book button if we're on Genesis and the next book button if on Revelation
-            this.toolStripButtonPrevBook.Enabled = ((string)((ToolStripComboBox)sender).SelectedItem) != "Gen";
-            this.toolStripButtonNextBook.Enabled = ((string)((ToolStripComboBox)sender).SelectedItem) != "Rev";
+            ToolStripComboBox theSender = (ToolStripComboBox)sender;
+            toolStripComboBox_SelectedIndexChanged(theSender, this.toolStripButtonPrevBook, this.toolStripButtonNextBook);
+        }
+
+        private void toolStripComboBoxChapterNumber_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ToolStripComboBox theSender = (ToolStripComboBox)sender;
+            toolStripComboBox_SelectedIndexChanged(theSender, this.toolStripButtonPrevChap, this.toolStripButtonNextChap);
+        }
+
+        private void toolStripComboBoxVerseNumber_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ToolStripComboBox theSender = (ToolStripComboBox)sender;
+            toolStripComboBox_SelectedIndexChanged(theSender, this.toolStripButtonPrevVerse, this.toolStripButtonNextVerse);
+        }
+
+        protected void toolStripPrevButton_Click(ToolStripButton theSender, ToolStripComboBox theComboBox)
+        {
+            if (theComboBox.SelectedIndex == 0)
+                theComboBox.SelectedIndex = (theComboBox.Items.Count - 1);
+            else
+                theComboBox.SelectedIndex--;
+        }
+
+        protected void toolStripNextButton_Click(ToolStripButton theSender, ToolStripComboBox theComboBox)
+        {
+            if (theComboBox.SelectedIndex == (theComboBox.Items.Count - 1))
+                theComboBox.SelectedIndex = 0;
+            else
+                theComboBox.SelectedIndex++;
+        }
+
+        private void toolStripButtonPrevBook_Click(object sender, EventArgs e)
+        {
+            toolStripPrevButton_Click((ToolStripButton)sender, toolStripComboBoxBookName);
+        }
+
+        private void toolStripButtonPrevChap_Click(object sender, EventArgs e)
+        {
+            toolStripPrevButton_Click((ToolStripButton)sender, toolStripComboBoxChapterNumber);
+        }
+
+        private void toolStripButtonPrevVerse_Click(object sender, EventArgs e)
+        {
+            toolStripPrevButton_Click((ToolStripButton)sender, toolStripComboBoxVerseNumber);
+        }
+
+        private void toolStripButtonNextBook_Click(object sender, EventArgs e)
+        {
+            toolStripNextButton_Click((ToolStripButton)sender, toolStripComboBoxBookName);
+        }
+
+        private void toolStripButtonNextChap_Click(object sender, EventArgs e)
+        {
+            toolStripNextButton_Click((ToolStripButton)sender, toolStripComboBoxChapterNumber);
+        }
+
+        private void toolStripButtonNextVerse_Click(object sender, EventArgs e)
+        {
+            toolStripNextButton_Click((ToolStripButton)sender, toolStripComboBoxVerseNumber);
         }
     }
 }

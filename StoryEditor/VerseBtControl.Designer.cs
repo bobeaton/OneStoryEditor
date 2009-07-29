@@ -58,13 +58,12 @@
             this.tableLayoutPanelVerse.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelVerse.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanelVerse.Name = "tableLayoutPanelVerse";
-            this.tableLayoutPanelVerse.RowCount = 6;
+            this.tableLayoutPanelVerse.RowCount = 5;
             this.tableLayoutPanelVerse.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelVerse.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelVerse.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelVerse.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelVerse.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelVerse.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanelVerse.Size = new System.Drawing.Size(669, 225);
             this.tableLayoutPanelVerse.TabIndex = 1;
             // 
