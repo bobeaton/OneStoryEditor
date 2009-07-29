@@ -17,6 +17,8 @@ namespace StoryEditor
         internal const string cstrCaption = "OneStory Project Editor";
         protected string m_strProjectFilename = null;
 
+        protected StoryProject m_projFile = null;
+
         public Font VernacularFont = new Font("Arial Unicode MS", 12);
         public Color VernacularFontColor = Color.Maroon;
         public Font NationalBTFont = new Font("Arial Unicode MS", 12);
@@ -151,11 +153,11 @@ namespace StoryEditor
             if (Program.Modified)
                 CheckForSaveDirtyFile();
 
-            StoryProject aProj = new StoryProject();
+            m_projFile = new StoryProject();
             try
             {
-                aProj.ReadXml(strProjectFilename);
-                SetupTitleBar(strProjectFilename, aProj.story[0].name);
+                m_projFile.ReadXml(strProjectFilename);
+                SetupTitleBar(strProjectFilename, m_projFile.story[0].name);
                 /*
                 StoryProject.VernacularFontRow aVFRow = aProj.VernacularFont[0];
                 VernacularFont = new Font(aVFRow.FontName, aVFRow.FontSize);
@@ -171,10 +173,10 @@ namespace StoryEditor
                 */
                 flowLayoutPanelVerses.VerticalScroll.Enabled = true;
                 int i = 1;
-                foreach (StoryProject.verseRow aRow in aProj.stories[0].GetstoryRows()[0].GetversesRows()[0].GetverseRows())
+                foreach (StoryProject.verseRow aRow in m_projFile.stories[0].GetstoryRows()[0].GetversesRows()[0].GetverseRows())
                 {
-                    VerseBtControl aVerseCtrl = new VerseBtControl(this, aRow, i++);
-                    aVerseCtrl.SetWidth(Panel1_Width);
+                    VerseBtControl aVerseCtrl = new VerseBtControl(i++, aRow);
+                    aVerseCtrl.UpdateView(this, Panel1_Width);
                     flowLayoutPanelVerses.Controls.Add(aVerseCtrl);
                 }
             }
@@ -195,11 +197,7 @@ namespace StoryEditor
 
         private void splitContainerUpper_SplitterMoved(object sender, SplitterEventArgs e)
         {
-            foreach (Control ctrl in flowLayoutPanelVerses.Controls)
-            {
-                VerseBtControl aVerseCtrl = (VerseBtControl)ctrl;
-                aVerseCtrl.SetWidth(Panel1_Width);
-            }
+            UpdateVersePanel();
         }
 
         private DialogResult CheckForSaveDirtyFile()
@@ -403,6 +401,17 @@ namespace StoryEditor
         private void toolStripButtonNextVerse_Click(object sender, EventArgs e)
         {
             toolStripNextButton_Click((ToolStripButton)sender, toolStripComboBoxVerseNumber);
+        }
+
+        protected void UpdateVersePanel()
+        {
+            foreach (VerseBtControl aVerseCtrl in flowLayoutPanelVerses.Controls)
+                aVerseCtrl.UpdateView(this, Panel1_Width);
+        }
+
+        private void viewFieldMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateVersePanel();
         }
     }
 }

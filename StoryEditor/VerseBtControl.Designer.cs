@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VerseBtControl));
             this.labelReference = new System.Windows.Forms.Label();
-            this.tableLayoutPanelVerse = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanelVerse = new DynamicTableLayoutPanel();
             this.labelAnchor = new System.Windows.Forms.Label();
             this.toolStripAnchors = new System.Windows.Forms.ToolStrip();
             this.toolStripButtonNewAnchor = new System.Windows.Forms.ToolStripButton();
@@ -53,16 +53,10 @@
             this.tableLayoutPanelVerse.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelVerse.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanelVerse.Controls.Add(this.labelReference, 0, 0);
-            this.tableLayoutPanelVerse.Controls.Add(this.labelAnchor, 0, 4);
-            this.tableLayoutPanelVerse.Controls.Add(this.toolStripAnchors, 1, 4);
             this.tableLayoutPanelVerse.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelVerse.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanelVerse.Name = "tableLayoutPanelVerse";
-            this.tableLayoutPanelVerse.RowCount = 5;
-            this.tableLayoutPanelVerse.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelVerse.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelVerse.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelVerse.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelVerse.RowCount = 1;
             this.tableLayoutPanelVerse.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelVerse.Size = new System.Drawing.Size(669, 225);
             this.tableLayoutPanelVerse.TabIndex = 1;
@@ -71,7 +65,7 @@
             // 
             this.labelAnchor.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelAnchor.AutoSize = true;
-            this.labelAnchor.Location = new System.Drawing.Point(3, 19);
+            this.labelAnchor.Location = new System.Drawing.Point(3, 112);
             this.labelAnchor.Name = "labelAnchor";
             this.labelAnchor.Size = new System.Drawing.Size(28, 13);
             this.labelAnchor.TabIndex = 7;
@@ -99,6 +93,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.tableLayoutPanelVerse);
             this.Name = "VerseBtControl";
@@ -106,13 +101,14 @@
             this.tableLayoutPanelVerse.ResumeLayout(false);
             this.tableLayoutPanelVerse.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.Label labelReference;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanelVerse;
+        private DynamicTableLayoutPanel tableLayoutPanelVerse;
         private System.Windows.Forms.Label labelAnchor;
         private System.Windows.Forms.ToolStrip toolStripAnchors;
         private System.Windows.Forms.ToolStripButton toolStripButtonNewAnchor;
