@@ -22,18 +22,29 @@ namespace StoryEditor
             InitTextBox("Vernacular", aVerse.GetVernacularRows()[0].lang, aVerse.GetVernacularRows()[0].Vernacular_text, aSE.VernacularFont, aSE.VernacularFontColor, 1);
             InitTextBox("NationalBT", aVerse.GetNationalBTRows()[0].lang, aVerse.GetNationalBTRows()[0].NationalBT_text, aSE.NationalBTFont, aSE.NationalBTFontColor, 2);
             InitTextBox("InternationalBT", aVerse.GetInternationalBTRows()[0].lang, aVerse.GetInternationalBTRows()[0].InternationalBT_text, aSE.InternationalBTFont, aSE.InternationalBTFontColor, 3);
-            /*
+
             StoryProject.anchorsRow[] anAnchorsRow = aVerse.GetanchorsRows();
             if (anAnchorsRow != null)
             {
                 System.Diagnostics.Debug.Assert(anAnchorsRow.Length > 0);
-                string strAnchor = null;
                 foreach (StoryProject.anchorRow anAnchorRow in anAnchorsRow[0].GetanchorRows())
                 {
+                    InitAnchorButton(anAnchorRow.jumpTarget, anAnchorRow.text);
                 }
-                InitTextBox("Anchor", aV
+
+                toolStripAnchors.Items.Add(toolStripButtonNewAnchor);
             }
-            */
+        }
+
+        protected void InitAnchorButton(string strJumpTarget, string strComment)
+        {
+            ToolStripButton aButton = new ToolStripButton();
+            aButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            aButton.Name = "toolStripButtonNewAnchor";
+            aButton.AutoSize = true;
+            aButton.Text = strJumpTarget;
+            aButton.ToolTipText = strComment;
+            toolStripAnchors.Items.Add(aButton);
         }
 
         protected void InitTextBox(string strTbName, string strTbLabel, string strTbText, Font font, Color color, int nLayoutRow)

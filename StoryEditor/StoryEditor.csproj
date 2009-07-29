@@ -49,6 +49,10 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SwigSword, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\SwigSword.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -100,6 +104,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">
@@ -124,7 +129,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="GoLtrHS.bmp" />
+    <None Include="GoRtlHS.bmp" />
     <Content Include="OneStory.ico" />
+    <Content Include="Resources\GoLtrHS.bmp" />
+    <Content Include="Resources\GoRtlHS.bmp" />
     <None Include="StoryProject.osp" />
     <None Include="StoryProject.xsd">
       <Generator>MSDataSetGenerator</Generator>

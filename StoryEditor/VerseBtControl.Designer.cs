@@ -28,10 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VerseBtControl));
             this.labelReference = new System.Windows.Forms.Label();
             this.tableLayoutPanelVerse = new System.Windows.Forms.TableLayoutPanel();
-            this.textBoxAnchor = new System.Windows.Forms.TextBox();
             this.labelAnchor = new System.Windows.Forms.Label();
+            this.toolStripAnchors = new System.Windows.Forms.ToolStrip();
+            this.toolStripButtonNewAnchor = new System.Windows.Forms.ToolStripButton();
             this.tableLayoutPanelVerse.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -50,40 +52,49 @@
             this.tableLayoutPanelVerse.ColumnCount = 2;
             this.tableLayoutPanelVerse.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelVerse.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelVerse.Controls.Add(this.textBoxAnchor, 1, 4);
             this.tableLayoutPanelVerse.Controls.Add(this.labelReference, 0, 0);
             this.tableLayoutPanelVerse.Controls.Add(this.labelAnchor, 0, 4);
+            this.tableLayoutPanelVerse.Controls.Add(this.toolStripAnchors, 1, 4);
             this.tableLayoutPanelVerse.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelVerse.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanelVerse.Name = "tableLayoutPanelVerse";
-            this.tableLayoutPanelVerse.RowCount = 5;
+            this.tableLayoutPanelVerse.RowCount = 6;
             this.tableLayoutPanelVerse.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelVerse.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelVerse.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelVerse.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelVerse.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelVerse.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanelVerse.Size = new System.Drawing.Size(669, 225);
             this.tableLayoutPanelVerse.TabIndex = 1;
-            // 
-            // textBoxAnchor
-            // 
-            this.textBoxAnchor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxAnchor.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxAnchor.Location = new System.Drawing.Point(37, 16);
-            this.textBoxAnchor.Multiline = true;
-            this.textBoxAnchor.Name = "textBoxAnchor";
-            this.textBoxAnchor.Size = new System.Drawing.Size(629, 206);
-            this.textBoxAnchor.TabIndex = 8;
             // 
             // labelAnchor
             // 
             this.labelAnchor.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelAnchor.AutoSize = true;
-            this.labelAnchor.Location = new System.Drawing.Point(3, 112);
+            this.labelAnchor.Location = new System.Drawing.Point(3, 19);
             this.labelAnchor.Name = "labelAnchor";
             this.labelAnchor.Size = new System.Drawing.Size(28, 13);
             this.labelAnchor.TabIndex = 7;
             this.labelAnchor.Text = "anc:";
+            // 
+            // toolStripAnchors
+            // 
+            this.toolStripAnchors.Location = new System.Drawing.Point(34, 13);
+            this.toolStripAnchors.Name = "toolStripAnchors";
+            this.toolStripAnchors.Size = new System.Drawing.Size(635, 25);
+            this.toolStripAnchors.TabIndex = 8;
+            this.toolStripAnchors.Text = "toolStripAnchors";
+            // 
+            // toolStripButtonNewAnchor
+            // 
+            this.toolStripButtonNewAnchor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButtonNewAnchor.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonNewAnchor.Image")));
+            this.toolStripButtonNewAnchor.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonNewAnchor.Name = "toolStripButtonNewAnchor";
+            this.toolStripButtonNewAnchor.Size = new System.Drawing.Size(61, 22);
+            this.toolStripButtonNewAnchor.Text = "Add New";
+            this.toolStripButtonNewAnchor.ToolTipText = "Click to add a new anchor";
             // 
             // VerseBtControl
             // 
@@ -104,6 +115,7 @@
         private System.Windows.Forms.Label labelReference;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelVerse;
         private System.Windows.Forms.Label labelAnchor;
-        private System.Windows.Forms.TextBox textBoxAnchor;
+        private System.Windows.Forms.ToolStrip toolStripAnchors;
+        private System.Windows.Forms.ToolStripButton toolStripButtonNewAnchor;
     }
 }

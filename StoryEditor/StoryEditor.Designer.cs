@@ -40,19 +40,33 @@
             this.flowLayoutPanelVerses = new System.Windows.Forms.FlowLayoutPanel();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.splitContainerUpper = new System.Windows.Forms.SplitContainer();
+            this.splitContainerLeftRight = new System.Windows.Forms.SplitContainer();
             this.splitContainerUpDown = new System.Windows.Forms.SplitContainer();
-            this.menuStrip.SuspendLayout();
-            this.splitContainerUpper.Panel1.SuspendLayout();
-            this.splitContainerUpper.SuspendLayout();
+            this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.webBrowserNetBible = new System.Windows.Forms.WebBrowser();
+            this.toolStripBibleReference = new System.Windows.Forms.ToolStrip();
+            this.toolStripComboBoxBookName = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripButtonPrevBook = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonNextBook = new System.Windows.Forms.ToolStripButton();
+            this.toolStripComboBoxChapterNumber = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripButtonPrevChap = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonNextChap = new System.Windows.Forms.ToolStripButton();
+            this.toolStripComboBoxVerseNumber = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripButtonPrevVerse = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonNextVerse = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.splitContainerLeftRight.Panel1.SuspendLayout();
+            this.splitContainerLeftRight.SuspendLayout();
             this.splitContainerUpDown.Panel1.SuspendLayout();
+            this.splitContainerUpDown.Panel2.SuspendLayout();
             this.splitContainerUpDown.SuspendLayout();
+            this.tableLayoutPanel.SuspendLayout();
+            this.toolStripBibleReference.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip
             // 
-            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.projectToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(895, 24);
@@ -69,14 +83,14 @@
             this.toolStripSeparator2,
             this.exitToolStripMenuItem});
             this.projectToolStripMenuItem.Name = "projectToolStripMenuItem";
-            this.projectToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.projectToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
             this.projectToolStripMenuItem.Text = "&Project";
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
@@ -84,31 +98,31 @@
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveToolStripMenuItem.Text = "&Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(164, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // teamMembersToolStripMenuItem
             // 
             this.teamMembersToolStripMenuItem.Name = "teamMembersToolStripMenuItem";
-            this.teamMembersToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.teamMembersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.teamMembersToolStripMenuItem.Text = "Edit &Team members";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(164, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "&Exit";
             // 
             // flowLayoutPanelVerses
@@ -118,7 +132,7 @@
             this.flowLayoutPanelVerses.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanelVerses.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanelVerses.Name = "flowLayoutPanelVerses";
-            this.flowLayoutPanelVerses.Size = new System.Drawing.Size(521, 291);
+            this.flowLayoutPanelVerses.Size = new System.Drawing.Size(521, 199);
             this.flowLayoutPanelVerses.TabIndex = 1;
             this.flowLayoutPanelVerses.WrapContents = false;
             // 
@@ -135,53 +149,312 @@
             this.saveFileDialog.Filter = "OneStory Project file|*.osp";
             this.saveFileDialog.Title = "Open OneStory Project File";
             // 
-            // splitContainerUpper
+            // splitContainerLeftRight
             // 
-            this.splitContainerUpper.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.splitContainerUpper.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainerUpper.Location = new System.Drawing.Point(0, 0);
-            this.splitContainerUpper.Name = "splitContainerUpper";
+            this.splitContainerLeftRight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.splitContainerLeftRight.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerLeftRight.Location = new System.Drawing.Point(0, 24);
+            this.splitContainerLeftRight.Name = "splitContainerLeftRight";
             // 
-            // splitContainerUpper.Panel1
+            // splitContainerLeftRight.Panel1
             // 
-            this.splitContainerUpper.Panel1.Controls.Add(this.flowLayoutPanelVerses);
-            this.splitContainerUpper.Size = new System.Drawing.Size(895, 293);
-            this.splitContainerUpper.SplitterDistance = 523;
-            this.splitContainerUpper.TabIndex = 2;
-            this.splitContainerUpper.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainerUpper_SplitterMoved);
+            this.splitContainerLeftRight.Panel1.Controls.Add(this.splitContainerUpDown);
+            this.splitContainerLeftRight.Size = new System.Drawing.Size(895, 312);
+            this.splitContainerLeftRight.SplitterDistance = 523;
+            this.splitContainerLeftRight.TabIndex = 2;
+            this.splitContainerLeftRight.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainerUpper_SplitterMoved);
             // 
             // splitContainerUpDown
             // 
             this.splitContainerUpDown.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.splitContainerUpDown.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainerUpDown.Location = new System.Drawing.Point(0, 24);
+            this.splitContainerUpDown.Location = new System.Drawing.Point(0, 0);
             this.splitContainerUpDown.Name = "splitContainerUpDown";
             this.splitContainerUpDown.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
             // splitContainerUpDown.Panel1
             // 
-            this.splitContainerUpDown.Panel1.Controls.Add(this.splitContainerUpper);
-            this.splitContainerUpDown.Size = new System.Drawing.Size(895, 453);
-            this.splitContainerUpDown.SplitterDistance = 293;
+            this.splitContainerUpDown.Panel1.Controls.Add(this.flowLayoutPanelVerses);
+            // 
+            // splitContainerUpDown.Panel2
+            // 
+            this.splitContainerUpDown.Panel2.Controls.Add(this.tableLayoutPanel);
+            this.splitContainerUpDown.Size = new System.Drawing.Size(523, 312);
+            this.splitContainerUpDown.SplitterDistance = 201;
             this.splitContainerUpDown.TabIndex = 2;
+            // 
+            // tableLayoutPanel
+            // 
+            this.tableLayoutPanel.ColumnCount = 1;
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel.Controls.Add(this.webBrowserNetBible, 0, 1);
+            this.tableLayoutPanel.Controls.Add(this.toolStripBibleReference, 0, 0);
+            this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel.Name = "tableLayoutPanel";
+            this.tableLayoutPanel.RowCount = 2;
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel.Size = new System.Drawing.Size(521, 105);
+            this.tableLayoutPanel.TabIndex = 3;
+            // 
+            // webBrowserNetBible
+            // 
+            this.webBrowserNetBible.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowserNetBible.Location = new System.Drawing.Point(3, 28);
+            this.webBrowserNetBible.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowserNetBible.Name = "webBrowserNetBible";
+            this.webBrowserNetBible.Size = new System.Drawing.Size(515, 74);
+            this.webBrowserNetBible.TabIndex = 0;
+            // 
+            // toolStripBibleReference
+            // 
+            this.toolStripBibleReference.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripComboBoxBookName,
+            this.toolStripButtonPrevBook,
+            this.toolStripButtonNextBook,
+            this.toolStripComboBoxChapterNumber,
+            this.toolStripButtonPrevChap,
+            this.toolStripButtonNextChap,
+            this.toolStripComboBoxVerseNumber,
+            this.toolStripButtonPrevVerse,
+            this.toolStripButtonNextVerse});
+            this.toolStripBibleReference.Location = new System.Drawing.Point(0, 0);
+            this.toolStripBibleReference.Name = "toolStripBibleReference";
+            this.toolStripBibleReference.Size = new System.Drawing.Size(521, 25);
+            this.toolStripBibleReference.TabIndex = 1;
+            this.toolStripBibleReference.Text = "toolStrip1";
+            // 
+            // toolStripComboBoxBookName
+            // 
+            this.toolStripComboBoxBookName.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.toolStripComboBoxBookName.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.toolStripComboBoxBookName.Items.AddRange(new object[] {
+            "Gen",
+            "Exod",
+            "Lev",
+            "Num",
+            "Deut",
+            "Josh",
+            "Judg",
+            "Ruth",
+            "1Sam",
+            "2Sam",
+            "1Kgs",
+            "2Kgs",
+            "1Chr",
+            "2Chr",
+            "Ezra",
+            "Neh",
+            "Esth",
+            "Job",
+            "Ps",
+            "Prov",
+            "Eccl",
+            "Song",
+            "Isa",
+            "Jer",
+            "Lam",
+            "Ezek",
+            "Dan",
+            "Hos",
+            "Joel",
+            "Amos",
+            "Obad",
+            "Jonah",
+            "Mic",
+            "Nah",
+            "Hab",
+            "Zeph",
+            "Hag",
+            "Zech",
+            "Mal",
+            "Matt",
+            "Mark",
+            "Luke",
+            "John",
+            "Acts",
+            "Rom",
+            "1Cor",
+            "2Cor",
+            "Gal",
+            "Eph",
+            "Phil",
+            "Col",
+            "1Thess",
+            "2Thess",
+            "1Tim",
+            "2Tim",
+            "Titus",
+            "Phlm",
+            "Heb",
+            "Jas",
+            "1Pet",
+            "2Pet",
+            "1John",
+            "2John",
+            "3John",
+            "Jude",
+            "Rev"});
+            this.toolStripComboBoxBookName.MergeAction = System.Windows.Forms.MergeAction.MatchOnly;
+            this.toolStripComboBoxBookName.Name = "toolStripComboBoxBookName";
+            this.toolStripComboBoxBookName.Size = new System.Drawing.Size(75, 25);
+            this.toolStripComboBoxBookName.ToolTipText = "Choose the book of the Bible you want to see";
+            this.toolStripComboBoxBookName.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBoxBookName_SelectedIndexChanged);
+            // 
+            // toolStripButtonPrevBook
+            // 
+            this.toolStripButtonPrevBook.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonPrevBook.Image = global::StoryEditor.Properties.Resources.GoRtlHS;
+            this.toolStripButtonPrevBook.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonPrevBook.Name = "toolStripButtonPrevBook";
+            this.toolStripButtonPrevBook.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonPrevBook.Text = "PrevBook";
+            this.toolStripButtonPrevBook.ToolTipText = "Click here to go to the previous book";
+            // 
+            // toolStripButtonNextBook
+            // 
+            this.toolStripButtonNextBook.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonNextBook.Image = global::StoryEditor.Properties.Resources.GoLtrHS;
+            this.toolStripButtonNextBook.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonNextBook.Name = "toolStripButtonNextBook";
+            this.toolStripButtonNextBook.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonNextBook.Text = "NextBook";
+            this.toolStripButtonNextBook.ToolTipText = "Click here to go to the next book";
+            // 
+            // toolStripComboBoxChapterNumber
+            // 
+            this.toolStripComboBoxChapterNumber.AutoCompleteCustomSource.AddRange(new string[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11"});
+            this.toolStripComboBoxChapterNumber.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.toolStripComboBoxChapterNumber.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.toolStripComboBoxChapterNumber.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12"});
+            this.toolStripComboBoxChapterNumber.Name = "toolStripComboBoxChapterNumber";
+            this.toolStripComboBoxChapterNumber.Size = new System.Drawing.Size(75, 25);
+            this.toolStripComboBoxChapterNumber.ToolTipText = "Choose the Chapter you want to see";
+            // 
+            // toolStripButtonPrevChap
+            // 
+            this.toolStripButtonPrevChap.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonPrevChap.Image = global::StoryEditor.Properties.Resources.GoRtlHS;
+            this.toolStripButtonPrevChap.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonPrevChap.Name = "toolStripButtonPrevChap";
+            this.toolStripButtonPrevChap.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonPrevChap.Text = "toolStripButton1";
+            // 
+            // toolStripButtonNextChap
+            // 
+            this.toolStripButtonNextChap.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonNextChap.Image = global::StoryEditor.Properties.Resources.GoLtrHS;
+            this.toolStripButtonNextChap.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonNextChap.Name = "toolStripButtonNextChap";
+            this.toolStripButtonNextChap.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonNextChap.Text = "toolStripButton1";
+            // 
+            // toolStripComboBoxVerseNumber
+            // 
+            this.toolStripComboBoxVerseNumber.AutoCompleteCustomSource.AddRange(new string[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11"});
+            this.toolStripComboBoxVerseNumber.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.toolStripComboBoxVerseNumber.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.toolStripComboBoxVerseNumber.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11"});
+            this.toolStripComboBoxVerseNumber.Name = "toolStripComboBoxVerseNumber";
+            this.toolStripComboBoxVerseNumber.Size = new System.Drawing.Size(75, 25);
+            this.toolStripComboBoxVerseNumber.ToolTipText = "Choose the Verse you want to see";
+            // 
+            // toolStripButtonPrevVerse
+            // 
+            this.toolStripButtonPrevVerse.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonPrevVerse.Image = global::StoryEditor.Properties.Resources.GoRtlHS;
+            this.toolStripButtonPrevVerse.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonPrevVerse.Name = "toolStripButtonPrevVerse";
+            this.toolStripButtonPrevVerse.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonPrevVerse.Text = "PrevVerse";
+            this.toolStripButtonPrevVerse.ToolTipText = "Click here to go to the previous verse";
+            // 
+            // toolStripButtonNextVerse
+            // 
+            this.toolStripButtonNextVerse.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonNextVerse.Image = global::StoryEditor.Properties.Resources.GoLtrHS;
+            this.toolStripButtonNextVerse.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonNextVerse.Name = "toolStripButtonNextVerse";
+            this.toolStripButtonNextVerse.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonNextVerse.Text = "NextVerse";
+            this.toolStripButtonNextVerse.ToolTipText = "Click here to go to the next verse";
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
             // 
             // StoryEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(895, 477);
-            this.Controls.Add(this.splitContainerUpDown);
+            this.ClientSize = new System.Drawing.Size(895, 336);
+            this.Controls.Add(this.splitContainerLeftRight);
             this.Controls.Add(this.menuStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip;
             this.Name = "StoryEditor";
             this.Text = "OneStory Editor";
-            this.menuStrip.ResumeLayout(false);
-            this.menuStrip.PerformLayout();
-            this.splitContainerUpper.Panel1.ResumeLayout(false);
-            this.splitContainerUpper.ResumeLayout(false);
+            this.splitContainerLeftRight.Panel1.ResumeLayout(false);
+            this.splitContainerLeftRight.ResumeLayout(false);
             this.splitContainerUpDown.Panel1.ResumeLayout(false);
+            this.splitContainerUpDown.Panel2.ResumeLayout(false);
             this.splitContainerUpDown.ResumeLayout(false);
+            this.tableLayoutPanel.ResumeLayout(false);
+            this.tableLayoutPanel.PerformLayout();
+            this.toolStripBibleReference.ResumeLayout(false);
+            this.toolStripBibleReference.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -200,8 +473,22 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelVerses;
-        private System.Windows.Forms.SplitContainer splitContainerUpper;
+        private System.Windows.Forms.SplitContainer splitContainerLeftRight;
         private System.Windows.Forms.SplitContainer splitContainerUpDown;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
+        private System.Windows.Forms.WebBrowser webBrowserNetBible;
+        private System.Windows.Forms.ToolStrip toolStripBibleReference;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripComboBox toolStripComboBoxChapterNumber;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripComboBox toolStripComboBoxVerseNumber;
+        private System.Windows.Forms.ToolStripButton toolStripButtonPrevChap;
+        private System.Windows.Forms.ToolStripButton toolStripButtonNextChap;
+        private System.Windows.Forms.ToolStripButton toolStripButtonNextBook;
+        private System.Windows.Forms.ToolStripButton toolStripButtonPrevBook;
+        private System.Windows.Forms.ToolStripButton toolStripButtonPrevVerse;
+        private System.Windows.Forms.ToolStripButton toolStripButtonNextVerse;
+        private System.Windows.Forms.ToolStripComboBox toolStripComboBoxBookName;
     }
 }
 
