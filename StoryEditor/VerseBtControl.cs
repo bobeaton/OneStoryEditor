@@ -19,10 +19,13 @@ namespace StoryEditor
         protected const string cstrFieldNameInternationalBT = "InternationalBT";
         protected const string cstrFieldNameAnchors = "AnchorsStrip";
         protected const string cstrFieldNameAnchor = "AnchorButton";
+        protected const string cstrFieldNameExegeticalHelp = "ExegeticalHelp";
 
         protected StoryProject.verseRow m_aVerse = null;
         protected int m_nWidth = 0;
-        protected int m_nRowIndexVernacular = -1, m_nRowIndexNationalBT = -1, m_nRowIndexInternationalBT = -1, m_nRowIndexAnchors = -1;
+        protected int m_nRowIndexVernacular = -1, m_nRowIndexNationalBT = -1, m_nRowIndexInternationalBT = -1,
+            m_nRowIndexAnchors = -1;
+        protected int[] m_anRowIndexExegeticalHelps = null;
 
         public VerseBtControl(int nVerseNumber, StoryProject.verseRow aVerse)
         {
@@ -75,16 +78,27 @@ namespace StoryEditor
 
             if (aSE.viewAnchorFieldMenuItem.Checked)
             {
-                m_nRowIndexAnchors = nNumRows++;
                 StoryProject.anchorsRow[] anAnchorsRow = m_aVerse.GetanchorsRows();
+                System.Diagnostics.Debug.Assert(anAnchorsRow != null);
                 if (anAnchorsRow != null)
                 {
+                    m_nRowIndexAnchors = nNumRows++;
                     System.Diagnostics.Debug.Assert(anAnchorsRow.Length > 0);
-                    InitAnchors(anAnchorsRow[0], m_nRowIndexAnchors);
+                    InitAnchors(aSE, anAnchorsRow[0], m_nRowIndexAnchors, ref nNumRows);
                 }
             }
             else if (m_nRowIndexAnchors != -1)
             {
+                // first remove any following exegetical helps rows
+                if (m_anRowIndexExegeticalHelps != null)
+                {
+                    for (int i = 0; i < m_anRowIndexExegeticalHelps.Length; i++)
+                        tableLayoutPanelVerse.RemoveRow(m_anRowIndexExegeticalHelps[i]);
+                    // TODO: don't I need to decrement the following rows (if any) by Length amount also?
+                    m_anRowIndexExegeticalHelps = null;
+                }
+
+                // now get rid of the anchor row
                 tableLayoutPanelVerse.RemoveRow(m_nRowIndexAnchors);
                 m_nRowIndexAnchors = -1;
             }
@@ -98,19 +112,57 @@ namespace StoryEditor
             SetSize(m_nWidth);
         }
 
-        protected void InitAnchors(StoryProject.anchorsRow anAnchorsRow, int nLayoutRow)
+        protected void InitExegeticalHelpRows(StoryProject.exegeticalHelpsRow anEHsRow, ref int nNumRows)
+        {
+            if (m_anRowIndexExegeticalHelps == null)
+            {
+                StoryProject.exegeticalHelpRow[] aEHRows = anEHsRow.GetexegeticalHelpRows();
+                System.Diagnostics.Debug.Assert(aEHRows != null);
+                m_anRowIndexExegeticalHelps = new int[aEHRows.Length];
+                for (int i = 0; i < aEHRows.Length; i++)
+                {
+                    StoryProject.exegeticalHelpRow aEHRow = aEHRows[i];
+                    TextBox tb = new TextBox();
+                    tb.Name = cstrFieldNameExegeticalHelp + i.ToString();
+                    tb.Multiline = true;
+                    tb.Dock = DockStyle.Fill;
+                    tb.Text = aEHRow.quote;
+                    tb.TextChanged += new EventHandler(textBox_TextChanged);
+                    
+                    // add the label and tool strip as a new row to the table layout panel
+                    m_anRowIndexExegeticalHelps[i] = nNumRows++;
+                    tableLayoutPanelVerse.InsertRow(m_anRowIndexExegeticalHelps[i]);
+                    tableLayoutPanelVerse.Controls.Add(tb, 0, m_anRowIndexExegeticalHelps[i]);
+                    tableLayoutPanelVerse.SetColumnSpan(tb, 2); 
+                }
+            }
+        }
+
+        protected void InitExegeticalHelpsRow(StoryEditor aSE, StoryProject.anchorRow anAnchorRow, ref int nNumRows)
+        {
+            StoryProject.exegeticalHelpsRow[] anEHsRow = anAnchorRow.GetexegeticalHelpsRows();
+            if ((anEHsRow != null) && (anEHsRow.Length > 0))
+                InitExegeticalHelpRows(anEHsRow[0], ref nNumRows);
+        }
+
+        protected void InitAnchors(StoryEditor aSE, StoryProject.anchorsRow anAnchorsRow, int nLayoutRow, ref int nNumRows)
         {
             if (!tableLayoutPanelVerse.Controls.ContainsKey(cstrFieldNameAnchors))
             {
                 ToolStrip ts = new ToolStrip();
                 ts.Text = ts.Name = cstrFieldNameAnchors;
-                foreach (StoryProject.anchorRow anAnchorRow in anAnchorsRow.GetanchorRows())
-                    InitAnchorButton(ts, anAnchorRow.jumpTarget, anAnchorRow.text);
 
                 // add the label and tool strip as a new row to the table layout panel
                 tableLayoutPanelVerse.InsertRow(nLayoutRow);
                 tableLayoutPanelVerse.Controls.Add(labelAnchor, 0, nLayoutRow);
                 tableLayoutPanelVerse.Controls.Add(ts, 1, nLayoutRow);
+
+                // finally populate the buttons on that tool strip
+                foreach (StoryProject.anchorRow anAnchorRow in anAnchorsRow.GetanchorRows())
+                {
+                    InitAnchorButton(ts, anAnchorRow.jumpTarget, anAnchorRow.text);
+                    InitExegeticalHelpsRow(aSE, anAnchorRow, ref nNumRows);
+                }
             }
 #if DEBUG
             else

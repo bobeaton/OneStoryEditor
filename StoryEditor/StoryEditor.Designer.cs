@@ -37,6 +37,16 @@
             this.teamMembersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewVernacularLangFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewNationalLangFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewEnglishBTFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewAnchorFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewStoryTestingQuestionFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.viewRetellingFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.viewConsultantNoteFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.flowLayoutPanelVerses = new System.Windows.Forms.FlowLayoutPanel();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
@@ -56,17 +66,6 @@
             this.toolStripButtonNextVerse = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewVernacularLangFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewNationalLangFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewEnglishBTFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewAnchorFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewExegeticalCulturalNotesFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewStoryTestingQuestionFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.viewRetellingFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-            this.viewConsultantNoteFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
             this.splitContainerLeftRight.SuspendLayout();
@@ -98,14 +97,14 @@
             this.toolStripSeparator2,
             this.exitToolStripMenuItem});
             this.projectToolStripMenuItem.Name = "projectToolStripMenuItem";
-            this.projectToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.projectToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
             this.projectToolStripMenuItem.Text = "&Project";
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
@@ -113,32 +112,125 @@
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveToolStripMenuItem.Text = "&Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(164, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // teamMembersToolStripMenuItem
             // 
             this.teamMembersToolStripMenuItem.Name = "teamMembersToolStripMenuItem";
-            this.teamMembersToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.teamMembersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.teamMembersToolStripMenuItem.Text = "Edit &Team members";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(164, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "&Exit";
+            // 
+            // viewToolStripMenuItem
+            // 
+            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.viewVernacularLangFieldMenuItem,
+            this.viewNationalLangFieldMenuItem,
+            this.viewEnglishBTFieldMenuItem,
+            this.viewAnchorFieldMenuItem,
+            this.viewStoryTestingQuestionFieldMenuItem,
+            this.toolStripSeparator5,
+            this.viewRetellingFieldMenuItem,
+            this.toolStripSeparator6,
+            this.viewConsultantNoteFieldMenuItem});
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.viewToolStripMenuItem.Text = "&View";
+            // 
+            // viewVernacularLangFieldMenuItem
+            // 
+            this.viewVernacularLangFieldMenuItem.Checked = true;
+            this.viewVernacularLangFieldMenuItem.CheckOnClick = true;
+            this.viewVernacularLangFieldMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.viewVernacularLangFieldMenuItem.Name = "viewVernacularLangFieldMenuItem";
+            this.viewVernacularLangFieldMenuItem.Size = new System.Drawing.Size(284, 22);
+            this.viewVernacularLangFieldMenuItem.Text = "Story &Language field";
+            this.viewVernacularLangFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
+            // 
+            // viewNationalLangFieldMenuItem
+            // 
+            this.viewNationalLangFieldMenuItem.Checked = true;
+            this.viewNationalLangFieldMenuItem.CheckOnClick = true;
+            this.viewNationalLangFieldMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.viewNationalLangFieldMenuItem.Name = "viewNationalLangFieldMenuItem";
+            this.viewNationalLangFieldMenuItem.Size = new System.Drawing.Size(284, 22);
+            this.viewNationalLangFieldMenuItem.Text = "National language &back translation field";
+            this.viewNationalLangFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
+            // 
+            // viewEnglishBTFieldMenuItem
+            // 
+            this.viewEnglishBTFieldMenuItem.Checked = true;
+            this.viewEnglishBTFieldMenuItem.CheckOnClick = true;
+            this.viewEnglishBTFieldMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.viewEnglishBTFieldMenuItem.Name = "viewEnglishBTFieldMenuItem";
+            this.viewEnglishBTFieldMenuItem.Size = new System.Drawing.Size(284, 22);
+            this.viewEnglishBTFieldMenuItem.Text = "&English back translation field";
+            this.viewEnglishBTFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
+            // 
+            // viewAnchorFieldMenuItem
+            // 
+            this.viewAnchorFieldMenuItem.Checked = true;
+            this.viewAnchorFieldMenuItem.CheckOnClick = true;
+            this.viewAnchorFieldMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.viewAnchorFieldMenuItem.Name = "viewAnchorFieldMenuItem";
+            this.viewAnchorFieldMenuItem.Size = new System.Drawing.Size(284, 22);
+            this.viewAnchorFieldMenuItem.Text = "&Anchor fields";
+            this.viewAnchorFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
+            // 
+            // viewStoryTestingQuestionFieldMenuItem
+            // 
+            this.viewStoryTestingQuestionFieldMenuItem.Checked = true;
+            this.viewStoryTestingQuestionFieldMenuItem.CheckOnClick = true;
+            this.viewStoryTestingQuestionFieldMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.viewStoryTestingQuestionFieldMenuItem.Name = "viewStoryTestingQuestionFieldMenuItem";
+            this.viewStoryTestingQuestionFieldMenuItem.Size = new System.Drawing.Size(284, 22);
+            this.viewStoryTestingQuestionFieldMenuItem.Text = "Story &testing questions field";
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(281, 6);
+            // 
+            // viewRetellingFieldMenuItem
+            // 
+            this.viewRetellingFieldMenuItem.Checked = true;
+            this.viewRetellingFieldMenuItem.CheckOnClick = true;
+            this.viewRetellingFieldMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.viewRetellingFieldMenuItem.Name = "viewRetellingFieldMenuItem";
+            this.viewRetellingFieldMenuItem.Size = new System.Drawing.Size(284, 22);
+            this.viewRetellingFieldMenuItem.Text = "&Retelling field";
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(281, 6);
+            // 
+            // viewConsultantNoteFieldMenuItem
+            // 
+            this.viewConsultantNoteFieldMenuItem.Checked = true;
+            this.viewConsultantNoteFieldMenuItem.CheckOnClick = true;
+            this.viewConsultantNoteFieldMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.viewConsultantNoteFieldMenuItem.Name = "viewConsultantNoteFieldMenuItem";
+            this.viewConsultantNoteFieldMenuItem.Size = new System.Drawing.Size(284, 22);
+            this.viewConsultantNoteFieldMenuItem.Text = "&Consultant notes field";
             // 
             // flowLayoutPanelVerses
             // 
@@ -315,7 +407,7 @@
             "Rev"});
             this.toolStripComboBoxBookName.MergeAction = System.Windows.Forms.MergeAction.MatchOnly;
             this.toolStripComboBoxBookName.Name = "toolStripComboBoxBookName";
-            this.toolStripComboBoxBookName.Size = new System.Drawing.Size(55, 21);
+            this.toolStripComboBoxBookName.Size = new System.Drawing.Size(55, 23);
             this.toolStripComboBoxBookName.ToolTipText = "Choose the book of the Bible you want to see";
             this.toolStripComboBoxBookName.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBoxBookName_SelectedIndexChanged);
             // 
@@ -347,7 +439,7 @@
             this.toolStripComboBoxChapterNumber.AutoSize = false;
             this.toolStripComboBoxChapterNumber.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.toolStripComboBoxChapterNumber.Name = "toolStripComboBoxChapterNumber";
-            this.toolStripComboBoxChapterNumber.Size = new System.Drawing.Size(45, 21);
+            this.toolStripComboBoxChapterNumber.Size = new System.Drawing.Size(45, 23);
             this.toolStripComboBoxChapterNumber.ToolTipText = "Choose the Chapter you want to see";
             this.toolStripComboBoxChapterNumber.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBoxChapterNumber_SelectedIndexChanged);
             // 
@@ -378,7 +470,7 @@
             this.toolStripComboBoxVerseNumber.AutoSize = false;
             this.toolStripComboBoxVerseNumber.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.toolStripComboBoxVerseNumber.Name = "toolStripComboBoxVerseNumber";
-            this.toolStripComboBoxVerseNumber.Size = new System.Drawing.Size(45, 21);
+            this.toolStripComboBoxVerseNumber.Size = new System.Drawing.Size(45, 23);
             this.toolStripComboBoxVerseNumber.ToolTipText = "Choose the Verse you want to see";
             this.toolStripComboBoxVerseNumber.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBoxVerseNumber_SelectedIndexChanged);
             // 
@@ -413,109 +505,6 @@
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
-            // 
-            // viewToolStripMenuItem
-            // 
-            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.viewVernacularLangFieldMenuItem,
-            this.viewNationalLangFieldMenuItem,
-            this.viewEnglishBTFieldMenuItem,
-            this.viewAnchorFieldMenuItem,
-            this.viewExegeticalCulturalNotesFieldMenuItem,
-            this.viewStoryTestingQuestionFieldMenuItem,
-            this.toolStripSeparator5,
-            this.viewRetellingFieldMenuItem,
-            this.toolStripSeparator6,
-            this.viewConsultantNoteFieldMenuItem});
-            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
-            this.viewToolStripMenuItem.Text = "&View";
-            // 
-            // viewVernacularLangFieldMenuItem
-            // 
-            this.viewVernacularLangFieldMenuItem.Checked = true;
-            this.viewVernacularLangFieldMenuItem.CheckOnClick = true;
-            this.viewVernacularLangFieldMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.viewVernacularLangFieldMenuItem.Name = "viewVernacularLangFieldMenuItem";
-            this.viewVernacularLangFieldMenuItem.Size = new System.Drawing.Size(262, 22);
-            this.viewVernacularLangFieldMenuItem.Text = "Story &Language field";
-            this.viewVernacularLangFieldMenuItem.CheckedChanged += new System.EventHandler(viewFieldMenuItem_CheckedChanged);
-            // 
-            // viewNationalLangFieldMenuItem
-            // 
-            this.viewNationalLangFieldMenuItem.Checked = true;
-            this.viewNationalLangFieldMenuItem.CheckOnClick = true;
-            this.viewNationalLangFieldMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.viewNationalLangFieldMenuItem.Name = "viewNationalLangFieldMenuItem";
-            this.viewNationalLangFieldMenuItem.Size = new System.Drawing.Size(262, 22);
-            this.viewNationalLangFieldMenuItem.Text = "National language &back translation field";
-            this.viewNationalLangFieldMenuItem.CheckedChanged += new System.EventHandler(viewFieldMenuItem_CheckedChanged);
-            // 
-            // viewEnglishBTFieldMenuItem
-            // 
-            this.viewEnglishBTFieldMenuItem.Checked = true;
-            this.viewEnglishBTFieldMenuItem.CheckOnClick = true;
-            this.viewEnglishBTFieldMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.viewEnglishBTFieldMenuItem.Name = "viewEnglishBTFieldMenuItem";
-            this.viewEnglishBTFieldMenuItem.Size = new System.Drawing.Size(262, 22);
-            this.viewEnglishBTFieldMenuItem.Text = "&English back translation field";
-            this.viewEnglishBTFieldMenuItem.CheckedChanged += new System.EventHandler(viewFieldMenuItem_CheckedChanged);
-            // 
-            // viewAnchorFieldMenuItem
-            // 
-            this.viewAnchorFieldMenuItem.Checked = true;
-            this.viewAnchorFieldMenuItem.CheckOnClick = true;
-            this.viewAnchorFieldMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.viewAnchorFieldMenuItem.Name = "viewAnchorFieldMenuItem";
-            this.viewAnchorFieldMenuItem.Size = new System.Drawing.Size(262, 22);
-            this.viewAnchorFieldMenuItem.Text = "&Anchor field";
-            this.viewAnchorFieldMenuItem.CheckedChanged += new System.EventHandler(viewFieldMenuItem_CheckedChanged);
-            // 
-            // viewExegeticalCulturalNotesFieldMenuItem
-            // 
-            this.viewExegeticalCulturalNotesFieldMenuItem.Checked = true;
-            this.viewExegeticalCulturalNotesFieldMenuItem.CheckOnClick = true;
-            this.viewExegeticalCulturalNotesFieldMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.viewExegeticalCulturalNotesFieldMenuItem.Name = "viewExegeticalCulturalNotesFieldMenuItem";
-            this.viewExegeticalCulturalNotesFieldMenuItem.Size = new System.Drawing.Size(262, 22);
-            this.viewExegeticalCulturalNotesFieldMenuItem.Text = "Exegetical/Cultural &notes field";
-            // 
-            // viewStoryTestingQuestionFieldMenuItem
-            // 
-            this.viewStoryTestingQuestionFieldMenuItem.Checked = true;
-            this.viewStoryTestingQuestionFieldMenuItem.CheckOnClick = true;
-            this.viewStoryTestingQuestionFieldMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.viewStoryTestingQuestionFieldMenuItem.Name = "viewStoryTestingQuestionFieldMenuItem";
-            this.viewStoryTestingQuestionFieldMenuItem.Size = new System.Drawing.Size(262, 22);
-            this.viewStoryTestingQuestionFieldMenuItem.Text = "Story &testing questions field";
-            // 
-            // toolStripSeparator5
-            // 
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(259, 6);
-            // 
-            // viewRetellingFieldMenuItem
-            // 
-            this.viewRetellingFieldMenuItem.Checked = true;
-            this.viewRetellingFieldMenuItem.CheckOnClick = true;
-            this.viewRetellingFieldMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.viewRetellingFieldMenuItem.Name = "viewRetellingFieldMenuItem";
-            this.viewRetellingFieldMenuItem.Size = new System.Drawing.Size(262, 22);
-            this.viewRetellingFieldMenuItem.Text = "&Retelling field";
-            // 
-            // toolStripSeparator6
-            // 
-            this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(259, 6);
-            // 
-            // viewConsultantNoteFieldMenuItem
-            // 
-            this.viewConsultantNoteFieldMenuItem.Checked = true;
-            this.viewConsultantNoteFieldMenuItem.CheckOnClick = true;
-            this.viewConsultantNoteFieldMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.viewConsultantNoteFieldMenuItem.Name = "viewConsultantNoteFieldMenuItem";
-            this.viewConsultantNoteFieldMenuItem.Size = new System.Drawing.Size(262, 22);
-            this.viewConsultantNoteFieldMenuItem.Text = "&Consultant notes field";
             // 
             // StoryEditor
             // 
@@ -580,7 +569,6 @@
         internal System.Windows.Forms.ToolStripMenuItem viewNationalLangFieldMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem viewEnglishBTFieldMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem viewAnchorFieldMenuItem;
-        internal System.Windows.Forms.ToolStripMenuItem viewExegeticalCulturalNotesFieldMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem viewStoryTestingQuestionFieldMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem viewRetellingFieldMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem viewConsultantNoteFieldMenuItem;

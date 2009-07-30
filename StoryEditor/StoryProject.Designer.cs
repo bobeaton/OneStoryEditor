@@ -8623,8 +8623,6 @@ namespace StoryEditor {
             
             private global::System.Data.DataColumn columnquote;
             
-            private global::System.Data.DataColumn columnEHComment;
-            
             private global::System.Data.DataColumn columnexegeticalHelps_Id;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -8679,13 +8677,6 @@ namespace StoryEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn EHCommentColumn {
-                get {
-                    return this.columnEHComment;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public global::System.Data.DataColumn exegeticalHelps_IdColumn {
                 get {
                     return this.columnexegeticalHelps_Id;
@@ -8721,16 +8712,15 @@ namespace StoryEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public exegeticalHelpRow AddexegeticalHelpRow(string source, string memberID, string quote, string EHComment, exegeticalHelpsRow parentexegeticalHelpsRowByexegeticalHelps_exegeticalHelp) {
+            public exegeticalHelpRow AddexegeticalHelpRow(string source, string memberID, string quote, exegeticalHelpsRow parentexegeticalHelpsRowByexegeticalHelps_exegeticalHelp) {
                 exegeticalHelpRow rowexegeticalHelpRow = ((exegeticalHelpRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         source,
                         memberID,
                         quote,
-                        EHComment,
                         null};
                 if ((parentexegeticalHelpsRowByexegeticalHelps_exegeticalHelp != null)) {
-                    columnValuesArray[4] = parentexegeticalHelpsRowByexegeticalHelps_exegeticalHelp[0];
+                    columnValuesArray[3] = parentexegeticalHelpsRowByexegeticalHelps_exegeticalHelp[0];
                 }
                 rowexegeticalHelpRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowexegeticalHelpRow);
@@ -8754,7 +8744,6 @@ namespace StoryEditor {
                 this.columnsource = base.Columns["source"];
                 this.columnmemberID = base.Columns["memberID"];
                 this.columnquote = base.Columns["quote"];
-                this.columnEHComment = base.Columns["EHComment"];
                 this.columnexegeticalHelps_Id = base.Columns["exegeticalHelps_Id"];
             }
             
@@ -8766,8 +8755,6 @@ namespace StoryEditor {
                 base.Columns.Add(this.columnmemberID);
                 this.columnquote = new global::System.Data.DataColumn("quote", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnquote);
-                this.columnEHComment = new global::System.Data.DataColumn("EHComment", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnEHComment);
                 this.columnexegeticalHelps_Id = new global::System.Data.DataColumn("exegeticalHelps_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnexegeticalHelps_Id);
                 this.columnsource.AllowDBNull = false;
@@ -15317,21 +15304,6 @@ namespace StoryEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string EHComment {
-                get {
-                    try {
-                        return ((string)(this[this.tableexegeticalHelp.EHCommentColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'EHComment\' in table \'exegeticalHelp\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableexegeticalHelp.EHCommentColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public int exegeticalHelps_Id {
                 get {
                     try {
@@ -15364,16 +15336,6 @@ namespace StoryEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public void SetmemberIDNull() {
                 this[this.tableexegeticalHelp.memberIDColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsEHCommentNull() {
-                return this.IsNull(this.tableexegeticalHelp.EHCommentColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetEHCommentNull() {
-                this[this.tableexegeticalHelp.EHCommentColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
