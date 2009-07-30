@@ -11,15 +11,15 @@ namespace StoryEditor
     /// </summary>
     class DynamicTableLayoutPanel : System.Windows.Forms.TableLayoutPanel
     {
-        public void InsertRow(int nLayoutRow)
+        public void InsertRow(int nLayoutRowIndex)
         {
             int nRowIndex = this.RowStyles.Add(new System.Windows.Forms.RowStyle(SizeType.AutoSize));
             this.RowCount++;
 
             // if we're inserting in the middle, then we have to move the following controls down
-            if (nRowIndex != nLayoutRow)
+            if (nRowIndex != nLayoutRowIndex)
             {
-                for (int i = this.RowCount - 1; i > nLayoutRow; i--)
+                for (int i = this.RowCount - 1; i > nLayoutRowIndex; i--)
                     for (int j = 0; j < this.ColumnCount; j++)
                     {
                         Control ctrl = this.GetControlFromPosition(j, i - 1);
@@ -32,16 +32,16 @@ namespace StoryEditor
             }
         }
 
-        public void RemoveRow(int nRowIndex)
+        public void RemoveRow(int nLayoutRowIndex)
         {
             for (int i = 0; i < this.ColumnCount; i++)
             {
-                Control ctrl = this.GetControlFromPosition(i, nRowIndex);
+                Control ctrl = this.GetControlFromPosition(i, nLayoutRowIndex);
                 if (ctrl != null)
                     this.Controls.Remove(ctrl);
             }
 
-            for (int i = nRowIndex; i < this.RowCount; i++)
+            for (int i = nLayoutRowIndex; i < this.RowCount; i++)
                 for (int j = 0; j < this.ColumnCount; j++)
                 {
                     Control ctrl = this.GetControlFromPosition(j, i + 1);

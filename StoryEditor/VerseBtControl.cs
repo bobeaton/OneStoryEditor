@@ -17,15 +17,11 @@ namespace StoryEditor
         protected const string cstrFieldNameVernacular = "Vernacular";
         protected const string cstrFieldNameNationalBT = "NationalBT";
         protected const string cstrFieldNameInternationalBT = "InternationalBT";
-        protected const string cstrFieldNameAnchors = "AnchorsStrip";
-        protected const string cstrFieldNameAnchor = "AnchorButton";
-        protected const string cstrFieldNameExegeticalHelp = "ExegeticalHelp";
+        protected const string cstrFieldNameAnchors = "Anchors";
 
         protected StoryProject.verseRow m_aVerse = null;
-        protected int m_nWidth = 0;
         protected int m_nRowIndexVernacular = -1, m_nRowIndexNationalBT = -1, m_nRowIndexInternationalBT = -1,
             m_nRowIndexAnchors = -1;
-        protected int[] m_anRowIndexExegeticalHelps = null;
 
         public VerseBtControl(int nVerseNumber, StoryProject.verseRow aVerse)
         {
@@ -40,7 +36,13 @@ namespace StoryEditor
             // set the width to the new width given by caller
             this.SuspendLayout();
             this.tableLayoutPanelVerse.SuspendLayout();
+
             tableLayoutPanelVerse.Width = this.Width = nWidth - this.Margin.Left - SystemInformation.VerticalScrollBarWidth;
+            
+            this.tableLayoutPanelVerse.ResumeLayout(false);
+            this.tableLayoutPanelVerse.PerformLayout();
+            this.ResumeLayout(false);
+            this.PerformLayout();
 
             int nNumRows = 1;
             if (aSE.viewVernacularLangFieldMenuItem.Checked)
@@ -50,7 +52,7 @@ namespace StoryEditor
             }
             else if (m_nRowIndexVernacular != -1)
             {
-                tableLayoutPanelVerse.RemoveRow(m_nRowIndexVernacular);
+                RemoveRow(m_nRowIndexVernacular);
                 m_nRowIndexVernacular = -1;
             }
 
@@ -61,7 +63,7 @@ namespace StoryEditor
             }
             else if (m_nRowIndexNationalBT != -1)
             {
-                tableLayoutPanelVerse.RemoveRow(m_nRowIndexNationalBT);
+                RemoveRow(m_nRowIndexNationalBT);
                 m_nRowIndexNationalBT = -1;
             }
 
@@ -72,7 +74,7 @@ namespace StoryEditor
             }
             else if (m_nRowIndexInternationalBT != -1)
             {
-                tableLayoutPanelVerse.RemoveRow(m_nRowIndexInternationalBT);
+                RemoveRow(m_nRowIndexInternationalBT);
                 m_nRowIndexInternationalBT = -1;
             }
 
@@ -89,80 +91,47 @@ namespace StoryEditor
             }
             else if (m_nRowIndexAnchors != -1)
             {
-                // first remove any following exegetical helps rows
-                if (m_anRowIndexExegeticalHelps != null)
-                {
-                    for (int i = 0; i < m_anRowIndexExegeticalHelps.Length; i++)
-                        tableLayoutPanelVerse.RemoveRow(m_anRowIndexExegeticalHelps[i]);
-                    // TODO: don't I need to decrement the following rows (if any) by Length amount also?
-                    m_anRowIndexExegeticalHelps = null;
-                }
-
                 // now get rid of the anchor row
-                tableLayoutPanelVerse.RemoveRow(m_nRowIndexAnchors);
+                RemoveRow(m_nRowIndexAnchors);
                 m_nRowIndexAnchors = -1;
             }
 
-            this.tableLayoutPanelVerse.ResumeLayout(false);
-            this.tableLayoutPanelVerse.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
-            m_nWidth = nWidth;
-            SetSize(m_nWidth);
+            AdjustHeight();
         }
 
-        protected void InitExegeticalHelpRows(StoryProject.exegeticalHelpsRow anEHsRow, ref int nNumRows)
+        // if we insert or remove a row, we have to adjust the following indices
+        protected void InsertRow(int nLayoutRowIndex)
         {
-            if (m_anRowIndexExegeticalHelps == null)
-            {
-                StoryProject.exegeticalHelpRow[] aEHRows = anEHsRow.GetexegeticalHelpRows();
-                System.Diagnostics.Debug.Assert(aEHRows != null);
-                m_anRowIndexExegeticalHelps = new int[aEHRows.Length];
-                for (int i = 0; i < aEHRows.Length; i++)
-                {
-                    StoryProject.exegeticalHelpRow aEHRow = aEHRows[i];
-                    TextBox tb = new TextBox();
-                    tb.Name = cstrFieldNameExegeticalHelp + i.ToString();
-                    tb.Multiline = true;
-                    tb.Dock = DockStyle.Fill;
-                    tb.Text = aEHRow.quote;
-                    tb.TextChanged += new EventHandler(textBox_TextChanged);
-                    
-                    // add the label and tool strip as a new row to the table layout panel
-                    m_anRowIndexExegeticalHelps[i] = nNumRows++;
-                    tableLayoutPanelVerse.InsertRow(m_anRowIndexExegeticalHelps[i]);
-                    tableLayoutPanelVerse.Controls.Add(tb, 0, m_anRowIndexExegeticalHelps[i]);
-                    tableLayoutPanelVerse.SetColumnSpan(tb, 2); 
-                }
-            }
+            tableLayoutPanelVerse.InsertRow(nLayoutRowIndex);
+            if (m_nRowIndexNationalBT >= nLayoutRowIndex)
+                m_nRowIndexNationalBT++;
+            if (m_nRowIndexInternationalBT >= nLayoutRowIndex)
+                m_nRowIndexInternationalBT++;
+            if (m_nRowIndexAnchors >= nLayoutRowIndex)
+                m_nRowIndexAnchors++;
         }
 
-        protected void InitExegeticalHelpsRow(StoryEditor aSE, StoryProject.anchorRow anAnchorRow, ref int nNumRows)
+        protected void RemoveRow(int nLayoutRowIndex)
         {
-            StoryProject.exegeticalHelpsRow[] anEHsRow = anAnchorRow.GetexegeticalHelpsRows();
-            if ((anEHsRow != null) && (anEHsRow.Length > 0))
-                InitExegeticalHelpRows(anEHsRow[0], ref nNumRows);
+            tableLayoutPanelVerse.RemoveRow(nLayoutRowIndex);
+            if (m_nRowIndexNationalBT > nLayoutRowIndex)
+                m_nRowIndexNationalBT--;
+            if (m_nRowIndexInternationalBT > nLayoutRowIndex)
+                m_nRowIndexInternationalBT--;
+            if (m_nRowIndexAnchors > nLayoutRowIndex)
+                m_nRowIndexAnchors--;
         }
 
         protected void InitAnchors(StoryEditor aSE, StoryProject.anchorsRow anAnchorsRow, int nLayoutRow, ref int nNumRows)
         {
             if (!tableLayoutPanelVerse.Controls.ContainsKey(cstrFieldNameAnchors))
             {
-                ToolStrip ts = new ToolStrip();
-                ts.Text = ts.Name = cstrFieldNameAnchors;
+                AnchorControl anAnchorCtrl = new AnchorControl(this);
+                anAnchorCtrl.UpdateView(aSE, anAnchorsRow, (int)tableLayoutPanelVerse.ColumnStyles[1].Width);
 
-                // add the label and tool strip as a new row to the table layout panel
-                tableLayoutPanelVerse.InsertRow(nLayoutRow);
+                InsertRow(nLayoutRow);
                 tableLayoutPanelVerse.Controls.Add(labelAnchor, 0, nLayoutRow);
-                tableLayoutPanelVerse.Controls.Add(ts, 1, nLayoutRow);
-
-                // finally populate the buttons on that tool strip
-                foreach (StoryProject.anchorRow anAnchorRow in anAnchorsRow.GetanchorRows())
-                {
-                    InitAnchorButton(ts, anAnchorRow.jumpTarget, anAnchorRow.text);
-                    InitExegeticalHelpsRow(aSE, anAnchorRow, ref nNumRows);
-                }
+                tableLayoutPanelVerse.Controls.Add(anAnchorCtrl, 1, nLayoutRow);
             }
 #if DEBUG
             else
@@ -173,22 +142,11 @@ namespace StoryEditor
 #endif
         }
 
-        protected void InitAnchorButton(ToolStrip ts, string strJumpTarget, string strComment)
-        {
-            ToolStripButton aButton = new ToolStripButton();
-            aButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            aButton.Name = cstrFieldNameAnchor + strJumpTarget;
-            aButton.AutoSize = true;
-            aButton.Text = strJumpTarget;
-            aButton.ToolTipText = strComment;
-            ts.Items.Add(aButton);
-        }
-
         protected void InitTextBox(string strTbName, string strTbLabel, string strTbText, Font font, Color color, int nLayoutRow)
         {
             if (!tableLayoutPanelVerse.Controls.ContainsKey(strTbName + cstrSuffixLabel))
             {
-                tableLayoutPanelVerse.InsertRow(nLayoutRow);
+                InsertRow(nLayoutRow);
 
                 // add the column0 row label
                 Label lbl = new Label();
@@ -226,14 +184,14 @@ namespace StoryEditor
 #endif
         }
 
-        private void textBox_TextChanged(object sender, EventArgs e)
+        protected void textBox_TextChanged(object sender, EventArgs e)
         {
             TextBox tb = (TextBox)sender;
             if (ResizeTextBoxToFitText(tb))
-                SetSize(m_nWidth);
+                AdjustHeight();
         }
 
-        protected bool ResizeTextBoxToFitText(TextBox tb)
+        internal bool ResizeTextBoxToFitText(TextBox tb)
         {
             Size sz = tb.GetPreferredSize(new Size(tb.Width, 1000));
             bool bHeightChanged = (sz.Height != tb.Size.Height);
@@ -242,11 +200,13 @@ namespace StoryEditor
             return bHeightChanged;
         }
 
-        protected void SetSize(int nWidth)
+
+        internal void AdjustHeight()
         {
             this.tableLayoutPanelVerse.SuspendLayout();
             this.SuspendLayout();
 
+            /*
             // go thru all the controls and ...
             foreach (Control aCtrl in tableLayoutPanelVerse.Controls)
             {
@@ -257,8 +217,9 @@ namespace StoryEditor
                     TextBox tb = (TextBox)aCtrl;
                     ResizeTextBoxToFitText(tb);
                 }
-                catch { /* skip any non-text boxes */ }
+                catch { } // skip any non-text boxes
             }
+            */
 
             // do a similar thing with the layout panel (i.e. give it the same width and infinite height.
             Size sz = this.tableLayoutPanelVerse.GetPreferredSize(new Size(tableLayoutPanelVerse.Width, 1000));

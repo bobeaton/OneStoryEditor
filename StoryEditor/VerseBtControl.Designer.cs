@@ -63,7 +63,7 @@
             // 
             // labelAnchor
             // 
-            this.labelAnchor.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.labelAnchor.Anchor = System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Top;
             this.labelAnchor.AutoSize = true;
             this.labelAnchor.Location = new System.Drawing.Point(3, 112);
             this.labelAnchor.Name = "labelAnchor";

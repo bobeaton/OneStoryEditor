@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tableLayoutPanelAnchor = new System.Windows.Forms.TableLayoutPanel();
-            this.textBoxAnchor = new System.Windows.Forms.TextBox();
+            this.tableLayoutPanelAnchor = new DynamicTableLayoutPanel();
+            this.toolStripAnchors = new System.Windows.Forms.ToolStrip();
             this.tableLayoutPanelAnchor.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -37,24 +37,23 @@
             // 
             this.tableLayoutPanelAnchor.ColumnCount = 1;
             this.tableLayoutPanelAnchor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelAnchor.Controls.Add(this.textBoxAnchor, 0, 0);
+            this.tableLayoutPanelAnchor.Controls.Add(this.toolStripAnchors, 0, 0);
             this.tableLayoutPanelAnchor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelAnchor.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanelAnchor.Name = "tableLayoutPanelAnchor";
-            this.tableLayoutPanelAnchor.RowCount = 2;
+            this.tableLayoutPanelAnchor.RowCount = 1;
             this.tableLayoutPanelAnchor.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelAnchor.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelAnchor.Size = new System.Drawing.Size(706, 230);
+            this.tableLayoutPanelAnchor.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 230F));
+            this.tableLayoutPanelAnchor.Size = new System.Drawing.Size(706, 54);
             this.tableLayoutPanelAnchor.TabIndex = 0;
             // 
-            // textBoxAnchor
+            // toolStripAnchors
             // 
-            this.textBoxAnchor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxAnchor.Location = new System.Drawing.Point(3, 3);
-            this.textBoxAnchor.Multiline = true;
-            this.textBoxAnchor.Name = "textBoxAnchor";
-            this.textBoxAnchor.Size = new System.Drawing.Size(700, 22);
-            this.textBoxAnchor.TabIndex = 0;
+            this.toolStripAnchors.Location = new System.Drawing.Point(0, 0);
+            this.toolStripAnchors.Name = "toolStripAnchors";
+            this.toolStripAnchors.Size = new System.Drawing.Size(706, 25);
+            this.toolStripAnchors.TabIndex = 0;
+            this.toolStripAnchors.Text = "toolStrip1";
             // 
             // AnchorControl
             // 
@@ -62,7 +61,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanelAnchor);
             this.Name = "AnchorControl";
-            this.Size = new System.Drawing.Size(706, 230);
+            this.Size = new System.Drawing.Size(706, 54);
             this.tableLayoutPanelAnchor.ResumeLayout(false);
             this.tableLayoutPanelAnchor.PerformLayout();
             this.ResumeLayout(false);
@@ -71,7 +70,7 @@
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanelAnchor;
-        private System.Windows.Forms.TextBox textBoxAnchor;
+        private DynamicTableLayoutPanel tableLayoutPanelAnchor;
+        private System.Windows.Forms.ToolStrip toolStripAnchors;
     }
 }
