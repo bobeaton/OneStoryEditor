@@ -39,9 +39,10 @@ namespace OneStoryProjectEditor
         MarkupFilterMgr filterManager;
         SWMgr manager;
         SWModule moduleVersion = null;
+        NetBibleFootnoteTooltip tooltipNBFNs = null;
         String m_strBookName, m_strChapterNumber, m_strVerseNumber;
 
-        // string verseLineBreak = "<br />";
+        string verseLineBreak = "<br />";
         string preDocumentDOMScript = "<script>" +
             "function OpenHoverWindow(link)" +
             "{" +
@@ -288,7 +289,7 @@ namespace OneStoryProjectEditor
                 StringBuilder sb = new StringBuilder();
                 while (verseKey.Chapter() == chapter && verseKey.Book() == book && verseKey.Error() == '\0')
                 {
-                    sb.Append("<span style=\"color: #3366FF\">" + verseKey.getShortText() + "</span> " + moduleVersion.RenderText(verseKey));
+                    sb.Append("<span style=\"color: #3366FF\">" + verseKey.getShortText() + "</span> " + moduleVersion.RenderText(verseKey) + verseLineBreak);
                     verseKey.Verse(verseKey.Verse() + 1);
                 }
 
@@ -323,6 +324,34 @@ namespace OneStoryProjectEditor
 
             toolStripComboBoxVerseNumber.SelectedItem = m_strVerseNumber = aStrTokens[2];
             // TODO: make the verse the user requested come forward
+        }
+
+        public void ShowHoverOver(string s)
+        {
+            if (tooltipNBFNs != null)
+            {
+                if (tooltipNBFNs.Tag.Equals(s)) 
+                    return; //leave if we are already displaying this tool tip
+
+                //if there is a different tooltip showing destroy it
+                tooltipNBFNs.Dispose();
+                tooltipNBFNs = null;
+            }
+            // Point ptTooltip = new Point(Cursor.Position.X - ClientRectangle.Left, Cursor.Position.Y - ClientRectangle.Top);
+            Point ptTooltip = Cursor.Position;
+            ptTooltip.Offset(-ClientRectangle.Location.X + 20, -ClientRectangle.Location.Y - 20);
+            tooltipNBFNs = new NetBibleFootnoteTooltip(s, ptTooltip);
+            tooltipNBFNs.Show();
+        }
+
+        public void HideHoverOver()
+        {
+            if (tooltipNBFNs != null)
+            {
+                //if there is a different tooltip showing destroy it
+                tooltipNBFNs.Dispose();
+                tooltipNBFNs = null;
+            }
         }
 
         protected static string[] GetModuleLocations()

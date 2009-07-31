@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{EE63B2ED-1488-491F-990A-3FA16E2DB135}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -79,6 +79,12 @@
     <Compile Include="DynamicTableLayoutPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="NetBibleFootnoteTooltip.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NetBibleFootnoteTooltip.designer.cs">
+      <DependentUpon>NetBibleFootnoteTooltip.cs</DependentUpon>
+    </Compile>
     <Compile Include="StoryEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -89,6 +95,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AnchorControl.resx">
       <DependentUpon>AnchorControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NetBibleFootnoteTooltip.resx">
+      <DependentUpon>NetBibleFootnoteTooltip.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="StoryEditor.resx">
