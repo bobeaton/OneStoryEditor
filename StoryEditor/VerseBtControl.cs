@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace StoryEditor
+namespace OneStoryProjectEditor
 {
     public partial class VerseBtControl : UserControl
     {
@@ -31,19 +31,18 @@ namespace StoryEditor
             this.labelReference.Text = String.Format("Verse: {0}", nVerseNumber);
         }
 
+#if DEBUG
+        protected List<TextBox> m_lstTb = new List<TextBox>();
+        protected AnchorControl m_anAnchorCtrl = null;
+#endif
+
         public void UpdateView(StoryEditor aSE, int nWidth)
         {
-            // set the width to the new width given by caller
-            this.SuspendLayout();
             this.tableLayoutPanelVerse.SuspendLayout();
+            this.SuspendLayout();
 
-            tableLayoutPanelVerse.Width = this.Width = nWidth - this.Margin.Left - SystemInformation.VerticalScrollBarWidth;
+            this.Width = nWidth;
             
-            this.tableLayoutPanelVerse.ResumeLayout(false);
-            this.tableLayoutPanelVerse.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
             int nNumRows = 1;
             if (aSE.viewVernacularLangFieldMenuItem.Checked)
             {
@@ -96,7 +95,37 @@ namespace StoryEditor
                 m_nRowIndexAnchors = -1;
             }
 
+            this.tableLayoutPanelVerse.ResumeLayout(false);
+            this.tableLayoutPanelVerse.PerformLayout();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+            this.tableLayoutPanelVerse.SuspendLayout();
+            this.SuspendLayout();
+
+            // tableLayoutPanelVerse.Width = this.Width = nWidth - this.Margin.Left - SystemInformation.VerticalScrollBarWidth;
+            foreach (Control aCtrl in tableLayoutPanelVerse.Controls)
+            {
+                try
+                {
+                    // for all the text boxes, set them to the fixed width, but high as possible (so it will limit
+                    //  at whatever is neede)
+                    TextBox tb = (TextBox)aCtrl;
+                    ResizeTextBoxToFitText(tb);
+                }
+                catch { } // skip any non-text boxes
+            }
+            m_anAnchorCtrl.UpdateView(tableLayoutPanelVerse.Width - tableLayoutPanelVerse.Margin.Left - tableLayoutPanelVerse.Margin.Right);
+
+            tableLayoutPanelVerse.DumpTable();
             AdjustHeight();
+
+            this.tableLayoutPanelVerse.ResumeLayout(false);
+            this.tableLayoutPanelVerse.PerformLayout();
+            tableLayoutPanelVerse.DumpTable();
+
+            this.ResumeLayout(false);
+            this.PerformLayout();
         }
 
         // if we insert or remove a row, we have to adjust the following indices
@@ -126,18 +155,18 @@ namespace StoryEditor
         {
             if (!tableLayoutPanelVerse.Controls.ContainsKey(cstrFieldNameAnchors))
             {
-                AnchorControl anAnchorCtrl = new AnchorControl(this);
-                anAnchorCtrl.UpdateView(aSE, anAnchorsRow, (int)tableLayoutPanelVerse.ColumnStyles[1].Width);
-
+                m_anAnchorCtrl = new AnchorControl(anAnchorsRow);
+                m_anAnchorCtrl.Name = cstrFieldNameAnchors;
+                
                 InsertRow(nLayoutRow);
-                tableLayoutPanelVerse.Controls.Add(labelAnchor, 0, nLayoutRow);
-                tableLayoutPanelVerse.Controls.Add(anAnchorCtrl, 1, nLayoutRow);
+                tableLayoutPanelVerse.SetColumnSpan(m_anAnchorCtrl, 2);
+                tableLayoutPanelVerse.Controls.Add(m_anAnchorCtrl, 0, nLayoutRow);
             }
 #if DEBUG
             else
             {
                 Control ctrl = tableLayoutPanelVerse.GetControlFromPosition(1, nLayoutRow);
-                System.Diagnostics.Debug.Assert((ctrl.Name == cstrFieldNameAnchors) && ((ToolStrip)ctrl).Items.Count == anAnchorsRow.GetanchorRows().Length);
+                System.Diagnostics.Debug.Assert(ctrl.Name == cstrFieldNameAnchors);
             }
 #endif
         }
@@ -174,6 +203,7 @@ namespace StoryEditor
                 tb.Text = strTbText;
                 tb.TextChanged += new EventHandler(textBox_TextChanged);
                 this.tableLayoutPanelVerse.Controls.Add(tb, 1, nLayoutRow);
+                m_lstTb.Add(tb);
             }
 #if DEBUG
             else
@@ -188,47 +218,35 @@ namespace StoryEditor
         {
             TextBox tb = (TextBox)sender;
             if (ResizeTextBoxToFitText(tb))
+            {
+                this.SuspendLayout();
+                this.tableLayoutPanelVerse.SuspendLayout();
+
                 AdjustHeight();
+
+                this.tableLayoutPanelVerse.ResumeLayout(false);
+                this.tableLayoutPanelVerse.PerformLayout();
+                this.ResumeLayout(false);
+                this.PerformLayout();
+            }
         }
 
-        internal bool ResizeTextBoxToFitText(TextBox tb)
+        internal static bool ResizeTextBoxToFitText(TextBox tb)
         {
             Size sz = tb.GetPreferredSize(new Size(tb.Width, 1000));
             bool bHeightChanged = (sz.Height != tb.Size.Height);
             if (bHeightChanged)
-                tb.Size = sz;
+                tb.Height = sz.Height;
             return bHeightChanged;
         }
 
-
         internal void AdjustHeight()
         {
-            this.tableLayoutPanelVerse.SuspendLayout();
-            this.SuspendLayout();
-
-            /*
-            // go thru all the controls and ...
-            foreach (Control aCtrl in tableLayoutPanelVerse.Controls)
-            {
-                try
-                {
-                    // for all the text boxes, set them to the fixed width, but high as possible (so it will limit
-                    //  at whatever is neede)
-                    TextBox tb = (TextBox)aCtrl;
-                    ResizeTextBoxToFitText(tb);
-                }
-                catch { } // skip any non-text boxes
-            }
-            */
-
             // do a similar thing with the layout panel (i.e. give it the same width and infinite height.
-            Size sz = this.tableLayoutPanelVerse.GetPreferredSize(new Size(tableLayoutPanelVerse.Width, 1000));
-            sz.Height += tableLayoutPanelVerse.Margin.Bottom;
-            this.tableLayoutPanelVerse.Size = this.Size = sz;
-
-            this.tableLayoutPanelVerse.ResumeLayout(false);
-            this.tableLayoutPanelVerse.PerformLayout();
-            this.ResumeLayout(false);
+            // for some reason GetPreferredSize doesn't give the actual right size... so I'll write my own
+            // Size sz = this.tableLayoutPanelVerse.GetPreferredSize(new Size(tableLayoutPanelVerse.Width, 1000));
+            this.tableLayoutPanelVerse.Height = tableLayoutPanelVerse.GetPreferredHeight();
+            this.Height = tableLayoutPanelVerse.Height + tableLayoutPanelVerse.Margin.Top + tableLayoutPanelVerse.Margin.Bottom;
         }
     }
 }

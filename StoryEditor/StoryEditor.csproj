@@ -8,7 +8,7 @@
     <ProjectGuid>{EE63B2ED-1488-491F-990A-3FA16E2DB135}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>StoryEditor</RootNamespace>
+    <RootNamespace>OneStoryProjectEditor</RootNamespace>
     <AssemblyName>StoryEditor</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

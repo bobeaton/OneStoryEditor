@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace StoryEditor
+namespace OneStoryProjectEditor
 {
     // have to make this com visible, because 'this' needs to be visible to COM for the 
     // call to: webBrowserNetBible.ObjectForScripting = this;

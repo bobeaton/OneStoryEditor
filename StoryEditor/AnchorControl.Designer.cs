@@ -1,4 +1,4 @@
-﻿namespace StoryEditor
+﻿namespace OneStoryProjectEditor
 {
     partial class AnchorControl
     {
@@ -28,30 +28,43 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tableLayoutPanelAnchor = new DynamicTableLayoutPanel();
+            this.tableLayoutPanelAnchor = new OneStoryProjectEditor.DynamicTableLayoutPanel();
+            this.labelAnchor = new System.Windows.Forms.Label();
             this.toolStripAnchors = new System.Windows.Forms.ToolStrip();
             this.tableLayoutPanelAnchor.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanelAnchor
             // 
-            this.tableLayoutPanelAnchor.ColumnCount = 1;
+            this.tableLayoutPanelAnchor.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.tableLayoutPanelAnchor.ColumnCount = 2;
+            this.tableLayoutPanelAnchor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelAnchor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelAnchor.Controls.Add(this.toolStripAnchors, 0, 0);
+            this.tableLayoutPanelAnchor.Controls.Add(this.labelAnchor, 0, 0);
+            this.tableLayoutPanelAnchor.Controls.Add(this.toolStripAnchors, 1, 0);
             this.tableLayoutPanelAnchor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelAnchor.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanelAnchor.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanelAnchor.Name = "tableLayoutPanelAnchor";
             this.tableLayoutPanelAnchor.RowCount = 1;
             this.tableLayoutPanelAnchor.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelAnchor.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 230F));
-            this.tableLayoutPanelAnchor.Size = new System.Drawing.Size(706, 54);
+            this.tableLayoutPanelAnchor.Size = new System.Drawing.Size(706, 28);
             this.tableLayoutPanelAnchor.TabIndex = 0;
+            // 
+            // labelAnchor
+            // 
+            this.labelAnchor.AutoSize = true;
+            this.labelAnchor.Location = new System.Drawing.Point(4, 1);
+            this.labelAnchor.Name = "labelAnchor";
+            this.labelAnchor.Size = new System.Drawing.Size(28, 13);
+            this.labelAnchor.TabIndex = 8;
+            this.labelAnchor.Text = "anc:";
             // 
             // toolStripAnchors
             // 
-            this.toolStripAnchors.Location = new System.Drawing.Point(0, 0);
+            this.toolStripAnchors.Location = new System.Drawing.Point(36, 1);
             this.toolStripAnchors.Name = "toolStripAnchors";
-            this.toolStripAnchors.Size = new System.Drawing.Size(706, 25);
+            this.toolStripAnchors.Size = new System.Drawing.Size(669, 25);
             this.toolStripAnchors.TabIndex = 0;
             this.toolStripAnchors.Text = "toolStrip1";
             // 
@@ -61,7 +74,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanelAnchor);
             this.Name = "AnchorControl";
-            this.Size = new System.Drawing.Size(706, 54);
+            this.Size = new System.Drawing.Size(706, 28);
             this.tableLayoutPanelAnchor.ResumeLayout(false);
             this.tableLayoutPanelAnchor.PerformLayout();
             this.ResumeLayout(false);
@@ -72,5 +85,6 @@
 
         private DynamicTableLayoutPanel tableLayoutPanelAnchor;
         private System.Windows.Forms.ToolStrip toolStripAnchors;
+        private System.Windows.Forms.Label labelAnchor;
     }
 }

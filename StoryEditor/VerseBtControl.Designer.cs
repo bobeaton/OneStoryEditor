@@ -1,4 +1,4 @@
-﻿namespace StoryEditor
+﻿namespace OneStoryProjectEditor
 {
     partial class VerseBtControl
     {
@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VerseBtControl));
             this.labelReference = new System.Windows.Forms.Label();
             this.tableLayoutPanelVerse = new DynamicTableLayoutPanel();
-            this.labelAnchor = new System.Windows.Forms.Label();
             this.toolStripAnchors = new System.Windows.Forms.ToolStrip();
             this.toolStripButtonNewAnchor = new System.Windows.Forms.ToolStripButton();
             this.tableLayoutPanelVerse.SuspendLayout();
@@ -60,16 +59,6 @@
             this.tableLayoutPanelVerse.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelVerse.Size = new System.Drawing.Size(669, 225);
             this.tableLayoutPanelVerse.TabIndex = 1;
-            // 
-            // labelAnchor
-            // 
-            this.labelAnchor.Anchor = System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Top;
-            this.labelAnchor.AutoSize = true;
-            this.labelAnchor.Location = new System.Drawing.Point(3, 112);
-            this.labelAnchor.Name = "labelAnchor";
-            this.labelAnchor.Size = new System.Drawing.Size(28, 13);
-            this.labelAnchor.TabIndex = 7;
-            this.labelAnchor.Text = "anc:";
             // 
             // toolStripAnchors
             // 
@@ -101,7 +90,6 @@
             this.tableLayoutPanelVerse.ResumeLayout(false);
             this.tableLayoutPanelVerse.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -109,7 +97,6 @@
 
         private System.Windows.Forms.Label labelReference;
         private DynamicTableLayoutPanel tableLayoutPanelVerse;
-        private System.Windows.Forms.Label labelAnchor;
         private System.Windows.Forms.ToolStrip toolStripAnchors;
         private System.Windows.Forms.ToolStripButton toolStripButtonNewAnchor;
     }

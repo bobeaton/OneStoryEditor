@@ -1,4 +1,4 @@
-﻿namespace StoryEditor
+﻿namespace OneStoryProjectEditor
 {
     partial class StoryEditor
     {
@@ -414,7 +414,7 @@
             // toolStripButtonPrevBook
             // 
             this.toolStripButtonPrevBook.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonPrevBook.Image = global::StoryEditor.Properties.Resources.GoRtlHS;
+            this.toolStripButtonPrevBook.Image = global::OneStoryProjectEditor.Properties.Resources.GoRtlHS;
             this.toolStripButtonPrevBook.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonPrevBook.Name = "toolStripButtonPrevBook";
             this.toolStripButtonPrevBook.Size = new System.Drawing.Size(23, 22);
@@ -425,7 +425,7 @@
             // toolStripButtonNextBook
             // 
             this.toolStripButtonNextBook.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonNextBook.Image = global::StoryEditor.Properties.Resources.GoLtrHS;
+            this.toolStripButtonNextBook.Image = global::OneStoryProjectEditor.Properties.Resources.GoLtrHS;
             this.toolStripButtonNextBook.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonNextBook.Name = "toolStripButtonNextBook";
             this.toolStripButtonNextBook.Size = new System.Drawing.Size(23, 22);
@@ -446,7 +446,7 @@
             // toolStripButtonPrevChap
             // 
             this.toolStripButtonPrevChap.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonPrevChap.Image = global::StoryEditor.Properties.Resources.GoRtlHS;
+            this.toolStripButtonPrevChap.Image = global::OneStoryProjectEditor.Properties.Resources.GoRtlHS;
             this.toolStripButtonPrevChap.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonPrevChap.Name = "toolStripButtonPrevChap";
             this.toolStripButtonPrevChap.Size = new System.Drawing.Size(23, 22);
@@ -456,7 +456,7 @@
             // toolStripButtonNextChap
             // 
             this.toolStripButtonNextChap.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonNextChap.Image = global::StoryEditor.Properties.Resources.GoLtrHS;
+            this.toolStripButtonNextChap.Image = global::OneStoryProjectEditor.Properties.Resources.GoLtrHS;
             this.toolStripButtonNextChap.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonNextChap.Name = "toolStripButtonNextChap";
             this.toolStripButtonNextChap.Size = new System.Drawing.Size(23, 22);
@@ -477,7 +477,7 @@
             // toolStripButtonPrevVerse
             // 
             this.toolStripButtonPrevVerse.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonPrevVerse.Image = global::StoryEditor.Properties.Resources.GoRtlHS;
+            this.toolStripButtonPrevVerse.Image = global::OneStoryProjectEditor.Properties.Resources.GoRtlHS;
             this.toolStripButtonPrevVerse.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonPrevVerse.Name = "toolStripButtonPrevVerse";
             this.toolStripButtonPrevVerse.Size = new System.Drawing.Size(23, 22);
@@ -488,7 +488,7 @@
             // toolStripButtonNextVerse
             // 
             this.toolStripButtonNextVerse.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonNextVerse.Image = global::StoryEditor.Properties.Resources.GoLtrHS;
+            this.toolStripButtonNextVerse.Image = global::OneStoryProjectEditor.Properties.Resources.GoLtrHS;
             this.toolStripButtonNextVerse.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonNextVerse.Name = "toolStripButtonNextVerse";
             this.toolStripButtonNextVerse.Size = new System.Drawing.Size(23, 22);

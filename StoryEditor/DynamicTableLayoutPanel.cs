@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 
-namespace StoryEditor
+namespace OneStoryProjectEditor
 {
     /// <summary>
     /// Add the ability to remove a row of the table layout panel (which turns out to be 
@@ -56,17 +56,34 @@ namespace StoryEditor
             this.RowStyles.RemoveAt(RowCount);
         }
 
-        protected void DumpTable()
+        public void DumpTable()
         {
             for (int i = 0; i < this.RowCount; i++)
                 for (int j = 0; j < this.ColumnCount; j++)
                 {
                     Control ctrl = this.GetControlFromPosition(j, i);
                     if (ctrl != null)
-                        System.Diagnostics.Debug.WriteLine(String.Format("ctrl(row:{0},column:{1}).Name: {2}", i, j, ctrl.ToString()));
+                        System.Diagnostics.Debug.WriteLine(String.Format("ctrl(row:{0},column:{1}).Name: {2}; Width: {3}; Height: {4}", i, j, ctrl.ToString(), ctrl.Width.ToString(), ctrl.Height.ToString()));
                     else
                         System.Diagnostics.Debug.WriteLine(String.Format("NO CTRL at: row:{0}, column:{1}", i, j));
                 }
+        }
+
+        public int GetPreferredHeight()
+        {
+            int nHeight = 0;
+            for (int i = 0; i < this.RowCount; i++)
+            {
+                int nRowHeight = 0;
+                for (int j = 0; j < this.ColumnCount; j++)
+                {
+                    Control ctrl = this.GetControlFromPosition(j, i);
+                    if (ctrl != null)
+                        nRowHeight = Math.Max(nRowHeight, ctrl.Height);
+                }
+                nHeight += nRowHeight + this.Margin.Vertical + 10;
+            }
+            return nHeight;
         }
     }
 }
