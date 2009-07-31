@@ -9,20 +9,24 @@ namespace OneStoryProjectEditor
 {
     public partial class ResizableControl : UserControl
     {
+        protected ResizableControl ParentControl = null;
+
+        protected delegate void ReheightAllControlsDelegate();
+
         public ResizableControl()
         {
             InitializeComponent();
         }
 
         /// <summary>
-        /// UpdateView is implemented by subclasses to add controls to the TableLayoutPanel
+        /// UpdateView is implemented by subclasses to turn on and off controls in the TableLayoutPanel
+        /// based on view menu settings in the parent frame (aSE)
         /// </summary>
         /// <param name="aSE">This parameter is used to give access to the main window (for things like, what view items are enabled, etc)</param>
         /// <param name="nWidth">This parameter is used to fix the width of the control (the parent knows what the width is)</param>
-        public virtual void UpdateView(StoryEditor aSE, int nWidth)
+        public virtual void UpdateView(StoryEditor aSE)
         {
-            UpdateViewInit(nWidth);
-            UpdateViewFini(aSE, nWidth);
+            // only subclasses know what to do here...
         }
 
         /// <summary>
@@ -30,45 +34,26 @@ namespace OneStoryProjectEditor
         /// Subclasses will call this at the start of their implementation of UpdateView
         /// </summary>
         /// <param name="nWidth">This parameter is used to fix the width of the control (the parent knows what the width is)</param>
-        protected void UpdateViewInit(int nWidth)
+        public void UpdateHeight(int nWidth)
         {
-            this.tableLayoutPanel.SuspendLayout();
-            this.SuspendLayout();
-
-            this.Width = nWidth;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        protected void UpdateViewFini(StoryEditor aSE, int nWidth)
-        {
-            // first resume and perform the layout. This causes all, for example, Dock=Fill TextBox's to have their width's set
-            this.tableLayoutPanel.ResumeLayout(false);
-            this.tableLayoutPanel.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
-            // now suspend the layout again because we're going to get their preferred height (based on 
-            //  fully displaying the text in them and adjust them accordingly).
-            this.tableLayoutPanel.SuspendLayout();
-            this.SuspendLayout();
-
-            //  Resize all of the Text boxes to fit and tell all sub-controls of this same type to resize themselves also.
-            foreach (Control aCtrl in tableLayoutPanel.Controls)
+            if (this.Width != nWidth)
             {
-                if (aCtrl.GetType() == typeof(TextBox))
-                    ResizeTextBoxToFitText((TextBox)aCtrl);
-                else if (aCtrl.GetType() == typeof(ResizableControl))
-                    ((ResizableControl)aCtrl).UpdateView(aSE, tableLayoutPanel.Width - tableLayoutPanel.Margin.Horizontal);
+                this.tableLayoutPanel.SuspendLayout();
+                this.SuspendLayout();
+
+                this.Width = nWidth;
+
+                // first resume and perform the layout. This causes all, for example, Dock=Fill TextBox's 
+                // to have their width's set
+                this.tableLayoutPanel.ResumeLayout(false);
+                this.tableLayoutPanel.PerformLayout();
+                this.ResumeLayout(false);
+                this.PerformLayout();
             }
 
-            AdjustHeight();
-
-            this.tableLayoutPanel.ResumeLayout(false);
-            this.tableLayoutPanel.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            // now reheight all the controls
+            ReheightAllControlsDelegate myDelegate = new ReheightAllControlsDelegate(ReheightAllControls);
+            AdjustHeightWithSuspendLayout(myDelegate);
         }
 
         // if we insert or remove a row, we have to adjust the following indices
@@ -86,29 +71,59 @@ namespace OneStoryProjectEditor
         {
             TextBox tb = (TextBox)sender;
             if (ResizeTextBoxToFitText(tb))
+                AdjustHeightWithSuspendLayout(null);
+        }
+
+        protected void ReheightAllControls()
+        {
+            //  Resize all of the Text boxes to fit and tell all sub-controls of this same type to resize 
+            //  themselves also.
+            foreach (Control aCtrl in tableLayoutPanel.Controls)
             {
-                this.SuspendLayout();
-                this.tableLayoutPanel.SuspendLayout();
-
-                AdjustHeight();
-
-                if ((Parent != null) && (Parent.GetType() == typeof(ResizableControl)))
-                    ((ResizableControl)Parent).AdjustHeight();
-
-                this.tableLayoutPanel.ResumeLayout(false);
-                this.tableLayoutPanel.PerformLayout();
-                this.ResumeLayout(false);
-                this.PerformLayout();
+                if (aCtrl.GetType() == typeof(TextBox))
+                    ResizeTextBoxToFitText((TextBox)aCtrl);
+                else if (aCtrl.GetType() == typeof(ResizableControl))
+                    ((ResizableControl)aCtrl).UpdateHeight(tableLayoutPanel.Width - tableLayoutPanel.Margin.Horizontal);
             }
+        }
+
+        /// <summary>
+        /// This method is called from two directions: it's called (via UpdateView) when the user has 
+        /// changed the width of the panel that this control is in (after UpdateView re-width's 'this'),
+        /// which means that all the controls embedded in this control must be re-height'd as well.
+        /// In this case, it is appropriate to pass the delegate for the "ReheightAllControls" so that
+        /// that method can be called just prior to calling Adjust Height.
+        /// The other direction this is called is when the user has forced an increase in a Text box
+        /// that is necessatiating the parent control(s) (possibly all the way up the chain) to reheight
+        /// themselves as well. In this case, we don't need to resize all the controls in any given
+        /// form, but again, all the way up the chain.
+        /// </summary>
+        /// <param name="myDelegate"></param>
+        protected void AdjustHeightWithSuspendLayout(ReheightAllControlsDelegate myDelegate)
+        {
+            this.SuspendLayout();
+            this.tableLayoutPanel.SuspendLayout();
+
+            if (myDelegate != null)
+                myDelegate();
+
+            AdjustHeight();
+
+            this.tableLayoutPanel.ResumeLayout(false);
+            this.tableLayoutPanel.PerformLayout();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+            if (ParentControl != null)
+                ParentControl.AdjustHeightWithSuspendLayout(null);
         }
 
         protected void AdjustHeight()
         {
             // do a similar thing with the layout panel (i.e. give it the same width and infinite height.
             // for some reason GetPreferredSize doesn't give the actual right size... so I'll write my own
-            // Size sz = this.tableLayoutPanelVerse.GetPreferredSize(new Size(tableLayoutPanelVerse.Width, 1000));
-            this.tableLayoutPanel.Height = tableLayoutPanel.GetPreferredHeight();
-            this.Height = tableLayoutPanel.Height + tableLayoutPanel.Margin.Vertical;
+            int nTableLayoutPanel = tableLayoutPanel.GetPreferredHeight();
+            this.Height = nTableLayoutPanel + tableLayoutPanel.Margin.Vertical;
         }
 
         protected static bool ResizeTextBoxToFitText(TextBox tb)

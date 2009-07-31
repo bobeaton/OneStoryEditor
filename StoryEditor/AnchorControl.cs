@@ -14,12 +14,9 @@ namespace OneStoryProjectEditor
         protected const string cstrFieldNameAnchor = "AnchorButton";
         protected const string cstrFieldNameExegeticalHelp = "ExegeticalHelp";
 
-#if DEBUG
-        protected List<TextBox> m_lstTb = new List<TextBox>();
-#endif
-
-        public AnchorControl(StoryProject.anchorsRow anAnchorsRow)
+        public AnchorControl(ResizableControl ctrlParent, StoryProject.anchorsRow anAnchorsRow)
         {
+            ParentControl = ctrlParent;
             InitializeComponent();
 
             this.tableLayoutPanel.SuspendLayout();
@@ -38,9 +35,7 @@ namespace OneStoryProjectEditor
             }
 
             this.tableLayoutPanel.ResumeLayout(false);
-            this.tableLayoutPanel.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
         }
 
         protected void InitAnchorButton(ToolStrip ts, string strJumpTarget, string strComment)
@@ -67,7 +62,6 @@ namespace OneStoryProjectEditor
                 tb.Dock = DockStyle.Fill;
                 tb.Text = aEHRow.quote;
                 tb.TextChanged += new EventHandler(textBox_TextChanged);
-                m_lstTb.Add(tb);
 
                 // add the label and tool strip as a new row to the table layout panel
                 int nLayoutRow = nNumRows++;

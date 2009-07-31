@@ -81,7 +81,7 @@ namespace OneStoryProjectEditor
                     if (ctrl != null)
                         nRowHeight = Math.Max(nRowHeight, ctrl.Height);
                 }
-                nHeight += nRowHeight + this.Margin.Vertical;
+                nHeight += nRowHeight;
             }
             return nHeight;
         }

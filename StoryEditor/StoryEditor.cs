@@ -176,8 +176,8 @@ namespace OneStoryProjectEditor
                 int i = 1;
                 foreach (StoryProject.verseRow aRow in m_projFile.stories[0].GetstoryRows()[0].GetversesRows()[0].GetverseRows())
                 {
-                    VerseBtControl aVerseCtrl = new VerseBtControl(i++, aRow);
-                    aVerseCtrl.UpdateView(this, Panel1_Width);
+                    VerseBtControl aVerseCtrl = new VerseBtControl(this, aRow, i++);
+                    aVerseCtrl.UpdateHeight(Panel1_Width);
                     flowLayoutPanelVerses.Controls.Add(aVerseCtrl);
                 }
             }
@@ -436,7 +436,10 @@ namespace OneStoryProjectEditor
         protected void UpdateVersePanel()
         {
             foreach (VerseBtControl aVerseCtrl in flowLayoutPanelVerses.Controls)
-                aVerseCtrl.UpdateView(this, Panel1_Width);
+            {
+                aVerseCtrl.UpdateView(this);
+                aVerseCtrl.UpdateHeight(Panel1_Width);
+            }
         }
 
         private void viewFieldMenuItem_CheckedChanged(object sender, EventArgs e)

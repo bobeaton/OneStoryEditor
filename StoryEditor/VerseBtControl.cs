@@ -19,29 +19,32 @@ namespace OneStoryProjectEditor
         protected const string cstrFieldNameInternationalBT = "InternationalBT";
         protected const string cstrFieldNameAnchors = "Anchors";
 
-        protected StoryProject.verseRow m_aVerse = null;
-        protected int m_nRowIndexVernacular = -1, m_nRowIndexNationalBT = -1, m_nRowIndexInternationalBT = -1,
-            m_nRowIndexAnchors = -1;
+        protected StoryProject.verseRow m_aVerse = null;   // TODO: change this isn't a class that can do linq writes
+        protected int m_nRowIndexVernacular = -1;
+        protected int m_nRowIndexNationalBT = -1;
+        protected int m_nRowIndexInternationalBT = -1;
+        protected int m_nRowIndexAnchors = -1;
 
-        public VerseBtControl(int nVerseNumber, StoryProject.verseRow aVerse)
+        public VerseBtControl(StoryEditor aSE, StoryProject.verseRow aVerse, int nVerseNumber)
         {
             InitializeComponent();
 
-            m_aVerse = aVerse;
+            this.tableLayoutPanel.SuspendLayout();
+            this.SuspendLayout();
+
             this.labelReference.Text = String.Format("Verse: {0}", nVerseNumber);
             this.tableLayoutPanel.SetColumnSpan(this.labelReference, 2);
             this.tableLayoutPanel.Controls.Add(this.labelReference);
+
+            m_aVerse = aVerse;
+            UpdateView(aSE);
+
+            this.tableLayoutPanel.ResumeLayout(false);
+            this.ResumeLayout(false);
         }
 
-#if DEBUG
-        protected List<TextBox> m_lstTb = new List<TextBox>();
-        protected AnchorControl m_anAnchorCtrl = null;
-#endif
-
-        public override void UpdateView(StoryEditor aSE, int nWidth)
+        public override void UpdateView(StoryEditor aSE)
         {
-            base.UpdateViewInit(nWidth);
-            
             int nNumRows = 1;
             if (aSE.viewVernacularLangFieldMenuItem.Checked)
             {
@@ -93,8 +96,6 @@ namespace OneStoryProjectEditor
                 RemoveRow(m_nRowIndexAnchors);
                 m_nRowIndexAnchors = -1;
             }
-
-            base.UpdateViewFini(aSE, nWidth);
         }
 
         // if we insert or remove a row, we have to adjust the following indices
@@ -124,12 +125,12 @@ namespace OneStoryProjectEditor
         {
             if (!tableLayoutPanel.Controls.ContainsKey(cstrFieldNameAnchors))
             {
-                m_anAnchorCtrl = new AnchorControl(anAnchorsRow);
-                m_anAnchorCtrl.Name = cstrFieldNameAnchors;
+                AnchorControl anAnchorCtrl = new AnchorControl(this, anAnchorsRow);
+                anAnchorCtrl.Name = cstrFieldNameAnchors;
                 
                 InsertRow(nLayoutRow);
-                tableLayoutPanel.SetColumnSpan(m_anAnchorCtrl, 2);
-                tableLayoutPanel.Controls.Add(m_anAnchorCtrl, 0, nLayoutRow);
+                tableLayoutPanel.SetColumnSpan(anAnchorCtrl, 2);
+                tableLayoutPanel.Controls.Add(anAnchorCtrl, 0, nLayoutRow);
             }
 #if DEBUG
             else
@@ -172,7 +173,6 @@ namespace OneStoryProjectEditor
                 tb.Text = strTbText;
                 tb.TextChanged += new EventHandler(textBox_TextChanged);
                 this.tableLayoutPanel.Controls.Add(tb, 1, nLayoutRow);
-                m_lstTb.Add(tb);
             }
 #if DEBUG
             else
