@@ -115,15 +115,13 @@ namespace OneStoryProjectEditor
                 }
                 catch { } // skip any non-text boxes
             }
+
             m_anAnchorCtrl.UpdateView(tableLayoutPanelVerse.Width - tableLayoutPanelVerse.Margin.Left - tableLayoutPanelVerse.Margin.Right);
 
-            tableLayoutPanelVerse.DumpTable();
             AdjustHeight();
 
             this.tableLayoutPanelVerse.ResumeLayout(false);
             this.tableLayoutPanelVerse.PerformLayout();
-            tableLayoutPanelVerse.DumpTable();
-
             this.ResumeLayout(false);
             this.PerformLayout();
         }

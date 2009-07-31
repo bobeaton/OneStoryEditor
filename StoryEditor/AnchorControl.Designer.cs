@@ -31,12 +31,12 @@
             this.tableLayoutPanelAnchor = new OneStoryProjectEditor.DynamicTableLayoutPanel();
             this.labelAnchor = new System.Windows.Forms.Label();
             this.toolStripAnchors = new System.Windows.Forms.ToolStrip();
+            this.labelExegeticalHelp = new System.Windows.Forms.Label();
             this.tableLayoutPanelAnchor.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanelAnchor
             // 
-            this.tableLayoutPanelAnchor.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanelAnchor.ColumnCount = 2;
             this.tableLayoutPanelAnchor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelAnchor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -48,13 +48,13 @@
             this.tableLayoutPanelAnchor.Name = "tableLayoutPanelAnchor";
             this.tableLayoutPanelAnchor.RowCount = 1;
             this.tableLayoutPanelAnchor.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelAnchor.Size = new System.Drawing.Size(706, 28);
+            this.tableLayoutPanelAnchor.Size = new System.Drawing.Size(706, 71);
             this.tableLayoutPanelAnchor.TabIndex = 0;
             // 
             // labelAnchor
             // 
             this.labelAnchor.AutoSize = true;
-            this.labelAnchor.Location = new System.Drawing.Point(4, 1);
+            this.labelAnchor.Location = new System.Drawing.Point(3, 0);
             this.labelAnchor.Name = "labelAnchor";
             this.labelAnchor.Size = new System.Drawing.Size(28, 13);
             this.labelAnchor.TabIndex = 8;
@@ -62,11 +62,21 @@
             // 
             // toolStripAnchors
             // 
-            this.toolStripAnchors.Location = new System.Drawing.Point(36, 1);
+            this.toolStripAnchors.Location = new System.Drawing.Point(34, 0);
             this.toolStripAnchors.Name = "toolStripAnchors";
-            this.toolStripAnchors.Size = new System.Drawing.Size(669, 25);
+            this.toolStripAnchors.Size = new System.Drawing.Size(672, 25);
             this.toolStripAnchors.TabIndex = 0;
             this.toolStripAnchors.Text = "toolStrip1";
+            // 
+            // labelExegeticalHelp
+            // 
+            this.labelExegeticalHelp.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.labelExegeticalHelp.AutoSize = true;
+            this.labelExegeticalHelp.Location = new System.Drawing.Point(4, 42);
+            this.labelExegeticalHelp.Name = "labelExegeticalHelp";
+            this.labelExegeticalHelp.Size = new System.Drawing.Size(22, 13);
+            this.labelExegeticalHelp.TabIndex = 9;
+            this.labelExegeticalHelp.Text = "cn:";
             // 
             // AnchorControl
             // 
@@ -74,7 +84,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanelAnchor);
             this.Name = "AnchorControl";
-            this.Size = new System.Drawing.Size(706, 28);
+            this.Size = new System.Drawing.Size(706, 71);
             this.tableLayoutPanelAnchor.ResumeLayout(false);
             this.tableLayoutPanelAnchor.PerformLayout();
             this.ResumeLayout(false);
@@ -83,8 +93,9 @@
 
         #endregion
 
-        private DynamicTableLayoutPanel tableLayoutPanelAnchor;
+        private OneStoryProjectEditor.DynamicTableLayoutPanel tableLayoutPanelAnchor;
         private System.Windows.Forms.ToolStrip toolStripAnchors;
         private System.Windows.Forms.Label labelAnchor;
+        private System.Windows.Forms.Label labelExegeticalHelp;
     }
 }

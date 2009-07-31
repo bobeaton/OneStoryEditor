@@ -68,9 +68,10 @@ namespace OneStoryProjectEditor
         protected void AdjustHeight()
         {
             // do a similar thing with the layout panel (i.e. give it the same width and infinite height.
-            Size sz = this.tableLayoutPanelAnchor.GetPreferredSize(new Size(tableLayoutPanelAnchor.Width, 1000));
-            sz.Height += tableLayoutPanelAnchor.Margin.Bottom;
-            this.Size = sz;
+            // for some reason GetPreferredSize doesn't give the actual right size... so I'll write my own
+            // Size sz = this.tableLayoutPanelVerse.GetPreferredSize(new Size(tableLayoutPanelVerse.Width, 1000));
+            this.tableLayoutPanelAnchor.Height = tableLayoutPanelAnchor.GetPreferredHeight();
+            this.Height = tableLayoutPanelAnchor.Height + tableLayoutPanelAnchor.Margin.Top + tableLayoutPanelAnchor.Margin.Bottom;
         }
 
         protected void InitAnchorButton(ToolStrip ts, string strJumpTarget, string strComment)
@@ -101,9 +102,9 @@ namespace OneStoryProjectEditor
 
                 // add the label and tool strip as a new row to the table layout panel
                 int nLayoutRow = nNumRows++;
-                tableLayoutPanelAnchor.SetColumnSpan(tb, 2);
                 tableLayoutPanelAnchor.InsertRow(nLayoutRow);
-                tableLayoutPanelAnchor.Controls.Add(tb, 0, nLayoutRow);
+                tableLayoutPanelAnchor.Controls.Add(labelExegeticalHelp, 0, nLayoutRow);
+                tableLayoutPanelAnchor.Controls.Add(tb, 1, nLayoutRow);
             }
         }
 
@@ -119,8 +120,8 @@ namespace OneStoryProjectEditor
 
             if (b)
             {
-                this.SuspendLayout();
                 this.tableLayoutPanelAnchor.SuspendLayout();
+                this.SuspendLayout();
 
                 myParent.AdjustHeight();
 

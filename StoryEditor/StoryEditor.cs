@@ -41,7 +41,7 @@ namespace OneStoryProjectEditor
         SWModule moduleVersion = null;
         String m_strBookName, m_strChapterNumber, m_strVerseNumber;
 
-        string verseLineBreak = "<br />";
+        // string verseLineBreak = "<br />";
         string preDocumentDOMScript = "<script>" +
             "function OpenHoverWindow(link)" +
             "{" +
@@ -191,7 +191,8 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                return splitContainerLeftRight.Panel1.Width - splitContainerLeftRight.Margin.Right - splitContainerLeftRight.Margin.Left;
+                return splitContainerLeftRight.Panel1.Width - splitContainerLeftRight.Margin.Horizontal -
+                    SystemInformation.VerticalScrollBarWidth - 2;
             }
         }
 
