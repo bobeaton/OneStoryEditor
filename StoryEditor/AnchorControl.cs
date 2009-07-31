@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
 {
-    public partial class AnchorControl : UserControl
+    public partial class AnchorControl : ResizableControl
     {
         protected const string cstrFieldNameAnchor = "AnchorButton";
         protected const string cstrFieldNameExegeticalHelp = "ExegeticalHelp";
@@ -22,8 +22,11 @@ namespace OneStoryProjectEditor
         {
             InitializeComponent();
 
-            this.tableLayoutPanelAnchor.SuspendLayout();
+            this.tableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
+
+            this.tableLayoutPanel.Controls.Add(this.labelAnchor, 0, 0);
+            this.tableLayoutPanel.Controls.Add(this.toolStripAnchors, 1, 0);
 
             // add the label and tool strip as a new row to the table layout panel
             // finally populate the buttons on that tool strip
@@ -34,44 +37,10 @@ namespace OneStoryProjectEditor
                 InitExegeticalHelpsRow(anAnchorRow, ref nNumRows);
             }
 
-            this.tableLayoutPanelAnchor.ResumeLayout(false);
-            this.tableLayoutPanelAnchor.PerformLayout();
+            this.tableLayoutPanel.ResumeLayout(false);
+            this.tableLayoutPanel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
-        }
-
-        public void UpdateView(int nWidth)
-        {
-            this.tableLayoutPanelAnchor.SuspendLayout();
-            this.SuspendLayout();
-
-            foreach (Control aCtrl in tableLayoutPanelAnchor.Controls)
-            {
-                try
-                {
-                    // for all the text boxes, set them to the fixed width, but high as possible (so it will limit
-                    //  at whatever is neede)
-                    TextBox tb = (TextBox)aCtrl;
-                    VerseBtControl.ResizeTextBoxToFitText(tb);
-                }
-                catch { } // skip any non-text boxes
-            }
-
-            AdjustHeight();
-
-            this.tableLayoutPanelAnchor.ResumeLayout(false);
-            this.tableLayoutPanelAnchor.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-        }
-
-        protected void AdjustHeight()
-        {
-            // do a similar thing with the layout panel (i.e. give it the same width and infinite height.
-            // for some reason GetPreferredSize doesn't give the actual right size... so I'll write my own
-            // Size sz = this.tableLayoutPanelVerse.GetPreferredSize(new Size(tableLayoutPanelVerse.Width, 1000));
-            this.tableLayoutPanelAnchor.Height = tableLayoutPanelAnchor.GetPreferredHeight();
-            this.Height = tableLayoutPanelAnchor.Height + tableLayoutPanelAnchor.Margin.Top + tableLayoutPanelAnchor.Margin.Bottom;
         }
 
         protected void InitAnchorButton(ToolStrip ts, string strJumpTarget, string strComment)
@@ -102,33 +71,9 @@ namespace OneStoryProjectEditor
 
                 // add the label and tool strip as a new row to the table layout panel
                 int nLayoutRow = nNumRows++;
-                tableLayoutPanelAnchor.InsertRow(nLayoutRow);
-                tableLayoutPanelAnchor.Controls.Add(labelExegeticalHelp, 0, nLayoutRow);
-                tableLayoutPanelAnchor.Controls.Add(tb, 1, nLayoutRow);
-            }
-        }
-
-        protected void textBox_TextChanged(object sender, EventArgs e)
-        {
-            TextBox tb = (TextBox)sender;
-
-            this.tableLayoutPanelAnchor.SuspendLayout();
-            this.SuspendLayout();
-
-            VerseBtControl myParent = (VerseBtControl)Parent;
-            bool b = VerseBtControl.ResizeTextBoxToFitText(tb);
-
-            if (b)
-            {
-                this.tableLayoutPanelAnchor.SuspendLayout();
-                this.SuspendLayout();
-
-                myParent.AdjustHeight();
-
-                this.tableLayoutPanelAnchor.ResumeLayout(false);
-                this.tableLayoutPanelAnchor.PerformLayout();
-                this.ResumeLayout(false);
-                this.PerformLayout();
+                InsertRow(nLayoutRow);
+                tableLayoutPanel.Controls.Add(labelExegeticalHelp, 0, nLayoutRow);
+                tableLayoutPanel.Controls.Add(tb, 1, nLayoutRow);
             }
         }
 

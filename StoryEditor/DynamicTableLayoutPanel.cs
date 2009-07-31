@@ -9,7 +9,7 @@ namespace OneStoryProjectEditor
     /// Add the ability to remove a row of the table layout panel (which turns out to be 
     /// freekisly hard to do with the native control
     /// </summary>
-    class DynamicTableLayoutPanel : System.Windows.Forms.TableLayoutPanel
+    public class DynamicTableLayoutPanel : System.Windows.Forms.TableLayoutPanel
     {
         public void InsertRow(int nLayoutRowIndex)
         {

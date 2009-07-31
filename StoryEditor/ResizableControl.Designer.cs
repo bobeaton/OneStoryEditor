@@ -1,6 +1,6 @@
 ﻿namespace OneStoryProjectEditor
 {
-    partial class VerseBtControl
+    partial class ResizableControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,34 +28,35 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VerseBtControl));
-            this.labelReference = new System.Windows.Forms.Label();
+            this.tableLayoutPanel = new OneStoryProjectEditor.DynamicTableLayoutPanel();
             this.SuspendLayout();
             // 
-            // labelReference
+            // tableLayoutPanel
             // 
-            this.labelReference.AutoSize = true;
-            this.labelReference.Location = new System.Drawing.Point(3, 0);
-            this.labelReference.Name = "labelReference";
-            this.labelReference.Size = new System.Drawing.Size(79, 13);
-            this.labelReference.TabIndex = 0;
-            this.labelReference.Text = "labelReference";
+            this.tableLayoutPanel.ColumnCount = 2;
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel.Name = "tableLayoutPanel";
+            this.tableLayoutPanel.RowCount = 1;
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel.Size = new System.Drawing.Size(494, 197);
+            this.tableLayoutPanel.TabIndex = 0;
             // 
-            // VerseBtControl
+            // ResizableControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Name = "VerseBtControl";
-            this.Padding = new System.Windows.Forms.Padding(3);
-            this.Size = new System.Drawing.Size(669, 225);
+            this.Controls.Add(this.tableLayoutPanel);
+            this.Name = "ResizableControl";
+            this.Size = new System.Drawing.Size(494, 197);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Label labelReference;
+        protected OneStoryProjectEditor.DynamicTableLayoutPanel tableLayoutPanel;
     }
 }

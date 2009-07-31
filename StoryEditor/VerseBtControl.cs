@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
 {
-    public partial class VerseBtControl : UserControl
+    public partial class VerseBtControl : ResizableControl
     {
         protected const string cstrSuffixTextBox = "TextBox";
         protected const string cstrSuffixLabel = "Label";
@@ -29,6 +29,8 @@ namespace OneStoryProjectEditor
 
             m_aVerse = aVerse;
             this.labelReference.Text = String.Format("Verse: {0}", nVerseNumber);
+            this.tableLayoutPanel.SetColumnSpan(this.labelReference, 2);
+            this.tableLayoutPanel.Controls.Add(this.labelReference);
         }
 
 #if DEBUG
@@ -36,12 +38,9 @@ namespace OneStoryProjectEditor
         protected AnchorControl m_anAnchorCtrl = null;
 #endif
 
-        public void UpdateView(StoryEditor aSE, int nWidth)
+        public override void UpdateView(StoryEditor aSE, int nWidth)
         {
-            this.tableLayoutPanelVerse.SuspendLayout();
-            this.SuspendLayout();
-
-            this.Width = nWidth;
+            base.UpdateViewInit(nWidth);
             
             int nNumRows = 1;
             if (aSE.viewVernacularLangFieldMenuItem.Checked)
@@ -95,41 +94,13 @@ namespace OneStoryProjectEditor
                 m_nRowIndexAnchors = -1;
             }
 
-            this.tableLayoutPanelVerse.ResumeLayout(false);
-            this.tableLayoutPanelVerse.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
-            this.tableLayoutPanelVerse.SuspendLayout();
-            this.SuspendLayout();
-
-            // tableLayoutPanelVerse.Width = this.Width = nWidth - this.Margin.Left - SystemInformation.VerticalScrollBarWidth;
-            foreach (Control aCtrl in tableLayoutPanelVerse.Controls)
-            {
-                try
-                {
-                    // for all the text boxes, set them to the fixed width, but high as possible (so it will limit
-                    //  at whatever is neede)
-                    TextBox tb = (TextBox)aCtrl;
-                    ResizeTextBoxToFitText(tb);
-                }
-                catch { } // skip any non-text boxes
-            }
-
-            m_anAnchorCtrl.UpdateView(tableLayoutPanelVerse.Width - tableLayoutPanelVerse.Margin.Left - tableLayoutPanelVerse.Margin.Right);
-
-            AdjustHeight();
-
-            this.tableLayoutPanelVerse.ResumeLayout(false);
-            this.tableLayoutPanelVerse.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            base.UpdateViewFini(aSE, nWidth);
         }
 
         // if we insert or remove a row, we have to adjust the following indices
-        protected void InsertRow(int nLayoutRowIndex)
+        protected override void InsertRow(int nLayoutRowIndex)
         {
-            tableLayoutPanelVerse.InsertRow(nLayoutRowIndex);
+            base.InsertRow(nLayoutRowIndex);
             if (m_nRowIndexNationalBT >= nLayoutRowIndex)
                 m_nRowIndexNationalBT++;
             if (m_nRowIndexInternationalBT >= nLayoutRowIndex)
@@ -138,9 +109,9 @@ namespace OneStoryProjectEditor
                 m_nRowIndexAnchors++;
         }
 
-        protected void RemoveRow(int nLayoutRowIndex)
+        protected override void RemoveRow(int nLayoutRowIndex)
         {
-            tableLayoutPanelVerse.RemoveRow(nLayoutRowIndex);
+            base.RemoveRow(nLayoutRowIndex);
             if (m_nRowIndexNationalBT > nLayoutRowIndex)
                 m_nRowIndexNationalBT--;
             if (m_nRowIndexInternationalBT > nLayoutRowIndex)
@@ -151,19 +122,19 @@ namespace OneStoryProjectEditor
 
         protected void InitAnchors(StoryEditor aSE, StoryProject.anchorsRow anAnchorsRow, int nLayoutRow, ref int nNumRows)
         {
-            if (!tableLayoutPanelVerse.Controls.ContainsKey(cstrFieldNameAnchors))
+            if (!tableLayoutPanel.Controls.ContainsKey(cstrFieldNameAnchors))
             {
                 m_anAnchorCtrl = new AnchorControl(anAnchorsRow);
                 m_anAnchorCtrl.Name = cstrFieldNameAnchors;
                 
                 InsertRow(nLayoutRow);
-                tableLayoutPanelVerse.SetColumnSpan(m_anAnchorCtrl, 2);
-                tableLayoutPanelVerse.Controls.Add(m_anAnchorCtrl, 0, nLayoutRow);
+                tableLayoutPanel.SetColumnSpan(m_anAnchorCtrl, 2);
+                tableLayoutPanel.Controls.Add(m_anAnchorCtrl, 0, nLayoutRow);
             }
 #if DEBUG
             else
             {
-                Control ctrl = tableLayoutPanelVerse.GetControlFromPosition(1, nLayoutRow);
+                Control ctrl = tableLayoutPanel.GetControlFromPosition(1, nLayoutRow);
                 System.Diagnostics.Debug.Assert(ctrl.Name == cstrFieldNameAnchors);
             }
 #endif
@@ -171,7 +142,7 @@ namespace OneStoryProjectEditor
 
         protected void InitTextBox(string strTbName, string strTbLabel, string strTbText, Font font, Color color, int nLayoutRow)
         {
-            if (!tableLayoutPanelVerse.Controls.ContainsKey(strTbName + cstrSuffixLabel))
+            if (!tableLayoutPanel.Controls.ContainsKey(strTbName + cstrSuffixLabel))
             {
                 InsertRow(nLayoutRow);
 
@@ -181,16 +152,16 @@ namespace OneStoryProjectEditor
                 lbl.Anchor = System.Windows.Forms.AnchorStyles.Left;
                 lbl.AutoSize = true;
                 lbl.Text = strTbLabel;
-                this.tableLayoutPanelVerse.Controls.Add(lbl, 0, nLayoutRow);
+                this.tableLayoutPanel.Controls.Add(lbl, 0, nLayoutRow);
             }
 #if DEBUG
             else
             {
-                Control ctrl = tableLayoutPanelVerse.GetControlFromPosition(0, nLayoutRow);
+                Control ctrl = tableLayoutPanel.GetControlFromPosition(0, nLayoutRow);
                 System.Diagnostics.Debug.Assert((ctrl.Name == strTbName + cstrSuffixLabel));
             }
 #endif
-            if (!tableLayoutPanelVerse.Controls.ContainsKey(strTbName + cstrSuffixTextBox))
+            if (!tableLayoutPanel.Controls.ContainsKey(strTbName + cstrSuffixTextBox))
             {
                 TextBox tb = new TextBox();
                 tb.Name = strTbName + cstrSuffixTextBox;
@@ -200,51 +171,16 @@ namespace OneStoryProjectEditor
                 tb.Dock = DockStyle.Fill;
                 tb.Text = strTbText;
                 tb.TextChanged += new EventHandler(textBox_TextChanged);
-                this.tableLayoutPanelVerse.Controls.Add(tb, 1, nLayoutRow);
+                this.tableLayoutPanel.Controls.Add(tb, 1, nLayoutRow);
                 m_lstTb.Add(tb);
             }
 #if DEBUG
             else
             {
-                Control ctrl = tableLayoutPanelVerse.GetControlFromPosition(1, nLayoutRow);
+                Control ctrl = tableLayoutPanel.GetControlFromPosition(1, nLayoutRow);
                 System.Diagnostics.Debug.Assert((ctrl.Name == strTbName + cstrSuffixTextBox));
             }
 #endif
-        }
-
-        protected void textBox_TextChanged(object sender, EventArgs e)
-        {
-            TextBox tb = (TextBox)sender;
-            if (ResizeTextBoxToFitText(tb))
-            {
-                this.SuspendLayout();
-                this.tableLayoutPanelVerse.SuspendLayout();
-
-                AdjustHeight();
-
-                this.tableLayoutPanelVerse.ResumeLayout(false);
-                this.tableLayoutPanelVerse.PerformLayout();
-                this.ResumeLayout(false);
-                this.PerformLayout();
-            }
-        }
-
-        internal static bool ResizeTextBoxToFitText(TextBox tb)
-        {
-            Size sz = tb.GetPreferredSize(new Size(tb.Width, 1000));
-            bool bHeightChanged = (sz.Height != tb.Size.Height);
-            if (bHeightChanged)
-                tb.Height = sz.Height;
-            return bHeightChanged;
-        }
-
-        internal void AdjustHeight()
-        {
-            // do a similar thing with the layout panel (i.e. give it the same width and infinite height.
-            // for some reason GetPreferredSize doesn't give the actual right size... so I'll write my own
-            // Size sz = this.tableLayoutPanelVerse.GetPreferredSize(new Size(tableLayoutPanelVerse.Width, 1000));
-            this.tableLayoutPanelVerse.Height = tableLayoutPanelVerse.GetPreferredHeight();
-            this.Height = tableLayoutPanelVerse.Height + tableLayoutPanelVerse.Margin.Top + tableLayoutPanelVerse.Margin.Bottom;
         }
     }
 }
