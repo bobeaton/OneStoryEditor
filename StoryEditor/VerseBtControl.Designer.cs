@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VerseBtControl));
             this.labelReference = new System.Windows.Forms.Label();
+            this.buttonDragDropHandle = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // labelReference
@@ -41,14 +41,26 @@
             this.labelReference.TabIndex = 0;
             this.labelReference.Text = "labelReference";
             // 
+            // buttonDragDropHandle
+            // 
+            this.buttonDragDropHandle.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.buttonDragDropHandle.Location = new System.Drawing.Point(0, 0);
+            this.buttonDragDropHandle.Margin = new System.Windows.Forms.Padding(0);
+            this.buttonDragDropHandle.MaximumSize = new System.Drawing.Size(15, 15);
+            this.buttonDragDropHandle.Name = "buttonDragDropHandle";
+            this.buttonDragDropHandle.Size = new System.Drawing.Size(15, 15);
+            this.buttonDragDropHandle.TabIndex = 1;
+            this.buttonDragDropHandle.UseVisualStyleBackColor = true;
+            this.buttonDragDropHandle.MouseDown += new System.Windows.Forms.MouseEventHandler(buttonDragDropHandle_MouseDown);
+            this.buttonDragDropHandle.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(buttonDragDropHandle_QueryContinueDrag);
+            // 
             // VerseBtControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(3);
             this.Name = "VerseBtControl";
-            this.Padding = new System.Windows.Forms.Padding(3);
             this.Size = new System.Drawing.Size(669, 225);
             this.ResumeLayout(false);
 
@@ -57,5 +69,6 @@
         #endregion
 
         private System.Windows.Forms.Label labelReference;
+        private System.Windows.Forms.Button buttonDragDropHandle;
     }
 }

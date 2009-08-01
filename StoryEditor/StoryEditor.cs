@@ -15,6 +15,8 @@ namespace OneStoryProjectEditor
     public partial class StoryEditor : Form
     {
         internal const string cstrCaption = "OneStory Project Editor";
+        internal const string cstrButtonDropTargetName = "buttonDropTarget";
+
         protected string m_strProjectFilename = null;
 
         protected StoryProject m_projFile = null;
@@ -173,18 +175,98 @@ namespace OneStoryProjectEditor
                 InternationalBTFontColor = Color.FromName(aIFRow.FontColor);
                 */
                 flowLayoutPanelVerses.VerticalScroll.Enabled = true;
-                int i = 1;
+                int nVerseIndex = 0;
+                AddDropTargetToFlowLayout(nVerseIndex++);
                 foreach (StoryProject.verseRow aRow in m_projFile.stories[0].GetstoryRows()[0].GetversesRows()[0].GetverseRows())
                 {
-                    VerseBtControl aVerseCtrl = new VerseBtControl(this, aRow, i++);
+                    VerseBtControl aVerseCtrl = new VerseBtControl(this, aRow, nVerseIndex);
                     aVerseCtrl.UpdateHeight(Panel1_Width);
                     flowLayoutPanelVerses.Controls.Add(aVerseCtrl);
+                    AddDropTargetToFlowLayout(nVerseIndex);
+                    nVerseIndex++;
                 }
             }
             catch (System.Exception ex)
             {
                 MessageBox.Show(String.Format("Unable to open project file '{1}'{0}{0}{2}{0}{0}Send the project file to bob_eaton@sall.com for help",
                     Environment.NewLine, strProjectFilename, ex.Message), cstrCaption);
+            }
+        }
+
+        protected void AddDropTargetToFlowLayout(int nVerseIndex)
+        {
+            Button buttonDropTarget = new Button();
+            buttonDropTarget.AllowDrop = true;
+            buttonDropTarget.Location = new System.Drawing.Point(3, 3);
+            buttonDropTarget.Name = cstrButtonDropTargetName + nVerseIndex.ToString();
+            buttonDropTarget.Size = new System.Drawing.Size(75, 5);
+            buttonDropTarget.TabIndex = nVerseIndex;
+            buttonDropTarget.UseVisualStyleBackColor = true;
+            buttonDropTarget.Visible = false;
+            buttonDropTarget.DragEnter += new DragEventHandler(buttonDropTarget_DragEnter);
+            buttonDropTarget.DragDrop += new DragEventHandler(buttonDropTarget_DragDrop);
+            flowLayoutPanelVerses.Controls.Add(buttonDropTarget);
+        }
+
+        void buttonDropTarget_DragDrop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(typeof(VerseBtControl)))
+            {
+                VerseBtControl aVerseCtrl = (VerseBtControl)e.Data.GetData(typeof(VerseBtControl));
+                Button btnTarget = (Button)sender;
+                string strTargetName = btnTarget.Name;
+                string strTargetVerse = strTargetName.Substring(cstrButtonDropTargetName.Length);
+                int nInsertionIndex = (int)Convert.ToInt32(strTargetVerse);
+                if ((nInsertionIndex == (aVerseCtrl.VerseNumber - 1)) || (nInsertionIndex == (aVerseCtrl.VerseNumber)))
+                    DoCopy(nInsertionIndex, aVerseCtrl);
+                else
+                    DoMove(nInsertionIndex, aVerseCtrl);
+            }
+        }
+
+        void DoCopy(int nInsertionIndex, VerseBtControl aVerseCtrl)
+        {
+            // TODO:
+        }
+
+        void DoMove(int nInsertionIndex, VerseBtControl aVerseCtrl)
+        {
+            // TODO:
+        }
+
+        void buttonDropTarget_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(typeof(VerseBtControl)))
+            {
+                VerseBtControl aVerseCtrl = (VerseBtControl)e.Data.GetData(typeof(VerseBtControl));
+                Button btnTarget = (Button)sender;
+                string strTargetName = btnTarget.Name;
+                string strTargetVerse = strTargetName.Substring(cstrButtonDropTargetName.Length);
+                int nInsertionIndex = (int)Convert.ToInt32(strTargetVerse);
+                if ((nInsertionIndex == (aVerseCtrl.VerseNumber - 1)) || (nInsertionIndex == (aVerseCtrl.VerseNumber)))
+                    e.Effect = DragDropEffects.Copy;
+                else
+                    e.Effect = DragDropEffects.Move;
+            }
+        }
+        
+        internal void LightUpDropTargetButtons()
+        {
+            foreach (Control ctrl in flowLayoutPanelVerses.Controls)
+            {
+                if (ctrl is Button)
+                {
+                    ctrl.Visible = true;
+                }
+            }
+        }
+
+        internal void DimDropTargetButtons()
+        {
+            foreach (Control ctrl in flowLayoutPanelVerses.Controls)
+            {
+                if (ctrl is Button)
+                    ctrl.Visible = false;
             }
         }
 
@@ -435,10 +517,14 @@ namespace OneStoryProjectEditor
 
         protected void UpdateVersePanel()
         {
-            foreach (VerseBtControl aVerseCtrl in flowLayoutPanelVerses.Controls)
+            foreach (Control ctrl in flowLayoutPanelVerses.Controls)
             {
-                aVerseCtrl.UpdateView(this);
-                aVerseCtrl.UpdateHeight(Panel1_Width);
+                if (ctrl is VerseBtControl)
+                {
+                    VerseBtControl aVerseCtrl = (VerseBtControl)ctrl;
+                    aVerseCtrl.UpdateView(this);
+                    aVerseCtrl.UpdateHeight(Panel1_Width);
+                }
             }
         }
 

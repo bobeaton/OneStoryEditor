@@ -60,6 +60,13 @@ namespace OneStoryProjectEditor.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap DragDropHandle {
+            get {
+                object obj = ResourceManager.GetObject("DragDropHandle", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap GoLtrHS {
             get {
                 object obj = ResourceManager.GetObject("GoLtrHS", resourceCulture);

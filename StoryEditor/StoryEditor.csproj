@@ -144,6 +144,7 @@
     <Content Include="OneStory.ico" />
     <Content Include="Resources\GoLtrHS.bmp" />
     <Content Include="Resources\GoRtlHS.bmp" />
+    <None Include="Resources\DragDropHandle.bmp" />
     <None Include="StoryProject.osp" />
     <None Include="StoryProject.xsd">
       <Generator>MSDataSetGenerator</Generator>

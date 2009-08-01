@@ -144,7 +144,7 @@ namespace OneStoryProjectEditor
             // do a similar thing with the layout panel (i.e. give it the same width and infinite height.
             // for some reason GetPreferredSize doesn't give the actual right size... so I'll write my own
             int nTableLayoutPanel = tableLayoutPanel.GetPreferredHeight();
-            this.Height = nTableLayoutPanel + this.Padding.Vertical;
+            this.Height = nTableLayoutPanel;
         }
 
         protected static bool ResizeTextBoxToFitText(TextBox tb)

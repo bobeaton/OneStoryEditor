@@ -44,11 +44,13 @@
             // 
             // toolStripAnchors
             // 
+            this.toolStripAnchors.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStripAnchors.Location = new System.Drawing.Point(34, 0);
+            this.toolStripAnchors.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.toolStripAnchors.Name = "toolStripAnchors";
             this.toolStripAnchors.Size = new System.Drawing.Size(672, 25);
             this.toolStripAnchors.TabIndex = 0;
-            this.toolStripAnchors.Text = "toolStrip1";
+            this.toolStripAnchors.Text = "toolStripAnchors";
             // 
             // labelExegeticalHelp
             // 

@@ -13,24 +13,27 @@ namespace OneStoryProjectEditor
 {
     public partial class VerseBtControl : ResizableControl
     {
+        internal const string cstrVerseName = "Verse: ";
         protected const string cstrFieldNameStoryLine = "StoryLine";
         protected const string cstrFieldNameAnchors = "Anchors";
 
         protected StoryProject.verseRow m_aVerseRow = null;   // TODO: change this isn't a class that can do linq writes
 
+        internal int VerseNumber = -1;
         protected int m_nRowIndexAnchors = -1;
         protected int m_nRowIndexStoryLine = -1;
 
         public VerseBtControl(StoryEditor aSE, StoryProject.verseRow aVerseRow, int nVerseNumber)
         {
+            VerseNumber = nVerseNumber;
             InitializeComponent();
 
             this.tableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
 
-            this.labelReference.Text = String.Format("Verse: {0}", nVerseNumber);
-            this.tableLayoutPanel.SetColumnSpan(this.labelReference, 2);
-            this.tableLayoutPanel.Controls.Add(this.labelReference);
+            this.labelReference.Text = cstrVerseName + nVerseNumber.ToString();
+            this.tableLayoutPanel.Controls.Add(this.labelReference, 0, 0);
+            this.tableLayoutPanel.Controls.Add(this.buttonDragDropHandle, 1, 0);
 
             m_aVerseRow = aVerseRow;
             UpdateView(aSE);
@@ -134,6 +137,27 @@ namespace OneStoryProjectEditor
                 InsertRow(nLayoutRow);
                 tableLayoutPanel.SetColumnSpan(anAnchorCtrl, 2);
                 tableLayoutPanel.Controls.Add(anAnchorCtrl, 0, nLayoutRow);
+            }
+        }
+
+        void buttonDragDropHandle_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            buttonDragDropHandle.DoDragDrop(this, DragDropEffects.Move | DragDropEffects.Copy);
+        }
+
+        void buttonDragDropHandle_QueryContinueDrag(object sender, System.Windows.Forms.QueryContinueDragEventArgs e)
+        {
+            Console.WriteLine(String.Format("QueryContinueDrag: Action: {0}", e.Action.ToString()));
+
+            Form form = FindForm();
+            System.Diagnostics.Debug.Assert(form is StoryEditor);
+            if (form is StoryEditor)
+            {
+                StoryEditor aSE = (StoryEditor)form;
+                if (e.Action != DragAction.Continue)
+                    aSE.DimDropTargetButtons();
+                else
+                    aSE.LightUpDropTargetButtons();
             }
         }
     }
