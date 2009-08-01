@@ -14,9 +14,8 @@ namespace OneStoryProjectEditor
         protected const string cstrFieldNameAnchor = "AnchorButton";
         protected const string cstrFieldNameExegeticalHelp = "ExegeticalHelp";
 
-        public AnchorControl(ResizableControl ctrlParent, StoryProject.anchorsRow anAnchorsRow)
+        public AnchorControl(StoryProject.anchorsRow anAnchorsRow)
         {
-            ParentControl = ctrlParent;
             InitializeComponent();
 
             this.tableLayoutPanel.SuspendLayout();

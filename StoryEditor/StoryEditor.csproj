@@ -101,6 +101,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="StoryLineControl.resx">
+      <DependentUpon>StoryLineControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="VerseBtControl.resx">
       <DependentUpon>VerseBtControl.cs</DependentUpon>
     </EmbeddedResource>

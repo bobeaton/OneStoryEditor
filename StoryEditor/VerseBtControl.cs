@@ -53,7 +53,6 @@ namespace OneStoryProjectEditor
 
         public override void UpdateView(StoryEditor aSE)
         {
-#if RemoveLater
             int nNumRows = 1;
             // if the user is requesting one of the story lines (vernacular, nationalBT, or English), then...
             if (aSE.viewVernacularLangFieldMenuItem.Checked || aSE.viewNationalLangFieldMenuItem.Checked || aSE.viewEnglishBTFieldMenuItem.Checked)
@@ -85,59 +84,6 @@ namespace OneStoryProjectEditor
                 RemoveRow(m_nRowIndexAnchors);
                 m_nRowIndexAnchors = -1;
             }
-#else
-            int nNumRows = 1;
-            if (aSE.viewVernacularLangFieldMenuItem.Checked)
-            {
-                m_nRowIndexVernacular = nNumRows++;
-                InitTextBox(cstrFieldNameVernacular, m_aVerseRow.GetVernacularRows()[0].lang, m_aVerseRow.GetVernacularRows()[0].Vernacular_text, aSE.VernacularFont, aSE.VernacularFontColor, m_nRowIndexVernacular);
-            }
-            else if (m_nRowIndexVernacular != -1)
-            {
-                RemoveRow(m_nRowIndexVernacular);
-                m_nRowIndexVernacular = -1;
-            }
-
-            if (aSE.viewNationalLangFieldMenuItem.Checked)
-            {
-                m_nRowIndexNationalBT = nNumRows++;
-                InitTextBox(cstrFieldNameNationalBT, m_aVerseRow.GetNationalBTRows()[0].lang, m_aVerseRow.GetNationalBTRows()[0].NationalBT_text, aSE.NationalBTFont, aSE.NationalBTFontColor, m_nRowIndexNationalBT);
-            }
-            else if (m_nRowIndexNationalBT != -1)
-            {
-                RemoveRow(m_nRowIndexNationalBT);
-                m_nRowIndexNationalBT = -1;
-            }
-
-            if (aSE.viewEnglishBTFieldMenuItem.Checked)
-            {
-                m_nRowIndexInternationalBT = nNumRows++;
-                InitTextBox(cstrFieldNameInternationalBT, m_aVerseRow.GetInternationalBTRows()[0].lang, m_aVerseRow.GetInternationalBTRows()[0].InternationalBT_text, aSE.InternationalBTFont, aSE.InternationalBTFontColor, m_nRowIndexInternationalBT);
-            }
-            else if (m_nRowIndexInternationalBT != -1)
-            {
-                RemoveRow(m_nRowIndexInternationalBT);
-                m_nRowIndexInternationalBT = -1;
-            }
-
-            if (aSE.viewAnchorFieldMenuItem.Checked)
-            {
-                StoryProject.anchorsRow[] anAnchorsRow = m_aVerseRow.GetanchorsRows();
-                System.Diagnostics.Debug.Assert(anAnchorsRow != null);
-                if (anAnchorsRow != null)
-                {
-                    m_nRowIndexAnchors = nNumRows++;
-                    System.Diagnostics.Debug.Assert(anAnchorsRow.Length > 0);
-                    InitAnchors(aSE, anAnchorsRow[0], m_nRowIndexAnchors, ref nNumRows);
-                }
-            }
-            else if (m_nRowIndexAnchors != -1)
-            {
-                // now get rid of the anchor row
-                RemoveRow(m_nRowIndexAnchors);
-                m_nRowIndexAnchors = -1;
-            }
-#endif
         }
 
         // if we insert or remove a row, we have to adjust the following indices
@@ -157,6 +103,9 @@ namespace OneStoryProjectEditor
 
         protected void InitStoryLine(StoryEditor aSE, StoryProject.verseRow aVerseRow, int nLayoutRow)
         {
+            // since some of the view parameters (e.g. show Vernacular) are actually controlled within
+            //  the StoryLine control, if we get the call to UpdateView, we have to pass it on to it
+            //  to handle (unlike with the Anchor control, which is all on or all off)
             if (tableLayoutPanel.Controls.ContainsKey(cstrFieldNameStoryLine))
             {
                 StoryLineControl aStoryLineCtrl = (StoryLineControl)tableLayoutPanel.Controls[cstrFieldNameStoryLine];
@@ -166,6 +115,7 @@ namespace OneStoryProjectEditor
             {
                 StoryLineControl aStoryLineCtrl = new StoryLineControl(aSE, aVerseRow);
                 aStoryLineCtrl.Name = cstrFieldNameStoryLine;
+                aStoryLineCtrl.ParentControl = this;
 
                 InsertRow(nLayoutRow);
                 tableLayoutPanel.SetColumnSpan(aStoryLineCtrl, 2);
@@ -175,10 +125,15 @@ namespace OneStoryProjectEditor
 
         protected void InitAnchors(StoryEditor aSE, StoryProject.anchorsRow anAnchorsRow, int nLayoutRow)
         {
+            // since some of the view parameters (e.g. show Vernacular) are actually controlled within
+            //  the StoryLine control, if we get the call to UpdateView, we have to pass it on to it
+            //  to handle (unlike here with the Anchor control, which is all on or all off)
             if (!tableLayoutPanel.Controls.ContainsKey(cstrFieldNameAnchors))
             {
-                AnchorControl anAnchorCtrl = new AnchorControl(this, anAnchorsRow);
+                AnchorControl anAnchorCtrl = new AnchorControl(anAnchorsRow);
                 anAnchorCtrl.Name = cstrFieldNameAnchors;
+                anAnchorCtrl.ParentControl = this;
+
                 
                 InsertRow(nLayoutRow);
                 tableLayoutPanel.SetColumnSpan(anAnchorCtrl, 2);

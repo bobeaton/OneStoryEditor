@@ -9,7 +9,7 @@ namespace OneStoryProjectEditor
 {
     public partial class ResizableControl : UserControl
     {
-        protected ResizableControl ParentControl = null;
+        protected internal ResizableControl ParentControl = null;
 
         protected const string cstrSuffixTextBox = "TextBox";
         protected const string cstrSuffixLabel = "Label";
@@ -118,7 +118,8 @@ namespace OneStoryProjectEditor
             this.SuspendLayout();
             this.tableLayoutPanel.SuspendLayout();
 
-            if (myDelegate != null)
+            bool bBeingCalledFromUpdateHeight = (myDelegate != null);
+            if (bBeingCalledFromUpdateHeight)
                 myDelegate();
 
             AdjustHeight();
@@ -128,7 +129,13 @@ namespace OneStoryProjectEditor
             this.ResumeLayout(false);
             this.PerformLayout();
 
-            if (ParentControl != null)
+            // if we have a parent (e.g. the sub-controls like AnchorControl do) AND
+            //  we aren't being called from UpdateView above (where the Parent will 
+            //  be done in it's own course), then call the parent to update the height
+            //  (this is basically so that if we resize the Anchor because the user
+            //  entered an exegetical comment, then the parent Verse control needs
+            //  to resize also).
+            if ((ParentControl != null) && (!bBeingCalledFromUpdateHeight))
                 ParentControl.AdjustHeightWithSuspendLayout(null);
         }
 
@@ -137,7 +144,7 @@ namespace OneStoryProjectEditor
             // do a similar thing with the layout panel (i.e. give it the same width and infinite height.
             // for some reason GetPreferredSize doesn't give the actual right size... so I'll write my own
             int nTableLayoutPanel = tableLayoutPanel.GetPreferredHeight();
-            this.Height = nTableLayoutPanel + tableLayoutPanel.Margin.Vertical;
+            this.Height = nTableLayoutPanel + this.Padding.Vertical;
         }
 
         protected static bool ResizeTextBoxToFitText(TextBox tb)
