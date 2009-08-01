@@ -13,25 +13,13 @@ namespace OneStoryProjectEditor
 {
     public partial class VerseBtControl : ResizableControl
     {
-#if RemoveLater
         protected const string cstrFieldNameStoryLine = "StoryLine";
         protected const string cstrFieldNameAnchors = "Anchors";
-#else
-        protected const string cstrFieldNameVernacular = "Vernacular";
-        protected const string cstrFieldNameNationalBT = "NationalBT";
-        protected const string cstrFieldNameInternationalBT = "InternationalBT";
-#endif
 
         protected StoryProject.verseRow m_aVerseRow = null;   // TODO: change this isn't a class that can do linq writes
 
-#if RemoveLater
         protected int m_nRowIndexAnchors = -1;
         protected int m_nRowIndexStoryLine = -1;
-#else
-        protected int m_nRowIndexVernacular = -1;
-        protected int m_nRowIndexNationalBT = -1;
-        protected int m_nRowIndexInternationalBT = -1;
-#endif
 
         public VerseBtControl(StoryEditor aSE, StoryProject.verseRow aVerseRow, int nVerseNumber)
         {
@@ -57,9 +45,12 @@ namespace OneStoryProjectEditor
             // if the user is requesting one of the story lines (vernacular, nationalBT, or English), then...
             if (aSE.viewVernacularLangFieldMenuItem.Checked || aSE.viewNationalLangFieldMenuItem.Checked || aSE.viewEnglishBTFieldMenuItem.Checked)
             {
+                // if we've already initialized the control, then it must have this project row index (i.e. nNumRows)
+                System.Diagnostics.Debug.Assert((m_nRowIndexStoryLine == -1) || (m_nRowIndexStoryLine == nNumRows), "fix bad assumption (VerseBtControl.cs.49): bob_eaton@sall.com");
+
                 // ask that control to do the Update View
+                InitStoryLine(aSE, m_aVerseRow, nNumRows);
                 m_nRowIndexStoryLine = nNumRows++;
-                InitStoryLine(aSE, m_aVerseRow, m_nRowIndexStoryLine);
             }
             else if (m_nRowIndexStoryLine != -1)
             {
@@ -69,13 +60,16 @@ namespace OneStoryProjectEditor
 
             if (aSE.viewAnchorFieldMenuItem.Checked)
             {
+                // if we've already initialized the control, then it must have this project row index (i.e. nNumRows)
+                System.Diagnostics.Debug.Assert((m_nRowIndexAnchors == -1) || (m_nRowIndexAnchors == nNumRows), "fix bad assumption (VerseBtControl.cs.64): bob_eaton@sall.com");
+
                 StoryProject.anchorsRow[] anAnchorsRow = m_aVerseRow.GetanchorsRows();
                 System.Diagnostics.Debug.Assert(anAnchorsRow != null);
                 if (anAnchorsRow != null)
                 {
-                    m_nRowIndexAnchors = nNumRows++;
                     System.Diagnostics.Debug.Assert(anAnchorsRow.Length > 0);
-                    InitAnchors(aSE, anAnchorsRow[0], m_nRowIndexAnchors);
+                    InitAnchors(aSE, anAnchorsRow[0], nNumRows);
+                    m_nRowIndexAnchors = nNumRows++;
                 }
             }
             else if (m_nRowIndexAnchors != -1)
@@ -90,7 +84,7 @@ namespace OneStoryProjectEditor
         protected override void InsertRow(int nLayoutRowIndex)
         {
             base.InsertRow(nLayoutRowIndex);
-            if (m_nRowIndexAnchors > nLayoutRowIndex)
+            if (m_nRowIndexAnchors >= nLayoutRowIndex)
                 m_nRowIndexAnchors++;
         }
 
@@ -106,6 +100,7 @@ namespace OneStoryProjectEditor
             // since some of the view parameters (e.g. show Vernacular) are actually controlled within
             //  the StoryLine control, if we get the call to UpdateView, we have to pass it on to it
             //  to handle (unlike with the Anchor control, which is all on or all off)
+            System.Diagnostics.Debug.Assert((m_nRowIndexStoryLine != -1) || !tableLayoutPanel.Controls.ContainsKey(cstrFieldNameStoryLine));
             if (tableLayoutPanel.Controls.ContainsKey(cstrFieldNameStoryLine))
             {
                 StoryLineControl aStoryLineCtrl = (StoryLineControl)tableLayoutPanel.Controls[cstrFieldNameStoryLine];
@@ -128,6 +123,7 @@ namespace OneStoryProjectEditor
             // since some of the view parameters (e.g. show Vernacular) are actually controlled within
             //  the StoryLine control, if we get the call to UpdateView, we have to pass it on to it
             //  to handle (unlike here with the Anchor control, which is all on or all off)
+            System.Diagnostics.Debug.Assert((m_nRowIndexAnchors != -1) || !tableLayoutPanel.Controls.ContainsKey(cstrFieldNameAnchors));
             if (!tableLayoutPanel.Controls.ContainsKey(cstrFieldNameAnchors))
             {
                 AnchorControl anAnchorCtrl = new AnchorControl(anAnchorsRow);

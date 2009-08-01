@@ -27,7 +27,7 @@ namespace OneStoryProjectEditor
 
             // clobber the base class table layout panel's configuration. We're 'column-oriented' instead
             // first add another row so that we have two rows (row(0)=label, row(1)=text)
-            System.Diagnostics.Debug.Assert(tableLayoutPanel.RowCount == 1, "otherwise, adjust assumption here");
+            System.Diagnostics.Debug.Assert(tableLayoutPanel.RowCount == 1, "otherwise, adjust assumption here: StoryLineControl.cs.30");
             InsertRow(1);
 
             // remove the columns, because we're going to add them back as equal sizes.
@@ -42,14 +42,18 @@ namespace OneStoryProjectEditor
             int nNumColumns = 0;
             if (aSE.viewVernacularLangFieldMenuItem.Checked)
             {
+                // if we've already initialized the control, then it must have this project column index (i.e. nNumColumns)
+                System.Diagnostics.Debug.Assert((m_nColumnIndexVernacular == -1) || (m_nColumnIndexVernacular == nNumColumns), "fix bad assumption (StoryLineControl.cs.46): bob_eaton@sall.com");
+
                 // if it isn't already initialized
                 if (m_nColumnIndexVernacular == -1)
                 {
-                    m_nColumnIndexVernacular = nNumColumns++;
-                    InsertColumn(m_nColumnIndexVernacular);
-                    InitLabel(m_aVerseRow.GetVernacularRows()[0].lang, m_nColumnIndexVernacular);
-                    InitTextBox(cstrFieldNameVernacular, m_aVerseRow.GetVernacularRows()[0].Vernacular_text, aSE.VernacularFont, aSE.VernacularFontColor, m_nColumnIndexVernacular);
+                    InsertColumn(nNumColumns);
+                    InitLabel(m_aVerseRow.GetVernacularRows()[0].lang, nNumColumns);
+                    InitTextBox(cstrFieldNameVernacular, m_aVerseRow.GetVernacularRows()[0].Vernacular_text, aSE.VernacularFont, aSE.VernacularFontColor, nNumColumns);
+                    m_nColumnIndexVernacular = nNumColumns;
                 }
+                nNumColumns++;  // in either case, we have to bump the running count, because this control *is* there (whether new or old)
             }
             else if (m_nColumnIndexVernacular != -1)
             {
@@ -59,14 +63,18 @@ namespace OneStoryProjectEditor
 
             if (aSE.viewNationalLangFieldMenuItem.Checked)
             {
+                // if we've already initialized the control, then it must have this project column index (i.e. nNumColumns)
+                System.Diagnostics.Debug.Assert((m_nColumnIndexNationalBT == -1) || (m_nColumnIndexNationalBT == nNumColumns), "fix bad assumption (StoryLineControl.cs.66): bob_eaton@sall.com");
+
                 // if it isn't already initialized
                 if (m_nColumnIndexNationalBT == -1)
                 {
-                    m_nColumnIndexNationalBT = nNumColumns++;
-                    InsertColumn(m_nColumnIndexNationalBT);
-                    InitLabel(m_aVerseRow.GetNationalBTRows()[0].lang, m_nColumnIndexNationalBT);
-                    InitTextBox(cstrFieldNameNationalBT, m_aVerseRow.GetNationalBTRows()[0].NationalBT_text, aSE.NationalBTFont, aSE.NationalBTFontColor, m_nColumnIndexNationalBT);
+                    InsertColumn(nNumColumns);
+                    InitLabel(m_aVerseRow.GetNationalBTRows()[0].lang, nNumColumns);
+                    InitTextBox(cstrFieldNameNationalBT, m_aVerseRow.GetNationalBTRows()[0].NationalBT_text, aSE.NationalBTFont, aSE.NationalBTFontColor, nNumColumns);
+                    m_nColumnIndexNationalBT = nNumColumns;
                 }
+                nNumColumns++;  // in either case, we have to bump the running count, because this control *is* there (whether new or old)
             }
             else if (m_nColumnIndexNationalBT != -1)
             {
@@ -76,14 +84,18 @@ namespace OneStoryProjectEditor
 
             if (aSE.viewEnglishBTFieldMenuItem.Checked)
             {
+                // if we've already initialized the control, then it must have this project column index (i.e. nNumColumns)
+                System.Diagnostics.Debug.Assert((m_nColumnIndexInternationalBT == -1) || (m_nColumnIndexInternationalBT == nNumColumns), "fix bad assumption (StoryLineControl.cs.86): bob_eaton@sall.com");
+
                 // if it isn't already initialized
                 if (m_nColumnIndexInternationalBT == -1)
                 {
-                    m_nColumnIndexInternationalBT = nNumColumns++;
-                    InsertColumn(m_nColumnIndexInternationalBT);
-                    InitLabel(m_aVerseRow.GetInternationalBTRows()[0].lang, m_nColumnIndexInternationalBT);
-                    InitTextBox(cstrFieldNameInternationalBT, m_aVerseRow.GetInternationalBTRows()[0].InternationalBT_text, aSE.InternationalBTFont, aSE.InternationalBTFontColor, m_nColumnIndexInternationalBT);
+                    InsertColumn(nNumColumns);
+                    InitLabel(m_aVerseRow.GetInternationalBTRows()[0].lang, nNumColumns);
+                    InitTextBox(cstrFieldNameInternationalBT, m_aVerseRow.GetInternationalBTRows()[0].InternationalBT_text, aSE.InternationalBTFont, aSE.InternationalBTFontColor, nNumColumns);
+                    m_nColumnIndexInternationalBT = nNumColumns;
                 }
+                nNumColumns++;  // in either case, we have to bump the running count, because this control *is* there (whether new or old)
             }
             else if (m_nColumnIndexInternationalBT != -1)
             {
@@ -126,9 +138,9 @@ namespace OneStoryProjectEditor
         protected override void InsertColumn(int nLayoutColumnIndex)
         {
             base.InsertColumn(nLayoutColumnIndex);
-            if (m_nColumnIndexNationalBT > nLayoutColumnIndex)
+            if (m_nColumnIndexNationalBT >= nLayoutColumnIndex)
                 m_nColumnIndexNationalBT++;
-            if (m_nColumnIndexInternationalBT > nLayoutColumnIndex)
+            if (m_nColumnIndexInternationalBT >= nLayoutColumnIndex)
                 m_nColumnIndexInternationalBT++;
         }
 
