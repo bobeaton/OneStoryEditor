@@ -11,6 +11,9 @@ namespace OneStoryProjectEditor
     {
         protected ResizableControl ParentControl = null;
 
+        protected const string cstrSuffixTextBox = "TextBox";
+        protected const string cstrSuffixLabel = "Label";
+
         protected delegate void ReheightAllControlsDelegate();
 
         public ResizableControl()
@@ -62,9 +65,20 @@ namespace OneStoryProjectEditor
             tableLayoutPanel.InsertRow(nLayoutRowIndex);
         }
 
+        // if we insert or remove a row, we have to adjust the following indices
+        protected virtual void InsertColumn(int nLayoutColumnIndex)
+        {
+            tableLayoutPanel.InsertColumn(nLayoutColumnIndex);
+        }
+
         protected virtual void RemoveRow(int nLayoutRowIndex)
         {
             tableLayoutPanel.RemoveRow(nLayoutRowIndex);
+        }
+
+        protected virtual void RemoveColumn(int nLayoutColumnIndex)
+        {
+            tableLayoutPanel.RemoveColumn(nLayoutColumnIndex);
         }
 
         protected void textBox_TextChanged(object sender, EventArgs e)
@@ -82,7 +96,7 @@ namespace OneStoryProjectEditor
             {
                 if (aCtrl.GetType() == typeof(TextBox))
                     ResizeTextBoxToFitText((TextBox)aCtrl);
-                else if (aCtrl.GetType() == typeof(ResizableControl))
+                else if (aCtrl is ResizableControl)
                     ((ResizableControl)aCtrl).UpdateHeight(tableLayoutPanel.Width - tableLayoutPanel.Margin.Horizontal);
             }
         }

@@ -19,13 +19,13 @@ namespace OneStoryProjectEditor
             // if we're inserting in the middle, then we have to move the following controls down
             if (nRowIndex != nLayoutRowIndex)
             {
-                for (int i = this.RowCount - 1; i > nLayoutRowIndex; i--)
-                    for (int j = 0; j < this.ColumnCount; j++)
+                for (int row = this.RowCount - 1; row > nLayoutRowIndex; row--)
+                    for (int col = 0; col < this.ColumnCount; col++)
                     {
-                        Control ctrl = this.GetControlFromPosition(j, i - 1);
+                        Control ctrl = this.GetControlFromPosition(col, row - 1);
                         if (ctrl != null)
                         {
-                            TableLayoutPanelCellPosition cp = new TableLayoutPanelCellPosition(j, i);
+                            TableLayoutPanelCellPosition cp = new TableLayoutPanelCellPosition(col, row);
                             this.SetCellPosition(ctrl, cp);
                         }
                     }
@@ -34,26 +34,76 @@ namespace OneStoryProjectEditor
 
         public void RemoveRow(int nLayoutRowIndex)
         {
-            for (int i = 0; i < this.ColumnCount; i++)
+            for (int col = 0; col < this.ColumnCount; col++)
             {
-                Control ctrl = this.GetControlFromPosition(i, nLayoutRowIndex);
+                Control ctrl = this.GetControlFromPosition(col, nLayoutRowIndex);
                 if (ctrl != null)
                     this.Controls.Remove(ctrl);
             }
 
-            for (int i = nLayoutRowIndex; i < this.RowCount; i++)
-                for (int j = 0; j < this.ColumnCount; j++)
+            for (int row = nLayoutRowIndex; row < this.RowCount; row++)
+                for (int col = 0; col < this.ColumnCount; col++)
                 {
-                    Control ctrl = this.GetControlFromPosition(j, i + 1);
+                    Control ctrl = this.GetControlFromPosition(col, row + 1);
                     if (ctrl != null)
                     {
-                        TableLayoutPanelCellPosition cp = new TableLayoutPanelCellPosition(j, i);
+                        TableLayoutPanelCellPosition cp = new TableLayoutPanelCellPosition(col, row);
                         this.SetCellPosition(ctrl, cp);
                     }
                 }
 
             this.RowCount--;
             this.RowStyles.RemoveAt(RowCount);
+        }
+
+        public void InsertColumn(int nLayoutColumnIndex)
+        {
+            int nColumnIndex = this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(SizeType.Percent, 100));
+            ColumnCount++;
+
+            // if we're inserting in the middle, then we have to move the following controls down
+            if (nColumnIndex != nLayoutColumnIndex)
+            {
+                for (int col = this.ColumnCount - 1; col > nLayoutColumnIndex; col--)
+                    for (int row = 0; row < this.RowCount; row++)
+                    {
+                        Control ctrl = this.GetControlFromPosition(col - 1, row);
+                        if (ctrl != null)
+                        {
+                            TableLayoutPanelCellPosition cp = new TableLayoutPanelCellPosition(col, row);
+                            this.SetCellPosition(ctrl, cp);
+                        }
+                    }
+            }
+        }
+
+        public void RemoveColumn(int nLayoutColumnIndex)
+        {
+            for (int row = 0; row < this.RowCount; row++)
+            {
+                Control ctrl = this.GetControlFromPosition(nLayoutColumnIndex, row);
+                if (ctrl != null)
+                    this.Controls.Remove(ctrl);
+            }
+
+            for (int col = nLayoutColumnIndex; col < this.ColumnCount; col++)
+                for (int row = 0; row < this.RowCount; row++)
+                {
+                    Control ctrl = this.GetControlFromPosition(col + 1, row);
+                    if (ctrl != null)
+                    {
+                        TableLayoutPanelCellPosition cp = new TableLayoutPanelCellPosition(col, row);
+                        this.SetCellPosition(ctrl, cp);
+                    }
+                }
+
+            this.ColumnCount--;
+            this.ColumnStyles.RemoveAt(ColumnCount);
+        }
+
+        protected float GetColumnWidthPercentage(int nNewColumnWidth)
+        {
+            return 100 / nNewColumnWidth;
         }
 
         public void DumpTable()

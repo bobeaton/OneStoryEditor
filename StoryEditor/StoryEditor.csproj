@@ -119,6 +119,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="StoryLineControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="StoryLineControl.Designer.cs">
+      <DependentUpon>StoryLineControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="StoryProject.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
