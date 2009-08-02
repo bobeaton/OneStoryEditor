@@ -76,5 +76,29 @@ namespace OneStoryProjectEditor
             if ((anEHsRow != null) && (anEHsRow.Length > 0))
                 InitExegeticalHelpRows(anEHsRow[0], ref nNumRows);
         }
+
+        private void toolStripAnchors_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(typeof(NetBibleViewer)))
+            {
+                NetBibleViewer theNetBibleViewer = (NetBibleViewer)e.Data.GetData(typeof(NetBibleViewer));
+                foreach (ToolStripButton btn in toolStripAnchors.Items)
+                    if (btn.Text == theNetBibleViewer.ScriptureReference)
+                    {
+                        e.Effect = DragDropEffects.None;
+                        return;
+                    }
+                e.Effect = DragDropEffects.Link;
+            }
+        }
+
+        private void toolStripAnchors_DragDrop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(typeof(NetBibleViewer)))
+            {
+                NetBibleViewer theNetBibleViewer = (NetBibleViewer)e.Data.GetData(typeof(NetBibleViewer));
+                this.InitAnchorButton(toolStripAnchors, theNetBibleViewer.ScriptureReference, theNetBibleViewer.ScriptureReference);
+            }
+        }
     }
 }

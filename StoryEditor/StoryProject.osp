@@ -53,16 +53,16 @@
           <NationalBT lang="hi">आज चारों तरफ जितनी भी चीजें हम देखते हैं, इन्‍हें परमेश्‍वर ने ही बनाया है।</NationalBT>
           <InternationalBT lang="en">Whatever things we see around us today, God had made it only.</InternationalBT>
           <anchors>
-            <anchor jumpTarget="gen.02:04">
-              <text>gen.02:04</text>
+            <anchor jumpTarget="Gen 2:4">
+              <text>Gen 2:4</text>
               <exegeticalHelps>
                 <exegeticalHelp source="TN" memberID="mem-8B45075E-6434-4755-81AE-E1EEB9134D5B">
                   <quote>This is the account of the heavens and the earth when/after [God] created them. i.e. the agent was *God*</quote>
                 </exegeticalHelp>
               </exegeticalHelps>
             </anchor>
-            <anchor jumpTarget="col.01:16">
-              <text>also implied by col.01:16</text>
+            <anchor jumpTarget="Col 1:16">
+              <text>also implied by Col 1:16</text>
             </anchor>
           </anchors>
           <TestQuestions>
@@ -105,8 +105,8 @@
           <NationalBT lang="hi">परन्‍तु परमेश्‍वर इन चीजों से पहले थे, अब हैं और उन्‍होंने हमेशा तक रहना है, क्‍योंकि परमेश्‍वर अमर हैं ।</NationalBT>
           <InternationalBT lang="en">but before these things God was before, is now and he will remain forever, because God is immortal.</InternationalBT>
           <anchors>
-            <anchor jumpTarget="heb.13:08">
-              <text>heb.13:08</text>
+            <anchor jumpTarget="Heb 13:8">
+              <text>Heb 13:8</text>
             </anchor>
           </anchors>
         </verse>

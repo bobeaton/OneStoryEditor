@@ -26,7 +26,6 @@ namespace OneStoryProjectEditor
         /// based on view menu settings in the parent frame (aSE)
         /// </summary>
         /// <param name="aSE">This parameter is used to give access to the main window (for things like, what view items are enabled, etc)</param>
-        /// <param name="nWidth">This parameter is used to fix the width of the control (the parent knows what the width is)</param>
         public virtual void UpdateView(StoryEditor aSE)
         {
             // only subclasses know what to do here...
@@ -88,13 +87,14 @@ namespace OneStoryProjectEditor
                 AdjustHeightWithSuspendLayout(null);
         }
 
-        protected void ReheightAllControls()
+        protected virtual void ReheightAllControls()
         {
             //  Resize all of the Text boxes to fit and tell all sub-controls of this same type to resize 
             //  themselves also.
             foreach (Control aCtrl in tableLayoutPanel.Controls)
             {
-                if (aCtrl.GetType() == typeof(TextBox))
+                Type type = aCtrl.GetType();
+                if (type == typeof(TextBox))
                     ResizeTextBoxToFitText((TextBox)aCtrl);
                 else if (aCtrl is ResizableControl)
                     ((ResizableControl)aCtrl).UpdateHeight(tableLayoutPanel.Width - tableLayoutPanel.Margin.Horizontal);

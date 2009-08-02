@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{EE63B2ED-1488-491F-990A-3FA16E2DB135}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -40,9 +40,6 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System.Data.DataSetExtensions">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -68,6 +65,12 @@
     <Compile Include="NetBibleFootnoteTooltip.designer.cs">
       <DependentUpon>NetBibleFootnoteTooltip.cs</DependentUpon>
     </Compile>
+    <Compile Include="NetBibleViewer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="NetBibleViewer.Designer.cs">
+      <DependentUpon>NetBibleViewer.cs</DependentUpon>
+    </Compile>
     <Compile Include="ResizableControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -84,13 +87,19 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AnchorControl.resx">
       <DependentUpon>AnchorControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="NetBibleFootnoteTooltip.resx">
       <DependentUpon>NetBibleFootnoteTooltip.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="NetBibleViewer.resx">
+      <DependentUpon>NetBibleViewer.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="ResizableControl.resx">
       <DependentUpon>ResizableControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="StoryEditor.resx">
       <DependentUpon>StoryEditor.cs</DependentUpon>
@@ -103,9 +112,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="StoryLineControl.resx">
       <DependentUpon>StoryLineControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="VerseBtControl.resx">
       <DependentUpon>VerseBtControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

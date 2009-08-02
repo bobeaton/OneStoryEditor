@@ -44,6 +44,7 @@
             // 
             // toolStripAnchors
             // 
+            this.toolStripAnchors.AllowDrop = true;
             this.toolStripAnchors.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStripAnchors.Location = new System.Drawing.Point(34, 0);
             this.toolStripAnchors.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
@@ -51,6 +52,8 @@
             this.toolStripAnchors.Size = new System.Drawing.Size(672, 25);
             this.toolStripAnchors.TabIndex = 0;
             this.toolStripAnchors.Text = "toolStripAnchors";
+            this.toolStripAnchors.DragEnter += new System.Windows.Forms.DragEventHandler(this.toolStripAnchors_DragEnter);
+            this.toolStripAnchors.DragDrop += new System.Windows.Forms.DragEventHandler(this.toolStripAnchors_DragDrop);
             // 
             // labelExegeticalHelp
             // 
