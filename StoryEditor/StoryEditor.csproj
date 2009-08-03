@@ -65,6 +65,7 @@
     <Compile Include="DynamicTableLayoutPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="MultipleLineDataConverter.cs" />
     <Compile Include="NetBibleFootnoteTooltip.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -83,11 +84,11 @@
     <Compile Include="ResizableControl.designer.cs">
       <DependentUpon>ResizableControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="RetellingsControl.cs">
+    <Compile Include="MultiLineControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="RetellingsControl.Designer.cs">
-      <DependentUpon>RetellingsControl.cs</DependentUpon>
+    <Compile Include="MultiLineControl.Designer.cs">
+      <DependentUpon>MultiLineControl.cs</DependentUpon>
     </Compile>
     <Compile Include="StoryEditor.cs">
       <SubType>Form</SubType>
@@ -159,6 +160,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>StoryProject.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="TestingQuestionControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TestingQuestionControl.Designer.cs">
+      <DependentUpon>TestingQuestionControl.cs</DependentUpon>
     </Compile>
     <Compile Include="VerseBtControl.cs">
       <SubType>UserControl</SubType>

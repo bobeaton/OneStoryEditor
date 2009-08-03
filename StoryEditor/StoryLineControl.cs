@@ -23,6 +23,9 @@ namespace OneStoryProjectEditor
         {
             InitializeComponent();
 
+            this.tableLayoutPanel.SuspendLayout();
+            this.SuspendLayout();
+
             m_aVerseRow = aVerseRow;
 
             // clobber the base class table layout panel's configuration. We're 'column-oriented' instead
@@ -35,6 +38,9 @@ namespace OneStoryProjectEditor
                 RemoveColumn(tableLayoutPanel.ColumnCount - 1);
 
             UpdateView(aSE);
+
+            this.tableLayoutPanel.ResumeLayout(false);
+            this.ResumeLayout(false);
         }
 
         public override void  UpdateView(StoryEditor aSE)
