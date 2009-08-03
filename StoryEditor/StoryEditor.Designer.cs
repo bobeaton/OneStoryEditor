@@ -46,12 +46,14 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.viewRetellingFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-            this.viewConsultantNoteFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewConsultaAntNoteFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.flowLayoutPanelVerses = new System.Windows.Forms.FlowLayoutPanel();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.splitContainerLeftRight = new System.Windows.Forms.SplitContainer();
             this.splitContainerUpDown = new System.Windows.Forms.SplitContainer();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.viewNetBibleMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.netBibleViewer = new OneStoryProjectEditor.NetBibleViewer();
             this.menuStrip.SuspendLayout();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
@@ -135,7 +137,9 @@
             this.toolStripSeparator5,
             this.viewRetellingFieldMenuItem,
             this.toolStripSeparator6,
-            this.viewConsultantNoteFieldMenuItem});
+            this.viewConsultaAntNoteFieldMenuItem,
+            this.toolStripSeparator3,
+            this.viewNetBibleMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.viewToolStripMenuItem.Text = "&View";
@@ -188,6 +192,7 @@
             this.viewStoryTestingQuestionFieldMenuItem.Name = "viewStoryTestingQuestionFieldMenuItem";
             this.viewStoryTestingQuestionFieldMenuItem.Size = new System.Drawing.Size(284, 22);
             this.viewStoryTestingQuestionFieldMenuItem.Text = "Story &testing questions field";
+            this.viewStoryTestingQuestionFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
             // 
             // toolStripSeparator5
             // 
@@ -202,20 +207,21 @@
             this.viewRetellingFieldMenuItem.Name = "viewRetellingFieldMenuItem";
             this.viewRetellingFieldMenuItem.Size = new System.Drawing.Size(284, 22);
             this.viewRetellingFieldMenuItem.Text = "&Retelling field";
+            this.viewRetellingFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
             this.toolStripSeparator6.Size = new System.Drawing.Size(281, 6);
             // 
-            // viewConsultantNoteFieldMenuItem
+            // viewConsultaAntNoteFieldMenuItem
             // 
-            this.viewConsultantNoteFieldMenuItem.Checked = true;
-            this.viewConsultantNoteFieldMenuItem.CheckOnClick = true;
-            this.viewConsultantNoteFieldMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.viewConsultantNoteFieldMenuItem.Name = "viewConsultantNoteFieldMenuItem";
-            this.viewConsultantNoteFieldMenuItem.Size = new System.Drawing.Size(284, 22);
-            this.viewConsultantNoteFieldMenuItem.Text = "&Consultant notes field";
+            this.viewConsultaAntNoteFieldMenuItem.Checked = true;
+            this.viewConsultaAntNoteFieldMenuItem.CheckOnClick = true;
+            this.viewConsultaAntNoteFieldMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.viewConsultaAntNoteFieldMenuItem.Name = "viewConsultaAntNoteFieldMenuItem";
+            this.viewConsultaAntNoteFieldMenuItem.Size = new System.Drawing.Size(284, 22);
+            this.viewConsultaAntNoteFieldMenuItem.Text = "&Consultant notes field";
             // 
             // flowLayoutPanelVerses
             // 
@@ -275,6 +281,21 @@
             this.splitContainerUpDown.SplitterDistance = 201;
             this.splitContainerUpDown.TabIndex = 2;
             // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(281, 6);
+            // 
+            // viewNetBibleMenuItem
+            // 
+            this.viewNetBibleMenuItem.Checked = true;
+            this.viewNetBibleMenuItem.CheckOnClick = true;
+            this.viewNetBibleMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.viewNetBibleMenuItem.Name = "viewNetBibleMenuItem";
+            this.viewNetBibleMenuItem.Size = new System.Drawing.Size(284, 22);
+            this.viewNetBibleMenuItem.Text = "&NetBible";
+            this.viewNetBibleMenuItem.CheckedChanged += new System.EventHandler(this.viewNetBibleMenuItem_CheckedChanged);
+            // 
             // netBibleViewer
             // 
             this.netBibleViewer.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
@@ -282,6 +303,7 @@
             this.netBibleViewer.Location = new System.Drawing.Point(0, 0);
             this.netBibleViewer.Margin = new System.Windows.Forms.Padding(0);
             this.netBibleViewer.Name = "netBibleViewer";
+            this.netBibleViewer.ScriptureReference = "gen 1:1";
             this.netBibleViewer.Size = new System.Drawing.Size(521, 105);
             this.netBibleViewer.TabIndex = 0;
             // 
@@ -332,8 +354,10 @@
         internal System.Windows.Forms.ToolStripMenuItem viewAnchorFieldMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem viewStoryTestingQuestionFieldMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem viewRetellingFieldMenuItem;
-        internal System.Windows.Forms.ToolStripMenuItem viewConsultantNoteFieldMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem viewConsultaAntNoteFieldMenuItem;
         private NetBibleViewer netBibleViewer;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem viewNetBibleMenuItem;
     }
 }
 

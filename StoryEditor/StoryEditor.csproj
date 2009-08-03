@@ -83,6 +83,12 @@
     <Compile Include="ResizableControl.designer.cs">
       <DependentUpon>ResizableControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="RetellingsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="RetellingsControl.Designer.cs">
+      <DependentUpon>RetellingsControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="StoryEditor.cs">
       <SubType>Form</SubType>
     </Compile>

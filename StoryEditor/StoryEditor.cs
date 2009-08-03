@@ -190,6 +190,9 @@ namespace OneStoryProjectEditor
 
         internal void SetNetBibleVerse(string strScriptureReference)
         {
+            if (splitContainerUpDown.Panel2Collapsed == true)
+                viewNetBibleMenuItem.Checked = true;
+
             netBibleViewer.DisplayVerses(strScriptureReference);
         }
 
@@ -292,6 +295,13 @@ namespace OneStoryProjectEditor
         private void viewFieldMenuItem_CheckedChanged(object sender, EventArgs e)
         {
             UpdateVersePanel();
+        }
+
+        private void viewNetBibleMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.Assert(sender is ToolStripMenuItem);
+            ToolStripMenuItem tsm = (ToolStripMenuItem)sender;
+            splitContainerUpDown.Panel2Collapsed = !tsm.Checked;
         }
     }
 }

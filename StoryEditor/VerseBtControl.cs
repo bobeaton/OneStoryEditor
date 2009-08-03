@@ -16,12 +16,14 @@ namespace OneStoryProjectEditor
         internal const string cstrVerseName = "Verse: ";
         protected const string cstrFieldNameStoryLine = "StoryLine";
         protected const string cstrFieldNameAnchors = "Anchors";
+        protected const string cstrFieldNameRetellings = "Retellings";
 
         protected StoryProject.verseRow m_aVerseRow = null;   // TODO: change this isn't a class that can do linq writes
 
         internal int VerseNumber = -1;
-        protected int m_nRowIndexAnchors = -1;
         protected int m_nRowIndexStoryLine = -1;
+        protected int m_nRowIndexAnchors = -1;
+        protected int m_nRowIndexRetelling = -1;
 
         public VerseBtControl(StoryEditor aSE, StoryProject.verseRow aVerseRow, int nVerseNumber)
         {
@@ -71,7 +73,7 @@ namespace OneStoryProjectEditor
                 if (anAnchorsRow != null)
                 {
                     System.Diagnostics.Debug.Assert(anAnchorsRow.Length > 0);
-                    InitAnchors(aSE, anAnchorsRow[0], nNumRows);
+                    InitAnchors(anAnchorsRow[0], nNumRows);
                     m_nRowIndexAnchors = nNumRows++;
                 }
             }
@@ -81,6 +83,25 @@ namespace OneStoryProjectEditor
                 RemoveRow(m_nRowIndexAnchors);
                 m_nRowIndexAnchors = -1;
             }
+
+            if (aSE.viewRetellingFieldMenuItem.Checked)
+            {
+                // if we've already initialized the control, then it must have this project row index (i.e. nNumRows)
+                System.Diagnostics.Debug.Assert((m_nRowIndexRetelling == -1) || (m_nRowIndexRetelling == nNumRows), "fix bad assumption (VerseBtControl.cs.64): bob_eaton@sall.com");
+
+                StoryProject.RetellingsRow[] aRetellingsRows = m_aVerseRow.GetRetellingsRows();
+                if ((aRetellingsRows != null) && (aRetellingsRows.Length > 0))
+                {
+                    InitRetellings(aRetellingsRows[0], nNumRows);
+                    m_nRowIndexRetelling = nNumRows++;
+                }
+            }
+            else if (m_nRowIndexRetelling != -1)
+            {
+                // now get rid of the anchor row
+                RemoveRow(m_nRowIndexRetelling);
+                m_nRowIndexRetelling = -1;
+            }
         }
 
         // if we insert or remove a row, we have to adjust the following indices
@@ -89,6 +110,8 @@ namespace OneStoryProjectEditor
             base.InsertRow(nLayoutRowIndex);
             if (m_nRowIndexAnchors >= nLayoutRowIndex)
                 m_nRowIndexAnchors++;
+            if (m_nRowIndexRetelling >= nLayoutRowIndex)
+                m_nRowIndexRetelling++;
         }
 
         protected override void RemoveRow(int nLayoutRowIndex)
@@ -96,6 +119,8 @@ namespace OneStoryProjectEditor
             base.RemoveRow(nLayoutRowIndex);
             if (m_nRowIndexAnchors > nLayoutRowIndex)
                 m_nRowIndexAnchors--;
+            if (m_nRowIndexRetelling > nLayoutRowIndex)
+                m_nRowIndexRetelling--;
         }
 
         protected void InitStoryLine(StoryEditor aSE, StoryProject.verseRow aVerseRow, int nLayoutRow)
@@ -121,7 +146,7 @@ namespace OneStoryProjectEditor
             }
         }
 
-        protected void InitAnchors(StoryEditor aSE, StoryProject.anchorsRow anAnchorsRow, int nLayoutRow)
+        protected void InitAnchors(StoryProject.anchorsRow anAnchorsRow, int nLayoutRow)
         {
             // since some of the view parameters (e.g. show Vernacular) are actually controlled within
             //  the StoryLine control, if we get the call to UpdateView, we have to pass it on to it
@@ -137,6 +162,24 @@ namespace OneStoryProjectEditor
                 InsertRow(nLayoutRow);
                 tableLayoutPanel.SetColumnSpan(anAnchorCtrl, 2);
                 tableLayoutPanel.Controls.Add(anAnchorCtrl, 0, nLayoutRow);
+            }
+        }
+
+        protected void InitRetellings(StoryProject.RetellingsRow aRetellingsRow, int nLayoutRow)
+        {
+            // since some of the view parameters (e.g. show Vernacular) are actually controlled within
+            //  the StoryLine control, if we get the call to UpdateView, we have to pass it on to it
+            //  to handle (unlike here with the Retellings control, which is all on or all off)
+            System.Diagnostics.Debug.Assert((m_nRowIndexRetelling != -1) || !tableLayoutPanel.Controls.ContainsKey(cstrFieldNameRetellings));
+            if (!tableLayoutPanel.Controls.ContainsKey(cstrFieldNameRetellings))
+            {
+                RetellingsControl aRetellingsCtrl = new RetellingsControl(aRetellingsRow);
+                aRetellingsCtrl.Name = cstrFieldNameRetellings;
+                aRetellingsCtrl.ParentControl = this;
+
+                InsertRow(nLayoutRow);
+                tableLayoutPanel.SetColumnSpan(aRetellingsCtrl, 2);
+                tableLayoutPanel.Controls.Add(aRetellingsCtrl, 0, nLayoutRow);
             }
         }
 
