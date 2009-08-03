@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel = new OneStoryProjectEditor.DynamicTableLayoutPanel();
-            this.tableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel
@@ -42,6 +41,7 @@
             this.tableLayoutPanel.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
+            this.tableLayoutPanel.Padding = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.tableLayoutPanel.RowCount = 1;
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel.Size = new System.Drawing.Size(494, 197);
@@ -56,7 +56,6 @@
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "ResizableControl";
             this.Size = new System.Drawing.Size(494, 197);
-            this.tableLayoutPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

@@ -28,13 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.labelAnchor = new System.Windows.Forms.Label();
             this.toolStripAnchors = new System.Windows.Forms.ToolStrip();
-            this.labelExegeticalHelp = new System.Windows.Forms.Label();
+            this.contextMenuStripAnchorOptions = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addCommentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addExegeticalCulturalNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStripAnchorOptions.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelAnchor
             // 
+            this.labelAnchor.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelAnchor.AutoSize = true;
             this.labelAnchor.Location = new System.Drawing.Point(3, 0);
             this.labelAnchor.Name = "labelAnchor";
@@ -45,6 +51,7 @@
             // toolStripAnchors
             // 
             this.toolStripAnchors.AllowDrop = true;
+            this.toolStripAnchors.ContextMenuStrip = this.contextMenuStripAnchorOptions;
             this.toolStripAnchors.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStripAnchors.Location = new System.Drawing.Point(34, 0);
             this.toolStripAnchors.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
@@ -52,18 +59,39 @@
             this.toolStripAnchors.Size = new System.Drawing.Size(672, 25);
             this.toolStripAnchors.TabIndex = 0;
             this.toolStripAnchors.Text = "toolStripAnchors";
+            this.toolStripAnchors.MouseUp += new System.Windows.Forms.MouseEventHandler(this.toolStripAnchors_MouseDown);
             this.toolStripAnchors.DragEnter += new System.Windows.Forms.DragEventHandler(this.toolStripAnchors_DragEnter);
             this.toolStripAnchors.DragDrop += new System.Windows.Forms.DragEventHandler(this.toolStripAnchors_DragDrop);
             // 
-            // labelExegeticalHelp
+            // contextMenuStripAnchorOptions
             // 
-            this.labelExegeticalHelp.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.labelExegeticalHelp.AutoSize = true;
-            this.labelExegeticalHelp.Location = new System.Drawing.Point(4, 42);
-            this.labelExegeticalHelp.Name = "labelExegeticalHelp";
-            this.labelExegeticalHelp.Size = new System.Drawing.Size(22, 13);
-            this.labelExegeticalHelp.TabIndex = 9;
-            this.labelExegeticalHelp.Text = "cn:";
+            this.contextMenuStripAnchorOptions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteToolStripMenuItem,
+            this.addCommentToolStripMenuItem,
+            this.addExegeticalCulturalNoteToolStripMenuItem});
+            this.contextMenuStripAnchorOptions.Name = "contextMenuStripAnchorOptions";
+            this.contextMenuStripAnchorOptions.Size = new System.Drawing.Size(228, 92);
+            // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
+            this.deleteToolStripMenuItem.Text = "&Delete";
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
+            // 
+            // addCommentToolStripMenuItem
+            // 
+            this.addCommentToolStripMenuItem.Name = "addCommentToolStripMenuItem";
+            this.addCommentToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
+            this.addCommentToolStripMenuItem.Text = "&Add Comment";
+            this.addCommentToolStripMenuItem.Click += new System.EventHandler(this.addCommentToolStripMenuItem_Click);
+            // 
+            // addExegeticalCulturalNoteToolStripMenuItem
+            // 
+            this.addExegeticalCulturalNoteToolStripMenuItem.Name = "addExegeticalCulturalNoteToolStripMenuItem";
+            this.addExegeticalCulturalNoteToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
+            this.addExegeticalCulturalNoteToolStripMenuItem.Text = "Add &Exegetical/Cultural Note";
+            this.addExegeticalCulturalNoteToolStripMenuItem.Click += new System.EventHandler(this.addExegeticalCulturalNoteToolStripMenuItem_Click);
             // 
             // AnchorControl
             // 
@@ -71,6 +99,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Name = "AnchorControl";
             this.Size = new System.Drawing.Size(706, 71);
+            this.contextMenuStripAnchorOptions.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -79,6 +108,9 @@
 
         private System.Windows.Forms.ToolStrip toolStripAnchors;
         private System.Windows.Forms.Label labelAnchor;
-        private System.Windows.Forms.Label labelExegeticalHelp;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripAnchorOptions;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addCommentToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addExegeticalCulturalNoteToolStripMenuItem;
     }
 }

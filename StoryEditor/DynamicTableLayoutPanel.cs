@@ -129,11 +129,12 @@ namespace OneStoryProjectEditor
                 {
                     Control ctrl = this.GetControlFromPosition(j, i);
                     if (ctrl != null)
-                        nRowHeight = Math.Max(nRowHeight, ctrl.Height);
+                        // the total row height is the control's height plus any margin it may have and...
+                        nRowHeight = Math.Max(nRowHeight, ctrl.Height + ctrl.Margin.Vertical);
                 }
-                nHeight += nRowHeight + Padding.Horizontal; // padding for each row and...
+                nHeight += nRowHeight;
             }
-            return nHeight + Margin.Vertical; // margin for the whole control
+            return nHeight + Padding.Vertical; // padding
         }
     }
 }
