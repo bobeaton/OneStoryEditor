@@ -13,18 +13,16 @@ namespace OneStoryProjectEditor
     {
         protected string m_strScriptureReference = "gen 1:1";
 
-        #region "Sword stuff for NETfree pane"
-        MarkupFilterMgr filterManager;
-        SWMgr manager;
-        SWModule moduleVersion = null;
-        NetBibleFootnoteTooltip tooltipNBFNs = null;
-        String m_strBookName, m_strChapterNumber, m_strVerseNumber;
+        #region "format strings for HTML items"
+        // protected const string cstrHtmlLineFormat = "<button type=\"button\">{0}</button>{1}<br />";
+        protected const string cstrHtmlLineFormat = "<tr><td><button type=\"button\">{0}</button></td><td>{1}</td>";
+        protected const string cstrHtmlTableBegin = "<table border=\"1\">";
+        protected const string cstrHtmlTableEnd = "</table>";
 
-        string verseLineBreak = "<br />";
-        string preDocumentDOMScript = "<script>" +
+        protected const string verseLineBreak = "<br />";
+        protected const string preDocumentDOMScript = "<script>" +
             "function OpenHoverWindow(link)" +
             "{" +
-            //"  alert(link.getAttribute(\"href\").substr(6,link.length));" +
             "  window.external.ShowHoverOver(link.getAttribute(\"href\").substr(6,link.length));" +
             "  return false;" +
             "}" +
@@ -35,14 +33,24 @@ namespace OneStoryProjectEditor
             "  return false;" +
             "}" +
             "" +
-            "function DoScriptureRefDragSource(button)" +
+            "function DoOnMouseOut(button)" +
             "{" +
-            "  window.external.OnDoScriptureRefDragSource(button.getAttribute(\"value\"));" +
+            "  window.external.OnMouseOut(button.getAttribute(\"value\"));" +
+            "  return false;" +
+            "}" +
+            "function DoOnMouseDown()" +
+            "{" +
+            "  window.external.OnMouseDown();" +
+            "  return false;" +
+            "}" +
+            "function DoOnMouseUp(button)" +
+            "{" +
+            "  window.external.OnDoOnMouseUp(button.getAttribute(\"value\"));" +
             "  return false;" +
             "}" +
             "</script>";
 
-        string postDocumentDOMScript = "<script>" +
+        protected const string postDocumentDOMScript = "<script>" +
             "var links = document.getElementsByTagName(\"a\");" +
             "for (var i=0; i < links.length; i++)" +
             "{" +
@@ -53,9 +61,19 @@ namespace OneStoryProjectEditor
             "var buttons = document.getElementsByTagName(\"button\");" +
             "for (var i=0; i < buttons.length; i++)" +
             "{" +
-            "  buttons[i].onmousedown = function(){return DoScriptureRefDragSource(this);};" +
+            "  buttons[i].onmousedown = function(){return DoOnMouseDown();};" +
+            "  buttons[i].onmouseup = function(){return DoOnMouseUp(this);};" +
+            "  buttons[i].onmouseout = function(){return DoOnMouseOut(this);};" +
             "}" +
             "</script>";
+        #endregion
+
+        #region "Defines for Sword capability"
+        MarkupFilterMgr filterManager;
+        SWMgr manager;
+        SWModule moduleVersion = null;
+        NetBibleFootnoteTooltip tooltipNBFNs = null;
+        int m_nBook = 0, m_nChapter = 0, m_nVerse = 0;
 
         protected static char[] achAnchorDelimiters = new char[] { ' ', ':' };
         #endregion
@@ -65,10 +83,11 @@ namespace OneStoryProjectEditor
             InitializeComponent();
         }
 
+        // do this outside of the ctor so in case it throws an error (e.g. Sword not installed),
+        //  we can catch it and let the parent form create anyway.
         public void InitNetBibleViewer()
         {
             InitializeSword();
-            DisplayVerses(ScriptureReference);
         }
 
         public string ScriptureReference
@@ -77,6 +96,7 @@ namespace OneStoryProjectEditor
             set { m_strScriptureReference = value; }
         }
 
+        #region "Code for Sword support"
         protected void InitializeSword()
         {
             // Initialize Module Variables
@@ -127,73 +147,124 @@ namespace OneStoryProjectEditor
              * -Richard Parsons 01-31-2007
              */
             webBrowserNetBible.ObjectForScripting = this;
-            DisplayVerses(ScriptureReference);
         }
-
-        protected const string cstrHtmlLineFormat = "<button type=\"button\">{0}</button>{1}<br />";
 
         // the anchor comes in as, for example, "gen 1:1"
+        // this form is usually called from outside
         public void DisplayVerses(string strScriptureReference)
         {
-            string[] aStrTokens = strScriptureReference.Split(achAnchorDelimiters);
-            if (aStrTokens.Length != 3)
-                throw new ApplicationException(String.Format("Ill-formed Anchor: '{0}'", strScriptureReference));
-
-            if ((aStrTokens[0] != m_strBookName) || (aStrTokens[1] != m_strChapterNumber))
-            {
-                // change books or chapters. We just get a whole chapters worth
-                String strReference = String.Format("{0} {1}:{2}", aStrTokens[0], aStrTokens[1], aStrTokens[2]);
-                VerseKey verseKey = new VerseKey(strReference);
-                int chapter = verseKey.Chapter();
-                int book = verseKey.Book();
-
-                //Display the document
-                StringBuilder sb = new StringBuilder();
-                while (verseKey.Chapter() == chapter && verseKey.Book() == book && verseKey.Error() == '\0')
-                {
-                    string strVerseHtml = moduleVersion.RenderText(verseKey).Replace(verseLineBreak, null);
-                    string strLineHtml = String.Format(cstrHtmlLineFormat, verseKey.getShortText(), strVerseHtml);
-                    sb.Append(strLineHtml);
-                    verseKey.Verse(verseKey.Verse() + 1);
-                }
-
-                webBrowserNetBible.DocumentText = preDocumentDOMScript + sb.ToString() + postDocumentDOMScript;
-
-                // initialize the combo boxes for this new situation
-                if (aStrTokens[0] != m_strBookName)
-                {
-                    this.toolStripComboBoxBookName.SelectedItem = verseKey.getBookAbbrev();
-                    m_strBookName = aStrTokens[0];
-
-                    this.toolStripComboBoxChapterNumber.Items.Clear();
-                    int nChapters = verseKey.chapterCount(verseKey.Testament(), book);
-                    for (int i = 1; i <= nChapters; i++)
-                        toolStripComboBoxChapterNumber.Items.Add(i.ToString());
-
-                    // if the book changes, then the chapter number changes by default
-                    m_strChapterNumber = null;
-                }
-
-                if (aStrTokens[1] != m_strChapterNumber)
-                {
-                    toolStripComboBoxChapterNumber.SelectedItem = chapter.ToString();
-                    m_strChapterNumber = aStrTokens[1];
-                    this.toolStripComboBoxVerseNumber.Items.Clear();
-                    int nVerses = verseKey.verseCount(verseKey.Testament(), book, chapter);
-                    for (int i = 1; i <= nVerses; i++)
-                        toolStripComboBoxVerseNumber.Items.Add(i.ToString());
-                }
-            }
-
-            toolStripComboBoxVerseNumber.SelectedItem = m_strVerseNumber = aStrTokens[2];
-            // TODO: make the verse the user requested come forward
+            ScriptureReference = strScriptureReference;
+            DisplayVerses();
         }
 
-        public void OnDoScriptureRefDragSource(string strScriptureReference)
+        protected void DisplayVerses()
         {
-            Console.WriteLine("OnDoScriptureRefDragSource: " + strScriptureReference);
+            VerseKey keyVerse = new VerseKey(ScriptureReference);
+            int nBook = keyVerse.Book();
+            int nChapter = keyVerse.Chapter();
+            int nVerse = keyVerse.Verse();
+
+            if ((nBook != m_nBook) || (nChapter != m_nChapter) || (nVerse != m_nVerse))
+            {
+                // something changed
+                // Build up the string which we're going to put in the HTML viewer
+                StringBuilder sb = new StringBuilder(cstrHtmlTableBegin);
+
+                // Let's just read in what left in the chapter
+                VerseKey keyRestOfChapter = new VerseKey(keyVerse);
+                while ((keyRestOfChapter.Chapter() == nChapter) && (keyRestOfChapter.Book() == nBook) && (keyRestOfChapter.Error() == '\0'))
+                {
+                    // get the verse and remove any line break signals
+                    string strVerseHtml = moduleVersion.RenderText(keyRestOfChapter).Replace(verseLineBreak, null);
+
+                    // insert a button (for drag-drop) and the HTML into a table format
+                    string strLineHtml = String.Format(cstrHtmlLineFormat, keyRestOfChapter.getShortText(), strVerseHtml);
+                    sb.Append(strLineHtml);
+
+                    // next verse until end of chapter
+                    keyRestOfChapter.Verse(keyRestOfChapter.Verse() + 1);
+                }
+
+                // delimit the table
+                sb.Append(cstrHtmlTableEnd);
+
+                // set this along with scripts for clicks and such into the web browser.
+                webBrowserNetBible.DocumentText = preDocumentDOMScript + sb.ToString() + postDocumentDOMScript;
+            }
+
+            // update the updown controls
+            UpdateUpDowns(keyVerse);
+        }
+
+        protected void UpdateUpDowns(VerseKey keyVerse)
+        {
+            m_bDisableInterrupts = true;
+
+            // initialize the combo boxes for this new situation
+            if (keyVerse.Verse() != m_nBook)
+            {
+                this.domainUpDownBookNames.SelectedItem = keyVerse.getBookAbbrev();
+                m_nBook = keyVerse.Book();
+
+                int nNumChapters = keyVerse.chapterCount(keyVerse.Testament(), keyVerse.Book());
+                this.numericUpDownChapterNumber.Maximum = nNumChapters;
+
+                // if the book changes, then the chapter number changes implicitly
+                m_nChapter = 0;
+            }
+
+            if (keyVerse.Chapter() != m_nChapter)
+            {
+                m_nChapter = keyVerse.Chapter();
+                this.numericUpDownChapterNumber.Value = (decimal)m_nChapter;
+
+                int nNumVerses = keyVerse.verseCount(keyVerse.Testament(), keyVerse.Book(), keyVerse.Chapter());
+                this.numericUpDownVerseNumber.Maximum = nNumVerses;
+            }
+
+            if (keyVerse.Verse() != m_nVerse)
+            {
+                m_nVerse = keyVerse.Verse();
+                this.numericUpDownVerseNumber.Value = (decimal)m_nVerse;
+            }
+
+            m_bDisableInterrupts = false;
+        }
+
+        protected static string[] GetModuleLocations()
+        {
+            string strSwordProjectPath = Environment.GetEnvironmentVariable("SWORD_PATH");
+            if (String.IsNullOrEmpty(strSwordProjectPath))
+                strSwordProjectPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles) + @"\CrossWire\The SWORD Project";
+            return new string[] { strSwordProjectPath };
+        }
+        #endregion  // "Defines for Sword capability"
+
+        #region "Callbacks from HTML script"
+        protected bool m_bMouseDown = false;
+
+        public void OnMouseDown()
+        {
+            Console.WriteLine("OnMouseDown:");
+            m_bMouseDown = true;
+        }
+
+        public void OnMouseOut(string strScriptureReference)
+        {
+            Console.WriteLine("OnMouseOut: " + strScriptureReference + ((m_bMouseDown) ? " with mouse down" : " with mouse up"));
+            if (m_bMouseDown)
+            {
+                ScriptureReference = strScriptureReference;
+                webBrowserNetBible.DoDragDrop(this, DragDropEffects.Link);
+            }
+        }
+
+        public void OnDoOnMouseUp(string strScriptureReference)
+        {
+            Console.WriteLine("OnDoOnMouseUp: " + strScriptureReference);
+            m_bMouseDown = false;
             ScriptureReference = strScriptureReference;
-            webBrowserNetBible.DoDragDrop(this, DragDropEffects.Link);
+            DisplayVerses();
         }
 
         public void ShowHoverOver(string s)
@@ -223,84 +294,30 @@ namespace OneStoryProjectEditor
                 tooltipNBFNs = null;
             }
         }
+        #endregion // "Callbacks from HTML script"
 
-        protected static string[] GetModuleLocations()
+        protected bool m_bDisableInterrupts = false;
+        protected void CallUpdateUpDowns()
         {
-            string strSwordProjectPath = Environment.GetEnvironmentVariable("SWORD_PATH");
-            if (String.IsNullOrEmpty(strSwordProjectPath))
-                strSwordProjectPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles) + @"\CrossWire\The SWORD Project";
-            return new string[] { strSwordProjectPath };
+            if (!m_bDisableInterrupts)
+            {
+                ScriptureReference = String.Format("{0} {1}:{2}",
+                    domainUpDownBookNames.SelectedItem,
+                    numericUpDownChapterNumber.Value,
+                    numericUpDownVerseNumber.Value);
+
+                DisplayVerses();
+            }
         }
 
-        private void toolStripComboBoxBookName_SelectedIndexChanged(object sender, EventArgs e)
+        private void domainUpDownBookNames_SelectedItemChanged(object sender, EventArgs e)
         {
-            // disable the prev book button if we're on Genesis and the next book button if on Revelation
-            ToolStripComboBox theSender = (ToolStripComboBox)sender;
-            toolStripComboBox_SelectedIndexChanged(theSender, this.toolStripButtonPrevBook, this.toolStripButtonNextBook);
+            CallUpdateUpDowns();
         }
 
-        private void toolStripComboBoxChapterNumber_SelectedIndexChanged(object sender, EventArgs e)
+        private void numericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            ToolStripComboBox theSender = (ToolStripComboBox)sender;
-            toolStripComboBox_SelectedIndexChanged(theSender, this.toolStripButtonPrevChap, this.toolStripButtonNextChap);
-        }
-
-        private void toolStripComboBoxVerseNumber_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ToolStripComboBox theSender = (ToolStripComboBox)sender;
-            toolStripComboBox_SelectedIndexChanged(theSender, this.toolStripButtonPrevVerse, this.toolStripButtonNextVerse);
-        }
-
-        protected void toolStripPrevButton_Click(ToolStripButton theSender, ToolStripComboBox theComboBox)
-        {
-            if (theComboBox.SelectedIndex == 0)
-                theComboBox.SelectedIndex = (theComboBox.Items.Count - 1);
-            else
-                theComboBox.SelectedIndex--;
-        }
-
-        protected void toolStripNextButton_Click(ToolStripButton theSender, ToolStripComboBox theComboBox)
-        {
-            if (theComboBox.SelectedIndex == (theComboBox.Items.Count - 1))
-                theComboBox.SelectedIndex = 0;
-            else
-                theComboBox.SelectedIndex++;
-        }
-
-        private void toolStripButtonPrevBook_Click(object sender, EventArgs e)
-        {
-            toolStripPrevButton_Click((ToolStripButton)sender, toolStripComboBoxBookName);
-        }
-
-        private void toolStripButtonPrevChap_Click(object sender, EventArgs e)
-        {
-            toolStripPrevButton_Click((ToolStripButton)sender, toolStripComboBoxChapterNumber);
-        }
-
-        private void toolStripButtonPrevVerse_Click(object sender, EventArgs e)
-        {
-            toolStripPrevButton_Click((ToolStripButton)sender, toolStripComboBoxVerseNumber);
-        }
-
-        private void toolStripButtonNextBook_Click(object sender, EventArgs e)
-        {
-            toolStripNextButton_Click((ToolStripButton)sender, toolStripComboBoxBookName);
-        }
-
-        private void toolStripButtonNextChap_Click(object sender, EventArgs e)
-        {
-            toolStripNextButton_Click((ToolStripButton)sender, toolStripComboBoxChapterNumber);
-        }
-
-        private void toolStripButtonNextVerse_Click(object sender, EventArgs e)
-        {
-            toolStripNextButton_Click((ToolStripButton)sender, toolStripComboBoxVerseNumber);
-        }
-
-        protected void toolStripComboBox_SelectedIndexChanged(ToolStripComboBox theSender, ToolStripButton buttonPrev, ToolStripButton buttonNext)
-        {
-            buttonPrev.Enabled = theSender.SelectedIndex > 0;
-            buttonNext.Enabled = theSender.SelectedIndex < (theSender.Items.Count - 1);
+            CallUpdateUpDowns();
         }
     }
 }

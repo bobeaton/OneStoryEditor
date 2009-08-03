@@ -181,11 +181,16 @@ namespace OneStoryProjectEditor
 
         protected void InitializeNetBibleViewer()
         {
+            netBibleViewer.InitNetBibleViewer();
             string strLastRef = "gen 1:5";
             if (!String.IsNullOrEmpty(Properties.Settings.Default.LastNetBibleReference))
                 strLastRef = Properties.Settings.Default.LastNetBibleReference;
-            netBibleViewer.ScriptureReference = strLastRef;
-            netBibleViewer.InitNetBibleViewer();
+            SetNetBibleVerse(strLastRef);
+        }
+
+        internal void SetNetBibleVerse(string strScriptureReference)
+        {
+            netBibleViewer.DisplayVerses(strScriptureReference);
         }
 
         protected int Panel1_Width

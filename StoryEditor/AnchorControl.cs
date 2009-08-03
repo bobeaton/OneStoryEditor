@@ -45,7 +45,19 @@ namespace OneStoryProjectEditor
             aButton.AutoSize = true;
             aButton.Text = strJumpTarget;
             aButton.ToolTipText = strComment;
+            aButton.Click += new EventHandler(aButton_Click);
             ts.Items.Add(aButton);
+        }
+
+        void aButton_Click(object sender, EventArgs e)
+        {
+            Form form = this.FindForm();
+            if (form is StoryEditor)
+            {
+                StoryEditor aSE = (StoryEditor)form;
+                ToolStripButton tsb = (ToolStripButton)sender;
+                aSE.SetNetBibleVerse(tsb.Text);
+            }
         }
 
         protected void InitExegeticalHelpRows(StoryProject.exegeticalHelpsRow anEHsRow, ref int nNumRows)
