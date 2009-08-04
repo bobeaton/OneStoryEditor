@@ -225,38 +225,6 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private void splitContainerUpper_SplitterMoved(object sender, SplitterEventArgs e)
-        {
-            foreach (Control ctrl in flowLayoutPanelVerses.Controls)
-            {
-                if (ctrl is VerseBtControl)
-                {
-                    VerseBtControl aVerseCtrl = (VerseBtControl)ctrl;
-                    aVerseCtrl.UpdateHeight(Panel1_Width);
-                }
-            }
-
-            if (!splitContainerMentorNotes.Panel1Collapsed)
-                foreach (Control ctrl in flowLayoutPanelConsultantNotes.Controls)
-                {
-                    if (ctrl is ConsultNotesControl)
-                    {
-                        ConsultNotesControl aConsultNoteCtrl = (ConsultNotesControl)ctrl;
-                        aConsultNoteCtrl.UpdateHeight(Panel2_Width);
-                    }
-                }
-
-            if (!splitContainerMentorNotes.Panel2Collapsed)
-                foreach (Control ctrl in flowLayoutPanelCoachNotes.Controls)
-                {
-                    if (ctrl is ConsultNotesControl)
-                    {
-                        ConsultNotesControl aConsultNoteCtrl = (ConsultNotesControl)ctrl;
-                        aConsultNoteCtrl.UpdateHeight(Panel2_Width);
-                    }
-                }
-        }
-
         private DialogResult CheckForSaveDirtyFile()
         {
             DialogResult res = DialogResult.None;
@@ -355,14 +323,73 @@ namespace OneStoryProjectEditor
         {
             System.Diagnostics.Debug.Assert(sender is ToolStripMenuItem);
             ToolStripMenuItem tsm = (ToolStripMenuItem)sender;
-            splitContainerMentorNotes.Panel1Collapsed = !tsm.Checked;
+            bool bHidePanel1 = !tsm.Checked;
+            if (bHidePanel1)
+            {
+                if (splitContainerMentorNotes.Panel2Collapsed)
+                    splitContainerLeftRight.Panel2Collapsed = true;
+                else
+                    splitContainerMentorNotes.Panel1Collapsed = true;
+                return;
+            }
+            else if (splitContainerLeftRight.Panel2Collapsed)
+                splitContainerLeftRight.Panel2Collapsed = false;
+
+            splitContainerMentorNotes.Panel1Collapsed = false;
         }
 
         private void viewCoachNotesFieldMenuItem_CheckedChanged(object sender, EventArgs e)
         {
             System.Diagnostics.Debug.Assert(sender is ToolStripMenuItem);
             ToolStripMenuItem tsm = (ToolStripMenuItem)sender;
-            splitContainerMentorNotes.Panel2Collapsed = !tsm.Checked;
+            bool bHidePanel2 = !tsm.Checked;
+            if (bHidePanel2)
+            {
+                if (splitContainerMentorNotes.Panel1Collapsed)
+                    splitContainerLeftRight.Panel2Collapsed = true;
+                else
+                    splitContainerMentorNotes.Panel2Collapsed = true;
+                return;
+            }
+            else if (splitContainerLeftRight.Panel2Collapsed)
+                splitContainerLeftRight.Panel2Collapsed = false;
+
+            splitContainerMentorNotes.Panel2Collapsed = false;
+        }
+
+        private void splitContainerLeftRight_Panel2_SizeChanged(object sender, EventArgs e)
+        {
+            if (!splitContainerMentorNotes.Panel1Collapsed)
+                foreach (Control ctrl in flowLayoutPanelConsultantNotes.Controls)
+                {
+                    if (ctrl is ConsultNotesControl)
+                    {
+                        ConsultNotesControl aConsultNoteCtrl = (ConsultNotesControl)ctrl;
+                        aConsultNoteCtrl.UpdateHeight(Panel2_Width);
+                    }
+                }
+
+            if (!splitContainerMentorNotes.Panel2Collapsed)
+                foreach (Control ctrl in flowLayoutPanelCoachNotes.Controls)
+                {
+                    if (ctrl is ConsultNotesControl)
+                    {
+                        ConsultNotesControl aConsultNoteCtrl = (ConsultNotesControl)ctrl;
+                        aConsultNoteCtrl.UpdateHeight(Panel2_Width);
+                    }
+                }
+        }
+
+        private void splitContainerLeftRight_Panel1_SizeChanged(object sender, EventArgs e)
+        {
+            foreach (Control ctrl in flowLayoutPanelVerses.Controls)
+            {
+                if (ctrl is VerseBtControl)
+                {
+                    VerseBtControl aVerseCtrl = (VerseBtControl)ctrl;
+                    aVerseCtrl.UpdateHeight(Panel1_Width);
+                }
+            }
         }
     }
 }
