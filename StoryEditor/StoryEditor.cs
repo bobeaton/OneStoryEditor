@@ -47,7 +47,7 @@ namespace OneStoryProjectEditor
             {
                 MessageBox.Show(String.Format("Problem initializing Sword (the Net Bible viewer):{0}{0}{1}", Environment.NewLine, ex.Message), StoryEditor.cstrCaption);
             }
-#if DEBUG
+#if false
             OpenProjectFile(@"C:\Code\StoryEditor\StoryEditor\StoryProject.osp");
 #endif
         }
@@ -62,54 +62,160 @@ namespace OneStoryProjectEditor
 
         protected void OpenProjectFile(string strProjectFilename)
         {
-            if (Program.Modified)
-                CheckForSaveDirtyFile();
-
+            CheckForSaveDirtyFile();
             m_projFile = new StoryProject();
+
             try
             {
+                System.Diagnostics.Debug.Assert(m_projFile != null);
                 m_projFile.ReadXml(strProjectFilename);
-                SetupTitleBar(strProjectFilename, m_projFile.story[0].name);
-                /*
-                StoryProject.VernacularFontRow aVFRow = aProj.VernacularFont[0];
-                VernacularFont = new Font(aVFRow.FontName, aVFRow.FontSize);
-                VernacularFontColor = Color.FromName(aVFRow.FontColor);
 
-                StoryProject.NationalBTFontRow aNFRow = aProj.NationalBTFont[0];
-                NationalBTFont = new Font(aNFRow.FontName, aNFRow.FontSize);
-                NationalBTFontColor = Color.FromName(aNFRow.FontColor);
-
-                StoryProject.InternationalBTFontRow aIFRow = aProj.InternationalBTFont[0];
-                InternationalBTFont = new Font(aIFRow.FontName, aIFRow.FontSize);
-                InternationalBTFontColor = Color.FromName(aIFRow.FontColor);
-                */
-                flowLayoutPanelVerses.VerticalScroll.Enabled = true;
-                int nVerseIndex = 0;
-                AddDropTargetToFlowLayout(nVerseIndex++);
-                foreach (StoryProject.verseRow aRow in m_projFile.stories[0].GetstoryRows()[0].GetversesRows()[0].GetverseRows())
+                StoryProject.storyRow theStoryRow = null;
+                string strStoryToLoad = null;
+                if (m_projFile.story.Count > 0)
                 {
-                    VerseBtControl aVerseCtrl = new VerseBtControl(this, aRow, nVerseIndex);
-                    aVerseCtrl.UpdateHeight(Panel1_Width);
-                    flowLayoutPanelVerses.Controls.Add(aVerseCtrl);
-                    AddDropTargetToFlowLayout(nVerseIndex);
+                    // defaults
+                    theStoryRow = m_projFile.story[0];
+                    strStoryToLoad = m_projFile.story[0].name;
 
-                    ConsultNotesDataConverter aCNsDC = new ConsultantNotesData(aRow.GetConsultantNotesRows());
-                    ConsultNotesControl aConsultNotesCtrl = new ConsultNotesControl(aCNsDC, nVerseIndex);
-                    aConsultNotesCtrl.UpdateHeight(Panel2_Width);
-                    flowLayoutPanelConsultantNotes.Controls.Add(aConsultNotesCtrl);
-
-                    aCNsDC = new CoachNotesData(aRow.GetCoachNotesRows());
-                    aConsultNotesCtrl = new ConsultNotesControl(aCNsDC, nVerseIndex);
-                    aConsultNotesCtrl.UpdateHeight(Panel2_Width);
-                    flowLayoutPanelCoachNotes.Controls.Add(aConsultNotesCtrl);
-
-                    nVerseIndex++;
+                    // populate the combo boxes with all the existing story names
+                    foreach (StoryProject.storyRow aStoryRow in m_projFile.story)
+                        comboBoxStorySelector.Items.Add(aStoryRow.name);
                 }
+
+                // check for project settings that might have been saved from a previous session
+                if (!String.IsNullOrEmpty(Properties.Settings.Default.LastStoryWorkedOn))
+                {
+                    strStoryToLoad = Properties.Settings.Default.LastStoryWorkedOn;
+                    foreach (StoryProject.storyRow aStoryRow in m_projFile.story)
+                    {
+                        if (aStoryRow.name == strStoryToLoad)
+                        {
+                            theStoryRow = aStoryRow;
+                            break;
+                        }
+                    }
+                }
+
+                if (theStoryRow != null)
+                    comboBoxStorySelector.SelectedItem = theStoryRow.name;
             }
             catch (System.Exception ex)
             {
                 MessageBox.Show(String.Format("Unable to open project file '{1}'{0}{0}{2}{0}{0}Send the project file to bob_eaton@sall.com for help",
                     Environment.NewLine, strProjectFilename, ex.Message), cstrCaption);
+            }
+        }
+
+        protected void InsureProjectFile()
+        {
+            if (m_projFile == null)
+                m_projFile = new StoryProject();
+        }
+
+        private void comboBoxStorySelector_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)    // user just finished entering a story name to select (or add)
+            {
+                StoryProject.storyRow theStoryRow = null;
+                string strStoryToLoad = comboBoxStorySelector.Text;
+                InsureProjectFile();
+                if (m_projFile.story.Count > 0)
+                    foreach (StoryProject.storyRow aStoryRow in m_projFile.story)
+                    {
+                        if (aStoryRow.name == strStoryToLoad)
+                        {
+                            theStoryRow = aStoryRow;
+                            break;
+                        }
+                    }
+
+                if (theStoryRow == null)
+                {
+                    if (MessageBox.Show(String.Format("Unable to find the story '{0}'. Would you like to add a new one with that name?", strStoryToLoad), cstrCaption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+                    {
+                        comboBoxStorySelector.Items.Add(strStoryToLoad);
+                        StoryProject.storiesRow aStoriesRow = InsureStoriesRow();
+                        if (aStoriesRow == null)
+                            return; // user could enter nothing for a language name
+                            
+                        m_projFile.story.AddstoryRow(strStoryToLoad, Guid.NewGuid().ToString(), aStoriesRow);
+                        comboBoxStorySelector.SelectedItem = strStoryToLoad;
+                    }
+                }
+                else
+                    comboBoxStorySelector.SelectedItem = theStoryRow.name;
+            }
+        }
+
+        protected void InsureVersesRow(StoryProject.storyRow aStoryRow)
+        {
+            InsureProjectFile();
+            if (aStoryRow.GetversesRows().Length == 0)
+                m_projFile.verses.AddversesRow(aStoryRow);
+        }
+
+        protected StoryProject.storiesRow InsureStoriesRow()
+        {
+            InsureProjectFile();
+            if (m_projFile.stories.Count == 0)
+            {
+                string strLanguage = Microsoft.VisualBasic.Interaction.InputBox("Enter the name of the language for this project:", cstrCaption, null, Screen.PrimaryScreen.WorkingArea.Right / 2, Screen.PrimaryScreen.WorkingArea.Bottom / 2);
+                if (String.IsNullOrEmpty(strLanguage))
+                    return null;
+                m_projFile.stories.AddstoriesRow(strLanguage);
+            }
+
+            return m_projFile.stories[0];
+        }
+
+        private void comboBoxStorySelector_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            StoryProject.storyRow theStoryRow = null;
+            foreach (StoryProject.storyRow aStoryRow in m_projFile.story)
+                if (aStoryRow.name == (string)comboBoxStorySelector.SelectedItem)
+                {
+                    theStoryRow = aStoryRow;
+                    break;
+                }
+
+            System.Diagnostics.Debug.Assert(theStoryRow != null);
+            textBoxStoryVerse.Text = "Story: " + theStoryRow.name;
+            /*
+            StoryProject.VernacularFontRow aVFRow = aProj.VernacularFont[0];
+            VernacularFont = new Font(aVFRow.FontName, aVFRow.FontSize);
+            VernacularFontColor = Color.FromName(aVFRow.FontColor);
+
+            StoryProject.NationalBTFontRow aNFRow = aProj.NationalBTFont[0];
+            NationalBTFont = new Font(aNFRow.FontName, aNFRow.FontSize);
+            NationalBTFontColor = Color.FromName(aNFRow.FontColor);
+
+            StoryProject.InternationalBTFontRow aIFRow = aProj.InternationalBTFont[0];
+            InternationalBTFont = new Font(aIFRow.FontName, aIFRow.FontSize);
+            InternationalBTFontColor = Color.FromName(aIFRow.FontColor);
+            */
+            flowLayoutPanelVerses.VerticalScroll.Enabled = true;
+            int nVerseIndex = 0;
+            AddDropTargetToFlowLayout(nVerseIndex++);
+            InsureVersesRow(theStoryRow);
+            foreach (StoryProject.verseRow aRow in theStoryRow.GetversesRows()[0].GetverseRows())
+            {
+                VerseBtControl aVerseCtrl = new VerseBtControl(this, aRow, nVerseIndex);
+                aVerseCtrl.UpdateHeight(Panel1_Width);
+                flowLayoutPanelVerses.Controls.Add(aVerseCtrl);
+                AddDropTargetToFlowLayout(nVerseIndex);
+
+                ConsultNotesDataConverter aCNsDC = new ConsultantNotesData(aRow.GetConsultantNotesRows());
+                ConsultNotesControl aConsultNotesCtrl = new ConsultNotesControl(aCNsDC, nVerseIndex);
+                aConsultNotesCtrl.UpdateHeight(Panel2_Width);
+                flowLayoutPanelConsultantNotes.Controls.Add(aConsultNotesCtrl);
+
+                aCNsDC = new CoachNotesData(aRow.GetCoachNotesRows());
+                aConsultNotesCtrl = new ConsultNotesControl(aCNsDC, nVerseIndex);
+                aConsultNotesCtrl.UpdateHeight(Panel2_Width);
+                flowLayoutPanelCoachNotes.Controls.Add(aConsultNotesCtrl);
+
+                nVerseIndex++;
             }
         }
 
@@ -332,8 +438,17 @@ namespace OneStoryProjectEditor
                     splitContainerMentorNotes.Panel1Collapsed = true;
                 return;
             }
-            else if (splitContainerLeftRight.Panel2Collapsed)
+            // showing the Consultant's pane
+            else if (splitContainerLeftRight.Panel2Collapsed)   // if the whole right-half is already collapsed...
+            {
+                // ... first enable it.
                 splitContainerLeftRight.Panel2Collapsed = false;
+
+                // glitch, whichever half (consultant's or coach's) was collapsed last will still be active even
+                //  though it's menu item will be reset. So we need to hide it if we're enabling the other one
+                if (!splitContainerMentorNotes.Panel2Collapsed) // this means it's not actually hidden
+                    splitContainerMentorNotes.Panel2Collapsed = true;
+            }
 
             splitContainerMentorNotes.Panel1Collapsed = false;
         }
@@ -351,8 +466,17 @@ namespace OneStoryProjectEditor
                     splitContainerMentorNotes.Panel2Collapsed = true;
                 return;
             }
-            else if (splitContainerLeftRight.Panel2Collapsed)
+            // showing the Coach's pane
+            else if (splitContainerLeftRight.Panel2Collapsed)   // if the whole right-half is already collapsed...
+            {
+                // ... first enable it.
                 splitContainerLeftRight.Panel2Collapsed = false;
+
+                // glitch, whichever half (consultant's or coach's) was collapsed last will still be active even
+                //  though it's menu item will be reset. So we need to hide it if we're enabling the other one
+                if (!splitContainerMentorNotes.Panel1Collapsed) // this means it's not actually hidden
+                    splitContainerMentorNotes.Panel1Collapsed = true;
+            }
 
             splitContainerMentorNotes.Panel2Collapsed = false;
         }

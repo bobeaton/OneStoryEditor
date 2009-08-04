@@ -50,14 +50,18 @@
             this.viewCoachNotesFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.viewNetBibleMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.comboBoxStorySelector = new System.Windows.Forms.ToolStripComboBox();
             this.flowLayoutPanelVerses = new System.Windows.Forms.FlowLayoutPanel();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.splitContainerLeftRight = new System.Windows.Forms.SplitContainer();
             this.splitContainerUpDown = new System.Windows.Forms.SplitContainer();
+            this.textBoxStoryVerse = new System.Windows.Forms.TextBox();
             this.netBibleViewer = new OneStoryProjectEditor.NetBibleViewer();
             this.splitContainerMentorNotes = new System.Windows.Forms.SplitContainer();
+            this.textBoxConsultantNotesTable = new System.Windows.Forms.TextBox();
             this.flowLayoutPanelConsultantNotes = new System.Windows.Forms.FlowLayoutPanel();
+            this.textBoxCoachNotes = new System.Windows.Forms.TextBox();
             this.flowLayoutPanelCoachNotes = new System.Windows.Forms.FlowLayoutPanel();
             this.menuStrip.SuspendLayout();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
@@ -75,10 +79,11 @@
             // 
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.projectToolStripMenuItem,
-            this.viewToolStripMenuItem});
+            this.viewToolStripMenuItem,
+            this.comboBoxStorySelector});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(895, 24);
+            this.menuStrip.Size = new System.Drawing.Size(895, 25);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -92,7 +97,7 @@
             this.toolStripSeparator2,
             this.exitToolStripMenuItem});
             this.projectToolStripMenuItem.Name = "projectToolStripMenuItem";
-            this.projectToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.projectToolStripMenuItem.Size = new System.Drawing.Size(53, 21);
             this.projectToolStripMenuItem.Text = "&Project";
             // 
             // openToolStripMenuItem
@@ -150,7 +155,7 @@
             this.toolStripSeparator3,
             this.viewNetBibleMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(41, 21);
             this.viewToolStripMenuItem.Text = "&View";
             // 
             // viewVernacularLangFieldMenuItem
@@ -258,14 +263,27 @@
             this.viewNetBibleMenuItem.Text = "&NetBible";
             this.viewNetBibleMenuItem.CheckedChanged += new System.EventHandler(this.viewNetBibleMenuItem_CheckedChanged);
             // 
+            // comboBoxStorySelector
+            // 
+            this.comboBoxStorySelector.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.comboBoxStorySelector.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxStorySelector.Name = "comboBoxStorySelector";
+            this.comboBoxStorySelector.Size = new System.Drawing.Size(270, 21);
+            this.comboBoxStorySelector.Text = "<type the name of a story to create and hit Enter>";
+            this.comboBoxStorySelector.ToolTipText = "Select the Story to edit or type in a new name to add a new story";
+            this.comboBoxStorySelector.SelectedIndexChanged += new System.EventHandler(this.comboBoxStorySelector_SelectedIndexChanged);
+            this.comboBoxStorySelector.KeyUp += new System.Windows.Forms.KeyEventHandler(this.comboBoxStorySelector_KeyUp);
+            // 
             // flowLayoutPanelVerses
             // 
+            this.flowLayoutPanelVerses.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.flowLayoutPanelVerses.AutoScroll = true;
-            this.flowLayoutPanelVerses.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanelVerses.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanelVerses.Location = new System.Drawing.Point(0, 0);
+            this.flowLayoutPanelVerses.Location = new System.Drawing.Point(0, 29);
             this.flowLayoutPanelVerses.Name = "flowLayoutPanelVerses";
-            this.flowLayoutPanelVerses.Size = new System.Drawing.Size(521, 199);
+            this.flowLayoutPanelVerses.Size = new System.Drawing.Size(521, 169);
             this.flowLayoutPanelVerses.TabIndex = 1;
             this.flowLayoutPanelVerses.WrapContents = false;
             // 
@@ -286,7 +304,7 @@
             // 
             this.splitContainerLeftRight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.splitContainerLeftRight.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainerLeftRight.Location = new System.Drawing.Point(0, 24);
+            this.splitContainerLeftRight.Location = new System.Drawing.Point(0, 25);
             this.splitContainerLeftRight.Name = "splitContainerLeftRight";
             // 
             // splitContainerLeftRight.Panel1
@@ -298,7 +316,7 @@
             // 
             this.splitContainerLeftRight.Panel2.Controls.Add(this.splitContainerMentorNotes);
             this.splitContainerLeftRight.Panel2.SizeChanged += new System.EventHandler(this.splitContainerLeftRight_Panel2_SizeChanged);
-            this.splitContainerLeftRight.Size = new System.Drawing.Size(895, 312);
+            this.splitContainerLeftRight.Size = new System.Drawing.Size(895, 311);
             this.splitContainerLeftRight.SplitterDistance = 523;
             this.splitContainerLeftRight.TabIndex = 2;
             // 
@@ -312,14 +330,27 @@
             // 
             // splitContainerUpDown.Panel1
             // 
+            this.splitContainerUpDown.Panel1.Controls.Add(this.textBoxStoryVerse);
             this.splitContainerUpDown.Panel1.Controls.Add(this.flowLayoutPanelVerses);
             // 
             // splitContainerUpDown.Panel2
             // 
             this.splitContainerUpDown.Panel2.Controls.Add(this.netBibleViewer);
-            this.splitContainerUpDown.Size = new System.Drawing.Size(523, 312);
-            this.splitContainerUpDown.SplitterDistance = 201;
+            this.splitContainerUpDown.Size = new System.Drawing.Size(523, 311);
+            this.splitContainerUpDown.SplitterDistance = 200;
             this.splitContainerUpDown.TabIndex = 2;
+            // 
+            // textBoxStoryVerse
+            // 
+            this.textBoxStoryVerse.Dock = System.Windows.Forms.DockStyle.Top;
+            this.textBoxStoryVerse.Font = new System.Drawing.Font("Segoe UI", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxStoryVerse.Location = new System.Drawing.Point(0, 0);
+            this.textBoxStoryVerse.Name = "textBoxStoryVerse";
+            this.textBoxStoryVerse.ReadOnly = true;
+            this.textBoxStoryVerse.Size = new System.Drawing.Size(521, 29);
+            this.textBoxStoryVerse.TabIndex = 3;
+            this.textBoxStoryVerse.Text = "Story";
+            this.textBoxStoryVerse.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // netBibleViewer
             // 
@@ -342,34 +373,64 @@
             // 
             // splitContainerMentorNotes.Panel1
             // 
+            this.splitContainerMentorNotes.Panel1.Controls.Add(this.textBoxConsultantNotesTable);
             this.splitContainerMentorNotes.Panel1.Controls.Add(this.flowLayoutPanelConsultantNotes);
             // 
             // splitContainerMentorNotes.Panel2
             // 
+            this.splitContainerMentorNotes.Panel2.Controls.Add(this.textBoxCoachNotes);
             this.splitContainerMentorNotes.Panel2.Controls.Add(this.flowLayoutPanelCoachNotes);
-            this.splitContainerMentorNotes.Size = new System.Drawing.Size(368, 312);
-            this.splitContainerMentorNotes.SplitterDistance = 190;
+            this.splitContainerMentorNotes.Size = new System.Drawing.Size(368, 311);
+            this.splitContainerMentorNotes.SplitterDistance = 189;
             this.splitContainerMentorNotes.TabIndex = 0;
+            // 
+            // textBoxConsultantNotesTable
+            // 
+            this.textBoxConsultantNotesTable.Dock = System.Windows.Forms.DockStyle.Top;
+            this.textBoxConsultantNotesTable.Font = new System.Drawing.Font("Segoe UI", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxConsultantNotesTable.Location = new System.Drawing.Point(0, 0);
+            this.textBoxConsultantNotesTable.Name = "textBoxConsultantNotesTable";
+            this.textBoxConsultantNotesTable.ReadOnly = true;
+            this.textBoxConsultantNotesTable.Size = new System.Drawing.Size(366, 29);
+            this.textBoxConsultantNotesTable.TabIndex = 1;
+            this.textBoxConsultantNotesTable.Text = "Consultant Notes";
+            this.textBoxConsultantNotesTable.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // flowLayoutPanelConsultantNotes
             // 
+            this.flowLayoutPanelConsultantNotes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.flowLayoutPanelConsultantNotes.AutoScroll = true;
-            this.flowLayoutPanelConsultantNotes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanelConsultantNotes.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanelConsultantNotes.Location = new System.Drawing.Point(0, 0);
+            this.flowLayoutPanelConsultantNotes.Location = new System.Drawing.Point(0, 29);
             this.flowLayoutPanelConsultantNotes.Name = "flowLayoutPanelConsultantNotes";
-            this.flowLayoutPanelConsultantNotes.Size = new System.Drawing.Size(366, 188);
+            this.flowLayoutPanelConsultantNotes.Size = new System.Drawing.Size(366, 158);
             this.flowLayoutPanelConsultantNotes.TabIndex = 0;
             this.flowLayoutPanelConsultantNotes.WrapContents = false;
             // 
+            // textBoxCoachNotes
+            // 
+            this.textBoxCoachNotes.Dock = System.Windows.Forms.DockStyle.Top;
+            this.textBoxCoachNotes.Font = new System.Drawing.Font("Segoe UI", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxCoachNotes.Location = new System.Drawing.Point(0, 0);
+            this.textBoxCoachNotes.Name = "textBoxCoachNotes";
+            this.textBoxCoachNotes.ReadOnly = true;
+            this.textBoxCoachNotes.Size = new System.Drawing.Size(366, 29);
+            this.textBoxCoachNotes.TabIndex = 2;
+            this.textBoxCoachNotes.Text = "Coach Notes";
+            this.textBoxCoachNotes.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // flowLayoutPanelCoachNotes
             // 
+            this.flowLayoutPanelCoachNotes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.flowLayoutPanelCoachNotes.AutoScroll = true;
-            this.flowLayoutPanelCoachNotes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanelCoachNotes.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanelCoachNotes.Location = new System.Drawing.Point(0, 0);
+            this.flowLayoutPanelCoachNotes.Location = new System.Drawing.Point(0, 27);
             this.flowLayoutPanelCoachNotes.Name = "flowLayoutPanelCoachNotes";
-            this.flowLayoutPanelCoachNotes.Size = new System.Drawing.Size(366, 116);
+            this.flowLayoutPanelCoachNotes.Size = new System.Drawing.Size(366, 89);
             this.flowLayoutPanelCoachNotes.TabIndex = 1;
             this.flowLayoutPanelCoachNotes.WrapContents = false;
             // 
@@ -390,10 +451,13 @@
             this.splitContainerLeftRight.Panel2.ResumeLayout(false);
             this.splitContainerLeftRight.ResumeLayout(false);
             this.splitContainerUpDown.Panel1.ResumeLayout(false);
+            this.splitContainerUpDown.Panel1.PerformLayout();
             this.splitContainerUpDown.Panel2.ResumeLayout(false);
             this.splitContainerUpDown.ResumeLayout(false);
             this.splitContainerMentorNotes.Panel1.ResumeLayout(false);
+            this.splitContainerMentorNotes.Panel1.PerformLayout();
             this.splitContainerMentorNotes.Panel2.ResumeLayout(false);
+            this.splitContainerMentorNotes.Panel2.PerformLayout();
             this.splitContainerMentorNotes.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -432,6 +496,10 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelConsultantNotes;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelCoachNotes;
         private System.Windows.Forms.ToolStripMenuItem viewCoachNotesFieldMenuItem;
+        private System.Windows.Forms.TextBox textBoxConsultantNotesTable;
+        private System.Windows.Forms.TextBox textBoxCoachNotes;
+        private System.Windows.Forms.TextBox textBoxStoryVerse;
+        private System.Windows.Forms.ToolStripComboBox comboBoxStorySelector;
     }
 }
 
