@@ -7,10 +7,6 @@ namespace OneStoryProjectEditor
 {
     public abstract class MultipleLineDataConverter
     {
-        public MultipleLineDataConverter()
-        {
-        }
-
         public abstract string LabelTextFormat
         {
             get;

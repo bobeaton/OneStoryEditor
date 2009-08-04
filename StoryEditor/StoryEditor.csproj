@@ -62,6 +62,20 @@
     <Compile Include="AnchorControl.Designer.cs">
       <DependentUpon>AnchorControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="ConsultNoteControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConsultNoteControl.Designer.cs">
+      <DependentUpon>ConsultNoteControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConsultNoteDataConverter.cs" />
+    <Compile Include="ConsultNotesControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConsultNotesControl.designer.cs">
+      <DependentUpon>ConsultNotesControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConsultNotesDataConverter.cs" />
     <Compile Include="DynamicTableLayoutPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -129,6 +143,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="StoryLineControl.resx">
       <DependentUpon>StoryLineControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TestingQuestionControl.resx">
+      <DependentUpon>TestingQuestionControl.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="VerseBtControl.resx">

@@ -92,6 +92,17 @@ namespace OneStoryProjectEditor
                     aVerseCtrl.UpdateHeight(Panel1_Width);
                     flowLayoutPanelVerses.Controls.Add(aVerseCtrl);
                     AddDropTargetToFlowLayout(nVerseIndex);
+
+                    ConsultNotesDataConverter aCNsDC = new ConsultantNotesData(aRow.GetConsultantNotesRows());
+                    ConsultNotesControl aConsultNotesCtrl = new ConsultNotesControl(aCNsDC, nVerseIndex);
+                    aConsultNotesCtrl.UpdateHeight(Panel2_Width);
+                    flowLayoutPanelConsultantNotes.Controls.Add(aConsultNotesCtrl);
+
+                    aCNsDC = new CoachNotesData(aRow.GetCoachNotesRows());
+                    aConsultNotesCtrl = new ConsultNotesControl(aCNsDC, nVerseIndex);
+                    aConsultNotesCtrl.UpdateHeight(Panel2_Width);
+                    flowLayoutPanelCoachNotes.Controls.Add(aConsultNotesCtrl);
+
                     nVerseIndex++;
                 }
             }
@@ -205,9 +216,45 @@ namespace OneStoryProjectEditor
             }
         }
 
+        protected int Panel2_Width
+        {
+            get
+            {
+                return splitContainerLeftRight.Panel2.Width - splitContainerLeftRight.Margin.Horizontal -
+                    SystemInformation.VerticalScrollBarWidth - 2;
+            }
+        }
+
         private void splitContainerUpper_SplitterMoved(object sender, SplitterEventArgs e)
         {
-            UpdateVersePanel();
+            foreach (Control ctrl in flowLayoutPanelVerses.Controls)
+            {
+                if (ctrl is VerseBtControl)
+                {
+                    VerseBtControl aVerseCtrl = (VerseBtControl)ctrl;
+                    aVerseCtrl.UpdateHeight(Panel1_Width);
+                }
+            }
+
+            if (!splitContainerMentorNotes.Panel1Collapsed)
+                foreach (Control ctrl in flowLayoutPanelConsultantNotes.Controls)
+                {
+                    if (ctrl is ConsultNotesControl)
+                    {
+                        ConsultNotesControl aConsultNoteCtrl = (ConsultNotesControl)ctrl;
+                        aConsultNoteCtrl.UpdateHeight(Panel2_Width);
+                    }
+                }
+
+            if (!splitContainerMentorNotes.Panel2Collapsed)
+                foreach (Control ctrl in flowLayoutPanelCoachNotes.Controls)
+                {
+                    if (ctrl is ConsultNotesControl)
+                    {
+                        ConsultNotesControl aConsultNoteCtrl = (ConsultNotesControl)ctrl;
+                        aConsultNoteCtrl.UpdateHeight(Panel2_Width);
+                    }
+                }
         }
 
         private DialogResult CheckForSaveDirtyFile()
@@ -302,6 +349,20 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert(sender is ToolStripMenuItem);
             ToolStripMenuItem tsm = (ToolStripMenuItem)sender;
             splitContainerUpDown.Panel2Collapsed = !tsm.Checked;
+        }
+
+        private void viewConsultantNoteFieldMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.Assert(sender is ToolStripMenuItem);
+            ToolStripMenuItem tsm = (ToolStripMenuItem)sender;
+            splitContainerMentorNotes.Panel1Collapsed = !tsm.Checked;
+        }
+
+        private void viewCoachNotesFieldMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.Assert(sender is ToolStripMenuItem);
+            ToolStripMenuItem tsm = (ToolStripMenuItem)sender;
+            splitContainerMentorNotes.Panel2Collapsed = !tsm.Checked;
         }
     }
 }

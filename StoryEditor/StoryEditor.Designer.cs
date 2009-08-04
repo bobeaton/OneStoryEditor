@@ -46,21 +46,29 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.viewRetellingFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-            this.viewConsultaAntNoteFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewConsultantNoteFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewCoachNotesFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.viewNetBibleMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.flowLayoutPanelVerses = new System.Windows.Forms.FlowLayoutPanel();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.splitContainerLeftRight = new System.Windows.Forms.SplitContainer();
             this.splitContainerUpDown = new System.Windows.Forms.SplitContainer();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.viewNetBibleMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.netBibleViewer = new OneStoryProjectEditor.NetBibleViewer();
+            this.splitContainerMentorNotes = new System.Windows.Forms.SplitContainer();
+            this.flowLayoutPanelConsultantNotes = new System.Windows.Forms.FlowLayoutPanel();
+            this.flowLayoutPanelCoachNotes = new System.Windows.Forms.FlowLayoutPanel();
             this.menuStrip.SuspendLayout();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
+            this.splitContainerLeftRight.Panel2.SuspendLayout();
             this.splitContainerLeftRight.SuspendLayout();
             this.splitContainerUpDown.Panel1.SuspendLayout();
             this.splitContainerUpDown.Panel2.SuspendLayout();
             this.splitContainerUpDown.SuspendLayout();
+            this.splitContainerMentorNotes.Panel1.SuspendLayout();
+            this.splitContainerMentorNotes.Panel2.SuspendLayout();
+            this.splitContainerMentorNotes.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -137,7 +145,8 @@
             this.toolStripSeparator5,
             this.viewRetellingFieldMenuItem,
             this.toolStripSeparator6,
-            this.viewConsultaAntNoteFieldMenuItem,
+            this.viewConsultantNoteFieldMenuItem,
+            this.viewCoachNotesFieldMenuItem,
             this.toolStripSeparator3,
             this.viewNetBibleMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
@@ -214,14 +223,40 @@
             this.toolStripSeparator6.Name = "toolStripSeparator6";
             this.toolStripSeparator6.Size = new System.Drawing.Size(281, 6);
             // 
-            // viewConsultaAntNoteFieldMenuItem
+            // viewConsultantNoteFieldMenuItem
             // 
-            this.viewConsultaAntNoteFieldMenuItem.Checked = true;
-            this.viewConsultaAntNoteFieldMenuItem.CheckOnClick = true;
-            this.viewConsultaAntNoteFieldMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.viewConsultaAntNoteFieldMenuItem.Name = "viewConsultaAntNoteFieldMenuItem";
-            this.viewConsultaAntNoteFieldMenuItem.Size = new System.Drawing.Size(284, 22);
-            this.viewConsultaAntNoteFieldMenuItem.Text = "&Consultant notes field";
+            this.viewConsultantNoteFieldMenuItem.Checked = true;
+            this.viewConsultantNoteFieldMenuItem.CheckOnClick = true;
+            this.viewConsultantNoteFieldMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.viewConsultantNoteFieldMenuItem.Name = "viewConsultantNoteFieldMenuItem";
+            this.viewConsultantNoteFieldMenuItem.Size = new System.Drawing.Size(284, 22);
+            this.viewConsultantNoteFieldMenuItem.Text = "&Consultant notes field";
+            this.viewConsultantNoteFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewConsultantNoteFieldMenuItem_CheckedChanged);
+            // 
+            // viewCoachNotesFieldMenuItem
+            // 
+            this.viewCoachNotesFieldMenuItem.Checked = true;
+            this.viewCoachNotesFieldMenuItem.CheckOnClick = true;
+            this.viewCoachNotesFieldMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.viewCoachNotesFieldMenuItem.Name = "viewCoachNotesFieldMenuItem";
+            this.viewCoachNotesFieldMenuItem.Size = new System.Drawing.Size(284, 22);
+            this.viewCoachNotesFieldMenuItem.Text = "Coac&h notes field";
+            this.viewCoachNotesFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewCoachNotesFieldMenuItem_CheckedChanged);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(281, 6);
+            // 
+            // viewNetBibleMenuItem
+            // 
+            this.viewNetBibleMenuItem.Checked = true;
+            this.viewNetBibleMenuItem.CheckOnClick = true;
+            this.viewNetBibleMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.viewNetBibleMenuItem.Name = "viewNetBibleMenuItem";
+            this.viewNetBibleMenuItem.Size = new System.Drawing.Size(284, 22);
+            this.viewNetBibleMenuItem.Text = "&NetBible";
+            this.viewNetBibleMenuItem.CheckedChanged += new System.EventHandler(this.viewNetBibleMenuItem_CheckedChanged);
             // 
             // flowLayoutPanelVerses
             // 
@@ -257,6 +292,10 @@
             // splitContainerLeftRight.Panel1
             // 
             this.splitContainerLeftRight.Panel1.Controls.Add(this.splitContainerUpDown);
+            // 
+            // splitContainerLeftRight.Panel2
+            // 
+            this.splitContainerLeftRight.Panel2.Controls.Add(this.splitContainerMentorNotes);
             this.splitContainerLeftRight.Size = new System.Drawing.Size(895, 312);
             this.splitContainerLeftRight.SplitterDistance = 523;
             this.splitContainerLeftRight.TabIndex = 2;
@@ -281,21 +320,6 @@
             this.splitContainerUpDown.SplitterDistance = 201;
             this.splitContainerUpDown.TabIndex = 2;
             // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(281, 6);
-            // 
-            // viewNetBibleMenuItem
-            // 
-            this.viewNetBibleMenuItem.Checked = true;
-            this.viewNetBibleMenuItem.CheckOnClick = true;
-            this.viewNetBibleMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.viewNetBibleMenuItem.Name = "viewNetBibleMenuItem";
-            this.viewNetBibleMenuItem.Size = new System.Drawing.Size(284, 22);
-            this.viewNetBibleMenuItem.Text = "&NetBible";
-            this.viewNetBibleMenuItem.CheckedChanged += new System.EventHandler(this.viewNetBibleMenuItem_CheckedChanged);
-            // 
             // netBibleViewer
             // 
             this.netBibleViewer.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
@@ -306,6 +330,47 @@
             this.netBibleViewer.ScriptureReference = "gen 1:1";
             this.netBibleViewer.Size = new System.Drawing.Size(521, 105);
             this.netBibleViewer.TabIndex = 0;
+            // 
+            // splitContainerMentorNotes
+            // 
+            this.splitContainerMentorNotes.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.splitContainerMentorNotes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerMentorNotes.Location = new System.Drawing.Point(0, 0);
+            this.splitContainerMentorNotes.Name = "splitContainerMentorNotes";
+            this.splitContainerMentorNotes.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainerMentorNotes.Panel1
+            // 
+            this.splitContainerMentorNotes.Panel1.Controls.Add(this.flowLayoutPanelConsultantNotes);
+            // 
+            // splitContainerMentorNotes.Panel2
+            // 
+            this.splitContainerMentorNotes.Panel2.Controls.Add(this.flowLayoutPanelCoachNotes);
+            this.splitContainerMentorNotes.Size = new System.Drawing.Size(368, 312);
+            this.splitContainerMentorNotes.SplitterDistance = 190;
+            this.splitContainerMentorNotes.TabIndex = 0;
+            // 
+            // flowLayoutPanelConsultantNotes
+            // 
+            this.flowLayoutPanelConsultantNotes.AutoScroll = true;
+            this.flowLayoutPanelConsultantNotes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanelConsultantNotes.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanelConsultantNotes.Location = new System.Drawing.Point(0, 0);
+            this.flowLayoutPanelConsultantNotes.Name = "flowLayoutPanelConsultantNotes";
+            this.flowLayoutPanelConsultantNotes.Size = new System.Drawing.Size(366, 188);
+            this.flowLayoutPanelConsultantNotes.TabIndex = 0;
+            this.flowLayoutPanelConsultantNotes.WrapContents = false;
+            // 
+            // flowLayoutPanelCoachNotes
+            // 
+            this.flowLayoutPanelCoachNotes.AutoScroll = true;
+            this.flowLayoutPanelCoachNotes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanelCoachNotes.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanelCoachNotes.Location = new System.Drawing.Point(0, 0);
+            this.flowLayoutPanelCoachNotes.Name = "flowLayoutPanelCoachNotes";
+            this.flowLayoutPanelCoachNotes.Size = new System.Drawing.Size(366, 116);
+            this.flowLayoutPanelCoachNotes.TabIndex = 1;
+            this.flowLayoutPanelCoachNotes.WrapContents = false;
             // 
             // StoryEditor
             // 
@@ -321,10 +386,14 @@
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.splitContainerLeftRight.Panel1.ResumeLayout(false);
+            this.splitContainerLeftRight.Panel2.ResumeLayout(false);
             this.splitContainerLeftRight.ResumeLayout(false);
             this.splitContainerUpDown.Panel1.ResumeLayout(false);
             this.splitContainerUpDown.Panel2.ResumeLayout(false);
             this.splitContainerUpDown.ResumeLayout(false);
+            this.splitContainerMentorNotes.Panel1.ResumeLayout(false);
+            this.splitContainerMentorNotes.Panel2.ResumeLayout(false);
+            this.splitContainerMentorNotes.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -354,10 +423,14 @@
         internal System.Windows.Forms.ToolStripMenuItem viewAnchorFieldMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem viewStoryTestingQuestionFieldMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem viewRetellingFieldMenuItem;
-        internal System.Windows.Forms.ToolStripMenuItem viewConsultaAntNoteFieldMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem viewConsultantNoteFieldMenuItem;
         private NetBibleViewer netBibleViewer;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem viewNetBibleMenuItem;
+        private System.Windows.Forms.SplitContainer splitContainerMentorNotes;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelConsultantNotes;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelCoachNotes;
+        private System.Windows.Forms.ToolStripMenuItem viewCoachNotesFieldMenuItem;
     }
 }
 

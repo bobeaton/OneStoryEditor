@@ -28,7 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // TestingQuestionControl
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Name = "TestingQuestionControl";
+            this.Size = new System.Drawing.Size(492, 195);
+            this.ResumeLayout(false);
+
         }
 
         #endregion
