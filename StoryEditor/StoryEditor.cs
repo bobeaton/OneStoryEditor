@@ -30,6 +30,8 @@ namespace OneStoryProjectEditor
         public Font InternationalBTFont = new Font("Times New Roman", 10);
         public Color InternationalBTFontColor = Color.Blue;
 
+        protected const int nMaxRecentFiles = 15;
+
         public enum UserTypes
         {
             eUndefined = 0,
@@ -53,7 +55,7 @@ namespace OneStoryProjectEditor
                 MessageBox.Show(String.Format("Problem initializing Sword (the Net Bible viewer):{0}{0}{1}", Environment.NewLine, ex.Message), StoryEditor.cstrCaption);
             }
 #if false
-            OpenProjectFile(@"C:\Code\StoryEditor\StoryEditor\StoryProject.osp");
+            OpenProjectFile(@"C:\Code\StoryEditor\StoryEditor\StoryProject.onestory");
 #endif
         }
 
@@ -84,13 +86,37 @@ namespace OneStoryProjectEditor
                 foreach (StoryProject.MemberRow aMemberRow in m_projFile.Member)
                     if (aMemberRow.name == strMemberName)
                     {
-                        System.Diagnostics.Debug.Assert(m_logonInfo.MemberName == strMemberName);
-                        return true;
+                        // if (s)he's already logged on...
+                        if ((m_logonInfo != null) 
+                            && (m_logonInfo.MemberName == strMemberName)
+                            && (m_logonInfo.Type == TeamMemberForm.GetUserType(aMemberRow.memberType)))
+                            return true;    // same person and role is already logged in
+
+                        // otherwise, if it is a known member and is a crafter (who are more likely
+                        //  not to function in multiple, different roles), then we're done also...
+                        if (aMemberRow.memberType == TeamMemberForm.cstrCrafter)
+                        {
+                            m_logonInfo = new LoggedOnMemberInfo(strMemberName, aMemberRow.memberKey,
+                                TeamMemberForm.GetUserType(aMemberRow.memberType));
+                            return true;
+                        }
+                        // otherwise, fall thru and make them pick it.
                     }
             }
 
+            return EditTeamMembers(strMemberName);
+        }
+
+        protected bool EditTeamMembers(string strMemberName)
+        {
+            System.Diagnostics.Debug.Assert(m_projFile != null);
+
             // if we haven't found the member, then get them to select it from the Team Member UI
             TeamMemberForm dlg = new TeamMemberForm(m_projFile);
+            if (!String.IsNullOrEmpty(strMemberName))
+                // if we did find it, but couldn't accept it without question, then at least pre-select member
+                dlg.SelectedMember = strMemberName;
+
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 foreach (StoryProject.MemberRow aMemberRow in m_projFile.Member)
@@ -104,8 +130,23 @@ namespace OneStoryProjectEditor
             return false;
         }
 
+        private void teamMembersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            InsureProjectFile();
+            EditTeamMembers((m_logonInfo != null) ? m_logonInfo.MemberName : null);
+        }
+
         protected void OpenProjectFile(string strProjectFilename)
         {
+            // add this filename to the list of recently used files
+            if (Properties.Settings.Default.RecentFiles.Contains(strProjectFilename))
+                Properties.Settings.Default.RecentFiles.Remove(strProjectFilename);
+            else if (Properties.Settings.Default.RecentFiles.Count > nMaxRecentFiles)
+                Properties.Settings.Default.RecentFiles.RemoveAt(nMaxRecentFiles);
+
+            Properties.Settings.Default.RecentFiles.Insert(0, strProjectFilename);
+            Properties.Settings.Default.Save();
+
             CheckForSaveDirtyFile();
             m_projFile = new StoryProject();
 
@@ -116,6 +157,7 @@ namespace OneStoryProjectEditor
 
                 StoryProject.storyRow theStoryRow = null;
                 string strStoryToLoad = null;
+                InsureStoriesRow(); // has the side effect of setting the frame title to the project language name
                 if (m_projFile.story.Count > 0)
                 {
                     // defaults
@@ -196,6 +238,7 @@ namespace OneStoryProjectEditor
                 {
                     if (MessageBox.Show(String.Format("Unable to find the story '{0}'. Would you like to add a new one with that name?", strStoryToLoad), cstrCaption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
                     {
+                        System.Diagnostics.Debug.Assert(!comboBoxStorySelector.Items.Contains(strStoryToLoad));
                         comboBoxStorySelector.Items.Add(strStoryToLoad);
                         StoryProject.storiesRow aStoriesRow = InsureStoriesRow();
                         if (aStoriesRow == null)
@@ -228,6 +271,7 @@ namespace OneStoryProjectEditor
                 m_projFile.stories.AddstoriesRow(strLanguage);
             }
 
+            this.Text = String.Format("OneStory Editor -- {0} Story Project", m_projFile.stories[0].ProjectLanguage);
             return m_projFile.stories[0];
         }
 
@@ -260,7 +304,6 @@ namespace OneStoryProjectEditor
             InternationalBTFont = new Font(aIFRow.FontName, aIFRow.FontSize);
             InternationalBTFontColor = Color.FromName(aIFRow.FontColor);
             */
-            flowLayoutPanelVerses.VerticalScroll.Enabled = true;
             int nVerseIndex = 0;
             AddDropTargetToFlowLayout(nVerseIndex++);
             InsureVersesRow(theStoryRow);
@@ -407,8 +450,15 @@ namespace OneStoryProjectEditor
                     SaveClicked();
                 else if (res != DialogResult.Cancel)
                     Modified = false;
-                m_projFile = null;
             }
+
+            // do cleanup, because this is always called before starting something new (new file or empty project)
+            m_projFile = null;
+            flowLayoutPanelVerses.Controls.Clear();
+            flowLayoutPanelConsultantNotes.Controls.Clear();
+            flowLayoutPanelCoachNotes.Controls.Clear();
+            textBoxStoryVerse.Text = "Story";
+            comboBoxStorySelector.Items.Clear();
             return res;
         }
 
@@ -589,6 +639,36 @@ namespace OneStoryProjectEditor
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             NewProjectFile();
+        }
+
+        private void projectToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            recentFilesToolStripMenuItem.DropDownItems.Clear();
+            foreach (string strRecentFile in Properties.Settings.Default.RecentFiles)
+                recentFilesToolStripMenuItem.DropDownItems.Add(strRecentFile, null, recentFilesToolStripMenuItem_Click);
+
+            recentFilesToolStripMenuItem.Enabled = (recentFilesToolStripMenuItem.DropDownItems.Count > 0);
+        }
+
+        private void recentFilesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripDropDownItem aRecentFile = (ToolStripDropDownItem)sender;
+            try
+            {
+                OpenProjectFile(aRecentFile.Text);
+            }
+            catch (Exception ex)
+            {
+                // probably means the file doesn't exist anymore, so remove it from the recent used list
+                Properties.Settings.Default.RecentFiles.Remove(aRecentFile.Text);
+                MessageBox.Show(ex.Message, cstrCaption);
+            }
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CheckForSaveDirtyFile();
+            this.Close();
         }
     }
 }

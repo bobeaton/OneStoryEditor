@@ -16,6 +16,9 @@ namespace OneStoryProjectEditor
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            if (Properties.Settings.Default.RecentFiles == null)
+                Properties.Settings.Default.RecentFiles = new System.Collections.Specialized.StringCollection();
+
             bool bNeedToSave = false;
             if (bNeedToSave)
                 Properties.Settings.Default.Save();

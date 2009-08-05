@@ -11,12 +11,12 @@ namespace OneStoryProjectEditor
 {
     public partial class TeamMemberForm : Form
     {
-        protected const string cstrCrafter = "Crafter";
-        protected const string cstrUNS = "UNS";
-        protected const string cstrConsultantInTraining = "Consultant-in-Training";
-        protected const string cstrIndependentConsultant = "IndependentConsultant";
-        protected const string cstrCoach = "Coach";
-        protected const string cstrJustLooking = "JustLooking"; // gives full access, but no change privileges
+        internal const string cstrCrafter = "Crafter";
+        internal const string cstrUNS = "UNS";
+        internal const string cstrConsultantInTraining = "Consultant-in-Training";
+        internal const string cstrIndependentConsultant = "IndependentConsultant";
+        internal const string cstrCoach = "Coach";
+        internal const string cstrJustLooking = "JustLooking"; // gives full access, but no change privileges
 
         protected StoryProject m_projFile = null;
         protected string m_strSelectedMember = null;
@@ -41,6 +41,11 @@ namespace OneStoryProjectEditor
         public string SelectedMember
         {
             get { return m_strSelectedMember; }
+            set
+            {
+                System.Diagnostics.Debug.Assert(listBoxTeamMembers.Items.Contains(value));
+                listBoxTeamMembers.SelectedItem = m_strSelectedMember = value;
+            }
         }
 
         public string MemberName
@@ -85,24 +90,25 @@ namespace OneStoryProjectEditor
 
         public StoryEditor.UserTypes UserType
         {
-            get
-            {
-                string strMemberTypeString = MemberTypeString;
-                if (strMemberTypeString == cstrCrafter)
-                    return StoryEditor.UserTypes.eCrafter;
-                else if (strMemberTypeString == cstrUNS)
-                    return StoryEditor.UserTypes.eUNS;
-                else if (strMemberTypeString == cstrConsultantInTraining)
-                    return StoryEditor.UserTypes.eConsultantInTraining;
-                else if (strMemberTypeString == cstrIndependentConsultant)
-                    return StoryEditor.UserTypes.eIndependentConsultant;
-                else if (strMemberTypeString == cstrCoach)
-                    return StoryEditor.UserTypes.eCoach;
-                else if (strMemberTypeString == cstrJustLooking)
-                    return StoryEditor.UserTypes.eJustLooking;
-                else
-                    return StoryEditor.UserTypes.eUndefined;
-            }
+            get { return GetUserType(MemberTypeString); }
+        }
+
+        public static StoryEditor.UserTypes GetUserType(string strMemberTypeString)
+        {
+            if (strMemberTypeString == cstrCrafter)
+                return StoryEditor.UserTypes.eCrafter;
+            else if (strMemberTypeString == cstrUNS)
+                return StoryEditor.UserTypes.eUNS;
+            else if (strMemberTypeString == cstrConsultantInTraining)
+                return StoryEditor.UserTypes.eConsultantInTraining;
+            else if (strMemberTypeString == cstrIndependentConsultant)
+                return StoryEditor.UserTypes.eIndependentConsultant;
+            else if (strMemberTypeString == cstrCoach)
+                return StoryEditor.UserTypes.eCoach;
+            else if (strMemberTypeString == cstrJustLooking)
+                return StoryEditor.UserTypes.eJustLooking;
+            else
+                return StoryEditor.UserTypes.eUndefined;
         }
 
         public string Email

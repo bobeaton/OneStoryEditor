@@ -69,8 +69,8 @@ namespace OneStoryProjectEditor
         #endregion
 
         #region "Defines for Sword capability"
-        MarkupFilterMgr filterManager;
-        SWMgr manager;
+        MarkupFilterMgr filterManager = null;
+        SWMgr manager = null;
         SWModule moduleVersion = null;
         NetBibleFootnoteTooltip tooltipNBFNs = null;
         int m_nBook = 0, m_nChapter = 0, m_nVerse = 0;
@@ -87,7 +87,8 @@ namespace OneStoryProjectEditor
         //  we can catch it and let the parent form create anyway.
         public void InitNetBibleViewer()
         {
-            InitializeSword();
+            if (manager == null)
+                InitializeSword();
         }
 
         public string ScriptureReference
