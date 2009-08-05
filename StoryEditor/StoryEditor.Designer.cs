@@ -63,6 +63,7 @@
             this.flowLayoutPanelConsultantNotes = new System.Windows.Forms.FlowLayoutPanel();
             this.textBoxCoachNotes = new System.Windows.Forms.TextBox();
             this.flowLayoutPanelCoachNotes = new System.Windows.Forms.FlowLayoutPanel();
+            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
             this.splitContainerLeftRight.Panel2.SuspendLayout();
@@ -91,6 +92,7 @@
             // 
             this.projectToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openToolStripMenuItem,
+            this.newToolStripMenuItem,
             this.saveToolStripMenuItem,
             this.toolStripSeparator1,
             this.teamMembersToolStripMenuItem,
@@ -106,6 +108,7 @@
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.openToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.openToolStripMenuItem.Text = "&Open";
+            this.openToolStripMenuItem.ToolTipText = "Click to open an existing OneStory project";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
@@ -114,6 +117,7 @@
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.saveToolStripMenuItem.Text = "&Save";
+            this.saveToolStripMenuItem.ToolTipText = "Click to save the OneStory project";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
@@ -434,6 +438,15 @@
             this.flowLayoutPanelCoachNotes.TabIndex = 1;
             this.flowLayoutPanelCoachNotes.WrapContents = false;
             // 
+            // newToolStripMenuItem
+            // 
+            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
+            this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.newToolStripMenuItem.Text = "&New";
+            this.newToolStripMenuItem.ToolTipText = "Click to create a new OneStory project";
+            this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
+            // 
             // StoryEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -500,6 +513,7 @@
         private System.Windows.Forms.TextBox textBoxCoachNotes;
         private System.Windows.Forms.TextBox textBoxStoryVerse;
         private System.Windows.Forms.ToolStripComboBox comboBoxStorySelector;
+        private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
     }
 }
 

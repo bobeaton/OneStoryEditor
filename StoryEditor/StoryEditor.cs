@@ -19,6 +19,9 @@ namespace OneStoryProjectEditor
         protected string m_strProjectFilename = null;
 
         protected StoryProject m_projFile = null;
+        protected LoggedOnMemberInfo m_logonInfo = null;
+
+        protected bool Modified = false;
 
         public Font VernacularFont = new Font("Arial Unicode MS", 12);
         public Color VernacularFontColor = Color.Maroon;
@@ -32,11 +35,13 @@ namespace OneStoryProjectEditor
             eUndefined = 0,
             eCrafter,
             eUNS,
-            eConsultant,
-            eCoach
+            eConsultantInTraining,
+            eIndependentConsultant,
+            eCoach,
+            eJustLooking
         }
 
-        public StoryEditor(UserTypes e)
+        public StoryEditor()
         {
             InitializeComponent();
             try
@@ -58,6 +63,45 @@ namespace OneStoryProjectEditor
             {
                 OpenProjectFile(openFileDialog.FileName);
             }
+        }
+
+        protected void NewProjectFile()
+        {
+            CheckForSaveDirtyFile();
+            if (!InsureEmptyProjectFile())
+                return;
+            GetLogin();
+        }
+
+        protected bool GetLogin()
+        {
+            // first figure out which team member it is:
+            string strMemberName = null;
+            if (!String.IsNullOrEmpty(Properties.Settings.Default.LastMember))
+            {
+                strMemberName = Properties.Settings.Default.LastMember;
+
+                foreach (StoryProject.MemberRow aMemberRow in m_projFile.Member)
+                    if (aMemberRow.name == strMemberName)
+                    {
+                        System.Diagnostics.Debug.Assert(m_logonInfo.MemberName == strMemberName);
+                        return true;
+                    }
+            }
+
+            // if we haven't found the member, then get them to select it from the Team Member UI
+            TeamMemberForm dlg = new TeamMemberForm(m_projFile);
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                foreach (StoryProject.MemberRow aMemberRow in m_projFile.Member)
+                    if (aMemberRow.name == dlg.SelectedMember)
+                    {
+                        m_logonInfo = new LoggedOnMemberInfo(dlg.SelectedMember, aMemberRow.memberKey, dlg.UserType);
+                        return true;
+                    }
+            }
+
+            return false;
         }
 
         protected void OpenProjectFile(string strProjectFilename)
@@ -105,6 +149,24 @@ namespace OneStoryProjectEditor
                 MessageBox.Show(String.Format("Unable to open project file '{1}'{0}{0}{2}{0}{0}Send the project file to bob_eaton@sall.com for help",
                     Environment.NewLine, strProjectFilename, ex.Message), cstrCaption);
             }
+        }
+
+        protected bool InsureEmptyProjectFile()
+        {
+            InsureProjectFile();
+            StoryProject.storiesRow theStoriesRow = InsureStoriesRow();
+            if (theStoriesRow == null)
+                return false;
+            m_projFile.Members.AddMembersRow(theStoriesRow);
+            StoryProject.FontsRow theFontsRow = m_projFile.Fonts.AddFontsRow(theStoriesRow);
+            m_projFile.VernacularFont.AddVernacularFontRow("Arial Unicode MS", 12,
+                Color.CornflowerBlue.ToString(), theFontsRow);
+            m_projFile.NationalBTFont.AddNationalBTFontRow("Arial Unicode MS", 12,
+                Color.Green.ToString(), theFontsRow);
+            m_projFile.InternationalBTFont.AddInternationalBTFontRow("Arial Unicode MS", 11,
+                Color.Blue.ToString(), theFontsRow);
+
+            return true;
         }
 
         protected void InsureProjectFile()
@@ -160,7 +222,7 @@ namespace OneStoryProjectEditor
             InsureProjectFile();
             if (m_projFile.stories.Count == 0)
             {
-                string strLanguage = Microsoft.VisualBasic.Interaction.InputBox("Enter the name of the language for this project:", cstrCaption, null, Screen.PrimaryScreen.WorkingArea.Right / 2, Screen.PrimaryScreen.WorkingArea.Bottom / 2);
+                string strLanguage = Microsoft.VisualBasic.Interaction.InputBox("You are creating a brand new OneStory project. Enter the name of the language for this project. (if you had intended to edit an existing project, cancel this dialog and use the 'File', 'Open' command)", cstrCaption, null, Screen.PrimaryScreen.WorkingArea.Right / 2, Screen.PrimaryScreen.WorkingArea.Bottom / 2);
                 if (String.IsNullOrEmpty(strLanguage))
                     return null;
                 m_projFile.stories.AddstoriesRow(strLanguage);
@@ -171,6 +233,10 @@ namespace OneStoryProjectEditor
 
         private void comboBoxStorySelector_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // find out which member we're working with
+            if (!GetLogin())
+                return;
+
             StoryProject.storyRow theStoryRow = null;
             foreach (StoryProject.storyRow aStoryRow in m_projFile.story)
                 if (aStoryRow.name == (string)comboBoxStorySelector.SelectedItem)
@@ -334,11 +400,14 @@ namespace OneStoryProjectEditor
         private DialogResult CheckForSaveDirtyFile()
         {
             DialogResult res = DialogResult.None;
-            if (Program.Modified)
+            if (Modified)
             {
                 res = MessageBox.Show("Do you want to save the opened project first?", cstrCaption, MessageBoxButtons.YesNoCancel);
                 if (res == DialogResult.Yes)
                     SaveClicked();
+                else if (res != DialogResult.Cancel)
+                    Modified = false;
+                m_projFile = null;
             }
             return res;
         }
@@ -388,6 +457,7 @@ namespace OneStoryProjectEditor
                 File.Copy(m_strMapNameReal, GetBackupFilename(strFilename), true);
             }
             */
+            Modified = false;
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -514,6 +584,11 @@ namespace OneStoryProjectEditor
                     aVerseCtrl.UpdateHeight(Panel1_Width);
                 }
             }
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NewProjectFile();
         }
     }
 }

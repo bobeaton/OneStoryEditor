@@ -14,12 +14,14 @@
                   <xs:choice maxOccurs="unbounded">
                     <xs:element name="Member" maxOccurs="unbounded">
                       <xs:complexType>
-                        <xs:attribute name="name" type="xs:string" use="optional" />
+                        <xs:attribute name="name" type="xs:string" use="required" />
                         <xs:attribute name="memberType" type="MemberType" use="required" />
                         <xs:attribute name="email" type="xs:string" use="optional" />
                         <xs:attribute name="altPhone" type="xs:string" use="optional" />
                         <xs:attribute name="phone" type="xs:string" use="optional" />
                         <xs:attribute name="address" type="xs:string" use="optional" />
+                        <xs:attribute name="skypeID" type="xs:string" use="optional" />
+                        <xs:attribute name="teamViewerID" type="xs:string" use="optional" />
                         <xs:attribute name="memberKey" type="xs:ID" use="required" />
                       </xs:complexType>
                     </xs:element>
@@ -316,10 +318,11 @@
   <xs:simpleType name="MemberType">
     <xs:restriction base="xs:string">
       <xs:enumeration value="Crafter" />
-      <xs:enumeration value="Consultant" />
-      <xs:enumeration value="Consultant-in-Training" />
-      <xs:enumeration value="Coach" />
       <xs:enumeration value="UNS" />
+      <xs:enumeration value="ConsultantInTraining" />
+      <xs:enumeration value="IndependentConsultant" />
+      <xs:enumeration value="Coach" />
+      <xs:enumeration value="JustLooking" />
     </xs:restriction>
   </xs:simpleType>
   <xs:complexType name="FontInfo">

@@ -58,5 +58,17 @@ namespace OneStoryProjectEditor.Properties {
                 this["LastStoryWorkedOn"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LastMember {
+            get {
+                return ((string)(this["LastMember"]));
+            }
+            set {
+                this["LastMember"] = value;
+            }
+        }
     }
 }

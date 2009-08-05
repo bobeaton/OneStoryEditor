@@ -2689,6 +2689,10 @@ namespace OneStoryProjectEditor {
             
             private global::System.Data.DataColumn columnaddress;
             
+            private global::System.Data.DataColumn columnskypeID;
+            
+            private global::System.Data.DataColumn columnteamViewerID;
+            
             private global::System.Data.DataColumn columnmemberKey;
             
             private global::System.Data.DataColumn columnMembers_Id;
@@ -2766,6 +2770,20 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn skypeIDColumn {
+                get {
+                    return this.columnskypeID;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn teamViewerIDColumn {
+                get {
+                    return this.columnteamViewerID;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public global::System.Data.DataColumn memberKeyColumn {
                 get {
                     return this.columnmemberKey;
@@ -2808,7 +2826,7 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public MemberRow AddMemberRow(string name, string memberType, string email, string altPhone, string phone, string address, string memberKey, MembersRow parentMembersRowByMembers_Member) {
+            public MemberRow AddMemberRow(string name, string memberType, string email, string altPhone, string phone, string address, string skypeID, string teamViewerID, string memberKey, MembersRow parentMembersRowByMembers_Member) {
                 MemberRow rowMemberRow = ((MemberRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         name,
@@ -2817,10 +2835,12 @@ namespace OneStoryProjectEditor {
                         altPhone,
                         phone,
                         address,
+                        skypeID,
+                        teamViewerID,
                         memberKey,
                         null};
                 if ((parentMembersRowByMembers_Member != null)) {
-                    columnValuesArray[7] = parentMembersRowByMembers_Member[0];
+                    columnValuesArray[9] = parentMembersRowByMembers_Member[0];
                 }
                 rowMemberRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowMemberRow);
@@ -2853,6 +2873,8 @@ namespace OneStoryProjectEditor {
                 this.columnaltPhone = base.Columns["altPhone"];
                 this.columnphone = base.Columns["phone"];
                 this.columnaddress = base.Columns["address"];
+                this.columnskypeID = base.Columns["skypeID"];
+                this.columnteamViewerID = base.Columns["teamViewerID"];
                 this.columnmemberKey = base.Columns["memberKey"];
                 this.columnMembers_Id = base.Columns["Members_Id"];
             }
@@ -2871,12 +2893,17 @@ namespace OneStoryProjectEditor {
                 base.Columns.Add(this.columnphone);
                 this.columnaddress = new global::System.Data.DataColumn("address", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnaddress);
+                this.columnskypeID = new global::System.Data.DataColumn("skypeID", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnskypeID);
+                this.columnteamViewerID = new global::System.Data.DataColumn("teamViewerID", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnteamViewerID);
                 this.columnmemberKey = new global::System.Data.DataColumn("memberKey", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnmemberKey);
                 this.columnMembers_Id = new global::System.Data.DataColumn("Members_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnMembers_Id);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("MemberKey", new global::System.Data.DataColumn[] {
                                 this.columnmemberKey}, true));
+                this.columnname.AllowDBNull = false;
                 this.columnname.Namespace = "";
                 this.columnmemberType.AllowDBNull = false;
                 this.columnmemberType.Namespace = "";
@@ -2884,6 +2911,8 @@ namespace OneStoryProjectEditor {
                 this.columnaltPhone.Namespace = "";
                 this.columnphone.Namespace = "";
                 this.columnaddress.Namespace = "";
+                this.columnskypeID.Namespace = "";
+                this.columnteamViewerID.Namespace = "";
                 this.columnmemberKey.AllowDBNull = false;
                 this.columnmemberKey.Unique = true;
                 this.columnmemberKey.Namespace = "";
@@ -13091,12 +13120,7 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public string name {
                 get {
-                    try {
-                        return ((string)(this[this.tableMember.nameColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'name\' in table \'Member\' is DBNull.", e);
-                    }
+                    return ((string)(this[this.tableMember.nameColumn]));
                 }
                 set {
                     this[this.tableMember.nameColumn] = value;
@@ -13174,6 +13198,36 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string skypeID {
+                get {
+                    try {
+                        return ((string)(this[this.tableMember.skypeIDColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'skypeID\' in table \'Member\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableMember.skypeIDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string teamViewerID {
+                get {
+                    try {
+                        return ((string)(this[this.tableMember.teamViewerIDColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'teamViewerID\' in table \'Member\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableMember.teamViewerIDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public string memberKey {
                 get {
                     return ((string)(this[this.tableMember.memberKeyColumn]));
@@ -13206,16 +13260,6 @@ namespace OneStoryProjectEditor {
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["Members_Member"]);
                 }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsnameNull() {
-                return this.IsNull(this.tableMember.nameColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetnameNull() {
-                this[this.tableMember.nameColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -13256,6 +13300,26 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public void SetaddressNull() {
                 this[this.tableMember.addressColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsskypeIDNull() {
+                return this.IsNull(this.tableMember.skypeIDColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetskypeIDNull() {
+                this[this.tableMember.skypeIDColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsteamViewerIDNull() {
+                return this.IsNull(this.tableMember.teamViewerIDColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetteamViewerIDNull() {
+                this[this.tableMember.teamViewerIDColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
