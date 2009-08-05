@@ -297,6 +297,7 @@
                     </xs:element>
                   </xs:sequence>
                   <xs:attribute name="name" type="xs:string" use="required" />
+                  <xs:attribute name="stage" type="ProjectStages" use="required" />
                   <xs:attribute name="guid" type="xs:string" use="required" />
                 </xs:complexType>
               </xs:element>
@@ -323,6 +324,29 @@
       <xs:enumeration value="IndependentConsultant" />
       <xs:enumeration value="Coach" />
       <xs:enumeration value="JustLooking" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ProjectStages">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="CrafterTypeNationalBT" />
+      <xs:enumeration value="CrafterTypeInternationalBT" />
+      <xs:enumeration value="CrafterAddAnchors" />
+      <xs:enumeration value="CrafterAddStoryQuestions" />
+      <xs:enumeration value="ConsultantAddRound1Notes" />
+      <xs:enumeration value="CoachReviewRound1Notes" />
+      <xs:enumeration value="ConsultantReviseRound1Notes" />
+      <xs:enumeration value="CrafterReviseBasedOnRound1Notes" />
+      <xs:enumeration value="CrafterOnlineReview1WithConsultant" />
+      <xs:enumeration value="CrafterEnterRetellingBTTest1" />
+      <xs:enumeration value="CrafterEnterStoryQuestionAnswersBTTest1" />
+      <xs:enumeration value="ConsultantAddRoundZNotes" />
+      <xs:enumeration value="CoachReviewRoundZNotes" />
+      <xs:enumeration value="ConsultantReviseRoundZNotes" />
+      <xs:enumeration value="CrafterReviseBasedOnRoundZNotes" />
+      <xs:enumeration value="CrafterOnlineReviewZWithConsultant" />
+      <xs:enumeration value="CrafterEnterRetellingBTTestZ" />
+      <xs:enumeration value="CrafterEnterStoryQuestionAnswersBTTestZ" />
+      <xs:enumeration value="TeamComplete" />
     </xs:restriction>
   </xs:simpleType>
   <xs:complexType name="FontInfo">

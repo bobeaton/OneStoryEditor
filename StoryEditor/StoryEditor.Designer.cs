@@ -66,6 +66,7 @@
             this.flowLayoutPanelConsultantNotes = new System.Windows.Forms.FlowLayoutPanel();
             this.textBoxCoachNotes = new System.Windows.Forms.TextBox();
             this.flowLayoutPanelCoachNotes = new System.Windows.Forms.FlowLayoutPanel();
+            this.macTrackBarProjectStages = new XComponent.SliderBar.MACTrackBar();
             this.netBibleViewer = new OneStoryProjectEditor.NetBibleViewer();
             this.menuStrip.SuspendLayout();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
@@ -324,7 +325,7 @@
             this.flowLayoutPanelVerses.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanelVerses.Location = new System.Drawing.Point(0, 29);
             this.flowLayoutPanelVerses.Name = "flowLayoutPanelVerses";
-            this.flowLayoutPanelVerses.Size = new System.Drawing.Size(521, 167);
+            this.flowLayoutPanelVerses.Size = new System.Drawing.Size(521, 152);
             this.flowLayoutPanelVerses.TabIndex = 1;
             this.flowLayoutPanelVerses.WrapContents = false;
             // 
@@ -357,7 +358,7 @@
             // 
             this.splitContainerLeftRight.Panel2.Controls.Add(this.splitContainerMentorNotes);
             this.splitContainerLeftRight.Panel2.SizeChanged += new System.EventHandler(this.splitContainerLeftRight_Panel2_SizeChanged);
-            this.splitContainerLeftRight.Size = new System.Drawing.Size(895, 309);
+            this.splitContainerLeftRight.Size = new System.Drawing.Size(895, 283);
             this.splitContainerLeftRight.SplitterDistance = 523;
             this.splitContainerLeftRight.TabIndex = 2;
             // 
@@ -377,8 +378,8 @@
             // splitContainerUpDown.Panel2
             // 
             this.splitContainerUpDown.Panel2.Controls.Add(this.netBibleViewer);
-            this.splitContainerUpDown.Size = new System.Drawing.Size(523, 309);
-            this.splitContainerUpDown.SplitterDistance = 198;
+            this.splitContainerUpDown.Size = new System.Drawing.Size(523, 283);
+            this.splitContainerUpDown.SplitterDistance = 181;
             this.splitContainerUpDown.TabIndex = 2;
             // 
             // textBoxStoryVerse
@@ -410,8 +411,8 @@
             // 
             this.splitContainerMentorNotes.Panel2.Controls.Add(this.textBoxCoachNotes);
             this.splitContainerMentorNotes.Panel2.Controls.Add(this.flowLayoutPanelCoachNotes);
-            this.splitContainerMentorNotes.Size = new System.Drawing.Size(368, 309);
-            this.splitContainerMentorNotes.SplitterDistance = 187;
+            this.splitContainerMentorNotes.Size = new System.Drawing.Size(368, 283);
+            this.splitContainerMentorNotes.SplitterDistance = 171;
             this.splitContainerMentorNotes.TabIndex = 0;
             // 
             // textBoxConsultantNotesTable
@@ -435,7 +436,7 @@
             this.flowLayoutPanelConsultantNotes.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanelConsultantNotes.Location = new System.Drawing.Point(0, 29);
             this.flowLayoutPanelConsultantNotes.Name = "flowLayoutPanelConsultantNotes";
-            this.flowLayoutPanelConsultantNotes.Size = new System.Drawing.Size(366, 156);
+            this.flowLayoutPanelConsultantNotes.Size = new System.Drawing.Size(366, 142);
             this.flowLayoutPanelConsultantNotes.TabIndex = 0;
             this.flowLayoutPanelConsultantNotes.WrapContents = false;
             // 
@@ -460,9 +461,35 @@
             this.flowLayoutPanelCoachNotes.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanelCoachNotes.Location = new System.Drawing.Point(0, 27);
             this.flowLayoutPanelCoachNotes.Name = "flowLayoutPanelCoachNotes";
-            this.flowLayoutPanelCoachNotes.Size = new System.Drawing.Size(366, 89);
+            this.flowLayoutPanelCoachNotes.Size = new System.Drawing.Size(366, 81);
             this.flowLayoutPanelCoachNotes.TabIndex = 1;
             this.flowLayoutPanelCoachNotes.WrapContents = false;
+            // 
+            // macTrackBarProjectStages
+            // 
+            this.macTrackBarProjectStages.BackColor = System.Drawing.Color.Transparent;
+            this.macTrackBarProjectStages.BorderColor = System.Drawing.SystemColors.ActiveBorder;
+            this.macTrackBarProjectStages.BorderStyle = XComponent.SliderBar.MACBorderStyle.Etched;
+            this.macTrackBarProjectStages.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.macTrackBarProjectStages.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.macTrackBarProjectStages.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(123)))), ((int)(((byte)(125)))), ((int)(((byte)(123)))));
+            this.macTrackBarProjectStages.IndentWidth = 8;
+            this.macTrackBarProjectStages.LargeChange = 1;
+            this.macTrackBarProjectStages.Location = new System.Drawing.Point(0, 310);
+            this.macTrackBarProjectStages.Maximum = 19;
+            this.macTrackBarProjectStages.Minimum = 1;
+            this.macTrackBarProjectStages.Name = "macTrackBarProjectStages";
+            this.macTrackBarProjectStages.Size = new System.Drawing.Size(895, 26);
+            this.macTrackBarProjectStages.TabIndex = 3;
+            this.macTrackBarProjectStages.TickColor = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(146)))), ((int)(((byte)(148)))));
+            this.macTrackBarProjectStages.TickHeight = 1;
+            this.macTrackBarProjectStages.TrackerColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(130)))), ((int)(((byte)(198)))));
+            this.macTrackBarProjectStages.TrackerSize = new System.Drawing.Size(6, 6);
+            this.macTrackBarProjectStages.TrackLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(93)))), ((int)(((byte)(90)))));
+            this.macTrackBarProjectStages.TrackLineHeight = 1;
+            this.macTrackBarProjectStages.Value = 1;
+            this.macTrackBarProjectStages.HelpRequested += new System.Windows.Forms.HelpEventHandler(this.macTrackBarProjectStages_HelpRequested);
+            this.macTrackBarProjectStages.ValueChanged += new XComponent.SliderBar.ValueChangedHandler(this.macTrackBarProjectStages_ValueChanged);
             // 
             // netBibleViewer
             // 
@@ -472,7 +499,7 @@
             this.netBibleViewer.Margin = new System.Windows.Forms.Padding(0);
             this.netBibleViewer.Name = "netBibleViewer";
             this.netBibleViewer.ScriptureReference = "gen 1:1";
-            this.netBibleViewer.Size = new System.Drawing.Size(521, 105);
+            this.netBibleViewer.Size = new System.Drawing.Size(521, 96);
             this.netBibleViewer.TabIndex = 0;
             // 
             // StoryEditor
@@ -482,6 +509,7 @@
             this.ClientSize = new System.Drawing.Size(895, 336);
             this.Controls.Add(this.splitContainerLeftRight);
             this.Controls.Add(this.menuStrip);
+            this.Controls.Add(this.macTrackBarProjectStages);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip;
             this.Name = "StoryEditor";
@@ -545,6 +573,7 @@
         private System.Windows.Forms.ToolStripTextBox toolStripTextBoxChooseStory;
         private System.Windows.Forms.ToolStripMenuItem recentFilesToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private XComponent.SliderBar.MACTrackBar macTrackBarProjectStages;
     }
 }
 

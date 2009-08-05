@@ -15,6 +15,7 @@ namespace OneStoryProjectEditor
     {
         internal const string cstrCaption = "OneStory Project Editor";
         internal const string cstrButtonDropTargetName = "buttonDropTarget";
+        protected const string cstrDefaultProjectStage = "CrafterTypeNationalBT";
 
         protected string m_strProjectFilename = null;
 
@@ -43,6 +44,74 @@ namespace OneStoryProjectEditor
             eJustLooking
         }
 
+        public enum ProjectStages
+        {
+            eUndefined = 0,
+            eCrafterTypeNationalBT,
+            eCrafterTypeInternationalBT,
+            eCrafterAddAnchors,
+            eCrafterAddStoryQuestions,
+            eConsultantAddRound1Notes,
+            eCoachReviewRound1Notes,
+            eConsultantReviseRound1Notes,
+            eCrafterReviseBasedOnRound1Notes,
+            eCrafterOnlineReview1WithConsultant,
+            eCrafterEnterRetellingBTTest1,
+            eCrafterEnterStoryQuestionAnswersBTTest1,
+            eConsultantAddRoundZNotes,
+            eCoachReviewRoundZNotes,
+            eConsultantReviseRoundZNotes,
+            eCrafterReviseBasedOnRoundZNotes,
+            eCrafterOnlineReviewZWithConsultant,
+            eCrafterEnterRetellingBTTestZ,
+            eCrafterEnterStoryQuestionAnswersBTTestZ,
+            eTeamComplete
+        }
+
+        public static ProjectStages GetProjectStage(string strProjectStageString)
+        {
+            if (strProjectStageString == "CrafterTypeNationalBT")
+                return ProjectStages.eCrafterTypeNationalBT;
+            else if (strProjectStageString == "CrafterTypeInternationalBT")
+                return ProjectStages.eCrafterTypeInternationalBT;
+            else if (strProjectStageString == "CrafterAddAnchors")
+                return ProjectStages.eCrafterAddAnchors;
+            else if (strProjectStageString == "CrafterAddStoryQuestions")
+                return ProjectStages.eCrafterAddStoryQuestions;
+            else if (strProjectStageString == "ConsultantAddRound1Notes")
+                return ProjectStages.eConsultantAddRound1Notes;
+            else if (strProjectStageString == "CoachReviewRound1Notes")
+                return ProjectStages.eCoachReviewRound1Notes;
+            else if (strProjectStageString == "ConsultantReviseRound1Notes")
+                return ProjectStages.eConsultantReviseRound1Notes;
+            else if (strProjectStageString == "CrafterReviseBasedOnRound1Notes")
+                return ProjectStages.eCrafterReviseBasedOnRound1Notes;
+            else if (strProjectStageString == "CrafterOnlineReview1WithConsultant")
+                return ProjectStages.eCrafterOnlineReview1WithConsultant;
+            else if (strProjectStageString == "CrafterEnterRetellingBTTest1")
+                return ProjectStages.eCrafterEnterRetellingBTTest1;
+            else if (strProjectStageString == "CrafterEnterStoryQuestionAnswersBTTest1")
+                return ProjectStages.eCrafterEnterStoryQuestionAnswersBTTest1;
+            else if (strProjectStageString == "ConsultantAddRoundZNotes")
+                return ProjectStages.eConsultantAddRoundZNotes;
+            else if (strProjectStageString == "CoachReviewRoundZNotes")
+                return ProjectStages.eCoachReviewRoundZNotes;
+            else if (strProjectStageString == "ConsultantReviseRoundZNotes")
+                return ProjectStages.eConsultantReviseRoundZNotes;
+            else if (strProjectStageString == "CrafterReviseBasedOnRoundZNotes")
+                return ProjectStages.eCrafterReviseBasedOnRoundZNotes;
+            else if (strProjectStageString == "CrafterOnlineReviewZWithConsultant")
+                return ProjectStages.eCrafterOnlineReviewZWithConsultant;
+            else if (strProjectStageString == "CrafterEnterRetellingBTTestZ")
+                return ProjectStages.eCrafterEnterRetellingBTTestZ;
+            else if (strProjectStageString == "CrafterEnterStoryQuestionAnswersBTTestZ")
+                return ProjectStages.eCrafterEnterStoryQuestionAnswersBTTestZ;
+            else if (strProjectStageString == "TeamComplete")
+                return ProjectStages.eTeamComplete;
+            else
+                return ProjectStages.eUndefined;  // this version of the app doesn't know about this value
+        }
+
         public StoryEditor()
         {
             InitializeComponent();
@@ -56,6 +125,8 @@ namespace OneStoryProjectEditor
             }
 #if false
             OpenProjectFile(@"C:\Code\StoryEditor\StoryEditor\StoryProject.onestory");
+#else
+            InitializeProjectStage(cstrDefaultProjectStage);
 #endif
         }
 
@@ -243,8 +314,9 @@ namespace OneStoryProjectEditor
                         StoryProject.storiesRow aStoriesRow = InsureStoriesRow();
                         if (aStoriesRow == null)
                             return; // user could enter nothing for a language name
-                            
-                        m_projFile.story.AddstoryRow(strStoryToLoad, Guid.NewGuid().ToString(), aStoriesRow);
+
+                        m_projFile.story.AddstoryRow(strStoryToLoad, cstrDefaultProjectStage, 
+                            Guid.NewGuid().ToString(), aStoriesRow);
                         comboBoxStorySelector.SelectedItem = strStoryToLoad;
                     }
                 }
@@ -291,19 +363,9 @@ namespace OneStoryProjectEditor
 
             System.Diagnostics.Debug.Assert(theStoryRow != null);
             textBoxStoryVerse.Text = "Story: " + theStoryRow.name;
-            /*
-            StoryProject.VernacularFontRow aVFRow = aProj.VernacularFont[0];
-            VernacularFont = new Font(aVFRow.FontName, aVFRow.FontSize);
-            VernacularFontColor = Color.FromName(aVFRow.FontColor);
+            InitializeProjectStage(theStoryRow.stage);
 
-            StoryProject.NationalBTFontRow aNFRow = aProj.NationalBTFont[0];
-            NationalBTFont = new Font(aNFRow.FontName, aNFRow.FontSize);
-            NationalBTFontColor = Color.FromName(aNFRow.FontColor);
-
-            StoryProject.InternationalBTFontRow aIFRow = aProj.InternationalBTFont[0];
-            InternationalBTFont = new Font(aIFRow.FontName, aIFRow.FontSize);
-            InternationalBTFontColor = Color.FromName(aIFRow.FontColor);
-            */
+            // initialize the project stage bar
             int nVerseIndex = 0;
             AddDropTargetToFlowLayout(nVerseIndex++);
             InsureVersesRow(theStoryRow);
@@ -326,6 +388,239 @@ namespace OneStoryProjectEditor
 
                 nVerseIndex++;
             }
+        }
+
+        protected void InitializeProjectStage(string strProjectStageString)
+        {
+            ProjectStages eStage = GetProjectStage(strProjectStageString);
+            InitializeProjectStage(eStage);
+        }
+
+        protected void InitializeProjectStage(ProjectStages eStage)
+        {
+            // m_bDisableInterrupts = true;
+            switch (eStage)
+            {
+                case ProjectStages.eCrafterTypeNationalBT:
+                    viewVernacularLangFieldMenuItem.Checked = false;
+                    viewNationalLangFieldMenuItem.Checked = true;
+                    viewEnglishBTFieldMenuItem.Checked = false;
+                    viewAnchorFieldMenuItem.Checked = false;
+                    viewStoryTestingQuestionFieldMenuItem.Checked = false;
+                    viewRetellingFieldMenuItem.Checked = false;
+                    viewConsultantNoteFieldMenuItem.Checked = false;
+                    viewCoachNotesFieldMenuItem.Checked = false;
+                    viewNetBibleMenuItem.Checked = false;
+                    break;
+                case ProjectStages.eCrafterTypeInternationalBT:
+                    viewVernacularLangFieldMenuItem.Checked = false;
+                    viewNationalLangFieldMenuItem.Checked = true;
+                    viewEnglishBTFieldMenuItem.Checked = true;
+                    viewAnchorFieldMenuItem.Checked = false;
+                    viewStoryTestingQuestionFieldMenuItem.Checked = false;
+                    viewRetellingFieldMenuItem.Checked = false;
+                    viewConsultantNoteFieldMenuItem.Checked = false;
+                    viewCoachNotesFieldMenuItem.Checked = false;
+                    viewNetBibleMenuItem.Checked = false;
+                    break;
+                case ProjectStages.eCrafterAddAnchors:
+                    viewVernacularLangFieldMenuItem.Checked = false;
+                    viewNationalLangFieldMenuItem.Checked = true;
+                    viewEnglishBTFieldMenuItem.Checked = true;
+                    viewAnchorFieldMenuItem.Checked = true;
+                    viewStoryTestingQuestionFieldMenuItem.Checked = false;
+                    viewRetellingFieldMenuItem.Checked = false;
+                    viewConsultantNoteFieldMenuItem.Checked = false;
+                    viewCoachNotesFieldMenuItem.Checked = false;
+                    viewNetBibleMenuItem.Checked = true;
+                    break;
+                case ProjectStages.eCrafterAddStoryQuestions:
+                    viewVernacularLangFieldMenuItem.Checked = false;
+                    viewNationalLangFieldMenuItem.Checked = true;
+                    viewEnglishBTFieldMenuItem.Checked = true;
+                    viewAnchorFieldMenuItem.Checked = true;
+                    viewStoryTestingQuestionFieldMenuItem.Checked = true;
+                    viewRetellingFieldMenuItem.Checked = false;
+                    viewConsultantNoteFieldMenuItem.Checked = false;
+                    viewCoachNotesFieldMenuItem.Checked = false;
+                    viewNetBibleMenuItem.Checked = true;
+                    break;
+                case ProjectStages.eConsultantAddRound1Notes:
+                    viewVernacularLangFieldMenuItem.Checked = false;
+                    viewNationalLangFieldMenuItem.Checked = true;
+                    viewEnglishBTFieldMenuItem.Checked = true;
+                    viewAnchorFieldMenuItem.Checked = true;
+                    viewStoryTestingQuestionFieldMenuItem.Checked = false;  // Consultant can turn this on during 2nd pass (otherwise, I mushroom the stages)
+                    viewRetellingFieldMenuItem.Checked = false;
+                    viewConsultantNoteFieldMenuItem.Checked = true;
+                    viewCoachNotesFieldMenuItem.Checked = false;
+                    viewNetBibleMenuItem.Checked = true;
+                    break;
+                case ProjectStages.eCoachReviewRound1Notes:
+                    viewVernacularLangFieldMenuItem.Checked = false;
+                    viewNationalLangFieldMenuItem.Checked = true;
+                    viewEnglishBTFieldMenuItem.Checked = true;
+                    viewAnchorFieldMenuItem.Checked = true;
+                    viewStoryTestingQuestionFieldMenuItem.Checked = true;
+                    viewRetellingFieldMenuItem.Checked = false;
+                    viewConsultantNoteFieldMenuItem.Checked = true;
+                    viewCoachNotesFieldMenuItem.Checked = true;
+                    viewNetBibleMenuItem.Checked = true;
+                    break;
+                case ProjectStages.eConsultantReviseRound1Notes:
+                    viewVernacularLangFieldMenuItem.Checked = false;
+                    viewNationalLangFieldMenuItem.Checked = true;
+                    viewEnglishBTFieldMenuItem.Checked = true;
+                    viewAnchorFieldMenuItem.Checked = true;
+                    viewStoryTestingQuestionFieldMenuItem.Checked = true;
+                    viewRetellingFieldMenuItem.Checked = false;
+                    viewConsultantNoteFieldMenuItem.Checked = true;
+                    viewCoachNotesFieldMenuItem.Checked = true;
+                    viewNetBibleMenuItem.Checked = true;
+                    break;
+                case ProjectStages.eCrafterReviseBasedOnRound1Notes:
+                    viewVernacularLangFieldMenuItem.Checked = false;
+                    viewNationalLangFieldMenuItem.Checked = true;
+                    viewEnglishBTFieldMenuItem.Checked = true;
+                    viewAnchorFieldMenuItem.Checked = true;
+                    viewStoryTestingQuestionFieldMenuItem.Checked = true;
+                    viewRetellingFieldMenuItem.Checked = false;
+                    viewConsultantNoteFieldMenuItem.Checked = true;
+                    viewCoachNotesFieldMenuItem.Checked = false;
+                    viewNetBibleMenuItem.Checked = true;
+                    break;
+                case ProjectStages.eCrafterOnlineReview1WithConsultant:
+                    viewVernacularLangFieldMenuItem.Checked = false;
+                    viewNationalLangFieldMenuItem.Checked = true;
+                    viewEnglishBTFieldMenuItem.Checked = true;
+                    viewAnchorFieldMenuItem.Checked = true;
+                    viewStoryTestingQuestionFieldMenuItem.Checked = true;
+                    viewRetellingFieldMenuItem.Checked = false;
+                    viewConsultantNoteFieldMenuItem.Checked = true;
+                    viewCoachNotesFieldMenuItem.Checked = false;
+                    viewNetBibleMenuItem.Checked = true;
+                    break;
+                case ProjectStages.eCrafterEnterRetellingBTTest1:
+                    viewVernacularLangFieldMenuItem.Checked = false;
+                    viewNationalLangFieldMenuItem.Checked = true;
+                    viewEnglishBTFieldMenuItem.Checked = true;
+                    viewAnchorFieldMenuItem.Checked = true;
+                    viewStoryTestingQuestionFieldMenuItem.Checked = false;
+                    viewRetellingFieldMenuItem.Checked = true;
+                    viewConsultantNoteFieldMenuItem.Checked = false;
+                    viewCoachNotesFieldMenuItem.Checked = false;
+                    viewNetBibleMenuItem.Checked = true;
+                    break;
+                case ProjectStages.eCrafterEnterStoryQuestionAnswersBTTest1:
+                    viewVernacularLangFieldMenuItem.Checked = false;
+                    viewNationalLangFieldMenuItem.Checked = true;
+                    viewEnglishBTFieldMenuItem.Checked = true;
+                    viewAnchorFieldMenuItem.Checked = true;
+                    viewStoryTestingQuestionFieldMenuItem.Checked = true;
+                    viewRetellingFieldMenuItem.Checked = false;
+                    viewConsultantNoteFieldMenuItem.Checked = false;
+                    viewCoachNotesFieldMenuItem.Checked = false;
+                    viewNetBibleMenuItem.Checked = true;
+                    break;
+                case ProjectStages.eConsultantAddRoundZNotes:
+                    viewVernacularLangFieldMenuItem.Checked = false;
+                    viewNationalLangFieldMenuItem.Checked = true;
+                    viewEnglishBTFieldMenuItem.Checked = true;
+                    viewAnchorFieldMenuItem.Checked = true;
+                    viewStoryTestingQuestionFieldMenuItem.Checked = true;
+                    viewRetellingFieldMenuItem.Checked = true;
+                    viewConsultantNoteFieldMenuItem.Checked = true;
+                    viewCoachNotesFieldMenuItem.Checked = false;
+                    viewNetBibleMenuItem.Checked = true;
+                    break;
+                case ProjectStages.eCoachReviewRoundZNotes:
+                    viewVernacularLangFieldMenuItem.Checked = false;
+                    viewNationalLangFieldMenuItem.Checked = true;
+                    viewEnglishBTFieldMenuItem.Checked = true;
+                    viewAnchorFieldMenuItem.Checked = true;
+                    viewStoryTestingQuestionFieldMenuItem.Checked = true;
+                    viewRetellingFieldMenuItem.Checked = true;
+                    viewConsultantNoteFieldMenuItem.Checked = true;
+                    viewCoachNotesFieldMenuItem.Checked = true;
+                    viewNetBibleMenuItem.Checked = true;
+                    break;
+                case ProjectStages.eConsultantReviseRoundZNotes:
+                    viewVernacularLangFieldMenuItem.Checked = false;
+                    viewNationalLangFieldMenuItem.Checked = true;
+                    viewEnglishBTFieldMenuItem.Checked = true;
+                    viewAnchorFieldMenuItem.Checked = true;
+                    viewStoryTestingQuestionFieldMenuItem.Checked = true;
+                    viewRetellingFieldMenuItem.Checked = true;
+                    viewConsultantNoteFieldMenuItem.Checked = true;
+                    viewCoachNotesFieldMenuItem.Checked = true;
+                    viewNetBibleMenuItem.Checked = true;
+                    break;
+                case ProjectStages.eCrafterReviseBasedOnRoundZNotes:
+                    viewVernacularLangFieldMenuItem.Checked = false;
+                    viewNationalLangFieldMenuItem.Checked = true;
+                    viewEnglishBTFieldMenuItem.Checked = true;
+                    viewAnchorFieldMenuItem.Checked = true;
+                    viewStoryTestingQuestionFieldMenuItem.Checked = true;
+                    viewRetellingFieldMenuItem.Checked = true;
+                    viewConsultantNoteFieldMenuItem.Checked = true;
+                    viewCoachNotesFieldMenuItem.Checked = false;
+                    viewNetBibleMenuItem.Checked = true;
+                    break;
+                case ProjectStages.eCrafterOnlineReviewZWithConsultant:
+                    viewVernacularLangFieldMenuItem.Checked = false;
+                    viewNationalLangFieldMenuItem.Checked = true;
+                    viewEnglishBTFieldMenuItem.Checked = true;
+                    viewAnchorFieldMenuItem.Checked = true;
+                    viewStoryTestingQuestionFieldMenuItem.Checked = true;
+                    viewRetellingFieldMenuItem.Checked = true;
+                    viewConsultantNoteFieldMenuItem.Checked = true;
+                    viewCoachNotesFieldMenuItem.Checked = false;
+                    viewNetBibleMenuItem.Checked = true;
+                    break;
+                case ProjectStages.eCrafterEnterRetellingBTTestZ:
+                    viewVernacularLangFieldMenuItem.Checked = false;
+                    viewNationalLangFieldMenuItem.Checked = true;
+                    viewEnglishBTFieldMenuItem.Checked = true;
+                    viewAnchorFieldMenuItem.Checked = true;
+                    viewStoryTestingQuestionFieldMenuItem.Checked = false;
+                    viewRetellingFieldMenuItem.Checked = true;
+                    viewConsultantNoteFieldMenuItem.Checked = false;
+                    viewCoachNotesFieldMenuItem.Checked = false;
+                    viewNetBibleMenuItem.Checked = true;
+                    break;
+                case ProjectStages.eCrafterEnterStoryQuestionAnswersBTTestZ:
+                    viewVernacularLangFieldMenuItem.Checked = false;
+                    viewNationalLangFieldMenuItem.Checked = true;
+                    viewEnglishBTFieldMenuItem.Checked = true;
+                    viewAnchorFieldMenuItem.Checked = true;
+                    viewStoryTestingQuestionFieldMenuItem.Checked = true;
+                    viewRetellingFieldMenuItem.Checked = false;
+                    viewConsultantNoteFieldMenuItem.Checked = false;
+                    viewCoachNotesFieldMenuItem.Checked = false;
+                    viewNetBibleMenuItem.Checked = true;
+                    break;
+                case ProjectStages.eTeamComplete:
+                    viewVernacularLangFieldMenuItem.Checked = true;
+                    viewNationalLangFieldMenuItem.Checked = true;
+                    viewEnglishBTFieldMenuItem.Checked = true;
+                    viewAnchorFieldMenuItem.Checked = true;
+                    viewStoryTestingQuestionFieldMenuItem.Checked = true;
+                    viewRetellingFieldMenuItem.Checked = true;
+                    viewConsultantNoteFieldMenuItem.Checked = true;
+                    viewCoachNotesFieldMenuItem.Checked = true;
+                    viewNetBibleMenuItem.Checked = true;
+                    break;
+                case ProjectStages.eUndefined:
+                default:
+                    m_bDisableInterrupts = false;
+                    throw new ApplicationException(String.Format("This project was edited by a newer version of the {0} program. You have to update your version of the program to edit this project.", cstrCaption));
+            };
+
+            // for now, the progress bar is just the eStage value as an int
+            if (eStage > ProjectStages.eUndefined)
+                macTrackBarProjectStages.Value = (int)eStage;
+
+            m_bDisableInterrupts = false;
         }
 
         protected void AddDropTargetToFlowLayout(int nVerseIndex)
@@ -535,7 +830,8 @@ namespace OneStoryProjectEditor
 
         private void viewFieldMenuItem_CheckedChanged(object sender, EventArgs e)
         {
-            UpdateVersePanel();
+            if (!m_bDisableInterrupts)
+                UpdateVersePanel();
         }
 
         private void viewNetBibleMenuItem_CheckedChanged(object sender, EventArgs e)
@@ -603,7 +899,7 @@ namespace OneStoryProjectEditor
 
         private void splitContainerLeftRight_Panel2_SizeChanged(object sender, EventArgs e)
         {
-            if (!splitContainerMentorNotes.Panel1Collapsed)
+            // if (!splitContainerMentorNotes.Panel1Collapsed)
                 foreach (Control ctrl in flowLayoutPanelConsultantNotes.Controls)
                 {
                     if (ctrl is ConsultNotesControl)
@@ -613,7 +909,7 @@ namespace OneStoryProjectEditor
                     }
                 }
 
-            if (!splitContainerMentorNotes.Panel2Collapsed)
+            // if (!splitContainerMentorNotes.Panel2Collapsed)  these should be done even if invisible
                 foreach (Control ctrl in flowLayoutPanelCoachNotes.Controls)
                 {
                     if (ctrl is ConsultNotesControl)
@@ -669,6 +965,29 @@ namespace OneStoryProjectEditor
         {
             CheckForSaveDirtyFile();
             this.Close();
+        }
+
+        private void macTrackBarProjectStages_HelpRequested(object sender, HelpEventArgs hlpevent)
+        {
+            XComponent.SliderBar.MACTrackBar bar = (XComponent.SliderBar.MACTrackBar)sender;
+            Console.WriteLine(String.Format("HelpRequested: value: {0}", bar.Value));
+        }
+
+        protected bool m_bDisableInterrupts = false;
+        private void macTrackBarProjectStages_ValueChanged(object sender, decimal value)
+        {
+            XComponent.SliderBar.MACTrackBar bar = (XComponent.SliderBar.MACTrackBar)sender;
+            ProjectStages theProjectStage = (ProjectStages)bar.Value;
+            Console.WriteLine(String.Format("ValueChanged: ProjectStage: {0}", theProjectStage.ToString()));
+            if (CheckIfProjectTransitionIsAllowed(theProjectStage))
+            {
+                InitializeProjectStage(theProjectStage);
+            }
+        }
+
+        protected bool CheckIfProjectTransitionIsAllowed(ProjectStages eStage)
+        {
+            return true;
         }
     }
 }

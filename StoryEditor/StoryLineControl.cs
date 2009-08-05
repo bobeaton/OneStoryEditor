@@ -108,10 +108,6 @@ namespace OneStoryProjectEditor
                 RemoveColumn(m_nColumnIndexInternationalBT);
                 m_nColumnIndexInternationalBT = -1;
             }
-
-#if DEBUG
-            tableLayoutPanel.DumpTable();
-#endif
         }
 
         protected void InitLabel(string strStoryLineLableName, int nLayoutColumn)

@@ -4,7 +4,7 @@
     <Members>
       <Member name="Pawan" memberType="Crafter" phone="93571-99065" altPhone="1862230839" email="koundal@kastanet.org" memberKey="mem-99CDE60E-453A-4947-8627-83B33223EF0B" />
       <Member name="Karn" memberType="Crafter" phone="93189-69891" email="Karan_Dogra@kastanet.org" memberKey="mem-68A82D25-D414-4489-A484-8F17D8808818" />
-      <Member name="Bob" memberType="Consultant-in-Training" phone="972-283-3741" altPhone="92185-51466" email="bob_eaton@sall.com" memberKey="mem-8B45075E-6434-4755-81AE-E1EEB9134D5B" />
+      <Member name="Bob" memberType="ConsultantInTraining" phone="972-283-3741" altPhone="92185-51466" email="bob_eaton@sall.com" memberKey="mem-8B45075E-6434-4755-81AE-E1EEB9134D5B" />
       <Member name="Judy" memberType="Coach" email="judy_payne@sil.org" memberKey="mem-7064CC55-73C4-48bf-B2DC-9989A5ED9D1B" />
       <Member name="Vandna" memberType="UNS" address="c/o Sunshine Cottages; Suggar; Palampur, HP; 176061" memberKey="mem-B83F07A1-71D4-4358-82C3-9B2F7205E121"/>
       <Member name="Reena Kashyap" memberType="UNS" address="c/o Sunshine Cottages; Suggar; Palampur, HP; 176061" memberKey="mem-FCAC1BB2-827F-47b8-B1BD-60245BB15392"/>
@@ -14,7 +14,7 @@
       <NationalBTFont FontName="Arial Unicode MS" FontSize="12" FontColor="Color [Green]" />
       <InternationalBTFont FontName="Arial Unicode MS" FontSize="11" FontColor="Color [Blue]" />
     </Fonts>
-    <story name="Spiritual World" guid="7408CC4B-E0B7-4227-9645-829082B3F637">
+    <story name="Spiritual World" stage="CrafterTypeNationalBT" guid="7408CC4B-E0B7-4227-9645-829082B3F637">
       <CraftingInfo>
         <StoryCrafter memberID="mem-99CDE60E-453A-4947-8627-83B33223EF0B" />
         <StoryPurpose lang="en">To explain where our enemy came from</StoryPurpose>
