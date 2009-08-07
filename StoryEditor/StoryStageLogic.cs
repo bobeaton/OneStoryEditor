@@ -9,8 +9,6 @@ namespace OneStoryProjectEditor
     {
         public LoggedOnMemberInfo MemberInfo;
         public string ProjectStageString = null;
-        public string StoryName = null;
-        public string StoryGuid = null;
 
         protected ProjectStages _ProjectStage = ProjectStages.eUndefined;
 
@@ -93,12 +91,10 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public StoryStageLogic(string strProjectStage, LoggedOnMemberInfo memberInfo, string strStoryName, string strStoryGuid)
+        public StoryStageLogic(string strProjectStage, LoggedOnMemberInfo memberInfo)
         {
             ProjectStageString = strProjectStage;
             ProjectStage = GetProjectStage(strProjectStage);
-            StoryName = strStoryName;
-            StoryGuid = strStoryGuid;
             MemberInfo = memberInfo;
         }
 

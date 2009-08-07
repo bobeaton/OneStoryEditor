@@ -69,22 +69,6 @@
 												</xs:sequence>
 											</xs:complexType>
 										</xs:element>
-										<xs:element name="edits" minOccurs="1" maxOccurs="1">
-											<xs:complexType>
-												<xs:sequence>
-													<xs:element name="edit" maxOccurs="unbounded">
-														<xs:complexType>
-															<xs:sequence>
-																<xs:element name="description" minOccurs="1" maxOccurs="1" type="xs:string" />
-															</xs:sequence>
-															<xs:attribute name="editor" type="xs:IDREF" use="optional" />
-															<xs:attribute name="dateModified" type="xs:dateTime" use="optional" />
-															<xs:attribute name="editKey" type="xs:ID" use="required" />
-														</xs:complexType>
-													</xs:element>
-												</xs:sequence>
-											</xs:complexType>
-										</xs:element>
 										<xs:element name="verses" minOccurs="1" maxOccurs="1">
 											<xs:complexType>
 												<xs:sequence>

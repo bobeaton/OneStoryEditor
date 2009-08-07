@@ -24,29 +24,6 @@
           <Test number="2" memberID="mem-FCAC1BB2-827F-47b8-B1BD-60245BB15392" />
         </Tests>
       </CraftingInfo>
-      <edits>
-        <edit editor="mem-99CDE60E-453A-4947-8627-83B33223EF0B" dateModified="2009-07-23T02:35:17Z" editKey="edt-B4B88666-925E-4234-AF2E-174E2E501ED1">
-          <description>जोड़ा आयत 1-5</description>
-        </edit>
-        <edit editor="mem-8B45075E-6434-4755-81AE-E1EEB9134D5B" dateModified="2009-07-24T02:33:17Z" editKey="edt-AF372D37-C3DA-43b0-9B73-5220798DD467">
-          <description>added consultant notes for round 1</description>
-        </edit>
-        <edit editor="mem-7064CC55-73C4-48bf-B2DC-9989A5ED9D1B" dateModified="2009-07-25T02:37:17Z" editKey="edt-14216F87-94C3-43ff-81C5-7917B56478BC">
-          <description>added coaching notes for round 1</description>
-        </edit>
-        <edit editor="mem-99CDE60E-453A-4947-8627-83B33223EF0B" dateModified="2009-07-25T02:47:17Z" editKey="edt-2FDE3A5D-BE48-4682-AB97-9CAF14769CDA">
-          <description>responded to consultant notes for round 1</description>
-        </edit>
-        <edit editor="mem-8B45075E-6434-4755-81AE-E1EEB9134D5B" dateModified="2009-07-25T02:57:17Z" editKey="edt-45C313DC-C122-4a1f-8B4F-DCF7E4F638D5">
-          <description>took UNS#1 test</description>
-        </edit>
-        <edit editor="mem-8B45075E-6434-4755-81AE-E1EEB9134D5B" dateModified="2009-07-26T02:40:17Z" editKey="edt-A3156B2B-81ED-41e9-BC9D-40C041B70853">
-          <description>added consultant notes for round 2</description>
-        </edit>
-        <edit editor="mem-99CDE60E-453A-4947-8627-83B33223EF0B" dateModified="2009-07-27T02:42:17Z" editKey="edt-FD8785BB-8149-4b68-9DBD-FBA086F52FE4">
-          <description>responded to consultant notes for round 2</description>
-        </edit>
-      </edits>
       <verses>
         <verse guid="8B2A9897-B79E-4b86-ADF9-FC73BD7CAF1E">
           <Vernacular>story 1: अज चौंह़ईं पास्‍सेआं जितनिआं भी चीज़ा असां दिखदे हन, इह़ना जो परमेसरैं ई बणाया है ।</Vernacular>

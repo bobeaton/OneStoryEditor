@@ -22,8 +22,8 @@ namespace OneStoryProjectEditor
 
         protected StoryProject m_projFile = null;
         protected LoggedOnMemberInfo m_logonInfo = null;
-        protected StoryStageLogic m_projStage = null;
         internal ProjectSettings ProjSettings = null;
+        protected StorySettings _StorySettings = null;
 
         internal static XNamespace ns = "http://www.sil.org/computing/schemas/StoryProject.xsd";
 
@@ -62,8 +62,6 @@ namespace OneStoryProjectEditor
             }
 #if false
             OpenProjectFile(@"C:\Code\StoryEditor\StoryEditor\StoryProject.onestory");
-#else
-            // InitializeProjectStage(cstrDefaultProjectStage);
 #endif
         }
 
@@ -323,6 +321,9 @@ namespace OneStoryProjectEditor
                 }
             System.Diagnostics.Debug.Assert(theStoryRow != null);
 
+            // initialize our settings object for this story.
+            _StorySettings = new StorySettings(theStoryRow, m_projFile, m_logonInfo);
+
             // initialize the text box showing the storying they're editing
             textBoxStoryVerse.Text = "Story: " + theStoryRow.name;
 
@@ -351,13 +352,7 @@ namespace OneStoryProjectEditor
             // initialize the project stage details (which might hide certain views)
             //  (do this *after* initializing the whole thing, because if we save, we'll
             //  want to save even the hidden pieces)
-            InitializeProjectStage(theStoryRow.stage, theStoryRow.name, theStoryRow.guid);
-        }
-
-        protected void InitializeProjectStage(string strProjectStageString, string strStoryName, string strStoryGuid)
-        {
-            m_projStage = new StoryStageLogic(strProjectStageString, m_logonInfo, strStoryName, strStoryGuid);
-            SetViewBasedOnProjectStage(m_projStage.ProjectStage);
+            SetViewBasedOnProjectStage(_StorySettings.ProjStage.ProjectStage);
         }
 
         protected void SetViewBasedOnProjectStage(StoryStageLogic.ProjectStages eStage)
@@ -995,14 +990,16 @@ namespace OneStoryProjectEditor
         protected bool m_bDisableInterrupts = false;
         private void macTrackBarProjectStages_ValueChanged(object sender, decimal value)
         {
-            if (m_projStage == null)
+            if (_StorySettings == null)
                 return;
+            System.Diagnostics.Debug.Assert(_StorySettings.ProjStage != null);
+
             XComponent.SliderBar.MACTrackBar bar = (XComponent.SliderBar.MACTrackBar)sender;
             StoryStageLogic.ProjectStages eNewProjectStage = (StoryStageLogic.ProjectStages)bar.Value;
             Console.WriteLine(String.Format("ValueChanged: ProjectStage: {0}", eNewProjectStage.ToString()));
-            if (m_projStage.CheckIfProjectTransitionIsAllowed(eNewProjectStage))
+            if (_StorySettings.ProjStage.CheckIfProjectTransitionIsAllowed(eNewProjectStage))
             {
-                System.Diagnostics.Debug.Assert(eNewProjectStage == m_projStage.ProjectStage);
+                System.Diagnostics.Debug.Assert(eNewProjectStage == _StorySettings.ProjStage.ProjectStage);
                 SetViewBasedOnProjectStage(eNewProjectStage);
             }
         }
@@ -1017,6 +1014,7 @@ namespace OneStoryProjectEditor
             get
             {
                 System.Diagnostics.Debug.Assert((m_projFile != null) && (m_projFile.stories.Count > 0));
+
                 XElement elemVerses = new XElement(ns + "verses");
 
                 foreach (Control ctrl in flowLayoutPanelVerses.Controls)
@@ -1028,14 +1026,14 @@ namespace OneStoryProjectEditor
                     }
                 }
 
+                XElement elemStory = _StorySettings.GetXml;
+                elemStory.Add(elemVerses);
+
+
                 XElement elemStories = new XElement(ns + "stories", new XAttribute("ProjectName", ProjSettings.ProjectName),
                     TeamMemberForm.GetXmlMembers(m_projFile),
                     ProjSettings.GetXml,
-                    new XElement(ns + "story",
-                        new XAttribute("name", StoryName),
-                        new XAttribute("stage", m_projStage.ProjectStageString),
-                        new XAttribute("guid", m_projStage.StoryGuid),
-                        elemVerses));
+                    elemStory);
 
                 return elemStories;
             }
