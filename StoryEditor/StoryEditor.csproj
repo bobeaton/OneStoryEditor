@@ -111,7 +111,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="ExegeticalHelpNotesData.cs" />
-    <Compile Include="LoggedOnMemberInfo.cs" />
     <Compile Include="MultipleLineDataConverter.cs" />
     <Compile Include="NetBibleFootnoteTooltip.cs">
       <SubType>Form</SubType>
@@ -223,6 +222,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StoryProject.xsd</DependentUpon>
     </Compile>
+    <Compile Include="TeamMemberData.cs" />
     <Compile Include="TeamMemberForm.cs">
       <SubType>Form</SubType>
     </Compile>

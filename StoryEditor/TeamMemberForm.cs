@@ -11,30 +11,23 @@ namespace OneStoryProjectEditor
 {
     public partial class TeamMemberForm : Form
     {
-        internal const string cstrCrafter = "Crafter";
-        internal const string cstrUNS = "UNS";
-        internal const string cstrConsultantInTraining = "Consultant-in-Training";
-        internal const string cstrIndependentConsultant = "IndependentConsultant";
-        internal const string cstrCoach = "Coach";
-        internal const string cstrJustLooking = "JustLooking"; // gives full access, but no change privileges
-
-        protected StoryProject m_projFile = null;
         protected ProjectSettings m_projSettings = null;
+        protected TeamMembersData _dataTeamMembers = null;
         protected string m_strSelectedMember = null;
 
-        Dictionary<string, StoryProject.MemberRow> m_mapNewMembersThisSession = new Dictionary<string, StoryProject.MemberRow>();
+        Dictionary<string, TeamMemberData> m_mapNewMembersThisSession = new Dictionary<string, TeamMemberData>();
 
-        public TeamMemberForm(StoryProject projFile, ProjectSettings projSettings)
+        public TeamMemberForm(TeamMembersData dataTeamMembers, ProjectSettings projSettings)
         {
-            m_projFile = projFile;
+            _dataTeamMembers = dataTeamMembers;
             m_projSettings = projSettings;
 
             InitializeComponent();
 
-            foreach (StoryProject.MemberRow aMemberRow in projFile.Member)
+            foreach (TeamMemberData aMember in dataTeamMembers.Values)
             {
-                listBoxTeamMembers.Items.Add(aMemberRow.name);
-                listBoxMemberRoles.Items.Add(aMemberRow.memberType);
+                listBoxTeamMembers.Items.Add(aMember.Name);
+                listBoxMemberRoles.Items.Add(aMember.UserTypeAsString);
             }
 
             if ((listBoxTeamMembers.Items.Count > 0) && !String.IsNullOrEmpty(Properties.Settings.Default.LastMemberLogin))
@@ -68,61 +61,50 @@ namespace OneStoryProjectEditor
             set { textBoxName.Text = value; }
         }
 
-        public string MemberTypeString
+        public StoryEditor.UserTypes MemberType
         {
             get
             {
                 if (radioButtonStoryCrafter.Checked)
-                    return cstrCrafter;
+                    return StoryEditor.UserTypes.eCrafter;
                 else if (radioButtonUNS.Checked)
-                    return cstrUNS;
+                    return StoryEditor.UserTypes.eUNS;
                 else if (radioButtonConsultantInTraining.Checked)
-                    return cstrConsultantInTraining;
+                    return StoryEditor.UserTypes.eConsultantInTraining;
                 else if (radioButtonIndependentConsultant.Checked)
-                    return cstrIndependentConsultant;
+                    return StoryEditor.UserTypes.eIndependentConsultant;
                 else if (radioButtonCoach.Checked)
-                    return cstrCoach;
+                    return StoryEditor.UserTypes.eCoach;
                 else
-                    return cstrJustLooking;
+                    return StoryEditor.UserTypes.eJustLooking;
             }
             set
             {
-                if (value == cstrCrafter)
-                    radioButtonStoryCrafter.Checked = true;
-                else if (value == cstrUNS)
-                    radioButtonUNS.Checked = true;
-                else if (value == cstrConsultantInTraining)
-                    radioButtonConsultantInTraining.Checked = true;
-                else if (value == cstrIndependentConsultant)
-                    radioButtonIndependentConsultant.Checked = true;
-                else if (value == cstrCoach)
-                    radioButtonCoach.Checked = true;
-                else // if (value == cstrJustLooking)
-                    radioButtonJustViewing.Checked = true;
+                switch (value)
+                {
+                    case StoryEditor.UserTypes.eCrafter:
+                        radioButtonStoryCrafter.Checked = true;
+                        break;
+                    case StoryEditor.UserTypes.eUNS:
+                        radioButtonUNS.Checked = true;
+                        break;
+                    case StoryEditor.UserTypes.eConsultantInTraining:
+                        radioButtonConsultantInTraining.Checked = true;
+                        break;
+                    case StoryEditor.UserTypes.eIndependentConsultant:
+                        radioButtonIndependentConsultant.Checked = true;
+                        break;
+                    case StoryEditor.UserTypes.eCoach:
+                        radioButtonCoach.Checked = true;
+                        break;
+                    case StoryEditor.UserTypes.eJustLooking:
+                        radioButtonJustViewing.Checked = true;
+                        break;
+                    default:
+                        System.Diagnostics.Debug.Assert(false); // should get here.
+                        break;
+                }
             }
-        }
-
-        public StoryEditor.UserTypes UserType
-        {
-            get { return GetUserType(MemberTypeString); }
-        }
-
-        public static StoryEditor.UserTypes GetUserType(string strMemberTypeString)
-        {
-            if (strMemberTypeString == cstrCrafter)
-                return StoryEditor.UserTypes.eCrafter;
-            else if (strMemberTypeString == cstrUNS)
-                return StoryEditor.UserTypes.eUNS;
-            else if (strMemberTypeString == cstrConsultantInTraining)
-                return StoryEditor.UserTypes.eConsultantInTraining;
-            else if (strMemberTypeString == cstrIndependentConsultant)
-                return StoryEditor.UserTypes.eIndependentConsultant;
-            else if (strMemberTypeString == cstrCoach)
-                return StoryEditor.UserTypes.eCoach;
-            else if (strMemberTypeString == cstrJustLooking)
-                return StoryEditor.UserTypes.eJustLooking;
-            else
-                return StoryEditor.UserTypes.eUndefined;
         }
 
         public string Email
@@ -161,25 +143,7 @@ namespace OneStoryProjectEditor
             set { textBoxAddress.Text = value; }
         }
 
-        private void buttonEditOK_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                FinishEdit();
-
-                Properties.Settings.Default.LastMemberLogin = SelectedMember;
-                Properties.Settings.Default.Save();
-
-                DialogResult = DialogResult.OK;
-                this.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, StoryEditor.cstrCaption);
-            }
-        }
-
-        private void buttonAccept_Click(object sender, EventArgs e)
+        private void DoAccept()
         {
             try
             {
@@ -196,23 +160,23 @@ namespace OneStoryProjectEditor
             if (String.IsNullOrEmpty(this.MemberName))
                 throw new ApplicationException("You have to enter at least a name and indicate your role (even if you're 'just looking')!");
 
-            StoryProject.MemberRow theNewMember;
-            if (m_mapNewMembersThisSession.TryGetValue(this.MemberName, out theNewMember))
+            TeamMemberData theNewMemberData;
+            if (m_mapNewMembersThisSession.TryGetValue(this.MemberName, out theNewMemberData))
             {
                 // must just be editing the already added member...
                 System.Diagnostics.Debug.Assert(listBoxTeamMembers.Items.Contains(MemberName));
 
-                theNewMember.memberType = this.MemberTypeString;
-                theNewMember.email = this.Email;
-                theNewMember.altPhone = this.AltPhone;
-                theNewMember.phone = this.Phone;
-                theNewMember.address = this.Address;
-                theNewMember.skypeID = this.SkypeID;
-                theNewMember.teamViewerID = this.TeamViewerID;
+                theNewMemberData.MemberType = this.MemberType;
+                theNewMemberData.Email = this.Email;
+                theNewMemberData.AltPhone = this.AltPhone;
+                theNewMemberData.Phone = this.Phone;
+                theNewMemberData.Address = this.Address;
+                theNewMemberData.SkypeID = this.SkypeID;
+                theNewMemberData.TeamViewerID = this.TeamViewerID;
 
                 // update the role listbox
                 int nIndex = listBoxTeamMembers.Items.IndexOf(MemberName);
-                listBoxMemberRoles.Items[nIndex] = theNewMember.memberType;
+                listBoxMemberRoles.Items[nIndex] = theNewMemberData.UserTypeAsString;
             }
             else if (listBoxTeamMembers.Items.Contains(this.MemberName))
             {
@@ -221,13 +185,13 @@ namespace OneStoryProjectEditor
             else
             {
                 // add this new user to the proj file
-                theNewMember = m_projFile.Member.AddMemberRow(this.MemberName,
-                    this.MemberTypeString, this.Email, this.AltPhone, this.Phone, this.Address, 
-                    this.SkypeID, this.TeamViewerID, String.Format("mem-{0}", Guid.NewGuid().ToString()), 
-                    m_projFile.Members[0]);
-                m_mapNewMembersThisSession.Add(this.MemberName, theNewMember);
+                theNewMemberData = new TeamMemberData(this.MemberName,
+                    this.MemberType, String.Format("mem-{0}", Guid.NewGuid().ToString()),
+                    this.Email, this.SkypeID, this.TeamViewerID, this.Phone, this.AltPhone, 
+                    this.Address);
+                m_mapNewMembersThisSession.Add(this.MemberName, theNewMemberData);
                 listBoxTeamMembers.Items.Add(this.MemberName);
-                listBoxMemberRoles.Items.Add(this.MemberTypeString);
+                listBoxMemberRoles.Items.Add(theNewMemberData.UserTypeAsString);
                 listBoxTeamMembers.SelectedItem = this.MemberName;
             }
 
@@ -272,7 +236,19 @@ namespace OneStoryProjectEditor
             // this button should only be enabled if a team member is selected
             System.Diagnostics.Debug.Assert(listBoxTeamMembers.SelectedIndex != -1);
 
+            // if the selected user is a UNS, this is probably a mistake.
+            TeamMemberData theMember = _dataTeamMembers[SelectedMember];
+            if (theMember.MemberType == StoryEditor.UserTypes.eUNS)
+            {
+                MessageBox.Show("You may have added a UNS in order to identify, for example, which UNS did the back translation or a particular test. However, you as the crafter should still be logged in to enter the UNS's comments. So select your *crafter* member name and click 'Login' again", StoryEditor.cstrCaption);
+                return;
+            }
+
+            // indicate that this is the currently logged on user
+            _dataTeamMembers.LoggedOn = _dataTeamMembers[SelectedMember];
+
             Properties.Settings.Default.LastMemberLogin = SelectedMember;
+            Properties.Settings.Default.LastUserType = _dataTeamMembers.LoggedOn.UserTypeAsString;
             Properties.Settings.Default.Save();
 
             DialogResult = DialogResult.OK;
@@ -295,27 +271,21 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert(listBoxTeamMembers.SelectedIndex != -1);
 
             m_strSelectedMember = (string)listBoxTeamMembers.SelectedItem;
-            StoryProject.MemberRow theMemberRow = null;
-            foreach (StoryProject.MemberRow aMemberRow in m_projFile.Member)
-                if (SelectedMember == aMemberRow.name)
-                {
-                    theMemberRow = aMemberRow;
-                    break;
-                }
+            System.Diagnostics.Debug.Assert(_dataTeamMembers.ContainsKey(m_strSelectedMember));
+            TeamMemberData theMemberData = _dataTeamMembers[m_strSelectedMember];
 
-            System.Diagnostics.Debug.Assert(theMemberRow != null);
-            this.MemberName = theMemberRow.name;
-            this.MemberTypeString = theMemberRow.memberType;
-            this.Email = (theMemberRow.IsemailNull()) ? null : theMemberRow.email;
-            this.AltPhone = (theMemberRow.IsaltPhoneNull()) ? null : theMemberRow.altPhone;
-            this.Phone = (theMemberRow.IsphoneNull()) ? null : theMemberRow.phone;
-            this.Address = (theMemberRow.IsaddressNull()) ? null : theMemberRow.address;
-            this.SkypeID = (theMemberRow.IsskypeIDNull()) ? null : theMemberRow.skypeID;
-            this.TeamViewerID = (theMemberRow.IsteamViewerIDNull()) ? null : theMemberRow.teamViewerID;
+            this.MemberName = theMemberData.Name;
+            this.MemberType = theMemberData.MemberType;
+            this.Email = theMemberData.Email;
+            this.AltPhone = theMemberData.AltPhone;
+            this.Phone = theMemberData.Phone;
+            this.Address = theMemberData.Address;
+            this.SkypeID = theMemberData.SkypeID;
+            this.TeamViewerID = theMemberData.TeamViewerID;
 
             // keep a hang on it so we don't try to, for example, give it a new guid
             if (!m_mapNewMembersThisSession.ContainsKey(MemberName))
-                m_mapNewMembersThisSession.Add(MemberName, theMemberRow);
+                m_mapNewMembersThisSession.Add(MemberName, theMemberData);
         }
 
         private void buttonEditMember_Click(object sender, EventArgs e)
@@ -327,19 +297,9 @@ namespace OneStoryProjectEditor
         private void buttonDeleteMember_Click(object sender, EventArgs e)
         {
             // this is only enabled if we added the member this session
-            System.Diagnostics.Debug.Assert(m_mapNewMembersThisSession.ContainsKey(SelectedMember));
+            System.Diagnostics.Debug.Assert(m_mapNewMembersThisSession.ContainsKey(SelectedMember) && _dataTeamMembers.ContainsKey(SelectedMember));
 
-            StoryProject.MemberRow theMember;
-            if (m_mapNewMembersThisSession.TryGetValue(SelectedMember, out theMember))
-            {
-                foreach (StoryProject.MemberRow aMemberRow in m_projFile.Member)
-                    if (theMember.name == aMemberRow.name)
-                    {
-                        m_projFile.Member.RemoveMemberRow(theMember);
-                        break;
-                    }
-            }
-
+            _dataTeamMembers.Remove(SelectedMember);
             m_mapNewMembersThisSession.Remove(SelectedMember);
         }
 
@@ -352,7 +312,7 @@ namespace OneStoryProjectEditor
                 // if the user made some changes and then is moving away from the tab, 
                 //  then do an implicit Accept
                 if (Modified && !String.IsNullOrEmpty(this.MemberName))
-                    buttonAccept_Click(null, null);
+                    DoAccept();
             }
             else if (listBoxTeamMembers.SelectedIndex != -1)
             {

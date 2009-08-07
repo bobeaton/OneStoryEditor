@@ -12,12 +12,12 @@ namespace OneStoryProjectEditor
         public StoryStageLogic ProjStage = null;
         public CraftingInfoData CraftingInfo = null;
 
-        public StorySettings(StoryProject.storyRow theStoryRow, StoryProject projFile, LoggedOnMemberInfo logonInfo)
+        public StorySettings(StoryProject.storyRow theStoryRow, StoryProject projFile, TeamMemberData loggedOnMember)
         {
             StoryName = theStoryRow.name;
             StoryGuid = theStoryRow.guid;
-            ProjStage = new StoryStageLogic(theStoryRow.stage, logonInfo);
-            CraftingInfo = new CraftingInfoData(theStoryRow, projFile, logonInfo);
+            ProjStage = new StoryStageLogic(theStoryRow.stage, loggedOnMember);
+            CraftingInfo = new CraftingInfoData(theStoryRow, projFile, loggedOnMember);
         }
 
         public XElement GetXml
@@ -40,7 +40,7 @@ namespace OneStoryProjectEditor
         public string BackTranslatorMemberID = null;
         public Dictionary<byte, string> Testors = new Dictionary<byte, string>();
 
-        public CraftingInfoData(StoryProject.storyRow theStoryRow, StoryProject projFile, LoggedOnMemberInfo member)
+        public CraftingInfoData(StoryProject.storyRow theStoryRow, StoryProject projFile, TeamMemberData loggedOnMember)
         {
             StoryProject.CraftingInfoRow[] aCIRs = theStoryRow.GetCraftingInfoRows();
             if (aCIRs.Length == 1)
@@ -50,6 +50,8 @@ namespace OneStoryProjectEditor
                 StoryProject.StoryCrafterRow[] aSCRs = theCIR.GetStoryCrafterRows();
                 if (aSCRs.Length == 1)
                     StoryCrafterMemberID = aSCRs[0].memberID;
+                else
+                    StoryCrafterMemberID = loggedOnMember.MemberGuid;
 
                 StoryPurpose = theCIR.StoryPurpose;
 
@@ -64,21 +66,34 @@ namespace OneStoryProjectEditor
                         Testors.Add(aTR.number, aTR.memberID);
                 }
             }
+            else
+            {
+                StoryCrafterMemberID = loggedOnMember.MemberGuid;
+            }
         }
 
         public XElement GetXml
         {
             get
             {
-                XElement elemTestors = new XElement(StoryEditor.ns + "Tests");
-                foreach (KeyValuePair<byte, string> kvp in Testors)
-                    elemTestors.Add(new XElement(StoryEditor.ns + "Test", new XAttribute("number", kvp.Key), new XAttribute("memberID", kvp.Value)));
+                XElement elemCraftingInfo = new XElement(StoryEditor.ns + "CraftingInfo",
+                    new XElement(StoryEditor.ns + "StoryCrafter", new XAttribute("memberID", StoryCrafterMemberID)));
+                    
+                if (!String.IsNullOrEmpty(StoryPurpose))
+                    elemCraftingInfo.Add(new XElement(StoryEditor.ns + "StoryPurpose", StoryPurpose));
+                    
+                if (!String.IsNullOrEmpty(BackTranslatorMemberID))
+                    elemCraftingInfo.Add(new XElement(StoryEditor.ns + "BackTranslator", new XAttribute("memberID", BackTranslatorMemberID)));
 
-                return new XElement(StoryEditor.ns + "CraftingInfo",
-                    new XElement(StoryEditor.ns + "StoryCrafter", new XAttribute("memberID", StoryCrafterMemberID)),
-                    new XElement(StoryEditor.ns + "StoryPurpose", StoryPurpose),
-                    new XElement(StoryEditor.ns + "BackTranslator", new XAttribute("memberID", BackTranslatorMemberID)),
-                    elemTestors);
+                if (Testors.Count > 0)
+                {
+                    XElement elemTestors = new XElement(StoryEditor.ns + "Tests");
+                    foreach (KeyValuePair<byte, string> kvp in Testors)
+                        elemTestors.Add(new XElement(StoryEditor.ns + "Test", new XAttribute("number", kvp.Key), new XAttribute("memberID", kvp.Value)));
+                    elemCraftingInfo.Add(elemTestors);
+                }
+
+                return elemCraftingInfo;
             }
         }
     }

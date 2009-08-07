@@ -7,8 +7,8 @@ namespace OneStoryProjectEditor
 {
     public class StoryStageLogic
     {
-        public LoggedOnMemberInfo MemberInfo;
         public string ProjectStageString = null;
+        protected TeamMemberData LoggedOnMember;
 
         protected ProjectStages _ProjectStage = ProjectStages.eUndefined;
 
@@ -91,11 +91,11 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public StoryStageLogic(string strProjectStage, LoggedOnMemberInfo memberInfo)
+        public StoryStageLogic(string strProjectStage, TeamMemberData loggedOnMember)
         {
             ProjectStageString = strProjectStage;
             ProjectStage = GetProjectStage(strProjectStage);
-            MemberInfo = memberInfo;
+            LoggedOnMember = loggedOnMember;
         }
 
         public bool CheckIfProjectTransitionIsAllowed(ProjectStages eNextStage)
@@ -103,7 +103,7 @@ namespace OneStoryProjectEditor
             // whether a transition is allowed or not is based on what the current stage is and 
             //  who the user is.
             bool bTransitionAllowed = false;
-            switch (MemberInfo.Type)
+            switch (LoggedOnMember.MemberType)
             {
                 case StoryEditor.UserTypes.eJustLooking:    // if just looking, then any transition is allowed (but no edits are).
                     bTransitionAllowed = true;

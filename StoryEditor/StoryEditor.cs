@@ -21,7 +21,7 @@ namespace OneStoryProjectEditor
         protected string m_strProjectFilename = null;
 
         protected StoryProject m_projFile = null;
-        protected LoggedOnMemberInfo m_logonInfo = null;
+        protected TeamMembersData _dataTeamMembers = null;
         internal ProjectSettings ProjSettings = null;
         protected StorySettings _StorySettings = null;
 
@@ -55,7 +55,7 @@ namespace OneStoryProjectEditor
             }
 
             if ((!String.IsNullOrEmpty(Properties.Settings.Default.LastUserType))
-                && (Properties.Settings.Default.LastUserType == TeamMemberForm.cstrCrafter)
+                && (Properties.Settings.Default.LastUserType == TeamMemberData.cstrCrafter)
                 && (!String.IsNullOrEmpty(Properties.Settings.Default.LastProjectFile)))
             {
                 OpenProjectFile(Properties.Settings.Default.LastProjectFile);
@@ -91,77 +91,64 @@ namespace OneStoryProjectEditor
 
         protected bool GetLogin()
         {
-            // first figure out which team member it is:
+            // this method shouldn't be called until after InsureProjectPlusFrontMatter
+            System.Diagnostics.Debug.Assert((m_projFile != null) && (m_projFile.stories != null) 
+                && (m_projFile.stories.Count > 0) && (ProjSettings != null));
+
+            // if someone is already logged on, then the last login and type *will* be the same--
+            //  see TeamMemberForm.buttonOK_Click--which is just the criteria for auto login)
+            //  NB: in this case, the only way to change the logged in person is "Project", "Settings"
+            if (_dataTeamMembers != null)
+            {
+                if (_dataTeamMembers.LoggedOn != null)
+                    return true;
+            }
+            else
+                _dataTeamMembers = new TeamMembersData(m_projFile);
+
+            // look at the last person to log in and see if we ought to automatically log them in again
+            //  (basically Crafters or others that are also the same role as last time)
             string strMemberName = null;
             if (!String.IsNullOrEmpty(Properties.Settings.Default.LastMemberLogin))
             {
                 strMemberName = Properties.Settings.Default.LastMemberLogin;
-
-                foreach (StoryProject.MemberRow aMemberRow in m_projFile.Member)
-                    if (aMemberRow.name == strMemberName)
-                    {
-                        // if (s)he's already logged on...
-                        if ((m_logonInfo != null)
-                            && (m_logonInfo.MemberName == strMemberName)
-                            && (m_logonInfo.Type == TeamMemberForm.GetUserType(aMemberRow.memberType)))
-                        {
-                            Properties.Settings.Default.LastUserType = aMemberRow.memberType;
-                            Properties.Settings.Default.Save();
-                            return true;    // same person and role is already logged in
-                        }
-
-                        // otherwise, if it is a known member and is a crafter (who are more likely
-                        //  not to function in multiple, different roles), then we're done also...
-                        if (aMemberRow.memberType == TeamMemberForm.cstrCrafter)
-                        {
-                            m_logonInfo = new LoggedOnMemberInfo(strMemberName, aMemberRow.memberKey,
-                                TeamMemberForm.GetUserType(aMemberRow.memberType));
-                            Properties.Settings.Default.LastUserType = aMemberRow.memberType;
-                            Properties.Settings.Default.Save();
-                            return true;
-                        }
-                        // otherwise, fall thru and make them pick it.
-                    }
+                string strMemberTypeString = Properties.Settings.Default.LastUserType;
+                if (_dataTeamMembers.CanLoginMember(strMemberName, strMemberTypeString))    // sets LoggedOn if returning true
+                    return true;
             }
 
+            // otherwise, fall thru and make them pick it.
             return EditTeamMembers(strMemberName);
         }
 
         protected bool EditTeamMembers(string strMemberName)
         {
-            System.Diagnostics.Debug.Assert((m_projFile != null) && (ProjSettings != null));
+            System.Diagnostics.Debug.Assert((m_projFile != null) && (m_projFile.stories != null)
+                && (m_projFile.stories.Count > 0) && (ProjSettings != null));
 
             // if we haven't found the member, then get them to select it from the Team Member UI
-            TeamMemberForm dlg = new TeamMemberForm(m_projFile, ProjSettings);
+            if (_dataTeamMembers == null)
+                _dataTeamMembers = new TeamMembersData(m_projFile);
+
+            TeamMemberForm dlg = new TeamMemberForm(_dataTeamMembers, ProjSettings);
             if (!String.IsNullOrEmpty(strMemberName))
             {
                 try
                 {
-                    // if we did find it, but couldn't accept it without question, then at least pre-select member
+                    // if we did find the "last member" in the list, but couldn't accept it without question
+                    //  (e.g. because the role was different), then at least pre-select the member
                     dlg.SelectedMember = strMemberName;
                 }
-                catch { }    // might fail if the "last user" on this machine is opening this project file for the first time... just fall thru
+                catch { }    // might fail if the "last user" on this machine is opening this project file for the first time... just ignore
             }
 
-            if (dlg.ShowDialog() == DialogResult.OK)
-            {
-                foreach (StoryProject.MemberRow aMemberRow in m_projFile.Member)
-                    if (aMemberRow.name == dlg.SelectedMember)
-                    {
-                        m_logonInfo = new LoggedOnMemberInfo(dlg.SelectedMember, aMemberRow.memberKey, dlg.UserType);
-                        Properties.Settings.Default.LastUserType = dlg.MemberTypeString;
-                        Properties.Settings.Default.Save();
-                        return true;
-                    }
-            }
-
-            return false;
+            return (dlg.ShowDialog() == DialogResult.OK);
         }
 
         private void teamMembersToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (InsureProjectPlusFrontMatter())
-                EditTeamMembers((m_logonInfo != null) ? m_logonInfo.MemberName : null);
+                EditTeamMembers(((_dataTeamMembers != null) && (_dataTeamMembers.LoggedOn != null)) ? _dataTeamMembers.LoggedOn.Name : null);
         }
 
         protected void OpenProjectFile(string strProjectFilename)
@@ -322,7 +309,7 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert(theStoryRow != null);
 
             // initialize our settings object for this story.
-            _StorySettings = new StorySettings(theStoryRow, m_projFile, m_logonInfo);
+            _StorySettings = new StorySettings(theStoryRow, m_projFile, _dataTeamMembers.LoggedOn);
 
             // initialize the text box showing the storying they're editing
             textBoxStoryVerse.Text = "Story: " + theStoryRow.name;
@@ -781,6 +768,14 @@ namespace OneStoryProjectEditor
         {
             try
             {
+                // let's see if the UNS entered the purpose of this story
+                System.Diagnostics.Debug.Assert((_StorySettings != null) && (_StorySettings.CraftingInfo != null));
+                if (String.IsNullOrEmpty(_StorySettings.CraftingInfo.StoryPurpose))
+                {
+                    string strStoryPurpose = Microsoft.VisualBasic.Interaction.InputBox(String.Format("Enter a brief description of the purpose of this story (that is, why is this story in the set?)", Environment.NewLine), cstrCaption, null, Screen.PrimaryScreen.WorkingArea.Right / 2, Screen.PrimaryScreen.WorkingArea.Bottom / 2);
+                    if (!String.IsNullOrEmpty(strStoryPurpose))
+                        _StorySettings.CraftingInfo.StoryPurpose = strStoryPurpose;
+                }
                 // create the root portions of the XML document and tack on the fragment we've been building
                 XDocument doc = new XDocument(
                     new XDeclaration("1.0", "utf-8", "yes"),
