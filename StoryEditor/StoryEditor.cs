@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
+using System.Xml.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 
 namespace OneStoryProjectEditor
 {
@@ -21,15 +22,12 @@ namespace OneStoryProjectEditor
 
         protected StoryProject m_projFile = null;
         protected LoggedOnMemberInfo m_logonInfo = null;
+        protected ProjectStageLogic m_projStage = null;
+        internal ProjectSettings ProjSettings = null;
+
+        internal static XNamespace ns = "http://www.sil.org/computing/schemas/StoryProject.xsd";
 
         protected bool Modified = false;
-
-        public Font VernacularFont = new Font("Arial Unicode MS", 12);
-        public Color VernacularFontColor = Color.Maroon;
-        public Font NationalBTFont = new Font("Arial Unicode MS", 12);
-        public Color NationalBTFontColor = Color.Green;
-        public Font InternationalBTFont = new Font("Times New Roman", 10);
-        public Color InternationalBTFontColor = Color.Blue;
 
         protected const int nMaxRecentFiles = 15;
 
@@ -42,74 +40,6 @@ namespace OneStoryProjectEditor
             eIndependentConsultant,
             eCoach,
             eJustLooking
-        }
-
-        public enum ProjectStages
-        {
-            eUndefined = 0,
-            eCrafterTypeNationalBT,
-            eCrafterTypeInternationalBT,
-            eCrafterAddAnchors,
-            eCrafterAddStoryQuestions,
-            eConsultantAddRound1Notes,
-            eCoachReviewRound1Notes,
-            eConsultantReviseRound1Notes,
-            eCrafterReviseBasedOnRound1Notes,
-            eCrafterOnlineReview1WithConsultant,
-            eCrafterEnterRetellingBTTest1,
-            eCrafterEnterStoryQuestionAnswersBTTest1,
-            eConsultantAddRoundZNotes,
-            eCoachReviewRoundZNotes,
-            eConsultantReviseRoundZNotes,
-            eCrafterReviseBasedOnRoundZNotes,
-            eCrafterOnlineReviewZWithConsultant,
-            eCrafterEnterRetellingBTTestZ,
-            eCrafterEnterStoryQuestionAnswersBTTestZ,
-            eTeamComplete
-        }
-
-        public static ProjectStages GetProjectStage(string strProjectStageString)
-        {
-            if (strProjectStageString == "CrafterTypeNationalBT")
-                return ProjectStages.eCrafterTypeNationalBT;
-            else if (strProjectStageString == "CrafterTypeInternationalBT")
-                return ProjectStages.eCrafterTypeInternationalBT;
-            else if (strProjectStageString == "CrafterAddAnchors")
-                return ProjectStages.eCrafterAddAnchors;
-            else if (strProjectStageString == "CrafterAddStoryQuestions")
-                return ProjectStages.eCrafterAddStoryQuestions;
-            else if (strProjectStageString == "ConsultantAddRound1Notes")
-                return ProjectStages.eConsultantAddRound1Notes;
-            else if (strProjectStageString == "CoachReviewRound1Notes")
-                return ProjectStages.eCoachReviewRound1Notes;
-            else if (strProjectStageString == "ConsultantReviseRound1Notes")
-                return ProjectStages.eConsultantReviseRound1Notes;
-            else if (strProjectStageString == "CrafterReviseBasedOnRound1Notes")
-                return ProjectStages.eCrafterReviseBasedOnRound1Notes;
-            else if (strProjectStageString == "CrafterOnlineReview1WithConsultant")
-                return ProjectStages.eCrafterOnlineReview1WithConsultant;
-            else if (strProjectStageString == "CrafterEnterRetellingBTTest1")
-                return ProjectStages.eCrafterEnterRetellingBTTest1;
-            else if (strProjectStageString == "CrafterEnterStoryQuestionAnswersBTTest1")
-                return ProjectStages.eCrafterEnterStoryQuestionAnswersBTTest1;
-            else if (strProjectStageString == "ConsultantAddRoundZNotes")
-                return ProjectStages.eConsultantAddRoundZNotes;
-            else if (strProjectStageString == "CoachReviewRoundZNotes")
-                return ProjectStages.eCoachReviewRoundZNotes;
-            else if (strProjectStageString == "ConsultantReviseRoundZNotes")
-                return ProjectStages.eConsultantReviseRoundZNotes;
-            else if (strProjectStageString == "CrafterReviseBasedOnRoundZNotes")
-                return ProjectStages.eCrafterReviseBasedOnRoundZNotes;
-            else if (strProjectStageString == "CrafterOnlineReviewZWithConsultant")
-                return ProjectStages.eCrafterOnlineReviewZWithConsultant;
-            else if (strProjectStageString == "CrafterEnterRetellingBTTestZ")
-                return ProjectStages.eCrafterEnterRetellingBTTestZ;
-            else if (strProjectStageString == "CrafterEnterStoryQuestionAnswersBTTestZ")
-                return ProjectStages.eCrafterEnterStoryQuestionAnswersBTTestZ;
-            else if (strProjectStageString == "TeamComplete")
-                return ProjectStages.eTeamComplete;
-            else
-                return ProjectStages.eUndefined;  // this version of the app doesn't know about this value
         }
 
         public StoryEditor()
@@ -138,10 +68,18 @@ namespace OneStoryProjectEditor
             }
         }
 
+        protected void CloseProjectFile()
+        {
+            System.Diagnostics.Debug.Assert(!Modified);
+            m_projFile = null;
+            comboBoxStorySelector.Items.Clear();
+        }
+
         protected void NewProjectFile()
         {
             CheckForSaveDirtyFile();
-            if (!InsureEmptyProjectFile())
+            CloseProjectFile();
+            if (!InsureProjectPlusFrontMatter())
                 return;
             GetLogin();
         }
@@ -180,13 +118,19 @@ namespace OneStoryProjectEditor
 
         protected bool EditTeamMembers(string strMemberName)
         {
-            System.Diagnostics.Debug.Assert(m_projFile != null);
+            System.Diagnostics.Debug.Assert((m_projFile != null) && (ProjSettings != null));
 
             // if we haven't found the member, then get them to select it from the Team Member UI
-            TeamMemberForm dlg = new TeamMemberForm(m_projFile);
+            TeamMemberForm dlg = new TeamMemberForm(m_projFile, ProjSettings);
             if (!String.IsNullOrEmpty(strMemberName))
-                // if we did find it, but couldn't accept it without question, then at least pre-select member
-                dlg.SelectedMember = strMemberName;
+            {
+                try
+                {
+                    // if we did find it, but couldn't accept it without question, then at least pre-select member
+                    dlg.SelectedMember = strMemberName;
+                }
+                catch { }    // might fail if the "last user" on this machine is opening this project file for the first time... just fall thru
+            }
 
             if (dlg.ShowDialog() == DialogResult.OK)
             {
@@ -203,8 +147,8 @@ namespace OneStoryProjectEditor
 
         private void teamMembersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            InsureProjectFile();
-            EditTeamMembers((m_logonInfo != null) ? m_logonInfo.MemberName : null);
+            if (InsureProjectPlusFrontMatter())
+                EditTeamMembers((m_logonInfo != null) ? m_logonInfo.MemberName : null);
         }
 
         protected void OpenProjectFile(string strProjectFilename)
@@ -219,16 +163,17 @@ namespace OneStoryProjectEditor
             Properties.Settings.Default.Save();
 
             CheckForSaveDirtyFile();
+            CloseProjectFile();
             m_projFile = new StoryProject();
-
             try
             {
                 System.Diagnostics.Debug.Assert(m_projFile != null);
                 m_projFile.ReadXml(strProjectFilename);
+                ProjSettings = new ProjectSettings(m_projFile);
+                SetTitleBar();
 
                 StoryProject.storyRow theStoryRow = null;
                 string strStoryToLoad = null;
-                InsureStoriesRow(); // has the side effect of setting the frame title to the project language name
                 if (m_projFile.story.Count > 0)
                 {
                     // defaults
@@ -264,28 +209,30 @@ namespace OneStoryProjectEditor
             }
         }
 
-        protected bool InsureEmptyProjectFile()
-        {
-            InsureProjectFile();
-            StoryProject.storiesRow theStoriesRow = InsureStoriesRow();
-            if (theStoriesRow == null)
-                return false;
-            m_projFile.Members.AddMembersRow(theStoriesRow);
-            StoryProject.FontsRow theFontsRow = m_projFile.Fonts.AddFontsRow(theStoriesRow);
-            m_projFile.VernacularFont.AddVernacularFontRow("Arial Unicode MS", 12,
-                Color.CornflowerBlue.ToString(), theFontsRow);
-            m_projFile.NationalBTFont.AddNationalBTFontRow("Arial Unicode MS", 12,
-                Color.Green.ToString(), theFontsRow);
-            m_projFile.InternationalBTFont.AddInternationalBTFontRow("Arial Unicode MS", 11,
-                Color.Blue.ToString(), theFontsRow);
-
-            return true;
-        }
-
-        protected void InsureProjectFile()
+        protected bool InsureProjectPlusFrontMatter()
         {
             if (m_projFile == null)
                 m_projFile = new StoryProject();
+
+            StoryProject.storiesRow theStoriesRow = null;
+            if (m_projFile.stories.Count == 0)
+            {
+                string strLanguage = Microsoft.VisualBasic.Interaction.InputBox(String.Format("You are creating a brand new OneStory project. Enter the name you want to give this project (e.g. the language name).{0}{0}(if you had intended to edit an existing project, cancel this dialog and use the 'File', 'Open' command)", Environment.NewLine), cstrCaption, null, Screen.PrimaryScreen.WorkingArea.Right / 2, Screen.PrimaryScreen.WorkingArea.Bottom / 2);
+                if (String.IsNullOrEmpty(strLanguage))
+                    return false;
+
+                // otherwise, add the new Stories row
+                theStoriesRow = m_projFile.stories.AddstoriesRow(strLanguage);
+            }
+            else
+                theStoriesRow = m_projFile.stories[0];
+
+            SetTitleBar();
+
+            if (ProjSettings == null)
+                ProjSettings = new ProjectSettings(m_projFile);
+
+            return true;
         }
 
         private void comboBoxStorySelector_KeyUp(object sender, KeyEventArgs e)
@@ -294,8 +241,7 @@ namespace OneStoryProjectEditor
             {
                 StoryProject.storyRow theStoryRow = null;
                 string strStoryToLoad = comboBoxStorySelector.Text;
-                InsureProjectFile();
-                if (m_projFile.story.Count > 0)
+                if ((m_projFile != null) && (m_projFile.story.Count > 0))
                     foreach (StoryProject.storyRow aStoryRow in m_projFile.story)
                     {
                         if (aStoryRow.name == strStoryToLoad)
@@ -311,12 +257,12 @@ namespace OneStoryProjectEditor
                     {
                         System.Diagnostics.Debug.Assert(!comboBoxStorySelector.Items.Contains(strStoryToLoad));
                         comboBoxStorySelector.Items.Add(strStoryToLoad);
-                        StoryProject.storiesRow aStoriesRow = InsureStoriesRow();
-                        if (aStoriesRow == null)
+                        if (!InsureProjectPlusFrontMatter())
                             return; // user could enter nothing for a language name
 
+                        System.Diagnostics.Debug.Assert((m_projFile != null) && (m_projFile.stories.Count == 1));
                         m_projFile.story.AddstoryRow(strStoryToLoad, cstrDefaultProjectStage, 
-                            Guid.NewGuid().ToString(), aStoriesRow);
+                            Guid.NewGuid().ToString(), m_projFile.stories[0]);
                         comboBoxStorySelector.SelectedItem = strStoryToLoad;
                     }
                 }
@@ -327,32 +273,32 @@ namespace OneStoryProjectEditor
 
         protected void InsureVersesRow(StoryProject.storyRow aStoryRow)
         {
-            InsureProjectFile();
+            System.Diagnostics.Debug.Assert(m_projFile != null);
             if (aStoryRow.GetversesRows().Length == 0)
                 m_projFile.verses.AddversesRow(aStoryRow);
         }
 
-        protected StoryProject.storiesRow InsureStoriesRow()
+        protected void SetTitleBar()
         {
-            InsureProjectFile();
-            if (m_projFile.stories.Count == 0)
-            {
-                string strLanguage = Microsoft.VisualBasic.Interaction.InputBox("You are creating a brand new OneStory project. Enter the name of the language for this project. (if you had intended to edit an existing project, cancel this dialog and use the 'File', 'Open' command)", cstrCaption, null, Screen.PrimaryScreen.WorkingArea.Right / 2, Screen.PrimaryScreen.WorkingArea.Bottom / 2);
-                if (String.IsNullOrEmpty(strLanguage))
-                    return null;
-                m_projFile.stories.AddstoriesRow(strLanguage);
-            }
-
-            this.Text = String.Format("OneStory Editor -- {0} Story Project", m_projFile.stories[0].ProjectLanguage);
-            return m_projFile.stories[0];
+            this.Text = String.Format("OneStory Editor -- {0} Story Project", m_projFile.stories[0].ProjectName);
         }
 
         private void comboBoxStorySelector_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // find out which member we're working with
+            // TODO: we have to do something. We have to save to move to another story, but we don't want to 
+            // close the m_projFile if we're actually going to another story in this same project....
+            CheckForSaveDirtyFile();    // to see if we should save the current story before moving on.
+
+            System.Diagnostics.Debug.Assert(!Modified 
+                || (flowLayoutPanelVerses.Controls.Count != 0)
+                || (flowLayoutPanelConsultantNotes.Controls.Count != 0)
+                || (flowLayoutPanelCoachNotes.Controls.Count != 0)); // if this happens, it means we didn't save or cleanup the document
+
+            // find out which member we're working with (if it isn't already clear)
             if (!GetLogin())
                 return;
 
+            // find the story they've chosen (this shouldn't be possible to fail)
             StoryProject.storyRow theStoryRow = null;
             foreach (StoryProject.storyRow aStoryRow in m_projFile.story)
                 if (aStoryRow.name == (string)comboBoxStorySelector.SelectedItem)
@@ -360,48 +306,51 @@ namespace OneStoryProjectEditor
                     theStoryRow = aStoryRow;
                     break;
                 }
-
             System.Diagnostics.Debug.Assert(theStoryRow != null);
-            textBoxStoryVerse.Text = "Story: " + theStoryRow.name;
-            InitializeProjectStage(theStoryRow.stage);
 
-            // initialize the project stage bar
+            // initialize the text box showing the storying they're editing
+            textBoxStoryVerse.Text = "Story: " + theStoryRow.name;
+
             int nVerseIndex = 0;
             AddDropTargetToFlowLayout(nVerseIndex++);
             InsureVersesRow(theStoryRow);
             foreach (StoryProject.verseRow aRow in theStoryRow.GetversesRows()[0].GetverseRows())
             {
-                VerseBtControl aVerseCtrl = new VerseBtControl(this, aRow, nVerseIndex);
+                VerseData vd = new VerseData(aRow, m_projFile);
+                VerseBtControl aVerseCtrl = new VerseBtControl(this, vd, nVerseIndex);
                 aVerseCtrl.UpdateHeight(Panel1_Width);
                 flowLayoutPanelVerses.Controls.Add(aVerseCtrl);
                 AddDropTargetToFlowLayout(nVerseIndex);
 
-                ConsultNotesDataConverter aCNsDC = new ConsultantNotesData(aRow.GetConsultantNotesRows());
-                ConsultNotesControl aConsultNotesCtrl = new ConsultNotesControl(aCNsDC, nVerseIndex);
+                ConsultNotesControl aConsultNotesCtrl = new ConsultNotesControl(vd.ConsultantNotes, nVerseIndex);
                 aConsultNotesCtrl.UpdateHeight(Panel2_Width);
                 flowLayoutPanelConsultantNotes.Controls.Add(aConsultNotesCtrl);
 
-                aCNsDC = new CoachNotesData(aRow.GetCoachNotesRows());
-                aConsultNotesCtrl = new ConsultNotesControl(aCNsDC, nVerseIndex);
+                aConsultNotesCtrl = new ConsultNotesControl(vd.CoachNotes, nVerseIndex);
                 aConsultNotesCtrl.UpdateHeight(Panel2_Width);
                 flowLayoutPanelCoachNotes.Controls.Add(aConsultNotesCtrl);
 
                 nVerseIndex++;
             }
+
+            // initialize the project stage details (which might hide certain views)
+            //  (do this *after* initializing the whole thing, because if we save, we'll
+            //  want to save even the hidden pieces)
+            InitializeProjectStage(theStoryRow.stage);
         }
 
         protected void InitializeProjectStage(string strProjectStageString)
         {
-            ProjectStages eStage = GetProjectStage(strProjectStageString);
-            InitializeProjectStage(eStage);
+            m_projStage = new ProjectStageLogic(strProjectStageString, m_logonInfo);
+            SetViewBasedOnProjectStage(m_projStage.ProjectStage);
         }
 
-        protected void InitializeProjectStage(ProjectStages eStage)
+        protected void SetViewBasedOnProjectStage(ProjectStageLogic.ProjectStages eStage)
         {
             // m_bDisableInterrupts = true;
             switch (eStage)
             {
-                case ProjectStages.eCrafterTypeNationalBT:
+                case ProjectStageLogic.ProjectStages.eCrafterTypeNationalBT:
                     viewVernacularLangFieldMenuItem.Checked = false;
                     viewNationalLangFieldMenuItem.Checked = true;
                     viewEnglishBTFieldMenuItem.Checked = false;
@@ -412,7 +361,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = false;
                     viewNetBibleMenuItem.Checked = false;
                     break;
-                case ProjectStages.eCrafterTypeInternationalBT:
+                case ProjectStageLogic.ProjectStages.eCrafterTypeInternationalBT:
                     viewVernacularLangFieldMenuItem.Checked = false;
                     viewNationalLangFieldMenuItem.Checked = true;
                     viewEnglishBTFieldMenuItem.Checked = true;
@@ -423,7 +372,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = false;
                     viewNetBibleMenuItem.Checked = false;
                     break;
-                case ProjectStages.eCrafterAddAnchors:
+                case ProjectStageLogic.ProjectStages.eCrafterAddAnchors:
                     viewVernacularLangFieldMenuItem.Checked = false;
                     viewNationalLangFieldMenuItem.Checked = true;
                     viewEnglishBTFieldMenuItem.Checked = true;
@@ -434,7 +383,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = false;
                     viewNetBibleMenuItem.Checked = true;
                     break;
-                case ProjectStages.eCrafterAddStoryQuestions:
+                case ProjectStageLogic.ProjectStages.eCrafterAddStoryQuestions:
                     viewVernacularLangFieldMenuItem.Checked = false;
                     viewNationalLangFieldMenuItem.Checked = true;
                     viewEnglishBTFieldMenuItem.Checked = true;
@@ -445,7 +394,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = false;
                     viewNetBibleMenuItem.Checked = true;
                     break;
-                case ProjectStages.eConsultantAddRound1Notes:
+                case ProjectStageLogic.ProjectStages.eConsultantAddRound1Notes:
                     viewVernacularLangFieldMenuItem.Checked = false;
                     viewNationalLangFieldMenuItem.Checked = true;
                     viewEnglishBTFieldMenuItem.Checked = true;
@@ -456,7 +405,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = false;
                     viewNetBibleMenuItem.Checked = true;
                     break;
-                case ProjectStages.eCoachReviewRound1Notes:
+                case ProjectStageLogic.ProjectStages.eCoachReviewRound1Notes:
                     viewVernacularLangFieldMenuItem.Checked = false;
                     viewNationalLangFieldMenuItem.Checked = true;
                     viewEnglishBTFieldMenuItem.Checked = true;
@@ -467,7 +416,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = true;
                     viewNetBibleMenuItem.Checked = true;
                     break;
-                case ProjectStages.eConsultantReviseRound1Notes:
+                case ProjectStageLogic.ProjectStages.eConsultantReviseRound1Notes:
                     viewVernacularLangFieldMenuItem.Checked = false;
                     viewNationalLangFieldMenuItem.Checked = true;
                     viewEnglishBTFieldMenuItem.Checked = true;
@@ -478,7 +427,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = true;
                     viewNetBibleMenuItem.Checked = true;
                     break;
-                case ProjectStages.eCrafterReviseBasedOnRound1Notes:
+                case ProjectStageLogic.ProjectStages.eCrafterReviseBasedOnRound1Notes:
                     viewVernacularLangFieldMenuItem.Checked = false;
                     viewNationalLangFieldMenuItem.Checked = true;
                     viewEnglishBTFieldMenuItem.Checked = true;
@@ -489,7 +438,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = false;
                     viewNetBibleMenuItem.Checked = true;
                     break;
-                case ProjectStages.eCrafterOnlineReview1WithConsultant:
+                case ProjectStageLogic.ProjectStages.eCrafterOnlineReview1WithConsultant:
                     viewVernacularLangFieldMenuItem.Checked = false;
                     viewNationalLangFieldMenuItem.Checked = true;
                     viewEnglishBTFieldMenuItem.Checked = true;
@@ -500,7 +449,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = false;
                     viewNetBibleMenuItem.Checked = true;
                     break;
-                case ProjectStages.eCrafterEnterRetellingBTTest1:
+                case ProjectStageLogic.ProjectStages.eCrafterEnterRetellingBTTest1:
                     viewVernacularLangFieldMenuItem.Checked = false;
                     viewNationalLangFieldMenuItem.Checked = true;
                     viewEnglishBTFieldMenuItem.Checked = true;
@@ -511,7 +460,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = false;
                     viewNetBibleMenuItem.Checked = true;
                     break;
-                case ProjectStages.eCrafterEnterStoryQuestionAnswersBTTest1:
+                case ProjectStageLogic.ProjectStages.eCrafterEnterStoryQuestionAnswersBTTest1:
                     viewVernacularLangFieldMenuItem.Checked = false;
                     viewNationalLangFieldMenuItem.Checked = true;
                     viewEnglishBTFieldMenuItem.Checked = true;
@@ -522,7 +471,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = false;
                     viewNetBibleMenuItem.Checked = true;
                     break;
-                case ProjectStages.eConsultantAddRoundZNotes:
+                case ProjectStageLogic.ProjectStages.eConsultantAddRoundZNotes:
                     viewVernacularLangFieldMenuItem.Checked = false;
                     viewNationalLangFieldMenuItem.Checked = true;
                     viewEnglishBTFieldMenuItem.Checked = true;
@@ -533,7 +482,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = false;
                     viewNetBibleMenuItem.Checked = true;
                     break;
-                case ProjectStages.eCoachReviewRoundZNotes:
+                case ProjectStageLogic.ProjectStages.eCoachReviewRoundZNotes:
                     viewVernacularLangFieldMenuItem.Checked = false;
                     viewNationalLangFieldMenuItem.Checked = true;
                     viewEnglishBTFieldMenuItem.Checked = true;
@@ -544,7 +493,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = true;
                     viewNetBibleMenuItem.Checked = true;
                     break;
-                case ProjectStages.eConsultantReviseRoundZNotes:
+                case ProjectStageLogic.ProjectStages.eConsultantReviseRoundZNotes:
                     viewVernacularLangFieldMenuItem.Checked = false;
                     viewNationalLangFieldMenuItem.Checked = true;
                     viewEnglishBTFieldMenuItem.Checked = true;
@@ -555,7 +504,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = true;
                     viewNetBibleMenuItem.Checked = true;
                     break;
-                case ProjectStages.eCrafterReviseBasedOnRoundZNotes:
+                case ProjectStageLogic.ProjectStages.eCrafterReviseBasedOnRoundZNotes:
                     viewVernacularLangFieldMenuItem.Checked = false;
                     viewNationalLangFieldMenuItem.Checked = true;
                     viewEnglishBTFieldMenuItem.Checked = true;
@@ -566,7 +515,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = false;
                     viewNetBibleMenuItem.Checked = true;
                     break;
-                case ProjectStages.eCrafterOnlineReviewZWithConsultant:
+                case ProjectStageLogic.ProjectStages.eCrafterOnlineReviewZWithConsultant:
                     viewVernacularLangFieldMenuItem.Checked = false;
                     viewNationalLangFieldMenuItem.Checked = true;
                     viewEnglishBTFieldMenuItem.Checked = true;
@@ -577,7 +526,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = false;
                     viewNetBibleMenuItem.Checked = true;
                     break;
-                case ProjectStages.eCrafterEnterRetellingBTTestZ:
+                case ProjectStageLogic.ProjectStages.eCrafterEnterRetellingBTTestZ:
                     viewVernacularLangFieldMenuItem.Checked = false;
                     viewNationalLangFieldMenuItem.Checked = true;
                     viewEnglishBTFieldMenuItem.Checked = true;
@@ -588,7 +537,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = false;
                     viewNetBibleMenuItem.Checked = true;
                     break;
-                case ProjectStages.eCrafterEnterStoryQuestionAnswersBTTestZ:
+                case ProjectStageLogic.ProjectStages.eCrafterEnterStoryQuestionAnswersBTTestZ:
                     viewVernacularLangFieldMenuItem.Checked = false;
                     viewNationalLangFieldMenuItem.Checked = true;
                     viewEnglishBTFieldMenuItem.Checked = true;
@@ -599,7 +548,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = false;
                     viewNetBibleMenuItem.Checked = true;
                     break;
-                case ProjectStages.eTeamComplete:
+                case ProjectStageLogic.ProjectStages.eTeamComplete:
                     viewVernacularLangFieldMenuItem.Checked = true;
                     viewNationalLangFieldMenuItem.Checked = true;
                     viewEnglishBTFieldMenuItem.Checked = true;
@@ -610,14 +559,14 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = true;
                     viewNetBibleMenuItem.Checked = true;
                     break;
-                case ProjectStages.eUndefined:
+                case ProjectStageLogic.ProjectStages.eUndefined:
                 default:
                     m_bDisableInterrupts = false;
                     throw new ApplicationException(String.Format("This project was edited by a newer version of the {0} program. You have to update your version of the program to edit this project.", cstrCaption));
             };
 
             // for now, the progress bar is just the eStage value as an int
-            if (eStage > ProjectStages.eUndefined)
+            if (eStage > ProjectStageLogic.ProjectStages.eUndefined)
                 macTrackBarProjectStages.Value = (int)eStage;
 
             m_bDisableInterrupts = false;
@@ -661,7 +610,50 @@ namespace OneStoryProjectEditor
 
         void DoMove(int nInsertionIndex, VerseBtControl aVerseCtrl)
         {
-            // TODO:
+            /*
+            StoryProject.storyRow theStoryRow = m_projFile.story[0];
+            StoryProject.verseRow theVerseRow = null;
+            foreach (StoryProject.verseRow aRow in theStoryRow.GetversesRows()[0].GetverseRows())
+            {
+                Console.WriteLine(String.Format("DoMove: nInsertionIndex: {0}; aRow.guid: {1}", nInsertionIndex, aRow.guid));
+                if (aRow.guid == aVerseCtrl.Guid)
+                    theVerseRow = aRow;
+            }
+            foreach (StoryProject.verseRow aRow in m_projFile.verse.Rows)
+            {
+                Console.WriteLine(String.Format("DoMove: nInsertionIndex: {0}; aRow.guid: {1}", nInsertionIndex, aRow.guid));
+            }
+
+            StoryProject.versesRow theVersesRow = null;
+            theVersesRow.M
+            m_projFile.verse.Rows.CopyTo(m_projFile.verse.Rows, nInsertionIndex);
+            m_projFile.verse.Rows.RemoveAt(m_projFile.verse.Rows.IndexOf(theVerseRow));
+
+            foreach (StoryProject.verseRow aRow in theStoryRow.GetversesRows()[0].GetverseRows())
+            {
+                Console.WriteLine(String.Format("DoMove: nInsertionIndex: {0}; aRow.guid: {1}", nInsertionIndex, aRow.guid));
+                if (aRow.guid == aVerseCtrl.Guid)
+                    theVerseRow = aRow;
+            }
+            foreach (StoryProject.verseRow aRow in m_projFile.verse.Rows)
+            {
+                Console.WriteLine(String.Format("DoMove: nInsertionIndex: {0}; aRow.guid: {1}", nInsertionIndex, aRow.guid));
+            }
+
+            m_projFile.verse.Rows.InsertAt(theVerseRow, nInsertionIndex - 1);
+
+            foreach (StoryProject.verseRow aRow in theStoryRow.GetversesRows()[0].GetverseRows())
+            {
+                Console.WriteLine(String.Format("DoMove: nInsertionIndex: {0}; aRow.guid: {1}", nInsertionIndex, aRow.guid));
+                if (aRow.guid == aVerseCtrl.Guid)
+                    theVerseRow = aRow;
+            }
+
+            foreach (StoryProject.verseRow aRow in m_projFile.verse.Rows)
+            {
+                Console.WriteLine(String.Format("DoMove: nInsertionIndex: {0}; aRow.guid: {1}", nInsertionIndex, aRow.guid));
+            }
+            */
         }
 
         void buttonDropTarget_DragEnter(object sender, DragEventArgs e)
@@ -740,7 +732,7 @@ namespace OneStoryProjectEditor
             DialogResult res = DialogResult.None;
             if (Modified)
             {
-                res = MessageBox.Show("Do you want to save the opened project first?", cstrCaption, MessageBoxButtons.YesNoCancel);
+                res = MessageBox.Show("Do you want to save your changes?", cstrCaption, MessageBoxButtons.YesNoCancel);
                 if (res == DialogResult.Yes)
                     SaveClicked();
                 else if (res != DialogResult.Cancel)
@@ -748,12 +740,10 @@ namespace OneStoryProjectEditor
             }
 
             // do cleanup, because this is always called before starting something new (new file or empty project)
-            m_projFile = null;
             flowLayoutPanelVerses.Controls.Clear();
             flowLayoutPanelConsultantNotes.Controls.Clear();
             flowLayoutPanelCoachNotes.Controls.Clear();
             textBoxStoryVerse.Text = "Story";
-            comboBoxStorySelector.Items.Clear();
             return res;
         }
 
@@ -774,12 +764,20 @@ namespace OneStoryProjectEditor
             }
         }
 
+        DateTime m_dtLastSave = DateTime.Now;
+        TimeSpan m_tsBetweenBackups = new TimeSpan(0, 0, 0);    // every time
+
         protected void SaveFile(string strFilename)
         {
-            /*
             try
             {
-                File.WriteAllLines(strFilename, this.richTextBoxMapEditor.Lines, m_enc);
+                // create the root portions of the XML document and tack on the fragment we've been building
+                XDocument doc = new XDocument(
+                    new XDeclaration("1.0", "utf-8", "yes"),
+                    new XElement(ns + "StoryProject",
+                        GetXml));
+
+                doc.Save(strFilename);
             }
             catch (UnauthorizedAccessException)
             {
@@ -792,17 +790,21 @@ namespace OneStoryProjectEditor
                 return;
             }
 
-            Program.Modified = (m_strMapNameReal != strFilename);
-            Program.AddFilenameToTitle(strFilename);
+            Modified = false;
 
             // if it's been 5 minutes since our last backup...
             if ((DateTime.Now - m_dtLastSave) > m_tsBetweenBackups)
             {
                 // ... hide a copy in the user's Application Data file
-                File.Copy(m_strMapNameReal, GetBackupFilename(strFilename), true);
+                File.Copy(strFilename, GetBackupFilename(strFilename), true);
             }
-            */
+
             Modified = false;
+        }
+
+        private string GetBackupFilename(string strFilename)
+        {
+            return Application.UserAppDataPath + @"\Backup of " + Path.GetFileName(strFilename);
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -944,6 +946,8 @@ namespace OneStoryProjectEditor
                 recentFilesToolStripMenuItem.DropDownItems.Add(strRecentFile, null, recentFilesToolStripMenuItem_Click);
 
             recentFilesToolStripMenuItem.Enabled = (recentFilesToolStripMenuItem.DropDownItems.Count > 0);
+
+            saveToolStripMenuItem.Enabled = ((m_projFile != null) && (m_projFile.stories.Count > 0) && !String.IsNullOrEmpty(m_projFile.stories[0].ProjectName));
         }
 
         private void recentFilesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -977,17 +981,36 @@ namespace OneStoryProjectEditor
         private void macTrackBarProjectStages_ValueChanged(object sender, decimal value)
         {
             XComponent.SliderBar.MACTrackBar bar = (XComponent.SliderBar.MACTrackBar)sender;
-            ProjectStages theProjectStage = (ProjectStages)bar.Value;
-            Console.WriteLine(String.Format("ValueChanged: ProjectStage: {0}", theProjectStage.ToString()));
-            if (CheckIfProjectTransitionIsAllowed(theProjectStage))
+            ProjectStageLogic.ProjectStages eNewProjectStage = (ProjectStageLogic.ProjectStages)bar.Value;
+            Console.WriteLine(String.Format("ValueChanged: ProjectStage: {0}", eNewProjectStage.ToString()));
+            if (m_projStage.CheckIfProjectTransitionIsAllowed(eNewProjectStage))
             {
-                InitializeProjectStage(theProjectStage);
+                System.Diagnostics.Debug.Assert(eNewProjectStage == m_projStage.ProjectStage);
+                SetViewBasedOnProjectStage(eNewProjectStage);
             }
         }
 
-        protected bool CheckIfProjectTransitionIsAllowed(ProjectStages eStage)
+        public XElement GetXml
         {
-            return true;
+            get
+            {
+                System.Diagnostics.Debug.Assert((m_projFile != null) && (m_projFile.stories.Count > 0));
+                XElement elemStories = new XElement(ns + "stories", new XAttribute("ProjectName", m_projFile.stories[0].ProjectName),
+                    TeamMemberForm.GetXmlMembers(m_projFile),
+                    ProjSettings.GetXml,
+                    new XElement("verse"));
+
+                foreach (Control ctrl in flowLayoutPanelVerses.Controls)
+                {
+                    if (ctrl is VerseBtControl)
+                    {
+                        VerseBtControl aVerseBtCtrl = (VerseBtControl)ctrl;
+                        elemStories.Add(aVerseBtCtrl.VerseData.GetXml);
+                    }
+                }
+
+                return elemStories;
+            }
         }
     }
 }

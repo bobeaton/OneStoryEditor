@@ -45,23 +45,27 @@
             this.textBoxSkypeID = new System.Windows.Forms.TextBox();
             this.textBoxTeamViewer = new System.Windows.Forms.TextBox();
             this.textBoxAddress = new System.Windows.Forms.TextBox();
-            this.buttonEditCancel = new System.Windows.Forms.Button();
-            this.buttonEditOK = new System.Windows.Forms.Button();
             this.listBoxTeamMembers = new System.Windows.Forms.ListBox();
-            this.buttonAccept = new System.Windows.Forms.Button();
             this.buttonOK = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonAddNewMember = new System.Windows.Forms.Button();
             this.buttonEditMember = new System.Windows.Forms.Button();
             this.buttonDeleteMember = new System.Windows.Forms.Button();
             this.listBoxMemberRoles = new System.Windows.Forms.ListBox();
+            this.textBoxVernacular = new System.Windows.Forms.TextBox();
+            this.textBoxNationalBTLanguage = new System.Windows.Forms.TextBox();
+            this.textBoxVernacularEthCode = new System.Windows.Forms.TextBox();
+            this.textBoxNationalBTEthCode = new System.Windows.Forms.TextBox();
+            this.buttonVernacularFont = new System.Windows.Forms.Button();
+            this.buttonNationalBTFont = new System.Windows.Forms.Button();
+            this.buttonInternationalBTFont = new System.Windows.Forms.Button();
             this.tabControlProjectMetaData = new System.Windows.Forms.TabControl();
             this.tabPageMemberList = new System.Windows.Forms.TabPage();
             this.tableLayoutPanelTeamMembers = new System.Windows.Forms.TableLayoutPanel();
             this.textBoxMemberNames = new System.Windows.Forms.TextBox();
             this.textBoxMemberRoles = new System.Windows.Forms.TextBox();
             this.tabPageEditMember = new System.Windows.Forms.TabPage();
-            this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanelMemberInformation = new System.Windows.Forms.TableLayoutPanel();
             this.labelName = new System.Windows.Forms.Label();
             this.labelEmail = new System.Windows.Forms.Label();
             this.labelPhoneNumber = new System.Windows.Forms.Label();
@@ -69,22 +73,32 @@
             this.labelSkype = new System.Windows.Forms.Label();
             this.labelTeamViewerID = new System.Windows.Forms.Label();
             this.labelAddress = new System.Windows.Forms.Label();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanelLanguageInformation = new System.Windows.Forms.TableLayoutPanel();
+            this.labelLanguageName = new System.Windows.Forms.Label();
+            this.labelStoryLanguage = new System.Windows.Forms.Label();
+            this.labelNationalBTLanguage = new System.Windows.Forms.Label();
+            this.labelEthnologueCode = new System.Windows.Forms.Label();
+            this.labelFont = new System.Windows.Forms.Label();
+            this.labelEnglishBT = new System.Windows.Forms.Label();
+            this.fontDialog = new System.Windows.Forms.FontDialog();
             this.groupBoxRole.SuspendLayout();
             this.tabControlProjectMetaData.SuspendLayout();
             this.tabPageMemberList.SuspendLayout();
             this.tableLayoutPanelTeamMembers.SuspendLayout();
             this.tabPageEditMember.SuspendLayout();
-            this.tableLayoutPanel.SuspendLayout();
+            this.tableLayoutPanelMemberInformation.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tableLayoutPanelLanguageInformation.SuspendLayout();
             this.SuspendLayout();
             // 
             // textBoxName
             // 
-            this.tableLayoutPanel.SetColumnSpan(this.textBoxName, 3);
             this.textBoxName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxName.Location = new System.Drawing.Point(92, 3);
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.Size = new System.Drawing.Size(350, 20);
-            this.textBoxName.TabIndex = 1;
+            this.textBoxName.TabIndex = 0;
             this.toolTip.SetToolTip(this.textBoxName, "Enter your name here");
             this.textBoxName.TextChanged += new System.EventHandler(this.textBox_TextChanged);
             // 
@@ -93,7 +107,6 @@
             this.groupBoxRole.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel.SetColumnSpan(this.groupBoxRole, 3);
             this.groupBoxRole.Controls.Add(this.radioButtonJustViewing);
             this.groupBoxRole.Controls.Add(this.radioButtonCoach);
             this.groupBoxRole.Controls.Add(this.radioButtonIndependentConsultant);
@@ -114,12 +127,13 @@
             this.radioButtonJustViewing.Location = new System.Drawing.Point(101, 140);
             this.radioButtonJustViewing.Name = "radioButtonJustViewing";
             this.radioButtonJustViewing.Size = new System.Drawing.Size(85, 17);
-            this.radioButtonJustViewing.TabIndex = 5;
+            this.radioButtonJustViewing.TabIndex = 6;
             this.radioButtonJustViewing.TabStop = true;
             this.radioButtonJustViewing.Text = "&Just Looking";
             this.toolTip.SetToolTip(this.radioButtonJustViewing, "Choose if you just want to look at the project data (note: you will not be able t" +
                     "o make changes)");
             this.radioButtonJustViewing.UseVisualStyleBackColor = true;
+            this.radioButtonJustViewing.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
             // 
             // radioButtonCoach
             // 
@@ -127,11 +141,12 @@
             this.radioButtonCoach.Location = new System.Drawing.Point(101, 116);
             this.radioButtonCoach.Name = "radioButtonCoach";
             this.radioButtonCoach.Size = new System.Drawing.Size(56, 17);
-            this.radioButtonCoach.TabIndex = 4;
+            this.radioButtonCoach.TabIndex = 5;
             this.radioButtonCoach.TabStop = true;
             this.radioButtonCoach.Text = "Coac&h";
             this.toolTip.SetToolTip(this.radioButtonCoach, "Choose if you are the coach for the project");
             this.radioButtonCoach.UseVisualStyleBackColor = true;
+            this.radioButtonCoach.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
             // 
             // radioButtonIndependentConsultant
             // 
@@ -139,11 +154,12 @@
             this.radioButtonIndependentConsultant.Location = new System.Drawing.Point(101, 92);
             this.radioButtonIndependentConsultant.Name = "radioButtonIndependentConsultant";
             this.radioButtonIndependentConsultant.Size = new System.Drawing.Size(138, 17);
-            this.radioButtonIndependentConsultant.TabIndex = 3;
+            this.radioButtonIndependentConsultant.TabIndex = 4;
             this.radioButtonIndependentConsultant.TabStop = true;
             this.radioButtonIndependentConsultant.Text = "&Independent Consultant";
             this.toolTip.SetToolTip(this.radioButtonIndependentConsultant, "Choose if you are an independent consultant (i.e. one working without a coach)");
             this.radioButtonIndependentConsultant.UseVisualStyleBackColor = true;
+            this.radioButtonIndependentConsultant.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
             // 
             // radioButtonConsultantInTraining
             // 
@@ -151,12 +167,13 @@
             this.radioButtonConsultantInTraining.Location = new System.Drawing.Point(101, 68);
             this.radioButtonConsultantInTraining.Name = "radioButtonConsultantInTraining";
             this.radioButtonConsultantInTraining.Size = new System.Drawing.Size(123, 17);
-            this.radioButtonConsultantInTraining.TabIndex = 2;
+            this.radioButtonConsultantInTraining.TabIndex = 3;
             this.radioButtonConsultantInTraining.TabStop = true;
             this.radioButtonConsultantInTraining.Text = "&Consultant-in-training";
             this.toolTip.SetToolTip(this.radioButtonConsultantInTraining, "Choose if you are a/the consultant-in-training for the project (i.e. one who has " +
                     "a coach)");
             this.radioButtonConsultantInTraining.UseVisualStyleBackColor = true;
+            this.radioButtonConsultantInTraining.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
             // 
             // radioButtonUNS
             // 
@@ -164,10 +181,11 @@
             this.radioButtonUNS.Location = new System.Drawing.Point(101, 44);
             this.radioButtonUNS.Name = "radioButtonUNS";
             this.radioButtonUNS.Size = new System.Drawing.Size(126, 17);
-            this.radioButtonUNS.TabIndex = 1;
+            this.radioButtonUNS.TabIndex = 2;
             this.radioButtonUNS.Text = "&Testing Helper (UNS)";
             this.toolTip.SetToolTip(this.radioButtonUNS, resources.GetString("radioButtonUNS.ToolTip"));
             this.radioButtonUNS.UseVisualStyleBackColor = true;
+            this.radioButtonUNS.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
             // 
             // radioButtonStoryCrafter
             // 
@@ -176,16 +194,16 @@
             this.radioButtonStoryCrafter.Location = new System.Drawing.Point(101, 20);
             this.radioButtonStoryCrafter.Name = "radioButtonStoryCrafter";
             this.radioButtonStoryCrafter.Size = new System.Drawing.Size(83, 17);
-            this.radioButtonStoryCrafter.TabIndex = 0;
+            this.radioButtonStoryCrafter.TabIndex = 1;
             this.radioButtonStoryCrafter.TabStop = true;
             this.radioButtonStoryCrafter.Text = "&Story Crafter";
             this.toolTip.SetToolTip(this.radioButtonStoryCrafter, "Choose if you are one of the mother-tongue speakers involved in story crafting or" +
                     " conducting testing");
             this.radioButtonStoryCrafter.UseVisualStyleBackColor = true;
+            this.radioButtonStoryCrafter.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
             // 
             // textBoxEmail
             // 
-            this.tableLayoutPanel.SetColumnSpan(this.textBoxEmail, 3);
             this.textBoxEmail.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxEmail.Location = new System.Drawing.Point(92, 205);
             this.textBoxEmail.Name = "textBoxEmail";
@@ -196,7 +214,6 @@
             // 
             // textBoxPhoneNumber
             // 
-            this.tableLayoutPanel.SetColumnSpan(this.textBoxPhoneNumber, 3);
             this.textBoxPhoneNumber.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxPhoneNumber.Location = new System.Drawing.Point(92, 231);
             this.textBoxPhoneNumber.Name = "textBoxPhoneNumber";
@@ -207,7 +224,6 @@
             // 
             // textBoxAltPhone
             // 
-            this.tableLayoutPanel.SetColumnSpan(this.textBoxAltPhone, 3);
             this.textBoxAltPhone.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxAltPhone.Location = new System.Drawing.Point(92, 257);
             this.textBoxAltPhone.Name = "textBoxAltPhone";
@@ -218,7 +234,6 @@
             // 
             // textBoxSkypeID
             // 
-            this.tableLayoutPanel.SetColumnSpan(this.textBoxSkypeID, 3);
             this.textBoxSkypeID.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxSkypeID.Location = new System.Drawing.Point(92, 283);
             this.textBoxSkypeID.Name = "textBoxSkypeID";
@@ -229,7 +244,6 @@
             // 
             // textBoxTeamViewer
             // 
-            this.tableLayoutPanel.SetColumnSpan(this.textBoxTeamViewer, 3);
             this.textBoxTeamViewer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxTeamViewer.Location = new System.Drawing.Point(92, 309);
             this.textBoxTeamViewer.Name = "textBoxTeamViewer";
@@ -240,39 +254,14 @@
             // 
             // textBoxAddress
             // 
-            this.tableLayoutPanel.SetColumnSpan(this.textBoxAddress, 3);
             this.textBoxAddress.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxAddress.Location = new System.Drawing.Point(92, 335);
             this.textBoxAddress.Multiline = true;
             this.textBoxAddress.Name = "textBoxAddress";
-            this.textBoxAddress.Size = new System.Drawing.Size(350, 73);
+            this.textBoxAddress.Size = new System.Drawing.Size(350, 74);
             this.textBoxAddress.TabIndex = 15;
             this.toolTip.SetToolTip(this.textBoxAddress, "Enter your mailing address");
             this.textBoxAddress.TextChanged += new System.EventHandler(this.textBox_TextChanged);
-            // 
-            // buttonEditCancel
-            // 
-            this.buttonEditCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonEditCancel.Location = new System.Drawing.Point(254, 433);
-            this.buttonEditCancel.Name = "buttonEditCancel";
-            this.buttonEditCancel.Size = new System.Drawing.Size(75, 23);
-            this.buttonEditCancel.TabIndex = 17;
-            this.buttonEditCancel.Text = "Cancel";
-            this.toolTip.SetToolTip(this.buttonEditCancel, "Click to cancel these changes");
-            this.buttonEditCancel.UseVisualStyleBackColor = true;
-            this.buttonEditCancel.Click += new System.EventHandler(this.buttonCancel_Click);
-            // 
-            // buttonEditOK
-            // 
-            this.buttonEditOK.Enabled = false;
-            this.buttonEditOK.Location = new System.Drawing.Point(92, 433);
-            this.buttonEditOK.Name = "buttonEditOK";
-            this.buttonEditOK.Size = new System.Drawing.Size(75, 23);
-            this.buttonEditOK.TabIndex = 16;
-            this.buttonEditOK.Text = "&OK";
-            this.toolTip.SetToolTip(this.buttonEditOK, "Click to finish editing this member profile and login as this member");
-            this.buttonEditOK.UseVisualStyleBackColor = true;
-            this.buttonEditOK.Click += new System.EventHandler(this.buttonEditOK_Click);
             // 
             // listBoxTeamMembers
             // 
@@ -283,33 +272,20 @@
             this.listBoxTeamMembers.MultiColumn = true;
             this.listBoxTeamMembers.Name = "listBoxTeamMembers";
             this.tableLayoutPanelTeamMembers.SetRowSpan(this.listBoxTeamMembers, 3);
-            this.listBoxTeamMembers.Size = new System.Drawing.Size(158, 381);
+            this.listBoxTeamMembers.Size = new System.Drawing.Size(158, 342);
             this.listBoxTeamMembers.TabIndex = 0;
             this.toolTip.SetToolTip(this.listBoxTeamMembers, "This list shows all the members of the team");
             this.listBoxTeamMembers.SelectedIndexChanged += new System.EventHandler(this.listBoxTeamMembers_SelectedIndexChanged);
-            // 
-            // buttonAccept
-            // 
-            this.buttonAccept.Enabled = false;
-            this.buttonAccept.Location = new System.Drawing.Point(173, 433);
-            this.buttonAccept.Name = "buttonAccept";
-            this.buttonAccept.Size = new System.Drawing.Size(75, 23);
-            this.buttonAccept.TabIndex = 18;
-            this.buttonAccept.Text = "&Accept";
-            this.toolTip.SetToolTip(this.buttonAccept, "Click to finish editing this member profile (then go back to the \'Team Members\' t" +
-                    "ab to choose another member)");
-            this.buttonAccept.UseVisualStyleBackColor = true;
-            this.buttonAccept.Click += new System.EventHandler(this.buttonAccept_Click);
             // 
             // buttonOK
             // 
             this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonOK.Enabled = false;
-            this.buttonOK.Location = new System.Drawing.Point(168, 433);
+            this.buttonOK.Location = new System.Drawing.Point(168, 386);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(75, 23);
             this.buttonOK.TabIndex = 3;
-            this.buttonOK.Text = "&OK";
+            this.buttonOK.Text = "&Login";
             this.toolTip.SetToolTip(this.buttonOK, "Click to login as the selected member");
             this.buttonOK.UseVisualStyleBackColor = true;
             this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
@@ -317,7 +293,7 @@
             // buttonCancel
             // 
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(249, 433);
+            this.buttonCancel.Location = new System.Drawing.Point(249, 386);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 4;
@@ -351,7 +327,6 @@
             // 
             // buttonDeleteMember
             // 
-            this.buttonDeleteMember.Enabled = false;
             this.buttonDeleteMember.Location = new System.Drawing.Point(331, 110);
             this.buttonDeleteMember.Name = "buttonDeleteMember";
             this.buttonDeleteMember.Size = new System.Drawing.Size(111, 30);
@@ -359,6 +334,7 @@
             this.buttonDeleteMember.Text = "&Delete Member";
             this.toolTip.SetToolTip(this.buttonDeleteMember, "Click to delete the selected member (only works for members added this session)");
             this.buttonDeleteMember.UseVisualStyleBackColor = true;
+            this.buttonDeleteMember.Visible = false;
             this.buttonDeleteMember.Click += new System.EventHandler(this.buttonDeleteMember_Click);
             // 
             // listBoxMemberRoles
@@ -371,21 +347,96 @@
             this.listBoxMemberRoles.MultiColumn = true;
             this.listBoxMemberRoles.Name = "listBoxMemberRoles";
             this.tableLayoutPanelTeamMembers.SetRowSpan(this.listBoxMemberRoles, 3);
-            this.listBoxMemberRoles.Size = new System.Drawing.Size(158, 381);
+            this.listBoxMemberRoles.SelectionMode = System.Windows.Forms.SelectionMode.None;
+            this.listBoxMemberRoles.Size = new System.Drawing.Size(158, 342);
             this.listBoxMemberRoles.TabIndex = 7;
             this.toolTip.SetToolTip(this.listBoxMemberRoles, "This list shows all the member\'s role on the team");
+            // 
+            // textBoxVernacular
+            // 
+            this.textBoxVernacular.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxVernacular.Location = new System.Drawing.Point(71, 24);
+            this.textBoxVernacular.Name = "textBoxVernacular";
+            this.textBoxVernacular.Size = new System.Drawing.Size(182, 20);
+            this.textBoxVernacular.TabIndex = 1;
+            this.toolTip.SetToolTip(this.textBoxVernacular, "Enter the name of the language that the stories are going to be crafted into");
+            // 
+            // textBoxNationalBTLanguage
+            // 
+            this.textBoxNationalBTLanguage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxNationalBTLanguage.Location = new System.Drawing.Point(259, 24);
+            this.textBoxNationalBTLanguage.Name = "textBoxNationalBTLanguage";
+            this.textBoxNationalBTLanguage.Size = new System.Drawing.Size(183, 20);
+            this.textBoxNationalBTLanguage.TabIndex = 2;
+            this.toolTip.SetToolTip(this.textBoxNationalBTLanguage, "Enter the name of the language that the stories will be back-translated into by t" +
+                    "he UNSs (i.e. typically, the National language)");
+            // 
+            // textBoxVernacularEthCode
+            // 
+            this.textBoxVernacularEthCode.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxVernacularEthCode.Location = new System.Drawing.Point(71, 50);
+            this.textBoxVernacularEthCode.Name = "textBoxVernacularEthCode";
+            this.textBoxVernacularEthCode.Size = new System.Drawing.Size(182, 20);
+            this.textBoxVernacularEthCode.TabIndex = 6;
+            this.toolTip.SetToolTip(this.textBoxVernacularEthCode, "Enter the 2-3 letter code for this language (e.g. English is \'en\', Hindi is \'hi\')" +
+                    "");
+            // 
+            // textBoxNationalBTEthCode
+            // 
+            this.textBoxNationalBTEthCode.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxNationalBTEthCode.Location = new System.Drawing.Point(259, 50);
+            this.textBoxNationalBTEthCode.Name = "textBoxNationalBTEthCode";
+            this.textBoxNationalBTEthCode.Size = new System.Drawing.Size(183, 20);
+            this.textBoxNationalBTEthCode.TabIndex = 7;
+            this.toolTip.SetToolTip(this.textBoxNationalBTEthCode, "Enter the 2-3 letter code for this language (e.g. English is \'en\', Hindi is \'hi\')" +
+                    "");
+            // 
+            // buttonVernacularFont
+            // 
+            this.buttonVernacularFont.Location = new System.Drawing.Point(71, 76);
+            this.buttonVernacularFont.Name = "buttonVernacularFont";
+            this.buttonVernacularFont.Size = new System.Drawing.Size(75, 23);
+            this.buttonVernacularFont.TabIndex = 9;
+            this.buttonVernacularFont.Text = "&Choose Font";
+            this.toolTip.SetToolTip(this.buttonVernacularFont, "Click here to choose the font, size, and color of the Story language text");
+            this.buttonVernacularFont.UseVisualStyleBackColor = true;
+            this.buttonVernacularFont.Click += new System.EventHandler(this.buttonVernacularFont_Click);
+            // 
+            // buttonNationalBTFont
+            // 
+            this.buttonNationalBTFont.Location = new System.Drawing.Point(259, 76);
+            this.buttonNationalBTFont.Name = "buttonNationalBTFont";
+            this.buttonNationalBTFont.Size = new System.Drawing.Size(75, 23);
+            this.buttonNationalBTFont.TabIndex = 10;
+            this.buttonNationalBTFont.Text = "Choose &Font";
+            this.toolTip.SetToolTip(this.buttonNationalBTFont, "Click here to choose the font, size, and color of the National language back tran" +
+                    "slation text");
+            this.buttonNationalBTFont.UseVisualStyleBackColor = true;
+            this.buttonNationalBTFont.Click += new System.EventHandler(this.buttonNationalBTFont_Click);
+            // 
+            // buttonInternationalBTFont
+            // 
+            this.buttonInternationalBTFont.Location = new System.Drawing.Point(259, 193);
+            this.buttonInternationalBTFont.Name = "buttonInternationalBTFont";
+            this.buttonInternationalBTFont.Size = new System.Drawing.Size(75, 23);
+            this.buttonInternationalBTFont.TabIndex = 12;
+            this.buttonInternationalBTFont.Text = "Choo&se Font";
+            this.toolTip.SetToolTip(this.buttonInternationalBTFont, "Click here to choose the font, size, and color of the English language back trans" +
+                    "lation text");
+            this.buttonInternationalBTFont.UseVisualStyleBackColor = true;
+            this.buttonInternationalBTFont.Click += new System.EventHandler(this.buttonInternationalBTFont_Click);
             // 
             // tabControlProjectMetaData
             // 
             this.tabControlProjectMetaData.Controls.Add(this.tabPageMemberList);
             this.tabControlProjectMetaData.Controls.Add(this.tabPageEditMember);
+            this.tabControlProjectMetaData.Controls.Add(this.tabPage1);
             this.tabControlProjectMetaData.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControlProjectMetaData.Location = new System.Drawing.Point(0, 0);
             this.tabControlProjectMetaData.Name = "tabControlProjectMetaData";
             this.tabControlProjectMetaData.SelectedIndex = 0;
-            this.tabControlProjectMetaData.Size = new System.Drawing.Size(459, 491);
+            this.tabControlProjectMetaData.Size = new System.Drawing.Size(459, 444);
             this.tabControlProjectMetaData.TabIndex = 1;
-            this.tabControlProjectMetaData.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabControlProjectMetaData_Selecting);
             this.tabControlProjectMetaData.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControlProjectMetaData_Selected);
             // 
             // tabPageMemberList
@@ -394,7 +445,7 @@
             this.tabPageMemberList.Location = new System.Drawing.Point(4, 22);
             this.tabPageMemberList.Name = "tabPageMemberList";
             this.tabPageMemberList.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageMemberList.Size = new System.Drawing.Size(451, 465);
+            this.tabPageMemberList.Size = new System.Drawing.Size(451, 418);
             this.tabPageMemberList.TabIndex = 0;
             this.tabPageMemberList.Text = "Team Members";
             this.tabPageMemberList.UseVisualStyleBackColor = true;
@@ -424,7 +475,7 @@
             this.tableLayoutPanelTeamMembers.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelTeamMembers.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanelTeamMembers.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelTeamMembers.Size = new System.Drawing.Size(445, 459);
+            this.tableLayoutPanelTeamMembers.Size = new System.Drawing.Size(445, 412);
             this.tableLayoutPanelTeamMembers.TabIndex = 0;
             // 
             // textBoxMemberNames
@@ -454,57 +505,50 @@
             // 
             // tabPageEditMember
             // 
-            this.tabPageEditMember.Controls.Add(this.tableLayoutPanel);
+            this.tabPageEditMember.Controls.Add(this.tableLayoutPanelMemberInformation);
             this.tabPageEditMember.Location = new System.Drawing.Point(4, 22);
             this.tabPageEditMember.Name = "tabPageEditMember";
             this.tabPageEditMember.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageEditMember.Size = new System.Drawing.Size(451, 465);
+            this.tabPageEditMember.Size = new System.Drawing.Size(451, 418);
             this.tabPageEditMember.TabIndex = 1;
-            this.tabPageEditMember.Text = "Edit Member Information";
+            this.tabPageEditMember.Text = "Edit Information";
             this.tabPageEditMember.UseVisualStyleBackColor = true;
             // 
-            // tableLayoutPanel
+            // tableLayoutPanelMemberInformation
             // 
-            this.tableLayoutPanel.ColumnCount = 4;
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel.Controls.Add(this.labelName, 0, 0);
-            this.tableLayoutPanel.Controls.Add(this.textBoxName, 1, 0);
-            this.tableLayoutPanel.Controls.Add(this.groupBoxRole, 1, 1);
-            this.tableLayoutPanel.Controls.Add(this.labelEmail, 0, 2);
-            this.tableLayoutPanel.Controls.Add(this.textBoxEmail, 1, 2);
-            this.tableLayoutPanel.Controls.Add(this.labelPhoneNumber, 0, 3);
-            this.tableLayoutPanel.Controls.Add(this.textBoxPhoneNumber, 1, 3);
-            this.tableLayoutPanel.Controls.Add(this.labelAltPhone, 0, 4);
-            this.tableLayoutPanel.Controls.Add(this.textBoxAltPhone, 1, 4);
-            this.tableLayoutPanel.Controls.Add(this.labelSkype, 0, 5);
-            this.tableLayoutPanel.Controls.Add(this.textBoxSkypeID, 1, 5);
-            this.tableLayoutPanel.Controls.Add(this.labelTeamViewerID, 0, 6);
-            this.tableLayoutPanel.Controls.Add(this.textBoxTeamViewer, 1, 6);
-            this.tableLayoutPanel.Controls.Add(this.labelAddress, 0, 7);
-            this.tableLayoutPanel.Controls.Add(this.textBoxAddress, 1, 7);
-            this.tableLayoutPanel.Controls.Add(this.buttonEditCancel, 3, 10);
-            this.tableLayoutPanel.Controls.Add(this.buttonEditOK, 1, 10);
-            this.tableLayoutPanel.Controls.Add(this.buttonAccept, 2, 10);
-            this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel.Location = new System.Drawing.Point(3, 3);
-            this.tableLayoutPanel.Name = "tableLayoutPanel";
-            this.tableLayoutPanel.RowCount = 11;
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel.Size = new System.Drawing.Size(445, 459);
-            this.tableLayoutPanel.TabIndex = 1;
+            this.tableLayoutPanelMemberInformation.ColumnCount = 2;
+            this.tableLayoutPanelMemberInformation.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanelMemberInformation.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanelMemberInformation.Controls.Add(this.labelName, 0, 0);
+            this.tableLayoutPanelMemberInformation.Controls.Add(this.textBoxName, 1, 0);
+            this.tableLayoutPanelMemberInformation.Controls.Add(this.groupBoxRole, 1, 1);
+            this.tableLayoutPanelMemberInformation.Controls.Add(this.labelEmail, 0, 2);
+            this.tableLayoutPanelMemberInformation.Controls.Add(this.textBoxEmail, 1, 2);
+            this.tableLayoutPanelMemberInformation.Controls.Add(this.labelPhoneNumber, 0, 3);
+            this.tableLayoutPanelMemberInformation.Controls.Add(this.textBoxPhoneNumber, 1, 3);
+            this.tableLayoutPanelMemberInformation.Controls.Add(this.labelAltPhone, 0, 4);
+            this.tableLayoutPanelMemberInformation.Controls.Add(this.textBoxAltPhone, 1, 4);
+            this.tableLayoutPanelMemberInformation.Controls.Add(this.labelSkype, 0, 5);
+            this.tableLayoutPanelMemberInformation.Controls.Add(this.textBoxSkypeID, 1, 5);
+            this.tableLayoutPanelMemberInformation.Controls.Add(this.labelTeamViewerID, 0, 6);
+            this.tableLayoutPanelMemberInformation.Controls.Add(this.textBoxTeamViewer, 1, 6);
+            this.tableLayoutPanelMemberInformation.Controls.Add(this.labelAddress, 0, 7);
+            this.tableLayoutPanelMemberInformation.Controls.Add(this.textBoxAddress, 1, 7);
+            this.tableLayoutPanelMemberInformation.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanelMemberInformation.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanelMemberInformation.Name = "tableLayoutPanelMemberInformation";
+            this.tableLayoutPanelMemberInformation.RowCount = 8;
+            this.tableLayoutPanelMemberInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelMemberInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelMemberInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelMemberInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelMemberInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelMemberInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelMemberInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelMemberInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelMemberInformation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanelMemberInformation.Size = new System.Drawing.Size(445, 412);
+            this.tableLayoutPanelMemberInformation.TabIndex = 1;
             // 
             // labelName
             // 
@@ -576,19 +620,131 @@
             this.labelAddress.Text = "A&ddress:";
             this.labelAddress.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.tableLayoutPanelLanguageInformation);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(451, 418);
+            this.tabPage1.TabIndex = 2;
+            this.tabPage1.Text = "Language Information";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanelLanguageInformation
+            // 
+            this.tableLayoutPanelLanguageInformation.ColumnCount = 3;
+            this.tableLayoutPanelLanguageInformation.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanelLanguageInformation.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanelLanguageInformation.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanelLanguageInformation.Controls.Add(this.labelLanguageName, 0, 1);
+            this.tableLayoutPanelLanguageInformation.Controls.Add(this.textBoxVernacular, 1, 1);
+            this.tableLayoutPanelLanguageInformation.Controls.Add(this.textBoxNationalBTLanguage, 2, 1);
+            this.tableLayoutPanelLanguageInformation.Controls.Add(this.labelStoryLanguage, 1, 0);
+            this.tableLayoutPanelLanguageInformation.Controls.Add(this.labelNationalBTLanguage, 2, 0);
+            this.tableLayoutPanelLanguageInformation.Controls.Add(this.labelEthnologueCode, 0, 2);
+            this.tableLayoutPanelLanguageInformation.Controls.Add(this.textBoxVernacularEthCode, 1, 2);
+            this.tableLayoutPanelLanguageInformation.Controls.Add(this.textBoxNationalBTEthCode, 2, 2);
+            this.tableLayoutPanelLanguageInformation.Controls.Add(this.labelFont, 0, 3);
+            this.tableLayoutPanelLanguageInformation.Controls.Add(this.buttonVernacularFont, 1, 3);
+            this.tableLayoutPanelLanguageInformation.Controls.Add(this.buttonNationalBTFont, 2, 3);
+            this.tableLayoutPanelLanguageInformation.Controls.Add(this.labelEnglishBT, 1, 5);
+            this.tableLayoutPanelLanguageInformation.Controls.Add(this.buttonInternationalBTFont, 2, 5);
+            this.tableLayoutPanelLanguageInformation.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanelLanguageInformation.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanelLanguageInformation.Name = "tableLayoutPanelLanguageInformation";
+            this.tableLayoutPanelLanguageInformation.RowCount = 7;
+            this.tableLayoutPanelLanguageInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelLanguageInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelLanguageInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelLanguageInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelLanguageInformation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 88F));
+            this.tableLayoutPanelLanguageInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelLanguageInformation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanelLanguageInformation.Size = new System.Drawing.Size(445, 412);
+            this.tableLayoutPanelLanguageInformation.TabIndex = 0;
+            // 
+            // labelLanguageName
+            // 
+            this.labelLanguageName.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.labelLanguageName.AutoSize = true;
+            this.labelLanguageName.Location = new System.Drawing.Point(3, 27);
+            this.labelLanguageName.Name = "labelLanguageName";
+            this.labelLanguageName.Size = new System.Drawing.Size(38, 13);
+            this.labelLanguageName.TabIndex = 0;
+            this.labelLanguageName.Text = "&Name:";
+            // 
+            // labelStoryLanguage
+            // 
+            this.labelStoryLanguage.AutoSize = true;
+            this.labelStoryLanguage.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.labelStoryLanguage.Font = new System.Drawing.Font("Segoe UI", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelStoryLanguage.Location = new System.Drawing.Point(71, 0);
+            this.labelStoryLanguage.Name = "labelStoryLanguage";
+            this.labelStoryLanguage.Size = new System.Drawing.Size(182, 21);
+            this.labelStoryLanguage.TabIndex = 3;
+            this.labelStoryLanguage.Text = "Story Language";
+            this.labelStoryLanguage.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // labelNationalBTLanguage
+            // 
+            this.labelNationalBTLanguage.AutoSize = true;
+            this.labelNationalBTLanguage.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.labelNationalBTLanguage.Font = new System.Drawing.Font("Segoe UI", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelNationalBTLanguage.Location = new System.Drawing.Point(259, 0);
+            this.labelNationalBTLanguage.Name = "labelNationalBTLanguage";
+            this.labelNationalBTLanguage.Size = new System.Drawing.Size(183, 21);
+            this.labelNationalBTLanguage.TabIndex = 4;
+            this.labelNationalBTLanguage.Text = "National BT Language";
+            this.labelNationalBTLanguage.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // labelEthnologueCode
+            // 
+            this.labelEthnologueCode.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.labelEthnologueCode.AutoSize = true;
+            this.labelEthnologueCode.Location = new System.Drawing.Point(3, 53);
+            this.labelEthnologueCode.Name = "labelEthnologueCode";
+            this.labelEthnologueCode.Size = new System.Drawing.Size(62, 13);
+            this.labelEthnologueCode.TabIndex = 5;
+            this.labelEthnologueCode.Text = "&Ethn. code:";
+            // 
+            // labelFont
+            // 
+            this.labelFont.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.labelFont.AutoSize = true;
+            this.labelFont.Location = new System.Drawing.Point(3, 81);
+            this.labelFont.Name = "labelFont";
+            this.labelFont.Size = new System.Drawing.Size(31, 13);
+            this.labelFont.TabIndex = 8;
+            this.labelFont.Text = "Font:";
+            // 
+            // labelEnglishBT
+            // 
+            this.labelEnglishBT.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelEnglishBT.AutoSize = true;
+            this.labelEnglishBT.Location = new System.Drawing.Point(168, 198);
+            this.labelEnglishBT.Name = "labelEnglishBT";
+            this.labelEnglishBT.Size = new System.Drawing.Size(85, 13);
+            this.labelEnglishBT.TabIndex = 11;
+            this.labelEnglishBT.Text = "English BT Font:";
+            // 
+            // fontDialog
+            // 
+            this.fontDialog.ShowColor = true;
+            // 
             // TeamMemberForm
             // 
             this.AcceptButton = this.buttonOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(459, 491);
+            this.ClientSize = new System.Drawing.Size(459, 444);
             this.Controls.Add(this.tabControlProjectMetaData);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "TeamMemberForm";
-            this.Text = "Member Login";
+            this.Text = "Project Settings";
             this.groupBoxRole.ResumeLayout(false);
             this.groupBoxRole.PerformLayout();
             this.tabControlProjectMetaData.ResumeLayout(false);
@@ -596,8 +752,11 @@
             this.tableLayoutPanelTeamMembers.ResumeLayout(false);
             this.tableLayoutPanelTeamMembers.PerformLayout();
             this.tabPageEditMember.ResumeLayout(false);
-            this.tableLayoutPanel.ResumeLayout(false);
-            this.tableLayoutPanel.PerformLayout();
+            this.tableLayoutPanelMemberInformation.ResumeLayout(false);
+            this.tableLayoutPanelMemberInformation.PerformLayout();
+            this.tabPage1.ResumeLayout(false);
+            this.tableLayoutPanelLanguageInformation.ResumeLayout(false);
+            this.tableLayoutPanelLanguageInformation.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -608,7 +767,7 @@
         private System.Windows.Forms.TabControl tabControlProjectMetaData;
         private System.Windows.Forms.TabPage tabPageMemberList;
         private System.Windows.Forms.TabPage tabPageEditMember;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanelMemberInformation;
         private System.Windows.Forms.Label labelName;
         private System.Windows.Forms.TextBox textBoxName;
         private System.Windows.Forms.GroupBox groupBoxRole;
@@ -630,18 +789,31 @@
         private System.Windows.Forms.TextBox textBoxTeamViewer;
         private System.Windows.Forms.Label labelAddress;
         private System.Windows.Forms.TextBox textBoxAddress;
-        private System.Windows.Forms.Button buttonEditCancel;
-        private System.Windows.Forms.Button buttonEditOK;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelTeamMembers;
         private System.Windows.Forms.ListBox listBoxTeamMembers;
         private System.Windows.Forms.Button buttonAddNewMember;
         private System.Windows.Forms.Button buttonEditMember;
-        private System.Windows.Forms.Button buttonAccept;
         private System.Windows.Forms.Button buttonOK;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Button buttonDeleteMember;
         private System.Windows.Forms.ListBox listBoxMemberRoles;
         private System.Windows.Forms.TextBox textBoxMemberNames;
         private System.Windows.Forms.TextBox textBoxMemberRoles;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanelLanguageInformation;
+        private System.Windows.Forms.Label labelLanguageName;
+        private System.Windows.Forms.TextBox textBoxVernacular;
+        private System.Windows.Forms.TextBox textBoxNationalBTLanguage;
+        private System.Windows.Forms.Label labelStoryLanguage;
+        private System.Windows.Forms.Label labelNationalBTLanguage;
+        private System.Windows.Forms.Label labelEthnologueCode;
+        private System.Windows.Forms.TextBox textBoxVernacularEthCode;
+        private System.Windows.Forms.TextBox textBoxNationalBTEthCode;
+        private System.Windows.Forms.Label labelFont;
+        private System.Windows.Forms.FontDialog fontDialog;
+        private System.Windows.Forms.Button buttonVernacularFont;
+        private System.Windows.Forms.Button buttonNationalBTFont;
+        private System.Windows.Forms.Label labelEnglishBT;
+        private System.Windows.Forms.Button buttonInternationalBTFont;
     }
 }

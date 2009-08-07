@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Xml.Linq;
 using System.Text;
 using System.Drawing;
 
@@ -8,30 +8,15 @@ namespace OneStoryProjectEditor
 {
     public abstract class ConsultNoteDataConverter
     {
-        public abstract int RoundNum
-        {
-            get;
-        }
+        public int RoundNum = 0;
+        
+        public string MentorGuid = null;
+        public string MentorLabel = null;
+        public string MentorComment = null;
 
-        public abstract string MentorLabel
-        {
-            get;
-        }
-
-        public abstract string MentorComment
-        {
-            get;
-        }
-
-        public abstract string MenteeLabel
-        {
-            get;
-        }
-
-        public abstract string MenteeResponse
-        {
-            get;
-        }
+        public string MenteeGuid = null;
+        public string MenteeLabel = null;
+        public string MenteeResponse = null;
 
         public Color CommentColor
         {
@@ -42,99 +27,129 @@ namespace OneStoryProjectEditor
         {
             get { return Color.Blue; }
         }
+
+        protected string InstanceElementName;
+        protected string CommentElementName;
+        protected string ResponseElementName;
+
+        public XElement GetXml
+        {
+            get
+            {
+                return new XElement(InstanceElementName, new XAttribute("round", RoundNum),
+                    new XElement(CommentElementName, new XAttribute("editRef", MentorGuid), MentorComment),
+                    new XElement(ResponseElementName, new XAttribute("editRef", MenteeGuid), MenteeResponse));
+            }
+        }
     }
 
     public class ConsultantNoteData : ConsultNoteDataConverter
     {
-        protected StoryProject.ConsultantNoteRow m_aCNRow = null;
-
         public ConsultantNoteData(StoryProject.ConsultantNoteRow aCNRow)
         {
-            m_aCNRow = aCNRow;
-        }
+            RoundNum = aCNRow.round;
+            InstanceElementName = "ConsultantNote";
+            CommentElementName = "ConsultantComment";
+            ResponseElementName = "CrafterResponse";
 
-        public override int RoundNum
-        {
-            get { return (int)m_aCNRow.round; }
-        }
-
-        public override string MentorLabel
-        {
-            get { return "con:"; }
-        }
-
-        public override string MentorComment
-        {
-            get 
+            StoryProject.ConsultantCommentRow[] aCCRows = aCNRow.GetConsultantCommentRows();
+            if (aCCRows.Length == 1)
             {
-                StoryProject.ConsultantCommentRow[] aCCRows = m_aCNRow.GetConsultantCommentRows();
-                System.Diagnostics.Debug.Assert(aCCRows.Length > 0);
-                StoryProject.ConsultantCommentRow aCCRow = aCCRows[0];
-                return aCCRow.ConsultantComment_text;
+                StoryProject.ConsultantCommentRow theCCRow = aCCRows[0];
+                MentorGuid = theCCRow.editRef;
+                MentorLabel = "con:";
+                MentorComment = theCCRow.ConsultantComment_text;
+            }
+
+            StoryProject.CrafterResponseRow[] aCRRows = aCNRow.GetCrafterResponseRows();
+            if (aCRRows.Length == 1)
+            {
+                StoryProject.CrafterResponseRow theCRRow = aCRRows[0];
+                MenteeGuid = theCRRow.editRef;
+                MenteeLabel = "res:";
+                MenteeResponse = theCRRow.CrafterResponse_text;
             }
         }
+    }
 
-        public override string MenteeLabel
+    public class ConsultantNotesData : ConsultNotesDataConverter
+    {
+        public ConsultantNotesData(StoryProject.verseRow theVerseRow, StoryProject projFile)
         {
-            get { return "res:"; }
-        }
+            CollectionElementName = "ConsultantNotes";
 
-        public override string MenteeResponse
-        {
-            get
-            {
-                StoryProject.CrafterResponseRow[] aCRRows = m_aCNRow.GetCrafterResponseRows();
-                System.Diagnostics.Debug.Assert(aCRRows.Length > 0);
-                StoryProject.CrafterResponseRow aCRRow = aCRRows[0];
-                return aCRRow.CrafterResponse_text;
-            }
+            StoryProject.ConsultantNotesRow[] theConsultantNotesRows = theVerseRow.GetConsultantNotesRows();
+            StoryProject.ConsultantNotesRow theConsultantNotesRow;
+            if (theConsultantNotesRows.Length == 0)
+                theConsultantNotesRow = projFile.ConsultantNotes.AddConsultantNotesRow(theVerseRow);
+            else
+                theConsultantNotesRow = theConsultantNotesRows[0];
+
+            foreach (StoryProject.ConsultantNoteRow aConsultantNoteRow in theConsultantNotesRow.GetConsultantNoteRows())
+                Add(new ConsultantNoteData(aConsultantNoteRow));
         }
     }
 
     public class CoachNoteData : ConsultNoteDataConverter
     {
-        protected StoryProject.CoachNoteRow m_aCoNRow = null;
-
         public CoachNoteData(StoryProject.CoachNoteRow aCoNRow)
         {
-            m_aCoNRow = aCoNRow;
-        }
+            RoundNum = aCoNRow.round;
+            InstanceElementName = "CoachNote";
+            CommentElementName = "CoachComment";
+            ResponseElementName = "ConsultantResponse";
 
-        public override int RoundNum
-        {
-            get { return m_aCoNRow.round; }
-        }
+            StoryProject.CoachCommentRow[] aCoCRows = aCoNRow.GetCoachCommentRows();
+            if (aCoCRows.Length == 1)
+            {
+                StoryProject.CoachCommentRow theCoCRow = aCoCRows[0];
+                MentorGuid = theCoCRow.editRef;
+                MentorLabel = "co:";
+                MentorComment = theCoCRow.CoachComment_text;
+            }
 
-        public override string MentorLabel
-        {
-            get { return "co:"; }
+            StoryProject.ConsultantResponseRow[] aCRRows = aCoNRow.GetConsultantResponseRows();
+            if (aCRRows.Length == 1)
+            {
+                StoryProject.ConsultantResponseRow theCRRow = aCRRows[0];
+                MenteeGuid = theCRRow.editRef;
+                MenteeLabel = "con:";
+                MenteeResponse = theCRRow.ConsultantResponse_text;
+            }
         }
+    }
 
-        public override string MentorComment
+    public abstract class ConsultNotesDataConverter : List<ConsultNoteDataConverter>
+    {
+        protected string CollectionElementName = null;
+        
+        public XElement GetXml
         {
             get
             {
-                StoryProject.CoachCommentRow[] aCoCRows = m_aCoNRow.GetCoachCommentRows();
-                System.Diagnostics.Debug.Assert(aCoCRows.Length > 0);
-                StoryProject.CoachCommentRow aCoCRow = aCoCRows[0];
-                return aCoCRow.CoachComment_text;
+                XElement elemCNDC = new XElement(CollectionElementName);
+                foreach (ConsultNoteDataConverter aCNDC in this)
+                    elemCNDC.Add(aCNDC.GetXml);
+                return elemCNDC;
             }
         }
+    }
 
-        public override string MenteeLabel
+    public class CoachNotesData : ConsultNotesDataConverter
+    {
+        public CoachNotesData(StoryProject.verseRow theVerseRow, StoryProject projFile)
         {
-            get { return "con:"; }
-        }
+            CollectionElementName = "CoachNotes";
 
-        public override string MenteeResponse
-        {
-            get
-            {
-                StoryProject.ConsultantResponseRow[] aCRRows = m_aCoNRow.GetConsultantResponseRows();
-                System.Diagnostics.Debug.Assert(aCRRows.Length > 0);
-                StoryProject.ConsultantResponseRow aCRRow = aCRRows[0];
-                return aCRRow.ConsultantResponse_text;
-            }
+            StoryProject.CoachNotesRow[] theCoachNotesRows = theVerseRow.GetCoachNotesRows();
+            StoryProject.CoachNotesRow theCoachNotesRow;
+            if (theCoachNotesRows.Length == 0)
+                theCoachNotesRow = projFile.CoachNotes.AddCoachNotesRow(theVerseRow);
+            else
+                theCoachNotesRow = theCoachNotesRows[0];
+
+            foreach (StoryProject.CoachNoteRow aCoachNoteRow in theCoachNotesRow.GetCoachNoteRows())
+                Add(new CoachNoteData(aCoachNoteRow));
         }
     }
 }

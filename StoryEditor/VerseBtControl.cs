@@ -21,7 +21,7 @@ namespace OneStoryProjectEditor
         protected const string cstrTestQuestionsLabelFormat = "tst({0}):";
         protected const string cstrFieldNameTestQuestions = "TestQuestions";
 
-        protected StoryProject.verseRow m_aVerseRow = null;   // TODO: change this isn't a class that can do linq writes
+        public VerseData VerseData = null;
 
         internal int VerseNumber = -1;
         protected int m_nRowIndexStoryLine = -1;
@@ -30,8 +30,11 @@ namespace OneStoryProjectEditor
         protected int m_nRowIndexTestingQuestionGroup = -1;
         protected List<TestingQuestionControl> m_lstTestQuestionControls = null;
 
-        public VerseBtControl(StoryEditor aSE, StoryProject.verseRow aVerseRow, int nVerseNumber)
+        public string Guid = null;
+
+        public VerseBtControl(StoryEditor aSE, VerseData VerseData, int nVerseNumber)
         {
+            Guid = VerseData.guid;
             VerseNumber = nVerseNumber;
             InitializeComponent();
 
@@ -42,7 +45,7 @@ namespace OneStoryProjectEditor
             this.tableLayoutPanel.Controls.Add(this.labelReference, 0, 0);
             this.tableLayoutPanel.Controls.Add(this.buttonDragDropHandle, 1, 0);
 
-            m_aVerseRow = aVerseRow;
+            VerseData = VerseData;
             UpdateView(aSE);
 
             this.tableLayoutPanel.ResumeLayout(false);
@@ -59,7 +62,7 @@ namespace OneStoryProjectEditor
                 System.Diagnostics.Debug.Assert((m_nRowIndexStoryLine == -1) || (m_nRowIndexStoryLine == nNumRows), "fix bad assumption (VerseBtControl.cs.49): bob_eaton@sall.com");
 
                 // ask that control to do the Update View
-                InitStoryLine(aSE, m_aVerseRow, nNumRows);
+                InitStoryLine(aSE, VerseData, nNumRows);
                 m_nRowIndexStoryLine = nNumRows++;
             }
             else if (m_nRowIndexStoryLine != -1)
@@ -73,12 +76,10 @@ namespace OneStoryProjectEditor
                 // if we've already initialized the control, then it must have this project row index (i.e. nNumRows)
                 System.Diagnostics.Debug.Assert((m_nRowIndexAnchors == -1) || (m_nRowIndexAnchors == nNumRows), "fix bad assumption (VerseBtControl.cs.64): bob_eaton@sall.com");
 
-                StoryProject.anchorsRow[] anAnchorsRow = m_aVerseRow.GetanchorsRows();
-                System.Diagnostics.Debug.Assert(anAnchorsRow != null);
-                if (anAnchorsRow != null)
+                AnchorsData anAnchorsData = VerseData.Anchors;
+                if (anAnchorsData != null)
                 {
-                    System.Diagnostics.Debug.Assert(anAnchorsRow.Length > 0);
-                    InitAnchors(anAnchorsRow[0], nNumRows);
+                    InitAnchors(anAnchorsData, nNumRows);
                     m_nRowIndexAnchors = nNumRows++;
                 }
             }
@@ -94,10 +95,9 @@ namespace OneStoryProjectEditor
                 // if we've already initialized the control, then it must have this project row index (i.e. nNumRows)
                 System.Diagnostics.Debug.Assert((m_nRowIndexRetelling == -1) || (m_nRowIndexRetelling == nNumRows), "fix bad assumption (VerseBtControl.cs.92): bob_eaton@sall.com");
 
-                StoryProject.RetellingsRow[] aRetellingsRows = m_aVerseRow.GetRetellingsRows();
-                if ((aRetellingsRows != null) && (aRetellingsRows.Length > 0))
+                if (VerseData.Retellings.Count > 0)
                 {
-                    InitRetellings(aRetellingsRows[0], nNumRows);
+                    InitRetellings(VerseData.Retellings, nNumRows);
                     m_nRowIndexRetelling = nNumRows++;
                 }
             }
@@ -115,10 +115,9 @@ namespace OneStoryProjectEditor
                     ((m_lstTestQuestionControls == null) && (m_nRowIndexTestingQuestionGroup == -1))
                     || ((m_lstTestQuestionControls != null) && (m_nRowIndexTestingQuestionGroup == nNumRows)), "fix bad assumption (VerseBtControl.cs.111): bob_eaton@sall.com");
 
-                StoryProject.TestQuestionsRow[] aTestQuestionsRow = m_aVerseRow.GetTestQuestionsRows();
-                if ((aTestQuestionsRow != null) && (aTestQuestionsRow.Length > 0))
+                if (VerseData.TestQuestions.Count > 0)
                 {
-                    InitTestingQuestions(aSE, aTestQuestionsRow[0], nNumRows);
+                    InitTestingQuestions(aSE, VerseData.TestQuestions, nNumRows);
                     m_nRowIndexTestingQuestionGroup = nNumRows++;
                 }
             }
@@ -158,7 +157,7 @@ namespace OneStoryProjectEditor
                 m_nRowIndexTestingQuestionGroup--;
         }
 
-        protected void InitStoryLine(StoryEditor aSE, StoryProject.verseRow aVerseRow, int nLayoutRow)
+        protected void InitStoryLine(StoryEditor aSE, VerseData aVerseData, int nLayoutRow)
         {
             // since some of the view parameters (e.g. show Vernacular) are actually controlled within
             //  the StoryLine control, if we get the call to UpdateView, we have to pass it on to it
@@ -171,7 +170,7 @@ namespace OneStoryProjectEditor
             }
             else
             {
-                StoryLineControl aStoryLineCtrl = new StoryLineControl(aSE, aVerseRow);
+                StoryLineControl aStoryLineCtrl = new StoryLineControl(aSE, aVerseData);
                 aStoryLineCtrl.Name = cstrFieldNameStoryLine;
                 aStoryLineCtrl.ParentControl = this;
 
@@ -181,7 +180,7 @@ namespace OneStoryProjectEditor
             }
         }
 
-        protected void InitAnchors(StoryProject.anchorsRow anAnchorsRow, int nLayoutRow)
+        protected void InitAnchors(AnchorsData anAnchorsData, int nLayoutRow)
         {
             // since some of the view parameters (e.g. show Vernacular) are actually controlled within
             //  the StoryLine control, if we get the call to UpdateView, we have to pass it on to it
@@ -189,7 +188,7 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert((m_nRowIndexAnchors != -1) || !tableLayoutPanel.Controls.ContainsKey(cstrFieldNameAnchors));
             if (!tableLayoutPanel.Controls.ContainsKey(cstrFieldNameAnchors))
             {
-                AnchorControl anAnchorCtrl = new AnchorControl(anAnchorsRow);
+                AnchorControl anAnchorCtrl = new AnchorControl(anAnchorsData);
                 anAnchorCtrl.Name = cstrFieldNameAnchors;
                 anAnchorCtrl.ParentControl = this;
                 
@@ -199,7 +198,7 @@ namespace OneStoryProjectEditor
             }
         }
 
-        protected void InitRetellings(StoryProject.RetellingsRow aRetellingsRow, int nLayoutRow)
+        protected void InitRetellings(RetellingsData aRetellingsData, int nLayoutRow)
         {
             // since some of the view parameters (e.g. show Vernacular) are actually controlled within
             //  the StoryLine control, if we get the call to UpdateView, we have to pass it on to it
@@ -207,7 +206,7 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert((m_nRowIndexRetelling != -1) || !tableLayoutPanel.Controls.ContainsKey(cstrFieldNameRetellings));
             if (!tableLayoutPanel.Controls.ContainsKey(cstrFieldNameRetellings))
             {
-                MultiLineControl aRetellingsCtrl = new MultiLineControl(new RetellingsData(aRetellingsRow));
+                MultiLineControl aRetellingsCtrl = new MultiLineControl(aRetellingsData);
                 aRetellingsCtrl.Name = cstrFieldNameRetellings;
                 aRetellingsCtrl.ParentControl = this;
 
@@ -217,18 +216,17 @@ namespace OneStoryProjectEditor
             }
         }
 
-        protected void InitTestingQuestions(StoryEditor aSE, StoryProject.TestQuestionsRow aTQsRow, int nLayoutRow)
+        protected void InitTestingQuestions(StoryEditor aSE, TestQuestionsData aTQsData, int nLayoutRow)
         {
             // since some of the view parameters (e.g. show Vernacular) are actually controlled within
             //  the StoryLine control, if we get the call to UpdateView, we have to pass it on to it
             //  to handle (unlike here with the Anchor control, which is all on or all off)
             if (m_nRowIndexTestingQuestionGroup == -1)
             {
-                StoryProject.TestQuestionRow[] aTQRows = aTQsRow.GetTestQuestionRows();
-                if ((aTQRows != null) && (aTQRows.Length > 0))
+                if (aTQsData.Count > 0)
                 {
-                    m_lstTestQuestionControls = new List<TestingQuestionControl>(aTQRows.Length);
-                    for (int i = 0; i < aTQRows.Length; i++)
+                    m_lstTestQuestionControls = new List<TestingQuestionControl>(aTQsData.Count);
+                    for (int i = 0; i < aTQsData.Count; i++)
                     {
                         int nTQNumber = i + 1;
                         Label label = new Label();
@@ -237,7 +235,7 @@ namespace OneStoryProjectEditor
                         label.Name = cstrFieldNameTestQuestionsLabel + nTQNumber.ToString();
                         label.Text = String.Format(cstrTestQuestionsLabelFormat, nTQNumber);
 
-                        TestingQuestionControl aTestingQuestionCtrl = new TestingQuestionControl(aSE, aTQRows[i]);
+                        TestingQuestionControl aTestingQuestionCtrl = new TestingQuestionControl(aSE, aTQsData[i]);
                         aTestingQuestionCtrl.ParentControl = this;
                         aTestingQuestionCtrl.Name = cstrFieldNameTestQuestions + nLayoutRow.ToString();
 
@@ -258,8 +256,6 @@ namespace OneStoryProjectEditor
 
         void buttonDragDropHandle_QueryContinueDrag(object sender, System.Windows.Forms.QueryContinueDragEventArgs e)
         {
-            Console.WriteLine(String.Format("QueryContinueDrag: Action: {0}", e.Action.ToString()));
-
             Form form = FindForm();
             System.Diagnostics.Debug.Assert(form is StoryEditor);
             if (form is StoryEditor)

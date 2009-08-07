@@ -26,10 +26,10 @@ namespace OneStoryProjectEditor
             this.tableLayoutPanel.Controls.Add(this.labelReference, 0, 0);
             this.tableLayoutPanel.Controls.Add(this.buttonDragDropHandle, 1, 0);
 
-            if (aCNsDC.IsConsultNotes)
+            if (aCNsDC.Count > 0)
             {
                 int nRowIndex = 1;
-                foreach (ConsultNoteDataConverter aCNDC in aCNsDC.ConsultNotes)
+                foreach (ConsultNoteDataConverter aCNDC in aCNsDC)
                 {
                     ConsultNoteControl aCNCtrl = new ConsultNoteControl(aCNDC);
                     aCNCtrl.Name = cstrFieldNameConsultantNote + nRowIndex.ToString();

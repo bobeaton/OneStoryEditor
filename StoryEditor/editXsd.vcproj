@@ -111,15 +111,6 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
-			<File
-				RelativePath=".\StoryProject.xsd">
-				<File
-					RelativePath=".\StoryProject.h">
-				</File>
-				<File
-					RelativePath=".\StoryProject.xsx">
-				</File>
-			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
@@ -128,6 +119,15 @@
 		</Filter>
 		<File
 			RelativePath=".\Copy of StoryProject.xml">
+		</File>
+		<File
+			RelativePath=".\StoryProject.xsd">
+			<File
+				RelativePath=".\StoryProject.h">
+			</File>
+			<File
+				RelativePath=".\StoryProject.xsx">
+			</File>
 		</File>
 	</Files>
 	<Globals>

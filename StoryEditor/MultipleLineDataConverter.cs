@@ -1,86 +1,68 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Xml.Linq;
 using System.Text;
 
 namespace OneStoryProjectEditor
 {
-    public abstract class MultipleLineDataConverter
+    public abstract class MultipleLineDataConverter : List<string>
     {
-        public abstract string LabelTextFormat
-        {
-            get;
-        }
+        public string LabelTextFormat = null;
+        protected List<string> MemberIDs = new List<string>();
+        protected string CollectionElementName = null;
+        protected string InstanceElementName = null;
 
-        public abstract List<string> RowData
+        public XElement GetXml
         {
-            get;
-        }
-
-        public abstract int Length
-        {
-            get;
+            get
+            {
+                XElement elemRetellings = new XElement(CollectionElementName);
+                for (int i = 0; i < this.Count; i++)
+                    elemRetellings.Add(new XElement(InstanceElementName, new XAttribute("memberID", MemberIDs[i]), this[i]));
+                return elemRetellings;
+            }
         }
     }
 
     public class RetellingsData : MultipleLineDataConverter
     {
-        protected StoryProject.RetellingsRow m_aRetellingsRow = null;
-
-        public RetellingsData(StoryProject.RetellingsRow aRetellingsRow)
+        public RetellingsData(StoryProject.verseRow theVerseRow, StoryProject projFile)
         {
-            m_aRetellingsRow = aRetellingsRow;
-        }
+            LabelTextFormat = "ret({0}):";
+            CollectionElementName = "Retellings";
+            InstanceElementName = "Retelling";
 
-        public override string LabelTextFormat
-        {
-            get { return "ret({0}):"; }
-        }
+            StoryProject.RetellingsRow[] theRetellingsRows = theVerseRow.GetRetellingsRows();
+            StoryProject.RetellingsRow theRetellingsRow;
+            if (theRetellingsRows.Length == 0)
+                theRetellingsRow = projFile.Retellings.AddRetellingsRow(theVerseRow);
+            else
+                theRetellingsRow = theRetellingsRows[0];
 
-        public override int Length
-        {
-            get { return m_aRetellingsRow.GetRetellingRows().Length; }
-        }
-
-        public override List<string> RowData
-        {
-            get
-            {
-                List<string> lst = new List<string>(Length);
-                foreach (StoryProject.RetellingRow aRTRow in m_aRetellingsRow.GetRetellingRows())
-                    lst.Add(aRTRow.Retelling_text);
-                return lst;
-            }
+            foreach (StoryProject.RetellingRow aRetellingRow in theRetellingsRow.GetRetellingRows())
+                Add(aRetellingRow.Retelling_text);
         }
     }
 
     public class AnswersData : MultipleLineDataConverter
     {
-        protected StoryProject.AnswersRow m_anAnswerRow = null;
-
-        public AnswersData(StoryProject.AnswersRow anAnswerRow)
+        public AnswersData(StoryProject.TestQuestionRow theTestQuestionRow, StoryProject projFile)
         {
-            m_anAnswerRow = anAnswerRow;
-        }
+            LabelTextFormat = "ans({0}):";
+            CollectionElementName = "Answers";
+            InstanceElementName = "answer";
 
-        public override string LabelTextFormat
-        {
-            get { return "ans({0}):"; }
-        }
+            StoryProject.AnswersRow[] theAnswersRows = theTestQuestionRow.GetAnswersRows();
+            StoryProject.AnswersRow theAnswersRow;
+            if (theAnswersRows.Length == 0)
+                theAnswersRow = projFile.Answers.AddAnswersRow(theTestQuestionRow);
+            else
+                theAnswersRow = theAnswersRows[0];
 
-        public override int Length
-        {
-            get { return m_anAnswerRow.GetanswerRows().Length; }
-        }
-
-        public override List<string> RowData
-        {
-            get
+            foreach (StoryProject.answerRow anAnswerRow in theAnswersRow.GetanswerRows())
             {
-                List<string> lst = new List<string>(Length);
-                foreach (StoryProject.answerRow anAnswerRow in m_anAnswerRow.GetanswerRows())
-                    lst.Add(anAnswerRow.answer_text);
-                return lst;
+                Add(anAnswerRow.answer_text);
+                MemberIDs.Add(anAnswerRow.memberID);
             }
         }
     }

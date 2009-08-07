@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
+using System.Xml.Linq;
 using System.Text;
 using System.Windows.Forms;
 
@@ -19,16 +19,19 @@ namespace OneStoryProjectEditor
         internal const string cstrJustLooking = "JustLooking"; // gives full access, but no change privileges
 
         protected StoryProject m_projFile = null;
+        protected ProjectSettings m_projSettings = null;
         protected string m_strSelectedMember = null;
 
         Dictionary<string, StoryProject.MemberRow> m_mapNewMembersThisSession = new Dictionary<string, StoryProject.MemberRow>();
 
-        public TeamMemberForm(StoryProject projFile)
+        public TeamMemberForm(StoryProject projFile, ProjectSettings projSettings)
         {
             m_projFile = projFile;
+            m_projSettings = projSettings;
+
             InitializeComponent();
 
-            foreach (StoryProject.MemberRow aMemberRow in m_projFile.Member)
+            foreach (StoryProject.MemberRow aMemberRow in projFile.Member)
             {
                 listBoxTeamMembers.Items.Add(aMemberRow.name);
                 listBoxMemberRoles.Items.Add(aMemberRow.memberType);
@@ -36,6 +39,16 @@ namespace OneStoryProjectEditor
 
             if ((listBoxTeamMembers.Items.Count > 0) && !String.IsNullOrEmpty(Properties.Settings.Default.LastMember))
                 listBoxTeamMembers.SelectedItem = Properties.Settings.Default.LastMember;
+
+            textBoxVernacular.Font = textBoxVernacularEthCode.Font = projSettings.VernacularFont;
+            textBoxVernacular.ForeColor = textBoxVernacularEthCode.ForeColor = projSettings.VernacularFontColor;
+            textBoxVernacular.Text = projSettings.VernacularLangName;
+            textBoxVernacularEthCode.Text = projSettings.VernacularLangCode;
+
+            textBoxNationalBTLanguage.Font = textBoxNationalBTEthCode.Font = projSettings.NationalBTFont;
+            textBoxNationalBTLanguage.ForeColor = textBoxNationalBTEthCode.ForeColor = projSettings.NationalBTFontColor;
+            textBoxNationalBTLanguage.Text = projSettings.NationalBTLangName;
+            textBoxNationalBTEthCode.Text = projSettings.NationalBTLangCode;
         }
 
         public string SelectedMember
@@ -43,7 +56,8 @@ namespace OneStoryProjectEditor
             get { return m_strSelectedMember; }
             set
             {
-                System.Diagnostics.Debug.Assert(listBoxTeamMembers.Items.Contains(value));
+                if (!listBoxTeamMembers.Items.Contains(value))
+                    throw new ApplicationException(String.Format("Project File doesn't contain a member named '{0}'", value));
                 listBoxTeamMembers.SelectedItem = m_strSelectedMember = value;
             }
         }
@@ -113,37 +127,37 @@ namespace OneStoryProjectEditor
 
         public string Email
         {
-            get { return textBoxEmail.Text; }
+            get { return (String.IsNullOrEmpty(textBoxEmail.Text) ? null : textBoxEmail.Text); }
             set { textBoxEmail.Text = value; }
         }
 
         public string Phone
         {
-            get { return textBoxPhoneNumber.Text; }
+            get { return (String.IsNullOrEmpty(textBoxPhoneNumber.Text) ? null : textBoxPhoneNumber.Text); }
             set { textBoxPhoneNumber.Text = value; }
         }
 
         public string AltPhone
         {
-            get { return textBoxAltPhone.Text; }
+            get { return (String.IsNullOrEmpty(textBoxAltPhone.Text) ? null : textBoxAltPhone.Text); }
             set { textBoxAltPhone.Text = value; }
         }
 
         public string SkypeID
         {
-            get { return textBoxSkypeID.Text; }
+            get { return (String.IsNullOrEmpty(textBoxSkypeID.Text) ? null : textBoxSkypeID.Text); }
             set { textBoxSkypeID.Text = value; }
         }
 
         public string TeamViewerID
         {
-            get { return textBoxTeamViewer.Text; }
+            get { return (String.IsNullOrEmpty(textBoxTeamViewer.Text) ? null : textBoxTeamViewer.Text); }
             set { textBoxTeamViewer.Text = value; }
         }
 
         public string Address
         {
-            get { return textBoxAddress.Text; }
+            get { return (String.IsNullOrEmpty(textBoxAddress.Text) ? null : textBoxAddress.Text); }
             set { textBoxAddress.Text = value; }
         }
 
@@ -195,6 +209,10 @@ namespace OneStoryProjectEditor
                 theNewMember.address = this.Address;
                 theNewMember.skypeID = this.SkypeID;
                 theNewMember.teamViewerID = this.TeamViewerID;
+
+                // update the role listbox
+                int nIndex = listBoxTeamMembers.Items.IndexOf(MemberName);
+                listBoxMemberRoles.Items[nIndex] = theNewMember.memberType;
             }
             else if (listBoxTeamMembers.Items.Contains(this.MemberName))
             {
@@ -209,8 +227,22 @@ namespace OneStoryProjectEditor
                     m_projFile.Members[0]);
                 m_mapNewMembersThisSession.Add(this.MemberName, theNewMember);
                 listBoxTeamMembers.Items.Add(this.MemberName);
+                listBoxMemberRoles.Items.Add(this.MemberTypeString);
                 listBoxTeamMembers.SelectedItem = this.MemberName;
             }
+
+            // update the language information as well (in case that was changed also)
+            m_projSettings.VernacularLangName = textBoxVernacular.Text;
+            m_projSettings.VernacularLangCode = textBoxVernacularEthCode.Text;
+            m_projSettings.VernacularFont = textBoxVernacular.Font;
+            m_projSettings.VernacularFontColor = textBoxVernacular.ForeColor;
+
+            m_projSettings.NationalBTLangName = textBoxNationalBTLanguage.Text;
+            m_projSettings.NationalBTLangCode = textBoxNationalBTEthCode.Text;
+            m_projSettings.NationalBTFont = textBoxNationalBTLanguage.Font;
+            m_projSettings.NationalBTFontColor = textBoxNationalBTLanguage.ForeColor;
+
+            // English was done by the font dialog handler
 
             Modified = false;
         }
@@ -231,7 +263,7 @@ namespace OneStoryProjectEditor
             if (bOneSelected)
             {
                 m_strSelectedMember = (string)listBoxTeamMembers.SelectedItem;
-                buttonDeleteMember.Enabled = m_mapNewMembersThisSession.ContainsKey(SelectedMember);
+                buttonDeleteMember.Visible = m_mapNewMembersThisSession.ContainsKey(SelectedMember);
             }
         }
 
@@ -319,32 +351,95 @@ namespace OneStoryProjectEditor
 
                 // if the user made some changes and then is moving away from the tab, 
                 //  then do an implicit Accept
-                if (Modified && String.IsNullOrEmpty(this.MemberName))
+                if (Modified && !String.IsNullOrEmpty(this.MemberName))
                     buttonAccept_Click(null, null);
             }
-            else
+            else if (listBoxTeamMembers.SelectedIndex != -1)
             {
-                Console.WriteLine("tabPageEditMember Selected");
-                System.Diagnostics.Debug.Assert(listBoxTeamMembers.SelectedIndex != -1);
+                Console.WriteLine(String.Format("tabPageEditMember Selected: editing: {0}", listBoxTeamMembers.SelectedItem));
                 
                 // behave just as if they'd clicked the Edit member button
                 EditMemberInfo();
+                textBoxName.Focus();
+            }
+            else
+            {
+                // adding a new member
+                textBoxName.Focus();
             }
         }
 
         private void textBox_TextChanged(object sender, EventArgs e)
         {
             Modified = true;
-
-            buttonEditOK.Enabled = buttonAccept.Enabled = !String.IsNullOrEmpty(textBoxName.Text);
         }
 
-        private void tabControlProjectMetaData_Selecting(object sender, TabControlCancelEventArgs e)
+        void radioButton_CheckedChanged(object sender, System.EventArgs e)
         {
-            if (listBoxTeamMembers.SelectedIndex == -1)
+            Modified = true;
+        }
+
+        public static XElement GetXmlMembers(StoryProject m_projFile)
+        {
+            XElement eleMembers = new XElement(StoryEditor.ns + "Members");
+
+            foreach (StoryProject.MemberRow aMemberRow in m_projFile.Member)
             {
-                MessageBox.Show("You have to select a member before you can choose the 'Edit Member Information' tab", StoryEditor.cstrCaption);
-                e.Cancel = true;
+                XElement eleMember = 
+                    new XElement(StoryEditor.ns + "Member",
+                        new XAttribute("name", aMemberRow.name),
+                        new XAttribute("memberType", aMemberRow.memberType));
+
+                if (!aMemberRow.IsemailNull())
+                    eleMember.Add(new XAttribute("email", aMemberRow.email));
+                if (!aMemberRow.IsaltPhoneNull())
+                    eleMember.Add(new XAttribute("altPhone", aMemberRow.altPhone));
+                if (!aMemberRow.IsphoneNull())
+                    eleMember.Add(new XAttribute("phone", aMemberRow.phone));
+                if (!aMemberRow.IsaddressNull())
+                    eleMember.Add(new XAttribute("address", aMemberRow.address));
+                if (!aMemberRow.IsskypeIDNull())
+                    eleMember.Add(new XAttribute("skypeID", aMemberRow.skypeID));
+                if (!aMemberRow.IsteamViewerIDNull())
+                    eleMember.Add(new XAttribute("teamViewerID", aMemberRow.teamViewerID));
+
+                eleMember.Add(new XAttribute("memberKey", aMemberRow.memberKey));
+                eleMembers.Add(eleMember);
+            }
+
+            return eleMembers;
+        }
+
+        private void buttonVernacularFont_Click(object sender, EventArgs e)
+        {
+            fontDialog.Font = textBoxVernacular.Font;
+            fontDialog.Color = textBoxVernacular.ForeColor;
+            if (fontDialog.ShowDialog() == DialogResult.OK)
+            {
+                textBoxVernacular.Font = textBoxVernacularEthCode.Font = fontDialog.Font;
+                textBoxVernacular.ForeColor = textBoxVernacularEthCode.ForeColor = fontDialog.Color;
+            }
+        }
+
+        private void buttonNationalBTFont_Click(object sender, EventArgs e)
+        {
+            fontDialog.Font = textBoxNationalBTLanguage.Font;
+            fontDialog.Color = textBoxNationalBTLanguage.ForeColor;
+            if (fontDialog.ShowDialog() == DialogResult.OK)
+            {
+                textBoxNationalBTLanguage.Font = textBoxNationalBTEthCode.Font = fontDialog.Font;
+                textBoxNationalBTLanguage.ForeColor = textBoxNationalBTEthCode.ForeColor = fontDialog.Color;
+            }
+        }
+
+        private void buttonInternationalBTFont_Click(object sender, EventArgs e)
+        {
+            fontDialog.Font = m_projSettings.InternationalBTFont;
+            fontDialog.Color = m_projSettings.InternationalBTFontColor;
+            if (fontDialog.ShowDialog() == DialogResult.OK)
+            {
+                m_projSettings.InternationalBTFont = fontDialog.Font;
+                m_projSettings.InternationalBTFontColor = fontDialog.Color;
             }
         }
     }

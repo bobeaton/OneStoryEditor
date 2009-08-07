@@ -16,7 +16,7 @@ namespace OneStoryProjectEditor
         protected const string cstrFieldNameExegeticalHelpLabel = "ExegeticalHelpLabel";
         protected int m_nNumRows = 1;
 
-        public AnchorControl(StoryProject.anchorsRow anAnchorsRow)
+        public AnchorControl(AnchorsData anAnchorsData)
         {
             InitializeComponent();
 
@@ -28,10 +28,12 @@ namespace OneStoryProjectEditor
 
             // add the label and tool strip as a new row to the table layout panel
             // finally populate the buttons on that tool strip
-            foreach (StoryProject.anchorRow anAnchorRow in anAnchorsRow.GetanchorRows())
+            foreach (AnchorData anAnchorData in anAnchorsData)
             {
-                ToolStripButton theAnchorButton = InitAnchorButton(toolStripAnchors, anAnchorRow.jumpTarget, anAnchorRow.text);
-                InitExegeticalHelpsRow(theAnchorButton, anAnchorRow, ref m_nNumRows);
+                ToolStripButton theAnchorButton = InitAnchorButton(toolStripAnchors, anAnchorData.JumpTarget, anAnchorData.ToolTip);
+
+                if (anAnchorData.ExegeticalHelpNotes.Count > 0)
+                    InitExegeticalHelpsRow(theAnchorButton, anAnchorData.ExegeticalHelpNotes, ref m_nNumRows);
             }
 
             this.tableLayoutPanel.ResumeLayout(false);
@@ -87,17 +89,6 @@ namespace OneStoryProjectEditor
             }
         }
 
-        protected void InitExegeticalHelpRows(ToolStripButton theAnchorButton, StoryProject.exegeticalHelpsRow anEHsRow, ref int nNumRows)
-        {
-            StoryProject.exegeticalHelpRow[] aEHRows = anEHsRow.GetexegeticalHelpRows();
-            System.Diagnostics.Debug.Assert(aEHRows != null);
-            for (int i = 0; i < aEHRows.Length; i++)
-            {
-                StoryProject.exegeticalHelpRow aEHRow = aEHRows[i];
-                SetExegeticalHelpControls(theAnchorButton, aEHRow.quote, ref nNumRows);
-            }
-        }
-
         protected void SetExegeticalHelpControls(ToolStripButton theAnchorButton, string strQuote, ref int nNumRows)
         {
             int nLayoutRow = nNumRows++;
@@ -134,11 +125,10 @@ namespace OneStoryProjectEditor
             lstTBs.Add(tb);
         }
 
-        protected void InitExegeticalHelpsRow(ToolStripButton theAnchorButton, StoryProject.anchorRow anAnchorRow, ref int nNumRows)
+        protected void InitExegeticalHelpsRow(ToolStripButton theAnchorButton, ExegeticalHelpNotesData anExHelpsNoteData, ref int nNumRows)
         {
-            StoryProject.exegeticalHelpsRow[] anEHsRow = anAnchorRow.GetexegeticalHelpsRows();
-            if ((anEHsRow != null) && (anEHsRow.Length > 0))
-                InitExegeticalHelpRows(theAnchorButton, anEHsRow[0], ref nNumRows);
+            foreach (ExegeticalHelpNoteData anExHelpNoteData in anExHelpsNoteData)
+                SetExegeticalHelpControls(theAnchorButton, anExHelpNoteData.ExegeticalHelpNote, ref nNumRows);
         }
 
         private void toolStripAnchors_DragEnter(object sender, DragEventArgs e)

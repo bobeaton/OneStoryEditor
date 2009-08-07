@@ -21,9 +21,9 @@ namespace OneStoryProjectEditor
             tableLayoutPanel.RemoveRow(1);  // remove the one default one we start with
 
             // finally populate the buttons on that tool strip
-            System.Diagnostics.Debug.Assert(aMLDC.Length > 0);
+            System.Diagnostics.Debug.Assert(aMLDC.Count > 0);
             int nNumRows = 0;
-            foreach (string strRowData in aMLDC.RowData)
+            foreach (string strRowData in aMLDC)
             {
                 InitRow(aMLDC.LabelTextFormat, strRowData, ref nNumRows);
             }

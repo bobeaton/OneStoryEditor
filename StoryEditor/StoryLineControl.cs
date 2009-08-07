@@ -14,19 +14,19 @@ namespace OneStoryProjectEditor
         protected const string cstrFieldNameNationalBT = "NationalBT";
         protected const string cstrFieldNameInternationalBT = "InternationalBT";
 
-        protected StoryProject.verseRow m_aVerseRow = null;
+        protected VerseData _aVerseData = null;
         protected int m_nColumnIndexVernacular = -1;
         protected int m_nColumnIndexNationalBT = -1;
         protected int m_nColumnIndexInternationalBT = -1;
 
-        public StoryLineControl(StoryEditor aSE, StoryProject.verseRow aVerseRow)
+        public StoryLineControl(StoryEditor aSE, VerseData aVerseData)
         {
             InitializeComponent();
 
             this.tableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
 
-            m_aVerseRow = aVerseRow;
+            _aVerseData = aVerseData;
 
             // clobber the base class table layout panel's configuration. We're 'column-oriented' instead
             // first add another row so that we have two rows (row(0)=label, row(1)=text)
@@ -55,8 +55,8 @@ namespace OneStoryProjectEditor
                 if (m_nColumnIndexVernacular == -1)
                 {
                     InsertColumn(nNumColumns);
-                    InitLabel(m_aVerseRow.GetVernacularRows()[0].lang, nNumColumns);
-                    InitTextBox(cstrFieldNameVernacular, m_aVerseRow.GetVernacularRows()[0].Vernacular_text, aSE.VernacularFont, aSE.VernacularFontColor, nNumColumns);
+                    InitLabel(aSE.ProjSettings.VernacularLangName, nNumColumns);
+                    InitTextBox(cstrFieldNameVernacular, _aVerseData.VernacularText, aSE.ProjSettings.VernacularFont, aSE.ProjSettings.VernacularFontColor, nNumColumns);
                     m_nColumnIndexVernacular = nNumColumns;
                 }
                 nNumColumns++;  // in either case, we have to bump the running count, because this control *is* there (whether new or old)
@@ -76,8 +76,8 @@ namespace OneStoryProjectEditor
                 if (m_nColumnIndexNationalBT == -1)
                 {
                     InsertColumn(nNumColumns);
-                    InitLabel(m_aVerseRow.GetNationalBTRows()[0].lang, nNumColumns);
-                    InitTextBox(cstrFieldNameNationalBT, m_aVerseRow.GetNationalBTRows()[0].NationalBT_text, aSE.NationalBTFont, aSE.NationalBTFontColor, nNumColumns);
+                    InitLabel(aSE.ProjSettings.NationalBTLangName, nNumColumns);
+                    InitTextBox(cstrFieldNameNationalBT, _aVerseData.NationalBTText, aSE.ProjSettings.NationalBTFont, aSE.ProjSettings.NationalBTFontColor, nNumColumns);
                     m_nColumnIndexNationalBT = nNumColumns;
                 }
                 nNumColumns++;  // in either case, we have to bump the running count, because this control *is* there (whether new or old)
@@ -97,8 +97,8 @@ namespace OneStoryProjectEditor
                 if (m_nColumnIndexInternationalBT == -1)
                 {
                     InsertColumn(nNumColumns);
-                    InitLabel(m_aVerseRow.GetInternationalBTRows()[0].lang, nNumColumns);
-                    InitTextBox(cstrFieldNameInternationalBT, m_aVerseRow.GetInternationalBTRows()[0].InternationalBT_text, aSE.InternationalBTFont, aSE.InternationalBTFontColor, nNumColumns);
+                    InitLabel(aSE.ProjSettings.InternationalBTLangName, nNumColumns);
+                    InitTextBox(cstrFieldNameInternationalBT, _aVerseData.InternationalBTText, aSE.ProjSettings.InternationalBTFont, aSE.ProjSettings.InternationalBTFontColor, nNumColumns);
                     m_nColumnIndexInternationalBT = nNumColumns;
                 }
                 nNumColumns++;  // in either case, we have to bump the running count, because this control *is* there (whether new or old)

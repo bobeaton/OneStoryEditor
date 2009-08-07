@@ -14,17 +14,17 @@ namespace OneStoryProjectEditor
         protected const string cstrFieldNameInternationalBT = "TQInternationalBT";
         protected const string cstrFieldNameAnswers = "Answers";
 
-        protected StoryProject.TestQuestionRow m_aTQRow = null;
+        protected TestQuestionData _aTQData = null;
         protected int m_nNumAnswerRows = 0;
 
-        public TestingQuestionControl(StoryEditor aSE, StoryProject.TestQuestionRow aTQRow)
+        public TestingQuestionControl(StoryEditor aSE, TestQuestionData aTQData)
         {
             InitializeComponent();
 
             this.tableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
 
-            m_aTQRow = aTQRow;
+            _aTQData = aTQData;
 
             this.tableLayoutPanel.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -49,26 +49,21 @@ namespace OneStoryProjectEditor
             int nNumColumns = 0;
 
             // insert the vernacular representation of the testing question
-            System.Diagnostics.Debug.Assert(m_aTQRow.GetTQVernacularRows().Length > 0, "otherwise, fix bad assumption: TestingQuestionControl.cs.31");
             InsertColumn(nNumColumns);
-            StoryProject.TQVernacularRow aTQVRow = m_aTQRow.GetTQVernacularRows()[0];
-            InitColumnLabel(aTQVRow.lang, nNumColumns);
-            InitTextBox(cstrFieldNameVernacular, aTQVRow.TQVernacular_text, aSE.VernacularFont, aSE.VernacularFontColor, nNumColumns);
+            InitColumnLabel(aSE.ProjSettings.VernacularLangName, nNumColumns);
+            InitTextBox(cstrFieldNameVernacular, _aTQData.QuestionVernacular, aSE.ProjSettings.VernacularFont, aSE.ProjSettings.VernacularFontColor, nNumColumns);
             
             nNumColumns++;
 
             // insert the EnglishBT representation of the testing question
-            System.Diagnostics.Debug.Assert(m_aTQRow.GetTQInternationalBTRows().Length > 0, "otherwise, fix bad assumption: TestingQuestionControl.cs.37");
             InsertColumn(nNumColumns);
-            StoryProject.TQInternationalBTRow aTQERow = m_aTQRow.GetTQInternationalBTRows()[0];
-            InitColumnLabel(aTQERow.lang, nNumColumns);
-            InitTextBox(cstrFieldNameVernacular, aTQERow.TQInternationalBT_text, aSE.InternationalBTFont, aSE.InternationalBTFontColor, nNumColumns);
+            InitColumnLabel(aSE.ProjSettings.InternationalBTLangName, nNumColumns);
+            InitTextBox(cstrFieldNameVernacular, _aTQData.QuestionEnglish, aSE.ProjSettings.InternationalBTFont, aSE.ProjSettings.InternationalBTFontColor, nNumColumns);
 
             // add a row so we can display a multiple line control with the answers
-            StoryProject.AnswersRow[] anAsRows = m_aTQRow.GetAnswersRows();
-            if ((anAsRows != null) && (anAsRows.Length > 0))
+            if (_aTQData.Answers != null)
             {
-                MultiLineControl aAnswersCtrl = new MultiLineControl(new AnswersData(anAsRows[0]));
+                MultiLineControl aAnswersCtrl = new MultiLineControl(_aTQData.Answers);
                 aAnswersCtrl.Name = cstrFieldNameAnswers;
                 aAnswersCtrl.ParentControl = this;
 

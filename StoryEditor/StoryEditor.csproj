@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{EE63B2ED-1488-491F-990A-3FA16E2DB135}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -34,7 +34,7 @@
   <ItemGroup>
     <Reference Include="MACTrackBarLib, Version=1.0.3504.17714, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\MAC_Slider_C_Sharp_src\MACTrackBarLib\bin\Release\MACTrackBarLib.dll</HintPath>
+      <HintPath>.\MACTrackBarLib.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="SwigSword, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -54,6 +54,9 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnchorAddCommentForm.cs">
@@ -68,6 +71,7 @@
     <Compile Include="AnchorControl.Designer.cs">
       <DependentUpon>AnchorControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="AnchorsData.cs" />
     <Compile Include="ConsultNoteControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -81,10 +85,10 @@
     <Compile Include="ConsultNotesControl.designer.cs">
       <DependentUpon>ConsultNotesControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="ConsultNotesDataConverter.cs" />
     <Compile Include="DynamicTableLayoutPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="ExegeticalHelpNotesData.cs" />
     <Compile Include="LoggedOnMemberInfo.cs" />
     <Compile Include="MultipleLineDataConverter.cs" />
     <Compile Include="NetBibleFootnoteTooltip.cs">
@@ -99,6 +103,8 @@
     <Compile Include="NetBibleViewer.Designer.cs">
       <DependentUpon>NetBibleViewer.cs</DependentUpon>
     </Compile>
+    <Compile Include="ProjectSettings.cs" />
+    <Compile Include="ProjectStageLogic.cs" />
     <Compile Include="ResizableControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -206,19 +212,21 @@
     <Compile Include="TestingQuestionControl.Designer.cs">
       <DependentUpon>TestingQuestionControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="TestQuestionsData.cs" />
     <Compile Include="VerseBtControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="VerseBtControl.Designer.cs">
       <DependentUpon>VerseBtControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="VerseData.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="OneStory.ico" />
     <Content Include="Resources\GoLtrHS.bmp" />
     <Content Include="Resources\GoRtlHS.bmp" />
     <None Include="Resources\DragDropHandle.bmp" />
-    <None Include="StoryProject.osp" />
+    <None Include="StoryProject.onestory" />
     <None Include="StoryProject.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>StoryProject.Designer.cs</LastGenOutput>
