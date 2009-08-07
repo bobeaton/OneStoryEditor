@@ -6707,7 +6707,6 @@ namespace OneStoryProjectEditor {
                 base.Columns.Add(this.columnexegeticalHelp_Column);
                 this.columnexegeticalHelps_Id = new global::System.Data.DataColumn("exegeticalHelps_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnexegeticalHelps_Id);
-                this.columnexegeticalHelp_Column.AllowDBNull = false;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -8861,7 +8860,7 @@ namespace OneStoryProjectEditor {
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
         public partial class ConsultantCommentDataTable : global::System.Data.TypedTableBase<ConsultantCommentRow> {
             
-            private global::System.Data.DataColumn columneditRef;
+            private global::System.Data.DataColumn columnmemberID;
             
             private global::System.Data.DataColumn columnConsultantComment_text;
             
@@ -8898,9 +8897,9 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn editRefColumn {
+            public global::System.Data.DataColumn memberIDColumn {
                 get {
-                    return this.columneditRef;
+                    return this.columnmemberID;
                 }
             }
             
@@ -8947,10 +8946,10 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public ConsultantCommentRow AddConsultantCommentRow(string editRef, string ConsultantComment_text, ConsultantNoteRow parentConsultantNoteRowByConsultantNote_ConsultantComment) {
+            public ConsultantCommentRow AddConsultantCommentRow(string memberID, string ConsultantComment_text, ConsultantNoteRow parentConsultantNoteRowByConsultantNote_ConsultantComment) {
                 ConsultantCommentRow rowConsultantCommentRow = ((ConsultantCommentRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        editRef,
+                        memberID,
                         ConsultantComment_text,
                         null};
                 if ((parentConsultantNoteRowByConsultantNote_ConsultantComment != null)) {
@@ -8975,21 +8974,21 @@ namespace OneStoryProjectEditor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
-                this.columneditRef = base.Columns["editRef"];
+                this.columnmemberID = base.Columns["memberID"];
                 this.columnConsultantComment_text = base.Columns["ConsultantComment_text"];
                 this.columnConsultantNote_Id = base.Columns["ConsultantNote_Id"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             private void InitClass() {
-                this.columneditRef = new global::System.Data.DataColumn("editRef", typeof(string), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columneditRef);
+                this.columnmemberID = new global::System.Data.DataColumn("memberID", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnmemberID);
                 this.columnConsultantComment_text = new global::System.Data.DataColumn("ConsultantComment_text", typeof(string), null, global::System.Data.MappingType.SimpleContent);
                 base.Columns.Add(this.columnConsultantComment_text);
                 this.columnConsultantNote_Id = new global::System.Data.DataColumn("ConsultantNote_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnConsultantNote_Id);
-                this.columneditRef.AllowDBNull = false;
-                this.columneditRef.Namespace = "";
+                this.columnmemberID.AllowDBNull = false;
+                this.columnmemberID.Namespace = "";
                 this.columnConsultantComment_text.AllowDBNull = false;
             }
             
@@ -9116,7 +9115,7 @@ namespace OneStoryProjectEditor {
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
         public partial class CrafterResponseDataTable : global::System.Data.TypedTableBase<CrafterResponseRow> {
             
-            private global::System.Data.DataColumn columneditRef;
+            private global::System.Data.DataColumn columnmemberID;
             
             private global::System.Data.DataColumn columnCrafterResponse_text;
             
@@ -9153,9 +9152,9 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn editRefColumn {
+            public global::System.Data.DataColumn memberIDColumn {
                 get {
-                    return this.columneditRef;
+                    return this.columnmemberID;
                 }
             }
             
@@ -9202,10 +9201,10 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public CrafterResponseRow AddCrafterResponseRow(string editRef, string CrafterResponse_text, ConsultantNoteRow parentConsultantNoteRowByConsultantNote_CrafterResponse) {
+            public CrafterResponseRow AddCrafterResponseRow(string memberID, string CrafterResponse_text, ConsultantNoteRow parentConsultantNoteRowByConsultantNote_CrafterResponse) {
                 CrafterResponseRow rowCrafterResponseRow = ((CrafterResponseRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        editRef,
+                        memberID,
                         CrafterResponse_text,
                         null};
                 if ((parentConsultantNoteRowByConsultantNote_CrafterResponse != null)) {
@@ -9230,21 +9229,21 @@ namespace OneStoryProjectEditor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
-                this.columneditRef = base.Columns["editRef"];
+                this.columnmemberID = base.Columns["memberID"];
                 this.columnCrafterResponse_text = base.Columns["CrafterResponse_text"];
                 this.columnConsultantNote_Id = base.Columns["ConsultantNote_Id"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             private void InitClass() {
-                this.columneditRef = new global::System.Data.DataColumn("editRef", typeof(string), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columneditRef);
+                this.columnmemberID = new global::System.Data.DataColumn("memberID", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnmemberID);
                 this.columnCrafterResponse_text = new global::System.Data.DataColumn("CrafterResponse_text", typeof(string), null, global::System.Data.MappingType.SimpleContent);
                 base.Columns.Add(this.columnCrafterResponse_text);
                 this.columnConsultantNote_Id = new global::System.Data.DataColumn("ConsultantNote_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnConsultantNote_Id);
-                this.columneditRef.AllowDBNull = false;
-                this.columneditRef.Namespace = "";
+                this.columnmemberID.AllowDBNull = false;
+                this.columnmemberID.Namespace = "";
                 this.columnCrafterResponse_text.AllowDBNull = false;
             }
             
@@ -9874,7 +9873,7 @@ namespace OneStoryProjectEditor {
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
         public partial class CoachCommentDataTable : global::System.Data.TypedTableBase<CoachCommentRow> {
             
-            private global::System.Data.DataColumn columneditRef;
+            private global::System.Data.DataColumn columnmemberID;
             
             private global::System.Data.DataColumn columnCoachComment_text;
             
@@ -9911,9 +9910,9 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn editRefColumn {
+            public global::System.Data.DataColumn memberIDColumn {
                 get {
-                    return this.columneditRef;
+                    return this.columnmemberID;
                 }
             }
             
@@ -9960,10 +9959,10 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public CoachCommentRow AddCoachCommentRow(string editRef, string CoachComment_text, CoachNoteRow parentCoachNoteRowByCoachNote_CoachComment) {
+            public CoachCommentRow AddCoachCommentRow(string memberID, string CoachComment_text, CoachNoteRow parentCoachNoteRowByCoachNote_CoachComment) {
                 CoachCommentRow rowCoachCommentRow = ((CoachCommentRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        editRef,
+                        memberID,
                         CoachComment_text,
                         null};
                 if ((parentCoachNoteRowByCoachNote_CoachComment != null)) {
@@ -9988,21 +9987,21 @@ namespace OneStoryProjectEditor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
-                this.columneditRef = base.Columns["editRef"];
+                this.columnmemberID = base.Columns["memberID"];
                 this.columnCoachComment_text = base.Columns["CoachComment_text"];
                 this.columnCoachNote_Id = base.Columns["CoachNote_Id"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             private void InitClass() {
-                this.columneditRef = new global::System.Data.DataColumn("editRef", typeof(string), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columneditRef);
+                this.columnmemberID = new global::System.Data.DataColumn("memberID", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnmemberID);
                 this.columnCoachComment_text = new global::System.Data.DataColumn("CoachComment_text", typeof(string), null, global::System.Data.MappingType.SimpleContent);
                 base.Columns.Add(this.columnCoachComment_text);
                 this.columnCoachNote_Id = new global::System.Data.DataColumn("CoachNote_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnCoachNote_Id);
-                this.columneditRef.AllowDBNull = false;
-                this.columneditRef.Namespace = "";
+                this.columnmemberID.AllowDBNull = false;
+                this.columnmemberID.Namespace = "";
                 this.columnCoachComment_text.AllowDBNull = false;
             }
             
@@ -10129,7 +10128,7 @@ namespace OneStoryProjectEditor {
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
         public partial class ConsultantResponseDataTable : global::System.Data.TypedTableBase<ConsultantResponseRow> {
             
-            private global::System.Data.DataColumn columneditRef;
+            private global::System.Data.DataColumn columnmemberID;
             
             private global::System.Data.DataColumn columnConsultantResponse_text;
             
@@ -10166,9 +10165,9 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn editRefColumn {
+            public global::System.Data.DataColumn memberIDColumn {
                 get {
-                    return this.columneditRef;
+                    return this.columnmemberID;
                 }
             }
             
@@ -10215,10 +10214,10 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public ConsultantResponseRow AddConsultantResponseRow(string editRef, string ConsultantResponse_text, CoachNoteRow parentCoachNoteRowByCoachNote_ConsultantResponse) {
+            public ConsultantResponseRow AddConsultantResponseRow(string memberID, string ConsultantResponse_text, CoachNoteRow parentCoachNoteRowByCoachNote_ConsultantResponse) {
                 ConsultantResponseRow rowConsultantResponseRow = ((ConsultantResponseRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        editRef,
+                        memberID,
                         ConsultantResponse_text,
                         null};
                 if ((parentCoachNoteRowByCoachNote_ConsultantResponse != null)) {
@@ -10243,21 +10242,21 @@ namespace OneStoryProjectEditor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
-                this.columneditRef = base.Columns["editRef"];
+                this.columnmemberID = base.Columns["memberID"];
                 this.columnConsultantResponse_text = base.Columns["ConsultantResponse_text"];
                 this.columnCoachNote_Id = base.Columns["CoachNote_Id"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             private void InitClass() {
-                this.columneditRef = new global::System.Data.DataColumn("editRef", typeof(string), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columneditRef);
+                this.columnmemberID = new global::System.Data.DataColumn("memberID", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnmemberID);
                 this.columnConsultantResponse_text = new global::System.Data.DataColumn("ConsultantResponse_text", typeof(string), null, global::System.Data.MappingType.SimpleContent);
                 base.Columns.Add(this.columnConsultantResponse_text);
                 this.columnCoachNote_Id = new global::System.Data.DataColumn("CoachNote_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnCoachNote_Id);
-                this.columneditRef.AllowDBNull = false;
-                this.columneditRef.Namespace = "";
+                this.columnmemberID.AllowDBNull = false;
+                this.columnmemberID.Namespace = "";
                 this.columnConsultantResponse_text.AllowDBNull = false;
             }
             
@@ -12173,7 +12172,13 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public string exegeticalHelp_Column {
                 get {
-                    return ((string)(this[this.tableexegeticalHelp.exegeticalHelp_ColumnColumn]));
+                    try {
+                        return ((string)(this[this.tableexegeticalHelp.exegeticalHelp_ColumnColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'exegeticalHelp_Column\' in table \'exegeticalHelp\' is DBNull." +
+                                "", e);
+                    }
                 }
                 set {
                     this[this.tableexegeticalHelp.exegeticalHelp_ColumnColumn] = value;
@@ -12203,6 +12208,16 @@ namespace OneStoryProjectEditor {
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["exegeticalHelps_exegeticalHelp"]);
                 }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsexegeticalHelp_ColumnNull() {
+                return this.IsNull(this.tableexegeticalHelp.exegeticalHelp_ColumnColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetexegeticalHelp_ColumnNull() {
+                this[this.tableexegeticalHelp.exegeticalHelp_ColumnColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -12901,12 +12916,12 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string editRef {
+            public string memberID {
                 get {
-                    return ((string)(this[this.tableConsultantComment.editRefColumn]));
+                    return ((string)(this[this.tableConsultantComment.memberIDColumn]));
                 }
                 set {
-                    this[this.tableConsultantComment.editRefColumn] = value;
+                    this[this.tableConsultantComment.memberIDColumn] = value;
                 }
             }
             
@@ -12971,12 +12986,12 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string editRef {
+            public string memberID {
                 get {
-                    return ((string)(this[this.tableCrafterResponse.editRefColumn]));
+                    return ((string)(this[this.tableCrafterResponse.memberIDColumn]));
                 }
                 set {
-                    this[this.tableCrafterResponse.editRefColumn] = value;
+                    this[this.tableCrafterResponse.memberIDColumn] = value;
                 }
             }
             
@@ -13201,12 +13216,12 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string editRef {
+            public string memberID {
                 get {
-                    return ((string)(this[this.tableCoachComment.editRefColumn]));
+                    return ((string)(this[this.tableCoachComment.memberIDColumn]));
                 }
                 set {
-                    this[this.tableCoachComment.editRefColumn] = value;
+                    this[this.tableCoachComment.memberIDColumn] = value;
                 }
             }
             
@@ -13271,12 +13286,12 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string editRef {
+            public string memberID {
                 get {
-                    return ((string)(this[this.tableConsultantResponse.editRefColumn]));
+                    return ((string)(this[this.tableConsultantResponse.memberIDColumn]));
                 }
                 set {
-                    this[this.tableConsultantResponse.editRefColumn] = value;
+                    this[this.tableConsultantResponse.memberIDColumn] = value;
                 }
             }
             

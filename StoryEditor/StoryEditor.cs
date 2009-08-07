@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define UsingOneFilePerStory
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -20,6 +22,9 @@ namespace OneStoryProjectEditor
 
         protected string m_strProjectFilename = null;
 
+#if UsingOneFilePerStory
+        protected StoryProject m_projFileFM = null;
+#endif
         protected StoryProject m_projFile = null;
         protected TeamMembersData _dataTeamMembers = null;
         internal ProjectSettings ProjSettings = null;
@@ -77,7 +82,11 @@ namespace OneStoryProjectEditor
         {
             System.Diagnostics.Debug.Assert(!Modified);
             m_projFile = null;
+#if UsingOneFilePerStory
+            m_projFileFM = null;
+#endif
             comboBoxStorySelector.Items.Clear();
+            comboBoxStorySelector.Text = "<type the name of a story to create and hit Enter>";
         }
 
         protected void NewProjectFile()
@@ -87,13 +96,19 @@ namespace OneStoryProjectEditor
             if (!InsureProjectPlusFrontMatter())
                 return;
             GetLogin();
+            comboBoxStorySelector.Focus();
         }
 
         protected bool GetLogin()
         {
             // this method shouldn't be called until after InsureProjectPlusFrontMatter
+#if UsingOneFilePerStory
+            System.Diagnostics.Debug.Assert((m_projFileFM != null) && (m_projFileFM.stories != null)
+                && (m_projFileFM.stories.Count > 0) && (ProjSettings != null));
+#else
             System.Diagnostics.Debug.Assert((m_projFile != null) && (m_projFile.stories != null) 
                 && (m_projFile.stories.Count > 0) && (ProjSettings != null));
+#endif
 
             // if someone is already logged on, then the last login and type *will* be the same--
             //  see TeamMemberForm.buttonOK_Click--which is just the criteria for auto login)
@@ -104,7 +119,11 @@ namespace OneStoryProjectEditor
                     return true;
             }
             else
+#if UsingOneFilePerStory
+                _dataTeamMembers = new TeamMembersData(m_projFileFM);
+#else
                 _dataTeamMembers = new TeamMembersData(m_projFile);
+#endif
 
             // look at the last person to log in and see if we ought to automatically log them in again
             //  (basically Crafters or others that are also the same role as last time)
@@ -123,12 +142,21 @@ namespace OneStoryProjectEditor
 
         protected bool EditTeamMembers(string strMemberName)
         {
+#if UsingOneFilePerStory
+            System.Diagnostics.Debug.Assert((m_projFileFM != null) && (m_projFileFM.stories != null)
+                && (m_projFileFM.stories.Count > 0) && (ProjSettings != null));
+#else
             System.Diagnostics.Debug.Assert((m_projFile != null) && (m_projFile.stories != null)
                 && (m_projFile.stories.Count > 0) && (ProjSettings != null));
+#endif
 
             // if we haven't found the member, then get them to select it from the Team Member UI
             if (_dataTeamMembers == null)
+#if UsingOneFilePerStory
+                _dataTeamMembers = new TeamMembersData(m_projFileFM);
+#else
                 _dataTeamMembers = new TeamMembersData(m_projFile);
+#endif
 
             TeamMemberForm dlg = new TeamMemberForm(_dataTeamMembers, ProjSettings);
             if (!String.IsNullOrEmpty(strMemberName))
@@ -165,6 +193,43 @@ namespace OneStoryProjectEditor
 
             CheckForSaveDirtyFile();
             CloseProjectFile();
+#if UsingOneFilePerStory
+            m_projFileFM = new StoryProject();  // one for the front matter file
+            try
+            {
+                m_projFileFM.ReadXml(strProjectFilename);
+                m_strProjectFilename = strProjectFilename;  // so Save means "Save" rather than "Save As"
+                InsureProjectPlusFrontMatter();
+
+                StoryProject.storyRow theStoryRow = null;
+                string strStoryToLoad = null;
+                if (!String.IsNullOrEmpty(Properties.Settings.Default.LastStoryWorkedOn))
+                    strStoryToLoad = Properties.Settings.Default.LastStoryWorkedOn;
+
+                // populate the combo boxes with all the existing story names
+                DirectoryInfo di = new DirectoryInfo(ProjSettings.ProjectFolder);
+                FileInfo[] aFIs = di.GetFiles(String.Format(cstrStoryFilenameFormat + "*.osp", ProjSettings.ProjectName));
+                foreach (FileInfo aFI in aFIs)
+                {
+                    string strStoryName = Path.GetFileNameWithoutExtension(aFI.Name).Substring(cstrStoryFilenameFormat.Length);
+#if DEBUG
+                    // in debug, let's go ahead and try to load it!
+                    string strStoryFilename = aFI.Name;
+                    System.Diagnostics.Debug.Assert(File.Exists(strStoryFilename));
+                    StoryProject projFile = new StoryProject();
+                    projFile.ReadXml(strStoryFilename);
+                    if (projFile.story.Count > 0)
+                        theStoryRow = projFile.story[0];
+                    System.Diagnostics.Debug.Assert((theStoryRow != null) && (theStoryRow.name == strStoryName));
+#endif
+                    comboBoxStorySelector.Items.Add(strStoryName);
+                }
+
+                if ((!String.IsNullOrEmpty(strStoryToLoad)) && (comboBoxStorySelector.Items.Contains(strStoryToLoad)))
+                    comboBoxStorySelector.SelectedItem = strStoryToLoad;
+                else if (comboBoxStorySelector.Items.Count > 0)
+                    comboBoxStorySelector.SelectedIndex = 0;
+#else
             m_projFile = new StoryProject();
             try
             {
@@ -201,6 +266,7 @@ namespace OneStoryProjectEditor
 
                 if (theStoryRow != null)
                     comboBoxStorySelector.SelectedItem = theStoryRow.name;
+#endif
             }
             catch (System.Exception ex)
             {
@@ -211,6 +277,29 @@ namespace OneStoryProjectEditor
 
         protected bool InsureProjectPlusFrontMatter()
         {
+#if UsingOneFilePerStory
+            if (m_projFileFM == null)
+                m_projFileFM = new StoryProject();
+
+            StoryProject.storiesRow theStoriesRow = null;
+            if (m_projFileFM.stories.Count == 0)
+            {
+                string strLanguage = Microsoft.VisualBasic.Interaction.InputBox(String.Format("You are creating a brand new OneStory project. Enter the name you want to give this project (e.g. the language name).{0}{0}(if you had intended to edit an existing project, cancel this dialog and use the 'File', 'Open' command)", Environment.NewLine), cstrCaption, null, Screen.PrimaryScreen.WorkingArea.Right / 2, Screen.PrimaryScreen.WorkingArea.Bottom / 2);
+                if (String.IsNullOrEmpty(strLanguage))
+                    return false;
+
+                // otherwise, add the new Stories row
+                theStoriesRow = m_projFileFM.stories.AddstoriesRow(strLanguage);
+                ProjSettings = null;    // have to restart with a new project
+            }
+            else
+                theStoriesRow = m_projFileFM.stories[0];
+
+            SetTitleBar();
+
+            if (ProjSettings == null)
+                ProjSettings = new ProjectSettings(m_projFileFM, theStoriesRow.ProjectName);
+#else
             if (m_projFile == null)
                 m_projFile = new StoryProject();
 
@@ -231,6 +320,7 @@ namespace OneStoryProjectEditor
 
             if (ProjSettings == null)
                 ProjSettings = new ProjectSettings(m_projFile, theStoriesRow.ProjectName);
+#endif
 
             return true;
         }
@@ -239,6 +329,13 @@ namespace OneStoryProjectEditor
         {
             if (e.KeyCode == Keys.Enter)    // user just finished entering a story name to select (or add)
             {
+#if UsingOneFilePerStory
+                string strStoryToLoad = comboBoxStorySelector.Text;
+                // see if we have a file that correponds to this...
+                string strStoryFilename = FilenameFromStoryInfo(m_strProjectFilename, strStoryToLoad);
+                if (!File.Exists(strStoryFilename))
+                    //TODO: I got stuck here doing the 'UsingOneFilePerStory' refactoring
+#else
                 StoryProject.storyRow theStoryRow = null;
                 string strStoryToLoad = comboBoxStorySelector.Text;
                 if ((m_projFile != null) && (m_projFile.story.Count > 0))
@@ -252,6 +349,7 @@ namespace OneStoryProjectEditor
                     }
 
                 if (theStoryRow == null)
+#endif
                 {
                     if (MessageBox.Show(String.Format("Unable to find the story '{0}'. Would you like to add a new one with that name?", strStoryToLoad), cstrCaption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
                     {
@@ -298,6 +396,17 @@ namespace OneStoryProjectEditor
             if (!GetLogin())
                 return;
 
+#if UsingOneFilePerStory
+            string strStoryFilename = FilenameFromStoryInfo(m_strProjectFilename, (string)comboBoxStorySelector.SelectedItem);
+            StoryProject.storyRow theStoryRow = null;
+            if (File.Exists(strStoryFilename))
+            {
+                m_projFile = new StoryProject();
+                m_projFile.ReadXml(strStoryFilename);
+                if (m_projFile.story.Count == 1)
+                    theStoryRow = m_projFile.story[0];
+            }
+#else
             // find the story they've chosen (this shouldn't be possible to fail)
             StoryProject.storyRow theStoryRow = null;
             foreach (StoryProject.storyRow aStoryRow in m_projFile.story)
@@ -306,6 +415,7 @@ namespace OneStoryProjectEditor
                     theStoryRow = aStoryRow;
                     break;
                 }
+#endif
             System.Diagnostics.Debug.Assert(theStoryRow != null);
 
             // initialize our settings object for this story.
@@ -754,6 +864,12 @@ namespace OneStoryProjectEditor
 
         protected void SaveAsClicked()
         {
+            if (ProjSettings != null)
+            {
+                Directory.CreateDirectory(ProjSettings.ProjectFolder);
+                saveFileDialog.InitialDirectory = ProjSettings.ProjectFolder;
+            }
+
             if (this.saveFileDialog.ShowDialog(this) == DialogResult.OK)
             {
                 m_strProjectFilename = saveFileDialog.FileName;
@@ -761,13 +877,54 @@ namespace OneStoryProjectEditor
             }
         }
 
-        DateTime m_dtLastSave = DateTime.Now;
-        TimeSpan m_tsBetweenBackups = new TimeSpan(0, 0, 0);    // every time
+        protected void SaveXElement(XElement elem, string strFilename)
+        {
+            // create the root portions of the XML document and tack on the fragment we've been building
+            XDocument doc = new XDocument(
+                new XDeclaration("1.0", "utf-8", "yes"),
+                new XElement(ns + "StoryProject",
+                    elem));
+
+            // save it with an extra extn.
+            doc.Save(strFilename + cstrExtraExtnToAvoidClobberingFilesWithFailedSaves);
+
+            // backup the last version to appdata
+            // Note: doing File.Move leaves the old file security settings rather than replacing them
+            // based on the target directory. Copy, on the other hand, inherits
+            // security settings from the target folder, which is what we want to do.
+            File.Copy(strFilename, GetBackupFilename(strFilename), true);
+            File.Delete(strFilename);
+            File.Copy(strFilename + cstrExtraExtnToAvoidClobberingFilesWithFailedSaves, strFilename, true);
+            File.Delete(strFilename + cstrExtraExtnToAvoidClobberingFilesWithFailedSaves);
+        }
+
+        protected const string cstrExtraExtnToAvoidClobberingFilesWithFailedSaves = ".out";
+
+#if UsingOneFilePerStory
+        protected const string cstrStoryFilenameFormat = "{0} -- ";
+
+        protected string FilenameFromStoryInfo(string strFrontMatterFilename, string strStoryName)
+        {
+            return String.Format(@"{0}\{1}{2}",
+                Path.GetDirectoryName(strFrontMatterFilename),
+                String.Format(cstrStoryFilenameFormat, ProjSettings.ProjectName),
+                strStoryName + ".osp");
+        }
+#endif
 
         protected void SaveFile(string strFilename)
         {
             try
             {
+#if UsingOneFilePerStory
+                // for the story, let's use the project name as part of it (in case the user tries to save multiple
+                //  in the same folder) and the story name as part of it (so they don't collide)
+                string strStoryFilename = FilenameFromStoryInfo(strFilename, _StorySettings.StoryName);
+
+                // for the initial release, I'm going to save the project settings/front matter in one file and the 
+                //  the stories in each their own file. So we'll be writing two documents here.
+                SaveXElement(GetFrontMatterXml, strFilename);
+#endif
                 // let's see if the UNS entered the purpose of this story
                 System.Diagnostics.Debug.Assert((_StorySettings != null) && (_StorySettings.CraftingInfo != null));
                 if (String.IsNullOrEmpty(_StorySettings.CraftingInfo.StoryPurpose))
@@ -776,13 +933,12 @@ namespace OneStoryProjectEditor
                     if (!String.IsNullOrEmpty(strStoryPurpose))
                         _StorySettings.CraftingInfo.StoryPurpose = strStoryPurpose;
                 }
-                // create the root portions of the XML document and tack on the fragment we've been building
-                XDocument doc = new XDocument(
-                    new XDeclaration("1.0", "utf-8", "yes"),
-                    new XElement(ns + "StoryProject",
-                        GetXml));
 
-                doc.Save(strFilename);
+#if UsingOneFilePerStory
+                SaveXElement(GetStoryXml, strStoryFilename);
+#else
+                SaveXElement(GetXml, strFilename);
+#endif
             }
             catch (UnauthorizedAccessException)
             {
@@ -796,15 +952,6 @@ namespace OneStoryProjectEditor
             }
 
             Modified = false;
-
-            // if it's been 5 minutes since our last backup...
-            if ((DateTime.Now - m_dtLastSave) > m_tsBetweenBackups)
-            {
-                // ... hide a copy in the user's Application Data file
-                File.Copy(strFilename, GetBackupFilename(strFilename), true);
-            }
-
-            Modified = false;
         }
 
         private string GetBackupFilename(string strFilename)
@@ -814,6 +961,12 @@ namespace OneStoryProjectEditor
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            SaveClicked();
+        }
+
+        private void saveasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            m_strProjectFilename = null;
             SaveClicked();
         }
 
@@ -1004,6 +1157,46 @@ namespace OneStoryProjectEditor
             get { return (string)comboBoxStorySelector.SelectedItem; }
         }
 
+#if UsingOneFilePerStory
+        public XElement GetFrontMatterXml
+        {
+            get
+            {
+                System.Diagnostics.Debug.Assert((m_projFile != null) && (m_projFile.stories.Count > 0));
+
+                return new XElement(ns + "stories", new XAttribute("ProjectName", ProjSettings.ProjectName),
+                    TeamMemberForm.GetXmlMembers(m_projFile),
+                    ProjSettings.GetXml);
+            }
+        }
+
+        public XElement GetStoryXml
+        {
+            get
+            {
+                System.Diagnostics.Debug.Assert((m_projFile != null) && (m_projFile.stories.Count > 0));
+
+                XElement elemVerses = new XElement(ns + "verses");
+
+                foreach (Control ctrl in flowLayoutPanelVerses.Controls)
+                {
+                    if (ctrl is VerseBtControl)
+                    {
+                        VerseBtControl aVerseBtCtrl = (VerseBtControl)ctrl;
+                        elemVerses.Add(aVerseBtCtrl.VerseData.GetXml);
+                    }
+                }
+
+                XElement elemStory = _StorySettings.GetXml;
+                elemStory.Add(elemVerses);
+
+                XElement elemStories = new XElement(ns + "stories", new XAttribute("ProjectName", ProjSettings.ProjectName),
+                    elemStory);
+
+                return elemStories;
+            }
+        }
+#else
         public XElement GetXml
         {
             get
@@ -1033,5 +1226,6 @@ namespace OneStoryProjectEditor
                 return elemStories;
             }
         }
+#endif
     }
 }

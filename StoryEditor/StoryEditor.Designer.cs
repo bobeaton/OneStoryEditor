@@ -68,6 +68,7 @@
             this.textBoxCoachNotes = new System.Windows.Forms.TextBox();
             this.flowLayoutPanelCoachNotes = new System.Windows.Forms.FlowLayoutPanel();
             this.macTrackBarProjectStages = new XComponent.SliderBar.MACTrackBar();
+            this.saveasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
             this.splitContainerLeftRight.Panel2.SuspendLayout();
@@ -99,6 +100,7 @@
             this.openToolStripMenuItem,
             this.newToolStripMenuItem,
             this.saveToolStripMenuItem,
+            this.saveasToolStripMenuItem,
             this.toolStripSeparator1,
             this.recentFilesToolStripMenuItem,
             this.toolStripSeparator4,
@@ -313,6 +315,7 @@
             // 
             this.toolStripTextBoxChooseStory.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripTextBoxChooseStory.Name = "toolStripTextBoxChooseStory";
+            this.toolStripTextBoxChooseStory.ReadOnly = true;
             this.toolStripTextBoxChooseStory.Size = new System.Drawing.Size(100, 21);
             this.toolStripTextBoxChooseStory.Text = "Choose Story:";
             // 
@@ -503,6 +506,13 @@
             this.macTrackBarProjectStages.HelpRequested += new System.Windows.Forms.HelpEventHandler(this.macTrackBarProjectStages_HelpRequested);
             this.macTrackBarProjectStages.ValueChanged += new XComponent.SliderBar.ValueChangedHandler(this.macTrackBarProjectStages_ValueChanged);
             // 
+            // saveasToolStripMenuItem
+            // 
+            this.saveasToolStripMenuItem.Name = "saveasToolStripMenuItem";
+            this.saveasToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveasToolStripMenuItem.Text = "Save &As";
+            this.saveasToolStripMenuItem.Click += new System.EventHandler(this.saveasToolStripMenuItem_Click);
+            // 
             // StoryEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -575,6 +585,7 @@
         private System.Windows.Forms.ToolStripMenuItem recentFilesToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private XComponent.SliderBar.MACTrackBar macTrackBarProjectStages;
+        private System.Windows.Forms.ToolStripMenuItem saveasToolStripMenuItem;
     }
 }
 

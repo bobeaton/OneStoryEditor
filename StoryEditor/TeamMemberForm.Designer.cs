@@ -59,6 +59,7 @@
             this.buttonVernacularFont = new System.Windows.Forms.Button();
             this.buttonNationalBTFont = new System.Windows.Forms.Button();
             this.buttonInternationalBTFont = new System.Windows.Forms.Button();
+            this.textBoxProjectFolder = new System.Windows.Forms.TextBox();
             this.tabControlProjectMetaData = new System.Windows.Forms.TabControl();
             this.tabPageMemberList = new System.Windows.Forms.TabPage();
             this.tableLayoutPanelTeamMembers = new System.Windows.Forms.TableLayoutPanel();
@@ -81,10 +82,10 @@
             this.labelEthnologueCode = new System.Windows.Forms.Label();
             this.labelFont = new System.Windows.Forms.Label();
             this.labelEnglishBT = new System.Windows.Forms.Label();
-            this.fontDialog = new System.Windows.Forms.FontDialog();
             this.tabPageFileLocation = new System.Windows.Forms.TabPage();
             this.labelProjectFolder = new System.Windows.Forms.Label();
-            this.textBoxProjectFolder = new System.Windows.Forms.TextBox();
+            this.fontDialog = new System.Windows.Forms.FontDialog();
+            this.buttonProjectFolderBrowse = new System.Windows.Forms.Button();
             this.groupBoxRole.SuspendLayout();
             this.tabControlProjectMetaData.SuspendLayout();
             this.tabPageMemberList.SuspendLayout();
@@ -430,6 +431,15 @@
             this.buttonInternationalBTFont.UseVisualStyleBackColor = true;
             this.buttonInternationalBTFont.Click += new System.EventHandler(this.buttonInternationalBTFont_Click);
             // 
+            // textBoxProjectFolder
+            // 
+            this.textBoxProjectFolder.Location = new System.Drawing.Point(12, 25);
+            this.textBoxProjectFolder.Name = "textBoxProjectFolder";
+            this.textBoxProjectFolder.Size = new System.Drawing.Size(398, 20);
+            this.textBoxProjectFolder.TabIndex = 1;
+            this.toolTip.SetToolTip(this.textBoxProjectFolder, "This is the location where the project files are kept (by default, <My Documents>" +
+                    "\\OneStory\\<ProjectName>");
+            // 
             // tabControlProjectMetaData
             // 
             this.tabControlProjectMetaData.Controls.Add(this.tabPageMemberList);
@@ -733,12 +743,9 @@
             this.labelEnglishBT.TabIndex = 11;
             this.labelEnglishBT.Text = "English BT Font:";
             // 
-            // fontDialog
-            // 
-            this.fontDialog.ShowColor = true;
-            // 
             // tabPageFileLocation
             // 
+            this.tabPageFileLocation.Controls.Add(this.buttonProjectFolderBrowse);
             this.tabPageFileLocation.Controls.Add(this.textBoxProjectFolder);
             this.tabPageFileLocation.Controls.Add(this.labelProjectFolder);
             this.tabPageFileLocation.Location = new System.Drawing.Point(4, 22);
@@ -758,14 +765,18 @@
             this.labelProjectFolder.TabIndex = 0;
             this.labelProjectFolder.Text = "&Project Data Folder:";
             // 
-            // textBoxProjectFolder
+            // fontDialog
             // 
-            this.textBoxProjectFolder.Location = new System.Drawing.Point(12, 24);
-            this.textBoxProjectFolder.Name = "textBoxProjectFolder";
-            this.textBoxProjectFolder.Size = new System.Drawing.Size(398, 20);
-            this.textBoxProjectFolder.TabIndex = 1;
-            this.toolTip.SetToolTip(this.textBoxProjectFolder, "This is the location where the project files are kept (by default, <My Documents>" +
-                    "\\OneStory\\<ProjectName>");
+            this.fontDialog.ShowColor = true;
+            // 
+            // buttonProjectFolderBrowse
+            // 
+            this.buttonProjectFolderBrowse.Location = new System.Drawing.Point(416, 24);
+            this.buttonProjectFolderBrowse.Name = "buttonProjectFolderBrowse";
+            this.buttonProjectFolderBrowse.Size = new System.Drawing.Size(24, 23);
+            this.buttonProjectFolderBrowse.TabIndex = 2;
+            this.buttonProjectFolderBrowse.Text = "...";
+            this.buttonProjectFolderBrowse.UseVisualStyleBackColor = true;
             // 
             // TeamMemberForm
             // 
@@ -855,5 +866,6 @@
         private System.Windows.Forms.TabPage tabPageFileLocation;
         private System.Windows.Forms.Label labelProjectFolder;
         private System.Windows.Forms.TextBox textBoxProjectFolder;
+        private System.Windows.Forms.Button buttonProjectFolderBrowse;
     }
 }

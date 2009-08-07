@@ -6,10 +6,10 @@
 	<xs:element name="StoryProject">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="stories" minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="stories" minOccurs="1" maxOccurs="unbounded">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element name="Members" minOccurs="1" maxOccurs="1">
+							<xs:element name="Members" minOccurs="0" maxOccurs="1">
 								<xs:complexType>
 									<xs:choice maxOccurs="unbounded">
 										<xs:element name="Member" maxOccurs="unbounded">
@@ -28,7 +28,7 @@
 									</xs:choice>
 								</xs:complexType>
 							</xs:element>
-							<xs:element name="Languages" minOccurs="1" maxOccurs="1">
+							<xs:element name="Languages" minOccurs="0" maxOccurs="1">
 								<xs:complexType>
 									<xs:sequence>
 										<xs:element name="VernacularLang" type="LanguageInfo" minOccurs="1" maxOccurs="1" />
@@ -37,7 +37,7 @@
 									</xs:sequence>
 								</xs:complexType>
 							</xs:element>
-							<xs:element name="story" maxOccurs="unbounded">
+							<xs:element name="story" minOccurs="0" maxOccurs="unbounded">
 								<xs:complexType>
 									<xs:sequence>
 										<xs:element name="CraftingInfo" minOccurs="1" maxOccurs="1">
@@ -88,7 +88,7 @@
 																						<xs:element name="exegeticalHelps" minOccurs="0" maxOccurs="1">
 																							<xs:complexType>
 																								<xs:sequence>
-																									<xs:element name="exegeticalHelp" minOccurs="1" maxOccurs="unbounded" type="xs:string" />
+																									<xs:element name="exegeticalHelp" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
 																								</xs:sequence>
 																							</xs:complexType>
 																						</xs:element>
@@ -102,7 +102,7 @@
 																<xs:element name="TestQuestions" minOccurs="0" maxOccurs="1">
 																	<xs:complexType>
 																		<xs:sequence>
-																			<xs:element name="TestQuestion" minOccurs="1" maxOccurs="unbounded">
+																			<xs:element name="TestQuestion" minOccurs="0" maxOccurs="unbounded">
 																				<xs:complexType>
 																					<xs:sequence>
 																						<xs:element name="TQVernacular" minOccurs="0" maxOccurs="1" type="xs:string" />
@@ -110,7 +110,7 @@
 																						<xs:element name="Answers" minOccurs="0" maxOccurs="1">
 																							<xs:complexType>
 																								<xs:sequence>
-																									<xs:element name="answer" minOccurs="1" maxOccurs="unbounded">
+																									<xs:element name="answer" minOccurs="0" maxOccurs="unbounded">
 																										<xs:complexType>
 																											<xs:simpleContent>
 																												<xs:extension base="xs:string">
@@ -132,7 +132,7 @@
 																<xs:element name="Retellings" minOccurs="0" maxOccurs="1">
 																	<xs:complexType>
 																		<xs:sequence>
-																			<xs:element name="Retelling" minOccurs="1" maxOccurs="unbounded">
+																			<xs:element name="Retelling" minOccurs="0" maxOccurs="unbounded">
 																				<xs:complexType>
 																					<xs:simpleContent>
 																						<xs:extension base="xs:string">
@@ -147,14 +147,14 @@
 																<xs:element name="ConsultantNotes" minOccurs="0" maxOccurs="1">
 																	<xs:complexType>
 																		<xs:sequence>
-																			<xs:element name="ConsultantNote" minOccurs="1" maxOccurs="unbounded">
+																			<xs:element name="ConsultantNote" minOccurs="0" maxOccurs="unbounded">
 																				<xs:complexType>
 																					<xs:sequence>
 																						<xs:element name="ConsultantComment" minOccurs="1" maxOccurs="1">
 																							<xs:complexType>
 																								<xs:simpleContent>
 																									<xs:extension base="xs:string">
-																										<xs:attribute name="editRef" type="xs:IDREF" use="required" />
+																										<xs:attribute name="memberID" type="xs:IDREF" use="required" />
 																									</xs:extension>
 																								</xs:simpleContent>
 																							</xs:complexType>
@@ -163,7 +163,7 @@
 																							<xs:complexType>
 																								<xs:simpleContent>
 																									<xs:extension base="xs:string">
-																										<xs:attribute name="editRef" type="xs:IDREF" use="required" />
+																										<xs:attribute name="memberID" type="xs:IDREF" use="required" />
 																									</xs:extension>
 																								</xs:simpleContent>
 																							</xs:complexType>
@@ -178,14 +178,14 @@
 																<xs:element name="CoachNotes" minOccurs="0" maxOccurs="1">
 																	<xs:complexType>
 																		<xs:sequence>
-																			<xs:element name="CoachNote" minOccurs="1" maxOccurs="unbounded">
+																			<xs:element name="CoachNote" minOccurs="0" maxOccurs="unbounded">
 																				<xs:complexType>
 																					<xs:sequence>
 																						<xs:element name="CoachComment" minOccurs="1" maxOccurs="1">
 																							<xs:complexType>
 																								<xs:simpleContent>
 																									<xs:extension base="xs:string">
-																										<xs:attribute name="editRef" type="xs:IDREF" use="required" />
+																										<xs:attribute name="memberID" type="xs:IDREF" use="required" />
 																									</xs:extension>
 																								</xs:simpleContent>
 																							</xs:complexType>
@@ -194,7 +194,7 @@
 																							<xs:complexType>
 																								<xs:simpleContent>
 																									<xs:extension base="xs:string">
-																										<xs:attribute name="editRef" type="xs:IDREF" use="required" />
+																										<xs:attribute name="memberID" type="xs:IDREF" use="required" />
 																									</xs:extension>
 																								</xs:simpleContent>
 																							</xs:complexType>

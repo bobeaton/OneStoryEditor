@@ -37,8 +37,8 @@ namespace OneStoryProjectEditor
             get
             {
                 return new XElement(StoryEditor.ns + InstanceElementName, new XAttribute("round", RoundNum),
-                    new XElement(StoryEditor.ns + CommentElementName, new XAttribute("editRef", MentorGuid), MentorComment),
-                    new XElement(StoryEditor.ns + ResponseElementName, new XAttribute("editRef", MenteeGuid), MenteeResponse));
+                    new XElement(StoryEditor.ns + CommentElementName, new XAttribute("memberID", MentorGuid), MentorComment),
+                    new XElement(StoryEditor.ns + ResponseElementName, new XAttribute("memberID", MenteeGuid), MenteeResponse));
             }
         }
     }
@@ -56,7 +56,7 @@ namespace OneStoryProjectEditor
             if (aCCRows.Length == 1)
             {
                 StoryProject.ConsultantCommentRow theCCRow = aCCRows[0];
-                MentorGuid = theCCRow.editRef;
+                MentorGuid = theCCRow.memberID;
                 MentorLabel = "con:";
                 MentorComment = theCCRow.ConsultantComment_text;
             }
@@ -65,7 +65,7 @@ namespace OneStoryProjectEditor
             if (aCRRows.Length == 1)
             {
                 StoryProject.CrafterResponseRow theCRRow = aCRRows[0];
-                MenteeGuid = theCRRow.editRef;
+                MenteeGuid = theCRRow.memberID;
                 MenteeLabel = "res:";
                 MenteeResponse = theCRRow.CrafterResponse_text;
             }
@@ -103,7 +103,7 @@ namespace OneStoryProjectEditor
             if (aCoCRows.Length == 1)
             {
                 StoryProject.CoachCommentRow theCoCRow = aCoCRows[0];
-                MentorGuid = theCoCRow.editRef;
+                MentorGuid = theCoCRow.memberID;
                 MentorLabel = "co:";
                 MentorComment = theCoCRow.CoachComment_text;
             }
@@ -112,7 +112,7 @@ namespace OneStoryProjectEditor
             if (aCRRows.Length == 1)
             {
                 StoryProject.ConsultantResponseRow theCRRow = aCRRows[0];
-                MenteeGuid = theCRRow.editRef;
+                MenteeGuid = theCRRow.memberID;
                 MenteeLabel = "con:";
                 MenteeResponse = theCRRow.ConsultantResponse_text;
             }
