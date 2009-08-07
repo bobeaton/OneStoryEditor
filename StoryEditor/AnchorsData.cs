@@ -24,8 +24,8 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                return new XElement("anchor", new XAttribute("jumpTarget", JumpTarget),
-                    new XElement("toolTip", ToolTip),
+                return new XElement(StoryEditor.ns + "anchor", new XAttribute("jumpTarget", JumpTarget),
+                    new XElement(StoryEditor.ns + "toolTip", ToolTip),
                     ExegeticalHelpNotes.GetXml);
             }
         }
@@ -50,7 +50,7 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                XElement elemAnchors = new XElement("anchors");
+                XElement elemAnchors = new XElement(StoryEditor.ns + "anchors");
                 foreach (AnchorData anAnchorData in this)
                     elemAnchors.Add(anAnchorData.GetXml);
                 return elemAnchors;

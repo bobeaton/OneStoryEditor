@@ -5,10 +5,14 @@ using System.Text;
 
 namespace OneStoryProjectEditor
 {
-    public class ProjectStageLogic
+    public class StoryStageLogic
     {
         public LoggedOnMemberInfo MemberInfo;
-        public ProjectStages ProjectStage;
+        public string ProjectStageString = null;
+        public string StoryName = null;
+        public string StoryGuid = null;
+
+        protected ProjectStages _ProjectStage = ProjectStages.eUndefined;
 
         public enum ProjectStages
         {
@@ -78,9 +82,23 @@ namespace OneStoryProjectEditor
                 return ProjectStages.eUndefined;  // this version of the app doesn't know about this value
         }
 
-        public ProjectStageLogic(string strProjectStage, LoggedOnMemberInfo memberInfo)
+        public ProjectStages ProjectStage
         {
+            get { return _ProjectStage; }
+            set
+            {
+                _ProjectStage = value;
+                // for now...
+                ProjectStageString = value.ToString().Substring(1); // clip off the initial 'e'
+            }
+        }
+
+        public StoryStageLogic(string strProjectStage, LoggedOnMemberInfo memberInfo, string strStoryName, string strStoryGuid)
+        {
+            ProjectStageString = strProjectStage;
             ProjectStage = GetProjectStage(strProjectStage);
+            StoryName = strStoryName;
+            StoryGuid = strStoryGuid;
             MemberInfo = memberInfo;
         }
 

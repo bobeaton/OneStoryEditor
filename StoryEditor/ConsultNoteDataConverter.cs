@@ -36,9 +36,9 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                return new XElement(InstanceElementName, new XAttribute("round", RoundNum),
-                    new XElement(CommentElementName, new XAttribute("editRef", MentorGuid), MentorComment),
-                    new XElement(ResponseElementName, new XAttribute("editRef", MenteeGuid), MenteeResponse));
+                return new XElement(StoryEditor.ns + InstanceElementName, new XAttribute("round", RoundNum),
+                    new XElement(StoryEditor.ns + CommentElementName, new XAttribute("editRef", MentorGuid), MentorComment),
+                    new XElement(StoryEditor.ns + ResponseElementName, new XAttribute("editRef", MenteeGuid), MenteeResponse));
             }
         }
     }
@@ -127,7 +127,7 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                XElement elemCNDC = new XElement(CollectionElementName);
+                XElement elemCNDC = new XElement(StoryEditor.ns + CollectionElementName);
                 foreach (ConsultNoteDataConverter aCNDC in this)
                     elemCNDC.Add(aCNDC.GetXml);
                 return elemCNDC;

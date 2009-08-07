@@ -28,9 +28,9 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                return new XElement("TestQuestion", new XAttribute("visible", IsVisible),
-                    new XElement("TQVernacular", QuestionVernacular),
-                    new XElement("TQInternationalBT", QuestionEnglish),
+                return new XElement(StoryEditor.ns + "TestQuestion", new XAttribute("visible", IsVisible),
+                    new XElement(StoryEditor.ns + "TQVernacular", QuestionVernacular),
+                    new XElement(StoryEditor.ns + "TQInternationalBT", QuestionEnglish),
                     Answers.GetXml);
             }
         }
@@ -55,7 +55,7 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                XElement elemTestQuestions = new XElement("TestQuestions");
+                XElement elemTestQuestions = new XElement(StoryEditor.ns + "TestQuestions");
                 foreach (TestQuestionData aTestQuestionData in this)
                     elemTestQuestions.Add(aTestQuestionData.GetXml);
                 return elemTestQuestions;

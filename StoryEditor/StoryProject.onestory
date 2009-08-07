@@ -54,15 +54,13 @@
           <InternationalBT>story 1: Whatever things we see around us today, God had made it only.</InternationalBT>
           <anchors>
             <anchor jumpTarget="Gen 2:4">
-              <text>Gen 2:4</text>
+              <toolTip>Gen 2:4</toolTip>
               <exegeticalHelps>
-                <exegeticalHelp source="TN" memberID="mem-8B45075E-6434-4755-81AE-E1EEB9134D5B">
-                  <quote>This is the account of the heavens and the earth when/after [God] created them. i.e. the agent was *God*</quote>
-                </exegeticalHelp>
+                <exegeticalHelp>This is the account of the heavens and the earth when/after [God] created them. i.e. the agent was *God*</exegeticalHelp>
               </exegeticalHelps>
             </anchor>
             <anchor jumpTarget="Col 1:16">
-              <text>also implied by Col 1:16</text>
+              <toolTip>also implied by Col 1:16</toolTip>
             </anchor>
           </anchors>
           <TestQuestions>
@@ -106,7 +104,7 @@
           <InternationalBT>but before these things God was before, is now and he will remain forever, because God is immortal.</InternationalBT>
           <anchors>
             <anchor jumpTarget="Heb 13:8">
-              <text>Heb 13:8</text>
+              <toolTip>Heb 13:8</toolTip>
             </anchor>
           </anchors>
         </verse>
@@ -134,15 +132,13 @@
           <InternationalBT>story 2: Whatever things we see around us today, God had made it only.</InternationalBT>
           <anchors>
             <anchor jumpTarget="Gen 2:4">
-              <text>Gen 2:4</text>
+              <toolTip>Gen 2:4</toolTip>
               <exegeticalHelps>
-                <exegeticalHelp source="TN" memberID="mem-8B45075E-6434-4755-81AE-E1EEB9134D5B">
-                  <quote>This is the account of the heavens and the earth when/after [God] created them. i.e. the agent was *God*</quote>
-                </exegeticalHelp>
+                <exegeticalHelp>This is the account of the heavens and the earth when/after [God] created them. i.e. the agent was *God*</exegeticalHelp>
               </exegeticalHelps>
             </anchor>
             <anchor jumpTarget="Col 1:16">
-              <text>also implied by Col 1:16</text>
+              <toolTip>also implied by Col 1:16</toolTip>
             </anchor>
           </anchors>
           <TestQuestions>
@@ -186,7 +182,7 @@
           <InternationalBT>but before these things God was before, is now and he will remain forever, because God is immortal.</InternationalBT>
           <anchors>
             <anchor jumpTarget="Heb 13:8">
-              <text>Heb 13:8</text>
+              <toolTip>Heb 13:8</toolTip>
             </anchor>
           </anchors>
         </verse>

@@ -16,9 +16,9 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                XElement elemRetellings = new XElement(CollectionElementName);
+                XElement elemRetellings = new XElement(StoryEditor.ns + CollectionElementName);
                 for (int i = 0; i < this.Count; i++)
-                    elemRetellings.Add(new XElement(InstanceElementName, new XAttribute("memberID", MemberIDs[i]), this[i]));
+                    elemRetellings.Add(new XElement(StoryEditor.ns + InstanceElementName, new XAttribute("memberID", MemberIDs[i]), this[i]));
                 return elemRetellings;
             }
         }

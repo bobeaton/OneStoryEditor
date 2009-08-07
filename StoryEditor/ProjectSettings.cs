@@ -8,6 +8,9 @@ namespace OneStoryProjectEditor
 {
     public class ProjectSettings
     {
+        public string ProjectName = null;
+        public string ProjectFolder = null;
+
         public string VernacularLangName = "<Story language>";
         public string VernacularLangCode = "vern";
         public Font VernacularFont = new Font("Arial Unicode MS", 12);
@@ -23,9 +26,15 @@ namespace OneStoryProjectEditor
         public Font InternationalBTFont = new Font("Times New Roman", 10);
         public Color InternationalBTFontColor = Color.Blue;
 
-        public ProjectSettings(StoryProject projFile)
+        public ProjectSettings(StoryProject projFile, string strProjectName)
         {
+            ProjectName = strProjectName;
             System.Diagnostics.Debug.Assert(projFile != null);
+            ProjectFolder = String.Format(@"{0}\{1}\{2}",
+                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                StoryEditor.cstrCaption,
+                ProjectName);
+
             StoryProject.LanguagesRow theLangRow = InsureLanguagesRow(projFile);
 
             if (projFile.VernacularLang.Count == 0)

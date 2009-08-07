@@ -82,6 +82,9 @@
             this.labelFont = new System.Windows.Forms.Label();
             this.labelEnglishBT = new System.Windows.Forms.Label();
             this.fontDialog = new System.Windows.Forms.FontDialog();
+            this.tabPageFileLocation = new System.Windows.Forms.TabPage();
+            this.labelProjectFolder = new System.Windows.Forms.Label();
+            this.textBoxProjectFolder = new System.Windows.Forms.TextBox();
             this.groupBoxRole.SuspendLayout();
             this.tabControlProjectMetaData.SuspendLayout();
             this.tabPageMemberList.SuspendLayout();
@@ -90,6 +93,7 @@
             this.tableLayoutPanelMemberInformation.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tableLayoutPanelLanguageInformation.SuspendLayout();
+            this.tabPageFileLocation.SuspendLayout();
             this.SuspendLayout();
             // 
             // textBoxName
@@ -431,6 +435,7 @@
             this.tabControlProjectMetaData.Controls.Add(this.tabPageMemberList);
             this.tabControlProjectMetaData.Controls.Add(this.tabPageEditMember);
             this.tabControlProjectMetaData.Controls.Add(this.tabPage1);
+            this.tabControlProjectMetaData.Controls.Add(this.tabPageFileLocation);
             this.tabControlProjectMetaData.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControlProjectMetaData.Location = new System.Drawing.Point(0, 0);
             this.tabControlProjectMetaData.Name = "tabControlProjectMetaData";
@@ -511,7 +516,7 @@
             this.tabPageEditMember.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageEditMember.Size = new System.Drawing.Size(451, 418);
             this.tabPageEditMember.TabIndex = 1;
-            this.tabPageEditMember.Text = "Edit Information";
+            this.tabPageEditMember.Text = "Edit Member";
             this.tabPageEditMember.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanelMemberInformation
@@ -732,6 +737,36 @@
             // 
             this.fontDialog.ShowColor = true;
             // 
+            // tabPageFileLocation
+            // 
+            this.tabPageFileLocation.Controls.Add(this.textBoxProjectFolder);
+            this.tabPageFileLocation.Controls.Add(this.labelProjectFolder);
+            this.tabPageFileLocation.Location = new System.Drawing.Point(4, 22);
+            this.tabPageFileLocation.Name = "tabPageFileLocation";
+            this.tabPageFileLocation.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageFileLocation.Size = new System.Drawing.Size(451, 418);
+            this.tabPageFileLocation.TabIndex = 3;
+            this.tabPageFileLocation.Text = "File Locations";
+            this.tabPageFileLocation.UseVisualStyleBackColor = true;
+            // 
+            // labelProjectFolder
+            // 
+            this.labelProjectFolder.AutoSize = true;
+            this.labelProjectFolder.Location = new System.Drawing.Point(9, 7);
+            this.labelProjectFolder.Name = "labelProjectFolder";
+            this.labelProjectFolder.Size = new System.Drawing.Size(101, 13);
+            this.labelProjectFolder.TabIndex = 0;
+            this.labelProjectFolder.Text = "&Project Data Folder:";
+            // 
+            // textBoxProjectFolder
+            // 
+            this.textBoxProjectFolder.Location = new System.Drawing.Point(12, 24);
+            this.textBoxProjectFolder.Name = "textBoxProjectFolder";
+            this.textBoxProjectFolder.Size = new System.Drawing.Size(398, 20);
+            this.textBoxProjectFolder.TabIndex = 1;
+            this.toolTip.SetToolTip(this.textBoxProjectFolder, "This is the location where the project files are kept (by default, <My Documents>" +
+                    "\\OneStory\\<ProjectName>");
+            // 
             // TeamMemberForm
             // 
             this.AcceptButton = this.buttonOK;
@@ -757,6 +792,8 @@
             this.tabPage1.ResumeLayout(false);
             this.tableLayoutPanelLanguageInformation.ResumeLayout(false);
             this.tableLayoutPanelLanguageInformation.PerformLayout();
+            this.tabPageFileLocation.ResumeLayout(false);
+            this.tabPageFileLocation.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -815,5 +852,8 @@
         private System.Windows.Forms.Button buttonNationalBTFont;
         private System.Windows.Forms.Label labelEnglishBT;
         private System.Windows.Forms.Button buttonInternationalBTFont;
+        private System.Windows.Forms.TabPage tabPageFileLocation;
+        private System.Windows.Forms.Label labelProjectFolder;
+        private System.Windows.Forms.TextBox textBoxProjectFolder;
     }
 }

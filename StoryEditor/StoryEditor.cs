@@ -22,7 +22,7 @@ namespace OneStoryProjectEditor
 
         protected StoryProject m_projFile = null;
         protected LoggedOnMemberInfo m_logonInfo = null;
-        protected ProjectStageLogic m_projStage = null;
+        protected StoryStageLogic m_projStage = null;
         internal ProjectSettings ProjSettings = null;
 
         internal static XNamespace ns = "http://www.sil.org/computing/schemas/StoryProject.xsd";
@@ -63,7 +63,7 @@ namespace OneStoryProjectEditor
 #if false
             OpenProjectFile(@"C:\Code\StoryEditor\StoryEditor\StoryProject.onestory");
 #else
-            InitializeProjectStage(cstrDefaultProjectStage);
+            // InitializeProjectStage(cstrDefaultProjectStage);
 #endif
         }
 
@@ -185,8 +185,7 @@ namespace OneStoryProjectEditor
             {
                 System.Diagnostics.Debug.Assert(m_projFile != null);
                 m_projFile.ReadXml(strProjectFilename);
-                ProjSettings = new ProjectSettings(m_projFile);
-                SetTitleBar();
+                InsureProjectPlusFrontMatter();
 
                 StoryProject.storyRow theStoryRow = null;
                 string strStoryToLoad = null;
@@ -246,7 +245,7 @@ namespace OneStoryProjectEditor
             SetTitleBar();
 
             if (ProjSettings == null)
-                ProjSettings = new ProjectSettings(m_projFile);
+                ProjSettings = new ProjectSettings(m_projFile, theStoriesRow.ProjectName);
 
             return true;
         }
@@ -352,21 +351,21 @@ namespace OneStoryProjectEditor
             // initialize the project stage details (which might hide certain views)
             //  (do this *after* initializing the whole thing, because if we save, we'll
             //  want to save even the hidden pieces)
-            InitializeProjectStage(theStoryRow.stage);
+            InitializeProjectStage(theStoryRow.stage, theStoryRow.name, theStoryRow.guid);
         }
 
-        protected void InitializeProjectStage(string strProjectStageString)
+        protected void InitializeProjectStage(string strProjectStageString, string strStoryName, string strStoryGuid)
         {
-            m_projStage = new ProjectStageLogic(strProjectStageString, m_logonInfo);
+            m_projStage = new StoryStageLogic(strProjectStageString, m_logonInfo, strStoryName, strStoryGuid);
             SetViewBasedOnProjectStage(m_projStage.ProjectStage);
         }
 
-        protected void SetViewBasedOnProjectStage(ProjectStageLogic.ProjectStages eStage)
+        protected void SetViewBasedOnProjectStage(StoryStageLogic.ProjectStages eStage)
         {
             // m_bDisableInterrupts = true;
             switch (eStage)
             {
-                case ProjectStageLogic.ProjectStages.eCrafterTypeNationalBT:
+                case StoryStageLogic.ProjectStages.eCrafterTypeNationalBT:
                     viewVernacularLangFieldMenuItem.Checked = false;
                     viewNationalLangFieldMenuItem.Checked = true;
                     viewEnglishBTFieldMenuItem.Checked = false;
@@ -377,7 +376,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = false;
                     viewNetBibleMenuItem.Checked = false;
                     break;
-                case ProjectStageLogic.ProjectStages.eCrafterTypeInternationalBT:
+                case StoryStageLogic.ProjectStages.eCrafterTypeInternationalBT:
                     viewVernacularLangFieldMenuItem.Checked = false;
                     viewNationalLangFieldMenuItem.Checked = true;
                     viewEnglishBTFieldMenuItem.Checked = true;
@@ -388,7 +387,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = false;
                     viewNetBibleMenuItem.Checked = false;
                     break;
-                case ProjectStageLogic.ProjectStages.eCrafterAddAnchors:
+                case StoryStageLogic.ProjectStages.eCrafterAddAnchors:
                     viewVernacularLangFieldMenuItem.Checked = false;
                     viewNationalLangFieldMenuItem.Checked = true;
                     viewEnglishBTFieldMenuItem.Checked = true;
@@ -399,7 +398,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = false;
                     viewNetBibleMenuItem.Checked = true;
                     break;
-                case ProjectStageLogic.ProjectStages.eCrafterAddStoryQuestions:
+                case StoryStageLogic.ProjectStages.eCrafterAddStoryQuestions:
                     viewVernacularLangFieldMenuItem.Checked = false;
                     viewNationalLangFieldMenuItem.Checked = true;
                     viewEnglishBTFieldMenuItem.Checked = true;
@@ -410,7 +409,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = false;
                     viewNetBibleMenuItem.Checked = true;
                     break;
-                case ProjectStageLogic.ProjectStages.eConsultantAddRound1Notes:
+                case StoryStageLogic.ProjectStages.eConsultantAddRound1Notes:
                     viewVernacularLangFieldMenuItem.Checked = false;
                     viewNationalLangFieldMenuItem.Checked = true;
                     viewEnglishBTFieldMenuItem.Checked = true;
@@ -421,7 +420,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = false;
                     viewNetBibleMenuItem.Checked = true;
                     break;
-                case ProjectStageLogic.ProjectStages.eCoachReviewRound1Notes:
+                case StoryStageLogic.ProjectStages.eCoachReviewRound1Notes:
                     viewVernacularLangFieldMenuItem.Checked = false;
                     viewNationalLangFieldMenuItem.Checked = true;
                     viewEnglishBTFieldMenuItem.Checked = true;
@@ -432,7 +431,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = true;
                     viewNetBibleMenuItem.Checked = true;
                     break;
-                case ProjectStageLogic.ProjectStages.eConsultantReviseRound1Notes:
+                case StoryStageLogic.ProjectStages.eConsultantReviseRound1Notes:
                     viewVernacularLangFieldMenuItem.Checked = false;
                     viewNationalLangFieldMenuItem.Checked = true;
                     viewEnglishBTFieldMenuItem.Checked = true;
@@ -443,7 +442,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = true;
                     viewNetBibleMenuItem.Checked = true;
                     break;
-                case ProjectStageLogic.ProjectStages.eCrafterReviseBasedOnRound1Notes:
+                case StoryStageLogic.ProjectStages.eCrafterReviseBasedOnRound1Notes:
                     viewVernacularLangFieldMenuItem.Checked = false;
                     viewNationalLangFieldMenuItem.Checked = true;
                     viewEnglishBTFieldMenuItem.Checked = true;
@@ -454,7 +453,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = false;
                     viewNetBibleMenuItem.Checked = true;
                     break;
-                case ProjectStageLogic.ProjectStages.eCrafterOnlineReview1WithConsultant:
+                case StoryStageLogic.ProjectStages.eCrafterOnlineReview1WithConsultant:
                     viewVernacularLangFieldMenuItem.Checked = false;
                     viewNationalLangFieldMenuItem.Checked = true;
                     viewEnglishBTFieldMenuItem.Checked = true;
@@ -465,7 +464,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = false;
                     viewNetBibleMenuItem.Checked = true;
                     break;
-                case ProjectStageLogic.ProjectStages.eCrafterEnterRetellingBTTest1:
+                case StoryStageLogic.ProjectStages.eCrafterEnterRetellingBTTest1:
                     viewVernacularLangFieldMenuItem.Checked = false;
                     viewNationalLangFieldMenuItem.Checked = true;
                     viewEnglishBTFieldMenuItem.Checked = true;
@@ -476,7 +475,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = false;
                     viewNetBibleMenuItem.Checked = true;
                     break;
-                case ProjectStageLogic.ProjectStages.eCrafterEnterStoryQuestionAnswersBTTest1:
+                case StoryStageLogic.ProjectStages.eCrafterEnterStoryQuestionAnswersBTTest1:
                     viewVernacularLangFieldMenuItem.Checked = false;
                     viewNationalLangFieldMenuItem.Checked = true;
                     viewEnglishBTFieldMenuItem.Checked = true;
@@ -487,7 +486,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = false;
                     viewNetBibleMenuItem.Checked = true;
                     break;
-                case ProjectStageLogic.ProjectStages.eConsultantAddRoundZNotes:
+                case StoryStageLogic.ProjectStages.eConsultantAddRoundZNotes:
                     viewVernacularLangFieldMenuItem.Checked = false;
                     viewNationalLangFieldMenuItem.Checked = true;
                     viewEnglishBTFieldMenuItem.Checked = true;
@@ -498,7 +497,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = false;
                     viewNetBibleMenuItem.Checked = true;
                     break;
-                case ProjectStageLogic.ProjectStages.eCoachReviewRoundZNotes:
+                case StoryStageLogic.ProjectStages.eCoachReviewRoundZNotes:
                     viewVernacularLangFieldMenuItem.Checked = false;
                     viewNationalLangFieldMenuItem.Checked = true;
                     viewEnglishBTFieldMenuItem.Checked = true;
@@ -509,7 +508,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = true;
                     viewNetBibleMenuItem.Checked = true;
                     break;
-                case ProjectStageLogic.ProjectStages.eConsultantReviseRoundZNotes:
+                case StoryStageLogic.ProjectStages.eConsultantReviseRoundZNotes:
                     viewVernacularLangFieldMenuItem.Checked = false;
                     viewNationalLangFieldMenuItem.Checked = true;
                     viewEnglishBTFieldMenuItem.Checked = true;
@@ -520,7 +519,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = true;
                     viewNetBibleMenuItem.Checked = true;
                     break;
-                case ProjectStageLogic.ProjectStages.eCrafterReviseBasedOnRoundZNotes:
+                case StoryStageLogic.ProjectStages.eCrafterReviseBasedOnRoundZNotes:
                     viewVernacularLangFieldMenuItem.Checked = false;
                     viewNationalLangFieldMenuItem.Checked = true;
                     viewEnglishBTFieldMenuItem.Checked = true;
@@ -531,7 +530,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = false;
                     viewNetBibleMenuItem.Checked = true;
                     break;
-                case ProjectStageLogic.ProjectStages.eCrafterOnlineReviewZWithConsultant:
+                case StoryStageLogic.ProjectStages.eCrafterOnlineReviewZWithConsultant:
                     viewVernacularLangFieldMenuItem.Checked = false;
                     viewNationalLangFieldMenuItem.Checked = true;
                     viewEnglishBTFieldMenuItem.Checked = true;
@@ -542,7 +541,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = false;
                     viewNetBibleMenuItem.Checked = true;
                     break;
-                case ProjectStageLogic.ProjectStages.eCrafterEnterRetellingBTTestZ:
+                case StoryStageLogic.ProjectStages.eCrafterEnterRetellingBTTestZ:
                     viewVernacularLangFieldMenuItem.Checked = false;
                     viewNationalLangFieldMenuItem.Checked = true;
                     viewEnglishBTFieldMenuItem.Checked = true;
@@ -553,7 +552,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = false;
                     viewNetBibleMenuItem.Checked = true;
                     break;
-                case ProjectStageLogic.ProjectStages.eCrafterEnterStoryQuestionAnswersBTTestZ:
+                case StoryStageLogic.ProjectStages.eCrafterEnterStoryQuestionAnswersBTTestZ:
                     viewVernacularLangFieldMenuItem.Checked = false;
                     viewNationalLangFieldMenuItem.Checked = true;
                     viewEnglishBTFieldMenuItem.Checked = true;
@@ -564,7 +563,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = false;
                     viewNetBibleMenuItem.Checked = true;
                     break;
-                case ProjectStageLogic.ProjectStages.eTeamComplete:
+                case StoryStageLogic.ProjectStages.eTeamComplete:
                     viewVernacularLangFieldMenuItem.Checked = true;
                     viewNationalLangFieldMenuItem.Checked = true;
                     viewEnglishBTFieldMenuItem.Checked = true;
@@ -575,14 +574,14 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = true;
                     viewNetBibleMenuItem.Checked = true;
                     break;
-                case ProjectStageLogic.ProjectStages.eUndefined:
+                case StoryStageLogic.ProjectStages.eUndefined:
                 default:
                     m_bDisableInterrupts = false;
                     throw new ApplicationException(String.Format("This project was edited by a newer version of the {0} program. You have to update your version of the program to edit this project.", cstrCaption));
             };
 
             // for now, the progress bar is just the eStage value as an int
-            if (eStage > ProjectStageLogic.ProjectStages.eUndefined)
+            if (eStage > StoryStageLogic.ProjectStages.eUndefined)
                 macTrackBarProjectStages.Value = (int)eStage;
 
             m_bDisableInterrupts = false;
@@ -996,8 +995,10 @@ namespace OneStoryProjectEditor
         protected bool m_bDisableInterrupts = false;
         private void macTrackBarProjectStages_ValueChanged(object sender, decimal value)
         {
+            if (m_projStage == null)
+                return;
             XComponent.SliderBar.MACTrackBar bar = (XComponent.SliderBar.MACTrackBar)sender;
-            ProjectStageLogic.ProjectStages eNewProjectStage = (ProjectStageLogic.ProjectStages)bar.Value;
+            StoryStageLogic.ProjectStages eNewProjectStage = (StoryStageLogic.ProjectStages)bar.Value;
             Console.WriteLine(String.Format("ValueChanged: ProjectStage: {0}", eNewProjectStage.ToString()));
             if (m_projStage.CheckIfProjectTransitionIsAllowed(eNewProjectStage))
             {
@@ -1006,24 +1007,35 @@ namespace OneStoryProjectEditor
             }
         }
 
+        protected string StoryName
+        {
+            get { return (string)comboBoxStorySelector.SelectedItem; }
+        }
+
         public XElement GetXml
         {
             get
             {
                 System.Diagnostics.Debug.Assert((m_projFile != null) && (m_projFile.stories.Count > 0));
-                XElement elemStories = new XElement(ns + "stories", new XAttribute("ProjectName", m_projFile.stories[0].ProjectName),
-                    TeamMemberForm.GetXmlMembers(m_projFile),
-                    ProjSettings.GetXml,
-                    new XElement("verse"));
+                XElement elemVerses = new XElement(ns + "verses");
 
                 foreach (Control ctrl in flowLayoutPanelVerses.Controls)
                 {
                     if (ctrl is VerseBtControl)
                     {
                         VerseBtControl aVerseBtCtrl = (VerseBtControl)ctrl;
-                        elemStories.Add(aVerseBtCtrl.VerseData.GetXml);
+                        elemVerses.Add(aVerseBtCtrl.VerseData.GetXml);
                     }
                 }
+
+                XElement elemStories = new XElement(ns + "stories", new XAttribute("ProjectName", ProjSettings.ProjectName),
+                    TeamMemberForm.GetXmlMembers(m_projFile),
+                    ProjSettings.GetXml,
+                    new XElement(ns + "story",
+                        new XAttribute("name", StoryName),
+                        new XAttribute("stage", m_projStage.ProjectStageString),
+                        new XAttribute("guid", m_projStage.StoryGuid),
+                        elemVerses));
 
                 return elemStories;
             }

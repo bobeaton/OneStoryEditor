@@ -18,7 +18,7 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                return new XElement("exegeticalHelp", ExegeticalHelpNote);
+                return new XElement(StoryEditor.ns + "exegeticalHelp", ExegeticalHelpNote);
             }
         }
     }
@@ -42,7 +42,7 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                XElement elemExegeticalHelps = new XElement("exegeticalHelps");
+                XElement elemExegeticalHelps = new XElement(StoryEditor.ns + "exegeticalHelps");
                 foreach (ExegeticalHelpNoteData aExHelpData in this)
                     elemExegeticalHelps.Add(aExHelpData.GetXml);
                 return elemExegeticalHelps;

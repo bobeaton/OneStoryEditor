@@ -38,10 +38,10 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                return new XElement("verse", new XAttribute("guid", guid),
-                    new XElement("Vernacular", VernacularText),
-                    new XElement("NationalBT", NationalBTText),
-                    new XElement("InternationalBT", InternationalBTText),
+                return new XElement(StoryEditor.ns + "verse", new XAttribute("guid", guid),
+                    new XElement(StoryEditor.ns + "Vernacular", VernacularText),
+                    new XElement(StoryEditor.ns + "NationalBT", NationalBTText),
+                    new XElement(StoryEditor.ns + "InternationalBT", InternationalBTText),
                     Anchors.GetXml,
                     TestQuestions.GetXml,
                     Retellings.GetXml,
