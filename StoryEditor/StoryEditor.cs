@@ -53,6 +53,13 @@ namespace OneStoryProjectEditor
             {
                 MessageBox.Show(String.Format("Problem initializing Sword (the Net Bible viewer):{0}{0}{1}", Environment.NewLine, ex.Message), StoryEditor.cstrCaption);
             }
+
+            if ((!String.IsNullOrEmpty(Properties.Settings.Default.LastUserType))
+                && (Properties.Settings.Default.LastUserType == TeamMemberForm.cstrCrafter)
+                && (!String.IsNullOrEmpty(Properties.Settings.Default.LastProjectFile)))
+            {
+                OpenProjectFile(Properties.Settings.Default.LastProjectFile);
+            }
 #if false
             OpenProjectFile(@"C:\Code\StoryEditor\StoryEditor\StoryProject.onestory");
 #else
@@ -88,18 +95,22 @@ namespace OneStoryProjectEditor
         {
             // first figure out which team member it is:
             string strMemberName = null;
-            if (!String.IsNullOrEmpty(Properties.Settings.Default.LastMember))
+            if (!String.IsNullOrEmpty(Properties.Settings.Default.LastMemberLogin))
             {
-                strMemberName = Properties.Settings.Default.LastMember;
+                strMemberName = Properties.Settings.Default.LastMemberLogin;
 
                 foreach (StoryProject.MemberRow aMemberRow in m_projFile.Member)
                     if (aMemberRow.name == strMemberName)
                     {
                         // if (s)he's already logged on...
-                        if ((m_logonInfo != null) 
+                        if ((m_logonInfo != null)
                             && (m_logonInfo.MemberName == strMemberName)
                             && (m_logonInfo.Type == TeamMemberForm.GetUserType(aMemberRow.memberType)))
+                        {
+                            Properties.Settings.Default.LastUserType = aMemberRow.memberType;
+                            Properties.Settings.Default.Save();
                             return true;    // same person and role is already logged in
+                        }
 
                         // otherwise, if it is a known member and is a crafter (who are more likely
                         //  not to function in multiple, different roles), then we're done also...
@@ -107,6 +118,8 @@ namespace OneStoryProjectEditor
                         {
                             m_logonInfo = new LoggedOnMemberInfo(strMemberName, aMemberRow.memberKey,
                                 TeamMemberForm.GetUserType(aMemberRow.memberType));
+                            Properties.Settings.Default.LastUserType = aMemberRow.memberType;
+                            Properties.Settings.Default.Save();
                             return true;
                         }
                         // otherwise, fall thru and make them pick it.
@@ -138,6 +151,8 @@ namespace OneStoryProjectEditor
                     if (aMemberRow.name == dlg.SelectedMember)
                     {
                         m_logonInfo = new LoggedOnMemberInfo(dlg.SelectedMember, aMemberRow.memberKey, dlg.UserType);
+                        Properties.Settings.Default.LastUserType = dlg.MemberTypeString;
+                        Properties.Settings.Default.Save();
                         return true;
                     }
             }
@@ -160,6 +175,7 @@ namespace OneStoryProjectEditor
                 Properties.Settings.Default.RecentFiles.RemoveAt(nMaxRecentFiles);
 
             Properties.Settings.Default.RecentFiles.Insert(0, strProjectFilename);
+            Properties.Settings.Default.LastProjectFile = strProjectFilename;
             Properties.Settings.Default.Save();
 
             CheckForSaveDirtyFile();

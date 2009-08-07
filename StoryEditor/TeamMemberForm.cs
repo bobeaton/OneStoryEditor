@@ -37,8 +37,8 @@ namespace OneStoryProjectEditor
                 listBoxMemberRoles.Items.Add(aMemberRow.memberType);
             }
 
-            if ((listBoxTeamMembers.Items.Count > 0) && !String.IsNullOrEmpty(Properties.Settings.Default.LastMember))
-                listBoxTeamMembers.SelectedItem = Properties.Settings.Default.LastMember;
+            if ((listBoxTeamMembers.Items.Count > 0) && !String.IsNullOrEmpty(Properties.Settings.Default.LastMemberLogin))
+                listBoxTeamMembers.SelectedItem = Properties.Settings.Default.LastMemberLogin;
 
             textBoxVernacular.Font = textBoxVernacularEthCode.Font = projSettings.VernacularFont;
             textBoxVernacular.ForeColor = textBoxVernacularEthCode.ForeColor = projSettings.VernacularFontColor;
@@ -167,7 +167,7 @@ namespace OneStoryProjectEditor
             {
                 FinishEdit();
 
-                Properties.Settings.Default.LastMember = SelectedMember;
+                Properties.Settings.Default.LastMemberLogin = SelectedMember;
                 Properties.Settings.Default.Save();
 
                 DialogResult = DialogResult.OK;
@@ -272,7 +272,7 @@ namespace OneStoryProjectEditor
             // this button should only be enabled if a team member is selected
             System.Diagnostics.Debug.Assert(listBoxTeamMembers.SelectedIndex != -1);
 
-            Properties.Settings.Default.LastMember = SelectedMember;
+            Properties.Settings.Default.LastMemberLogin = SelectedMember;
             Properties.Settings.Default.Save();
 
             DialogResult = DialogResult.OK;

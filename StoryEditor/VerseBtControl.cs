@@ -32,8 +32,9 @@ namespace OneStoryProjectEditor
 
         public string Guid = null;
 
-        public VerseBtControl(StoryEditor aSE, VerseData VerseData, int nVerseNumber)
+        public VerseBtControl(StoryEditor aSE, VerseData dataVerse, int nVerseNumber)
         {
+            VerseData = dataVerse;
             Guid = VerseData.guid;
             VerseNumber = nVerseNumber;
             InitializeComponent();
@@ -45,7 +46,6 @@ namespace OneStoryProjectEditor
             this.tableLayoutPanel.Controls.Add(this.labelReference, 0, 0);
             this.tableLayoutPanel.Controls.Add(this.buttonDragDropHandle, 1, 0);
 
-            VerseData = VerseData;
             UpdateView(aSE);
 
             this.tableLayoutPanel.ResumeLayout(false);

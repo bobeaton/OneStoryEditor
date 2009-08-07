@@ -26,12 +26,12 @@ namespace OneStoryProjectEditor.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int UserType {
+        public string LastUserType {
             get {
-                return ((int)(this["UserType"]));
+                return ((string)(this["LastUserType"]));
             }
             set {
-                this["UserType"] = value;
+                this["LastUserType"] = value;
             }
         }
         
@@ -62,12 +62,12 @@ namespace OneStoryProjectEditor.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string LastMember {
+        public string LastMemberLogin {
             get {
-                return ((string)(this["LastMember"]));
+                return ((string)(this["LastMemberLogin"]));
             }
             set {
-                this["LastMember"] = value;
+                this["LastMemberLogin"] = value;
             }
         }
         
@@ -79,6 +79,18 @@ namespace OneStoryProjectEditor.Properties {
             }
             set {
                 this["RecentFiles"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LastProjectFile {
+            get {
+                return ((string)(this["LastProjectFile"]));
+            }
+            set {
+                this["LastProjectFile"] = value;
             }
         }
     }

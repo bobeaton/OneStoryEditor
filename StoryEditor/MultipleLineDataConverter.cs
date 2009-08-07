@@ -40,7 +40,10 @@ namespace OneStoryProjectEditor
                 theRetellingsRow = theRetellingsRows[0];
 
             foreach (StoryProject.RetellingRow aRetellingRow in theRetellingsRow.GetRetellingRows())
+            {
                 Add(aRetellingRow.Retelling_text);
+                MemberIDs.Add(aRetellingRow.memberID);
+            }
         }
     }
 
