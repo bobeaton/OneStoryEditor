@@ -233,6 +233,14 @@
 			<xs:selector xpath=".//NS:edit" />
 			<xs:field xpath="@editKey" />
 		</xs:key>
+		<xs:key name="StoryKey" msdata:PrimaryKey="true">
+			<xs:selector xpath=".//NS:story" />
+			<xs:field xpath="@name" />
+		</xs:key>
+		<xs:key name="VerseKey" msdata:PrimaryKey="true">
+			<xs:selector xpath=".//NS:verse" />
+			<xs:field xpath="@guid" />
+		</xs:key>
 	</xs:element>
 	<xs:simpleType name="MemberType">
 		<xs:restriction base="xs:string">

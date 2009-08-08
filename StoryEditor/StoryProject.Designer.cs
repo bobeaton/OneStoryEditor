@@ -1139,8 +1139,8 @@ namespace OneStoryProjectEditor {
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
             fkc = new global::System.Data.ForeignKeyConstraint("story_CraftingInfo", new global::System.Data.DataColumn[] {
-                        this.tablestory.story_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableCraftingInfo.story_IdColumn});
+                        this.tablestory.nameColumn}, new global::System.Data.DataColumn[] {
+                        this.tableCraftingInfo.nameColumn});
             this.tableCraftingInfo.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
@@ -1174,8 +1174,8 @@ namespace OneStoryProjectEditor {
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
             fkc = new global::System.Data.ForeignKeyConstraint("story_verses", new global::System.Data.DataColumn[] {
-                        this.tablestory.story_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableverses.story_IdColumn});
+                        this.tablestory.nameColumn}, new global::System.Data.DataColumn[] {
+                        this.tableverses.nameColumn});
             this.tableverses.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
@@ -1188,8 +1188,8 @@ namespace OneStoryProjectEditor {
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
             fkc = new global::System.Data.ForeignKeyConstraint("verse_anchors", new global::System.Data.DataColumn[] {
-                        this.tableverse.verse_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableanchors.verse_IdColumn});
+                        this.tableverse.guidColumn}, new global::System.Data.DataColumn[] {
+                        this.tableanchors.guidColumn});
             this.tableanchors.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
@@ -1216,8 +1216,8 @@ namespace OneStoryProjectEditor {
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
             fkc = new global::System.Data.ForeignKeyConstraint("verse_TestQuestions", new global::System.Data.DataColumn[] {
-                        this.tableverse.verse_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableTestQuestions.verse_IdColumn});
+                        this.tableverse.guidColumn}, new global::System.Data.DataColumn[] {
+                        this.tableTestQuestions.guidColumn});
             this.tableTestQuestions.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
@@ -1244,8 +1244,8 @@ namespace OneStoryProjectEditor {
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
             fkc = new global::System.Data.ForeignKeyConstraint("verse_Retellings", new global::System.Data.DataColumn[] {
-                        this.tableverse.verse_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableRetellings.verse_IdColumn});
+                        this.tableverse.guidColumn}, new global::System.Data.DataColumn[] {
+                        this.tableRetellings.guidColumn});
             this.tableRetellings.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
@@ -1258,8 +1258,8 @@ namespace OneStoryProjectEditor {
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
             fkc = new global::System.Data.ForeignKeyConstraint("verse_ConsultantNotes", new global::System.Data.DataColumn[] {
-                        this.tableverse.verse_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableConsultantNotes.verse_IdColumn});
+                        this.tableverse.guidColumn}, new global::System.Data.DataColumn[] {
+                        this.tableConsultantNotes.guidColumn});
             this.tableConsultantNotes.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
@@ -1286,8 +1286,8 @@ namespace OneStoryProjectEditor {
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
             fkc = new global::System.Data.ForeignKeyConstraint("verse_CoachNotes", new global::System.Data.DataColumn[] {
-                        this.tableverse.verse_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableCoachNotes.verse_IdColumn});
+                        this.tableverse.guidColumn}, new global::System.Data.DataColumn[] {
+                        this.tableCoachNotes.guidColumn});
             this.tableCoachNotes.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
@@ -1349,8 +1349,8 @@ namespace OneStoryProjectEditor {
             this.relationstories_story.Nested = true;
             this.Relations.Add(this.relationstories_story);
             this.relationstory_CraftingInfo = new global::System.Data.DataRelation("story_CraftingInfo", new global::System.Data.DataColumn[] {
-                        this.tablestory.story_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableCraftingInfo.story_IdColumn}, false);
+                        this.tablestory.nameColumn}, new global::System.Data.DataColumn[] {
+                        this.tableCraftingInfo.nameColumn}, false);
             this.relationstory_CraftingInfo.Nested = true;
             this.Relations.Add(this.relationstory_CraftingInfo);
             this.relationCraftingInfo_StoryCrafter = new global::System.Data.DataRelation("CraftingInfo_StoryCrafter", new global::System.Data.DataColumn[] {
@@ -1374,8 +1374,8 @@ namespace OneStoryProjectEditor {
             this.relationTests_Test.Nested = true;
             this.Relations.Add(this.relationTests_Test);
             this.relationstory_verses = new global::System.Data.DataRelation("story_verses", new global::System.Data.DataColumn[] {
-                        this.tablestory.story_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableverses.story_IdColumn}, false);
+                        this.tablestory.nameColumn}, new global::System.Data.DataColumn[] {
+                        this.tableverses.nameColumn}, false);
             this.relationstory_verses.Nested = true;
             this.Relations.Add(this.relationstory_verses);
             this.relationverses_verse = new global::System.Data.DataRelation("verses_verse", new global::System.Data.DataColumn[] {
@@ -1384,8 +1384,8 @@ namespace OneStoryProjectEditor {
             this.relationverses_verse.Nested = true;
             this.Relations.Add(this.relationverses_verse);
             this.relationverse_anchors = new global::System.Data.DataRelation("verse_anchors", new global::System.Data.DataColumn[] {
-                        this.tableverse.verse_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableanchors.verse_IdColumn}, false);
+                        this.tableverse.guidColumn}, new global::System.Data.DataColumn[] {
+                        this.tableanchors.guidColumn}, false);
             this.relationverse_anchors.Nested = true;
             this.Relations.Add(this.relationverse_anchors);
             this.relationanchors_anchor = new global::System.Data.DataRelation("anchors_anchor", new global::System.Data.DataColumn[] {
@@ -1404,8 +1404,8 @@ namespace OneStoryProjectEditor {
             this.relationexegeticalHelps_exegeticalHelp.Nested = true;
             this.Relations.Add(this.relationexegeticalHelps_exegeticalHelp);
             this.relationverse_TestQuestions = new global::System.Data.DataRelation("verse_TestQuestions", new global::System.Data.DataColumn[] {
-                        this.tableverse.verse_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableTestQuestions.verse_IdColumn}, false);
+                        this.tableverse.guidColumn}, new global::System.Data.DataColumn[] {
+                        this.tableTestQuestions.guidColumn}, false);
             this.relationverse_TestQuestions.Nested = true;
             this.Relations.Add(this.relationverse_TestQuestions);
             this.relationTestQuestions_TestQuestion = new global::System.Data.DataRelation("TestQuestions_TestQuestion", new global::System.Data.DataColumn[] {
@@ -1424,8 +1424,8 @@ namespace OneStoryProjectEditor {
             this.relationAnswers_answer.Nested = true;
             this.Relations.Add(this.relationAnswers_answer);
             this.relationverse_Retellings = new global::System.Data.DataRelation("verse_Retellings", new global::System.Data.DataColumn[] {
-                        this.tableverse.verse_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableRetellings.verse_IdColumn}, false);
+                        this.tableverse.guidColumn}, new global::System.Data.DataColumn[] {
+                        this.tableRetellings.guidColumn}, false);
             this.relationverse_Retellings.Nested = true;
             this.Relations.Add(this.relationverse_Retellings);
             this.relationRetellings_Retelling = new global::System.Data.DataRelation("Retellings_Retelling", new global::System.Data.DataColumn[] {
@@ -1434,8 +1434,8 @@ namespace OneStoryProjectEditor {
             this.relationRetellings_Retelling.Nested = true;
             this.Relations.Add(this.relationRetellings_Retelling);
             this.relationverse_ConsultantNotes = new global::System.Data.DataRelation("verse_ConsultantNotes", new global::System.Data.DataColumn[] {
-                        this.tableverse.verse_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableConsultantNotes.verse_IdColumn}, false);
+                        this.tableverse.guidColumn}, new global::System.Data.DataColumn[] {
+                        this.tableConsultantNotes.guidColumn}, false);
             this.relationverse_ConsultantNotes.Nested = true;
             this.Relations.Add(this.relationverse_ConsultantNotes);
             this.relationConsultantNotes_ConsultantNote = new global::System.Data.DataRelation("ConsultantNotes_ConsultantNote", new global::System.Data.DataColumn[] {
@@ -1454,8 +1454,8 @@ namespace OneStoryProjectEditor {
             this.relationConsultantNote_CrafterResponse.Nested = true;
             this.Relations.Add(this.relationConsultantNote_CrafterResponse);
             this.relationverse_CoachNotes = new global::System.Data.DataRelation("verse_CoachNotes", new global::System.Data.DataColumn[] {
-                        this.tableverse.verse_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableCoachNotes.verse_IdColumn}, false);
+                        this.tableverse.guidColumn}, new global::System.Data.DataColumn[] {
+                        this.tableCoachNotes.guidColumn}, false);
             this.relationverse_CoachNotes.Nested = true;
             this.Relations.Add(this.relationverse_CoachNotes);
             this.relationCoachNotes_CoachNote = new global::System.Data.DataRelation("CoachNotes_CoachNote", new global::System.Data.DataColumn[] {
@@ -1765,7 +1765,7 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class storiesDataTable : global::System.Data.TypedTableBase<storiesRow> {
+        public partial class storiesDataTable : global::System.Data.DataTable, global::System.Collections.IEnumerable {
             
             private global::System.Data.DataColumn columnProjectName;
             
@@ -1852,6 +1852,11 @@ namespace OneStoryProjectEditor {
                 rowstoriesRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowstoriesRow);
                 return rowstoriesRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual global::System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2008,7 +2013,7 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class MembersDataTable : global::System.Data.TypedTableBase<MembersRow> {
+        public partial class MembersDataTable : global::System.Data.DataTable, global::System.Collections.IEnumerable {
             
             private global::System.Data.DataColumn columnMembers_Id;
             
@@ -2098,6 +2103,11 @@ namespace OneStoryProjectEditor {
                 rowMembersRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowMembersRow);
                 return rowMembersRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual global::System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2252,7 +2262,7 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class MemberDataTable : global::System.Data.TypedTableBase<MemberRow> {
+        public partial class MemberDataTable : global::System.Data.DataTable, global::System.Collections.IEnumerable {
             
             private global::System.Data.DataColumn columnname;
             
@@ -2428,6 +2438,11 @@ namespace OneStoryProjectEditor {
             public MemberRow FindBymemberKey(string memberKey) {
                 return ((MemberRow)(this.Rows.Find(new object[] {
                             memberKey})));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual global::System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2616,7 +2631,7 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class LanguagesDataTable : global::System.Data.TypedTableBase<LanguagesRow> {
+        public partial class LanguagesDataTable : global::System.Data.DataTable, global::System.Collections.IEnumerable {
             
             private global::System.Data.DataColumn columnLanguages_Id;
             
@@ -2706,6 +2721,11 @@ namespace OneStoryProjectEditor {
                 rowLanguagesRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowLanguagesRow);
                 return rowLanguagesRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual global::System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2860,7 +2880,7 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class VernacularLangDataTable : global::System.Data.TypedTableBase<VernacularLangRow> {
+        public partial class VernacularLangDataTable : global::System.Data.DataTable, global::System.Collections.IEnumerable {
             
             private global::System.Data.DataColumn columnname;
             
@@ -2990,6 +3010,11 @@ namespace OneStoryProjectEditor {
                 rowVernacularLangRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowVernacularLangRow);
                 return rowVernacularLangRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual global::System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3161,7 +3186,7 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class NationalBTLangDataTable : global::System.Data.TypedTableBase<NationalBTLangRow> {
+        public partial class NationalBTLangDataTable : global::System.Data.DataTable, global::System.Collections.IEnumerable {
             
             private global::System.Data.DataColumn columnname;
             
@@ -3291,6 +3316,11 @@ namespace OneStoryProjectEditor {
                 rowNationalBTLangRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowNationalBTLangRow);
                 return rowNationalBTLangRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual global::System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3462,7 +3492,7 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class InternationalBTLangDataTable : global::System.Data.TypedTableBase<InternationalBTLangRow> {
+        public partial class InternationalBTLangDataTable : global::System.Data.DataTable, global::System.Collections.IEnumerable {
             
             private global::System.Data.DataColumn columnname;
             
@@ -3592,6 +3622,11 @@ namespace OneStoryProjectEditor {
                 rowInternationalBTLangRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowInternationalBTLangRow);
                 return rowInternationalBTLangRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual global::System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3763,15 +3798,13 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class storyDataTable : global::System.Data.TypedTableBase<storyRow> {
+        public partial class storyDataTable : global::System.Data.DataTable, global::System.Collections.IEnumerable {
             
             private global::System.Data.DataColumn columnname;
             
             private global::System.Data.DataColumn columnstage;
             
             private global::System.Data.DataColumn columnguid;
-            
-            private global::System.Data.DataColumn columnstory_Id;
             
             private global::System.Data.DataColumn columnstories_Id;
             
@@ -3827,13 +3860,6 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn story_IdColumn {
-                get {
-                    return this.columnstory_Id;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public global::System.Data.DataColumn stories_IdColumn {
                 get {
                     return this.columnstories_Id;
@@ -3875,14 +3901,24 @@ namespace OneStoryProjectEditor {
                         name,
                         stage,
                         guid,
-                        null,
                         null};
                 if ((parentstoriesRowBystories_story != null)) {
-                    columnValuesArray[4] = parentstoriesRowBystories_story[1];
+                    columnValuesArray[3] = parentstoriesRowBystories_story[1];
                 }
                 rowstoryRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowstoryRow);
                 return rowstoryRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public storyRow FindByname(string name) {
+                return ((storyRow)(this.Rows.Find(new object[] {
+                            name})));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual global::System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3902,7 +3938,6 @@ namespace OneStoryProjectEditor {
                 this.columnname = base.Columns["name"];
                 this.columnstage = base.Columns["stage"];
                 this.columnguid = base.Columns["guid"];
-                this.columnstory_Id = base.Columns["story_Id"];
                 this.columnstories_Id = base.Columns["stories_Id"];
             }
             
@@ -3914,21 +3949,17 @@ namespace OneStoryProjectEditor {
                 base.Columns.Add(this.columnstage);
                 this.columnguid = new global::System.Data.DataColumn("guid", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnguid);
-                this.columnstory_Id = new global::System.Data.DataColumn("story_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
-                base.Columns.Add(this.columnstory_Id);
                 this.columnstories_Id = new global::System.Data.DataColumn("stories_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnstories_Id);
-                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
-                                this.columnstory_Id}, true));
+                this.Constraints.Add(new global::System.Data.UniqueConstraint("StoryKey", new global::System.Data.DataColumn[] {
+                                this.columnname}, true));
                 this.columnname.AllowDBNull = false;
+                this.columnname.Unique = true;
                 this.columnname.Namespace = "";
                 this.columnstage.AllowDBNull = false;
                 this.columnstage.Namespace = "";
                 this.columnguid.AllowDBNull = false;
                 this.columnguid.Namespace = "";
-                this.columnstory_Id.AutoIncrement = true;
-                this.columnstory_Id.AllowDBNull = false;
-                this.columnstory_Id.Unique = true;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4052,13 +4083,13 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class CraftingInfoDataTable : global::System.Data.TypedTableBase<CraftingInfoRow> {
+        public partial class CraftingInfoDataTable : global::System.Data.DataTable, global::System.Collections.IEnumerable {
             
             private global::System.Data.DataColumn columnStoryPurpose;
             
             private global::System.Data.DataColumn columnCraftingInfo_Id;
             
-            private global::System.Data.DataColumn columnstory_Id;
+            private global::System.Data.DataColumn columnname;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public CraftingInfoDataTable() {
@@ -4105,9 +4136,9 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn story_IdColumn {
+            public global::System.Data.DataColumn nameColumn {
                 get {
-                    return this.columnstory_Id;
+                    return this.columnname;
                 }
             }
             
@@ -4147,11 +4178,16 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentstoryRowBystory_CraftingInfo != null)) {
-                    columnValuesArray[2] = parentstoryRowBystory_CraftingInfo[3];
+                    columnValuesArray[2] = parentstoryRowBystory_CraftingInfo[0];
                 }
                 rowCraftingInfoRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowCraftingInfoRow);
                 return rowCraftingInfoRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual global::System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4170,7 +4206,7 @@ namespace OneStoryProjectEditor {
             internal void InitVars() {
                 this.columnStoryPurpose = base.Columns["StoryPurpose"];
                 this.columnCraftingInfo_Id = base.Columns["CraftingInfo_Id"];
-                this.columnstory_Id = base.Columns["story_Id"];
+                this.columnname = base.Columns["name"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4179,8 +4215,8 @@ namespace OneStoryProjectEditor {
                 base.Columns.Add(this.columnStoryPurpose);
                 this.columnCraftingInfo_Id = new global::System.Data.DataColumn("CraftingInfo_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnCraftingInfo_Id);
-                this.columnstory_Id = new global::System.Data.DataColumn("story_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
-                base.Columns.Add(this.columnstory_Id);
+                this.columnname = new global::System.Data.DataColumn("name", typeof(string), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnname);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnCraftingInfo_Id}, true));
                 this.columnStoryPurpose.AllowDBNull = false;
@@ -4310,7 +4346,7 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class StoryCrafterDataTable : global::System.Data.TypedTableBase<StoryCrafterRow> {
+        public partial class StoryCrafterDataTable : global::System.Data.DataTable, global::System.Collections.IEnumerable {
             
             private global::System.Data.DataColumn columnmemberID;
             
@@ -4400,6 +4436,11 @@ namespace OneStoryProjectEditor {
                 rowStoryCrafterRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowStoryCrafterRow);
                 return rowStoryCrafterRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual global::System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4550,7 +4591,7 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class BackTranslatorDataTable : global::System.Data.TypedTableBase<BackTranslatorRow> {
+        public partial class BackTranslatorDataTable : global::System.Data.DataTable, global::System.Collections.IEnumerable {
             
             private global::System.Data.DataColumn columnmemberID;
             
@@ -4640,6 +4681,11 @@ namespace OneStoryProjectEditor {
                 rowBackTranslatorRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowBackTranslatorRow);
                 return rowBackTranslatorRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual global::System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4790,7 +4836,7 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class TestsDataTable : global::System.Data.TypedTableBase<TestsRow> {
+        public partial class TestsDataTable : global::System.Data.DataTable, global::System.Collections.IEnumerable {
             
             private global::System.Data.DataColumn columnTests_Id;
             
@@ -4880,6 +4926,11 @@ namespace OneStoryProjectEditor {
                 rowTestsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowTestsRow);
                 return rowTestsRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual global::System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -5034,7 +5085,7 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class TestDataTable : global::System.Data.TypedTableBase<TestRow> {
+        public partial class TestDataTable : global::System.Data.DataTable, global::System.Collections.IEnumerable {
             
             private global::System.Data.DataColumn columnnumber;
             
@@ -5134,6 +5185,11 @@ namespace OneStoryProjectEditor {
                 rowTestRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowTestRow);
                 return rowTestRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual global::System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -5289,11 +5345,11 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class versesDataTable : global::System.Data.TypedTableBase<versesRow> {
+        public partial class versesDataTable : global::System.Data.DataTable, global::System.Collections.IEnumerable {
             
             private global::System.Data.DataColumn columnverses_Id;
             
-            private global::System.Data.DataColumn columnstory_Id;
+            private global::System.Data.DataColumn columnname;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public versesDataTable() {
@@ -5333,9 +5389,9 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn story_IdColumn {
+            public global::System.Data.DataColumn nameColumn {
                 get {
-                    return this.columnstory_Id;
+                    return this.columnname;
                 }
             }
             
@@ -5374,11 +5430,16 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentstoryRowBystory_verses != null)) {
-                    columnValuesArray[1] = parentstoryRowBystory_verses[3];
+                    columnValuesArray[1] = parentstoryRowBystory_verses[0];
                 }
                 rowversesRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowversesRow);
                 return rowversesRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual global::System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -5396,15 +5457,15 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
                 this.columnverses_Id = base.Columns["verses_Id"];
-                this.columnstory_Id = base.Columns["story_Id"];
+                this.columnname = base.Columns["name"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             private void InitClass() {
                 this.columnverses_Id = new global::System.Data.DataColumn("verses_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnverses_Id);
-                this.columnstory_Id = new global::System.Data.DataColumn("story_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
-                base.Columns.Add(this.columnstory_Id);
+                this.columnname = new global::System.Data.DataColumn("name", typeof(string), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnname);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnverses_Id}, true));
                 this.columnverses_Id.AutoIncrement = true;
@@ -5533,7 +5594,7 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class verseDataTable : global::System.Data.TypedTableBase<verseRow> {
+        public partial class verseDataTable : global::System.Data.DataTable, global::System.Collections.IEnumerable {
             
             private global::System.Data.DataColumn columnguid;
             
@@ -5542,8 +5603,6 @@ namespace OneStoryProjectEditor {
             private global::System.Data.DataColumn columnNationalBT;
             
             private global::System.Data.DataColumn columnInternationalBT;
-            
-            private global::System.Data.DataColumn columnverse_Id;
             
             private global::System.Data.DataColumn columnverses_Id;
             
@@ -5606,13 +5665,6 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn verse_IdColumn {
-                get {
-                    return this.columnverse_Id;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public global::System.Data.DataColumn verses_IdColumn {
                 get {
                     return this.columnverses_Id;
@@ -5655,14 +5707,24 @@ namespace OneStoryProjectEditor {
                         Vernacular,
                         NationalBT,
                         InternationalBT,
-                        null,
                         null};
                 if ((parentversesRowByverses_verse != null)) {
-                    columnValuesArray[5] = parentversesRowByverses_verse[0];
+                    columnValuesArray[4] = parentversesRowByverses_verse[0];
                 }
                 rowverseRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowverseRow);
                 return rowverseRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public verseRow FindByguid(string guid) {
+                return ((verseRow)(this.Rows.Find(new object[] {
+                            guid})));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual global::System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -5683,7 +5745,6 @@ namespace OneStoryProjectEditor {
                 this.columnVernacular = base.Columns["Vernacular"];
                 this.columnNationalBT = base.Columns["NationalBT"];
                 this.columnInternationalBT = base.Columns["InternationalBT"];
-                this.columnverse_Id = base.Columns["verse_Id"];
                 this.columnverses_Id = base.Columns["verses_Id"];
             }
             
@@ -5697,17 +5758,13 @@ namespace OneStoryProjectEditor {
                 base.Columns.Add(this.columnNationalBT);
                 this.columnInternationalBT = new global::System.Data.DataColumn("InternationalBT", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnInternationalBT);
-                this.columnverse_Id = new global::System.Data.DataColumn("verse_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
-                base.Columns.Add(this.columnverse_Id);
                 this.columnverses_Id = new global::System.Data.DataColumn("verses_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnverses_Id);
-                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
-                                this.columnverse_Id}, true));
+                this.Constraints.Add(new global::System.Data.UniqueConstraint("VerseKey", new global::System.Data.DataColumn[] {
+                                this.columnguid}, true));
                 this.columnguid.AllowDBNull = false;
+                this.columnguid.Unique = true;
                 this.columnguid.Namespace = "";
-                this.columnverse_Id.AutoIncrement = true;
-                this.columnverse_Id.AllowDBNull = false;
-                this.columnverse_Id.Unique = true;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -5831,11 +5888,11 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class anchorsDataTable : global::System.Data.TypedTableBase<anchorsRow> {
+        public partial class anchorsDataTable : global::System.Data.DataTable, global::System.Collections.IEnumerable {
             
             private global::System.Data.DataColumn columnanchors_Id;
             
-            private global::System.Data.DataColumn columnverse_Id;
+            private global::System.Data.DataColumn columnguid;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public anchorsDataTable() {
@@ -5875,9 +5932,9 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn verse_IdColumn {
+            public global::System.Data.DataColumn guidColumn {
                 get {
-                    return this.columnverse_Id;
+                    return this.columnguid;
                 }
             }
             
@@ -5916,11 +5973,16 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentverseRowByverse_anchors != null)) {
-                    columnValuesArray[1] = parentverseRowByverse_anchors[4];
+                    columnValuesArray[1] = parentverseRowByverse_anchors[0];
                 }
                 rowanchorsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowanchorsRow);
                 return rowanchorsRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual global::System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -5938,15 +6000,15 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
                 this.columnanchors_Id = base.Columns["anchors_Id"];
-                this.columnverse_Id = base.Columns["verse_Id"];
+                this.columnguid = base.Columns["guid"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             private void InitClass() {
                 this.columnanchors_Id = new global::System.Data.DataColumn("anchors_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnanchors_Id);
-                this.columnverse_Id = new global::System.Data.DataColumn("verse_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
-                base.Columns.Add(this.columnverse_Id);
+                this.columnguid = new global::System.Data.DataColumn("guid", typeof(string), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnguid);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnanchors_Id}, true));
                 this.columnanchors_Id.AutoIncrement = true;
@@ -6075,7 +6137,7 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class anchorDataTable : global::System.Data.TypedTableBase<anchorRow> {
+        public partial class anchorDataTable : global::System.Data.DataTable, global::System.Collections.IEnumerable {
             
             private global::System.Data.DataColumn columnjumpTarget;
             
@@ -6185,6 +6247,11 @@ namespace OneStoryProjectEditor {
                 rowanchorRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowanchorRow);
                 return rowanchorRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual global::System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -6347,7 +6414,7 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class exegeticalHelpsDataTable : global::System.Data.TypedTableBase<exegeticalHelpsRow> {
+        public partial class exegeticalHelpsDataTable : global::System.Data.DataTable, global::System.Collections.IEnumerable {
             
             private global::System.Data.DataColumn columnexegeticalHelps_Id;
             
@@ -6437,6 +6504,11 @@ namespace OneStoryProjectEditor {
                 rowexegeticalHelpsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowexegeticalHelpsRow);
                 return rowexegeticalHelpsRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual global::System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -6591,7 +6663,7 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class exegeticalHelpDataTable : global::System.Data.TypedTableBase<exegeticalHelpRow> {
+        public partial class exegeticalHelpDataTable : global::System.Data.DataTable, global::System.Collections.IEnumerable {
             
             private global::System.Data.DataColumn columnexegeticalHelp_Column;
             
@@ -6681,6 +6753,11 @@ namespace OneStoryProjectEditor {
                 rowexegeticalHelpRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowexegeticalHelpRow);
                 return rowexegeticalHelpRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual global::System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -6830,11 +6907,11 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class TestQuestionsDataTable : global::System.Data.TypedTableBase<TestQuestionsRow> {
+        public partial class TestQuestionsDataTable : global::System.Data.DataTable, global::System.Collections.IEnumerable {
             
             private global::System.Data.DataColumn columnTestQuestions_Id;
             
-            private global::System.Data.DataColumn columnverse_Id;
+            private global::System.Data.DataColumn columnguid;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public TestQuestionsDataTable() {
@@ -6874,9 +6951,9 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn verse_IdColumn {
+            public global::System.Data.DataColumn guidColumn {
                 get {
-                    return this.columnverse_Id;
+                    return this.columnguid;
                 }
             }
             
@@ -6915,11 +6992,16 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentverseRowByverse_TestQuestions != null)) {
-                    columnValuesArray[1] = parentverseRowByverse_TestQuestions[4];
+                    columnValuesArray[1] = parentverseRowByverse_TestQuestions[0];
                 }
                 rowTestQuestionsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowTestQuestionsRow);
                 return rowTestQuestionsRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual global::System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -6937,15 +7019,15 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
                 this.columnTestQuestions_Id = base.Columns["TestQuestions_Id"];
-                this.columnverse_Id = base.Columns["verse_Id"];
+                this.columnguid = base.Columns["guid"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             private void InitClass() {
                 this.columnTestQuestions_Id = new global::System.Data.DataColumn("TestQuestions_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnTestQuestions_Id);
-                this.columnverse_Id = new global::System.Data.DataColumn("verse_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
-                base.Columns.Add(this.columnverse_Id);
+                this.columnguid = new global::System.Data.DataColumn("guid", typeof(string), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnguid);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnTestQuestions_Id}, true));
                 this.columnTestQuestions_Id.AutoIncrement = true;
@@ -7074,7 +7156,7 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class TestQuestionDataTable : global::System.Data.TypedTableBase<TestQuestionRow> {
+        public partial class TestQuestionDataTable : global::System.Data.DataTable, global::System.Collections.IEnumerable {
             
             private global::System.Data.DataColumn columnvisible;
             
@@ -7194,6 +7276,11 @@ namespace OneStoryProjectEditor {
                 rowTestQuestionRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowTestQuestionRow);
                 return rowTestQuestionRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual global::System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -7359,7 +7446,7 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class AnswersDataTable : global::System.Data.TypedTableBase<AnswersRow> {
+        public partial class AnswersDataTable : global::System.Data.DataTable, global::System.Collections.IEnumerable {
             
             private global::System.Data.DataColumn columnAnswers_Id;
             
@@ -7449,6 +7536,11 @@ namespace OneStoryProjectEditor {
                 rowAnswersRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowAnswersRow);
                 return rowAnswersRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual global::System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -7603,7 +7695,7 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class answerDataTable : global::System.Data.TypedTableBase<answerRow> {
+        public partial class answerDataTable : global::System.Data.DataTable, global::System.Collections.IEnumerable {
             
             private global::System.Data.DataColumn columnmemberID;
             
@@ -7703,6 +7795,11 @@ namespace OneStoryProjectEditor {
                 rowanswerRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowanswerRow);
                 return rowanswerRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual global::System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -7857,11 +7954,11 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class RetellingsDataTable : global::System.Data.TypedTableBase<RetellingsRow> {
+        public partial class RetellingsDataTable : global::System.Data.DataTable, global::System.Collections.IEnumerable {
             
             private global::System.Data.DataColumn columnRetellings_Id;
             
-            private global::System.Data.DataColumn columnverse_Id;
+            private global::System.Data.DataColumn columnguid;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public RetellingsDataTable() {
@@ -7901,9 +7998,9 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn verse_IdColumn {
+            public global::System.Data.DataColumn guidColumn {
                 get {
-                    return this.columnverse_Id;
+                    return this.columnguid;
                 }
             }
             
@@ -7942,11 +8039,16 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentverseRowByverse_Retellings != null)) {
-                    columnValuesArray[1] = parentverseRowByverse_Retellings[4];
+                    columnValuesArray[1] = parentverseRowByverse_Retellings[0];
                 }
                 rowRetellingsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowRetellingsRow);
                 return rowRetellingsRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual global::System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -7964,15 +8066,15 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
                 this.columnRetellings_Id = base.Columns["Retellings_Id"];
-                this.columnverse_Id = base.Columns["verse_Id"];
+                this.columnguid = base.Columns["guid"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             private void InitClass() {
                 this.columnRetellings_Id = new global::System.Data.DataColumn("Retellings_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnRetellings_Id);
-                this.columnverse_Id = new global::System.Data.DataColumn("verse_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
-                base.Columns.Add(this.columnverse_Id);
+                this.columnguid = new global::System.Data.DataColumn("guid", typeof(string), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnguid);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnRetellings_Id}, true));
                 this.columnRetellings_Id.AutoIncrement = true;
@@ -8101,7 +8203,7 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class RetellingDataTable : global::System.Data.TypedTableBase<RetellingRow> {
+        public partial class RetellingDataTable : global::System.Data.DataTable, global::System.Collections.IEnumerable {
             
             private global::System.Data.DataColumn columnmemberID;
             
@@ -8201,6 +8303,11 @@ namespace OneStoryProjectEditor {
                 rowRetellingRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowRetellingRow);
                 return rowRetellingRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual global::System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -8355,11 +8462,11 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class ConsultantNotesDataTable : global::System.Data.TypedTableBase<ConsultantNotesRow> {
+        public partial class ConsultantNotesDataTable : global::System.Data.DataTable, global::System.Collections.IEnumerable {
             
             private global::System.Data.DataColumn columnConsultantNotes_Id;
             
-            private global::System.Data.DataColumn columnverse_Id;
+            private global::System.Data.DataColumn columnguid;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public ConsultantNotesDataTable() {
@@ -8399,9 +8506,9 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn verse_IdColumn {
+            public global::System.Data.DataColumn guidColumn {
                 get {
-                    return this.columnverse_Id;
+                    return this.columnguid;
                 }
             }
             
@@ -8440,11 +8547,16 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentverseRowByverse_ConsultantNotes != null)) {
-                    columnValuesArray[1] = parentverseRowByverse_ConsultantNotes[4];
+                    columnValuesArray[1] = parentverseRowByverse_ConsultantNotes[0];
                 }
                 rowConsultantNotesRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowConsultantNotesRow);
                 return rowConsultantNotesRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual global::System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -8462,15 +8574,15 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
                 this.columnConsultantNotes_Id = base.Columns["ConsultantNotes_Id"];
-                this.columnverse_Id = base.Columns["verse_Id"];
+                this.columnguid = base.Columns["guid"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             private void InitClass() {
                 this.columnConsultantNotes_Id = new global::System.Data.DataColumn("ConsultantNotes_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnConsultantNotes_Id);
-                this.columnverse_Id = new global::System.Data.DataColumn("verse_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
-                base.Columns.Add(this.columnverse_Id);
+                this.columnguid = new global::System.Data.DataColumn("guid", typeof(string), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnguid);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnConsultantNotes_Id}, true));
                 this.columnConsultantNotes_Id.AutoIncrement = true;
@@ -8599,7 +8711,7 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class ConsultantNoteDataTable : global::System.Data.TypedTableBase<ConsultantNoteRow> {
+        public partial class ConsultantNoteDataTable : global::System.Data.DataTable, global::System.Collections.IEnumerable {
             
             private global::System.Data.DataColumn columnround;
             
@@ -8699,6 +8811,11 @@ namespace OneStoryProjectEditor {
                 rowConsultantNoteRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowConsultantNoteRow);
                 return rowConsultantNoteRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual global::System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -8858,7 +8975,7 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class ConsultantCommentDataTable : global::System.Data.TypedTableBase<ConsultantCommentRow> {
+        public partial class ConsultantCommentDataTable : global::System.Data.DataTable, global::System.Collections.IEnumerable {
             
             private global::System.Data.DataColumn columnmemberID;
             
@@ -8958,6 +9075,11 @@ namespace OneStoryProjectEditor {
                 rowConsultantCommentRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowConsultantCommentRow);
                 return rowConsultantCommentRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual global::System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -9113,7 +9235,7 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class CrafterResponseDataTable : global::System.Data.TypedTableBase<CrafterResponseRow> {
+        public partial class CrafterResponseDataTable : global::System.Data.DataTable, global::System.Collections.IEnumerable {
             
             private global::System.Data.DataColumn columnmemberID;
             
@@ -9213,6 +9335,11 @@ namespace OneStoryProjectEditor {
                 rowCrafterResponseRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowCrafterResponseRow);
                 return rowCrafterResponseRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual global::System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -9368,11 +9495,11 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class CoachNotesDataTable : global::System.Data.TypedTableBase<CoachNotesRow> {
+        public partial class CoachNotesDataTable : global::System.Data.DataTable, global::System.Collections.IEnumerable {
             
             private global::System.Data.DataColumn columnCoachNotes_Id;
             
-            private global::System.Data.DataColumn columnverse_Id;
+            private global::System.Data.DataColumn columnguid;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public CoachNotesDataTable() {
@@ -9412,9 +9539,9 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn verse_IdColumn {
+            public global::System.Data.DataColumn guidColumn {
                 get {
-                    return this.columnverse_Id;
+                    return this.columnguid;
                 }
             }
             
@@ -9453,11 +9580,16 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentverseRowByverse_CoachNotes != null)) {
-                    columnValuesArray[1] = parentverseRowByverse_CoachNotes[4];
+                    columnValuesArray[1] = parentverseRowByverse_CoachNotes[0];
                 }
                 rowCoachNotesRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowCoachNotesRow);
                 return rowCoachNotesRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual global::System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -9475,15 +9607,15 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
                 this.columnCoachNotes_Id = base.Columns["CoachNotes_Id"];
-                this.columnverse_Id = base.Columns["verse_Id"];
+                this.columnguid = base.Columns["guid"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             private void InitClass() {
                 this.columnCoachNotes_Id = new global::System.Data.DataColumn("CoachNotes_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnCoachNotes_Id);
-                this.columnverse_Id = new global::System.Data.DataColumn("verse_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
-                base.Columns.Add(this.columnverse_Id);
+                this.columnguid = new global::System.Data.DataColumn("guid", typeof(string), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnguid);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnCoachNotes_Id}, true));
                 this.columnCoachNotes_Id.AutoIncrement = true;
@@ -9612,7 +9744,7 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class CoachNoteDataTable : global::System.Data.TypedTableBase<CoachNoteRow> {
+        public partial class CoachNoteDataTable : global::System.Data.DataTable, global::System.Collections.IEnumerable {
             
             private global::System.Data.DataColumn columnround;
             
@@ -9712,6 +9844,11 @@ namespace OneStoryProjectEditor {
                 rowCoachNoteRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowCoachNoteRow);
                 return rowCoachNoteRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual global::System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -9871,7 +10008,7 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class CoachCommentDataTable : global::System.Data.TypedTableBase<CoachCommentRow> {
+        public partial class CoachCommentDataTable : global::System.Data.DataTable, global::System.Collections.IEnumerable {
             
             private global::System.Data.DataColumn columnmemberID;
             
@@ -9971,6 +10108,11 @@ namespace OneStoryProjectEditor {
                 rowCoachCommentRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowCoachCommentRow);
                 return rowCoachCommentRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual global::System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -10126,7 +10268,7 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class ConsultantResponseDataTable : global::System.Data.TypedTableBase<ConsultantResponseRow> {
+        public partial class ConsultantResponseDataTable : global::System.Data.DataTable, global::System.Collections.IEnumerable {
             
             private global::System.Data.DataColumn columnmemberID;
             
@@ -10226,6 +10368,11 @@ namespace OneStoryProjectEditor {
                 rowConsultantResponseRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowConsultantResponseRow);
                 return rowConsultantResponseRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual global::System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -11175,16 +11322,6 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int story_Id {
-                get {
-                    return ((int)(this[this.tablestory.story_IdColumn]));
-                }
-                set {
-                    this[this.tablestory.story_IdColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public int stories_Id {
                 get {
                     try {
@@ -11275,17 +11412,17 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int story_Id {
+            public string name {
                 get {
                     try {
-                        return ((int)(this[this.tableCraftingInfo.story_IdColumn]));
+                        return ((string)(this[this.tableCraftingInfo.nameColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'story_Id\' in table \'CraftingInfo\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'name\' in table \'CraftingInfo\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableCraftingInfo.story_IdColumn] = value;
+                    this[this.tableCraftingInfo.nameColumn] = value;
                 }
             }
             
@@ -11300,13 +11437,13 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool Isstory_IdNull() {
-                return this.IsNull(this.tableCraftingInfo.story_IdColumn);
+            public bool IsnameNull() {
+                return this.IsNull(this.tableCraftingInfo.nameColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void Setstory_IdNull() {
-                this[this.tableCraftingInfo.story_IdColumn] = global::System.Convert.DBNull;
+            public void SetnameNull() {
+                this[this.tableCraftingInfo.nameColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -11670,17 +11807,17 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int story_Id {
+            public string name {
                 get {
                     try {
-                        return ((int)(this[this.tableverses.story_IdColumn]));
+                        return ((string)(this[this.tableverses.nameColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'story_Id\' in table \'verses\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'name\' in table \'verses\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableverses.story_IdColumn] = value;
+                    this[this.tableverses.nameColumn] = value;
                 }
             }
             
@@ -11695,13 +11832,13 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool Isstory_IdNull() {
-                return this.IsNull(this.tableverses.story_IdColumn);
+            public bool IsnameNull() {
+                return this.IsNull(this.tableverses.nameColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void Setstory_IdNull() {
-                this[this.tableverses.story_IdColumn] = global::System.Convert.DBNull;
+            public void SetnameNull() {
+                this[this.tableverses.nameColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -11781,16 +11918,6 @@ namespace OneStoryProjectEditor {
                 }
                 set {
                     this[this.tableverse.InternationalBTColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int verse_Id {
-                get {
-                    return ((int)(this[this.tableverse.verse_IdColumn]));
-                }
-                set {
-                    this[this.tableverse.verse_IdColumn] = value;
                 }
             }
             
@@ -11935,17 +12062,17 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int verse_Id {
+            public string guid {
                 get {
                     try {
-                        return ((int)(this[this.tableanchors.verse_IdColumn]));
+                        return ((string)(this[this.tableanchors.guidColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'verse_Id\' in table \'anchors\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'guid\' in table \'anchors\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableanchors.verse_IdColumn] = value;
+                    this[this.tableanchors.guidColumn] = value;
                 }
             }
             
@@ -11960,13 +12087,13 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool Isverse_IdNull() {
-                return this.IsNull(this.tableanchors.verse_IdColumn);
+            public bool IsguidNull() {
+                return this.IsNull(this.tableanchors.guidColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void Setverse_IdNull() {
-                this[this.tableanchors.verse_IdColumn] = global::System.Convert.DBNull;
+            public void SetguidNull() {
+                this[this.tableanchors.guidColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -12256,17 +12383,17 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int verse_Id {
+            public string guid {
                 get {
                     try {
-                        return ((int)(this[this.tableTestQuestions.verse_IdColumn]));
+                        return ((string)(this[this.tableTestQuestions.guidColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'verse_Id\' in table \'TestQuestions\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'guid\' in table \'TestQuestions\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableTestQuestions.verse_IdColumn] = value;
+                    this[this.tableTestQuestions.guidColumn] = value;
                 }
             }
             
@@ -12281,13 +12408,13 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool Isverse_IdNull() {
-                return this.IsNull(this.tableTestQuestions.verse_IdColumn);
+            public bool IsguidNull() {
+                return this.IsNull(this.tableTestQuestions.guidColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void Setverse_IdNull() {
-                this[this.tableTestQuestions.verse_IdColumn] = global::System.Convert.DBNull;
+            public void SetguidNull() {
+                this[this.tableTestQuestions.guidColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -12611,17 +12738,17 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int verse_Id {
+            public string guid {
                 get {
                     try {
-                        return ((int)(this[this.tableRetellings.verse_IdColumn]));
+                        return ((string)(this[this.tableRetellings.guidColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'verse_Id\' in table \'Retellings\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'guid\' in table \'Retellings\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableRetellings.verse_IdColumn] = value;
+                    this[this.tableRetellings.guidColumn] = value;
                 }
             }
             
@@ -12636,13 +12763,13 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool Isverse_IdNull() {
-                return this.IsNull(this.tableRetellings.verse_IdColumn);
+            public bool IsguidNull() {
+                return this.IsNull(this.tableRetellings.guidColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void Setverse_IdNull() {
-                this[this.tableRetellings.verse_IdColumn] = global::System.Convert.DBNull;
+            public void SetguidNull() {
+                this[this.tableRetellings.guidColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -12766,17 +12893,17 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int verse_Id {
+            public string guid {
                 get {
                     try {
-                        return ((int)(this[this.tableConsultantNotes.verse_IdColumn]));
+                        return ((string)(this[this.tableConsultantNotes.guidColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'verse_Id\' in table \'ConsultantNotes\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'guid\' in table \'ConsultantNotes\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableConsultantNotes.verse_IdColumn] = value;
+                    this[this.tableConsultantNotes.guidColumn] = value;
                 }
             }
             
@@ -12791,13 +12918,13 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool Isverse_IdNull() {
-                return this.IsNull(this.tableConsultantNotes.verse_IdColumn);
+            public bool IsguidNull() {
+                return this.IsNull(this.tableConsultantNotes.guidColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void Setverse_IdNull() {
-                this[this.tableConsultantNotes.verse_IdColumn] = global::System.Convert.DBNull;
+            public void SetguidNull() {
+                this[this.tableConsultantNotes.guidColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -13066,17 +13193,17 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int verse_Id {
+            public string guid {
                 get {
                     try {
-                        return ((int)(this[this.tableCoachNotes.verse_IdColumn]));
+                        return ((string)(this[this.tableCoachNotes.guidColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'verse_Id\' in table \'CoachNotes\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'guid\' in table \'CoachNotes\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableCoachNotes.verse_IdColumn] = value;
+                    this[this.tableCoachNotes.guidColumn] = value;
                 }
             }
             
@@ -13091,13 +13218,13 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool Isverse_IdNull() {
-                return this.IsNull(this.tableCoachNotes.verse_IdColumn);
+            public bool IsguidNull() {
+                return this.IsNull(this.tableCoachNotes.guidColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void Setverse_IdNull() {
-                this[this.tableCoachNotes.verse_IdColumn] = global::System.Convert.DBNull;
+            public void SetguidNull() {
+                this[this.tableCoachNotes.guidColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
