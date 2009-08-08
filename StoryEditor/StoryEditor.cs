@@ -911,6 +911,26 @@ namespace OneStoryProjectEditor
                 //  the stories in each their own file. So we'll be writing two documents here.
                 SaveXElement(GetFrontMatterXml, strFilename);
 #endif
+                // trigger the main display controls to update the data
+                foreach (Control ctrl in flowLayoutPanelVerses.Controls)
+                {
+                    if (ctrl is VerseBtControl)
+                    {
+                        VerseBtControl aVerseCtrl = (VerseBtControl)ctrl;
+                        aVerseCtrl.UpdateData();
+                    }
+                }
+
+                foreach (ConsultNotesControl ctrl in flowLayoutPanelConsultantNotes.Controls)
+                {
+                    ctrl.UpdateData();
+                }
+
+                foreach (ConsultNotesControl ctrl in flowLayoutPanelCoachNotes.Controls)
+                {
+                    ctrl.UpdateData();
+                }
+
                 // let's see if the UNS entered the purpose of this story
                 System.Diagnostics.Debug.Assert((theCurrentStory != null) && (theCurrentStory.CraftingInfo != null));
                 if (String.IsNullOrEmpty(theCurrentStory.CraftingInfo.StoryPurpose))

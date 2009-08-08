@@ -83,9 +83,9 @@
             this.labelFont = new System.Windows.Forms.Label();
             this.labelEnglishBT = new System.Windows.Forms.Label();
             this.tabPageFileLocation = new System.Windows.Forms.TabPage();
+            this.buttonProjectFolderBrowse = new System.Windows.Forms.Button();
             this.labelProjectFolder = new System.Windows.Forms.Label();
             this.fontDialog = new System.Windows.Forms.FontDialog();
-            this.buttonProjectFolderBrowse = new System.Windows.Forms.Button();
             this.groupBoxRole.SuspendLayout();
             this.tabControlProjectMetaData.SuspendLayout();
             this.tabPageMemberList.SuspendLayout();
@@ -452,6 +452,7 @@
             this.tabControlProjectMetaData.SelectedIndex = 0;
             this.tabControlProjectMetaData.Size = new System.Drawing.Size(459, 444);
             this.tabControlProjectMetaData.TabIndex = 1;
+            this.tabControlProjectMetaData.Visible = false;
             this.tabControlProjectMetaData.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControlProjectMetaData_Selected);
             // 
             // tabPageMemberList
@@ -756,6 +757,15 @@
             this.tabPageFileLocation.Text = "File Locations";
             this.tabPageFileLocation.UseVisualStyleBackColor = true;
             // 
+            // buttonProjectFolderBrowse
+            // 
+            this.buttonProjectFolderBrowse.Location = new System.Drawing.Point(416, 24);
+            this.buttonProjectFolderBrowse.Name = "buttonProjectFolderBrowse";
+            this.buttonProjectFolderBrowse.Size = new System.Drawing.Size(24, 23);
+            this.buttonProjectFolderBrowse.TabIndex = 2;
+            this.buttonProjectFolderBrowse.Text = "...";
+            this.buttonProjectFolderBrowse.UseVisualStyleBackColor = true;
+            // 
             // labelProjectFolder
             // 
             this.labelProjectFolder.AutoSize = true;
@@ -768,15 +778,6 @@
             // fontDialog
             // 
             this.fontDialog.ShowColor = true;
-            // 
-            // buttonProjectFolderBrowse
-            // 
-            this.buttonProjectFolderBrowse.Location = new System.Drawing.Point(416, 24);
-            this.buttonProjectFolderBrowse.Name = "buttonProjectFolderBrowse";
-            this.buttonProjectFolderBrowse.Size = new System.Drawing.Size(24, 23);
-            this.buttonProjectFolderBrowse.TabIndex = 2;
-            this.buttonProjectFolderBrowse.Text = "...";
-            this.buttonProjectFolderBrowse.UseVisualStyleBackColor = true;
             // 
             // TeamMemberForm
             // 
