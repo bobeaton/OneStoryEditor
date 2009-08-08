@@ -80,9 +80,19 @@ namespace OneStoryProjectEditor
             tableLayoutPanel.RemoveColumn(nLayoutColumnIndex);
         }
 
-        protected void textBox_TextChanged(object sender, EventArgs e)
+        public void textBox_TextChanged(object sender, EventArgs e)
         {
             TextBox tb = (TextBox)sender;
+            AdjustTextBoxHeight(tb);
+
+            // the 'Tag' of each text box contains a delegate to set the data item it is associated with
+            System.Diagnostics.Debug.Assert((tb.Tag != null) && (tb.Tag is StringTransfer.SetValueDelegate));
+            StringTransfer.SetValueDelegate SetAssocDataValue = (StringTransfer.SetValueDelegate)tb.Tag;
+            SetAssocDataValue(tb.Text);
+        }
+
+        protected void AdjustTextBoxHeight(TextBox tb)
+        {
             if (ResizeTextBoxToFitText(tb))
                 AdjustHeightWithSuspendLayout(null);
         }

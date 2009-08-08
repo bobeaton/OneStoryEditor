@@ -122,7 +122,7 @@ namespace OneStoryProjectEditor
             this.tableLayoutPanel.Controls.Add(lbl, nLayoutColumn, 0);
         }
 
-        protected void InitTextBox(string strTbName, string strTbText, Font font, Color color, int nLayoutColumn)
+        protected void InitTextBox(string strTbName, StringTransfer strTbText, Font font, Color color, int nLayoutColumn)
         {
             System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(strTbName + cstrSuffixTextBox), "otherwise, fix wrong assumption");
             TextBox tb = new TextBox();
@@ -131,7 +131,7 @@ namespace OneStoryProjectEditor
             tb.Font = font;
             tb.ForeColor = color;
             tb.Dock = DockStyle.Fill;
-            tb.Text = strTbText;
+            strTbText.SetAssociation(tb);   // tb.Text = strTbText;
             tb.TextChanged += new EventHandler(textBox_TextChanged);
             this.tableLayoutPanel.Controls.Add(tb, nLayoutColumn, 1);
         }

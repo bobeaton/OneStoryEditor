@@ -8,8 +8,8 @@ namespace OneStoryProjectEditor
     public class TestQuestionData
     {
         public bool IsVisible = true;
-        public string QuestionVernacular = null;
-        public string QuestionEnglish = null;
+        public StringTransfer QuestionVernacular = null;
+        public StringTransfer QuestionEnglish = null;
         public AnswersData Answers = null;
 
         public TestQuestionData(StoryProject.TestQuestionRow theTestQuestionRow, StoryProject projFile)
@@ -17,9 +17,9 @@ namespace OneStoryProjectEditor
             IsVisible = theTestQuestionRow.visible;
 
             if (!theTestQuestionRow.IsTQVernacularNull())
-                QuestionVernacular = theTestQuestionRow.TQVernacular;
+                QuestionVernacular = new StringTransfer(theTestQuestionRow.TQVernacular);
             if (!theTestQuestionRow.IsTQInternationalBTNull())
-                QuestionEnglish = theTestQuestionRow.TQInternationalBT;
+                QuestionEnglish = new StringTransfer(theTestQuestionRow.TQInternationalBT);
 
             Answers = new AnswersData(theTestQuestionRow, projFile);
         }

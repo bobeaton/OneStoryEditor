@@ -8,9 +8,9 @@ namespace OneStoryProjectEditor
     public class VerseData
     {
         public string guid = null;
-        public string VernacularText = null;
-        public string NationalBTText = null;
-        public string InternationalBTText = null;
+        public StringTransfer VernacularText = null;
+        public StringTransfer NationalBTText = null;
+        public StringTransfer InternationalBTText = null;
         public AnchorsData Anchors = null;
         public TestQuestionsData TestQuestions = null;
         public RetellingsData Retellings = null;
@@ -21,11 +21,11 @@ namespace OneStoryProjectEditor
         {
             guid = theVerseRow.guid;
             if (!theVerseRow.IsVernacularNull())
-                VernacularText = theVerseRow.Vernacular;
+                VernacularText = new StringTransfer(theVerseRow.Vernacular);
             if (!theVerseRow.IsNationalBTNull())
-                NationalBTText = theVerseRow.NationalBT;
+                NationalBTText = new StringTransfer(theVerseRow.NationalBT);
             if (!theVerseRow.IsInternationalBTNull())
-                InternationalBTText = theVerseRow.InternationalBT;
+                InternationalBTText = new StringTransfer(theVerseRow.InternationalBT);
 
             Anchors = new AnchorsData(theVerseRow, projFile);
             TestQuestions = new TestQuestionsData(theVerseRow, projFile);

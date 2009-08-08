@@ -7,11 +7,16 @@ namespace OneStoryProjectEditor
 {
     public class ExegeticalHelpNoteData
     {
-        public string ExegeticalHelpNote = null;
+        public StringTransfer ExegeticalHelpNote = null;
 
         public ExegeticalHelpNoteData(StoryProject.exegeticalHelpRow theExHelpNoteRow)
         {
-            ExegeticalHelpNote = theExHelpNoteRow.exegeticalHelp_Column;
+            ExegeticalHelpNote = new StringTransfer(theExHelpNoteRow.exegeticalHelp_Column);
+        }
+
+        public ExegeticalHelpNoteData(string strInitialText)
+        {
+            ExegeticalHelpNote = new StringTransfer(strInitialText);
         }
 
         public XElement GetXml
@@ -36,6 +41,17 @@ namespace OneStoryProjectEditor
 
             foreach (StoryProject.exegeticalHelpRow anExHelpNoteRow in theExHelpNotesRow.GetexegeticalHelpRows())
                 Add(new ExegeticalHelpNoteData(anExHelpNoteRow));
+        }
+
+        public ExegeticalHelpNotesData()
+        {
+        }
+
+        public ExegeticalHelpNoteData AddExegeticalHelpNote(string strInitialText)
+        {
+            ExegeticalHelpNoteData theEHN = new ExegeticalHelpNoteData(strInitialText);
+            this.Add(theEHN);
+            return theEHN;
         }
 
         public XElement GetXml

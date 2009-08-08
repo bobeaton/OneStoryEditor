@@ -245,10 +245,10 @@ namespace OneStoryProjectEditor
             }
 
             // indicate that this is the currently logged on user
-            _dataTeamMembers.LoggedOn = _dataTeamMembers[SelectedMember];
+            // _dataTeamMembers.LoggedOn = _dataTeamMembers[SelectedMember];
 
             Properties.Settings.Default.LastMemberLogin = SelectedMember;
-            Properties.Settings.Default.LastUserType = _dataTeamMembers.LoggedOn.MemberTypeAsString;
+            Properties.Settings.Default.LastUserType = _dataTeamMembers[SelectedMember].MemberTypeAsString;
             Properties.Settings.Default.Save();
 
             DialogResult = DialogResult.OK;

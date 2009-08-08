@@ -99,149 +99,19 @@ namespace OneStoryProjectEditor
             comboBoxStorySelector.Focus();
         }
 
-        /* moved to TeamMemberData.cs
-        protected bool GetLogin()
-        {
-            // this method shouldn't be called until after InsureProjectPlusFrontMatter
-#if UsingOneFilePerStory
-            System.Diagnostics.Debug.Assert((m_projFileFM != null) && (m_projFileFM.stories != null)
-                && (m_projFileFM.stories.Count > 0) && (ProjSettings != null));
-#else
-            System.Diagnostics.Debug.Assert((m_projFile != null) && (m_projFile.stories != null) 
-                && (m_projFile.stories.Count > 0) && (ProjSettings != null));
-#endif
-
-            // if someone is already logged on, then the last login and type *will* be the same--
-            //  see TeamMemberForm.buttonOK_Click--which is just the criteria for auto login)
-            //  NB: in this case, the only way to change the logged in person is "Project", "Settings"
-            if (_dataTeamMembers != null)
-            {
-                if (_dataTeamMembers.LoggedOn != null)
-                    return true;
-            }
-            else
-#if UsingOneFilePerStory
-                _dataTeamMembers = new TeamMembersData(m_projFileFM);
-#else
-                _dataTeamMembers = new TeamMembersData(m_projFile);
-#endif
-
-            // look at the last person to log in and see if we ought to automatically log them in again
-            //  (basically Crafters or others that are also the same role as last time)
-            string strMemberName = null;
-            if (!String.IsNullOrEmpty(Properties.Settings.Default.LastMemberLogin))
-            {
-                strMemberName = Properties.Settings.Default.LastMemberLogin;
-                string strMemberTypeString = Properties.Settings.Default.LastUserType;
-                if (_dataTeamMembers.CanLoginMember(strMemberName, strMemberTypeString))    // sets LoggedOn if returning true
-                    return true;
-            }
-
-            // otherwise, fall thru and make them pick it.
-            return EditTeamMembers(strMemberName);
-        }
-
-        protected bool EditTeamMembers(string strMemberName)
-        {
-#if UsingOneFilePerStory
-            System.Diagnostics.Debug.Assert((m_projFileFM != null) && (m_projFileFM.stories != null)
-                && (m_projFileFM.stories.Count > 0) && (ProjSettings != null));
-#else
-            System.Diagnostics.Debug.Assert((m_projFile != null) && (m_projFile.stories != null)
-                && (m_projFile.stories.Count > 0) && (ProjSettings != null));
-#endif
-
-            // if we haven't found the member, then get them to select it from the Team Member UI
-            if (_dataTeamMembers == null)
-#if UsingOneFilePerStory
-                _dataTeamMembers = new TeamMembersData(m_projFileFM);
-#else
-                _dataTeamMembers = new TeamMembersData(m_projFile);
-#endif
-
-            TeamMemberForm dlg = new TeamMemberForm(_dataTeamMembers, ProjSettings);
-            if (!String.IsNullOrEmpty(strMemberName))
-            {
-                try
-                {
-                    // if we did find the "last member" in the list, but couldn't accept it without question
-                    //  (e.g. because the role was different), then at least pre-select the member
-                    dlg.SelectedMember = strMemberName;
-                }
-                catch { }    // might fail if the "last user" on this machine is opening this project file for the first time... just ignore
-            }
-
-            return (dlg.ShowDialog() == DialogResult.OK);
-        }
-
-        protected bool InsureProjectPlusFrontMatter()
-        {
-#if UsingOneFilePerStory
-            if (m_projFileFM == null)
-                m_projFileFM = new StoryProject();
-
-            StoryProject.storiesRow theStoriesRow = null;
-            if (m_projFileFM.stories.Count == 0)
-            {
-                string strLanguage = Microsoft.VisualBasic.Interaction.InputBox(String.Format("You are creating a brand new OneStory project. Enter the name you want to give this project (e.g. the language name).{0}{0}(if you had intended to edit an existing project, cancel this dialog and use the 'File', 'Open' command)", Environment.NewLine), cstrCaption, null, Screen.PrimaryScreen.WorkingArea.Right / 2, Screen.PrimaryScreen.WorkingArea.Bottom / 2);
-                if (String.IsNullOrEmpty(strLanguage))
-                    return false;
-
-                // otherwise, add the new Stories row
-                theStoriesRow = m_projFileFM.stories.AddstoriesRow(strLanguage);
-                ProjSettings = null;    // have to restart with a new project
-            }
-            else
-                theStoriesRow = m_projFileFM.stories[0];
-
-            SetTitleBar();
-
-            if (ProjSettings == null)
-                ProjSettings = new ProjectSettings(m_projFileFM, theStoriesRow.ProjectName);
-#else
-            if (m_projFile == null)
-                m_projFile = new StoryProject();
-
-            StoryProject.storiesRow theStoriesRow = null;
-            if (m_projFile.stories.Count == 0)
-            {
-                string strLanguage = Microsoft.VisualBasic.Interaction.InputBox(String.Format("You are creating a brand new OneStory project. Enter the name you want to give this project (e.g. the language name).{0}{0}(if you had intended to edit an existing project, cancel this dialog and use the 'File', 'Open' command)", Environment.NewLine), cstrCaption, null, Screen.PrimaryScreen.WorkingArea.Right / 2, Screen.PrimaryScreen.WorkingArea.Bottom / 2);
-                if (String.IsNullOrEmpty(strLanguage))
-                    return false;
-
-                // otherwise, add the new Stories row
-                theStoriesRow = m_projFile.stories.AddstoriesRow(strLanguage);
-            }
-            else
-                theStoriesRow = m_projFile.stories[0];
-
-            SetTitleBar();
-
-            if (ProjSettings == null)
-                ProjSettings = new ProjectSettings(m_projFile, theStoriesRow.ProjectName);
-#endif
-
-            return true;
-        }
-
-        protected void InsureVersesRow(StoryProject.storyRow aStoryRow)
-        {
-            System.Diagnostics.Debug.Assert(m_projFile != null);
-            if (aStoryRow.GetversesRows().Length == 0)
-                m_projFile.verses.AddversesRow(aStoryRow);
-        }
-
-        */
-
         private void teamMembersToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (Stories == null)
             {
                 StoryProject projFile = new StoryProject();
-                Stories = new StoriesData(projFile, LoggedOnMember);
+                Stories = new StoriesData(projFile, ref LoggedOnMember);
             }
 
-            Stories.EditTeamMembers(LoggedOnMember.Name);
+            try
+            {
+                Stories.EditTeamMembers(LoggedOnMember.Name);
+            }
+            catch { }   // this might throw if the user cancels, but we don't care
         }
 
         protected void OpenProjectFile(string strProjectFilename)
@@ -301,7 +171,7 @@ namespace OneStoryProjectEditor
                 projFile.ReadXml(strProjectFilename);
 
                 // get *all* the data
-                Stories = new StoriesData(projFile, LoggedOnMember);
+                Stories = new StoriesData(projFile, ref LoggedOnMember);
 
                 string strStoryToLoad = null;
                 if (Stories.Count > 0)
@@ -383,7 +253,7 @@ namespace OneStoryProjectEditor
             if (Stories == null)
             {
                 StoryProject projFile = new StoryProject();
-                Stories = new StoriesData(projFile, LoggedOnMember);
+                Stories = new StoriesData(projFile, ref LoggedOnMember);
             }
 
 #if UsingOneFilePerStory
@@ -911,26 +781,6 @@ namespace OneStoryProjectEditor
                 //  the stories in each their own file. So we'll be writing two documents here.
                 SaveXElement(GetFrontMatterXml, strFilename);
 #endif
-                // trigger the main display controls to update the data
-                foreach (Control ctrl in flowLayoutPanelVerses.Controls)
-                {
-                    if (ctrl is VerseBtControl)
-                    {
-                        VerseBtControl aVerseCtrl = (VerseBtControl)ctrl;
-                        aVerseCtrl.UpdateData();
-                    }
-                }
-
-                foreach (ConsultNotesControl ctrl in flowLayoutPanelConsultantNotes.Controls)
-                {
-                    ctrl.UpdateData();
-                }
-
-                foreach (ConsultNotesControl ctrl in flowLayoutPanelCoachNotes.Controls)
-                {
-                    ctrl.UpdateData();
-                }
-
                 // let's see if the UNS entered the purpose of this story
                 System.Diagnostics.Debug.Assert((theCurrentStory != null) && (theCurrentStory.CraftingInfo != null));
                 if (String.IsNullOrEmpty(theCurrentStory.CraftingInfo.StoryPurpose))

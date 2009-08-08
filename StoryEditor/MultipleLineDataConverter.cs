@@ -5,7 +5,7 @@ using System.Text;
 
 namespace OneStoryProjectEditor
 {
-    public abstract class MultipleLineDataConverter : List<string>
+    public abstract class MultipleLineDataConverter : List<StringTransfer>
     {
         public string LabelTextFormat = null;
         protected List<string> MemberIDs = new List<string>();
@@ -41,7 +41,7 @@ namespace OneStoryProjectEditor
 
             foreach (StoryProject.RetellingRow aRetellingRow in theRetellingsRow.GetRetellingRows())
             {
-                Add(aRetellingRow.Retelling_text);
+                Add(new StringTransfer(aRetellingRow.Retelling_text));
                 MemberIDs.Add(aRetellingRow.memberID);
             }
         }
@@ -64,7 +64,7 @@ namespace OneStoryProjectEditor
 
             foreach (StoryProject.answerRow anAnswerRow in theAnswersRow.GetanswerRows())
             {
-                Add(anAnswerRow.answer_text);
+                Add(new StringTransfer(anAnswerRow.answer_text));
                 MemberIDs.Add(anAnswerRow.memberID);
             }
         }

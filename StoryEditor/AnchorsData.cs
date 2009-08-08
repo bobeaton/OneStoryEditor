@@ -2,22 +2,30 @@
 using System.Collections.Generic;
 using System.Xml.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
 {
     public class AnchorData
     {
         public string JumpTarget = null;
-        public string ToolTip = null;
-        public ExegeticalHelpNotesData ExegeticalHelpNotes = null;
+        public string ToolTipText = null;
+        internal ExegeticalHelpNotesData ExegeticalHelpNotes = null;
 
         public AnchorData(StoryProject.anchorRow theAnchorRow, StoryProject projFile)
         {
             JumpTarget = theAnchorRow.jumpTarget;
             if (!theAnchorRow.IstoolTipNull())
-                ToolTip = theAnchorRow.toolTip;
+                ToolTipText = theAnchorRow.toolTip;
 
             ExegeticalHelpNotes = new ExegeticalHelpNotesData(theAnchorRow, projFile);
+        }
+
+        public AnchorData(string strJumpTarget, string strComment)
+        {
+            JumpTarget = strJumpTarget;
+            ToolTipText = strComment;
+            ExegeticalHelpNotes = new ExegeticalHelpNotesData();
         }
 
         public XElement GetXml
@@ -25,7 +33,7 @@ namespace OneStoryProjectEditor
             get
             {
                 return new XElement(StoryEditor.ns + "anchor", new XAttribute("jumpTarget", JumpTarget),
-                    new XElement(StoryEditor.ns + "toolTip", ToolTip),
+                    new XElement(StoryEditor.ns + "toolTip", ToolTipText),
                     ExegeticalHelpNotes.GetXml);
             }
         }
@@ -44,6 +52,13 @@ namespace OneStoryProjectEditor
 
             foreach (StoryProject.anchorRow anAnchorRow in theAnchorsRow.GetanchorRows())
                 Add(new AnchorData(anAnchorRow, projFile));
+        }
+
+        public AnchorData AddAnchorData(string strJumpTarget)
+        {
+            AnchorData anAD = new AnchorData(strJumpTarget, strJumpTarget);
+            this.Add(anAD);
+            return anAD;
         }
 
         public XElement GetXml

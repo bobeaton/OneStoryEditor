@@ -12,11 +12,11 @@ namespace OneStoryProjectEditor
         
         public string MentorGuid = null;
         public string MentorLabel = null;
-        public string MentorComment = null;
+        public StringTransfer MentorComment = null;
 
         public string MenteeGuid = null;
         public string MenteeLabel = null;
-        public string MenteeResponse = null;
+        public StringTransfer MenteeResponse = null;
 
         public Color CommentColor
         {
@@ -58,7 +58,7 @@ namespace OneStoryProjectEditor
                 StoryProject.ConsultantCommentRow theCCRow = aCCRows[0];
                 MentorGuid = theCCRow.memberID;
                 MentorLabel = "con:";
-                MentorComment = theCCRow.ConsultantComment_text;
+                MentorComment = new StringTransfer(theCCRow.ConsultantComment_text);
             }
 
             StoryProject.CrafterResponseRow[] aCRRows = aCNRow.GetCrafterResponseRows();
@@ -67,7 +67,7 @@ namespace OneStoryProjectEditor
                 StoryProject.CrafterResponseRow theCRRow = aCRRows[0];
                 MenteeGuid = theCRRow.memberID;
                 MenteeLabel = "res:";
-                MenteeResponse = theCRRow.CrafterResponse_text;
+                MenteeResponse = new StringTransfer(theCRRow.CrafterResponse_text);
             }
         }
     }
@@ -105,7 +105,7 @@ namespace OneStoryProjectEditor
                 StoryProject.CoachCommentRow theCoCRow = aCoCRows[0];
                 MentorGuid = theCoCRow.memberID;
                 MentorLabel = "co:";
-                MentorComment = theCoCRow.CoachComment_text;
+                MentorComment = new StringTransfer(theCoCRow.CoachComment_text);
             }
 
             StoryProject.ConsultantResponseRow[] aCRRows = aCoNRow.GetConsultantResponseRows();
@@ -114,7 +114,7 @@ namespace OneStoryProjectEditor
                 StoryProject.ConsultantResponseRow theCRRow = aCRRows[0];
                 MenteeGuid = theCRRow.memberID;
                 MenteeLabel = "con:";
-                MenteeResponse = theCRRow.ConsultantResponse_text;
+                MenteeResponse = new StringTransfer(theCRRow.ConsultantResponse_text);
             }
         }
     }

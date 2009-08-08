@@ -134,7 +134,7 @@ namespace OneStoryProjectEditor
 
     public class TeamMembersData : Dictionary<string, TeamMemberData>
     {
-        internal TeamMemberData LoggedOn = null;
+        // protected TeamMemberData LoggedOn = null;
 
         public TeamMembersData(StoryProject projFile)
         {
@@ -158,11 +158,7 @@ namespace OneStoryProjectEditor
             if (this.ContainsKey(strMemberName))
             {
                 TeamMemberData aTMD = this[strMemberName];
-                if (aTMD.MemberTypeAsString == strMemberType)
-                {
-                    LoggedOn = aTMD;
-                    return true;
-                }
+                return (aTMD.MemberTypeAsString == strMemberType);
             }
             return false;
         }

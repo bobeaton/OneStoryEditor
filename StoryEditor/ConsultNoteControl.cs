@@ -39,7 +39,7 @@ namespace OneStoryProjectEditor
             this.ResumeLayout(false);
         }
 
-        protected void InitRow(string strRowLabel, string strRowData, Color clrText, ref int nNumRows)
+        protected void InitRow(string strRowLabel, StringTransfer strRowData, Color clrText, ref int nNumRows)
         {
             int nLayoutRow = nNumRows++;
 
@@ -54,7 +54,7 @@ namespace OneStoryProjectEditor
             tb.Multiline = true;
             tb.Dock = DockStyle.Fill;
             tb.ForeColor = clrText;
-            tb.Text = strRowData;
+            strRowData.SetAssociation(tb);  // tb.Text = strRowData;
             tb.TextChanged += new EventHandler(textBox_TextChanged);
 
             // add the label and tool strip as a new row to the table layout panel

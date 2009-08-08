@@ -59,7 +59,6 @@
             this.buttonVernacularFont = new System.Windows.Forms.Button();
             this.buttonNationalBTFont = new System.Windows.Forms.Button();
             this.buttonInternationalBTFont = new System.Windows.Forms.Button();
-            this.textBoxProjectFolder = new System.Windows.Forms.TextBox();
             this.tabControlProjectMetaData = new System.Windows.Forms.TabControl();
             this.tabPageMemberList = new System.Windows.Forms.TabPage();
             this.tableLayoutPanelTeamMembers = new System.Windows.Forms.TableLayoutPanel();
@@ -74,7 +73,7 @@
             this.labelSkype = new System.Windows.Forms.Label();
             this.labelTeamViewerID = new System.Windows.Forms.Label();
             this.labelAddress = new System.Windows.Forms.Label();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPageLanguageInfo = new System.Windows.Forms.TabPage();
             this.tableLayoutPanelLanguageInformation = new System.Windows.Forms.TableLayoutPanel();
             this.labelLanguageName = new System.Windows.Forms.Label();
             this.labelStoryLanguage = new System.Windows.Forms.Label();
@@ -82,19 +81,16 @@
             this.labelEthnologueCode = new System.Windows.Forms.Label();
             this.labelFont = new System.Windows.Forms.Label();
             this.labelEnglishBT = new System.Windows.Forms.Label();
-            this.tabPageFileLocation = new System.Windows.Forms.TabPage();
-            this.buttonProjectFolderBrowse = new System.Windows.Forms.Button();
-            this.labelProjectFolder = new System.Windows.Forms.Label();
             this.fontDialog = new System.Windows.Forms.FontDialog();
+            this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.groupBoxRole.SuspendLayout();
             this.tabControlProjectMetaData.SuspendLayout();
             this.tabPageMemberList.SuspendLayout();
             this.tableLayoutPanelTeamMembers.SuspendLayout();
             this.tabPageEditMember.SuspendLayout();
             this.tableLayoutPanelMemberInformation.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.tabPageLanguageInfo.SuspendLayout();
             this.tableLayoutPanelLanguageInformation.SuspendLayout();
-            this.tabPageFileLocation.SuspendLayout();
             this.SuspendLayout();
             // 
             // textBoxName
@@ -431,28 +427,17 @@
             this.buttonInternationalBTFont.UseVisualStyleBackColor = true;
             this.buttonInternationalBTFont.Click += new System.EventHandler(this.buttonInternationalBTFont_Click);
             // 
-            // textBoxProjectFolder
-            // 
-            this.textBoxProjectFolder.Location = new System.Drawing.Point(12, 25);
-            this.textBoxProjectFolder.Name = "textBoxProjectFolder";
-            this.textBoxProjectFolder.Size = new System.Drawing.Size(398, 20);
-            this.textBoxProjectFolder.TabIndex = 1;
-            this.toolTip.SetToolTip(this.textBoxProjectFolder, "This is the location where the project files are kept (by default, <My Documents>" +
-                    "\\OneStory\\<ProjectName>");
-            // 
             // tabControlProjectMetaData
             // 
             this.tabControlProjectMetaData.Controls.Add(this.tabPageMemberList);
             this.tabControlProjectMetaData.Controls.Add(this.tabPageEditMember);
-            this.tabControlProjectMetaData.Controls.Add(this.tabPage1);
-            this.tabControlProjectMetaData.Controls.Add(this.tabPageFileLocation);
+            this.tabControlProjectMetaData.Controls.Add(this.tabPageLanguageInfo);
             this.tabControlProjectMetaData.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControlProjectMetaData.Location = new System.Drawing.Point(0, 0);
             this.tabControlProjectMetaData.Name = "tabControlProjectMetaData";
             this.tabControlProjectMetaData.SelectedIndex = 0;
             this.tabControlProjectMetaData.Size = new System.Drawing.Size(459, 444);
             this.tabControlProjectMetaData.TabIndex = 1;
-            this.tabControlProjectMetaData.Visible = false;
             this.tabControlProjectMetaData.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControlProjectMetaData_Selected);
             // 
             // tabPageMemberList
@@ -636,16 +621,16 @@
             this.labelAddress.Text = "A&ddress:";
             this.labelAddress.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
-            // tabPage1
+            // tabPageLanguageInfo
             // 
-            this.tabPage1.Controls.Add(this.tableLayoutPanelLanguageInformation);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(451, 418);
-            this.tabPage1.TabIndex = 2;
-            this.tabPage1.Text = "Language Information";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.tabPageLanguageInfo.Controls.Add(this.tableLayoutPanelLanguageInformation);
+            this.tabPageLanguageInfo.Location = new System.Drawing.Point(4, 22);
+            this.tabPageLanguageInfo.Name = "tabPageLanguageInfo";
+            this.tabPageLanguageInfo.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageLanguageInfo.Size = new System.Drawing.Size(451, 418);
+            this.tabPageLanguageInfo.TabIndex = 2;
+            this.tabPageLanguageInfo.Text = "Language Information";
+            this.tabPageLanguageInfo.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanelLanguageInformation
             // 
@@ -744,40 +729,13 @@
             this.labelEnglishBT.TabIndex = 11;
             this.labelEnglishBT.Text = "English BT Font:";
             // 
-            // tabPageFileLocation
-            // 
-            this.tabPageFileLocation.Controls.Add(this.buttonProjectFolderBrowse);
-            this.tabPageFileLocation.Controls.Add(this.textBoxProjectFolder);
-            this.tabPageFileLocation.Controls.Add(this.labelProjectFolder);
-            this.tabPageFileLocation.Location = new System.Drawing.Point(4, 22);
-            this.tabPageFileLocation.Name = "tabPageFileLocation";
-            this.tabPageFileLocation.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageFileLocation.Size = new System.Drawing.Size(451, 418);
-            this.tabPageFileLocation.TabIndex = 3;
-            this.tabPageFileLocation.Text = "File Locations";
-            this.tabPageFileLocation.UseVisualStyleBackColor = true;
-            // 
-            // buttonProjectFolderBrowse
-            // 
-            this.buttonProjectFolderBrowse.Location = new System.Drawing.Point(416, 24);
-            this.buttonProjectFolderBrowse.Name = "buttonProjectFolderBrowse";
-            this.buttonProjectFolderBrowse.Size = new System.Drawing.Size(24, 23);
-            this.buttonProjectFolderBrowse.TabIndex = 2;
-            this.buttonProjectFolderBrowse.Text = "...";
-            this.buttonProjectFolderBrowse.UseVisualStyleBackColor = true;
-            // 
-            // labelProjectFolder
-            // 
-            this.labelProjectFolder.AutoSize = true;
-            this.labelProjectFolder.Location = new System.Drawing.Point(9, 7);
-            this.labelProjectFolder.Name = "labelProjectFolder";
-            this.labelProjectFolder.Size = new System.Drawing.Size(101, 13);
-            this.labelProjectFolder.TabIndex = 0;
-            this.labelProjectFolder.Text = "&Project Data Folder:";
-            // 
             // fontDialog
             // 
             this.fontDialog.ShowColor = true;
+            // 
+            // folderBrowserDialog
+            // 
+            this.folderBrowserDialog.RootFolder = System.Environment.SpecialFolder.Personal;
             // 
             // TeamMemberForm
             // 
@@ -801,11 +759,9 @@
             this.tabPageEditMember.ResumeLayout(false);
             this.tableLayoutPanelMemberInformation.ResumeLayout(false);
             this.tableLayoutPanelMemberInformation.PerformLayout();
-            this.tabPage1.ResumeLayout(false);
+            this.tabPageLanguageInfo.ResumeLayout(false);
             this.tableLayoutPanelLanguageInformation.ResumeLayout(false);
             this.tableLayoutPanelLanguageInformation.PerformLayout();
-            this.tabPageFileLocation.ResumeLayout(false);
-            this.tabPageFileLocation.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -848,7 +804,7 @@
         private System.Windows.Forms.ListBox listBoxMemberRoles;
         private System.Windows.Forms.TextBox textBoxMemberNames;
         private System.Windows.Forms.TextBox textBoxMemberRoles;
-        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPageLanguageInfo;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelLanguageInformation;
         private System.Windows.Forms.Label labelLanguageName;
         private System.Windows.Forms.TextBox textBoxVernacular;
@@ -864,9 +820,6 @@
         private System.Windows.Forms.Button buttonNationalBTFont;
         private System.Windows.Forms.Label labelEnglishBT;
         private System.Windows.Forms.Button buttonInternationalBTFont;
-        private System.Windows.Forms.TabPage tabPageFileLocation;
-        private System.Windows.Forms.Label labelProjectFolder;
-        private System.Windows.Forms.TextBox textBoxProjectFolder;
-        private System.Windows.Forms.Button buttonProjectFolderBrowse;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
     }
 }

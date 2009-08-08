@@ -51,7 +51,7 @@ namespace OneStoryProjectEditor
         internal TeamMembersData TeamMembers = null;
         internal ProjectSettings ProjSettings = null;
 
-        public StoriesData(StoryProject projFile, TeamMemberData LoggedOnMember)
+        public StoriesData(StoryProject projFile, ref TeamMemberData LoggedOnMember)
         {
             // if this is "new", then we won't have a project name yet, so query the user for it
             string strProjectName;
@@ -68,13 +68,11 @@ namespace OneStoryProjectEditor
 
             // the LoggedOnMemb might have been passed in from a previous file
             if (LoggedOnMember == null)
-                GetLogin();
-            else
-                TeamMembers.LoggedOn = LoggedOnMember;
+                GetLogin(ref LoggedOnMember);
 
             // finally, if it's not new, then it might (should) have stories as well
             foreach (StoryProject.storyRow aStoryRow in projFile.stories[0].GetstoryRows())
-                Add(new StoryData(aStoryRow, projFile, TeamMembers.LoggedOn));
+                Add(new StoryData(aStoryRow, projFile, LoggedOnMember));
         }
 
         protected string QueryProjectName()
@@ -85,7 +83,7 @@ namespace OneStoryProjectEditor
             return strProjectName;
         }
 
-        protected void GetLogin()
+        protected void GetLogin(ref TeamMemberData LoggedOnMember)
         {
             // look at the last person to log in and see if we ought to automatically log them in again
             //  (basically Crafters or others that are also the same role as last time)
@@ -94,15 +92,19 @@ namespace OneStoryProjectEditor
             {
                 strMemberName = Properties.Settings.Default.LastMemberLogin;
                 string strMemberTypeString = Properties.Settings.Default.LastUserType;
-                if (TeamMembers.CanLoginMember(strMemberName, strMemberTypeString))    // sets LoggedOn if returning true
+                if (TeamMembers.CanLoginMember(strMemberName, strMemberTypeString))
+                {
+                    LoggedOnMember = TeamMembers[strMemberName];
                     return;
+                }
             }
 
             // otherwise, fall thru and make them pick it.
-            EditTeamMembers(strMemberName);
+            LoggedOnMember = EditTeamMembers(strMemberName);
         }
 
-        internal bool EditTeamMembers(string strMemberName)
+        // returns the logged in member
+        internal TeamMemberData EditTeamMembers(string strMemberName)
         {
             TeamMemberForm dlg = new TeamMemberForm(TeamMembers, ProjSettings);
             if (!String.IsNullOrEmpty(strMemberName))
@@ -116,7 +118,10 @@ namespace OneStoryProjectEditor
                 catch { }    // might fail if the "last user" on this machine is opening this project file for the first time... just ignore
             }
 
-            return (dlg.ShowDialog() == DialogResult.OK);
+            if (dlg.ShowDialog() != DialogResult.OK)
+                throw new ApplicationException("You have to log in in order to continue");
+
+            return TeamMembers[dlg.SelectedMember];
         }
 
         public XElement GetXml

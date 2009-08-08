@@ -23,7 +23,7 @@ namespace OneStoryProjectEditor
             // finally populate the buttons on that tool strip
             System.Diagnostics.Debug.Assert(aMLDC.Count > 0);
             int nNumRows = 0;
-            foreach (string strRowData in aMLDC)
+            foreach (StringTransfer strRowData in aMLDC)
             {
                 InitRow(aMLDC.LabelTextFormat, strRowData, ref nNumRows);
             }
@@ -32,7 +32,7 @@ namespace OneStoryProjectEditor
             this.ResumeLayout(false);
         }
 
-        protected void InitRow(string strLabelTextFormat, string strRowData, ref int nNumRows)
+        protected void InitRow(string strLabelTextFormat, StringTransfer strRowData, ref int nNumRows)
         {
             int nLayoutRow = nNumRows++;
 
@@ -46,7 +46,7 @@ namespace OneStoryProjectEditor
             tb.Name = strLabelTextFormat + cstrSuffixTextBox + nNumRows.ToString();
             tb.Multiline = true;
             tb.Dock = DockStyle.Fill;
-            tb.Text = strRowData;
+            strRowData.SetAssociation(tb);  // tb.Text = strRowData;
             tb.TextChanged += new EventHandler(textBox_TextChanged);
 
             // add the label and tool strip as a new row to the table layout panel

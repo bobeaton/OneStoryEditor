@@ -222,6 +222,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StoryProject.xsd</DependentUpon>
     </Compile>
+    <Compile Include="StringTransfer.cs" />
     <Compile Include="TeamMemberData.cs" />
     <Compile Include="TeamMemberForm.cs">
       <SubType>Form</SubType>
