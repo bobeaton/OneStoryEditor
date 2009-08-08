@@ -27,7 +27,7 @@ namespace OneStoryProjectEditor
             foreach (TeamMemberData aMember in dataTeamMembers.Values)
             {
                 listBoxTeamMembers.Items.Add(aMember.Name);
-                listBoxMemberRoles.Items.Add(aMember.UserTypeAsString);
+                listBoxMemberRoles.Items.Add(aMember.MemberTypeAsString);
             }
 
             if ((listBoxTeamMembers.Items.Count > 0) && !String.IsNullOrEmpty(Properties.Settings.Default.LastMemberLogin))
@@ -176,7 +176,7 @@ namespace OneStoryProjectEditor
 
                 // update the role listbox
                 int nIndex = listBoxTeamMembers.Items.IndexOf(MemberName);
-                listBoxMemberRoles.Items[nIndex] = theNewMemberData.UserTypeAsString;
+                listBoxMemberRoles.Items[nIndex] = theNewMemberData.MemberTypeAsString;
             }
             else if (listBoxTeamMembers.Items.Contains(this.MemberName))
             {
@@ -191,7 +191,7 @@ namespace OneStoryProjectEditor
                     this.Address);
                 m_mapNewMembersThisSession.Add(this.MemberName, theNewMemberData);
                 listBoxTeamMembers.Items.Add(this.MemberName);
-                listBoxMemberRoles.Items.Add(theNewMemberData.UserTypeAsString);
+                listBoxMemberRoles.Items.Add(theNewMemberData.MemberTypeAsString);
                 listBoxTeamMembers.SelectedItem = this.MemberName;
             }
 
@@ -248,7 +248,7 @@ namespace OneStoryProjectEditor
             _dataTeamMembers.LoggedOn = _dataTeamMembers[SelectedMember];
 
             Properties.Settings.Default.LastMemberLogin = SelectedMember;
-            Properties.Settings.Default.LastUserType = _dataTeamMembers.LoggedOn.UserTypeAsString;
+            Properties.Settings.Default.LastUserType = _dataTeamMembers.LoggedOn.MemberTypeAsString;
             Properties.Settings.Default.Save();
 
             DialogResult = DialogResult.OK;
@@ -337,37 +337,6 @@ namespace OneStoryProjectEditor
         void radioButton_CheckedChanged(object sender, System.EventArgs e)
         {
             Modified = true;
-        }
-
-        public static XElement GetXmlMembers(StoryProject m_projFile)
-        {
-            XElement eleMembers = new XElement(StoryEditor.ns + "Members");
-
-            foreach (StoryProject.MemberRow aMemberRow in m_projFile.Member)
-            {
-                XElement eleMember = 
-                    new XElement(StoryEditor.ns + "Member",
-                        new XAttribute("name", aMemberRow.name),
-                        new XAttribute("memberType", aMemberRow.memberType));
-
-                if (!aMemberRow.IsemailNull())
-                    eleMember.Add(new XAttribute("email", aMemberRow.email));
-                if (!aMemberRow.IsaltPhoneNull())
-                    eleMember.Add(new XAttribute("altPhone", aMemberRow.altPhone));
-                if (!aMemberRow.IsphoneNull())
-                    eleMember.Add(new XAttribute("phone", aMemberRow.phone));
-                if (!aMemberRow.IsaddressNull())
-                    eleMember.Add(new XAttribute("address", aMemberRow.address));
-                if (!aMemberRow.IsskypeIDNull())
-                    eleMember.Add(new XAttribute("skypeID", aMemberRow.skypeID));
-                if (!aMemberRow.IsteamViewerIDNull())
-                    eleMember.Add(new XAttribute("teamViewerID", aMemberRow.teamViewerID));
-
-                eleMember.Add(new XAttribute("memberKey", aMemberRow.memberKey));
-                eleMembers.Add(eleMember);
-            }
-
-            return eleMembers;
         }
 
         private void buttonVernacularFont_Click(object sender, EventArgs e)

@@ -11,6 +11,7 @@ namespace OneStoryProjectEditor
         protected TeamMemberData LoggedOnMember;
 
         protected ProjectStages _ProjectStage = ProjectStages.eUndefined;
+        protected const string cstrDefaultProjectStage = "CrafterTypeNationalBT";
 
         public enum ProjectStages
         {
@@ -89,6 +90,13 @@ namespace OneStoryProjectEditor
                 // for now...
                 ProjectStageString = value.ToString().Substring(1); // clip off the initial 'e'
             }
+        }
+
+        public StoryStageLogic(TeamMemberData loggedOnMember)
+        {
+            ProjectStageString = cstrDefaultProjectStage;
+            ProjectStage = ProjectStages.eCrafterTypeNationalBT;
+            LoggedOnMember = loggedOnMember;
         }
 
         public StoryStageLogic(string strProjectStage, TeamMemberData loggedOnMember)

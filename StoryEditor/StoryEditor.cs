@@ -1,4 +1,4 @@
-﻿#define UsingOneFilePerStory
+﻿// #define UsingOneFilePerStory
 
 using System;
 using System.Collections.Generic;
@@ -18,17 +18,19 @@ namespace OneStoryProjectEditor
     {
         internal const string cstrCaption = "OneStory Project Editor";
         internal const string cstrButtonDropTargetName = "buttonDropTarget";
-        protected const string cstrDefaultProjectStage = "CrafterTypeNationalBT";
 
         protected string m_strProjectFilename = null;
 
 #if UsingOneFilePerStory
         protected StoryProject m_projFileFM = null;
 #endif
-        protected StoryProject m_projFile = null;
-        protected TeamMembersData _dataTeamMembers = null;
-        internal ProjectSettings ProjSettings = null;
-        protected StorySettings _StorySettings = null;
+
+        // protected StoryProject m_projFile = null;
+        internal StoriesData Stories = null;
+        internal StoryData theCurrentStory = null;
+
+        // we keep a copy of this, because it ought to persist across multiple files
+        protected TeamMemberData LoggedOnMember = null;
 
         internal static XNamespace ns = "http://www.sil.org/computing/schemas/StoryProject.xsd";
 
@@ -81,7 +83,8 @@ namespace OneStoryProjectEditor
         protected void CloseProjectFile()
         {
             System.Diagnostics.Debug.Assert(!Modified);
-            m_projFile = null;
+            Stories = null;
+            theCurrentStory = null;
 #if UsingOneFilePerStory
             m_projFileFM = null;
 #endif
@@ -93,12 +96,10 @@ namespace OneStoryProjectEditor
         {
             CheckForSaveDirtyFile();
             CloseProjectFile();
-            if (!InsureProjectPlusFrontMatter())
-                return;
-            GetLogin();
             comboBoxStorySelector.Focus();
         }
 
+        /* moved to TeamMemberData.cs
         protected bool GetLogin()
         {
             // this method shouldn't be called until after InsureProjectPlusFrontMatter
@@ -173,10 +174,74 @@ namespace OneStoryProjectEditor
             return (dlg.ShowDialog() == DialogResult.OK);
         }
 
+        protected bool InsureProjectPlusFrontMatter()
+        {
+#if UsingOneFilePerStory
+            if (m_projFileFM == null)
+                m_projFileFM = new StoryProject();
+
+            StoryProject.storiesRow theStoriesRow = null;
+            if (m_projFileFM.stories.Count == 0)
+            {
+                string strLanguage = Microsoft.VisualBasic.Interaction.InputBox(String.Format("You are creating a brand new OneStory project. Enter the name you want to give this project (e.g. the language name).{0}{0}(if you had intended to edit an existing project, cancel this dialog and use the 'File', 'Open' command)", Environment.NewLine), cstrCaption, null, Screen.PrimaryScreen.WorkingArea.Right / 2, Screen.PrimaryScreen.WorkingArea.Bottom / 2);
+                if (String.IsNullOrEmpty(strLanguage))
+                    return false;
+
+                // otherwise, add the new Stories row
+                theStoriesRow = m_projFileFM.stories.AddstoriesRow(strLanguage);
+                ProjSettings = null;    // have to restart with a new project
+            }
+            else
+                theStoriesRow = m_projFileFM.stories[0];
+
+            SetTitleBar();
+
+            if (ProjSettings == null)
+                ProjSettings = new ProjectSettings(m_projFileFM, theStoriesRow.ProjectName);
+#else
+            if (m_projFile == null)
+                m_projFile = new StoryProject();
+
+            StoryProject.storiesRow theStoriesRow = null;
+            if (m_projFile.stories.Count == 0)
+            {
+                string strLanguage = Microsoft.VisualBasic.Interaction.InputBox(String.Format("You are creating a brand new OneStory project. Enter the name you want to give this project (e.g. the language name).{0}{0}(if you had intended to edit an existing project, cancel this dialog and use the 'File', 'Open' command)", Environment.NewLine), cstrCaption, null, Screen.PrimaryScreen.WorkingArea.Right / 2, Screen.PrimaryScreen.WorkingArea.Bottom / 2);
+                if (String.IsNullOrEmpty(strLanguage))
+                    return false;
+
+                // otherwise, add the new Stories row
+                theStoriesRow = m_projFile.stories.AddstoriesRow(strLanguage);
+            }
+            else
+                theStoriesRow = m_projFile.stories[0];
+
+            SetTitleBar();
+
+            if (ProjSettings == null)
+                ProjSettings = new ProjectSettings(m_projFile, theStoriesRow.ProjectName);
+#endif
+
+            return true;
+        }
+
+        protected void InsureVersesRow(StoryProject.storyRow aStoryRow)
+        {
+            System.Diagnostics.Debug.Assert(m_projFile != null);
+            if (aStoryRow.GetversesRows().Length == 0)
+                m_projFile.verses.AddversesRow(aStoryRow);
+        }
+
+        */
+
         private void teamMembersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (InsureProjectPlusFrontMatter())
-                EditTeamMembers(((_dataTeamMembers != null) && (_dataTeamMembers.LoggedOn != null)) ? _dataTeamMembers.LoggedOn.Name : null);
+            if (Stories == null)
+            {
+                StoryProject projFile = new StoryProject();
+                Stories = new StoriesData(projFile, LoggedOnMember);
+            }
+
+            Stories.EditTeamMembers(LoggedOnMember.Name);
         }
 
         protected void OpenProjectFile(string strProjectFilename)
@@ -230,42 +295,29 @@ namespace OneStoryProjectEditor
                 else if (comboBoxStorySelector.Items.Count > 0)
                     comboBoxStorySelector.SelectedIndex = 0;
 #else
-            m_projFile = new StoryProject();
             try
             {
-                System.Diagnostics.Debug.Assert(m_projFile != null);
-                m_projFile.ReadXml(strProjectFilename);
-                InsureProjectPlusFrontMatter();
+                StoryProject projFile = new StoryProject();
+                projFile.ReadXml(strProjectFilename);
 
-                StoryProject.storyRow theStoryRow = null;
+                // get *all* the data
+                Stories = new StoriesData(projFile, LoggedOnMember);
+
                 string strStoryToLoad = null;
-                if (m_projFile.story.Count > 0)
+                if (Stories.Count > 0)
                 {
-                    // defaults
-                    theStoryRow = m_projFile.story[0];
-                    strStoryToLoad = m_projFile.story[0].name;
-
                     // populate the combo boxes with all the existing story names
-                    foreach (StoryProject.storyRow aStoryRow in m_projFile.story)
-                        comboBoxStorySelector.Items.Add(aStoryRow.name);
+                    foreach (StoryData aStory in Stories)
+                        comboBoxStorySelector.Items.Add(aStory.StoryName);
+                    strStoryToLoad = Stories[0].StoryName;    // default
                 }
 
                 // check for project settings that might have been saved from a previous session
-                if (!String.IsNullOrEmpty(Properties.Settings.Default.LastStoryWorkedOn))
-                {
+                if (!String.IsNullOrEmpty(Properties.Settings.Default.LastStoryWorkedOn) && comboBoxStorySelector.Items.Contains(Properties.Settings.Default.LastStoryWorkedOn))
                     strStoryToLoad = Properties.Settings.Default.LastStoryWorkedOn;
-                    foreach (StoryProject.storyRow aStoryRow in m_projFile.story)
-                    {
-                        if (aStoryRow.name == strStoryToLoad)
-                        {
-                            theStoryRow = aStoryRow;
-                            break;
-                        }
-                    }
-                }
 
-                if (theStoryRow != null)
-                    comboBoxStorySelector.SelectedItem = theStoryRow.name;
+                if (!String.IsNullOrEmpty(strStoryToLoad) && comboBoxStorySelector.Items.Contains(strStoryToLoad))
+                    comboBoxStorySelector.SelectedItem = strStoryToLoad;
 #endif
             }
             catch (System.Exception ex)
@@ -273,56 +325,6 @@ namespace OneStoryProjectEditor
                 MessageBox.Show(String.Format("Unable to open project file '{1}'{0}{0}{2}{0}{0}Send the project file to bob_eaton@sall.com for help",
                     Environment.NewLine, strProjectFilename, ex.Message), cstrCaption);
             }
-        }
-
-        protected bool InsureProjectPlusFrontMatter()
-        {
-#if UsingOneFilePerStory
-            if (m_projFileFM == null)
-                m_projFileFM = new StoryProject();
-
-            StoryProject.storiesRow theStoriesRow = null;
-            if (m_projFileFM.stories.Count == 0)
-            {
-                string strLanguage = Microsoft.VisualBasic.Interaction.InputBox(String.Format("You are creating a brand new OneStory project. Enter the name you want to give this project (e.g. the language name).{0}{0}(if you had intended to edit an existing project, cancel this dialog and use the 'File', 'Open' command)", Environment.NewLine), cstrCaption, null, Screen.PrimaryScreen.WorkingArea.Right / 2, Screen.PrimaryScreen.WorkingArea.Bottom / 2);
-                if (String.IsNullOrEmpty(strLanguage))
-                    return false;
-
-                // otherwise, add the new Stories row
-                theStoriesRow = m_projFileFM.stories.AddstoriesRow(strLanguage);
-                ProjSettings = null;    // have to restart with a new project
-            }
-            else
-                theStoriesRow = m_projFileFM.stories[0];
-
-            SetTitleBar();
-
-            if (ProjSettings == null)
-                ProjSettings = new ProjectSettings(m_projFileFM, theStoriesRow.ProjectName);
-#else
-            if (m_projFile == null)
-                m_projFile = new StoryProject();
-
-            StoryProject.storiesRow theStoriesRow = null;
-            if (m_projFile.stories.Count == 0)
-            {
-                string strLanguage = Microsoft.VisualBasic.Interaction.InputBox(String.Format("You are creating a brand new OneStory project. Enter the name you want to give this project (e.g. the language name).{0}{0}(if you had intended to edit an existing project, cancel this dialog and use the 'File', 'Open' command)", Environment.NewLine), cstrCaption, null, Screen.PrimaryScreen.WorkingArea.Right / 2, Screen.PrimaryScreen.WorkingArea.Bottom / 2);
-                if (String.IsNullOrEmpty(strLanguage))
-                    return false;
-
-                // otherwise, add the new Stories row
-                theStoriesRow = m_projFile.stories.AddstoriesRow(strLanguage);
-            }
-            else
-                theStoriesRow = m_projFile.stories[0];
-
-            SetTitleBar();
-
-            if (ProjSettings == null)
-                ProjSettings = new ProjectSettings(m_projFile, theStoriesRow.ProjectName);
-#endif
-
-            return true;
         }
 
         private void comboBoxStorySelector_KeyUp(object sender, KeyEventArgs e)
@@ -336,49 +338,34 @@ namespace OneStoryProjectEditor
                 if (!File.Exists(strStoryFilename))
                     //TODO: I got stuck here doing the 'UsingOneFilePerStory' refactoring
 #else
-                StoryProject.storyRow theStoryRow = null;
+                int nInsertIndex = -1;
+                StoryData theStory = null;
                 string strStoryToLoad = comboBoxStorySelector.Text;
-                if ((m_projFile != null) && (m_projFile.story.Count > 0))
-                    foreach (StoryProject.storyRow aStoryRow in m_projFile.story)
+                if (Stories != null)
+                    for (int i = 0; i < Stories.Count; i++)
                     {
-                        if (aStoryRow.name == strStoryToLoad)
-                        {
-                            theStoryRow = aStoryRow;
-                            break;
-                        }
+                        StoryData aStory = Stories[i];
+                        if ((theCurrentStory != null) && (theCurrentStory == aStory))
+                            nInsertIndex = i + 1;
+                        if (aStory.StoryName == strStoryToLoad)
+                            theStory = aStory;
                     }
 
-                if (theStoryRow == null)
+                if (theStory == null)
 #endif
                 {
                     if (MessageBox.Show(String.Format("Unable to find the story '{0}'. Would you like to add a new one with that name?", strStoryToLoad), cstrCaption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
                     {
                         System.Diagnostics.Debug.Assert(!comboBoxStorySelector.Items.Contains(strStoryToLoad));
                         comboBoxStorySelector.Items.Add(strStoryToLoad);
-                        if (!InsureProjectPlusFrontMatter())
-                            return; // user could enter nothing for a language name
-
-                        System.Diagnostics.Debug.Assert((m_projFile != null) && (m_projFile.stories.Count == 1));
-                        m_projFile.story.AddstoryRow(strStoryToLoad, cstrDefaultProjectStage, 
-                            Guid.NewGuid().ToString(), m_projFile.stories[0]);
+                        theCurrentStory = new StoryData(strStoryToLoad, LoggedOnMember);
+                        Stories.Insert(nInsertIndex, theCurrentStory);
                         comboBoxStorySelector.SelectedItem = strStoryToLoad;
                     }
                 }
                 else
-                    comboBoxStorySelector.SelectedItem = theStoryRow.name;
+                    comboBoxStorySelector.SelectedItem = theStory.StoryName;
             }
-        }
-
-        protected void InsureVersesRow(StoryProject.storyRow aStoryRow)
-        {
-            System.Diagnostics.Debug.Assert(m_projFile != null);
-            if (aStoryRow.GetversesRows().Length == 0)
-                m_projFile.verses.AddversesRow(aStoryRow);
-        }
-
-        protected void SetTitleBar()
-        {
-            this.Text = String.Format("OneStory Editor -- {0} Story Project", m_projFile.stories[0].ProjectName);
         }
 
         private void comboBoxStorySelector_SelectedIndexChanged(object sender, EventArgs e)
@@ -392,9 +379,12 @@ namespace OneStoryProjectEditor
                 || (flowLayoutPanelConsultantNotes.Controls.Count != 0)
                 || (flowLayoutPanelCoachNotes.Controls.Count != 0)); // if this happens, it means we didn't save or cleanup the document
 
-            // find out which member we're working with (if it isn't already clear)
-            if (!GetLogin())
-                return;
+            // we might could come thru here without having opened any file (e.g. after New)
+            if (Stories == null)
+            {
+                StoryProject projFile = new StoryProject();
+                Stories = new StoriesData(projFile, LoggedOnMember);
+            }
 
 #if UsingOneFilePerStory
             string strStoryFilename = FilenameFromStoryInfo(m_strProjectFilename, (string)comboBoxStorySelector.SelectedItem);
@@ -408,38 +398,33 @@ namespace OneStoryProjectEditor
             }
 #else
             // find the story they've chosen (this shouldn't be possible to fail)
-            StoryProject.storyRow theStoryRow = null;
-            foreach (StoryProject.storyRow aStoryRow in m_projFile.story)
-                if (aStoryRow.name == (string)comboBoxStorySelector.SelectedItem)
+            foreach (StoryData aStory in Stories)
+                if (aStory.StoryName == (string)comboBoxStorySelector.SelectedItem)
                 {
-                    theStoryRow = aStoryRow;
+                    theCurrentStory = aStory;
                     break;
                 }
 #endif
-            System.Diagnostics.Debug.Assert(theStoryRow != null);
-
-            // initialize our settings object for this story.
-            _StorySettings = new StorySettings(theStoryRow, m_projFile, _dataTeamMembers.LoggedOn);
+            System.Diagnostics.Debug.Assert(theCurrentStory != null);
 
             // initialize the text box showing the storying they're editing
-            textBoxStoryVerse.Text = "Story: " + theStoryRow.name;
+            textBoxStoryVerse.Text = "Story: " + theCurrentStory.StoryName;
+            this.Text = String.Format("OneStory Editor -- {0} Story Project", Stories.ProjSettings.ProjectName);
 
             int nVerseIndex = 0;
             AddDropTargetToFlowLayout(nVerseIndex++);
-            InsureVersesRow(theStoryRow);
-            foreach (StoryProject.verseRow aRow in theStoryRow.GetversesRows()[0].GetverseRows())
+            foreach (VerseData aVerse in theCurrentStory.Verses)
             {
-                VerseData vd = new VerseData(aRow, m_projFile);
-                VerseBtControl aVerseCtrl = new VerseBtControl(this, vd, nVerseIndex);
+                VerseBtControl aVerseCtrl = new VerseBtControl(this, aVerse, nVerseIndex);
                 aVerseCtrl.UpdateHeight(Panel1_Width);
                 flowLayoutPanelVerses.Controls.Add(aVerseCtrl);
                 AddDropTargetToFlowLayout(nVerseIndex);
 
-                ConsultNotesControl aConsultNotesCtrl = new ConsultNotesControl(vd.ConsultantNotes, nVerseIndex);
+                ConsultNotesControl aConsultNotesCtrl = new ConsultNotesControl(aVerse.ConsultantNotes, nVerseIndex);
                 aConsultNotesCtrl.UpdateHeight(Panel2_Width);
                 flowLayoutPanelConsultantNotes.Controls.Add(aConsultNotesCtrl);
 
-                aConsultNotesCtrl = new ConsultNotesControl(vd.CoachNotes, nVerseIndex);
+                aConsultNotesCtrl = new ConsultNotesControl(aVerse.CoachNotes, nVerseIndex);
                 aConsultNotesCtrl.UpdateHeight(Panel2_Width);
                 flowLayoutPanelCoachNotes.Controls.Add(aConsultNotesCtrl);
 
@@ -449,7 +434,7 @@ namespace OneStoryProjectEditor
             // initialize the project stage details (which might hide certain views)
             //  (do this *after* initializing the whole thing, because if we save, we'll
             //  want to save even the hidden pieces)
-            SetViewBasedOnProjectStage(_StorySettings.ProjStage.ProjectStage);
+            SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage);
         }
 
         protected void SetViewBasedOnProjectStage(StoryStageLogic.ProjectStages eStage)
@@ -864,10 +849,10 @@ namespace OneStoryProjectEditor
 
         protected void SaveAsClicked()
         {
-            if (ProjSettings != null)
+            if (Stories.ProjSettings != null)
             {
-                Directory.CreateDirectory(ProjSettings.ProjectFolder);
-                saveFileDialog.InitialDirectory = ProjSettings.ProjectFolder;
+                Directory.CreateDirectory(Stories.ProjSettings.ProjectFolder);
+                saveFileDialog.InitialDirectory = Stories.ProjSettings.ProjectFolder;
             }
 
             if (this.saveFileDialog.ShowDialog(this) == DialogResult.OK)
@@ -892,7 +877,8 @@ namespace OneStoryProjectEditor
             // Note: doing File.Move leaves the old file security settings rather than replacing them
             // based on the target directory. Copy, on the other hand, inherits
             // security settings from the target folder, which is what we want to do.
-            File.Copy(strFilename, GetBackupFilename(strFilename), true);
+            if (File.Exists(strFilename))
+                File.Copy(strFilename, GetBackupFilename(strFilename), true);
             File.Delete(strFilename);
             File.Copy(strFilename + cstrExtraExtnToAvoidClobberingFilesWithFailedSaves, strFilename, true);
             File.Delete(strFilename + cstrExtraExtnToAvoidClobberingFilesWithFailedSaves);
@@ -926,12 +912,12 @@ namespace OneStoryProjectEditor
                 SaveXElement(GetFrontMatterXml, strFilename);
 #endif
                 // let's see if the UNS entered the purpose of this story
-                System.Diagnostics.Debug.Assert((_StorySettings != null) && (_StorySettings.CraftingInfo != null));
-                if (String.IsNullOrEmpty(_StorySettings.CraftingInfo.StoryPurpose))
+                System.Diagnostics.Debug.Assert((theCurrentStory != null) && (theCurrentStory.CraftingInfo != null));
+                if (String.IsNullOrEmpty(theCurrentStory.CraftingInfo.StoryPurpose))
                 {
                     string strStoryPurpose = Microsoft.VisualBasic.Interaction.InputBox(String.Format("Enter a brief description of the purpose of this story (that is, why is this story in the set?)", Environment.NewLine), cstrCaption, null, Screen.PrimaryScreen.WorkingArea.Right / 2, Screen.PrimaryScreen.WorkingArea.Bottom / 2);
                     if (!String.IsNullOrEmpty(strStoryPurpose))
-                        _StorySettings.CraftingInfo.StoryPurpose = strStoryPurpose;
+                        theCurrentStory.CraftingInfo.StoryPurpose = strStoryPurpose;
                 }
 
 #if UsingOneFilePerStory
@@ -942,12 +928,12 @@ namespace OneStoryProjectEditor
             }
             catch (UnauthorizedAccessException)
             {
-                MessageBox.Show(String.Format("The map file '{0}' is locked. Is it read-only? Or opened in some other program? Unlock it and try again.", strFilename), cstrCaption);
+                MessageBox.Show(String.Format("The project file '{0}' is locked. Is it read-only? Or opened in some other program? Unlock it and try again. Or try to save it as a different name.", strFilename), cstrCaption);
                 return;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(String.Format("Unable to save the map file '{1}'{0}{0}{2}", Environment.NewLine, strFilename, ex.Message), cstrCaption);
+                MessageBox.Show(String.Format("Unable to save the project file '{1}'{0}{0}{2}", Environment.NewLine, strFilename, ex.Message), cstrCaption);
                 return;
             }
 
@@ -1105,7 +1091,7 @@ namespace OneStoryProjectEditor
 
             recentFilesToolStripMenuItem.Enabled = (recentFilesToolStripMenuItem.DropDownItems.Count > 0);
 
-            saveToolStripMenuItem.Enabled = ((m_projFile != null) && (m_projFile.stories.Count > 0) && !String.IsNullOrEmpty(m_projFile.stories[0].ProjectName));
+            saveasToolStripMenuItem.Enabled = saveToolStripMenuItem.Enabled = ((Stories != null) && (Stories.Count > 0));
         }
 
         private void recentFilesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1138,16 +1124,16 @@ namespace OneStoryProjectEditor
         protected bool m_bDisableInterrupts = false;
         private void macTrackBarProjectStages_ValueChanged(object sender, decimal value)
         {
-            if (_StorySettings == null)
+            if (theCurrentStory == null)
                 return;
-            System.Diagnostics.Debug.Assert(_StorySettings.ProjStage != null);
+            System.Diagnostics.Debug.Assert(theCurrentStory.ProjStage != null);
 
             XComponent.SliderBar.MACTrackBar bar = (XComponent.SliderBar.MACTrackBar)sender;
             StoryStageLogic.ProjectStages eNewProjectStage = (StoryStageLogic.ProjectStages)bar.Value;
             Console.WriteLine(String.Format("ValueChanged: ProjectStage: {0}", eNewProjectStage.ToString()));
-            if (_StorySettings.ProjStage.CheckIfProjectTransitionIsAllowed(eNewProjectStage))
+            if (theCurrentStory.ProjStage.CheckIfProjectTransitionIsAllowed(eNewProjectStage))
             {
-                System.Diagnostics.Debug.Assert(eNewProjectStage == _StorySettings.ProjStage.ProjectStage);
+                System.Diagnostics.Debug.Assert(eNewProjectStage == theCurrentStory.ProjStage.ProjectStage);
                 SetViewBasedOnProjectStage(eNewProjectStage);
             }
         }
@@ -1201,29 +1187,8 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                System.Diagnostics.Debug.Assert((m_projFile != null) && (m_projFile.stories.Count > 0));
-
-                XElement elemVerses = new XElement(ns + "verses");
-
-                foreach (Control ctrl in flowLayoutPanelVerses.Controls)
-                {
-                    if (ctrl is VerseBtControl)
-                    {
-                        VerseBtControl aVerseBtCtrl = (VerseBtControl)ctrl;
-                        elemVerses.Add(aVerseBtCtrl.VerseData.GetXml);
-                    }
-                }
-
-                XElement elemStory = _StorySettings.GetXml;
-                elemStory.Add(elemVerses);
-
-
-                XElement elemStories = new XElement(ns + "stories", new XAttribute("ProjectName", ProjSettings.ProjectName),
-                    TeamMemberForm.GetXmlMembers(m_projFile),
-                    ProjSettings.GetXml,
-                    elemStory);
-
-                return elemStories;
+                System.Diagnostics.Debug.Assert((Stories != null) && (Stories.Count > 0));
+                return Stories.GetXml;
             }
         }
 #endif

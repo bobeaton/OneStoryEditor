@@ -125,7 +125,7 @@
       <DependentUpon>NetBibleViewer.cs</DependentUpon>
     </Compile>
     <Compile Include="ProjectSettings.cs" />
-    <Compile Include="StorySettings.cs" />
+    <Compile Include="StoryData.cs" />
     <Compile Include="StoryStageLogic.cs" />
     <Compile Include="ResizableControl.cs">
       <SubType>UserControl</SubType>

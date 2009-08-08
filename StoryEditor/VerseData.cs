@@ -50,4 +50,31 @@ namespace OneStoryProjectEditor
             }
         }
     }
+
+    public class VersesData : List<VerseData>
+    {
+        public VersesData(StoryProject.storyRow theStoryRow, StoryProject projFile)
+        {
+            StoryProject.versesRow[] theVersesRows = theStoryRow.GetversesRows();
+            StoryProject.versesRow theVersesRow;
+            if (theVersesRows.Length == 0)
+                theVersesRow = projFile.verses.AddversesRow(theStoryRow);
+            else
+                theVersesRow = theVersesRows[0];
+
+            foreach (StoryProject.verseRow aVerseRow in theVersesRow.GetverseRows())
+                Add(new VerseData(aVerseRow, projFile));
+        }
+
+        public XElement GetXml
+        {
+            get
+            {
+                XElement elemVerses = new XElement(StoryEditor.ns + "verses");
+                foreach (VerseData aVerseData in this)
+                    elemVerses.Add(aVerseData.GetXml);
+                return elemVerses;
+            }
+        }
+    }
 }

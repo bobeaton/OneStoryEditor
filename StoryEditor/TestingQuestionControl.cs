@@ -50,15 +50,15 @@ namespace OneStoryProjectEditor
 
             // insert the vernacular representation of the testing question
             InsertColumn(nNumColumns);
-            InitColumnLabel(aSE.ProjSettings.VernacularLangName, nNumColumns);
-            InitTextBox(cstrFieldNameVernacular, _aTQData.QuestionVernacular, aSE.ProjSettings.VernacularFont, aSE.ProjSettings.VernacularFontColor, nNumColumns);
+            InitColumnLabel(aSE.Stories.ProjSettings.VernacularLangName, nNumColumns);
+            InitTextBox(cstrFieldNameVernacular, _aTQData.QuestionVernacular, aSE.Stories.ProjSettings.VernacularFont, aSE.Stories.ProjSettings.VernacularFontColor, nNumColumns);
             
             nNumColumns++;
 
             // insert the EnglishBT representation of the testing question
             InsertColumn(nNumColumns);
-            InitColumnLabel(aSE.ProjSettings.InternationalBTLangName, nNumColumns);
-            InitTextBox(cstrFieldNameVernacular, _aTQData.QuestionEnglish, aSE.ProjSettings.InternationalBTFont, aSE.ProjSettings.InternationalBTFontColor, nNumColumns);
+            InitColumnLabel(aSE.Stories.ProjSettings.InternationalBTLangName, nNumColumns);
+            InitTextBox(cstrFieldNameVernacular, _aTQData.QuestionEnglish, aSE.Stories.ProjSettings.InternationalBTFont, aSE.Stories.ProjSettings.InternationalBTFontColor, nNumColumns);
 
             // add a row so we can display a multiple line control with the answers
             if (_aTQData.Answers != null)
