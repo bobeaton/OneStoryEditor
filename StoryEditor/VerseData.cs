@@ -34,6 +34,19 @@ namespace OneStoryProjectEditor
             CoachNotes = new CoachNotesData(theVerseRow, projFile);
         }
 
+        public VerseData()
+        {
+            guid = Guid.NewGuid().ToString();
+            VernacularText = new StringTransfer(null);
+            NationalBTText = new StringTransfer(null);
+            InternationalBTText = new StringTransfer(null);
+            Anchors = new AnchorsData();
+            TestQuestions = new TestQuestionsData();
+            Retellings = new RetellingsData();
+            ConsultantNotes = new ConsultantNotesData();
+            CoachNotes = new CoachNotesData();
+        }
+
         public XElement GetXml
         {
             get
@@ -73,6 +86,10 @@ namespace OneStoryProjectEditor
 
             foreach (StoryProject.verseRow aVerseRow in theVersesRow.GetverseRows())
                 Add(new VerseData(aVerseRow, projFile));
+        }
+
+        public VersesData()
+        {
         }
 
         public bool HasData

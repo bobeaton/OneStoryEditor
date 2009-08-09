@@ -101,6 +101,11 @@ namespace OneStoryProjectEditor
             foreach (StoryProject.ConsultantNoteRow aConsultantNoteRow in theConsultantNotesRow.GetConsultantNoteRows())
                 Add(new ConsultantNoteData(aConsultantNoteRow));
         }
+
+        public ConsultantNotesData()
+        {
+            CollectionElementName = "ConsultantNotes";
+        }
     }
 
     public class CoachNoteData : ConsultNoteDataConverter
@@ -170,6 +175,11 @@ namespace OneStoryProjectEditor
 
             foreach (StoryProject.CoachNoteRow aCoachNoteRow in theCoachNotesRow.GetCoachNoteRows())
                 Add(new CoachNoteData(aCoachNoteRow));
+        }
+
+        public CoachNotesData()
+        {
+            CollectionElementName = "CoachNotes";
         }
     }
 }

@@ -78,6 +78,13 @@ namespace OneStoryProjectEditor
                 MemberIDs.Add(aRetellingRow.memberID);
             }
         }
+
+        public RetellingsData()
+        {
+            LabelTextFormat = "ret({0}):";
+            CollectionElementName = "Retellings";
+            InstanceElementName = "Retelling";
+        }
     }
 
     public class AnswersData : MultipleLineDataConverter

@@ -12,7 +12,6 @@ namespace OneStoryProjectEditor
         public string StoryGuid = null;
         public StoryStageLogic ProjStage = null;
         public CraftingInfoData CraftingInfo = null;
-
         public VersesData Verses = null;
 
         public StoryData(string strStoryName, TeamMemberData loggedOnMember)
@@ -21,6 +20,7 @@ namespace OneStoryProjectEditor
             StoryGuid = Guid.NewGuid().ToString();
             ProjStage = new StoryStageLogic(loggedOnMember);
             CraftingInfo = new CraftingInfoData(loggedOnMember);
+            Verses = new VersesData();
         }
 
         public StoryData(StoryProject.storyRow theStoryRow, StoryProject projFile, TeamMemberData loggedOnMember)

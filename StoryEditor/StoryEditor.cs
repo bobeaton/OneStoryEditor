@@ -104,7 +104,16 @@ namespace OneStoryProjectEditor
             if (Stories == null)
             {
                 StoryProject projFile = new StoryProject();
-                Stories = new StoriesData(projFile, ref LoggedOnMember);
+                try
+                {
+                    Stories = new StoriesData(projFile, ref LoggedOnMember);
+                }
+                catch (System.Exception ex)
+                {
+                    MessageBox.Show(String.Format("Unable to open the member list{0}{0}{1}{0}{0}Contact bob_eaton@sall.com for help",
+                        Environment.NewLine, ex.Message), CstrCaption);
+                    return;
+                }
             }
 
             try
@@ -281,9 +290,20 @@ namespace OneStoryProjectEditor
             textBoxStoryVerse.Text = "Story: " + theCurrentStory.StoryName;
             this.Text = String.Format("OneStory Editor -- {0} Story Project", Stories.ProjSettings.ProjectName);
 
+            InitVerseControls(theCurrentStory.Verses);
+
+            // initialize the project stage details (which might hide certain views)
+            //  (do this *after* initializing the whole thing, because if we save, we'll
+            //  want to save even the hidden pieces)
+            SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage);
+        }
+
+        protected void InitVerseControls(VersesData theVerses)
+        {
+            ClearFlowControls();
             int nVerseIndex = 0;
             AddDropTargetToFlowLayout(nVerseIndex++);
-            foreach (VerseData aVerse in theCurrentStory.Verses)
+            foreach (VerseData aVerse in theVerses)
             {
                 VerseBtControl aVerseCtrl = new VerseBtControl(this, aVerse, nVerseIndex);
                 aVerseCtrl.UpdateHeight(Panel1_Width);
@@ -300,15 +320,28 @@ namespace OneStoryProjectEditor
 
                 nVerseIndex++;
             }
+        }
 
-            // initialize the project stage details (which might hide certain views)
-            //  (do this *after* initializing the whole thing, because if we save, we'll
-            //  want to save even the hidden pieces)
-            SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage);
+        internal void AddNewVerse(VerseBtControl theVerse, int nNumberToAdd, bool bAfter)
+        {
+            int nInsertionIndex = theVerse.VerseNumber - 1;
+            if (bAfter)
+                nInsertionIndex++;
+
+            VersesData lstNewVerses = new VersesData();
+            for (int i = 0; i < nNumberToAdd; i++)
+                lstNewVerses.Add(new VerseData());
+            
+            theCurrentStory.Verses.InsertRange(nInsertionIndex, lstNewVerses);
+            InitVerseControls(theCurrentStory.Verses);
         }
 
         internal void DeleteVerse(VerseBtControl theVerseToDelete)
         {
+            theCurrentStory.Verses.Remove(theVerseToDelete._verseData);
+            InitVerseControls(theCurrentStory.Verses);
+
+            /* works, but this above is better (but not more efficient)
             bool bRenumber = false;
             Button btnToDelete = null;
             foreach (Control ctrl in flowLayoutPanelVerses.Controls)
@@ -341,11 +374,12 @@ namespace OneStoryProjectEditor
             flowLayoutPanelVerses.Controls.Remove(btnToDelete);
             theCurrentStory.Verses.Remove(theVerseToDelete._verseData);
             UpdateVersePanel();
+            */
         }
 
         protected void SetViewBasedOnProjectStage(StoryStageLogic.ProjectStages eStage)
         {
-            eStage = StoryStageLogic.ProjectStages.eCoachReviewRoundZNotes;
+            // eStage = StoryStageLogic.ProjectStages.eCoachReviewRoundZNotes;
             switch (eStage)
             {
                 case StoryStageLogic.ProjectStages.eCrafterTypeNationalBT:
@@ -567,13 +601,14 @@ namespace OneStoryProjectEditor
                 macTrackBarProjectStages.Value = (int)eStage;
         }
 
-        protected void AddDropTargetToFlowLayout(int nVerseIndex)
+        protected Button AddDropTargetToFlowLayout(int nVerseIndex)
         {
             Button buttonDropTarget = new Button();
             buttonDropTarget.AllowDrop = true;
             buttonDropTarget.Location = new System.Drawing.Point(3, 3);
             buttonDropTarget.Name = CstrButtonDropTargetName + nVerseIndex.ToString();
             buttonDropTarget.Size = new System.Drawing.Size(this.Panel1_Width, 10);
+            buttonDropTarget.Dock = DockStyle.Fill;
             buttonDropTarget.TabIndex = nVerseIndex;
             buttonDropTarget.UseVisualStyleBackColor = true;
             buttonDropTarget.Visible = false;
@@ -581,6 +616,7 @@ namespace OneStoryProjectEditor
             buttonDropTarget.DragEnter += new DragEventHandler(buttonDropTarget_DragEnter);
             buttonDropTarget.DragDrop += new DragEventHandler(buttonDropTarget_DragDrop);
             flowLayoutPanelVerses.Controls.Add(buttonDropTarget);
+            return buttonDropTarget;
         }
 
         void buttonDropTarget_DragDrop(object sender, DragEventArgs e)
@@ -588,68 +624,45 @@ namespace OneStoryProjectEditor
             if (e.Data.GetDataPresent(typeof(VerseBtControl)))
             {
                 VerseBtControl aVerseCtrl = (VerseBtControl)e.Data.GetData(typeof(VerseBtControl));
-                Button btnTarget = (Button)sender;
-                string strTargetName = btnTarget.Name;
-                string strTargetVerse = strTargetName.Substring(CstrButtonDropTargetName.Length);
-                int nInsertionIndex = (int)Convert.ToInt32(strTargetVerse);
-                if ((nInsertionIndex == (aVerseCtrl.VerseNumber - 1)) || (nInsertionIndex == (aVerseCtrl.VerseNumber)))
-                    DoCopy(nInsertionIndex, aVerseCtrl);
-                else
-                    DoMove(nInsertionIndex, aVerseCtrl);
+                System.Diagnostics.Debug.Assert(sender is Button);
+                int nInsertionIndex = flowLayoutPanelVerses.Controls.IndexOf((Button)sender);
+                DoMove(nInsertionIndex, aVerseCtrl);
             }
         }
 
-        void DoCopy(int nInsertionIndex, VerseBtControl aVerseCtrl)
+        void DumpFlow()
         {
-            // TODO:
+            for (int i = 0; i < flowLayoutPanelVerses.Controls.Count; i++)
+            {
+                Control ctrl = flowLayoutPanelVerses.Controls[i];
+                if (ctrl is VerseBtControl)
+                    Console.WriteLine(String.Format("{0}: verse: {1}", i.ToString(), ((VerseBtControl)ctrl).VerseNumber.ToString()));
+                else
+                    Console.WriteLine(String.Format("{0}: button: {1}", i.ToString(), ctrl.Name));
+            }
         }
 
         void DoMove(int nInsertionIndex, VerseBtControl aVerseCtrl)
         {
-            /*
-            StoryProject.storyRow theStoryRow = m_projFile.story[0];
-            StoryProject.verseRow theVerseRow = null;
-            foreach (StoryProject.verseRow aRow in theStoryRow.GetversesRows()[0].GetverseRows())
+            DumpFlow();
+            int nIndex = flowLayoutPanelVerses.Controls.IndexOf(aVerseCtrl);
+            System.Diagnostics.Debug.Assert(Math.Abs(nIndex - nInsertionIndex) > 1);
+            Control btnAfter = flowLayoutPanelVerses.Controls[nIndex + 1];
+            flowLayoutPanelVerses.Controls.SetChildIndex(aVerseCtrl, nInsertionIndex);
+            DumpFlow();
+            flowLayoutPanelVerses.Controls.SetChildIndex(btnAfter, nInsertionIndex);
+            DumpFlow();
+            if (nIndex > nInsertionIndex)
+                nIndex = nInsertionIndex + 1;
+            for (int i = nIndex; i < flowLayoutPanelVerses.Controls.Count; i += 2, nIndex++)
             {
-                Console.WriteLine(String.Format("DoMove: nInsertionIndex: {0}; aRow.guid: {1}", nInsertionIndex, aRow.guid));
-                if (aRow.guid == aVerseCtrl.Guid)
-                    theVerseRow = aRow;
+                Control ctrl = flowLayoutPanelVerses.Controls[i];
+                System.Diagnostics.Debug.Assert(ctrl is VerseBtControl);
+                aVerseCtrl = (VerseBtControl)ctrl;
+                aVerseCtrl.VerseNumber = nIndex;
             }
-            foreach (StoryProject.verseRow aRow in m_projFile.verse.Rows)
-            {
-                Console.WriteLine(String.Format("DoMove: nInsertionIndex: {0}; aRow.guid: {1}", nInsertionIndex, aRow.guid));
-            }
-
-            StoryProject.versesRow theVersesRow = null;
-            theVersesRow.M
-            m_projFile.verse.Rows.CopyTo(m_projFile.verse.Rows, nInsertionIndex);
-            m_projFile.verse.Rows.RemoveAt(m_projFile.verse.Rows.IndexOf(theVerseRow));
-
-            foreach (StoryProject.verseRow aRow in theStoryRow.GetversesRows()[0].GetverseRows())
-            {
-                Console.WriteLine(String.Format("DoMove: nInsertionIndex: {0}; aRow.guid: {1}", nInsertionIndex, aRow.guid));
-                if (aRow.guid == aVerseCtrl.Guid)
-                    theVerseRow = aRow;
-            }
-            foreach (StoryProject.verseRow aRow in m_projFile.verse.Rows)
-            {
-                Console.WriteLine(String.Format("DoMove: nInsertionIndex: {0}; aRow.guid: {1}", nInsertionIndex, aRow.guid));
-            }
-
-            m_projFile.verse.Rows.InsertAt(theVerseRow, nInsertionIndex - 1);
-
-            foreach (StoryProject.verseRow aRow in theStoryRow.GetversesRows()[0].GetverseRows())
-            {
-                Console.WriteLine(String.Format("DoMove: nInsertionIndex: {0}; aRow.guid: {1}", nInsertionIndex, aRow.guid));
-                if (aRow.guid == aVerseCtrl.Guid)
-                    theVerseRow = aRow;
-            }
-
-            foreach (StoryProject.verseRow aRow in m_projFile.verse.Rows)
-            {
-                Console.WriteLine(String.Format("DoMove: nInsertionIndex: {0}; aRow.guid: {1}", nInsertionIndex, aRow.guid));
-            }
-            */
+            DumpFlow();
+            UpdateVersePanel();
         }
 
         void buttonDropTarget_DragEnter(object sender, DragEventArgs e)
@@ -657,35 +670,41 @@ namespace OneStoryProjectEditor
             if (e.Data.GetDataPresent(typeof(VerseBtControl)))
             {
                 VerseBtControl aVerseCtrl = (VerseBtControl)e.Data.GetData(typeof(VerseBtControl));
+                int nIndex = flowLayoutPanelVerses.Controls.IndexOf(aVerseCtrl);
                 Button btnTarget = (Button)sender;
+                int nInsertionIndex = flowLayoutPanelVerses.Controls.IndexOf(btnTarget);
+                System.Diagnostics.Debug.Assert(Math.Abs(nIndex - nInsertionIndex) > 1);
+                e.Effect = DragDropEffects.Move;
+                /*
+                VerseBtControl aVerseCtrl = (VerseBtControl)e.Data.GetData(typeof(VerseBtControl));
                 string strTargetName = btnTarget.Name;
                 string strTargetVerse = strTargetName.Substring(CstrButtonDropTargetName.Length);
                 int nInsertionIndex = (int)Convert.ToInt32(strTargetVerse);
-                if ((nInsertionIndex == (aVerseCtrl.VerseNumber - 1)) || (nInsertionIndex == (aVerseCtrl.VerseNumber)))
+                if ((nInsertionIndex < (aVerseCtrl.VerseNumber - 1)) || (nInsertionIndex > (aVerseCtrl.VerseNumber)))
                     e.Effect = DragDropEffects.Copy;
                 else
                     e.Effect = DragDropEffects.Move;
+                */
             }
         }
         
-        internal void LightUpDropTargetButtons()
+        internal void LightUpDropTargetButtons(VerseBtControl aVerseCtrl)
         {
-            foreach (Control ctrl in flowLayoutPanelVerses.Controls)
+            int nIndex = flowLayoutPanelVerses.Controls.IndexOf(aVerseCtrl);
+            for (int i = 0; i < flowLayoutPanelVerses.Controls.Count; i += 2)
             {
-                if (ctrl is Button)
-                {
+                Control ctrl = flowLayoutPanelVerses.Controls[i];
+                System.Diagnostics.Debug.Assert(ctrl is Button);
+                if (Math.Abs(nIndex - i) > 1)
                     ctrl.Visible = true;
-                }
             }
         }
 
         internal void DimDropTargetButtons()
         {
             foreach (Control ctrl in flowLayoutPanelVerses.Controls)
-            {
                 if (ctrl is Button)
                     ctrl.Visible = false;
-            }
         }
 
         protected void InitializeNetBibleViewer()
@@ -736,11 +755,16 @@ namespace OneStoryProjectEditor
             }
 
             // do cleanup, because this is always called before starting something new (new file or empty project)
+            ClearFlowControls();
+            textBoxStoryVerse.Text = "Story";
+            return res;
+        }
+
+        protected void ClearFlowControls()
+        {
             flowLayoutPanelVerses.Controls.Clear();
             flowLayoutPanelConsultantNotes.Controls.Clear();
             flowLayoutPanelCoachNotes.Controls.Clear();
-            textBoxStoryVerse.Text = "Story";
-            return res;
         }
 
         protected void SaveClicked()

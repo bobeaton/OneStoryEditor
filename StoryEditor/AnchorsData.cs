@@ -57,6 +57,10 @@ namespace OneStoryProjectEditor
                 Add(new AnchorData(anAnchorRow, projFile));
         }
 
+        public AnchorsData()
+        {
+        }
+
         public AnchorData AddAnchorData(string strJumpTarget)
         {
             AnchorData anAD = new AnchorData(strJumpTarget, strJumpTarget);

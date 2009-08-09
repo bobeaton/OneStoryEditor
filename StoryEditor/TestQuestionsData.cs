@@ -73,6 +73,10 @@ namespace OneStoryProjectEditor
                 Add(new TestQuestionData(aTestingQuestionRow, projFile));
         }
 
+        public TestQuestionsData()
+        {
+        }
+
         public TestQuestionData AddTestQuestion()
         {
             TestQuestionData theTQ = new TestQuestionData();

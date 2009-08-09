@@ -20,7 +20,6 @@ namespace OneStoryProjectEditor
         internal VerseData _verseData = null;
         protected string _strUnsMemberId = null;
 
-        internal int VerseNumber = -1;
         protected int _nRowIndexStoryLine = -1;
         protected int _nRowIndexAnchors = -1;
         protected int _nRowIndexRetelling = -1;
@@ -33,13 +32,12 @@ namespace OneStoryProjectEditor
         {
             _verseData = dataVerse;
             Guid = _verseData.guid;
-            VerseNumber = nVerseNumber;
             InitializeComponent();
+            VerseNumber = nVerseNumber;
 
             this.tableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
 
-            this.labelReference.Text = CstrVerseName + nVerseNumber.ToString();
             this.tableLayoutPanel.Controls.Add(this.labelReference, 0, 0);
             this.tableLayoutPanel.Controls.Add(this.buttonDragDropHandle, 1, 0);
 
@@ -47,6 +45,17 @@ namespace OneStoryProjectEditor
 
             this.tableLayoutPanel.ResumeLayout(false);
             this.ResumeLayout(false);
+        }
+
+        protected int _VerseNumber = -1;
+        internal int VerseNumber
+        {
+            get { return _VerseNumber; }
+            set
+            {
+                _VerseNumber = value;
+                this.labelReference.Text = CstrVerseName + _VerseNumber.ToString();
+            }
         }
 
         public override void UpdateView(StoryEditor aSE)
@@ -252,7 +261,7 @@ namespace OneStoryProjectEditor
         void buttonDragDropHandle_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
-                buttonDragDropHandle.DoDragDrop(this, DragDropEffects.Move | DragDropEffects.Copy);
+                buttonDragDropHandle.DoDragDrop(this, DragDropEffects.Move);
         }
 
         void buttonDragDropHandle_QueryContinueDrag(object sender, System.Windows.Forms.QueryContinueDragEventArgs e)
@@ -265,7 +274,7 @@ namespace OneStoryProjectEditor
                 if (e.Action != DragAction.Continue)
                     aSE.DimDropTargetButtons();
                 else
-                    aSE.LightUpDropTargetButtons();
+                    aSE.LightUpDropTargetButtons(this);
             }
         }
 
@@ -447,6 +456,30 @@ namespace OneStoryProjectEditor
                 StoryEditor theSE = (StoryEditor)FindForm();
                 theSE.DeleteVerse(this);
             }
+        }
+
+        private void addANewVerseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            StoryEditor theSE = (StoryEditor)FindForm();
+            theSE.AddNewVerse(this, 1, false);
+        }
+
+        private void addNewVersesAfterMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem tsmi = (ToolStripMenuItem)sender;
+            int nNumNewVerses = Convert.ToInt32(tsmi.Text);
+
+            StoryEditor theSE = (StoryEditor)FindForm();
+            theSE.AddNewVerse(this, nNumNewVerses, true);
+        }
+
+        private void addNewVersesBeforeMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem tsmi = (ToolStripMenuItem)sender;
+            int nNumNewVerses = Convert.ToInt32(tsmi.Text);
+
+            StoryEditor theSE = (StoryEditor)FindForm();
+            theSE.AddNewVerse(this, nNumNewVerses, false);
         }
     }
 }
