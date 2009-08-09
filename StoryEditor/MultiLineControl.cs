@@ -43,7 +43,7 @@ namespace OneStoryProjectEditor
             label.Text = String.Format(strLabelTextFormat, nNumRows);
 
             TextBox tb = new TextBox();
-            tb.Name = strLabelTextFormat + cstrSuffixTextBox + nNumRows.ToString();
+            tb.Name = strLabelTextFormat + CstrSuffixTextBox + nNumRows.ToString();
             tb.Multiline = true;
             tb.Dock = DockStyle.Fill;
             strRowData.SetAssociation(tb);  // tb.Text = strRowData;

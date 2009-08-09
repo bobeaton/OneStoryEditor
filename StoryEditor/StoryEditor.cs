@@ -16,8 +16,8 @@ namespace OneStoryProjectEditor
     // call to: webBrowserNetBible.ObjectForScripting = this;
     public partial class StoryEditor : Form
     {
-        internal const string cstrCaption = "OneStory Project Editor";
-        internal const string cstrButtonDropTargetName = "buttonDropTarget";
+        internal const string CstrCaption = "OneStory Project Editor";
+        internal const string CstrButtonDropTargetName = "buttonDropTarget";
 
         protected string m_strProjectFilename = null;
 
@@ -58,11 +58,11 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(String.Format("Problem initializing Sword (the Net Bible viewer):{0}{0}{1}", Environment.NewLine, ex.Message), StoryEditor.cstrCaption);
+                MessageBox.Show(String.Format("Problem initializing Sword (the Net Bible viewer):{0}{0}{1}", Environment.NewLine, ex.Message), StoryEditor.CstrCaption);
             }
 
             if ((!String.IsNullOrEmpty(Properties.Settings.Default.LastUserType))
-                && (Properties.Settings.Default.LastUserType == TeamMemberData.cstrCrafter)
+                && (Properties.Settings.Default.LastUserType == TeamMemberData.CstrCrafter)
                 && (!String.IsNullOrEmpty(Properties.Settings.Default.LastProjectFile)))
             {
                 OpenProjectFile(Properties.Settings.Default.LastProjectFile);
@@ -143,10 +143,10 @@ namespace OneStoryProjectEditor
 
                 // populate the combo boxes with all the existing story names
                 DirectoryInfo di = new DirectoryInfo(ProjSettings.ProjectFolder);
-                FileInfo[] aFIs = di.GetFiles(String.Format(cstrStoryFilenameFormat + "*.osp", ProjSettings.ProjectName));
+                FileInfo[] aFIs = di.GetFiles(String.Format(CstrStoryFilenameFormat + "*.osp", ProjSettings.ProjectName));
                 foreach (FileInfo aFI in aFIs)
                 {
-                    string strStoryName = Path.GetFileNameWithoutExtension(aFI.Name).Substring(cstrStoryFilenameFormat.Length);
+                    string strStoryName = Path.GetFileNameWithoutExtension(aFI.Name).Substring(CstrStoryFilenameFormat.Length);
 #if DEBUG
                     // in debug, let's go ahead and try to load it!
                     string strStoryFilename = aFI.Name;
@@ -193,7 +193,7 @@ namespace OneStoryProjectEditor
             catch (System.Exception ex)
             {
                 MessageBox.Show(String.Format("Unable to open project file '{1}'{0}{0}{2}{0}{0}Send the project file to bob_eaton@sall.com for help",
-                    Environment.NewLine, strProjectFilename, ex.Message), cstrCaption);
+                    Environment.NewLine, strProjectFilename, ex.Message), CstrCaption);
             }
         }
 
@@ -224,7 +224,7 @@ namespace OneStoryProjectEditor
                 if (theStory == null)
 #endif
                 {
-                    if (MessageBox.Show(String.Format("Unable to find the story '{0}'. Would you like to add a new one with that name?", strStoryToLoad), cstrCaption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+                    if (MessageBox.Show(String.Format("Unable to find the story '{0}'. Would you like to add a new one with that name?", strStoryToLoad), CstrCaption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
                     {
                         System.Diagnostics.Debug.Assert(!comboBoxStorySelector.Items.Contains(strStoryToLoad));
                         comboBoxStorySelector.Items.Add(strStoryToLoad);
@@ -307,9 +307,45 @@ namespace OneStoryProjectEditor
             SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage);
         }
 
+        internal void DeleteVerse(VerseBtControl theVerseToDelete)
+        {
+            bool bRenumber = false;
+            Button btnToDelete = null;
+            foreach (Control ctrl in flowLayoutPanelVerses.Controls)
+            {
+                if (ctrl is VerseBtControl)
+                {
+                    VerseBtControl aVerse = (VerseBtControl) ctrl;
+                    if (aVerse == theVerseToDelete)
+                        bRenumber = true;
+
+                    if (bRenumber)
+                        aVerse.VerseNumber--;
+                }
+                else
+                {
+                    System.Diagnostics.Debug.Assert(ctrl is Button);
+                    Button btn = (Button) ctrl;
+                    if (bRenumber)
+                    {
+                        if (btnToDelete == null)
+                            btnToDelete = btn;
+
+                        int nVerse = (int)btn.Tag;
+                        btn.Tag = --nVerse;
+                    }
+                }
+            }
+
+            flowLayoutPanelVerses.Controls.Remove(theVerseToDelete);
+            flowLayoutPanelVerses.Controls.Remove(btnToDelete);
+            theCurrentStory.Verses.Remove(theVerseToDelete._verseData);
+            UpdateVersePanel();
+        }
+
         protected void SetViewBasedOnProjectStage(StoryStageLogic.ProjectStages eStage)
         {
-            // m_bDisableInterrupts = true;
+            eStage = StoryStageLogic.ProjectStages.eCoachReviewRoundZNotes;
             switch (eStage)
             {
                 case StoryStageLogic.ProjectStages.eCrafterTypeNationalBT:
@@ -523,15 +559,12 @@ namespace OneStoryProjectEditor
                     break;
                 case StoryStageLogic.ProjectStages.eUndefined:
                 default:
-                    m_bDisableInterrupts = false;
-                    throw new ApplicationException(String.Format("This project was edited by a newer version of the {0} program. You have to update your version of the program to edit this project.", cstrCaption));
+                    throw new ApplicationException(String.Format("This project was edited by a newer version of the {0} program. You have to update your version of the program to edit this project.", CstrCaption));
             };
 
             // for now, the progress bar is just the eStage value as an int
             if (eStage > StoryStageLogic.ProjectStages.eUndefined)
                 macTrackBarProjectStages.Value = (int)eStage;
-
-            m_bDisableInterrupts = false;
         }
 
         protected void AddDropTargetToFlowLayout(int nVerseIndex)
@@ -539,11 +572,12 @@ namespace OneStoryProjectEditor
             Button buttonDropTarget = new Button();
             buttonDropTarget.AllowDrop = true;
             buttonDropTarget.Location = new System.Drawing.Point(3, 3);
-            buttonDropTarget.Name = cstrButtonDropTargetName + nVerseIndex.ToString();
-            buttonDropTarget.Size = new System.Drawing.Size(75, 5);
+            buttonDropTarget.Name = CstrButtonDropTargetName + nVerseIndex.ToString();
+            buttonDropTarget.Size = new System.Drawing.Size(this.Panel1_Width, 10);
             buttonDropTarget.TabIndex = nVerseIndex;
             buttonDropTarget.UseVisualStyleBackColor = true;
             buttonDropTarget.Visible = false;
+            buttonDropTarget.Tag = nVerseIndex;
             buttonDropTarget.DragEnter += new DragEventHandler(buttonDropTarget_DragEnter);
             buttonDropTarget.DragDrop += new DragEventHandler(buttonDropTarget_DragDrop);
             flowLayoutPanelVerses.Controls.Add(buttonDropTarget);
@@ -556,7 +590,7 @@ namespace OneStoryProjectEditor
                 VerseBtControl aVerseCtrl = (VerseBtControl)e.Data.GetData(typeof(VerseBtControl));
                 Button btnTarget = (Button)sender;
                 string strTargetName = btnTarget.Name;
-                string strTargetVerse = strTargetName.Substring(cstrButtonDropTargetName.Length);
+                string strTargetVerse = strTargetName.Substring(CstrButtonDropTargetName.Length);
                 int nInsertionIndex = (int)Convert.ToInt32(strTargetVerse);
                 if ((nInsertionIndex == (aVerseCtrl.VerseNumber - 1)) || (nInsertionIndex == (aVerseCtrl.VerseNumber)))
                     DoCopy(nInsertionIndex, aVerseCtrl);
@@ -625,7 +659,7 @@ namespace OneStoryProjectEditor
                 VerseBtControl aVerseCtrl = (VerseBtControl)e.Data.GetData(typeof(VerseBtControl));
                 Button btnTarget = (Button)sender;
                 string strTargetName = btnTarget.Name;
-                string strTargetVerse = strTargetName.Substring(cstrButtonDropTargetName.Length);
+                string strTargetVerse = strTargetName.Substring(CstrButtonDropTargetName.Length);
                 int nInsertionIndex = (int)Convert.ToInt32(strTargetVerse);
                 if ((nInsertionIndex == (aVerseCtrl.VerseNumber - 1)) || (nInsertionIndex == (aVerseCtrl.VerseNumber)))
                     e.Effect = DragDropEffects.Copy;
@@ -694,7 +728,7 @@ namespace OneStoryProjectEditor
             DialogResult res = DialogResult.None;
             if (Modified)
             {
-                res = MessageBox.Show("Do you want to save your changes?", cstrCaption, MessageBoxButtons.YesNoCancel);
+                res = MessageBox.Show("Do you want to save your changes?", CstrCaption, MessageBoxButtons.YesNoCancel);
                 if (res == DialogResult.Yes)
                     SaveClicked();
                 else if (res != DialogResult.Cancel)
@@ -741,7 +775,7 @@ namespace OneStoryProjectEditor
                     elem));
 
             // save it with an extra extn.
-            doc.Save(strFilename + cstrExtraExtnToAvoidClobberingFilesWithFailedSaves);
+            doc.Save(strFilename + CstrExtraExtnToAvoidClobberingFilesWithFailedSaves);
 
             // backup the last version to appdata
             // Note: doing File.Move leaves the old file security settings rather than replacing them
@@ -750,20 +784,20 @@ namespace OneStoryProjectEditor
             if (File.Exists(strFilename))
                 File.Copy(strFilename, GetBackupFilename(strFilename), true);
             File.Delete(strFilename);
-            File.Copy(strFilename + cstrExtraExtnToAvoidClobberingFilesWithFailedSaves, strFilename, true);
-            File.Delete(strFilename + cstrExtraExtnToAvoidClobberingFilesWithFailedSaves);
+            File.Copy(strFilename + CstrExtraExtnToAvoidClobberingFilesWithFailedSaves, strFilename, true);
+            File.Delete(strFilename + CstrExtraExtnToAvoidClobberingFilesWithFailedSaves);
         }
 
-        protected const string cstrExtraExtnToAvoidClobberingFilesWithFailedSaves = ".out";
+        protected const string CstrExtraExtnToAvoidClobberingFilesWithFailedSaves = ".out";
 
 #if UsingOneFilePerStory
-        protected const string cstrStoryFilenameFormat = "{0} -- ";
+        protected const string CstrStoryFilenameFormat = "{0} -- ";
 
         protected string FilenameFromStoryInfo(string strFrontMatterFilename, string strStoryName)
         {
             return String.Format(@"{0}\{1}{2}",
                 Path.GetDirectoryName(strFrontMatterFilename),
-                String.Format(cstrStoryFilenameFormat, ProjSettings.ProjectName),
+                String.Format(CstrStoryFilenameFormat, ProjSettings.ProjectName),
                 strStoryName + ".osp");
         }
 #endif
@@ -785,7 +819,7 @@ namespace OneStoryProjectEditor
                 System.Diagnostics.Debug.Assert((theCurrentStory != null) && (theCurrentStory.CraftingInfo != null));
                 if (String.IsNullOrEmpty(theCurrentStory.CraftingInfo.StoryPurpose))
                 {
-                    string strStoryPurpose = Microsoft.VisualBasic.Interaction.InputBox(String.Format("Enter a brief description of the purpose of this story (that is, why is this story in the set?)", Environment.NewLine), cstrCaption, null, Screen.PrimaryScreen.WorkingArea.Right / 2, Screen.PrimaryScreen.WorkingArea.Bottom / 2);
+                    string strStoryPurpose = Microsoft.VisualBasic.Interaction.InputBox(String.Format("Enter a brief description of the purpose of this story (that is, why is this story in the set?)", Environment.NewLine), CstrCaption, null, Screen.PrimaryScreen.WorkingArea.Right / 2, Screen.PrimaryScreen.WorkingArea.Bottom / 2);
                     if (!String.IsNullOrEmpty(strStoryPurpose))
                         theCurrentStory.CraftingInfo.StoryPurpose = strStoryPurpose;
                 }
@@ -798,12 +832,12 @@ namespace OneStoryProjectEditor
             }
             catch (UnauthorizedAccessException)
             {
-                MessageBox.Show(String.Format("The project file '{0}' is locked. Is it read-only? Or opened in some other program? Unlock it and try again. Or try to save it as a different name.", strFilename), cstrCaption);
+                MessageBox.Show(String.Format("The project file '{0}' is locked. Is it read-only? Or opened in some other program? Unlock it and try again. Or try to save it as a different name.", strFilename), CstrCaption);
                 return;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(String.Format("Unable to save the project file '{1}'{0}{0}{2}", Environment.NewLine, strFilename, ex.Message), cstrCaption);
+                MessageBox.Show(String.Format("Unable to save the project file '{1}'{0}{0}{2}", Environment.NewLine, strFilename, ex.Message), CstrCaption);
                 return;
             }
 
@@ -828,7 +862,7 @@ namespace OneStoryProjectEditor
 
         protected void SetupTitleBar(string strProjectName, string strStoryName)
         {
-            String str = String.Format("{0} -- {1} -- {2}", cstrCaption, strProjectName, strStoryName);
+            String str = String.Format("{0} -- {1} -- {2}", CstrCaption, strProjectName, strStoryName);
         }
 
         protected void UpdateVersePanel()
@@ -846,8 +880,7 @@ namespace OneStoryProjectEditor
 
         private void viewFieldMenuItem_CheckedChanged(object sender, EventArgs e)
         {
-            if (!m_bDisableInterrupts)
-                UpdateVersePanel();
+            UpdateVersePanel();
         }
 
         private void viewNetBibleMenuItem_CheckedChanged(object sender, EventArgs e)
@@ -975,7 +1008,7 @@ namespace OneStoryProjectEditor
             {
                 // probably means the file doesn't exist anymore, so remove it from the recent used list
                 Properties.Settings.Default.RecentFiles.Remove(aRecentFile.Text);
-                MessageBox.Show(ex.Message, cstrCaption);
+                MessageBox.Show(ex.Message, CstrCaption);
             }
         }
 
@@ -991,7 +1024,6 @@ namespace OneStoryProjectEditor
             Console.WriteLine(String.Format("HelpRequested: value: {0}", bar.Value));
         }
 
-        protected bool m_bDisableInterrupts = false;
         private void macTrackBarProjectStages_ValueChanged(object sender, decimal value)
         {
             if (theCurrentStory == null)

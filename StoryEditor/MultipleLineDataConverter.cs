@@ -12,14 +12,47 @@ namespace OneStoryProjectEditor
         protected string CollectionElementName = null;
         protected string InstanceElementName = null;
 
+        public bool HasData
+        {
+            get { return (this.Count > 0); }
+        }
+
+        // add a new retelling (have to know the member ID of the UNS giving it)
+        public StringTransfer AddNewLine(string strMemberID)
+        {
+            StringTransfer st = new StringTransfer(null);
+            Add(st);
+            MemberIDs.Add(strMemberID);
+            return st;
+        }
+
+        public void RemoveLine(string strText)
+        {
+            for (int i = 0; i < this.Count; i++)
+            {
+                StringTransfer st = this[i];
+                if (st.ToString() == strText)
+                {
+                    this.RemoveAt(i);
+                    MemberIDs.RemoveAt(i);
+                    break;
+                }
+            }
+        }
+
         public XElement GetXml
         {
             get
             {
-                XElement elemRetellings = new XElement(StoryEditor.ns + CollectionElementName);
+                System.Diagnostics.Debug.Assert(HasData, String.Format("You have an empty collection of {0} that you're trying to serialize", CollectionElementName));
+                XElement elem = new XElement(StoryEditor.ns + CollectionElementName);
                 for (int i = 0; i < this.Count; i++)
-                    elemRetellings.Add(new XElement(StoryEditor.ns + InstanceElementName, new XAttribute("memberID", MemberIDs[i]), this[i]));
-                return elemRetellings;
+                {
+                    System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(MemberIDs[i]));
+                    if (this[i].HasData)
+                        elem.Add(new XElement(StoryEditor.ns + InstanceElementName, new XAttribute("memberID", MemberIDs[i]), this[i]));
+                }
+                return elem;
             }
         }
     }
@@ -67,6 +100,10 @@ namespace OneStoryProjectEditor
                 Add(new StringTransfer(anAnswerRow.answer_text));
                 MemberIDs.Add(anAnswerRow.memberID);
             }
+        }
+
+        public AnswersData()
+        {
         }
     }
 }

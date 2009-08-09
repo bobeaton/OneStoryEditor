@@ -192,6 +192,9 @@
       <DependentUpon>TestingQuestionControl.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="UnsPicker.resx">
+      <DependentUpon>UnsPicker.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="VerseBtControl.resx">
       <DependentUpon>VerseBtControl.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -237,6 +240,12 @@
       <DependentUpon>TestingQuestionControl.cs</DependentUpon>
     </Compile>
     <Compile Include="TestQuestionsData.cs" />
+    <Compile Include="UnsPicker.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UnsPicker.Designer.cs">
+      <DependentUpon>UnsPicker.cs</DependentUpon>
+    </Compile>
     <Compile Include="VerseBtControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

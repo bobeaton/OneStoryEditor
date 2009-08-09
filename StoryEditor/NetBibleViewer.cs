@@ -14,10 +14,10 @@ namespace OneStoryProjectEditor
         protected string m_strScriptureReference = "gen 1:1";
 
         #region "format strings for HTML items"
-        // protected const string cstrHtmlLineFormat = "<button type=\"button\">{0}</button>{1}<br />";
-        protected const string cstrHtmlLineFormat = "<tr><td><button type=\"button\">{0}</button></td><td>{1}</td>";
-        protected const string cstrHtmlTableBegin = "<table border=\"1\">";
-        protected const string cstrHtmlTableEnd = "</table>";
+        // protected const string CstrHtmlLineFormat = "<button type=\"button\">{0}</button>{1}<br />";
+        protected const string CstrHtmlLineFormat = "<tr><td><button type=\"button\">{0}</button></td><td>{1}</td>";
+        protected const string CstrHtmlTableBegin = "<table border=\"1\">";
+        protected const string CstrHtmlTableEnd = "</table>";
 
         protected const string verseLineBreak = "<br />";
         protected const string preDocumentDOMScript = "<script>" +
@@ -128,7 +128,7 @@ namespace OneStoryProjectEditor
                 for (int i = 0; i < numOfBibles; i++)
                     if (manager.getModuleAt(i).Type().Equals("Biblical Texts")) //Limit to just bibles, comment out to see all modules
                         strModules += manager.getModuleAt(i).Name() + '\n';
-                MessageBox.Show(String.Format("Found modules:{0}{0}{1}", Environment.NewLine, strModules), StoryEditor.cstrCaption);
+                MessageBox.Show(String.Format("Found modules:{0}{0}{1}", Environment.NewLine, strModules), StoryEditor.CstrCaption);
 #else
                 throw new ApplicationException(String.Format("Can't find Sword module '{0}'. Is Sword installed?", "NETfree"));
 #endif
@@ -169,7 +169,7 @@ namespace OneStoryProjectEditor
             {
                 // something changed
                 // Build up the string which we're going to put in the HTML viewer
-                StringBuilder sb = new StringBuilder(cstrHtmlTableBegin);
+                StringBuilder sb = new StringBuilder(CstrHtmlTableBegin);
 
                 // Let's just read in what left in the chapter
                 VerseKey keyRestOfChapter = new VerseKey(keyVerse);
@@ -179,7 +179,7 @@ namespace OneStoryProjectEditor
                     string strVerseHtml = moduleVersion.RenderText(keyRestOfChapter).Replace(verseLineBreak, null);
 
                     // insert a button (for drag-drop) and the HTML into a table format
-                    string strLineHtml = String.Format(cstrHtmlLineFormat, keyRestOfChapter.getShortText(), strVerseHtml);
+                    string strLineHtml = String.Format(CstrHtmlLineFormat, keyRestOfChapter.getShortText(), strVerseHtml);
                     sb.Append(strLineHtml);
 
                     // next verse until end of chapter
@@ -187,7 +187,7 @@ namespace OneStoryProjectEditor
                 }
 
                 // delimit the table
-                sb.Append(cstrHtmlTableEnd);
+                sb.Append(CstrHtmlTableEnd);
 
                 // set this along with scripts for clicks and such into the web browser.
                 webBrowserNetBible.DocumentText = preDocumentDOMScript + sb.ToString() + postDocumentDOMScript;

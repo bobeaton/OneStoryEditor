@@ -24,14 +24,36 @@ namespace OneStoryProjectEditor
             Answers = new AnswersData(theTestQuestionRow, projFile);
         }
 
+        public TestQuestionData()
+        {
+            QuestionVernacular = new StringTransfer(null);
+            QuestionEnglish = new StringTransfer(null);
+            Answers = new AnswersData();
+        }
+
+        public bool HasData
+        {
+            get { return (QuestionVernacular.HasData || QuestionEnglish.HasData || Answers.HasData); }
+        }
+
         public XElement GetXml
         {
             get
             {
-                return new XElement(StoryEditor.ns + "TestQuestion", new XAttribute("visible", IsVisible),
-                    new XElement(StoryEditor.ns + "TQVernacular", QuestionVernacular),
-                    new XElement(StoryEditor.ns + "TQInternationalBT", QuestionEnglish),
-                    Answers.GetXml);
+                System.Diagnostics.Debug.Assert(QuestionVernacular.HasData 
+                    || QuestionEnglish.HasData
+                    || Answers.HasData, "you have an empty TestQuestionData");
+
+                XElement eleTQ = new XElement(StoryEditor.ns + "TestQuestion", new XAttribute("visible", IsVisible));
+                
+                if (QuestionVernacular.HasData)
+                    eleTQ.Add(new XElement(StoryEditor.ns + "TQVernacular", QuestionVernacular));
+                if (QuestionEnglish.HasData)
+                    eleTQ.Add(new XElement(StoryEditor.ns + "TQInternationalBT", QuestionEnglish));
+                if (Answers.HasData)
+                    eleTQ.Add(Answers.GetXml);
+
+                return eleTQ;
             }
         }
     }
@@ -51,13 +73,27 @@ namespace OneStoryProjectEditor
                 Add(new TestQuestionData(aTestingQuestionRow, projFile));
         }
 
+        public TestQuestionData AddTestQuestion()
+        {
+            TestQuestionData theTQ = new TestQuestionData();
+            this.Add(theTQ);
+            return theTQ;
+        }
+
+        public bool HasData
+        {
+            get { return (this.Count > 0); }
+        }
+
         public XElement GetXml
         {
             get
             {
+                System.Diagnostics.Debug.Assert(HasData, "trying to serialize an empty TestQuestionsData");
                 XElement elemTestQuestions = new XElement(StoryEditor.ns + "TestQuestions");
                 foreach (TestQuestionData aTestQuestionData in this)
-                    elemTestQuestions.Add(aTestQuestionData.GetXml);
+                    if (aTestQuestionData.HasData)
+                        elemTestQuestions.Add(aTestQuestionData.GetXml);
                 return elemTestQuestions;
             }
         }

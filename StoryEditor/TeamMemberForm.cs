@@ -151,7 +151,7 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, StoryEditor.cstrCaption);
+                MessageBox.Show(ex.Message, StoryEditor.CstrCaption);
             }
         }
 
@@ -240,7 +240,7 @@ namespace OneStoryProjectEditor
             TeamMemberData theMember = _dataTeamMembers[SelectedMember];
             if (theMember.MemberType == StoryEditor.UserTypes.eUNS)
             {
-                MessageBox.Show("You may have added a UNS in order to identify, for example, which UNS did the back translation or a particular test. However, you as the crafter should still be logged in to enter the UNS's comments. So select your *crafter* member name and click 'Login' again", StoryEditor.cstrCaption);
+                MessageBox.Show("You may have added a UNS in order to identify, for example, which UNS did the back translation or a particular test. However, you as the crafter should still be logged in to enter the UNS's comments. So select your *crafter* member name and click 'Login' again", StoryEditor.CstrCaption);
                 return;
             }
 

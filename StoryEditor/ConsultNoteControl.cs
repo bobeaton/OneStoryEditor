@@ -10,7 +10,7 @@ namespace OneStoryProjectEditor
 {
     public partial class ConsultNoteControl : OneStoryProjectEditor.ResizableControl
     {
-        protected const string cstrRoundLabel = "Round: ";
+        protected const string CstrRoundLabel = "Round: ";
         protected int m_nRoundNum = -1;
 
         public ConsultNoteControl(ConsultNoteDataConverter aCNDC)
@@ -23,7 +23,7 @@ namespace OneStoryProjectEditor
 
             InsertColumn(2);
 
-            this.labelRound.Text = cstrRoundLabel + m_nRoundNum.ToString();
+            this.labelRound.Text = CstrRoundLabel + m_nRoundNum.ToString();
             this.tableLayoutPanel.SetColumnSpan(labelRound, 2);
             this.tableLayoutPanel.Controls.Add(this.labelRound, 0, 0);
             this.tableLayoutPanel.Controls.Add(this.buttonDragDropHandle, 1, 0);
@@ -50,7 +50,7 @@ namespace OneStoryProjectEditor
             label.Text = strRowLabel;
 
             TextBox tb = new TextBox();
-            tb.Name = strRowLabel + cstrSuffixTextBox + nNumRows.ToString();
+            tb.Name = strRowLabel + CstrSuffixTextBox + nNumRows.ToString();
             tb.Multiline = true;
             tb.Dock = DockStyle.Fill;
             tb.ForeColor = clrText;

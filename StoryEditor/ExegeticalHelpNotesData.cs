@@ -19,10 +19,16 @@ namespace OneStoryProjectEditor
             ExegeticalHelpNote = new StringTransfer(strInitialText);
         }
 
+        public bool HasData
+        {
+            get { return (ExegeticalHelpNote.HasData); }
+        }
+
         public XElement GetXml
         {
             get
             {
+                System.Diagnostics.Debug.Assert(ExegeticalHelpNote.HasData, "Trying to serialize an ExegeticalHelpNoteData with no data");
                 return new XElement(StoryEditor.ns + "exegeticalHelp", ExegeticalHelpNote);
             }
         }
@@ -54,13 +60,20 @@ namespace OneStoryProjectEditor
             return theEHN;
         }
 
+        public bool HasData
+        {
+            get { return (this.Count > 0); }
+        }
+
         public XElement GetXml
         {
             get
             {
+                System.Diagnostics.Debug.Assert(HasData);
                 XElement elemExegeticalHelps = new XElement(StoryEditor.ns + "exegeticalHelps");
                 foreach (ExegeticalHelpNoteData aExHelpData in this)
-                    elemExegeticalHelps.Add(aExHelpData.GetXml);
+                    if (aExHelpData.HasData)
+                        elemExegeticalHelps.Add(aExHelpData.GetXml);
                 return elemExegeticalHelps;
             }
         }

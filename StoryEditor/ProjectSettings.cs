@@ -32,7 +32,7 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert(projFile != null);
             ProjectFolder = String.Format(@"{0}\{1}\{2}",
                 Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                StoryEditor.cstrCaption,
+                StoryEditor.CstrCaption,
                 ProjectName);
 
             StoryProject.LanguagesRow theLangRow = InsureLanguagesRow(projFile);

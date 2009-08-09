@@ -32,9 +32,12 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                return new XElement(StoryEditor.ns + "anchor", new XAttribute("jumpTarget", JumpTarget),
-                    new XElement(StoryEditor.ns + "toolTip", ToolTipText),
-                    ExegeticalHelpNotes.GetXml);
+                System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(JumpTarget));
+                XElement elemAnchor = new XElement(StoryEditor.ns + "anchor", new XAttribute("jumpTarget", JumpTarget),
+                    new XElement(StoryEditor.ns + "toolTip", ToolTipText));
+                if (ExegeticalHelpNotes.HasData)
+                    elemAnchor.Add(ExegeticalHelpNotes.GetXml);
+                return elemAnchor;
             }
         }
     }
@@ -61,10 +64,16 @@ namespace OneStoryProjectEditor
             return anAD;
         }
 
+        public bool HasData
+        {
+            get { return (this.Count > 0); }
+        }
+
         public XElement GetXml
         {
             get
             {
+                System.Diagnostics.Debug.Assert(HasData, "trying to serialize an AnchorsData without items");
                 XElement elemAnchors = new XElement(StoryEditor.ns + "anchors");
                 foreach (AnchorData anAnchorData in this)
                     elemAnchors.Add(anAnchorData.GetXml);

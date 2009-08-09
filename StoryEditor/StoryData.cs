@@ -36,12 +36,20 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                return new XElement(StoryEditor.ns + "story",
+                System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(StoryName)
+                    && !String.IsNullOrEmpty(ProjStage.ProjectStageString)
+                    && !String.IsNullOrEmpty(StoryGuid));
+
+                XElement elemStory = new XElement(StoryEditor.ns + "story",
                         new XAttribute("name", StoryName),
                         new XAttribute("stage", ProjStage.ProjectStageString),
                         new XAttribute("guid", StoryGuid),
-                        CraftingInfo.GetXml,
-                        Verses.GetXml);
+                        CraftingInfo.GetXml);
+
+                if (Verses.HasData)
+                        elemStory.Add(Verses.GetXml);
+
+                return elemStory;
             }
         }
     }
@@ -77,7 +85,7 @@ namespace OneStoryProjectEditor
 
         protected string QueryProjectName()
         {
-            string strProjectName = Microsoft.VisualBasic.Interaction.InputBox(String.Format("You are creating a brand new OneStory project. Enter the name you want to give this project (e.g. the language name).{0}{0}(if you had intended to edit an existing project, cancel this dialog and use the 'File', 'Open' command)", Environment.NewLine), StoryEditor.cstrCaption, null, 300, 200);
+            string strProjectName = Microsoft.VisualBasic.Interaction.InputBox(String.Format("You are creating a brand new OneStory project. Enter the name you want to give this project (e.g. the language name).{0}{0}(if you had intended to edit an existing project, cancel this dialog and use the 'File', 'Open' command)", Environment.NewLine), StoryEditor.CstrCaption, null, 300, 200);
             if (String.IsNullOrEmpty(strProjectName))
                 throw new ApplicationException("Unable to create a project without a project name!");
             return strProjectName;

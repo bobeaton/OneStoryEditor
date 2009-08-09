@@ -32,13 +32,26 @@ namespace OneStoryProjectEditor
         protected string CommentElementName;
         protected string ResponseElementName;
 
+        public bool HasData
+        {
+            get { return (MentorComment.HasData || MenteeResponse.HasData); }
+        }
+
         public XElement GetXml
         {
             get
             {
-                return new XElement(StoryEditor.ns + InstanceElementName, new XAttribute("round", RoundNum),
-                    new XElement(StoryEditor.ns + CommentElementName, new XAttribute("memberID", MentorGuid), MentorComment),
-                    new XElement(StoryEditor.ns + ResponseElementName, new XAttribute("memberID", MenteeGuid), MenteeResponse));
+                // must have guids if there's data
+                System.Diagnostics.Debug.Assert(MentorComment.HasData && !String.IsNullOrEmpty(MentorGuid));
+                System.Diagnostics.Debug.Assert(MenteeResponse.HasData && !String.IsNullOrEmpty(MenteeGuid));
+
+                XElement eleNote = new XElement(StoryEditor.ns + InstanceElementName, new XAttribute("round", RoundNum));
+                if (MentorComment.HasData)
+                    eleNote.Add(new XElement(StoryEditor.ns + CommentElementName, new XAttribute("memberID", MentorGuid), MentorComment));
+                if (MenteeResponse.HasData)
+                    eleNote.Add(new XElement(StoryEditor.ns + ResponseElementName, new XAttribute("memberID", MenteeGuid), MenteeResponse));
+
+                return eleNote;
             }
         }
     }
@@ -122,14 +135,21 @@ namespace OneStoryProjectEditor
     public abstract class ConsultNotesDataConverter : List<ConsultNoteDataConverter>
     {
         protected string CollectionElementName = null;
-        
+
+        public bool HasData
+        {
+            get { return (this.Count > 0); }
+        }
+
         public XElement GetXml
         {
             get
             {
+                System.Diagnostics.Debug.Assert(HasData);
                 XElement elemCNDC = new XElement(StoryEditor.ns + CollectionElementName);
                 foreach (ConsultNoteDataConverter aCNDC in this)
-                    elemCNDC.Add(aCNDC.GetXml);
+                    if (aCNDC.HasData)
+                        elemCNDC.Add(aCNDC.GetXml);
                 return elemCNDC;
             }
         }

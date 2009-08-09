@@ -7,12 +7,12 @@ namespace OneStoryProjectEditor
 {
     public class TeamMemberData
     {
-        internal const string cstrCrafter = "Crafter";
-        internal const string cstrUNS = "UNS";
-        internal const string cstrConsultantInTraining = "ConsultantInTraining";
-        internal const string cstrIndependentConsultant = "IndependentConsultant";
-        internal const string cstrCoach = "Coach";
-        internal const string cstrJustLooking = "JustLooking"; // gives full access, but no change privileges
+        internal const string CstrCrafter = "Crafter";
+        internal const string CstrUNS = "UNS";
+        internal const string CstrConsultantInTraining = "ConsultantInTraining";
+        internal const string CstrIndependentConsultant = "IndependentConsultant";
+        internal const string CstrCoach = "Coach";
+        internal const string CstrJustLooking = "JustLooking"; // gives full access, but no change privileges
 
         public string Name = null;
         public StoryEditor.UserTypes MemberType = StoryEditor.UserTypes.eUndefined;
@@ -65,17 +65,17 @@ namespace OneStoryProjectEditor
 
         public static StoryEditor.UserTypes GetMemberType(string strMemberTypeString)
         {
-            if (strMemberTypeString == cstrCrafter)
+            if (strMemberTypeString == CstrCrafter)
                 return StoryEditor.UserTypes.eCrafter;
-            else if (strMemberTypeString == cstrUNS)
+            else if (strMemberTypeString == CstrUNS)
                 return StoryEditor.UserTypes.eUNS;
-            else if (strMemberTypeString == cstrConsultantInTraining)
+            else if (strMemberTypeString == CstrConsultantInTraining)
                 return StoryEditor.UserTypes.eConsultantInTraining;
-            else if (strMemberTypeString == cstrIndependentConsultant)
+            else if (strMemberTypeString == CstrIndependentConsultant)
                 return StoryEditor.UserTypes.eIndependentConsultant;
-            else if (strMemberTypeString == cstrCoach)
+            else if (strMemberTypeString == CstrCoach)
                 return StoryEditor.UserTypes.eCoach;
-            else if (strMemberTypeString == cstrJustLooking)
+            else if (strMemberTypeString == CstrJustLooking)
                 return StoryEditor.UserTypes.eJustLooking;
             else
                 return StoryEditor.UserTypes.eUndefined;
@@ -88,17 +88,17 @@ namespace OneStoryProjectEditor
                 switch (MemberType)
                 {
                     case StoryEditor.UserTypes.eCrafter:
-                        return cstrCrafter;
+                        return CstrCrafter;
                     case StoryEditor.UserTypes.eUNS:
-                        return cstrUNS;
+                        return CstrUNS;
                     case StoryEditor.UserTypes.eConsultantInTraining:
-                        return cstrConsultantInTraining;
+                        return CstrConsultantInTraining;
                     case StoryEditor.UserTypes.eIndependentConsultant:
-                        return cstrIndependentConsultant;
+                        return CstrIndependentConsultant;
                     case StoryEditor.UserTypes.eCoach:
-                        return cstrCoach;
+                        return CstrCoach;
                     case StoryEditor.UserTypes.eJustLooking:
-                        return cstrJustLooking;
+                        return CstrJustLooking;
                     default:
                         System.Diagnostics.Debug.Assert(false); // shouldn't get here
                         return null;

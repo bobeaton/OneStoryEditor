@@ -10,7 +10,7 @@ namespace OneStoryProjectEditor
 {
     public partial class ConsultNotesControl : OneStoryProjectEditor.ResizableControl
     {
-        protected const string cstrFieldNameConsultantNote = "ConsultantNoteControl";
+        protected const string CstrFieldNameConsultantNote = "ConsultantNoteControl";
 
         internal int VerseNumber = -1;
 
@@ -22,7 +22,7 @@ namespace OneStoryProjectEditor
             this.tableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
 
-            this.labelReference.Text = VerseBtControl.cstrVerseName + nVerseNumber.ToString();
+            this.labelReference.Text = VerseBtControl.CstrVerseName + nVerseNumber.ToString();
             this.tableLayoutPanel.Controls.Add(this.labelReference, 0, 0);
             this.tableLayoutPanel.Controls.Add(this.buttonDragDropHandle, 1, 0);
 
@@ -32,7 +32,7 @@ namespace OneStoryProjectEditor
                 foreach (ConsultNoteDataConverter aCNDC in aCNsDC)
                 {
                     ConsultNoteControl aCNCtrl = new ConsultNoteControl(aCNDC);
-                    aCNCtrl.Name = cstrFieldNameConsultantNote + nRowIndex.ToString();
+                    aCNCtrl.Name = CstrFieldNameConsultantNote + nRowIndex.ToString();
                     aCNCtrl.ParentControl = this;
 
                     InsertRow(nRowIndex);

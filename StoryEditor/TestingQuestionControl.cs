@@ -1,21 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
 {
-    public partial class TestingQuestionControl : OneStoryProjectEditor.ResizableControl
+    public partial class TestingQuestionControl : ResizableControl
     {
-        protected const string cstrFieldNameVernacular = "TQVernacular";
-        protected const string cstrFieldNameInternationalBT = "TQInternationalBT";
-        protected const string cstrFieldNameAnswers = "Answers";
+        protected const string CstrFieldNameVernacular = "TQVernacular";
+        protected const string CstrFieldNameInternationalBt = "TQInternationalBT";
+        protected const string CstrFieldNameAnswers = "Answers";
 
         protected TestQuestionData _aTQData = null;
-        protected int m_nNumAnswerRows = 0;
+        protected int _nNumAnswerRows = 0;
 
         public TestingQuestionControl(StoryEditor aSE, TestQuestionData aTQData)
         {
@@ -51,20 +47,20 @@ namespace OneStoryProjectEditor
             // insert the vernacular representation of the testing question
             InsertColumn(nNumColumns);
             InitColumnLabel(aSE.Stories.ProjSettings.VernacularLangName, nNumColumns);
-            InitTextBox(cstrFieldNameVernacular, _aTQData.QuestionVernacular, aSE.Stories.ProjSettings.VernacularFont, aSE.Stories.ProjSettings.VernacularFontColor, nNumColumns);
+            InitTextBox(CstrFieldNameVernacular, _aTQData.QuestionVernacular, aSE.Stories.ProjSettings.VernacularFont, aSE.Stories.ProjSettings.VernacularFontColor, nNumColumns);
             
             nNumColumns++;
 
             // insert the EnglishBT representation of the testing question
             InsertColumn(nNumColumns);
             InitColumnLabel(aSE.Stories.ProjSettings.InternationalBTLangName, nNumColumns);
-            InitTextBox(cstrFieldNameVernacular, _aTQData.QuestionEnglish, aSE.Stories.ProjSettings.InternationalBTFont, aSE.Stories.ProjSettings.InternationalBTFontColor, nNumColumns);
+            InitTextBox(CstrFieldNameVernacular, _aTQData.QuestionEnglish, aSE.Stories.ProjSettings.InternationalBTFont, aSE.Stories.ProjSettings.InternationalBTFontColor, nNumColumns);
 
             // add a row so we can display a multiple line control with the answers
-            if (_aTQData.Answers != null)
+            if ((_aTQData.Answers != null) && (_aTQData.Answers.Count > 0))
             {
                 MultiLineControl aAnswersCtrl = new MultiLineControl(_aTQData.Answers);
-                aAnswersCtrl.Name = cstrFieldNameAnswers;
+                aAnswersCtrl.Name = CstrFieldNameAnswers;
                 aAnswersCtrl.ParentControl = this;
 
                 int nLayoutRow = 2;
@@ -78,7 +74,7 @@ namespace OneStoryProjectEditor
         {
             // add the row0 column label
             Label lbl = new Label();
-            lbl.Name = strTestQuestionLangLableName + cstrSuffixLabel;
+            lbl.Name = strTestQuestionLangLableName + CstrSuffixLabel;
             lbl.Anchor = System.Windows.Forms.AnchorStyles.Top;
             lbl.AutoSize = true;
             lbl.Text = strTestQuestionLangLableName;
@@ -88,7 +84,7 @@ namespace OneStoryProjectEditor
         protected void InitTextBox(string strTbName, StringTransfer strTbText, Font font, Color color, int nLayoutColumn)
         {
             TextBox tb = new TextBox();
-            tb.Name = strTbName + cstrSuffixTextBox;
+            tb.Name = strTbName + CstrSuffixTextBox;
             tb.Multiline = true;
             tb.Font = font;
             tb.ForeColor = color;

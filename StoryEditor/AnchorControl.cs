@@ -11,9 +11,9 @@ namespace OneStoryProjectEditor
 {
     public partial class AnchorControl : ResizableControl
     {
-        protected const string cstrFieldNameAnchor = "AnchorButton";
-        protected const string cstrFieldNameExegeticalHelp = "ExegeticalHelp";
-        protected const string cstrFieldNameExegeticalHelpLabel = "ExegeticalHelpLabel";
+        protected const string CstrFieldNameAnchor = "AnchorButton";
+        protected const string CstrFieldNameExegeticalHelp = "ExegeticalHelp";
+        protected const string CstrFieldNameExegeticalHelpLabel = "ExegeticalHelpLabel";
         protected int m_nNumRows = 1;
         protected AnchorsData _myAnchorsData = null;
         protected Dictionary<ToolStripButton, List<TextBox>> _mapAnchorsToTextBoxes = new Dictionary<ToolStripButton, List<TextBox>>();
@@ -48,7 +48,7 @@ namespace OneStoryProjectEditor
             ToolStripButton aButton = new ToolStripButton();
             aButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             aButton.Tag = theAnchorData;
-            aButton.Name = cstrFieldNameAnchor + theAnchorData.JumpTarget;
+            aButton.Name = CstrFieldNameAnchor + theAnchorData.JumpTarget;
             aButton.AutoSize = true;
             aButton.Text = theAnchorData.JumpTarget;
             aButton.ToolTipText = theAnchorData.ToolTipText;
@@ -73,7 +73,7 @@ namespace OneStoryProjectEditor
             ToolStripSplitButton tssb = new ToolStripSplitButton();
             tssb.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             tssb.DropDown = dropDownAnchorButtonOptions;
-            tssb.Name = cstrFieldNameAnchor + strJumpTarget;
+            tssb.Name = CstrFieldNameAnchor + strJumpTarget;
             tssb.AutoSize = true;
             tssb.Text = strJumpTarget;
             tssb.ToolTipText = strComment;
@@ -100,11 +100,11 @@ namespace OneStoryProjectEditor
             Label labelExegeticalHelp = new Label();
             labelExegeticalHelp.Anchor = System.Windows.Forms.AnchorStyles.Left;
             labelExegeticalHelp.AutoSize = true;
-            labelExegeticalHelp.Name = cstrFieldNameExegeticalHelpLabel + nLayoutRow.ToString();
+            labelExegeticalHelp.Name = CstrFieldNameExegeticalHelpLabel + nLayoutRow.ToString();
             labelExegeticalHelp.Text = "cn:";
 
             TextBox tb = new TextBox();
-            tb.Name = cstrFieldNameExegeticalHelp + nLayoutRow.ToString();
+            tb.Name = CstrFieldNameExegeticalHelp + nLayoutRow.ToString();
             tb.Multiline = true;
             tb.Dock = DockStyle.Fill;
             strQuote.SetAssociation(tb);    // tb.Text = strQuote;
@@ -164,7 +164,7 @@ namespace OneStoryProjectEditor
             {
                 if (_mapAnchorsToTextBoxes.ContainsKey(m_theLastButtonClicked))
                 {
-                    DialogResult res = MessageBox.Show(String.Format("The anchor you are about to delete has exegetical or cultural note(s) attached to it. These will be deleted also. Click 'OK' to continue with the deletion.{0}{0}[if you would rather have kept them, say associated to another anchor, then tell bob_eaton@sall.com and he may implement that feature. For now, you can copy the note and paste it into a new note added to a new or existing anchor (right-click on the anchor and choose 'Add Exegetical/Cultural Note'). Then come back here and delete this anchor]", Environment.NewLine), StoryEditor.cstrCaption, MessageBoxButtons.OKCancel);
+                    DialogResult res = MessageBox.Show(String.Format("The anchor you are about to delete has exegetical or cultural note(s) attached to it. These will be deleted also. Click 'OK' to continue with the deletion.{0}{0}[if you would rather have kept them, say associated to another anchor, then tell bob_eaton@sall.com and he may implement that feature. For now, you can copy the note and paste it into a new note added to a new or existing anchor (right-click on the anchor and choose 'Add Exegetical/Cultural Note'). Then come back here and delete this anchor]", Environment.NewLine), StoryEditor.CstrCaption, MessageBoxButtons.OKCancel);
                     if (res != DialogResult.OK)
                         return;
 
@@ -186,7 +186,7 @@ namespace OneStoryProjectEditor
                 m_theLastButtonClicked = null;
             }
             else
-                MessageBox.Show("Right-click on one of the buttons to choose which one to delete", StoryEditor.cstrCaption);
+                MessageBox.Show("Right-click on one of the buttons to choose which one to delete", StoryEditor.CstrCaption);
         }
 
         private void addCommentToolStripMenuItem_Click(object sender, EventArgs e)
@@ -207,7 +207,7 @@ namespace OneStoryProjectEditor
                 }
             }
             else
-                MessageBox.Show("Right-click on one of the buttons to choose which one to add the comment to", StoryEditor.cstrCaption);
+                MessageBox.Show("Right-click on one of the buttons to choose which one to add the comment to", StoryEditor.CstrCaption);
         }
 
         private void toolStripAnchors_MouseDown(object sender, MouseEventArgs e)
@@ -226,7 +226,7 @@ namespace OneStoryProjectEditor
                 AdjustHeightWithSuspendLayout(null);
             }
             else
-                MessageBox.Show("Right-click on one of the buttons to choose which one to add the exegetical or cultural note to", StoryEditor.cstrCaption);
+                MessageBox.Show("Right-click on one of the buttons to choose which one to add the exegetical or cultural note to", StoryEditor.CstrCaption);
         }
     }
 }

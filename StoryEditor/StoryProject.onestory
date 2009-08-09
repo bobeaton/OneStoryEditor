@@ -38,7 +38,6 @@
             </anchor>
             <anchor jumpTarget="Col 1:16">
               <toolTip>also implied by Col 1:16</toolTip>
-              <exegeticalHelps />
             </anchor>
           </anchors>
           <TestQuestions>
@@ -83,13 +82,8 @@
           <anchors>
             <anchor jumpTarget="Heb 13:8">
               <toolTip>Heb 13:8</toolTip>
-              <exegeticalHelps />
             </anchor>
           </anchors>
-          <TestQuestions />
-          <Retellings />
-          <ConsultantNotes />
-          <CoachNotes />
         </verse>
       </verses>
     </story>

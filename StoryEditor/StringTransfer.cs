@@ -37,5 +37,10 @@ namespace OneStoryProjectEditor
         {
             return Value;
         }
+
+        public bool HasData
+        {
+            get { return (Value != null); }
+        }
     }
 }

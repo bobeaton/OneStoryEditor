@@ -3,46 +3,43 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
 {
     public partial class VerseBtControl : ResizableControl
     {
-        internal const string cstrVerseName = "Verse: ";
-        protected const string cstrFieldNameStoryLine = "StoryLine";
-        protected const string cstrFieldNameAnchors = "Anchors";
-        protected const string cstrFieldNameRetellings = "Retellings";
-        protected const string cstrFieldNameTestQuestionsLabel = "TestQuestionsLabel";
-        protected const string cstrTestQuestionsLabelFormat = "tst({0}):";
-        protected const string cstrFieldNameTestQuestions = "TestQuestions";
+        internal const string CstrVerseName = "Verse: ";
+        protected const string CstrFieldNameStoryLine = "StoryLine";
+        protected const string CstrFieldNameAnchors = "Anchors";
+        protected const string CstrFieldNameRetellings = "Retellings";
+        protected const string CstrFieldNameTestQuestionsLabel = "TestQuestionsLabel";
+        protected const string CstrTestQuestionsLabelFormat = "tst({0}):";
+        protected const string CstrFieldNameTestQuestions = "TestQuestions";
 
-        public VerseData VerseData = null;
+        internal VerseData _verseData = null;
+        protected string _strUnsMemberId = null;
 
         internal int VerseNumber = -1;
-        protected int m_nRowIndexStoryLine = -1;
-        protected int m_nRowIndexAnchors = -1;
-        protected int m_nRowIndexRetelling = -1;
-        protected int m_nRowIndexTestingQuestionGroup = -1;
-        protected List<TestingQuestionControl> m_lstTestQuestionControls = null;
+        protected int _nRowIndexStoryLine = -1;
+        protected int _nRowIndexAnchors = -1;
+        protected int _nRowIndexRetelling = -1;
+        protected int _nRowIndexTestingQuestionGroup = -1;
+        protected List<TestingQuestionControl> _lstTestQuestionControls = null;
 
         public string Guid = null;
 
         public VerseBtControl(StoryEditor aSE, VerseData dataVerse, int nVerseNumber)
         {
-            VerseData = dataVerse;
-            Guid = VerseData.guid;
+            _verseData = dataVerse;
+            Guid = _verseData.guid;
             VerseNumber = nVerseNumber;
             InitializeComponent();
 
             this.tableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
 
-            this.labelReference.Text = cstrVerseName + nVerseNumber.ToString();
+            this.labelReference.Text = CstrVerseName + nVerseNumber.ToString();
             this.tableLayoutPanel.Controls.Add(this.labelReference, 0, 0);
             this.tableLayoutPanel.Controls.Add(this.buttonDragDropHandle, 1, 0);
 
@@ -59,78 +56,78 @@ namespace OneStoryProjectEditor
             if (aSE.viewVernacularLangFieldMenuItem.Checked || aSE.viewNationalLangFieldMenuItem.Checked || aSE.viewEnglishBTFieldMenuItem.Checked)
             {
                 // if we've already initialized the control, then it must have this project row index (i.e. nNumRows)
-                System.Diagnostics.Debug.Assert((m_nRowIndexStoryLine == -1) || (m_nRowIndexStoryLine == nNumRows), "fix bad assumption (VerseBtControl.cs.49): bob_eaton@sall.com");
+                System.Diagnostics.Debug.Assert((_nRowIndexStoryLine == -1) || (_nRowIndexStoryLine == nNumRows), "fix bad assumption (VerseBtControl.cs.49): bob_eaton@sall.com");
 
                 // ask that control to do the Update View
-                InitStoryLine(aSE, VerseData, nNumRows);
-                m_nRowIndexStoryLine = nNumRows++;
+                InitStoryLine(aSE, _verseData, nNumRows);
+                _nRowIndexStoryLine = nNumRows++;
             }
-            else if (m_nRowIndexStoryLine != -1)
+            else if (_nRowIndexStoryLine != -1)
             {
-                RemoveRow(m_nRowIndexStoryLine);
-                m_nRowIndexStoryLine = -1;
+                RemoveRow(_nRowIndexStoryLine);
+                _nRowIndexStoryLine = -1;
             }
 
             if (aSE.viewAnchorFieldMenuItem.Checked)
             {
                 // if we've already initialized the control, then it must have this project row index (i.e. nNumRows)
-                System.Diagnostics.Debug.Assert((m_nRowIndexAnchors == -1) || (m_nRowIndexAnchors == nNumRows), "fix bad assumption (VerseBtControl.cs.64): bob_eaton@sall.com");
+                System.Diagnostics.Debug.Assert((_nRowIndexAnchors == -1) || (_nRowIndexAnchors == nNumRows), "fix bad assumption (VerseBtControl.cs.64): bob_eaton@sall.com");
 
-                AnchorsData anAnchorsData = VerseData.Anchors;
+                AnchorsData anAnchorsData = _verseData.Anchors;
                 if (anAnchorsData != null)
                 {
                     InitAnchors(anAnchorsData, nNumRows);
-                    m_nRowIndexAnchors = nNumRows++;
+                    _nRowIndexAnchors = nNumRows++;
                 }
             }
-            else if (m_nRowIndexAnchors != -1)
+            else if (_nRowIndexAnchors != -1)
             {
                 // now get rid of the anchor row
-                RemoveRow(m_nRowIndexAnchors);
-                m_nRowIndexAnchors = -1;
+                RemoveRow(_nRowIndexAnchors);
+                _nRowIndexAnchors = -1;
             }
 
             if (aSE.viewRetellingFieldMenuItem.Checked)
             {
                 // if we've already initialized the control, then it must have this project row index (i.e. nNumRows)
-                System.Diagnostics.Debug.Assert((m_nRowIndexRetelling == -1) || (m_nRowIndexRetelling == nNumRows), "fix bad assumption (VerseBtControl.cs.92): bob_eaton@sall.com");
+                System.Diagnostics.Debug.Assert((_nRowIndexRetelling == -1) || (_nRowIndexRetelling == nNumRows), "fix bad assumption (VerseBtControl.cs.92): bob_eaton@sall.com");
 
-                if (VerseData.Retellings.Count > 0)
+                if (_verseData.Retellings.Count > 0)
                 {
-                    InitRetellings(VerseData.Retellings, nNumRows);
-                    m_nRowIndexRetelling = nNumRows++;
+                    InitRetellings(_verseData.Retellings, nNumRows);
+                    _nRowIndexRetelling = nNumRows++;
                 }
             }
-            else if (m_nRowIndexRetelling != -1)
+            else if (_nRowIndexRetelling != -1)
             {
                 // now get rid of the anchor row
-                RemoveRow(m_nRowIndexRetelling);
-                m_nRowIndexRetelling = -1;
+                RemoveRow(_nRowIndexRetelling);
+                _nRowIndexRetelling = -1;
             }
 
             if (aSE.viewStoryTestingQuestionFieldMenuItem.Checked)
             {
                 // if we've already initialized the control, then it must have this project row index (i.e. nNumRows)
                 System.Diagnostics.Debug.Assert(
-                    ((m_lstTestQuestionControls == null) && (m_nRowIndexTestingQuestionGroup == -1))
-                    || ((m_lstTestQuestionControls != null) && (m_nRowIndexTestingQuestionGroup == nNumRows)), "fix bad assumption (VerseBtControl.cs.111): bob_eaton@sall.com");
+                    ((_lstTestQuestionControls == null) && (_nRowIndexTestingQuestionGroup == -1))
+                    || ((_lstTestQuestionControls != null) && (_nRowIndexTestingQuestionGroup == nNumRows)), "fix bad assumption (VerseBtControl.cs.111): bob_eaton@sall.com");
 
-                if (VerseData.TestQuestions.Count > 0)
+                if (_verseData.TestQuestions.Count > 0)
                 {
-                    InitTestingQuestions(aSE, VerseData.TestQuestions, nNumRows);
-                    m_nRowIndexTestingQuestionGroup = nNumRows++;
+                    InitTestingQuestions(aSE, _verseData.TestQuestions, nNumRows);
+                    _nRowIndexTestingQuestionGroup = nNumRows++;
                 }
             }
-            else if (m_nRowIndexTestingQuestionGroup != -1)
+            else if (_nRowIndexTestingQuestionGroup != -1)
             {
                 // now get rid of the anchor row
-                foreach (TestingQuestionControl aTQC in m_lstTestQuestionControls)
+                foreach (TestingQuestionControl aTQC in _lstTestQuestionControls)
                 {
                     int nRowIndex = tableLayoutPanel.GetRow(aTQC);
                     RemoveRow(nRowIndex);
                 }
-                m_nRowIndexTestingQuestionGroup = -1;
-                m_lstTestQuestionControls = null;
+                _nRowIndexTestingQuestionGroup = -1;
+                _lstTestQuestionControls = null;
             }
         }
 
@@ -138,23 +135,23 @@ namespace OneStoryProjectEditor
         protected override void InsertRow(int nLayoutRowIndex)
         {
             base.InsertRow(nLayoutRowIndex);
-            if (m_nRowIndexAnchors >= nLayoutRowIndex)
-                m_nRowIndexAnchors++;
-            if (m_nRowIndexRetelling >= nLayoutRowIndex)
-                m_nRowIndexRetelling++;
-            if (m_nRowIndexTestingQuestionGroup >= nLayoutRowIndex)
-                m_nRowIndexTestingQuestionGroup++;
+            if (_nRowIndexAnchors >= nLayoutRowIndex)
+                _nRowIndexAnchors++;
+            if (_nRowIndexRetelling >= nLayoutRowIndex)
+                _nRowIndexRetelling++;
+            if (_nRowIndexTestingQuestionGroup >= nLayoutRowIndex)
+                _nRowIndexTestingQuestionGroup++;
         }
 
         protected override void RemoveRow(int nLayoutRowIndex)
         {
             base.RemoveRow(nLayoutRowIndex);
-            if (m_nRowIndexAnchors > nLayoutRowIndex)
-                m_nRowIndexAnchors--;
-            if (m_nRowIndexRetelling > nLayoutRowIndex)
-                m_nRowIndexRetelling--;
-            if (m_nRowIndexTestingQuestionGroup > nLayoutRowIndex)
-                m_nRowIndexTestingQuestionGroup--;
+            if (_nRowIndexAnchors > nLayoutRowIndex)
+                _nRowIndexAnchors--;
+            if (_nRowIndexRetelling > nLayoutRowIndex)
+                _nRowIndexRetelling--;
+            if (_nRowIndexTestingQuestionGroup > nLayoutRowIndex)
+                _nRowIndexTestingQuestionGroup--;
         }
 
         protected void InitStoryLine(StoryEditor aSE, VerseData aVerseData, int nLayoutRow)
@@ -162,16 +159,16 @@ namespace OneStoryProjectEditor
             // since some of the view parameters (e.g. show Vernacular) are actually controlled within
             //  the StoryLine control, if we get the call to UpdateView, we have to pass it on to it
             //  to handle (unlike with the Anchor control, which is all on or all off)
-            System.Diagnostics.Debug.Assert((m_nRowIndexStoryLine != -1) || !tableLayoutPanel.Controls.ContainsKey(cstrFieldNameStoryLine));
-            if (tableLayoutPanel.Controls.ContainsKey(cstrFieldNameStoryLine))
+            System.Diagnostics.Debug.Assert((_nRowIndexStoryLine != -1) || !tableLayoutPanel.Controls.ContainsKey(CstrFieldNameStoryLine));
+            if (tableLayoutPanel.Controls.ContainsKey(CstrFieldNameStoryLine))
             {
-                StoryLineControl aStoryLineCtrl = (StoryLineControl)tableLayoutPanel.Controls[cstrFieldNameStoryLine];
+                StoryLineControl aStoryLineCtrl = (StoryLineControl)tableLayoutPanel.Controls[CstrFieldNameStoryLine];
                 aStoryLineCtrl.UpdateView(aSE);
             }
             else
             {
                 StoryLineControl aStoryLineCtrl = new StoryLineControl(aSE, aVerseData);
-                aStoryLineCtrl.Name = cstrFieldNameStoryLine;
+                aStoryLineCtrl.Name = CstrFieldNameStoryLine;
                 aStoryLineCtrl.ParentControl = this;
 
                 InsertRow(nLayoutRow);
@@ -185,11 +182,11 @@ namespace OneStoryProjectEditor
             // since some of the view parameters (e.g. show Vernacular) are actually controlled within
             //  the StoryLine control, if we get the call to UpdateView, we have to pass it on to it
             //  to handle (unlike here with the Anchor control, which is all on or all off)
-            System.Diagnostics.Debug.Assert((m_nRowIndexAnchors != -1) || !tableLayoutPanel.Controls.ContainsKey(cstrFieldNameAnchors));
-            if (!tableLayoutPanel.Controls.ContainsKey(cstrFieldNameAnchors))
+            System.Diagnostics.Debug.Assert((_nRowIndexAnchors != -1) || !tableLayoutPanel.Controls.ContainsKey(CstrFieldNameAnchors));
+            if (!tableLayoutPanel.Controls.ContainsKey(CstrFieldNameAnchors))
             {
                 AnchorControl anAnchorCtrl = new AnchorControl(anAnchorsData);
-                anAnchorCtrl.Name = cstrFieldNameAnchors;
+                anAnchorCtrl.Name = CstrFieldNameAnchors;
                 anAnchorCtrl.ParentControl = this;
                 
                 InsertRow(nLayoutRow);
@@ -203,11 +200,11 @@ namespace OneStoryProjectEditor
             // since some of the view parameters (e.g. show Vernacular) are actually controlled within
             //  the StoryLine control, if we get the call to UpdateView, we have to pass it on to it
             //  to handle (unlike here with the Retellings control, which is all on or all off)
-            System.Diagnostics.Debug.Assert((m_nRowIndexRetelling != -1) || !tableLayoutPanel.Controls.ContainsKey(cstrFieldNameRetellings));
-            if (!tableLayoutPanel.Controls.ContainsKey(cstrFieldNameRetellings))
+            System.Diagnostics.Debug.Assert((_nRowIndexRetelling != -1) || !tableLayoutPanel.Controls.ContainsKey(CstrFieldNameRetellings));
+            if (!tableLayoutPanel.Controls.ContainsKey(CstrFieldNameRetellings))
             {
                 MultiLineControl aRetellingsCtrl = new MultiLineControl(aRetellingsData);
-                aRetellingsCtrl.Name = cstrFieldNameRetellings;
+                aRetellingsCtrl.Name = CstrFieldNameRetellings;
                 aRetellingsCtrl.ParentControl = this;
 
                 InsertRow(nLayoutRow);
@@ -221,37 +218,41 @@ namespace OneStoryProjectEditor
             // since some of the view parameters (e.g. show Vernacular) are actually controlled within
             //  the StoryLine control, if we get the call to UpdateView, we have to pass it on to it
             //  to handle (unlike here with the Anchor control, which is all on or all off)
-            if (m_nRowIndexTestingQuestionGroup == -1)
+            if (_nRowIndexTestingQuestionGroup == -1)
             {
                 if (aTQsData.Count > 0)
                 {
-                    m_lstTestQuestionControls = new List<TestingQuestionControl>(aTQsData.Count);
+                    _lstTestQuestionControls = new List<TestingQuestionControl>(aTQsData.Count);
                     for (int i = 0; i < aTQsData.Count; i++)
-                    {
-                        int nTQNumber = i + 1;
-                        Label label = new Label();
-                        label.Anchor = System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Top;
-                        label.AutoSize = true;
-                        label.Name = cstrFieldNameTestQuestionsLabel + nTQNumber.ToString();
-                        label.Text = String.Format(cstrTestQuestionsLabelFormat, nTQNumber);
-
-                        TestingQuestionControl aTestingQuestionCtrl = new TestingQuestionControl(aSE, aTQsData[i]);
-                        aTestingQuestionCtrl.ParentControl = this;
-                        aTestingQuestionCtrl.Name = cstrFieldNameTestQuestions + nLayoutRow.ToString();
-
-                        int nRowIndex = nLayoutRow + i;
-                        InsertRow(nRowIndex);
-                        tableLayoutPanel.Controls.Add(label, 0, nRowIndex);
-                        tableLayoutPanel.Controls.Add(aTestingQuestionCtrl, 1, nRowIndex);
-                        m_lstTestQuestionControls.Add(aTestingQuestionCtrl);
-                    }
+                        InitTestQuestion(aSE, i, aTQsData[i], nLayoutRow);
                 }
             }
         }
 
+        protected void InitTestQuestion(StoryEditor aSE, int i, TestQuestionData aTQData, int nLayoutRow)
+        {
+            int nTQNumber = i + 1;
+            Label label = new Label();
+            label.Anchor = System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Top;
+            label.AutoSize = true;
+            label.Name = CstrFieldNameTestQuestionsLabel + nTQNumber.ToString();
+            label.Text = String.Format(CstrTestQuestionsLabelFormat, nTQNumber);
+
+            TestingQuestionControl aTestingQuestionCtrl = new TestingQuestionControl(aSE, aTQData);
+            aTestingQuestionCtrl.ParentControl = this;
+            aTestingQuestionCtrl.Name = CstrFieldNameTestQuestions + nLayoutRow.ToString();
+
+            int nRowIndex = nLayoutRow + i;
+            InsertRow(nRowIndex);
+            tableLayoutPanel.Controls.Add(label, 0, nRowIndex);
+            tableLayoutPanel.Controls.Add(aTestingQuestionCtrl, 1, nRowIndex);
+            _lstTestQuestionControls.Add(aTestingQuestionCtrl);
+        }
+
         void buttonDragDropHandle_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            buttonDragDropHandle.DoDragDrop(this, DragDropEffects.Move | DragDropEffects.Copy);
+            if (e.Button == MouseButtons.Left)
+                buttonDragDropHandle.DoDragDrop(this, DragDropEffects.Move | DragDropEffects.Copy);
         }
 
         void buttonDragDropHandle_QueryContinueDrag(object sender, System.Windows.Forms.QueryContinueDragEventArgs e)
@@ -265,6 +266,186 @@ namespace OneStoryProjectEditor
                     aSE.DimDropTargetButtons();
                 else
                     aSE.LightUpDropTargetButtons();
+            }
+        }
+
+        private void menuAddTestQuestion_Click(object sender, EventArgs e)
+        {
+            _verseData.TestQuestions.AddTestQuestion();
+
+            // this is kind of sledge-hammer-y... but it works
+            StoryEditor theSE = (StoryEditor)FindForm();
+            if (theSE.viewStoryTestingQuestionFieldMenuItem.Checked)
+                theSE.viewStoryTestingQuestionFieldMenuItem.Checked = false;
+            theSE.viewStoryTestingQuestionFieldMenuItem.Checked = true;
+        }
+
+        private void contextMenuStrip_Opening(object sender, CancelEventArgs e)
+        {
+            // for answers, we have to attach them to the correct question
+            int nTestQuestionCount = _verseData.TestQuestions.Count;
+            if (nTestQuestionCount > 1)
+            {
+                addTestQuestionAnswerToolStripMenuItem.DropDown.Items.Clear();
+                int nIndex = 0;
+                foreach (TestQuestionData aTQD in _verseData.TestQuestions)
+                    AddAnswerSubmenu(aTQD.QuestionVernacular.ToString(), nIndex++);
+            }
+            else if (nTestQuestionCount == 0)
+                addTestQuestionAnswerToolStripMenuItem.Enabled = false;
+
+            // add all the test questions, retellings, and answers to a drop down menu to remove them
+            removeToolStripMenuItem.DropDown.Items.Clear();
+            StoryEditor theSE = (StoryEditor)FindForm();
+            if (theSE.viewRetellingFieldMenuItem.Checked)
+                AddRemoveRetellingSubmenus(_verseData.Retellings);
+            if (theSE.viewStoryTestingQuestionFieldMenuItem.Checked)
+                AddRemoveTestQuestionsAndAnswersSubmenus(_verseData.TestQuestions);
+        }
+
+        protected void AddRemoveTestQuestionsAndAnswersSubmenus(TestQuestionsData theTQs)
+        {
+            ToolStripMenuItem tsm = AddHeadSubmenu("Testing Question(s)");
+            int nIndex = 0;
+            foreach (TestQuestionData aTQ in theTQs)
+                AddRemTQSubmenu(tsm, aTQ, nIndex++);
+        }
+
+        protected void AddRemTQSubmenu(ToolStripMenuItem tsm, TestQuestionData theTQ, int nIndex)
+        {
+            ToolStripMenuItem tsmSub = new ToolStripMenuItem();
+            tsmSub.Name = theTQ.QuestionEnglish.ToString();
+            tsmSub.Text = theTQ.QuestionVernacular.ToString();
+            tsmSub.ToolTipText = theTQ.QuestionEnglish.ToString();
+            tsmSub.Tag = theTQ;
+            tsmSub.Click += new EventHandler(remTQ_Click);
+            tsm.DropDown.Items.Add(tsmSub);
+        }
+
+        void remTQ_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem tsm = (ToolStripMenuItem) sender;
+            TestQuestionData theTQD = (TestQuestionData)tsm.Tag;
+            _verseData.TestQuestions.Remove(theTQD);
+
+            StoryEditor theSE = (StoryEditor)FindForm();
+            if (theSE.viewStoryTestingQuestionFieldMenuItem.Checked)
+                theSE.viewStoryTestingQuestionFieldMenuItem.Checked = false;
+            theSE.viewStoryTestingQuestionFieldMenuItem.Checked = true;
+        }
+
+        protected void AddRemoveRetellingSubmenus(RetellingsData theRD)
+        {
+            ToolStripMenuItem tsm = AddHeadSubmenu("Retelling(s)");
+            foreach (StringTransfer rd in theRD)
+                AddSubmenu(tsm, rd.ToString(), theRD, remLine_Click);
+        }
+
+        protected void AddSubmenu(ToolStripMenuItem tsm, string strText, MultipleLineDataConverter theObj, EventHandler theEH)
+        {
+            ToolStripMenuItem tsmSub = new ToolStripMenuItem();
+            tsmSub.Name = strText;
+            tsmSub.Text = strText;
+            tsmSub.Tag = theObj;
+            tsmSub.Click += new EventHandler(theEH);
+            tsm.DropDown.Items.Add(tsmSub);
+        }
+
+        private void remLine_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem tsm = (ToolStripMenuItem)sender;
+            MultipleLineDataConverter theObj = (MultipleLineDataConverter)tsm.Tag;
+            theObj.RemoveLine(tsm.Text);
+
+            StoryEditor theSE = (StoryEditor)FindForm();
+            if (theSE.viewRetellingFieldMenuItem.Checked)
+                theSE.viewRetellingFieldMenuItem.Checked = false;
+            theSE.viewRetellingFieldMenuItem.Checked = true;
+        }
+
+        protected const string CstrAddAnswerPrefix = "For the question: ";
+        protected ToolStripMenuItem AddHeadSubmenu(string strHeading)
+        {
+            ToolStripMenuItem tsm = new ToolStripMenuItem();
+            tsm.Name = strHeading;
+            tsm.Text = strHeading;
+            removeToolStripMenuItem.DropDown.Items.Add(tsm);
+            return tsm;
+        }
+
+        protected void AddAnswerSubmenu(string strText, int nIndex)
+        {
+            ToolStripMenuItem tsm = new ToolStripMenuItem();
+            tsm.Name = strText;
+            tsm.Size = new System.Drawing.Size(202, 22);
+            tsm.Text = CstrAddAnswerPrefix + strText;
+            tsm.Tag = nIndex;
+            tsm.Click += new System.EventHandler(addTestQuestionAnswerToolStripMenuItem_Click);
+            addTestQuestionAnswerToolStripMenuItem.DropDown.Items.Add(tsm);
+        }
+
+        private void addTestQuestionAnswerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            StoryEditor theSE = (StoryEditor)FindForm();
+
+            // gotta query for the UNS
+            if (String.IsNullOrEmpty(_strUnsMemberId))
+            {
+                UnsPicker dlg = new UnsPicker(theSE.Stories);
+                if (dlg.ShowDialog() == DialogResult.OK)
+                    _strUnsMemberId = dlg.SelectedUnsGuid;
+            }
+
+            if (String.IsNullOrEmpty(_strUnsMemberId))
+                return;
+
+            ToolStripMenuItem theTSM = (ToolStripMenuItem) sender;
+            int nIndex;
+            if (theTSM.Tag == null)
+                nIndex = 0;
+            else
+                nIndex = (int)theTSM.Tag;
+
+            System.Diagnostics.Debug.Assert(nIndex < _verseData.TestQuestions.Count);
+
+            TestQuestionData theTQD = _verseData.TestQuestions[nIndex];
+            theTQD.Answers.AddNewLine(_strUnsMemberId);
+
+            if (theSE.viewStoryTestingQuestionFieldMenuItem.Checked)
+                theSE.viewStoryTestingQuestionFieldMenuItem.Checked = false;
+            theSE.viewStoryTestingQuestionFieldMenuItem.Checked = true;
+        }
+
+        private void addRetellingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            StoryEditor theSE = (StoryEditor)FindForm();
+
+            // gotta query for the UNS
+            if (String.IsNullOrEmpty(_strUnsMemberId))
+            {
+                System.Diagnostics.Debug.Assert(theSE.Stories != null);
+                UnsPicker dlg = new UnsPicker(theSE.Stories);
+                if (dlg.ShowDialog() == DialogResult.OK)
+                    _strUnsMemberId = dlg.SelectedUnsGuid;
+            }
+
+            if (String.IsNullOrEmpty(_strUnsMemberId))
+                return;
+
+            _verseData.Retellings.AddNewLine(_strUnsMemberId);
+
+            // this is kind of sledge-hammer-y... but it works
+            if (theSE.viewRetellingFieldMenuItem.Checked)
+                theSE.viewRetellingFieldMenuItem.Checked = false;
+            theSE.viewRetellingFieldMenuItem.Checked = true;
+        }
+
+        private void deleteTheWholeVerseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to delete this verse (and all associated consultant notes, etc)?", StoryEditor.CstrCaption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+            {
+                StoryEditor theSE = (StoryEditor)FindForm();
+                theSE.DeleteVerse(this);
             }
         }
     }

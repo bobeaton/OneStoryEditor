@@ -11,8 +11,8 @@ namespace OneStoryProjectEditor
     {
         protected internal ResizableControl ParentControl = null;
 
-        protected const string cstrSuffixTextBox = "TextBox";
-        protected const string cstrSuffixLabel = "Label";
+        protected const string CstrSuffixTextBox = "TextBox";
+        protected const string CstrSuffixLabel = "Label";
 
         protected delegate void ReheightAllControlsDelegate();
 

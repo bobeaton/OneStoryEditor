@@ -10,9 +10,9 @@ namespace OneStoryProjectEditor
 {
     public partial class StoryLineControl : OneStoryProjectEditor.ResizableControl
     {
-        protected const string cstrFieldNameVernacular = "Vernacular";
-        protected const string cstrFieldNameNationalBT = "NationalBT";
-        protected const string cstrFieldNameInternationalBT = "InternationalBT";
+        protected const string CstrFieldNameVernacular = "Vernacular";
+        protected const string CstrFieldNameNationalBt = "NationalBT";
+        protected const string CstrFieldNameInternationalBt = "InternationalBT";
 
         protected VerseData _aVerseData = null;
         protected int m_nColumnIndexVernacular = -1;
@@ -56,7 +56,7 @@ namespace OneStoryProjectEditor
                 {
                     InsertColumn(nNumColumns);
                     InitLabel(aSE.Stories.ProjSettings.VernacularLangName, nNumColumns);
-                    InitTextBox(cstrFieldNameVernacular, _aVerseData.VernacularText, aSE.Stories.ProjSettings.VernacularFont, aSE.Stories.ProjSettings.VernacularFontColor, nNumColumns);
+                    InitTextBox(CstrFieldNameVernacular, _aVerseData.VernacularText, aSE.Stories.ProjSettings.VernacularFont, aSE.Stories.ProjSettings.VernacularFontColor, nNumColumns);
                     m_nColumnIndexVernacular = nNumColumns;
                 }
                 nNumColumns++;  // in either case, we have to bump the running count, because this control *is* there (whether new or old)
@@ -77,7 +77,7 @@ namespace OneStoryProjectEditor
                 {
                     InsertColumn(nNumColumns);
                     InitLabel(aSE.Stories.ProjSettings.NationalBTLangName, nNumColumns);
-                    InitTextBox(cstrFieldNameNationalBT, _aVerseData.NationalBTText, aSE.Stories.ProjSettings.NationalBTFont, aSE.Stories.ProjSettings.NationalBTFontColor, nNumColumns);
+                    InitTextBox(CstrFieldNameNationalBt, _aVerseData.NationalBTText, aSE.Stories.ProjSettings.NationalBTFont, aSE.Stories.ProjSettings.NationalBTFontColor, nNumColumns);
                     m_nColumnIndexNationalBT = nNumColumns;
                 }
                 nNumColumns++;  // in either case, we have to bump the running count, because this control *is* there (whether new or old)
@@ -98,7 +98,7 @@ namespace OneStoryProjectEditor
                 {
                     InsertColumn(nNumColumns);
                     InitLabel(aSE.Stories.ProjSettings.InternationalBTLangName, nNumColumns);
-                    InitTextBox(cstrFieldNameInternationalBT, _aVerseData.InternationalBTText, aSE.Stories.ProjSettings.InternationalBTFont, aSE.Stories.ProjSettings.InternationalBTFontColor, nNumColumns);
+                    InitTextBox(CstrFieldNameInternationalBt, _aVerseData.InternationalBTText, aSE.Stories.ProjSettings.InternationalBTFont, aSE.Stories.ProjSettings.InternationalBTFontColor, nNumColumns);
                     m_nColumnIndexInternationalBT = nNumColumns;
                 }
                 nNumColumns++;  // in either case, we have to bump the running count, because this control *is* there (whether new or old)
@@ -113,9 +113,9 @@ namespace OneStoryProjectEditor
         protected void InitLabel(string strStoryLineLableName, int nLayoutColumn)
         {
             // add the row0 column label
-            System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(strStoryLineLableName + cstrSuffixLabel), "otherwise, fix wrong assumption");
+            System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(strStoryLineLableName + CstrSuffixLabel), "otherwise, fix wrong assumption");
             Label lbl = new Label();
-            lbl.Name = strStoryLineLableName + cstrSuffixLabel;
+            lbl.Name = strStoryLineLableName + CstrSuffixLabel;
             lbl.Anchor = System.Windows.Forms.AnchorStyles.Top;
             lbl.AutoSize = true;
             lbl.Text = strStoryLineLableName;
@@ -124,9 +124,9 @@ namespace OneStoryProjectEditor
 
         protected void InitTextBox(string strTbName, StringTransfer strTbText, Font font, Color color, int nLayoutColumn)
         {
-            System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(strTbName + cstrSuffixTextBox), "otherwise, fix wrong assumption");
+            System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(strTbName + CstrSuffixTextBox), "otherwise, fix wrong assumption");
             TextBox tb = new TextBox();
-            tb.Name = strTbName + cstrSuffixTextBox;
+            tb.Name = strTbName + CstrSuffixTextBox;
             tb.Multiline = true;
             tb.Font = font;
             tb.ForeColor = color;

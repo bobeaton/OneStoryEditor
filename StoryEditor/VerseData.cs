@@ -38,15 +38,24 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                return new XElement(StoryEditor.ns + "verse", new XAttribute("guid", guid),
-                    new XElement(StoryEditor.ns + "Vernacular", VernacularText),
-                    new XElement(StoryEditor.ns + "NationalBT", NationalBTText),
-                    new XElement(StoryEditor.ns + "InternationalBT", InternationalBTText),
-                    Anchors.GetXml,
-                    TestQuestions.GetXml,
-                    Retellings.GetXml,
-                    ConsultantNotes.GetXml,
-                    CoachNotes.GetXml);
+                XElement elemVerse = new XElement(StoryEditor.ns + "verse", new XAttribute("guid", guid));
+                if (VernacularText.HasData)
+                    elemVerse.Add(new XElement(StoryEditor.ns + "Vernacular", VernacularText));
+                if (NationalBTText.HasData)
+                    elemVerse.Add(new XElement(StoryEditor.ns + "NationalBT", NationalBTText));
+                if (InternationalBTText.HasData)
+                    elemVerse.Add(new XElement(StoryEditor.ns + "InternationalBT", InternationalBTText));
+                if (Anchors.HasData)
+                    elemVerse.Add(Anchors.GetXml);
+                if (TestQuestions.HasData)
+                    elemVerse.Add(TestQuestions.GetXml);
+                if (Retellings.HasData)
+                    elemVerse.Add(Retellings.GetXml);
+                if (ConsultantNotes.HasData)
+                    elemVerse.Add(ConsultantNotes.GetXml);
+                if (CoachNotes.HasData)
+                    elemVerse.Add(CoachNotes.GetXml);
+                return elemVerse;
             }
         }
     }
@@ -66,10 +75,16 @@ namespace OneStoryProjectEditor
                 Add(new VerseData(aVerseRow, projFile));
         }
 
+        public bool HasData
+        {
+            get { return (this.Count > 0); }
+        }
+
         public XElement GetXml
         {
             get
             {
+                System.Diagnostics.Debug.Assert(HasData);
                 XElement elemVerses = new XElement(StoryEditor.ns + "verses");
                 foreach (VerseData aVerseData in this)
                     elemVerses.Add(aVerseData.GetXml);
