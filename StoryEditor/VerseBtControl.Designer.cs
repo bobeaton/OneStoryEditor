@@ -33,12 +33,6 @@
             this.buttonDragDropHandle = new System.Windows.Forms.Button();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addANewVerseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuAddTestQuestion = new System.Windows.Forms.ToolStripMenuItem();
-            this.addTestQuestionAnswerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addRetellingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteTheWholeVerseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addNewVersesAfterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,6 +40,7 @@
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripMenuItem();
+            this.addNewVersesAfterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem11 = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,6 +48,12 @@
             this.toolStripMenuItem13 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem14 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem15 = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuAddTestQuestion = new System.Windows.Forms.ToolStripMenuItem();
+            this.addTestQuestionAnswerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addRetellingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteTheWholeVerseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.splitStoryIntoVersesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -82,6 +83,7 @@
             // contextMenuStrip
             // 
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.splitStoryIntoVersesToolStripMenuItem,
             this.addANewVerseToolStripMenuItem,
             this.addNewVersesAfterToolStripMenuItem,
             this.menuAddTestQuestion,
@@ -90,7 +92,7 @@
             this.removeToolStripMenuItem,
             this.deleteTheWholeVerseToolStripMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(283, 180);
+            this.contextMenuStrip.Size = new System.Drawing.Size(283, 202);
             this.contextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Opening);
             // 
             // addANewVerseToolStripMenuItem
@@ -109,40 +111,54 @@
             this.addANewVerseToolStripMenuItem.ToolTipText = "This verse will move down and the new verse will be inserted before";
             this.addANewVerseToolStripMenuItem.Click += new System.EventHandler(this.addANewVerseToolStripMenuItem_Click);
             // 
-            // menuAddTestQuestion
+            // toolStripMenuItem2
             // 
-            this.menuAddTestQuestion.Name = "menuAddTestQuestion";
-            this.menuAddTestQuestion.Size = new System.Drawing.Size(282, 22);
-            this.menuAddTestQuestion.Text = "Add a story &testing question";
-            this.menuAddTestQuestion.ToolTipText = "Click to add a Story Testing Question";
-            this.menuAddTestQuestion.Click += new System.EventHandler(this.menuAddTestQuestion_Click);
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(86, 22);
+            this.toolStripMenuItem2.Text = "1";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.addNewVersesBeforeMenuItem_Click);
             // 
-            // addTestQuestionAnswerToolStripMenuItem
+            // toolStripMenuItem3
             // 
-            this.addTestQuestionAnswerToolStripMenuItem.Name = "addTestQuestionAnswerToolStripMenuItem";
-            this.addTestQuestionAnswerToolStripMenuItem.Size = new System.Drawing.Size(282, 22);
-            this.addTestQuestionAnswerToolStripMenuItem.Text = "Add a UNS answer to a &testing question";
-            this.addTestQuestionAnswerToolStripMenuItem.Click += new System.EventHandler(this.addTestQuestionAnswerToolStripMenuItem_Click);
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(86, 22);
+            this.toolStripMenuItem3.Text = "2";
+            this.toolStripMenuItem3.Click += new System.EventHandler(this.addNewVersesBeforeMenuItem_Click);
             // 
-            // addRetellingToolStripMenuItem
+            // toolStripMenuItem4
             // 
-            this.addRetellingToolStripMenuItem.Name = "addRetellingToolStripMenuItem";
-            this.addRetellingToolStripMenuItem.Size = new System.Drawing.Size(282, 22);
-            this.addRetellingToolStripMenuItem.Text = "Add a UNS &retelling";
-            this.addRetellingToolStripMenuItem.Click += new System.EventHandler(this.addRetellingToolStripMenuItem_Click);
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(86, 22);
+            this.toolStripMenuItem4.Text = "3";
+            this.toolStripMenuItem4.Click += new System.EventHandler(this.addNewVersesBeforeMenuItem_Click);
             // 
-            // removeToolStripMenuItem
+            // toolStripMenuItem5
             // 
-            this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(282, 22);
-            this.removeToolStripMenuItem.Text = "&Remove";
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(86, 22);
+            this.toolStripMenuItem5.Text = "5";
+            this.toolStripMenuItem5.Click += new System.EventHandler(this.addNewVersesBeforeMenuItem_Click);
             // 
-            // deleteTheWholeVerseToolStripMenuItem
+            // toolStripMenuItem6
             // 
-            this.deleteTheWholeVerseToolStripMenuItem.Name = "deleteTheWholeVerseToolStripMenuItem";
-            this.deleteTheWholeVerseToolStripMenuItem.Size = new System.Drawing.Size(282, 22);
-            this.deleteTheWholeVerseToolStripMenuItem.Text = "&Delete the whole verse";
-            this.deleteTheWholeVerseToolStripMenuItem.Click += new System.EventHandler(this.deleteTheWholeVerseToolStripMenuItem_Click);
+            this.toolStripMenuItem6.Name = "toolStripMenuItem6";
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(86, 22);
+            this.toolStripMenuItem6.Text = "10";
+            this.toolStripMenuItem6.Click += new System.EventHandler(this.addNewVersesBeforeMenuItem_Click);
+            // 
+            // toolStripMenuItem7
+            // 
+            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(86, 22);
+            this.toolStripMenuItem7.Text = "20";
+            this.toolStripMenuItem7.Click += new System.EventHandler(this.addNewVersesBeforeMenuItem_Click);
+            // 
+            // toolStripMenuItem8
+            // 
+            this.toolStripMenuItem8.Name = "toolStripMenuItem8";
+            this.toolStripMenuItem8.Size = new System.Drawing.Size(86, 22);
+            this.toolStripMenuItem8.Text = "30";
+            this.toolStripMenuItem8.Click += new System.EventHandler(this.addNewVersesBeforeMenuItem_Click);
             // 
             // addNewVersesAfterToolStripMenuItem
             // 
@@ -157,55 +173,6 @@
             this.addNewVersesAfterToolStripMenuItem.Name = "addNewVersesAfterToolStripMenuItem";
             this.addNewVersesAfterToolStripMenuItem.Size = new System.Drawing.Size(282, 22);
             this.addNewVersesAfterToolStripMenuItem.Text = "Add new verse(s) after";
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
-            this.toolStripMenuItem2.Text = "1";
-            this.toolStripMenuItem2.Click += new System.EventHandler(this.addNewVersesBeforeMenuItem_Click);
-            // 
-            // toolStripMenuItem3
-            // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(152, 22);
-            this.toolStripMenuItem3.Text = "2";
-            this.toolStripMenuItem3.Click += new System.EventHandler(this.addNewVersesBeforeMenuItem_Click);
-            // 
-            // toolStripMenuItem4
-            // 
-            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(152, 22);
-            this.toolStripMenuItem4.Text = "3";
-            this.toolStripMenuItem4.Click += new System.EventHandler(this.addNewVersesBeforeMenuItem_Click);
-            // 
-            // toolStripMenuItem5
-            // 
-            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(152, 22);
-            this.toolStripMenuItem5.Text = "5";
-            this.toolStripMenuItem5.Click += new System.EventHandler(this.addNewVersesBeforeMenuItem_Click);
-            // 
-            // toolStripMenuItem6
-            // 
-            this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(152, 22);
-            this.toolStripMenuItem6.Text = "10";
-            this.toolStripMenuItem6.Click += new System.EventHandler(this.addNewVersesBeforeMenuItem_Click);
-            // 
-            // toolStripMenuItem7
-            // 
-            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(152, 22);
-            this.toolStripMenuItem7.Text = "20";
-            this.toolStripMenuItem7.Click += new System.EventHandler(this.addNewVersesBeforeMenuItem_Click);
-            // 
-            // toolStripMenuItem8
-            // 
-            this.toolStripMenuItem8.Name = "toolStripMenuItem8";
-            this.toolStripMenuItem8.Size = new System.Drawing.Size(152, 22);
-            this.toolStripMenuItem8.Text = "30";
-            this.toolStripMenuItem8.Click += new System.EventHandler(this.addNewVersesBeforeMenuItem_Click);
             // 
             // toolStripMenuItem9
             // 
@@ -256,12 +223,53 @@
             this.toolStripMenuItem15.Text = "30";
             this.toolStripMenuItem15.Click += new System.EventHandler(this.addNewVersesAfterMenuItem_Click);
             // 
+            // menuAddTestQuestion
+            // 
+            this.menuAddTestQuestion.Name = "menuAddTestQuestion";
+            this.menuAddTestQuestion.Size = new System.Drawing.Size(282, 22);
+            this.menuAddTestQuestion.Text = "Add a story &testing question";
+            this.menuAddTestQuestion.ToolTipText = "Click to add a Story Testing Question";
+            this.menuAddTestQuestion.Click += new System.EventHandler(this.menuAddTestQuestion_Click);
+            // 
+            // addTestQuestionAnswerToolStripMenuItem
+            // 
+            this.addTestQuestionAnswerToolStripMenuItem.Name = "addTestQuestionAnswerToolStripMenuItem";
+            this.addTestQuestionAnswerToolStripMenuItem.Size = new System.Drawing.Size(282, 22);
+            this.addTestQuestionAnswerToolStripMenuItem.Text = "Add a UNS answer to a &testing question";
+            this.addTestQuestionAnswerToolStripMenuItem.Click += new System.EventHandler(this.addTestQuestionAnswerToolStripMenuItem_Click);
+            // 
+            // addRetellingToolStripMenuItem
+            // 
+            this.addRetellingToolStripMenuItem.Name = "addRetellingToolStripMenuItem";
+            this.addRetellingToolStripMenuItem.Size = new System.Drawing.Size(282, 22);
+            this.addRetellingToolStripMenuItem.Text = "Add a UNS &retelling";
+            this.addRetellingToolStripMenuItem.Click += new System.EventHandler(this.addRetellingToolStripMenuItem_Click);
+            // 
+            // removeToolStripMenuItem
+            // 
+            this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(282, 22);
+            this.removeToolStripMenuItem.Text = "&Remove";
+            // 
+            // deleteTheWholeVerseToolStripMenuItem
+            // 
+            this.deleteTheWholeVerseToolStripMenuItem.Name = "deleteTheWholeVerseToolStripMenuItem";
+            this.deleteTheWholeVerseToolStripMenuItem.Size = new System.Drawing.Size(282, 22);
+            this.deleteTheWholeVerseToolStripMenuItem.Text = "&Delete the whole verse";
+            this.deleteTheWholeVerseToolStripMenuItem.Click += new System.EventHandler(this.deleteTheWholeVerseToolStripMenuItem_Click);
+            // 
+            // splitStoryIntoVersesToolStripMenuItem
+            // 
+            this.splitStoryIntoVersesToolStripMenuItem.Name = "splitStoryIntoVersesToolStripMenuItem";
+            this.splitStoryIntoVersesToolStripMenuItem.Size = new System.Drawing.Size(282, 22);
+            this.splitStoryIntoVersesToolStripMenuItem.Text = "&Split Story into verses";
+            this.splitStoryIntoVersesToolStripMenuItem.Click += new System.EventHandler(this.splitStoryIntoVersesToolStripMenuItem_Click);
+            // 
             // VerseBtControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(3);
             this.Name = "VerseBtControl";
             this.Size = new System.Drawing.Size(669, 225);
             this.contextMenuStrip.ResumeLayout(false);
@@ -295,5 +303,6 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem13;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem14;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem15;
+        private System.Windows.Forms.ToolStripMenuItem splitStoryIntoVersesToolStripMenuItem;
     }
 }

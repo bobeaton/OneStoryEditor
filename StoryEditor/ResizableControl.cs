@@ -10,14 +10,20 @@ namespace OneStoryProjectEditor
     public partial class ResizableControl : UserControl
     {
         protected internal ResizableControl ParentControl = null;
+        internal StoryStageLogic StageLogic = null;
 
         protected const string CstrSuffixTextBox = "TextBox";
         protected const string CstrSuffixLabel = "Label";
 
         protected delegate void ReheightAllControlsDelegate();
 
-        public ResizableControl()
+        private ResizableControl()
         {
+        }
+
+        public ResizableControl(StoryStageLogic storyStageLogic)
+        {
+            StageLogic = storyStageLogic;
             InitializeComponent();
         }
 
@@ -82,7 +88,7 @@ namespace OneStoryProjectEditor
 
         public void textBox_TextChanged(object sender, EventArgs e)
         {
-            TextBox tb = (TextBox)sender;
+            CtrlTextBox tb = (CtrlTextBox)sender;
             AdjustTextBoxHeight(tb);
 
             // the 'Tag' of each text box contains a delegate to set the data item it is associated with
@@ -91,7 +97,7 @@ namespace OneStoryProjectEditor
             SetAssocDataValue(tb.Text);
         }
 
-        protected void AdjustTextBoxHeight(TextBox tb)
+        protected void AdjustTextBoxHeight(CtrlTextBox tb)
         {
             if (ResizeTextBoxToFitText(tb))
                 AdjustHeightWithSuspendLayout(null);
@@ -104,8 +110,8 @@ namespace OneStoryProjectEditor
             foreach (Control aCtrl in tableLayoutPanel.Controls)
             {
                 Type type = aCtrl.GetType();
-                if (type == typeof(TextBox))
-                    ResizeTextBoxToFitText((TextBox)aCtrl);
+                if (type == typeof(CtrlTextBox))
+                    ResizeTextBoxToFitText((CtrlTextBox)aCtrl);
                 else if (aCtrl is ResizableControl)
                     ((ResizableControl)aCtrl).UpdateHeight(tableLayoutPanel.Width - tableLayoutPanel.Margin.Horizontal);
             }
@@ -157,7 +163,7 @@ namespace OneStoryProjectEditor
             this.Height = nTableLayoutPanel;
         }
 
-        protected static bool ResizeTextBoxToFitText(TextBox tb)
+        protected static bool ResizeTextBoxToFitText(CtrlTextBox tb)
         {
             Size sz = tb.GetPreferredSize(new Size(tb.Width, 1000));
             bool bHeightChanged = (sz.Height != tb.Size.Height);

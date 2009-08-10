@@ -93,5 +93,44 @@ namespace OneStoryProjectEditor.Properties {
                 this["LastProjectFile"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"In this stage, an uninitiated native speaker (UNS) will back translate
+the story into national language and one of the story crafters will type 
+that back translation into the verse field(s)
+ in this window. You can 
+right-click on the small button in the upper right corner of the verse
+pane and choose 'Add new verse(s) after', '<num>' or so to insert 
+some empty verse fields for the story. Alternate, you can type the 
+entire story into a single verse box and then right click on the same
+small 'verse commands' button and choose '
+'.
+This will automatically split the story into verses when you tell it
+which character to use as an 'end-of-sentence' character.
+
+When you are finished entering or splitting the story into separate 
+verses of about one sentence per verse, then click the button in 
+the left-hand side of the status bar and choose 'Next Stage' to go to the next stage in the process.")]
+        public string HelpTooltipCrafterTypeNationalBT {
+            get {
+                return ((string)(this["HelpTooltipCrafterTypeNationalBT"]));
+            }
+            set {
+                this["HelpTooltipCrafterTypeNationalBT"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Crafter enters National language back translation")]
+        public string HelpCrafterTypeNationalBT {
+            get {
+                return ((string)(this["HelpCrafterTypeNationalBT"]));
+            }
+            set {
+                this["HelpCrafterTypeNationalBT"] = value;
+            }
+        }
     }
 }

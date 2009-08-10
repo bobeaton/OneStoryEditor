@@ -30,7 +30,7 @@ namespace OneStoryProjectEditor
         internal StoryData theCurrentStory = null;
 
         // we keep a copy of this, because it ought to persist across multiple files
-        protected TeamMemberData LoggedOnMember = null;
+        internal TeamMemberData LoggedOnMember = null;
 
         internal static XNamespace ns = "http://www.sil.org/computing/schemas/StoryProject.xsd";
 
@@ -106,7 +106,7 @@ namespace OneStoryProjectEditor
                 StoryProject projFile = new StoryProject();
                 try
                 {
-                    Stories = new StoriesData(projFile, ref LoggedOnMember);
+                    Stories = new StoriesData(projFile, this);
                 }
                 catch (System.Exception ex)
                 {
@@ -180,7 +180,7 @@ namespace OneStoryProjectEditor
                 projFile.ReadXml(strProjectFilename);
 
                 // get *all* the data
-                Stories = new StoriesData(projFile, ref LoggedOnMember);
+                Stories = new StoriesData(projFile, this);
 
                 string strStoryToLoad = null;
                 if (Stories.Count > 0)
@@ -217,18 +217,20 @@ namespace OneStoryProjectEditor
                 if (!File.Exists(strStoryFilename))
                     //TODO: I got stuck here doing the 'UsingOneFilePerStory' refactoring
 #else
-                int nInsertIndex = -1;
+                if (Stories == null)
+                    Stories = new StoriesData(this);
+
+                int nInsertIndex = 0;
                 StoryData theStory = null;
                 string strStoryToLoad = comboBoxStorySelector.Text;
-                if (Stories != null)
-                    for (int i = 0; i < Stories.Count; i++)
-                    {
-                        StoryData aStory = Stories[i];
-                        if ((theCurrentStory != null) && (theCurrentStory == aStory))
-                            nInsertIndex = i + 1;
-                        if (aStory.StoryName == strStoryToLoad)
-                            theStory = aStory;
-                    }
+                for (int i = 0; i < Stories.Count; i++)
+                {
+                    StoryData aStory = Stories[i];
+                    if ((theCurrentStory != null) && (theCurrentStory == aStory))
+                        nInsertIndex = i + 1;
+                    if (aStory.StoryName == strStoryToLoad)
+                        theStory = aStory;
+                }
 
                 if (theStory == null)
 #endif
@@ -237,7 +239,7 @@ namespace OneStoryProjectEditor
                     {
                         System.Diagnostics.Debug.Assert(!comboBoxStorySelector.Items.Contains(strStoryToLoad));
                         comboBoxStorySelector.Items.Add(strStoryToLoad);
-                        theCurrentStory = new StoryData(strStoryToLoad, LoggedOnMember);
+                        theCurrentStory = Stories.AddStory(strStoryToLoad, this);
                         Stories.Insert(nInsertIndex, theCurrentStory);
                         comboBoxStorySelector.SelectedItem = strStoryToLoad;
                     }
@@ -260,10 +262,7 @@ namespace OneStoryProjectEditor
 
             // we might could come thru here without having opened any file (e.g. after New)
             if (Stories == null)
-            {
-                StoryProject projFile = new StoryProject();
-                Stories = new StoriesData(projFile, ref LoggedOnMember);
-            }
+                Stories = new StoriesData(this);
 
 #if UsingOneFilePerStory
             string strStoryFilename = FilenameFromStoryInfo(m_strProjectFilename, (string)comboBoxStorySelector.SelectedItem);
@@ -298,10 +297,13 @@ namespace OneStoryProjectEditor
             SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage);
         }
 
-        protected void InitVerseControls(VersesData theVerses)
+        internal void InitVerseControls(VersesData theVerses)
         {
             ClearFlowControls();
             int nVerseIndex = 0;
+            if (theVerses.Count == 0)
+                theCurrentStory.Verses.InsertVerse(0, "<Type the UNS's back translation>");
+
             AddDropTargetToFlowLayout(nVerseIndex++);
             foreach (VerseData aVerse in theVerses)
             {
@@ -310,11 +312,11 @@ namespace OneStoryProjectEditor
                 flowLayoutPanelVerses.Controls.Add(aVerseCtrl);
                 AddDropTargetToFlowLayout(nVerseIndex);
 
-                ConsultNotesControl aConsultNotesCtrl = new ConsultNotesControl(aVerse.ConsultantNotes, nVerseIndex);
+                ConsultNotesControl aConsultNotesCtrl = new ConsultNotesControl(theCurrentStory.ProjStage, aVerse.ConsultantNotes, nVerseIndex);
                 aConsultNotesCtrl.UpdateHeight(Panel2_Width);
                 flowLayoutPanelConsultantNotes.Controls.Add(aConsultNotesCtrl);
 
-                aConsultNotesCtrl = new ConsultNotesControl(aVerse.CoachNotes, nVerseIndex);
+                aConsultNotesCtrl = new ConsultNotesControl(theCurrentStory.ProjStage, aVerse.CoachNotes, nVerseIndex);
                 aConsultNotesCtrl.UpdateHeight(Panel2_Width);
                 flowLayoutPanelCoachNotes.Controls.Add(aConsultNotesCtrl);
 
@@ -336,50 +338,26 @@ namespace OneStoryProjectEditor
             InitVerseControls(theCurrentStory.Verses);
         }
 
+        internal void AddNewVerse(VerseBtControl theVerse, string strNationalBT)
+        {
+            int nInsertionIndex = theVerse.VerseNumber;
+            VerseData theNewVerse = theCurrentStory.Verses.InsertVerse(nInsertionIndex, strNationalBT);
+        }
+
+        internal void InitVerseControls()
+        {
+            InitVerseControls(theCurrentStory.Verses);
+        }
+
         internal void DeleteVerse(VerseBtControl theVerseToDelete)
         {
             theCurrentStory.Verses.Remove(theVerseToDelete._verseData);
             InitVerseControls(theCurrentStory.Verses);
-
-            /* works, but this above is better (but not more efficient)
-            bool bRenumber = false;
-            Button btnToDelete = null;
-            foreach (Control ctrl in flowLayoutPanelVerses.Controls)
-            {
-                if (ctrl is VerseBtControl)
-                {
-                    VerseBtControl aVerse = (VerseBtControl) ctrl;
-                    if (aVerse == theVerseToDelete)
-                        bRenumber = true;
-
-                    if (bRenumber)
-                        aVerse.VerseNumber--;
-                }
-                else
-                {
-                    System.Diagnostics.Debug.Assert(ctrl is Button);
-                    Button btn = (Button) ctrl;
-                    if (bRenumber)
-                    {
-                        if (btnToDelete == null)
-                            btnToDelete = btn;
-
-                        int nVerse = (int)btn.Tag;
-                        btn.Tag = --nVerse;
-                    }
-                }
-            }
-
-            flowLayoutPanelVerses.Controls.Remove(theVerseToDelete);
-            flowLayoutPanelVerses.Controls.Remove(btnToDelete);
-            theCurrentStory.Verses.Remove(theVerseToDelete._verseData);
-            UpdateVersePanel();
-            */
         }
 
         protected void SetViewBasedOnProjectStage(StoryStageLogic.ProjectStages eStage)
         {
-            // eStage = StoryStageLogic.ProjectStages.eCoachReviewRoundZNotes;
+            string strStatusMsg = null, strStatusTooltipMsg = null;
             switch (eStage)
             {
                 case StoryStageLogic.ProjectStages.eCrafterTypeNationalBT:
@@ -392,6 +370,8 @@ namespace OneStoryProjectEditor
                     viewConsultantNoteFieldMenuItem.Checked = false;
                     viewCoachNotesFieldMenuItem.Checked = false;
                     viewNetBibleMenuItem.Checked = false;
+                    strStatusMsg = Properties.Settings.Default.HelpCrafterTypeNationalBT;
+                    strStatusTooltipMsg = Properties.Settings.Default.HelpTooltipCrafterTypeNationalBT;
                     break;
                 case StoryStageLogic.ProjectStages.eCrafterTypeInternationalBT:
                     viewVernacularLangFieldMenuItem.Checked = false;
@@ -596,9 +576,8 @@ namespace OneStoryProjectEditor
                     throw new ApplicationException(String.Format("This project was edited by a newer version of the {0} program. You have to update your version of the program to edit this project.", CstrCaption));
             };
 
-            // for now, the progress bar is just the eStage value as an int
-            if (eStage > StoryStageLogic.ProjectStages.eUndefined)
-                macTrackBarProjectStages.Value = (int)eStage;
+            helpProvider.SetHelpString(this, strStatusTooltipMsg);
+            SetStatusBar(String.Format("{0}  Press F1 for instructions", strStatusMsg), strStatusTooltipMsg);
         }
 
         protected Button AddDropTargetToFlowLayout(int nVerseIndex)
@@ -1118,5 +1097,26 @@ namespace OneStoryProjectEditor
             }
         }
 #endif
+        internal void SetStatusBar(string strText, string strToolTipText)
+        {
+            statusLabel.Text = strText;
+            statusLabel.ToolTipText = strToolTipText;
+        }
+
+        private void buttonsStoryStage_DropDownOpening(object sender, EventArgs e)
+        {
+            buttonsStoryStage.DropDown.Items.Clear();
+            buttonsStoryStage.DropDown.Items.Add("Next Stage", null, new EventHandler(buttonsStoryStage_ButtonClick));
+            buttonsStoryStage.DropDown.Items.Add("Send to consultant");
+        }
+
+        private void buttonsStoryStage_ButtonClick(object sender, EventArgs e)
+        {
+            DoNextStage();
+        }
+
+        protected void DoNextStage()
+        {
+        }
     }
 }

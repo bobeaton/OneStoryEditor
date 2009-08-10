@@ -26,7 +26,7 @@ namespace OneStoryProjectEditor
             Value = strValue;
         }
 
-        public void SetAssociation(Control tb)
+        public void SetAssociation(CtrlTextBox tb)
         {
             tb.Text = Value;
             tb.Tag = theSetValueDelegate;

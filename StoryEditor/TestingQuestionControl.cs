@@ -14,6 +14,7 @@ namespace OneStoryProjectEditor
         protected int _nNumAnswerRows = 0;
 
         public TestingQuestionControl(StoryEditor aSE, TestQuestionData aTQData)
+            : base(aSE.theCurrentStory.ProjStage)
         {
             InitializeComponent();
 
@@ -59,7 +60,7 @@ namespace OneStoryProjectEditor
             // add a row so we can display a multiple line control with the answers
             if ((_aTQData.Answers != null) && (_aTQData.Answers.Count > 0))
             {
-                MultiLineControl aAnswersCtrl = new MultiLineControl(_aTQData.Answers);
+                MultiLineControl aAnswersCtrl = new MultiLineControl(StageLogic, _aTQData.Answers);
                 aAnswersCtrl.Name = CstrFieldNameAnswers;
                 aAnswersCtrl.ParentControl = this;
 
@@ -83,14 +84,7 @@ namespace OneStoryProjectEditor
 
         protected void InitTextBox(string strTbName, StringTransfer strTbText, Font font, Color color, int nLayoutColumn)
         {
-            TextBox tb = new TextBox();
-            tb.Name = strTbName + CstrSuffixTextBox;
-            tb.Multiline = true;
-            tb.Font = font;
-            tb.ForeColor = color;
-            tb.Dock = DockStyle.Fill;
-            strTbText.SetAssociation(tb);   // tb.Text = strTbText;
-            tb.TextChanged += new EventHandler(textBox_TextChanged);
+            CtrlTextBox tb = new CtrlTextBox(strTbName + CstrSuffixTextBox, this, strTbText, font, color);
             this.tableLayoutPanel.Controls.Add(tb, nLayoutColumn, 1);
         }
     }

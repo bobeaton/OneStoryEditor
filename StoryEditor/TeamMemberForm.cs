@@ -189,6 +189,7 @@ namespace OneStoryProjectEditor
                     this.MemberType, String.Format("mem-{0}", Guid.NewGuid().ToString()),
                     this.Email, this.SkypeID, this.TeamViewerID, this.Phone, this.AltPhone, 
                     this.Address);
+                _dataTeamMembers.Add(this.MemberName, theNewMemberData);
                 m_mapNewMembersThisSession.Add(this.MemberName, theNewMemberData);
                 listBoxTeamMembers.Items.Add(this.MemberName);
                 listBoxMemberRoles.Items.Add(theNewMemberData.MemberTypeAsString);
@@ -260,6 +261,15 @@ namespace OneStoryProjectEditor
             // unselect any member and set the target tab (see 
             //  tabControlProjectMetaData_Selected for what happens)
             listBoxTeamMembers.SelectedIndex = -1;
+
+            // clear out the fields
+            textBoxName.Text = null;
+            textBoxEmail.Text = null;
+            textBoxPhoneNumber.Text = null;
+            textBoxAltPhone.Text = null;
+            textBoxSkypeID.Text = null;
+            textBoxTeamViewer.Text = null;
+            textBoxAddress.Text = null;
             tabControlProjectMetaData.SelectedTab = tabPageEditMember;
         }
 

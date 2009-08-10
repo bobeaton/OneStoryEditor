@@ -10,7 +10,8 @@ namespace OneStoryProjectEditor
 {
     public partial class MultiLineControl : OneStoryProjectEditor.ResizableControl
     {
-        public MultiLineControl(MultipleLineDataConverter aMLDC)
+        public MultiLineControl(StoryStageLogic storyStageLogic, MultipleLineDataConverter aMLDC)
+            : base(storyStageLogic)
         {
             InitializeComponent();
 
@@ -42,12 +43,9 @@ namespace OneStoryProjectEditor
             label.Name = strLabelTextFormat + nNumRows.ToString();
             label.Text = String.Format(strLabelTextFormat, nNumRows);
 
-            TextBox tb = new TextBox();
-            tb.Name = strLabelTextFormat + CstrSuffixTextBox + nNumRows.ToString();
-            tb.Multiline = true;
-            tb.Dock = DockStyle.Fill;
-            strRowData.SetAssociation(tb);  // tb.Text = strRowData;
-            tb.TextChanged += new EventHandler(textBox_TextChanged);
+            CtrlTextBox tb = new CtrlTextBox(
+                strLabelTextFormat + CstrSuffixTextBox + nNumRows.ToString(),
+                this, strRowData);
 
             // add the label and tool strip as a new row to the table layout panel
             InsertRow(nLayoutRow);

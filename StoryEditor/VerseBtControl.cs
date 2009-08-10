@@ -29,6 +29,7 @@ namespace OneStoryProjectEditor
         public string Guid = null;
 
         public VerseBtControl(StoryEditor aSE, VerseData dataVerse, int nVerseNumber)
+            : base(aSE.theCurrentStory.ProjStage)
         {
             _verseData = dataVerse;
             Guid = _verseData.guid;
@@ -194,7 +195,7 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert((_nRowIndexAnchors != -1) || !tableLayoutPanel.Controls.ContainsKey(CstrFieldNameAnchors));
             if (!tableLayoutPanel.Controls.ContainsKey(CstrFieldNameAnchors))
             {
-                AnchorControl anAnchorCtrl = new AnchorControl(anAnchorsData);
+                AnchorControl anAnchorCtrl = new AnchorControl(StageLogic, anAnchorsData);
                 anAnchorCtrl.Name = CstrFieldNameAnchors;
                 anAnchorCtrl.ParentControl = this;
                 
@@ -212,7 +213,7 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert((_nRowIndexRetelling != -1) || !tableLayoutPanel.Controls.ContainsKey(CstrFieldNameRetellings));
             if (!tableLayoutPanel.Controls.ContainsKey(CstrFieldNameRetellings))
             {
-                MultiLineControl aRetellingsCtrl = new MultiLineControl(aRetellingsData);
+                MultiLineControl aRetellingsCtrl = new MultiLineControl(StageLogic, aRetellingsData);
                 aRetellingsCtrl.Name = CstrFieldNameRetellings;
                 aRetellingsCtrl.ParentControl = this;
 
@@ -480,6 +481,41 @@ namespace OneStoryProjectEditor
 
             StoryEditor theSE = (StoryEditor)FindForm();
             theSE.AddNewVerse(this, nNumNewVerses, false);
+        }
+
+        private void splitStoryIntoVersesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string strSentenceFinalChar = Microsoft.VisualBasic.Interaction.InputBox("Enter the character in this language that ends a sentence (e.g. '.' for English or '।' for Hindi)", StoryEditor.CstrCaption, "।", Screen.PrimaryScreen.WorkingArea.Right / 2, Screen.PrimaryScreen.WorkingArea.Bottom / 2);
+            if (!String.IsNullOrEmpty(strSentenceFinalChar))
+            {
+                StoryEditor theSE = (StoryEditor)FindForm();
+                string strFullStory = _verseData.NationalBTText.ToString().Trim();
+                int nSearchOffset = strFullStory.Length - 1;
+                if (strFullStory[nSearchOffset] == strSentenceFinalChar[0])
+                    nSearchOffset--;
+                int nIndex = strFullStory.LastIndexOf(strSentenceFinalChar, nSearchOffset);
+                while (nIndex != -1)
+                {
+                    string strSentence = strFullStory.Substring(nIndex + 1).Trim();
+                    if (String.IsNullOrEmpty(strSentence))
+                    {
+                        nSearchOffset--;
+                        nIndex = strFullStory.LastIndexOf(strSentenceFinalChar, nSearchOffset);
+                        continue;
+                    }
+
+                    theSE.AddNewVerse(this, strSentence);
+                    strFullStory = strFullStory.Substring(0, nIndex + 1).Trim();
+                    nSearchOffset = strFullStory.Length - 1;
+                    nIndex = strFullStory.LastIndexOf(strSentenceFinalChar, --nSearchOffset);
+                }
+
+                if (!String.IsNullOrEmpty(strFullStory))
+                {
+                    _verseData.NationalBTText.SetValue(strFullStory);
+                    theSE.InitVerseControls();
+                }
+            }
         }
     }
 }

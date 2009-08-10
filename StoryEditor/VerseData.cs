@@ -34,6 +34,19 @@ namespace OneStoryProjectEditor
             CoachNotes = new CoachNotesData(theVerseRow, projFile);
         }
 
+        public VerseData(string strNationalBT)
+        {
+            guid = Guid.NewGuid().ToString();
+            VernacularText = new StringTransfer(null);
+            NationalBTText = new StringTransfer(strNationalBT);
+            InternationalBTText = new StringTransfer(null);
+            Anchors = new AnchorsData();
+            TestQuestions = new TestQuestionsData();
+            Retellings = new RetellingsData();
+            ConsultantNotes = new ConsultantNotesData();
+            CoachNotes = new CoachNotesData();
+        }
+
         public VerseData()
         {
             guid = Guid.NewGuid().ToString();
@@ -90,6 +103,13 @@ namespace OneStoryProjectEditor
 
         public VersesData()
         {
+        }
+
+        public VerseData InsertVerse(int nIndex, string strNationalBT)
+        {
+            VerseData dataVerse = new VerseData(strNationalBT);
+            Insert(nIndex, dataVerse);
+            return dataVerse;
         }
 
         public bool HasData

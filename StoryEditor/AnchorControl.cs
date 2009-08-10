@@ -18,7 +18,8 @@ namespace OneStoryProjectEditor
         protected AnchorsData _myAnchorsData = null;
         protected Dictionary<ToolStripButton, List<TextBox>> _mapAnchorsToTextBoxes = new Dictionary<ToolStripButton, List<TextBox>>();
 
-        public AnchorControl(AnchorsData anAnchorsData)
+        public AnchorControl(StoryStageLogic storyStageLogic, AnchorsData anAnchorsData)
+            : base(storyStageLogic)
         {
             _myAnchorsData = anAnchorsData;
             InitializeComponent();
@@ -103,12 +104,9 @@ namespace OneStoryProjectEditor
             labelExegeticalHelp.Name = CstrFieldNameExegeticalHelpLabel + nLayoutRow.ToString();
             labelExegeticalHelp.Text = "cn:";
 
-            TextBox tb = new TextBox();
-            tb.Name = CstrFieldNameExegeticalHelp + nLayoutRow.ToString();
-            tb.Multiline = true;
-            tb.Dock = DockStyle.Fill;
-            strQuote.SetAssociation(tb);    // tb.Text = strQuote;
-            tb.TextChanged += new EventHandler(textBox_TextChanged);
+            CtrlTextBox tb = new CtrlTextBox(
+                CstrFieldNameExegeticalHelp + nLayoutRow.ToString(),
+                this, strQuote);
 
             // add the label and tool strip as a new row to the table layout panel
             InsertRow(nLayoutRow);

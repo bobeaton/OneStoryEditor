@@ -14,7 +14,8 @@ namespace OneStoryProjectEditor
 
         internal int VerseNumber = -1;
 
-        public ConsultNotesControl(ConsultNotesDataConverter aCNsDC, int nVerseNumber)
+        public ConsultNotesControl(StoryStageLogic storyStageLogic, ConsultNotesDataConverter aCNsDC, int nVerseNumber)
+            : base(storyStageLogic)
         {
             VerseNumber = nVerseNumber;
             InitializeComponent();
@@ -31,7 +32,7 @@ namespace OneStoryProjectEditor
                 int nRowIndex = 1;
                 foreach (ConsultNoteDataConverter aCNDC in aCNsDC)
                 {
-                    ConsultNoteControl aCNCtrl = new ConsultNoteControl(aCNDC);
+                    ConsultNoteControl aCNCtrl = new ConsultNoteControl(storyStageLogic, aCNDC);
                     aCNCtrl.Name = CstrFieldNameConsultantNote + nRowIndex.ToString();
                     aCNCtrl.ParentControl = this;
 

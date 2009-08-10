@@ -13,7 +13,8 @@ namespace OneStoryProjectEditor
         protected const string CstrRoundLabel = "Round: ";
         protected int m_nRoundNum = -1;
 
-        public ConsultNoteControl(ConsultNoteDataConverter aCNDC)
+        public ConsultNoteControl(StoryStageLogic storyStageLogic, ConsultNoteDataConverter aCNDC)
+            : base(storyStageLogic)
         {
             m_nRoundNum = aCNDC.RoundNum;
             InitializeComponent();
@@ -49,13 +50,10 @@ namespace OneStoryProjectEditor
             label.Name = strRowLabel + nNumRows.ToString();
             label.Text = strRowLabel;
 
-            TextBox tb = new TextBox();
-            tb.Name = strRowLabel + CstrSuffixTextBox + nNumRows.ToString();
-            tb.Multiline = true;
-            tb.Dock = DockStyle.Fill;
+            CtrlTextBox tb = new CtrlTextBox(
+                strRowLabel + CstrSuffixTextBox + nNumRows.ToString(),
+                this, strRowData);
             tb.ForeColor = clrText;
-            strRowData.SetAssociation(tb);  // tb.Text = strRowData;
-            tb.TextChanged += new EventHandler(textBox_TextChanged);
 
             // add the label and tool strip as a new row to the table layout panel
             InsertRow(nLayoutRow);

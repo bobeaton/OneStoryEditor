@@ -14,21 +14,21 @@ namespace OneStoryProjectEditor
         public CraftingInfoData CraftingInfo = null;
         public VersesData Verses = null;
 
-        public StoryData(string strStoryName, TeamMemberData loggedOnMember)
+        internal StoryData(string strStoryName, StoryEditor theSE)
         {
             StoryName = strStoryName;
             StoryGuid = Guid.NewGuid().ToString();
-            ProjStage = new StoryStageLogic(loggedOnMember);
-            CraftingInfo = new CraftingInfoData(loggedOnMember);
+            ProjStage = new StoryStageLogic(theSE);
+            CraftingInfo = new CraftingInfoData(theSE.LoggedOnMember);
             Verses = new VersesData();
         }
 
-        public StoryData(StoryProject.storyRow theStoryRow, StoryProject projFile, TeamMemberData loggedOnMember)
+        public StoryData(StoryProject.storyRow theStoryRow, StoryProject projFile, StoryEditor theSE)
         {
             StoryName = theStoryRow.name;
             StoryGuid = theStoryRow.guid;
-            ProjStage = new StoryStageLogic(theStoryRow.stage, loggedOnMember);
-            CraftingInfo = new CraftingInfoData(theStoryRow, projFile, loggedOnMember);
+            ProjStage = new StoryStageLogic(theStoryRow.stage, theSE);
+            CraftingInfo = new CraftingInfoData(theStoryRow, projFile, theSE.LoggedOnMember);
             Verses = new VersesData(theStoryRow, projFile);
         }
 
@@ -37,12 +37,12 @@ namespace OneStoryProjectEditor
             get
             {
                 System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(StoryName)
-                    && !String.IsNullOrEmpty(ProjStage.ProjectStageString)
+                    && !String.IsNullOrEmpty(ProjStage.ProjectStage.ToString())
                     && !String.IsNullOrEmpty(StoryGuid));
 
                 XElement elemStory = new XElement(StoryEditor.ns + "story",
                         new XAttribute("name", StoryName),
-                        new XAttribute("stage", ProjStage.ProjectStageString),
+                        new XAttribute("stage", ProjStage.ToString()),
                         new XAttribute("guid", StoryGuid),
                         CraftingInfo.GetXml);
 
@@ -59,7 +59,19 @@ namespace OneStoryProjectEditor
         internal TeamMembersData TeamMembers = null;
         internal ProjectSettings ProjSettings = null;
 
-        public StoriesData(StoryProject projFile, ref TeamMemberData LoggedOnMember)
+        public StoriesData(StoryEditor theSE)
+        {
+            // if this is "new", then we won't have a project name yet, so query the user for it
+            string strProjectName = QueryProjectName();
+            TeamMembers = new TeamMembersData();
+            ProjSettings = new ProjectSettings(strProjectName);
+
+            // the LoggedOnMemb might have been passed in from a previous file
+            if (theSE.LoggedOnMember == null)
+                theSE.LoggedOnMember = GetLogin();
+        }
+
+        public StoriesData(StoryProject projFile, StoryEditor theSE)
         {
             // if this is "new", then we won't have a project name yet, so query the user for it
             string strProjectName;
@@ -75,12 +87,19 @@ namespace OneStoryProjectEditor
             ProjSettings = new ProjectSettings(projFile, strProjectName);
 
             // the LoggedOnMemb might have been passed in from a previous file
-            if (LoggedOnMember == null)
-                GetLogin(ref LoggedOnMember);
+            if (theSE.LoggedOnMember == null)
+                theSE.LoggedOnMember = GetLogin();
 
             // finally, if it's not new, then it might (should) have stories as well
             foreach (StoryProject.storyRow aStoryRow in projFile.stories[0].GetstoryRows())
-                Add(new StoryData(aStoryRow, projFile, LoggedOnMember));
+                Add(new StoryData(aStoryRow, projFile, theSE));
+        }
+
+        public StoryData AddStory(string strStoryName, StoryEditor theSE)
+        {
+            StoryData theNewStory = new StoryData(strStoryName, theSE);
+            Add(theNewStory);
+            return theNewStory;
         }
 
         protected string QueryProjectName()
@@ -91,7 +110,7 @@ namespace OneStoryProjectEditor
             return strProjectName;
         }
 
-        protected void GetLogin(ref TeamMemberData LoggedOnMember)
+        protected TeamMemberData GetLogin()
         {
             // look at the last person to log in and see if we ought to automatically log them in again
             //  (basically Crafters or others that are also the same role as last time)
@@ -101,14 +120,11 @@ namespace OneStoryProjectEditor
                 strMemberName = Properties.Settings.Default.LastMemberLogin;
                 string strMemberTypeString = Properties.Settings.Default.LastUserType;
                 if (TeamMembers.CanLoginMember(strMemberName, strMemberTypeString))
-                {
-                    LoggedOnMember = TeamMembers[strMemberName];
-                    return;
-                }
+                    return TeamMembers[strMemberName];
             }
 
             // otherwise, fall thru and make them pick it.
-            LoggedOnMember = EditTeamMembers(strMemberName);
+            return EditTeamMembers(strMemberName);
         }
 
         // returns the logged in member

@@ -8,23 +8,34 @@ namespace OneStoryProjectEditor
 {
     public class ProjectSettings
     {
+        internal const string CstrDefaultNationalBTText = "<Enter national language back translation>";
+
         public string ProjectName = null;
         public string ProjectFolder = null;
 
-        public string VernacularLangName = "<Story language>";
+        public string VernacularLangName = "<Enter the story in its own language>";
         public string VernacularLangCode = "vern";
         public Font VernacularFont = new Font("Arial Unicode MS", 12);
         public Color VernacularFontColor = Color.Maroon;
 
-        public string NationalBTLangName = "<National language>";
+        public string NationalBTLangName = CstrDefaultNationalBTText;
         public string NationalBTLangCode = "nat";
         public Font NationalBTFont = new Font("Arial Unicode MS", 12);
         public Color NationalBTFontColor = Color.Green;
 
-        public string InternationalBTLangName = "English";
+        public string InternationalBTLangName = "<Enter the English back translation>";
         public string InternationalBTLangCode = "en";
         public Font InternationalBTFont = new Font("Times New Roman", 10);
         public Color InternationalBTFontColor = Color.Blue;
+
+        public ProjectSettings(string strProjectName)
+        {
+            ProjectName = strProjectName;
+            ProjectFolder = String.Format(@"{0}\{1}\{2}",
+                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                StoryEditor.CstrCaption,
+                ProjectName);
+        }
 
         public ProjectSettings(StoryProject projFile, string strProjectName)
         {

@@ -83,26 +83,28 @@ namespace OneStoryProjectEditor
 
         public string MemberTypeAsString
         {
-            get
+            get { return GetMemberTypeAsString(MemberType); }
+        }
+
+        public static string GetMemberTypeAsString(StoryEditor.UserTypes eMemberType)
+        {
+            switch (eMemberType)
             {
-                switch (MemberType)
-                {
-                    case StoryEditor.UserTypes.eCrafter:
-                        return CstrCrafter;
-                    case StoryEditor.UserTypes.eUNS:
-                        return CstrUNS;
-                    case StoryEditor.UserTypes.eConsultantInTraining:
-                        return CstrConsultantInTraining;
-                    case StoryEditor.UserTypes.eIndependentConsultant:
-                        return CstrIndependentConsultant;
-                    case StoryEditor.UserTypes.eCoach:
-                        return CstrCoach;
-                    case StoryEditor.UserTypes.eJustLooking:
-                        return CstrJustLooking;
-                    default:
-                        System.Diagnostics.Debug.Assert(false); // shouldn't get here
-                        return null;
-                }
+                case StoryEditor.UserTypes.eCrafter:
+                    return CstrCrafter;
+                case StoryEditor.UserTypes.eUNS:
+                    return CstrUNS;
+                case StoryEditor.UserTypes.eConsultantInTraining:
+                    return CstrConsultantInTraining;
+                case StoryEditor.UserTypes.eIndependentConsultant:
+                    return CstrIndependentConsultant;
+                case StoryEditor.UserTypes.eCoach:
+                    return CstrCoach;
+                case StoryEditor.UserTypes.eJustLooking:
+                    return CstrJustLooking;
+                default:
+                    System.Diagnostics.Debug.Assert(false); // shouldn't get here
+                    return null;
             }
         }
 
@@ -134,7 +136,9 @@ namespace OneStoryProjectEditor
 
     public class TeamMembersData : Dictionary<string, TeamMemberData>
     {
-        // protected TeamMemberData LoggedOn = null;
+        public TeamMembersData()
+        {
+        }
 
         public TeamMembersData(StoryProject projFile)
         {

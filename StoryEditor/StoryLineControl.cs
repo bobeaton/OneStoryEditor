@@ -20,6 +20,7 @@ namespace OneStoryProjectEditor
         protected int m_nColumnIndexInternationalBT = -1;
 
         public StoryLineControl(StoryEditor aSE, VerseData aVerseData)
+            : base(aSE.theCurrentStory.ProjStage)
         {
             InitializeComponent();
 
@@ -125,14 +126,7 @@ namespace OneStoryProjectEditor
         protected void InitTextBox(string strTbName, StringTransfer strTbText, Font font, Color color, int nLayoutColumn)
         {
             System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(strTbName + CstrSuffixTextBox), "otherwise, fix wrong assumption");
-            TextBox tb = new TextBox();
-            tb.Name = strTbName + CstrSuffixTextBox;
-            tb.Multiline = true;
-            tb.Font = font;
-            tb.ForeColor = color;
-            tb.Dock = DockStyle.Fill;
-            strTbText.SetAssociation(tb);   // tb.Text = strTbText;
-            tb.TextChanged += new EventHandler(textBox_TextChanged);
+            CtrlTextBox tb = new CtrlTextBox(strTbName + CstrSuffixTextBox, this, strTbText, font, color);
             this.tableLayoutPanel.Controls.Add(tb, nLayoutColumn, 1);
         }
 
