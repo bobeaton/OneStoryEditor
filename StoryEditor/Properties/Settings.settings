@@ -41,5 +41,8 @@ the left-hand side of the status bar and choose 'Next Stage' to go to the next s
     <Setting Name="HelpCrafterTypeNationalBT" Type="System.String" Scope="User">
       <Value Profile="(Default)">Crafter enters National language back translation</Value>
     </Setting>
+    <Setting Name="LastResourcesUsed" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Jubilee Hindi Bible, Fish Bible, New Living Translation, Genesis Film</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

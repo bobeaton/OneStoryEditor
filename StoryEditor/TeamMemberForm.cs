@@ -42,6 +42,9 @@ namespace OneStoryProjectEditor
             textBoxNationalBTLanguage.ForeColor = textBoxNationalBTEthCode.ForeColor = projSettings.NationalBTFontColor;
             textBoxNationalBTLanguage.Text = projSettings.NationalBTLangName;
             textBoxNationalBTEthCode.Text = projSettings.NationalBTLangCode;
+
+            textBoxProjectName.Text = projSettings.ProjectName;
+            textBoxVernacular.Text = projSettings.ProjectName;
         }
 
         public string SelectedMember
@@ -236,6 +239,15 @@ namespace OneStoryProjectEditor
         {
             // this button should only be enabled if a team member is selected
             System.Diagnostics.Debug.Assert(listBoxTeamMembers.SelectedIndex != -1);
+
+            // first see if the project information has been configured
+            if (String.IsNullOrEmpty(textBoxProjectName.Text)
+                || String.IsNullOrEmpty(textBoxVernacular.Text))
+            {
+                tabControlProjectMetaData.SelectedTab = tabPageLanguageInfo;
+                MessageBox.Show("Configure the Project and Language Name information as well.", StoryEditor.CstrCaption);
+                return;
+            }
 
             // if the selected user is a UNS, this is probably a mistake.
             TeamMemberData theMember = _dataTeamMembers[SelectedMember];

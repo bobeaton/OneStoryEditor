@@ -19,6 +19,7 @@
       <CraftingInfo>
         <StoryCrafter memberID="mem-99CDE60E-453A-4947-8627-83B33223EF0B" />
         <StoryPurpose>To explain where our enemy came from</StoryPurpose>
+        <ResourcesUsed>Jubilee Hindi Bible, Fish Bible, New Living Translation, Genesis Film</ResourcesUsed>
         <BackTranslator memberID="mem-B83F07A1-71D4-4358-82C3-9B2F7205E121" />
         <Tests>
           <Test number="1" memberID="mem-B83F07A1-71D4-4358-82C3-9B2F7205E121" />

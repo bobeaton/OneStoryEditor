@@ -102,6 +102,20 @@ namespace OneStoryProjectEditor
             return theNewStory;
         }
 
+        internal string GetMemberNameFromMemberGuid(string strMemberGuid)
+        {
+            string strMemberName = null;
+            foreach (TeamMemberData aTMD in TeamMembers.Values)
+            {
+                if (aTMD.MemberGuid == strMemberGuid)
+                {
+                    strMemberName = aTMD.Name;
+                    break;
+                }
+            }
+            return strMemberName;
+        }
+
         protected string QueryProjectName()
         {
             string strProjectName = Microsoft.VisualBasic.Interaction.InputBox(String.Format("You are creating a brand new OneStory project. Enter the name you want to give this project (e.g. the language name).{0}{0}(if you had intended to edit an existing project, cancel this dialog and use the 'File', 'Open' command)", Environment.NewLine), StoryEditor.CstrCaption, null, 300, 200);
@@ -169,6 +183,7 @@ namespace OneStoryProjectEditor
     {
         public string StoryCrafterMemberID = null;
         public string StoryPurpose = null;
+        public string ResourcesUsed = null;
         public string BackTranslatorMemberID = null;
         public Dictionary<byte, string> Testors = new Dictionary<byte, string>();
 
@@ -191,6 +206,7 @@ namespace OneStoryProjectEditor
                     StoryCrafterMemberID = loggedOnMember.MemberGuid;
 
                 StoryPurpose = theCIR.StoryPurpose;
+                ResourcesUsed = theCIR.ResourcesUsed;
 
                 StoryProject.BackTranslatorRow[] aBTRs = theCIR.GetBackTranslatorRows();
                 if (aBTRs.Length == 1)
@@ -218,6 +234,9 @@ namespace OneStoryProjectEditor
 
                 if (!String.IsNullOrEmpty(StoryPurpose))
                     elemCraftingInfo.Add(new XElement(StoryEditor.ns + "StoryPurpose", StoryPurpose));
+
+                if (!String.IsNullOrEmpty(ResourcesUsed))
+                    elemCraftingInfo.Add(new XElement(StoryEditor.ns + "ResourcesUsed", ResourcesUsed));
 
                 if (!String.IsNullOrEmpty(BackTranslatorMemberID))
                     elemCraftingInfo.Add(new XElement(StoryEditor.ns + "BackTranslator", new XAttribute("memberID", BackTranslatorMemberID)));

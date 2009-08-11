@@ -32,6 +32,7 @@
             this.labelReference = new System.Windows.Forms.Label();
             this.buttonDragDropHandle = new System.Windows.Forms.Button();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.splitStoryIntoVersesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addANewVerseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,7 +54,6 @@
             this.addRetellingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteTheWholeVerseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.splitStoryIntoVersesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -92,8 +92,15 @@
             this.removeToolStripMenuItem,
             this.deleteTheWholeVerseToolStripMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(283, 202);
+            this.contextMenuStrip.Size = new System.Drawing.Size(266, 202);
             this.contextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Opening);
+            // 
+            // splitStoryIntoVersesToolStripMenuItem
+            // 
+            this.splitStoryIntoVersesToolStripMenuItem.Name = "splitStoryIntoVersesToolStripMenuItem";
+            this.splitStoryIntoVersesToolStripMenuItem.Size = new System.Drawing.Size(265, 22);
+            this.splitStoryIntoVersesToolStripMenuItem.Text = "&Split Story into verses";
+            this.splitStoryIntoVersesToolStripMenuItem.Click += new System.EventHandler(this.splitStoryIntoVersesToolStripMenuItem_Click);
             // 
             // addANewVerseToolStripMenuItem
             // 
@@ -106,7 +113,7 @@
             this.toolStripMenuItem7,
             this.toolStripMenuItem8});
             this.addANewVerseToolStripMenuItem.Name = "addANewVerseToolStripMenuItem";
-            this.addANewVerseToolStripMenuItem.Size = new System.Drawing.Size(282, 22);
+            this.addANewVerseToolStripMenuItem.Size = new System.Drawing.Size(265, 22);
             this.addANewVerseToolStripMenuItem.Text = "Insert new &verse(s) before";
             this.addANewVerseToolStripMenuItem.ToolTipText = "This verse will move down and the new verse will be inserted before";
             this.addANewVerseToolStripMenuItem.Click += new System.EventHandler(this.addANewVerseToolStripMenuItem_Click);
@@ -171,62 +178,62 @@
             this.toolStripMenuItem14,
             this.toolStripMenuItem15});
             this.addNewVersesAfterToolStripMenuItem.Name = "addNewVersesAfterToolStripMenuItem";
-            this.addNewVersesAfterToolStripMenuItem.Size = new System.Drawing.Size(282, 22);
+            this.addNewVersesAfterToolStripMenuItem.Size = new System.Drawing.Size(265, 22);
             this.addNewVersesAfterToolStripMenuItem.Text = "Add new verse(s) after";
             // 
             // toolStripMenuItem9
             // 
             this.toolStripMenuItem9.Name = "toolStripMenuItem9";
-            this.toolStripMenuItem9.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem9.Size = new System.Drawing.Size(86, 22);
             this.toolStripMenuItem9.Text = "1";
             this.toolStripMenuItem9.Click += new System.EventHandler(this.addNewVersesAfterMenuItem_Click);
             // 
             // toolStripMenuItem10
             // 
             this.toolStripMenuItem10.Name = "toolStripMenuItem10";
-            this.toolStripMenuItem10.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem10.Size = new System.Drawing.Size(86, 22);
             this.toolStripMenuItem10.Text = "2";
             this.toolStripMenuItem10.Click += new System.EventHandler(this.addNewVersesAfterMenuItem_Click);
             // 
             // toolStripMenuItem11
             // 
             this.toolStripMenuItem11.Name = "toolStripMenuItem11";
-            this.toolStripMenuItem11.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem11.Size = new System.Drawing.Size(86, 22);
             this.toolStripMenuItem11.Text = "3";
             this.toolStripMenuItem11.Click += new System.EventHandler(this.addNewVersesAfterMenuItem_Click);
             // 
             // toolStripMenuItem12
             // 
             this.toolStripMenuItem12.Name = "toolStripMenuItem12";
-            this.toolStripMenuItem12.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem12.Size = new System.Drawing.Size(86, 22);
             this.toolStripMenuItem12.Text = "5";
             this.toolStripMenuItem12.Click += new System.EventHandler(this.addNewVersesAfterMenuItem_Click);
             // 
             // toolStripMenuItem13
             // 
             this.toolStripMenuItem13.Name = "toolStripMenuItem13";
-            this.toolStripMenuItem13.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem13.Size = new System.Drawing.Size(86, 22);
             this.toolStripMenuItem13.Text = "10";
             this.toolStripMenuItem13.Click += new System.EventHandler(this.addNewVersesAfterMenuItem_Click);
             // 
             // toolStripMenuItem14
             // 
             this.toolStripMenuItem14.Name = "toolStripMenuItem14";
-            this.toolStripMenuItem14.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem14.Size = new System.Drawing.Size(86, 22);
             this.toolStripMenuItem14.Text = "20";
             this.toolStripMenuItem14.Click += new System.EventHandler(this.addNewVersesAfterMenuItem_Click);
             // 
             // toolStripMenuItem15
             // 
             this.toolStripMenuItem15.Name = "toolStripMenuItem15";
-            this.toolStripMenuItem15.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem15.Size = new System.Drawing.Size(86, 22);
             this.toolStripMenuItem15.Text = "30";
             this.toolStripMenuItem15.Click += new System.EventHandler(this.addNewVersesAfterMenuItem_Click);
             // 
             // menuAddTestQuestion
             // 
             this.menuAddTestQuestion.Name = "menuAddTestQuestion";
-            this.menuAddTestQuestion.Size = new System.Drawing.Size(282, 22);
+            this.menuAddTestQuestion.Size = new System.Drawing.Size(265, 22);
             this.menuAddTestQuestion.Text = "Add a story &testing question";
             this.menuAddTestQuestion.ToolTipText = "Click to add a Story Testing Question";
             this.menuAddTestQuestion.Click += new System.EventHandler(this.menuAddTestQuestion_Click);
@@ -234,36 +241,29 @@
             // addTestQuestionAnswerToolStripMenuItem
             // 
             this.addTestQuestionAnswerToolStripMenuItem.Name = "addTestQuestionAnswerToolStripMenuItem";
-            this.addTestQuestionAnswerToolStripMenuItem.Size = new System.Drawing.Size(282, 22);
+            this.addTestQuestionAnswerToolStripMenuItem.Size = new System.Drawing.Size(265, 22);
             this.addTestQuestionAnswerToolStripMenuItem.Text = "Add a UNS answer to a &testing question";
             this.addTestQuestionAnswerToolStripMenuItem.Click += new System.EventHandler(this.addTestQuestionAnswerToolStripMenuItem_Click);
             // 
             // addRetellingToolStripMenuItem
             // 
             this.addRetellingToolStripMenuItem.Name = "addRetellingToolStripMenuItem";
-            this.addRetellingToolStripMenuItem.Size = new System.Drawing.Size(282, 22);
+            this.addRetellingToolStripMenuItem.Size = new System.Drawing.Size(265, 22);
             this.addRetellingToolStripMenuItem.Text = "Add a UNS &retelling";
             this.addRetellingToolStripMenuItem.Click += new System.EventHandler(this.addRetellingToolStripMenuItem_Click);
             // 
             // removeToolStripMenuItem
             // 
             this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(282, 22);
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(265, 22);
             this.removeToolStripMenuItem.Text = "&Remove";
             // 
             // deleteTheWholeVerseToolStripMenuItem
             // 
             this.deleteTheWholeVerseToolStripMenuItem.Name = "deleteTheWholeVerseToolStripMenuItem";
-            this.deleteTheWholeVerseToolStripMenuItem.Size = new System.Drawing.Size(282, 22);
+            this.deleteTheWholeVerseToolStripMenuItem.Size = new System.Drawing.Size(265, 22);
             this.deleteTheWholeVerseToolStripMenuItem.Text = "&Delete the whole verse";
             this.deleteTheWholeVerseToolStripMenuItem.Click += new System.EventHandler(this.deleteTheWholeVerseToolStripMenuItem_Click);
-            // 
-            // splitStoryIntoVersesToolStripMenuItem
-            // 
-            this.splitStoryIntoVersesToolStripMenuItem.Name = "splitStoryIntoVersesToolStripMenuItem";
-            this.splitStoryIntoVersesToolStripMenuItem.Size = new System.Drawing.Size(282, 22);
-            this.splitStoryIntoVersesToolStripMenuItem.Text = "&Split Story into verses";
-            this.splitStoryIntoVersesToolStripMenuItem.Click += new System.EventHandler(this.splitStoryIntoVersesToolStripMenuItem_Click);
             // 
             // VerseBtControl
             // 

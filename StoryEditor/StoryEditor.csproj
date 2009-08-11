@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{EE63B2ED-1488-491F-990A-3FA16E2DB135}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -129,6 +129,12 @@
     </Compile>
     <Compile Include="ProjectSettings.cs" />
     <Compile Include="StoryData.cs" />
+    <Compile Include="StoryFrontMatterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StoryFrontMatterForm.Designer.cs">
+      <DependentUpon>StoryFrontMatterForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="StoryStageLogic.cs" />
     <Compile Include="ResizableControl.cs">
       <SubType>UserControl</SubType>
@@ -183,6 +189,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="StoryFrontMatterForm.resx">
+      <DependentUpon>StoryFrontMatterForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="StoryLineControl.resx">
       <DependentUpon>StoryLineControl.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -195,8 +204,8 @@
       <DependentUpon>TestingQuestionControl.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UnsPicker.resx">
-      <DependentUpon>UnsPicker.cs</DependentUpon>
+    <EmbeddedResource Include="MemberPicker.resx">
+      <DependentUpon>MemberPicker.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VerseBtControl.resx">
       <DependentUpon>VerseBtControl.cs</DependentUpon>
@@ -243,11 +252,11 @@
       <DependentUpon>TestingQuestionControl.cs</DependentUpon>
     </Compile>
     <Compile Include="TestQuestionsData.cs" />
-    <Compile Include="UnsPicker.cs">
+    <Compile Include="MemberPicker.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UnsPicker.Designer.cs">
-      <DependentUpon>UnsPicker.cs</DependentUpon>
+    <Compile Include="MemberPicker.Designer.cs">
+      <DependentUpon>MemberPicker.cs</DependentUpon>
     </Compile>
     <Compile Include="VerseBtControl.cs">
       <SubType>UserControl</SubType>

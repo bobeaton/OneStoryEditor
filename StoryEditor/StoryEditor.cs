@@ -34,7 +34,7 @@ namespace OneStoryProjectEditor
 
         internal static XNamespace ns = "http://www.sil.org/computing/schemas/StoryProject.xsd";
 
-        protected bool Modified = false;
+        internal bool Modified = false;
 
         protected const int nMaxRecentFiles = 15;
 
@@ -67,6 +67,10 @@ namespace OneStoryProjectEditor
             {
                 OpenProjectFile(Properties.Settings.Default.LastProjectFile);
             }
+            else
+            {
+                NewProjectFile();
+            }
 #if false
             OpenProjectFile(@"C:\Code\StoryEditor\StoryEditor\StoryProject.onestory");
 #endif
@@ -97,16 +101,21 @@ namespace OneStoryProjectEditor
             CheckForSaveDirtyFile();
             CloseProjectFile();
             comboBoxStorySelector.Focus();
+            
+            // for a new project, we don't want to automatically log in (since this will be the first
+            //  time editing the new project and we need to add at least the current user)
+            LoggedOnMember = null;
+            System.Diagnostics.Debug.Assert(Stories == null);
+            teamMembersToolStripMenuItem_Click(null, null);
         }
 
         private void teamMembersToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (Stories == null)
             {
-                StoryProject projFile = new StoryProject();
                 try
                 {
-                    Stories = new StoriesData(projFile, this);
+                    Stories = new StoriesData(this);
                 }
                 catch (System.Exception ex)
                 {
@@ -115,12 +124,14 @@ namespace OneStoryProjectEditor
                     return;
                 }
             }
-
-            try
+            else
             {
-                Stories.EditTeamMembers(LoggedOnMember.Name);
+                try
+                {
+                    Stories.EditTeamMembers(LoggedOnMember.Name);
+                }
+                catch { }   // this might throw if the user cancels, but we don't care
             }
-            catch { }   // this might throw if the user cancels, but we don't care
         }
 
         protected void OpenProjectFile(string strProjectFilename)
@@ -289,7 +300,7 @@ namespace OneStoryProjectEditor
             textBoxStoryVerse.Text = "Story: " + theCurrentStory.StoryName;
             this.Text = String.Format("OneStory Editor -- {0} Story Project", Stories.ProjSettings.ProjectName);
 
-            InitVerseControls(theCurrentStory.Verses);
+            InitVerseControls();
 
             // initialize the project stage details (which might hide certain views)
             //  (do this *after* initializing the whole thing, because if we save, we'll
@@ -335,7 +346,7 @@ namespace OneStoryProjectEditor
                 lstNewVerses.Add(new VerseData());
             
             theCurrentStory.Verses.InsertRange(nInsertionIndex, lstNewVerses);
-            InitVerseControls(theCurrentStory.Verses);
+            InitVerseControls();
         }
 
         internal void AddNewVerse(VerseBtControl theVerse, string strNationalBT)
@@ -346,13 +357,21 @@ namespace OneStoryProjectEditor
 
         internal void InitVerseControls()
         {
-            InitVerseControls(theCurrentStory.Verses);
+            try
+            {
+                InitVerseControls(theCurrentStory.Verses);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(String.Format("Unable to continue! Cause: {0}", ex.Message), CstrCaption);
+                return;
+            }
         }
 
         internal void DeleteVerse(VerseBtControl theVerseToDelete)
         {
             theCurrentStory.Verses.Remove(theVerseToDelete._verseData);
-            InitVerseControls(theCurrentStory.Verses);
+            InitVerseControls();
         }
 
         protected void SetViewBasedOnProjectStage(StoryStageLogic.ProjectStages eStage)
@@ -805,6 +824,12 @@ namespace OneStoryProjectEditor
         }
 #endif
 
+        protected void QueryStoryPurpose()
+        {
+            StoryFrontMatterForm dlg = new StoryFrontMatterForm(Stories, theCurrentStory);
+            dlg.ShowDialog();
+        }
+
         protected void SaveFile(string strFilename)
         {
             try
@@ -821,11 +846,7 @@ namespace OneStoryProjectEditor
                 // let's see if the UNS entered the purpose of this story
                 System.Diagnostics.Debug.Assert((theCurrentStory != null) && (theCurrentStory.CraftingInfo != null));
                 if (String.IsNullOrEmpty(theCurrentStory.CraftingInfo.StoryPurpose))
-                {
-                    string strStoryPurpose = Microsoft.VisualBasic.Interaction.InputBox(String.Format("Enter a brief description of the purpose of this story (that is, why is this story in the set?)", Environment.NewLine), CstrCaption, null, Screen.PrimaryScreen.WorkingArea.Right / 2, Screen.PrimaryScreen.WorkingArea.Bottom / 2);
-                    if (!String.IsNullOrEmpty(strStoryPurpose))
-                        theCurrentStory.CraftingInfo.StoryPurpose = strStoryPurpose;
-                }
+                    QueryStoryPurpose();
 
 #if UsingOneFilePerStory
                 SaveXElement(GetStoryXml, strStoryFilename);
@@ -1117,6 +1138,17 @@ namespace OneStoryProjectEditor
 
         protected void DoNextStage()
         {
+        }
+
+        private void storyToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            enterTheReasonThisStoryIsInTheSetToolStripMenuItem.Enabled = ((theCurrentStory != null) &&
+                                                                          (theCurrentStory.CraftingInfo != null));
+        }
+
+        private void enterTheReasonThisStoryIsInTheSetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            QueryStoryPurpose();
         }
     }
 }

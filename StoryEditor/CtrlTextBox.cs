@@ -10,7 +10,7 @@ namespace OneStoryProjectEditor
     public class CtrlTextBox : TextBox
     {
         protected StoryStageLogic _stageLogic = null;
-        protected StoryEditor _theSE = null;
+        protected ResizableControl _ctrlParent = null;
 
         public CtrlTextBox(string strName, ResizableControl ctrlParent, StringTransfer stData)
         {
@@ -21,7 +21,7 @@ namespace OneStoryProjectEditor
             TextChanged += new EventHandler(ctrlParent.textBox_TextChanged);
             System.Diagnostics.Debug.Assert(ctrlParent.StageLogic != null);
             _stageLogic = ctrlParent.StageLogic;
-            _theSE = (StoryEditor)ctrlParent.FindForm();
+            _ctrlParent = ctrlParent;
         }
 
         public CtrlTextBox(string strName, ResizableControl ctrlParent, StringTransfer stData, Font font, Color colorText)
@@ -35,7 +35,7 @@ namespace OneStoryProjectEditor
             TextChanged += new EventHandler(ctrlParent.textBox_TextChanged);
             System.Diagnostics.Debug.Assert(ctrlParent.StageLogic != null);
             _stageLogic = ctrlParent.StageLogic;
-            _theSE = (StoryEditor)ctrlParent.FindForm();
+            _ctrlParent = ctrlParent;
         }
 
         protected override void OnKeyDown(KeyEventArgs e)
@@ -45,14 +45,21 @@ namespace OneStoryProjectEditor
                 e.KeyData.ToString(),
                 e.KeyValue.ToString()));
 
+            StoryEditor theSE = (StoryEditor)_ctrlParent.FindForm();
             try
             {
+                if (theSE == null)
+                    throw new ApplicationException(
+                        "Unable to edit file! Try rebooting and if it persists, contact bob_eaton@sall.com");
+
                 if (IsKeyAllowed(e.KeyCode) || _stageLogic.IsEditAllowed)
                     base.OnKeyDown(e);
+                theSE.Modified = true;
             }
             catch (Exception ex)
             {
-                _theSE.SetStatusBar("Error occurred. Hover the mouse here", ex.Message);
+                if (theSE != null)
+                    theSE.SetStatusBar("Error occurred. Hover the mouse here", ex.Message);
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
