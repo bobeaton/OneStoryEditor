@@ -49,8 +49,14 @@ namespace OneStoryProjectEditor
 
         public StoryStageLogic(string strProjectStage, StoryEditor theSE)
         {
-            ProjectStage = GetProjectStage(strProjectStage);
+            ProjectStage = GetProjectStageFromString(strProjectStage);
             _theSE = theSE;
+        }
+
+        protected StoryStageLogic.ProjectStages GetProjectStageFromString(string strProjectStageString)
+        {
+            System.Diagnostics.Debug.Assert(CmapStageStringToEnumType.ContainsKey(strProjectStageString));
+            return CmapStageStringToEnumType[strProjectStageString];
         }
 
         protected TeamMemberData LoggedOnMember
@@ -153,6 +159,16 @@ namespace OneStoryProjectEditor
             }
         }
 
+        public static bool IsValidTransition(ProjectStages eCurrentStage, ProjectStages eToStage)
+        {
+            List<StoryStageLogic.ProjectStages> lstAllowable;
+            if (CmapAllowableStageTransitions.TryGetValue(eCurrentStage, out lstAllowable))
+                return lstAllowable.Contains(eToStage);
+
+            return false;
+        }
+
+        /*
         public bool CheckIfProjectTransitionIsAllowed(ProjectStages eNextStage)
         {
             // whether a transition is allowed or not is based on what the current stage is and 
@@ -167,54 +183,60 @@ namespace OneStoryProjectEditor
 
             return bTransitionAllowed;
         }
-
-        public static ProjectStages GetProjectStage(string strProjectStageString)
-        {
-            if (strProjectStageString == "CrafterTypeNationalBT")
-                return ProjectStages.eCrafterTypeNationalBT;
-            else if (strProjectStageString == "CrafterTypeInternationalBT")
-                return ProjectStages.eCrafterTypeInternationalBT;
-            else if (strProjectStageString == "CrafterAddAnchors")
-                return ProjectStages.eCrafterAddAnchors;
-            else if (strProjectStageString == "CrafterAddStoryQuestions")
-                return ProjectStages.eCrafterAddStoryQuestions;
-            else if (strProjectStageString == "ConsultantAddRound1Notes")
-                return ProjectStages.eConsultantAddRound1Notes;
-            else if (strProjectStageString == "CoachReviewRound1Notes")
-                return ProjectStages.eCoachReviewRound1Notes;
-            else if (strProjectStageString == "ConsultantReviseRound1Notes")
-                return ProjectStages.eConsultantReviseRound1Notes;
-            else if (strProjectStageString == "CrafterReviseBasedOnRound1Notes")
-                return ProjectStages.eCrafterReviseBasedOnRound1Notes;
-            else if (strProjectStageString == "CrafterOnlineReview1WithConsultant")
-                return ProjectStages.eCrafterOnlineReview1WithConsultant;
-            else if (strProjectStageString == "CrafterEnterRetellingBTTest1")
-                return ProjectStages.eCrafterEnterRetellingBTTest1;
-            else if (strProjectStageString == "CrafterEnterStoryQuestionAnswersBTTest1")
-                return ProjectStages.eCrafterEnterStoryQuestionAnswersBTTest1;
-            else if (strProjectStageString == "ConsultantAddRoundZNotes")
-                return ProjectStages.eConsultantAddRoundZNotes;
-            else if (strProjectStageString == "CoachReviewRoundZNotes")
-                return ProjectStages.eCoachReviewRoundZNotes;
-            else if (strProjectStageString == "ConsultantReviseRoundZNotes")
-                return ProjectStages.eConsultantReviseRoundZNotes;
-            else if (strProjectStageString == "CrafterReviseBasedOnRoundZNotes")
-                return ProjectStages.eCrafterReviseBasedOnRoundZNotes;
-            else if (strProjectStageString == "CrafterOnlineReviewZWithConsultant")
-                return ProjectStages.eCrafterOnlineReviewZWithConsultant;
-            else if (strProjectStageString == "CrafterEnterRetellingBTTestZ")
-                return ProjectStages.eCrafterEnterRetellingBTTestZ;
-            else if (strProjectStageString == "CrafterEnterStoryQuestionAnswersBTTestZ")
-                return ProjectStages.eCrafterEnterStoryQuestionAnswersBTTestZ;
-            else if (strProjectStageString == "TeamComplete")
-                return ProjectStages.eTeamComplete;
-            else
-                return ProjectStages.eUndefined;  // this version of the app doesn't know about this value
-        }
+        */
 
         public override string ToString()
         {
             return _ProjectStage.ToString().Substring(1);
         }
+
+        protected Dictionary<string, StoryStageLogic.ProjectStages> CmapStageStringToEnumType = new Dictionary<string, StoryStageLogic.ProjectStages>() {
+            { "CrafterTypeNationalBT", ProjectStages.eCrafterTypeNationalBT },
+            { "CrafterTypeInternationalBT", ProjectStages.eCrafterTypeInternationalBT },
+            { "CrafterAddAnchors", ProjectStages.eCrafterAddAnchors },
+            { "CrafterAddStoryQuestions", ProjectStages.eCrafterAddStoryQuestions },
+            { "ConsultantAddRound1Notes", ProjectStages.eConsultantAddRound1Notes },
+            { "CoachReviewRound1Notes", ProjectStages.eCoachReviewRound1Notes },
+            { "ConsultantReviseRound1Notes", ProjectStages.eConsultantReviseRound1Notes },
+            { "CrafterReviseBasedOnRound1Notes", ProjectStages.eCrafterReviseBasedOnRound1Notes },
+            { "CrafterOnlineReview1WithConsultant", ProjectStages.eCrafterOnlineReview1WithConsultant },
+            { "CrafterEnterRetellingBTTest1", ProjectStages.eCrafterEnterRetellingBTTest1 },
+            { "CrafterEnterStoryQuestionAnswersBTTest1", ProjectStages.eCrafterEnterStoryQuestionAnswersBTTest1 },
+            { "ConsultantAddRoundZNotes", ProjectStages.eConsultantAddRoundZNotes },
+            { "CoachReviewRoundZNotes", ProjectStages.eCoachReviewRoundZNotes },
+            { "ConsultantReviseRoundZNotes", ProjectStages.eConsultantReviseRoundZNotes },
+            { "CrafterReviseBasedOnRoundZNotes", ProjectStages.eCrafterReviseBasedOnRoundZNotes },
+            { "CrafterOnlineReviewZWithConsultant", ProjectStages.eCrafterOnlineReviewZWithConsultant },
+            { "CrafterEnterRetellingBTTestZ", ProjectStages.eCrafterEnterRetellingBTTestZ },
+            { "CrafterEnterStoryQuestionAnswersBTTestZ", ProjectStages.eCrafterEnterStoryQuestionAnswersBTTestZ },
+            { "TeamComplete", ProjectStages.eTeamComplete }};
+
+        protected static Dictionary<StoryStageLogic.ProjectStages, List<StoryStageLogic.ProjectStages>> CmapAllowableStageTransitions = new Dictionary<ProjectStages, List<ProjectStages>>()
+        {
+            { ProjectStages.eCrafterTypeNationalBT, new List<ProjectStages> { ProjectStages.eCrafterTypeInternationalBT, ProjectStages.eCrafterAddAnchors } },
+            { ProjectStages.eCrafterTypeInternationalBT, new List<ProjectStages> { ProjectStages.eCrafterTypeNationalBT, ProjectStages.eCrafterAddAnchors } }
+        };
+
+        internal static Dictionary<StoryStageLogic.ProjectStages, string> CmapStageToDisplayString = new Dictionary<StoryStageLogic.ProjectStages, string>()
+        {
+            { StoryStageLogic.ProjectStages.eCrafterTypeNationalBT, "Crafter enters the {0} back-translation" },
+            { StoryStageLogic.ProjectStages.eCrafterTypeInternationalBT, "Crafter enters the English back-translation" },
+            { StoryStageLogic.ProjectStages.eCrafterAddAnchors, "Crafter adds biblical anchors" },
+            { StoryStageLogic.ProjectStages.eCrafterAddStoryQuestions, "Crafter adds story testing questions" },
+            { StoryStageLogic.ProjectStages.eConsultantAddRound1Notes, "Consultant adds round 1 exegetical notes" },
+            { StoryStageLogic.ProjectStages.eCoachReviewRound1Notes, "Coach reviews round 1 notes" },
+            { StoryStageLogic.ProjectStages.eConsultantReviseRound1Notes, "Consultant revises round 1 notes based on Coach's feedback" },
+            { StoryStageLogic.ProjectStages.eCrafterReviseBasedOnRound1Notes, "Crafter revises story based on round 1 notes and enters round 1 responses" },
+            { StoryStageLogic.ProjectStages.eCrafterOnlineReview1WithConsultant, "Crafter has 1st online review with consultant" },
+            { StoryStageLogic.ProjectStages.eCrafterEnterRetellingBTTest1, "Crafter enters test 1 retelling back-translation" },
+            { StoryStageLogic.ProjectStages.eCrafterEnterStoryQuestionAnswersBTTest1, "Crafter enters test 1 answers to story questions" },
+            { StoryStageLogic.ProjectStages.eConsultantAddRoundZNotes, "Consultant adds round 2 notes" },
+            { StoryStageLogic.ProjectStages.eCoachReviewRoundZNotes, "Coach reviews round 2 notes" },
+            { StoryStageLogic.ProjectStages.eConsultantReviseRoundZNotes, "Consultant revises round 2 notes based on Coach's feedback" },
+            { StoryStageLogic.ProjectStages.eCrafterReviseBasedOnRoundZNotes, "Crafter revises story based on round 2 notes and enters round 2 responses" },
+            { StoryStageLogic.ProjectStages.eCrafterOnlineReviewZWithConsultant, "Crafter has 2nd online review with consultant" },
+            { StoryStageLogic.ProjectStages.eCrafterEnterRetellingBTTestZ, "Crafter enters test 2 retelling back-translation" },
+            { StoryStageLogic.ProjectStages.eCrafterEnterStoryQuestionAnswersBTTestZ, "Crafter enters test 2 answers to story questions" },
+            { StoryStageLogic.ProjectStages.eTeamComplete, "Story testing complete (waiting for panorama completion review)" }};
     }
 }

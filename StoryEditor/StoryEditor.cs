@@ -1042,28 +1042,6 @@ namespace OneStoryProjectEditor
             this.Close();
         }
 
-        private void macTrackBarProjectStages_HelpRequested(object sender, HelpEventArgs hlpevent)
-        {
-            XComponent.SliderBar.MACTrackBar bar = (XComponent.SliderBar.MACTrackBar)sender;
-            Console.WriteLine(String.Format("HelpRequested: value: {0}", bar.Value));
-        }
-
-        private void macTrackBarProjectStages_ValueChanged(object sender, decimal value)
-        {
-            if (theCurrentStory == null)
-                return;
-            System.Diagnostics.Debug.Assert(theCurrentStory.ProjStage != null);
-
-            XComponent.SliderBar.MACTrackBar bar = (XComponent.SliderBar.MACTrackBar)sender;
-            StoryStageLogic.ProjectStages eNewProjectStage = (StoryStageLogic.ProjectStages)bar.Value;
-            Console.WriteLine(String.Format("ValueChanged: ProjectStage: {0}", eNewProjectStage.ToString()));
-            if (theCurrentStory.ProjStage.CheckIfProjectTransitionIsAllowed(eNewProjectStage))
-            {
-                System.Diagnostics.Debug.Assert(eNewProjectStage == theCurrentStory.ProjStage.ProjectStage);
-                SetViewBasedOnProjectStage(eNewProjectStage);
-            }
-        }
-
         protected string StoryName
         {
             get { return (string)comboBoxStorySelector.SelectedItem; }
@@ -1144,11 +1122,20 @@ namespace OneStoryProjectEditor
         {
             enterTheReasonThisStoryIsInTheSetToolStripMenuItem.Enabled = ((theCurrentStory != null) &&
                                                                           (theCurrentStory.CraftingInfo != null));
+            showFullStorySetToolStripMenuItem.Enabled = ((Stories != null) && (Stories.Count > 0));
         }
 
         private void enterTheReasonThisStoryIsInTheSetToolStripMenuItem_Click(object sender, EventArgs e)
         {
             QueryStoryPurpose();
+        }
+
+        private void showFullStorySetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PanoramaView dlg = new PanoramaView(Stories);
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+            }
         }
     }
 }
