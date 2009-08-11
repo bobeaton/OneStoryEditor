@@ -248,7 +248,6 @@
 			<xs:enumeration value="Crafter" />
 			<xs:enumeration value="UNS" />
 			<xs:enumeration value="ConsultantInTraining" />
-			<xs:enumeration value="IndependentConsultant" />
 			<xs:enumeration value="Coach" />
 			<xs:enumeration value="JustLooking" />
 		</xs:restriction>
@@ -259,20 +258,27 @@
 			<xs:enumeration value="CrafterTypeInternationalBT" />
 			<xs:enumeration value="CrafterAddAnchors" />
 			<xs:enumeration value="CrafterAddStoryQuestions" />
-			<xs:enumeration value="ConsultantAddRound1Notes" />
+			<xs:enumeration value="ConsultantCheckAnchors" />
+			<xs:enumeration value="ConsultantCheckStoryQuestions" />
 			<xs:enumeration value="CoachReviewRound1Notes" />
 			<xs:enumeration value="ConsultantReviseRound1Notes" />
 			<xs:enumeration value="CrafterReviseBasedOnRound1Notes" />
 			<xs:enumeration value="CrafterOnlineReview1WithConsultant" />
-			<xs:enumeration value="CrafterEnterRetellingBTTest1" />
-			<xs:enumeration value="CrafterEnterStoryQuestionAnswersBTTest1" />
-			<xs:enumeration value="ConsultantAddRoundZNotes" />
-			<xs:enumeration value="CoachReviewRoundZNotes" />
-			<xs:enumeration value="ConsultantReviseRoundZNotes" />
-			<xs:enumeration value="CrafterReviseBasedOnRoundZNotes" />
-			<xs:enumeration value="CrafterOnlineReviewZWithConsultant" />
-			<xs:enumeration value="CrafterEnterRetellingBTTestZ" />
-			<xs:enumeration value="CrafterEnterStoryQuestionAnswersBTTestZ" />
+			<xs:enumeration value="CrafterReadyForTest1" />
+			<xs:enumeration value="CrafterEnterAnswersToStoryQuestionsOfTest1" />
+			<xs:enumeration value="CrafterEnterRetellingOfTest1" />
+			<xs:enumeration value="ConsultantCheckAnchorsRound2" />
+			<xs:enumeration value="ConsultantCheckAnswersToTestingQuestionsRound2" />
+			<xs:enumeration value="ConsultantCheckRetellingRound2" />
+			<xs:enumeration value="CoachReviewRound2Notes" />
+			<xs:enumeration value="ConsultantReviseRound2Notes" />
+			<xs:enumeration value="CrafterReviseBasedOnRound2Notes" />
+			<xs:enumeration value="CrafterOnlineReview2WithConsultant" />
+			<xs:enumeration value="CrafterReadyForTest2" />
+			<xs:enumeration value="CrafterEnterAnswersToStoryQuestionsOfTest2" />
+			<xs:enumeration value="CrafterEnterRetellingOfTest2" />
+			<xs:enumeration value="ConsultantReviewTest2" />
+			<xs:enumeration value="CoachReviewTest2Notes" />
 			<xs:enumeration value="TeamComplete" />
 		</xs:restriction>
 	</xs:simpleType>
@@ -283,5 +289,6 @@
 		<xs:attribute name="FontName" type="xs:string" use="required" />
 		<xs:attribute name="FontSize" type="xs:float" use="required" />
 		<xs:attribute name="FontColor" type="xs:string" use="required" />
+		<xs:attribute name="SentenceFinalPunct" type="xs:string" />
 	</xs:complexType>
 </xs:schema>

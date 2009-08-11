@@ -21,6 +21,36 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="HelpTooltipCrafterTypeNationalBT" Type="System.String" Scope="User">
+      <Value Profile="(Default)">By this stage, you will have already crafted and recorded a story according to the procedure 
+you learned in the workshop. Now you (the crafter) must find an uninitiated native speaker (UNS) 
+to listen to the story line-by-line back-translate it into the national language. Then you will type 
+that back-translation into the verse field(s) in this window.
+
+You can type the entire story (back-translation) into a single verse box. Then when you're 
+finished, right click on the small button in the upper right corner of the verse box (known
+as the 'verse commands' button) and choose 'Split story into verses'. A question box will 
+be displays which asks for the character in that language used to end a sentence (e.g. 
+a 'period' in English, or a danda in Hindi). This command will automatically split the story 
+into verses.
+
+You can also manually add new verse boxes by right-clicking on that same 'verse 
+commands' button and choose either 'Insert new verse(s) before' or 'Add new verse(s) after'.
+Each of these menus has a sub-menu that allows you to insert more than one at a time.
+
+When you are finished entering or splitting the story into separate verses of about one 
+sentence per verse, then click the button in the left-hand side of the status bar and choose 
+'Next Stage' to go to the next stage in the process.</Value>
+    </Setting>
+    <Setting Name="HelpCrafterTypeNationalBT" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Crafter enters National language back translation</Value>
+    </Setting>
+    <Setting Name="LastResourcesUsed" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Jubilee Hindi Bible, Fish Bible, New Living Translation, Genesis Film</Value>
+    </Setting>
+    <Setting Name="HelpCrafterTypeInternationalBT" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Crafter enters English language back translation</Value>
+    </Setting>
+    <Setting Name="HelpTooltipCrafterTypeInternationalBT" Type="System.String" Scope="User">
       <Value Profile="(Default)">In this stage, an uninitiated native speaker (UNS) will back translate
 the story into national language and one of the story crafters will type 
 that back translation into the verse field(s)
@@ -36,13 +66,8 @@ which character to use as an 'end-of-sentence' character.
 
 When you are finished entering or splitting the story into separate 
 verses of about one sentence per verse, then click the button in 
-the left-hand side of the status bar and choose 'Next Stage' to go to the next stage in the process.</Value>
-    </Setting>
-    <Setting Name="HelpCrafterTypeNationalBT" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Crafter enters National language back translation</Value>
-    </Setting>
-    <Setting Name="LastResourcesUsed" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Jubilee Hindi Bible, Fish Bible, New Living Translation, Genesis Film</Value>
+the left-hand side of the status bar and choose 'Next Stage' to go 
+to the next stage in the process.</Value>
     </Setting>
   </Settings>
 </SettingsFile>

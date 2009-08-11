@@ -56,8 +56,8 @@ namespace OneStoryProjectEditor
                 if (m_nColumnIndexVernacular == -1)
                 {
                     InsertColumn(nNumColumns);
-                    InitLabel(aSE.Stories.ProjSettings.VernacularLangName, nNumColumns);
-                    InitTextBox(CstrFieldNameVernacular, _aVerseData.VernacularText, aSE.Stories.ProjSettings.VernacularFont, aSE.Stories.ProjSettings.VernacularFontColor, nNumColumns);
+                    InitLabel(aSE.Stories.ProjSettings.Vernacular.LangName, nNumColumns);
+                    InitTextBox(CstrFieldNameVernacular, _aVerseData.VernacularText, aSE.Stories.ProjSettings.Vernacular.Font, aSE.Stories.ProjSettings.Vernacular.FontColor, nNumColumns);
                     m_nColumnIndexVernacular = nNumColumns;
                 }
                 nNumColumns++;  // in either case, we have to bump the running count, because this control *is* there (whether new or old)
@@ -77,8 +77,8 @@ namespace OneStoryProjectEditor
                 if (m_nColumnIndexNationalBT == -1)
                 {
                     InsertColumn(nNumColumns);
-                    InitLabel(aSE.Stories.ProjSettings.NationalBTLangName, nNumColumns);
-                    InitTextBox(CstrFieldNameNationalBt, _aVerseData.NationalBTText, aSE.Stories.ProjSettings.NationalBTFont, aSE.Stories.ProjSettings.NationalBTFontColor, nNumColumns);
+                    InitLabel(aSE.Stories.ProjSettings.NationalBT.LangName, nNumColumns);
+                    InitTextBox(CstrFieldNameNationalBt, _aVerseData.NationalBTText, aSE.Stories.ProjSettings.NationalBT.Font, aSE.Stories.ProjSettings.NationalBT.FontColor, nNumColumns);
                     m_nColumnIndexNationalBT = nNumColumns;
                 }
                 nNumColumns++;  // in either case, we have to bump the running count, because this control *is* there (whether new or old)
@@ -98,8 +98,8 @@ namespace OneStoryProjectEditor
                 if (m_nColumnIndexInternationalBT == -1)
                 {
                     InsertColumn(nNumColumns);
-                    InitLabel(aSE.Stories.ProjSettings.InternationalBTLangName, nNumColumns);
-                    InitTextBox(CstrFieldNameInternationalBt, _aVerseData.InternationalBTText, aSE.Stories.ProjSettings.InternationalBTFont, aSE.Stories.ProjSettings.InternationalBTFontColor, nNumColumns);
+                    InitLabel(aSE.Stories.ProjSettings.InternationalBT.LangName, nNumColumns);
+                    InitTextBox(CstrFieldNameInternationalBt, _aVerseData.InternationalBTText, aSE.Stories.ProjSettings.InternationalBT.Font, aSE.Stories.ProjSettings.InternationalBT.FontColor, nNumColumns);
                     m_nColumnIndexInternationalBT = nNumColumns;
                 }
                 nNumColumns++;  // in either case, we have to bump the running count, because this control *is* there (whether new or old)

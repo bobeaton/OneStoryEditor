@@ -2872,6 +2872,8 @@ namespace OneStoryProjectEditor {
             
             private global::System.Data.DataColumn columnFontColor;
             
+            private global::System.Data.DataColumn columnSentenceFinalPunct;
+            
             private global::System.Data.DataColumn columnLanguages_Id;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2940,6 +2942,13 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn SentenceFinalPunctColumn {
+                get {
+                    return this.columnSentenceFinalPunct;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public global::System.Data.DataColumn Languages_IdColumn {
                 get {
                     return this.columnLanguages_Id;
@@ -2975,7 +2984,7 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public VernacularLangRow AddVernacularLangRow(string name, string code, string FontName, float FontSize, string FontColor, LanguagesRow parentLanguagesRowByLanguages_VernacularLang) {
+            public VernacularLangRow AddVernacularLangRow(string name, string code, string FontName, float FontSize, string FontColor, string SentenceFinalPunct, LanguagesRow parentLanguagesRowByLanguages_VernacularLang) {
                 VernacularLangRow rowVernacularLangRow = ((VernacularLangRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         name,
@@ -2983,9 +2992,10 @@ namespace OneStoryProjectEditor {
                         FontName,
                         FontSize,
                         FontColor,
+                        SentenceFinalPunct,
                         null};
                 if ((parentLanguagesRowByLanguages_VernacularLang != null)) {
-                    columnValuesArray[5] = parentLanguagesRowByLanguages_VernacularLang[0];
+                    columnValuesArray[6] = parentLanguagesRowByLanguages_VernacularLang[0];
                 }
                 rowVernacularLangRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowVernacularLangRow);
@@ -3011,6 +3021,7 @@ namespace OneStoryProjectEditor {
                 this.columnFontName = base.Columns["FontName"];
                 this.columnFontSize = base.Columns["FontSize"];
                 this.columnFontColor = base.Columns["FontColor"];
+                this.columnSentenceFinalPunct = base.Columns["SentenceFinalPunct"];
                 this.columnLanguages_Id = base.Columns["Languages_Id"];
             }
             
@@ -3026,6 +3037,8 @@ namespace OneStoryProjectEditor {
                 base.Columns.Add(this.columnFontSize);
                 this.columnFontColor = new global::System.Data.DataColumn("FontColor", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnFontColor);
+                this.columnSentenceFinalPunct = new global::System.Data.DataColumn("SentenceFinalPunct", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnSentenceFinalPunct);
                 this.columnLanguages_Id = new global::System.Data.DataColumn("Languages_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnLanguages_Id);
                 this.columnname.AllowDBNull = false;
@@ -3038,6 +3051,7 @@ namespace OneStoryProjectEditor {
                 this.columnFontSize.Namespace = "";
                 this.columnFontColor.AllowDBNull = false;
                 this.columnFontColor.Namespace = "";
+                this.columnSentenceFinalPunct.Namespace = "";
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3173,6 +3187,8 @@ namespace OneStoryProjectEditor {
             
             private global::System.Data.DataColumn columnFontColor;
             
+            private global::System.Data.DataColumn columnSentenceFinalPunct;
+            
             private global::System.Data.DataColumn columnLanguages_Id;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3241,6 +3257,13 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn SentenceFinalPunctColumn {
+                get {
+                    return this.columnSentenceFinalPunct;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public global::System.Data.DataColumn Languages_IdColumn {
                 get {
                     return this.columnLanguages_Id;
@@ -3276,7 +3299,7 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public NationalBTLangRow AddNationalBTLangRow(string name, string code, string FontName, float FontSize, string FontColor, LanguagesRow parentLanguagesRowByLanguages_NationalBTLang) {
+            public NationalBTLangRow AddNationalBTLangRow(string name, string code, string FontName, float FontSize, string FontColor, string SentenceFinalPunct, LanguagesRow parentLanguagesRowByLanguages_NationalBTLang) {
                 NationalBTLangRow rowNationalBTLangRow = ((NationalBTLangRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         name,
@@ -3284,9 +3307,10 @@ namespace OneStoryProjectEditor {
                         FontName,
                         FontSize,
                         FontColor,
+                        SentenceFinalPunct,
                         null};
                 if ((parentLanguagesRowByLanguages_NationalBTLang != null)) {
-                    columnValuesArray[5] = parentLanguagesRowByLanguages_NationalBTLang[0];
+                    columnValuesArray[6] = parentLanguagesRowByLanguages_NationalBTLang[0];
                 }
                 rowNationalBTLangRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowNationalBTLangRow);
@@ -3312,6 +3336,7 @@ namespace OneStoryProjectEditor {
                 this.columnFontName = base.Columns["FontName"];
                 this.columnFontSize = base.Columns["FontSize"];
                 this.columnFontColor = base.Columns["FontColor"];
+                this.columnSentenceFinalPunct = base.Columns["SentenceFinalPunct"];
                 this.columnLanguages_Id = base.Columns["Languages_Id"];
             }
             
@@ -3327,6 +3352,8 @@ namespace OneStoryProjectEditor {
                 base.Columns.Add(this.columnFontSize);
                 this.columnFontColor = new global::System.Data.DataColumn("FontColor", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnFontColor);
+                this.columnSentenceFinalPunct = new global::System.Data.DataColumn("SentenceFinalPunct", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnSentenceFinalPunct);
                 this.columnLanguages_Id = new global::System.Data.DataColumn("Languages_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnLanguages_Id);
                 this.columnname.AllowDBNull = false;
@@ -3339,6 +3366,7 @@ namespace OneStoryProjectEditor {
                 this.columnFontSize.Namespace = "";
                 this.columnFontColor.AllowDBNull = false;
                 this.columnFontColor.Namespace = "";
+                this.columnSentenceFinalPunct.Namespace = "";
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3474,6 +3502,8 @@ namespace OneStoryProjectEditor {
             
             private global::System.Data.DataColumn columnFontColor;
             
+            private global::System.Data.DataColumn columnSentenceFinalPunct;
+            
             private global::System.Data.DataColumn columnLanguages_Id;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3542,6 +3572,13 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn SentenceFinalPunctColumn {
+                get {
+                    return this.columnSentenceFinalPunct;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public global::System.Data.DataColumn Languages_IdColumn {
                 get {
                     return this.columnLanguages_Id;
@@ -3577,7 +3614,7 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public InternationalBTLangRow AddInternationalBTLangRow(string name, string code, string FontName, float FontSize, string FontColor, LanguagesRow parentLanguagesRowByLanguages_InternationalBTLang) {
+            public InternationalBTLangRow AddInternationalBTLangRow(string name, string code, string FontName, float FontSize, string FontColor, string SentenceFinalPunct, LanguagesRow parentLanguagesRowByLanguages_InternationalBTLang) {
                 InternationalBTLangRow rowInternationalBTLangRow = ((InternationalBTLangRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         name,
@@ -3585,9 +3622,10 @@ namespace OneStoryProjectEditor {
                         FontName,
                         FontSize,
                         FontColor,
+                        SentenceFinalPunct,
                         null};
                 if ((parentLanguagesRowByLanguages_InternationalBTLang != null)) {
-                    columnValuesArray[5] = parentLanguagesRowByLanguages_InternationalBTLang[0];
+                    columnValuesArray[6] = parentLanguagesRowByLanguages_InternationalBTLang[0];
                 }
                 rowInternationalBTLangRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowInternationalBTLangRow);
@@ -3613,6 +3651,7 @@ namespace OneStoryProjectEditor {
                 this.columnFontName = base.Columns["FontName"];
                 this.columnFontSize = base.Columns["FontSize"];
                 this.columnFontColor = base.Columns["FontColor"];
+                this.columnSentenceFinalPunct = base.Columns["SentenceFinalPunct"];
                 this.columnLanguages_Id = base.Columns["Languages_Id"];
             }
             
@@ -3628,6 +3667,8 @@ namespace OneStoryProjectEditor {
                 base.Columns.Add(this.columnFontSize);
                 this.columnFontColor = new global::System.Data.DataColumn("FontColor", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnFontColor);
+                this.columnSentenceFinalPunct = new global::System.Data.DataColumn("SentenceFinalPunct", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnSentenceFinalPunct);
                 this.columnLanguages_Id = new global::System.Data.DataColumn("Languages_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnLanguages_Id);
                 this.columnname.AllowDBNull = false;
@@ -3640,6 +3681,7 @@ namespace OneStoryProjectEditor {
                 this.columnFontSize.Namespace = "";
                 this.columnFontColor.AllowDBNull = false;
                 this.columnFontColor.Namespace = "";
+                this.columnSentenceFinalPunct.Namespace = "";
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -10891,6 +10933,21 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string SentenceFinalPunct {
+                get {
+                    try {
+                        return ((string)(this[this.tableVernacularLang.SentenceFinalPunctColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'SentenceFinalPunct\' in table \'VernacularLang\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableVernacularLang.SentenceFinalPunctColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public int Languages_Id {
                 get {
                     try {
@@ -10913,6 +10970,16 @@ namespace OneStoryProjectEditor {
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["Languages_VernacularLang"]);
                 }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsSentenceFinalPunctNull() {
+                return this.IsNull(this.tableVernacularLang.SentenceFinalPunctColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetSentenceFinalPunctNull() {
+                this[this.tableVernacularLang.SentenceFinalPunctColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -10991,6 +11058,21 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string SentenceFinalPunct {
+                get {
+                    try {
+                        return ((string)(this[this.tableNationalBTLang.SentenceFinalPunctColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'SentenceFinalPunct\' in table \'NationalBTLang\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableNationalBTLang.SentenceFinalPunctColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public int Languages_Id {
                 get {
                     try {
@@ -11013,6 +11095,16 @@ namespace OneStoryProjectEditor {
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["Languages_NationalBTLang"]);
                 }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsSentenceFinalPunctNull() {
+                return this.IsNull(this.tableNationalBTLang.SentenceFinalPunctColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetSentenceFinalPunctNull() {
+                this[this.tableNationalBTLang.SentenceFinalPunctColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -11091,6 +11183,22 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string SentenceFinalPunct {
+                get {
+                    try {
+                        return ((string)(this[this.tableInternationalBTLang.SentenceFinalPunctColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'SentenceFinalPunct\' in table \'InternationalBTLang\' is DBNul" +
+                                "l.", e);
+                    }
+                }
+                set {
+                    this[this.tableInternationalBTLang.SentenceFinalPunctColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public int Languages_Id {
                 get {
                     try {
@@ -11113,6 +11221,16 @@ namespace OneStoryProjectEditor {
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["Languages_InternationalBTLang"]);
                 }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsSentenceFinalPunctNull() {
+                return this.IsNull(this.tableInternationalBTLang.SentenceFinalPunctColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetSentenceFinalPunctNull() {
+                this[this.tableInternationalBTLang.SentenceFinalPunctColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

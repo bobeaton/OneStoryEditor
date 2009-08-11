@@ -639,13 +639,13 @@
         internal System.Windows.Forms.ToolStripMenuItem viewStoryTestingQuestionFieldMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem viewRetellingFieldMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem viewConsultantNoteFieldMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem viewNetBibleMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem viewCoachNotesFieldMenuItem;
         private NetBibleViewer netBibleViewer;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripMenuItem viewNetBibleMenuItem;
         private System.Windows.Forms.SplitContainer splitContainerMentorNotes;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelConsultantNotes;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelCoachNotes;
-        private System.Windows.Forms.ToolStripMenuItem viewCoachNotesFieldMenuItem;
         private System.Windows.Forms.TextBox textBoxConsultantNotesTable;
         private System.Windows.Forms.TextBox textBoxCoachNotes;
         private System.Windows.Forms.TextBox textBoxStoryVerse;

@@ -28,7 +28,7 @@ namespace OneStoryProjectEditor
 
             foreach (StoryData aSD in _stories)
             {
-                object[] aObs = new object[4] { aSD.StoryName, aSD.CraftingInfo.StoryPurpose, null, TeamMemberData.GetMemberTypeAsString(aSD.ProjStage.WhoHasTheEditToken) };
+                object[] aObs = new object[4] { aSD.StoryName, aSD.CraftingInfo.StoryPurpose, null, TeamMemberData.GetMemberTypeAsString(aSD.ProjStage.MemberTypeWithEditToken) };
                 int nIndex = dataGridViewPanorama.Rows.Add(aObs);
                 DataGridViewCell theStageCell = dataGridViewPanorama.Rows[nIndex].Cells[CnColumnStoryStage];
                 System.Diagnostics.Debug.Assert(theStageCell is DataGridViewComboBoxCell);
@@ -50,7 +50,8 @@ namespace OneStoryProjectEditor
             foreach (KeyValuePair<StoryStageLogic.ProjectStages, string> kvp in StoryStageLogic.CmapStageToDisplayString)
             {
                 ToolStripItem tsi = contextMenuStripProjectStages.Items.Add(kvp.Value);
-                tsi.Enabled = StoryStageLogic.IsValidTransition(theCurrentStage, kvp.Key);
+                string strDummy;
+                tsi.Enabled = StoryStageLogic.IsValidTransition(theCurrentStage, kvp.Key, out strDummy);
             }
         }
 

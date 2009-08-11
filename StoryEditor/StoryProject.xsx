@@ -14,8 +14,8 @@
             <story_XmlElement left="13175" top="29167" width="5292" height="2963" selected="0" zOrder="4" index="2" expanded="1">
                 <CraftingInfo_XmlElement left="-7566" top="32638" width="5292" height="2963" selected="0" zOrder="69" index="0" expanded="1">
                     <StoryCrafter_XmlElement left="-13491" top="36109" width="5291" height="1693" selected="0" zOrder="71" index="0" expanded="1" />
-                    <BackTranslator_XmlElement left="-7566" top="36109" width="5291" height="1693" selected="0" zOrder="73" index="2" expanded="1" />
-                    <Tests_XmlElement left="-1640" top="36109" width="5291" height="1693" selected="0" zOrder="75" index="3" expanded="1">
+                    <BackTranslator_XmlElement left="-7566" top="36109" width="5291" height="1693" selected="0" zOrder="73" index="3" expanded="1" />
+                    <Tests_XmlElement left="-1640" top="36109" width="5291" height="1693" selected="0" zOrder="75" index="4" expanded="1">
                         <Test_XmlElement left="-1641" top="38310" width="5292" height="2117" selected="0" zOrder="77" index="0" expanded="1" />
                     </Tests_XmlElement>
                 </CraftingInfo_XmlElement>

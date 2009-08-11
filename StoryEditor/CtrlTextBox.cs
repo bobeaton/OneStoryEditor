@@ -41,9 +41,9 @@ namespace OneStoryProjectEditor
         protected override void OnKeyDown(KeyEventArgs e)
         {
             Console.WriteLine(String.Format("KeyCode: {0}; KeyData: {1}, KeyValue: {2}",
-                e.KeyCode.ToString(),
-                e.KeyData.ToString(),
-                e.KeyValue.ToString()));
+                e.KeyCode,
+                e.KeyData,
+                e.KeyValue));
 
             StoryEditor theSE = (StoryEditor)_ctrlParent.FindForm();
             try

@@ -71,8 +71,6 @@ namespace OneStoryProjectEditor
                 return StoryEditor.UserTypes.eUNS;
             else if (strMemberTypeString == CstrConsultantInTraining)
                 return StoryEditor.UserTypes.eConsultantInTraining;
-            else if (strMemberTypeString == CstrIndependentConsultant)
-                return StoryEditor.UserTypes.eIndependentConsultant;
             else if (strMemberTypeString == CstrCoach)
                 return StoryEditor.UserTypes.eCoach;
             else if (strMemberTypeString == CstrJustLooking)
@@ -95,8 +93,6 @@ namespace OneStoryProjectEditor
                 case StoryEditor.UserTypes.eUNS:
                     return CstrUNS;
                 case StoryEditor.UserTypes.eConsultantInTraining:
-                    return CstrConsultantInTraining;
-                case StoryEditor.UserTypes.eIndependentConsultant:
                     return CstrIndependentConsultant;
                 case StoryEditor.UserTypes.eCoach:
                     return CstrCoach;
