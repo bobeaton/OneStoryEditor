@@ -12,7 +12,7 @@ namespace OneStoryProjectEditor
         protected StoryEditor _theSE = null; // so we can access the logged on user
         protected ProjectStages _ProjectStage = ProjectStages.eUndefined;
         protected const string CstrDefaultProjectStage = "CrafterTypeNationalBT";
-        protected StateTransitions _theStateTransitions = new StateTransitions();
+        internal static StateTransitions stateTransitions = new StateTransitions();
 
         public enum ProjectStages
         {
@@ -106,7 +106,7 @@ namespace OneStoryProjectEditor
         {
             StageTransition st = CmapAllowableStageTransitions[eStage];
             st.SetView(theSE, out strTooltipMessage);
-            strStatusMessage = CmapStageToDisplayString[eStage];
+            strStatusMessage = st.StageDisplayString;
         }
 
         public override string ToString()
@@ -176,20 +176,20 @@ namespace OneStoryProjectEditor
                 InitStateTransitionsFromXml();
             }
 
-            public string PathToXmlFile
+            protected string PathToXmlFile
             {
                 get
                 {
                     // try the same folder as we're executing out of
-                    string strCurrentFolder = System.Reflection.Assembly.GetExecutingAssembly().GetModules()[0].FullyQualifiedName; // e.g. C:\src\SEC\Lib\release\TECkitMappingEditorU.exe
-                    strCurrentFolder = Path.GetDirectoryName(strCurrentFolder); // e.g. C:\src\SEC\Lib\release
+                    string strCurrentFolder = System.Reflection.Assembly.GetExecutingAssembly().GetModules()[0].FullyQualifiedName;
+                    strCurrentFolder = Path.GetDirectoryName(strCurrentFolder);
                     string strFileToCheck = String.Format(@"{0}\{1}", strCurrentFolder, CstrStateTransitionsXmlFilename);
+#if DEBUG
                     if (!File.Exists(strFileToCheck))
-                    {
                         // on dev machines, this file is in the "..\..\src\EC\TECkit Mapping Editor" folder
                         strFileToCheck = @"C:\code\StoryEditor\StoryEditor\" + CstrStateTransitionsXmlFilename;
-                    }
-                    System.Diagnostics.Debug.Assert(File.Exists(strFileToCheck), String.Format("Can't find: {0}", strFileToCheck));
+#endif
+                    System.Diagnostics.Debug.Assert(File.Exists(strFileToCheck), String.Format("Can't find: {0}! You'll need to re-install or contact bob_eaton@sall.com", strFileToCheck));
 
                     return strFileToCheck;
                 }
@@ -221,7 +221,13 @@ namespace OneStoryProjectEditor
                         if (xpTransition.MoveNext())
                         {
                             StoryEditor.UserTypes eMemberType = (StoryEditor.UserTypes)Enum.Parse(typeof(StoryEditor.UserTypes), xpTransition.Current.GetAttribute("MemberWithEditToken", navigator.NamespaceURI));
-                            XPathNodeIterator xpNextElement = xpTransition.Current.Select("NextMemberTransitionMessage");
+
+                            XPathNodeIterator xpNextElement = xpTransition.Current.Select("StageDisplayString");
+                            string strStageDisplayString = null;
+                            if (xpNextElement.MoveNext())
+                                strStageDisplayString = xpNextElement.Current.Value;
+
+                            xpNextElement = xpTransition.Current.Select("NextMemberTransitionMessage");
                             string strNextMemberTransitionMessage = null;
                             if (xpNextElement.MoveNext())
                                 strNextMemberTransitionMessage = xpNextElement.Current.Value;
@@ -251,8 +257,9 @@ namespace OneStoryProjectEditor
                                 lstViewStates.Add(xpNextElement.Current.GetAttribute("viewNetBibleMenuItem", navigator.NamespaceURI) == "true");
                             }
 
-                            StageTransition st = new StageTransition(eMemberType, strNextMemberTransitionMessage, strStageInstructions,
-                                lstAllowableStages, lstViewStates);
+                            StageTransition st = new StageTransition(eMemberType, strStageDisplayString, 
+                                strNextMemberTransitionMessage, strStageInstructions, lstAllowableStages, 
+                                lstViewStates);
 
                             Add(eStage, st);
                         }
@@ -274,6 +281,7 @@ namespace OneStoryProjectEditor
                 //  state (the latter of which is the terminal stage (beyond which the edit token goes to the next)
                 ProjectStages.eCrafterTypeNationalBT, 
                 new StageTransition(StoryEditor.UserTypes.eCrafter, 
+                    "Crafter enters the National language back-translation",
                     "If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.",
                     "",
                     new List<ProjectStages>
@@ -299,6 +307,7 @@ namespace OneStoryProjectEditor
             { 
                 ProjectStages.eCrafterTypeInternationalBT, 
                 new StageTransition(StoryEditor.UserTypes.eCrafter, 
+                    "Crafter enters the English back-translation",
                     "If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.",
                     "",
                     new List<ProjectStages>
@@ -324,6 +333,7 @@ namespace OneStoryProjectEditor
             { 
                 ProjectStages.eCrafterAddAnchors, 
                 new StageTransition(StoryEditor.UserTypes.eCrafter, 
+                    "Crafter adds biblical anchors",
                     "If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.",
                     "",
                     new List<ProjectStages>
@@ -349,6 +359,7 @@ namespace OneStoryProjectEditor
             { 
                 ProjectStages.eCrafterAddStoryQuestions, 
                 new StageTransition(StoryEditor.UserTypes.eCrafter, 
+                    "Crafter adds story testing questions",
                     "If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.",
                     "",
                     new List<ProjectStages>
@@ -374,6 +385,7 @@ namespace OneStoryProjectEditor
             { 
                 ProjectStages.eConsultantCheckAnchors, 
                 new StageTransition(StoryEditor.UserTypes.eConsultantInTraining, 
+                    "Consultant checks the story anchors",
                     "If you change to this stage, then you won't be able to edit the story until after the coach has reviewed it.",
                     "",
                     new List<ProjectStages>
@@ -401,6 +413,7 @@ namespace OneStoryProjectEditor
             { 
                 ProjectStages.eConsultantCheckStoryQuestions, 
                 new StageTransition(StoryEditor.UserTypes.eConsultantInTraining, 
+                    "Consultant checks the story testing questions",
                     "If you change to this stage, then you won't be able to edit the story until after the coach has reviewed it.",
                     "",
                     new List<ProjectStages>
@@ -428,6 +441,7 @@ namespace OneStoryProjectEditor
             { 
                 ProjectStages.eCoachReviewRound1Notes, 
                 new StageTransition(StoryEditor.UserTypes.eCoach,
+                    "Coach reviews round 1 consultant notes",
                     "If you change to this stage, then you won't be able to edit the story until after the consultant returns it to you for the next round of review.",
                     "",
                     new List<ProjectStages>
@@ -450,6 +464,7 @@ namespace OneStoryProjectEditor
             { 
                 ProjectStages.eConsultantReviseRound1Notes, 
                 new StageTransition(StoryEditor.UserTypes.eConsultantInTraining,
+                    "Consultant revises round 1 notes based on Coach's feedback",
                     "If you change to this stage, then you won't be able to edit the story until after the crafter has returned it to you after the first (formal) UNS test.",
                     "",
                     new List<ProjectStages>
@@ -472,6 +487,7 @@ namespace OneStoryProjectEditor
             { 
                 ProjectStages.eCrafterReviseBasedOnRound1Notes, 
                 new StageTransition(StoryEditor.UserTypes.eCrafter,
+                    "Crafter revises story based on Consultant's feedback",
                     "If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.",
                     "",
                     new List<ProjectStages>
@@ -498,6 +514,7 @@ namespace OneStoryProjectEditor
             { 
                 ProjectStages.eCrafterOnlineReview1WithConsultant, 
                 new StageTransition(StoryEditor.UserTypes.eCrafter,
+                    "Crafter has 1st online review with consultant",
                     "If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.",
                     "",
                     new List<ProjectStages>
@@ -524,6 +541,7 @@ namespace OneStoryProjectEditor
             { 
                 ProjectStages.eCrafterReadyForTest1, 
                 new StageTransition(StoryEditor.UserTypes.eCrafter,
+                    "Crafter is ready for the 1st (formal) UNS test",
                     "If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.",
                     "",
                     new List<ProjectStages>
@@ -550,6 +568,7 @@ namespace OneStoryProjectEditor
             { 
                 ProjectStages.eCrafterEnterAnswersToStoryQuestionsOfTest1, 
                 new StageTransition(StoryEditor.UserTypes.eCrafter,
+                    "Crafter enters answers to the test 1 story questions",
                     "If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.",
                     "",
                     new List<ProjectStages>
@@ -576,6 +595,7 @@ namespace OneStoryProjectEditor
             { 
                 ProjectStages.eCrafterEnterRetellingOfTest1, 
                 new StageTransition(StoryEditor.UserTypes.eCrafter,
+                    "Crafter enters test 1 retelling back-translation",
                     "If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.",
                     "",
                     new List<ProjectStages>
@@ -602,6 +622,7 @@ namespace OneStoryProjectEditor
             { 
                 ProjectStages.eConsultantCheckAnchorsRound2, 
                 new StageTransition(StoryEditor.UserTypes.eConsultantInTraining,
+                    "Consultant checks story anchors for round 2",
                     "If you change to this stage, then you won't be able to edit the story until after the coach has reviewed it.",
                     "",
                     new List<ProjectStages>
@@ -627,6 +648,7 @@ namespace OneStoryProjectEditor
             { 
                 ProjectStages.eConsultantCheckAnswersToTestingQuestionsRound2, 
                 new StageTransition(StoryEditor.UserTypes.eConsultantInTraining,
+                    "Consultant checks test 1 answers to story testing questions",
                     "If you change to this stage, then you won't be able to edit the story until after the coach has reviewed it.",
                     "",
                     new List<ProjectStages>
@@ -652,6 +674,7 @@ namespace OneStoryProjectEditor
             { 
                 ProjectStages.eConsultantCheckRetellingRound2, 
                 new StageTransition(StoryEditor.UserTypes.eConsultantInTraining,
+                    "Consultant checks test 1 retelling",
                     "If you change to this stage, then you won't be able to edit the story until after the coach has reviewed it.",
                     "",
                     new List<ProjectStages>
@@ -677,6 +700,7 @@ namespace OneStoryProjectEditor
             { 
                 ProjectStages.eCoachReviewRound2Notes, 
                 new StageTransition(StoryEditor.UserTypes.eCoach,
+                    "Coach reviews test 1 notes",
                     "If you change to this stage, then you won't be able to edit the story until after the consultant has returned it for round 2.",
                     "",
                     new List<ProjectStages>
@@ -699,6 +723,7 @@ namespace OneStoryProjectEditor
             { 
                 ProjectStages.eConsultantReviseRound2Notes, 
                 new StageTransition(StoryEditor.UserTypes.eConsultantInTraining,
+                    "Consultant revises round 2 notes based on Coach's feedback",
                     "If you change to this stage, then you won't be able to edit the story until after the crafter has returned it for a final review.",
                     "",
                     new List<ProjectStages>
@@ -721,6 +746,7 @@ namespace OneStoryProjectEditor
             { 
                 ProjectStages.eCrafterReviseBasedOnRound2Notes, 
                 new StageTransition(StoryEditor.UserTypes.eCrafter,
+                    "Crafter revises story based on round 2 notes",
                     "If you change to this stage, then you won't be able to edit the story until after the consultant has returned it.",
                     "",
                     new List<ProjectStages>
@@ -747,6 +773,7 @@ namespace OneStoryProjectEditor
             { 
                 ProjectStages.eCrafterOnlineReview2WithConsultant, 
                 new StageTransition(StoryEditor.UserTypes.eCrafter,
+                    "Crafter has 2nd online review with consultant",
                     "If you change to this stage, then you won't be able to edit the story until after the consultant has returned it.",
                     "",
                     new List<ProjectStages>
@@ -773,6 +800,7 @@ namespace OneStoryProjectEditor
             { 
                 ProjectStages.eCrafterReadyForTest2, 
                 new StageTransition(StoryEditor.UserTypes.eCrafter,
+                    "Crafter is ready for the second (formal) UNS test",
                     "If you change to this stage, then you won't be able to edit the story until after the consultant has returned it.",
                     "",
                     new List<ProjectStages>
@@ -799,6 +827,7 @@ namespace OneStoryProjectEditor
             { 
                 ProjectStages.eCrafterEnterAnswersToStoryQuestionsOfTest2, 
                 new StageTransition(StoryEditor.UserTypes.eCrafter,
+                    "Crafter enters test 2 answers to story testing questions",
                     "If you change to this stage, then you won't be able to edit the story until after the consultant has returned it.",
                     "",
                     new List<ProjectStages>
@@ -825,6 +854,7 @@ namespace OneStoryProjectEditor
             { 
                 ProjectStages.eCrafterEnterRetellingOfTest2, 
                 new StageTransition(StoryEditor.UserTypes.eCrafter,
+                    "Crafter enters test 2 retelling back-translation",
                     "If you change to this stage, then you won't be able to edit the story until after the consultant has returned it.",
                     "",
                     new List<ProjectStages>
@@ -851,6 +881,7 @@ namespace OneStoryProjectEditor
             { 
                 ProjectStages.eConsultantReviewTest2, 
                 new StageTransition(StoryEditor.UserTypes.eConsultantInTraining,
+                    "Consultant reviews test 2 results",
                     "If you change to this stage, then you won't be able to edit the story until after the coach has returned it.",
                     "",
                     new List<ProjectStages>
@@ -874,6 +905,7 @@ namespace OneStoryProjectEditor
             { 
                 ProjectStages.eCoachReviewTest2Notes, 
                 new StageTransition(StoryEditor.UserTypes.eCoach,
+                    "Coach reviews test 2 results",
                     "If you change to this stage, then you won't be able to edit the story until after the consultant has returned it.",
                     "",
                     new List<ProjectStages>
@@ -897,6 +929,7 @@ namespace OneStoryProjectEditor
             { 
                 ProjectStages.eTeamComplete, 
                 new StageTransition(StoryEditor.UserTypes.eCrafter,
+                    "Story testing complete (waiting for panorama completion review)",
                     "If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.",
                     "",
                     new List<ProjectStages>
@@ -919,48 +952,22 @@ namespace OneStoryProjectEditor
         };
         #endregion StageTransition static initialization
 
-        internal static Dictionary<ProjectStages, string> CmapStageToDisplayString = new Dictionary<ProjectStages, string>()
-        {
-            { ProjectStages.eCrafterTypeNationalBT, "Crafter enters the National language back-translation" },
-            { ProjectStages.eCrafterTypeInternationalBT, "Crafter enters the English back-translation" },
-            { ProjectStages.eCrafterAddAnchors, "Crafter adds biblical anchors" },
-            { ProjectStages.eCrafterAddStoryQuestions, "Crafter adds story testing questions" },
-            { ProjectStages.eConsultantCheckAnchors, "Consultant checks the story anchors" },
-            { ProjectStages.eConsultantCheckStoryQuestions, "Consultant checks the story testing questions" },
-            { ProjectStages.eCoachReviewRound1Notes, "Coach reviews round 1 consultant notes" },
-            { ProjectStages.eConsultantReviseRound1Notes, "Consultant revises round 1 notes based on Coach's feedback" },
-            { ProjectStages.eCrafterReviseBasedOnRound1Notes, "Crafter revises story based on Consultant's feedback" },
-            { ProjectStages.eCrafterOnlineReview1WithConsultant, "Crafter has 1st online review with consultant" },
-            { ProjectStages.eCrafterReadyForTest1, "Crafter is ready for the first (formal) UNS test" },
-            { ProjectStages.eCrafterEnterAnswersToStoryQuestionsOfTest1, "Crafter enters answers to the test 1 story questions" },
-            { ProjectStages.eCrafterEnterRetellingOfTest1, "Crafter enters test 1 retelling back-translation" },
-            { ProjectStages.eConsultantCheckAnchorsRound2, "Consultant checks story anchors for round 2" },
-            { ProjectStages.eConsultantCheckAnswersToTestingQuestionsRound2, "Consultant checks test 1 answers to story testing questions" },
-            { ProjectStages.eConsultantCheckRetellingRound2, "Consultant checks test 1 retelling" },
-            { ProjectStages.eCoachReviewRound2Notes, "Coach reviews test 1 notes" },
-            { ProjectStages.eConsultantReviseRound2Notes, "Consultant revises round 2 notes based on Coach's feedback" },
-            { ProjectStages.eCrafterReviseBasedOnRound2Notes, "Crafter revises story based on round 2 notes" },
-            { ProjectStages.eCrafterOnlineReview2WithConsultant, "Crafter has 2nd online review with consultant" },
-            { ProjectStages.eCrafterReadyForTest2, "Crafter is ready for the second (formal) UNS test" },
-            { ProjectStages.eCrafterEnterAnswersToStoryQuestionsOfTest2, "Crafter enters test 2 answers to story testing questions" },
-            { ProjectStages.eCrafterEnterRetellingOfTest2, "Crafter enters test 2 retelling back-translation" },
-            { ProjectStages.eConsultantReviewTest2, "Consultant reviews test 2 results" },
-            { ProjectStages.eCoachReviewTest2Notes, "Coach reviews test 2 results" },
-            { ProjectStages.eTeamComplete, "Story testing complete (waiting for panorama completion review)" }};
-
         public class StageTransition : List<ProjectStages>
         {
             protected StoryEditor.UserTypes _eEditingMember = StoryEditor.UserTypes.eUndefined;
             protected List<bool> _abViewSettings = null;
+            protected string _strDisplayString = null;
             protected string _strTerminalTransitionMessage = null;
             protected string _strInstructions = null;
 
             public StageTransition(StoryEditor.UserTypes eEditingMember, 
+                string strDisplayString,
                 string strTerminalTransitionMessage,
                 string strInstructions,
                 List<ProjectStages> eAllowableStages, List<bool> abViewSettings)
             {
                 _eEditingMember = eEditingMember;
+                _strDisplayString = strDisplayString;
                 _strTerminalTransitionMessage = strTerminalTransitionMessage;
                 _strInstructions = strInstructions;
                 AddRange(eAllowableStages);
@@ -980,6 +987,11 @@ namespace OneStoryProjectEditor
             public StoryEditor.UserTypes MemberTypeWithEditToken
             {
                 get { return _eEditingMember; }   
+            }
+
+            public string StageDisplayString
+            {
+                get { return _strDisplayString; }
             }
 
             public void SetView(StoryEditor theSE, out string strInstructions)
@@ -1005,6 +1017,7 @@ namespace OneStoryProjectEditor
                         elemAllowableState.Add(new XElement("AllowableState", ps));
 
                     XElement elem = new XElement("Transition", new XAttribute("MemberWithEditToken", _eEditingMember),
+                        new XElement("StageDisplayString", _strDisplayString),
                         new XElement("NextMemberTransitionMessage", _strTerminalTransitionMessage),
                         new XElement("StageInstructions", _strInstructions),
                         elemAllowableState,

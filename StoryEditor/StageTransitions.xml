@@ -2,6 +2,7 @@
 <StageTransitions>
   <StageTransition stage="eCrafterTypeNationalBT">
     <Transition MemberWithEditToken="eCrafter">
+      <StageDisplayString>Crafter enters the National language back-translation</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableStates>
@@ -15,6 +16,7 @@
   </StageTransition>
   <StageTransition stage="eCrafterTypeInternationalBT">
     <Transition MemberWithEditToken="eCrafter">
+      <StageDisplayString>Crafter enters the English back-translation</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableStates>
@@ -28,6 +30,7 @@
   </StageTransition>
   <StageTransition stage="eCrafterAddAnchors">
     <Transition MemberWithEditToken="eCrafter">
+      <StageDisplayString>Crafter adds biblical anchors</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableStates>
@@ -41,6 +44,7 @@
   </StageTransition>
   <StageTransition stage="eCrafterAddStoryQuestions">
     <Transition MemberWithEditToken="eCrafter">
+      <StageDisplayString>Crafter adds story testing questions</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableStates>
@@ -54,6 +58,7 @@
   </StageTransition>
   <StageTransition stage="eConsultantCheckAnchors">
     <Transition MemberWithEditToken="eConsultantInTraining">
+      <StageDisplayString>Consultant checks the story anchors</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the coach has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableStates>
@@ -69,6 +74,7 @@
   </StageTransition>
   <StageTransition stage="eConsultantCheckStoryQuestions">
     <Transition MemberWithEditToken="eConsultantInTraining">
+      <StageDisplayString>Consultant checks the story testing questions</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the coach has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableStates>
@@ -84,6 +90,7 @@
   </StageTransition>
   <StageTransition stage="eCoachReviewRound1Notes">
     <Transition MemberWithEditToken="eCoach">
+      <StageDisplayString>Coach reviews round 1 consultant notes</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant returns it to you for the next round of review.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableStates>
@@ -94,6 +101,7 @@
   </StageTransition>
   <StageTransition stage="eConsultantReviseRound1Notes">
     <Transition MemberWithEditToken="eConsultantInTraining">
+      <StageDisplayString>Consultant revises round 1 notes based on Coach's feedback</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the crafter has returned it to you after the first (formal) UNS test.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableStates>
@@ -104,6 +112,7 @@
   </StageTransition>
   <StageTransition stage="eCrafterReviseBasedOnRound1Notes">
     <Transition MemberWithEditToken="eCrafter">
+      <StageDisplayString>Crafter revises story based on Consultant's feedback</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableStates>
@@ -118,6 +127,7 @@
   </StageTransition>
   <StageTransition stage="eCrafterOnlineReview1WithConsultant">
     <Transition MemberWithEditToken="eCrafter">
+      <StageDisplayString>Crafter has 1st online review with consultant</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableStates>
@@ -132,6 +142,7 @@
   </StageTransition>
   <StageTransition stage="eCrafterReadyForTest1">
     <Transition MemberWithEditToken="eCrafter">
+      <StageDisplayString>Crafter is ready for the 1st (formal) UNS test</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableStates>
@@ -146,6 +157,7 @@
   </StageTransition>
   <StageTransition stage="eCrafterEnterAnswersToStoryQuestionsOfTest1">
     <Transition MemberWithEditToken="eCrafter">
+      <StageDisplayString>Crafter enters answers to the test 1 story questions</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableStates>
@@ -160,6 +172,7 @@
   </StageTransition>
   <StageTransition stage="eCrafterEnterRetellingOfTest1">
     <Transition MemberWithEditToken="eCrafter">
+      <StageDisplayString>Crafter enters test 1 retelling back-translation</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableStates>
@@ -174,6 +187,7 @@
   </StageTransition>
   <StageTransition stage="eConsultantCheckAnchorsRound2">
     <Transition MemberWithEditToken="eConsultantInTraining">
+      <StageDisplayString>Consultant checks story anchors for round 2</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the coach has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableStates>
@@ -187,6 +201,7 @@
   </StageTransition>
   <StageTransition stage="eConsultantCheckAnswersToTestingQuestionsRound2">
     <Transition MemberWithEditToken="eConsultantInTraining">
+      <StageDisplayString>Consultant checks test 1 answers to story testing questions</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the coach has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableStates>
@@ -200,6 +215,7 @@
   </StageTransition>
   <StageTransition stage="eConsultantCheckRetellingRound2">
     <Transition MemberWithEditToken="eConsultantInTraining">
+      <StageDisplayString>Consultant checks test 1 retelling</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the coach has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableStates>
@@ -213,6 +229,7 @@
   </StageTransition>
   <StageTransition stage="eCoachReviewRound2Notes">
     <Transition MemberWithEditToken="eCoach">
+      <StageDisplayString>Coach reviews test 1 notes</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has returned it for round 2.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableStates>
@@ -223,6 +240,7 @@
   </StageTransition>
   <StageTransition stage="eConsultantReviseRound2Notes">
     <Transition MemberWithEditToken="eConsultantInTraining">
+      <StageDisplayString>Consultant revises round 2 notes based on Coach's feedback</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the crafter has returned it for a final review.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableStates>
@@ -233,6 +251,7 @@
   </StageTransition>
   <StageTransition stage="eCrafterReviseBasedOnRound2Notes">
     <Transition MemberWithEditToken="eCrafter">
+      <StageDisplayString>Crafter revises story based on round 2 notes</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has returned it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableStates>
@@ -247,6 +266,7 @@
   </StageTransition>
   <StageTransition stage="eCrafterOnlineReview2WithConsultant">
     <Transition MemberWithEditToken="eCrafter">
+      <StageDisplayString>Crafter has 2nd online review with consultant</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has returned it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableStates>
@@ -261,6 +281,7 @@
   </StageTransition>
   <StageTransition stage="eCrafterReadyForTest2">
     <Transition MemberWithEditToken="eCrafter">
+      <StageDisplayString>Crafter is ready for the second (formal) UNS test</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has returned it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableStates>
@@ -275,6 +296,7 @@
   </StageTransition>
   <StageTransition stage="eCrafterEnterAnswersToStoryQuestionsOfTest2">
     <Transition MemberWithEditToken="eCrafter">
+      <StageDisplayString>Crafter enters test 2 answers to story testing questions</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has returned it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableStates>
@@ -289,6 +311,7 @@
   </StageTransition>
   <StageTransition stage="eCrafterEnterRetellingOfTest2">
     <Transition MemberWithEditToken="eCrafter">
+      <StageDisplayString>Crafter enters test 2 retelling back-translation</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has returned it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableStates>
@@ -303,6 +326,7 @@
   </StageTransition>
   <StageTransition stage="eConsultantReviewTest2">
     <Transition MemberWithEditToken="eConsultantInTraining">
+      <StageDisplayString>Consultant reviews test 2 results</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the coach has returned it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableStates>
@@ -314,6 +338,7 @@
   </StageTransition>
   <StageTransition stage="eCoachReviewTest2Notes">
     <Transition MemberWithEditToken="eCoach">
+      <StageDisplayString>Coach reviews test 2 results</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has returned it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableStates>
@@ -325,6 +350,7 @@
   </StageTransition>
   <StageTransition stage="eTeamComplete">
     <Transition MemberWithEditToken="eCrafter">
+      <StageDisplayString>Story testing complete (waiting for panorama completion review)</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableStates>

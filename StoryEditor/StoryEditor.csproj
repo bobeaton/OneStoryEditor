@@ -166,6 +166,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="EditMemberForm.resx">
       <DependentUpon>EditMemberForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="AnchorAddCommentForm.resx">
       <DependentUpon>AnchorAddCommentForm.cs</DependentUpon>
@@ -287,6 +288,7 @@
     <Content Include="OneStory.ico" />
     <Content Include="Resources\GoLtrHS.bmp" />
     <Content Include="Resources\GoRtlHS.bmp" />
+    <Content Include="StageTransitions.xml" />
     <None Include="Properties\app.manifest" />
     <None Include="Resources\DragDropHandle.bmp" />
     <None Include="StoryProject.onestory" />
