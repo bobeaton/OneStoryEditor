@@ -81,7 +81,7 @@ namespace OneStoryProjectEditor
                 if (MemberTypeWithEditToken == LoggedOnMember.MemberType)
                     return true;
 
-                throw new ApplicationException(String.Format("Right now, only a '{0}' should be editing the story", TeamMemberData.GetMemberTypeAsString(MemberTypeWithEditToken)));
+                throw new ApplicationException(String.Format("Right now, only a '{0}' should be editing the story. If you're a {0}, click 'Project', 'Settings' to login", TeamMemberData.GetMemberTypeAsString(MemberTypeWithEditToken)));
             }
         }
 
@@ -91,20 +91,20 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                StageTransition st = CmapAllowableStageTransitions[ProjectStage];
+                StageTransition st = stateTransitions[ProjectStage];
                 return st.MemberTypeWithEditToken;
             }
         }
 
         public static bool IsValidTransition(ProjectStages eCurrentStage, ProjectStages eToStage, out string strTerminalStageMessage)
         {
-            StageTransition st = CmapAllowableStageTransitions[eCurrentStage];
+            StageTransition st = stateTransitions[eCurrentStage];
             return st.IsValidTransition(eToStage, out strTerminalStageMessage);
         }
 
         public void SetViewBasedOnProjectStage(StoryEditor theSE, ProjectStages eStage, out string strStatusMessage, out string strTooltipMessage)
         {
-            StageTransition st = CmapAllowableStageTransitions[eStage];
+            StageTransition st = stateTransitions[eStage];
             st.SetView(theSE, out strTooltipMessage);
             strStatusMessage = st.StageDisplayString;
         }
@@ -141,31 +141,6 @@ namespace OneStoryProjectEditor
             { "ConsultantReviewTest2", ProjectStages.eConsultantReviewTest2 },
             { "CoachReviewTest2Notes", ProjectStages.eCoachReviewTest2Notes },
             { "TeamComplete", ProjectStages.eTeamComplete }};
-
-        public void SaveStates(string strFilename)
-        {
-            // create the root portions of the XML document and tack on the fragment we've been building
-            XDocument doc = new XDocument(
-                new XDeclaration("1.0", "utf-8", "yes"),
-                GetXml);
-
-            // save it with an extra extn.
-            doc.Save(strFilename);
-        }
-
-        protected XElement GetXml
-        {
-            get
-            {
-                XElement elem = new XElement("StageTransitions");
-                foreach (KeyValuePair<ProjectStages, StageTransition> kvp in CmapAllowableStageTransitions)
-                {
-                    elem.Add(new XElement("StageTransition", new XAttribute("stage", kvp.Key),
-                        kvp.Value.GetXml));
-                }
-                return elem;
-            }
-        }
 
         public class StateTransitions : Dictionary<ProjectStages, StageTransition>
         {
@@ -205,6 +180,23 @@ namespace OneStoryProjectEditor
 
             protected void InitStateTransitionsFromXml()
             {
+                System.Diagnostics.Debug.WriteLine("Starting InitStateTransitionsFromXml");
+                /* e.g.
+  <StageTransition stage="eCrafterTypeInternationalBT">
+    <Transition MemberWithEditToken="eCrafter" NextState="eCrafterAddAnchors">
+      <StageDisplayString>Crafter enters the English back-translation</StageDisplayString>
+      <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.</NextMemberTransitionMessage>
+      <StageInstructions></StageInstructions>
+      <AllowableTransitions>
+        <AllowableTransition>eCrafterTypeNationalBT</AllowableTransition>
+        <AllowableTransition>eCrafterAddAnchors</AllowableTransition>
+        <AllowableTransition>eCrafterAddStoryQuestions</AllowableTransition>
+        <AllowableTransition>eConsultantCheckAnchors</AllowableTransition>
+      </AllowableTransitions>
+      <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="false" viewStoryTestingQuestionFieldMenuItem="false" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="false" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="false" />
+    </Transition>
+  </StageTransition>
+                */
                 try
                 {
                     XmlDocument doc;
@@ -215,12 +207,13 @@ namespace OneStoryProjectEditor
                     XPathNodeIterator xpStageTransition = navigator.Select("/StageTransitions/StageTransition", manager);
                     while (xpStageTransition.MoveNext())
                     {
-                        ProjectStages eStage = (ProjectStages)Enum.Parse(typeof(ProjectStages), xpStageTransition.Current.GetAttribute("stage", navigator.NamespaceURI));
+                        ProjectStages eThisStage = (ProjectStages)Enum.Parse(typeof(ProjectStages), xpStageTransition.Current.GetAttribute("stage", navigator.NamespaceURI));
 
                         XPathNodeIterator xpTransition = xpStageTransition.Current.Select("Transition", manager);
                         if (xpTransition.MoveNext())
                         {
                             StoryEditor.UserTypes eMemberType = (StoryEditor.UserTypes)Enum.Parse(typeof(StoryEditor.UserTypes), xpTransition.Current.GetAttribute("MemberWithEditToken", navigator.NamespaceURI));
+                            ProjectStages eNextStage = (ProjectStages)Enum.Parse(typeof(ProjectStages), xpTransition.Current.GetAttribute("NextState", navigator.NamespaceURI));
 
                             XPathNodeIterator xpNextElement = xpTransition.Current.Select("StageDisplayString");
                             string strStageDisplayString = null;
@@ -237,7 +230,7 @@ namespace OneStoryProjectEditor
                             if (xpNextElement.MoveNext())
                                 strStageInstructions = xpNextElement.Current.Value;
 
-                            xpNextElement = xpTransition.Current.Select("AllowableStates/AllowableState");
+                            xpNextElement = xpTransition.Current.Select("AllowableTransitions/AllowableTransition");
                             List<ProjectStages> lstAllowableStages = new List<ProjectStages>();
                             while (xpNextElement.MoveNext())
                                 lstAllowableStages.Add((ProjectStages)Enum.Parse(typeof(ProjectStages), xpNextElement.Current.Value));
@@ -257,22 +250,134 @@ namespace OneStoryProjectEditor
                                 lstViewStates.Add(xpNextElement.Current.GetAttribute("viewNetBibleMenuItem", navigator.NamespaceURI) == "true");
                             }
 
-                            StageTransition st = new StageTransition(eMemberType, strStageDisplayString, 
-                                strNextMemberTransitionMessage, strStageInstructions, lstAllowableStages, 
-                                lstViewStates);
+                            StageTransition st = new StageTransition(eThisStage, eNextStage, eMemberType, 
+                                strStageDisplayString, strNextMemberTransitionMessage, strStageInstructions, 
+                                lstAllowableStages, lstViewStates);
 
-                            Add(eStage, st);
+                            Add(eThisStage, st);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    throw new ApplicationException("Unable to process the xml file containing the Unicode Ranges... Reinstall.", ex);
+                    throw new ApplicationException(String.Format("Unable to process the xml file containing the State Transitions (i.e. {0})... Reinstall.", CstrStateTransitionsXmlFilename), ex);
+                }
+                System.Diagnostics.Debug.WriteLine("Finished InitStateTransitionsFromXml");
+            }
+        }
+
+        public class StageTransition
+        {
+            protected ProjectStages _thisStage = ProjectStages.eUndefined;
+            protected ProjectStages _theNextStage = ProjectStages.eUndefined;
+            internal List<ProjectStages> AllowableTransitions = new List<ProjectStages>();
+            internal StoryEditor.UserTypes MemberTypeWithEditToken = StoryEditor.UserTypes.eUndefined;
+            protected List<bool> _abViewSettings = null;
+            internal string StageDisplayString = null;
+            protected string _strTerminalTransitionMessage = null;
+            protected string _strInstructions = null;
+
+            public StageTransition(
+                ProjectStages thisStage,
+                ProjectStages theNextStage,
+                StoryEditor.UserTypes eMemberTypeWithEditToken,
+                string strDisplayString,
+                string strTerminalTransitionMessage,
+                string strInstructions,
+                List<ProjectStages> lstAllowableStages, List<bool> abViewSettings)
+            {
+                _thisStage = thisStage;
+                _theNextStage = theNextStage;
+                MemberTypeWithEditToken = eMemberTypeWithEditToken;
+                StageDisplayString = strDisplayString;
+                _strTerminalTransitionMessage = strTerminalTransitionMessage;
+                _strInstructions = strInstructions;
+                AllowableTransitions.AddRange(lstAllowableStages);
+                _abViewSettings = abViewSettings;
+            }
+
+            public bool IsValidTransition(ProjectStages eToStage, out string strTerminalTransitionMessage)
+            {
+                bool bAllowed = AllowableTransitions.Contains(eToStage);
+                if (bAllowed && (eToStage == AllowableTransitions[AllowableTransitions.Count - 1]))
+                    strTerminalTransitionMessage = _strTerminalTransitionMessage;
+                else
+                    strTerminalTransitionMessage = null;
+                return bAllowed;
+            }
+
+            public void SetView(StoryEditor theSE, out string strInstructions)
+            {
+                theSE.viewVernacularLangFieldMenuItem.Checked = _abViewSettings[0];
+                theSE.viewNationalLangFieldMenuItem.Checked = _abViewSettings[1];
+                theSE.viewEnglishBTFieldMenuItem.Checked = _abViewSettings[2];
+                theSE.viewAnchorFieldMenuItem.Checked = _abViewSettings[3];
+                theSE.viewStoryTestingQuestionFieldMenuItem.Checked = _abViewSettings[4];
+                theSE.viewRetellingFieldMenuItem.Checked = _abViewSettings[5];
+                theSE.viewConsultantNoteFieldMenuItem.Checked = _abViewSettings[6];
+                theSE.viewCoachNotesFieldMenuItem.Checked = _abViewSettings[7];
+                theSE.viewNetBibleMenuItem.Checked = _abViewSettings[8];
+                strInstructions = _strInstructions;
+            }
+
+            public XElement GetXml
+            {
+                get
+                {
+                    XElement elemAllowableTransition = new XElement("AllowableTransitions");
+                    foreach (ProjectStages ps in AllowableTransitions)
+                        elemAllowableTransition.Add(new XElement("AllowableTransition", ps));
+
+                    XElement elem = new XElement("Transition", 
+                        new XAttribute("MemberWithEditToken", MemberTypeWithEditToken),
+                        new XAttribute("NextState", _theNextStage),
+                        new XElement("StageDisplayString", StageDisplayString),
+                        new XElement("NextMemberTransitionMessage", _strTerminalTransitionMessage),
+                        new XElement("StageInstructions", _strInstructions),
+                        elemAllowableTransition,
+                        new XElement("ViewSettings",
+                            new XAttribute("viewVernacularLangFieldMenuItem", _abViewSettings[0]),
+                            new XAttribute("viewNationalLangFieldMenuItem", _abViewSettings[1]),
+                            new XAttribute("viewEnglishBTFieldMenuItem", _abViewSettings[2]),
+                            new XAttribute("viewAnchorFieldMenuItem", _abViewSettings[3]),
+                            new XAttribute("viewStoryTestingQuestionFieldMenuItem", _abViewSettings[4]),
+                            new XAttribute("viewRetellingFieldMenuItem", _abViewSettings[5]),
+                            new XAttribute("viewConsultantNoteFieldMenuItem", _abViewSettings[6]),
+                            new XAttribute("viewCoachNotesFieldMenuItem", _abViewSettings[7]),
+                            new XAttribute("viewNetBibleMenuItem", _abViewSettings[8])));
+
+                    return elem;
                 }
             }
         }
 
-        #region StageTransition static initialization
+        #region static StageTransition implementation
+        /*
+        public void SaveStates(string strFilename)
+        {
+            // create the root portions of the XML document and tack on the fragment we've been building
+            XDocument doc = new XDocument(
+                new XDeclaration("1.0", "utf-8", "yes"),
+                GetXml);
+
+            // save it with an extra extn.
+            doc.Save(strFilename);
+        }
+
+        protected XElement GetXml
+        {
+            get
+            {
+                XElement elem = new XElement("StageTransitions");
+                foreach (KeyValuePair<ProjectStages, StageTransition> kvp in CmapAllowableStageTransitions)
+                {
+                    elem.Add(new XElement("StageTransition", new XAttribute("stage", kvp.Key),
+                        kvp.Value.GetXml));
+                }
+                return elem;
+            }
+        }
+
         protected static Dictionary<ProjectStages, StageTransition> CmapAllowableStageTransitions = new Dictionary<ProjectStages, StageTransition>()
         {
             { 
@@ -950,91 +1055,7 @@ namespace OneStoryProjectEditor
                     } )
             }
         };
-        #endregion StageTransition static initialization
-
-        public class StageTransition : List<ProjectStages>
-        {
-            protected StoryEditor.UserTypes _eEditingMember = StoryEditor.UserTypes.eUndefined;
-            protected List<bool> _abViewSettings = null;
-            protected string _strDisplayString = null;
-            protected string _strTerminalTransitionMessage = null;
-            protected string _strInstructions = null;
-
-            public StageTransition(StoryEditor.UserTypes eEditingMember, 
-                string strDisplayString,
-                string strTerminalTransitionMessage,
-                string strInstructions,
-                List<ProjectStages> eAllowableStages, List<bool> abViewSettings)
-            {
-                _eEditingMember = eEditingMember;
-                _strDisplayString = strDisplayString;
-                _strTerminalTransitionMessage = strTerminalTransitionMessage;
-                _strInstructions = strInstructions;
-                AddRange(eAllowableStages);
-                _abViewSettings = abViewSettings;
-            }
-
-            public bool IsValidTransition(ProjectStages eToStage, out string strTerminalTransitionMessage)
-            {
-                bool bAllowed = Contains(eToStage);
-                if (bAllowed && (eToStage == this[Count - 1]))
-                    strTerminalTransitionMessage = _strTerminalTransitionMessage;
-                else
-                    strTerminalTransitionMessage = null;
-                return bAllowed;
-            }
-
-            public StoryEditor.UserTypes MemberTypeWithEditToken
-            {
-                get { return _eEditingMember; }   
-            }
-
-            public string StageDisplayString
-            {
-                get { return _strDisplayString; }
-            }
-
-            public void SetView(StoryEditor theSE, out string strInstructions)
-            {
-                theSE.viewVernacularLangFieldMenuItem.Checked = _abViewSettings[0];
-                theSE.viewNationalLangFieldMenuItem.Checked = _abViewSettings[1];
-                theSE.viewEnglishBTFieldMenuItem.Checked = _abViewSettings[2];
-                theSE.viewAnchorFieldMenuItem.Checked = _abViewSettings[3];
-                theSE.viewStoryTestingQuestionFieldMenuItem.Checked = _abViewSettings[4];
-                theSE.viewRetellingFieldMenuItem.Checked = _abViewSettings[5];
-                theSE.viewConsultantNoteFieldMenuItem.Checked = _abViewSettings[6];
-                theSE.viewCoachNotesFieldMenuItem.Checked = _abViewSettings[7];
-                theSE.viewNetBibleMenuItem.Checked = _abViewSettings[8];
-                strInstructions = _strInstructions;
-            }
-
-            public XElement GetXml
-            {
-                get
-                {
-                    XElement elemAllowableState = new XElement("AllowableStates");
-                    foreach (ProjectStages ps in this)
-                        elemAllowableState.Add(new XElement("AllowableState", ps));
-
-                    XElement elem = new XElement("Transition", new XAttribute("MemberWithEditToken", _eEditingMember),
-                        new XElement("StageDisplayString", _strDisplayString),
-                        new XElement("NextMemberTransitionMessage", _strTerminalTransitionMessage),
-                        new XElement("StageInstructions", _strInstructions),
-                        elemAllowableState,
-                        new XElement("ViewSettings", 
-                            new XAttribute("viewVernacularLangFieldMenuItem", _abViewSettings[0]),
-                            new XAttribute("viewNationalLangFieldMenuItem", _abViewSettings[1]),
-                            new XAttribute("viewEnglishBTFieldMenuItem", _abViewSettings[2]),
-                            new XAttribute("viewAnchorFieldMenuItem", _abViewSettings[3]),
-                            new XAttribute("viewStoryTestingQuestionFieldMenuItem", _abViewSettings[4]),
-                            new XAttribute("viewRetellingFieldMenuItem", _abViewSettings[5]),
-                            new XAttribute("viewConsultantNoteFieldMenuItem", _abViewSettings[6]),
-                            new XAttribute("viewCoachNotesFieldMenuItem", _abViewSettings[7]),
-                            new XAttribute("viewNetBibleMenuItem", _abViewSettings[8])));
-
-                    return elem;
-                }
-            }
-        }
+        */
+        #endregion static StageTransition implementation
     }
 }

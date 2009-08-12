@@ -16,9 +16,6 @@ namespace OneStoryProjectEditor
         protected const int CnColumnStoryEditToken = 2;
         protected const int CnColumnStoryStage = 3;
 
-        protected DateTime m_dtStarted = DateTime.Now;
-        TimeSpan m_timeMinStartup = new TimeSpan(0, 0, 3);
-
         protected StoriesData _stories = null;
 
         public PanoramaView(StoriesData stories)
@@ -57,7 +54,7 @@ namespace OneStoryProjectEditor
                     kvp.Value.StageDisplayString,
                     null,
                     new EventHandler(OnSelectNextState));
-                tsi.Enabled = theCurrentStageTransition.Contains(kvp.Key);
+                tsi.Enabled = theCurrentStageTransition.AllowableTransitions.Contains(kvp.Key);
             }
         }
 
@@ -101,18 +98,21 @@ namespace OneStoryProjectEditor
         }
 
         DataGridViewRow m_rowLastClicked = null;
-
+        /*
         private void dataGridViewPanorama_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
-            // prevent the false click that occurs when the user chooses a menu item
-            if ((DateTime.Now - m_dtStarted) < m_timeMinStartup)
-                return;
-
             if ((e.RowIndex < 0) || (e.RowIndex >= dataGridViewPanorama.Rows.Count)
                 || (e.ColumnIndex < 1) || (e.ColumnIndex >= dataGridViewPanorama.Columns.Count))
                 return;
 
             m_rowLastClicked = dataGridViewPanorama.Rows[e.RowIndex];
+        }
+        */
+        private void dataGridViewPanorama_SelectionChanged(object sender, EventArgs e)
+        {
+            // should only be one...
+            if (dataGridViewPanorama.SelectedRows.Count > 0)
+                m_rowLastClicked = dataGridViewPanorama.SelectedRows[0];
         }
     }
 }

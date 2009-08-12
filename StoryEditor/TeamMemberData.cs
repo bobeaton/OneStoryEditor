@@ -10,7 +10,6 @@ namespace OneStoryProjectEditor
         internal const string CstrCrafter = "Crafter";
         internal const string CstrUNS = "UNS";
         internal const string CstrConsultantInTraining = "ConsultantInTraining";
-        internal const string CstrIndependentConsultant = "IndependentConsultant";
         internal const string CstrCoach = "Coach";
         internal const string CstrJustLooking = "JustLooking"; // gives full access, but no change privileges
 
@@ -93,7 +92,7 @@ namespace OneStoryProjectEditor
                 case StoryEditor.UserTypes.eUNS:
                     return CstrUNS;
                 case StoryEditor.UserTypes.eConsultantInTraining:
-                    return CstrIndependentConsultant;
+                    return CstrConsultantInTraining;
                 case StoryEditor.UserTypes.eCoach:
                     return CstrCoach;
                 case StoryEditor.UserTypes.eJustLooking:

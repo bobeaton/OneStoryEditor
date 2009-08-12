@@ -37,13 +37,13 @@
             this.EditToken = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StoryStage = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPanorama)).BeginInit();
-            this.contextMenuStripProjectStages.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridViewPanorama
             // 
             this.dataGridViewPanorama.AllowUserToAddRows = false;
             this.dataGridViewPanorama.AllowUserToOrderColumns = true;
+            this.dataGridViewPanorama.AllowUserToResizeRows = false;
             this.dataGridViewPanorama.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewPanorama.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.StoryName,
@@ -51,36 +51,47 @@
             this.EditToken,
             this.StoryStage});
             this.dataGridViewPanorama.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridViewPanorama.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dataGridViewPanorama.Location = new System.Drawing.Point(0, 0);
+            this.dataGridViewPanorama.MultiSelect = false;
             this.dataGridViewPanorama.Name = "dataGridViewPanorama";
+            this.dataGridViewPanorama.ReadOnly = true;
+            this.dataGridViewPanorama.RowHeadersWidth = 25;
+            this.dataGridViewPanorama.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.dataGridViewPanorama.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewPanorama.Size = new System.Drawing.Size(709, 362);
             this.dataGridViewPanorama.TabIndex = 0;
-            this.dataGridViewPanorama.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewPanorama_CellMouseDown);
+            this.dataGridViewPanorama.SelectionChanged += new System.EventHandler(this.dataGridViewPanorama_SelectionChanged);
             // 
             // contextMenuStripProjectStages
             // 
             this.contextMenuStripProjectStages.Name = "contextMenuStripProjectStages";
-            this.contextMenuStripProjectStages.Size = new System.Drawing.Size(462, 246);
+            this.contextMenuStripProjectStages.Size = new System.Drawing.Size(61, 4);
             this.contextMenuStripProjectStages.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripProjectStages_Opening);
             // 
             // StoryName
             // 
+            this.StoryName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.StoryName.Frozen = true;
             this.StoryName.HeaderText = "Story Name";
             this.StoryName.Name = "StoryName";
             this.StoryName.ReadOnly = true;
+            this.StoryName.Width = 87;
             // 
             // ColumnPurpose
             // 
             this.ColumnPurpose.HeaderText = "Purpose";
             this.ColumnPurpose.Name = "ColumnPurpose";
+            this.ColumnPurpose.ReadOnly = true;
             this.ColumnPurpose.Width = 200;
             // 
             // EditToken
             // 
+            this.EditToken.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.EditToken.HeaderText = "Who Edits";
             this.EditToken.Name = "EditToken";
             this.EditToken.ReadOnly = true;
+            this.EditToken.Width = 81;
             // 
             // StoryStage
             // 
@@ -101,7 +112,6 @@
             this.Name = "PanoramaView";
             this.Text = "Panorama View";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPanorama)).EndInit();
-            this.contextMenuStripProjectStages.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

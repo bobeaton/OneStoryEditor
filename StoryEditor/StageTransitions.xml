@@ -1,361 +1,381 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <StageTransitions>
   <StageTransition stage="eCrafterTypeNationalBT">
-    <Transition MemberWithEditToken="eCrafter">
+    <Transition MemberWithEditToken="eCrafter" NextState="eCrafterTypeInternationalBT">
       <StageDisplayString>Crafter enters the National language back-translation</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.</NextMemberTransitionMessage>
-      <StageInstructions></StageInstructions>
-      <AllowableStates>
-        <AllowableState>eCrafterTypeInternationalBT</AllowableState>
-        <AllowableState>eCrafterAddAnchors</AllowableState>
-        <AllowableState>eCrafterAddStoryQuestions</AllowableState>
-        <AllowableState>eConsultantCheckAnchors</AllowableState>
-      </AllowableStates>
+      <StageInstructions>
+By this stage, you will have already crafted and recorded a story according to the procedure
+you learned in the workshop. Now you (the crafter) must find an uninitiated native speaker (UNS)
+to listen to the story line-by-line, and have him or her back-translate it into the national 
+language. Then you will type that back-translation into the verse field(s) in this window.
+
+You can type the entire story (back-translation) into a single verse box. When you're finished, 
+right click on the small button in the upper right corner of the verse box (known as the 
+'verse commands' button) and choose 'Split story into verses'. This will automatically split 
+the story into verses. [You might need to click 'File', 'Settings' and on the 
+'Project/Language Settings' tab, to update the field for 'Sentence Final Punctuation' for this
+to work correctly].
+
+You can also manually add new verse boxes by right-clicking on that same 'verse commands' 
+button and choose either 'Insert new verse(s) before' or 'Add new verse(s) after'.
+Each of these menus has a sub-menu that allows you to insert more than one at a time.
+
+When you are finished entering or splitting the story into separate verses of about one
+sentence per verse, then click the button in the left-hand side of the status bar and choose
+'Next Stage' to go to the next stage in the process.
+      </StageInstructions>
+      <AllowableTransitions>
+        <AllowableTransition>eCrafterTypeInternationalBT</AllowableTransition>
+        <AllowableTransition>eCrafterAddAnchors</AllowableTransition>
+        <AllowableTransition>eCrafterAddStoryQuestions</AllowableTransition>
+        <AllowableTransition>eConsultantCheckAnchors</AllowableTransition>
+      </AllowableTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="false" viewAnchorFieldMenuItem="false" viewStoryTestingQuestionFieldMenuItem="false" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="false" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="false" />
     </Transition>
   </StageTransition>
   <StageTransition stage="eCrafterTypeInternationalBT">
-    <Transition MemberWithEditToken="eCrafter">
+    <Transition MemberWithEditToken="eCrafter" NextState="eCrafterAddAnchors">
       <StageDisplayString>Crafter enters the English back-translation</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableStates>
-        <AllowableState>eCrafterTypeNationalBT</AllowableState>
-        <AllowableState>eCrafterAddAnchors</AllowableState>
-        <AllowableState>eCrafterAddStoryQuestions</AllowableState>
-        <AllowableState>eConsultantCheckAnchors</AllowableState>
-      </AllowableStates>
+      <AllowableTransitions>
+        <AllowableTransition>eCrafterTypeNationalBT</AllowableTransition>
+        <AllowableTransition>eCrafterAddAnchors</AllowableTransition>
+        <AllowableTransition>eCrafterAddStoryQuestions</AllowableTransition>
+        <AllowableTransition>eConsultantCheckAnchors</AllowableTransition>
+      </AllowableTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="false" viewStoryTestingQuestionFieldMenuItem="false" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="false" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="false" />
     </Transition>
   </StageTransition>
   <StageTransition stage="eCrafterAddAnchors">
-    <Transition MemberWithEditToken="eCrafter">
+    <Transition MemberWithEditToken="eCrafter" NextState="eCrafterAddStoryQuestions">
       <StageDisplayString>Crafter adds biblical anchors</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableStates>
-        <AllowableState>eCrafterTypeNationalBT</AllowableState>
-        <AllowableState>eCrafterTypeInternationalBT</AllowableState>
-        <AllowableState>eCrafterAddStoryQuestions</AllowableState>
-        <AllowableState>eConsultantCheckAnchors</AllowableState>
-      </AllowableStates>
+      <AllowableTransitions>
+        <AllowableTransition>eCrafterTypeNationalBT</AllowableTransition>
+        <AllowableTransition>eCrafterTypeInternationalBT</AllowableTransition>
+        <AllowableTransition>eCrafterAddStoryQuestions</AllowableTransition>
+        <AllowableTransition>eConsultantCheckAnchors</AllowableTransition>
+      </AllowableTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="false" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="false" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="true" />
     </Transition>
   </StageTransition>
   <StageTransition stage="eCrafterAddStoryQuestions">
-    <Transition MemberWithEditToken="eCrafter">
+    <Transition MemberWithEditToken="eCrafter" NextState="eConsultantCheckAnchors">
       <StageDisplayString>Crafter adds story testing questions</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableStates>
-        <AllowableState>eCrafterTypeNationalBT</AllowableState>
-        <AllowableState>eCrafterTypeInternationalBT</AllowableState>
-        <AllowableState>eCrafterAddAnchors</AllowableState>
-        <AllowableState>eConsultantCheckAnchors</AllowableState>
-      </AllowableStates>
+      <AllowableTransitions>
+        <AllowableTransition>eCrafterTypeNationalBT</AllowableTransition>
+        <AllowableTransition>eCrafterTypeInternationalBT</AllowableTransition>
+        <AllowableTransition>eCrafterAddAnchors</AllowableTransition>
+        <AllowableTransition>eConsultantCheckAnchors</AllowableTransition>
+      </AllowableTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="false" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="true" />
     </Transition>
   </StageTransition>
   <StageTransition stage="eConsultantCheckAnchors">
-    <Transition MemberWithEditToken="eConsultantInTraining">
+    <Transition MemberWithEditToken="eConsultantInTraining" NextState="eConsultantCheckStoryQuestions">
       <StageDisplayString>Consultant checks the story anchors</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the coach has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableStates>
-        <AllowableState>eCrafterTypeNationalBT</AllowableState>
-        <AllowableState>eCrafterTypeInternationalBT</AllowableState>
-        <AllowableState>eCrafterAddAnchors</AllowableState>
-        <AllowableState>eCrafterAddStoryQuestions</AllowableState>
-        <AllowableState>eConsultantCheckStoryQuestions</AllowableState>
-        <AllowableState>eCoachReviewRound1Notes</AllowableState>
-      </AllowableStates>
+      <AllowableTransitions>
+        <AllowableTransition>eCrafterTypeNationalBT</AllowableTransition>
+        <AllowableTransition>eCrafterTypeInternationalBT</AllowableTransition>
+        <AllowableTransition>eCrafterAddAnchors</AllowableTransition>
+        <AllowableTransition>eCrafterAddStoryQuestions</AllowableTransition>
+        <AllowableTransition>eConsultantCheckStoryQuestions</AllowableTransition>
+        <AllowableTransition>eCoachReviewRound1Notes</AllowableTransition>
+      </AllowableTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="false" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="true" />
     </Transition>
   </StageTransition>
   <StageTransition stage="eConsultantCheckStoryQuestions">
-    <Transition MemberWithEditToken="eConsultantInTraining">
+    <Transition MemberWithEditToken="eConsultantInTraining" NextState="eCoachReviewRound1Notes">
       <StageDisplayString>Consultant checks the story testing questions</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the coach has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableStates>
-        <AllowableState>eCrafterTypeNationalBT</AllowableState>
-        <AllowableState>eCrafterTypeInternationalBT</AllowableState>
-        <AllowableState>eCrafterAddAnchors</AllowableState>
-        <AllowableState>eCrafterAddStoryQuestions</AllowableState>
-        <AllowableState>eConsultantCheckAnchors</AllowableState>
-        <AllowableState>eCoachReviewRound1Notes</AllowableState>
-      </AllowableStates>
+      <AllowableTransitions>
+        <AllowableTransition>eCrafterTypeNationalBT</AllowableTransition>
+        <AllowableTransition>eCrafterTypeInternationalBT</AllowableTransition>
+        <AllowableTransition>eCrafterAddAnchors</AllowableTransition>
+        <AllowableTransition>eCrafterAddStoryQuestions</AllowableTransition>
+        <AllowableTransition>eConsultantCheckAnchors</AllowableTransition>
+        <AllowableTransition>eCoachReviewRound1Notes</AllowableTransition>
+      </AllowableTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="true" />
     </Transition>
   </StageTransition>
   <StageTransition stage="eCoachReviewRound1Notes">
-    <Transition MemberWithEditToken="eCoach">
+    <Transition MemberWithEditToken="eCoach" NextState="eConsultantReviseRound1Notes">
       <StageDisplayString>Coach reviews round 1 consultant notes</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant returns it to you for the next round of review.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableStates>
-        <AllowableState>eConsultantReviseRound1Notes</AllowableState>
-      </AllowableStates>
+      <AllowableTransitions>
+        <AllowableTransition>eConsultantReviseRound1Notes</AllowableTransition>
+      </AllowableTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="true" viewNetBibleMenuItem="true" />
     </Transition>
   </StageTransition>
   <StageTransition stage="eConsultantReviseRound1Notes">
-    <Transition MemberWithEditToken="eConsultantInTraining">
+    <Transition MemberWithEditToken="eConsultantInTraining" NextState="eCrafterReviseBasedOnRound1Notes">
       <StageDisplayString>Consultant revises round 1 notes based on Coach's feedback</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the crafter has returned it to you after the first (formal) UNS test.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableStates>
-        <AllowableState>eCrafterReviseBasedOnRound1Notes</AllowableState>
-      </AllowableStates>
+      <AllowableTransitions>
+        <AllowableTransition>eCrafterReviseBasedOnRound1Notes</AllowableTransition>
+      </AllowableTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="true" viewNetBibleMenuItem="true" />
     </Transition>
   </StageTransition>
   <StageTransition stage="eCrafterReviseBasedOnRound1Notes">
-    <Transition MemberWithEditToken="eCrafter">
+    <Transition MemberWithEditToken="eCrafter" NextState="eCrafterOnlineReview1WithConsultant">
       <StageDisplayString>Crafter revises story based on Consultant's feedback</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableStates>
-        <AllowableState>eCrafterOnlineReview1WithConsultant</AllowableState>
-        <AllowableState>eCrafterReadyForTest1</AllowableState>
-        <AllowableState>eCrafterEnterAnswersToStoryQuestionsOfTest1</AllowableState>
-        <AllowableState>eCrafterEnterRetellingOfTest1</AllowableState>
-        <AllowableState>eConsultantCheckAnchorsRound2</AllowableState>
-      </AllowableStates>
+      <AllowableTransitions>
+        <AllowableTransition>eCrafterOnlineReview1WithConsultant</AllowableTransition>
+        <AllowableTransition>eCrafterReadyForTest1</AllowableTransition>
+        <AllowableTransition>eCrafterEnterAnswersToStoryQuestionsOfTest1</AllowableTransition>
+        <AllowableTransition>eCrafterEnterRetellingOfTest1</AllowableTransition>
+        <AllowableTransition>eConsultantCheckAnchorsRound2</AllowableTransition>
+      </AllowableTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="true" />
     </Transition>
   </StageTransition>
   <StageTransition stage="eCrafterOnlineReview1WithConsultant">
-    <Transition MemberWithEditToken="eCrafter">
+    <Transition MemberWithEditToken="eCrafter" NextState="eCrafterReadyForTest1">
       <StageDisplayString>Crafter has 1st online review with consultant</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableStates>
-        <AllowableState>eCrafterReviseBasedOnRound1Notes</AllowableState>
-        <AllowableState>eCrafterReadyForTest1</AllowableState>
-        <AllowableState>eCrafterEnterAnswersToStoryQuestionsOfTest1</AllowableState>
-        <AllowableState>eCrafterEnterRetellingOfTest1</AllowableState>
-        <AllowableState>eConsultantCheckAnchorsRound2</AllowableState>
-      </AllowableStates>
+      <AllowableTransitions>
+        <AllowableTransition>eCrafterReviseBasedOnRound1Notes</AllowableTransition>
+        <AllowableTransition>eCrafterReadyForTest1</AllowableTransition>
+        <AllowableTransition>eCrafterEnterAnswersToStoryQuestionsOfTest1</AllowableTransition>
+        <AllowableTransition>eCrafterEnterRetellingOfTest1</AllowableTransition>
+        <AllowableTransition>eConsultantCheckAnchorsRound2</AllowableTransition>
+      </AllowableTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="true" />
     </Transition>
   </StageTransition>
   <StageTransition stage="eCrafterReadyForTest1">
-    <Transition MemberWithEditToken="eCrafter">
+    <Transition MemberWithEditToken="eCrafter" NextState="eCrafterEnterAnswersToStoryQuestionsOfTest1">
       <StageDisplayString>Crafter is ready for the 1st (formal) UNS test</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableStates>
-        <AllowableState>eCrafterReviseBasedOnRound1Notes</AllowableState>
-        <AllowableState>eCrafterOnlineReview1WithConsultant</AllowableState>
-        <AllowableState>eCrafterEnterAnswersToStoryQuestionsOfTest1</AllowableState>
-        <AllowableState>eCrafterEnterRetellingOfTest1</AllowableState>
-        <AllowableState>eConsultantCheckAnchorsRound2</AllowableState>
-      </AllowableStates>
+      <AllowableTransitions>
+        <AllowableTransition>eCrafterReviseBasedOnRound1Notes</AllowableTransition>
+        <AllowableTransition>eCrafterOnlineReview1WithConsultant</AllowableTransition>
+        <AllowableTransition>eCrafterEnterAnswersToStoryQuestionsOfTest1</AllowableTransition>
+        <AllowableTransition>eCrafterEnterRetellingOfTest1</AllowableTransition>
+        <AllowableTransition>eConsultantCheckAnchorsRound2</AllowableTransition>
+      </AllowableTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="false" viewAnchorFieldMenuItem="false" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="false" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="false" />
     </Transition>
   </StageTransition>
   <StageTransition stage="eCrafterEnterAnswersToStoryQuestionsOfTest1">
-    <Transition MemberWithEditToken="eCrafter">
+    <Transition MemberWithEditToken="eCrafter" NextState="eCrafterEnterRetellingOfTest1">
       <StageDisplayString>Crafter enters answers to the test 1 story questions</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableStates>
-        <AllowableState>eCrafterReviseBasedOnRound1Notes</AllowableState>
-        <AllowableState>eCrafterOnlineReview1WithConsultant</AllowableState>
-        <AllowableState>eCrafterReadyForTest1</AllowableState>
-        <AllowableState>eCrafterEnterRetellingOfTest1</AllowableState>
-        <AllowableState>eConsultantCheckAnchorsRound2</AllowableState>
-      </AllowableStates>
+      <AllowableTransitions>
+        <AllowableTransition>eCrafterReviseBasedOnRound1Notes</AllowableTransition>
+        <AllowableTransition>eCrafterOnlineReview1WithConsultant</AllowableTransition>
+        <AllowableTransition>eCrafterReadyForTest1</AllowableTransition>
+        <AllowableTransition>eCrafterEnterRetellingOfTest1</AllowableTransition>
+        <AllowableTransition>eConsultantCheckAnchorsRound2</AllowableTransition>
+      </AllowableTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="false" viewAnchorFieldMenuItem="false" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="false" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="false" />
     </Transition>
   </StageTransition>
   <StageTransition stage="eCrafterEnterRetellingOfTest1">
-    <Transition MemberWithEditToken="eCrafter">
+    <Transition MemberWithEditToken="eCrafter" NextState="eConsultantCheckAnchorsRound2">
       <StageDisplayString>Crafter enters test 1 retelling back-translation</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableStates>
-        <AllowableState>eCrafterReviseBasedOnRound1Notes</AllowableState>
-        <AllowableState>eCrafterOnlineReview1WithConsultant</AllowableState>
-        <AllowableState>eCrafterReadyForTest1</AllowableState>
-        <AllowableState>eCrafterEnterAnswersToStoryQuestionsOfTest1</AllowableState>
-        <AllowableState>eConsultantCheckAnchorsRound2</AllowableState>
-      </AllowableStates>
+      <AllowableTransitions>
+        <AllowableTransition>eCrafterReviseBasedOnRound1Notes</AllowableTransition>
+        <AllowableTransition>eCrafterOnlineReview1WithConsultant</AllowableTransition>
+        <AllowableTransition>eCrafterReadyForTest1</AllowableTransition>
+        <AllowableTransition>eCrafterEnterAnswersToStoryQuestionsOfTest1</AllowableTransition>
+        <AllowableTransition>eConsultantCheckAnchorsRound2</AllowableTransition>
+      </AllowableTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="false" viewStoryTestingQuestionFieldMenuItem="false" viewRetellingFieldMenuItem="true" viewConsultantNoteFieldMenuItem="false" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="false" />
     </Transition>
   </StageTransition>
   <StageTransition stage="eConsultantCheckAnchorsRound2">
-    <Transition MemberWithEditToken="eConsultantInTraining">
+    <Transition MemberWithEditToken="eConsultantInTraining" NextState="eConsultantCheckAnswersToTestingQuestionsRound2">
       <StageDisplayString>Consultant checks story anchors for round 2</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the coach has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableStates>
-        <AllowableState>eCrafterReviseBasedOnRound1Notes</AllowableState>
-        <AllowableState>eConsultantCheckAnswersToTestingQuestionsRound2</AllowableState>
-        <AllowableState>eConsultantCheckRetellingRound2</AllowableState>
-        <AllowableState>eCoachReviewRound2Notes</AllowableState>
-      </AllowableStates>
+      <AllowableTransitions>
+        <AllowableTransition>eCrafterReviseBasedOnRound1Notes</AllowableTransition>
+        <AllowableTransition>eConsultantCheckAnswersToTestingQuestionsRound2</AllowableTransition>
+        <AllowableTransition>eConsultantCheckRetellingRound2</AllowableTransition>
+        <AllowableTransition>eCoachReviewRound2Notes</AllowableTransition>
+      </AllowableTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="false" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="true" />
     </Transition>
   </StageTransition>
   <StageTransition stage="eConsultantCheckAnswersToTestingQuestionsRound2">
-    <Transition MemberWithEditToken="eConsultantInTraining">
+    <Transition MemberWithEditToken="eConsultantInTraining" NextState="eConsultantCheckRetellingRound2">
       <StageDisplayString>Consultant checks test 1 answers to story testing questions</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the coach has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableStates>
-        <AllowableState>eCrafterReviseBasedOnRound1Notes</AllowableState>
-        <AllowableState>eConsultantCheckAnchorsRound2</AllowableState>
-        <AllowableState>eConsultantCheckRetellingRound2</AllowableState>
-        <AllowableState>eCoachReviewRound2Notes</AllowableState>
-      </AllowableStates>
+      <AllowableTransitions>
+        <AllowableTransition>eCrafterReviseBasedOnRound1Notes</AllowableTransition>
+        <AllowableTransition>eConsultantCheckAnchorsRound2</AllowableTransition>
+        <AllowableTransition>eConsultantCheckRetellingRound2</AllowableTransition>
+        <AllowableTransition>eCoachReviewRound2Notes</AllowableTransition>
+      </AllowableTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="true" />
     </Transition>
   </StageTransition>
   <StageTransition stage="eConsultantCheckRetellingRound2">
-    <Transition MemberWithEditToken="eConsultantInTraining">
+    <Transition MemberWithEditToken="eConsultantInTraining" NextState="eCoachReviewRound2Notes">
       <StageDisplayString>Consultant checks test 1 retelling</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the coach has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableStates>
-        <AllowableState>eCrafterReviseBasedOnRound1Notes</AllowableState>
-        <AllowableState>eConsultantCheckAnchorsRound2</AllowableState>
-        <AllowableState>eConsultantCheckAnswersToTestingQuestionsRound2</AllowableState>
-        <AllowableState>eCoachReviewRound2Notes</AllowableState>
-      </AllowableStates>
+      <AllowableTransitions>
+        <AllowableTransition>eCrafterReviseBasedOnRound1Notes</AllowableTransition>
+        <AllowableTransition>eConsultantCheckAnchorsRound2</AllowableTransition>
+        <AllowableTransition>eConsultantCheckAnswersToTestingQuestionsRound2</AllowableTransition>
+        <AllowableTransition>eCoachReviewRound2Notes</AllowableTransition>
+      </AllowableTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="false" viewStoryTestingQuestionFieldMenuItem="false" viewRetellingFieldMenuItem="true" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="true" />
     </Transition>
   </StageTransition>
   <StageTransition stage="eCoachReviewRound2Notes">
-    <Transition MemberWithEditToken="eCoach">
+    <Transition MemberWithEditToken="eCoach" NextState="eConsultantReviseRound2Notes">
       <StageDisplayString>Coach reviews test 1 notes</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has returned it for round 2.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableStates>
-        <AllowableState>eConsultantReviseRound2Notes</AllowableState>
-      </AllowableStates>
+      <AllowableTransitions>
+        <AllowableTransition>eConsultantReviseRound2Notes</AllowableTransition>
+      </AllowableTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="true" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="true" viewNetBibleMenuItem="true" />
     </Transition>
   </StageTransition>
   <StageTransition stage="eConsultantReviseRound2Notes">
-    <Transition MemberWithEditToken="eConsultantInTraining">
+    <Transition MemberWithEditToken="eConsultantInTraining" NextState="eCrafterReviseBasedOnRound2Notes">
       <StageDisplayString>Consultant revises round 2 notes based on Coach's feedback</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the crafter has returned it for a final review.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableStates>
-        <AllowableState>eCrafterReviseBasedOnRound2Notes</AllowableState>
-      </AllowableStates>
+      <AllowableTransitions>
+        <AllowableTransition>eCrafterReviseBasedOnRound2Notes</AllowableTransition>
+      </AllowableTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="true" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="true" viewNetBibleMenuItem="true" />
     </Transition>
   </StageTransition>
   <StageTransition stage="eCrafterReviseBasedOnRound2Notes">
-    <Transition MemberWithEditToken="eCrafter">
+    <Transition MemberWithEditToken="eCrafter" NextState="eCrafterOnlineReview2WithConsultant">
       <StageDisplayString>Crafter revises story based on round 2 notes</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has returned it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableStates>
-        <AllowableState>eCrafterOnlineReview2WithConsultant</AllowableState>
-        <AllowableState>eCrafterReadyForTest2</AllowableState>
-        <AllowableState>eCrafterEnterAnswersToStoryQuestionsOfTest2</AllowableState>
-        <AllowableState>eCrafterEnterRetellingOfTest2</AllowableState>
-        <AllowableState>eConsultantReviewTest2</AllowableState>
-      </AllowableStates>
+      <AllowableTransitions>
+        <AllowableTransition>eCrafterOnlineReview2WithConsultant</AllowableTransition>
+        <AllowableTransition>eCrafterReadyForTest2</AllowableTransition>
+        <AllowableTransition>eCrafterEnterAnswersToStoryQuestionsOfTest2</AllowableTransition>
+        <AllowableTransition>eCrafterEnterRetellingOfTest2</AllowableTransition>
+        <AllowableTransition>eConsultantReviewTest2</AllowableTransition>
+      </AllowableTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="true" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="true" />
     </Transition>
   </StageTransition>
   <StageTransition stage="eCrafterOnlineReview2WithConsultant">
-    <Transition MemberWithEditToken="eCrafter">
+    <Transition MemberWithEditToken="eCrafter" NextState="eCrafterReadyForTest2">
       <StageDisplayString>Crafter has 2nd online review with consultant</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has returned it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableStates>
-        <AllowableState>eCrafterReviseBasedOnRound2Notes</AllowableState>
-        <AllowableState>eCrafterReadyForTest2</AllowableState>
-        <AllowableState>eCrafterEnterAnswersToStoryQuestionsOfTest2</AllowableState>
-        <AllowableState>eCrafterEnterRetellingOfTest2</AllowableState>
-        <AllowableState>eConsultantReviewTest2</AllowableState>
-      </AllowableStates>
+      <AllowableTransitions>
+        <AllowableTransition>eCrafterReviseBasedOnRound2Notes</AllowableTransition>
+        <AllowableTransition>eCrafterReadyForTest2</AllowableTransition>
+        <AllowableTransition>eCrafterEnterAnswersToStoryQuestionsOfTest2</AllowableTransition>
+        <AllowableTransition>eCrafterEnterRetellingOfTest2</AllowableTransition>
+        <AllowableTransition>eConsultantReviewTest2</AllowableTransition>
+      </AllowableTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="true" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="true" />
     </Transition>
   </StageTransition>
   <StageTransition stage="eCrafterReadyForTest2">
-    <Transition MemberWithEditToken="eCrafter">
+    <Transition MemberWithEditToken="eCrafter" NextState="eCrafterEnterAnswersToStoryQuestionsOfTest2">
       <StageDisplayString>Crafter is ready for the second (formal) UNS test</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has returned it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableStates>
-        <AllowableState>eCrafterReviseBasedOnRound2Notes</AllowableState>
-        <AllowableState>eCrafterOnlineReview2WithConsultant</AllowableState>
-        <AllowableState>eCrafterEnterAnswersToStoryQuestionsOfTest2</AllowableState>
-        <AllowableState>eCrafterEnterRetellingOfTest2</AllowableState>
-        <AllowableState>eConsultantReviewTest2</AllowableState>
-      </AllowableStates>
+      <AllowableTransitions>
+        <AllowableTransition>eCrafterReviseBasedOnRound2Notes</AllowableTransition>
+        <AllowableTransition>eCrafterOnlineReview2WithConsultant</AllowableTransition>
+        <AllowableTransition>eCrafterEnterAnswersToStoryQuestionsOfTest2</AllowableTransition>
+        <AllowableTransition>eCrafterEnterRetellingOfTest2</AllowableTransition>
+        <AllowableTransition>eConsultantReviewTest2</AllowableTransition>
+      </AllowableTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="false" viewAnchorFieldMenuItem="false" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="false" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="false" />
     </Transition>
   </StageTransition>
   <StageTransition stage="eCrafterEnterAnswersToStoryQuestionsOfTest2">
-    <Transition MemberWithEditToken="eCrafter">
+    <Transition MemberWithEditToken="eCrafter" NextState="eCrafterEnterRetellingOfTest2">
       <StageDisplayString>Crafter enters test 2 answers to story testing questions</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has returned it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableStates>
-        <AllowableState>eCrafterReviseBasedOnRound2Notes</AllowableState>
-        <AllowableState>eCrafterOnlineReview2WithConsultant</AllowableState>
-        <AllowableState>eCrafterReadyForTest2</AllowableState>
-        <AllowableState>eCrafterEnterRetellingOfTest2</AllowableState>
-        <AllowableState>eConsultantReviewTest2</AllowableState>
-      </AllowableStates>
+      <AllowableTransitions>
+        <AllowableTransition>eCrafterReviseBasedOnRound2Notes</AllowableTransition>
+        <AllowableTransition>eCrafterOnlineReview2WithConsultant</AllowableTransition>
+        <AllowableTransition>eCrafterReadyForTest2</AllowableTransition>
+        <AllowableTransition>eCrafterEnterRetellingOfTest2</AllowableTransition>
+        <AllowableTransition>eConsultantReviewTest2</AllowableTransition>
+      </AllowableTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="false" viewAnchorFieldMenuItem="false" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="false" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="false" />
     </Transition>
   </StageTransition>
   <StageTransition stage="eCrafterEnterRetellingOfTest2">
-    <Transition MemberWithEditToken="eCrafter">
+    <Transition MemberWithEditToken="eCrafter" NextState="eConsultantReviewTest2">
       <StageDisplayString>Crafter enters test 2 retelling back-translation</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has returned it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableStates>
-        <AllowableState>eCrafterReviseBasedOnRound2Notes</AllowableState>
-        <AllowableState>eCrafterOnlineReview2WithConsultant</AllowableState>
-        <AllowableState>eCrafterReadyForTest2</AllowableState>
-        <AllowableState>eCrafterEnterAnswersToStoryQuestionsOfTest2</AllowableState>
-        <AllowableState>eConsultantReviewTest2</AllowableState>
-      </AllowableStates>
+      <AllowableTransitions>
+        <AllowableTransition>eCrafterReviseBasedOnRound2Notes</AllowableTransition>
+        <AllowableTransition>eCrafterOnlineReview2WithConsultant</AllowableTransition>
+        <AllowableTransition>eCrafterReadyForTest2</AllowableTransition>
+        <AllowableTransition>eCrafterEnterAnswersToStoryQuestionsOfTest2</AllowableTransition>
+        <AllowableTransition>eConsultantReviewTest2</AllowableTransition>
+      </AllowableTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="false" viewStoryTestingQuestionFieldMenuItem="false" viewRetellingFieldMenuItem="true" viewConsultantNoteFieldMenuItem="false" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="false" />
     </Transition>
   </StageTransition>
   <StageTransition stage="eConsultantReviewTest2">
-    <Transition MemberWithEditToken="eConsultantInTraining">
+    <Transition MemberWithEditToken="eConsultantInTraining" NextState="eCoachReviewTest2Notes">
       <StageDisplayString>Consultant reviews test 2 results</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the coach has returned it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableStates>
-        <AllowableState>eCrafterReviseBasedOnRound2Notes</AllowableState>
-        <AllowableState>eCoachReviewTest2Notes</AllowableState>
-      </AllowableStates>
+      <AllowableTransitions>
+        <AllowableTransition>eCrafterReviseBasedOnRound2Notes</AllowableTransition>
+        <AllowableTransition>eCoachReviewTest2Notes</AllowableTransition>
+      </AllowableTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="true" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="true" />
     </Transition>
   </StageTransition>
   <StageTransition stage="eCoachReviewTest2Notes">
-    <Transition MemberWithEditToken="eCoach">
+    <Transition MemberWithEditToken="eCoach" NextState="eTeamComplete">
       <StageDisplayString>Coach reviews test 2 results</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has returned it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableStates>
-        <AllowableState>eConsultantReviseRound2Notes</AllowableState>
-        <AllowableState>eTeamComplete</AllowableState>
-      </AllowableStates>
+      <AllowableTransitions>
+        <AllowableTransition>eConsultantReviseRound2Notes</AllowableTransition>
+        <AllowableTransition>eTeamComplete</AllowableTransition>
+      </AllowableTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="true" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="true" viewNetBibleMenuItem="true" />
     </Transition>
   </StageTransition>
   <StageTransition stage="eTeamComplete">
-    <Transition MemberWithEditToken="eCrafter">
+    <Transition MemberWithEditToken="eCrafter" NextState="eTeamComplete">
       <StageDisplayString>Story testing complete (waiting for panorama completion review)</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableStates>
-        <AllowableState>eConsultantReviewTest2</AllowableState>
-      </AllowableStates>
+      <AllowableTransitions>
+        <AllowableTransition>eConsultantReviewTest2</AllowableTransition>
+      </AllowableTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="true" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="true" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="true" viewNetBibleMenuItem="true" />
     </Transition>
   </StageTransition>

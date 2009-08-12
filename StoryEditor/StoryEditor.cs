@@ -55,19 +55,11 @@ namespace OneStoryProjectEditor
                 MessageBox.Show(String.Format("Problem initializing Sword (the Net Bible viewer):{0}{0}{1}", Environment.NewLine, ex.Message), StoryEditor.CstrCaption);
             }
 
-            if ((!String.IsNullOrEmpty(Properties.Settings.Default.LastUserType))
-                && (Properties.Settings.Default.LastUserType == TeamMemberData.CstrCrafter)
-                && (!String.IsNullOrEmpty(Properties.Settings.Default.LastProjectFile)))
-            {
-                OpenProjectFile(Properties.Settings.Default.LastProjectFile);
-            }
-            else
-            {
+            if (String.IsNullOrEmpty(Properties.Settings.Default.LastUserType))
                 NewProjectFile();
-            }
-#if false
-            OpenProjectFile(@"C:\Code\StoryEditor\StoryEditor\StoryProject.onestory");
-#endif
+            else if ((Properties.Settings.Default.LastUserType == TeamMemberData.CstrCrafter)
+                    && !String.IsNullOrEmpty(Properties.Settings.Default.LastProjectFile))
+                OpenProjectFile(Properties.Settings.Default.LastProjectFile);
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -122,7 +114,7 @@ namespace OneStoryProjectEditor
             {
                 try
                 {
-                    Stories.EditTeamMembers(LoggedOnMember.Name);
+                    LoggedOnMember = Stories.EditTeamMembers(LoggedOnMember.Name);
                 }
                 catch { }   // this might throw if the user cancels, but we don't care
             }
@@ -368,7 +360,7 @@ namespace OneStoryProjectEditor
             InitVerseControls();
         }
 
-        protected void SetViewBasedOnProjectStage(StoryStageLogic.ProjectStages eStage)
+        internal void SetViewBasedOnProjectStage(StoryStageLogic.ProjectStages eStage)
         {
             string strStatusMsg, strStatusTooltipMsg;
             theCurrentStory.ProjStage.SetViewBasedOnProjectStage(this, eStage, out strStatusMsg, out strStatusTooltipMsg);
@@ -917,11 +909,6 @@ namespace OneStoryProjectEditor
 
         private void deleteStoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (this.saveFileDialog.ShowDialog(this) == DialogResult.OK)
-            {
-                m_strProjectFilename = saveFileDialog.FileName;
-                theCurrentStory.ProjStage.SaveStates(m_strProjectFilename);
-            }
         }
     }
 }

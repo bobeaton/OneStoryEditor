@@ -55,11 +55,12 @@ namespace OneStoryProjectEditor
                 if (IsKeyAllowed(e.KeyCode) || _stageLogic.IsEditAllowed)
                     base.OnKeyDown(e);
                 theSE.Modified = true;
+                theSE.SetViewBasedOnProjectStage(_stageLogic.ProjectStage);
             }
             catch (Exception ex)
             {
                 if (theSE != null)
-                    theSE.SetStatusBar("Error occurred. Hover the mouse here", ex.Message);
+                    theSE.SetStatusBar(String.Format("Error: {0}", ex.Message), null);
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }

@@ -46,11 +46,13 @@ namespace OneStoryProjectEditor
             textBoxVernacular.ForeColor = textBoxVernacularEthCode.ForeColor = projSettings.Vernacular.FontColor;
             textBoxVernacular.Text = ((String.IsNullOrEmpty(projSettings.Vernacular.LangName))? projSettings.ProjectName : projSettings.Vernacular.LangName);
             textBoxVernacularEthCode.Text = projSettings.Vernacular.LangCode;
+            textBoxVernSentFullStop.Text = projSettings.Vernacular.FullStop;
 
             textBoxNationalBTLanguage.Font = textBoxNationalBTEthCode.Font = projSettings.NationalBT.Font;
             textBoxNationalBTLanguage.ForeColor = textBoxNationalBTEthCode.ForeColor = projSettings.NationalBT.FontColor;
             textBoxNationalBTLanguage.Text = projSettings.NationalBT.LangName;
             textBoxNationalBTEthCode.Text = projSettings.NationalBT.LangCode;
+            textBoxNationalBTSentFullStop.Text = projSettings.NationalBT.FullStop;
 
             toolTip.SetToolTip(buttonVernacularFont, String.Format(CstrDefaultFontTooltipVernacular,
                                                                    Environment.NewLine, projSettings.Vernacular.Font,
@@ -96,11 +98,13 @@ namespace OneStoryProjectEditor
             m_projSettings.Vernacular.LangCode = textBoxVernacularEthCode.Text;
             m_projSettings.Vernacular.Font = textBoxVernacular.Font;
             m_projSettings.Vernacular.FontColor = textBoxVernacular.ForeColor;
+            m_projSettings.Vernacular.FullStop = textBoxVernSentFullStop.Text;
 
             m_projSettings.NationalBT.LangName = textBoxNationalBTLanguage.Text;
             m_projSettings.NationalBT.LangCode = textBoxNationalBTEthCode.Text;
             m_projSettings.NationalBT.Font = textBoxNationalBTLanguage.Font;
             m_projSettings.NationalBT.FontColor = textBoxNationalBTLanguage.ForeColor;
+            m_projSettings.NationalBT.FullStop = textBoxNationalBTSentFullStop.Text;
 
             // English was done by the font dialog handler
 
@@ -253,6 +257,11 @@ namespace OneStoryProjectEditor
                 if (Modified)
                     DoAccept();
             }
+        }
+
+        void textBox_TextChanged(object sender, System.EventArgs e)
+        {
+            Modified = true;
         }
 
         private void buttonVernacularFont_Click(object sender, EventArgs e)
