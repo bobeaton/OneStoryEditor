@@ -32,6 +32,18 @@ namespace OneStoryProjectEditor
             Verses = new VersesData(theStoryRow, projFile);
         }
 
+        public bool IsReadyForTransition
+        {
+            get
+            {
+                StoryStageLogic.StageTransition st = StoryStageLogic.stateTransitions[ProjStage.ProjectStage];
+                bool bRet = st.CheckForValidEndOfState(this);
+                if (bRet)
+                    ProjStage.ProjectStage = st.NextStage;  // if we are ready, then go ahead and transition
+                return bRet;
+            }
+        }
+
         public XElement GetXml
         {
             get

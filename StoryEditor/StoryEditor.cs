@@ -198,8 +198,10 @@ namespace OneStoryProjectEditor
             }
             catch (System.Exception ex)
             {
-                MessageBox.Show(String.Format("Unable to open project file '{1}'{0}{0}{2}{0}{0}Send the project file to bob_eaton@sall.com for help",
-                    Environment.NewLine, strProjectFilename, ex.Message), CstrCaption);
+                string strErrorMsg = String.Format("Unable to open project file '{1}'{0}{0}{2}{0}{0}{3}{0}{0}Send the project file along with the error message to bob_eaton@sall.com for help",
+                    Environment.NewLine, strProjectFilename, 
+                    ((ex.InnerException != null) ? ex.InnerException.Message : Environment.NewLine), ex.Message);
+                MessageBox.Show(strErrorMsg, CstrCaption);
             }
         }
 
@@ -885,6 +887,8 @@ namespace OneStoryProjectEditor
 
         protected void DoNextStage()
         {
+            if (theCurrentStory.IsReadyForTransition)
+                SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage);
         }
 
         private void storyToolStripMenuItem_DropDownOpening(object sender, EventArgs e)

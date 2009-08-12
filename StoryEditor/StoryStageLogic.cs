@@ -63,7 +63,7 @@ namespace OneStoryProjectEditor
             _theSE = theSE;
         }
 
-        protected StoryStageLogic.ProjectStages GetProjectStageFromString(string strProjectStageString)
+        protected ProjectStages GetProjectStageFromString(string strProjectStageString)
         {
             System.Diagnostics.Debug.Assert(CmapStageStringToEnumType.ContainsKey(strProjectStageString));
             return CmapStageStringToEnumType[strProjectStageString];
@@ -94,12 +94,6 @@ namespace OneStoryProjectEditor
                 StageTransition st = stateTransitions[ProjectStage];
                 return st.MemberTypeWithEditToken;
             }
-        }
-
-        public static bool IsValidTransition(ProjectStages eCurrentStage, ProjectStages eToStage, out string strTerminalStageMessage)
-        {
-            StageTransition st = stateTransitions[eCurrentStage];
-            return st.IsValidTransition(eToStage, out strTerminalStageMessage);
         }
 
         public void SetViewBasedOnProjectStage(StoryEditor theSE, ProjectStages eStage, out string strStatusMessage, out string strTooltipMessage)
@@ -269,13 +263,14 @@ namespace OneStoryProjectEditor
         public class StageTransition
         {
             protected ProjectStages _thisStage = ProjectStages.eUndefined;
-            protected ProjectStages _theNextStage = ProjectStages.eUndefined;
+            internal ProjectStages NextStage = ProjectStages.eUndefined;
             internal List<ProjectStages> AllowableTransitions = new List<ProjectStages>();
             internal StoryEditor.UserTypes MemberTypeWithEditToken = StoryEditor.UserTypes.eUndefined;
             protected List<bool> _abViewSettings = null;
             internal string StageDisplayString = null;
             protected string _strTerminalTransitionMessage = null;
             protected string _strInstructions = null;
+            protected CheckEndOfStateTransition.CheckForValidEndOfState IsReadyForTransition = null;
 
             public StageTransition(
                 ProjectStages thisStage,
@@ -287,16 +282,20 @@ namespace OneStoryProjectEditor
                 List<ProjectStages> lstAllowableStages, List<bool> abViewSettings)
             {
                 _thisStage = thisStage;
-                _theNextStage = theNextStage;
+                NextStage = theNextStage;
                 MemberTypeWithEditToken = eMemberTypeWithEditToken;
                 StageDisplayString = strDisplayString;
                 _strTerminalTransitionMessage = strTerminalTransitionMessage;
                 _strInstructions = strInstructions;
                 AllowableTransitions.AddRange(lstAllowableStages);
                 _abViewSettings = abViewSettings;
+                string strMethodName = thisStage.ToString().Substring(1);
+                IsReadyForTransition = (CheckEndOfStateTransition.CheckForValidEndOfState)Delegate.CreateDelegate(
+                    typeof(CheckEndOfStateTransition.CheckForValidEndOfState), 
+                    typeof(CheckEndOfStateTransition), strMethodName);
             }
 
-            public bool IsValidTransition(ProjectStages eToStage, out string strTerminalTransitionMessage)
+            public bool IsValidForTransition(ProjectStages eToStage, out string strTerminalTransitionMessage)
             {
                 bool bAllowed = AllowableTransitions.Contains(eToStage);
                 if (bAllowed && (eToStage == AllowableTransitions[AllowableTransitions.Count - 1]))
@@ -304,6 +303,11 @@ namespace OneStoryProjectEditor
                 else
                     strTerminalTransitionMessage = null;
                 return bAllowed;
+            }
+
+            public bool CheckForValidEndOfState(StoryData theSD)
+            {
+                return IsReadyForTransition(theSD);
             }
 
             public void SetView(StoryEditor theSE, out string strInstructions)
@@ -330,7 +334,7 @@ namespace OneStoryProjectEditor
 
                     XElement elem = new XElement("Transition", 
                         new XAttribute("MemberWithEditToken", MemberTypeWithEditToken),
-                        new XAttribute("NextState", _theNextStage),
+                        new XAttribute("NextState", NextStage),
                         new XElement("StageDisplayString", StageDisplayString),
                         new XElement("NextMemberTransitionMessage", _strTerminalTransitionMessage),
                         new XElement("StageInstructions", _strInstructions),
