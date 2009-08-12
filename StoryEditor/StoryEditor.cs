@@ -337,10 +337,9 @@ namespace OneStoryProjectEditor
             InitVerseControls();
         }
 
-        internal void AddNewVerse(VerseBtControl theVerse, string strNationalBT)
+        internal void AddNewVerse(int nInsertionIndex, string strNationalBT)
         {
-            int nInsertionIndex = theVerse.VerseNumber;
-            VerseData theNewVerse = theCurrentStory.Verses.InsertVerse(nInsertionIndex, strNationalBT);
+            theCurrentStory.Verses.InsertVerse(nInsertionIndex, strNationalBT);
         }
 
         internal void InitVerseControls()
@@ -356,9 +355,9 @@ namespace OneStoryProjectEditor
             }
         }
 
-        internal void DeleteVerse(VerseBtControl theVerseToDelete)
+        internal void DeleteVerse(VerseData theVerseDataToDelete)
         {
-            theCurrentStory.Verses.Remove(theVerseToDelete._verseData);
+            theCurrentStory.Verses.Remove(theVerseDataToDelete);
             InitVerseControls();
         }
 
@@ -887,7 +886,7 @@ namespace OneStoryProjectEditor
 
         protected void DoNextStage()
         {
-            if (theCurrentStory.IsReadyForTransition)
+            if (theCurrentStory.IsReadyForTransition(this))
                 SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage);
         }
 

@@ -32,16 +32,14 @@ namespace OneStoryProjectEditor
             Verses = new VersesData(theStoryRow, projFile);
         }
 
-        public bool IsReadyForTransition
+        public bool IsReadyForTransition(StoryEditor theSE)
         {
-            get
-            {
-                StoryStageLogic.StageTransition st = StoryStageLogic.stateTransitions[ProjStage.ProjectStage];
-                bool bRet = st.CheckForValidEndOfState(this);
-                if (bRet)
-                    ProjStage.ProjectStage = st.NextStage;  // if we are ready, then go ahead and transition
-                return bRet;
-            }
+            System.Diagnostics.Debug.Assert((theSE.Stories != null) && (theSE.Stories.ProjSettings != null));
+            StoryStageLogic.StageTransition st = StoryStageLogic.stateTransitions[ProjStage.ProjectStage];
+            bool bRet = st.CheckForValidEndOfState(theSE, theSE.Stories.ProjSettings, this);
+            if (bRet)
+                ProjStage.ProjectStage = st.NextStage;  // if we are ready, then go ahead and transition
+            return bRet;
         }
 
         public XElement GetXml

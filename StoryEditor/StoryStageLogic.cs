@@ -305,9 +305,9 @@ namespace OneStoryProjectEditor
                 return bAllowed;
             }
 
-            public bool CheckForValidEndOfState(StoryData theSD)
+            public bool CheckForValidEndOfState(StoryEditor theSE, ProjectSettings theProjSettings, StoryData theCurrentStory)
             {
-                return IsReadyForTransition(theSD);
+                return IsReadyForTransition(theSE, theProjSettings, theCurrentStory);
             }
 
             public void SetView(StoryEditor theSE, out string strInstructions)

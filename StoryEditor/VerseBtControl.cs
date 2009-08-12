@@ -455,7 +455,7 @@ namespace OneStoryProjectEditor
             if (MessageBox.Show("Are you sure you want to delete this verse (and all associated consultant notes, etc)?", StoryEditor.CstrCaption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
             {
                 StoryEditor theSE = (StoryEditor)FindForm();
-                theSE.DeleteVerse(this);
+                theSE.DeleteVerse(this._verseData);
             }
         }
 
@@ -511,7 +511,7 @@ namespace OneStoryProjectEditor
                     continue;
                 }
 
-                theSE.AddNewVerse(this, strSentence);
+                theSE.AddNewVerse(VerseNumber, strSentence);
                 strFullStory = strFullStory.Substring(0, nIndex + 1).Trim();
                 nSearchOffset = strFullStory.Length - 1;
                 nIndex = strFullStory.LastIndexOf(strSentenceFinalChar, --nSearchOffset);
