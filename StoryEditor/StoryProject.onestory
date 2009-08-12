@@ -11,9 +11,9 @@
       <Member name="Schmeagol" memberType="JustLooking" memberKey="mem-a2f7f229-d3d6-4e5c-923f-f1c5459d5657" />
     </Members>
     <Languages>
-      <VernacularLang name="Kangri" code="xnr" FontName="Arial Unicode MS" FontSize="12" FontColor="Maroon" />
-      <NationalBTLang name="Hindi" code="hi" FontName="Arial Unicode MS" FontSize="12" FontColor="Green" />
-      <InternationalBTLang name="English" code="en" FontName="Arial Unicode MS" FontSize="11" FontColor="Blue" />
+      <VernacularLang name="Kangri" code="xnr" FontName="Arial Unicode MS" FontSize="12" FontColor="Maroon" SentenceFinalPunct="।" />
+      <NationalBTLang name="Hindi" code="hi" FontName="Arial Unicode MS" FontSize="12" FontColor="Green" SentenceFinalPunct="।" />
+      <InternationalBTLang name="English" code="en" FontName="Arial Unicode MS" FontSize="11" FontColor="Blue" SentenceFinalPunct="." />
     </Languages>
     <story name="Spiritual World" stage="CrafterTypeNationalBT" guid="7408CC4B-E0B7-4227-9645-829082B3F637">
       <CraftingInfo>

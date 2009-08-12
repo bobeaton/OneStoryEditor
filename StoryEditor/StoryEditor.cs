@@ -914,5 +914,14 @@ namespace OneStoryProjectEditor
             {
             }
         }
+
+        private void deleteStoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.saveFileDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                m_strProjectFilename = saveFileDialog.FileName;
+                theCurrentStory.ProjStage.SaveStates(m_strProjectFilename);
+            }
+        }
     }
 }
