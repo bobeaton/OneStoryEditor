@@ -9,6 +9,16 @@ namespace OneStoryProjectEditor
 {
     class Program
     {
+        const string CstrReasonLable = "reason this story is in the set:";
+        const string CstrStoryCrafter = "Story crafter:";
+        const string CstrBackTranslator = "Backtranslator to Hindi:";
+
+        static readonly Dictionary<string, string> lstMembers = new Dictionary<string, string>
+            {
+                { "Pawan", "mem-99CDE60E-453A-4947-8627-83B33223EF0B" },
+                { "Karan", "mem-68A82D25-D414-4489-A484-8F17D8808818" }
+            };
+
         static void Main(string[] args)
         {
             string[] astrBt = File.ReadAllLines(@"L:\Pahari\Storying\Kangri\KangriStoriesBT.txt");
@@ -28,13 +38,41 @@ namespace OneStoryProjectEditor
                 string strStoryName = astrBt[nIndexBt].Substring(3);
                 StoryData story = new StoryData(strStoryName, "mem-99CDE60E-453A-4947-8627-83B33223EF0B");
                 Console.WriteLine("Story: " + strStoryName);
-                if (SkipTo(@"\ln ", @"\t ", astrBt, ref nIndexBt))
+
+                string strMarker, strData;
+                ParseLine(astrBt[++nIndexBt], out strMarker, out strData);
+                while (strMarker != @"\ln")
+                {
+                    if (strMarker == @"\co")
+                    {
+                        if (BeginsWith(strData, CstrReasonLable))
+                        {
+                            story.CraftingInfo.StoryPurpose = strData.Substring(CstrReasonLable.Length).Trim();
+                        }
+                        else if (BeginsWith(strData, CstrStoryCrafter))
+                        {
+                            string strCrafterName = strData.Substring(CstrStoryCrafter.Length).Trim();
+                            System.Diagnostics.Debug.Assert(lstMembers.ContainsKey(strCrafterName));
+                            story.CraftingInfo.StoryCrafterMemberID = lstMembers[strCrafterName];
+                        }
+                        else if (BeginsWith(strData, CstrBackTranslator))
+                        {
+                            string strBackTranslatorName = strData.Substring(CstrStoryBackTranslator.Length).Trim();
+                            System.Diagnostics.Debug.Assert(lstMembers.ContainsKey(strBackTranslatorName));
+                            story.CraftingInfo.StoryCrafterMemberID = lstBackTranslators[strBackTranslatorName];
+                        }
+                    }
+                    else if (strMarker == @"\c")
+                        break;
+                    ParseLine(astrBt[++nIndexBt], out strMarker, out strData);    
+                }
+
+                // if (SkipTo(@"\ln ", @"\t ", astrBt, ref nIndexBt))
                 {
                     string strRef = astrBt[nIndexBt].Substring(4);
                     Console.WriteLine(" ln: " + strRef);
                     int nTQIndex = -1;
                     VerseData verse = new VerseData();
-                    string strMarker, strData;
                     ParseLine(astrBt[++nIndexBt], out strMarker, out strData);
                     while ((strMarker != @"\ln") && (strMarker != @"\c"))
                     {
@@ -167,6 +205,7 @@ namespace OneStoryProjectEditor
                     story.Verses.Add(verse);
                 }
                 theStories.Add(story);
+                SkipTo(@"\t ", @"\t ", astrBt, ref nIndexBt);
             }
 
             SaveXElement(theStories.GetXml, @"C:\Code\StoryEditor\StoryEditor\Kangri.onestory");
@@ -192,12 +231,12 @@ namespace OneStoryProjectEditor
                 string strLine = astr[i];
                 if (String.IsNullOrEmpty(strLine.Trim()))
                     continue;
-                if (strLine.Substring(0, Math.Min(strLine.Length, strSfmCodeFind.Length)) == strSfmCodeFind)
+                if (BeginsWith(strLine, strSfmCodeFind))
                 {
                     nIndex = i;
                     return true;
                 }
-                else if (strLine.Substring(0, Math.Min(strLine.Length, strSfmCodeStopBy.Length)) == strSfmCodeStopBy)
+                if (BeginsWith(strLine, strSfmCodeStopBy))
                 {
                     nIndex = i;
                     return false;
@@ -206,6 +245,11 @@ namespace OneStoryProjectEditor
 
             nIndex = -1;
             return false;
+        }
+
+        static bool BeginsWith(string strData, string strBeginning)
+        {
+            return (strData.Substring(0, Math.Min(strBeginning.Length, strData.Length)) == strBeginning);
         }
 
         static void SaveXElement(XElement elem, string strFilename)

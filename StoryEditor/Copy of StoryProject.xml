@@ -8,16 +8,18 @@
       <Member name="Judy" memberType="Coach" email="judy_payne@sil.org" memberKey="mem-7064CC55-73C4-48bf-B2DC-9989A5ED9D1B" />
       <Member name="Vandna" memberType="UNS" address="c/o Sunshine Cottages; Suggar; Palampur, HP; 176061" memberKey="mem-B83F07A1-71D4-4358-82C3-9B2F7205E121"/>
       <Member name="Reena Kashyap" memberType="UNS" address="c/o Sunshine Cottages; Suggar; Palampur, HP; 176061" memberKey="mem-FCAC1BB2-827F-47b8-B1BD-60245BB15392"/>
+      <Member name="Schmeagol" memberType="JustLooking" memberKey="mem-a2f7f229-d3d6-4e5c-923f-f1c5459d5657" />
     </Members>
     <Languages>
-      <VernacularLang name="Kangri" code="xnr" FontName="Arial Unicode MS" FontSize="12" FontColor="Maroon" />
-      <NationalBTLang name="Hindi" code="hi" FontName="Arial Unicode MS" FontSize="12" FontColor="Green" />
-      <InternationalBTLang name="English" code="en" FontName="Arial Unicode MS" FontSize="11" FontColor="Blue" />
+      <VernacularLang name="Kangri" code="xnr" FontName="Arial Unicode MS" FontSize="12" FontColor="Maroon" SentenceFinalPunct="।" />
+      <NationalBTLang name="Hindi" code="hi" FontName="Arial Unicode MS" FontSize="12" FontColor="Green" SentenceFinalPunct="।" />
+      <InternationalBTLang name="English" code="en" FontName="Arial Unicode MS" FontSize="11" FontColor="Blue" SentenceFinalPunct="." />
     </Languages>
     <story name="Spiritual World" stage="CrafterTypeNationalBT" guid="7408CC4B-E0B7-4227-9645-829082B3F637">
       <CraftingInfo>
         <StoryCrafter memberID="mem-99CDE60E-453A-4947-8627-83B33223EF0B" />
         <StoryPurpose>To explain where our enemy came from</StoryPurpose>
+        <ResourcesUsed>Jubilee Hindi Bible, Fish Bible, New Living Translation, Genesis Film</ResourcesUsed>
         <BackTranslator memberID="mem-B83F07A1-71D4-4358-82C3-9B2F7205E121" />
         <Tests>
           <Test number="1" memberID="mem-B83F07A1-71D4-4358-82C3-9B2F7205E121" />
