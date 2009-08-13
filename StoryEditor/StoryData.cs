@@ -208,8 +208,11 @@ namespace OneStoryProjectEditor
                 else
                     StoryCrafterMemberID = loggedOnMember.MemberGuid;
 
-                StoryPurpose = theCIR.StoryPurpose;
-                ResourcesUsed = theCIR.ResourcesUsed;
+                if (!theCIR.IsStoryPurposeNull())
+                    StoryPurpose = theCIR.StoryPurpose;
+
+                if (!theCIR.IsResourcesUsedNull())
+                    ResourcesUsed = theCIR.ResourcesUsed;
 
                 StoryProject.BackTranslatorRow[] aBTRs = theCIR.GetBackTranslatorRows();
                 if (aBTRs.Length == 1)

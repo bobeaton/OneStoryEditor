@@ -142,7 +142,12 @@ namespace OneStoryProjectEditor
 
             // first see if the project information has been configured
             if (String.IsNullOrEmpty(textBoxProjectName.Text)
-                || String.IsNullOrEmpty(textBoxVernacular.Text))
+                || String.IsNullOrEmpty(textBoxVernacular.Text)
+                || String.IsNullOrEmpty(textBoxVernacularEthCode.Text)
+                || String.IsNullOrEmpty(textBoxVernSentFullStop.Text)
+                || String.IsNullOrEmpty(textBoxNationalBTLanguage.Text)
+                || String.IsNullOrEmpty(textBoxNationalBTEthCode.Text)
+                || String.IsNullOrEmpty(textBoxNationalBTSentFullStop.Text))
             {
                 tabControlProjectMetaData.SelectedTab = tabPageLanguageInfo;
                 MessageBox.Show("Configure the Project and Language Name information as well.", StoryEditor.CstrCaption);

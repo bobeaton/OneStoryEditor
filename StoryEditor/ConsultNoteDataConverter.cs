@@ -34,7 +34,11 @@ namespace OneStoryProjectEditor
 
         public bool HasData
         {
-            get { return (MentorComment.HasData || MenteeResponse.HasData); }
+            get
+            {
+                System.Diagnostics.Debug.Assert((MentorComment != null) && (MenteeResponse != null));
+                return (MentorComment.HasData || MenteeResponse.HasData);
+            }
         }
 
         public XElement GetXml
@@ -42,8 +46,9 @@ namespace OneStoryProjectEditor
             get
             {
                 // must have guids if there's data
-                System.Diagnostics.Debug.Assert(MentorComment.HasData && !String.IsNullOrEmpty(MentorGuid));
-                System.Diagnostics.Debug.Assert(MenteeResponse.HasData && !String.IsNullOrEmpty(MenteeGuid));
+                System.Diagnostics.Debug.Assert((MentorComment != null) && (MenteeResponse != null));
+                System.Diagnostics.Debug.Assert(!MentorComment.HasData || !String.IsNullOrEmpty(MentorGuid));
+                System.Diagnostics.Debug.Assert(!MenteeResponse.HasData || !String.IsNullOrEmpty(MenteeGuid));
 
                 XElement eleNote = new XElement(StoryEditor.ns + InstanceElementName, new XAttribute("round", RoundNum));
                 if (MentorComment.HasData)
@@ -73,6 +78,8 @@ namespace OneStoryProjectEditor
                 MentorLabel = "con:";
                 MentorComment = new StringTransfer(theCCRow.ConsultantComment_text);
             }
+            else
+                MentorComment = new StringTransfer(null);
 
             StoryProject.CrafterResponseRow[] aCRRows = aCNRow.GetCrafterResponseRows();
             if (aCRRows.Length == 1)
@@ -82,6 +89,8 @@ namespace OneStoryProjectEditor
                 MenteeLabel = "res:";
                 MenteeResponse = new StringTransfer(theCRRow.CrafterResponse_text);
             }
+            else
+                MenteeResponse = new StringTransfer(null);
         }
     }
 
@@ -125,6 +134,8 @@ namespace OneStoryProjectEditor
                 MentorLabel = "co:";
                 MentorComment = new StringTransfer(theCoCRow.CoachComment_text);
             }
+            else
+                MentorComment = new StringTransfer(null);
 
             StoryProject.ConsultantResponseRow[] aCRRows = aCoNRow.GetConsultantResponseRows();
             if (aCRRows.Length == 1)
@@ -134,6 +145,8 @@ namespace OneStoryProjectEditor
                 MenteeLabel = "con:";
                 MenteeResponse = new StringTransfer(theCRRow.ConsultantResponse_text);
             }
+            else
+                MenteeResponse = new StringTransfer(null);
         }
     }
 

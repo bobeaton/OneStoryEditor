@@ -20,12 +20,9 @@ namespace OneStoryProjectEditor
         public VerseData(StoryProject.verseRow theVerseRow, StoryProject projFile)
         {
             guid = theVerseRow.guid;
-            if (!theVerseRow.IsVernacularNull())
-                VernacularText = new StringTransfer(theVerseRow.Vernacular);
-            if (!theVerseRow.IsNationalBTNull())
-                NationalBTText = new StringTransfer(theVerseRow.NationalBT);
-            if (!theVerseRow.IsInternationalBTNull())
-                InternationalBTText = new StringTransfer(theVerseRow.InternationalBT);
+            VernacularText = new StringTransfer((!theVerseRow.IsVernacularNull()) ? theVerseRow.Vernacular : null);
+            NationalBTText = new StringTransfer((!theVerseRow.IsNationalBTNull()) ? theVerseRow.NationalBT : null);
+            InternationalBTText = new StringTransfer((!theVerseRow.IsInternationalBTNull()) ? theVerseRow.InternationalBT : null);
 
             Anchors = new AnchorsData(theVerseRow, projFile);
             TestQuestions = new TestQuestionsData(theVerseRow, projFile);
