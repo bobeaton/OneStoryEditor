@@ -33,8 +33,8 @@ namespace OneStoryProjectEditor
             get
             {
                 System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(JumpTarget));
-                XElement elemAnchor = new XElement(StoryEditor.ns + "anchor", new XAttribute("jumpTarget", JumpTarget),
-                    new XElement(StoryEditor.ns + "toolTip", ToolTipText));
+                XElement elemAnchor = new XElement(StoriesData.ns + "anchor", new XAttribute("jumpTarget", JumpTarget),
+                    new XElement(StoriesData.ns + "toolTip", ToolTipText));
                 if (ExegeticalHelpNotes.HasData)
                     elemAnchor.Add(ExegeticalHelpNotes.GetXml);
                 return elemAnchor;
@@ -78,7 +78,7 @@ namespace OneStoryProjectEditor
             get
             {
                 System.Diagnostics.Debug.Assert(HasData, "trying to serialize an AnchorsData without items");
-                XElement elemAnchors = new XElement(StoryEditor.ns + "anchors");
+                XElement elemAnchors = new XElement(StoriesData.ns + "anchors");
                 foreach (AnchorData anAnchorData in this)
                     elemAnchors.Add(anAnchorData.GetXml);
                 return elemAnchors;

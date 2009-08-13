@@ -52,7 +52,7 @@ namespace OneStoryProjectEditor
                     throw new ApplicationException(
                         "Unable to edit file! Try rebooting and if it persists, contact bob_eaton@sall.com");
 
-                if (IsKeyAllowed(e.KeyCode) || _stageLogic.IsEditAllowed)
+                if (IsKeyAllowed(e.KeyCode) || _stageLogic.IsEditAllowed(theSE.LoggedOnMember))
                     base.OnKeyDown(e);
                 theSE.Modified = true;
                 theSE.SetViewBasedOnProjectStage(_stageLogic.ProjectStage);

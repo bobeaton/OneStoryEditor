@@ -9,7 +9,6 @@ namespace OneStoryProjectEditor
 {
     public class StoryStageLogic
     {
-        protected StoryEditor _theSE = null; // so we can access the logged on user
         protected ProjectStages _ProjectStage = ProjectStages.eUndefined;
         protected const string CstrDefaultProjectStage = "CrafterTypeNationalBT";
         internal static StateTransitions stateTransitions = new StateTransitions();
@@ -51,16 +50,14 @@ namespace OneStoryProjectEditor
             set { _ProjectStage = value; }
         }
 
-        public StoryStageLogic(StoryEditor theSE)
+        public StoryStageLogic()
         {
             ProjectStage = ProjectStages.eCrafterTypeNationalBT;
-            _theSE = theSE;
         }
 
-        public StoryStageLogic(string strProjectStage, StoryEditor theSE)
+        public StoryStageLogic(string strProjectStage)
         {
             ProjectStage = GetProjectStageFromString(strProjectStage);
-            _theSE = theSE;
         }
 
         protected ProjectStages GetProjectStageFromString(string strProjectStageString)
@@ -69,20 +66,12 @@ namespace OneStoryProjectEditor
             return CmapStageStringToEnumType[strProjectStageString];
         }
 
-        protected TeamMemberData LoggedOnMember
+        public bool IsEditAllowed(TeamMemberData loggedOnMember)
         {
-            get { return _theSE.LoggedOnMember; }
-        }
+            if (MemberTypeWithEditToken == loggedOnMember.MemberType)
+                return true;
 
-        public bool IsEditAllowed
-        {
-            get
-            {
-                if (MemberTypeWithEditToken == LoggedOnMember.MemberType)
-                    return true;
-
-                throw new ApplicationException(String.Format("Right now, only a '{0}' should be editing the story. If you're a {0}, click 'Project', 'Settings' to login", TeamMemberData.GetMemberTypeAsString(MemberTypeWithEditToken)));
-            }
+            throw new ApplicationException(String.Format("Right now, only a '{0}' should be editing the story. If you're a {0}, click 'Project', 'Settings' to login", TeamMemberData.GetMemberTypeAsString(MemberTypeWithEditToken)));
         }
 
         // this isn't 100% effective. Sometimes a particular stage can have a single (but varied) editors
@@ -94,13 +83,6 @@ namespace OneStoryProjectEditor
                 StageTransition st = stateTransitions[ProjectStage];
                 return st.MemberTypeWithEditToken;
             }
-        }
-
-        public void SetViewBasedOnProjectStage(StoryEditor theSE, ProjectStages eStage, out string strStatusMessage, out string strTooltipMessage)
-        {
-            StageTransition st = stateTransitions[eStage];
-            st.SetView(theSE, out strTooltipMessage);
-            strStatusMessage = st.StageDisplayString;
         }
 
         public override string ToString()
@@ -174,23 +156,6 @@ namespace OneStoryProjectEditor
 
             protected void InitStateTransitionsFromXml()
             {
-                System.Diagnostics.Debug.WriteLine("Starting InitStateTransitionsFromXml");
-                /* e.g.
-  <StageTransition stage="eCrafterTypeInternationalBT">
-    <Transition MemberWithEditToken="eCrafter" NextState="eCrafterAddAnchors">
-      <StageDisplayString>Crafter enters the English back-translation</StageDisplayString>
-      <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.</NextMemberTransitionMessage>
-      <StageInstructions></StageInstructions>
-      <AllowableTransitions>
-        <AllowableTransition>eCrafterTypeNationalBT</AllowableTransition>
-        <AllowableTransition>eCrafterAddAnchors</AllowableTransition>
-        <AllowableTransition>eCrafterAddStoryQuestions</AllowableTransition>
-        <AllowableTransition>eConsultantCheckAnchors</AllowableTransition>
-      </AllowableTransitions>
-      <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="false" viewStoryTestingQuestionFieldMenuItem="false" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="false" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="false" />
-    </Transition>
-  </StageTransition>
-                */
                 try
                 {
                     XmlDocument doc;
@@ -224,10 +189,15 @@ namespace OneStoryProjectEditor
                             if (xpNextElement.MoveNext())
                                 strStageInstructions = xpNextElement.Current.Value;
 
-                            xpNextElement = xpTransition.Current.Select("AllowableTransitions/AllowableTransition");
-                            List<ProjectStages> lstAllowableStages = new List<ProjectStages>();
+                            xpNextElement = xpTransition.Current.Select("AllowableBackwardsTransitions/AllowableBackwardsTransition");
+                            List<ProjectStages> lstAllowableBackwardsStages = new List<ProjectStages>();
                             while (xpNextElement.MoveNext())
-                                lstAllowableStages.Add((ProjectStages)Enum.Parse(typeof(ProjectStages), xpNextElement.Current.Value));
+                                lstAllowableBackwardsStages.Add((ProjectStages)Enum.Parse(typeof(ProjectStages), xpNextElement.Current.Value));
+
+                            xpNextElement = xpTransition.Current.Select("AllowableForwardsTransitions/AllowableForwardsTransition");
+                            List<ProjectStages> lstAllowableForwardsStages = new List<ProjectStages>();
+                            while (xpNextElement.MoveNext())
+                                lstAllowableForwardsStages.Add((ProjectStages)Enum.Parse(typeof(ProjectStages), xpNextElement.Current.Value));
 
                             xpNextElement = xpTransition.Current.Select("ViewSettings");
                             List<bool> lstViewStates = new List<bool>();
@@ -245,8 +215,8 @@ namespace OneStoryProjectEditor
                             }
 
                             StageTransition st = new StageTransition(eThisStage, eNextStage, eMemberType, 
-                                strStageDisplayString, strNextMemberTransitionMessage, strStageInstructions, 
-                                lstAllowableStages, lstViewStates);
+                                strStageDisplayString, strNextMemberTransitionMessage, strStageInstructions,
+                                lstAllowableBackwardsStages, lstAllowableForwardsStages, lstViewStates);
 
                             Add(eThisStage, st);
                         }
@@ -256,7 +226,6 @@ namespace OneStoryProjectEditor
                 {
                     throw new ApplicationException(String.Format("Unable to process the xml file containing the State Transitions (i.e. {0})... Reinstall.", CstrStateTransitionsXmlFilename), ex);
                 }
-                System.Diagnostics.Debug.WriteLine("Finished InitStateTransitionsFromXml");
             }
         }
 
@@ -264,13 +233,14 @@ namespace OneStoryProjectEditor
         {
             internal ProjectStages CurrentStage = ProjectStages.eUndefined;
             internal ProjectStages NextStage = ProjectStages.eUndefined;
-            internal List<ProjectStages> AllowableTransitions = new List<ProjectStages>();
+            internal List<ProjectStages> AllowableBackwardsTransitions = new List<ProjectStages>();
+            internal List<ProjectStages> AllowableForwardsTransition = new List<ProjectStages>();
             internal TeamMemberData.UserTypes MemberTypeWithEditToken = TeamMemberData.UserTypes.eUndefined;
             protected List<bool> _abViewSettings = null;
             internal string StageDisplayString = null;
             protected string _strTerminalTransitionMessage = null;
-            protected string _strInstructions = null;
-            protected CheckEndOfStateTransition.CheckForValidEndOfState IsReadyForTransition = null;
+            internal string StageInstructions = null;
+            public CheckEndOfStateTransition.CheckForValidEndOfState IsReadyForTransition = null;
 
             public StageTransition(
                 ProjectStages thisStage,
@@ -279,15 +249,18 @@ namespace OneStoryProjectEditor
                 string strDisplayString,
                 string strTerminalTransitionMessage,
                 string strInstructions,
-                List<ProjectStages> lstAllowableStages, List<bool> abViewSettings)
+                List<ProjectStages> lstAllowableBackwardsStages,
+                List<ProjectStages> lstAllowableForwardsStages, 
+                List<bool> abViewSettings)
             {
                 CurrentStage = thisStage;
                 NextStage = theNextStage;
                 MemberTypeWithEditToken = eMemberTypeWithEditToken;
                 StageDisplayString = strDisplayString;
                 _strTerminalTransitionMessage = strTerminalTransitionMessage;
-                _strInstructions = strInstructions;
-                AllowableTransitions.AddRange(lstAllowableStages);
+                StageInstructions = strInstructions;
+                AllowableBackwardsTransitions.AddRange(lstAllowableBackwardsStages);
+                AllowableForwardsTransition.AddRange(lstAllowableForwardsStages);
                 _abViewSettings = abViewSettings;
                 string strMethodName = thisStage.ToString().Substring(1);
                 IsReadyForTransition = (CheckEndOfStateTransition.CheckForValidEndOfState)Delegate.CreateDelegate(
@@ -295,13 +268,17 @@ namespace OneStoryProjectEditor
                     typeof(CheckEndOfStateTransition), strMethodName);
             }
 
-            public bool IsValidForTransition(ProjectStages eToStage, out string strTerminalTransitionMessage)
+            public bool IsTransitionValid(ProjectStages eToStage)
             {
-                bool bAllowed = AllowableTransitions.Contains(eToStage);
-                if (bAllowed && (eToStage == AllowableTransitions[AllowableTransitions.Count - 1]))
+                bool bAllowed = AllowableBackwardsTransitions.Contains(eToStage)
+                    || AllowableForwardsTransition.Contains(eToStage);
+                /*
+                 * , out string strTerminalTransitionMessage
+                if (bAllowed && (eToStage == AllowableForwardsTransition[AllowableForwardsTransition.Count - 1]))
                     strTerminalTransitionMessage = _strTerminalTransitionMessage;
                 else
                     strTerminalTransitionMessage = null;
+                */
                 return bAllowed;
             }
 
@@ -310,7 +287,7 @@ namespace OneStoryProjectEditor
                 return IsReadyForTransition(theSE, theProjSettings, theCurrentStory);
             }
 
-            public void SetView(StoryEditor theSE, out string strInstructions)
+            public void SetView(StoryEditor theSE)
             {
                 theSE.viewVernacularLangFieldMenuItem.Checked = _abViewSettings[0];
                 theSE.viewNationalLangFieldMenuItem.Checked = _abViewSettings[1];
@@ -321,24 +298,28 @@ namespace OneStoryProjectEditor
                 theSE.viewConsultantNoteFieldMenuItem.Checked = _abViewSettings[6];
                 theSE.viewCoachNotesFieldMenuItem.Checked = _abViewSettings[7];
                 theSE.viewNetBibleMenuItem.Checked = _abViewSettings[8];
-                strInstructions = _strInstructions;
             }
 
             public XElement GetXml
             {
                 get
                 {
-                    XElement elemAllowableTransition = new XElement("AllowableTransitions");
-                    foreach (ProjectStages ps in AllowableTransitions)
-                        elemAllowableTransition.Add(new XElement("AllowableTransition", ps));
+                    XElement elemAllowableBackwardsTransition = new XElement("AllowableBackwardsTransitions");
+                    foreach (ProjectStages ps in AllowableBackwardsTransitions)
+                        elemAllowableBackwardsTransition.Add(new XElement("AllowableBackwardsTransition", ps));
+
+                    XElement elemAllowableForwardsTransition = new XElement("AllowableForwardsTransitions");
+                    foreach (ProjectStages ps in AllowableForwardsTransition)
+                        elemAllowableForwardsTransition.Add(new XElement("AllowableForwardsTransition", ps));
 
                     XElement elem = new XElement("Transition", 
                         new XAttribute("MemberWithEditToken", MemberTypeWithEditToken),
                         new XAttribute("NextState", NextStage),
                         new XElement("StageDisplayString", StageDisplayString),
                         new XElement("NextMemberTransitionMessage", _strTerminalTransitionMessage),
-                        new XElement("StageInstructions", _strInstructions),
-                        elemAllowableTransition,
+                        new XElement("StageInstructions", StageInstructions),
+                        elemAllowableBackwardsTransition,
+                        elemAllowableForwardsTransition,
                         new XElement("ViewSettings",
                             new XAttribute("viewVernacularLangFieldMenuItem", _abViewSettings[0]),
                             new XAttribute("viewNationalLangFieldMenuItem", _abViewSettings[1]),

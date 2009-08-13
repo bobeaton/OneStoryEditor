@@ -44,12 +44,12 @@ namespace OneStoryProjectEditor
                     || QuestionEnglish.HasData
                     || Answers.HasData, "you have an empty TestQuestionData");
 
-                XElement eleTQ = new XElement(StoryEditor.ns + "TestQuestion", new XAttribute("visible", IsVisible));
+                XElement eleTQ = new XElement(StoriesData.ns + "TestQuestion", new XAttribute("visible", IsVisible));
                 
                 if (QuestionVernacular.HasData)
-                    eleTQ.Add(new XElement(StoryEditor.ns + "TQVernacular", QuestionVernacular));
+                    eleTQ.Add(new XElement(StoriesData.ns + "TQVernacular", QuestionVernacular));
                 if (QuestionEnglish.HasData)
-                    eleTQ.Add(new XElement(StoryEditor.ns + "TQInternationalBT", QuestionEnglish));
+                    eleTQ.Add(new XElement(StoriesData.ns + "TQInternationalBT", QuestionEnglish));
                 if (Answers.HasData)
                     eleTQ.Add(Answers.GetXml);
 
@@ -94,7 +94,7 @@ namespace OneStoryProjectEditor
             get
             {
                 System.Diagnostics.Debug.Assert(HasData, "trying to serialize an empty TestQuestionsData");
-                XElement elemTestQuestions = new XElement(StoryEditor.ns + "TestQuestions");
+                XElement elemTestQuestions = new XElement(StoriesData.ns + "TestQuestions");
                 foreach (TestQuestionData aTestQuestionData in this)
                     if (aTestQuestionData.HasData)
                         elemTestQuestions.Add(aTestQuestionData.GetXml);

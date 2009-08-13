@@ -43,18 +43,23 @@ namespace OneStoryProjectEditor
 
         public override void UpdateView(StoryEditor aSE)
         {
+            bool bShowVernAndShowHeaders = (aSE.viewEnglishBTFieldMenuItem.Checked);
+
             int nNumColumns = 0;
 
             // insert the vernacular representation of the testing question
-            InsertColumn(nNumColumns);
-            InitColumnLabel(aSE.Stories.ProjSettings.Vernacular.LangName, nNumColumns);
-            InitTextBox(CstrFieldNameVernacular, _aTQData.QuestionVernacular, aSE.Stories.ProjSettings.Vernacular.Font, aSE.Stories.ProjSettings.Vernacular.FontColor, nNumColumns);
-            
-            nNumColumns++;
+            if (bShowVernAndShowHeaders)
+            {
+                InsertColumn(nNumColumns);
+                InitColumnLabel(aSE.Stories.ProjSettings.Vernacular.LangName, nNumColumns);
+                InitTextBox(CstrFieldNameVernacular, _aTQData.QuestionVernacular, aSE.Stories.ProjSettings.Vernacular.Font, aSE.Stories.ProjSettings.Vernacular.FontColor, nNumColumns);
+                nNumColumns++;
+            }
 
             // insert the EnglishBT representation of the testing question
             InsertColumn(nNumColumns);
-            InitColumnLabel(aSE.Stories.ProjSettings.InternationalBT.LangName, nNumColumns);
+            if (bShowVernAndShowHeaders)
+                InitColumnLabel(aSE.Stories.ProjSettings.InternationalBT.LangName, nNumColumns);
             InitTextBox(CstrFieldNameVernacular, _aTQData.QuestionEnglish, aSE.Stories.ProjSettings.InternationalBT.Font, aSE.Stories.ProjSettings.InternationalBT.FontColor, nNumColumns);
 
             // add a row so we can display a multiple line control with the answers

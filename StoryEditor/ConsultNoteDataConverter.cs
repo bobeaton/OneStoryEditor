@@ -50,11 +50,11 @@ namespace OneStoryProjectEditor
                 System.Diagnostics.Debug.Assert(!MentorComment.HasData || !String.IsNullOrEmpty(MentorGuid));
                 System.Diagnostics.Debug.Assert(!MenteeResponse.HasData || !String.IsNullOrEmpty(MenteeGuid));
 
-                XElement eleNote = new XElement(StoryEditor.ns + InstanceElementName, new XAttribute("round", RoundNum));
+                XElement eleNote = new XElement(StoriesData.ns + InstanceElementName, new XAttribute("round", RoundNum));
                 if (MentorComment.HasData)
-                    eleNote.Add(new XElement(StoryEditor.ns + CommentElementName, new XAttribute("memberID", MentorGuid), MentorComment));
+                    eleNote.Add(new XElement(StoriesData.ns + CommentElementName, new XAttribute("memberID", MentorGuid), MentorComment));
                 if (MenteeResponse.HasData)
-                    eleNote.Add(new XElement(StoryEditor.ns + ResponseElementName, new XAttribute("memberID", MenteeGuid), MenteeResponse));
+                    eleNote.Add(new XElement(StoriesData.ns + ResponseElementName, new XAttribute("memberID", MenteeGuid), MenteeResponse));
 
                 return eleNote;
             }
@@ -164,7 +164,7 @@ namespace OneStoryProjectEditor
             get
             {
                 System.Diagnostics.Debug.Assert(HasData);
-                XElement elemCNDC = new XElement(StoryEditor.ns + CollectionElementName);
+                XElement elemCNDC = new XElement(StoriesData.ns + CollectionElementName);
                 foreach (ConsultNoteDataConverter aCNDC in this)
                     if (aCNDC.HasData)
                         elemCNDC.Add(aCNDC.GetXml);

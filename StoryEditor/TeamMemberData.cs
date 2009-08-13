@@ -117,7 +117,7 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                XElement eleMember = new XElement(StoryEditor.ns + "Member",
+                XElement eleMember = new XElement(StoriesData.ns + "Member",
                     new XAttribute("name", this.Name),
                     new XAttribute("memberType", this.MemberTypeAsString));
                     if (!String.IsNullOrEmpty(this.Email))
@@ -176,7 +176,7 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                XElement eleMembers = new XElement(StoryEditor.ns + "Members");
+                XElement eleMembers = new XElement(StoriesData.ns + "Members");
 
                 foreach (TeamMemberData aMemberData in this.Values)
                     eleMembers.Add(aMemberData.GetXml);

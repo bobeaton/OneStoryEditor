@@ -28,8 +28,6 @@ namespace OneStoryProjectEditor
         // we keep a copy of this, because it ought to persist across multiple files
         internal TeamMemberData LoggedOnMember = null;
 
-        internal static XNamespace ns = "http://www.sil.org/computing/schemas/StoryProject.xsd";
-
         internal bool Modified = false;
 
         protected const int nMaxRecentFiles = 15;
@@ -92,7 +90,7 @@ namespace OneStoryProjectEditor
             {
                 try
                 {
-                    Stories = new StoriesData(this);
+                    Stories = new StoriesData(ref LoggedOnMember);
                 }
                 catch (System.Exception ex)
                 {
@@ -168,7 +166,7 @@ namespace OneStoryProjectEditor
                 projFile.ReadXml(strProjectFilename);
 
                 // get *all* the data
-                Stories = new StoriesData(projFile, this);
+                Stories = new StoriesData(projFile, ref LoggedOnMember);
 
                 string strStoryToLoad = null;
                 if (Stories.Count > 0)
@@ -208,7 +206,7 @@ namespace OneStoryProjectEditor
                     //TODO: I got stuck here doing the 'UsingOneFilePerStory' refactoring
 #else
                 if (Stories == null)
-                    Stories = new StoriesData(this);
+                    Stories = new StoriesData(ref LoggedOnMember);
 
                 int nInsertIndex = 0;
                 StoryData theStory = null;
@@ -229,7 +227,7 @@ namespace OneStoryProjectEditor
                     {
                         System.Diagnostics.Debug.Assert(!comboBoxStorySelector.Items.Contains(strStoryToLoad));
                         comboBoxStorySelector.Items.Add(strStoryToLoad);
-                        theCurrentStory = new StoryData(strStoryToLoad, this);
+                        theCurrentStory = new StoryData(strStoryToLoad, LoggedOnMember.MemberGuid);
                         Stories.Insert(nInsertIndex, theCurrentStory);
                         comboBoxStorySelector.SelectedItem = strStoryToLoad;
                     }
@@ -252,7 +250,7 @@ namespace OneStoryProjectEditor
 
             // we might could come thru here without having opened any file (e.g. after New)
             if (Stories == null)
-                Stories = new StoriesData(this);
+                Stories = new StoriesData(ref LoggedOnMember);
 
 #if UsingOneFilePerStory
             string strStoryFilename = FilenameFromStoryInfo(m_strProjectFilename, (string)comboBoxStorySelector.SelectedItem);
@@ -354,10 +352,11 @@ namespace OneStoryProjectEditor
 
         internal void SetViewBasedOnProjectStage(StoryStageLogic.ProjectStages eStage)
         {
-            string strStatusMsg, strStatusTooltipMsg;
-            theCurrentStory.ProjStage.SetViewBasedOnProjectStage(this, eStage, out strStatusMsg, out strStatusTooltipMsg);
-            helpProvider.SetHelpString(this, strStatusTooltipMsg);
-            SetStatusBar(String.Format("{0}  Press F1 for instructions", strStatusMsg), strStatusTooltipMsg);
+            StoryStageLogic.StageTransition st = StoryStageLogic.stateTransitions[eStage];
+
+            st.SetView(this);
+            helpProvider.SetHelpString(this, st.StageInstructions);
+            SetStatusBar(String.Format("{0}  Press F1 for instructions", st.StageDisplayString), st.StageInstructions);
         }
 
         protected Button AddDropTargetToFlowLayout(int nVerseIndex)
@@ -554,7 +553,7 @@ namespace OneStoryProjectEditor
             // create the root portions of the XML document and tack on the fragment we've been building
             XDocument doc = new XDocument(
                 new XDeclaration("1.0", "utf-8", "yes"),
-                new XElement(ns + "StoryProject",
+                new XElement(StoriesData.ns + "StoryProject",
                     elem));
 
             // save it with an extra extn.
@@ -874,7 +873,17 @@ namespace OneStoryProjectEditor
             StoryStageLogic.StageTransition theCurrentST = StoryStageLogic.stateTransitions[theCurrentStory.ProjStage.ProjectStage];
             System.Diagnostics.Debug.Assert(theCurrentST != null);
 
-            foreach (StoryStageLogic.ProjectStages eAllowableTransition in theCurrentST.AllowableTransitions)
+            if (AddListOfButtons(theCurrentST.AllowableBackwardsTransitions))
+                buttonsStoryStage.DropDown.Items.Add(new ToolStripSeparator());
+            AddListOfButtons(theCurrentST.AllowableForwardsTransition);
+        }
+
+        protected bool AddListOfButtons(List<StoryStageLogic.ProjectStages> allowableTransitions)
+        {
+            if (allowableTransitions.Count == 0)
+                return false;
+
+            foreach (StoryStageLogic.ProjectStages eAllowableTransition in allowableTransitions)
             {
                 // put the allowable transitions into the DropDown list
                 StoryStageLogic.StageTransition aST = StoryStageLogic.stateTransitions[eAllowableTransition];
@@ -882,6 +891,7 @@ namespace OneStoryProjectEditor
                     aST.StageDisplayString, null, OnSelectOtherState);
                 tsi.Tag = aST;
             }
+            return true;
         }
 
         protected void OnSelectOtherState(object sender, EventArgs e)
@@ -894,12 +904,23 @@ namespace OneStoryProjectEditor
 
         protected void DoNextSeveral(StoryStageLogic.StageTransition theNewST)
         {
+            // NOTE: the new state may actually be a previous state
             StoryStageLogic.StageTransition theCurrentST = null;
             do
             {
                 theCurrentST = StoryStageLogic.stateTransitions[theCurrentStory.ProjStage.ProjectStage];
-                if (!DoNextStage())
+                
+                // if we're going backwards, then just set the new state and update the view
+                if ((int)theCurrentST.CurrentStage > (int)theNewST.CurrentStage)
+                {
+                    System.Diagnostics.Debug.Assert(theCurrentST.IsTransitionValid(theNewST.CurrentStage));
+                    theCurrentStory.ProjStage.ProjectStage = theNewST.CurrentStage;
+                    SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage);
                     break;
+                }
+                else if (theCurrentST.NextStage != theNewST.CurrentStage)
+                    if (!DoNextStage())
+                        break;
             }
             while (theCurrentST.NextStage != theNewST.CurrentStage);
         }
@@ -911,12 +932,22 @@ namespace OneStoryProjectEditor
 
         protected bool DoNextStage()
         {
-            if (theCurrentStory.IsReadyForTransition(this))
+            System.Diagnostics.Debug.Assert((Stories != null) && (Stories.ProjSettings != null));
+            if (SetNextStateIfReady())
             {
                 SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage);
                 return true;
             }
             return false;
+        }
+
+        protected bool SetNextStateIfReady()
+        {
+            StoryStageLogic.StageTransition st = StoryStageLogic.stateTransitions[theCurrentStory.ProjStage.ProjectStage];
+            bool bRet = st.IsReadyForTransition(this, Stories.ProjSettings, theCurrentStory);
+            if (bRet)
+                theCurrentStory.ProjStage.ProjectStage = st.NextStage;  // if we are ready, then go ahead and transition
+            return bRet;
         }
 
         private void storyToolStripMenuItem_DropDownOpening(object sender, EventArgs e)

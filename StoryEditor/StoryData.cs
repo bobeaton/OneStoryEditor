@@ -14,32 +14,22 @@ namespace OneStoryProjectEditor
         public CraftingInfoData CraftingInfo = null;
         public VersesData Verses = null;
 
-        internal StoryData(string strStoryName, StoryEditor theSE)
+        internal StoryData(string strStoryName, string strLoggedOnMemberGuid)
         {
             StoryName = strStoryName;
             StoryGuid = Guid.NewGuid().ToString();
-            ProjStage = new StoryStageLogic(theSE);
-            CraftingInfo = new CraftingInfoData(theSE.LoggedOnMember);
+            ProjStage = new StoryStageLogic();
+            CraftingInfo = new CraftingInfoData(strLoggedOnMemberGuid);
             Verses = new VersesData();
         }
 
-        public StoryData(StoryProject.storyRow theStoryRow, StoryProject projFile, StoryEditor theSE)
+        public StoryData(StoryProject.storyRow theStoryRow, StoryProject projFile, string strLoggedOnMemberGuid)
         {
             StoryName = theStoryRow.name;
             StoryGuid = theStoryRow.guid;
-            ProjStage = new StoryStageLogic(theStoryRow.stage, theSE);
-            CraftingInfo = new CraftingInfoData(theStoryRow, projFile, theSE.LoggedOnMember);
+            ProjStage = new StoryStageLogic(theStoryRow.stage);
+            CraftingInfo = new CraftingInfoData(theStoryRow, projFile, strLoggedOnMemberGuid);
             Verses = new VersesData(theStoryRow, projFile);
-        }
-
-        public bool IsReadyForTransition(StoryEditor theSE)
-        {
-            System.Diagnostics.Debug.Assert((theSE.Stories != null) && (theSE.Stories.ProjSettings != null));
-            StoryStageLogic.StageTransition st = StoryStageLogic.stateTransitions[ProjStage.ProjectStage];
-            bool bRet = st.CheckForValidEndOfState(theSE, theSE.Stories.ProjSettings, this);
-            if (bRet)
-                ProjStage.ProjectStage = st.NextStage;  // if we are ready, then go ahead and transition
-            return bRet;
         }
 
         public XElement GetXml
@@ -50,7 +40,7 @@ namespace OneStoryProjectEditor
                     && !String.IsNullOrEmpty(ProjStage.ProjectStage.ToString())
                     && !String.IsNullOrEmpty(StoryGuid));
 
-                XElement elemStory = new XElement(StoryEditor.ns + "story",
+                XElement elemStory = new XElement(StoriesData.ns + "story",
                         new XAttribute("name", StoryName),
                         new XAttribute("stage", ProjStage.ToString()),
                         new XAttribute("guid", StoryGuid),
@@ -66,10 +56,12 @@ namespace OneStoryProjectEditor
 
     public class StoriesData : List<StoryData>
     {
+        internal static XNamespace ns = "http://www.sil.org/computing/schemas/StoryProject.xsd";
+
         internal TeamMembersData TeamMembers = null;
         internal ProjectSettings ProjSettings = null;
 
-        public StoriesData(StoryEditor theSE)
+        public StoriesData(ref TeamMemberData loggedOnMember)
         {
             // if this is "new", then we won't have a project name yet, so query the user for it
             string strProjectName = QueryProjectName();
@@ -77,11 +69,11 @@ namespace OneStoryProjectEditor
             ProjSettings = new ProjectSettings(strProjectName);
 
             // the LoggedOnMemb might have been passed in from a previous file
-            if (theSE.LoggedOnMember == null)
-                theSE.LoggedOnMember = GetLogin();
+            if (loggedOnMember == null)
+                loggedOnMember = GetLogin();
         }
 
-        public StoriesData(StoryProject projFile, StoryEditor theSE)
+        public StoriesData(StoryProject projFile, ref TeamMemberData loggedOnMember)
         {
             // if this is "new", then we won't have a project name yet, so query the user for it
             string strProjectName;
@@ -97,12 +89,12 @@ namespace OneStoryProjectEditor
             ProjSettings = new ProjectSettings(projFile, strProjectName);
 
             // the LoggedOnMemb might have been passed in from a previous file
-            if (theSE.LoggedOnMember == null)
-                theSE.LoggedOnMember = GetLogin();
+            if (loggedOnMember == null)
+                loggedOnMember = GetLogin();
 
             // finally, if it's not new, then it might (should) have stories as well
             foreach (StoryProject.storyRow aStoryRow in projFile.stories[0].GetstoryRows())
-                Add(new StoryData(aStoryRow, projFile, theSE));
+                Add(new StoryData(aStoryRow, projFile, loggedOnMember.MemberGuid));
         }
 
         internal string GetMemberNameFromMemberGuid(string strMemberGuid)
@@ -170,7 +162,7 @@ namespace OneStoryProjectEditor
             get
             {
                 XElement elemStories =
-                    new XElement(StoryEditor.ns + "stories", new XAttribute("ProjectName", ProjSettings.ProjectName),
+                    new XElement(StoriesData.ns + "stories", new XAttribute("ProjectName", ProjSettings.ProjectName),
                         TeamMembers.GetXml,
                         ProjSettings.GetXml);
 
@@ -190,12 +182,12 @@ namespace OneStoryProjectEditor
         public string BackTranslatorMemberID = null;
         public Dictionary<byte, string> Testors = new Dictionary<byte, string>();
 
-        public CraftingInfoData(TeamMemberData loggedOnMember)
+        public CraftingInfoData(string strLoggedOnMemberGuid)
         {
-            StoryCrafterMemberID = loggedOnMember.MemberGuid;
+            StoryCrafterMemberID = strLoggedOnMemberGuid;
         }
 
-        public CraftingInfoData(StoryProject.storyRow theStoryRow, StoryProject projFile, TeamMemberData loggedOnMember)
+        public CraftingInfoData(StoryProject.storyRow theStoryRow, StoryProject projFile, string strLoggedOnMemberGuid)
         {
             StoryProject.CraftingInfoRow[] aCIRs = theStoryRow.GetCraftingInfoRows();
             if (aCIRs.Length == 1)
@@ -206,7 +198,7 @@ namespace OneStoryProjectEditor
                 if (aSCRs.Length == 1)
                     StoryCrafterMemberID = aSCRs[0].memberID;
                 else
-                    StoryCrafterMemberID = loggedOnMember.MemberGuid;
+                    StoryCrafterMemberID = strLoggedOnMemberGuid;
 
                 if (!theCIR.IsStoryPurposeNull())
                     StoryPurpose = theCIR.StoryPurpose;
@@ -227,7 +219,7 @@ namespace OneStoryProjectEditor
             }
             else
             {
-                StoryCrafterMemberID = loggedOnMember.MemberGuid;
+                StoryCrafterMemberID = strLoggedOnMemberGuid;
             }
         }
 
@@ -235,23 +227,23 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                XElement elemCraftingInfo = new XElement(StoryEditor.ns + "CraftingInfo",
-                    new XElement(StoryEditor.ns + "StoryCrafter", new XAttribute("memberID", StoryCrafterMemberID)));
+                XElement elemCraftingInfo = new XElement(StoriesData.ns + "CraftingInfo",
+                    new XElement(StoriesData.ns + "StoryCrafter", new XAttribute("memberID", StoryCrafterMemberID)));
 
                 if (!String.IsNullOrEmpty(StoryPurpose))
-                    elemCraftingInfo.Add(new XElement(StoryEditor.ns + "StoryPurpose", StoryPurpose));
+                    elemCraftingInfo.Add(new XElement(StoriesData.ns + "StoryPurpose", StoryPurpose));
 
                 if (!String.IsNullOrEmpty(ResourcesUsed))
-                    elemCraftingInfo.Add(new XElement(StoryEditor.ns + "ResourcesUsed", ResourcesUsed));
+                    elemCraftingInfo.Add(new XElement(StoriesData.ns + "ResourcesUsed", ResourcesUsed));
 
                 if (!String.IsNullOrEmpty(BackTranslatorMemberID))
-                    elemCraftingInfo.Add(new XElement(StoryEditor.ns + "BackTranslator", new XAttribute("memberID", BackTranslatorMemberID)));
+                    elemCraftingInfo.Add(new XElement(StoriesData.ns + "BackTranslator", new XAttribute("memberID", BackTranslatorMemberID)));
 
                 if (Testors.Count > 0)
                 {
-                    XElement elemTestors = new XElement(StoryEditor.ns + "Tests");
+                    XElement elemTestors = new XElement(StoriesData.ns + "Tests");
                     foreach (KeyValuePair<byte, string> kvp in Testors)
-                        elemTestors.Add(new XElement(StoryEditor.ns + "Test", new XAttribute("number", kvp.Key), new XAttribute("memberID", kvp.Value)));
+                        elemTestors.Add(new XElement(StoriesData.ns + "Test", new XAttribute("number", kvp.Key), new XAttribute("memberID", kvp.Value)));
                     elemCraftingInfo.Add(elemTestors);
                 }
 

@@ -25,12 +25,12 @@ When you are finished entering or splitting the story into separate verses of ab
 sentence per verse, then click the button in the left-hand side of the status bar and choose
 'Next Stage' to go to the next stage in the process.
       </StageInstructions>
-      <AllowableTransitions>
-        <AllowableTransition>eCrafterTypeInternationalBT</AllowableTransition>
-        <AllowableTransition>eCrafterAddAnchors</AllowableTransition>
-        <AllowableTransition>eCrafterAddStoryQuestions</AllowableTransition>
-        <AllowableTransition>eConsultantCheckAnchors</AllowableTransition>
-      </AllowableTransitions>
+      <AllowableForwardsTransitions>
+        <AllowableForwardsTransition>eCrafterTypeInternationalBT</AllowableForwardsTransition>
+        <AllowableForwardsTransition>eCrafterAddAnchors</AllowableForwardsTransition>
+        <AllowableForwardsTransition>eCrafterAddStoryQuestions</AllowableForwardsTransition>
+        <AllowableForwardsTransition>eConsultantCheckAnchors</AllowableForwardsTransition>
+      </AllowableForwardsTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="false" viewAnchorFieldMenuItem="false" viewStoryTestingQuestionFieldMenuItem="false" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="false" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="false" />
     </Transition>
   </StageTransition>
@@ -39,12 +39,14 @@ sentence per verse, then click the button in the left-hand side of the status ba
       <StageDisplayString>Crafter enters the English back-translation</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableTransitions>
-        <AllowableTransition>eCrafterTypeNationalBT</AllowableTransition>
-        <AllowableTransition>eCrafterAddAnchors</AllowableTransition>
-        <AllowableTransition>eCrafterAddStoryQuestions</AllowableTransition>
-        <AllowableTransition>eConsultantCheckAnchors</AllowableTransition>
-      </AllowableTransitions>
+      <AllowableBackwardsTransitions>
+        <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
+      </AllowableBackwardsTransitions>
+      <AllowableForwardsTransitions>
+        <AllowableForwardsTransition>eCrafterAddAnchors</AllowableForwardsTransition>
+        <AllowableForwardsTransition>eCrafterAddStoryQuestions</AllowableForwardsTransition>
+        <AllowableForwardsTransition>eConsultantCheckAnchors</AllowableForwardsTransition>
+      </AllowableForwardsTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="false" viewStoryTestingQuestionFieldMenuItem="false" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="false" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="false" />
     </Transition>
   </StageTransition>
@@ -53,12 +55,14 @@ sentence per verse, then click the button in the left-hand side of the status ba
       <StageDisplayString>Crafter adds biblical anchors</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableTransitions>
-        <AllowableTransition>eCrafterTypeNationalBT</AllowableTransition>
-        <AllowableTransition>eCrafterTypeInternationalBT</AllowableTransition>
-        <AllowableTransition>eCrafterAddStoryQuestions</AllowableTransition>
-        <AllowableTransition>eConsultantCheckAnchors</AllowableTransition>
-      </AllowableTransitions>
+      <AllowableBackwardsTransitions>
+        <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
+        <AllowableBackwardsTransition>eCrafterTypeInternationalBT</AllowableBackwardsTransition>
+      </AllowableBackwardsTransitions>
+      <AllowableForwardsTransitions>
+        <AllowableForwardsTransition>eCrafterAddStoryQuestions</AllowableForwardsTransition>
+        <AllowableForwardsTransition>eConsultantCheckAnchors</AllowableForwardsTransition>
+      </AllowableForwardsTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="false" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="false" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="true" />
     </Transition>
   </StageTransition>
@@ -67,12 +71,14 @@ sentence per verse, then click the button in the left-hand side of the status ba
       <StageDisplayString>Crafter adds story testing questions</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableTransitions>
-        <AllowableTransition>eCrafterTypeNationalBT</AllowableTransition>
-        <AllowableTransition>eCrafterTypeInternationalBT</AllowableTransition>
-        <AllowableTransition>eCrafterAddAnchors</AllowableTransition>
-        <AllowableTransition>eConsultantCheckAnchors</AllowableTransition>
-      </AllowableTransitions>
+      <AllowableBackwardsTransitions>
+        <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
+        <AllowableBackwardsTransition>eCrafterTypeInternationalBT</AllowableBackwardsTransition>
+        <AllowableBackwardsTransition>eCrafterAddAnchors</AllowableBackwardsTransition>
+      </AllowableBackwardsTransitions>
+      <AllowableForwardsTransitions>
+        <AllowableForwardsTransition>eConsultantCheckAnchors</AllowableForwardsTransition>
+      </AllowableForwardsTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="false" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="true" />
     </Transition>
   </StageTransition>
@@ -81,14 +87,16 @@ sentence per verse, then click the button in the left-hand side of the status ba
       <StageDisplayString>Consultant checks the story anchors</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the coach has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableTransitions>
-        <AllowableTransition>eCrafterTypeNationalBT</AllowableTransition>
-        <AllowableTransition>eCrafterTypeInternationalBT</AllowableTransition>
-        <AllowableTransition>eCrafterAddAnchors</AllowableTransition>
-        <AllowableTransition>eCrafterAddStoryQuestions</AllowableTransition>
-        <AllowableTransition>eConsultantCheckStoryQuestions</AllowableTransition>
-        <AllowableTransition>eCoachReviewRound1Notes</AllowableTransition>
-      </AllowableTransitions>
+      <AllowableBackwardsTransitions>
+        <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
+        <AllowableBackwardsTransition>eCrafterTypeInternationalBT</AllowableBackwardsTransition>
+        <AllowableBackwardsTransition>eCrafterAddAnchors</AllowableBackwardsTransition>
+        <AllowableBackwardsTransition>eCrafterAddStoryQuestions</AllowableBackwardsTransition>
+      </AllowableBackwardsTransitions>
+      <AllowableForwardsTransitions>
+        <AllowableForwardsTransition>eConsultantCheckStoryQuestions</AllowableForwardsTransition>
+        <AllowableForwardsTransition>eCoachReviewRound1Notes</AllowableForwardsTransition>
+      </AllowableForwardsTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="false" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="true" />
     </Transition>
   </StageTransition>
@@ -97,14 +105,16 @@ sentence per verse, then click the button in the left-hand side of the status ba
       <StageDisplayString>Consultant checks the story testing questions</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the coach has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableTransitions>
-        <AllowableTransition>eCrafterTypeNationalBT</AllowableTransition>
-        <AllowableTransition>eCrafterTypeInternationalBT</AllowableTransition>
-        <AllowableTransition>eCrafterAddAnchors</AllowableTransition>
-        <AllowableTransition>eCrafterAddStoryQuestions</AllowableTransition>
-        <AllowableTransition>eConsultantCheckAnchors</AllowableTransition>
-        <AllowableTransition>eCoachReviewRound1Notes</AllowableTransition>
-      </AllowableTransitions>
+      <AllowableBackwardsTransitions>
+        <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
+        <AllowableBackwardsTransition>eCrafterTypeInternationalBT</AllowableBackwardsTransition>
+        <AllowableBackwardsTransition>eCrafterAddAnchors</AllowableBackwardsTransition>
+        <AllowableBackwardsTransition>eCrafterAddStoryQuestions</AllowableBackwardsTransition>
+        <AllowableBackwardsTransition>eConsultantCheckAnchors</AllowableBackwardsTransition>
+      </AllowableBackwardsTransitions>
+      <AllowableForwardsTransitions>
+        <AllowableForwardsTransition>eCoachReviewRound1Notes</AllowableForwardsTransition>
+      </AllowableForwardsTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="true" />
     </Transition>
   </StageTransition>
@@ -113,10 +123,10 @@ sentence per verse, then click the button in the left-hand side of the status ba
       <StageDisplayString>Coach reviews round 1 consultant notes</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant returns it to you for the next round of review.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableTransitions>
-        <AllowableTransition>eConsultantReviseRound1Notes</AllowableTransition>
-      </AllowableTransitions>
-      <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="true" viewNetBibleMenuItem="true" />
+      <AllowableForwardsTransitions>
+        <AllowableForwardsTransition>eConsultantReviseRound1Notes</AllowableForwardsTransition>
+      </AllowableForwardsTransitions>
+      <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="false" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="true" viewNetBibleMenuItem="true" />
     </Transition>
   </StageTransition>
   <StageTransition stage="eConsultantReviseRound1Notes">
@@ -124,9 +134,9 @@ sentence per verse, then click the button in the left-hand side of the status ba
       <StageDisplayString>Consultant revises round 1 notes based on Coach's feedback</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the crafter has returned it to you after the first (formal) UNS test.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableTransitions>
-        <AllowableTransition>eCrafterReviseBasedOnRound1Notes</AllowableTransition>
-      </AllowableTransitions>
+      <AllowableForwardsTransitions>
+        <AllowableForwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableForwardsTransition>
+      </AllowableForwardsTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="true" viewNetBibleMenuItem="true" />
     </Transition>
   </StageTransition>
@@ -135,13 +145,13 @@ sentence per verse, then click the button in the left-hand side of the status ba
       <StageDisplayString>Crafter revises story based on Consultant's feedback</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableTransitions>
-        <AllowableTransition>eCrafterOnlineReview1WithConsultant</AllowableTransition>
-        <AllowableTransition>eCrafterReadyForTest1</AllowableTransition>
-        <AllowableTransition>eCrafterEnterAnswersToStoryQuestionsOfTest1</AllowableTransition>
-        <AllowableTransition>eCrafterEnterRetellingOfTest1</AllowableTransition>
-        <AllowableTransition>eConsultantCheckAnchorsRound2</AllowableTransition>
-      </AllowableTransitions>
+      <AllowableForwardsTransitions>
+        <AllowableForwardsTransition>eCrafterOnlineReview1WithConsultant</AllowableForwardsTransition>
+        <AllowableForwardsTransition>eCrafterReadyForTest1</AllowableForwardsTransition>
+        <AllowableForwardsTransition>eCrafterEnterAnswersToStoryQuestionsOfTest1</AllowableForwardsTransition>
+        <AllowableForwardsTransition>eCrafterEnterRetellingOfTest1</AllowableForwardsTransition>
+        <AllowableForwardsTransition>eConsultantCheckAnchorsRound2</AllowableForwardsTransition>
+      </AllowableForwardsTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="true" />
     </Transition>
   </StageTransition>
@@ -150,13 +160,15 @@ sentence per verse, then click the button in the left-hand side of the status ba
       <StageDisplayString>Crafter has 1st online review with consultant</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableTransitions>
-        <AllowableTransition>eCrafterReviseBasedOnRound1Notes</AllowableTransition>
-        <AllowableTransition>eCrafterReadyForTest1</AllowableTransition>
-        <AllowableTransition>eCrafterEnterAnswersToStoryQuestionsOfTest1</AllowableTransition>
-        <AllowableTransition>eCrafterEnterRetellingOfTest1</AllowableTransition>
-        <AllowableTransition>eConsultantCheckAnchorsRound2</AllowableTransition>
-      </AllowableTransitions>
+      <AllowableBackwardsTransitions>
+        <AllowableBackwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableBackwardsTransition>
+      </AllowableBackwardsTransitions>
+      <AllowableForwardsTransitions>
+        <AllowableForwardsTransition>eCrafterReadyForTest1</AllowableForwardsTransition>
+        <AllowableForwardsTransition>eCrafterEnterAnswersToStoryQuestionsOfTest1</AllowableForwardsTransition>
+        <AllowableForwardsTransition>eCrafterEnterRetellingOfTest1</AllowableForwardsTransition>
+        <AllowableForwardsTransition>eConsultantCheckAnchorsRound2</AllowableForwardsTransition>
+      </AllowableForwardsTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="true" />
     </Transition>
   </StageTransition>
@@ -165,13 +177,15 @@ sentence per verse, then click the button in the left-hand side of the status ba
       <StageDisplayString>Crafter is ready for the 1st (formal) UNS test</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableTransitions>
-        <AllowableTransition>eCrafterReviseBasedOnRound1Notes</AllowableTransition>
-        <AllowableTransition>eCrafterOnlineReview1WithConsultant</AllowableTransition>
-        <AllowableTransition>eCrafterEnterAnswersToStoryQuestionsOfTest1</AllowableTransition>
-        <AllowableTransition>eCrafterEnterRetellingOfTest1</AllowableTransition>
-        <AllowableTransition>eConsultantCheckAnchorsRound2</AllowableTransition>
-      </AllowableTransitions>
+      <AllowableBackwardsTransitions>
+        <AllowableBackwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableBackwardsTransition>
+        <AllowableBackwardsTransition>eCrafterOnlineReview1WithConsultant</AllowableBackwardsTransition>
+      </AllowableBackwardsTransitions>
+      <AllowableForwardsTransitions>
+        <AllowableForwardsTransition>eCrafterEnterAnswersToStoryQuestionsOfTest1</AllowableForwardsTransition>
+        <AllowableForwardsTransition>eCrafterEnterRetellingOfTest1</AllowableForwardsTransition>
+        <AllowableForwardsTransition>eConsultantCheckAnchorsRound2</AllowableForwardsTransition>
+      </AllowableForwardsTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="false" viewAnchorFieldMenuItem="false" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="false" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="false" />
     </Transition>
   </StageTransition>
@@ -180,13 +194,15 @@ sentence per verse, then click the button in the left-hand side of the status ba
       <StageDisplayString>Crafter enters answers to the test 1 story questions</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableTransitions>
-        <AllowableTransition>eCrafterReviseBasedOnRound1Notes</AllowableTransition>
-        <AllowableTransition>eCrafterOnlineReview1WithConsultant</AllowableTransition>
-        <AllowableTransition>eCrafterReadyForTest1</AllowableTransition>
-        <AllowableTransition>eCrafterEnterRetellingOfTest1</AllowableTransition>
-        <AllowableTransition>eConsultantCheckAnchorsRound2</AllowableTransition>
-      </AllowableTransitions>
+      <AllowableBackwardsTransitions>
+        <AllowableBackwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableBackwardsTransition>
+        <AllowableBackwardsTransition>eCrafterOnlineReview1WithConsultant</AllowableBackwardsTransition>
+        <AllowableBackwardsTransition>eCrafterReadyForTest1</AllowableBackwardsTransition>
+      </AllowableBackwardsTransitions>
+      <AllowableForwardsTransitions>
+        <AllowableForwardsTransition>eCrafterEnterRetellingOfTest1</AllowableForwardsTransition>
+        <AllowableForwardsTransition>eConsultantCheckAnchorsRound2</AllowableForwardsTransition>
+      </AllowableForwardsTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="false" viewAnchorFieldMenuItem="false" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="false" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="false" />
     </Transition>
   </StageTransition>
@@ -195,13 +211,15 @@ sentence per verse, then click the button in the left-hand side of the status ba
       <StageDisplayString>Crafter enters test 1 retelling back-translation</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableTransitions>
-        <AllowableTransition>eCrafterReviseBasedOnRound1Notes</AllowableTransition>
-        <AllowableTransition>eCrafterOnlineReview1WithConsultant</AllowableTransition>
-        <AllowableTransition>eCrafterReadyForTest1</AllowableTransition>
-        <AllowableTransition>eCrafterEnterAnswersToStoryQuestionsOfTest1</AllowableTransition>
-        <AllowableTransition>eConsultantCheckAnchorsRound2</AllowableTransition>
-      </AllowableTransitions>
+      <AllowableBackwardsTransitions>
+        <AllowableBackwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableBackwardsTransition>
+        <AllowableBackwardsTransition>eCrafterOnlineReview1WithConsultant</AllowableBackwardsTransition>
+        <AllowableBackwardsTransition>eCrafterReadyForTest1</AllowableBackwardsTransition>
+        <AllowableBackwardsTransition>eCrafterEnterAnswersToStoryQuestionsOfTest1</AllowableBackwardsTransition>
+      </AllowableBackwardsTransitions>
+      <AllowableForwardsTransitions>
+        <AllowableForwardsTransition>eConsultantCheckAnchorsRound2</AllowableForwardsTransition>
+      </AllowableForwardsTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="false" viewStoryTestingQuestionFieldMenuItem="false" viewRetellingFieldMenuItem="true" viewConsultantNoteFieldMenuItem="false" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="false" />
     </Transition>
   </StageTransition>
@@ -210,12 +228,14 @@ sentence per verse, then click the button in the left-hand side of the status ba
       <StageDisplayString>Consultant checks story anchors for round 2</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the coach has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableTransitions>
-        <AllowableTransition>eCrafterReviseBasedOnRound1Notes</AllowableTransition>
-        <AllowableTransition>eConsultantCheckAnswersToTestingQuestionsRound2</AllowableTransition>
-        <AllowableTransition>eConsultantCheckRetellingRound2</AllowableTransition>
-        <AllowableTransition>eCoachReviewRound2Notes</AllowableTransition>
-      </AllowableTransitions>
+      <AllowableBackwardsTransitions>
+        <AllowableBackwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableBackwardsTransition>
+      </AllowableBackwardsTransitions>
+      <AllowableForwardsTransitions>
+        <AllowableForwardsTransition>eConsultantCheckAnswersToTestingQuestionsRound2</AllowableForwardsTransition>
+        <AllowableForwardsTransition>eConsultantCheckRetellingRound2</AllowableForwardsTransition>
+        <AllowableForwardsTransition>eCoachReviewRound2Notes</AllowableForwardsTransition>
+      </AllowableForwardsTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="false" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="true" />
     </Transition>
   </StageTransition>
@@ -224,12 +244,14 @@ sentence per verse, then click the button in the left-hand side of the status ba
       <StageDisplayString>Consultant checks test 1 answers to story testing questions</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the coach has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableTransitions>
-        <AllowableTransition>eCrafterReviseBasedOnRound1Notes</AllowableTransition>
-        <AllowableTransition>eConsultantCheckAnchorsRound2</AllowableTransition>
-        <AllowableTransition>eConsultantCheckRetellingRound2</AllowableTransition>
-        <AllowableTransition>eCoachReviewRound2Notes</AllowableTransition>
-      </AllowableTransitions>
+      <AllowableBackwardsTransitions>
+        <AllowableBackwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableBackwardsTransition>
+        <AllowableBackwardsTransition>eConsultantCheckAnchorsRound2</AllowableBackwardsTransition>
+      </AllowableBackwardsTransitions>
+      <AllowableForwardsTransitions>
+        <AllowableForwardsTransition>eConsultantCheckRetellingRound2</AllowableForwardsTransition>
+        <AllowableForwardsTransition>eCoachReviewRound2Notes</AllowableForwardsTransition>
+      </AllowableForwardsTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="true" />
     </Transition>
   </StageTransition>
@@ -238,12 +260,14 @@ sentence per verse, then click the button in the left-hand side of the status ba
       <StageDisplayString>Consultant checks test 1 retelling</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the coach has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableTransitions>
-        <AllowableTransition>eCrafterReviseBasedOnRound1Notes</AllowableTransition>
-        <AllowableTransition>eConsultantCheckAnchorsRound2</AllowableTransition>
-        <AllowableTransition>eConsultantCheckAnswersToTestingQuestionsRound2</AllowableTransition>
-        <AllowableTransition>eCoachReviewRound2Notes</AllowableTransition>
-      </AllowableTransitions>
+      <AllowableBackwardsTransitions>
+        <AllowableBackwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableBackwardsTransition>
+        <AllowableBackwardsTransition>eConsultantCheckAnchorsRound2</AllowableBackwardsTransition>
+        <AllowableBackwardsTransition>eConsultantCheckAnswersToTestingQuestionsRound2</AllowableBackwardsTransition>
+      </AllowableBackwardsTransitions>
+      <AllowableForwardsTransitions>
+        <AllowableForwardsTransition>eCoachReviewRound2Notes</AllowableForwardsTransition>
+      </AllowableForwardsTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="false" viewStoryTestingQuestionFieldMenuItem="false" viewRetellingFieldMenuItem="true" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="true" />
     </Transition>
   </StageTransition>
@@ -252,10 +276,10 @@ sentence per verse, then click the button in the left-hand side of the status ba
       <StageDisplayString>Coach reviews test 1 notes</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has returned it for round 2.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableTransitions>
-        <AllowableTransition>eConsultantReviseRound2Notes</AllowableTransition>
-      </AllowableTransitions>
-      <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="true" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="true" viewNetBibleMenuItem="true" />
+      <AllowableForwardsTransitions>
+        <AllowableForwardsTransition>eConsultantReviseRound2Notes</AllowableForwardsTransition>
+      </AllowableForwardsTransitions>
+      <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="false" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="true" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="true" viewNetBibleMenuItem="true" />
     </Transition>
   </StageTransition>
   <StageTransition stage="eConsultantReviseRound2Notes">
@@ -263,9 +287,9 @@ sentence per verse, then click the button in the left-hand side of the status ba
       <StageDisplayString>Consultant revises round 2 notes based on Coach's feedback</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the crafter has returned it for a final review.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableTransitions>
-        <AllowableTransition>eCrafterReviseBasedOnRound2Notes</AllowableTransition>
-      </AllowableTransitions>
+      <AllowableForwardsTransitions>
+        <AllowableForwardsTransition>eCrafterReviseBasedOnRound2Notes</AllowableForwardsTransition>
+      </AllowableForwardsTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="true" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="true" viewNetBibleMenuItem="true" />
     </Transition>
   </StageTransition>
@@ -274,13 +298,13 @@ sentence per verse, then click the button in the left-hand side of the status ba
       <StageDisplayString>Crafter revises story based on round 2 notes</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has returned it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableTransitions>
-        <AllowableTransition>eCrafterOnlineReview2WithConsultant</AllowableTransition>
-        <AllowableTransition>eCrafterReadyForTest2</AllowableTransition>
-        <AllowableTransition>eCrafterEnterAnswersToStoryQuestionsOfTest2</AllowableTransition>
-        <AllowableTransition>eCrafterEnterRetellingOfTest2</AllowableTransition>
-        <AllowableTransition>eConsultantReviewTest2</AllowableTransition>
-      </AllowableTransitions>
+      <AllowableForwardsTransitions>
+        <AllowableForwardsTransition>eCrafterOnlineReview2WithConsultant</AllowableForwardsTransition>
+        <AllowableForwardsTransition>eCrafterReadyForTest2</AllowableForwardsTransition>
+        <AllowableForwardsTransition>eCrafterEnterAnswersToStoryQuestionsOfTest2</AllowableForwardsTransition>
+        <AllowableForwardsTransition>eCrafterEnterRetellingOfTest2</AllowableForwardsTransition>
+        <AllowableForwardsTransition>eConsultantReviewTest2</AllowableForwardsTransition>
+      </AllowableForwardsTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="true" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="true" />
     </Transition>
   </StageTransition>
@@ -289,13 +313,15 @@ sentence per verse, then click the button in the left-hand side of the status ba
       <StageDisplayString>Crafter has 2nd online review with consultant</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has returned it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableTransitions>
-        <AllowableTransition>eCrafterReviseBasedOnRound2Notes</AllowableTransition>
-        <AllowableTransition>eCrafterReadyForTest2</AllowableTransition>
-        <AllowableTransition>eCrafterEnterAnswersToStoryQuestionsOfTest2</AllowableTransition>
-        <AllowableTransition>eCrafterEnterRetellingOfTest2</AllowableTransition>
-        <AllowableTransition>eConsultantReviewTest2</AllowableTransition>
-      </AllowableTransitions>
+      <AllowableBackwardsTransitions>
+        <AllowableBackwardsTransition>eCrafterReviseBasedOnRound2Notes</AllowableBackwardsTransition>
+      </AllowableBackwardsTransitions>
+      <AllowableForwardsTransitions>
+        <AllowableForwardsTransition>eCrafterReadyForTest2</AllowableForwardsTransition>
+        <AllowableForwardsTransition>eCrafterEnterAnswersToStoryQuestionsOfTest2</AllowableForwardsTransition>
+        <AllowableForwardsTransition>eCrafterEnterRetellingOfTest2</AllowableForwardsTransition>
+        <AllowableForwardsTransition>eConsultantReviewTest2</AllowableForwardsTransition>
+      </AllowableForwardsTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="true" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="true" />
     </Transition>
   </StageTransition>
@@ -304,13 +330,15 @@ sentence per verse, then click the button in the left-hand side of the status ba
       <StageDisplayString>Crafter is ready for the second (formal) UNS test</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has returned it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableTransitions>
-        <AllowableTransition>eCrafterReviseBasedOnRound2Notes</AllowableTransition>
-        <AllowableTransition>eCrafterOnlineReview2WithConsultant</AllowableTransition>
-        <AllowableTransition>eCrafterEnterAnswersToStoryQuestionsOfTest2</AllowableTransition>
-        <AllowableTransition>eCrafterEnterRetellingOfTest2</AllowableTransition>
-        <AllowableTransition>eConsultantReviewTest2</AllowableTransition>
-      </AllowableTransitions>
+      <AllowableBackwardsTransitions>
+        <AllowableBackwardsTransition>eCrafterReviseBasedOnRound2Notes</AllowableBackwardsTransition>
+        <AllowableBackwardsTransition>eCrafterOnlineReview2WithConsultant</AllowableBackwardsTransition>
+      </AllowableBackwardsTransitions>
+      <AllowableForwardsTransitions>
+        <AllowableForwardsTransition>eCrafterEnterAnswersToStoryQuestionsOfTest2</AllowableForwardsTransition>
+        <AllowableForwardsTransition>eCrafterEnterRetellingOfTest2</AllowableForwardsTransition>
+        <AllowableForwardsTransition>eConsultantReviewTest2</AllowableForwardsTransition>
+      </AllowableForwardsTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="false" viewAnchorFieldMenuItem="false" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="false" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="false" />
     </Transition>
   </StageTransition>
@@ -319,13 +347,15 @@ sentence per verse, then click the button in the left-hand side of the status ba
       <StageDisplayString>Crafter enters test 2 answers to story testing questions</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has returned it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableTransitions>
-        <AllowableTransition>eCrafterReviseBasedOnRound2Notes</AllowableTransition>
-        <AllowableTransition>eCrafterOnlineReview2WithConsultant</AllowableTransition>
-        <AllowableTransition>eCrafterReadyForTest2</AllowableTransition>
-        <AllowableTransition>eCrafterEnterRetellingOfTest2</AllowableTransition>
-        <AllowableTransition>eConsultantReviewTest2</AllowableTransition>
-      </AllowableTransitions>
+      <AllowableBackwardsTransitions>
+        <AllowableBackwardsTransition>eCrafterReviseBasedOnRound2Notes</AllowableBackwardsTransition>
+        <AllowableBackwardsTransition>eCrafterOnlineReview2WithConsultant</AllowableBackwardsTransition>
+        <AllowableBackwardsTransition>eCrafterReadyForTest2</AllowableBackwardsTransition>
+      </AllowableBackwardsTransitions>
+      <AllowableForwardsTransitions>
+        <AllowableForwardsTransition>eCrafterEnterRetellingOfTest2</AllowableForwardsTransition>
+        <AllowableForwardsTransition>eConsultantReviewTest2</AllowableForwardsTransition>
+      </AllowableForwardsTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="false" viewAnchorFieldMenuItem="false" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="false" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="false" />
     </Transition>
   </StageTransition>
@@ -334,13 +364,15 @@ sentence per verse, then click the button in the left-hand side of the status ba
       <StageDisplayString>Crafter enters test 2 retelling back-translation</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has returned it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableTransitions>
-        <AllowableTransition>eCrafterReviseBasedOnRound2Notes</AllowableTransition>
-        <AllowableTransition>eCrafterOnlineReview2WithConsultant</AllowableTransition>
-        <AllowableTransition>eCrafterReadyForTest2</AllowableTransition>
-        <AllowableTransition>eCrafterEnterAnswersToStoryQuestionsOfTest2</AllowableTransition>
-        <AllowableTransition>eConsultantReviewTest2</AllowableTransition>
-      </AllowableTransitions>
+      <AllowableBackwardsTransitions>
+        <AllowableBackwardsTransition>eCrafterReviseBasedOnRound2Notes</AllowableBackwardsTransition>
+        <AllowableBackwardsTransition>eCrafterOnlineReview2WithConsultant</AllowableBackwardsTransition>
+        <AllowableBackwardsTransition>eCrafterReadyForTest2</AllowableBackwardsTransition>
+        <AllowableBackwardsTransition>eCrafterEnterAnswersToStoryQuestionsOfTest2</AllowableBackwardsTransition>
+      </AllowableBackwardsTransitions>
+      <AllowableForwardsTransitions>
+        <AllowableForwardsTransition>eConsultantReviewTest2</AllowableForwardsTransition>
+      </AllowableForwardsTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="false" viewStoryTestingQuestionFieldMenuItem="false" viewRetellingFieldMenuItem="true" viewConsultantNoteFieldMenuItem="false" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="false" />
     </Transition>
   </StageTransition>
@@ -349,10 +381,12 @@ sentence per verse, then click the button in the left-hand side of the status ba
       <StageDisplayString>Consultant reviews test 2 results</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the coach has returned it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableTransitions>
-        <AllowableTransition>eCrafterReviseBasedOnRound2Notes</AllowableTransition>
-        <AllowableTransition>eCoachReviewTest2Notes</AllowableTransition>
-      </AllowableTransitions>
+      <AllowableBackwardsTransitions>
+        <AllowableBackwardsTransition>eCrafterReviseBasedOnRound2Notes</AllowableBackwardsTransition>
+      </AllowableBackwardsTransitions>
+      <AllowableForwardsTransitions>
+        <AllowableForwardsTransition>eCoachReviewTest2Notes</AllowableForwardsTransition>
+      </AllowableForwardsTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="true" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="true" />
     </Transition>
   </StageTransition>
@@ -361,11 +395,13 @@ sentence per verse, then click the button in the left-hand side of the status ba
       <StageDisplayString>Coach reviews test 2 results</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has returned it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableTransitions>
-        <AllowableTransition>eConsultantReviseRound2Notes</AllowableTransition>
-        <AllowableTransition>eTeamComplete</AllowableTransition>
-      </AllowableTransitions>
-      <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="true" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="true" viewNetBibleMenuItem="true" />
+      <AllowableBackwardsTransitions>
+        <AllowableBackwardsTransition>eConsultantReviseRound2Notes</AllowableBackwardsTransition>
+      </AllowableBackwardsTransitions>
+      <AllowableForwardsTransitions>
+        <AllowableForwardsTransition>eTeamComplete</AllowableForwardsTransition>
+      </AllowableForwardsTransitions>
+      <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="false" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="true" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="true" viewNetBibleMenuItem="true" />
     </Transition>
   </StageTransition>
   <StageTransition stage="eTeamComplete">
@@ -373,9 +409,9 @@ sentence per verse, then click the button in the left-hand side of the status ba
       <StageDisplayString>Story testing complete (waiting for panorama completion review)</StageDisplayString>
       <NextMemberTransitionMessage>If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
-      <AllowableTransitions>
-        <AllowableTransition>eConsultantReviewTest2</AllowableTransition>
-      </AllowableTransitions>
+      <AllowableBackwardsTransitions>
+        <AllowableBackwardsTransition>eConsultantReviewTest2</AllowableBackwardsTransition>
+      </AllowableBackwardsTransitions>
       <ViewSettings viewVernacularLangFieldMenuItem="true" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="true" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="true" viewNetBibleMenuItem="true" />
     </Transition>
   </StageTransition>

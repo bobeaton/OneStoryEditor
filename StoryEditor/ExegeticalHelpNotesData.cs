@@ -29,7 +29,7 @@ namespace OneStoryProjectEditor
             get
             {
                 System.Diagnostics.Debug.Assert(ExegeticalHelpNote.HasData, "Trying to serialize an ExegeticalHelpNoteData with no data");
-                return new XElement(StoryEditor.ns + "exegeticalHelp", ExegeticalHelpNote);
+                return new XElement(StoriesData.ns + "exegeticalHelp", ExegeticalHelpNote);
             }
         }
     }
@@ -70,7 +70,7 @@ namespace OneStoryProjectEditor
             get
             {
                 System.Diagnostics.Debug.Assert(HasData);
-                XElement elemExegeticalHelps = new XElement(StoryEditor.ns + "exegeticalHelps");
+                XElement elemExegeticalHelps = new XElement(StoriesData.ns + "exegeticalHelps");
                 foreach (ExegeticalHelpNoteData aExHelpData in this)
                     if (aExHelpData.HasData)
                         elemExegeticalHelps.Add(aExHelpData.GetXml);
