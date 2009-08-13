@@ -14,12 +14,12 @@ namespace OneStoryProjectEditor
         public CraftingInfoData CraftingInfo = null;
         public VersesData Verses = null;
 
-        public StoryData(string strStoryName, string loggedOnMemberGuid)
+        public StoryData(string strStoryName)
         {
             StoryName = strStoryName;
             StoryGuid = Guid.NewGuid().ToString();
             ProjStage = new StoryStageLogic();
-            CraftingInfo = new CraftingInfoData(loggedOnMemberGuid);
+            CraftingInfo = new CraftingInfoData();
             Verses = new VersesData();
         }
 
@@ -47,11 +47,13 @@ namespace OneStoryProjectEditor
 
     public class StoriesData : List<StoryData>
     {
-        internal ProjectSettings ProjSettings = null;
+        public TeamMembersData TeamMembers = null;
+        public ProjectSettings ProjSettings = null;
 
         public StoriesData()
         {
             ProjSettings = new ProjectSettings("Kangri");
+            TeamMembers = new TeamMembersData();
         }
 
         public XElement GetXml
@@ -59,7 +61,9 @@ namespace OneStoryProjectEditor
             get
             {
                 XElement elemStories =
-                    new XElement("stories", new XAttribute("ProjectName", ProjSettings.ProjectName));
+                    new XElement("stories", new XAttribute("ProjectName", ProjSettings.ProjectName),
+                        TeamMembers.GetXml,
+                        ProjSettings.GetXml);
 
                 foreach (StoryData aSD in this)
                     elemStories.Add(aSD.GetXml);
@@ -77,9 +81,8 @@ namespace OneStoryProjectEditor
         public string BackTranslatorMemberID = null;
         public Dictionary<byte, string> Testors = new Dictionary<byte, string>();
 
-        public CraftingInfoData(string loggedOnMemberGuid)
+        public CraftingInfoData()
         {
-            StoryCrafterMemberID = loggedOnMemberGuid;
         }
 
         public XElement GetXml

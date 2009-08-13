@@ -12,12 +12,26 @@ namespace OneStoryProjectEditor
         const string CstrReasonLable = "reason this story is in the set:";
         const string CstrStoryCrafter = "Story crafter:";
         const string CstrBackTranslator = "Backtranslator to Hindi:";
+        const string CstrTestor1 = "Testing 1:";
+        const string CstrTestor2 = "Testing 2:";
 
-        static readonly Dictionary<string, string> lstMembers = new Dictionary<string, string>
-            {
-                { "Pawan", "mem-99CDE60E-453A-4947-8627-83B33223EF0B" },
-                { "Karan", "mem-68A82D25-D414-4489-A484-8F17D8808818" }
-            };
+        const string CstrVernName = "Kangri";
+        const string CstrVernCode = "xnr";
+        const string CstrVernFullStop = "।";
+        const string CstrNatlName = "Hindi";
+        const string CstrNatlCode = "hi";
+        const string CstrNatlFullStop = "।";
+        const string CstrIntlName = "English";
+        const string CstrIntlCode = "en";
+
+        static string MemberGuid(TeamMembersData members, string strName, TeamMemberData.UserTypes eType)
+        {
+            if (String.IsNullOrEmpty(strName))
+                return strName;
+            if (!members.ContainsKey(strName))
+                members.Add(strName, new TeamMemberData(strName, eType));
+            return members[strName].MemberGuid;
+        }
 
         static void Main(string[] args)
         {
@@ -36,10 +50,11 @@ namespace OneStoryProjectEditor
             while (nIndexBt != -1)
             {
                 string strStoryName = astrBt[nIndexBt].Substring(3);
-                StoryData story = new StoryData(strStoryName, "mem-99CDE60E-453A-4947-8627-83B33223EF0B");
+                StoryData story = new StoryData(strStoryName);
                 Console.WriteLine("Story: " + strStoryName);
 
-                string strMarker, strData;
+                // first process the 'crafting info'
+                string strMarker, strData, strTestorGuid = null;
                 ParseLine(astrBt[++nIndexBt], out strMarker, out strData);
                 while (strMarker != @"\ln")
                 {
@@ -52,14 +67,24 @@ namespace OneStoryProjectEditor
                         else if (BeginsWith(strData, CstrStoryCrafter))
                         {
                             string strCrafterName = strData.Substring(CstrStoryCrafter.Length).Trim();
-                            System.Diagnostics.Debug.Assert(lstMembers.ContainsKey(strCrafterName));
-                            story.CraftingInfo.StoryCrafterMemberID = lstMembers[strCrafterName];
+                            story.CraftingInfo.StoryCrafterMemberID = MemberGuid(theStories.TeamMembers, strCrafterName, TeamMemberData.UserTypes.eCrafter);
                         }
                         else if (BeginsWith(strData, CstrBackTranslator))
                         {
-                            string strBackTranslatorName = strData.Substring(CstrStoryBackTranslator.Length).Trim();
-                            System.Diagnostics.Debug.Assert(lstMembers.ContainsKey(strBackTranslatorName));
-                            story.CraftingInfo.StoryCrafterMemberID = lstBackTranslators[strBackTranslatorName];
+                            string strBackTranslatorName = strData.Substring(CstrBackTranslator.Length).Trim();
+                            story.CraftingInfo.BackTranslatorMemberID = MemberGuid(theStories.TeamMembers, strBackTranslatorName, TeamMemberData.UserTypes.eUNS);
+                        }
+                        else if (BeginsWith(strData, CstrTestor1))
+                        {
+                            string strTestor1 = strData.Substring(CstrTestor1.Length).Trim();
+                            strTestorGuid = MemberGuid(theStories.TeamMembers, strTestor1, TeamMemberData.UserTypes.eUNS);
+                            story.CraftingInfo.Testors.Add(1, strTestorGuid);
+                        }
+                        else if (BeginsWith(strData, CstrTestor2))
+                        {
+                            string strTestor2 = strData.Substring(CstrTestor2.Length).Trim();
+                            strTestorGuid = MemberGuid(theStories.TeamMembers, strTestor2, TeamMemberData.UserTypes.eUNS);
+                            story.CraftingInfo.Testors.Add(2, strTestorGuid);
                         }
                     }
                     else if (strMarker == @"\c")
@@ -68,6 +93,7 @@ namespace OneStoryProjectEditor
                 }
 
                 // if (SkipTo(@"\ln ", @"\t ", astrBt, ref nIndexBt))
+                while (strMarker == @"\ln")
                 {
                     string strRef = astrBt[nIndexBt].Substring(4);
                     Console.WriteLine(" ln: " + strRef);
@@ -94,20 +120,26 @@ namespace OneStoryProjectEditor
                         else if (strMarker == @"\ans")
                         {
                             if (nTQIndex >= 0)
-                                verse.TestQuestions[nTQIndex].Answers.AddNewLine(strData, "mem-FCAC1BB2-827F-47b8-B1BD-60245BB15392");
+                            {
+                                System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(strTestorGuid));
+                                verse.TestQuestions[nTQIndex].Answers.AddNewLine(strData, strTestorGuid);
+                            }
                         }
                         else if (strMarker == @"\cn")
                         {
                             System.Diagnostics.Debug.Assert(verse.Anchors.Count > 0);
                             verse.Anchors[0].ExegeticalHelpNotes.AddExegeticalHelpNote(strData);
                         }
-                        else if ((strMarker == @"\ash") || (strMarker == @"\dt"))
+                        else if ((strMarker == @"\ash") || (strMarker == @"\dt") || (strMarker == @"\old"))
                             Console.WriteLine("Found:" + strMarker);
                         else if (!String.IsNullOrEmpty(strMarker) && !String.IsNullOrEmpty(strData))
                             System.Diagnostics.Debug.Assert(false, String.Format("not handling the '{0}' marker", strMarker));
                         
                         // do next line
-                        ParseLine(astrBt[++nIndexBt], out strMarker, out strData);
+                        if (++nIndexBt < astrBt.Length)
+                            ParseLine(astrBt[nIndexBt], out strMarker, out strData);
+                        else
+                            break;
                     }
 
                     // now grab the retelling
@@ -117,7 +149,10 @@ namespace OneStoryProjectEditor
                         while ((strMarker != @"\ln") && (strMarker != @"\c"))
                         {
                             if (strMarker == @"\ret")
-                                verse.Retellings.AddNewLine(strData, "mem-FCAC1BB2-827F-47b8-B1BD-60245BB15392");
+                            {
+                                System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(strTestorGuid));
+                                verse.Retellings.AddNewLine(strData, strTestorGuid);
+                            }
                             else if (!String.IsNullOrEmpty(strMarker) && !String.IsNullOrEmpty(strData))
                                 System.Diagnostics.Debug.Assert(false, String.Format("not handling the '{0}' marker", strMarker));
 
@@ -135,7 +170,7 @@ namespace OneStoryProjectEditor
                             {
                                 ConsultNoteDataConverter con = new ConsultantNoteData();
                                 con.MentorComment = strData;
-                                con.MentorGuid = "mem-8B45075E-6434-4755-81AE-E1EEB9134D5B";
+                                con.MentorGuid = MemberGuid(theStories.TeamMembers, "Bob", TeamMemberData.UserTypes.eConsultantInTraining);
                                 int nRound = 1;
                                 try
                                 {
@@ -151,7 +186,7 @@ namespace OneStoryProjectEditor
                                 System.Diagnostics.Debug.Assert(verse.ConsultantNotes.Count > 0);
                                 ConsultNoteDataConverter con = verse.ConsultantNotes[verse.ConsultantNotes.Count - 1];
                                 con.MenteeResponse = strData;
-                                con.MenteeGuid = "mem-99CDE60E-453A-4947-8627-83B33223EF0B";
+                                con.MenteeGuid = story.CraftingInfo.StoryCrafterMemberID;
                             }
                             else if (!String.IsNullOrEmpty(strMarker) && !String.IsNullOrEmpty(strData))
                                 System.Diagnostics.Debug.Assert(false, String.Format("not handling the '{0}' marker", strMarker));
@@ -171,7 +206,7 @@ namespace OneStoryProjectEditor
                                 ConsultNoteDataConverter coa = new CoachNoteData();
                                 verse.CoachNotes.Add(coa);
                                 coa.MentorComment = strData;
-                                coa.MentorGuid = "mem-7064CC55-73C4-48bf-B2DC-9989A5ED9D1B";
+                                coa.MentorGuid = MemberGuid(theStories.TeamMembers, "Judy", TeamMemberData.UserTypes.eCoach);
                                 int nRound = 1;
                                 try
                                 {
@@ -191,7 +226,7 @@ namespace OneStoryProjectEditor
                                 System.Diagnostics.Debug.Assert(verse.CoachNotes.Count > 0);
                                 ConsultNoteDataConverter coa = verse.CoachNotes[verse.CoachNotes.Count - 1];
                                 coa.MenteeResponse = strData;
-                                coa.MenteeGuid = "mem-8B45075E-6434-4755-81AE-E1EEB9134D5B";
+                                coa.MenteeGuid = MemberGuid(theStories.TeamMembers, "Bob", TeamMemberData.UserTypes.eConsultantInTraining);
                             }
                             else if (strMarker == @"\dt")
                                 Console.WriteLine("Found:" + strMarker);
@@ -201,13 +236,29 @@ namespace OneStoryProjectEditor
                             ParseLine(astrCoa[++nIndexCoa], out strMarker, out strData);
                         }
                     }
+                    
+                    if (verse.HasData)
+                        story.Verses.Add(verse);
 
-                    story.Verses.Add(verse);
+                    if (nIndexBt < astrBt.Length - 1)
+                        ParseLine(astrBt[nIndexBt], out strMarker, out strData);
+                    else
+                        break;
                 }
+
+                story.ProjStage.ProjectStage = StoryStageLogic.ProjectStages.eTeamComplete;
                 theStories.Add(story);
                 SkipTo(@"\t ", @"\t ", astrBt, ref nIndexBt);
             }
 
+            theStories.ProjSettings.Vernacular.LangName = CstrVernName;
+            theStories.ProjSettings.Vernacular.LangCode = CstrVernCode;
+            theStories.ProjSettings.Vernacular.FullStop = CstrVernFullStop;
+            theStories.ProjSettings.NationalBT.LangName = CstrNatlName;
+            theStories.ProjSettings.NationalBT.LangCode = CstrNatlCode;
+            theStories.ProjSettings.NationalBT.FullStop = CstrNatlFullStop;
+            theStories.ProjSettings.InternationalBT.LangName = CstrIntlName;
+            theStories.ProjSettings.InternationalBT.LangCode = CstrIntlCode;
             SaveXElement(theStories.GetXml, @"C:\Code\StoryEditor\StoryEditor\Kangri.onestory");
         }
 

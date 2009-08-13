@@ -33,17 +33,11 @@ namespace OneStoryProjectEditor
         public string AltPhone = null;
         public string Address = null;
 
-        public TeamMemberData(string strName, TeamMemberData.UserTypes eMemberType, string strMemberGuid, string strEmail, string strSkypeID, string strTeamViewerID, string strPhone, string strAltPhone, string strAddress)
+        public TeamMemberData(string strName, TeamMemberData.UserTypes eMemberType)
         {
             Name = strName;
             MemberType = eMemberType;
-            MemberGuid = strMemberGuid;
-            Email = strEmail;
-            SkypeID = strSkypeID;
-            TeamViewerID = strTeamViewerID;
-            Phone = strPhone;
-            AltPhone = strAltPhone;
-            Address = strAddress;
+            MemberGuid = String.Format("mem-{0}", Guid.NewGuid());
         }
 
         public static TeamMemberData.UserTypes GetMemberType(string strMemberTypeString)

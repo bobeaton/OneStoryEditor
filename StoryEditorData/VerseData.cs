@@ -30,6 +30,15 @@ namespace OneStoryProjectEditor
             CoachNotes = new CoachNotesData();
         }
 
+        public bool HasData
+        {
+            get
+            {
+                return (!String.IsNullOrEmpty(VernacularText) || !String.IsNullOrEmpty(NationalBTText)
+                    || !String.IsNullOrEmpty(InternationalBTText));
+            }
+        }
+
         public XElement GetXml
         {
             get
