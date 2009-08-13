@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<StoryProject>
+<StoryProject xmlns="http://www.sil.org/computing/schemas/StoryProject.xsd">
   <stories ProjectName="Kangri">
     <Members>
       <Member name="Pawan" memberType="Crafter" memberKey="mem-2ac8bba6-4f87-46de-85cb-543af61c19e5" />
