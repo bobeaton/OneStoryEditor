@@ -1,27 +1,43 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<StoryProject xmlns="http://www.sil.org/computing/schemas/StoryProject.xsd">
+<StoryProject>
   <stories ProjectName="Kangri">
     <Members>
-      <Member name="Pawan" memberType="Crafter" email="koundal@kastanet.org" altPhone="1862230839" phone="93571-99065" memberKey="mem-99CDE60E-453A-4947-8627-83B33223EF0B" />
-      <Member name="Karn" memberType="Crafter" email="Karan_Dogra@kastanet.org" phone="93189-69891" memberKey="mem-68A82D25-D414-4489-A484-8F17D8808818" />
-      <Member name="Bob" memberType="ConsultantInTraining" email="bob_eaton@sall.com" altPhone="92185-51466" phone="972-283-3741" memberKey="mem-8B45075E-6434-4755-81AE-E1EEB9134D5B" />
-      <Member name="Judy" memberType="Coach" email="judy_payne@sil.org" memberKey="mem-7064CC55-73C4-48bf-B2DC-9989A5ED9D1B" />
-      <Member name="Vandna" memberType="UNS" address="c/o Sunshine Cottages; Suggar; Palampur, HP; 176061" memberKey="mem-B83F07A1-71D4-4358-82C3-9B2F7205E121" />
-      <Member name="Reena Kashyap" memberType="UNS" address="c/o Sunshine Cottages; Suggar; Palampur, HP; 176061" memberKey="mem-FCAC1BB2-827F-47b8-B1BD-60245BB15392" />
-      <Member name="Schmeagol" memberType="JustLooking" memberKey="mem-a2f7f229-d3d6-4e5c-923f-f1c5459d5657" />
+      <Member name="Pawan" memberType="Crafter" memberKey="mem-2ac8bba6-4f87-46de-85cb-543af61c19e5" />
+      <Member name="Vandna" memberType="UNS" memberKey="mem-93afecc0-82a8-4729-b827-599037f9ab66" />
+      <Member name="Reena Kashyap" memberType="UNS" memberKey="mem-46bb94d5-419f-4878-9923-c6c7231f8858" />
+      <Member name="Bob" memberType="ConsultantInTraining" memberKey="mem-61147cbb-f46d-4515-8c14-374a5b70a418" />
+      <Member name="Karan" memberType="Crafter" memberKey="mem-5a76bd0b-b42e-46ff-a79d-f682ea7cb93d" />
+      <Member name="Monu" memberType="UNS" memberKey="mem-91e04b1c-bde1-4b6b-b537-82d0b6c48dc1" />
+      <Member name="Deepak" memberType="UNS" memberKey="mem-cb352b6a-7b33-42c3-8a83-49d40e12ea50" />
+      <Member name="Mrs. Lata" memberType="UNS" memberKey="mem-a07b68cf-e54f-478e-8a46-867b2ab1eadc" />
+      <Member name="Raj" memberType="UNS" memberKey="mem-5fff4326-6c2b-424d-8a96-afb30faa25d2" />
+      <Member name="Deepak/Vandna" memberType="UNS" memberKey="mem-ae03842a-d4b3-4b0d-93af-be480c5b5ebe" />
+      <Member name="Ritu" memberType="UNS" memberKey="mem-8ee34b6b-4e5c-452a-ba68-8fbaaf41f4af" />
+      <Member name="Neha" memberType="UNS" memberKey="mem-02cece0c-b6b0-419d-a44d-984f0d5ae5bb" />
+      <Member name="Aju" memberType="UNS" memberKey="mem-8c7ae4b3-d5e9-42d4-ba4a-831f69f3be09" />
+      <Member name="Sapna" memberType="UNS" memberKey="mem-550197ec-c09a-4239-a710-a1916c8adc97" />
+      <Member name="Vandna/Chandresh" memberType="UNS" memberKey="mem-6577dd77-1d3a-4869-9c0a-e7b1bb0218d1" />
+      <Member name="Sunita" memberType="UNS" memberKey="mem-7ab0b10e-18f6-4ddf-92e2-8272b7531909" />
+      <Member name="Reena Kashyap/Sudha" memberType="UNS" memberKey="mem-df6d621a-3e96-437d-99d8-39c75f929ee0" />
+      <Member name="Chandresh/Vandna" memberType="UNS" memberKey="mem-c5eaf16e-cb53-4308-ba7b-682abcd1a57a" />
+      <Member name="Sudha/Reena Kashya" memberType="UNS" memberKey="mem-01254e01-4b93-48a6-bd67-f2a5ea6b6485" />
+      <Member name="Ganesh" memberType="UNS" memberKey="mem-6e617da8-e845-4730-ac69-66b023e2880a" />
+      <Member name="Anil" memberType="UNS" memberKey="mem-c6f4c7da-1d00-45d0-aa0a-30fd1b29f00d" />
+      <Member name="Dolly" memberType="UNS" memberKey="mem-eef943c4-f9a9-4656-a913-9f0e38b99f5b" />
+      <Member name="Sonia" memberType="UNS" memberKey="mem-9ce96025-541b-48f0-8b7f-a2c4ad5155cc" />
     </Members>
-    <Languages>
-      <VernacularLang name="Kangri" code="xnr" FontName="Arial Unicode MS" FontSize="12" FontColor="Maroon" SentenceFinalPunct="?" />
-      <NationalBTLang name="Hindi" code="hi" FontName="Arial Unicode MS" FontSize="12" FontColor="Green" SentenceFinalPunct="?" />
-      <InternationalBTLang name="English" code="en" FontName="Arial Unicode MS" FontSize="11" FontColor="Blue" SentenceFinalPunct="." />
-    </Languages>
-    <story name="Spiritual World" stage="CrafterTypeNationalBT" guid="c7538218-c477-4726-9646-8f934d0566c2">
+    <story name="Spiritual World" stage="CrafterTypeNationalBT" guid="e9da4b25-2a37-4fba-8441-62c1a275c1cd">
       <CraftingInfo>
-        <StoryCrafter memberID="mem-99CDE60E-453A-4947-8627-83B33223EF0B" />
+        <StoryCrafter memberID="mem-2ac8bba6-4f87-46de-85cb-543af61c19e5" />
         <StoryPurpose>To explain where our enemy came from</StoryPurpose>
+        <BackTranslator memberID="mem-93afecc0-82a8-4729-b827-599037f9ab66" />
+        <Tests>
+          <Test number="1" memberID="mem-93afecc0-82a8-4729-b827-599037f9ab66" />
+          <Test number="2" memberID="mem-46bb94d5-419f-4878-9923-c6c7231f8858" />
+        </Tests>
       </CraftingInfo>
       <verses>
-        <verse guid="bee743a7-355d-4954-a5f1-810893318abc">
+        <verse guid="60cb4ebe-6b06-486a-bb81-335e9e842479">
           <Vernacular>अज चौंह़ईं पास्‍सेआं जितनिआं भी चीज़ा असां दिखदे हन, इह़ना जो परमेसरैं ई बणाया है ।</Vernacular>
           <NationalBT>आज चारों तरफ जितनी भी चीजें हम देखते हैं, इन्‍हें परमेश्‍वर ने ही बनाया है।</NationalBT>
           <InternationalBT>Whatever things we see around us today, God had made it only.</InternationalBT>
@@ -35,37 +51,42 @@
               <TQVernacular>हमारे चारों तरफ जितनी भी चीजें हैं इनसे आप क्‍या समझते हैं ?</TQVernacular>
               <TQInternationalBT>What do you understand the things are that we see around us?</TQInternationalBT>
               <Answers>
-                <answer memberID="mem-FCAC1BB2-827F-47b8-B1BD-60245BB15392">This mean only that whatever is around us - Air, Water, Plants, creature everything in the world etc.</answer>
+                <answer memberID="mem-46bb94d5-419f-4878-9923-c6c7231f8858">This mean only that whatever is around us - Air, Water, Plants, creature everything in the world etc.</answer>
               </Answers>
             </TestQuestion>
           </TestQuestions>
           <Retellings>
-            <Retelling memberID="mem-FCAC1BB2-827F-47b8-B1BD-60245BB15392">We see whatever around us god has made it.</Retelling>
+            <Retelling memberID="mem-46bb94d5-419f-4878-9923-c6c7231f8858">We see whatever around us god has made it.</Retelling>
           </Retellings>
           <ConsultantNotes>
             <ConsultantNote round="2">
-              <ConsultantComment memberID="mem-8B45075E-6434-4755-81AE-E1EEB9134D5B">BE2: note in the retelling, she said "... God has made it", whereas in the original story, it says, "... God was before them all" (which gets repeated in the next verse). Do you think we should change 00.01 to be more like her retelling? The "God made everything" concept is really from the next story, from which she might be getting confused, but it might work here too.</ConsultantComment>
-              <CrafterResponse memberID="mem-99CDE60E-453A-4947-8627-83B33223EF0B">Yes, it is more natural and I have changed it.</CrafterResponse>
+              <ConsultantComment memberID="mem-61147cbb-f46d-4515-8c14-374a5b70a418">BE2: note in the retelling, she said "... God has made it", whereas in the original story, it says, "... God was before them all" (which gets repeated in the next verse). Do you think we should change 00.01 to be more like her retelling? The "God made everything" concept is really from the next story, from which she might be getting confused, but it might work here too.</ConsultantComment>
+              <CrafterResponse memberID="mem-2ac8bba6-4f87-46de-85cb-543af61c19e5">Yes, it is more natural and I have changed it.</CrafterResponse>
             </ConsultantNote>
             <ConsultantNote round="1">
-              <ConsultantComment memberID="mem-8B45075E-6434-4755-81AE-E1EEB9134D5B">BE1: just a reminder to word the question as much as possible as the original text (i.e. जितनी भी 'whatever' rather than जितनी 'what')</ConsultantComment>
-              <CrafterResponse memberID="mem-99CDE60E-453A-4947-8627-83B33223EF0B">done</CrafterResponse>
+              <ConsultantComment memberID="mem-61147cbb-f46d-4515-8c14-374a5b70a418">BE1: just a reminder to word the question as much as possible as the original text (i.e. जितनी भी 'whatever' rather than जितनी 'what')</ConsultantComment>
+              <CrafterResponse memberID="mem-2ac8bba6-4f87-46de-85cb-543af61c19e5">done</CrafterResponse>
             </ConsultantNote>
             <ConsultantNote round="1">
-              <ConsultantComment memberID="mem-8B45075E-6434-4755-81AE-E1EEB9134D5B">BE1: good question: given the Hindu perspective of maya 'illusion', it'd be interesting to see what they think is actually around them.</ConsultantComment>
-              <CrafterResponse memberID="mem-99CDE60E-453A-4947-8627-83B33223EF0B">done</CrafterResponse>
+              <ConsultantComment memberID="mem-61147cbb-f46d-4515-8c14-374a5b70a418">BE1: good question: given the Hindu perspective of maya 'illusion', it'd be interesting to see what they think is actually around them.</ConsultantComment>
+              <CrafterResponse memberID="mem-2ac8bba6-4f87-46de-85cb-543af61c19e5">done</CrafterResponse>
             </ConsultantNote>
           </ConsultantNotes>
         </verse>
       </verses>
     </story>
-    <story name="Creation Story" stage="CrafterTypeNationalBT" guid="4e4da052-0c93-4a63-994b-dd48d7fb60c3">
+    <story name="Creation Story" stage="CrafterTypeNationalBT" guid="d2ffaf1f-1610-4d32-acc9-5dfdcef97fb0">
       <CraftingInfo>
-        <StoryCrafter memberID="mem-68A82D25-D414-4489-A484-8F17D8808818" />
+        <StoryCrafter memberID="mem-5a76bd0b-b42e-46ff-a79d-f682ea7cb93d" />
         <StoryPurpose>To show that God created this world?</StoryPurpose>
+        <BackTranslator memberID="mem-91e04b1c-bde1-4b6b-b537-82d0b6c48dc1" />
+        <Tests>
+          <Test number="1" memberID="mem-cb352b6a-7b33-42c3-8a83-49d40e12ea50" />
+          <Test number="2" memberID="mem-46bb94d5-419f-4878-9923-c6c7231f8858" />
+        </Tests>
       </CraftingInfo>
       <verses>
-        <verse guid="6d74638c-068e-4b6e-bd7f-714731de0026">
+        <verse guid="5fa4e81f-72b6-47fc-9a13-51fad00d0498">
           <Vernacular>इस संसारे च जे किच्‍छ भ़ी है, सह़ब परमेसरैं ई बणाया है।</Vernacular>
           <NationalBT>इस संसार में जो कुछ भी है, वह परमेश्‍वर ने ही बनाया है। </NationalBT>
           <InternationalBT>Whatever is in this world God only has made it.</InternationalBT>
@@ -77,13 +98,18 @@
         </verse>
       </verses>
     </story>
-    <story name="Fall of Man in Sin" stage="CrafterTypeNationalBT" guid="edff93a5-da9a-45c0-976b-eb3243d264ed">
+    <story name="Fall of Man in Sin" stage="CrafterTypeNationalBT" guid="5fafbeb9-9c74-4e90-a7dc-0799ecdc133f">
       <CraftingInfo>
-        <StoryCrafter memberID="mem-99CDE60E-453A-4947-8627-83B33223EF0B" />
+        <StoryCrafter memberID="mem-2ac8bba6-4f87-46de-85cb-543af61c19e5" />
         <StoryPurpose>To show how our relationship with God was broken</StoryPurpose>
+        <BackTranslator memberID="mem-93afecc0-82a8-4729-b827-599037f9ab66" />
+        <Tests>
+          <Test number="1" memberID="mem-93afecc0-82a8-4729-b827-599037f9ab66" />
+          <Test number="2" memberID="mem-46bb94d5-419f-4878-9923-c6c7231f8858" />
+        </Tests>
       </CraftingInfo>
       <verses>
-        <verse guid="4964e537-8469-4253-b96d-a5a77e873875">
+        <verse guid="5c6b0b98-d412-4402-a6f4-e49a25178d89">
           <Vernacular>आदम कने तिस दी जीबन साथी "हव्‍वा, परमेसरे दे बणाए बाग्‍गे च बड़िआ खुसिआ कन्‍ने रैह़ना लग्‍गे।</Vernacular>
           <NationalBT>आदम और उसकी जीवन साथी, 'हव्‍वा', परमेश्‍वर के बनाए बाग में बड़ी खुशी से रहने लगे। </NationalBT>
           <InternationalBT>Adam and his life partner, Eve, began to live very happily in the garden made by God.</InternationalBT>
@@ -98,13 +124,18 @@
         </verse>
       </verses>
     </story>
-    <story name="Abraham's sacrifice of his son" stage="CrafterTypeNationalBT" guid="dd25c1f6-041b-4985-b6ef-5e300c66714a">
+    <story name="Abraham's sacrifice of his son" stage="CrafterTypeNationalBT" guid="c9e6eb4f-6a1e-4096-b257-55940d0884da">
       <CraftingInfo>
-        <StoryCrafter memberID="mem-68A82D25-D414-4489-A484-8F17D8808818" />
+        <StoryCrafter memberID="mem-5a76bd0b-b42e-46ff-a79d-f682ea7cb93d" />
         <StoryPurpose>God did not abandon his relationship with man when man sinned.  He sought out a nation that would be His.  Through this nation, all nations would be blessed.</StoryPurpose>
+        <BackTranslator memberID="mem-a07b68cf-e54f-478e-8a46-867b2ab1eadc" />
+        <Tests>
+          <Test number="1" memberID="mem-5fff4326-6c2b-424d-8a96-afb30faa25d2" />
+          <Test number="2" memberID="mem-ae03842a-d4b3-4b0d-93af-be480c5b5ebe" />
+        </Tests>
       </CraftingInfo>
       <verses>
-        <verse guid="7caae40e-4306-4716-9c99-c2e663c6efe3">
+        <verse guid="410ecf33-9b7d-409d-ba5b-1b4ed4a945e9">
           <Vernacular>आदमै कने तिस दियें घरेवाल़ियें परमेसरे दा हुक्‍म नी मन्‍नेआ । इस तांईं तिह़ना जो परमेसरैं बाग्‍गे ते बाह़र करी दित्ता । सैह़ परमेसरे ते दूर होई गै, अपर परमेसर अपणिआ इस ख़ास रचना माह़णुए जो नी भुलेआ।</Vernacular>
           <NationalBT>आदम और उसकी पत्‍नी ने परमेश्‍वर की आज्ञा को नहीं माना। इसकी वजह से परमेश्‍वर ने उनको बाग से बाहर निकाल दिया। वे परमेसर से दूर हो गए, लेकिन वे अपनी खास रचना इन्‍सान जाति को नहीं भूला।</NationalBT>
           <InternationalBT>Adam and his wife did not obey God's command. Due this reason God remove them from the garden. They went far from God, but he did not forget his special creation man.</InternationalBT>
@@ -116,13 +147,18 @@
         </verse>
       </verses>
     </story>
-    <story name="Joseph's dream" stage="CrafterTypeNationalBT" guid="4ec6ceaf-6f84-4abb-8b52-7879a6cb3546">
+    <story name="Joseph's dream" stage="CrafterTypeNationalBT" guid="0f4162ad-6f8e-4790-aee0-12ed405db666">
       <CraftingInfo>
-        <StoryCrafter memberID="mem-68A82D25-D414-4489-A484-8F17D8808818" />
+        <StoryCrafter memberID="mem-5a76bd0b-b42e-46ff-a79d-f682ea7cb93d" />
         <StoryPurpose>Nobody can destroy any body who is annointed by God.</StoryPurpose>
+        <BackTranslator memberID="mem-8ee34b6b-4e5c-452a-ba68-8fbaaf41f4af" />
+        <Tests>
+          <Test number="1" memberID="mem-93afecc0-82a8-4729-b827-599037f9ab66" />
+          <Test number="2" memberID="" />
+        </Tests>
       </CraftingInfo>
       <verses>
-        <verse guid="6a791c75-b495-4fec-bedd-84af58158ea2">
+        <verse guid="018320dd-5098-4e1f-b814-ab4a6398c4a1">
           <Vernacular>अब्राहमे दे बंसे च कुछ सालां बाह़द "याकूब" नाए दा इक माह़णु पैदा होएआ।</Vernacular>
           <NationalBT>अब्राहम के वंश में कुछ सालों बाद 'याकूब' नाम का एक आदमी पैदा हुआ ।</NationalBT>
           <InternationalBT>From the line of Abraham after some years there was born a man named 'Jacob'.</InternationalBT>
@@ -134,12 +170,17 @@
         </verse>
       </verses>
     </story>
-    <story name="Joseph put into Jail" stage="CrafterTypeNationalBT" guid="73ba0b96-8d24-4961-898c-901e2be2107e">
+    <story name="Joseph put into Jail" stage="CrafterTypeNationalBT" guid="dc6e9967-c745-40ce-82b8-27e62f332cdd">
       <CraftingInfo>
-        <StoryCrafter memberID="mem-68A82D25-D414-4489-A484-8F17D8808818" />
+        <StoryCrafter memberID="mem-5a76bd0b-b42e-46ff-a79d-f682ea7cb93d" />
+        <BackTranslator memberID="mem-8ee34b6b-4e5c-452a-ba68-8fbaaf41f4af" />
+        <Tests>
+          <Test number="1" memberID="" />
+          <Test number="2" memberID="" />
+        </Tests>
       </CraftingInfo>
       <verses>
-        <verse guid="36a7d442-ac90-4f8b-8845-a441be43940f">
+        <verse guid="52d3fd13-f39c-4d3e-b6db-dc669b258900">
           <Vernacular>जाह़लु यूसुफ देआं भाउंआ तिसजो तिह़ना बपारिआं जो बेच्‍ची दित्ता, ता सैह़ तिसजो मिस्र लई गै । </Vernacular>
           <NationalBT>जब यूसुफ के भाइयों ने उसे उन व्‍यापारियों को बेच दिया, तो वे उसे मिस्र में ले गए। </NationalBT>
           <InternationalBT>When Joseph's brothers sold him to those merchants, then they brought him to Egypt. </InternationalBT>
@@ -151,12 +192,17 @@
         </verse>
       </verses>
     </story>
-    <story name="Joseph becomes Governor" stage="CrafterTypeNationalBT" guid="0f983cbe-d38b-4429-aa04-946025432ee0">
+    <story name="Joseph becomes Governor" stage="CrafterTypeNationalBT" guid="f037ae7d-0a7c-46bd-98b7-dfea9ff42795">
       <CraftingInfo>
-        <StoryCrafter memberID="mem-68A82D25-D414-4489-A484-8F17D8808818" />
+        <StoryCrafter memberID="mem-5a76bd0b-b42e-46ff-a79d-f682ea7cb93d" />
+        <BackTranslator memberID="mem-02cece0c-b6b0-419d-a44d-984f0d5ae5bb" />
+        <Tests>
+          <Test number="1" memberID="" />
+          <Test number="2" memberID="mem-8c7ae4b3-d5e9-42d4-ba4a-831f69f3be09" />
+        </Tests>
       </CraftingInfo>
       <verses>
-        <verse guid="253654ec-1439-4fa9-8691-bc17924636cc">
+        <verse guid="70df9b50-be5c-456d-8e84-5ff4c26bd80c">
           <Vernacular>हालांकि यूसुफ जेह़ला च बंद था, फिरी भी परमेसरे दी तिस पर बड़ी किरपा थी। </Vernacular>
           <NationalBT>हालाँकि यूसुफ जेल में बंद था, फिर भी परमेश्‍वर की उस पर बड़ी कृपा थी। </NationalBT>
           <InternationalBT>Even though Joseph was closed in jail, God's great favor was on him.</InternationalBT>
@@ -168,12 +214,17 @@
         </verse>
       </verses>
     </story>
-    <story name="Joseph meet with his brother" stage="CrafterTypeNationalBT" guid="7e2b1dc0-a648-4d08-87a3-61889a10adae">
+    <story name="Joseph meet with his brother" stage="CrafterTypeNationalBT" guid="21f924d1-15b6-46d1-981e-a54dd3ab3c55">
       <CraftingInfo>
-        <StoryCrafter memberID="mem-68A82D25-D414-4489-A484-8F17D8808818" />
+        <StoryCrafter memberID="mem-5a76bd0b-b42e-46ff-a79d-f682ea7cb93d" />
+        <BackTranslator memberID="mem-02cece0c-b6b0-419d-a44d-984f0d5ae5bb" />
+        <Tests>
+          <Test number="1" memberID="" />
+          <Test number="2" memberID="" />
+        </Tests>
       </CraftingInfo>
       <verses>
-        <verse guid="8b7609ea-4ee0-422d-a14a-2ca6e076ac50">
+        <verse guid="f77ddd68-8d0f-4ce8-ac05-9f45cced9cb0">
           <Vernacular>यूसुफै दे ग्‍लाह़ए मताबक मिस्र च बड़ी फसल हुंदी कने तिह़आं ई सत्ता सालां बाह़द काल भ़ी पई जांदा । </Vernacular>
           <NationalBT>यूसुफ के कहने के अनुसार मिस्र में बहुत फ़सल होती है और वैसे ही सात सालों के बाद अकाल भी पड़ जाता है।</NationalBT>
           <InternationalBT>According to the saying of Joseph a great harvest happens in Egypt and like that after seven years a famine also occurs.</InternationalBT>
@@ -185,13 +236,18 @@
         </verse>
       </verses>
     </story>
-    <story name="Moses - Saving his people from slavery" stage="CrafterTypeNationalBT" guid="a7ded2c6-7d4a-4748-be2b-42c5858fe126">
+    <story name="Moses - Saving his people from slavery" stage="CrafterTypeNationalBT" guid="af0a056f-990d-4c37-88cd-d05ba978f307">
       <CraftingInfo>
-        <StoryCrafter memberID="mem-68A82D25-D414-4489-A484-8F17D8808818" />
+        <StoryCrafter memberID="mem-5a76bd0b-b42e-46ff-a79d-f682ea7cb93d" />
         <StoryPurpose>God shows what kind of relationship he desires with his people. (Bridge) God never forget his promise</StoryPurpose>
+        <BackTranslator memberID="mem-a07b68cf-e54f-478e-8a46-867b2ab1eadc" />
+        <Tests>
+          <Test number="1" memberID="mem-46bb94d5-419f-4878-9923-c6c7231f8858" />
+          <Test number="2" memberID="mem-550197ec-c09a-4239-a710-a1916c8adc97" />
+        </Tests>
       </CraftingInfo>
       <verses>
-        <verse guid="76d1a40f-9966-46d6-970e-147cdbbb9941">
+        <verse guid="564e4dfe-d9fd-4792-8f9d-bb247c4a7e7a">
           <Vernacular>यूसुफ, तिसदे भ़ाउ - अनिकि याकूबे दे सारे बंसज, जिह़ना जो 'इस्राइली' ग्‍लाया गेआ, सैह़ मिस्र देस्‍से च मतेआं सालां तिकर रैह़, कने तिह़ना दी जात गिणतिआ च बड़ी भ़ारी बह़दी गह़ईओ थी ।</Vernacular>
           <NationalBT>युसुफ, उसके भाई – यानिकि याकूब के सारे वंशज, जिन्‍हें 'इस्राइली' कहा गया, वे मिस्र देश में बहुत सालों तक रहे, और उनकी जाति गिनती में बहुत बढ़ गई थी।</NationalBT>
           <InternationalBT>Joseph, his brothers, and all of Jacob's decendents, who were called 'Israelites', lived in Egypt country for many years and the number of their caste increased very much.</InternationalBT>
@@ -203,13 +259,18 @@
         </verse>
       </verses>
     </story>
-    <story name="David &amp; Goliath" stage="CrafterTypeNationalBT" guid="8008505b-50ef-49cd-9940-2ab1e732493b">
+    <story name="David &amp; Goliath" stage="CrafterTypeNationalBT" guid="7697ede2-e068-43de-bf18-6edd395ca9ae">
       <CraftingInfo>
-        <StoryCrafter memberID="mem-99CDE60E-453A-4947-8627-83B33223EF0B" />
+        <StoryCrafter memberID="mem-2ac8bba6-4f87-46de-85cb-543af61c19e5" />
         <StoryPurpose>To show how having a close relationship with God can lead to great faith, which can lead to great actions.</StoryPurpose>
+        <BackTranslator memberID="mem-93afecc0-82a8-4729-b827-599037f9ab66" />
+        <Tests>
+          <Test number="1" memberID="mem-6577dd77-1d3a-4869-9c0a-e7b1bb0218d1" />
+          <Test number="2" memberID="mem-46bb94d5-419f-4878-9923-c6c7231f8858" />
+        </Tests>
       </CraftingInfo>
       <verses>
-        <verse guid="0e0185ac-5d92-49df-bd6e-a71dea7ba0b8">
+        <verse guid="10d37940-70f0-471f-895d-78c3c954a520">
           <Vernacular>अपणे 'इस्राइल' देस्‍से च रैह़देआं कई साल बाह़द इस्राइलियां दे दुसमण होए, जिह़ना जो 'पिलिस्‍तीनियां' दे नाएं ते जाणदे थे। </Vernacular>
           <NationalBT>अपने 'इस्राइल' देश में रहते हुए कई सालों बाद इस्राईलियों के दुश्‍मन हुए, जिन्‍हें 'पिलिस्‍तीनियों' के नाम से जानते थे।</NationalBT>
           <InternationalBT>Living in their own country 'Israel' many years later, the Israelites had an enemy known as the Philistines.</InternationalBT>
@@ -221,12 +282,17 @@
         </verse>
       </verses>
     </story>
-    <story name="Isaiah - Birth of Jesus foretold" stage="CrafterTypeNationalBT" guid="6c51a088-ea71-407f-858c-cc5c5a48805a">
+    <story name="Isaiah - Birth of Jesus foretold" stage="CrafterTypeNationalBT" guid="90762948-0d55-40f2-bcf8-e5ba6ce72f6d">
       <CraftingInfo>
-        <StoryCrafter memberID="mem-68A82D25-D414-4489-A484-8F17D8808818" />
+        <StoryCrafter memberID="mem-5a76bd0b-b42e-46ff-a79d-f682ea7cb93d" />
+        <BackTranslator memberID="mem-7ab0b10e-18f6-4ddf-92e2-8272b7531909" />
+        <Tests>
+          <Test number="1" memberID="mem-46bb94d5-419f-4878-9923-c6c7231f8858" />
+          <Test number="2" memberID="mem-93afecc0-82a8-4729-b827-599037f9ab66" />
+        </Tests>
       </CraftingInfo>
       <verses>
-        <verse guid="7d9ac1e2-507f-4f45-823e-b1b083c34cef">
+        <verse guid="7c74757a-effa-4733-bb71-305860a7dd6b">
           <Vernacular>दाऊद परमेसरे दा बड़ा भग्‍त होएआ । परमेसरैं तिसजो अपणेआ इस्राइली लोकां तांईं राजा चुह़णेआ था । </Vernacular>
           <NationalBT>दाऊद परमेश्‍वर का बड़ा भग्‍त हुआ। परमेश्‍वर ने उसे अपने इस्राइली लोगों के लिए राजा चुना हुआ था।</NationalBT>
           <InternationalBT>David had been a great devotee of God. God had chosen him to be king for his people Israel.</InternationalBT>
@@ -240,20 +306,25 @@
               <TQVernacular>आपके विचार में परमेश्‍वर ने उसे कैसे राजा चुन लिया?</TQVernacular>
               <TQInternationalBT>In your opinion, how do you think God chose him as king?</TQInternationalBT>
               <Answers>
-                <answer memberID="mem-FCAC1BB2-827F-47b8-B1BD-60245BB15392">Because he was a great devotee of God. And God believe on them. So that he choose him as a king.</answer>
+                <answer memberID="mem-93afecc0-82a8-4729-b827-599037f9ab66">Because he was a great devotee of God. And God believe on them. So that he choose him as a king.</answer>
               </Answers>
             </TestQuestion>
           </TestQuestions>
         </verse>
       </verses>
     </story>
-    <story name="Joseph and Mary" stage="CrafterTypeNationalBT" guid="61b85226-3f16-4390-aec1-8fc5c71142eb">
+    <story name="Joseph and Mary" stage="CrafterTypeNationalBT" guid="1710c4a1-f8ef-495a-a202-31f91a0efe3b">
       <CraftingInfo>
-        <StoryCrafter memberID="mem-99CDE60E-453A-4947-8627-83B33223EF0B" />
+        <StoryCrafter memberID="mem-2ac8bba6-4f87-46de-85cb-543af61c19e5" />
         <StoryPurpose>To show that Jesus was truly God's provision for the restoration of a relationship with God for all peoples.</StoryPurpose>
+        <BackTranslator memberID="mem-93afecc0-82a8-4729-b827-599037f9ab66" />
+        <Tests>
+          <Test number="1" memberID="mem-6577dd77-1d3a-4869-9c0a-e7b1bb0218d1" />
+          <Test number="2" memberID="mem-df6d621a-3e96-437d-99d8-39c75f929ee0" />
+        </Tests>
       </CraftingInfo>
       <verses>
-        <verse guid="fcd2b008-3bbc-467a-ab9f-0e98c1d8d922">
+        <verse guid="6d32f81d-0a07-48f4-854e-6f185752cab5">
           <Vernacular>एह़ गल्‍ल तिह़ना दिनां दी है, जाह़लु रोमी म्‍ह़ाराजैं इस्राइल देस्‍से जो गलाम बणाई लेह़आ था । </Vernacular>
           <NationalBT>यह बात उन दिनों की है जब रोमी महाराजा ने इस्राइल देश को गुलाम बना लिया था।</NationalBT>
           <InternationalBT>This is a matter of those days when the Roman emperor had made slaves of the Israel country.</InternationalBT>
@@ -265,13 +336,18 @@
         </verse>
       </verses>
     </story>
-    <story name="Birth of Jesus (announcement to shepherd)" stage="CrafterTypeNationalBT" guid="7ddcfcc0-7790-4e99-a322-82f50e61e5ba">
+    <story name="Birth of Jesus (announcement to shepherd)" stage="CrafterTypeNationalBT" guid="c511bd8e-94d1-4691-9837-97521b7b2818">
       <CraftingInfo>
-        <StoryCrafter memberID="mem-99CDE60E-453A-4947-8627-83B33223EF0B" />
+        <StoryCrafter memberID="mem-2ac8bba6-4f87-46de-85cb-543af61c19e5" />
         <StoryPurpose>Proclaiming the good news of the birth of a Saviour</StoryPurpose>
+        <BackTranslator memberID="mem-93afecc0-82a8-4729-b827-599037f9ab66" />
+        <Tests>
+          <Test number="1" memberID="mem-c5eaf16e-cb53-4308-ba7b-682abcd1a57a" />
+          <Test number="2" memberID="mem-01254e01-4b93-48a6-bd67-f2a5ea6b6485" />
+        </Tests>
       </CraftingInfo>
       <verses>
-        <verse guid="d76fbf5b-68af-42be-8ea9-765f3f16a2c4">
+        <verse guid="340ad12e-b19c-40c6-86c1-2157d64b72c6">
           <Vernacular>कुछ दिनां बाह़द रोमी म्‍ह़ाराजैं अपणेआं सारेआं देसां दी जनगणना करने दा हुक्‍म दित्ता, जिह़ना च इस्राइल देस भी था । </Vernacular>
           <NationalBT>कुछ समय बाद रोमी महाराजा ने अपने सभी देशों की जनगणना करने का हुक्‍म दिया, जिनमें इस्राइल देश भी था।</NationalBT>
           <InternationalBT>After some time the Roman emperor gave an order to do a census of all his countries, among which was the country of Israel also.</InternationalBT>
@@ -285,20 +361,25 @@
               <TQVernacular>आप क्‍या सोचते हो कि रोमी महाराजा ने जनगणना का हुक्‍म क्‍यों दिया ?</TQVernacular>
               <TQInternationalBT>What do you think is the reason why the Roman emperor ordered the census?</TQInternationalBT>
               <Answers>
-                <answer memberID="mem-FCAC1BB2-827F-47b8-B1BD-60245BB15392">To know the number of his people he must have given this order, as it happened these days also.</answer>
+                <answer memberID="mem-01254e01-4b93-48a6-bd67-f2a5ea6b6485">To know the number of his people he must have given this order, as it happened these days also.</answer>
               </Answers>
             </TestQuestion>
           </TestQuestions>
         </verse>
       </verses>
     </story>
-    <story name="Baptism of Jesus (by John)" stage="CrafterTypeNationalBT" guid="d5841012-1353-4f9a-a701-000433445dbf">
+    <story name="Baptism of Jesus (by John)" stage="CrafterTypeNationalBT" guid="d3b48790-8dc3-4cce-a109-76df09f03944">
       <CraftingInfo>
-        <StoryCrafter memberID="mem-68A82D25-D414-4489-A484-8F17D8808818" />
+        <StoryCrafter memberID="mem-5a76bd0b-b42e-46ff-a79d-f682ea7cb93d" />
         <StoryPurpose>This story proves that Jesus is God's son.  It also sets the example for new believers to obey.</StoryPurpose>
+        <BackTranslator memberID="mem-cb352b6a-7b33-42c3-8a83-49d40e12ea50" />
+        <Tests>
+          <Test number="1" memberID="" />
+          <Test number="2" memberID="mem-93afecc0-82a8-4729-b827-599037f9ab66" />
+        </Tests>
       </CraftingInfo>
       <verses>
-        <verse guid="0286e993-d436-410b-a306-62ebfa59ee86">
+        <verse guid="4f5a99ef-ebb4-4890-a2ea-bc8cf59a261f">
           <Vernacular>एह़ गल्‍ल तिह़ना दिनां दी है , जाह़लु यीशु तकरीबन तिह़आं सालां दे थे । </Vernacular>
           <NationalBT>यह बात उन दिनों की है, जब यीशु तकरीबन तीस साल के थे। </NationalBT>
           <InternationalBT>This thing is of those days when Jesus was about 30 years old.</InternationalBT>
@@ -310,13 +391,18 @@
         </verse>
       </verses>
     </story>
-    <story name="Healing of demon possessed boy (Some Deeds)" stage="CrafterTypeNationalBT" guid="738e7b88-e3fe-4868-ae26-1d8bd49d10f3">
+    <story name="Healing of demon possessed boy (Some Deeds)" stage="CrafterTypeNationalBT" guid="6c772628-5101-452c-a6a8-83975a9c733d">
       <CraftingInfo>
-        <StoryCrafter memberID="mem-99CDE60E-453A-4947-8627-83B33223EF0B" />
+        <StoryCrafter memberID="mem-2ac8bba6-4f87-46de-85cb-543af61c19e5" />
         <StoryPurpose>This story shows how God can restore a broken relationship no matter what the situation may be.</StoryPurpose>
+        <BackTranslator memberID="mem-6e617da8-e845-4730-ac69-66b023e2880a" />
+        <Tests>
+          <Test number="1" memberID="mem-93afecc0-82a8-4729-b827-599037f9ab66" />
+          <Test number="2" memberID="mem-46bb94d5-419f-4878-9923-c6c7231f8858" />
+        </Tests>
       </CraftingInfo>
       <verses>
-        <verse guid="65dffbcd-bbc7-4f5f-925a-31cf9202b41c">
+        <verse guid="33df3bc4-21e2-429d-8dd4-1d49be17cf45">
           <Vernacular>यूहन्‍नैं ते बपतिस्‍मा लैणै ते बाह़द यीशुएं 12 जने अपणे खास चेले बणाए ।</Vernacular>
           <NationalBT>यूहन्‍ना से बपतिस्‍मा लेने के बाद यीशु ने ख़ास १२ लोगों को अपने चेले बनाया।</NationalBT>
           <InternationalBT>After taking baptism by John Jesus made twelve special people as a disciple. </InternationalBT>
@@ -328,13 +414,18 @@
         </verse>
       </verses>
     </story>
-    <story name="Strong Man" stage="CrafterTypeNationalBT" guid="349da50e-8604-4068-90d5-620567946f9d">
+    <story name="Strong Man" stage="CrafterTypeNationalBT" guid="d98451b3-3292-4bb7-a48a-4dc17a373f5c">
       <CraftingInfo>
-        <StoryCrafter memberID="mem-99CDE60E-453A-4947-8627-83B33223EF0B" />
+        <StoryCrafter memberID="mem-2ac8bba6-4f87-46de-85cb-543af61c19e5" />
         <StoryPurpose>To show Jesus' desire and power to bind up the one who is keeping the relationship broken</StoryPurpose>
+        <BackTranslator memberID="mem-c6f4c7da-1d00-45d0-aa0a-30fd1b29f00d" />
+        <Tests>
+          <Test number="1" memberID="" />
+          <Test number="2" memberID="" />
+        </Tests>
       </CraftingInfo>
       <verses>
-        <verse guid="69cff07c-1d1e-4f1d-b261-258069cbd0c3">
+        <verse guid="278c4850-7bbf-4191-9274-9f4134b68dff">
           <Vernacular>इक बरी इक माह़णू यीशु बह़ला गेआ। सैह़ बुरिआ आत्‍मा दा सताह़एआ होएआ था, जिसदिआ बह़जा ते तिस ते ग्‍लाई नी हुंदा था।</Vernacular>
           <NationalBT>एक बार एक आदमी यीशु के पास गया। वह बुरी आत्‍मा का सताया हुआ था, जिसकी वजह से वह बोल नहीं पाआ रहा था।</NationalBT>
           <InternationalBT>One time a man came to Jesus. He had been possessed by demon, because of which he couldn't speak.</InternationalBT>
@@ -346,13 +437,18 @@
         </verse>
       </verses>
     </story>
-    <story name="Ninety nine plus one plus doctor for the sick" stage="CrafterTypeNationalBT" guid="86927c79-8ab0-4d37-ab4e-881a4f24f931">
+    <story name="Ninety nine plus one plus doctor for the sick" stage="CrafterTypeNationalBT" guid="a261c331-a48f-4385-8eca-e5a903223314">
       <CraftingInfo>
-        <StoryCrafter memberID="mem-68A82D25-D414-4489-A484-8F17D8808818" />
+        <StoryCrafter memberID="mem-5a76bd0b-b42e-46ff-a79d-f682ea7cb93d" />
         <StoryPurpose>This shows how much God/Jesus loves those who are looked down upon and how far he's willing to go so that even one might not remain lost</StoryPurpose>
+        <BackTranslator memberID="mem-a07b68cf-e54f-478e-8a46-867b2ab1eadc" />
+        <Tests>
+          <Test number="1" memberID="" />
+          <Test number="2" memberID="" />
+        </Tests>
       </CraftingInfo>
       <verses>
-        <verse guid="70a4e667-eb8d-4d63-b414-2af9ddebfc75">
+        <verse guid="63b1c6f8-b8c9-4726-9b1f-62b993a8c293">
           <Vernacular>यीशुए दे बग्‍तैं जेह़ड़े ध़रम सास्‍तरी थे, सैह़ पराणे जमान्‍ने देआं रीति-रुआज्‍जां जो सखतिआ कन्‍ने मनदे थे । जिसदिआ बजह़ा ते लोक तिह़ना जो "ध़रमी "सह़मदे थे । </Vernacular>
           <NationalBT>यीशु के समय में जो धर्म शास्‍त्री थे, वे पुराने जमाने के रीति-रिवाजों को सख्‍ती से मानते थे। इसकी वजह से लोग उनको "धर्मी" समझते थे।</NationalBT>
           <InternationalBT>In Jesus' time the religious teachers who were, they used to obey the old-time rituals-customs strictly. Because of this people used to consider them "righteous".</InternationalBT>
@@ -364,13 +460,18 @@
         </verse>
       </verses>
     </story>
-    <story name="Prayer of the Pharisee and tax collector" stage="CrafterTypeNationalBT" guid="7870e3f2-87dd-47be-aace-084302e539d4">
+    <story name="Prayer of the Pharisee and tax collector" stage="CrafterTypeNationalBT" guid="f2d44225-0fdc-4c05-817a-83fad07a0798">
       <CraftingInfo>
-        <StoryCrafter memberID="mem-68A82D25-D414-4489-A484-8F17D8808818" />
+        <StoryCrafter memberID="mem-5a76bd0b-b42e-46ff-a79d-f682ea7cb93d" />
         <StoryPurpose>To show a requirement in man's response to the broken relationship problem</StoryPurpose>
+        <BackTranslator memberID="mem-eef943c4-f9a9-4656-a913-9f0e38b99f5b" />
+        <Tests>
+          <Test number="1" memberID="" />
+          <Test number="2" memberID="" />
+        </Tests>
       </CraftingInfo>
       <verses>
-        <verse guid="3c005755-2bc8-4317-8639-33b725262c64">
+        <verse guid="eb318b0a-3fb0-45db-988f-59d386e75314">
           <Vernacular>यीशु जाह़लु गल्‍ल़ा करदे थे ता जादातर कहानिआं सणाई कने मसालां देई नै ई समझांदे थे।</Vernacular>
           <NationalBT>Jesus mostly used to talk with people by giving examples and telling stories.</NationalBT>
           <anchors>
@@ -387,13 +488,17 @@
         </verse>
       </verses>
     </story>
-    <story name="Jesus foreshadows the future" stage="CrafterTypeNationalBT" guid="16f59c81-f42a-4a94-8c0d-353f21dc407e">
+    <story name="Jesus foreshadows the future" stage="CrafterTypeNationalBT" guid="26ddcbde-7f7c-4987-93ca-4d66f08a2149">
       <CraftingInfo>
-        <StoryCrafter memberID="mem-99CDE60E-453A-4947-8627-83B33223EF0B" />
+        <StoryCrafter memberID="mem-2ac8bba6-4f87-46de-85cb-543af61c19e5" />
         <StoryPurpose>This is a prophesy story that foreshadows the remaining stories of the panorama and shows that Jesus was a prophet (telling about his impending death) (based on mrk.10:32 ff) and to give information about the function of the holy spirit when he comes (based on Jhn.14:15 ff, jhn.16:5 ff)</StoryPurpose>
+        <Tests>
+          <Test number="1" memberID="" />
+          <Test number="2" memberID="" />
+        </Tests>
       </CraftingInfo>
       <verses>
-        <verse guid="f28491d9-7af7-43b9-9d53-bfac1ab2d6ed">
+        <verse guid="9317c27a-559b-4ba1-88ac-b0b965382a1b">
           <Vernacular>इक बरी यीशु अपणेआं खास 12 चेलेआं सौगी यरुसलेम्‍मैं जो जा दे थे, जेह़ड़ी इस्राइले दी खास धारमक जह़गा थी। </Vernacular>
           <NationalBT>एक बार यीशु अपने ख़ास 12 चेलों के साथ यरुसलेम को जा रहे थे, जो इस्राइल की ख़ास धर्मिक जगह थी।</NationalBT>
           <InternationalBT>One time Jesus was going to Jerusalem with his 12 special disciples, which was Israel's special religious place.</InternationalBT>
@@ -408,13 +513,18 @@
         </verse>
       </verses>
     </story>
-    <story name="Trial and death of Jesus" stage="CrafterTypeNationalBT" guid="4b561eb9-3ef3-4656-a6ec-7a463f317d71">
+    <story name="Trial and death of Jesus" stage="CrafterTypeNationalBT" guid="ffac0d8b-580c-482c-9b59-d75e04ce4972">
       <CraftingInfo>
-        <StoryCrafter memberID="mem-68A82D25-D414-4489-A484-8F17D8808818" />
+        <StoryCrafter memberID="mem-5a76bd0b-b42e-46ff-a79d-f682ea7cb93d" />
         <StoryPurpose>Jesus is alive</StoryPurpose>
+        <BackTranslator memberID="mem-9ce96025-541b-48f0-8b7f-a2c4ad5155cc" />
+        <Tests>
+          <Test number="1" memberID="" />
+          <Test number="2" memberID="" />
+        </Tests>
       </CraftingInfo>
       <verses>
-        <verse guid="f134060d-4deb-4b7c-b664-19b5e86efac4">
+        <verse guid="115b21f6-3ec5-4b84-9290-87ffca5d66fe">
           <Vernacular>यीशुए देआं कम्‍मां दिआ बह़जा ते बड़े लोक तिह़ना पर बसुआस करना लगी पै । </Vernacular>
           <NationalBT>यीशु के कामों की वजह से बहुत से लोग उन पर विश्‍वास करने लग पड़े।</NationalBT>
           <InternationalBT>Because of Jesus' deeds very many people got underway believing in him.</InternationalBT>
@@ -432,13 +542,18 @@
         </verse>
       </verses>
     </story>
-    <story name="Resurrection" stage="CrafterTypeNationalBT" guid="16132f44-1959-4d59-bd89-0bbfba4997bc">
+    <story name="Resurrection" stage="CrafterTypeNationalBT" guid="d394ddfb-d994-420d-aefc-8904715002fa">
       <CraftingInfo>
-        <StoryCrafter memberID="mem-68A82D25-D414-4489-A484-8F17D8808818" />
+        <StoryCrafter memberID="mem-5a76bd0b-b42e-46ff-a79d-f682ea7cb93d" />
         <StoryPurpose>To show that the prophecies concerning Jesus were fulfilled. Jesus came back to life, appeared to his followers, promised them the coming of God's Spirit, and then, returned to heaven.</StoryPurpose>
+        <BackTranslator memberID="mem-eef943c4-f9a9-4656-a913-9f0e38b99f5b" />
+        <Tests>
+          <Test number="1" memberID="" />
+          <Test number="2" memberID="" />
+        </Tests>
       </CraftingInfo>
       <verses>
-        <verse guid="66a51e9f-4661-47b5-a80d-fc972f419dad">
+        <verse guid="b1b86e75-43d6-4f3d-a984-5a8ac12094a2">
           <Vernacular>यीसुआ दिआ मौत्ती ते तीज्‍जे दिनैं कुछ बसुआसी जणांसां तिह़ना दिआ कबरा जो गईंआं, तांजे सैह़ तिह़ना दिआ रीती रुआज्‍जा मताबक आखरी रसमां जो पूरा कर सहकन । </Vernacular>
           <NationalBT>यीशु की मौत के तीसरे दिन कुछ विश्‍वासी स्‍त्रियां उनकी कब्र को गईं, ताकि वे उनके रिती-रिवाज़ के मताबक अंतिम संस्‍कार की रश्‍म को अदा कर सकें।</NationalBT>
           <InternationalBT>On the third day of Jesus' death, some believer women came to his tomb, so that they could fulfill the ritual of last rites according to their custom.</InternationalBT>
@@ -450,31 +565,46 @@
         </verse>
       </verses>
     </story>
-    <story name="Holy spirit (Act)" stage="CrafterTypeNationalBT" guid="30083f19-f7ba-468d-8c8d-b76d5921dc3b">
+    <story name="Holy spirit (Act)" stage="CrafterTypeNationalBT" guid="2a7c0f3d-59bc-45f7-b531-2167a4b6c79c">
       <CraftingInfo>
-        <StoryCrafter memberID="mem-99CDE60E-453A-4947-8627-83B33223EF0B" />
+        <StoryCrafter memberID="mem-2ac8bba6-4f87-46de-85cb-543af61c19e5" />
         <StoryPurpose>Show the Power of Holy Spirit</StoryPurpose>
+        <BackTranslator memberID="mem-93afecc0-82a8-4729-b827-599037f9ab66" />
+        <Tests>
+          <Test number="1" memberID="mem-93afecc0-82a8-4729-b827-599037f9ab66" />
+          <Test number="2" memberID="mem-46bb94d5-419f-4878-9923-c6c7231f8858" />
+        </Tests>
       </CraftingInfo>
       <verses>
-        <verse guid="6d158f1f-d80e-4255-a1fd-789cbd30acab" />
+        <verse guid="1dc44469-967f-4eb2-ad02-b4609a966a7f" />
       </verses>
     </story>
-    <story name="Pavan's brother" stage="CrafterTypeNationalBT" guid="e6b9e7b8-4fb2-4ed8-8d91-06d63b25081d">
+    <story name="Pavan's brother" stage="CrafterTypeNationalBT" guid="00f0fceb-6144-4701-a54a-87c2a9ec3f82">
       <CraftingInfo>
-        <StoryCrafter memberID="mem-99CDE60E-453A-4947-8627-83B33223EF0B" />
+        <StoryCrafter memberID="mem-2ac8bba6-4f87-46de-85cb-543af61c19e5" />
+        <BackTranslator memberID="mem-2ac8bba6-4f87-46de-85cb-543af61c19e5" />
+        <Tests>
+          <Test number="1" memberID="" />
+          <Test number="2" memberID="" />
+        </Tests>
       </CraftingInfo>
       <verses>
-        <verse guid="fb4caa67-5128-4686-b54e-44e9afd3a012">
+        <verse guid="feab7cd2-2e02-4c43-bc48-61c3960fda2d">
           <InternationalBT>This thing is of that time </InternationalBT>
         </verse>
       </verses>
     </story>
-    <story name="Fish and frog" stage="CrafterTypeNationalBT" guid="b834d384-ad19-4ee1-b487-d6bc2bd6d92d">
+    <story name="Fish and frog" stage="CrafterTypeNationalBT" guid="1d6961a8-bd78-4dcc-b820-fc5ee30d6cc2">
       <CraftingInfo>
-        <StoryCrafter memberID="mem-68A82D25-D414-4489-A484-8F17D8808818" />
+        <StoryCrafter memberID="mem-5a76bd0b-b42e-46ff-a79d-f682ea7cb93d" />
+        <BackTranslator memberID="mem-2ac8bba6-4f87-46de-85cb-543af61c19e5" />
+        <Tests>
+          <Test number="1" memberID="" />
+          <Test number="2" memberID="" />
+        </Tests>
       </CraftingInfo>
       <verses>
-        <verse guid="71a80cf9-e845-4ebb-a28e-4edc10cb77bd">
+        <verse guid="927790fe-9d00-4b88-857b-b8c7def7342c">
           <InternationalBT>This is one time thing that</InternationalBT>
         </verse>
       </verses>
