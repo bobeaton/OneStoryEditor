@@ -26,53 +26,85 @@ namespace OneStoryProjectEditor
             foreach (StoryData aSD in _stories)
             {
                 StoryStageLogic.StageTransition st = StoryStageLogic.stateTransitions[aSD.ProjStage.ProjectStage];
-                object[] aObs = new object[4] { aSD.StoryName, aSD.CraftingInfo.StoryPurpose, 
+                object[] aObs = new object[] { aSD.StoryName, aSD.CraftingInfo.StoryPurpose, 
                     TeamMemberData.GetMemberTypeAsString(aSD.ProjStage.MemberTypeWithEditToken), 
                     st.StageDisplayString };
-                dataGridViewPanorama.Rows.Add(aObs);
+                int nRowIndex = dataGridViewPanorama.Rows.Add(aObs);
+                DataGridViewRow aRow = dataGridViewPanorama.Rows[nRowIndex];
+                aRow.Tag = st;
             }
         }
+
+        private void buttonMoveUp_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.Assert(dataGridViewPanorama.SelectedRows.Count < 2);   // 1 or 0
+            if (dataGridViewPanorama.SelectedRows.Count != 1)
+                return;
+
+            DataGridViewRow theSelectedRow = dataGridViewPanorama.SelectedRows[0];
+            int nSelectedRowIndex = theSelectedRow.Index;
+            if (nSelectedRowIndex > 0)
+            {
+                dataGridViewPanorama.Rows.RemoveAt(nSelectedRowIndex);
+                dataGridViewPanorama.Rows.Insert(--nSelectedRowIndex, theSelectedRow);
+                theSelectedRow.Selected = true;
+            }
+        }
+
+        private void buttonMoveDown_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.Assert(dataGridViewPanorama.SelectedRows.Count < 2);   // 1 or 0
+            if (dataGridViewPanorama.SelectedRows.Count != 1)
+                return;
+
+            DataGridViewRow theSelectedRow = dataGridViewPanorama.SelectedRows[0];
+            int nSelectedRowIndex = theSelectedRow.Index;
+            if (nSelectedRowIndex < dataGridViewPanorama.Rows.Count - 1)
+            {
+                dataGridViewPanorama.Rows.RemoveAt(nSelectedRowIndex);
+                dataGridViewPanorama.Rows.Insert(++nSelectedRowIndex, theSelectedRow);
+                theSelectedRow.Selected = true;
+            }
+        }
+
+        #region obsolete code
+        /*
+        protected DataGridViewRow m_rowLast = null;
 
         private void contextMenuStripProjectStages_Opening(object sender, CancelEventArgs e)
         {
-            if (m_rowLastClicked == null)
+            System.Diagnostics.Debug.Assert(dataGridViewPanorama.SelectedRows.Count < 2);   // 1 or 0
+            if (dataGridViewPanorama.SelectedRows.Count != 1)
                 return;
 
             contextMenuStripProjectStages.Items.Clear();
-            string strStoryStageDisplayString = (string)m_rowLastClicked.Cells[CnColumnStoryStage].Value;
-            StoryStageLogic.ProjectStages eStage;
-            StoryStageLogic.StageTransition theCurrentStageTransition =
-                GetTransitionInfoForRow(strStoryStageDisplayString, out eStage);
-
-            if (theCurrentStageTransition == null)
+            m_rowLast = dataGridViewPanorama.SelectedRows[0];
+            StoryStageLogic.StageTransition theCurrentST = (StoryStageLogic.StageTransition)m_rowLast.Tag;
+            if (theCurrentST == null)
                 return;
 
-            foreach (KeyValuePair<StoryStageLogic.ProjectStages, StoryStageLogic.StageTransition> kvp
-                in StoryStageLogic.stateTransitions)
+            foreach (StoryStageLogic.ProjectStages eAllowableTransition in theCurrentST.AllowableTransitions)
             {
+                StoryStageLogic.StageTransition aST = StoryStageLogic.stateTransitions[eAllowableTransition];
                 ToolStripItem tsi = contextMenuStripProjectStages.Items.Add(
-                    kvp.Value.StageDisplayString,
-                    null,
-                    new EventHandler(OnSelectNextState));
-                tsi.Enabled = theCurrentStageTransition.AllowableTransitions.Contains(kvp.Key);
+                                    aST.StageDisplayString, null, OnSelectOtherState);
+                tsi.Tag = aST;
+                tsi.Enabled = theCurrentST.AllowableTransitions.Contains(eAllowableTransition);
             }
         }
 
-        protected void OnSelectNextState(object sender, EventArgs e)
+        protected void OnSelectOtherState(object sender, EventArgs e)
         {
             System.Diagnostics.Debug.Assert(sender is ToolStripItem);
             ToolStripItem tsi = (ToolStripItem)sender;
 
-            StoryStageLogic.ProjectStages eStage;
-            StoryStageLogic.StageTransition theCurrentStageTransition =
-                GetTransitionInfoForRow(tsi.Text, out eStage);
-
-            if (theCurrentStageTransition == null)
+            StoryStageLogic.StageTransition theCurrentST = (StoryStageLogic.StageTransition)tsi.Tag;
+            if (theCurrentST == null)
                 return;
 
-            m_rowLastClicked.Cells[CnColumnStoryStage].Value = theCurrentStageTransition.StageDisplayString;
+            m_rowLast.Cells[CnColumnStoryStage].Value = theCurrentST.StageDisplayString;
 
-            string strStoryName = (string)m_rowLastClicked.Cells[CnColumnStoryName].Value;
+            string strStoryName = (string)theCurrentST.Cells[CnColumnStoryName].Value;
             foreach (StoryData aSD in _stories)
                 if (aSD.StoryName == strStoryName)
                 {
@@ -81,38 +113,7 @@ namespace OneStoryProjectEditor
                     break;
                 }
         }
-
-        protected StoryStageLogic.StageTransition GetTransitionInfoForRow(string strStoryStageDisplayString,
-            out StoryStageLogic.ProjectStages eStage)
-        {
-            foreach (KeyValuePair<StoryStageLogic.ProjectStages, StoryStageLogic.StageTransition> kvp
-                in StoryStageLogic.stateTransitions)
-                if (kvp.Value.StageDisplayString == strStoryStageDisplayString)
-                {
-                    eStage = kvp.Key;
-                    return kvp.Value;
-                }
-
-            eStage = StoryStageLogic.ProjectStages.eUndefined;
-            return null;
-        }
-
-        DataGridViewRow m_rowLastClicked = null;
-        /*
-        private void dataGridViewPanorama_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if ((e.RowIndex < 0) || (e.RowIndex >= dataGridViewPanorama.Rows.Count)
-                || (e.ColumnIndex < 1) || (e.ColumnIndex >= dataGridViewPanorama.Columns.Count))
-                return;
-
-            m_rowLastClicked = dataGridViewPanorama.Rows[e.RowIndex];
-        }
         */
-        private void dataGridViewPanorama_SelectionChanged(object sender, EventArgs e)
-        {
-            // should only be one...
-            if (dataGridViewPanorama.SelectedRows.Count > 0)
-                m_rowLastClicked = dataGridViewPanorama.SelectedRows[0];
-        }
+        #endregion obsolete code
     }
 }

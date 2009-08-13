@@ -1,6 +1,7 @@
 ﻿// #define UsingOneFilePerStory
 
 using System;
+using System.Collections.Generic;
 using System.Xml.Linq;
 using System.Windows.Forms;
 using System.IO;
@@ -114,7 +115,7 @@ namespace OneStoryProjectEditor
             {
                 try
                 {
-                    LoggedOnMember = Stories.EditTeamMembers(LoggedOnMember.Name);
+                    LoggedOnMember = Stories.EditTeamMembers(LoggedOnMember.Name, TeamMemberForm.CstrDefaultOKLabel);
                 }
                 catch { }   // this might throw if the user cancels, but we don't care
             }
@@ -238,7 +239,7 @@ namespace OneStoryProjectEditor
                     {
                         System.Diagnostics.Debug.Assert(!comboBoxStorySelector.Items.Contains(strStoryToLoad));
                         comboBoxStorySelector.Items.Add(strStoryToLoad);
-                        theCurrentStory = Stories.AddStory(strStoryToLoad, this);
+                        theCurrentStory = new StoryData(strStoryToLoad, this);
                         Stories.Insert(nInsertIndex, theCurrentStory);
                         comboBoxStorySelector.SelectedItem = strStoryToLoad;
                     }
@@ -874,9 +875,43 @@ namespace OneStoryProjectEditor
 
         private void buttonsStoryStage_DropDownOpening(object sender, EventArgs e)
         {
+            if ((Stories == null) || (theCurrentStory == null))
+                return;
+
             buttonsStoryStage.DropDown.Items.Clear();
-            buttonsStoryStage.DropDown.Items.Add("Next Stage", null, new EventHandler(buttonsStoryStage_ButtonClick));
-            buttonsStoryStage.DropDown.Items.Add("Send to consultant");
+
+            // get the current StageTransition object and find all of the allowable transition states
+            StoryStageLogic.StageTransition theCurrentST = StoryStageLogic.stateTransitions[theCurrentStory.ProjStage.ProjectStage];
+            System.Diagnostics.Debug.Assert(theCurrentST != null);
+
+            foreach (StoryStageLogic.ProjectStages eAllowableTransition in theCurrentST.AllowableTransitions)
+            {
+                // put the allowable transitions into the DropDown list
+                StoryStageLogic.StageTransition aST = StoryStageLogic.stateTransitions[eAllowableTransition];
+                ToolStripItem tsi = buttonsStoryStage.DropDown.Items.Add(
+                    aST.StageDisplayString, null, OnSelectOtherState);
+                tsi.Tag = aST;
+            }
+        }
+
+        protected void OnSelectOtherState(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.Assert(sender is ToolStripItem);
+            ToolStripItem tsi = (ToolStripItem)sender;
+            StoryStageLogic.StageTransition theNewST = (StoryStageLogic.StageTransition)tsi.Tag;
+            DoNextSeveral(theNewST);
+        }
+
+        protected void DoNextSeveral(StoryStageLogic.StageTransition theNewST)
+        {
+            StoryStageLogic.StageTransition theCurrentST = null;
+            do
+            {
+                theCurrentST = StoryStageLogic.stateTransitions[theCurrentStory.ProjStage.ProjectStage];
+                if (!DoNextStage())
+                    break;
+            }
+            while (theCurrentST.NextStage != theNewST.CurrentStage);
         }
 
         private void buttonsStoryStage_ButtonClick(object sender, EventArgs e)
@@ -884,10 +919,14 @@ namespace OneStoryProjectEditor
             DoNextStage();
         }
 
-        protected void DoNextStage()
+        protected bool DoNextStage()
         {
             if (theCurrentStory.IsReadyForTransition(this))
+            {
                 SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage);
+                return true;
+            }
+            return false;
         }
 
         private void storyToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
@@ -905,9 +944,7 @@ namespace OneStoryProjectEditor
         private void showFullStorySetToolStripMenuItem_Click(object sender, EventArgs e)
         {
             PanoramaView dlg = new PanoramaView(Stories);
-            if (dlg.ShowDialog() == DialogResult.OK)
-            {
-            }
+            dlg.ShowDialog();
         }
 
         private void deleteStoryToolStripMenuItem_Click(object sender, EventArgs e)

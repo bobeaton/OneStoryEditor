@@ -566,8 +566,8 @@
             this.buttonsStoryStage.Image = ((System.Drawing.Image)(resources.GetObject("buttonsStoryStage.Image")));
             this.buttonsStoryStage.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonsStoryStage.Name = "buttonsStoryStage";
-            this.buttonsStoryStage.Size = new System.Drawing.Size(239, 20);
-            this.buttonsStoryStage.Text = "Click here for instructions on what to do next";
+            this.buttonsStoryStage.Size = new System.Drawing.Size(75, 20);
+            this.buttonsStoryStage.Text = "Next State";
             this.buttonsStoryStage.ButtonClick += new System.EventHandler(this.buttonsStoryStage_ButtonClick);
             this.buttonsStoryStage.DropDownOpening += new System.EventHandler(this.buttonsStoryStage_DropDownOpening);
             // 
@@ -578,7 +578,7 @@
             this.statusLabel.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken;
             this.statusLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(641, 17);
+            this.statusLabel.Size = new System.Drawing.Size(774, 17);
             this.statusLabel.Spring = true;
             this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 

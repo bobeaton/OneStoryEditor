@@ -105,13 +105,6 @@ namespace OneStoryProjectEditor
                 Add(new StoryData(aStoryRow, projFile, theSE));
         }
 
-        public StoryData AddStory(string strStoryName, StoryEditor theSE)
-        {
-            StoryData theNewStory = new StoryData(strStoryName, theSE);
-            Add(theNewStory);
-            return theNewStory;
-        }
-
         internal string GetMemberNameFromMemberGuid(string strMemberGuid)
         {
             string strMemberName = null;
@@ -148,13 +141,13 @@ namespace OneStoryProjectEditor
             }
 
             // otherwise, fall thru and make them pick it.
-            return EditTeamMembers(strMemberName);
+            return EditTeamMembers(strMemberName, TeamMemberForm.CstrDefaultOKLabel);
         }
 
         // returns the logged in member
-        internal TeamMemberData EditTeamMembers(string strMemberName)
+        internal TeamMemberData EditTeamMembers(string strMemberName, string strOKLabel)
         {
-            TeamMemberForm dlg = new TeamMemberForm(TeamMembers, ProjSettings);
+            TeamMemberForm dlg = new TeamMemberForm(TeamMembers, ProjSettings, strOKLabel);
             if (!String.IsNullOrEmpty(strMemberName))
             {
                 try

@@ -19,6 +19,7 @@ namespace OneStoryProjectEditor
                 return;
 
             textBoxName.Text = theMemberData.Name;
+            MemberType = theMemberData.MemberType;
             textBoxEmail.Text = theMemberData.Email;
             textBoxPhoneNumber.Text = theMemberData.Phone;
             textBoxAltPhone.Text = theMemberData.AltPhone;

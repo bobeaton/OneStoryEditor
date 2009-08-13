@@ -262,7 +262,7 @@ namespace OneStoryProjectEditor
 
         public class StageTransition
         {
-            protected ProjectStages _thisStage = ProjectStages.eUndefined;
+            internal ProjectStages CurrentStage = ProjectStages.eUndefined;
             internal ProjectStages NextStage = ProjectStages.eUndefined;
             internal List<ProjectStages> AllowableTransitions = new List<ProjectStages>();
             internal StoryEditor.UserTypes MemberTypeWithEditToken = StoryEditor.UserTypes.eUndefined;
@@ -281,7 +281,7 @@ namespace OneStoryProjectEditor
                 string strInstructions,
                 List<ProjectStages> lstAllowableStages, List<bool> abViewSettings)
             {
-                _thisStage = thisStage;
+                CurrentStage = thisStage;
                 NextStage = theNextStage;
                 MemberTypeWithEditToken = eMemberTypeWithEditToken;
                 StageDisplayString = strDisplayString;

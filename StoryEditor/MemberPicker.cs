@@ -41,7 +41,7 @@ namespace OneStoryProjectEditor
 
         private void buttonAddNewMember_Click(object sender, EventArgs e)
         {
-            TeamMemberData theMember = _theStoryData.EditTeamMembers(null);
+            TeamMemberData theMember = _theStoryData.EditTeamMembers(null, "&Return");
             InitializeListBox(_eWantedType);
             listBoxUNSs.SelectedItem = theMember.Name;
         }

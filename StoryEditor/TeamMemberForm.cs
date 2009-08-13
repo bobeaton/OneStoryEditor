@@ -17,6 +17,7 @@ namespace OneStoryProjectEditor
             "Click here to choose the font, size, and color of the National language back-translation text{0}Currently, Font: {1}, Color: {2}";
         protected const string CstrDefaultFontTooltipInternationalBT =
             "Click here to choose the font, size, and color of the English language back-translation text{0}Currently, Font: {1}, Color: {2}";
+        internal const string CstrDefaultOKLabel = "&Login";
 
         protected ProjectSettings m_projSettings = null;
         protected TeamMembersData _dataTeamMembers = null;
@@ -26,7 +27,7 @@ namespace OneStoryProjectEditor
 
         Dictionary<string, TeamMemberData> m_mapNewMembersThisSession = new Dictionary<string, TeamMemberData>();
 
-        public TeamMemberForm(TeamMembersData dataTeamMembers, ProjectSettings projSettings)
+        public TeamMemberForm(TeamMembersData dataTeamMembers, ProjectSettings projSettings, string strOKLabel)
         {
             _dataTeamMembers = dataTeamMembers;
             m_projSettings = projSettings;
@@ -66,6 +67,9 @@ namespace OneStoryProjectEditor
 
 
             textBoxProjectName.Text = projSettings.ProjectName;
+
+            if (!String.IsNullOrEmpty(strOKLabel))
+                buttonOK.Text = strOKLabel;
         }
 
         public string SelectedMember
@@ -147,7 +151,7 @@ namespace OneStoryProjectEditor
 
             // if the selected user is a UNS, this is probably a mistake.
             TeamMemberData theMember = _dataTeamMembers[SelectedMember];
-            if (theMember.MemberType == StoryEditor.UserTypes.eUNS)
+            if ((theMember.MemberType == StoryEditor.UserTypes.eUNS) && (buttonOK.Text == CstrDefaultOKLabel))
             {
                 MessageBox.Show("You may have added a UNS in order to identify, for example, which UNS did the back translation or a particular test. However, you as the crafter should still be logged in to enter the UNS's comments. So select your *crafter* member name and click 'Login' again", StoryEditor.CstrCaption);
                 return;
@@ -174,7 +178,10 @@ namespace OneStoryProjectEditor
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 if (listBoxTeamMembers.Items.Contains(dlg.MemberName))
-                    throw new ApplicationException(String.Format("Oops... you already have a member with the name, '{0}'. If you meant to edit that member, then select the name in the listbox and click the 'Edit Member' button", dlg.MemberName));
+                {
+                    MessageBox.Show(String.Format("Oops... you already have a member with the name, '{0}'. If you meant to edit that member, then select the name in the listbox and click the 'Edit Member' button", dlg.MemberName));
+                    return;
+                }
 
                 TeamMemberData theNewMemberData;
                 if (m_mapNewMembersThisSession.TryGetValue(dlg.MemberName, out theNewMemberData))
@@ -231,6 +238,10 @@ namespace OneStoryProjectEditor
             theMemberData.Address = dlg.Address;
             theMemberData.SkypeID = dlg.SkypeID;
             theMemberData.TeamViewerID = dlg.TeamViewerID;
+
+            // update the role listbox
+            int nIndex = listBoxTeamMembers.Items.IndexOf(dlg.MemberName);
+            listBoxMemberRoles.Items[nIndex] = theMemberData.MemberTypeAsString;
 
             // keep a hang on it so we don't try to, for example, give it a new guid
             if (!m_mapNewMembersThisSession.ContainsKey(dlg.MemberName))

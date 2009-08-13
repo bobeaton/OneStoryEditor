@@ -287,6 +287,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="OneStory.ico" />
+    <None Include="Resources\BuilderDialog_moveup.bmp" />
+    <None Include="Resources\BuilderDialog_movedown.bmp" />
     <Content Include="Resources\GoLtrHS.bmp" />
     <Content Include="Resources\GoRtlHS.bmp" />
     <Content Include="StageTransitions.xml" />
