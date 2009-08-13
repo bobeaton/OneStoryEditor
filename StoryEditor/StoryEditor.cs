@@ -34,16 +34,6 @@ namespace OneStoryProjectEditor
 
         protected const int nMaxRecentFiles = 15;
 
-        public enum UserTypes
-        {
-            eUndefined = 0,
-            eCrafter,
-            eUNS,
-            eConsultantInTraining,
-            eCoach,
-            eJustLooking
-        }
-
         public StoryEditor()
         {
             InitializeComponent();

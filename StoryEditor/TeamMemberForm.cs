@@ -151,7 +151,7 @@ namespace OneStoryProjectEditor
 
             // if the selected user is a UNS, this is probably a mistake.
             TeamMemberData theMember = _dataTeamMembers[SelectedMember];
-            if ((theMember.MemberType == StoryEditor.UserTypes.eUNS) && (buttonOK.Text == CstrDefaultOKLabel))
+            if ((theMember.MemberType == TeamMemberData.UserTypes.eUNS) && (buttonOK.Text == CstrDefaultOKLabel))
             {
                 MessageBox.Show("You may have added a UNS in order to identify, for example, which UNS did the back translation or a particular test. However, you as the crafter should still be logged in to enter the UNS's comments. So select your *crafter* member name and click 'Login' again", StoryEditor.CstrCaption);
                 return;

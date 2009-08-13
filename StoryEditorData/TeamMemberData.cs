@@ -46,32 +46,6 @@ namespace OneStoryProjectEditor
             Address = strAddress;
         }
 
-        public TeamMemberData(StoryProject.MemberRow theMemberRow)
-        {
-            Name = theMemberRow.name;
-            MemberType = GetMemberType(theMemberRow.memberType);
-            MemberGuid = theMemberRow.memberKey;
-
-            // now for the optional ones
-            if (!theMemberRow.IsemailNull())
-                Email = theMemberRow.email;
-
-            if (!theMemberRow.IsskypeIDNull())
-                SkypeID = theMemberRow.skypeID;
-
-            if (!theMemberRow.IsteamViewerIDNull())
-                TeamViewerID = theMemberRow.teamViewerID;
-
-            if (!theMemberRow.IsphoneNull())
-                Phone = theMemberRow.phone;
-
-            if (!theMemberRow.IsaltPhoneNull())
-                AltPhone = theMemberRow.altPhone;
-
-            if (!theMemberRow.IsaddressNull())
-                Address = theMemberRow.address;
-        }
-
         public static TeamMemberData.UserTypes GetMemberType(string strMemberTypeString)
         {
             if (strMemberTypeString == CstrCrafter)
@@ -117,7 +91,7 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                XElement eleMember = new XElement(StoryEditor.ns + "Member",
+                XElement eleMember = new XElement("Member",
                     new XAttribute("name", this.Name),
                     new XAttribute("memberType", this.MemberTypeAsString));
                     if (!String.IsNullOrEmpty(this.Email))
@@ -145,21 +119,6 @@ namespace OneStoryProjectEditor
         {
         }
 
-        public TeamMembersData(StoryProject projFile)
-        {
-            System.Diagnostics.Debug.Assert((projFile != null) && (projFile.stories != null) && (projFile.stories.Count > 0));
-            StoryProject.storiesRow theStoriesRow = projFile.stories[0];
-            StoryProject.MembersRow[] aMembersRows = theStoriesRow.GetMembersRows();
-            StoryProject.MembersRow theMembersRow;
-            if (aMembersRows.Length == 0)
-                theMembersRow = projFile.Members.AddMembersRow(theStoriesRow);
-            else
-                theMembersRow = aMembersRows[0];
-
-            foreach (StoryProject.MemberRow aMemberRow in theMembersRow.GetMemberRows())
-                Add(aMemberRow.name, new TeamMemberData(aMemberRow));
-        }
-
         // this can be used to determine whether a given member name and type are one
         //  of the ones in this project (for auto-login)
         public bool CanLoginMember(string strMemberName, string strMemberType)
@@ -176,7 +135,7 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                XElement eleMembers = new XElement(StoryEditor.ns + "Members");
+                XElement eleMembers = new XElement("Members");
 
                 foreach (TeamMemberData aMemberData in this.Values)
                     eleMembers.Add(aMemberData.GetXml);

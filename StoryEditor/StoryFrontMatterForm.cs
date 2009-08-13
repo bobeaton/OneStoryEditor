@@ -29,7 +29,7 @@ namespace OneStoryProjectEditor
 
         private void buttonBrowseForStoryCrafter_Click(object sender, EventArgs e)
         {
-            MemberPicker dlg = new MemberPicker(_theStoriesData, StoryEditor.UserTypes.eCrafter);
+            MemberPicker dlg = new MemberPicker(_theStoriesData, TeamMemberData.UserTypes.eCrafter);
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 textBoxStoryCrafter.Tag = dlg.SelectedMember;
@@ -39,7 +39,7 @@ namespace OneStoryProjectEditor
 
         protected TeamMemberData SelectedUnsMember()
         {
-            MemberPicker dlg = new MemberPicker(_theStoriesData, StoryEditor.UserTypes.eUNS);
+            MemberPicker dlg = new MemberPicker(_theStoriesData, TeamMemberData.UserTypes.eUNS);
             if (dlg.ShowDialog() == DialogResult.OK)
                 return dlg.SelectedMember;
             return null;

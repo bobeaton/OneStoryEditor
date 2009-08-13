@@ -401,7 +401,7 @@ namespace OneStoryProjectEditor
             // gotta query for the UNS
             if (String.IsNullOrEmpty(_strUnsMemberId))
             {
-                MemberPicker dlg = new MemberPicker(theSE.Stories, StoryEditor.UserTypes.eUNS);
+                MemberPicker dlg = new MemberPicker(theSE.Stories, TeamMemberData.UserTypes.eUNS);
                 if (dlg.ShowDialog() == DialogResult.OK)
                     _strUnsMemberId = dlg.SelectedMember.MemberGuid;
             }
@@ -434,7 +434,7 @@ namespace OneStoryProjectEditor
             if (String.IsNullOrEmpty(_strUnsMemberId))
             {
                 System.Diagnostics.Debug.Assert(theSE.Stories != null);
-                MemberPicker dlg = new MemberPicker(theSE.Stories, StoryEditor.UserTypes.eUNS);
+                MemberPicker dlg = new MemberPicker(theSE.Stories, TeamMemberData.UserTypes.eUNS);
                 if (dlg.ShowDialog() == DialogResult.OK)
                     _strUnsMemberId = dlg.SelectedMember.MemberGuid;
             }

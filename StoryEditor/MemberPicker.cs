@@ -13,9 +13,9 @@ namespace OneStoryProjectEditor
     {
         protected StoriesData _theStoryData = null;
         protected TeamMemberData _dataSelectedMember = null;
-        protected StoryEditor.UserTypes _eWantedType = StoryEditor.UserTypes.eUndefined;
+        protected TeamMemberData.UserTypes _eWantedType = TeamMemberData.UserTypes.eUndefined;
 
-        public MemberPicker(StoriesData theStoryData, StoryEditor.UserTypes eWantedType)
+        public MemberPicker(StoriesData theStoryData, TeamMemberData.UserTypes eWantedType)
         {
             _theStoryData = theStoryData;
             _eWantedType = eWantedType;
@@ -25,7 +25,7 @@ namespace OneStoryProjectEditor
             InitializeListBox(eWantedType);
         }
 
-        protected void InitializeListBox(StoryEditor.UserTypes eType)
+        protected void InitializeListBox(TeamMemberData.UserTypes eType)
         {
             listBoxUNSs.Items.Clear();
             foreach (TeamMemberData aTMD in _theStoryData.TeamMembers.Values)

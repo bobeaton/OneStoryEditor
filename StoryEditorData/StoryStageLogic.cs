@@ -9,7 +9,6 @@ namespace OneStoryProjectEditor
 {
     public class StoryStageLogic
     {
-        protected StoryEditor _theSE = null; // so we can access the logged on user
         protected ProjectStages _ProjectStage = ProjectStages.eUndefined;
         protected const string CstrDefaultProjectStage = "CrafterTypeNationalBT";
         internal static StateTransitions stateTransitions = new StateTransitions();
@@ -51,16 +50,14 @@ namespace OneStoryProjectEditor
             set { _ProjectStage = value; }
         }
 
-        public StoryStageLogic(StoryEditor theSE)
+        public StoryStageLogic()
         {
             ProjectStage = ProjectStages.eCrafterTypeNationalBT;
-            _theSE = theSE;
         }
 
-        public StoryStageLogic(string strProjectStage, StoryEditor theSE)
+        public StoryStageLogic(string strProjectStage)
         {
             ProjectStage = GetProjectStageFromString(strProjectStage);
-            _theSE = theSE;
         }
 
         protected ProjectStages GetProjectStageFromString(string strProjectStageString)
@@ -69,40 +66,14 @@ namespace OneStoryProjectEditor
             return CmapStageStringToEnumType[strProjectStageString];
         }
 
-        protected TeamMemberData LoggedOnMember
-        {
-            get { return _theSE.LoggedOnMember; }
-        }
-
-        public bool IsEditAllowed
-        {
-            get
-            {
-                if (MemberTypeWithEditToken == LoggedOnMember.MemberType)
-                    return true;
-
-                throw new ApplicationException(String.Format("Right now, only a '{0}' should be editing the story. If you're a {0}, click 'Project', 'Settings' to login", TeamMemberData.GetMemberTypeAsString(MemberTypeWithEditToken)));
-            }
-        }
-
-        // this isn't 100% effective. Sometimes a particular stage can have a single (but varied) editors
-        //  (e.g. the Online consult could either be the crafter or the consultant)
-        public TeamMemberData.UserTypes MemberTypeWithEditToken
-        {
-            get
-            {
-                StageTransition st = stateTransitions[ProjectStage];
-                return st.MemberTypeWithEditToken;
-            }
-        }
-
+        /*
         public void SetViewBasedOnProjectStage(StoryEditor theSE, ProjectStages eStage, out string strStatusMessage, out string strTooltipMessage)
         {
             StageTransition st = stateTransitions[eStage];
             st.SetView(theSE, out strTooltipMessage);
             strStatusMessage = st.StageDisplayString;
         }
-
+        */
         public override string ToString()
         {
             return _ProjectStage.ToString().Substring(1);
@@ -270,7 +241,6 @@ namespace OneStoryProjectEditor
             internal string StageDisplayString = null;
             protected string _strTerminalTransitionMessage = null;
             protected string _strInstructions = null;
-            protected CheckEndOfStateTransition.CheckForValidEndOfState IsReadyForTransition = null;
 
             public StageTransition(
                 ProjectStages thisStage,
@@ -290,9 +260,6 @@ namespace OneStoryProjectEditor
                 AllowableTransitions.AddRange(lstAllowableStages);
                 _abViewSettings = abViewSettings;
                 string strMethodName = thisStage.ToString().Substring(1);
-                IsReadyForTransition = (CheckEndOfStateTransition.CheckForValidEndOfState)Delegate.CreateDelegate(
-                    typeof(CheckEndOfStateTransition.CheckForValidEndOfState), 
-                    typeof(CheckEndOfStateTransition), strMethodName);
             }
 
             public bool IsValidForTransition(ProjectStages eToStage, out string strTerminalTransitionMessage)
@@ -305,6 +272,7 @@ namespace OneStoryProjectEditor
                 return bAllowed;
             }
 
+            /*
             public bool CheckForValidEndOfState(StoryEditor theSE, ProjectSettings theProjSettings, StoryData theCurrentStory)
             {
                 return IsReadyForTransition(theSE, theProjSettings, theCurrentStory);
@@ -323,6 +291,7 @@ namespace OneStoryProjectEditor
                 theSE.viewNetBibleMenuItem.Checked = _abViewSettings[8];
                 strInstructions = _strInstructions;
             }
+            */
 
             public XElement GetXml
             {

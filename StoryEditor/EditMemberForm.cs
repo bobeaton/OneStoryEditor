@@ -48,39 +48,39 @@ namespace OneStoryProjectEditor
             set { textBoxName.Text = value; }
         }
 
-        public StoryEditor.UserTypes MemberType
+        public TeamMemberData.UserTypes MemberType
         {
             get
             {
                 if (radioButtonStoryCrafter.Checked)
-                    return StoryEditor.UserTypes.eCrafter;
+                    return TeamMemberData.UserTypes.eCrafter;
                 if (radioButtonUNS.Checked)
-                    return StoryEditor.UserTypes.eUNS;
+                    return TeamMemberData.UserTypes.eUNS;
                 if (radioButtonConsultantInTraining.Checked)
-                    return StoryEditor.UserTypes.eConsultantInTraining;
+                    return TeamMemberData.UserTypes.eConsultantInTraining;
                 if (radioButtonCoach.Checked)
-                    return StoryEditor.UserTypes.eCoach;
+                    return TeamMemberData.UserTypes.eCoach;
                 if (radioButtonJustViewing.Checked)
-                    return StoryEditor.UserTypes.eJustLooking;
-                return StoryEditor.UserTypes.eUndefined;
+                    return TeamMemberData.UserTypes.eJustLooking;
+                return TeamMemberData.UserTypes.eUndefined;
             }
             set
             {
                 switch (value)
                 {
-                    case StoryEditor.UserTypes.eCrafter:
+                    case TeamMemberData.UserTypes.eCrafter:
                         radioButtonStoryCrafter.Checked = true;
                         break;
-                    case StoryEditor.UserTypes.eUNS:
+                    case TeamMemberData.UserTypes.eUNS:
                         radioButtonUNS.Checked = true;
                         break;
-                    case StoryEditor.UserTypes.eConsultantInTraining:
+                    case TeamMemberData.UserTypes.eConsultantInTraining:
                         radioButtonConsultantInTraining.Checked = true;
                         break;
-                    case StoryEditor.UserTypes.eCoach:
+                    case TeamMemberData.UserTypes.eCoach:
                         radioButtonCoach.Checked = true;
                         break;
-                    case StoryEditor.UserTypes.eJustLooking:
+                    case TeamMemberData.UserTypes.eJustLooking:
                         radioButtonJustViewing.Checked = true;
                         break;
                     default:
