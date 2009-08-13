@@ -22,7 +22,9 @@ namespace OneStoryProjectEditor
         internal const string CstrConsultantInTraining = "ConsultantInTraining";
         internal const string CstrCoach = "Coach";
         internal const string CstrJustLooking = "JustLooking"; // gives full access, but no change privileges
-
+        
+        protected const string CstrConsultantInTrainingDisplay = "Consultant";
+        
         public string Name = null;
         public UserTypes MemberType = UserTypes.eUndefined;
         public string MemberGuid = null;
@@ -91,6 +93,14 @@ namespace OneStoryProjectEditor
         public string MemberTypeAsString
         {
             get { return GetMemberTypeAsString(MemberType); }
+        }
+
+        public static string GetMemberTypeAsDisplayString(TeamMemberData.UserTypes eMemberType)
+        {
+            if (eMemberType == UserTypes.eConsultantInTraining)
+                return CstrConsultantInTrainingDisplay;
+            else
+                return GetMemberTypeAsString(eMemberType);
         }
 
         public static string GetMemberTypeAsString(TeamMemberData.UserTypes eMemberType)

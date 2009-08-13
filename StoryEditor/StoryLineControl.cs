@@ -114,9 +114,10 @@ namespace OneStoryProjectEditor
         protected void InitLabel(string strStoryLineLableName, int nLayoutColumn)
         {
             // add the row0 column label
-            System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(strStoryLineLableName + CstrSuffixLabel), "otherwise, fix wrong assumption");
+            string strCtrlName = strStoryLineLableName + CstrSuffixLabel + nLayoutColumn.ToString();
+            System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(strCtrlName), "otherwise, fix wrong assumption");
             Label lbl = new Label();
-            lbl.Name = strStoryLineLableName + CstrSuffixLabel;
+            lbl.Name = strCtrlName;
             lbl.Anchor = System.Windows.Forms.AnchorStyles.Top;
             lbl.AutoSize = true;
             lbl.Text = strStoryLineLableName;

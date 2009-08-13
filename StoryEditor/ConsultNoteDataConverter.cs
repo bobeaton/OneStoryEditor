@@ -92,6 +92,15 @@ namespace OneStoryProjectEditor
             else
                 MenteeResponse = new StringTransfer(null);
         }
+
+        public ConsultantNoteData()
+        {
+            InstanceElementName = "ConsultantNote";
+            CommentElementName = "ConsultantComment";
+            ResponseElementName = "CrafterResponse";
+            MentorComment = new StringTransfer(null);
+            MenteeResponse = new StringTransfer(null);
+        }
     }
 
     public class ConsultantNotesData : ConsultNotesDataConverter
@@ -147,6 +156,15 @@ namespace OneStoryProjectEditor
             }
             else
                 MenteeResponse = new StringTransfer(null);
+        }
+
+        public CoachNoteData()
+        {
+            InstanceElementName = "CoachNote";
+            CommentElementName = "CoachComment";
+            ResponseElementName = "ConsultantResponse";
+            MentorComment = new StringTransfer(null);
+            MenteeResponse = new StringTransfer(null);
         }
     }
 

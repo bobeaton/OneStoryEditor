@@ -4,6 +4,7 @@ using System.Xml.Linq;
 using System.Xml;
 using System.Xml.XPath;
 using System.IO;
+using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
 {
@@ -66,12 +67,23 @@ namespace OneStoryProjectEditor
             return CmapStageStringToEnumType[strProjectStageString];
         }
 
+        public bool IsChangeOfStateAllowed(TeamMemberData loggedOnMember)
+        {
+            bool bRet = ((loggedOnMember.MemberType == TeamMemberData.UserTypes.eJustLooking)
+                || (loggedOnMember.MemberType == MemberTypeWithEditToken));
+
+            if (!bRet)
+                MessageBox.Show(String.Format("Right now, only a '{0}' can change the state of this story. If you're a {0}, click 'Project', 'Settings' to login. You can log in as a 'Just Looking' member to be able to transition to any state, but without edit privileges.", TeamMemberData.GetMemberTypeAsDisplayString(MemberTypeWithEditToken)), StoryEditor.CstrCaption);
+
+            return bRet;
+        }
+
         public bool IsEditAllowed(TeamMemberData loggedOnMember)
         {
             if (MemberTypeWithEditToken == loggedOnMember.MemberType)
                 return true;
 
-            throw new ApplicationException(String.Format("Right now, only a '{0}' should be editing the story. If you're a {0}, click 'Project', 'Settings' to login", TeamMemberData.GetMemberTypeAsString(MemberTypeWithEditToken)));
+            throw new ApplicationException(String.Format("Right now, only a '{0}' should be editing the story. If you're a {0}, click 'Project', 'Settings' to login", TeamMemberData.GetMemberTypeAsDisplayString(MemberTypeWithEditToken)));
         }
 
         // this isn't 100% effective. Sometimes a particular stage can have a single (but varied) editors
@@ -284,7 +296,7 @@ namespace OneStoryProjectEditor
 
             public bool CheckForValidEndOfState(StoryEditor theSE, ProjectSettings theProjSettings, StoryData theCurrentStory)
             {
-                return IsReadyForTransition(theSE, theProjSettings, theCurrentStory);
+                return IsReadyForTransition(theProjSettings, theCurrentStory);
             }
 
             public void SetView(StoryEditor theSE)

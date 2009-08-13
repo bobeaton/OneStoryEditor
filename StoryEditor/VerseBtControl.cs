@@ -292,6 +292,8 @@ namespace OneStoryProjectEditor
 
         private void contextMenuStrip_Opening(object sender, CancelEventArgs e)
         {
+            splitStoryIntoVersesToolStripMenuItem.Enabled = _verseData.NationalBTText.HasData;
+
             // for answers, we have to attach them to the correct question
             int nTestQuestionCount = _verseData.TestQuestions.Count;
             if (nTestQuestionCount > 1)
@@ -485,43 +487,30 @@ namespace OneStoryProjectEditor
 
         private void splitStoryIntoVersesToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            System.Diagnostics.Debug.Assert(_verseData.NationalBTText.HasData);
+
             StoryEditor theSE = (StoryEditor)FindForm();
-            string strSentenceFinalChar;
+            string strFullStop;
             if (String.IsNullOrEmpty(theSE.Stories.ProjSettings.NationalBT.FullStop))
             {
-                strSentenceFinalChar = Microsoft.VisualBasic.Interaction.InputBox("Enter the character in this language that ends a sentence (e.g. '.' for English or '।' for Hindi)", StoryEditor.CstrCaption, "।", Screen.PrimaryScreen.WorkingArea.Right / 2, Screen.PrimaryScreen.WorkingArea.Bottom / 2);
-                if (String.IsNullOrEmpty(strSentenceFinalChar))
+                strFullStop = Microsoft.VisualBasic.Interaction.InputBox("Enter the character in this language that ends a sentence (e.g. '.' for English or '।' for Hindi)", StoryEditor.CstrCaption, "।", Screen.PrimaryScreen.WorkingArea.Right / 2, Screen.PrimaryScreen.WorkingArea.Bottom / 2);
+                if (String.IsNullOrEmpty(strFullStop))
                     return;
             }
             else
-                strSentenceFinalChar = theSE.Stories.ProjSettings.NationalBT.FullStop;
+                strFullStop = theSE.Stories.ProjSettings.NationalBT.FullStop;
 
-            string strFullStory = _verseData.NationalBTText.ToString().Trim();
-            int nSearchOffset = strFullStory.Length - 1;
-            if (strFullStory[nSearchOffset] == strSentenceFinalChar[0])
-                nSearchOffset--;
-            int nIndex = strFullStory.LastIndexOf(strSentenceFinalChar, nSearchOffset);
-            while (nIndex != -1)
+            List<string> lstSentences = CheckEndOfStateTransition.GetListOfSentences(_verseData.NationalBTText, strFullStop);
+            System.Diagnostics.Debug.Assert((lstSentences != null) && (lstSentences.Count > 0));
+            int nNewVerses = lstSentences.Count;
+            while (nNewVerses-- > 1)
             {
-                string strSentence = strFullStory.Substring(nIndex + 1).Trim();
-                if (String.IsNullOrEmpty(strSentence))
-                {
-                    nSearchOffset--;
-                    nIndex = strFullStory.LastIndexOf(strSentenceFinalChar, nSearchOffset);
-                    continue;
-                }
-
+                string strSentence = lstSentences[nNewVerses] + strFullStop;
                 theSE.AddNewVerse(VerseNumber, strSentence);
-                strFullStory = strFullStory.Substring(0, nIndex + 1).Trim();
-                nSearchOffset = strFullStory.Length - 1;
-                nIndex = strFullStory.LastIndexOf(strSentenceFinalChar, --nSearchOffset);
             }
+            _verseData.NationalBTText.SetValue(lstSentences[nNewVerses] + strFullStop);
 
-            if (!String.IsNullOrEmpty(strFullStory))
-            {
-                _verseData.NationalBTText.SetValue(strFullStory);
-                theSE.InitVerseControls();
-            }
+            theSE.InitVerseControls();
         }
     }
 }

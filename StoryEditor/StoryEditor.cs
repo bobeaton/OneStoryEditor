@@ -82,6 +82,7 @@ namespace OneStoryProjectEditor
             LoggedOnMember = null;
             System.Diagnostics.Debug.Assert(Stories == null);
             teamMembersToolStripMenuItem_Click(null, null);
+            buttonsStoryStage.Enabled = true;
         }
 
         private void teamMembersToolStripMenuItem_Click(object sender, EventArgs e)
@@ -91,6 +92,7 @@ namespace OneStoryProjectEditor
                 try
                 {
                     Stories = new StoriesData(ref LoggedOnMember);
+                    buttonsStoryStage.Enabled = true;
                 }
                 catch (System.Exception ex)
                 {
@@ -167,6 +169,7 @@ namespace OneStoryProjectEditor
 
                 // get *all* the data
                 Stories = new StoriesData(projFile, ref LoggedOnMember);
+                buttonsStoryStage.Enabled = true;
 
                 string strStoryToLoad = null;
                 if (Stories.Count > 0)
@@ -206,7 +209,10 @@ namespace OneStoryProjectEditor
                     //TODO: I got stuck here doing the 'UsingOneFilePerStory' refactoring
 #else
                 if (Stories == null)
+                {
                     Stories = new StoriesData(ref LoggedOnMember);
+                    buttonsStoryStage.Enabled = true;
+                }
 
                 int nInsertIndex = 0;
                 StoryData theStory = null;
@@ -250,7 +256,10 @@ namespace OneStoryProjectEditor
 
             // we might could come thru here without having opened any file (e.g. after New)
             if (Stories == null)
+            {
                 Stories = new StoriesData(ref LoggedOnMember);
+                buttonsStoryStage.Enabled = true;
+            }
 
 #if UsingOneFilePerStory
             string strStoryFilename = FilenameFromStoryInfo(m_strProjectFilename, (string)comboBoxStorySelector.SelectedItem);
@@ -277,12 +286,13 @@ namespace OneStoryProjectEditor
             textBoxStoryVerse.Text = "Story: " + theCurrentStory.StoryName;
             this.Text = String.Format("OneStory Editor -- {0} Story Project", Stories.ProjSettings.ProjectName);
 
-            InitVerseControls();
-
             // initialize the project stage details (which might hide certain views)
             //  (do this *after* initializing the whole thing, because if we save, we'll
             //  want to save even the hidden pieces)
             SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage);
+
+            // finally, initialize the verse controls
+            InitVerseControls();
         }
 
         internal void InitVerseControls(VersesData theVerses)
@@ -328,6 +338,7 @@ namespace OneStoryProjectEditor
 
         internal void AddNewVerse(int nInsertionIndex, string strNationalBT)
         {
+            System.Diagnostics.Debug.Assert((theCurrentStory != null) && (theCurrentStory.Verses != null));
             theCurrentStory.Verses.InsertVerse(nInsertionIndex, strNationalBT);
         }
 
@@ -904,6 +915,9 @@ namespace OneStoryProjectEditor
 
         protected void DoNextSeveral(StoryStageLogic.StageTransition theNewST)
         {
+            if (!theCurrentStory.ProjStage.IsChangeOfStateAllowed(LoggedOnMember))
+                return;
+
             // NOTE: the new state may actually be a previous state
             StoryStageLogic.StageTransition theCurrentST = null;
             do
@@ -918,24 +932,27 @@ namespace OneStoryProjectEditor
                     SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage);
                     break;
                 }
-                else if (theCurrentST.NextStage != theNewST.CurrentStage)
-                    if (!DoNextStage())
+                else if (theCurrentST.CurrentStage != theNewST.CurrentStage)
+                    if (!DoNextStage(false))
                         break;
             }
             while (theCurrentST.NextStage != theNewST.CurrentStage);
+            InitVerseControls();
         }
 
         private void buttonsStoryStage_ButtonClick(object sender, EventArgs e)
         {
-            DoNextStage();
+            DoNextStage(true);
         }
 
-        protected bool DoNextStage()
+        protected bool DoNextStage(bool bDoUpdateCtrls)
         {
             System.Diagnostics.Debug.Assert((Stories != null) && (Stories.ProjSettings != null));
             if (SetNextStateIfReady())
             {
                 SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage);
+                if (bDoUpdateCtrls)
+                    InitVerseControls();    // just in case there were changes
                 return true;
             }
             return false;
@@ -943,8 +960,11 @@ namespace OneStoryProjectEditor
 
         protected bool SetNextStateIfReady()
         {
+            if (!theCurrentStory.ProjStage.IsChangeOfStateAllowed(LoggedOnMember))
+                return false;
+
             StoryStageLogic.StageTransition st = StoryStageLogic.stateTransitions[theCurrentStory.ProjStage.ProjectStage];
-            bool bRet = st.IsReadyForTransition(this, Stories.ProjSettings, theCurrentStory);
+            bool bRet = st.IsReadyForTransition(Stories.ProjSettings, theCurrentStory);
             if (bRet)
                 theCurrentStory.ProjStage.ProjectStage = st.NextStage;  // if we are ready, then go ahead and transition
             return bRet;
