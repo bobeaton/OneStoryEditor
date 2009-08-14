@@ -13,10 +13,11 @@ namespace OneStoryProjectEditor
         protected const string CstrFieldNameConsultantNote = "ConsultantNoteControl";
 
         internal int VerseNumber = -1;
-
+        protected ConsultNotesDataConverter _theCNsDC = null;
         public ConsultNotesControl(StoryStageLogic storyStageLogic, ConsultNotesDataConverter aCNsDC, int nVerseNumber)
             : base(storyStageLogic)
         {
+            _theCNsDC = aCNsDC;
             VerseNumber = nVerseNumber;
             InitializeComponent();
 
@@ -45,6 +46,36 @@ namespace OneStoryProjectEditor
 
             this.tableLayoutPanel.ResumeLayout(false);
             this.ResumeLayout(false);
+        }
+
+        void buttonDragDropHandle_Click(object sender, System.EventArgs e)
+        {
+            // the only function of the button here is to add a slot to type a con note
+            StoryEditor theSE = (StoryEditor)FindForm();
+            try
+            {
+                if (theSE == null)
+                    throw new ApplicationException(
+                        "Unable to edit the file! Try rebooting and if it persists, contact bob_eaton@sall.com");
+                theSE.theCurrentStory.ProjStage.ThrowIfEditNotAllowed(theSE.LoggedOnMember);
+            }
+            catch (Exception ex)
+            {
+                if (theSE != null)
+                    theSE.SetStatusBar(String.Format("Error: {0}", ex.Message), null);
+                return;
+            }
+
+            StoryStageLogic.ProjectStages eCurState = theSE.theCurrentStory.ProjStage.ProjectStage;
+            int round = 1;
+            if (eCurState > StoryStageLogic.ProjectStages.eConsultantReviseRound1Notes)
+            {
+                round = 2;
+                if (eCurState > StoryStageLogic.ProjectStages.eConsultantReviseRound2Notes)
+                    round = 3;
+            }
+            _theCNsDC.AddEmpty(round);
+            theSE.InitVerseControls();
         }
     }
 }

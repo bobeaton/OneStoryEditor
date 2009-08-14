@@ -70,31 +70,32 @@ namespace OneStoryProjectEditor
             CommentElementName = "ConsultantComment";
             ResponseElementName = "CrafterResponse";
 
+            MentorLabel = "con:";
             StoryProject.ConsultantCommentRow[] aCCRows = aCNRow.GetConsultantCommentRows();
             if (aCCRows.Length == 1)
             {
                 StoryProject.ConsultantCommentRow theCCRow = aCCRows[0];
                 MentorGuid = theCCRow.memberID;
-                MentorLabel = "con:";
                 MentorComment = new StringTransfer(theCCRow.ConsultantComment_text);
             }
             else
                 MentorComment = new StringTransfer(null);
 
+            MenteeLabel = "res:";
             StoryProject.CrafterResponseRow[] aCRRows = aCNRow.GetCrafterResponseRows();
             if (aCRRows.Length == 1)
             {
                 StoryProject.CrafterResponseRow theCRRow = aCRRows[0];
                 MenteeGuid = theCRRow.memberID;
-                MenteeLabel = "res:";
                 MenteeResponse = new StringTransfer(theCRRow.CrafterResponse_text);
             }
             else
                 MenteeResponse = new StringTransfer(null);
         }
 
-        public ConsultantNoteData()
+        public ConsultantNoteData(int nRound)
         {
+            RoundNum = nRound;
             InstanceElementName = "ConsultantNote";
             CommentElementName = "ConsultantComment";
             ResponseElementName = "CrafterResponse";
@@ -118,6 +119,11 @@ namespace OneStoryProjectEditor
 
             foreach (StoryProject.ConsultantNoteRow aConsultantNoteRow in theConsultantNotesRow.GetConsultantNoteRows())
                 Add(new ConsultantNoteData(aConsultantNoteRow));
+        }
+
+        public override void AddEmpty(int nRound)
+        {
+            Add(new ConsultantNoteData(nRound));
         }
 
         public ConsultantNotesData()
@@ -158,8 +164,9 @@ namespace OneStoryProjectEditor
                 MenteeResponse = new StringTransfer(null);
         }
 
-        public CoachNoteData()
+        public CoachNoteData(int nRound)
         {
+            RoundNum = nRound;
             InstanceElementName = "CoachNote";
             CommentElementName = "CoachComment";
             ResponseElementName = "ConsultantResponse";
@@ -176,6 +183,8 @@ namespace OneStoryProjectEditor
         {
             get { return (this.Count > 0); }
         }
+
+        public abstract void AddEmpty(int nRound);
 
         public XElement GetXml
         {
@@ -206,6 +215,11 @@ namespace OneStoryProjectEditor
 
             foreach (StoryProject.CoachNoteRow aCoachNoteRow in theCoachNotesRow.GetCoachNoteRows())
                 Add(new CoachNoteData(aCoachNoteRow));
+        }
+
+        public override void AddEmpty(int nRound)
+        {
+            Add(new CoachNoteData(nRound));
         }
 
         public CoachNotesData()

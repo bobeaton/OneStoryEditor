@@ -78,7 +78,7 @@ namespace OneStoryProjectEditor
             return bRet;
         }
 
-        public bool IsEditAllowed(TeamMemberData loggedOnMember)
+        public bool ThrowIfEditNotAllowed(TeamMemberData loggedOnMember)
         {
             if (MemberTypeWithEditToken == loggedOnMember.MemberType)
                 return true;
@@ -250,7 +250,7 @@ namespace OneStoryProjectEditor
             internal TeamMemberData.UserTypes MemberTypeWithEditToken = TeamMemberData.UserTypes.eUndefined;
             protected List<bool> _abViewSettings = null;
             internal string StageDisplayString = null;
-            protected string _strTerminalTransitionMessage = null;
+            internal string TerminalTransitionMessage = "If you change to this next state, then you won't be able to edit the story until after the {0} has done his or her changes. Are you sure you want to change to the '{1}' state?";
             internal string StageInstructions = null;
             public CheckEndOfStateTransition.CheckForValidEndOfState IsReadyForTransition = null;
 
@@ -269,7 +269,6 @@ namespace OneStoryProjectEditor
                 NextStage = theNextStage;
                 MemberTypeWithEditToken = eMemberTypeWithEditToken;
                 StageDisplayString = strDisplayString;
-                _strTerminalTransitionMessage = strTerminalTransitionMessage;
                 StageInstructions = strInstructions;
                 AllowableBackwardsTransitions.AddRange(lstAllowableBackwardsStages);
                 AllowableForwardsTransition.AddRange(lstAllowableForwardsStages);
@@ -280,23 +279,18 @@ namespace OneStoryProjectEditor
                     typeof(CheckEndOfStateTransition), strMethodName);
             }
 
-            public bool IsTransitionValid(ProjectStages eToStage)
+            public bool IsTerminalTransition(ProjectStages eToStage)
             {
-                bool bAllowed = AllowableBackwardsTransitions.Contains(eToStage)
-                    || AllowableForwardsTransition.Contains(eToStage);
-                /*
-                 * , out string strTerminalTransitionMessage
-                if (bAllowed && (eToStage == AllowableForwardsTransition[AllowableForwardsTransition.Count - 1]))
-                    strTerminalTransitionMessage = _strTerminalTransitionMessage;
+                if ((int)eToStage < (int)CurrentStage)
+                    return (AllowableBackwardsTransitions[0] == eToStage);
                 else
-                    strTerminalTransitionMessage = null;
-                */
-                return bAllowed;
+                    return (AllowableForwardsTransition[AllowableForwardsTransition.Count - 1] == eToStage);
             }
 
-            public bool CheckForValidEndOfState(StoryEditor theSE, ProjectSettings theProjSettings, StoryData theCurrentStory)
+            public bool IsTransitionValid(ProjectStages eToStage)
             {
-                return IsReadyForTransition(theProjSettings, theCurrentStory);
+                return (AllowableBackwardsTransitions.Contains(eToStage)
+                    || AllowableForwardsTransition.Contains(eToStage));
             }
 
             public void SetView(StoryEditor theSE)
@@ -328,7 +322,7 @@ namespace OneStoryProjectEditor
                         new XAttribute("MemberWithEditToken", MemberTypeWithEditToken),
                         new XAttribute("NextState", NextStage),
                         new XElement("StageDisplayString", StageDisplayString),
-                        new XElement("NextMemberTransitionMessage", _strTerminalTransitionMessage),
+                        new XElement("NextMemberTransitionMessage", TerminalTransitionMessage),
                         new XElement("StageInstructions", StageInstructions),
                         elemAllowableBackwardsTransition,
                         elemAllowableForwardsTransition,

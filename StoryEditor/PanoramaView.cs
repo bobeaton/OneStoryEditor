@@ -27,7 +27,7 @@ namespace OneStoryProjectEditor
             {
                 StoryStageLogic.StageTransition st = StoryStageLogic.stateTransitions[aSD.ProjStage.ProjectStage];
                 object[] aObs = new object[] { aSD.StoryName, aSD.CraftingInfo.StoryPurpose, 
-                    TeamMemberData.GetMemberTypeAsString(aSD.ProjStage.MemberTypeWithEditToken), 
+                    TeamMemberData.GetMemberTypeAsDisplayString(aSD.ProjStage.MemberTypeWithEditToken), 
                     st.StageDisplayString };
                 int nRowIndex = dataGridViewPanorama.Rows.Add(aObs);
                 DataGridViewRow aRow = dataGridViewPanorama.Rows[nRowIndex];

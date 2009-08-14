@@ -37,7 +37,7 @@ namespace OneStoryProjectEditor
             foreach (TeamMemberData aMember in dataTeamMembers.Values)
             {
                 listBoxTeamMembers.Items.Add(aMember.Name);
-                listBoxMemberRoles.Items.Add(aMember.MemberTypeAsString);
+                listBoxMemberRoles.Items.Add(TeamMemberData.GetMemberTypeAsDisplayString(aMember.MemberType));
             }
 
             if ((listBoxTeamMembers.Items.Count > 0) && !String.IsNullOrEmpty(Properties.Settings.Default.LastMemberLogin))
@@ -204,7 +204,7 @@ namespace OneStoryProjectEditor
 
                     // update the role listbox
                     int nIndex = listBoxTeamMembers.Items.IndexOf(dlg.MemberName);
-                    listBoxMemberRoles.Items[nIndex] = theNewMemberData.MemberTypeAsString;
+                    listBoxMemberRoles.Items[nIndex] = TeamMemberData.GetMemberTypeAsDisplayString(theNewMemberData.MemberType);
                 }
                 else
                 {
@@ -217,7 +217,7 @@ namespace OneStoryProjectEditor
                     _dataTeamMembers.Add(dlg.MemberName, theNewMemberData);
                     m_mapNewMembersThisSession.Add(dlg.MemberName, theNewMemberData);
                     listBoxTeamMembers.Items.Add(dlg.MemberName);
-                    listBoxMemberRoles.Items.Add(theNewMemberData.MemberTypeAsString);
+                    listBoxMemberRoles.Items.Add(TeamMemberData.GetMemberTypeAsDisplayString(theNewMemberData.MemberType));
                     listBoxTeamMembers.SelectedItem = dlg.MemberName;
                 }
             }
@@ -246,7 +246,7 @@ namespace OneStoryProjectEditor
 
             // update the role listbox
             int nIndex = listBoxTeamMembers.Items.IndexOf(dlg.MemberName);
-            listBoxMemberRoles.Items[nIndex] = theMemberData.MemberTypeAsString;
+            listBoxMemberRoles.Items[nIndex] = TeamMemberData.GetMemberTypeAsDisplayString(theMemberData.MemberType);
 
             // keep a hang on it so we don't try to, for example, give it a new guid
             if (!m_mapNewMembersThisSession.ContainsKey(dlg.MemberName))
@@ -314,6 +314,11 @@ namespace OneStoryProjectEditor
                 m_projSettings.InternationalBT.FontColor = fontDialog.Color;
                 Modified = true;
             }
+        }
+
+        private void listBoxTeamMembers_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            buttonOK_Click(sender, e);
         }
     }
 }

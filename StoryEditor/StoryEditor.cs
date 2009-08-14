@@ -928,6 +928,16 @@ namespace OneStoryProjectEditor
                 if ((int)theCurrentST.CurrentStage > (int)theNewST.CurrentStage)
                 {
                     System.Diagnostics.Debug.Assert(theCurrentST.IsTransitionValid(theNewST.CurrentStage));
+                    // if this is the last transition before they lose edit privilege, then make
+                    //  sure they really want to do this.
+                    if (theCurrentST.IsTerminalTransition(theNewST.CurrentStage))
+                        if (MessageBox.Show(
+                                String.Format(theCurrentST.TerminalTransitionMessage,
+                                TeamMemberData.GetMemberTypeAsDisplayString(theNewST.MemberTypeWithEditToken), 
+                                theNewST.StageDisplayString), 
+                            CstrCaption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
+                            return;
+
                     theCurrentStory.ProjStage.ProjectStage = theNewST.CurrentStage;
                     SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage);
                     break;
@@ -966,7 +976,17 @@ namespace OneStoryProjectEditor
             StoryStageLogic.StageTransition st = StoryStageLogic.stateTransitions[theCurrentStory.ProjStage.ProjectStage];
             bool bRet = st.IsReadyForTransition(Stories.ProjSettings, theCurrentStory);
             if (bRet)
+            {
+                StoryStageLogic.StageTransition stNext = StoryStageLogic.stateTransitions[st.NextStage];
+                if (st.IsTerminalTransition(st.NextStage))
+                    if (MessageBox.Show(
+                            String.Format(st.TerminalTransitionMessage,
+                                TeamMemberData.GetMemberTypeAsDisplayString(stNext.MemberTypeWithEditToken),
+                                stNext.StageDisplayString), 
+                            CstrCaption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
+                        return false;
                 theCurrentStory.ProjStage.ProjectStage = st.NextStage;  // if we are ready, then go ahead and transition
+            }
             return bRet;
         }
 

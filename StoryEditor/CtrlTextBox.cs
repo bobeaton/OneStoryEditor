@@ -52,10 +52,12 @@ namespace OneStoryProjectEditor
                     throw new ApplicationException(
                         "Unable to edit file! Try rebooting and if it persists, contact bob_eaton@sall.com");
 
-                if (IsKeyAllowed(e.KeyCode) || _stageLogic.IsEditAllowed(theSE.LoggedOnMember))
+                if (IsKeyAllowed(e.KeyCode) || _stageLogic.ThrowIfEditNotAllowed(theSE.LoggedOnMember))
                     base.OnKeyDown(e);
                 theSE.Modified = true;
-                theSE.SetViewBasedOnProjectStage(_stageLogic.ProjectStage);
+
+                StoryStageLogic.StageTransition st = StoryStageLogic.stateTransitions[_stageLogic.ProjectStage];
+                theSE.SetStatusBar(String.Format("{0}  Press F1 for instructions", st.StageDisplayString), st.StageInstructions);
             }
             catch (Exception ex)
             {

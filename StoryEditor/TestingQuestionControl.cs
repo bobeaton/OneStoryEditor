@@ -31,10 +31,6 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert(tableLayoutPanel.RowCount == 1, "otherwise, adjust assumption here: TestingQuestionControl.cs.34");
             InsertRow(1);
 
-            // remove the columns, because we're going to add them back as equal sizes.
-            while (tableLayoutPanel.ColumnCount > 0)
-                RemoveColumn(tableLayoutPanel.ColumnCount - 1);
-
             UpdateView(aSE);
 
             this.tableLayoutPanel.ResumeLayout(false);
@@ -43,7 +39,11 @@ namespace OneStoryProjectEditor
 
         public override void UpdateView(StoryEditor aSE)
         {
-            bool bShowVernAndShowHeaders = (aSE.viewEnglishBTFieldMenuItem.Checked);
+            // remove the columns, because we're going to add them back as equal sizes.
+            while (tableLayoutPanel.ColumnCount > 0)
+                RemoveColumn(tableLayoutPanel.ColumnCount - 1);
+
+            bool bShowVernAndShowHeaders = (aSE.viewVernacularLangFieldMenuItem.Checked);
 
             int nNumColumns = 0;
 

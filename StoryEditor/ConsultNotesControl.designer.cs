@@ -51,6 +51,7 @@
             this.buttonDragDropHandle.Size = new System.Drawing.Size(15, 15);
             this.buttonDragDropHandle.TabIndex = 1;
             this.buttonDragDropHandle.UseVisualStyleBackColor = true;
+            this.buttonDragDropHandle.Click += new System.EventHandler(buttonDragDropHandle_Click);
             // 
             // ConsultNotesControl
             // 

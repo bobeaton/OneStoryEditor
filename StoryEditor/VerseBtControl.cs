@@ -227,15 +227,18 @@ namespace OneStoryProjectEditor
         {
             // since some of the view parameters (e.g. show Vernacular) are actually controlled within
             //  the StoryLine control, if we get the call to UpdateView, we have to pass it on to it
-            //  to handle (unlike here with the Anchor control, which is all on or all off)
-            if (_nRowIndexTestingQuestionGroup == -1)
+            //  to handle (here, the "Vern" version of the testing question has to be handled by the
+            //  sub-control)
+            if ((_lstTestQuestionControls != null) && (_lstTestQuestionControls.Count > 0))
             {
-                if (aTQsData.Count > 0)
-                {
-                    _lstTestQuestionControls = new List<TestingQuestionControl>(aTQsData.Count);
-                    for (int i = 0; i < aTQsData.Count; i++)
-                        InitTestQuestion(aSE, i, aTQsData[i], nLayoutRow);
-                }
+                foreach (TestingQuestionControl aTQCtrl in _lstTestQuestionControls)
+                    aTQCtrl.UpdateView(aSE);
+            }
+            else if (aTQsData.Count > 0)
+            {
+                _lstTestQuestionControls = new List<TestingQuestionControl>(aTQsData.Count);
+                for (int i = 0; i < aTQsData.Count; i++)
+                    InitTestQuestion(aSE, i, aTQsData[i], nLayoutRow);
             }
         }
 
