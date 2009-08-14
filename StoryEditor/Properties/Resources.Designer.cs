@@ -60,16 +60,23 @@ namespace OneStoryProjectEditor.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap BuilderDialog_movedown {
+        internal static System.Drawing.Bitmap BuilderDialog_movedown1 {
             get {
-                object obj = ResourceManager.GetObject("BuilderDialog_movedown", resourceCulture);
+                object obj = ResourceManager.GetObject("BuilderDialog_movedown1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap BuilderDialog_moveup {
+        internal static System.Drawing.Bitmap BuilderDialog_moveup1 {
             get {
-                object obj = ResourceManager.GetObject("BuilderDialog_moveup", resourceCulture);
+                object obj = ResourceManager.GetObject("BuilderDialog_moveup1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap DeleteHS {
+            get {
+                object obj = ResourceManager.GetObject("DeleteHS", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

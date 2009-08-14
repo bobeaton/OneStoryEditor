@@ -15,17 +15,14 @@ namespace OneStoryProjectEditor
         protected const string CstrFieldNameInternationalBt = "InternationalBT";
 
         protected VerseData _aVerseData = null;
-        protected int m_nColumnIndexVernacular = -1;
-        protected int m_nColumnIndexNationalBT = -1;
-        protected int m_nColumnIndexInternationalBT = -1;
 
         public StoryLineControl(StoryEditor aSE, VerseData aVerseData)
             : base(aSE.theCurrentStory.ProjStage)
         {
             InitializeComponent();
 
-            this.tableLayoutPanel.SuspendLayout();
-            this.SuspendLayout();
+            tableLayoutPanel.SuspendLayout();
+            SuspendLayout();
 
             _aVerseData = aVerseData;
 
@@ -38,77 +35,33 @@ namespace OneStoryProjectEditor
             while (tableLayoutPanel.ColumnCount > 0)
                 RemoveColumn(tableLayoutPanel.ColumnCount - 1);
 
-            UpdateView(aSE);
-
-            this.tableLayoutPanel.ResumeLayout(false);
-            this.ResumeLayout(false);
-        }
-
-        public override void  UpdateView(StoryEditor aSE)
-        {
             int nNumColumns = 0;
             if (aSE.viewVernacularLangFieldMenuItem.Checked)
             {
-                // if we've already initialized the control, then it must have this project column index (i.e. nNumColumns)
-                System.Diagnostics.Debug.Assert((m_nColumnIndexVernacular == -1) || (m_nColumnIndexVernacular == nNumColumns), "fix bad assumption (StoryLineControl.cs.46): bob_eaton@sall.com");
-
-                // if it isn't already initialized
-                if (m_nColumnIndexVernacular == -1)
-                {
-                    InsertColumn(nNumColumns);
-                    InitLabel(aSE.Stories.ProjSettings.Vernacular.LangName, nNumColumns);
-                    InitTextBox(CstrFieldNameVernacular, _aVerseData.VernacularText, aSE.Stories.ProjSettings.Vernacular.Font, aSE.Stories.ProjSettings.Vernacular.FontColor, nNumColumns);
-                    m_nColumnIndexVernacular = nNumColumns;
-                }
-                nNumColumns++;  // in either case, we have to bump the running count, because this control *is* there (whether new or old)
-            }
-            else if (m_nColumnIndexVernacular != -1)
-            {
-                RemoveColumn(m_nColumnIndexVernacular);
-                m_nColumnIndexVernacular = -1;
+                InsertColumn(nNumColumns);
+                InitLabel(aSE.Stories.ProjSettings.Vernacular.LangName, nNumColumns);
+                InitTextBox(CstrFieldNameVernacular, _aVerseData.VernacularText, aSE.Stories.ProjSettings.Vernacular.Font, aSE.Stories.ProjSettings.Vernacular.FontColor, nNumColumns);
+                nNumColumns++;
             }
 
             if (aSE.viewNationalLangFieldMenuItem.Checked)
             {
-                // if we've already initialized the control, then it must have this project column index (i.e. nNumColumns)
-                System.Diagnostics.Debug.Assert((m_nColumnIndexNationalBT == -1) || (m_nColumnIndexNationalBT == nNumColumns), "fix bad assumption (StoryLineControl.cs.66): bob_eaton@sall.com");
-
-                // if it isn't already initialized
-                if (m_nColumnIndexNationalBT == -1)
-                {
-                    InsertColumn(nNumColumns);
-                    InitLabel(aSE.Stories.ProjSettings.NationalBT.LangName, nNumColumns);
-                    InitTextBox(CstrFieldNameNationalBt, _aVerseData.NationalBTText, aSE.Stories.ProjSettings.NationalBT.Font, aSE.Stories.ProjSettings.NationalBT.FontColor, nNumColumns);
-                    m_nColumnIndexNationalBT = nNumColumns;
-                }
-                nNumColumns++;  // in either case, we have to bump the running count, because this control *is* there (whether new or old)
-            }
-            else if (m_nColumnIndexNationalBT != -1)
-            {
-                RemoveColumn(m_nColumnIndexNationalBT);
-                m_nColumnIndexNationalBT = -1;
+                InsertColumn(nNumColumns);
+                InitLabel(aSE.Stories.ProjSettings.NationalBT.LangName, nNumColumns);
+                InitTextBox(CstrFieldNameNationalBt, _aVerseData.NationalBTText, aSE.Stories.ProjSettings.NationalBT.Font, aSE.Stories.ProjSettings.NationalBT.FontColor, nNumColumns);
+                nNumColumns++;
             }
 
             if (aSE.viewEnglishBTFieldMenuItem.Checked)
             {
-                // if we've already initialized the control, then it must have this project column index (i.e. nNumColumns)
-                System.Diagnostics.Debug.Assert((m_nColumnIndexInternationalBT == -1) || (m_nColumnIndexInternationalBT == nNumColumns), "fix bad assumption (StoryLineControl.cs.86): bob_eaton@sall.com");
+                InsertColumn(nNumColumns);
+                InitLabel(aSE.Stories.ProjSettings.InternationalBT.LangName, nNumColumns);
+                InitTextBox(CstrFieldNameInternationalBt, _aVerseData.InternationalBTText, aSE.Stories.ProjSettings.InternationalBT.Font, aSE.Stories.ProjSettings.InternationalBT.FontColor, nNumColumns);
+                nNumColumns++;
+            }
 
-                // if it isn't already initialized
-                if (m_nColumnIndexInternationalBT == -1)
-                {
-                    InsertColumn(nNumColumns);
-                    InitLabel(aSE.Stories.ProjSettings.InternationalBT.LangName, nNumColumns);
-                    InitTextBox(CstrFieldNameInternationalBt, _aVerseData.InternationalBTText, aSE.Stories.ProjSettings.InternationalBT.Font, aSE.Stories.ProjSettings.InternationalBT.FontColor, nNumColumns);
-                    m_nColumnIndexInternationalBT = nNumColumns;
-                }
-                nNumColumns++;  // in either case, we have to bump the running count, because this control *is* there (whether new or old)
-            }
-            else if (m_nColumnIndexInternationalBT != -1)
-            {
-                RemoveColumn(m_nColumnIndexInternationalBT);
-                m_nColumnIndexInternationalBT = -1;
-            }
+            tableLayoutPanel.ResumeLayout(false);
+            ResumeLayout(false);
         }
 
         protected void InitLabel(string strStoryLineLableName, int nLayoutColumn)
@@ -116,38 +69,21 @@ namespace OneStoryProjectEditor
             // add the row0 column label
             string strCtrlName = strStoryLineLableName + CstrSuffixLabel + nLayoutColumn.ToString();
             System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(strCtrlName), "otherwise, fix wrong assumption");
-            Label lbl = new Label();
-            lbl.Name = strCtrlName;
-            lbl.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            lbl.AutoSize = true;
-            lbl.Text = strStoryLineLableName;
-            this.tableLayoutPanel.Controls.Add(lbl, nLayoutColumn, 0);
+            Label lbl = new Label
+                            {
+                                Name = strCtrlName,
+                                Anchor = AnchorStyles.Top,
+                                AutoSize = true,
+                                Text = strStoryLineLableName
+                            };
+            tableLayoutPanel.Controls.Add(lbl, nLayoutColumn, 0);
         }
 
         protected void InitTextBox(string strTbName, StringTransfer strTbText, Font font, Color color, int nLayoutColumn)
         {
             System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(strTbName + CstrSuffixTextBox), "otherwise, fix wrong assumption");
             CtrlTextBox tb = new CtrlTextBox(strTbName + CstrSuffixTextBox, this, strTbText, font, color);
-            this.tableLayoutPanel.Controls.Add(tb, nLayoutColumn, 1);
-        }
-
-        // if we insert or remove a row, we have to adjust the following indices
-        protected override void InsertColumn(int nLayoutColumnIndex)
-        {
-            base.InsertColumn(nLayoutColumnIndex);
-            if (m_nColumnIndexNationalBT >= nLayoutColumnIndex)
-                m_nColumnIndexNationalBT++;
-            if (m_nColumnIndexInternationalBT >= nLayoutColumnIndex)
-                m_nColumnIndexInternationalBT++;
-        }
-
-        protected override void RemoveColumn(int nLayoutColumnIndex)
-        {
-            base.RemoveColumn(nLayoutColumnIndex);
-            if (m_nColumnIndexNationalBT > nLayoutColumnIndex)
-                m_nColumnIndexNationalBT--;
-            if (m_nColumnIndexInternationalBT > nLayoutColumnIndex)
-                m_nColumnIndexInternationalBT--;
+            tableLayoutPanel.Controls.Add(tb, nLayoutColumn, 1);
         }
     }
 }

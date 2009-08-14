@@ -28,16 +28,6 @@ namespace OneStoryProjectEditor
         }
 
         /// <summary>
-        /// UpdateView is implemented by subclasses to turn on and off controls in the TableLayoutPanel
-        /// based on view menu settings in the parent frame (aSE)
-        /// </summary>
-        /// <param name="aSE">This parameter is used to give access to the main window (for things like, what view items are enabled, etc)</param>
-        public virtual void UpdateView(StoryEditor aSE)
-        {
-            // only subclasses know what to do here...
-        }
-
-        /// <summary>
         /// Begins the UpdateView process by suspending the layout and fixing this control's width
         /// Subclasses will call this at the start of their implementation of UpdateView
         /// </summary>

@@ -628,7 +628,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelVerses;
+        internal System.Windows.Forms.FlowLayoutPanel flowLayoutPanelVerses;
         private System.Windows.Forms.SplitContainer splitContainerLeftRight;
         private System.Windows.Forms.SplitContainer splitContainerUpDown;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;

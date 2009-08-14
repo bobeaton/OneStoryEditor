@@ -38,7 +38,7 @@ namespace OneStoryProjectEditor
             int nLayoutRow = nNumRows++;
 
             Label label = new Label();
-            label.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            label.Anchor = AnchorStyles.Left;
             label.AutoSize = true;
             label.Name = strLabelTextFormat + nNumRows.ToString();
             label.Text = String.Format(strLabelTextFormat, nNumRows);

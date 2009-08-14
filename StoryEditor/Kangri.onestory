@@ -24,6 +24,7 @@
       <Member name="Anil" memberType="UNS" memberKey="mem-ea7522b7-4a9e-40be-8180-8bb55d597274" />
       <Member name="Dolly" memberType="UNS" memberKey="mem-411202b5-d966-45b0-ae3f-9a38c387f975" />
       <Member name="Sonia" memberType="UNS" memberKey="mem-917caf32-9c37-497c-b7d7-73d02738d843" />
+      <Member name="Bob" memberType="ConsultantInTraining" memberKey="mem-3f695b07-d28d-46a1-a4b7-999ed77d9d41" />
     </Members>
     <Languages>
       <VernacularLang name="Kangri" code="xnr" FontName="Arial Unicode MS" FontSize="12" FontColor="Maroon" SentenceFinalPunct="।" />

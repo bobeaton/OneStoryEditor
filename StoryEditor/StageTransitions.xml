@@ -3,7 +3,6 @@
   <StageTransition stage="eCrafterTypeNationalBT">
     <Transition MemberWithEditToken="eCrafter" NextState="eCrafterTypeInternationalBT">
       <StageDisplayString>Crafter enters the National language back-translation</StageDisplayString>
-      <NextMemberTransitionMessage>If you change to this next state, then you won't be able to edit the story until after the consultant has reviewed it. Are you sure you want to change to the '{0}' state?</NextMemberTransitionMessage>
       <StageInstructions>
 By this stage, you will have already crafted and recorded a story according to the procedure
 you learned in the workshop. Now you (the crafter) must find an uninitiated native speaker (UNS)
@@ -37,7 +36,6 @@ sentence per verse, then click the button in the left-hand side of the status ba
   <StageTransition stage="eCrafterTypeInternationalBT">
     <Transition MemberWithEditToken="eCrafter" NextState="eCrafterAddAnchors">
       <StageDisplayString>Crafter enters the English back-translation</StageDisplayString>
-      <NextMemberTransitionMessage>If you change to this next state, then you won't be able to edit the story until after the consultant has reviewed it. Are you sure you want to change to the '{0}' state?</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableBackwardsTransitions>
         <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
@@ -53,7 +51,6 @@ sentence per verse, then click the button in the left-hand side of the status ba
   <StageTransition stage="eCrafterAddAnchors">
     <Transition MemberWithEditToken="eCrafter" NextState="eCrafterAddStoryQuestions">
       <StageDisplayString>Crafter adds biblical anchors</StageDisplayString>
-      <NextMemberTransitionMessage>If you change to this next state, then you won't be able to edit the story until after the consultant has reviewed it. Are you sure you want to change to the '{0}' state?</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableBackwardsTransitions>
         <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
@@ -69,7 +66,6 @@ sentence per verse, then click the button in the left-hand side of the status ba
   <StageTransition stage="eCrafterAddStoryQuestions">
     <Transition MemberWithEditToken="eCrafter" NextState="eConsultantCheckAnchors">
       <StageDisplayString>Crafter adds story testing questions</StageDisplayString>
-      <NextMemberTransitionMessage>If you change to this next state, then you won't be able to edit the story until after the consultant has reviewed it. Are you sure you want to change to the '{0}' state?</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableBackwardsTransitions>
         <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
@@ -85,7 +81,6 @@ sentence per verse, then click the button in the left-hand side of the status ba
   <StageTransition stage="eConsultantCheckAnchors">
     <Transition MemberWithEditToken="eConsultantInTraining" NextState="eConsultantCheckStoryQuestions">
       <StageDisplayString>Consultant checks the story anchors</StageDisplayString>
-      <NextMemberTransitionMessage>If you change to this next state, then you won't be able to edit this story again until after the coach has reviewed it. Are you sure you want to change to the '{0}' state?</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableBackwardsTransitions>
         <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
@@ -103,7 +98,6 @@ sentence per verse, then click the button in the left-hand side of the status ba
   <StageTransition stage="eConsultantCheckStoryQuestions">
     <Transition MemberWithEditToken="eConsultantInTraining" NextState="eCoachReviewRound1Notes">
       <StageDisplayString>Consultant checks the story testing questions</StageDisplayString>
-      <NextMemberTransitionMessage>If you change to this next state, then you won't be able to edit the story until after the coach has reviewed it. Are you sure you want to change to the '{0}' state?</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableBackwardsTransitions>
         <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
@@ -121,7 +115,6 @@ sentence per verse, then click the button in the left-hand side of the status ba
   <StageTransition stage="eCoachReviewRound1Notes">
     <Transition MemberWithEditToken="eCoach" NextState="eConsultantReviseRound1Notes">
       <StageDisplayString>Coach reviews round 1 consultant notes</StageDisplayString>
-      <NextMemberTransitionMessage>If you change to this next state, then you won't be able to edit the story until after the consultant returns it to you for the next round of review. Are you sure you want to change to the '{0}' state?</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableForwardsTransitions>
         <AllowableForwardsTransition>eConsultantReviseRound1Notes</AllowableForwardsTransition>
@@ -132,7 +125,6 @@ sentence per verse, then click the button in the left-hand side of the status ba
   <StageTransition stage="eConsultantReviseRound1Notes">
     <Transition MemberWithEditToken="eConsultantInTraining" NextState="eCrafterReviseBasedOnRound1Notes">
       <StageDisplayString>Consultant revises round 1 notes based on Coach's feedback</StageDisplayString>
-      <NextMemberTransitionMessage>If you change to this next state, then you won't be able to edit the story until after the crafter has returned it to you after the first (formal) UNS test. Are you sure you want to change to the '{0}' state?</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableForwardsTransitions>
         <AllowableForwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableForwardsTransition>
@@ -143,7 +135,6 @@ sentence per verse, then click the button in the left-hand side of the status ba
   <StageTransition stage="eCrafterReviseBasedOnRound1Notes">
     <Transition MemberWithEditToken="eCrafter" NextState="eCrafterOnlineReview1WithConsultant">
       <StageDisplayString>Crafter revises story based on Consultant's feedback</StageDisplayString>
-      <NextMemberTransitionMessage>If you change to this next state, then you won't be able to edit the story until after the consultant has reviewed it. Are you sure you want to change to the '{0}' state?</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableForwardsTransitions>
         <AllowableForwardsTransition>eCrafterOnlineReview1WithConsultant</AllowableForwardsTransition>
@@ -158,7 +149,6 @@ sentence per verse, then click the button in the left-hand side of the status ba
   <StageTransition stage="eCrafterOnlineReview1WithConsultant">
     <Transition MemberWithEditToken="eCrafter" NextState="eCrafterReadyForTest1">
       <StageDisplayString>Crafter has 1st online review with consultant</StageDisplayString>
-      <NextMemberTransitionMessage>If you change to this next state, then you won't be able to edit the story until after the consultant has reviewed it. Are you sure you want to change to the '{0}' state?</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableBackwardsTransitions>
         <AllowableBackwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableBackwardsTransition>
@@ -175,7 +165,6 @@ sentence per verse, then click the button in the left-hand side of the status ba
   <StageTransition stage="eCrafterReadyForTest1">
     <Transition MemberWithEditToken="eCrafter" NextState="eCrafterEnterAnswersToStoryQuestionsOfTest1">
       <StageDisplayString>Crafter is ready for the 1st (formal) UNS test</StageDisplayString>
-      <NextMemberTransitionMessage>If you change to this next state, then you won't be able to edit the story until after the consultant has reviewed it. Are you sure you want to change to the '{0}' state?</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableBackwardsTransitions>
         <AllowableBackwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableBackwardsTransition>
@@ -192,7 +181,6 @@ sentence per verse, then click the button in the left-hand side of the status ba
   <StageTransition stage="eCrafterEnterAnswersToStoryQuestionsOfTest1">
     <Transition MemberWithEditToken="eCrafter" NextState="eCrafterEnterRetellingOfTest1">
       <StageDisplayString>Crafter enters answers to the test 1 story questions</StageDisplayString>
-      <NextMemberTransitionMessage>If you change to this next state, then you won't be able to edit the story until after the consultant has reviewed it. Are you sure you want to change to the '{0}' state?</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableBackwardsTransitions>
         <AllowableBackwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableBackwardsTransition>
@@ -209,7 +197,6 @@ sentence per verse, then click the button in the left-hand side of the status ba
   <StageTransition stage="eCrafterEnterRetellingOfTest1">
     <Transition MemberWithEditToken="eCrafter" NextState="eConsultantCheckAnchorsRound2">
       <StageDisplayString>Crafter enters test 1 retelling back-translation</StageDisplayString>
-      <NextMemberTransitionMessage>If you change to this next state, then you won't be able to edit the story until after the consultant has reviewed it. Are you sure you want to change to the '{0}' state?</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableBackwardsTransitions>
         <AllowableBackwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableBackwardsTransition>
@@ -226,7 +213,6 @@ sentence per verse, then click the button in the left-hand side of the status ba
   <StageTransition stage="eConsultantCheckAnchorsRound2">
     <Transition MemberWithEditToken="eConsultantInTraining" NextState="eConsultantCheckAnswersToTestingQuestionsRound2">
       <StageDisplayString>Consultant checks story anchors for round 2</StageDisplayString>
-      <NextMemberTransitionMessage>If you change to this next state, then you won't be able to edit the story until after the coach has reviewed it. Are you sure you want to change to the '{0}' state?</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableBackwardsTransitions>
         <AllowableBackwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableBackwardsTransition>
@@ -242,7 +228,6 @@ sentence per verse, then click the button in the left-hand side of the status ba
   <StageTransition stage="eConsultantCheckAnswersToTestingQuestionsRound2">
     <Transition MemberWithEditToken="eConsultantInTraining" NextState="eConsultantCheckRetellingRound2">
       <StageDisplayString>Consultant checks test 1 answers to story testing questions</StageDisplayString>
-      <NextMemberTransitionMessage>If you change to this next state, then you won't be able to edit the story until after the coach has reviewed it. Are you sure you want to change to the '{0}' state?</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableBackwardsTransitions>
         <AllowableBackwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableBackwardsTransition>
@@ -258,7 +243,6 @@ sentence per verse, then click the button in the left-hand side of the status ba
   <StageTransition stage="eConsultantCheckRetellingRound2">
     <Transition MemberWithEditToken="eConsultantInTraining" NextState="eCoachReviewRound2Notes">
       <StageDisplayString>Consultant checks test 1 retelling</StageDisplayString>
-      <NextMemberTransitionMessage>If you change to this next state, then you won't be able to edit the story until after the coach has reviewed it. Are you sure you want to change to the '{0}' state?</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableBackwardsTransitions>
         <AllowableBackwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableBackwardsTransition>
@@ -274,7 +258,6 @@ sentence per verse, then click the button in the left-hand side of the status ba
   <StageTransition stage="eCoachReviewRound2Notes">
     <Transition MemberWithEditToken="eCoach" NextState="eConsultantReviseRound2Notes">
       <StageDisplayString>Coach reviews test 1 notes</StageDisplayString>
-      <NextMemberTransitionMessage>If you change to this next state, then you won't be able to edit the story until after the consultant has returned it for round 2. Are you sure you want to change to the '{0}' state?</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableForwardsTransitions>
         <AllowableForwardsTransition>eConsultantReviseRound2Notes</AllowableForwardsTransition>
@@ -285,7 +268,6 @@ sentence per verse, then click the button in the left-hand side of the status ba
   <StageTransition stage="eConsultantReviseRound2Notes">
     <Transition MemberWithEditToken="eConsultantInTraining" NextState="eCrafterReviseBasedOnRound2Notes">
       <StageDisplayString>Consultant revises round 2 notes based on Coach's feedback</StageDisplayString>
-      <NextMemberTransitionMessage>If you change to this next state, then you won't be able to edit the story until after the crafter has returned it for a final review. Are you sure you want to change to the '{0}' state?</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableForwardsTransitions>
         <AllowableForwardsTransition>eCrafterReviseBasedOnRound2Notes</AllowableForwardsTransition>
@@ -296,7 +278,6 @@ sentence per verse, then click the button in the left-hand side of the status ba
   <StageTransition stage="eCrafterReviseBasedOnRound2Notes">
     <Transition MemberWithEditToken="eCrafter" NextState="eCrafterOnlineReview2WithConsultant">
       <StageDisplayString>Crafter revises story based on round 2 notes</StageDisplayString>
-      <NextMemberTransitionMessage>If you change to this next state, then you won't be able to edit the story until after the consultant has returned it. Are you sure you want to change to the '{0}' state?</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableForwardsTransitions>
         <AllowableForwardsTransition>eCrafterOnlineReview2WithConsultant</AllowableForwardsTransition>
@@ -311,7 +292,6 @@ sentence per verse, then click the button in the left-hand side of the status ba
   <StageTransition stage="eCrafterOnlineReview2WithConsultant">
     <Transition MemberWithEditToken="eCrafter" NextState="eCrafterReadyForTest2">
       <StageDisplayString>Crafter has 2nd online review with consultant</StageDisplayString>
-      <NextMemberTransitionMessage>If you change to this next state, then you won't be able to edit the story until after the consultant has returned it. Are you sure you want to change to the '{0}' state?</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableBackwardsTransitions>
         <AllowableBackwardsTransition>eCrafterReviseBasedOnRound2Notes</AllowableBackwardsTransition>
@@ -328,7 +308,6 @@ sentence per verse, then click the button in the left-hand side of the status ba
   <StageTransition stage="eCrafterReadyForTest2">
     <Transition MemberWithEditToken="eCrafter" NextState="eCrafterEnterAnswersToStoryQuestionsOfTest2">
       <StageDisplayString>Crafter is ready for the second (formal) UNS test</StageDisplayString>
-      <NextMemberTransitionMessage>If you change to this next state, then you won't be able to edit the story until after the consultant has returned it. Are you sure you want to change to the '{0}' state?</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableBackwardsTransitions>
         <AllowableBackwardsTransition>eCrafterReviseBasedOnRound2Notes</AllowableBackwardsTransition>
@@ -345,7 +324,6 @@ sentence per verse, then click the button in the left-hand side of the status ba
   <StageTransition stage="eCrafterEnterAnswersToStoryQuestionsOfTest2">
     <Transition MemberWithEditToken="eCrafter" NextState="eCrafterEnterRetellingOfTest2">
       <StageDisplayString>Crafter enters test 2 answers to story testing questions</StageDisplayString>
-      <NextMemberTransitionMessage>If you change to this next state, then you won't be able to edit the story until after the consultant has returned it. Are you sure you want to change to the '{0}' state?</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableBackwardsTransitions>
         <AllowableBackwardsTransition>eCrafterReviseBasedOnRound2Notes</AllowableBackwardsTransition>
@@ -362,7 +340,6 @@ sentence per verse, then click the button in the left-hand side of the status ba
   <StageTransition stage="eCrafterEnterRetellingOfTest2">
     <Transition MemberWithEditToken="eCrafter" NextState="eConsultantReviewTest2">
       <StageDisplayString>Crafter enters test 2 retelling back-translation</StageDisplayString>
-      <NextMemberTransitionMessage>If you change to this next state, then you won't be able to edit the story until after the consultant has returned it. Are you sure you want to change to the '{0}' state?</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableBackwardsTransitions>
         <AllowableBackwardsTransition>eCrafterReviseBasedOnRound2Notes</AllowableBackwardsTransition>
@@ -379,7 +356,6 @@ sentence per verse, then click the button in the left-hand side of the status ba
   <StageTransition stage="eConsultantReviewTest2">
     <Transition MemberWithEditToken="eConsultantInTraining" NextState="eCoachReviewTest2Notes">
       <StageDisplayString>Consultant reviews test 2 results</StageDisplayString>
-      <NextMemberTransitionMessage>If you change to this next state, then you won't be able to edit the story until after the coach has returned it. Are you sure you want to change to the '{0}' state?</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableBackwardsTransitions>
         <AllowableBackwardsTransition>eCrafterReviseBasedOnRound2Notes</AllowableBackwardsTransition>
@@ -393,7 +369,6 @@ sentence per verse, then click the button in the left-hand side of the status ba
   <StageTransition stage="eCoachReviewTest2Notes">
     <Transition MemberWithEditToken="eCoach" NextState="eTeamComplete">
       <StageDisplayString>Coach reviews test 2 results</StageDisplayString>
-      <NextMemberTransitionMessage>If you change to this next state, then you won't be able to edit the story until after the consultant has returned it. Are you sure you want to change to the '{0}' state?</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableBackwardsTransitions>
         <AllowableBackwardsTransition>eConsultantReviseRound2Notes</AllowableBackwardsTransition>
@@ -407,7 +382,6 @@ sentence per verse, then click the button in the left-hand side of the status ba
   <StageTransition stage="eTeamComplete">
     <Transition MemberWithEditToken="eCrafter" NextState="eTeamComplete">
       <StageDisplayString>Story testing complete (waiting for panorama completion review)</StageDisplayString>
-      <NextMemberTransitionMessage>If you change to this next state, then you won't be able to edit the story until after the consultant has reviewed it. Are you sure you want to change to the '{0}' state?</NextMemberTransitionMessage>
       <StageInstructions></StageInstructions>
       <AllowableBackwardsTransitions>
         <AllowableBackwardsTransition>eConsultantReviewTest2</AllowableBackwardsTransition>

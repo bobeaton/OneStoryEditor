@@ -34,8 +34,9 @@
             this.ColumnPurpose = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.EditToken = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StoryStage = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.buttonMoveUp = new System.Windows.Forms.Button();
             this.buttonMoveDown = new System.Windows.Forms.Button();
+            this.buttonMoveUp = new System.Windows.Forms.Button();
+            this.buttonDelete = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPanorama)).BeginInit();
             this.SuspendLayout();
             // 
@@ -96,33 +97,44 @@
             this.StoryStage.ToolTipText = "Right-click to change state";
             this.StoryStage.Width = 290;
             // 
-            // buttonMoveUp
-            // 
-            this.buttonMoveUp.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.buttonMoveUp.Image = global::OneStoryProjectEditor.Properties.Resources.BuilderDialog_moveup;
-            this.buttonMoveUp.Location = new System.Drawing.Point(671, 144);
-            this.buttonMoveUp.Name = "buttonMoveUp";
-            this.buttonMoveUp.Size = new System.Drawing.Size(26, 23);
-            this.buttonMoveUp.TabIndex = 1;
-            this.buttonMoveUp.UseVisualStyleBackColor = true;
-            this.buttonMoveUp.Click += new System.EventHandler(this.buttonMoveUp_Click);
-            // 
             // buttonMoveDown
             // 
             this.buttonMoveDown.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.buttonMoveDown.Image = global::OneStoryProjectEditor.Properties.Resources.BuilderDialog_movedown;
-            this.buttonMoveDown.Location = new System.Drawing.Point(671, 196);
+            this.buttonMoveDown.Image = global::OneStoryProjectEditor.Properties.Resources.BuilderDialog_movedown1;
+            this.buttonMoveDown.Location = new System.Drawing.Point(671, 199);
             this.buttonMoveDown.Name = "buttonMoveDown";
             this.buttonMoveDown.Size = new System.Drawing.Size(25, 23);
             this.buttonMoveDown.TabIndex = 2;
             this.buttonMoveDown.UseVisualStyleBackColor = true;
             this.buttonMoveDown.Click += new System.EventHandler(this.buttonMoveDown_Click);
             // 
+            // buttonMoveUp
+            // 
+            this.buttonMoveUp.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.buttonMoveUp.Image = global::OneStoryProjectEditor.Properties.Resources.BuilderDialog_moveup1;
+            this.buttonMoveUp.Location = new System.Drawing.Point(671, 141);
+            this.buttonMoveUp.Name = "buttonMoveUp";
+            this.buttonMoveUp.Size = new System.Drawing.Size(26, 23);
+            this.buttonMoveUp.TabIndex = 1;
+            this.buttonMoveUp.UseVisualStyleBackColor = true;
+            this.buttonMoveUp.Click += new System.EventHandler(this.buttonMoveUp_Click);
+            // 
+            // buttonDelete
+            // 
+            this.buttonDelete.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.buttonDelete.Image = global::OneStoryProjectEditor.Properties.Resources.DeleteHS;
+            this.buttonDelete.Location = new System.Drawing.Point(671, 170);
+            this.buttonDelete.Name = "buttonDelete";
+            this.buttonDelete.Size = new System.Drawing.Size(26, 23);
+            this.buttonDelete.TabIndex = 3;
+            this.buttonDelete.UseVisualStyleBackColor = true;
+            // 
             // PanoramaView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(709, 362);
+            this.Controls.Add(this.buttonDelete);
             this.Controls.Add(this.buttonMoveDown);
             this.Controls.Add(this.buttonMoveUp);
             this.Controls.Add(this.dataGridViewPanorama);
@@ -143,5 +155,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnPurpose;
         private System.Windows.Forms.DataGridViewTextBoxColumn EditToken;
         private System.Windows.Forms.DataGridViewTextBoxColumn StoryStage;
+        private System.Windows.Forms.Button buttonDelete;
     }
 }

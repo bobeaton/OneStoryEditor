@@ -193,11 +193,6 @@ namespace OneStoryProjectEditor
                             if (xpNextElement.MoveNext())
                                 strStageDisplayString = xpNextElement.Current.Value;
 
-                            xpNextElement = xpTransition.Current.Select("NextMemberTransitionMessage");
-                            string strNextMemberTransitionMessage = null;
-                            if (xpNextElement.MoveNext())
-                                strNextMemberTransitionMessage = xpNextElement.Current.Value;
-
                             xpNextElement = xpTransition.Current.Select("StageInstructions");
                             string strStageInstructions = null;
                             if (xpNextElement.MoveNext())
@@ -229,7 +224,7 @@ namespace OneStoryProjectEditor
                             }
 
                             StageTransition st = new StageTransition(eThisStage, eNextStage, eMemberType, 
-                                strStageDisplayString, strNextMemberTransitionMessage, strStageInstructions,
+                                strStageDisplayString, strStageInstructions,
                                 lstAllowableBackwardsStages, lstAllowableForwardsStages, lstViewStates);
 
                             Add(eThisStage, st);
@@ -261,7 +256,6 @@ namespace OneStoryProjectEditor
                 ProjectStages theNextStage,
                 TeamMemberData.UserTypes eMemberTypeWithEditToken,
                 string strDisplayString,
-                string strTerminalTransitionMessage,
                 string strInstructions,
                 List<ProjectStages> lstAllowableBackwardsStages,
                 List<ProjectStages> lstAllowableForwardsStages, 
@@ -324,7 +318,6 @@ namespace OneStoryProjectEditor
                         new XAttribute("MemberWithEditToken", MemberTypeWithEditToken),
                         new XAttribute("NextState", NextStage),
                         new XElement("StageDisplayString", StageDisplayString),
-                        new XElement("NextMemberTransitionMessage", TerminalTransitionMessage),
                         new XElement("StageInstructions", StageInstructions),
                         elemAllowableBackwardsTransition,
                         elemAllowableForwardsTransition,

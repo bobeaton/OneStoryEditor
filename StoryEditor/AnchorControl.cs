@@ -24,11 +24,11 @@ namespace OneStoryProjectEditor
             _myAnchorsData = anAnchorsData;
             InitializeComponent();
 
-            this.tableLayoutPanel.SuspendLayout();
-            this.SuspendLayout();
+            tableLayoutPanel.SuspendLayout();
+            SuspendLayout();
 
-            this.tableLayoutPanel.Controls.Add(this.labelAnchor, 0, 0);
-            this.tableLayoutPanel.Controls.Add(this.toolStripAnchors, 1, 0);
+            tableLayoutPanel.Controls.Add(labelAnchor, 0, 0);
+            tableLayoutPanel.Controls.Add(toolStripAnchors, 1, 0);
 
             // add the label and tool strip as a new row to the table layout panel
             // finally populate the buttons on that tool strip
@@ -40,8 +40,8 @@ namespace OneStoryProjectEditor
                     InitExegeticalHelpsRow(theAnchorButton, anAnchorData.ExegeticalHelpNotes, ref m_nNumRows);
             }
 
-            this.tableLayoutPanel.ResumeLayout(false);
-            this.ResumeLayout(false);
+            tableLayoutPanel.ResumeLayout(false);
+            ResumeLayout(false);
         }
 
         protected ToolStripButton InitAnchorButton(ToolStrip ts, AnchorData theAnchorData)
@@ -68,24 +68,9 @@ namespace OneStoryProjectEditor
                 m_theLastButtonClicked = (ToolStripButton)sender;
         }
 
-        /*
-        protected void InitAnchorButton(ToolStrip ts, string strJumpTarget, string strComment)
-        {
-            ToolStripSplitButton tssb = new ToolStripSplitButton();
-            tssb.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            tssb.DropDown = dropDownAnchorButtonOptions;
-            tssb.Name = CstrFieldNameAnchor + strJumpTarget;
-            tssb.AutoSize = true;
-            tssb.Text = strJumpTarget;
-            tssb.ToolTipText = strComment;
-            tssb.Click += new EventHandler(aButton_Click);
-            ts.Items.Add(tssb);
-        }
-        */
-
         void aButton_Click(object sender, EventArgs e)
         {
-            Form form = this.FindForm();
+            Form form = FindForm();
             if (form is StoryEditor)
             {
                 StoryEditor aSE = (StoryEditor)form;
@@ -152,7 +137,7 @@ namespace OneStoryProjectEditor
             {
                 NetBibleViewer theNetBibleViewer = (NetBibleViewer)e.Data.GetData(typeof(NetBibleViewer));
                 AnchorData theAnchorData = _myAnchorsData.AddAnchorData(theNetBibleViewer.ScriptureReference);
-                this.InitAnchorButton(toolStripAnchors, theAnchorData);
+                InitAnchorButton(toolStripAnchors, theAnchorData);
             }
         }
 
