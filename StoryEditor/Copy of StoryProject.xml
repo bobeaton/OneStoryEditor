@@ -58,22 +58,22 @@
           </Retellings>
           <ConsultantNotes>
             <ConsultantNote round="2">
-              <ConsultantComment memberID="mem-8B45075E-6434-4755-81AE-E1EEB9134D5B">note in the retelling, she said "... God has made it", whereas in the original story, it says, "... God was before them all" (which gets repeated in the next verse). Do you think we should change 00.01 to be more like her retelling? The "God made everything" concept is really from the next story, from which she might be getting confused, but it might work here too.</ConsultantComment>
-              <CrafterResponse memberID="mem-99CDE60E-453A-4947-8627-83B33223EF0B">Yes, it is more natural and I have changed it.</CrafterResponse>
+              <ConsultantComment>note in the retelling, she said "... God has made it", whereas in the original story, it says, "... God was before them all" (which gets repeated in the next verse). Do you think we should change 00.01 to be more like her retelling? The "God made everything" concept is really from the next story, from which she might be getting confused, but it might work here too.</ConsultantComment>
+              <CrafterResponse>Yes, it is more natural and I have changed it.</CrafterResponse>
             </ConsultantNote>
             <ConsultantNote round="1">
-              <ConsultantComment memberID="mem-8B45075E-6434-4755-81AE-E1EEB9134D5B">just a reminder to word the question as much as possible as the original text (i.e. जितनी भी 'whatever' rather than जितनी 'what')</ConsultantComment>
-              <CrafterResponse memberID="mem-99CDE60E-453A-4947-8627-83B33223EF0B">done</CrafterResponse>
+              <ConsultantComment>just a reminder to word the question as much as possible as the original text (i.e. जितनी भी 'whatever' rather than जितनी 'what')</ConsultantComment>
+              <CrafterResponse>done</CrafterResponse>
             </ConsultantNote>
             <ConsultantNote round="1">
-              <ConsultantComment memberID="mem-8B45075E-6434-4755-81AE-E1EEB9134D5B">good question: given the Hindu perspective of maya 'illusion', it'd be interesting to see what they think is actually around them.</ConsultantComment>
-              <CrafterResponse memberID="mem-99CDE60E-453A-4947-8627-83B33223EF0B">done</CrafterResponse>
+              <ConsultantComment>good question: given the Hindu perspective of maya 'illusion', it'd be interesting to see what they think is actually around them.</ConsultantComment>
+              <CrafterResponse>done</CrafterResponse>
             </ConsultantNote>
           </ConsultantNotes>
           <CoachNotes>
             <CoachNote round="1">
-              <CoachComment memberID="mem-7064CC55-73C4-48bf-B2DC-9989A5ED9D1B">since the anchored verse doesn't actually say who the agent of creation was, add an exegetical comment indicating God was (e.g. from TN on gen.02:04)</CoachComment>
-              <ConsultantResponse memberID="mem-8B45075E-6434-4755-81AE-E1EEB9134D5B">done</ConsultantResponse>
+              <CoachComment>since the anchored verse doesn't actually say who the agent of creation was, add an exegetical comment indicating God was (e.g. from TN on gen.02:04)</CoachComment>
+              <ConsultantResponse>done</ConsultantResponse>
             </CoachNote>
           </CoachNotes>
         </verse>

@@ -9,10 +9,11 @@ namespace OneStoryProjectEditor
 {
     public class CtrlTextBox : TextBox
     {
+        protected TeamMemberData.UserTypes _eRequiredEditor = TeamMemberData.UserTypes.eUndefined;
         protected StoryStageLogic _stageLogic = null;
         protected ResizableControl _ctrlParent = null;
 
-        public CtrlTextBox(string strName, ResizableControl ctrlParent, StringTransfer stData)
+        public CtrlTextBox(string strName, ResizableControl ctrlParent, StringTransfer stData, TeamMemberData.UserTypes eRequiredEditor)
         {
             Name = strName;
             Multiline = true;
@@ -22,6 +23,7 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert(ctrlParent.StageLogic != null);
             _stageLogic = ctrlParent.StageLogic;
             _ctrlParent = ctrlParent;
+            _eRequiredEditor = eRequiredEditor; // can only be edited by this member!
         }
 
         public CtrlTextBox(string strName, ResizableControl ctrlParent, StringTransfer stData, Font font, Color colorText)
@@ -50,17 +52,38 @@ namespace OneStoryProjectEditor
             {
                 if (theSE == null)
                     throw new ApplicationException(
-                        "Unable to edit file! Try rebooting and if it persists, contact bob_eaton@sall.com");
+                        "Unable to edit the file! Try rebooting and if it persists, contact bob_eaton@sall.com");
 
-                if (IsKeyAllowed(e.KeyCode) || _stageLogic.ThrowIfEditNotAllowed(theSE.LoggedOnMember))
-                    base.OnKeyDown(e);
-                theSE.Modified = true;
+                // certain keys (like arrow keys), we just want to allow in any case.
+                if (!IsKeyAutomaticallyAllowed(e.KeyCode))
+                {
+                    // if the creator has defined a particular required editor (e.g. for consultant notes,
+                    //  the *mentor* must be a *consultant*), then throw if we don't have one and always
+                    //  allow the edit otherwise (since no one else can, we don't have to worry about conflicts).
+                    if (_eRequiredEditor != TeamMemberData.UserTypes.eUndefined)    // ... i.e. a req. editor is defined
+                    {
+                        // then throw if this is not him or her (fall thru otherwise)
+                        if (theSE.LoggedOnMember.MemberType != _eRequiredEditor)
+                            throw new ApplicationException(String.Format("Only a '{0}' can edit this field type.", TeamMemberData.GetMemberTypeAsDisplayString(_eRequiredEditor)));
+                    }
 
+                    // finally, the last possible blockage is if the currently logged on member isn't the 
+                    //  right editor for the state we are in (which has to do with who has the edit token)
+                    else if (!_stageLogic.IsEditAllowed(theSE.LoggedOnMember))
+                        throw _stageLogic.WrongMemberTypeEx;
+                }
+
+                // if we get here, we're all good!
+                base.OnKeyDown(e);
+                theSE.Modified = true;  // to trigger save if exit.
+
+                // update the status bar (in case we previously put an error there
                 StoryStageLogic.StageTransition st = StoryStageLogic.stateTransitions[_stageLogic.ProjectStage];
                 theSE.SetStatusBar(String.Format("{0}  Press F1 for instructions", st.StageDisplayString), st.StageInstructions);
             }
             catch (Exception ex)
             {
+                Console.Beep();
                 if (theSE != null)
                     theSE.SetStatusBar(String.Format("Error: {0}", ex.Message), null);
                 e.Handled = true;
@@ -68,7 +91,7 @@ namespace OneStoryProjectEditor
             }
         }
 
-        protected bool IsKeyAllowed(Keys keyCode)
+        protected bool IsKeyAutomaticallyAllowed(Keys keyCode)
         {
             switch (keyCode)
             {

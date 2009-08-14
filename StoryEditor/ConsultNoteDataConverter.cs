@@ -9,14 +9,18 @@ namespace OneStoryProjectEditor
     public abstract class ConsultNoteDataConverter
     {
         public int RoundNum = 0;
-        
-        public string MentorGuid = null;
-        public string MentorLabel = null;
         public StringTransfer MentorComment = null;
-
-        public string MenteeGuid = null;
-        public string MenteeLabel = null;
         public StringTransfer MenteeResponse = null;
+
+        public abstract string MentorLabel
+        {
+            get;
+        }
+
+        public abstract string MenteeLabel
+        {
+            get;
+        }
 
         public Color CommentColor
         {
@@ -28,9 +32,30 @@ namespace OneStoryProjectEditor
             get { return Color.Blue; }
         }
 
-        protected string InstanceElementName;
-        protected string CommentElementName;
-        protected string ResponseElementName;
+        protected abstract string InstanceElementName
+        {
+            get;
+        }
+
+        protected abstract string CommentElementName
+        {
+            get;
+        }
+
+        protected abstract string ResponseElementName
+        {
+            get;
+        }
+
+        public abstract TeamMemberData.UserTypes MentorRequiredEditor
+        {
+            get;
+        }
+
+        public abstract TeamMemberData.UserTypes MenteeRequiredEditor
+        {
+            get;
+        }
 
         public bool HasData
         {
@@ -45,16 +70,13 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                // must have guids if there's data
-                System.Diagnostics.Debug.Assert((MentorComment != null) && (MenteeResponse != null));
-                System.Diagnostics.Debug.Assert(!MentorComment.HasData || !String.IsNullOrEmpty(MentorGuid));
-                System.Diagnostics.Debug.Assert(!MenteeResponse.HasData || !String.IsNullOrEmpty(MenteeGuid));
+                System.Diagnostics.Debug.Assert((MentorComment != null) && (MenteeResponse != null) && HasData);
 
                 XElement eleNote = new XElement(StoriesData.ns + InstanceElementName, new XAttribute("round", RoundNum));
                 if (MentorComment.HasData)
-                    eleNote.Add(new XElement(StoriesData.ns + CommentElementName, new XAttribute("memberID", MentorGuid), MentorComment));
+                    eleNote.Add(new XElement(StoriesData.ns + CommentElementName, MentorComment));
                 if (MenteeResponse.HasData)
-                    eleNote.Add(new XElement(StoriesData.ns + ResponseElementName, new XAttribute("memberID", MenteeGuid), MenteeResponse));
+                    eleNote.Add(new XElement(StoriesData.ns + ResponseElementName, MenteeResponse));
 
                 return eleNote;
             }
@@ -66,41 +88,52 @@ namespace OneStoryProjectEditor
         public ConsultantNoteData(StoryProject.ConsultantNoteRow aCNRow)
         {
             RoundNum = aCNRow.round;
-            InstanceElementName = "ConsultantNote";
-            CommentElementName = "ConsultantComment";
-            ResponseElementName = "CrafterResponse";
 
-            MentorLabel = "con:";
-            StoryProject.ConsultantCommentRow[] aCCRows = aCNRow.GetConsultantCommentRows();
-            if (aCCRows.Length == 1)
-            {
-                StoryProject.ConsultantCommentRow theCCRow = aCCRows[0];
-                MentorGuid = theCCRow.memberID;
-                MentorComment = new StringTransfer(theCCRow.ConsultantComment_text);
-            }
-            else
-                MentorComment = new StringTransfer(null);
+            MentorComment = new StringTransfer((aCNRow.IsConsultantCommentNull()) ? null : aCNRow.ConsultantComment);
 
-            MenteeLabel = "res:";
-            StoryProject.CrafterResponseRow[] aCRRows = aCNRow.GetCrafterResponseRows();
-            if (aCRRows.Length == 1)
-            {
-                StoryProject.CrafterResponseRow theCRRow = aCRRows[0];
-                MenteeGuid = theCRRow.memberID;
-                MenteeResponse = new StringTransfer(theCRRow.CrafterResponse_text);
-            }
-            else
-                MenteeResponse = new StringTransfer(null);
+            MenteeResponse = new StringTransfer((aCNRow.IsCrafterResponseNull()) ? null : aCNRow.CrafterResponse);
         }
 
         public ConsultantNoteData(int nRound)
         {
             RoundNum = nRound;
-            InstanceElementName = "ConsultantNote";
-            CommentElementName = "ConsultantComment";
-            ResponseElementName = "CrafterResponse";
             MentorComment = new StringTransfer(null);
             MenteeResponse = new StringTransfer(null);
+        }
+
+        public override string MentorLabel
+        {
+            get { return "con:"; }
+        }
+
+        public override string MenteeLabel
+        {
+            get { return "res:"; }
+        }
+
+        protected override string InstanceElementName
+        {
+            get { return "ConsultantNote"; }
+        }
+
+        protected override string CommentElementName
+        {
+            get { return "ConsultantComment"; }
+        }
+
+        protected override string ResponseElementName
+        {
+            get { return "CrafterResponse"; }
+        }
+
+        public override TeamMemberData.UserTypes MentorRequiredEditor
+        {
+            get { return TeamMemberData.UserTypes.eConsultantInTraining; }
+        }
+
+        public override TeamMemberData.UserTypes MenteeRequiredEditor
+        {
+            get { return TeamMemberData.UserTypes.eCrafter; }
         }
     }
 
@@ -123,7 +156,8 @@ namespace OneStoryProjectEditor
 
         public override void AddEmpty(int nRound)
         {
-            Add(new ConsultantNoteData(nRound));
+            // always add closest to the verse label
+            Insert(0, new ConsultantNoteData(nRound));
         }
 
         public ConsultantNotesData()
@@ -137,41 +171,50 @@ namespace OneStoryProjectEditor
         public CoachNoteData(StoryProject.CoachNoteRow aCoNRow)
         {
             RoundNum = aCoNRow.round;
-            InstanceElementName = "CoachNote";
-            CommentElementName = "CoachComment";
-            ResponseElementName = "ConsultantResponse";
-
-            StoryProject.CoachCommentRow[] aCoCRows = aCoNRow.GetCoachCommentRows();
-            if (aCoCRows.Length == 1)
-            {
-                StoryProject.CoachCommentRow theCoCRow = aCoCRows[0];
-                MentorGuid = theCoCRow.memberID;
-                MentorLabel = "co:";
-                MentorComment = new StringTransfer(theCoCRow.CoachComment_text);
-            }
-            else
-                MentorComment = new StringTransfer(null);
-
-            StoryProject.ConsultantResponseRow[] aCRRows = aCoNRow.GetConsultantResponseRows();
-            if (aCRRows.Length == 1)
-            {
-                StoryProject.ConsultantResponseRow theCRRow = aCRRows[0];
-                MenteeGuid = theCRRow.memberID;
-                MenteeLabel = "con:";
-                MenteeResponse = new StringTransfer(theCRRow.ConsultantResponse_text);
-            }
-            else
-                MenteeResponse = new StringTransfer(null);
+            MentorComment = new StringTransfer((aCoNRow.IsCoachCommentNull()) ? null : aCoNRow.CoachComment);
+            MenteeResponse = new StringTransfer((aCoNRow.IsConsultantResponseNull()) ? null : aCoNRow.ConsultantResponse);
         }
 
         public CoachNoteData(int nRound)
         {
             RoundNum = nRound;
-            InstanceElementName = "CoachNote";
-            CommentElementName = "CoachComment";
-            ResponseElementName = "ConsultantResponse";
             MentorComment = new StringTransfer(null);
             MenteeResponse = new StringTransfer(null);
+        }
+
+        public override string MentorLabel
+        {
+            get { return "co:"; }
+        }
+
+        public override string MenteeLabel
+        {
+            get { return "con:"; }
+        }
+
+        protected override string InstanceElementName
+        {
+            get { return "CoachNote"; }
+        }
+
+        protected override string CommentElementName
+        {
+            get { return "CoachComment"; }
+        }
+
+        protected override string ResponseElementName
+        {
+            get { return "ConsultantResponse"; }
+        }
+
+        public override TeamMemberData.UserTypes MentorRequiredEditor
+        {
+            get { return TeamMemberData.UserTypes.eCoach; }
+        }
+
+        public override TeamMemberData.UserTypes MenteeRequiredEditor
+        {
+            get { return TeamMemberData.UserTypes.eConsultantInTraining; }
         }
     }
 
@@ -219,7 +262,8 @@ namespace OneStoryProjectEditor
 
         public override void AddEmpty(int nRound)
         {
-            Add(new CoachNoteData(nRound));
+            // always add closest to the verse label
+            Insert(0, new ConsultantNoteData(nRound));
         }
 
         public CoachNotesData()

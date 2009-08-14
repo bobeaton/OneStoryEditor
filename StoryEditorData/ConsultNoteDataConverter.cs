@@ -10,11 +10,9 @@ namespace OneStoryProjectEditor
     {
         public int RoundNum = 0;
         
-        public string MentorGuid = null;
         public string MentorLabel = null;
         public string MentorComment = null;
 
-        public string MenteeGuid = null;
         public string MenteeLabel = null;
         public string MenteeResponse = null;
 
@@ -44,9 +42,9 @@ namespace OneStoryProjectEditor
                 // must have guids if there's data
                 XElement eleNote = new XElement(InstanceElementName, new XAttribute("round", RoundNum));
                 if (!String.IsNullOrEmpty(MentorComment))
-                    eleNote.Add(new XElement(CommentElementName, new XAttribute("memberID", MentorGuid), MentorComment));
+                    eleNote.Add(new XElement(CommentElementName, MentorComment));
                 if (!String.IsNullOrEmpty(MenteeResponse))
-                    eleNote.Add(new XElement(ResponseElementName, new XAttribute("memberID", MenteeGuid), MenteeResponse));
+                    eleNote.Add(new XElement(ResponseElementName, MenteeResponse));
 
                 return eleNote;
             }

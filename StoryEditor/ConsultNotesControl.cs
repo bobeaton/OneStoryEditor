@@ -56,8 +56,10 @@ namespace OneStoryProjectEditor
             {
                 if (theSE == null)
                     throw new ApplicationException(
-                        "Unable to edit the file! Try rebooting and if it persists, contact bob_eaton@sall.com");
-                theSE.theCurrentStory.ProjStage.ThrowIfEditNotAllowed(theSE.LoggedOnMember);
+                        "Unable to edit the file! Reboot and if it persists, contact bob_eaton@sall.com");
+
+                if (!theSE.theCurrentStory.ProjStage.IsEditAllowed(theSE.LoggedOnMember))
+                    throw theSE.theCurrentStory.ProjStage.WrongMemberTypeEx;
             }
             catch (Exception ex)
             {

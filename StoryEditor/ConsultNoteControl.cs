@@ -33,14 +33,14 @@ namespace OneStoryProjectEditor
 
             // finally populate the buttons on that tool strip
             int nNumRows = 1;
-            InitRow(aCNDC.MentorLabel, aCNDC.MentorComment, aCNDC.CommentColor, ref nNumRows);
-            InitRow(aCNDC.MenteeLabel, aCNDC.MenteeResponse, aCNDC.ResponseColor, ref nNumRows);
+            InitRow(aCNDC.MentorLabel, aCNDC.MentorComment, aCNDC.CommentColor, aCNDC.MentorRequiredEditor, ref nNumRows);
+            InitRow(aCNDC.MenteeLabel, aCNDC.MenteeResponse, aCNDC.ResponseColor, aCNDC.MenteeRequiredEditor, ref nNumRows);
 
             this.tableLayoutPanel.ResumeLayout(false);
             this.ResumeLayout(false);
         }
 
-        protected void InitRow(string strRowLabel, StringTransfer strRowData, Color clrText, ref int nNumRows)
+        protected void InitRow(string strRowLabel, StringTransfer strRowData, Color clrText, TeamMemberData.UserTypes eReqEditor, ref int nNumRows)
         {
             int nLayoutRow = nNumRows++;
 
@@ -52,7 +52,7 @@ namespace OneStoryProjectEditor
 
             CtrlTextBox tb = new CtrlTextBox(
                 strRowLabel + CstrSuffixTextBox + nNumRows.ToString(),
-                this, strRowData);
+                this, strRowData, eReqEditor);
             tb.ForeColor = clrText;
 
             // add the label and tool strip as a new row to the table layout panel

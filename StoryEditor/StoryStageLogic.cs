@@ -78,12 +78,14 @@ namespace OneStoryProjectEditor
             return bRet;
         }
 
-        public bool ThrowIfEditNotAllowed(TeamMemberData loggedOnMember)
+        public bool IsEditAllowed(TeamMemberData loggedOnMember)
         {
-            if (MemberTypeWithEditToken == loggedOnMember.MemberType)
-                return true;
+            return (MemberTypeWithEditToken == loggedOnMember.MemberType);
+        }
 
-            throw new ApplicationException(String.Format("Right now, only a '{0}' should be editing the story. If you're a {0}, click 'Project', 'Settings' to login", TeamMemberData.GetMemberTypeAsDisplayString(MemberTypeWithEditToken)));
+        public ApplicationException WrongMemberTypeEx
+        {
+            get { return new ApplicationException(String.Format("Right now, only a '{0}' should be editing the story. If you're a {0}, click 'Project', 'Settings' to login", TeamMemberData.GetMemberTypeAsDisplayString(MemberTypeWithEditToken))); }
         }
 
         // this isn't 100% effective. Sometimes a particular stage can have a single (but varied) editors

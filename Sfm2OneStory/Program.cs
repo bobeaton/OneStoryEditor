@@ -143,7 +143,7 @@ namespace OneStoryProjectEditor
                     }
 
                     // now grab the retelling
-                    if (SkipTo(@"\ln " + strRef, @"\t ", astrRet, ref nIndexRet))
+                    if (SkipTo(@"\ln " + strRef, @"\c ", astrRet, ref nIndexRet))
                     {
                         ParseLine(astrRet[++nIndexRet], out strMarker, out strData);
                         while ((strMarker != @"\ln") && (strMarker != @"\c"))
@@ -161,7 +161,7 @@ namespace OneStoryProjectEditor
                     }
 
                     // now grab the consultant notes
-                    if (SkipTo(@"\ln " + strRef, @"\t ", astrCon, ref nIndexCon))
+                    if (SkipTo(@"\ln " + strRef, @"\c ", astrCon, ref nIndexCon))
                     {
                         ParseLine(astrCon[++nIndexCon], out strMarker, out strData);
                         while ((strMarker != @"\ln") && (strMarker != @"\c"))
@@ -170,7 +170,6 @@ namespace OneStoryProjectEditor
                             {
                                 ConsultNoteDataConverter con = new ConsultantNoteData();
                                 con.MentorComment = strData;
-                                con.MentorGuid = MemberGuid(theStories.TeamMembers, "Bob", TeamMemberData.UserTypes.eConsultantInTraining);
                                 int nRound = 1;
                                 try
                                 {
@@ -186,7 +185,6 @@ namespace OneStoryProjectEditor
                                 System.Diagnostics.Debug.Assert(verse.ConsultantNotes.Count > 0);
                                 ConsultNoteDataConverter con = verse.ConsultantNotes[verse.ConsultantNotes.Count - 1];
                                 con.MenteeResponse = strData;
-                                con.MenteeGuid = story.CraftingInfo.StoryCrafterMemberID;
                             }
                             else if (!String.IsNullOrEmpty(strMarker) && !String.IsNullOrEmpty(strData))
                                 System.Diagnostics.Debug.Assert(false, String.Format("not handling the '{0}' marker", strMarker));
@@ -196,7 +194,7 @@ namespace OneStoryProjectEditor
                     }
 
                     // now grab the coach notes
-                    if (SkipTo(@"\ln " + strRef, @"\t ", astrCoa, ref nIndexCoa))
+                    if (SkipTo(@"\ln " + strRef, @"\c ", astrCoa, ref nIndexCoa))
                     {
                         ParseLine(astrCoa[++nIndexCoa], out strMarker, out strData);
                         while ((strMarker != @"\ln") && (strMarker != @"\c"))
@@ -206,7 +204,6 @@ namespace OneStoryProjectEditor
                                 ConsultNoteDataConverter coa = new CoachNoteData();
                                 verse.CoachNotes.Add(coa);
                                 coa.MentorComment = strData;
-                                coa.MentorGuid = MemberGuid(theStories.TeamMembers, "Judy", TeamMemberData.UserTypes.eCoach);
                                 int nRound = 1;
                                 try
                                 {
@@ -226,7 +223,6 @@ namespace OneStoryProjectEditor
                                 System.Diagnostics.Debug.Assert(verse.CoachNotes.Count > 0);
                                 ConsultNoteDataConverter coa = verse.CoachNotes[verse.CoachNotes.Count - 1];
                                 coa.MenteeResponse = strData;
-                                coa.MenteeGuid = MemberGuid(theStories.TeamMembers, "Bob", TeamMemberData.UserTypes.eConsultantInTraining);
                             }
                             else if (strMarker == @"\dt")
                                 Console.WriteLine("Found:" + strMarker);
@@ -277,7 +273,7 @@ namespace OneStoryProjectEditor
         static bool SkipTo(string strSfmCodeFind, string strSfmCodeStopBy, string[] astr, ref int nIndex)
         {
             int nLen = astr.Length;
-            for (int i = nIndex + 1; i < nLen; i++)
+            for (int i = nIndex; i < nLen; i++)
             {
                 string strLine = astr[i];
                 if (String.IsNullOrEmpty(strLine.Trim()))

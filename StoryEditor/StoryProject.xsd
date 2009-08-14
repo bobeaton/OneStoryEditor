@@ -151,24 +151,8 @@
 																			<xs:element name="ConsultantNote" minOccurs="0" maxOccurs="unbounded">
 																				<xs:complexType>
 																					<xs:sequence>
-																						<xs:element name="ConsultantComment" minOccurs="0" maxOccurs="1">
-																							<xs:complexType>
-																								<xs:simpleContent>
-																									<xs:extension base="xs:string">
-																										<xs:attribute name="memberID" type="xs:IDREF" use="required" />
-																									</xs:extension>
-																								</xs:simpleContent>
-																							</xs:complexType>
-																						</xs:element>
-																						<xs:element name="CrafterResponse" minOccurs="0" maxOccurs="1">
-																							<xs:complexType>
-																								<xs:simpleContent>
-																									<xs:extension base="xs:string">
-																										<xs:attribute name="memberID" type="xs:IDREF" use="required" />
-																									</xs:extension>
-																								</xs:simpleContent>
-																							</xs:complexType>
-																						</xs:element>
+																						<xs:element name="ConsultantComment" minOccurs="0" maxOccurs="1" type="xs:string"></xs:element>
+																						<xs:element name="CrafterResponse" minOccurs="0" maxOccurs="1" type="xs:string"></xs:element>
 																					</xs:sequence>
 																					<xs:attribute name="round" type="xs:unsignedByte" use="required" />
 																				</xs:complexType>
@@ -182,24 +166,8 @@
 																			<xs:element name="CoachNote" minOccurs="0" maxOccurs="unbounded">
 																				<xs:complexType>
 																					<xs:sequence>
-																						<xs:element name="CoachComment" minOccurs="0" maxOccurs="1">
-																							<xs:complexType>
-																								<xs:simpleContent>
-																									<xs:extension base="xs:string">
-																										<xs:attribute name="memberID" type="xs:IDREF" use="required" />
-																									</xs:extension>
-																								</xs:simpleContent>
-																							</xs:complexType>
-																						</xs:element>
-																						<xs:element name="ConsultantResponse" minOccurs="0" maxOccurs="1">
-																							<xs:complexType>
-																								<xs:simpleContent>
-																									<xs:extension base="xs:string">
-																										<xs:attribute name="memberID" type="xs:IDREF" use="required" />
-																									</xs:extension>
-																								</xs:simpleContent>
-																							</xs:complexType>
-																						</xs:element>
+																						<xs:element name="CoachComment" minOccurs="0" maxOccurs="1" type="xs:string"></xs:element>
+																						<xs:element name="ConsultantResponse" minOccurs="0" maxOccurs="1" type="xs:string"></xs:element>
 																					</xs:sequence>
 																					<xs:attribute name="round" type="xs:unsignedByte" use="required" />
 																				</xs:complexType>
