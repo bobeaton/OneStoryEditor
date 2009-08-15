@@ -187,5 +187,47 @@ to the next stage in the process.")]
                 this["HelpTooltipCrafterTypeInternationalBT"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ftp://ftp.seedconnect.org/HgRep/")]
+        public string RemoteUrl {
+            get {
+                return ((string)(this["RemoteUrl"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Bob_Eaton")]
+        public string RemoteUrlUsername {
+            get {
+                return ((string)(this["RemoteUrlUsername"]));
+            }
+            set {
+                this["RemoteUrlUsername"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("tsc2009")]
+        public string RemoteUrlPassword {
+            get {
+                return ((string)(this["RemoteUrlPassword"]));
+            }
+            set {
+                this["RemoteUrlPassword"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("OneStory")]
+        public string DefMyDocsSubfolder {
+            get {
+                return ((string)(this["DefMyDocsSubfolder"]));
+            }
+        }
     }
 }

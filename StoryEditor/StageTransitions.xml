@@ -40,7 +40,7 @@ sentence per verse, then click the button in the left-hand side of the status ba
 In this stage, one of the crafting team will back translate the National language back
 translation of the story (e.g. Hindi) into English.
 
-Unlike the last state, where the National Language back translation had to done by 
+Unlike the last stage, where the National Language back translation had to done by 
 a UNS, in this state, anyone can do the English back translation.
 
 When you are finished entering the English back translation, then click the button in 
@@ -63,7 +63,11 @@ in the process.
       <StageDisplayString>Crafter adds biblical anchors</StageDisplayString>
       <StageInstructions>
 In this stage, one of the crafting team will go through the story verse-by-verse and look
-up in the NetBible a reference that supports *all* of the information in the story verse.
+up Bible reference in the NetBible that supports the information in the verse. These 
+Bible references are known as "Anchors", because they 'fix' the story verse to the Bible.
+
+For example, if your story verse were, "First of all, God made heaven and earth.", then 
+you could use the reference "Gen 1:1" as an 'anchor'. You could also include 
 
 back translate the Hindi of the story into
 English. Unlike the last state, where the Hindi back translation had to be from a UNS,

@@ -26,6 +26,15 @@ namespace OneStoryProjectEditor
                 FontColor = fontColor;
             }
 
+            public LanguageInfo(string strLangName, string strLangCode, Font font, Color fontColor)
+            {
+                LangName = strLangName;
+                LangCode = strLangCode;
+                FullStop = ".";
+                Font = font;
+                FontColor = fontColor;
+            }
+
             public XElement GetXml(string strLangType)
             {
                 XElement elemLang =
@@ -45,24 +54,32 @@ namespace OneStoryProjectEditor
 
         public LanguageInfo Vernacular = new LanguageInfo(new Font("Arial Unicode MS", 12), Color.Maroon);
         public LanguageInfo NationalBT = new LanguageInfo(new Font("Arial Unicode MS", 12), Color.Green);
-        public LanguageInfo InternationalBT = new LanguageInfo(new Font("Times New Roman", 10), Color.Blue);
+        public LanguageInfo InternationalBT = new LanguageInfo("English", "en", new Font("Times New Roman", 10), Color.Blue);
 
         public ProjectSettings(string strProjectName)
         {
             ProjectName = strProjectName;
-            ProjectFolder = String.Format(@"{0}\{1}\{2}",
-                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                StoryEditor.CstrCaption,
+            ProjectFolder = String.Format(@"{0}\{1}",
+                OneStoryProjectFolderRoot,
                 ProjectName);
+        }
+
+        public static string OneStoryProjectFolderRoot
+        {
+            get 
+            {
+                return String.Format(@"{0}\{1}", 
+                    Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                    Properties.Settings.Default.DefMyDocsSubfolder);
+            }
         }
 
         public ProjectSettings(StoryProject projFile, string strProjectName)
         {
             ProjectName = strProjectName;
             System.Diagnostics.Debug.Assert(projFile != null);
-            ProjectFolder = String.Format(@"{0}\{1}\{2}",
-                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                StoryEditor.CstrCaption,
+            ProjectFolder = String.Format(@"{0}\{1}",
+                OneStoryProjectFolderRoot,
                 ProjectName);
 
             StoryProject.LanguagesRow theLangRow = InsureLanguagesRow(projFile);

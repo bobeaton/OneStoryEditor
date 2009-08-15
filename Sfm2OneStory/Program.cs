@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
-using System.Text;
 using System.IO;
-using OneStoryProjectEditor;
+using System.Text.RegularExpressions;
 
 namespace OneStoryProjectEditor
 {
@@ -24,15 +23,6 @@ namespace OneStoryProjectEditor
         const string CstrIntlName = "English";
         const string CstrIntlCode = "en";
 
-        static string MemberGuid(TeamMembersData members, string strName, TeamMemberData.UserTypes eType)
-        {
-            if (String.IsNullOrEmpty(strName))
-                return strName;
-            if (!members.ContainsKey(strName))
-                members.Add(strName, new TeamMemberData(strName, eType));
-            return members[strName].MemberGuid;
-        }
-
         static void Main(string[] args)
         {
             string[] astrBt = File.ReadAllLines(@"L:\Pahari\Storying\Kangri\KangriStoriesBT.txt");
@@ -47,6 +37,7 @@ namespace OneStoryProjectEditor
             SkipTo(@"\t ", @"\t ", astrCon, ref nIndexCon);
             SkipTo(@"\t ", @"\t ", astrCoa, ref nIndexCoa);
 
+            // set up a regex helper to pick apart the anchors
             while (nIndexBt != -1)
             {
                 string strStoryName = astrBt[nIndexBt].Substring(3);
@@ -109,7 +100,11 @@ namespace OneStoryProjectEditor
                         else if (strMarker == @"\bt")
                             verse.InternationalBTText = strData;
                         else if (strMarker == @"\anc")
-                            verse.Anchors.AddAnchorData(strData);
+                        {
+                            Dictionary<string, string> map = GetListOfAnchors(strData);
+                            foreach(KeyValuePair<string, string> kvp in map)
+                                verse.Anchors.AddAnchorData(kvp.Key, kvp.Value);
+                        }
                         else if (strMarker == @"\tsth")
                         {
                             verse.TestQuestions.AddTestQuestion();
@@ -242,7 +237,7 @@ namespace OneStoryProjectEditor
                         break;
                 }
 
-                story.ProjStage.ProjectStage = StoryStageLogic.ProjectStages.eTeamComplete;
+                story.ProjStage.ProjectStage = StoryStageLogic.ProjectStages.eCoachReviewTest2Notes;
                 theStories.Add(story);
                 SkipTo(@"\t ", @"\t ", astrBt, ref nIndexBt);
             }
@@ -294,9 +289,94 @@ namespace OneStoryProjectEditor
             return false;
         }
 
+        protected static Regex SearchRegEx3 = new Regex(@"([a-zA-Z1-3]{3}\.\d{2,3}\:)(\d{2}) ?- ?(\d{2})", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
+        protected static Regex SearchRegEx2 = new Regex(@"([a-zA-Z1-3]{3}\.\d{2,3}\:)(\d{2}), ?(\d{2})", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
+        protected static Regex SearchRegEx = new Regex(@"[a-zA-Z1-3]{3}\.\d{2,3}\:\d{2}", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
+        private static readonly char[] achAnchorDelimiters = new char[] { ';' };
+
+        static Dictionary<string, string> GetListOfAnchors(string strParagraph)
+        {
+            System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(strParagraph));
+
+            string[] aStrSentences = strParagraph.Split(achAnchorDelimiters, StringSplitOptions.RemoveEmptyEntries);
+
+            Dictionary<string, string> mapJt2Comment = new Dictionary<string, string>();
+            string strPrefix = null;
+            foreach (string str in aStrSentences)
+            {
+                string strTrimmed = str.Trim();
+                if (!String.IsNullOrEmpty(strTrimmed))
+                {
+                    MatchCollection mc = SearchRegEx2.Matches(strTrimmed);
+                    if (mc.Count > 0)
+                    {
+                        System.Diagnostics.Debug.Assert(mc.Count == 1);
+                        // found something like, "gen.03:21, 24". Turn this into two distinct anchors
+                        foreach (Match match in mc)
+                        {
+                            string str1 = match.Groups[1].ToString();   // should be "gen.03:"
+                            string str2 = match.Groups[2].ToString();  // should be "21"
+                            string str3 = match.Groups[3].ToString();  // should be "24"
+                            mapJt2Comment.Add(str1 + str2, strTrimmed);
+                            mapJt2Comment.Add(str1 + str3, strTrimmed);
+                        }
+                        continue;
+                    }
+
+                    mc = SearchRegEx3.Matches(strTrimmed);
+                    if (mc.Count > 0)
+                    {
+                        System.Diagnostics.Debug.Assert(mc.Count == 1);
+                        // found something like, "gen.03:21 - 24". Turn this into two distinct anchors
+                        Match match = mc[0];
+                        string str1 = match.Groups[1].ToString();   // should be "gen.03:"
+                        string str2 = match.Groups[2].ToString();   // should be "21"
+                        string str3 = match.Groups[3].ToString();   // should be "24"
+                        int nStart = Convert.ToInt32(str2);
+                        int nEnd = Convert.ToInt32(str3);
+                        System.Diagnostics.Debug.Assert(nEnd > nStart);
+
+                        for (int i = nStart; i <= nEnd; i++)
+                        {
+                            string strJT = String.Format("{0}{1:D2}", str1, i);
+                            mapJt2Comment.Add(strJT, strTrimmed);
+                        }
+                        continue;
+                    }
+
+                    mc = SearchRegEx.Matches(strTrimmed);
+                    if (mc.Count > 0)
+                    {
+                        foreach (Match match in mc)
+                        {
+                            strPrefix += strTrimmed;
+                            mapJt2Comment.Add(match.Value, strPrefix);
+                            strPrefix = null;
+                        }
+                    }
+                    else
+                    {
+                        // this means that there wasn't an anchor here, so just attach it with
+                        //  the next one you find.
+                        strPrefix += strTrimmed + ',';
+                    }
+                }
+            }
+            return mapJt2Comment;
+        }
+
         static bool BeginsWith(string strData, string strBeginning)
         {
             return (strData.Substring(0, Math.Min(strBeginning.Length, strData.Length)) == strBeginning);
+        }
+
+        static string MemberGuid(TeamMembersData members, string strName, TeamMemberData.UserTypes eType)
+        {
+            if (String.IsNullOrEmpty(strName))
+                return strName;
+            if (!members.ContainsKey(strName))
+                members.Add(strName, new TeamMemberData(strName, eType));
+            return members[strName].MemberGuid;
         }
 
         static void SaveXElement(XElement elem, string strFilename)

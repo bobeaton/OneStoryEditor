@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 using System.Windows.Forms;
 using System.IO;
+using Chorus.UI.Sync;
+using Chorus.VcsDrivers.Mercurial;
+using Chorus.sync;
 
 namespace OneStoryProjectEditor
 {
@@ -51,6 +54,7 @@ namespace OneStoryProjectEditor
                 OpenProjectFile(Properties.Settings.Default.LastProjectFile);
         }
 
+        // this is now import.
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -1030,7 +1034,11 @@ namespace OneStoryProjectEditor
 
         private void deleteStoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            InitAllPanes();
+            Repository repo = new Repository(this, true);
+            if (!repo.Exists)
+                repo.Create();
+
+            repo.SynchronizeWithRemote();
         }
     }
 }

@@ -39,9 +39,9 @@ namespace OneStoryProjectEditor
         {
         }
 
-        public AnchorData AddAnchorData(string strJumpTarget)
+        public AnchorData AddAnchorData(string strJumpTarget, string strComment)
         {
-            AnchorData anAD = new AnchorData(strJumpTarget, strJumpTarget);
+            AnchorData anAD = new AnchorData(strJumpTarget, strComment);
             this.Add(anAD);
             return anAD;
         }

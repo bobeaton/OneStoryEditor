@@ -101,34 +101,33 @@
             this.storyToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(895, 27);
+            this.menuStrip.Size = new System.Drawing.Size(895, 25);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip1";
             // 
             // projectToolStripMenuItem
             // 
             this.projectToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openToolStripMenuItem,
+            this.recentFilesToolStripMenuItem,
             this.newToolStripMenuItem,
             this.saveToolStripMenuItem,
             this.saveasToolStripMenuItem,
             this.toolStripSeparator1,
-            this.recentFilesToolStripMenuItem,
+            this.openToolStripMenuItem,
             this.toolStripSeparator4,
             this.teamMembersToolStripMenuItem,
             this.toolStripSeparator2,
             this.exitToolStripMenuItem});
             this.projectToolStripMenuItem.Name = "projectToolStripMenuItem";
-            this.projectToolStripMenuItem.Size = new System.Drawing.Size(56, 23);
+            this.projectToolStripMenuItem.Size = new System.Drawing.Size(53, 21);
             this.projectToolStripMenuItem.Text = "&Project";
             this.projectToolStripMenuItem.DropDownOpening += new System.EventHandler(this.projectToolStripMenuItem_DropDownOpening);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
-            this.openToolStripMenuItem.Text = "&Open";
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Text = "&Import";
             this.openToolStripMenuItem.ToolTipText = "Click to open an existing OneStory project";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
@@ -136,7 +135,7 @@
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newToolStripMenuItem.Text = "&New";
             this.newToolStripMenuItem.ToolTipText = "Click to create a new OneStory project";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
@@ -145,7 +144,7 @@
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveToolStripMenuItem.Text = "&Save";
             this.saveToolStripMenuItem.ToolTipText = "Click to save the OneStory project";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
@@ -153,43 +152,43 @@
             // saveasToolStripMenuItem
             // 
             this.saveasToolStripMenuItem.Name = "saveasToolStripMenuItem";
-            this.saveasToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.saveasToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveasToolStripMenuItem.Text = "Save &As";
             this.saveasToolStripMenuItem.Click += new System.EventHandler(this.saveasToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(143, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
             // 
             // recentFilesToolStripMenuItem
             // 
             this.recentFilesToolStripMenuItem.Name = "recentFilesToolStripMenuItem";
-            this.recentFilesToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
-            this.recentFilesToolStripMenuItem.Text = "&Recent files";
+            this.recentFilesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.recentFilesToolStripMenuItem.Text = "&Recent projects";
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(143, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(149, 6);
             // 
             // teamMembersToolStripMenuItem
             // 
             this.teamMembersToolStripMenuItem.Name = "teamMembersToolStripMenuItem";
-            this.teamMembersToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.teamMembersToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.teamMembersToolStripMenuItem.Text = "Se&ttings";
             this.teamMembersToolStripMenuItem.Click += new System.EventHandler(this.teamMembersToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(143, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "&Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -209,7 +208,7 @@
             this.toolStripSeparator3,
             this.viewNetBibleMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 23);
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(41, 21);
             this.viewToolStripMenuItem.Text = "&View";
             // 
             // viewVernacularLangFieldMenuItem
@@ -218,7 +217,7 @@
             this.viewVernacularLangFieldMenuItem.CheckOnClick = true;
             this.viewVernacularLangFieldMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.viewVernacularLangFieldMenuItem.Name = "viewVernacularLangFieldMenuItem";
-            this.viewVernacularLangFieldMenuItem.Size = new System.Drawing.Size(284, 22);
+            this.viewVernacularLangFieldMenuItem.Size = new System.Drawing.Size(262, 22);
             this.viewVernacularLangFieldMenuItem.Text = "Story &Language field";
             this.viewVernacularLangFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
             // 
@@ -228,7 +227,7 @@
             this.viewNationalLangFieldMenuItem.CheckOnClick = true;
             this.viewNationalLangFieldMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.viewNationalLangFieldMenuItem.Name = "viewNationalLangFieldMenuItem";
-            this.viewNationalLangFieldMenuItem.Size = new System.Drawing.Size(284, 22);
+            this.viewNationalLangFieldMenuItem.Size = new System.Drawing.Size(262, 22);
             this.viewNationalLangFieldMenuItem.Text = "National language &back translation field";
             this.viewNationalLangFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
             // 
@@ -238,7 +237,7 @@
             this.viewEnglishBTFieldMenuItem.CheckOnClick = true;
             this.viewEnglishBTFieldMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.viewEnglishBTFieldMenuItem.Name = "viewEnglishBTFieldMenuItem";
-            this.viewEnglishBTFieldMenuItem.Size = new System.Drawing.Size(284, 22);
+            this.viewEnglishBTFieldMenuItem.Size = new System.Drawing.Size(262, 22);
             this.viewEnglishBTFieldMenuItem.Text = "&English back translation field";
             this.viewEnglishBTFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
             // 
@@ -248,7 +247,7 @@
             this.viewAnchorFieldMenuItem.CheckOnClick = true;
             this.viewAnchorFieldMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.viewAnchorFieldMenuItem.Name = "viewAnchorFieldMenuItem";
-            this.viewAnchorFieldMenuItem.Size = new System.Drawing.Size(284, 22);
+            this.viewAnchorFieldMenuItem.Size = new System.Drawing.Size(262, 22);
             this.viewAnchorFieldMenuItem.Text = "&Anchor fields";
             this.viewAnchorFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
             // 
@@ -258,14 +257,14 @@
             this.viewStoryTestingQuestionFieldMenuItem.CheckOnClick = true;
             this.viewStoryTestingQuestionFieldMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.viewStoryTestingQuestionFieldMenuItem.Name = "viewStoryTestingQuestionFieldMenuItem";
-            this.viewStoryTestingQuestionFieldMenuItem.Size = new System.Drawing.Size(284, 22);
+            this.viewStoryTestingQuestionFieldMenuItem.Size = new System.Drawing.Size(262, 22);
             this.viewStoryTestingQuestionFieldMenuItem.Text = "Story &testing questions field";
             this.viewStoryTestingQuestionFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(281, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(259, 6);
             // 
             // viewRetellingFieldMenuItem
             // 
@@ -273,14 +272,14 @@
             this.viewRetellingFieldMenuItem.CheckOnClick = true;
             this.viewRetellingFieldMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.viewRetellingFieldMenuItem.Name = "viewRetellingFieldMenuItem";
-            this.viewRetellingFieldMenuItem.Size = new System.Drawing.Size(284, 22);
+            this.viewRetellingFieldMenuItem.Size = new System.Drawing.Size(262, 22);
             this.viewRetellingFieldMenuItem.Text = "&Retelling field";
             this.viewRetellingFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(281, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(259, 6);
             // 
             // viewConsultantNoteFieldMenuItem
             // 
@@ -288,7 +287,7 @@
             this.viewConsultantNoteFieldMenuItem.CheckOnClick = true;
             this.viewConsultantNoteFieldMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.viewConsultantNoteFieldMenuItem.Name = "viewConsultantNoteFieldMenuItem";
-            this.viewConsultantNoteFieldMenuItem.Size = new System.Drawing.Size(284, 22);
+            this.viewConsultantNoteFieldMenuItem.Size = new System.Drawing.Size(262, 22);
             this.viewConsultantNoteFieldMenuItem.Text = "&Consultant notes field";
             this.viewConsultantNoteFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewConsultantNoteFieldMenuItem_CheckedChanged);
             // 
@@ -298,14 +297,14 @@
             this.viewCoachNotesFieldMenuItem.CheckOnClick = true;
             this.viewCoachNotesFieldMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.viewCoachNotesFieldMenuItem.Name = "viewCoachNotesFieldMenuItem";
-            this.viewCoachNotesFieldMenuItem.Size = new System.Drawing.Size(284, 22);
+            this.viewCoachNotesFieldMenuItem.Size = new System.Drawing.Size(262, 22);
             this.viewCoachNotesFieldMenuItem.Text = "Coac&h notes field";
             this.viewCoachNotesFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewCoachNotesFieldMenuItem_CheckedChanged);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(281, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(259, 6);
             // 
             // viewNetBibleMenuItem
             // 
@@ -313,7 +312,7 @@
             this.viewNetBibleMenuItem.CheckOnClick = true;
             this.viewNetBibleMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.viewNetBibleMenuItem.Name = "viewNetBibleMenuItem";
-            this.viewNetBibleMenuItem.Size = new System.Drawing.Size(284, 22);
+            this.viewNetBibleMenuItem.Size = new System.Drawing.Size(262, 22);
             this.viewNetBibleMenuItem.Text = "&NetBible";
             this.viewNetBibleMenuItem.CheckedChanged += new System.EventHandler(this.viewNetBibleMenuItem_CheckedChanged);
             // 
@@ -323,7 +322,7 @@
             this.comboBoxStorySelector.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.comboBoxStorySelector.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBoxStorySelector.Name = "comboBoxStorySelector";
-            this.comboBoxStorySelector.Size = new System.Drawing.Size(290, 23);
+            this.comboBoxStorySelector.Size = new System.Drawing.Size(290, 21);
             this.comboBoxStorySelector.Text = "<to create a story, type its name here and hit Enter>";
             this.comboBoxStorySelector.ToolTipText = "Select the Story to edit or type in a new name to add a new story";
             this.comboBoxStorySelector.SelectedIndexChanged += new System.EventHandler(this.comboBoxStorySelector_SelectedIndexChanged);
@@ -334,7 +333,7 @@
             this.toolStripTextBoxChooseStory.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripTextBoxChooseStory.Name = "toolStripTextBoxChooseStory";
             this.toolStripTextBoxChooseStory.ReadOnly = true;
-            this.toolStripTextBoxChooseStory.Size = new System.Drawing.Size(100, 23);
+            this.toolStripTextBoxChooseStory.Size = new System.Drawing.Size(100, 21);
             this.toolStripTextBoxChooseStory.Text = "Choose Story:";
             // 
             // storyToolStripMenuItem
@@ -346,14 +345,14 @@
             this.deleteStoryToolStripMenuItem,
             this.showFullStorySetToolStripMenuItem});
             this.storyToolStripMenuItem.Name = "storyToolStripMenuItem";
-            this.storyToolStripMenuItem.Size = new System.Drawing.Size(46, 23);
+            this.storyToolStripMenuItem.Size = new System.Drawing.Size(45, 21);
             this.storyToolStripMenuItem.Text = "&Story";
             this.storyToolStripMenuItem.DropDownOpening += new System.EventHandler(this.storyToolStripMenuItem_DropDownOpening);
             // 
             // enterTheReasonThisStoryIsInTheSetToolStripMenuItem
             // 
             this.enterTheReasonThisStoryIsInTheSetToolStripMenuItem.Name = "enterTheReasonThisStoryIsInTheSetToolStripMenuItem";
-            this.enterTheReasonThisStoryIsInTheSetToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.enterTheReasonThisStoryIsInTheSetToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.enterTheReasonThisStoryIsInTheSetToolStripMenuItem.Text = "S&tory Information";
             this.enterTheReasonThisStoryIsInTheSetToolStripMenuItem.ToolTipText = "Enter information about this story, such as the reason it\'s in the set, the resou" +
                 "rces used, etc.";
@@ -362,21 +361,21 @@
             // insertNewStoryToolStripMenuItem
             // 
             this.insertNewStoryToolStripMenuItem.Name = "insertNewStoryToolStripMenuItem";
-            this.insertNewStoryToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.insertNewStoryToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.insertNewStoryToolStripMenuItem.Text = "&Insert new story";
             this.insertNewStoryToolStripMenuItem.ToolTipText = "Click to insert a new, empty story before the one currently shown";
             // 
             // addNewStoryAfterToolStripMenuItem
             // 
             this.addNewStoryAfterToolStripMenuItem.Name = "addNewStoryAfterToolStripMenuItem";
-            this.addNewStoryAfterToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.addNewStoryAfterToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.addNewStoryAfterToolStripMenuItem.Text = "&Add new story after";
             this.addNewStoryAfterToolStripMenuItem.ToolTipText = "Click to add a new, empty story after the one currently shown";
             // 
             // deleteStoryToolStripMenuItem
             // 
             this.deleteStoryToolStripMenuItem.Name = "deleteStoryToolStripMenuItem";
-            this.deleteStoryToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.deleteStoryToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.deleteStoryToolStripMenuItem.Text = "&Delete story";
             this.deleteStoryToolStripMenuItem.ToolTipText = "Click to delete the story currently shown";
             this.deleteStoryToolStripMenuItem.Click += new System.EventHandler(this.deleteStoryToolStripMenuItem_Click);
@@ -384,7 +383,7 @@
             // showFullStorySetToolStripMenuItem
             // 
             this.showFullStorySetToolStripMenuItem.Name = "showFullStorySetToolStripMenuItem";
-            this.showFullStorySetToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.showFullStorySetToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.showFullStorySetToolStripMenuItem.Text = "&Show full story set";
             this.showFullStorySetToolStripMenuItem.Click += new System.EventHandler(this.showFullStorySetToolStripMenuItem_Click);
             // 
@@ -397,7 +396,7 @@
             this.flowLayoutPanelVerses.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanelVerses.Location = new System.Drawing.Point(0, 29);
             this.flowLayoutPanelVerses.Name = "flowLayoutPanelVerses";
-            this.flowLayoutPanelVerses.Size = new System.Drawing.Size(521, 154);
+            this.flowLayoutPanelVerses.Size = new System.Drawing.Size(521, 139);
             this.flowLayoutPanelVerses.TabIndex = 1;
             this.flowLayoutPanelVerses.WrapContents = false;
             // 
@@ -418,7 +417,7 @@
             // 
             this.splitContainerLeftRight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.splitContainerLeftRight.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainerLeftRight.Location = new System.Drawing.Point(0, 0);
+            this.splitContainerLeftRight.Location = new System.Drawing.Point(0, 25);
             this.splitContainerLeftRight.Name = "splitContainerLeftRight";
             // 
             // splitContainerLeftRight.Panel1
@@ -430,7 +429,7 @@
             // 
             this.splitContainerLeftRight.Panel2.Controls.Add(this.splitContainerMentorNotes);
             this.splitContainerLeftRight.Panel2.SizeChanged += new System.EventHandler(this.splitContainerLeftRight_Panel2_SizeChanged);
-            this.splitContainerLeftRight.Size = new System.Drawing.Size(895, 314);
+            this.splitContainerLeftRight.Size = new System.Drawing.Size(895, 289);
             this.splitContainerLeftRight.SplitterDistance = 523;
             this.splitContainerLeftRight.TabIndex = 2;
             // 
@@ -450,8 +449,8 @@
             // splitContainerUpDown.Panel2
             // 
             this.splitContainerUpDown.Panel2.Controls.Add(this.netBibleViewer);
-            this.splitContainerUpDown.Size = new System.Drawing.Size(523, 314);
-            this.splitContainerUpDown.SplitterDistance = 183;
+            this.splitContainerUpDown.Size = new System.Drawing.Size(523, 289);
+            this.splitContainerUpDown.SplitterDistance = 168;
             this.splitContainerUpDown.TabIndex = 2;
             // 
             // textBoxStoryVerse
@@ -474,7 +473,7 @@
             this.netBibleViewer.Margin = new System.Windows.Forms.Padding(0);
             this.netBibleViewer.Name = "netBibleViewer";
             this.netBibleViewer.ScriptureReference = "gen 1:1";
-            this.netBibleViewer.Size = new System.Drawing.Size(521, 125);
+            this.netBibleViewer.Size = new System.Drawing.Size(521, 115);
             this.netBibleViewer.TabIndex = 0;
             // 
             // splitContainerMentorNotes
@@ -494,8 +493,8 @@
             // 
             this.splitContainerMentorNotes.Panel2.Controls.Add(this.textBoxCoachNotes);
             this.splitContainerMentorNotes.Panel2.Controls.Add(this.flowLayoutPanelCoachNotes);
-            this.splitContainerMentorNotes.Size = new System.Drawing.Size(368, 314);
-            this.splitContainerMentorNotes.SplitterDistance = 188;
+            this.splitContainerMentorNotes.Size = new System.Drawing.Size(368, 289);
+            this.splitContainerMentorNotes.SplitterDistance = 173;
             this.splitContainerMentorNotes.TabIndex = 0;
             // 
             // flowLayoutPanelConsultantNotes
@@ -507,7 +506,7 @@
             this.flowLayoutPanelConsultantNotes.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanelConsultantNotes.Location = new System.Drawing.Point(0, 29);
             this.flowLayoutPanelConsultantNotes.Name = "flowLayoutPanelConsultantNotes";
-            this.flowLayoutPanelConsultantNotes.Size = new System.Drawing.Size(364, 158);
+            this.flowLayoutPanelConsultantNotes.Size = new System.Drawing.Size(364, 143);
             this.flowLayoutPanelConsultantNotes.TabIndex = 0;
             this.flowLayoutPanelConsultantNotes.WrapContents = false;
             // 
@@ -544,7 +543,7 @@
             this.flowLayoutPanelCoachNotes.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanelCoachNotes.Location = new System.Drawing.Point(0, 27);
             this.flowLayoutPanelCoachNotes.Name = "flowLayoutPanelCoachNotes";
-            this.flowLayoutPanelCoachNotes.Size = new System.Drawing.Size(366, 95);
+            this.flowLayoutPanelCoachNotes.Size = new System.Drawing.Size(366, 85);
             this.flowLayoutPanelCoachNotes.TabIndex = 1;
             this.flowLayoutPanelCoachNotes.WrapContents = false;
             // 
@@ -567,7 +566,7 @@
             this.buttonsStoryStage.Image = ((System.Drawing.Image)(resources.GetObject("buttonsStoryStage.Image")));
             this.buttonsStoryStage.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonsStoryStage.Name = "buttonsStoryStage";
-            this.buttonsStoryStage.Size = new System.Drawing.Size(76, 20);
+            this.buttonsStoryStage.Size = new System.Drawing.Size(75, 20);
             this.buttonsStoryStage.Text = "Next State";
             this.buttonsStoryStage.ButtonClick += new System.EventHandler(this.buttonsStoryStage_ButtonClick);
             this.buttonsStoryStage.DropDownOpening += new System.EventHandler(this.buttonsStoryStage_DropDownOpening);
@@ -579,7 +578,7 @@
             this.statusLabel.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken;
             this.statusLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(804, 17);
+            this.statusLabel.Size = new System.Drawing.Size(805, 17);
             this.statusLabel.Spring = true;
             this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 

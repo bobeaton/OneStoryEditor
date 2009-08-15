@@ -9,7 +9,7 @@ namespace OneStoryProjectEditor
 {
     public partial class VerseBtControl : ResizableControl
     {
-        internal const string CstrVerseName = "Verse: ";
+        internal const string CstrVerseName = "line: ";
         protected const string CstrFieldNameStoryLine = "StoryLine";
         protected const string CstrFieldNameAnchors = "Anchors";
         protected const string CstrFieldNameRetellings = "Retellings";
