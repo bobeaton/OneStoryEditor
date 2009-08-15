@@ -33,7 +33,6 @@
             this.buttonDragDropHandle = new System.Windows.Forms.Button();
             this.contextMenuStripNotesOptions = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.showhiddenNotesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripNotesOptions.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -62,27 +61,16 @@
             // contextMenuStripNotesOptions
             // 
             this.contextMenuStripNotesOptions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addNoteToolStripMenuItem,
-            this.showhiddenNotesToolStripMenuItem});
+            this.addNoteToolStripMenuItem});
             this.contextMenuStripNotesOptions.Name = "contextMenuStripNotesOptions";
-            this.contextMenuStripNotesOptions.Size = new System.Drawing.Size(166, 70);
+            this.contextMenuStripNotesOptions.Size = new System.Drawing.Size(153, 48);
             // 
             // addNoteToolStripMenuItem
             // 
             this.addNoteToolStripMenuItem.Name = "addNoteToolStripMenuItem";
-            this.addNoteToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.addNoteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.addNoteToolStripMenuItem.Text = "&Add note";
             this.addNoteToolStripMenuItem.Click += new System.EventHandler(this.addNoteToolStripMenuItem_Click);
-            // 
-            // showhiddenNotesToolStripMenuItem
-            // 
-            this.showhiddenNotesToolStripMenuItem.Checked = true;
-            this.showhiddenNotesToolStripMenuItem.CheckOnClick = true;
-            this.showhiddenNotesToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.showhiddenNotesToolStripMenuItem.Name = "showhiddenNotesToolStripMenuItem";
-            this.showhiddenNotesToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
-            this.showhiddenNotesToolStripMenuItem.Text = "Show &hidden notes";
-            this.showhiddenNotesToolStripMenuItem.CheckedChanged += new System.EventHandler(this.showhiddenNotesToolStripMenuItem_CheckedChanged);
             // 
             // ConsultNotesControl
             // 
@@ -102,6 +90,5 @@
         private System.Windows.Forms.Button buttonDragDropHandle;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripNotesOptions;
         private System.Windows.Forms.ToolStripMenuItem addNoteToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem showhiddenNotesToolStripMenuItem;
     }
 }

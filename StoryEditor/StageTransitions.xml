@@ -36,7 +36,17 @@ sentence per verse, then click the button in the left-hand side of the status ba
   <StageTransition stage="eCrafterTypeInternationalBT">
     <Transition MemberWithEditToken="eCrafter" NextState="eCrafterAddAnchors">
       <StageDisplayString>Crafter enters the English back-translation</StageDisplayString>
-      <StageInstructions></StageInstructions>
+      <StageInstructions>
+In this stage, one of the crafting team will back translate the National language back
+translation of the story (e.g. Hindi) into English.
+
+Unlike the last state, where the National Language back translation had to done by 
+a UNS, in this state, anyone can do the English back translation.
+
+When you are finished entering the English back translation, then click the button in 
+the left-hand side of the status bar and choose 'Next Stage' to go to the next stage 
+in the process.
+      </StageInstructions>
       <AllowableBackwardsTransitions>
         <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
       </AllowableBackwardsTransitions>
@@ -51,7 +61,18 @@ sentence per verse, then click the button in the left-hand side of the status ba
   <StageTransition stage="eCrafterAddAnchors">
     <Transition MemberWithEditToken="eCrafter" NextState="eCrafterAddStoryQuestions">
       <StageDisplayString>Crafter adds biblical anchors</StageDisplayString>
-      <StageInstructions></StageInstructions>
+      <StageInstructions>
+In this stage, one of the crafting team will go through the story verse-by-verse and look
+up in the NetBible a reference that supports *all* of the information in the story verse.
+
+back translate the Hindi of the story into
+English. Unlike the last state, where the Hindi back translation had to be from a UNS,
+in this state, anyone can do the English back translation.
+
+When you are finished entering the English back translation, then click the button in the
+left-hand side of the status bar and choose 'Next Stage' to go to the next stage in the
+process.
+      </StageInstructions>
       <AllowableBackwardsTransitions>
         <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
         <AllowableBackwardsTransition>eCrafterTypeInternationalBT</AllowableBackwardsTransition>

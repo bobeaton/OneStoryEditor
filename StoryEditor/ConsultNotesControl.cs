@@ -33,7 +33,7 @@ namespace OneStoryProjectEditor
                 int nRowIndex = 1;
                 foreach (ConsultNoteDataConverter aCNDC in aCNsDC)
                 {
-                    if (aCNDC.Visible || showhiddenNotesToolStripMenuItem.Checked)
+                    if (aCNDC.Visible)
                     {
                         ConsultNoteControl aCNCtrl = new ConsultNoteControl(storyStageLogic, aCNsDC, aCNDC);
                         aCNCtrl.Name = CstrFieldNameConsultantNote + nRowIndex;
@@ -92,12 +92,6 @@ namespace OneStoryProjectEditor
                     round = 3;
             }
             _theCNsDC.AddEmpty(round);
-            theSE.ReInitConsultNotesPane(_theCNsDC);
-        }
-
-        private void showhiddenNotesToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
-        {
-            StoryEditor theSE = (StoryEditor)FindForm();
             theSE.ReInitConsultNotesPane(_theCNsDC);
         }
     }

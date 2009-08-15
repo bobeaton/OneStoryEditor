@@ -75,12 +75,13 @@ namespace OneStoryProjectEditor
 
         private void deleteMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want to delete this note?", StoryEditor.CstrCaption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
-            {
-                _myCollection.Remove(_myCNDC);
-                StoryEditor theSE = (StoryEditor)FindForm();
-                theSE.ReInitConsultNotesPane(_myCollection);
-            }
+            if (_myCNDC.MentorComment.HasData || _myCNDC.MenteeResponse.HasData)
+                if (MessageBox.Show("Are you sure you want to delete this note?", StoryEditor.CstrCaption, MessageBoxButtons.YesNo) != DialogResult.Yes)
+                    return;
+
+            _myCollection.Remove(_myCNDC);
+            StoryEditor theSE = (StoryEditor)FindForm();
+            theSE.ReInitConsultNotesPane(_myCollection);
         }
     }
 }
