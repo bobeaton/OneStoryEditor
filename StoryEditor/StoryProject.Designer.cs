@@ -7079,7 +7079,6 @@ namespace OneStoryProjectEditor {
                 base.Columns.Add(this.columnTestQuestions_Id);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnTestQuestion_Id}, true));
-                this.columnvisible.AllowDBNull = false;
                 this.columnvisible.Namespace = "";
                 this.columnTestQuestion_Id.AutoIncrement = true;
                 this.columnTestQuestion_Id.AllowDBNull = false;
@@ -8451,6 +8450,8 @@ namespace OneStoryProjectEditor {
             
             private global::System.Data.DataColumn columnround;
             
+            private global::System.Data.DataColumn columnvisible;
+            
             private global::System.Data.DataColumn columnConsultantComment;
             
             private global::System.Data.DataColumn columnCrafterResponse;
@@ -8491,6 +8492,13 @@ namespace OneStoryProjectEditor {
             public global::System.Data.DataColumn roundColumn {
                 get {
                     return this.columnround;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn visibleColumn {
+                get {
+                    return this.columnvisible;
                 }
             }
             
@@ -8544,15 +8552,16 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public ConsultantNoteRow AddConsultantNoteRow(byte round, string ConsultantComment, string CrafterResponse, ConsultantNotesRow parentConsultantNotesRowByConsultantNotes_ConsultantNote) {
+            public ConsultantNoteRow AddConsultantNoteRow(byte round, bool visible, string ConsultantComment, string CrafterResponse, ConsultantNotesRow parentConsultantNotesRowByConsultantNotes_ConsultantNote) {
                 ConsultantNoteRow rowConsultantNoteRow = ((ConsultantNoteRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         round,
+                        visible,
                         ConsultantComment,
                         CrafterResponse,
                         null};
                 if ((parentConsultantNotesRowByConsultantNotes_ConsultantNote != null)) {
-                    columnValuesArray[3] = parentConsultantNotesRowByConsultantNotes_ConsultantNote[0];
+                    columnValuesArray[4] = parentConsultantNotesRowByConsultantNotes_ConsultantNote[0];
                 }
                 rowConsultantNoteRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowConsultantNoteRow);
@@ -8574,6 +8583,7 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
                 this.columnround = base.Columns["round"];
+                this.columnvisible = base.Columns["visible"];
                 this.columnConsultantComment = base.Columns["ConsultantComment"];
                 this.columnCrafterResponse = base.Columns["CrafterResponse"];
                 this.columnConsultantNotes_Id = base.Columns["ConsultantNotes_Id"];
@@ -8583,6 +8593,8 @@ namespace OneStoryProjectEditor {
             private void InitClass() {
                 this.columnround = new global::System.Data.DataColumn("round", typeof(byte), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnround);
+                this.columnvisible = new global::System.Data.DataColumn("visible", typeof(bool), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnvisible);
                 this.columnConsultantComment = new global::System.Data.DataColumn("ConsultantComment", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnConsultantComment);
                 this.columnCrafterResponse = new global::System.Data.DataColumn("CrafterResponse", typeof(string), null, global::System.Data.MappingType.Element);
@@ -8591,6 +8603,7 @@ namespace OneStoryProjectEditor {
                 base.Columns.Add(this.columnConsultantNotes_Id);
                 this.columnround.AllowDBNull = false;
                 this.columnround.Namespace = "";
+                this.columnvisible.Namespace = "";
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -8962,6 +8975,8 @@ namespace OneStoryProjectEditor {
             
             private global::System.Data.DataColumn columnround;
             
+            private global::System.Data.DataColumn columnvisible;
+            
             private global::System.Data.DataColumn columnCoachComment;
             
             private global::System.Data.DataColumn columnConsultantResponse;
@@ -9002,6 +9017,13 @@ namespace OneStoryProjectEditor {
             public global::System.Data.DataColumn roundColumn {
                 get {
                     return this.columnround;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn visibleColumn {
+                get {
+                    return this.columnvisible;
                 }
             }
             
@@ -9055,15 +9077,16 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public CoachNoteRow AddCoachNoteRow(byte round, string CoachComment, string ConsultantResponse, CoachNotesRow parentCoachNotesRowByCoachNotes_CoachNote) {
+            public CoachNoteRow AddCoachNoteRow(byte round, bool visible, string CoachComment, string ConsultantResponse, CoachNotesRow parentCoachNotesRowByCoachNotes_CoachNote) {
                 CoachNoteRow rowCoachNoteRow = ((CoachNoteRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         round,
+                        visible,
                         CoachComment,
                         ConsultantResponse,
                         null};
                 if ((parentCoachNotesRowByCoachNotes_CoachNote != null)) {
-                    columnValuesArray[3] = parentCoachNotesRowByCoachNotes_CoachNote[0];
+                    columnValuesArray[4] = parentCoachNotesRowByCoachNotes_CoachNote[0];
                 }
                 rowCoachNoteRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowCoachNoteRow);
@@ -9085,6 +9108,7 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
                 this.columnround = base.Columns["round"];
+                this.columnvisible = base.Columns["visible"];
                 this.columnCoachComment = base.Columns["CoachComment"];
                 this.columnConsultantResponse = base.Columns["ConsultantResponse"];
                 this.columnCoachNotes_Id = base.Columns["CoachNotes_Id"];
@@ -9094,6 +9118,8 @@ namespace OneStoryProjectEditor {
             private void InitClass() {
                 this.columnround = new global::System.Data.DataColumn("round", typeof(byte), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnround);
+                this.columnvisible = new global::System.Data.DataColumn("visible", typeof(bool), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnvisible);
                 this.columnCoachComment = new global::System.Data.DataColumn("CoachComment", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCoachComment);
                 this.columnConsultantResponse = new global::System.Data.DataColumn("ConsultantResponse", typeof(string), null, global::System.Data.MappingType.Element);
@@ -9102,6 +9128,7 @@ namespace OneStoryProjectEditor {
                 base.Columns.Add(this.columnCoachNotes_Id);
                 this.columnround.AllowDBNull = false;
                 this.columnround.Namespace = "";
+                this.columnvisible.Namespace = "";
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -11258,7 +11285,12 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public bool visible {
                 get {
-                    return ((bool)(this[this.tableTestQuestion.visibleColumn]));
+                    try {
+                        return ((bool)(this[this.tableTestQuestion.visibleColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'visible\' in table \'TestQuestion\' is DBNull.", e);
+                    }
                 }
                 set {
                     this[this.tableTestQuestion.visibleColumn] = value;
@@ -11328,6 +11360,16 @@ namespace OneStoryProjectEditor {
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["TestQuestions_TestQuestion"]);
                 }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsvisibleNull() {
+                return this.IsNull(this.tableTestQuestion.visibleColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetvisibleNull() {
+                this[this.tableTestQuestion.visibleColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -11776,6 +11818,21 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool visible {
+                get {
+                    try {
+                        return ((bool)(this[this.tableConsultantNote.visibleColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'visible\' in table \'ConsultantNote\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableConsultantNote.visibleColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public string ConsultantComment {
                 get {
                     try {
@@ -11828,6 +11885,16 @@ namespace OneStoryProjectEditor {
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["ConsultantNotes_ConsultantNote"]);
                 }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsvisibleNull() {
+                return this.IsNull(this.tableConsultantNote.visibleColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetvisibleNull() {
+                this[this.tableConsultantNote.visibleColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -11956,6 +12023,21 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool visible {
+                get {
+                    try {
+                        return ((bool)(this[this.tableCoachNote.visibleColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'visible\' in table \'CoachNote\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableCoachNote.visibleColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public string CoachComment {
                 get {
                     try {
@@ -12008,6 +12090,16 @@ namespace OneStoryProjectEditor {
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["CoachNotes_CoachNote"]);
                 }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsvisibleNull() {
+                return this.IsNull(this.tableCoachNote.visibleColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetvisibleNull() {
+                this[this.tableCoachNote.visibleColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

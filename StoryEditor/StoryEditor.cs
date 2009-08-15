@@ -292,10 +292,10 @@ namespace OneStoryProjectEditor
             SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage);
 
             // finally, initialize the verse controls
-            InitVerseControls();
+            InitAllPanes();
         }
 
-        internal void InitVerseControls(VersesData theVerses)
+        protected void InitAllPanes(VersesData theVerses)
         {
             ClearFlowControls();
             int nVerseIndex = 0;
@@ -310,18 +310,11 @@ namespace OneStoryProjectEditor
             AddDropTargetToFlowLayout(nVerseIndex++);
             foreach (VerseData aVerse in theVerses)
             {
-                VerseBtControl aVerseCtrl = new VerseBtControl(this, aVerse, nVerseIndex);
-                aVerseCtrl.UpdateHeight(Panel1_Width);
-                flowLayoutPanelVerses.Controls.Add(aVerseCtrl);
-                AddDropTargetToFlowLayout(nVerseIndex);
+                InitVerseControls(aVerse, nVerseIndex);
 
-                ConsultNotesControl aConsultNotesCtrl = new ConsultNotesControl(theCurrentStory.ProjStage, aVerse.ConsultantNotes, nVerseIndex);
-                aConsultNotesCtrl.UpdateHeight(Panel2_Width);
-                flowLayoutPanelConsultantNotes.Controls.Add(aConsultNotesCtrl);
+                InitConsultNotesPane(flowLayoutPanelConsultantNotes, aVerse.ConsultantNotes, nVerseIndex);
 
-                aConsultNotesCtrl = new ConsultNotesControl(theCurrentStory.ProjStage, aVerse.CoachNotes, nVerseIndex);
-                aConsultNotesCtrl.UpdateHeight(Panel2_Width);
-                flowLayoutPanelCoachNotes.Controls.Add(aConsultNotesCtrl);
+                InitConsultNotesPane(flowLayoutPanelCoachNotes, aVerse.CoachNotes, nVerseIndex);
 
                 nVerseIndex++;
             }
@@ -329,6 +322,58 @@ namespace OneStoryProjectEditor
             flowLayoutPanelVerses.ResumeLayout(true);
             flowLayoutPanelConsultantNotes.ResumeLayout(true);
             flowLayoutPanelCoachNotes.ResumeLayout(true);
+            ResumeLayout(true);
+        }
+
+        protected void InitVerseControls(VerseData aVerse, int nVerseIndex)
+        {
+            VerseBtControl aVerseCtrl = new VerseBtControl(this, aVerse, nVerseIndex);
+            aVerseCtrl.UpdateHeight(Panel1_Width);
+            flowLayoutPanelVerses.Controls.Add(aVerseCtrl);
+            AddDropTargetToFlowLayout(nVerseIndex);
+        }
+
+        // this is for use by the consultant panes if we add or remove or hide a note
+        internal void ReInitVerseControls()
+        {
+            int nVerseIndex = 0;
+            flowLayoutPanelVerses.Controls.Clear();
+            flowLayoutPanelVerses.SuspendLayout();
+            SuspendLayout();
+
+            AddDropTargetToFlowLayout(nVerseIndex++);
+            foreach (VerseData aVerse in theCurrentStory.Verses)
+                InitVerseControls(aVerse, nVerseIndex++);
+
+            flowLayoutPanelVerses.ResumeLayout(true);
+            ResumeLayout(true);
+        }
+
+        protected Dictionary<ConsultNotesDataConverter, FlowLayoutPanel> _WhichConNoteToWhichFlowPanel = new Dictionary<ConsultNotesDataConverter, FlowLayoutPanel>();
+        protected void InitConsultNotesPane(FlowLayoutPanel theFLP, ConsultNotesDataConverter aCNsDC, int nVerseIndex)
+        {
+            ConsultNotesControl aConsultNotesCtrl = new ConsultNotesControl(theCurrentStory.ProjStage, aCNsDC, nVerseIndex);
+            aConsultNotesCtrl.UpdateHeight(Panel2_Width);
+            theFLP.Controls.Add(aConsultNotesCtrl);
+            if (!_WhichConNoteToWhichFlowPanel.ContainsKey(aCNsDC))
+                _WhichConNoteToWhichFlowPanel.Add(aCNsDC, theFLP);
+        }
+
+        // this is for use by the consultant panes if we add or remove or hide a note
+        internal void ReInitConsultNotesPane(ConsultNotesDataConverter aCNsDC)
+        {
+            System.Diagnostics.Debug.Assert(_WhichConNoteToWhichFlowPanel.ContainsKey(aCNsDC));
+            FlowLayoutPanel theFLP = _WhichConNoteToWhichFlowPanel[aCNsDC];
+            theFLP.Controls.Clear();
+            
+            theFLP.SuspendLayout();
+            SuspendLayout();
+
+            int nVerseIndex = 0;
+            foreach (VerseData aVerse in theCurrentStory.Verses)
+                InitConsultNotesPane(theFLP, aCNsDC, nVerseIndex++);
+
+            theFLP.ResumeLayout(true);
             ResumeLayout(true);
         }
 
@@ -343,7 +388,7 @@ namespace OneStoryProjectEditor
                 lstNewVerses.Add(new VerseData());
             
             theCurrentStory.Verses.InsertRange(nInsertionIndex, lstNewVerses);
-            InitVerseControls();
+            InitAllPanes();
         }
 
         internal void AddNewVerse(int nInsertionIndex, string strNationalBT)
@@ -352,11 +397,11 @@ namespace OneStoryProjectEditor
             theCurrentStory.Verses.InsertVerse(nInsertionIndex, strNationalBT);
         }
 
-        internal void InitVerseControls()
+        internal void InitAllPanes()
         {
             try
             {
-                InitVerseControls(theCurrentStory.Verses);
+                InitAllPanes(theCurrentStory.Verses);
             }
             catch (Exception ex)
             {
@@ -368,7 +413,7 @@ namespace OneStoryProjectEditor
         internal void DeleteVerse(VerseData theVerseDataToDelete)
         {
             theCurrentStory.Verses.Remove(theVerseDataToDelete);
-            InitVerseControls();
+            InitAllPanes();
         }
 
         internal void SetViewBasedOnProjectStage(StoryStageLogic.ProjectStages eStage)
@@ -421,7 +466,7 @@ namespace OneStoryProjectEditor
                 --nInsertionIndex;
             
             theCurrentStory.Verses.Insert(nInsertionIndex, theVerseToMove);
-            InitVerseControls();
+            InitAllPanes();
         }
 
         void buttonDropTarget_DragEnter(object sender, DragEventArgs e)
@@ -650,7 +695,7 @@ namespace OneStoryProjectEditor
 
         private void viewFieldMenuItem_CheckedChanged(object sender, EventArgs e)
         {
-            InitVerseControls();
+            ReInitVerseControls();
         }
 
         private void viewNetBibleMenuItem_CheckedChanged(object sender, EventArgs e)
@@ -922,7 +967,7 @@ namespace OneStoryProjectEditor
                         break;
             }
             while (theCurrentST.NextStage != theNewST.CurrentStage);
-            InitVerseControls();
+            InitAllPanes();
         }
 
         private void buttonsStoryStage_ButtonClick(object sender, EventArgs e)
@@ -937,7 +982,7 @@ namespace OneStoryProjectEditor
             {
                 SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage);
                 if (bDoUpdateCtrls)
-                    InitVerseControls();    // just in case there were changes
+                    InitAllPanes();    // just in case there were changes
                 return true;
             }
             return false;
@@ -985,7 +1030,7 @@ namespace OneStoryProjectEditor
 
         private void deleteStoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            InitVerseControls();
+            InitAllPanes();
         }
     }
 }

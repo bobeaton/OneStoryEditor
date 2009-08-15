@@ -176,7 +176,7 @@ namespace OneStoryProjectEditor
 
             // this is kind of sledge-hammer-y... but it works
             StoryEditor theSE = (StoryEditor)FindForm();
-            theSE.InitVerseControls();
+            theSE.ReInitVerseControls();
         }
 
         private void contextMenuStrip_Opening(object sender, CancelEventArgs e)
@@ -230,7 +230,7 @@ namespace OneStoryProjectEditor
             _verseData.TestQuestions.Remove(theTQD);
 
             StoryEditor theSE = (StoryEditor)FindForm();
-            theSE.InitVerseControls();
+            theSE.ReInitVerseControls();
         }
 
         protected void AddRemoveRetellingSubmenus(RetellingsData theRD)
@@ -257,7 +257,7 @@ namespace OneStoryProjectEditor
             theObj.RemoveLine(tsm.Text);
 
             StoryEditor theSE = (StoryEditor)FindForm();
-            theSE.InitVerseControls();
+            theSE.ReInitVerseControls();
         }
 
         protected const string CstrAddAnswerPrefix = "For the question: ";
@@ -308,7 +308,7 @@ namespace OneStoryProjectEditor
             TestQuestionData theTQD = _verseData.TestQuestions[nIndex];
             theTQD.Answers.AddNewLine(_strUnsMemberId);
 
-            theSE.InitVerseControls();
+            theSE.ReInitVerseControls();
         }
 
         private void addRetellingToolStripMenuItem_Click(object sender, EventArgs e)
@@ -330,7 +330,7 @@ namespace OneStoryProjectEditor
             _verseData.Retellings.AddNewLine(_strUnsMemberId);
 
             // this is kind of sledge-hammer-y... but it works
-            theSE.InitVerseControls();
+            theSE.ReInitVerseControls();
         }
 
         private void deleteTheWholeVerseToolStripMenuItem_Click(object sender, EventArgs e)
@@ -391,7 +391,7 @@ namespace OneStoryProjectEditor
             }
             _verseData.NationalBTText.SetValue(lstSentences[nNewVerses] + strFullStop);
 
-            theSE.InitVerseControls();
+            theSE.InitAllPanes();
         }
     }
 }

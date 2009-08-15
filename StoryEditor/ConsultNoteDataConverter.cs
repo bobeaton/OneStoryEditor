@@ -9,6 +9,8 @@ namespace OneStoryProjectEditor
     public abstract class ConsultNoteDataConverter
     {
         public int RoundNum = 0;
+        public bool Visible = true;
+
         public StringTransfer MentorComment = null;
         public StringTransfer MenteeResponse = null;
 
@@ -73,6 +75,9 @@ namespace OneStoryProjectEditor
                 System.Diagnostics.Debug.Assert((MentorComment != null) && (MenteeResponse != null) && HasData);
 
                 XElement eleNote = new XElement(StoriesData.ns + InstanceElementName, new XAttribute("round", RoundNum));
+                if (!Visible)
+                    eleNote.Add(new XAttribute("visible", "false"));
+
                 if (MentorComment.HasData)
                     eleNote.Add(new XElement(StoriesData.ns + CommentElementName, MentorComment));
                 if (MenteeResponse.HasData)
@@ -88,9 +93,10 @@ namespace OneStoryProjectEditor
         public ConsultantNoteData(StoryProject.ConsultantNoteRow aCNRow)
         {
             RoundNum = aCNRow.round;
+            if (!aCNRow.IsvisibleNull())
+                Visible = aCNRow.visible;
 
             MentorComment = new StringTransfer((aCNRow.IsConsultantCommentNull()) ? null : aCNRow.ConsultantComment);
-
             MenteeResponse = new StringTransfer((aCNRow.IsCrafterResponseNull()) ? null : aCNRow.CrafterResponse);
         }
 
@@ -171,6 +177,9 @@ namespace OneStoryProjectEditor
         public CoachNoteData(StoryProject.CoachNoteRow aCoNRow)
         {
             RoundNum = aCoNRow.round;
+            if (!aCoNRow.IsvisibleNull())
+                Visible = aCoNRow.visible;
+
             MentorComment = new StringTransfer((aCoNRow.IsCoachCommentNull()) ? null : aCoNRow.CoachComment);
             MenteeResponse = new StringTransfer((aCoNRow.IsConsultantResponseNull()) ? null : aCoNRow.ConsultantResponse);
         }

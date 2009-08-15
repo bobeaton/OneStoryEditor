@@ -165,6 +165,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ConsultNotesControl.resx">
+      <DependentUpon>ConsultNotesControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EditMemberForm.resx">
       <DependentUpon>EditMemberForm.cs</DependentUpon>
       <SubType>Designer</SubType>

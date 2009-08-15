@@ -72,6 +72,7 @@
             this.deleteMenuItem.Size = new System.Drawing.Size(152, 22);
             this.deleteMenuItem.Text = "&Delete";
             this.deleteMenuItem.ToolTipText = "Click to delete this note from the project";
+            this.deleteMenuItem.Click += new System.EventHandler(this.deleteMenuItem_Click);
             // 
             // hideMenuItem
             // 
@@ -79,13 +80,13 @@
             this.hideMenuItem.Size = new System.Drawing.Size(152, 22);
             this.hideMenuItem.Text = "&Hide";
             this.hideMenuItem.ToolTipText = "Click to hide this note, but keep it in the project";
+            this.hideMenuItem.Click += new System.EventHandler(this.hideMenuItem_Click);
             // 
             // ConsultNoteControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(3);
             this.Name = "ConsultNoteControl";
             this.Size = new System.Drawing.Size(669, 225);
             this.contextMenuStripNoteOptions.ResumeLayout(false);

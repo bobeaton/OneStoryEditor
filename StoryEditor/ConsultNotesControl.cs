@@ -21,34 +21,49 @@ namespace OneStoryProjectEditor
             VerseNumber = nVerseNumber;
             InitializeComponent();
 
-            this.tableLayoutPanel.SuspendLayout();
-            this.SuspendLayout();
+            tableLayoutPanel.SuspendLayout();
+            SuspendLayout();
 
-            this.labelReference.Text = VerseBtControl.CstrVerseName + nVerseNumber.ToString();
-            this.tableLayoutPanel.Controls.Add(this.labelReference, 0, 0);
-            this.tableLayoutPanel.Controls.Add(this.buttonDragDropHandle, 1, 0);
+            labelReference.Text = VerseBtControl.CstrVerseName + nVerseNumber.ToString();
+            tableLayoutPanel.Controls.Add(labelReference, 0, 0);
+            tableLayoutPanel.Controls.Add(buttonDragDropHandle, 1, 0);
 
             if (aCNsDC.Count > 0)
             {
                 int nRowIndex = 1;
                 foreach (ConsultNoteDataConverter aCNDC in aCNsDC)
                 {
-                    ConsultNoteControl aCNCtrl = new ConsultNoteControl(storyStageLogic, aCNDC);
-                    aCNCtrl.Name = CstrFieldNameConsultantNote + nRowIndex.ToString();
-                    aCNCtrl.ParentControl = this;
+                    if (aCNDC.Visible || showhiddenNotesToolStripMenuItem.Checked)
+                    {
+                        ConsultNoteControl aCNCtrl = new ConsultNoteControl(storyStageLogic, aCNsDC, aCNDC);
+                        aCNCtrl.Name = CstrFieldNameConsultantNote + nRowIndex;
+                        aCNCtrl.ParentControl = this;
 
-                    InsertRow(nRowIndex);
-                    tableLayoutPanel.SetColumnSpan(aCNCtrl, 2);
-                    tableLayoutPanel.Controls.Add(aCNCtrl, 0, nRowIndex);
-                    nRowIndex++;
+                        InsertRow(nRowIndex);
+                        tableLayoutPanel.SetColumnSpan(aCNCtrl, 2);
+                        tableLayoutPanel.Controls.Add(aCNCtrl, 0, nRowIndex);
+                        nRowIndex++;
+                    }
                 }
             }
 
-            this.tableLayoutPanel.ResumeLayout(false);
-            this.ResumeLayout(false);
+            tableLayoutPanel.ResumeLayout(false);
+            ResumeLayout(false);
         }
 
-        void buttonDragDropHandle_Click(object sender, System.EventArgs e)
+        void buttonDragDropHandle_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+                return;
+            DoAddNote();
+        }
+
+        private void addNoteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DoAddNote();
+        }
+
+        protected void DoAddNote()
         {
             // the only function of the button here is to add a slot to type a con note
             StoryEditor theSE = (StoryEditor)FindForm();
@@ -77,7 +92,13 @@ namespace OneStoryProjectEditor
                     round = 3;
             }
             _theCNsDC.AddEmpty(round);
-            theSE.InitVerseControls();
+            theSE.ReInitConsultNotesPane(_theCNsDC);
+        }
+
+        private void showhiddenNotesToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            StoryEditor theSE = (StoryEditor)FindForm();
+            theSE.ReInitConsultNotesPane(_theCNsDC);
         }
     }
 }

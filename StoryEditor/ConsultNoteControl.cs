@@ -8,26 +8,30 @@ using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
 {
-    public partial class ConsultNoteControl : OneStoryProjectEditor.ResizableControl
+    public partial class ConsultNoteControl : ResizableControl
     {
         protected const string CstrRoundLabel = "Round: ";
         protected int m_nRoundNum = -1;
+        protected ConsultNoteDataConverter _myCNDC = null;
+        protected ConsultNotesDataConverter _myCollection = null;
 
-        public ConsultNoteControl(StoryStageLogic storyStageLogic, ConsultNoteDataConverter aCNDC)
+        public ConsultNoteControl(StoryStageLogic storyStageLogic, ConsultNotesDataConverter theCollection, ConsultNoteDataConverter aCNDC)
             : base(storyStageLogic)
         {
+            _myCNDC = aCNDC;
+            _myCollection = theCollection;
             m_nRoundNum = aCNDC.RoundNum;
             InitializeComponent();
 
-            this.tableLayoutPanel.SuspendLayout();
-            this.SuspendLayout();
+            tableLayoutPanel.SuspendLayout();
+            SuspendLayout();
 
             InsertColumn(2);
 
-            this.labelRound.Text = CstrRoundLabel + m_nRoundNum.ToString();
-            this.tableLayoutPanel.SetColumnSpan(labelRound, 2);
-            this.tableLayoutPanel.Controls.Add(this.labelRound, 0, 0);
-            this.tableLayoutPanel.Controls.Add(this.buttonDragDropHandle, 1, 0);
+            labelRound.Text = CstrRoundLabel + m_nRoundNum.ToString();
+            tableLayoutPanel.SetColumnSpan(labelRound, 2);
+            tableLayoutPanel.Controls.Add(labelRound, 0, 0);
+            tableLayoutPanel.Controls.Add(buttonDragDropHandle, 1, 0);
 
             System.Diagnostics.Debug.Assert(tableLayoutPanel.RowCount == 1, "otherwise, fix this assumption: ConsultNoteControl.cs.28");
 
@@ -36,8 +40,8 @@ namespace OneStoryProjectEditor
             InitRow(aCNDC.MentorLabel, aCNDC.MentorComment, aCNDC.CommentColor, aCNDC.MentorRequiredEditor, ref nNumRows);
             InitRow(aCNDC.MenteeLabel, aCNDC.MenteeResponse, aCNDC.ResponseColor, aCNDC.MenteeRequiredEditor, ref nNumRows);
 
-            this.tableLayoutPanel.ResumeLayout(false);
-            this.ResumeLayout(false);
+            tableLayoutPanel.ResumeLayout(false);
+            ResumeLayout(false);
         }
 
         protected void InitRow(string strRowLabel, StringTransfer strRowData, Color clrText, TeamMemberData.UserTypes eReqEditor, ref int nNumRows)
@@ -60,6 +64,23 @@ namespace OneStoryProjectEditor
             tableLayoutPanel.Controls.Add(label, 0, nLayoutRow);
             tableLayoutPanel.SetColumnSpan(tb, 2);
             tableLayoutPanel.Controls.Add(tb, 1, nLayoutRow);
+        }
+
+        private void hideMenuItem_Click(object sender, EventArgs e)
+        {
+            _myCNDC.Visible = false;
+            StoryEditor theSE = (StoryEditor)FindForm();
+            theSE.ReInitConsultNotesPane(_myCollection);
+        }
+
+        private void deleteMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to delete this note?", StoryEditor.CstrCaption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+            {
+                _myCollection.Remove(_myCNDC);
+                StoryEditor theSE = (StoryEditor)FindForm();
+                theSE.ReInitConsultNotesPane(_myCollection);
+            }
         }
     }
 }
