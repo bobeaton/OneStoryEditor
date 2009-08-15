@@ -70,6 +70,10 @@ namespace OneStoryProjectEditor
 
             if (!String.IsNullOrEmpty(strOKLabel))
                 buttonOK.Text = strOKLabel;
+
+            // if the user hasn't configured the language information, send them there first
+            if (String.IsNullOrEmpty(textBoxVernacularEthCode.Text))
+                tabControlProjectMetaData.SelectedTab = tabPageLanguageInfo;
         }
 
         public string SelectedMember

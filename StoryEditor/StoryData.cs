@@ -162,7 +162,7 @@ namespace OneStoryProjectEditor
             get
             {
                 XElement elemStories =
-                    new XElement(StoriesData.ns + "stories", new XAttribute("ProjectName", ProjSettings.ProjectName),
+                    new XElement(ns + "stories", new XAttribute("ProjectName", ProjSettings.ProjectName),
                         TeamMembers.GetXml,
                         ProjSettings.GetXml);
 

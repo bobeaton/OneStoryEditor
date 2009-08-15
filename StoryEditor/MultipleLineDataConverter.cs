@@ -61,7 +61,7 @@ namespace OneStoryProjectEditor
     {
         public RetellingsData(StoryProject.verseRow theVerseRow, StoryProject projFile)
         {
-            LabelTextFormat = "ret({0}):";
+            LabelTextFormat = "ret {0}:";
             CollectionElementName = "Retellings";
             InstanceElementName = "Retelling";
 
@@ -81,7 +81,7 @@ namespace OneStoryProjectEditor
 
         public RetellingsData()
         {
-            LabelTextFormat = "ret({0}):";
+            LabelTextFormat = "ret {0}:";
             CollectionElementName = "Retellings";
             InstanceElementName = "Retelling";
         }
@@ -91,7 +91,7 @@ namespace OneStoryProjectEditor
     {
         public AnswersData(StoryProject.TestQuestionRow theTestQuestionRow, StoryProject projFile)
         {
-            LabelTextFormat = "ans({0}):";
+            LabelTextFormat = "ans {0}:";
             CollectionElementName = "Answers";
             InstanceElementName = "answer";
 

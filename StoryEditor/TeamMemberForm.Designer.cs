@@ -65,6 +65,7 @@
             this.labelSentenceTerm = new System.Windows.Forms.Label();
             this.fontDialog = new System.Windows.Forms.FontDialog();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.labelReturnToTeamMemberTabInstructions = new System.Windows.Forms.Label();
             this.tabControlProjectMetaData.SuspendLayout();
             this.tabPageMemberList.SuspendLayout();
             this.tableLayoutPanelTeamMembers.SuspendLayout();
@@ -211,8 +212,8 @@
             this.textBoxVernSentFullStop.Name = "textBoxVernSentFullStop";
             this.textBoxVernSentFullStop.Size = new System.Drawing.Size(176, 20);
             this.textBoxVernSentFullStop.TabIndex = 18;
-            this.toolTip.SetToolTip(this.textBoxVernSentFullStop, "Enter the punctional character used in this language to end a sentence (e.g. Engl" +
-                    "ish is \'.\', Hindi is \'।\')");
+            this.toolTip.SetToolTip(this.textBoxVernSentFullStop, "Enter the punctional character used in this language to end a sentence (e.g. in E" +
+                    "nglish, it is the period \'.\', and in Hindi, it is the Devanagari Danda, \'।\')");
             this.textBoxVernSentFullStop.TextChanged += new System.EventHandler(this.textBox_TextChanged);
             // 
             // textBoxNationalBTSentFullStop
@@ -222,8 +223,8 @@
             this.textBoxNationalBTSentFullStop.Name = "textBoxNationalBTSentFullStop";
             this.textBoxNationalBTSentFullStop.Size = new System.Drawing.Size(176, 20);
             this.textBoxNationalBTSentFullStop.TabIndex = 18;
-            this.toolTip.SetToolTip(this.textBoxNationalBTSentFullStop, "Enter the punctional character used in this language to end a sentence (e.g. Engl" +
-                    "ish is \'.\', Hindi is \'।\')");
+            this.toolTip.SetToolTip(this.textBoxNationalBTSentFullStop, "Enter the punctional character used in this language to end a sentence (e.g. in E" +
+                    "nglish, it is the period \'.\', and in Hindi, it is the Devanagari Danda, \'।\')");
             this.textBoxNationalBTSentFullStop.TextChanged += new System.EventHandler(this.textBox_TextChanged);
             // 
             // buttonVernacularFont
@@ -367,6 +368,7 @@
             this.tableLayoutPanelLanguageInformation.Controls.Add(this.labelSentenceTerm, 0, 5);
             this.tableLayoutPanelLanguageInformation.Controls.Add(this.textBoxVernSentFullStop, 1, 5);
             this.tableLayoutPanelLanguageInformation.Controls.Add(this.textBoxNationalBTSentFullStop, 2, 5);
+            this.tableLayoutPanelLanguageInformation.Controls.Add(this.labelReturnToTeamMemberTabInstructions, 1, 8);
             this.tableLayoutPanelLanguageInformation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelLanguageInformation.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanelLanguageInformation.Name = "tableLayoutPanelLanguageInformation";
@@ -380,6 +382,7 @@
             this.tableLayoutPanelLanguageInformation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 88F));
             this.tableLayoutPanelLanguageInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelLanguageInformation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanelLanguageInformation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanelLanguageInformation.Size = new System.Drawing.Size(465, 412);
             this.tableLayoutPanelLanguageInformation.TabIndex = 0;
             // 
@@ -485,6 +488,17 @@
             // 
             this.folderBrowserDialog.RootFolder = System.Environment.SpecialFolder.Personal;
             // 
+            // labelReturnToTeamMemberTabInstructions
+            // 
+            this.labelReturnToTeamMemberTabInstructions.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.labelReturnToTeamMemberTabInstructions, 2);
+            this.labelReturnToTeamMemberTabInstructions.Location = new System.Drawing.Point(104, 330);
+            this.labelReturnToTeamMemberTabInstructions.Name = "labelReturnToTeamMemberTabInstructions";
+            this.labelReturnToTeamMemberTabInstructions.Size = new System.Drawing.Size(239, 62);
+            this.labelReturnToTeamMemberTabInstructions.TabIndex = 19;
+            this.labelReturnToTeamMemberTabInstructions.Text = "When you\'re finished entering this information, click on the \'Team Members\' tab a" +
+                "nd choose your name to Login";
+            // 
             // TeamMemberForm
             // 
             this.AcceptButton = this.buttonOK;
@@ -546,5 +560,6 @@
         private System.Windows.Forms.Label labelSentenceTerm;
         private System.Windows.Forms.TextBox textBoxVernSentFullStop;
         private System.Windows.Forms.TextBox textBoxNationalBTSentFullStop;
+        private System.Windows.Forms.Label labelReturnToTeamMemberTabInstructions;
     }
 }
