@@ -133,7 +133,7 @@
             this.textBoxStoryPurpose.Multiline = true;
             this.textBoxStoryPurpose.Name = "textBoxStoryPurpose";
             this.textBoxStoryPurpose.Size = new System.Drawing.Size(282, 98);
-            this.textBoxStoryPurpose.TabIndex = 4;
+            this.textBoxStoryPurpose.TabIndex = 3;
             // 
             // labelResourcesUsed
             // 
@@ -151,7 +151,7 @@
             this.textBoxResourcesUsed.Multiline = true;
             this.textBoxResourcesUsed.Name = "textBoxResourcesUsed";
             this.textBoxResourcesUsed.Size = new System.Drawing.Size(282, 98);
-            this.textBoxResourcesUsed.TabIndex = 6;
+            this.textBoxResourcesUsed.TabIndex = 4;
             // 
             // labelBackTranslator
             // 
@@ -168,7 +168,7 @@
             this.buttonBrowseUNSBackTranslator.Location = new System.Drawing.Point(404, 240);
             this.buttonBrowseUNSBackTranslator.Name = "buttonBrowseUNSBackTranslator";
             this.buttonBrowseUNSBackTranslator.Size = new System.Drawing.Size(24, 23);
-            this.buttonBrowseUNSBackTranslator.TabIndex = 5;
+            this.buttonBrowseUNSBackTranslator.TabIndex = 6;
             this.buttonBrowseUNSBackTranslator.Text = "...";
             this.buttonBrowseUNSBackTranslator.UseVisualStyleBackColor = true;
             this.buttonBrowseUNSBackTranslator.Click += new System.EventHandler(this.buttonBrowseUNSBackTranslator_Click);
@@ -179,7 +179,7 @@
             this.textBoxUnsBackTranslator.Name = "textBoxUnsBackTranslator";
             this.textBoxUnsBackTranslator.ReadOnly = true;
             this.textBoxUnsBackTranslator.Size = new System.Drawing.Size(282, 20);
-            this.textBoxUnsBackTranslator.TabIndex = 4;
+            this.textBoxUnsBackTranslator.TabIndex = 5;
             // 
             // labelUnsTest1
             // 
@@ -197,14 +197,14 @@
             this.textBoxUnsTest1.Name = "textBoxUnsTest1";
             this.textBoxUnsTest1.ReadOnly = true;
             this.textBoxUnsTest1.Size = new System.Drawing.Size(282, 20);
-            this.textBoxUnsTest1.TabIndex = 4;
+            this.textBoxUnsTest1.TabIndex = 7;
             // 
             // buttonBrowseUnsTest1
             // 
             this.buttonBrowseUnsTest1.Location = new System.Drawing.Point(404, 269);
             this.buttonBrowseUnsTest1.Name = "buttonBrowseUnsTest1";
             this.buttonBrowseUnsTest1.Size = new System.Drawing.Size(24, 23);
-            this.buttonBrowseUnsTest1.TabIndex = 5;
+            this.buttonBrowseUnsTest1.TabIndex = 8;
             this.buttonBrowseUnsTest1.Text = "...";
             this.buttonBrowseUnsTest1.UseVisualStyleBackColor = true;
             this.buttonBrowseUnsTest1.Click += new System.EventHandler(this.buttonBrowseUnsTest1_Click);
@@ -225,14 +225,14 @@
             this.textBoxUnsTest2.Name = "textBoxUnsTest2";
             this.textBoxUnsTest2.ReadOnly = true;
             this.textBoxUnsTest2.Size = new System.Drawing.Size(282, 20);
-            this.textBoxUnsTest2.TabIndex = 4;
+            this.textBoxUnsTest2.TabIndex = 9;
             // 
             // buttonBrowseUnsTest2
             // 
             this.buttonBrowseUnsTest2.Location = new System.Drawing.Point(404, 298);
             this.buttonBrowseUnsTest2.Name = "buttonBrowseUnsTest2";
             this.buttonBrowseUnsTest2.Size = new System.Drawing.Size(24, 23);
-            this.buttonBrowseUnsTest2.TabIndex = 5;
+            this.buttonBrowseUnsTest2.TabIndex = 10;
             this.buttonBrowseUnsTest2.Text = "...";
             this.buttonBrowseUnsTest2.UseVisualStyleBackColor = true;
             this.buttonBrowseUnsTest2.Click += new System.EventHandler(this.buttonBrowseUnsTest2_Click);
@@ -243,7 +243,7 @@
             this.buttonOK.Location = new System.Drawing.Point(149, 373);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(75, 23);
-            this.buttonOK.TabIndex = 1;
+            this.buttonOK.TabIndex = 11;
             this.buttonOK.Text = "&OK";
             this.buttonOK.UseVisualStyleBackColor = true;
             this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
@@ -255,7 +255,7 @@
             this.buttonCancel.Location = new System.Drawing.Point(230, 373);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
-            this.buttonCancel.TabIndex = 2;
+            this.buttonCancel.TabIndex = 12;
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
             // 
