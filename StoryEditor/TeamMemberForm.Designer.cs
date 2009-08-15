@@ -57,15 +57,15 @@
             this.labelStoryLanguage = new System.Windows.Forms.Label();
             this.labelNationalBTLanguage = new System.Windows.Forms.Label();
             this.labelEthnologueCode = new System.Windows.Forms.Label();
-            this.labelFont = new System.Windows.Forms.Label();
+            this.labelEnglishBT = new System.Windows.Forms.Label();
+            this.buttonInternationalBTFont = new System.Windows.Forms.Button();
             this.labelProjectName = new System.Windows.Forms.Label();
             this.textBoxProjectName = new System.Windows.Forms.TextBox();
-            this.labelSentenceTerm = new System.Windows.Forms.Label();
             this.labelReturnToTeamMemberTabInstructions = new System.Windows.Forms.Label();
+            this.labelSentenceTerm = new System.Windows.Forms.Label();
+            this.labelFont = new System.Windows.Forms.Label();
             this.fontDialog = new System.Windows.Forms.FontDialog();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.buttonInternationalBTFont = new System.Windows.Forms.Button();
-            this.labelEnglishBT = new System.Windows.Forms.Label();
             this.tabControlProjectMetaData.SuspendLayout();
             this.tabPageMemberList.SuspendLayout();
             this.tableLayoutPanelTeamMembers.SuspendLayout();
@@ -173,6 +173,7 @@
             this.textBoxVernacular.TabIndex = 3;
             this.toolTip.SetToolTip(this.textBoxVernacular, "Enter the name of the language that the stories are going to be crafted into");
             this.textBoxVernacular.TextChanged += new System.EventHandler(this.textBox_TextChanged);
+            this.textBoxVernacular.Leave += new System.EventHandler(this.textBoxVernacular_Leave);
             // 
             // textBoxNationalBTLanguage
             // 
@@ -184,6 +185,7 @@
             this.toolTip.SetToolTip(this.textBoxNationalBTLanguage, "Enter the name of the language that the stories will be back-translated into by t" +
                     "he UNSs (i.e. typically, the National language)");
             this.textBoxNationalBTLanguage.TextChanged += new System.EventHandler(this.textBox_TextChanged);
+            this.textBoxNationalBTLanguage.Leave += new System.EventHandler(this.textBoxNationalBTLanguage_Leave);
             // 
             // textBoxVernacularEthCode
             // 
@@ -420,15 +422,25 @@
             this.labelEthnologueCode.TabIndex = 5;
             this.labelEthnologueCode.Text = "&Ethn. code:";
             // 
-            // labelFont
+            // labelEnglishBT
             // 
-            this.labelFont.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.labelFont.AutoSize = true;
-            this.labelFont.Location = new System.Drawing.Point(3, 172);
-            this.labelFont.Name = "labelFont";
-            this.labelFont.Size = new System.Drawing.Size(31, 13);
-            this.labelFont.TabIndex = 8;
-            this.labelFont.Text = "Font:";
+            this.labelEnglishBT.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelEnglishBT.AutoSize = true;
+            this.labelEnglishBT.Location = new System.Drawing.Point(172, 261);
+            this.labelEnglishBT.Name = "labelEnglishBT";
+            this.labelEnglishBT.Size = new System.Drawing.Size(108, 13);
+            this.labelEnglishBT.TabIndex = 11;
+            this.labelEnglishBT.Text = "English BT Line Font:";
+            // 
+            // buttonInternationalBTFont
+            // 
+            this.buttonInternationalBTFont.Location = new System.Drawing.Point(286, 256);
+            this.buttonInternationalBTFont.Name = "buttonInternationalBTFont";
+            this.buttonInternationalBTFont.Size = new System.Drawing.Size(75, 23);
+            this.buttonInternationalBTFont.TabIndex = 12;
+            this.buttonInternationalBTFont.Text = "Choo&se Font";
+            this.buttonInternationalBTFont.UseVisualStyleBackColor = true;
+            this.buttonInternationalBTFont.Click += new System.EventHandler(this.buttonInternationalBTFont_Click);
             // 
             // labelProjectName
             // 
@@ -450,16 +462,6 @@
             this.textBoxProjectName.TabIndex = 1;
             this.textBoxProjectName.TextChanged += new System.EventHandler(this.textBox_TextChanged);
             // 
-            // labelSentenceTerm
-            // 
-            this.labelSentenceTerm.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.labelSentenceTerm.AutoSize = true;
-            this.labelSentenceTerm.Location = new System.Drawing.Point(3, 144);
-            this.labelSentenceTerm.Name = "labelSentenceTerm";
-            this.labelSentenceTerm.Size = new System.Drawing.Size(95, 13);
-            this.labelSentenceTerm.TabIndex = 17;
-            this.labelSentenceTerm.Text = "Sentence full stop:";
-            // 
             // labelReturnToTeamMemberTabInstructions
             // 
             this.labelReturnToTeamMemberTabInstructions.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -471,6 +473,26 @@
             this.labelReturnToTeamMemberTabInstructions.Text = "When you\'re finished entering this information, click on the \'Team Members\' tab a" +
                 "nd choose your name to Login";
             // 
+            // labelSentenceTerm
+            // 
+            this.labelSentenceTerm.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.labelSentenceTerm.AutoSize = true;
+            this.labelSentenceTerm.Location = new System.Drawing.Point(3, 144);
+            this.labelSentenceTerm.Name = "labelSentenceTerm";
+            this.labelSentenceTerm.Size = new System.Drawing.Size(95, 13);
+            this.labelSentenceTerm.TabIndex = 17;
+            this.labelSentenceTerm.Text = "Sentence full stop:";
+            // 
+            // labelFont
+            // 
+            this.labelFont.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.labelFont.AutoSize = true;
+            this.labelFont.Location = new System.Drawing.Point(3, 172);
+            this.labelFont.Name = "labelFont";
+            this.labelFont.Size = new System.Drawing.Size(31, 13);
+            this.labelFont.TabIndex = 8;
+            this.labelFont.Text = "Font:";
+            // 
             // fontDialog
             // 
             this.fontDialog.ShowColor = true;
@@ -478,26 +500,6 @@
             // folderBrowserDialog
             // 
             this.folderBrowserDialog.RootFolder = System.Environment.SpecialFolder.Personal;
-            // 
-            // buttonInternationalBTFont
-            // 
-            this.buttonInternationalBTFont.Location = new System.Drawing.Point(286, 256);
-            this.buttonInternationalBTFont.Name = "buttonInternationalBTFont";
-            this.buttonInternationalBTFont.Size = new System.Drawing.Size(75, 23);
-            this.buttonInternationalBTFont.TabIndex = 12;
-            this.buttonInternationalBTFont.Text = "Choo&se Font";
-            this.buttonInternationalBTFont.UseVisualStyleBackColor = true;
-            this.buttonInternationalBTFont.Click += new System.EventHandler(this.buttonInternationalBTFont_Click);
-            // 
-            // labelEnglishBT
-            // 
-            this.labelEnglishBT.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.labelEnglishBT.AutoSize = true;
-            this.labelEnglishBT.Location = new System.Drawing.Point(172, 261);
-            this.labelEnglishBT.Name = "labelEnglishBT";
-            this.labelEnglishBT.Size = new System.Drawing.Size(108, 13);
-            this.labelEnglishBT.TabIndex = 11;
-            this.labelEnglishBT.Text = "English BT Line Font:";
             // 
             // TeamMemberForm
             // 

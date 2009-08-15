@@ -308,6 +308,7 @@
     <Compile Include="VerseData.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="LanguageCodes.tab" />
     <Content Include="OneStory.ico" />
     <None Include="Resources\DeleteHS.png" />
     <None Include="Resources\BuilderDialog_moveup.png" />

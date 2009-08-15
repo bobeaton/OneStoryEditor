@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Xml.Linq;
-using System.Text;
 using System.Windows.Forms;
+using System.IO;
 
 namespace OneStoryProjectEditor
 {
@@ -330,6 +326,62 @@ namespace OneStoryProjectEditor
         private void listBoxMemberRoles_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             buttonOK_Click(sender, e);
+        }
+
+        private void textBoxVernacular_Leave(object sender, EventArgs e)
+        {
+            ProposeEthnologueCode(textBoxVernacular.Text, textBoxVernacularEthCode);
+        }
+
+        private void textBoxNationalBTLanguage_Leave(object sender, EventArgs e)
+        {
+            ProposeEthnologueCode(textBoxNationalBTLanguage.Text, textBoxNationalBTEthCode);
+        }
+
+        string _strLangCodesFile = null;
+
+        protected void ProposeEthnologueCode(string strLanguageName, TextBox tbLanguageCode)
+        {
+            if (!String.IsNullOrEmpty(tbLanguageCode.Text))  // only have to suggest if we don't have a value
+                return;
+
+            if (_strLangCodesFile == null)
+                _strLangCodesFile = File.ReadAllText(PathToLangCodesFile);
+
+            int nIndex = _strLangCodesFile.IndexOf(String.Format("\t{0}{1}", strLanguageName, Environment.NewLine));
+            const int CnOffset = 8;
+            if (nIndex >= CnOffset)
+            {
+                nIndex -= CnOffset;    // back up to the beginning of the line;
+                int nLength = 1 /* for the tab */ + strLanguageName.Length + CnOffset;
+                string strEntry = _strLangCodesFile.Substring(nIndex, nLength);
+                
+                // now, grab off just the code, which goes from the beginning of the line to the first tab.
+                nIndex = strEntry.IndexOf('\t');
+                string strCode = strEntry.Substring(0, nIndex);
+                tbLanguageCode.Text = strCode;
+            }
+        }
+
+        protected const string CstrLangCodesFilename = "LanguageCodes.tab";
+
+        protected string PathToLangCodesFile
+        {
+            get
+            {
+                // try the same folder as we're executing out of
+                string strCurrentFolder = System.Reflection.Assembly.GetExecutingAssembly().GetModules()[0].FullyQualifiedName;
+                strCurrentFolder = Path.GetDirectoryName(strCurrentFolder);
+                string strFileToCheck = String.Format(@"{0}\{1}", strCurrentFolder, CstrLangCodesFilename);
+#if DEBUG
+                if (!File.Exists(strFileToCheck))
+                    // on dev machines, this file is in the "..\..\src\EC\TECkit Mapping Editor" folder
+                    strFileToCheck = @"C:\code\StoryEditor\StoryEditor\" + CstrLangCodesFilename;
+#endif
+                System.Diagnostics.Debug.Assert(File.Exists(strFileToCheck), String.Format("Can't find: {0}! You'll need to re-install or contact bob_eaton@sall.com", strFileToCheck));
+
+                return strFileToCheck;
+            }
         }
     }
 }
