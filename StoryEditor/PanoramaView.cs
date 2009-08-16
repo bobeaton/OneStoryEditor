@@ -25,7 +25,7 @@ namespace OneStoryProjectEditor
 
             foreach (StoryData aSD in _stories)
             {
-                StoryStageLogic.StageTransition st = StoryStageLogic.stateTransitions[aSD.ProjStage.ProjectStage];
+                StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[aSD.ProjStage.ProjectStage];
                 object[] aObs = new object[] { aSD.StoryName, aSD.CraftingInfo.StoryPurpose, 
                     TeamMemberData.GetMemberTypeAsDisplayString(aSD.ProjStage.MemberTypeWithEditToken), 
                     st.StageDisplayString };
@@ -79,13 +79,13 @@ namespace OneStoryProjectEditor
 
             contextMenuStripProjectStages.Items.Clear();
             m_rowLast = dataGridViewPanorama.SelectedRows[0];
-            StoryStageLogic.StageTransition theCurrentST = (StoryStageLogic.StageTransition)m_rowLast.Tag;
+            StoryStageLogic.StateTransition theCurrentST = (StoryStageLogic.StateTransition)m_rowLast.Tag;
             if (theCurrentST == null)
                 return;
 
             foreach (StoryStageLogic.ProjectStages eAllowableTransition in theCurrentST.AllowableTransitions)
             {
-                StoryStageLogic.StageTransition aST = StoryStageLogic.stateTransitions[eAllowableTransition];
+                StoryStageLogic.StateTransition aST = StoryStageLogic.stateTransitions[eAllowableTransition];
                 ToolStripItem tsi = contextMenuStripProjectStages.Items.Add(
                                     aST.StageDisplayString, null, OnSelectOtherState);
                 tsi.Tag = aST;
@@ -98,7 +98,7 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert(sender is ToolStripItem);
             ToolStripItem tsi = (ToolStripItem)sender;
 
-            StoryStageLogic.StageTransition theCurrentST = (StoryStageLogic.StageTransition)tsi.Tag;
+            StoryStageLogic.StateTransition theCurrentST = (StoryStageLogic.StateTransition)tsi.Tag;
             if (theCurrentST == null)
                 return;
 

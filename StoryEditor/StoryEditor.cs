@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
+using System.Xml;
 using System.Xml.Linq;
 using System.Windows.Forms;
 using System.IO;
+using System.Xml.Serialization;
 using Chorus.UI.Sync;
 using Chorus.VcsDrivers.Mercurial;
 using Chorus.sync;
@@ -355,7 +358,7 @@ namespace OneStoryProjectEditor
 
         internal void SetViewBasedOnProjectStage(StoryStageLogic.ProjectStages eStage)
         {
-            StoryStageLogic.StageTransition st = StoryStageLogic.stateTransitions[eStage];
+            StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[eStage];
 
             st.SetView(this);
             helpProvider.SetHelpString(this, st.StageInstructions);
@@ -570,7 +573,7 @@ namespace OneStoryProjectEditor
             Modified = false;
         }
 
-        private string GetBackupFilename(string strFilename)
+        private static string GetBackupFilename(string strFilename)
         {
             return Application.UserAppDataPath + @"\Backup of " + Path.GetFileName(strFilename);
         }
@@ -773,13 +776,13 @@ namespace OneStoryProjectEditor
 
             buttonsStoryStage.DropDown.Items.Clear();
 
-            // get the current StageTransition object and find all of the allowable transition states
-            StoryStageLogic.StageTransition theCurrentST = StoryStageLogic.stateTransitions[theCurrentStory.ProjStage.ProjectStage];
+            // get the current StateTransition object and find all of the allowable transition states
+            StoryStageLogic.StateTransition theCurrentST = StoryStageLogic.stateTransitions[theCurrentStory.ProjStage.ProjectStage];
             System.Diagnostics.Debug.Assert(theCurrentST != null);
 
             if (AddListOfButtons(theCurrentST.AllowableBackwardsTransitions))
                 buttonsStoryStage.DropDown.Items.Add(new ToolStripSeparator());
-            AddListOfButtons(theCurrentST.AllowableForwardsTransition);
+            AddListOfButtons(theCurrentST.AllowableForwardsTransitions);
         }
 
         protected bool AddListOfButtons(List<StoryStageLogic.ProjectStages> allowableTransitions)
@@ -790,7 +793,7 @@ namespace OneStoryProjectEditor
             foreach (StoryStageLogic.ProjectStages eAllowableTransition in allowableTransitions)
             {
                 // put the allowable transitions into the DropDown list
-                StoryStageLogic.StageTransition aST = StoryStageLogic.stateTransitions[eAllowableTransition];
+                StoryStageLogic.StateTransition aST = StoryStageLogic.stateTransitions[eAllowableTransition];
                 ToolStripItem tsi = buttonsStoryStage.DropDown.Items.Add(
                     aST.StageDisplayString, null, OnSelectOtherState);
                 tsi.Tag = aST;
@@ -802,17 +805,17 @@ namespace OneStoryProjectEditor
         {
             System.Diagnostics.Debug.Assert(sender is ToolStripItem);
             ToolStripItem tsi = (ToolStripItem)sender;
-            StoryStageLogic.StageTransition theNewST = (StoryStageLogic.StageTransition)tsi.Tag;
+            StoryStageLogic.StateTransition theNewST = (StoryStageLogic.StateTransition)tsi.Tag;
             DoNextSeveral(theNewST);
         }
 
-        protected void DoNextSeveral(StoryStageLogic.StageTransition theNewST)
+        protected void DoNextSeveral(StoryStageLogic.StateTransition theNewST)
         {
             if (!theCurrentStory.ProjStage.IsChangeOfStateAllowed(LoggedOnMember))
                 return;
 
             // NOTE: the new state may actually be a previous state
-            StoryStageLogic.StageTransition theCurrentST = null;
+            StoryStageLogic.StateTransition theCurrentST = null;
             do
             {
                 theCurrentST = StoryStageLogic.stateTransitions[theCurrentStory.ProjStage.ProjectStage];
@@ -836,19 +839,19 @@ namespace OneStoryProjectEditor
                     break;
                 }
                 else if (theCurrentST.CurrentStage != theNewST.CurrentStage)
-                    if (!DoNextStage(false))
+                    if (!DoNextState(false))
                         break;
             }
-            while (theCurrentST.NextStage != theNewST.CurrentStage);
+            while (theCurrentST.NextState != theNewST.CurrentStage);
             InitAllPanes();
         }
 
         private void buttonsStoryStage_ButtonClick(object sender, EventArgs e)
         {
-            DoNextStage(true);
+            DoNextState(true);
         }
 
-        protected bool DoNextStage(bool bDoUpdateCtrls)
+        protected bool DoNextState(bool bDoUpdateCtrls)
         {
             System.Diagnostics.Debug.Assert((Stories != null) && (Stories.ProjSettings != null));
             if (SetNextStateIfReady())
@@ -866,19 +869,19 @@ namespace OneStoryProjectEditor
             if (!theCurrentStory.ProjStage.IsChangeOfStateAllowed(LoggedOnMember))
                 return false;
 
-            StoryStageLogic.StageTransition st = StoryStageLogic.stateTransitions[theCurrentStory.ProjStage.ProjectStage];
+            StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[theCurrentStory.ProjStage.ProjectStage];
             bool bRet = st.IsReadyForTransition(Stories.ProjSettings, theCurrentStory);
             if (bRet)
             {
-                StoryStageLogic.StageTransition stNext = StoryStageLogic.stateTransitions[st.NextStage];
-                if (st.IsTerminalTransition(st.NextStage))
+                StoryStageLogic.StateTransition stNext = StoryStageLogic.stateTransitions[st.NextState];
+                if (st.IsTerminalTransition(st.NextState))
                     if (MessageBox.Show(
                             String.Format(st.TerminalTransitionMessage,
                                 TeamMemberData.GetMemberTypeAsDisplayString(stNext.MemberTypeWithEditToken),
                                 stNext.StageDisplayString), 
                             CstrCaption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
                         return false;
-                theCurrentStory.ProjStage.ProjectStage = st.NextStage;  // if we are ready, then go ahead and transition
+                theCurrentStory.ProjStage.ProjectStage = st.NextState;  // if we are ready, then go ahead and transition
             }
             return bRet;
         }

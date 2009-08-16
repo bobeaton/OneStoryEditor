@@ -94,7 +94,7 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                StageTransition st = stateTransitions[ProjectStage];
+                StateTransition st = stateTransitions[ProjectStage];
                 return st.MemberTypeWithEditToken;
             }
         }
@@ -132,7 +132,7 @@ namespace OneStoryProjectEditor
             { "CoachReviewTest2Notes", ProjectStages.eCoachReviewTest2Notes },
             { "TeamComplete", ProjectStages.eTeamComplete }};
 
-        public class StateTransitions : Dictionary<ProjectStages, StageTransition>
+        public class StateTransitions : Dictionary<ProjectStages, StateTransition>
         {
             protected const string CstrStateTransitionsXmlFilename = "StageTransitions.xml";
 
@@ -159,7 +159,34 @@ namespace OneStoryProjectEditor
                     return strFileToCheck;
                 }
             }
+            
+            /* rde: this code works just fine, it's just that we don't ever write this file anymore
+            public void SaveStates(string strFilename)
+            {
+                // create the root portions of the XML document and tack on the fragment we've been building
+                XDocument doc = new XDocument(
+                    new XDeclaration("1.0", "utf-8", "yes"),
+                    GetXml);
 
+                // save it with an extra extn.
+                doc.Save(strFilename);
+            }
+
+            protected XElement GetXml
+            {
+                get
+                {
+                    XElement elem = new XElement("ProjectStates");
+                    foreach (KeyValuePair<ProjectStages, StateTransition> kvp in this)
+                    {
+                        elem.Add(kvp.Value.GetXml);
+                    }
+                    return elem;
+                }
+            }
+            */
+            
+            // these are for reading the file
             protected void GetXmlDocument(out XmlDocument doc, out XPathNavigator navigator, out XmlNamespaceManager manager)
             {
                 doc = new XmlDocument();
@@ -177,58 +204,53 @@ namespace OneStoryProjectEditor
                     XmlNamespaceManager manager;
                     GetXmlDocument(out doc, out navigator, out manager);
 
-                    XPathNodeIterator xpStageTransition = navigator.Select("/StageTransitions/StageTransition", manager);
+                    XPathNodeIterator xpStageTransition = navigator.Select("/ProjectStates/StateTransition", manager);
                     while (xpStageTransition.MoveNext())
                     {
                         ProjectStages eThisStage = (ProjectStages)Enum.Parse(typeof(ProjectStages), xpStageTransition.Current.GetAttribute("stage", navigator.NamespaceURI));
+                        TeamMemberData.UserTypes eMemberType = (TeamMemberData.UserTypes)Enum.Parse(typeof(TeamMemberData.UserTypes), xpStageTransition.Current.GetAttribute("MemberTypeWithEditToken", navigator.NamespaceURI));
+                        ProjectStages eNextStage = (ProjectStages)Enum.Parse(typeof(ProjectStages), xpStageTransition.Current.GetAttribute("NextState", navigator.NamespaceURI));
 
-                        XPathNodeIterator xpTransition = xpStageTransition.Current.Select("Transition", manager);
-                        if (xpTransition.MoveNext())
+                        XPathNodeIterator xpNextElement = xpStageTransition.Current.Select("StageDisplayString");
+                        string strStageDisplayString = null;
+                        if (xpNextElement.MoveNext())
+                            strStageDisplayString = xpNextElement.Current.Value;
+
+                        xpNextElement = xpStageTransition.Current.Select("StageInstructions");
+                        string strStageInstructions = null;
+                        if (xpNextElement.MoveNext())
+                            strStageInstructions = xpNextElement.Current.Value;
+
+                        xpNextElement = xpStageTransition.Current.Select("AllowableBackwardsTransitions/AllowableBackwardsTransition");
+                        List<ProjectStages> lstAllowableBackwardsStages = new List<ProjectStages>();
+                        while (xpNextElement.MoveNext())
+                            lstAllowableBackwardsStages.Add((ProjectStages)Enum.Parse(typeof(ProjectStages), xpNextElement.Current.Value));
+
+                        xpNextElement = xpStageTransition.Current.Select("AllowableForwardsTransitions/AllowableForwardsTransition");
+                        List<ProjectStages> lstAllowableForwardsStages = new List<ProjectStages>();
+                        while (xpNextElement.MoveNext())
+                            lstAllowableForwardsStages.Add((ProjectStages)Enum.Parse(typeof(ProjectStages), xpNextElement.Current.Value));
+
+                        xpNextElement = xpStageTransition.Current.Select("ViewSettings");
+                        List<bool> lstViewStates = new List<bool>();
+                        if (xpNextElement.MoveNext())
                         {
-                            TeamMemberData.UserTypes eMemberType = (TeamMemberData.UserTypes)Enum.Parse(typeof(TeamMemberData.UserTypes), xpTransition.Current.GetAttribute("MemberWithEditToken", navigator.NamespaceURI));
-                            ProjectStages eNextStage = (ProjectStages)Enum.Parse(typeof(ProjectStages), xpTransition.Current.GetAttribute("NextState", navigator.NamespaceURI));
-
-                            XPathNodeIterator xpNextElement = xpTransition.Current.Select("StageDisplayString");
-                            string strStageDisplayString = null;
-                            if (xpNextElement.MoveNext())
-                                strStageDisplayString = xpNextElement.Current.Value;
-
-                            xpNextElement = xpTransition.Current.Select("StageInstructions");
-                            string strStageInstructions = null;
-                            if (xpNextElement.MoveNext())
-                                strStageInstructions = xpNextElement.Current.Value;
-
-                            xpNextElement = xpTransition.Current.Select("AllowableBackwardsTransitions/AllowableBackwardsTransition");
-                            List<ProjectStages> lstAllowableBackwardsStages = new List<ProjectStages>();
-                            while (xpNextElement.MoveNext())
-                                lstAllowableBackwardsStages.Add((ProjectStages)Enum.Parse(typeof(ProjectStages), xpNextElement.Current.Value));
-
-                            xpNextElement = xpTransition.Current.Select("AllowableForwardsTransitions/AllowableForwardsTransition");
-                            List<ProjectStages> lstAllowableForwardsStages = new List<ProjectStages>();
-                            while (xpNextElement.MoveNext())
-                                lstAllowableForwardsStages.Add((ProjectStages)Enum.Parse(typeof(ProjectStages), xpNextElement.Current.Value));
-
-                            xpNextElement = xpTransition.Current.Select("ViewSettings");
-                            List<bool> lstViewStates = new List<bool>();
-                            if (xpNextElement.MoveNext())
-                            {
-                                lstViewStates.Add(xpNextElement.Current.GetAttribute("viewVernacularLangFieldMenuItem", navigator.NamespaceURI) == "true");
-                                lstViewStates.Add(xpNextElement.Current.GetAttribute("viewNationalLangFieldMenuItem", navigator.NamespaceURI) == "true");
-                                lstViewStates.Add(xpNextElement.Current.GetAttribute("viewEnglishBTFieldMenuItem", navigator.NamespaceURI) == "true");
-                                lstViewStates.Add(xpNextElement.Current.GetAttribute("viewAnchorFieldMenuItem", navigator.NamespaceURI) == "true");
-                                lstViewStates.Add(xpNextElement.Current.GetAttribute("viewStoryTestingQuestionFieldMenuItem", navigator.NamespaceURI) == "true");
-                                lstViewStates.Add(xpNextElement.Current.GetAttribute("viewRetellingFieldMenuItem", navigator.NamespaceURI) == "true");
-                                lstViewStates.Add(xpNextElement.Current.GetAttribute("viewConsultantNoteFieldMenuItem", navigator.NamespaceURI) == "true");
-                                lstViewStates.Add(xpNextElement.Current.GetAttribute("viewCoachNotesFieldMenuItem", navigator.NamespaceURI) == "true");
-                                lstViewStates.Add(xpNextElement.Current.GetAttribute("viewNetBibleMenuItem", navigator.NamespaceURI) == "true");
-                            }
-
-                            StageTransition st = new StageTransition(eThisStage, eNextStage, eMemberType, 
-                                strStageDisplayString, strStageInstructions,
-                                lstAllowableBackwardsStages, lstAllowableForwardsStages, lstViewStates);
-
-                            Add(eThisStage, st);
+                            lstViewStates.Add(xpNextElement.Current.GetAttribute("viewVernacularLangField", navigator.NamespaceURI) == "true");
+                            lstViewStates.Add(xpNextElement.Current.GetAttribute("viewNationalLangField", navigator.NamespaceURI) == "true");
+                            lstViewStates.Add(xpNextElement.Current.GetAttribute("viewEnglishBTField", navigator.NamespaceURI) == "true");
+                            lstViewStates.Add(xpNextElement.Current.GetAttribute("viewAnchorField", navigator.NamespaceURI) == "true");
+                            lstViewStates.Add(xpNextElement.Current.GetAttribute("viewStoryTestingQuestionField", navigator.NamespaceURI) == "true");
+                            lstViewStates.Add(xpNextElement.Current.GetAttribute("viewRetellingField", navigator.NamespaceURI) == "true");
+                            lstViewStates.Add(xpNextElement.Current.GetAttribute("viewConsultantNoteField", navigator.NamespaceURI) == "true");
+                            lstViewStates.Add(xpNextElement.Current.GetAttribute("viewCoachNotesField", navigator.NamespaceURI) == "true");
+                            lstViewStates.Add(xpNextElement.Current.GetAttribute("viewNetBible", navigator.NamespaceURI) == "true");
                         }
+
+                        StateTransition st = new StateTransition(eThisStage, eNextStage, eMemberType, 
+                            strStageDisplayString, strStageInstructions,
+                            lstAllowableBackwardsStages, lstAllowableForwardsStages, lstViewStates);
+
+                        Add(eThisStage, st);
                     }
                 }
                 catch (Exception ex)
@@ -238,12 +260,12 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public class StageTransition
+        public class StateTransition
         {
             internal ProjectStages CurrentStage = ProjectStages.eUndefined;
-            internal ProjectStages NextStage = ProjectStages.eUndefined;
+            internal ProjectStages NextState = ProjectStages.eUndefined;
             internal List<ProjectStages> AllowableBackwardsTransitions = new List<ProjectStages>();
-            internal List<ProjectStages> AllowableForwardsTransition = new List<ProjectStages>();
+            internal List<ProjectStages> AllowableForwardsTransitions = new List<ProjectStages>();
             internal TeamMemberData.UserTypes MemberTypeWithEditToken = TeamMemberData.UserTypes.eUndefined;
             protected List<bool> _abViewSettings = null;
             internal string StageDisplayString = null;
@@ -251,7 +273,7 @@ namespace OneStoryProjectEditor
             internal string StageInstructions = null;
             public CheckEndOfStateTransition.CheckForValidEndOfState IsReadyForTransition = null;
 
-            public StageTransition(
+            public StateTransition(
                 ProjectStages thisStage,
                 ProjectStages theNextStage,
                 TeamMemberData.UserTypes eMemberTypeWithEditToken,
@@ -262,12 +284,12 @@ namespace OneStoryProjectEditor
                 List<bool> abViewSettings)
             {
                 CurrentStage = thisStage;
-                NextStage = theNextStage;
+                NextState = theNextStage;
                 MemberTypeWithEditToken = eMemberTypeWithEditToken;
                 StageDisplayString = strDisplayString;
                 StageInstructions = strInstructions;
                 AllowableBackwardsTransitions.AddRange(lstAllowableBackwardsStages);
-                AllowableForwardsTransition.AddRange(lstAllowableForwardsStages);
+                AllowableForwardsTransitions.AddRange(lstAllowableForwardsStages);
                 _abViewSettings = abViewSettings;
                 string strMethodName = thisStage.ToString().Substring(1);
                 IsReadyForTransition = (CheckEndOfStateTransition.CheckForValidEndOfState)Delegate.CreateDelegate(
@@ -280,13 +302,13 @@ namespace OneStoryProjectEditor
                 if ((int)eToStage < (int)CurrentStage)
                     return (AllowableBackwardsTransitions[0] == eToStage);
                 else
-                    return (AllowableForwardsTransition[AllowableForwardsTransition.Count - 1] == eToStage);
+                    return (AllowableForwardsTransitions[AllowableForwardsTransitions.Count - 1] == eToStage);
             }
 
             public bool IsTransitionValid(ProjectStages eToStage)
             {
                 return (AllowableBackwardsTransitions.Contains(eToStage)
-                    || AllowableForwardsTransition.Contains(eToStage));
+                    || AllowableForwardsTransitions.Contains(eToStage));
             }
 
             public void SetView(StoryEditor theSE)
@@ -311,12 +333,13 @@ namespace OneStoryProjectEditor
                         elemAllowableBackwardsTransition.Add(new XElement("AllowableBackwardsTransition", ps));
 
                     XElement elemAllowableForwardsTransition = new XElement("AllowableForwardsTransitions");
-                    foreach (ProjectStages ps in AllowableForwardsTransition)
+                    foreach (ProjectStages ps in AllowableForwardsTransitions)
                         elemAllowableForwardsTransition.Add(new XElement("AllowableForwardsTransition", ps));
 
-                    XElement elem = new XElement("Transition", 
-                        new XAttribute("MemberWithEditToken", MemberTypeWithEditToken),
-                        new XAttribute("NextState", NextStage),
+                    XElement elem = new XElement("StateTransition", 
+                        new XAttribute("stage", CurrentStage),
+                        new XAttribute("MemberTypeWithEditToken", MemberTypeWithEditToken),
+                        new XAttribute("NextState", NextState),
                         new XElement("StageDisplayString", StageDisplayString),
                         new XElement("StageInstructions", StageInstructions),
                         elemAllowableBackwardsTransition,
@@ -339,31 +362,6 @@ namespace OneStoryProjectEditor
 
         #region static StageTransition implementation
         /*
-        public void SaveStates(string strFilename)
-        {
-            // create the root portions of the XML document and tack on the fragment we've been building
-            XDocument doc = new XDocument(
-                new XDeclaration("1.0", "utf-8", "yes"),
-                GetXml);
-
-            // save it with an extra extn.
-            doc.Save(strFilename);
-        }
-
-        protected XElement GetXml
-        {
-            get
-            {
-                XElement elem = new XElement("StageTransitions");
-                foreach (KeyValuePair<ProjectStages, StageTransition> kvp in CmapAllowableStageTransitions)
-                {
-                    elem.Add(new XElement("StageTransition", new XAttribute("stage", kvp.Key),
-                        kvp.Value.GetXml));
-                }
-                return elem;
-            }
-        }
-
         protected static Dictionary<ProjectStages, StageTransition> CmapAllowableStageTransitions = new Dictionary<ProjectStages, StageTransition>()
         {
             { 

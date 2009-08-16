@@ -1,9 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<StageTransitions>
-  <StageTransition stage="eCrafterTypeNationalBT">
-    <Transition MemberWithEditToken="eCrafter" NextState="eCrafterTypeInternationalBT">
-      <StageDisplayString>Crafter enters the National language back-translation</StageDisplayString>
-      <StageInstructions>
+<ProjectStates>
+  <StateTransition stage="eCrafterTypeNationalBT" MemberTypeWithEditToken="eCrafter" NextState="eCrafterTypeInternationalBT">
+    <StageDisplayString>Crafter enters the National language back-translation</StageDisplayString>
+    <StageInstructions>
 By this stage, you will have already crafted and recorded a story according to the procedure
 you learned in the workshop. Now you (the crafter) must find an uninitiated native speaker (UNS)
 to listen to the story line-by-line, and have him or her back-translate it into the national 
@@ -23,20 +22,18 @@ Each of these menus has a sub-menu that allows you to insert more than one at a 
 When you are finished entering or splitting the story into separate verses of about one
 sentence per verse, then click the button in the left-hand side of the status bar and choose
 'Next Stage' to go to the next stage in the process.
-      </StageInstructions>
-      <AllowableForwardsTransitions>
-        <AllowableForwardsTransition>eCrafterTypeInternationalBT</AllowableForwardsTransition>
-        <AllowableForwardsTransition>eCrafterAddAnchors</AllowableForwardsTransition>
-        <AllowableForwardsTransition>eCrafterAddStoryQuestions</AllowableForwardsTransition>
-        <AllowableForwardsTransition>eConsultantCheckAnchors</AllowableForwardsTransition>
-      </AllowableForwardsTransitions>
-      <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="false" viewAnchorFieldMenuItem="false" viewStoryTestingQuestionFieldMenuItem="false" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="false" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="false" />
-    </Transition>
-  </StageTransition>
-  <StageTransition stage="eCrafterTypeInternationalBT">
-    <Transition MemberWithEditToken="eCrafter" NextState="eCrafterAddAnchors">
-      <StageDisplayString>Crafter enters the English back-translation</StageDisplayString>
-      <StageInstructions>
+    </StageInstructions>
+    <AllowableForwardsTransitions>
+      <AllowableForwardsTransition>eCrafterTypeInternationalBT</AllowableForwardsTransition>
+      <AllowableForwardsTransition>eCrafterAddAnchors</AllowableForwardsTransition>
+      <AllowableForwardsTransition>eCrafterAddStoryQuestions</AllowableForwardsTransition>
+      <AllowableForwardsTransition>eConsultantCheckAnchors</AllowableForwardsTransition>
+    </AllowableForwardsTransitions>
+    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
+  </StateTransition>
+  <StateTransition stage="eCrafterTypeInternationalBT" MemberTypeWithEditToken="eCrafter" NextState="eCrafterAddAnchors">
+    <StageDisplayString>Crafter enters the English back-translation</StageDisplayString>
+    <StageInstructions>
 In this stage, one of the crafting team will back translate the National language back
 translation of the story (e.g. Hindi) into English.
 
@@ -46,22 +43,20 @@ a UNS, in this state, anyone can do the English back translation.
 When you are finished entering the English back translation, then click the button in 
 the left-hand side of the status bar and choose 'Next Stage' to go to the next stage 
 in the process.
-      </StageInstructions>
-      <AllowableBackwardsTransitions>
-        <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
-      </AllowableBackwardsTransitions>
-      <AllowableForwardsTransitions>
-        <AllowableForwardsTransition>eCrafterAddAnchors</AllowableForwardsTransition>
-        <AllowableForwardsTransition>eCrafterAddStoryQuestions</AllowableForwardsTransition>
-        <AllowableForwardsTransition>eConsultantCheckAnchors</AllowableForwardsTransition>
-      </AllowableForwardsTransitions>
-      <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="false" viewStoryTestingQuestionFieldMenuItem="false" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="false" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="false" />
-    </Transition>
-  </StageTransition>
-  <StageTransition stage="eCrafterAddAnchors">
-    <Transition MemberWithEditToken="eCrafter" NextState="eCrafterAddStoryQuestions">
-      <StageDisplayString>Crafter adds biblical anchors</StageDisplayString>
-      <StageInstructions>
+    </StageInstructions>
+    <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
+    </AllowableBackwardsTransitions>
+    <AllowableForwardsTransitions>
+      <AllowableForwardsTransition>eCrafterAddAnchors</AllowableForwardsTransition>
+      <AllowableForwardsTransition>eCrafterAddStoryQuestions</AllowableForwardsTransition>
+      <AllowableForwardsTransition>eConsultantCheckAnchors</AllowableForwardsTransition>
+    </AllowableForwardsTransitions>
+    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
+  </StateTransition>
+  <StateTransition stage="eCrafterAddAnchors" MemberTypeWithEditToken="eCrafter" NextState="eCrafterAddStoryQuestions">
+    <StageDisplayString>Crafter adds biblical anchors</StageDisplayString>
+    <StageInstructions>
 In this stage, one of the crafting team will go through the story verse-by-verse and look
 up Bible reference in the NetBible that supports the information in the verse. These 
 Bible references are known as "Anchors", because they 'fix' the story verse to the Bible.
@@ -76,342 +71,295 @@ in this state, anyone can do the English back translation.
 When you are finished entering the English back translation, then click the button in the
 left-hand side of the status bar and choose 'Next Stage' to go to the next stage in the
 process.
-      </StageInstructions>
-      <AllowableBackwardsTransitions>
-        <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
-        <AllowableBackwardsTransition>eCrafterTypeInternationalBT</AllowableBackwardsTransition>
-      </AllowableBackwardsTransitions>
-      <AllowableForwardsTransitions>
-        <AllowableForwardsTransition>eCrafterAddStoryQuestions</AllowableForwardsTransition>
-        <AllowableForwardsTransition>eConsultantCheckAnchors</AllowableForwardsTransition>
-      </AllowableForwardsTransitions>
-      <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="false" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="false" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="true" />
-    </Transition>
-  </StageTransition>
-  <StageTransition stage="eCrafterAddStoryQuestions">
-    <Transition MemberWithEditToken="eCrafter" NextState="eConsultantCheckAnchors">
-      <StageDisplayString>Crafter adds story testing questions</StageDisplayString>
-      <StageInstructions></StageInstructions>
-      <AllowableBackwardsTransitions>
-        <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
-        <AllowableBackwardsTransition>eCrafterTypeInternationalBT</AllowableBackwardsTransition>
-        <AllowableBackwardsTransition>eCrafterAddAnchors</AllowableBackwardsTransition>
-      </AllowableBackwardsTransitions>
-      <AllowableForwardsTransitions>
-        <AllowableForwardsTransition>eConsultantCheckAnchors</AllowableForwardsTransition>
-      </AllowableForwardsTransitions>
-      <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="false" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="true" />
-    </Transition>
-  </StageTransition>
-  <StageTransition stage="eConsultantCheckAnchors">
-    <Transition MemberWithEditToken="eConsultantInTraining" NextState="eConsultantCheckStoryQuestions">
-      <StageDisplayString>Consultant checks the story anchors</StageDisplayString>
-      <StageInstructions></StageInstructions>
-      <AllowableBackwardsTransitions>
-        <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
-        <AllowableBackwardsTransition>eCrafterTypeInternationalBT</AllowableBackwardsTransition>
-        <AllowableBackwardsTransition>eCrafterAddAnchors</AllowableBackwardsTransition>
-        <AllowableBackwardsTransition>eCrafterAddStoryQuestions</AllowableBackwardsTransition>
-      </AllowableBackwardsTransitions>
-      <AllowableForwardsTransitions>
-        <AllowableForwardsTransition>eConsultantCheckStoryQuestions</AllowableForwardsTransition>
-        <AllowableForwardsTransition>eCoachReviewRound1Notes</AllowableForwardsTransition>
-      </AllowableForwardsTransitions>
-      <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="false" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="true" />
-    </Transition>
-  </StageTransition>
-  <StageTransition stage="eConsultantCheckStoryQuestions">
-    <Transition MemberWithEditToken="eConsultantInTraining" NextState="eCoachReviewRound1Notes">
-      <StageDisplayString>Consultant checks the story testing questions</StageDisplayString>
-      <StageInstructions></StageInstructions>
-      <AllowableBackwardsTransitions>
-        <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
-        <AllowableBackwardsTransition>eCrafterTypeInternationalBT</AllowableBackwardsTransition>
-        <AllowableBackwardsTransition>eCrafterAddAnchors</AllowableBackwardsTransition>
-        <AllowableBackwardsTransition>eCrafterAddStoryQuestions</AllowableBackwardsTransition>
-        <AllowableBackwardsTransition>eConsultantCheckAnchors</AllowableBackwardsTransition>
-      </AllowableBackwardsTransitions>
-      <AllowableForwardsTransitions>
-        <AllowableForwardsTransition>eCoachReviewRound1Notes</AllowableForwardsTransition>
-      </AllowableForwardsTransitions>
-      <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="true" />
-    </Transition>
-  </StageTransition>
-  <StageTransition stage="eCoachReviewRound1Notes">
-    <Transition MemberWithEditToken="eCoach" NextState="eConsultantReviseRound1Notes">
-      <StageDisplayString>Coach reviews round 1 consultant notes</StageDisplayString>
-      <StageInstructions></StageInstructions>
-      <AllowableForwardsTransitions>
-        <AllowableForwardsTransition>eConsultantReviseRound1Notes</AllowableForwardsTransition>
-      </AllowableForwardsTransitions>
-      <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="false" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="true" viewNetBibleMenuItem="true" />
-    </Transition>
-  </StageTransition>
-  <StageTransition stage="eConsultantReviseRound1Notes">
-    <Transition MemberWithEditToken="eConsultantInTraining" NextState="eCrafterReviseBasedOnRound1Notes">
-      <StageDisplayString>Consultant revises round 1 notes based on Coach's feedback</StageDisplayString>
-      <StageInstructions></StageInstructions>
-      <AllowableForwardsTransitions>
-        <AllowableForwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableForwardsTransition>
-      </AllowableForwardsTransitions>
-      <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="true" viewNetBibleMenuItem="true" />
-    </Transition>
-  </StageTransition>
-  <StageTransition stage="eCrafterReviseBasedOnRound1Notes">
-    <Transition MemberWithEditToken="eCrafter" NextState="eCrafterOnlineReview1WithConsultant">
-      <StageDisplayString>Crafter revises story based on Consultant's feedback</StageDisplayString>
-      <StageInstructions></StageInstructions>
-      <AllowableForwardsTransitions>
-        <AllowableForwardsTransition>eCrafterOnlineReview1WithConsultant</AllowableForwardsTransition>
-        <AllowableForwardsTransition>eCrafterReadyForTest1</AllowableForwardsTransition>
-        <AllowableForwardsTransition>eCrafterEnterAnswersToStoryQuestionsOfTest1</AllowableForwardsTransition>
-        <AllowableForwardsTransition>eCrafterEnterRetellingOfTest1</AllowableForwardsTransition>
-        <AllowableForwardsTransition>eConsultantCheckAnchorsRound2</AllowableForwardsTransition>
-      </AllowableForwardsTransitions>
-      <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="true" />
-    </Transition>
-  </StageTransition>
-  <StageTransition stage="eCrafterOnlineReview1WithConsultant">
-    <Transition MemberWithEditToken="eCrafter" NextState="eCrafterReadyForTest1">
-      <StageDisplayString>Crafter has 1st online review with consultant</StageDisplayString>
-      <StageInstructions></StageInstructions>
-      <AllowableBackwardsTransitions>
-        <AllowableBackwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableBackwardsTransition>
-      </AllowableBackwardsTransitions>
-      <AllowableForwardsTransitions>
-        <AllowableForwardsTransition>eCrafterReadyForTest1</AllowableForwardsTransition>
-        <AllowableForwardsTransition>eCrafterEnterAnswersToStoryQuestionsOfTest1</AllowableForwardsTransition>
-        <AllowableForwardsTransition>eCrafterEnterRetellingOfTest1</AllowableForwardsTransition>
-        <AllowableForwardsTransition>eConsultantCheckAnchorsRound2</AllowableForwardsTransition>
-      </AllowableForwardsTransitions>
-      <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="true" />
-    </Transition>
-  </StageTransition>
-  <StageTransition stage="eCrafterReadyForTest1">
-    <Transition MemberWithEditToken="eCrafter" NextState="eCrafterEnterAnswersToStoryQuestionsOfTest1">
-      <StageDisplayString>Crafter is ready for the 1st (formal) UNS test</StageDisplayString>
-      <StageInstructions></StageInstructions>
-      <AllowableBackwardsTransitions>
-        <AllowableBackwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableBackwardsTransition>
-        <AllowableBackwardsTransition>eCrafterOnlineReview1WithConsultant</AllowableBackwardsTransition>
-      </AllowableBackwardsTransitions>
-      <AllowableForwardsTransitions>
-        <AllowableForwardsTransition>eCrafterEnterAnswersToStoryQuestionsOfTest1</AllowableForwardsTransition>
-        <AllowableForwardsTransition>eCrafterEnterRetellingOfTest1</AllowableForwardsTransition>
-        <AllowableForwardsTransition>eConsultantCheckAnchorsRound2</AllowableForwardsTransition>
-      </AllowableForwardsTransitions>
-      <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="false" viewAnchorFieldMenuItem="false" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="false" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="false" />
-    </Transition>
-  </StageTransition>
-  <StageTransition stage="eCrafterEnterAnswersToStoryQuestionsOfTest1">
-    <Transition MemberWithEditToken="eCrafter" NextState="eCrafterEnterRetellingOfTest1">
-      <StageDisplayString>Crafter enters answers to the test 1 story questions</StageDisplayString>
-      <StageInstructions></StageInstructions>
-      <AllowableBackwardsTransitions>
-        <AllowableBackwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableBackwardsTransition>
-        <AllowableBackwardsTransition>eCrafterOnlineReview1WithConsultant</AllowableBackwardsTransition>
-        <AllowableBackwardsTransition>eCrafterReadyForTest1</AllowableBackwardsTransition>
-      </AllowableBackwardsTransitions>
-      <AllowableForwardsTransitions>
-        <AllowableForwardsTransition>eCrafterEnterRetellingOfTest1</AllowableForwardsTransition>
-        <AllowableForwardsTransition>eConsultantCheckAnchorsRound2</AllowableForwardsTransition>
-      </AllowableForwardsTransitions>
-      <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="false" viewAnchorFieldMenuItem="false" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="false" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="false" />
-    </Transition>
-  </StageTransition>
-  <StageTransition stage="eCrafterEnterRetellingOfTest1">
-    <Transition MemberWithEditToken="eCrafter" NextState="eConsultantCheckAnchorsRound2">
-      <StageDisplayString>Crafter enters test 1 retelling back-translation</StageDisplayString>
-      <StageInstructions></StageInstructions>
-      <AllowableBackwardsTransitions>
-        <AllowableBackwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableBackwardsTransition>
-        <AllowableBackwardsTransition>eCrafterOnlineReview1WithConsultant</AllowableBackwardsTransition>
-        <AllowableBackwardsTransition>eCrafterReadyForTest1</AllowableBackwardsTransition>
-        <AllowableBackwardsTransition>eCrafterEnterAnswersToStoryQuestionsOfTest1</AllowableBackwardsTransition>
-      </AllowableBackwardsTransitions>
-      <AllowableForwardsTransitions>
-        <AllowableForwardsTransition>eConsultantCheckAnchorsRound2</AllowableForwardsTransition>
-      </AllowableForwardsTransitions>
-      <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="false" viewStoryTestingQuestionFieldMenuItem="false" viewRetellingFieldMenuItem="true" viewConsultantNoteFieldMenuItem="false" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="false" />
-    </Transition>
-  </StageTransition>
-  <StageTransition stage="eConsultantCheckAnchorsRound2">
-    <Transition MemberWithEditToken="eConsultantInTraining" NextState="eConsultantCheckAnswersToTestingQuestionsRound2">
-      <StageDisplayString>Consultant checks story anchors for round 2</StageDisplayString>
-      <StageInstructions></StageInstructions>
-      <AllowableBackwardsTransitions>
-        <AllowableBackwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableBackwardsTransition>
-      </AllowableBackwardsTransitions>
-      <AllowableForwardsTransitions>
-        <AllowableForwardsTransition>eConsultantCheckAnswersToTestingQuestionsRound2</AllowableForwardsTransition>
-        <AllowableForwardsTransition>eConsultantCheckRetellingRound2</AllowableForwardsTransition>
-        <AllowableForwardsTransition>eCoachReviewRound2Notes</AllowableForwardsTransition>
-      </AllowableForwardsTransitions>
-      <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="false" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="true" />
-    </Transition>
-  </StageTransition>
-  <StageTransition stage="eConsultantCheckAnswersToTestingQuestionsRound2">
-    <Transition MemberWithEditToken="eConsultantInTraining" NextState="eConsultantCheckRetellingRound2">
-      <StageDisplayString>Consultant checks test 1 answers to story testing questions</StageDisplayString>
-      <StageInstructions></StageInstructions>
-      <AllowableBackwardsTransitions>
-        <AllowableBackwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableBackwardsTransition>
-        <AllowableBackwardsTransition>eConsultantCheckAnchorsRound2</AllowableBackwardsTransition>
-      </AllowableBackwardsTransitions>
-      <AllowableForwardsTransitions>
-        <AllowableForwardsTransition>eConsultantCheckRetellingRound2</AllowableForwardsTransition>
-        <AllowableForwardsTransition>eCoachReviewRound2Notes</AllowableForwardsTransition>
-      </AllowableForwardsTransitions>
-      <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="true" />
-    </Transition>
-  </StageTransition>
-  <StageTransition stage="eConsultantCheckRetellingRound2">
-    <Transition MemberWithEditToken="eConsultantInTraining" NextState="eCoachReviewRound2Notes">
-      <StageDisplayString>Consultant checks test 1 retelling</StageDisplayString>
-      <StageInstructions></StageInstructions>
-      <AllowableBackwardsTransitions>
-        <AllowableBackwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableBackwardsTransition>
-        <AllowableBackwardsTransition>eConsultantCheckAnchorsRound2</AllowableBackwardsTransition>
-        <AllowableBackwardsTransition>eConsultantCheckAnswersToTestingQuestionsRound2</AllowableBackwardsTransition>
-      </AllowableBackwardsTransitions>
-      <AllowableForwardsTransitions>
-        <AllowableForwardsTransition>eCoachReviewRound2Notes</AllowableForwardsTransition>
-      </AllowableForwardsTransitions>
-      <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="false" viewStoryTestingQuestionFieldMenuItem="false" viewRetellingFieldMenuItem="true" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="true" />
-    </Transition>
-  </StageTransition>
-  <StageTransition stage="eCoachReviewRound2Notes">
-    <Transition MemberWithEditToken="eCoach" NextState="eConsultantReviseRound2Notes">
-      <StageDisplayString>Coach reviews test 1 notes</StageDisplayString>
-      <StageInstructions></StageInstructions>
-      <AllowableForwardsTransitions>
-        <AllowableForwardsTransition>eConsultantReviseRound2Notes</AllowableForwardsTransition>
-      </AllowableForwardsTransitions>
-      <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="false" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="true" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="true" viewNetBibleMenuItem="true" />
-    </Transition>
-  </StageTransition>
-  <StageTransition stage="eConsultantReviseRound2Notes">
-    <Transition MemberWithEditToken="eConsultantInTraining" NextState="eCrafterReviseBasedOnRound2Notes">
-      <StageDisplayString>Consultant revises round 2 notes based on Coach's feedback</StageDisplayString>
-      <StageInstructions></StageInstructions>
-      <AllowableForwardsTransitions>
-        <AllowableForwardsTransition>eCrafterReviseBasedOnRound2Notes</AllowableForwardsTransition>
-      </AllowableForwardsTransitions>
-      <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="true" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="true" viewNetBibleMenuItem="true" />
-    </Transition>
-  </StageTransition>
-  <StageTransition stage="eCrafterReviseBasedOnRound2Notes">
-    <Transition MemberWithEditToken="eCrafter" NextState="eCrafterOnlineReview2WithConsultant">
-      <StageDisplayString>Crafter revises story based on round 2 notes</StageDisplayString>
-      <StageInstructions></StageInstructions>
-      <AllowableForwardsTransitions>
-        <AllowableForwardsTransition>eCrafterOnlineReview2WithConsultant</AllowableForwardsTransition>
-        <AllowableForwardsTransition>eCrafterReadyForTest2</AllowableForwardsTransition>
-        <AllowableForwardsTransition>eCrafterEnterAnswersToStoryQuestionsOfTest2</AllowableForwardsTransition>
-        <AllowableForwardsTransition>eCrafterEnterRetellingOfTest2</AllowableForwardsTransition>
-        <AllowableForwardsTransition>eConsultantReviewTest2</AllowableForwardsTransition>
-      </AllowableForwardsTransitions>
-      <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="true" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="true" />
-    </Transition>
-  </StageTransition>
-  <StageTransition stage="eCrafterOnlineReview2WithConsultant">
-    <Transition MemberWithEditToken="eCrafter" NextState="eCrafterReadyForTest2">
-      <StageDisplayString>Crafter has 2nd online review with consultant</StageDisplayString>
-      <StageInstructions></StageInstructions>
-      <AllowableBackwardsTransitions>
-        <AllowableBackwardsTransition>eCrafterReviseBasedOnRound2Notes</AllowableBackwardsTransition>
-      </AllowableBackwardsTransitions>
-      <AllowableForwardsTransitions>
-        <AllowableForwardsTransition>eCrafterReadyForTest2</AllowableForwardsTransition>
-        <AllowableForwardsTransition>eCrafterEnterAnswersToStoryQuestionsOfTest2</AllowableForwardsTransition>
-        <AllowableForwardsTransition>eCrafterEnterRetellingOfTest2</AllowableForwardsTransition>
-        <AllowableForwardsTransition>eConsultantReviewTest2</AllowableForwardsTransition>
-      </AllowableForwardsTransitions>
-      <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="true" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="true" />
-    </Transition>
-  </StageTransition>
-  <StageTransition stage="eCrafterReadyForTest2">
-    <Transition MemberWithEditToken="eCrafter" NextState="eCrafterEnterAnswersToStoryQuestionsOfTest2">
-      <StageDisplayString>Crafter is ready for the second (formal) UNS test</StageDisplayString>
-      <StageInstructions></StageInstructions>
-      <AllowableBackwardsTransitions>
-        <AllowableBackwardsTransition>eCrafterReviseBasedOnRound2Notes</AllowableBackwardsTransition>
-        <AllowableBackwardsTransition>eCrafterOnlineReview2WithConsultant</AllowableBackwardsTransition>
-      </AllowableBackwardsTransitions>
-      <AllowableForwardsTransitions>
-        <AllowableForwardsTransition>eCrafterEnterAnswersToStoryQuestionsOfTest2</AllowableForwardsTransition>
-        <AllowableForwardsTransition>eCrafterEnterRetellingOfTest2</AllowableForwardsTransition>
-        <AllowableForwardsTransition>eConsultantReviewTest2</AllowableForwardsTransition>
-      </AllowableForwardsTransitions>
-      <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="false" viewAnchorFieldMenuItem="false" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="false" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="false" />
-    </Transition>
-  </StageTransition>
-  <StageTransition stage="eCrafterEnterAnswersToStoryQuestionsOfTest2">
-    <Transition MemberWithEditToken="eCrafter" NextState="eCrafterEnterRetellingOfTest2">
-      <StageDisplayString>Crafter enters test 2 answers to story testing questions</StageDisplayString>
-      <StageInstructions></StageInstructions>
-      <AllowableBackwardsTransitions>
-        <AllowableBackwardsTransition>eCrafterReviseBasedOnRound2Notes</AllowableBackwardsTransition>
-        <AllowableBackwardsTransition>eCrafterOnlineReview2WithConsultant</AllowableBackwardsTransition>
-        <AllowableBackwardsTransition>eCrafterReadyForTest2</AllowableBackwardsTransition>
-      </AllowableBackwardsTransitions>
-      <AllowableForwardsTransitions>
-        <AllowableForwardsTransition>eCrafterEnterRetellingOfTest2</AllowableForwardsTransition>
-        <AllowableForwardsTransition>eConsultantReviewTest2</AllowableForwardsTransition>
-      </AllowableForwardsTransitions>
-      <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="false" viewAnchorFieldMenuItem="false" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="false" viewConsultantNoteFieldMenuItem="false" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="false" />
-    </Transition>
-  </StageTransition>
-  <StageTransition stage="eCrafterEnterRetellingOfTest2">
-    <Transition MemberWithEditToken="eCrafter" NextState="eConsultantReviewTest2">
-      <StageDisplayString>Crafter enters test 2 retelling back-translation</StageDisplayString>
-      <StageInstructions></StageInstructions>
-      <AllowableBackwardsTransitions>
-        <AllowableBackwardsTransition>eCrafterReviseBasedOnRound2Notes</AllowableBackwardsTransition>
-        <AllowableBackwardsTransition>eCrafterOnlineReview2WithConsultant</AllowableBackwardsTransition>
-        <AllowableBackwardsTransition>eCrafterReadyForTest2</AllowableBackwardsTransition>
-        <AllowableBackwardsTransition>eCrafterEnterAnswersToStoryQuestionsOfTest2</AllowableBackwardsTransition>
-      </AllowableBackwardsTransitions>
-      <AllowableForwardsTransitions>
-        <AllowableForwardsTransition>eConsultantReviewTest2</AllowableForwardsTransition>
-      </AllowableForwardsTransitions>
-      <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="false" viewStoryTestingQuestionFieldMenuItem="false" viewRetellingFieldMenuItem="true" viewConsultantNoteFieldMenuItem="false" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="false" />
-    </Transition>
-  </StageTransition>
-  <StageTransition stage="eConsultantReviewTest2">
-    <Transition MemberWithEditToken="eConsultantInTraining" NextState="eCoachReviewTest2Notes">
-      <StageDisplayString>Consultant reviews test 2 results</StageDisplayString>
-      <StageInstructions></StageInstructions>
-      <AllowableBackwardsTransitions>
-        <AllowableBackwardsTransition>eCrafterReviseBasedOnRound2Notes</AllowableBackwardsTransition>
-      </AllowableBackwardsTransitions>
-      <AllowableForwardsTransitions>
-        <AllowableForwardsTransition>eCoachReviewTest2Notes</AllowableForwardsTransition>
-      </AllowableForwardsTransitions>
-      <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="true" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="false" viewNetBibleMenuItem="true" />
-    </Transition>
-  </StageTransition>
-  <StageTransition stage="eCoachReviewTest2Notes">
-    <Transition MemberWithEditToken="eCoach" NextState="eTeamComplete">
-      <StageDisplayString>Coach reviews test 2 results</StageDisplayString>
-      <StageInstructions></StageInstructions>
-      <AllowableBackwardsTransitions>
-        <AllowableBackwardsTransition>eConsultantReviseRound2Notes</AllowableBackwardsTransition>
-      </AllowableBackwardsTransitions>
-      <AllowableForwardsTransitions>
-        <AllowableForwardsTransition>eTeamComplete</AllowableForwardsTransition>
-      </AllowableForwardsTransitions>
-      <ViewSettings viewVernacularLangFieldMenuItem="false" viewNationalLangFieldMenuItem="false" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="true" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="true" viewNetBibleMenuItem="true" />
-    </Transition>
-  </StageTransition>
-  <StageTransition stage="eTeamComplete">
-    <Transition MemberWithEditToken="eCrafter" NextState="eTeamComplete">
-      <StageDisplayString>Story testing complete (waiting for panorama completion review)</StageDisplayString>
-      <StageInstructions></StageInstructions>
-      <AllowableBackwardsTransitions>
-        <AllowableBackwardsTransition>eConsultantReviewTest2</AllowableBackwardsTransition>
-      </AllowableBackwardsTransitions>
-      <ViewSettings viewVernacularLangFieldMenuItem="true" viewNationalLangFieldMenuItem="true" viewEnglishBTFieldMenuItem="true" viewAnchorFieldMenuItem="true" viewStoryTestingQuestionFieldMenuItem="true" viewRetellingFieldMenuItem="true" viewConsultantNoteFieldMenuItem="true" viewCoachNotesFieldMenuItem="true" viewNetBibleMenuItem="true" />
-    </Transition>
-  </StageTransition>
-</StageTransitions>
+    </StageInstructions>
+    <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eCrafterTypeInternationalBT</AllowableBackwardsTransition>
+    </AllowableBackwardsTransitions>
+    <AllowableForwardsTransitions>
+      <AllowableForwardsTransition>eCrafterAddStoryQuestions</AllowableForwardsTransition>
+      <AllowableForwardsTransition>eConsultantCheckAnchors</AllowableForwardsTransition>
+    </AllowableForwardsTransitions>
+    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="true" />
+  </StateTransition>
+  <StateTransition stage="eCrafterAddStoryQuestions" MemberTypeWithEditToken="eCrafter" NextState="eConsultantCheckAnchors">
+    <StageDisplayString>Crafter adds story testing questions</StageDisplayString>
+    <StageInstructions></StageInstructions>
+    <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eCrafterTypeInternationalBT</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eCrafterAddAnchors</AllowableBackwardsTransition>
+    </AllowableBackwardsTransitions>
+    <AllowableForwardsTransitions>
+      <AllowableForwardsTransition>eConsultantCheckAnchors</AllowableForwardsTransition>
+    </AllowableForwardsTransitions>
+    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="true" />
+  </StateTransition>
+  <StateTransition stage="eConsultantCheckAnchors" MemberTypeWithEditToken="eConsultantInTraining" NextState="eConsultantCheckStoryQuestions">
+    <StageDisplayString>Consultant checks the story anchors</StageDisplayString>
+    <StageInstructions></StageInstructions>
+    <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eCrafterTypeInternationalBT</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eCrafterAddAnchors</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eCrafterAddStoryQuestions</AllowableBackwardsTransition>
+    </AllowableBackwardsTransitions>
+    <AllowableForwardsTransitions>
+      <AllowableForwardsTransition>eConsultantCheckStoryQuestions</AllowableForwardsTransition>
+      <AllowableForwardsTransition>eCoachReviewRound1Notes</AllowableForwardsTransition>
+    </AllowableForwardsTransitions>
+    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
+  </StateTransition>
+  <StateTransition stage="eConsultantCheckStoryQuestions" MemberTypeWithEditToken="eConsultantInTraining" NextState="eCoachReviewRound1Notes">
+    <StageDisplayString>Consultant checks the story testing questions</StageDisplayString>
+    <StageInstructions></StageInstructions>
+    <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eCrafterTypeInternationalBT</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eCrafterAddAnchors</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eCrafterAddStoryQuestions</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eConsultantCheckAnchors</AllowableBackwardsTransition>
+    </AllowableBackwardsTransitions>
+    <AllowableForwardsTransitions>
+      <AllowableForwardsTransition>eCoachReviewRound1Notes</AllowableForwardsTransition>
+    </AllowableForwardsTransitions>
+    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
+  </StateTransition>
+  <StateTransition stage="eCoachReviewRound1Notes" MemberTypeWithEditToken="eCoach" NextState="eConsultantReviseRound1Notes">
+    <StageDisplayString>Coach reviews round 1 consultant notes</StageDisplayString>
+    <StageInstructions></StageInstructions>
+    <AllowableForwardsTransitions>
+      <AllowableForwardsTransition>eConsultantReviseRound1Notes</AllowableForwardsTransition>
+    </AllowableForwardsTransitions>
+    <ViewSettings viewVernacularLangField="false" viewNationalLangField="false" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
+  </StateTransition>
+  <StateTransition stage="eConsultantReviseRound1Notes" MemberTypeWithEditToken="eConsultantInTraining" NextState="eCrafterReviseBasedOnRound1Notes">
+    <StageDisplayString>Consultant revises round 1 notes based on Coach's feedback</StageDisplayString>
+    <StageInstructions></StageInstructions>
+    <AllowableForwardsTransitions>
+      <AllowableForwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableForwardsTransition>
+    </AllowableForwardsTransitions>
+    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
+  </StateTransition>
+  <StateTransition stage="eCrafterReviseBasedOnRound1Notes" MemberTypeWithEditToken="eCrafter" NextState="eCrafterOnlineReview1WithConsultant">
+    <StageDisplayString>Crafter revises story based on Consultant's feedback</StageDisplayString>
+    <StageInstructions></StageInstructions>
+    <AllowableForwardsTransitions>
+      <AllowableForwardsTransition>eCrafterOnlineReview1WithConsultant</AllowableForwardsTransition>
+      <AllowableForwardsTransition>eCrafterReadyForTest1</AllowableForwardsTransition>
+      <AllowableForwardsTransition>eCrafterEnterAnswersToStoryQuestionsOfTest1</AllowableForwardsTransition>
+      <AllowableForwardsTransition>eCrafterEnterRetellingOfTest1</AllowableForwardsTransition>
+      <AllowableForwardsTransition>eConsultantCheckAnchorsRound2</AllowableForwardsTransition>
+    </AllowableForwardsTransitions>
+    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
+  </StateTransition>
+  <StateTransition stage="eCrafterOnlineReview1WithConsultant" MemberTypeWithEditToken="eCrafter" NextState="eCrafterReadyForTest1">
+    <StageDisplayString>Crafter has 1st online review with consultant</StageDisplayString>
+    <StageInstructions></StageInstructions>
+    <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableBackwardsTransition>
+    </AllowableBackwardsTransitions>
+    <AllowableForwardsTransitions>
+      <AllowableForwardsTransition>eCrafterReadyForTest1</AllowableForwardsTransition>
+      <AllowableForwardsTransition>eCrafterEnterAnswersToStoryQuestionsOfTest1</AllowableForwardsTransition>
+      <AllowableForwardsTransition>eCrafterEnterRetellingOfTest1</AllowableForwardsTransition>
+      <AllowableForwardsTransition>eConsultantCheckAnchorsRound2</AllowableForwardsTransition>
+    </AllowableForwardsTransitions>
+    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
+  </StateTransition>
+  <StateTransition stage="eCrafterReadyForTest1" MemberTypeWithEditToken="eCrafter" NextState="eCrafterEnterAnswersToStoryQuestionsOfTest1">
+    <StageDisplayString>Crafter is ready for the 1st (formal) UNS test</StageDisplayString>
+    <StageInstructions></StageInstructions>
+    <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eCrafterOnlineReview1WithConsultant</AllowableBackwardsTransition>
+    </AllowableBackwardsTransitions>
+    <AllowableForwardsTransitions>
+      <AllowableForwardsTransition>eCrafterEnterAnswersToStoryQuestionsOfTest1</AllowableForwardsTransition>
+      <AllowableForwardsTransition>eCrafterEnterRetellingOfTest1</AllowableForwardsTransition>
+      <AllowableForwardsTransition>eConsultantCheckAnchorsRound2</AllowableForwardsTransition>
+    </AllowableForwardsTransitions>
+    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
+  </StateTransition>
+  <StateTransition stage="eCrafterEnterAnswersToStoryQuestionsOfTest1" MemberTypeWithEditToken="eCrafter" NextState="eCrafterEnterRetellingOfTest1">
+    <StageDisplayString>Crafter enters answers to the test 1 story questions</StageDisplayString>
+    <StageInstructions></StageInstructions>
+    <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eCrafterOnlineReview1WithConsultant</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eCrafterReadyForTest1</AllowableBackwardsTransition>
+    </AllowableBackwardsTransitions>
+    <AllowableForwardsTransitions>
+      <AllowableForwardsTransition>eCrafterEnterRetellingOfTest1</AllowableForwardsTransition>
+      <AllowableForwardsTransition>eConsultantCheckAnchorsRound2</AllowableForwardsTransition>
+    </AllowableForwardsTransitions>
+    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
+  </StateTransition>
+  <StateTransition stage="eCrafterEnterRetellingOfTest1" MemberTypeWithEditToken="eCrafter" NextState="eConsultantCheckAnchorsRound2">
+    <StageDisplayString>Crafter enters test 1 retelling back-translation</StageDisplayString>
+    <StageInstructions></StageInstructions>
+    <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eCrafterOnlineReview1WithConsultant</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eCrafterReadyForTest1</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eCrafterEnterAnswersToStoryQuestionsOfTest1</AllowableBackwardsTransition>
+    </AllowableBackwardsTransitions>
+    <AllowableForwardsTransitions>
+      <AllowableForwardsTransition>eConsultantCheckAnchorsRound2</AllowableForwardsTransition>
+    </AllowableForwardsTransitions>
+    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="true" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
+  </StateTransition>
+  <StateTransition stage="eConsultantCheckAnchorsRound2" MemberTypeWithEditToken="eConsultantInTraining" NextState="eConsultantCheckAnswersToTestingQuestionsRound2">
+    <StageDisplayString>Consultant checks story anchors for round 2</StageDisplayString>
+    <StageInstructions></StageInstructions>
+    <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableBackwardsTransition>
+    </AllowableBackwardsTransitions>
+    <AllowableForwardsTransitions>
+      <AllowableForwardsTransition>eConsultantCheckAnswersToTestingQuestionsRound2</AllowableForwardsTransition>
+      <AllowableForwardsTransition>eConsultantCheckRetellingRound2</AllowableForwardsTransition>
+      <AllowableForwardsTransition>eCoachReviewRound2Notes</AllowableForwardsTransition>
+    </AllowableForwardsTransitions>
+    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
+  </StateTransition>
+  <StateTransition stage="eConsultantCheckAnswersToTestingQuestionsRound2" MemberTypeWithEditToken="eConsultantInTraining" NextState="eConsultantCheckRetellingRound2">
+    <StageDisplayString>Consultant checks test 1 answers to story testing questions</StageDisplayString>
+    <StageInstructions></StageInstructions>
+    <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eConsultantCheckAnchorsRound2</AllowableBackwardsTransition>
+    </AllowableBackwardsTransitions>
+    <AllowableForwardsTransitions>
+      <AllowableForwardsTransition>eConsultantCheckRetellingRound2</AllowableForwardsTransition>
+      <AllowableForwardsTransition>eCoachReviewRound2Notes</AllowableForwardsTransition>
+    </AllowableForwardsTransitions>
+    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
+  </StateTransition>
+  <StateTransition stage="eConsultantCheckRetellingRound2" MemberTypeWithEditToken="eConsultantInTraining" NextState="eCoachReviewRound2Notes">
+    <StageDisplayString>Consultant checks test 1 retelling</StageDisplayString>
+    <StageInstructions></StageInstructions>
+    <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eConsultantCheckAnchorsRound2</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eConsultantCheckAnswersToTestingQuestionsRound2</AllowableBackwardsTransition>
+    </AllowableBackwardsTransitions>
+    <AllowableForwardsTransitions>
+      <AllowableForwardsTransition>eCoachReviewRound2Notes</AllowableForwardsTransition>
+    </AllowableForwardsTransitions>
+    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
+  </StateTransition>
+  <StateTransition stage="eCoachReviewRound2Notes" MemberTypeWithEditToken="eCoach" NextState="eConsultantReviseRound2Notes">
+    <StageDisplayString>Coach reviews test 1 notes</StageDisplayString>
+    <StageInstructions></StageInstructions>
+    <AllowableForwardsTransitions>
+      <AllowableForwardsTransition>eConsultantReviseRound2Notes</AllowableForwardsTransition>
+    </AllowableForwardsTransitions>
+    <ViewSettings viewVernacularLangField="false" viewNationalLangField="false" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
+  </StateTransition>
+  <StateTransition stage="eConsultantReviseRound2Notes" MemberTypeWithEditToken="eConsultantInTraining" NextState="eCrafterReviseBasedOnRound2Notes">
+    <StageDisplayString>Consultant revises round 2 notes based on Coach's feedback</StageDisplayString>
+    <StageInstructions></StageInstructions>
+    <AllowableForwardsTransitions>
+      <AllowableForwardsTransition>eCrafterReviseBasedOnRound2Notes</AllowableForwardsTransition>
+    </AllowableForwardsTransitions>
+    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
+  </StateTransition>
+  <StateTransition stage="eCrafterReviseBasedOnRound2Notes" MemberTypeWithEditToken="eCrafter" NextState="eCrafterOnlineReview2WithConsultant">
+    <StageDisplayString>Crafter revises story based on round 2 notes</StageDisplayString>
+    <StageInstructions></StageInstructions>
+    <AllowableForwardsTransitions>
+      <AllowableForwardsTransition>eCrafterOnlineReview2WithConsultant</AllowableForwardsTransition>
+      <AllowableForwardsTransition>eCrafterReadyForTest2</AllowableForwardsTransition>
+      <AllowableForwardsTransition>eCrafterEnterAnswersToStoryQuestionsOfTest2</AllowableForwardsTransition>
+      <AllowableForwardsTransition>eCrafterEnterRetellingOfTest2</AllowableForwardsTransition>
+      <AllowableForwardsTransition>eConsultantReviewTest2</AllowableForwardsTransition>
+    </AllowableForwardsTransitions>
+    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
+  </StateTransition>
+  <StateTransition stage="eCrafterOnlineReview2WithConsultant" MemberTypeWithEditToken="eCrafter" NextState="eCrafterReadyForTest2">
+    <StageDisplayString>Crafter has 2nd online review with consultant</StageDisplayString>
+    <StageInstructions></StageInstructions>
+    <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eCrafterReviseBasedOnRound2Notes</AllowableBackwardsTransition>
+    </AllowableBackwardsTransitions>
+    <AllowableForwardsTransitions>
+      <AllowableForwardsTransition>eCrafterReadyForTest2</AllowableForwardsTransition>
+      <AllowableForwardsTransition>eCrafterEnterAnswersToStoryQuestionsOfTest2</AllowableForwardsTransition>
+      <AllowableForwardsTransition>eCrafterEnterRetellingOfTest2</AllowableForwardsTransition>
+      <AllowableForwardsTransition>eConsultantReviewTest2</AllowableForwardsTransition>
+    </AllowableForwardsTransitions>
+    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
+  </StateTransition>
+  <StateTransition stage="eCrafterReadyForTest2" MemberTypeWithEditToken="eCrafter" NextState="eCrafterEnterAnswersToStoryQuestionsOfTest2">
+    <StageDisplayString>Crafter is ready for the second (formal) UNS test</StageDisplayString>
+    <StageInstructions></StageInstructions>
+    <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eCrafterReviseBasedOnRound2Notes</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eCrafterOnlineReview2WithConsultant</AllowableBackwardsTransition>
+    </AllowableBackwardsTransitions>
+    <AllowableForwardsTransitions>
+      <AllowableForwardsTransition>eCrafterEnterAnswersToStoryQuestionsOfTest2</AllowableForwardsTransition>
+      <AllowableForwardsTransition>eCrafterEnterRetellingOfTest2</AllowableForwardsTransition>
+      <AllowableForwardsTransition>eConsultantReviewTest2</AllowableForwardsTransition>
+    </AllowableForwardsTransitions>
+    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
+  </StateTransition>
+  <StateTransition stage="eCrafterEnterAnswersToStoryQuestionsOfTest2" MemberTypeWithEditToken="eCrafter" NextState="eCrafterEnterRetellingOfTest2">
+    <StageDisplayString>Crafter enters test 2 answers to story testing questions</StageDisplayString>
+    <StageInstructions></StageInstructions>
+    <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eCrafterReviseBasedOnRound2Notes</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eCrafterOnlineReview2WithConsultant</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eCrafterReadyForTest2</AllowableBackwardsTransition>
+    </AllowableBackwardsTransitions>
+    <AllowableForwardsTransitions>
+      <AllowableForwardsTransition>eCrafterEnterRetellingOfTest2</AllowableForwardsTransition>
+      <AllowableForwardsTransition>eConsultantReviewTest2</AllowableForwardsTransition>
+    </AllowableForwardsTransitions>
+    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
+  </StateTransition>
+  <StateTransition stage="eCrafterEnterRetellingOfTest2" MemberTypeWithEditToken="eCrafter" NextState="eConsultantReviewTest2">
+    <StageDisplayString>Crafter enters test 2 retelling back-translation</StageDisplayString>
+    <StageInstructions></StageInstructions>
+    <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eCrafterReviseBasedOnRound2Notes</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eCrafterOnlineReview2WithConsultant</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eCrafterReadyForTest2</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eCrafterEnterAnswersToStoryQuestionsOfTest2</AllowableBackwardsTransition>
+    </AllowableBackwardsTransitions>
+    <AllowableForwardsTransitions>
+      <AllowableForwardsTransition>eConsultantReviewTest2</AllowableForwardsTransition>
+    </AllowableForwardsTransitions>
+    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="true" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
+  </StateTransition>
+  <StateTransition stage="eConsultantReviewTest2" MemberTypeWithEditToken="eConsultantInTraining" NextState="eCoachReviewTest2Notes">
+    <StageDisplayString>Consultant reviews test 2 results</StageDisplayString>
+    <StageInstructions></StageInstructions>
+    <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eCrafterReviseBasedOnRound2Notes</AllowableBackwardsTransition>
+    </AllowableBackwardsTransitions>
+    <AllowableForwardsTransitions>
+      <AllowableForwardsTransition>eCoachReviewTest2Notes</AllowableForwardsTransition>
+    </AllowableForwardsTransitions>
+    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
+  </StateTransition>
+  <StateTransition stage="eCoachReviewTest2Notes" MemberTypeWithEditToken="eCoach" NextState="eTeamComplete">
+    <StageDisplayString>Coach reviews test 2 results</StageDisplayString>
+    <StageInstructions></StageInstructions>
+    <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eConsultantReviseRound2Notes</AllowableBackwardsTransition>
+    </AllowableBackwardsTransitions>
+    <AllowableForwardsTransitions>
+      <AllowableForwardsTransition>eTeamComplete</AllowableForwardsTransition>
+    </AllowableForwardsTransitions>
+    <ViewSettings viewVernacularLangField="false" viewNationalLangField="false" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
+  </StateTransition>
+  <StateTransition stage="eTeamComplete" MemberTypeWithEditToken="eCrafter" NextState="eTeamComplete">
+    <StageDisplayString>Story testing complete (waiting for panorama completion review)</StageDisplayString>
+    <StageInstructions></StageInstructions>
+    <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eConsultantReviewTest2</AllowableBackwardsTransition>
+    </AllowableBackwardsTransitions>
+    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
+  </StateTransition>
+</ProjectStates>

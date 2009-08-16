@@ -139,7 +139,7 @@ namespace OneStoryProjectEditor
         {
             // this button should only be enabled if a team member is selected
             System.Diagnostics.Debug.Assert(listBoxTeamMembers.SelectedIndex != -1);
-            if (listBoxTeamMembers.SelectedIndex != -1)
+            if (listBoxTeamMembers.SelectedIndex == -1)
                 return;
 
             // first see if the project information has been configured
