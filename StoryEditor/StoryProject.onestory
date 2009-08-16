@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <StoryProject xmlns="http://www.sil.org/computing/schemas/StoryProject.xsd">
-  <stories ProjectName="Kangri">
+  <stories ProjectName="StoryProject">
     <Members>
       <Member name="Pawan" memberType="Crafter" email="koundal@kastanet.org" altPhone="1862230839" phone="93571-99065" memberKey="mem-99CDE60E-453A-4947-8627-83B33223EF0B" />
       <Member name="Karn" memberType="Crafter" email="Karan_Dogra@kastanet.org" phone="93189-69891" memberKey="mem-68A82D25-D414-4489-A484-8F17D8808818" />
@@ -29,7 +29,7 @@
       <verses>
         <verse guid="8B2A9897-B79E-4b86-ADF9-FC73BD7CAF1E">
           <Vernacular>story 1: अज चौंह़ईं पास्‍सेआं जितनिआं भी चीज़ा असां दिखदे हन, इह़ना जो परमेसरैं ई बणाया है ।</Vernacular>
-          <NationalBT>story 1: आज चारों तरफ जितनी भी चीजें हम देखते हैं, इन्‍हें परमेश्‍वर ने ही बनाया है।</NationalBT>
+          <NationalBT>story 1: आज चारों तरफ जितनी भी चीजें हम देखते हैं, इन्‍हें परमेश्‍वर ने ही बनाया है। </NationalBT>
           <InternationalBT>story 1: Whatever things we see around us today, God had made it only.</InternationalBT>
           <anchors>
             <anchor jumpTarget="Gen 2:4">

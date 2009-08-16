@@ -458,6 +458,7 @@
             this.textBoxProjectName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxProjectName.Location = new System.Drawing.Point(104, 3);
             this.textBoxProjectName.Name = "textBoxProjectName";
+            this.textBoxProjectName.ReadOnly = true;
             this.textBoxProjectName.Size = new System.Drawing.Size(358, 20);
             this.textBoxProjectName.TabIndex = 1;
             this.textBoxProjectName.TextChanged += new System.EventHandler(this.textBox_TextChanged);

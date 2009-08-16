@@ -73,66 +73,24 @@ namespace OneStoryProjectEditor.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Collections.Specialized.StringCollection RecentFiles {
+        public global::System.Collections.Specialized.StringCollection RecentProjects {
             get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["RecentFiles"]));
+                return ((global::System.Collections.Specialized.StringCollection)(this["RecentProjects"]));
             }
             set {
-                this["RecentFiles"] = value;
+                this["RecentProjects"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string LastProjectFile {
+        public string LastProject {
             get {
-                return ((string)(this["LastProjectFile"]));
+                return ((string)(this["LastProject"]));
             }
             set {
-                this["LastProjectFile"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"By this stage, you will have already crafted and recorded a story according to the procedure 
-you learned in the workshop. Now you (the crafter) must find an uninitiated native speaker (UNS) 
-to listen to the story line-by-line back-translate it into the national language. Then you will type 
-that back-translation into the verse field(s) in this window.
-
-You can type the entire story (back-translation) into a single verse box. Then when you're 
-finished, right click on the small button in the upper right corner of the verse box (known
-as the 'verse commands' button) and choose 'Split story into verses'. A question box will 
-be displays which asks for the character in that language used to end a sentence (e.g. 
-a 'period' in English, or a danda in Hindi). This command will automatically split the story 
-into verses.
-
-You can also manually add new verse boxes by right-clicking on that same 'verse 
-commands' button and choose either 'Insert new verse(s) before' or 'Add new verse(s) after'.
-Each of these menus has a sub-menu that allows you to insert more than one at a time.
-
-When you are finished entering or splitting the story into separate verses of about one 
-sentence per verse, then click the button in the left-hand side of the status bar and choose 
-'Next Stage' to go to the next stage in the process.")]
-        public string HelpTooltipCrafterTypeNationalBT {
-            get {
-                return ((string)(this["HelpTooltipCrafterTypeNationalBT"]));
-            }
-            set {
-                this["HelpTooltipCrafterTypeNationalBT"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Crafter enters National language back translation")]
-        public string HelpCrafterTypeNationalBT {
-            get {
-                return ((string)(this["HelpCrafterTypeNationalBT"]));
-            }
-            set {
-                this["HelpCrafterTypeNationalBT"] = value;
+                this["LastProject"] = value;
             }
         }
         
@@ -145,46 +103,6 @@ sentence per verse, then click the button in the left-hand side of the status ba
             }
             set {
                 this["LastResourcesUsed"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Crafter enters English language back translation")]
-        public string HelpCrafterTypeInternationalBT {
-            get {
-                return ((string)(this["HelpCrafterTypeInternationalBT"]));
-            }
-            set {
-                this["HelpCrafterTypeInternationalBT"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"In this stage, an uninitiated native speaker (UNS) will back translate
-the story into national language and one of the story crafters will type 
-that back translation into the verse field(s)
- in this window. You can 
-right-click on the small button in the upper right corner of the verse
-pane and choose 'Add new verse(s) after', '<num>' or so to insert 
-some empty verse fields for the story. Alternate, you can type the 
-entire story into a single verse box and then right click on the same
-small 'verse commands' button and choose '
-'.
-This will automatically split the story into verses when you tell it
-which character to use as an 'end-of-sentence' character.
-
-When you are finished entering or splitting the story into separate 
-verses of about one sentence per verse, then click the button in 
-the left-hand side of the status bar and choose 'Next Stage' to go 
-to the next stage in the process.")]
-        public string HelpTooltipCrafterTypeInternationalBT {
-            get {
-                return ((string)(this["HelpTooltipCrafterTypeInternationalBT"]));
-            }
-            set {
-                this["HelpTooltipCrafterTypeInternationalBT"] = value;
             }
         }
         
@@ -227,6 +145,29 @@ to the next stage in the process.")]
         public string DefMyDocsSubfolder {
             get {
                 return ((string)(this["DefMyDocsSubfolder"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection RecentProjectPaths {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["RecentProjectPaths"]));
+            }
+            set {
+                this["RecentProjectPaths"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LastProjectPath {
+            get {
+                return ((string)(this["LastProjectPath"]));
+            }
+            set {
+                this["LastProjectPath"] = value;
             }
         }
     }

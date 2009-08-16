@@ -19,9 +19,6 @@ namespace OneStoryProjectEditor
         internal const string CstrCaption = "OneStory Project Editor";
         internal const string CstrButtonDropTargetName = "buttonDropTarget";
 
-        protected string m_strProjectFilename = null;
-
-        // protected StoryProject m_projFile = null;
         internal StoriesData Stories = null;
         internal StoryData theCurrentStory = null;
 
@@ -29,8 +26,6 @@ namespace OneStoryProjectEditor
         internal TeamMemberData LoggedOnMember = null;
 
         internal bool Modified = false;
-
-        protected const int nMaxRecentFiles = 15;
 
         public StoryEditor()
         {
@@ -44,19 +39,79 @@ namespace OneStoryProjectEditor
                 MessageBox.Show(String.Format("Problem initializing Sword (the Net Bible viewer):{0}{0}{1}", Environment.NewLine, ex.Message), StoryEditor.CstrCaption);
             }
 
-            if (String.IsNullOrEmpty(Properties.Settings.Default.LastUserType))
-                NewProjectFile();
-            else if ((Properties.Settings.Default.LastUserType == TeamMemberData.CstrCrafter)
-                    && !String.IsNullOrEmpty(Properties.Settings.Default.LastProjectFile))
-                OpenProjectFile(Properties.Settings.Default.LastProjectFile);
+            try
+            {
+                if (String.IsNullOrEmpty(Properties.Settings.Default.LastUserType))
+                    NewProjectFile();
+                else if ((Properties.Settings.Default.LastUserType == TeamMemberData.CstrCrafter)
+                        && !String.IsNullOrEmpty(Properties.Settings.Default.LastProject))
+                    OpenProject(Properties.Settings.Default.LastProjectPath, Properties.Settings.Default.LastProject);
+            }
+            catch { }   // this was only a bene anyway, so just ignore it
         }
 
-        // this is now import.
-        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        // this is now browse for project in non-default location.
+        private void browseForProjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            string strProjectName = null;
+            try
             {
-                OpenProjectFile(openFileDialog.FileName);
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    // for this, we have to get the name to use for this project 
+                    //  (which should be the filename without extension)
+                    strProjectName = Path.GetFileNameWithoutExtension(openFileDialog.FileName);
+
+                    // possible scenario. The user has copied a file/project from another machine
+                    //  and has actually put it into the default location. In this case, we don't
+                    //  want to query the user for the project (which has the side effect of
+                    //  forcing the user to overwrite the file--based on the logic it needs
+                    //  for other possible cases). So here, if the project file happens to be in
+                    //  the default location, then just go ahead and open it directly and forget
+                    //  about querying the user for the Project Name (i.e. don't do what's in this
+                    //  if statement)
+                    if (openFileDialog.FileName != ProjectSettings.GetDefaultProjectFileName(strProjectName))
+                    {
+                        // this means that the file is not in the default location... But before we can go ahead, we need to 
+                        //  check to see if a project already exists with this name in the default location on the disk.
+                        // Here's the situation: the user has 'StoryProject' in the default location and tries to 'browse/add'
+                        //  a 'StoryProject' from another location. In that case, it isn't strictly true that finding the one
+                        //  in the default location means we will have to overwrite the existing project file (as threatened in 
+                        //  the message box below). However, it is true, that the RecentProjects list will lose the reference to 
+                        //  the existing one. So if the user cares anything about the existing one at all, they aren't going to 
+                        //  want to do that... So let's be draconian and actually overwrite the file if they say 'yes'. This way, 
+                        //  if they care, they'll say 'no' instead and give it a different name.
+                        string strFilename = ProjectSettings.GetDefaultProjectFileName(strProjectName);
+                        if (File.Exists(strFilename))
+                        {
+                            DialogResult res = MessageBox.Show(String.Format("You already have a project with the name, '{0}'. Do you want to delete the existing one?", strProjectName), CstrCaption, MessageBoxButtons.YesNoCancel);
+                            if (res != DialogResult.Yes)
+                                throw StoryEditor.BackOutWithNoUI;
+
+                            // they want to delete it (so remove all traces of it, so we don't leave around a file which 
+                            //  is no longer being referenced, which they might one day mistake for the current version)
+                            File.Delete(strFilename);   // TODO: probably ought to remove the folder as well and what about the .hg repository?
+
+                            // remove the existing references in the Recent lists too
+                            Properties.Settings.Default.RecentProjects.Remove(strProjectName);
+                            Properties.Settings.Default.RecentProjectPaths.Remove(Path.GetDirectoryName(strFilename));
+                            Properties.Settings.Default.Save();
+                        }
+                    }
+
+                    ProjectSettings projSettings = new ProjectSettings(Path.GetDirectoryName(openFileDialog.FileName), strProjectName);
+                    OpenProject(projSettings);
+                }
+            }
+            catch (BackOutWithNoUIException)
+            {
+                // sub-routine has taken care of the UI, just exit without doing anything
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(String.Format("Unable to import the project '{1}'{0}{0}{2}{0}{0}Contact bob_eaton@sall.com for help",
+                    Environment.NewLine, strProjectName, ex.Message), CstrCaption);
+                return;
             }
         }
 
@@ -80,7 +135,23 @@ namespace OneStoryProjectEditor
             LoggedOnMember = null;
             System.Diagnostics.Debug.Assert(Stories == null);
             teamMembersToolStripMenuItem_Click(null, null);
+
+            if (Stories != null)
+                UpdateRecentlyUsedLists(Stories.ProjSettings);
+
             buttonsStoryStage.Enabled = true;
+        }
+
+        // routines can use this exception to back out of creating a new project without UI 
+        //  (presumably, because they've already done so--e.g. "are you sure you want to 
+        //  overwrite this project + user Cancel)
+        internal class BackOutWithNoUIException : ApplicationException
+        {
+        }
+
+        internal static BackOutWithNoUIException BackOutWithNoUI
+        {
+            get { return new BackOutWithNoUIException(); }
         }
 
         private void teamMembersToolStripMenuItem_Click(object sender, EventArgs e)
@@ -92,7 +163,11 @@ namespace OneStoryProjectEditor
                     Stories = new StoriesData(ref LoggedOnMember);
                     buttonsStoryStage.Enabled = true;
                 }
-                catch (System.Exception ex)
+                catch (BackOutWithNoUIException)
+                {
+                    // sub-routine has taken care of the UI, just exit without doing anything
+                }
+                catch (Exception ex)
                 {
                     MessageBox.Show(String.Format("Unable to open the member list{0}{0}{1}{0}{0}Contact bob_eaton@sall.com for help",
                         Environment.NewLine, ex.Message), CstrCaption);
@@ -109,27 +184,52 @@ namespace OneStoryProjectEditor
             }
         }
 
-        protected void OpenProjectFile(string strProjectFilename)
+        protected void UpdateRecentlyUsedLists(ProjectSettings projSettings)
         {
-            // add this filename to the list of recently used files
-            if (Properties.Settings.Default.RecentFiles.Contains(strProjectFilename))
-                Properties.Settings.Default.RecentFiles.Remove(strProjectFilename);
-            else if (Properties.Settings.Default.RecentFiles.Count > nMaxRecentFiles)
-                Properties.Settings.Default.RecentFiles.RemoveAt(nMaxRecentFiles);
+            // update the recently-used-project-names list
+            if (Properties.Settings.Default.RecentProjects.Contains(projSettings.ProjectName))
+                Properties.Settings.Default.RecentProjects.Remove(projSettings.ProjectName);
+            Properties.Settings.Default.RecentProjects.Insert(0, projSettings.ProjectName);
 
-            Properties.Settings.Default.RecentFiles.Insert(0, strProjectFilename);
-            Properties.Settings.Default.LastProjectFile = strProjectFilename;
+            if (Properties.Settings.Default.RecentProjectPaths.Contains(projSettings.ProjectFolder))
+                Properties.Settings.Default.RecentProjectPaths.Remove(projSettings.ProjectFolder);
+            Properties.Settings.Default.RecentProjectPaths.Insert(0, projSettings.ProjectFolder);
+
+            Properties.Settings.Default.LastProject = projSettings.ProjectName;
+            Properties.Settings.Default.LastProjectPath = projSettings.ProjectFolder;
             Properties.Settings.Default.Save();
+        }
 
+        protected void OpenProject(string strProjectFolder, string strProjectName)
+        {
+            ProjectSettings projSettings = new ProjectSettings(strProjectFolder, strProjectName);
+            OpenProject(projSettings);
+        }
+
+        protected void OpenProject(ProjectSettings projSettings)
+        {
+            // clean up any existing open projects
             CheckForSaveDirtyFile();
             CloseProjectFile();
+
+            // next, insure that the file for the project exists (do this outside the try,
+            //  so the caller is informed of no file (so, for eg., it can remove from recently
+            //  used list.
+            projSettings.ThrowIfProjectFileDoesntExists();
+
+            UpdateRecentlyUsedLists(projSettings);
+
             try
             {
-                StoryProject projFile = new StoryProject();
-                projFile.ReadXml(strProjectFilename);
 
-                // get *all* the data
-                Stories = new StoriesData(projFile, ref LoggedOnMember);
+                // serialize in the file
+                StoryProject projFile = new StoryProject();
+                projFile.ReadXml(projSettings.ProjectFileName);
+
+                // get the data into another structure that we use internally (more flexible)
+                Stories = new StoriesData(projFile, projSettings, ref LoggedOnMember);
+
+                // enable the button
                 buttonsStoryStage.Enabled = true;
 
                 string strStoryToLoad = null;
@@ -148,11 +248,11 @@ namespace OneStoryProjectEditor
                 if (!String.IsNullOrEmpty(strStoryToLoad) && comboBoxStorySelector.Items.Contains(strStoryToLoad))
                     comboBoxStorySelector.SelectedItem = strStoryToLoad;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                string strErrorMsg = String.Format("Unable to open project file '{1}'{0}{0}{2}{0}{0}{3}{0}{0}Send the project file along with the error message to bob_eaton@sall.com for help",
-                    Environment.NewLine, strProjectFilename, 
-                    ((ex.InnerException != null) ? ex.InnerException.Message : Environment.NewLine), ex.Message);
+                string strErrorMsg = String.Format("Unable to open project '{1}'{0}{0}{2}{0}{0}{3}{0}{0}Send the project file along with the error message to bob_eaton@sall.com for help",
+                    Environment.NewLine, projSettings.ProjectName,
+                    ((ex.InnerException != null) ? ex.InnerException.Message : ""), ex.Message);
                 MessageBox.Show(strErrorMsg, CstrCaption);
             }
         }
@@ -197,9 +297,8 @@ namespace OneStoryProjectEditor
 
         private void comboBoxStorySelector_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // TODO: we have to do something. We have to save to move to another story, but we don't want to 
-            // close the m_projFile if we're actually going to another story in this same project....
-            CheckForSaveDirtyFile();    // to see if we should save the current story before moving on.
+            // save the file before moving on.
+            CheckForSaveDirtyFile();
 
             System.Diagnostics.Debug.Assert(!Modified 
                 || (flowLayoutPanelVerses.Controls.Count != 0)
@@ -469,22 +568,14 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private DialogResult CheckForSaveDirtyFile()
+        private void CheckForSaveDirtyFile()
         {
-            DialogResult res = DialogResult.None;
             if (Modified)
-            {
-                res = MessageBox.Show("Do you want to save your changes?", CstrCaption, MessageBoxButtons.YesNoCancel);
-                if (res == DialogResult.Yes)
-                    SaveClicked();
-                else if (res != DialogResult.Cancel)
-                    Modified = false;
-            }
+                SaveClicked();
 
             // do cleanup, because this is always called before starting something new (new file or empty project)
             ClearFlowControls();
             textBoxStoryVerse.Text = "Story";
-            return res;
         }
 
         protected void ClearFlowControls()
@@ -496,25 +587,9 @@ namespace OneStoryProjectEditor
 
         protected void SaveClicked()
         {
-            if (String.IsNullOrEmpty(m_strProjectFilename))
-                SaveAsClicked();
-            else
-                SaveFile(m_strProjectFilename);
-        }
-
-        protected void SaveAsClicked()
-        {
-            if (Stories.ProjSettings != null)
-            {
-                Directory.CreateDirectory(Stories.ProjSettings.ProjectFolder);
-                saveFileDialog.InitialDirectory = Stories.ProjSettings.ProjectFolder;
-            }
-
-            if (this.saveFileDialog.ShowDialog(this) == DialogResult.OK)
-            {
-                m_strProjectFilename = saveFileDialog.FileName;
-                SaveFile(m_strProjectFilename);
-            }
+            System.Diagnostics.Debug.Assert(Stories != null);
+            string strFilename = Stories.ProjSettings.ProjectFileName;
+            SaveFile(strFilename);
         }
 
         protected void SaveXElement(XElement elem, string strFilename)
@@ -524,6 +599,9 @@ namespace OneStoryProjectEditor
                 new XDeclaration("1.0", "utf-8", "yes"),
                 new XElement(StoriesData.ns + "StoryProject",
                     elem));
+
+            if (!Directory.Exists(Path.GetDirectoryName(strFilename)))
+                Directory.CreateDirectory(Path.GetDirectoryName(strFilename));
 
             // save it with an extra extn.
             doc.Save(strFilename + CstrExtraExtnToAvoidClobberingFilesWithFailedSaves);
@@ -551,7 +629,7 @@ namespace OneStoryProjectEditor
         {
             try
             {
-                // let's see if the UNS entered the purpose of this story
+                // let's see if the UNS entered the purpose and resources used on this story
                 System.Diagnostics.Debug.Assert((theCurrentStory != null) && (theCurrentStory.CraftingInfo != null));
                 if (String.IsNullOrEmpty(theCurrentStory.CraftingInfo.StoryPurpose)
                     || String.IsNullOrEmpty(theCurrentStory.CraftingInfo.ResourcesUsed))
@@ -580,12 +658,6 @@ namespace OneStoryProjectEditor
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveClicked();
-        }
-
-        private void saveasToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            m_strProjectFilename = null;
             SaveClicked();
         }
 
@@ -719,26 +791,40 @@ namespace OneStoryProjectEditor
 
         private void projectToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
-            recentFilesToolStripMenuItem.DropDownItems.Clear();
-            foreach (string strRecentFile in Properties.Settings.Default.RecentFiles)
-                recentFilesToolStripMenuItem.DropDownItems.Add(strRecentFile, null, recentFilesToolStripMenuItem_Click);
+            recentProjectsToolStripMenuItem.DropDownItems.Clear();
+            for (int i = 0; i < Properties.Settings.Default.RecentProjects.Count; i++)
+            {
+                string strRecentFile = Properties.Settings.Default.RecentProjects[i];
+                ToolStripItem tsi = recentProjectsToolStripMenuItem.DropDownItems.Add(strRecentFile, null, recentProjectsToolStripMenuItem_Click);
+                tsi.ToolTipText = String.Format("Located in folder '{0}'", Properties.Settings.Default.RecentProjectPaths[i]);
+            }
 
-            recentFilesToolStripMenuItem.Enabled = (recentFilesToolStripMenuItem.DropDownItems.Count > 0);
+            recentProjectsToolStripMenuItem.Enabled = (recentProjectsToolStripMenuItem.DropDownItems.Count > 0);
 
-            saveasToolStripMenuItem.Enabled = saveToolStripMenuItem.Enabled = ((Stories != null) && (Stories.Count > 0));
+            saveToolStripMenuItem.Enabled = (Modified && (Stories != null) && (Stories.Count > 0));
         }
 
-        private void recentFilesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void recentProjectsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ToolStripDropDownItem aRecentFile = (ToolStripDropDownItem)sender;
+            string strProjectName = aRecentFile.Text;
+            System.Diagnostics.Debug.Assert(Properties.Settings.Default.RecentProjects.Contains(strProjectName));
+            int nIndexOfPath = Properties.Settings.Default.RecentProjects.IndexOf(strProjectName);
+            string strProjectPath = Properties.Settings.Default.RecentProjectPaths[nIndexOfPath];
             try
             {
-                OpenProjectFile(aRecentFile.Text);
+                OpenProject(strProjectPath, strProjectName);
+            }
+            catch (ProjectSettings.ProjectFileNotFoundException ex)
+            {
+                // the file doesn't exist anymore, so remove it from the recent used list
+                Properties.Settings.Default.RecentProjects.Remove(strProjectName);
+                Properties.Settings.Default.RecentProjectPaths.Remove(strProjectPath);
+                Properties.Settings.Default.Save();
+                MessageBox.Show(ex.Message, CstrCaption);
             }
             catch (Exception ex)
             {
-                // probably means the file doesn't exist anymore, so remove it from the recent used list
-                Properties.Settings.Default.RecentFiles.Remove(aRecentFile.Text);
                 MessageBox.Show(ex.Message, CstrCaption);
             }
         }

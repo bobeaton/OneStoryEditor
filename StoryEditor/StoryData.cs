@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Xml.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -66,27 +67,26 @@ namespace OneStoryProjectEditor
             // if this is "new", then we won't have a project name yet, so query the user for it
             string strProjectName = QueryProjectName();
             TeamMembers = new TeamMembersData();
-            ProjSettings = new ProjectSettings(strProjectName);
+            ProjSettings = new ProjectSettings(null, strProjectName);
 
             // the LoggedOnMemb might have been passed in from a previous file
             if (loggedOnMember == null)
                 loggedOnMember = GetLogin();
         }
 
-        public StoriesData(StoryProject projFile, ref TeamMemberData loggedOnMember)
+        public StoriesData(StoryProject projFile, ProjectSettings projSettings, ref TeamMemberData loggedOnMember)
         {
-            // if this is "new", then we won't have a project name yet, so query the user for it
-            string strProjectName;
+            // this version comes with a project settings object
+            ProjSettings = projSettings;
+
+            // if the project file we opened doesn't have anything yet.. (shouldn't really happen)
             if (projFile.stories.Count == 0)
-            {
-                strProjectName = QueryProjectName();
-                projFile.stories.AddstoriesRow(strProjectName); // most of the following is expecting it to have a stories row
-            }
+                projFile.stories.AddstoriesRow(ProjSettings.ProjectName);
             else
-                strProjectName = projFile.stories[0].ProjectName;
+                projFile.stories[0].ProjectName = ProjSettings.ProjectName; // in case the user changed it.
 
             TeamMembers = new TeamMembersData(projFile);
-            ProjSettings = new ProjectSettings(projFile, strProjectName);
+            ProjSettings.SerializeProjectSettings(projFile);
 
             // the LoggedOnMemb might have been passed in from a previous file
             if (loggedOnMember == null)
@@ -111,11 +111,33 @@ namespace OneStoryProjectEditor
             return strMemberName;
         }
 
-        protected string QueryProjectName()
+        internal static string QueryProjectName()
         {
-            string strProjectName = Microsoft.VisualBasic.Interaction.InputBox(String.Format("You are creating a brand new OneStory project. Enter the name you want to give this project (e.g. the language name).{0}{0}(if you had intended to edit an existing project, cancel this dialog and use the 'File', 'Open' command)", Environment.NewLine), StoryEditor.CstrCaption, null, 300, 200);
-            if (String.IsNullOrEmpty(strProjectName))
-                throw new ApplicationException("Unable to create a project without a project name!");
+            bool bDoItAgain;
+            string strProjectName = null;
+            do
+            {
+                bDoItAgain = false;
+                strProjectName = Microsoft.VisualBasic.Interaction.InputBox("Enter the name you want to give this project (e.g. the language name).", StoryEditor.CstrCaption, strProjectName, 300, 200);
+                if (String.IsNullOrEmpty(strProjectName))
+                    throw new ApplicationException("Unable to create a project without a project name!");
+
+                // See if there's already a project with this name (which may be elsewhere)
+                for (int i = 0; i < Properties.Settings.Default.RecentProjects.Count; i++)
+                {
+                    string strProject = Properties.Settings.Default.RecentProjects[i];
+                    if (strProject == strProjectName)
+                    {
+                        string strProjectFolder = Properties.Settings.Default.RecentProjectPaths[i];
+                        DialogResult res = MessageBox.Show(String.Format("You already have a project with the name '{0}' that is in another location. If you create this new project with the same name, then you won't be able to access the earlier project that is located in the '{1}' folder. Do you want to continue creating the new project and lose the reference to the earlier project (it won't be deleted if you do)?", strProjectName, strProjectFolder), StoryEditor.CstrCaption, MessageBoxButtons.YesNoCancel);
+                        if (res == DialogResult.Cancel)
+                            throw StoryEditor.BackOutWithNoUI;
+                        if (res == DialogResult.No)
+                            bDoItAgain = true;
+                        break;
+                    }
+                }
+            } while (bDoItAgain);
             return strProjectName;
         }
 
