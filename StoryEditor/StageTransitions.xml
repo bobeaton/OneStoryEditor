@@ -4,9 +4,10 @@
     <StageDisplayString>Crafter enters the National language back-translation</StageDisplayString>
     <StageInstructions>
 By this stage, you will have already crafted and recorded a story according to the procedure
-you learned in the workshop. Now you (the crafter) must find an uninitiated native speaker (UNS)
-to listen to the story line-by-line, and have him or her back-translate it into the national 
-language. Then you will type that back-translation into the verse field(s) in this window.
+you learned in the workshop. Now you (the crafter) must find an uninitiated native speaker 
+(UNS) to listen to the story line-by-line, and have him or her "back-translate" it into the 
+national language (e.g. Hindi). Then you will type that back-translation into the verse field(s) 
+in this window.
 
 You can type the entire story (back-translation) into a single verse box. When you're finished, 
 right click on the small button in the upper right corner of the verse box (known as the 
@@ -19,9 +20,16 @@ You can also manually add new verse boxes by right-clicking on that same 'verse 
 button and choose either 'Insert new verse(s) before' or 'Add new verse(s) after'.
 Each of these menus has a sub-menu that allows you to insert more than one at a time.
 
-When you are finished entering or splitting the story into separate verses of about one
-sentence per verse, then click the button in the left-hand side of the status bar and choose
-'Next Stage' to go to the next stage in the process.
+When you are finished entering or splitting the story into separate verses of one sentence per 
+verse, then click the button in the left-hand side of the status bar with the label 'Next State' 
+to go to the next stage in the process.
+
+The program will check to make sure that each line has one and only one sentence.
+
+At the end, you will also be asked to identify which UNS did the back-translation as well
+as other story information which may not have previously been filled in, such as the purpose
+of the story and the list of resources used in crafting it. You can also access this 
+information by clicking, "Story", and then "Story Information".
     </StageInstructions>
     <AllowableForwardsTransitions>
       <AllowableForwardsTransition>eCrafterTypeInternationalBT</AllowableForwardsTransition>
@@ -34,15 +42,18 @@ sentence per verse, then click the button in the left-hand side of the status ba
   <StateTransition stage="eCrafterTypeInternationalBT" MemberTypeWithEditToken="eCrafter" NextState="eCrafterAddAnchors">
     <StageDisplayString>Crafter enters the English back-translation</StageDisplayString>
     <StageInstructions>
-In this stage, one of the crafting team will back translate the National language back
-translation of the story (e.g. Hindi) into English.
+In this stage, one of the crafting team will translate the National language back
+translation of the story into English.
 
 Unlike the last stage, where the National Language back translation had to done by 
-a UNS, in this state, anyone can do the English back translation.
+a UNS, in this state, anyone can do the English back translation. However, you must be 
+logged in as a Crafter to add this new back-translation.
 
 When you are finished entering the English back translation, then click the button in 
-the left-hand side of the status bar and choose 'Next Stage' to go to the next stage 
+the left-hand side of the status bar with the label 'Next State' to go to the next stage 
 in the process.
+
+The program will check to make sure that each line has one and only one sentence.
     </StageInstructions>
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
@@ -58,11 +69,13 @@ in the process.
     <StageDisplayString>Crafter adds biblical anchors</StageDisplayString>
     <StageInstructions>
 In this stage, one of the crafting team will go through the story verse-by-verse and look
-up Bible reference in the NetBible that supports the information in the verse. These 
-Bible references are known as "Anchors", because they 'fix' the story verse to the Bible.
+up one or more Bible references in the NetBible that supports the information in the verse. 
+These Bible references are known as "Anchors", because they 'fix' the story verse to the 
+Bible.
 
 For example, if your story verse were, "First of all, God made heaven and earth.", then 
-you could use the reference "Gen 1:1" as an 'anchor'. You could also include 
+you could use the reference "Gen 1:1" as the anchor. You could also include a 2nd anchor
+like Col 1:16
 
 back translate the Hindi of the story into
 English. Unlike the last state, where the Hindi back translation had to be from a UNS,

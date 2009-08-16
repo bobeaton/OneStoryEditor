@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.textBoxSizer = new System.Windows.Forms.TextBox();
@@ -38,6 +39,7 @@
             this.numericUpDownChapterNumber = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownVerseNumber = new System.Windows.Forms.NumericUpDown();
             this.textBoxNetFlixViewer = new System.Windows.Forms.TextBox();
+            this.contextMenuStripBibleBooks = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tableLayoutPanel.SuspendLayout();
             this.tableLayoutPanelSpinControls.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownChapterNumber)).BeginInit();
@@ -229,8 +231,14 @@
             this.textBoxNetFlixViewer.ReadOnly = true;
             this.textBoxNetFlixViewer.Size = new System.Drawing.Size(215, 22);
             this.textBoxNetFlixViewer.TabIndex = 6;
+            this.textBoxNetFlixViewer.TabStop = false;
             this.textBoxNetFlixViewer.Text = "NetBible";
             this.textBoxNetFlixViewer.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // contextMenuStripBibleBooks
+            // 
+            this.contextMenuStripBibleBooks.Name = "contextMenuStripBibleBooks";
+            this.contextMenuStripBibleBooks.Size = new System.Drawing.Size(153, 26);
             // 
             // NetBibleViewer
             // 
@@ -256,5 +264,6 @@
         private System.Windows.Forms.NumericUpDown numericUpDownChapterNumber;
         private System.Windows.Forms.NumericUpDown numericUpDownVerseNumber;
         private System.Windows.Forms.TextBox textBoxNetFlixViewer;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripBibleBooks;
     }
 }

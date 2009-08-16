@@ -912,7 +912,7 @@ namespace OneStoryProjectEditor
                     System.Diagnostics.Debug.Assert(theCurrentST.IsTransitionValid(theNewST.CurrentStage));
                     // if this is the last transition before they lose edit privilege, then make
                     //  sure they really want to do this.
-                    if (theCurrentST.IsTerminalTransition(theNewST.CurrentStage))
+                    if (theCurrentST.IsTerminalTransition(theNewST.CurrentStage) && (theNewST.MemberTypeWithEditToken != LoggedOnMember.MemberType))
                         if (MessageBox.Show(
                                 String.Format(theCurrentST.TerminalTransitionMessage,
                                 TeamMemberData.GetMemberTypeAsDisplayString(theNewST.MemberTypeWithEditToken), 
@@ -956,7 +956,7 @@ namespace OneStoryProjectEditor
                 return false;
 
             StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[theCurrentStory.ProjStage.ProjectStage];
-            bool bRet = st.IsReadyForTransition(Stories.ProjSettings, theCurrentStory);
+            bool bRet = st.IsReadyForTransition(this, Stories, theCurrentStory);
             if (bRet)
             {
                 StoryStageLogic.StateTransition stNext = StoryStageLogic.stateTransitions[st.NextState];

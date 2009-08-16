@@ -454,6 +454,7 @@
             this.textBoxStoryVerse.ReadOnly = true;
             this.textBoxStoryVerse.Size = new System.Drawing.Size(521, 29);
             this.textBoxStoryVerse.TabIndex = 3;
+            this.textBoxStoryVerse.TabStop = false;
             this.textBoxStoryVerse.Text = "Story";
             this.textBoxStoryVerse.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -511,6 +512,7 @@
             this.textBoxConsultantNotesTable.ReadOnly = true;
             this.textBoxConsultantNotesTable.Size = new System.Drawing.Size(366, 29);
             this.textBoxConsultantNotesTable.TabIndex = 1;
+            this.textBoxConsultantNotesTable.TabStop = false;
             this.textBoxConsultantNotesTable.Text = "Consultant Notes";
             this.textBoxConsultantNotesTable.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -523,6 +525,7 @@
             this.textBoxCoachNotes.ReadOnly = true;
             this.textBoxCoachNotes.Size = new System.Drawing.Size(366, 29);
             this.textBoxCoachNotes.TabIndex = 2;
+            this.textBoxCoachNotes.TabStop = false;
             this.textBoxCoachNotes.Text = "Coach Notes";
             this.textBoxCoachNotes.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 

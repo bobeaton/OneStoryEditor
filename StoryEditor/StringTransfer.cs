@@ -13,7 +13,8 @@ namespace OneStoryProjectEditor
         public delegate void SetValueDelegate(string strValue);
 
         protected SetValueDelegate theSetValueDelegate = null;
-        protected string Value = null;
+        protected string Value;
+        protected CtrlTextBox _tb = null;
 
         public StringTransfer(string strValue)
         {
@@ -28,8 +29,14 @@ namespace OneStoryProjectEditor
 
         public void SetAssociation(CtrlTextBox tb)
         {
+            _tb = tb;
             tb.Text = Value;
             tb.Tag = theSetValueDelegate;
+        }
+
+        internal CtrlTextBox TextBox
+        {
+            get { return _tb; }
         }
 
         // make it a little non-obvious how to get the string out so we can benefit from compiler-time errors
