@@ -170,7 +170,7 @@
             this.textBoxVernacular.Location = new System.Drawing.Point(104, 89);
             this.textBoxVernacular.Name = "textBoxVernacular";
             this.textBoxVernacular.Size = new System.Drawing.Size(176, 20);
-            this.textBoxVernacular.TabIndex = 3;
+            this.textBoxVernacular.TabIndex = 0;
             this.toolTip.SetToolTip(this.textBoxVernacular, "Enter the name of the language that the stories are going to be crafted into");
             this.textBoxVernacular.TextChanged += new System.EventHandler(this.textBox_TextChanged);
             this.textBoxVernacular.Leave += new System.EventHandler(this.textBoxVernacular_Leave);
@@ -181,7 +181,7 @@
             this.textBoxNationalBTLanguage.Location = new System.Drawing.Point(286, 89);
             this.textBoxNationalBTLanguage.Name = "textBoxNationalBTLanguage";
             this.textBoxNationalBTLanguage.Size = new System.Drawing.Size(176, 20);
-            this.textBoxNationalBTLanguage.TabIndex = 7;
+            this.textBoxNationalBTLanguage.TabIndex = 3;
             this.toolTip.SetToolTip(this.textBoxNationalBTLanguage, "Enter the name of the language that the stories will be back-translated into by t" +
                     "he UNSs (i.e. typically, the National language)");
             this.textBoxNationalBTLanguage.TextChanged += new System.EventHandler(this.textBox_TextChanged);
@@ -193,7 +193,7 @@
             this.textBoxVernacularEthCode.Location = new System.Drawing.Point(104, 115);
             this.textBoxVernacularEthCode.Name = "textBoxVernacularEthCode";
             this.textBoxVernacularEthCode.Size = new System.Drawing.Size(176, 20);
-            this.textBoxVernacularEthCode.TabIndex = 4;
+            this.textBoxVernacularEthCode.TabIndex = 2;
             this.toolTip.SetToolTip(this.textBoxVernacularEthCode, "Enter the 2-3 letter code for this language (e.g. English is \'en\', Hindi is \'hi\')" +
                     "");
             this.textBoxVernacularEthCode.TextChanged += new System.EventHandler(this.textBox_TextChanged);
@@ -204,7 +204,7 @@
             this.textBoxNationalBTEthCode.Location = new System.Drawing.Point(286, 115);
             this.textBoxNationalBTEthCode.Name = "textBoxNationalBTEthCode";
             this.textBoxNationalBTEthCode.Size = new System.Drawing.Size(176, 20);
-            this.textBoxNationalBTEthCode.TabIndex = 8;
+            this.textBoxNationalBTEthCode.TabIndex = 4;
             this.toolTip.SetToolTip(this.textBoxNationalBTEthCode, "Enter the 2-3 letter code for this language (e.g. English is \'en\', Hindi is \'hi\')" +
                     "");
             // 
@@ -225,7 +225,7 @@
             this.textBoxNationalBTSentFullStop.Location = new System.Drawing.Point(286, 141);
             this.textBoxNationalBTSentFullStop.Name = "textBoxNationalBTSentFullStop";
             this.textBoxNationalBTSentFullStop.Size = new System.Drawing.Size(176, 20);
-            this.textBoxNationalBTSentFullStop.TabIndex = 9;
+            this.textBoxNationalBTSentFullStop.TabIndex = 5;
             this.toolTip.SetToolTip(this.textBoxNationalBTSentFullStop, "Enter the punctional character used in this language to end a sentence (e.g. in E" +
                     "nglish, it is the period \'.\', and in Hindi, it is the Devanagari Danda, \'।\')");
             this.textBoxNationalBTSentFullStop.TextChanged += new System.EventHandler(this.textBox_TextChanged);
@@ -461,6 +461,7 @@
             this.textBoxProjectName.ReadOnly = true;
             this.textBoxProjectName.Size = new System.Drawing.Size(358, 20);
             this.textBoxProjectName.TabIndex = 1;
+            this.textBoxProjectName.TabStop = false;
             this.textBoxProjectName.TextChanged += new System.EventHandler(this.textBox_TextChanged);
             // 
             // labelReturnToTeamMemberTabInstructions

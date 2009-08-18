@@ -56,9 +56,9 @@ namespace OneStoryProjectEditor
             this.RowStyles.RemoveAt(RowCount);
         }
 
-        public void InsertColumn(int nLayoutColumnIndex)
+        public void InsertColumn(int nLayoutColumnIndex, ColumnStyle typeColumnSize)
         {
-            int nColumnIndex = this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(SizeType.Percent, 100));
+            int nColumnIndex = this.ColumnStyles.Add(typeColumnSize);
             ColumnCount++;
 
             // if we're inserting in the middle, then we have to move the following controls down
@@ -113,7 +113,7 @@ namespace OneStoryProjectEditor
                 {
                     Control ctrl = this.GetControlFromPosition(j, i);
                     if (ctrl != null)
-                        System.Diagnostics.Debug.WriteLine(String.Format("ctrl(row:{0},column:{1}).Name: {2}; Width: {3}; Height: {4}", i, j, ctrl.ToString(), ctrl.Width.ToString(), ctrl.Height.ToString()));
+                        System.Diagnostics.Debug.WriteLine(String.Format("ctrl(row:{0},column:{1}).Name: {2}; Width: {3}; Height: {4}", i, j, ctrl.Name, ctrl.Width, ctrl.Height));
                     else
                         System.Diagnostics.Debug.WriteLine(String.Format("NO CTRL at: row:{0}, column:{1}", i, j));
                 }

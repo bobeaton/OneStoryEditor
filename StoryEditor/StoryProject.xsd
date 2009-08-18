@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="http://www.sil.org/computing/schemas/StoryProject.xsd" xmlns="http://www.sil.org/computing/schemas/StoryProject.xsd"
-	xmlns:NS="http://www.sil.org/computing/schemas/StoryProject.xsd" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata"
+	xmlns:msdata="urn:schemas-microsoft-com:xml-msdata"
 	version="0.1">
 	<xs:element name="StoryProject">
 		<xs:complexType>
@@ -197,19 +196,19 @@
 			</xs:sequence>
 		</xs:complexType>
 		<xs:key name="MemberKey" msdata:PrimaryKey="true">
-			<xs:selector xpath=".//NS:Member" />
+			<xs:selector xpath=".//Member" />
 			<xs:field xpath="@memberKey" />
 		</xs:key>
 		<xs:key name="EditEventKey" msdata:PrimaryKey="true">
-			<xs:selector xpath=".//NS:edit" />
+			<xs:selector xpath=".//edit" />
 			<xs:field xpath="@editKey" />
 		</xs:key>
 		<xs:key name="StoryKey" msdata:PrimaryKey="true">
-			<xs:selector xpath=".//NS:story" />
+			<xs:selector xpath=".//story" />
 			<xs:field xpath="@name" />
 		</xs:key>
 		<xs:key name="VerseKey" msdata:PrimaryKey="true">
-			<xs:selector xpath=".//NS:verse" />
+			<xs:selector xpath=".//verse" />
 			<xs:field xpath="@guid" />
 		</xs:key>
 	</xs:element>

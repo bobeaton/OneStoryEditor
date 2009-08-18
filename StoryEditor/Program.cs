@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -22,6 +23,14 @@ namespace OneStoryProjectEditor
                 Properties.Settings.Default.RecentProjectPaths = new System.Collections.Specialized.StringCollection();
 
             bool bNeedToSave = false;
+            System.Diagnostics.Debug.Assert(Properties.Settings.Default.RecentProjects.Count == Properties.Settings.Default.RecentProjectPaths.Count);
+            if (Properties.Settings.Default.RecentProjects.Count != Properties.Settings.Default.RecentProjectPaths.Count)
+            {
+                Properties.Settings.Default.RecentProjects.Clear();
+                Properties.Settings.Default.RecentProjectPaths.Clear();
+                bNeedToSave = true;
+            }
+
             if (bNeedToSave)
                 Properties.Settings.Default.Save();
 

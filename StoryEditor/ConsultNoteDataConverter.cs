@@ -74,14 +74,14 @@ namespace OneStoryProjectEditor
             {
                 System.Diagnostics.Debug.Assert((MentorComment != null) && (MenteeResponse != null) && HasData);
 
-                XElement eleNote = new XElement(StoriesData.ns + InstanceElementName, new XAttribute("round", RoundNum));
+                XElement eleNote = new XElement(InstanceElementName, new XAttribute("round", RoundNum));
                 if (!Visible)
                     eleNote.Add(new XAttribute("visible", "false"));
 
                 if (MentorComment.HasData)
-                    eleNote.Add(new XElement(StoriesData.ns + CommentElementName, MentorComment));
+                    eleNote.Add(new XElement(CommentElementName, MentorComment));
                 if (MenteeResponse.HasData)
-                    eleNote.Add(new XElement(StoriesData.ns + ResponseElementName, MenteeResponse));
+                    eleNote.Add(new XElement(ResponseElementName, MenteeResponse));
 
                 return eleNote;
             }
@@ -243,7 +243,7 @@ namespace OneStoryProjectEditor
             get
             {
                 System.Diagnostics.Debug.Assert(HasData);
-                XElement elemCNDC = new XElement(StoriesData.ns + CollectionElementName);
+                XElement elemCNDC = new XElement(CollectionElementName);
                 foreach (ConsultNoteDataConverter aCNDC in this)
                     if (aCNDC.HasData)
                         elemCNDC.Add(aCNDC.GetXml);

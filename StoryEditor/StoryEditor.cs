@@ -6,9 +6,6 @@ using System.Xml.Linq;
 using System.Windows.Forms;
 using System.IO;
 using System.Xml.Serialization;
-using Chorus.UI.Sync;
-using Chorus.VcsDrivers.Mercurial;
-using Chorus.sync;
 
 namespace OneStoryProjectEditor
 {
@@ -93,8 +90,9 @@ namespace OneStoryProjectEditor
                             File.Delete(strFilename);   // TODO: probably ought to remove the folder as well and what about the .hg repository?
 
                             // remove the existing references in the Recent lists too
-                            Properties.Settings.Default.RecentProjects.Remove(strProjectName);
-                            Properties.Settings.Default.RecentProjectPaths.Remove(Path.GetDirectoryName(strFilename));
+                            int nIndex = Properties.Settings.Default.RecentProjects.IndexOf(strProjectName);
+                            Properties.Settings.Default.RecentProjects.RemoveAt(nIndex);
+                            Properties.Settings.Default.RecentProjectPaths.RemoveAt(nIndex);
                             Properties.Settings.Default.Save();
                         }
                     }
@@ -188,12 +186,13 @@ namespace OneStoryProjectEditor
         {
             // update the recently-used-project-names list
             if (Properties.Settings.Default.RecentProjects.Contains(projSettings.ProjectName))
-                Properties.Settings.Default.RecentProjects.Remove(projSettings.ProjectName);
-            Properties.Settings.Default.RecentProjects.Insert(0, projSettings.ProjectName);
-
-            if (Properties.Settings.Default.RecentProjectPaths.Contains(projSettings.ProjectFolder))
-                Properties.Settings.Default.RecentProjectPaths.Remove(projSettings.ProjectFolder);
-            Properties.Settings.Default.RecentProjectPaths.Insert(0, projSettings.ProjectFolder);
+            {
+                int nIndex = Properties.Settings.Default.RecentProjects.IndexOf(projSettings.ProjectName);
+                Properties.Settings.Default.RecentProjects.RemoveAt(nIndex);
+                Properties.Settings.Default.RecentProjectPaths.RemoveAt(nIndex);
+                Properties.Settings.Default.RecentProjects.Insert(0, projSettings.ProjectName);
+                Properties.Settings.Default.RecentProjectPaths.Insert(0, projSettings.ProjectFolder);
+            }
 
             Properties.Settings.Default.LastProject = projSettings.ProjectName;
             Properties.Settings.Default.LastProjectPath = projSettings.ProjectFolder;
@@ -597,7 +596,7 @@ namespace OneStoryProjectEditor
             // create the root portions of the XML document and tack on the fragment we've been building
             XDocument doc = new XDocument(
                 new XDeclaration("1.0", "utf-8", "yes"),
-                new XElement(StoriesData.ns + "StoryProject",
+                new XElement("StoryProject",
                     elem));
 
             if (!Directory.Exists(Path.GetDirectoryName(strFilename)))
@@ -792,6 +791,7 @@ namespace OneStoryProjectEditor
         private void projectToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
             recentProjectsToolStripMenuItem.DropDownItems.Clear();
+            System.Diagnostics.Debug.Assert(Properties.Settings.Default.RecentProjects.Count == Properties.Settings.Default.RecentProjectPaths.Count);
             for (int i = 0; i < Properties.Settings.Default.RecentProjects.Count; i++)
             {
                 string strRecentFile = Properties.Settings.Default.RecentProjects[i];
@@ -818,8 +818,10 @@ namespace OneStoryProjectEditor
             catch (ProjectSettings.ProjectFileNotFoundException ex)
             {
                 // the file doesn't exist anymore, so remove it from the recent used list
-                Properties.Settings.Default.RecentProjects.Remove(strProjectName);
-                Properties.Settings.Default.RecentProjectPaths.Remove(strProjectPath);
+                int nIndex = Properties.Settings.Default.RecentProjects.IndexOf(strProjectName);
+                System.Diagnostics.Debug.Assert(nIndex != -1);
+                Properties.Settings.Default.RecentProjects.RemoveAt(nIndex);
+                Properties.Settings.Default.RecentProjectPaths.RemoveAt(nIndex);
                 Properties.Settings.Default.Save();
                 MessageBox.Show(ex.Message, CstrCaption);
             }
@@ -831,8 +833,7 @@ namespace OneStoryProjectEditor
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CheckForSaveDirtyFile();
-            this.Close();
+            Close();    // "Closing" event will take care of checking for save
         }
 
         protected string StoryName
@@ -1003,6 +1004,30 @@ namespace OneStoryProjectEditor
                 nIndex--;
             if (nIndex < Stories.Count)
                 comboBoxStorySelector.SelectedItem = Stories[nIndex].StoryName;
+        }
+
+        public static string GetRunningFolder
+        {
+            get
+            {
+                string strCurrentFolder = System.Reflection.Assembly.GetExecutingAssembly().GetModules()[0].FullyQualifiedName;
+                return Path.GetDirectoryName(strCurrentFolder);
+            }
+        }
+
+        private void StoryEditor_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // the CheckForSaveDirtyFile automatically saves... so just to leave the user 
+            //  *some* way of backing out of changes, do it differently if they click the 
+            //  'X' in the upper right corner (i.e. this routine is called)
+            if (Modified)
+            {
+                DialogResult res = MessageBox.Show("Would you like to save your changes before you exit?", CstrCaption, MessageBoxButtons.YesNoCancel);
+                if (res == DialogResult.Cancel)
+                    return;
+                if (res == DialogResult.Yes)
+                    CheckForSaveDirtyFile();
+            }
         }
 
         /*

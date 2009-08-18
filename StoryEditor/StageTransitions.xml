@@ -3,13 +3,13 @@
   <StateTransition stage="eCrafterTypeNationalBT" MemberTypeWithEditToken="eCrafter" NextState="eCrafterTypeInternationalBT">
     <StageDisplayString>Crafter enters the National language back-translation</StageDisplayString>
     <StageInstructions>
-By this stage, you will have already crafted and recorded a story according to the procedure
-you learned in the workshop. Now you (the crafter) must find an uninitiated native speaker 
-(UNS) to listen to the story line-by-line, and have him or her "back-translate" it into the 
-national language (e.g. Hindi). Then you will type that back-translation into the verse field(s) 
+By this stage, you will have already crafted and recorded a story according to the procedure you 
+learned in the workshop. Now you as the story Crafter must find an uninitiated native speaker 
+(UNS) to listen to the story and have him or her "back-translate" it into the national language 
+(e.g. Hindi), line-by-line. Then you will type the back-translation into the verse field(s) 
 in this window.
 
-You can type the entire story (back-translation) into a single verse box. When you're finished, 
+You can type the entire story into a single verse box. When you're finished, 
 right click on the small button in the upper right corner of the verse box (known as the 
 'verse commands' button) and choose 'Split story into verses'. This will automatically split 
 the story into verses. [You might need to click 'File', 'Settings' and on the 

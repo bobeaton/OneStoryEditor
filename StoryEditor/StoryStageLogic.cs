@@ -148,7 +148,7 @@ namespace OneStoryProjectEditor
                     // try the same folder as we're executing out of
                     string strCurrentFolder = System.Reflection.Assembly.GetExecutingAssembly().GetModules()[0].FullyQualifiedName;
                     strCurrentFolder = Path.GetDirectoryName(strCurrentFolder);
-                    string strFileToCheck = String.Format(@"{0}\{1}", strCurrentFolder, CstrStateTransitionsXmlFilename);
+                    string strFileToCheck = String.Format(@"{0}\{1}", StoryEditor.GetRunningFolder, CstrStateTransitionsXmlFilename);
 #if DEBUG
                     if (!File.Exists(strFileToCheck))
                         // on dev machines, this file is in the "..\..\src\EC\TECkit Mapping Editor" folder

@@ -45,12 +45,12 @@ namespace OneStoryProjectEditor
             get
             {
                 System.Diagnostics.Debug.Assert(HasData, String.Format("You have an empty collection of {0} that you're trying to serialize", CollectionElementName));
-                XElement elem = new XElement(StoriesData.ns + CollectionElementName);
+                XElement elem = new XElement(CollectionElementName);
                 for (int i = 0; i < this.Count; i++)
                 {
                     System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(MemberIDs[i]));
                     if (this[i].HasData)
-                        elem.Add(new XElement(StoriesData.ns + InstanceElementName, new XAttribute("memberID", MemberIDs[i]), this[i]));
+                        elem.Add(new XElement(InstanceElementName, new XAttribute("memberID", MemberIDs[i]), this[i]));
                 }
                 return elem;
             }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
 
@@ -74,13 +75,60 @@ namespace OneStoryProjectEditor
         SWModule moduleVersion = null;
         NetBibleFootnoteTooltip tooltipNBFNs = null;
         int m_nBook = 0, m_nChapter = 0, m_nVerse = 0;
+        protected const string CstrNetFreeModuleName = "NETfree";
+        protected const string CstrOtherSwordModules = "Other";
+        protected const string CstrRadioButtonPrefix = "radioButton";
 
+        public class SwordResource
+        {
+            internal string Name;
+            internal string Description;
+            internal bool Loaded;
+
+            internal SwordResource(string strName, string strDescription, bool bLoaded)
+            {
+                Name = strName;
+                Description = strDescription;
+                Loaded = bLoaded;
+            }
+        }
+
+        protected List<SwordResource> lstBibleResources = new List<SwordResource>();
         protected static char[] achAnchorDelimiters = new char[] { ' ', ':' };
+        protected List<string> lstModulesToSuppress = new List<string>
+        {
+            "NETtext"   // probably more to come...
+        };
+
         #endregion
 
         public NetBibleViewer()
         {
             InitializeComponent();
+
+            InitDropDown("Law", 0, 5);
+            InitDropDown("History", 5, 17);
+            InitDropDown("Poetry", 17, 22);
+            InitDropDown("Prophets", 22, 39);
+            InitDropDown("Gospels", 39, 43);
+            InitDropDown("Epistles+", 43, 66);
+
+            domainUpDownBookNames.ContextMenuStrip = contextMenuStripBibleBooks;
+        }
+
+        void InitDropDown(string strDropDownName, int nStart, int nEnd)
+        {
+            ToolStripMenuItem tsmi = new ToolStripMenuItem(strDropDownName);
+            contextMenuStripBibleBooks.Items.Add(tsmi);
+            for (int i = nStart; i < nEnd; i++)
+                tsmi.DropDown.Items.Add((string)domainUpDownBookNames.Items[i], null, BibleBookCtx_Click);
+
+        }
+
+        void BibleBookCtx_Click(object sender, EventArgs e)
+        {
+            ToolStripItem tsi = (ToolStripItem)sender;
+            domainUpDownBookNames.SelectedItem = tsi.Text;
         }
 
         // do this outside of the ctor so in case it throws an error (e.g. Sword not installed),
@@ -116,22 +164,43 @@ namespace OneStoryProjectEditor
             GC.SuppressFinalize(filterManager);
 
             manager = new SWMgr(filterManager);
+            if (manager == null)
+                throw new ApplicationException("Unable to create the Sword utility manager");
+
             foreach (string strPath in GetModuleLocations())
                 manager.augmentModules(strPath);
 
-            moduleVersion = manager.getModule("NETfree");
+            // first determine all the possible resources available
+            int numOfModules = (int)manager.getModules().size();
+            for (int i = 0; i < numOfModules; i++)
+                if (manager.getModuleAt(i).Type().Equals("Biblical Texts")) //Limit to just bibles, comment out to see all modules
+                {
+                    string strModuleName = manager.getModuleAt(i).Name();
+                    if (lstModulesToSuppress.Contains(strModuleName))
+                        continue;
+                    
+                    string strModuleDesc = manager.getModuleAt(i).Description();
+                    if (Properties.Settings.Default.SwordModulesUsed.Contains(strModuleName))
+                    {
+                        lstBibleResources.Add(new SwordResource(strModuleName, strModuleDesc, true));
+                        InitSwordResourceRadioButton(strModuleName);
+                    }
+                    else
+                        lstBibleResources.Add(new SwordResource(strModuleName, strModuleDesc, false));
+                }
+
+            string moduleToStartWith = CstrNetFreeModuleName;
+            if (!string.IsNullOrEmpty(Properties.Settings.Default.LastSwordModuleUsed))
+                moduleToStartWith = Properties.Settings.Default.LastSwordModuleUsed;
+
+            moduleVersion = manager.getModule(moduleToStartWith);
             if (moduleVersion == null)
+                throw new ApplicationException(String.Format("Can't find the Sword module '{0}'. Is Sword installed?", Properties.Settings.Default.SwordModulesUsed[0]));
+
+            if (tableLayoutPanelSpinControls.Controls[CstrRadioButtonPrefix + moduleToStartWith] is RadioButton)
             {
-#if DEBUG
-                string strModules = null;
-                int numOfBibles = (int)manager.getModules().size();
-                for (int i = 0; i < numOfBibles; i++)
-                    if (manager.getModuleAt(i).Type().Equals("Biblical Texts")) //Limit to just bibles, comment out to see all modules
-                        strModules += manager.getModuleAt(i).Name() + '\n';
-                MessageBox.Show(String.Format("Found modules:{0}{0}{1}", Environment.NewLine, strModules), StoryEditor.CstrCaption);
-#else
-                throw new ApplicationException(String.Format("Can't find Sword module '{0}'. Is Sword installed?", "NETfree"));
-#endif
+                RadioButton rb = (RadioButton)tableLayoutPanelSpinControls.Controls[CstrRadioButtonPrefix + moduleToStartWith];
+                rb.Checked = true;
             }
 
             // Setup the active module
@@ -149,6 +218,89 @@ namespace OneStoryProjectEditor
              */
             webBrowserNetBible.ObjectForScripting = this;
         }
+
+        protected RadioButton InitSwordResourceRadioButton(string strModuleName)
+        {
+            RadioButton rb = new RadioButton
+                                 {
+                                     AutoSize = true,
+                                     Name = CstrRadioButtonPrefix + strModuleName,
+                                     Text = strModuleName,
+                                     UseVisualStyleBackColor = true
+                                 };
+            rb.CheckedChanged += rb_CheckedChanged;
+
+            int nIndex = tableLayoutPanelSpinControls.Controls.Count - 1;   // insert at the penultimate position
+            tableLayoutPanelSpinControls.InsertColumn(nIndex, new ColumnStyle(SizeType.AutoSize));
+            tableLayoutPanelSpinControls.Controls.Add(rb, nIndex, 0);
+            return rb;
+        }
+
+        private void radioButtonShowOtherSwordResources_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButtonShowOtherSwordResources.Checked)
+            {
+                ViewSwordOptionsForm dlg = new ViewSwordOptionsForm(ref lstBibleResources);
+                RadioButton rbOn = null;
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    foreach (SwordResource aSR in lstBibleResources)
+                    {
+                        if (aSR.Loaded)
+                        {
+                            if (tableLayoutPanelSpinControls.Controls[CstrRadioButtonPrefix + aSR.Name] == null)
+                                // means the user selected it, but it's not there. So add it
+                                rbOn = InitSwordResourceRadioButton(aSR.Name);
+                            else
+                                rbOn = (RadioButton)tableLayoutPanelSpinControls.Controls[CstrRadioButtonPrefix + aSR.Name];
+
+                            // add this one to the user's list of used modules
+                            if (!Properties.Settings.Default.SwordModulesUsed.Contains(aSR.Name))
+                                Properties.Settings.Default.SwordModulesUsed.Add(aSR.Name);
+                        }
+                        else
+                        {
+                            if (tableLayoutPanelSpinControls.Controls[CstrRadioButtonPrefix + aSR.Name] != null)
+                            {
+                                tableLayoutPanelSpinControls.DumpTable();
+                                // means the user deselected it and it's there. So remove it.
+                                tableLayoutPanelSpinControls.Controls.RemoveByKey(CstrRadioButtonPrefix + aSR.Name);
+                                tableLayoutPanelSpinControls.DumpTable();
+                            }
+
+                            // remove this one to the user's list of used modules
+                            if (Properties.Settings.Default.SwordModulesUsed.Contains(aSR.Name))
+                                Properties.Settings.Default.SwordModulesUsed.Remove(aSR.Name);
+                        }
+                    }
+                }
+
+                if (rbOn != null)
+                    rbOn.Checked = true;
+            }
+        }
+
+        private void rb_CheckedChanged(object sender, EventArgs e)
+        {
+            RadioButton rb = (RadioButton)sender;
+            if (rb.Checked)
+            {
+                TurnOnResource(rb.Text);
+                Properties.Settings.Default.LastSwordModuleUsed = rb.Text;
+                Properties.Settings.Default.Save();
+            }
+        }
+
+        protected void TurnOnResource(string strModuleName)
+        {
+            moduleVersion = manager.getModule(strModuleName);
+            System.Diagnostics.Debug.Assert(moduleVersion != null);
+            m_nBook = 0;    // forces a refresh
+            m_nChapter = 0;
+            m_nVerse = 0;
+            DisplayVerses();
+        }
+
 
         // the anchor comes in as, for example, "gen 1:1"
         // this form is usually called from outside
@@ -191,6 +343,8 @@ namespace OneStoryProjectEditor
 
                 // set this along with scripts for clicks and such into the web browser.
                 webBrowserNetBible.DocumentText = preDocumentDOMScript + sb.ToString() + postDocumentDOMScript;
+
+                Properties.Settings.Default.LastNetBibleReference = ScriptureReference;
             }
 
             // update the updown controls
@@ -232,13 +386,33 @@ namespace OneStoryProjectEditor
             m_bDisableInterrupts = false;
         }
 
-        protected static string[] GetModuleLocations()
+        protected static List<string> GetModuleLocations()
         {
+            List<string> lst = new List<string>();
             string strSwordProjectPath = Environment.GetEnvironmentVariable("SWORD_PATH");
-            if (String.IsNullOrEmpty(strSwordProjectPath))
-                strSwordProjectPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles) + @"\CrossWire\The SWORD Project";
-            return new string[] { strSwordProjectPath };
+            /*
+            if (!String.IsNullOrEmpty(strSwordProjectPath))
+                lst.Add(strSwordProjectPath);
+
+            strSwordProjectPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles) +
+                                  @"\CrossWire\The SWORD Project";
+            if (Directory.Exists(strSwordProjectPath))
+                lst.Add(strSwordProjectPath);
+            */
+#if DEBUG
+            string strWorkingFolder = @"C:\Code\StoryEditor\StoryEditor";
+#else
+            string strWorkingFolder = StoryEditor.GetRunningFolder;
+#endif
+
+            // finally, we put at least the NetBible below our working dir.
+            strSwordProjectPath = String.Format(@"{0}\SWORD", strWorkingFolder);
+            System.Diagnostics.Debug.Assert(Directory.Exists(strSwordProjectPath));
+
+            lst.Add(strSwordProjectPath);
+            return lst;
         }
+
         #endregion  // "Defines for Sword capability"
 
         #region "Callbacks from HTML script"

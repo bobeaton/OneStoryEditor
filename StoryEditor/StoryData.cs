@@ -41,7 +41,7 @@ namespace OneStoryProjectEditor
                     && !String.IsNullOrEmpty(ProjStage.ProjectStage.ToString())
                     && !String.IsNullOrEmpty(StoryGuid));
 
-                XElement elemStory = new XElement(StoriesData.ns + "story",
+                XElement elemStory = new XElement("story",
                         new XAttribute("name", StoryName),
                         new XAttribute("stage", ProjStage.ToString()),
                         new XAttribute("guid", StoryGuid),
@@ -57,8 +57,6 @@ namespace OneStoryProjectEditor
 
     public class StoriesData : List<StoryData>
     {
-        internal static XNamespace ns = "http://www.sil.org/computing/schemas/StoryProject.xsd";
-
         internal TeamMembersData TeamMembers = null;
         internal ProjectSettings ProjSettings = null;
 
@@ -184,7 +182,7 @@ namespace OneStoryProjectEditor
             get
             {
                 XElement elemStories =
-                    new XElement(ns + "stories", new XAttribute("ProjectName", ProjSettings.ProjectName),
+                    new XElement("stories", new XAttribute("ProjectName", ProjSettings.ProjectName),
                         TeamMembers.GetXml,
                         ProjSettings.GetXml);
 
@@ -249,23 +247,23 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                XElement elemCraftingInfo = new XElement(StoriesData.ns + "CraftingInfo",
-                    new XElement(StoriesData.ns + "StoryCrafter", new XAttribute("memberID", StoryCrafterMemberID)));
+                XElement elemCraftingInfo = new XElement("CraftingInfo",
+                    new XElement("StoryCrafter", new XAttribute("memberID", StoryCrafterMemberID)));
 
                 if (!String.IsNullOrEmpty(StoryPurpose))
-                    elemCraftingInfo.Add(new XElement(StoriesData.ns + "StoryPurpose", StoryPurpose));
+                    elemCraftingInfo.Add(new XElement("StoryPurpose", StoryPurpose));
 
                 if (!String.IsNullOrEmpty(ResourcesUsed))
-                    elemCraftingInfo.Add(new XElement(StoriesData.ns + "ResourcesUsed", ResourcesUsed));
+                    elemCraftingInfo.Add(new XElement("ResourcesUsed", ResourcesUsed));
 
                 if (!String.IsNullOrEmpty(BackTranslatorMemberID))
-                    elemCraftingInfo.Add(new XElement(StoriesData.ns + "BackTranslator", new XAttribute("memberID", BackTranslatorMemberID)));
+                    elemCraftingInfo.Add(new XElement("BackTranslator", new XAttribute("memberID", BackTranslatorMemberID)));
 
                 if (Testors.Count > 0)
                 {
-                    XElement elemTestors = new XElement(StoriesData.ns + "Tests");
+                    XElement elemTestors = new XElement("Tests");
                     foreach (KeyValuePair<byte, string> kvp in Testors)
-                        elemTestors.Add(new XElement(StoriesData.ns + "Test", new XAttribute("number", kvp.Key), new XAttribute("memberID", kvp.Value)));
+                        elemTestors.Add(new XElement("Test", new XAttribute("number", kvp.Key), new XAttribute("memberID", kvp.Value)));
                     elemCraftingInfo.Add(elemTestors);
                 }
 

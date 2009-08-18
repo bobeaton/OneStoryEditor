@@ -34,7 +34,7 @@ namespace OneStoryProjectEditor
 
             tableLayoutPanel.Controls.Add(labelReference, 0, 0);
             tableLayoutPanel.Controls.Add(buttonDragDropHandle, 1, 0);
-
+            
             int nNumRows = 1;
             // if the user is requesting one of the story lines (vernacular, nationalBT, or English), then...
             if (aSE.viewVernacularLangFieldMenuItem.Checked || aSE.viewNationalLangFieldMenuItem.Checked || aSE.viewEnglishBTFieldMenuItem.Checked)

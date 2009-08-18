@@ -61,13 +61,13 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                XElement elemVerse = new XElement(StoriesData.ns + "verse", new XAttribute("guid", guid));
+                XElement elemVerse = new XElement("verse", new XAttribute("guid", guid));
                 if (VernacularText.HasData)
-                    elemVerse.Add(new XElement(StoriesData.ns + "Vernacular", VernacularText));
+                    elemVerse.Add(new XElement("Vernacular", VernacularText));
                 if (NationalBTText.HasData)
-                    elemVerse.Add(new XElement(StoriesData.ns + "NationalBT", NationalBTText));
+                    elemVerse.Add(new XElement("NationalBT", NationalBTText));
                 if (InternationalBTText.HasData)
-                    elemVerse.Add(new XElement(StoriesData.ns + "InternationalBT", InternationalBTText));
+                    elemVerse.Add(new XElement("InternationalBT", InternationalBTText));
                 if (Anchors.HasData)
                     elemVerse.Add(Anchors.GetXml);
                 if (TestQuestions.HasData)
@@ -119,7 +119,7 @@ namespace OneStoryProjectEditor
             get
             {
                 System.Diagnostics.Debug.Assert(HasData);
-                XElement elemVerses = new XElement(StoriesData.ns + "verses");
+                XElement elemVerses = new XElement("verses");
                 foreach (VerseData aVerseData in this)
                     elemVerses.Add(aVerseData.GetXml);
                 return elemVerses;

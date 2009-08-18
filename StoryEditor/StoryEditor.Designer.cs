@@ -589,6 +589,7 @@
             this.MainMenuStrip = this.menuStrip;
             this.Name = "StoryEditor";
             this.Text = "OneStory Editor";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.StoryEditor_FormClosing);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.splitContainerLeftRight.Panel1.ResumeLayout(false);

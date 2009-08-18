@@ -107,7 +107,7 @@ namespace OneStoryProjectEditor
             public XElement GetXml(string strLangType)
             {
                 XElement elemLang =
-                    new XElement(StoriesData.ns + strLangType,
+                    new XElement(strLangType,
                         new XAttribute("name", LangName),
                         new XAttribute("code", LangCode),
                         new XAttribute("FontName", Font.Name),
@@ -164,7 +164,7 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                return new XElement(StoriesData.ns + "Languages",
+                return new XElement("Languages",
                     Vernacular.GetXml("VernacularLang"),
                     NationalBT.GetXml("NationalBTLang"),
                     InternationalBT.GetXml("InternationalBTLang"));

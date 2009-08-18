@@ -63,7 +63,7 @@ namespace OneStoryProjectEditor
         // if we insert or remove a row, we have to adjust the following indices
         protected virtual void InsertColumn(int nLayoutColumnIndex)
         {
-            tableLayoutPanel.InsertColumn(nLayoutColumnIndex);
+            tableLayoutPanel.InsertColumn(nLayoutColumnIndex, new ColumnStyle(SizeType.Percent, 100));
         }
 
         protected virtual void RemoveRow(int nLayoutRowIndex)

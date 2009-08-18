@@ -34,11 +34,12 @@
             this.textBoxSizer = new System.Windows.Forms.TextBox();
             this.webBrowserNetBible = new System.Windows.Forms.WebBrowser();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanelSpinControls = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanelSpinControls = new OneStoryProjectEditor.DynamicTableLayoutPanel();
             this.domainUpDownBookNames = new System.Windows.Forms.DomainUpDown();
             this.numericUpDownChapterNumber = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownVerseNumber = new System.Windows.Forms.NumericUpDown();
             this.textBoxNetFlixViewer = new System.Windows.Forms.TextBox();
+            this.radioButtonShowOtherSwordResources = new System.Windows.Forms.RadioButton();
             this.contextMenuStripBibleBooks = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tableLayoutPanel.SuspendLayout();
             this.tableLayoutPanelSpinControls.SuspendLayout();
@@ -91,15 +92,17 @@
             // 
             // tableLayoutPanelSpinControls
             // 
-            this.tableLayoutPanelSpinControls.ColumnCount = 4;
+            this.tableLayoutPanelSpinControls.ColumnCount = 5;
             this.tableLayoutPanelSpinControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelSpinControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelSpinControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelSpinControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanelSpinControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelSpinControls.Controls.Add(this.domainUpDownBookNames, 0, 0);
             this.tableLayoutPanelSpinControls.Controls.Add(this.numericUpDownChapterNumber, 1, 0);
             this.tableLayoutPanelSpinControls.Controls.Add(this.numericUpDownVerseNumber, 2, 0);
             this.tableLayoutPanelSpinControls.Controls.Add(this.textBoxNetFlixViewer, 3, 0);
+            this.tableLayoutPanelSpinControls.Controls.Add(this.radioButtonShowOtherSwordResources, 4, 0);
             this.tableLayoutPanelSpinControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelSpinControls.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanelSpinControls.Name = "tableLayoutPanelSpinControls";
@@ -224,21 +227,38 @@
             // textBoxNetFlixViewer
             // 
             this.textBoxNetFlixViewer.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxNetFlixViewer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxNetFlixViewer.Font = new System.Drawing.Font("Segoe UI", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxNetFlixViewer.Location = new System.Drawing.Point(158, 0);
             this.textBoxNetFlixViewer.Margin = new System.Windows.Forms.Padding(0);
             this.textBoxNetFlixViewer.Name = "textBoxNetFlixViewer";
             this.textBoxNetFlixViewer.ReadOnly = true;
-            this.textBoxNetFlixViewer.Size = new System.Drawing.Size(215, 22);
+            this.textBoxNetFlixViewer.Size = new System.Drawing.Size(362, 22);
             this.textBoxNetFlixViewer.TabIndex = 6;
             this.textBoxNetFlixViewer.TabStop = false;
-            this.textBoxNetFlixViewer.Text = "NetBible";
+            this.textBoxNetFlixViewer.Text = "Bible";
             this.textBoxNetFlixViewer.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // radioButtonShowOtherSwordResources
+            // 
+            this.radioButtonShowOtherSwordResources.AutoSize = true;
+            this.radioButtonShowOtherSwordResources.Location = new System.Drawing.Point(523, 3);
+            this.radioButtonShowOtherSwordResources.Name = "radioButtonShowOtherSwordResources";
+            this.radioButtonShowOtherSwordResources.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonShowOtherSwordResources.TabIndex = 7;
+            this.radioButtonShowOtherSwordResources.TabStop = true;
+            this.radioButtonShowOtherSwordResources.Text = "Other";
+            this.radioButtonShowOtherSwordResources.UseVisualStyleBackColor = true;
+            this.radioButtonShowOtherSwordResources.CheckedChanged += new System.EventHandler(this.radioButtonShowOtherSwordResources_CheckedChanged);
             // 
             // contextMenuStripBibleBooks
             // 
+            this.contextMenuStripBibleBooks.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Table;
             this.contextMenuStripBibleBooks.Name = "contextMenuStripBibleBooks";
-            this.contextMenuStripBibleBooks.Size = new System.Drawing.Size(153, 26);
+            this.contextMenuStripBibleBooks.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.contextMenuStripBibleBooks.ShowImageMargin = false;
+            this.contextMenuStripBibleBooks.ShowItemToolTips = false;
+            this.contextMenuStripBibleBooks.Size = new System.Drawing.Size(36, 4);
             // 
             // NetBibleViewer
             // 
@@ -259,11 +279,12 @@
         #endregion
         private System.Windows.Forms.WebBrowser webBrowserNetBible;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanelSpinControls;
+        private DynamicTableLayoutPanel tableLayoutPanelSpinControls;
         private System.Windows.Forms.DomainUpDown domainUpDownBookNames;
         private System.Windows.Forms.NumericUpDown numericUpDownChapterNumber;
         private System.Windows.Forms.NumericUpDown numericUpDownVerseNumber;
         private System.Windows.Forms.TextBox textBoxNetFlixViewer;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripBibleBooks;
+        private System.Windows.Forms.RadioButton radioButtonShowOtherSwordResources;
     }
 }

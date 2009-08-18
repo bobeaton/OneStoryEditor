@@ -70,6 +70,9 @@ namespace OneStoryProjectEditor
             // if the user hasn't configured the language information, send them there first
             if (String.IsNullOrEmpty(textBoxVernacularEthCode.Text))
                 tabControlProjectMetaData.SelectedTab = tabPageLanguageInfo;
+
+            if (!String.IsNullOrEmpty(textBoxVernacular.Text) && String.IsNullOrEmpty(textBoxVernacularEthCode.Text))
+                ProposeEthnologueCode(textBoxVernacular.Text, textBoxVernacularEthCode);
         }
 
         public string SelectedMember

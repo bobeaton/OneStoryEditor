@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<StoryProject xmlns="http://www.sil.org/computing/schemas/StoryProject.xsd">
+<StoryProject>
   <stories ProjectName="StoryProject">
     <Members>
       <Member name="Pawan" memberType="Crafter" email="koundal@kastanet.org" altPhone="1862230839" phone="93571-99065" memberKey="mem-99CDE60E-453A-4947-8627-83B33223EF0B" />
@@ -15,7 +15,7 @@
       <NationalBTLang name="Hindi" code="hi" FontName="Arial Unicode MS" FontSize="12" FontColor="Green" SentenceFinalPunct="।" />
       <InternationalBTLang name="English" code="en" FontName="Arial Unicode MS" FontSize="11" FontColor="Blue" SentenceFinalPunct="." />
     </Languages>
-    <story name="Spiritual World" stage="CrafterTypeNationalBT" guid="7408CC4B-E0B7-4227-9645-829082B3F637">
+    <story name="Spiritual World" stage="CrafterAddAnchors" guid="7408CC4B-E0B7-4227-9645-829082B3F637">
       <CraftingInfo>
         <StoryCrafter memberID="mem-99CDE60E-453A-4947-8627-83B33223EF0B" />
         <StoryPurpose>To explain where our enemy came from</StoryPurpose>
@@ -29,7 +29,7 @@
       <verses>
         <verse guid="8B2A9897-B79E-4b86-ADF9-FC73BD7CAF1E">
           <Vernacular>story 1: अज चौंह़ईं पास्‍सेआं जितनिआं भी चीज़ा असां दिखदे हन, इह़ना जो परमेसरैं ई बणाया है ।</Vernacular>
-          <NationalBT>story 1: आज चारों तरफ जितनी भी चीजें हम देखते हैं, इन्‍हें परमेश्‍वर ने ही बनाया है। </NationalBT>
+          <NationalBT>story 1: आज चारों तरफ जितनी भी चीजें हम देखते हैं, इन्‍हें परमेश्‍वर ने ही बनाया है।</NationalBT>
           <InternationalBT>story 1: Whatever things we see around us today, God had made it only.</InternationalBT>
           <anchors>
             <anchor jumpTarget="Gen 2:4">
@@ -76,6 +76,10 @@
               <ConsultantResponse>done</ConsultantResponse>
             </CoachNote>
           </CoachNotes>
+        </verse>
+        <verse guid="3ead55ef-1828-47d9-bb00-8e513c3aa42a">
+          <NationalBT>sdgvds।</NationalBT>
+          <InternationalBT>asdg</InternationalBT>
         </verse>
         <verse guid="25F6726D-F0A8-4b38-9EC9-8DBB2919B764">
           <Vernacular>अपर परमेसर इह़ना चीज़ा ते पैह़ले थे, हुण हन, कने तिह़ना म्‍हे़सा तिकर रैह़णा है।</Vernacular>

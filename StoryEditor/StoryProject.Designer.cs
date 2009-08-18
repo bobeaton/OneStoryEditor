@@ -915,7 +915,6 @@ namespace OneStoryProjectEditor {
         private void InitClass() {
             this.DataSetName = "StoryProject";
             this.Prefix = "";
-            this.Namespace = "http://www.sil.org/computing/schemas/StoryProject.xsd";
             this.EnforceConstraints = true;
             this.SchemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
             this.tablestories = new storiesDataTable();
