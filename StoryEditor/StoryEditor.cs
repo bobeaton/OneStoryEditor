@@ -158,7 +158,7 @@ namespace OneStoryProjectEditor
             {
                 try
                 {
-                    Stories = new StoriesData(ref LoggedOnMember);
+                    Stories = GetNewStoriesData;
                     buttonsStoryStage.Enabled = true;
                 }
                 catch (BackOutWithNoUIException)
@@ -177,6 +177,7 @@ namespace OneStoryProjectEditor
                 try
                 {
                     LoggedOnMember = Stories.EditTeamMembers(LoggedOnMember.Name, TeamMemberForm.CstrDefaultOKLabel);
+                    Modified = true;
                 }
                 catch { }   // this might throw if the user cancels, but we don't care
             }
@@ -190,9 +191,10 @@ namespace OneStoryProjectEditor
                 int nIndex = Properties.Settings.Default.RecentProjects.IndexOf(projSettings.ProjectName);
                 Properties.Settings.Default.RecentProjects.RemoveAt(nIndex);
                 Properties.Settings.Default.RecentProjectPaths.RemoveAt(nIndex);
-                Properties.Settings.Default.RecentProjects.Insert(0, projSettings.ProjectName);
-                Properties.Settings.Default.RecentProjectPaths.Insert(0, projSettings.ProjectFolder);
             }
+
+            Properties.Settings.Default.RecentProjects.Insert(0, projSettings.ProjectName);
+            Properties.Settings.Default.RecentProjectPaths.Insert(0, projSettings.ProjectFolder);
 
             Properties.Settings.Default.LastProject = projSettings.ProjectName;
             Properties.Settings.Default.LastProjectPath = projSettings.ProjectFolder;
@@ -256,13 +258,23 @@ namespace OneStoryProjectEditor
             }
         }
 
+        protected StoriesData GetNewStoriesData
+        {
+            get
+            {
+                StoriesData ssd = new StoriesData(ref LoggedOnMember);
+                Modified = true;
+                return ssd;
+            }
+        }
+
         private void comboBoxStorySelector_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)    // user just finished entering a story name to select (or add)
             {
                 if (Stories == null)
                 {
-                    Stories = new StoriesData(ref LoggedOnMember);
+                    Stories = GetNewStoriesData;
                     buttonsStoryStage.Enabled = true;
                 }
 
@@ -307,7 +319,7 @@ namespace OneStoryProjectEditor
             // we might could come thru here without having opened any file (e.g. after New)
             if (Stories == null)
             {
-                Stories = new StoriesData(ref LoggedOnMember);
+                Stories = GetNewStoriesData;
                 buttonsStoryStage.Enabled = true;
             }
 

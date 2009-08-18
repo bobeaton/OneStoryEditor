@@ -15,22 +15,16 @@ namespace OneStoryProjectEditor
         protected string m_strScriptureReference = "gen 1:1";
 
         #region "format strings for HTML items"
-        // protected const string CstrHtmlLineFormat = "<button type=\"button\">{0}</button>{1}<br />";
-        protected const string CstrHtmlLineFormat = "<tr><td><button type=\"button\">{0}</button></td><td>{1}</td>";
         protected const string CstrHtmlTableBegin = "<table border=\"1\">";
+        protected const string CstrHtmlLineFormat = "<tr><td><button type=\"button\">{0}</button></td><td>{1}</td>";
+        protected const string CstrAddFontFormat = "<font face=\"{1}\">{0}</font>";
+        protected const string CstrAddDirFormat = "<p dir=\"RTL\">{0}</p>";
         protected const string CstrHtmlTableEnd = "</table>";
-
         protected const string verseLineBreak = "<br />";
         protected const string preDocumentDOMScript = "<script>" +
             "function OpenHoverWindow(link)" +
             "{" +
             "  window.external.ShowHoverOver(link.getAttribute(\"href\").substr(6,link.length));" +
-            "  return false;" +
-            "}" +
-            "" +
-            "function CloseHoverWindow()" +
-            "{" +
-            "  window.external.HideHoverOver();" +
             "  return false;" +
             "}" +
             "" +
@@ -57,7 +51,6 @@ namespace OneStoryProjectEditor
             "{" +
             "  links[i].onclick = function(){return OpenHoverWindow(this);};" +
             "  links[i].onmouseover = function(){return OpenHoverWindow(this);};" +
-            "  links[i].onmouseout = function(){CloseHoverWindow();};" +
             "}" +
             "var buttons = document.getElementsByTagName(\"button\");" +
             "for (var i=0; i < buttons.length; i++)" +
@@ -70,14 +63,19 @@ namespace OneStoryProjectEditor
         #endregion
 
         #region "Defines for Sword capability"
-        MarkupFilterMgr filterManager = null;
-        SWMgr manager = null;
-        SWModule moduleVersion = null;
-        NetBibleFootnoteTooltip tooltipNBFNs = null;
+        MarkupFilterMgr filterManager;
+        SWMgr manager;
+        SWModule moduleVersion;
+        NetBibleFootnoteTooltip tooltipNBFNs;
         int m_nBook = 0, m_nChapter = 0, m_nVerse = 0;
         protected const string CstrNetFreeModuleName = "NETfree";
         protected const string CstrOtherSwordModules = "Other";
         protected const string CstrRadioButtonPrefix = "radioButton";
+        protected const string CstrFontForHindi = "Arial Unicode MS";
+        protected const string CstrFontForFarsi = "Nafees Nastaleeq";
+        protected const string CstrHindiModule = "HINDI";
+        protected const string CstrFarsiModule = "FarsiOPV";
+
 
         public class SwordResource
         {
@@ -197,12 +195,6 @@ namespace OneStoryProjectEditor
             if (moduleVersion == null)
                 throw new ApplicationException(String.Format("Can't find the Sword module '{0}'. Is Sword installed?", Properties.Settings.Default.SwordModulesUsed[0]));
 
-            if (tableLayoutPanelSpinControls.Controls[CstrRadioButtonPrefix + moduleToStartWith] is RadioButton)
-            {
-                RadioButton rb = (RadioButton)tableLayoutPanelSpinControls.Controls[CstrRadioButtonPrefix + moduleToStartWith];
-                rb.Checked = true;
-            }
-
             // Setup the active module
             // Word of Christ in red
             manager.setGlobalOption("Words of Christ in Red", "On");
@@ -217,6 +209,12 @@ namespace OneStoryProjectEditor
              * -Richard Parsons 01-31-2007
              */
             webBrowserNetBible.ObjectForScripting = this;
+
+            if (tableLayoutPanelSpinControls.Controls[CstrRadioButtonPrefix + moduleToStartWith] is RadioButton)
+            {
+                RadioButton rb = (RadioButton)tableLayoutPanelSpinControls.Controls[CstrRadioButtonPrefix + moduleToStartWith];
+                rb.Checked = true;
+            }
         }
 
         protected RadioButton InitSwordResourceRadioButton(string strModuleName)
@@ -329,8 +327,20 @@ namespace OneStoryProjectEditor
                 {
                     // get the verse and remove any line break signals
                     string strVerseHtml = moduleVersion.RenderText(keyRestOfChapter).Replace(verseLineBreak, null);
+                    if (String.IsNullOrEmpty(strVerseHtml))
+                        strVerseHtml = "Passage not available in this version";
 
                     // insert a button (for drag-drop) and the HTML into a table format
+                    // kindof a cheat, but I don't mind (this should be done better...)
+                    string strModuleVersion = moduleVersion.Name();
+                    if (strModuleVersion == CstrHindiModule)
+                        strVerseHtml = String.Format(CstrAddFontFormat, strVerseHtml, CstrFontForHindi);
+                    else if (strModuleVersion == CstrFarsiModule)
+                    {
+                        strVerseHtml = String.Format(CstrAddDirFormat, strVerseHtml);
+                        strVerseHtml = String.Format(CstrAddFontFormat, strVerseHtml, CstrFontForFarsi);
+                    }
+
                     string strLineHtml = String.Format(CstrHtmlLineFormat, keyRestOfChapter.getShortText(), strVerseHtml);
                     sb.Append(strLineHtml);
 
@@ -358,11 +368,11 @@ namespace OneStoryProjectEditor
             // initialize the combo boxes for this new situation
             if (keyVerse.Verse() != m_nBook)
             {
-                this.domainUpDownBookNames.SelectedItem = keyVerse.getBookAbbrev();
+                domainUpDownBookNames.SelectedItem = keyVerse.getBookAbbrev();
                 m_nBook = keyVerse.Book();
 
                 int nNumChapters = keyVerse.chapterCount(keyVerse.Testament(), keyVerse.Book());
-                this.numericUpDownChapterNumber.Maximum = nNumChapters;
+                numericUpDownChapterNumber.Maximum = nNumChapters;
 
                 // if the book changes, then the chapter number changes implicitly
                 m_nChapter = 0;
@@ -371,16 +381,16 @@ namespace OneStoryProjectEditor
             if (keyVerse.Chapter() != m_nChapter)
             {
                 m_nChapter = keyVerse.Chapter();
-                this.numericUpDownChapterNumber.Value = (decimal)m_nChapter;
+                numericUpDownChapterNumber.Value = m_nChapter;
 
                 int nNumVerses = keyVerse.verseCount(keyVerse.Testament(), keyVerse.Book(), keyVerse.Chapter());
-                this.numericUpDownVerseNumber.Maximum = nNumVerses;
+                numericUpDownVerseNumber.Maximum = nNumVerses;
             }
 
             if (keyVerse.Verse() != m_nVerse)
             {
                 m_nVerse = keyVerse.Verse();
-                this.numericUpDownVerseNumber.Value = (decimal)m_nVerse;
+                numericUpDownVerseNumber.Value = (decimal)m_nVerse;
             }
 
             m_bDisableInterrupts = false;
@@ -390,7 +400,6 @@ namespace OneStoryProjectEditor
         {
             List<string> lst = new List<string>();
             string strSwordProjectPath = Environment.GetEnvironmentVariable("SWORD_PATH");
-            /*
             if (!String.IsNullOrEmpty(strSwordProjectPath))
                 lst.Add(strSwordProjectPath);
 
@@ -398,7 +407,7 @@ namespace OneStoryProjectEditor
                                   @"\CrossWire\The SWORD Project";
             if (Directory.Exists(strSwordProjectPath))
                 lst.Add(strSwordProjectPath);
-            */
+
 #if DEBUG
             string strWorkingFolder = @"C:\Code\StoryEditor\StoryEditor";
 #else
@@ -408,8 +417,8 @@ namespace OneStoryProjectEditor
             // finally, we put at least the NetBible below our working dir.
             strSwordProjectPath = String.Format(@"{0}\SWORD", strWorkingFolder);
             System.Diagnostics.Debug.Assert(Directory.Exists(strSwordProjectPath));
-
             lst.Add(strSwordProjectPath);
+
             return lst;
         }
 
@@ -442,6 +451,8 @@ namespace OneStoryProjectEditor
             DisplayVerses();
         }
 
+        protected NetBibleFootnoteTooltip _theFootnoteForm = null;
+
         public void ShowHoverOver(string s)
         {
             if (tooltipNBFNs != null)
@@ -453,21 +464,14 @@ namespace OneStoryProjectEditor
                 tooltipNBFNs.Dispose();
                 tooltipNBFNs = null;
             }
-            // Point ptTooltip = new Point(Cursor.Position.X - ClientRectangle.Left, Cursor.Position.Y - ClientRectangle.Top);
-            Point ptTooltip = Cursor.Position;
-            ptTooltip.Offset(-ClientRectangle.Location.X + 20, -ClientRectangle.Location.Y - 20);
-            tooltipNBFNs = new NetBibleFootnoteTooltip(s, ptTooltip);
-            tooltipNBFNs.Show();
-        }
 
-        public void HideHoverOver()
-        {
-            if (tooltipNBFNs != null)
-            {
-                //if there is a different tooltip showing destroy it
-                tooltipNBFNs.Dispose();
-                tooltipNBFNs = null;
-            }
+            if (_theFootnoteForm == null)
+                _theFootnoteForm = new NetBibleFootnoteTooltip(manager);
+
+            Point ptTooltip = Cursor.Position;
+            ptTooltip.Offset(-ClientRectangle.Location.X + 30, -ClientRectangle.Location.Y - 30);
+            _theFootnoteForm.ShowFootnote(s, ptTooltip);
+            System.Diagnostics.Debug.WriteLine("ShowHoverOver");
         }
         #endregion // "Callbacks from HTML script"
 

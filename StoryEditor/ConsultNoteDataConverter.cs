@@ -272,7 +272,7 @@ namespace OneStoryProjectEditor
         public override void AddEmpty(int nRound)
         {
             // always add closest to the verse label
-            Insert(0, new ConsultantNoteData(nRound));
+            Insert(0, new CoachNoteData(nRound));
         }
 
         public CoachNotesData()

@@ -12,30 +12,31 @@ namespace OneStoryProjectEditor
 {
 	public partial class NetBibleFootnoteTooltip : Form
 	{
-		SWMgr manager = new SWMgr();
-        SWModule activeModule = null;
+        SWMgr _manager;
+        Dictionary<string, SWModule> _lstModules = new Dictionary<string, SWModule>();
         string action, type, value;
 
-        public NetBibleFootnoteTooltip(string key, Point location)
+        public NetBibleFootnoteTooltip(SWMgr manager)
 		{
+            _manager = manager;
 			InitializeComponent();
+		}
 
-			//Record the key so we don't popup this hover over again
-			this.Tag = key;
+        public void ShowFootnote(string key, Point location)
+        {
+            //Record the key so we don't popup this hover over again
+            Tag = key;
 
-			//Set the location
-			this.Location = location;
+            //Set the location
+            Location = location;
 
-			//Change cursor
-			this.Cursor = Cursors.WaitCursor;
-
-			//Parse the link
+            //Parse the link
             string strModule = null;
-			key = key.Substring(key.IndexOf('?')+1); //key.Replace("passagestudy.jsp?", "");
-			string[] splitKey = key.Split('&');
-			action = splitKey[0].Replace("action=", "");
-			type = splitKey[1].Replace("type=", "");
-			value = splitKey[2].Replace("value=", "");
+            key = key.Substring(key.IndexOf('?') + 1); //key.Replace("passagestudy.jsp?", "");
+            string[] splitKey = key.Split('&');
+            action = splitKey[0].Replace("action=", "");
+            type = splitKey[1].Replace("type=", "");
+            value = splitKey[2].Replace("value=", "");
             if (splitKey.GetUpperBound(0) >= 3)
                 strModule = splitKey[3].Replace("module=", "");
 
@@ -47,6 +48,7 @@ namespace OneStoryProjectEditor
                 strReference = strReference.Replace("+", " ");
             }
 
+            /*
             if (action.Equals("showStrongs") && type.Equals("Greek"))
                 ShowStrongsGreek(value);
             else if (action.Equals("showStrongs") && type.Equals("Hebrew"))
@@ -55,38 +57,56 @@ namespace OneStoryProjectEditor
                 ShowMorphRobinson(value);
             else if (action.Equals("showMorph") && type.Contains("robinson"))
                 ShowMorphRobinson(value);
-            else if (action.Equals("showNote") && type.Contains("x"))
+            else 
+            */
+            if (action.Equals("showNote") && type.Contains("x") && !String.IsNullOrEmpty(strModule))
             {
-                SWModule module = manager.getModule(strModule);
-                ShowNote(module, new SWKey(strReference), value);
+                // I'm imagining that the module of the note could be different from the module of the text
+                SWModule moduleForNote;
+                if (!_lstModules.TryGetValue(strModule, out moduleForNote))
+                {
+                    moduleForNote = _manager.getModule(strModule);
+                    _lstModules.Add(strModule, moduleForNote);
+                }
+                ShowNote(moduleForNote, new SWKey(strReference), value);
             }
-            else if (action.Equals("showNote") && type.Contains("n"))
+            else if (action.Equals("showNote") && type.Contains("n") && !String.IsNullOrEmpty(strModule))
             {
-                SWModule module = manager.getModule(strModule);
-                ShowNote(module, new SWKey(strReference), value);
+                // I'm imagining that the module of the note could be different from the module of the text
+                SWModule moduleForNote;
+                if (!_lstModules.TryGetValue(strModule, out moduleForNote))
+                {
+                    moduleForNote = _manager.getModule(strModule);
+                    _lstModules.Add(strModule, moduleForNote);
+                }
+                ShowNote(moduleForNote, new SWKey(strReference), value);
             }
             else
+            {
+                System.Diagnostics.Debug.Assert(false);
                 SetDisplayText("");
+            }
 
-			//Change cursor
-			this.Cursor = Cursors.Default;
-		}
+            Show();
+            webBrowser.Focus();
+        }
 
         private void ShowNote(SWModule module, SWKey tmpKey, string NoteType)
         {
-            string s = tmpKey.getText();
             AttributeListMap list;
             AttributeTypeListMap listType;
             AttributeValueMap listValue;
 
-            manager.setGlobalOption("Footnotes", "On");
-            s = module.RenderText(tmpKey);
+            // this line looks like it's not needed, but it is. It has some non-obvious side effect
+            //  such that if it's missing, then the call to "list.get(new SWBuf(NoteType));" fails
+            string s = module.RenderText(tmpKey);
+
             listType = module.getEntryAttributesMap();
             list = listType.get(new SWBuf("Footnote"));
             listValue = list.get(new SWBuf(NoteType));
-            s = listValue.get(new SWBuf("body")).c_str();
+            string strFootnote = listValue.get(new SWBuf("body")).c_str();
 
-            SetDisplayText(module.StripText(s));
+            SetDisplayText(strFootnote);    // module.StripText(strFootnote));
         }
 
         internal void SetDisplayText(string text)
@@ -95,15 +115,41 @@ namespace OneStoryProjectEditor
 			if (string.IsNullOrEmpty(text))
 				text =
 				  "UNKNOWN KEY\r\n\r\n"
-				+ "Key: " + this.Tag + "\r\n"
+				+ "Key: " + Tag + "\r\n"
 				+ "Action: " + action + "\r\n"
 				+ "Type: " + type + "\r\n"
 				+ "Value: " + value + "\r\n";
 
-			//Display strongs information
-			lblText.Text = text.Replace("<br>", "\r\n").Replace("<br />", "\r\n");
+            // c_str is incorrectly returning a utf-8 encode string as widened utf-16, so work-around:
+            byte[] aby = Encoding.Default.GetBytes(text);
+            text = Encoding.UTF8.GetString(aby);
+
+			//Display text in a web browser so we get Greek/Hebrew, etc.
+            webBrowser.DocumentText = text; // .Replace("<br>", "\r\n").Replace("<br />", "\r\n");
 		}
 
+        private void NetBibleFootnoteTooltip_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine("NetBibleFootnoteTooltip_FormClosing");
+            Hide();
+            e.Cancel = true;
+        }
+
+        private void webBrowser_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine(String.Format("webBrowser_PreviewKeyDown: KeyCode: {0}", e.KeyCode));
+            if (e.KeyCode == Keys.Escape)
+                Close();
+        }
+
+        private void NetBibleFootnoteTooltip_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine(String.Format("NetBibleFootnoteTooltip_PreviewKeyDown: KeyCode: {0}", e.KeyCode));
+            if (e.KeyCode == Keys.Escape)
+                Close();
+        }
+
+        /*
 		private void ShowStrongsGreek(string value)
 		{
 			//Get the current verse info
@@ -139,5 +185,6 @@ namespace OneStoryProjectEditor
 			//Display strongs information
 			SetDisplayText(activeModule.RenderText(swKey));
 		}
+        */
 	}
 }

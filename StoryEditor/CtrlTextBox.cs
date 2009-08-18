@@ -64,7 +64,7 @@ namespace OneStoryProjectEditor
                     {
                         // then throw if this is not him or her (fall thru otherwise)
                         if (theSE.LoggedOnMember.MemberType != _eRequiredEditor)
-                            throw new ApplicationException(String.Format("Only a '{0}' can edit this field type.", TeamMemberData.GetMemberTypeAsDisplayString(_eRequiredEditor)));
+                            throw new ApplicationException(String.Format("Only a '{0}' can edit this field", TeamMemberData.GetMemberTypeAsDisplayString(_eRequiredEditor)));
                     }
 
                     // finally, the last possible blockage is if the currently logged on member isn't the 

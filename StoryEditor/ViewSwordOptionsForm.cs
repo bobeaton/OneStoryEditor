@@ -11,7 +11,7 @@ namespace OneStoryProjectEditor
 {
     public partial class ViewSwordOptionsForm : Form
     {
-        protected const string CstrSwordLink = "www.crosswire.org/sword/software/biblecs";
+        protected const string CstrSwordLink = "www.crosswire.org/sword/modules/ModDisp.jsp?modType=Bibles";
 
         protected List<NetBibleViewer.SwordResource> _lstBibleResources;
 
@@ -22,7 +22,7 @@ namespace OneStoryProjectEditor
             InitializeComponent();
 
             foreach (NetBibleViewer.SwordResource aSR in lstBibleResources)
-                checkedListBoxSwordBibles.Items.Add(aSR.Description, aSR.Loaded);
+                checkedListBoxSwordBibles.Items.Add(String.Format("{0}: {1}", aSR.Name, aSR.Description), aSR.Loaded);
 
             linkLabelLinkToSword.Links.Add(6, 4, CstrSwordLink);
         }
@@ -30,10 +30,7 @@ namespace OneStoryProjectEditor
         private void buttonOK_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < checkedListBoxSwordBibles.Items.Count; i++)
-            {
-                string strItem = (string)checkedListBoxSwordBibles.Items[i];
                 _lstBibleResources[i].Loaded = checkedListBoxSwordBibles.GetItemChecked(i);
-            }
 
             DialogResult = DialogResult.OK;
             Close();

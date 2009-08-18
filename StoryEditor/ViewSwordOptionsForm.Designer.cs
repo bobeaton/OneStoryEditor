@@ -71,13 +71,14 @@
             // 
             // linkLabelLinkToSword
             // 
+            this.linkLabelLinkToSword.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.linkLabelLinkToSword.AutoSize = true;
             this.linkLabelLinkToSword.Location = new System.Drawing.Point(13, 363);
             this.linkLabelLinkToSword.Name = "linkLabelLinkToSword";
-            this.linkLabelLinkToSword.Size = new System.Drawing.Size(325, 17);
+            this.linkLabelLinkToSword.Size = new System.Drawing.Size(366, 17);
             this.linkLabelLinkToSword.TabIndex = 3;
             this.linkLabelLinkToSword.TabStop = true;
-            this.linkLabelLinkToSword.Text = "Click here to learn about more Sword resources available to you";
+            this.linkLabelLinkToSword.Text = "Click here to learn about other Bible versions you can download and use";
             this.linkLabelLinkToSword.UseCompatibleTextRendering = true;
             this.linkLabelLinkToSword.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelLinkToSword_LinkClicked);
             // 
@@ -93,6 +94,8 @@
             this.Controls.Add(this.buttonOK);
             this.Controls.Add(this.checkedListBoxSwordBibles);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "ViewSwordOptionsForm";
             this.Text = "Sword Biblical Texts";
             this.ResumeLayout(false);

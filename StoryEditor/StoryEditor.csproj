@@ -18,13 +18,10 @@
     <GenerateManifests>true</GenerateManifests>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <SignManifests>true</SignManifests>
-    <ManifestCertificateThumbprint>F914C1BEB491538EA349EAE5263186515C1947D4</ManifestCertificateThumbprint>
-    <ManifestKeyFile>StoryEditor_TemporaryKey.pfx</ManifestKeyFile>
     <PublishUrl>ftp://ftp.seedconnect.org/OneStoryEditor/</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateEnabled>true</UpdateEnabled>
     <UpdateMode>Foreground</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
     <UpdateIntervalUnits>Days</UpdateIntervalUnits>
@@ -35,7 +32,6 @@
     <ProductName>OneStory Editor</ProductName>
     <PublisherName>SIL</PublisherName>
     <SuiteName>OneStory</SuiteName>
-    <AutorunEnabled>true</AutorunEnabled>
     <ApplicationRevision>3</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
@@ -324,7 +320,6 @@
     <Content Include="StageTransitions.xml" />
     <None Include="Properties\app.manifest" />
     <None Include="Resources\DragDropHandle.bmp" />
-    <None Include="StoryEditor_TemporaryKey.pfx" />
     <None Include="StoryProject.onestory" />
     <None Include="StoryProject.xsd">
       <Generator>MSDataSetGenerator</Generator>
@@ -333,6 +328,23 @@
     <None Include="StoryProject.xsx">
       <DependentUpon>StoryProject.xsd</DependentUpon>
     </None>
+    <Content Include="SWORD\modules\texts\ztext\bbe\bbe.doc" />
+    <Content Include="SWORD\modules\texts\ztext\bbe\nt.bzs" />
+    <Content Include="SWORD\modules\texts\ztext\bbe\nt.bzv" />
+    <Content Include="SWORD\modules\texts\ztext\bbe\nt.bzz" />
+    <Content Include="SWORD\modules\texts\ztext\bbe\ot.bzs" />
+    <Content Include="SWORD\modules\texts\ztext\bbe\ot.bzv" />
+    <Content Include="SWORD\modules\texts\ztext\bbe\ot.bzz" />
+    <Content Include="SWORD\modules\texts\ztext\bwe\nt.bzs" />
+    <Content Include="SWORD\modules\texts\ztext\bwe\nt.bzv" />
+    <Content Include="SWORD\modules\texts\ztext\bwe\nt.bzz" />
+    <Content Include="SWORD\modules\texts\ztext\farsiopv\errata" />
+    <Content Include="SWORD\modules\texts\ztext\farsiopv\nt.bzs" />
+    <Content Include="SWORD\modules\texts\ztext\farsiopv\nt.bzv" />
+    <Content Include="SWORD\modules\texts\ztext\farsiopv\nt.bzz" />
+    <Content Include="SWORD\modules\texts\ztext\farsiopv\ot.bzs" />
+    <Content Include="SWORD\modules\texts\ztext\farsiopv\ot.bzv" />
+    <Content Include="SWORD\modules\texts\ztext\farsiopv\ot.bzz" />
     <Content Include="libsword.dll" />
     <Content Include="libsword_csharpsword.dll" />
     <Content Include="SWORD\modules\texts\ztext\hindi\nt.bzs" />
@@ -350,7 +362,9 @@
     <Content Include="SWORD\mods.d\globals.conf" />
     <Content Include="SWORD\mods.d\hindi.conf" />
     <Content Include="SWORD\mods.d\netfree.conf" />
-    <Content Include="SWORD\mods.d\nettext.conf" />
+    <Content Include="SWORD\mods.d\bbe.conf" />
+    <Content Include="SWORD\mods.d\bwe.conf" />
+    <Content Include="SWORD\mods.d\farsiopv.conf" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -473,6 +487,36 @@
       <IncludeHash>True</IncludeHash>
       <FileType>Assembly</FileType>
     </PublishFile>
+    <PublishFile Include="SWORD\mods.d\bbe.conf">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="SWORD\mods.d\bwe.conf">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="SWORD\mods.d\farsiopv.conf">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
     <PublishFile Include="SWORD\mods.d\globals.conf">
       <Visible>False</Visible>
       <Group>
@@ -503,7 +547,167 @@
       <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
-    <PublishFile Include="SWORD\mods.d\nettext.conf">
+    <PublishFile Include="SWORD\modules\texts\ztext\bbe\bbe.doc">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="SWORD\modules\texts\ztext\bbe\nt.bzs">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="SWORD\modules\texts\ztext\bbe\nt.bzv">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="SWORD\modules\texts\ztext\bbe\nt.bzz">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="SWORD\modules\texts\ztext\bbe\ot.bzs">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="SWORD\modules\texts\ztext\bbe\ot.bzv">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="SWORD\modules\texts\ztext\bbe\ot.bzz">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="SWORD\modules\texts\ztext\bwe\nt.bzs">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="SWORD\modules\texts\ztext\bwe\nt.bzv">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="SWORD\modules\texts\ztext\bwe\nt.bzz">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="SWORD\modules\texts\ztext\farsiopv\errata">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="SWORD\modules\texts\ztext\farsiopv\nt.bzs">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="SWORD\modules\texts\ztext\farsiopv\nt.bzv">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="SWORD\modules\texts\ztext\farsiopv\nt.bzz">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="SWORD\modules\texts\ztext\farsiopv\ot.bzs">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="SWORD\modules\texts\ztext\farsiopv\ot.bzv">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="SWORD\modules\texts\ztext\farsiopv\ot.bzz">
       <Visible>False</Visible>
       <Group>
       </Group>
