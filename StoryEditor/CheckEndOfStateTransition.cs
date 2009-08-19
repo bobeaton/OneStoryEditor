@@ -37,7 +37,7 @@ namespace OneStoryProjectEditor
                     
                     if (lstSentences.Count > 1)
                     {
-                        if (MessageBox.Show(String.Format("Verse number '{0}' has multiple sentences. Click Yes to have them separated into their own verses.", nVerseNumber), StoryEditor.CstrCaption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
+                        if (MessageBox.Show(String.Format("Verse number '{0}' has multiple sentences. Click Yes to have them separated into their own verses.", nVerseNumber),  StoriesData.CstrCaption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
                             return false;
 
                         int nNewVerses = lstSentences.Count;
@@ -60,7 +60,7 @@ namespace OneStoryProjectEditor
             // finally, we need to know who (which UNS) did the bt.
             while(String.IsNullOrEmpty(theCurrentStory.CraftingInfo.BackTranslatorMemberID))
             {
-                MessageBox.Show("In the following window, click on the button to select which UNS did this back-translation", StoryEditor.CstrCaption);
+                MessageBox.Show("In the following window, click on the button to select which UNS did this back-translation",  StoriesData.CstrCaption);
                 StoryFrontMatterForm dlg = new StoryFrontMatterForm(theStories, theCurrentStory);
                 dlg.Text = String.Format("Choose the UNS that did the {0} language back-translation", theStories.ProjSettings.NationalBT.LangName);
                 dlg.ShowDialog();

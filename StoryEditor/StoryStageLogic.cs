@@ -73,7 +73,7 @@ namespace OneStoryProjectEditor
                 || (loggedOnMember.MemberType == MemberTypeWithEditToken));
 
             if (!bRet)
-                MessageBox.Show(String.Format("Right now, only a '{0}' can change the state of this story. If you're a {0}, click 'Project', 'Settings' to login. You can log in as a 'Just Looking' member to be able to transition to any state, but without edit privileges.", TeamMemberData.GetMemberTypeAsDisplayString(MemberTypeWithEditToken)), StoryEditor.CstrCaption);
+                MessageBox.Show(String.Format("Right now, only a '{0}' can change the state of this story. If you're a {0}, click 'Project', 'Settings' to login. You can log in as a 'Just Looking' member to be able to transition to any state, but without edit privileges.", TeamMemberData.GetMemberTypeAsDisplayString(MemberTypeWithEditToken)),  StoriesData.CstrCaption);
 
             return bRet;
         }
@@ -148,7 +148,7 @@ namespace OneStoryProjectEditor
                     // try the same folder as we're executing out of
                     string strCurrentFolder = System.Reflection.Assembly.GetExecutingAssembly().GetModules()[0].FullyQualifiedName;
                     strCurrentFolder = Path.GetDirectoryName(strCurrentFolder);
-                    string strFileToCheck = String.Format(@"{0}\{1}", StoryEditor.GetRunningFolder, CstrStateTransitionsXmlFilename);
+                    string strFileToCheck = String.Format(@"{0}\{1}", StoriesData.GetRunningFolder, CstrStateTransitionsXmlFilename);
 #if DEBUG
                     if (!File.Exists(strFileToCheck))
                         // on dev machines, this file is in the "..\..\src\EC\TECkit Mapping Editor" folder
@@ -271,7 +271,9 @@ namespace OneStoryProjectEditor
             internal string StageDisplayString = null;
             internal string TerminalTransitionMessage = "If you change to this next state, then you won't be able to edit the story until after the {0} has done his or her changes. Are you sure you want to change to the '{1}' state?";
             internal string StageInstructions = null;
+#if !DataDllBuild
             public CheckEndOfStateTransition.CheckForValidEndOfState IsReadyForTransition = null;
+#endif
 
             public StateTransition(
                 ProjectStages thisStage,
@@ -292,9 +294,12 @@ namespace OneStoryProjectEditor
                 AllowableForwardsTransitions.AddRange(lstAllowableForwardsStages);
                 _abViewSettings = abViewSettings;
                 string strMethodName = thisStage.ToString().Substring(1);
+
+#if !DataDllBuild
                 IsReadyForTransition = (CheckEndOfStateTransition.CheckForValidEndOfState)Delegate.CreateDelegate(
                     typeof(CheckEndOfStateTransition.CheckForValidEndOfState), 
                     typeof(CheckEndOfStateTransition), strMethodName);
+#endif
             }
 
             public bool IsTerminalTransition(ProjectStages eToStage)
@@ -311,6 +316,7 @@ namespace OneStoryProjectEditor
                     || AllowableForwardsTransitions.Contains(eToStage));
             }
 
+#if !DataDllBuild
             public void SetView(StoryEditor theSE)
             {
                 theSE.viewVernacularLangFieldMenuItem.Checked = _abViewSettings[0];
@@ -323,6 +329,7 @@ namespace OneStoryProjectEditor
                 theSE.viewCoachNotesFieldMenuItem.Checked = _abViewSettings[7];
                 theSE.viewNetBibleMenuItem.Checked = _abViewSettings[8];
             }
+#endif
 
             public XElement GetXml
             {

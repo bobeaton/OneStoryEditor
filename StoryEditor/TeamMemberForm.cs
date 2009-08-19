@@ -94,7 +94,7 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, StoryEditor.CstrCaption);
+                MessageBox.Show(ex.Message,  StoriesData.CstrCaption);
             }
         }
 
@@ -155,7 +155,7 @@ namespace OneStoryProjectEditor
                 || String.IsNullOrEmpty(textBoxNationalBTSentFullStop.Text))
             {
                 tabControlProjectMetaData.SelectedTab = tabPageLanguageInfo;
-                MessageBox.Show("Configure the Project and Language Name information as well.", StoryEditor.CstrCaption);
+                MessageBox.Show("Configure the Project and Language Name information as well.",  StoriesData.CstrCaption);
                 return;
             }
 
@@ -163,7 +163,7 @@ namespace OneStoryProjectEditor
             TeamMemberData theMember = _dataTeamMembers[SelectedMember];
             if ((theMember.MemberType == TeamMemberData.UserTypes.eUNS) && (buttonOK.Text == CstrDefaultOKLabel))
             {
-                MessageBox.Show("You may have added a UNS in order to identify, for example, which UNS did the back translation or a particular test. However, you as the crafter should still be logged in to enter the UNS's comments. So select your *crafter* member name and click 'Login' again", StoryEditor.CstrCaption);
+                MessageBox.Show("You may have added a UNS in order to identify, for example, which UNS did the back translation or a particular test. However, you as the crafter should still be logged in to enter the UNS's comments. So select your *crafter* member name and click 'Login' again",  StoriesData.CstrCaption);
                 return;
             }
 

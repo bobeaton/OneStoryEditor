@@ -77,9 +77,13 @@ namespace OneStoryProjectEditor {
         
         private ConsultantNotesDataTable tableConsultantNotes;
         
+        private ConsultantConversationDataTable tableConsultantConversation;
+        
         private ConsultantNoteDataTable tableConsultantNote;
         
         private CoachNotesDataTable tableCoachNotes;
+        
+        private CoachConversationDataTable tableCoachConversation;
         
         private CoachNoteDataTable tableCoachNote;
         
@@ -133,11 +137,15 @@ namespace OneStoryProjectEditor {
         
         private global::System.Data.DataRelation relationverse_ConsultantNotes;
         
-        private global::System.Data.DataRelation relationConsultantNotes_ConsultantNote;
+        private global::System.Data.DataRelation relationConsultantNotes_ConsultantConversation;
+        
+        private global::System.Data.DataRelation relationConsultantConversation_ConsultantNote;
         
         private global::System.Data.DataRelation relationverse_CoachNotes;
         
-        private global::System.Data.DataRelation relationCoachNotes_CoachNote;
+        private global::System.Data.DataRelation relationCoachNotes_CoachConversation;
+        
+        private global::System.Data.DataRelation relationCoachConversation_CoachNote;
         
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
@@ -243,11 +251,17 @@ namespace OneStoryProjectEditor {
                 if ((ds.Tables["ConsultantNotes"] != null)) {
                     base.Tables.Add(new ConsultantNotesDataTable(ds.Tables["ConsultantNotes"]));
                 }
+                if ((ds.Tables["ConsultantConversation"] != null)) {
+                    base.Tables.Add(new ConsultantConversationDataTable(ds.Tables["ConsultantConversation"]));
+                }
                 if ((ds.Tables["ConsultantNote"] != null)) {
                     base.Tables.Add(new ConsultantNoteDataTable(ds.Tables["ConsultantNote"]));
                 }
                 if ((ds.Tables["CoachNotes"] != null)) {
                     base.Tables.Add(new CoachNotesDataTable(ds.Tables["CoachNotes"]));
+                }
+                if ((ds.Tables["CoachConversation"] != null)) {
+                    base.Tables.Add(new CoachConversationDataTable(ds.Tables["CoachConversation"]));
                 }
                 if ((ds.Tables["CoachNote"] != null)) {
                     base.Tables.Add(new CoachNoteDataTable(ds.Tables["CoachNote"]));
@@ -507,6 +521,15 @@ namespace OneStoryProjectEditor {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public ConsultantConversationDataTable ConsultantConversation {
+            get {
+                return this.tableConsultantConversation;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
         public ConsultantNoteDataTable ConsultantNote {
             get {
                 return this.tableConsultantNote;
@@ -519,6 +542,15 @@ namespace OneStoryProjectEditor {
         public CoachNotesDataTable CoachNotes {
             get {
                 return this.tableCoachNotes;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public CoachConversationDataTable CoachConversation {
+            get {
+                return this.tableCoachConversation;
             }
         }
         
@@ -668,11 +700,17 @@ namespace OneStoryProjectEditor {
                 if ((ds.Tables["ConsultantNotes"] != null)) {
                     base.Tables.Add(new ConsultantNotesDataTable(ds.Tables["ConsultantNotes"]));
                 }
+                if ((ds.Tables["ConsultantConversation"] != null)) {
+                    base.Tables.Add(new ConsultantConversationDataTable(ds.Tables["ConsultantConversation"]));
+                }
                 if ((ds.Tables["ConsultantNote"] != null)) {
                     base.Tables.Add(new ConsultantNoteDataTable(ds.Tables["ConsultantNote"]));
                 }
                 if ((ds.Tables["CoachNotes"] != null)) {
                     base.Tables.Add(new CoachNotesDataTable(ds.Tables["CoachNotes"]));
+                }
+                if ((ds.Tables["CoachConversation"] != null)) {
+                    base.Tables.Add(new CoachConversationDataTable(ds.Tables["CoachConversation"]));
                 }
                 if ((ds.Tables["CoachNote"] != null)) {
                     base.Tables.Add(new CoachNoteDataTable(ds.Tables["CoachNote"]));
@@ -863,6 +901,12 @@ namespace OneStoryProjectEditor {
                     this.tableConsultantNotes.InitVars();
                 }
             }
+            this.tableConsultantConversation = ((ConsultantConversationDataTable)(base.Tables["ConsultantConversation"]));
+            if ((initTable == true)) {
+                if ((this.tableConsultantConversation != null)) {
+                    this.tableConsultantConversation.InitVars();
+                }
+            }
             this.tableConsultantNote = ((ConsultantNoteDataTable)(base.Tables["ConsultantNote"]));
             if ((initTable == true)) {
                 if ((this.tableConsultantNote != null)) {
@@ -873,6 +917,12 @@ namespace OneStoryProjectEditor {
             if ((initTable == true)) {
                 if ((this.tableCoachNotes != null)) {
                     this.tableCoachNotes.InitVars();
+                }
+            }
+            this.tableCoachConversation = ((CoachConversationDataTable)(base.Tables["CoachConversation"]));
+            if ((initTable == true)) {
+                if ((this.tableCoachConversation != null)) {
+                    this.tableCoachConversation.InitVars();
                 }
             }
             this.tableCoachNote = ((CoachNoteDataTable)(base.Tables["CoachNote"]));
@@ -906,9 +956,11 @@ namespace OneStoryProjectEditor {
             this.relationverse_Retellings = this.Relations["verse_Retellings"];
             this.relationRetellings_Retelling = this.Relations["Retellings_Retelling"];
             this.relationverse_ConsultantNotes = this.Relations["verse_ConsultantNotes"];
-            this.relationConsultantNotes_ConsultantNote = this.Relations["ConsultantNotes_ConsultantNote"];
+            this.relationConsultantNotes_ConsultantConversation = this.Relations["ConsultantNotes_ConsultantConversation"];
+            this.relationConsultantConversation_ConsultantNote = this.Relations["ConsultantConversation_ConsultantNote"];
             this.relationverse_CoachNotes = this.Relations["verse_CoachNotes"];
-            this.relationCoachNotes_CoachNote = this.Relations["CoachNotes_CoachNote"];
+            this.relationCoachNotes_CoachConversation = this.Relations["CoachNotes_CoachConversation"];
+            this.relationCoachConversation_CoachNote = this.Relations["CoachConversation_CoachNote"];
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -969,10 +1021,14 @@ namespace OneStoryProjectEditor {
             base.Tables.Add(this.tableRetelling);
             this.tableConsultantNotes = new ConsultantNotesDataTable();
             base.Tables.Add(this.tableConsultantNotes);
+            this.tableConsultantConversation = new ConsultantConversationDataTable();
+            base.Tables.Add(this.tableConsultantConversation);
             this.tableConsultantNote = new ConsultantNoteDataTable();
             base.Tables.Add(this.tableConsultantNote);
             this.tableCoachNotes = new CoachNotesDataTable();
             base.Tables.Add(this.tableCoachNotes);
+            this.tableCoachConversation = new CoachConversationDataTable();
+            base.Tables.Add(this.tableCoachConversation);
             this.tableCoachNote = new CoachNoteDataTable();
             base.Tables.Add(this.tableCoachNote);
             global::System.Data.ForeignKeyConstraint fkc;
@@ -1151,9 +1207,16 @@ namespace OneStoryProjectEditor {
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
-            fkc = new global::System.Data.ForeignKeyConstraint("ConsultantNotes_ConsultantNote", new global::System.Data.DataColumn[] {
+            fkc = new global::System.Data.ForeignKeyConstraint("ConsultantNotes_ConsultantConversation", new global::System.Data.DataColumn[] {
                         this.tableConsultantNotes.ConsultantNotes_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableConsultantNote.ConsultantNotes_IdColumn});
+                        this.tableConsultantConversation.ConsultantNotes_IdColumn});
+            this.tableConsultantConversation.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.Cascade;
+            fkc.UpdateRule = global::System.Data.Rule.Cascade;
+            fkc = new global::System.Data.ForeignKeyConstraint("ConsultantConversation_ConsultantNote", new global::System.Data.DataColumn[] {
+                        this.tableConsultantConversation.ConsultantConversation_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableConsultantNote.ConsultantConversation_IdColumn});
             this.tableConsultantNote.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
@@ -1165,9 +1228,16 @@ namespace OneStoryProjectEditor {
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
-            fkc = new global::System.Data.ForeignKeyConstraint("CoachNotes_CoachNote", new global::System.Data.DataColumn[] {
+            fkc = new global::System.Data.ForeignKeyConstraint("CoachNotes_CoachConversation", new global::System.Data.DataColumn[] {
                         this.tableCoachNotes.CoachNotes_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableCoachNote.CoachNotes_IdColumn});
+                        this.tableCoachConversation.CoachNotes_IdColumn});
+            this.tableCoachConversation.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.Cascade;
+            fkc.UpdateRule = global::System.Data.Rule.Cascade;
+            fkc = new global::System.Data.ForeignKeyConstraint("CoachConversation_CoachNote", new global::System.Data.DataColumn[] {
+                        this.tableCoachConversation.CoachConversation_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableCoachNote.CoachConversation_IdColumn});
             this.tableCoachNote.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
@@ -1297,21 +1367,31 @@ namespace OneStoryProjectEditor {
                         this.tableConsultantNotes.guidColumn}, false);
             this.relationverse_ConsultantNotes.Nested = true;
             this.Relations.Add(this.relationverse_ConsultantNotes);
-            this.relationConsultantNotes_ConsultantNote = new global::System.Data.DataRelation("ConsultantNotes_ConsultantNote", new global::System.Data.DataColumn[] {
+            this.relationConsultantNotes_ConsultantConversation = new global::System.Data.DataRelation("ConsultantNotes_ConsultantConversation", new global::System.Data.DataColumn[] {
                         this.tableConsultantNotes.ConsultantNotes_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableConsultantNote.ConsultantNotes_IdColumn}, false);
-            this.relationConsultantNotes_ConsultantNote.Nested = true;
-            this.Relations.Add(this.relationConsultantNotes_ConsultantNote);
+                        this.tableConsultantConversation.ConsultantNotes_IdColumn}, false);
+            this.relationConsultantNotes_ConsultantConversation.Nested = true;
+            this.Relations.Add(this.relationConsultantNotes_ConsultantConversation);
+            this.relationConsultantConversation_ConsultantNote = new global::System.Data.DataRelation("ConsultantConversation_ConsultantNote", new global::System.Data.DataColumn[] {
+                        this.tableConsultantConversation.ConsultantConversation_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableConsultantNote.ConsultantConversation_IdColumn}, false);
+            this.relationConsultantConversation_ConsultantNote.Nested = true;
+            this.Relations.Add(this.relationConsultantConversation_ConsultantNote);
             this.relationverse_CoachNotes = new global::System.Data.DataRelation("verse_CoachNotes", new global::System.Data.DataColumn[] {
                         this.tableverse.guidColumn}, new global::System.Data.DataColumn[] {
                         this.tableCoachNotes.guidColumn}, false);
             this.relationverse_CoachNotes.Nested = true;
             this.Relations.Add(this.relationverse_CoachNotes);
-            this.relationCoachNotes_CoachNote = new global::System.Data.DataRelation("CoachNotes_CoachNote", new global::System.Data.DataColumn[] {
+            this.relationCoachNotes_CoachConversation = new global::System.Data.DataRelation("CoachNotes_CoachConversation", new global::System.Data.DataColumn[] {
                         this.tableCoachNotes.CoachNotes_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableCoachNote.CoachNotes_IdColumn}, false);
-            this.relationCoachNotes_CoachNote.Nested = true;
-            this.Relations.Add(this.relationCoachNotes_CoachNote);
+                        this.tableCoachConversation.CoachNotes_IdColumn}, false);
+            this.relationCoachNotes_CoachConversation.Nested = true;
+            this.Relations.Add(this.relationCoachNotes_CoachConversation);
+            this.relationCoachConversation_CoachNote = new global::System.Data.DataRelation("CoachConversation_CoachNote", new global::System.Data.DataColumn[] {
+                        this.tableCoachConversation.CoachConversation_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableCoachNote.CoachConversation_IdColumn}, false);
+            this.relationCoachConversation_CoachNote.Nested = true;
+            this.Relations.Add(this.relationCoachConversation_CoachNote);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1445,12 +1525,22 @@ namespace OneStoryProjectEditor {
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private bool ShouldSerializeConsultantConversation() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         private bool ShouldSerializeConsultantNote() {
             return false;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         private bool ShouldSerializeCoachNotes() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private bool ShouldSerializeCoachConversation() {
             return false;
         }
         
@@ -1564,9 +1654,13 @@ namespace OneStoryProjectEditor {
         
         public delegate void ConsultantNotesRowChangeEventHandler(object sender, ConsultantNotesRowChangeEvent e);
         
+        public delegate void ConsultantConversationRowChangeEventHandler(object sender, ConsultantConversationRowChangeEvent e);
+        
         public delegate void ConsultantNoteRowChangeEventHandler(object sender, ConsultantNoteRowChangeEvent e);
         
         public delegate void CoachNotesRowChangeEventHandler(object sender, CoachNotesRowChangeEvent e);
+        
+        public delegate void CoachConversationRowChangeEventHandler(object sender, CoachConversationRowChangeEvent e);
         
         public delegate void CoachNoteRowChangeEventHandler(object sender, CoachNoteRowChangeEvent e);
         
@@ -8445,17 +8539,286 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class ConsultantNoteDataTable : global::System.Data.TypedTableBase<ConsultantNoteRow> {
+        public partial class ConsultantConversationDataTable : global::System.Data.TypedTableBase<ConsultantConversationRow> {
             
             private global::System.Data.DataColumn columnround;
             
             private global::System.Data.DataColumn columnvisible;
             
-            private global::System.Data.DataColumn columnConsultantComment;
-            
-            private global::System.Data.DataColumn columnCrafterResponse;
+            private global::System.Data.DataColumn columnConsultantConversation_Id;
             
             private global::System.Data.DataColumn columnConsultantNotes_Id;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public ConsultantConversationDataTable() {
+                this.TableName = "ConsultantConversation";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal ConsultantConversationDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected ConsultantConversationDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn roundColumn {
+                get {
+                    return this.columnround;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn visibleColumn {
+                get {
+                    return this.columnvisible;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn ConsultantConversation_IdColumn {
+                get {
+                    return this.columnConsultantConversation_Id;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn ConsultantNotes_IdColumn {
+                get {
+                    return this.columnConsultantNotes_Id;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public ConsultantConversationRow this[int index] {
+                get {
+                    return ((ConsultantConversationRow)(this.Rows[index]));
+                }
+            }
+            
+            public event ConsultantConversationRowChangeEventHandler ConsultantConversationRowChanging;
+            
+            public event ConsultantConversationRowChangeEventHandler ConsultantConversationRowChanged;
+            
+            public event ConsultantConversationRowChangeEventHandler ConsultantConversationRowDeleting;
+            
+            public event ConsultantConversationRowChangeEventHandler ConsultantConversationRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void AddConsultantConversationRow(ConsultantConversationRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public ConsultantConversationRow AddConsultantConversationRow(byte round, bool visible, ConsultantNotesRow parentConsultantNotesRowByConsultantNotes_ConsultantConversation) {
+                ConsultantConversationRow rowConsultantConversationRow = ((ConsultantConversationRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        round,
+                        visible,
+                        null,
+                        null};
+                if ((parentConsultantNotesRowByConsultantNotes_ConsultantConversation != null)) {
+                    columnValuesArray[3] = parentConsultantNotesRowByConsultantNotes_ConsultantConversation[0];
+                }
+                rowConsultantConversationRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowConsultantConversationRow);
+                return rowConsultantConversationRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public override global::System.Data.DataTable Clone() {
+                ConsultantConversationDataTable cln = ((ConsultantConversationDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new ConsultantConversationDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal void InitVars() {
+                this.columnround = base.Columns["round"];
+                this.columnvisible = base.Columns["visible"];
+                this.columnConsultantConversation_Id = base.Columns["ConsultantConversation_Id"];
+                this.columnConsultantNotes_Id = base.Columns["ConsultantNotes_Id"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            private void InitClass() {
+                this.columnround = new global::System.Data.DataColumn("round", typeof(byte), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnround);
+                this.columnvisible = new global::System.Data.DataColumn("visible", typeof(bool), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnvisible);
+                this.columnConsultantConversation_Id = new global::System.Data.DataColumn("ConsultantConversation_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnConsultantConversation_Id);
+                this.columnConsultantNotes_Id = new global::System.Data.DataColumn("ConsultantNotes_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnConsultantNotes_Id);
+                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
+                                this.columnConsultantConversation_Id}, true));
+                this.columnround.AllowDBNull = false;
+                this.columnround.Namespace = "";
+                this.columnvisible.Namespace = "";
+                this.columnConsultantConversation_Id.AutoIncrement = true;
+                this.columnConsultantConversation_Id.AllowDBNull = false;
+                this.columnConsultantConversation_Id.Unique = true;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public ConsultantConversationRow NewConsultantConversationRow() {
+                return ((ConsultantConversationRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new ConsultantConversationRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Type GetRowType() {
+                return typeof(ConsultantConversationRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.ConsultantConversationRowChanged != null)) {
+                    this.ConsultantConversationRowChanged(this, new ConsultantConversationRowChangeEvent(((ConsultantConversationRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.ConsultantConversationRowChanging != null)) {
+                    this.ConsultantConversationRowChanging(this, new ConsultantConversationRowChangeEvent(((ConsultantConversationRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.ConsultantConversationRowDeleted != null)) {
+                    this.ConsultantConversationRowDeleted(this, new ConsultantConversationRowChangeEvent(((ConsultantConversationRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.ConsultantConversationRowDeleting != null)) {
+                    this.ConsultantConversationRowDeleting(this, new ConsultantConversationRowChangeEvent(((ConsultantConversationRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void RemoveConsultantConversationRow(ConsultantConversationRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                StoryProject ds = new StoryProject();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "ConsultantConversationDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class ConsultantNoteDataTable : global::System.Data.TypedTableBase<ConsultantNoteRow> {
+            
+            private global::System.Data.DataColumn columnDirection;
+            
+            private global::System.Data.DataColumn columnConsultantNote_text;
+            
+            private global::System.Data.DataColumn columnConsultantConversation_Id;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public ConsultantNoteDataTable() {
@@ -8488,37 +8851,23 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn roundColumn {
+            public global::System.Data.DataColumn DirectionColumn {
                 get {
-                    return this.columnround;
+                    return this.columnDirection;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn visibleColumn {
+            public global::System.Data.DataColumn ConsultantNote_textColumn {
                 get {
-                    return this.columnvisible;
+                    return this.columnConsultantNote_text;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn ConsultantCommentColumn {
+            public global::System.Data.DataColumn ConsultantConversation_IdColumn {
                 get {
-                    return this.columnConsultantComment;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn CrafterResponseColumn {
-                get {
-                    return this.columnCrafterResponse;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn ConsultantNotes_IdColumn {
-                get {
-                    return this.columnConsultantNotes_Id;
+                    return this.columnConsultantConversation_Id;
                 }
             }
             
@@ -8551,16 +8900,14 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public ConsultantNoteRow AddConsultantNoteRow(byte round, bool visible, string ConsultantComment, string CrafterResponse, ConsultantNotesRow parentConsultantNotesRowByConsultantNotes_ConsultantNote) {
+            public ConsultantNoteRow AddConsultantNoteRow(string Direction, string ConsultantNote_text, ConsultantConversationRow parentConsultantConversationRowByConsultantConversation_ConsultantNote) {
                 ConsultantNoteRow rowConsultantNoteRow = ((ConsultantNoteRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        round,
-                        visible,
-                        ConsultantComment,
-                        CrafterResponse,
+                        Direction,
+                        ConsultantNote_text,
                         null};
-                if ((parentConsultantNotesRowByConsultantNotes_ConsultantNote != null)) {
-                    columnValuesArray[4] = parentConsultantNotesRowByConsultantNotes_ConsultantNote[0];
+                if ((parentConsultantConversationRowByConsultantConversation_ConsultantNote != null)) {
+                    columnValuesArray[2] = parentConsultantConversationRowByConsultantConversation_ConsultantNote[2];
                 }
                 rowConsultantNoteRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowConsultantNoteRow);
@@ -8581,28 +8928,22 @@ namespace OneStoryProjectEditor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
-                this.columnround = base.Columns["round"];
-                this.columnvisible = base.Columns["visible"];
-                this.columnConsultantComment = base.Columns["ConsultantComment"];
-                this.columnCrafterResponse = base.Columns["CrafterResponse"];
-                this.columnConsultantNotes_Id = base.Columns["ConsultantNotes_Id"];
+                this.columnDirection = base.Columns["Direction"];
+                this.columnConsultantNote_text = base.Columns["ConsultantNote_text"];
+                this.columnConsultantConversation_Id = base.Columns["ConsultantConversation_Id"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             private void InitClass() {
-                this.columnround = new global::System.Data.DataColumn("round", typeof(byte), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnround);
-                this.columnvisible = new global::System.Data.DataColumn("visible", typeof(bool), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnvisible);
-                this.columnConsultantComment = new global::System.Data.DataColumn("ConsultantComment", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnConsultantComment);
-                this.columnCrafterResponse = new global::System.Data.DataColumn("CrafterResponse", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnCrafterResponse);
-                this.columnConsultantNotes_Id = new global::System.Data.DataColumn("ConsultantNotes_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
-                base.Columns.Add(this.columnConsultantNotes_Id);
-                this.columnround.AllowDBNull = false;
-                this.columnround.Namespace = "";
-                this.columnvisible.Namespace = "";
+                this.columnDirection = new global::System.Data.DataColumn("Direction", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnDirection);
+                this.columnConsultantNote_text = new global::System.Data.DataColumn("ConsultantNote_text", typeof(string), null, global::System.Data.MappingType.SimpleContent);
+                base.Columns.Add(this.columnConsultantNote_text);
+                this.columnConsultantConversation_Id = new global::System.Data.DataColumn("ConsultantConversation_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnConsultantConversation_Id);
+                this.columnDirection.AllowDBNull = false;
+                this.columnDirection.Namespace = "";
+                this.columnConsultantNote_text.AllowDBNull = false;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -8970,17 +9311,286 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class CoachNoteDataTable : global::System.Data.TypedTableBase<CoachNoteRow> {
+        public partial class CoachConversationDataTable : global::System.Data.TypedTableBase<CoachConversationRow> {
             
             private global::System.Data.DataColumn columnround;
             
             private global::System.Data.DataColumn columnvisible;
             
-            private global::System.Data.DataColumn columnCoachComment;
-            
-            private global::System.Data.DataColumn columnConsultantResponse;
+            private global::System.Data.DataColumn columnCoachConversation_Id;
             
             private global::System.Data.DataColumn columnCoachNotes_Id;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public CoachConversationDataTable() {
+                this.TableName = "CoachConversation";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal CoachConversationDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected CoachConversationDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn roundColumn {
+                get {
+                    return this.columnround;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn visibleColumn {
+                get {
+                    return this.columnvisible;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn CoachConversation_IdColumn {
+                get {
+                    return this.columnCoachConversation_Id;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn CoachNotes_IdColumn {
+                get {
+                    return this.columnCoachNotes_Id;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public CoachConversationRow this[int index] {
+                get {
+                    return ((CoachConversationRow)(this.Rows[index]));
+                }
+            }
+            
+            public event CoachConversationRowChangeEventHandler CoachConversationRowChanging;
+            
+            public event CoachConversationRowChangeEventHandler CoachConversationRowChanged;
+            
+            public event CoachConversationRowChangeEventHandler CoachConversationRowDeleting;
+            
+            public event CoachConversationRowChangeEventHandler CoachConversationRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void AddCoachConversationRow(CoachConversationRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public CoachConversationRow AddCoachConversationRow(byte round, bool visible, CoachNotesRow parentCoachNotesRowByCoachNotes_CoachConversation) {
+                CoachConversationRow rowCoachConversationRow = ((CoachConversationRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        round,
+                        visible,
+                        null,
+                        null};
+                if ((parentCoachNotesRowByCoachNotes_CoachConversation != null)) {
+                    columnValuesArray[3] = parentCoachNotesRowByCoachNotes_CoachConversation[0];
+                }
+                rowCoachConversationRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowCoachConversationRow);
+                return rowCoachConversationRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public override global::System.Data.DataTable Clone() {
+                CoachConversationDataTable cln = ((CoachConversationDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new CoachConversationDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal void InitVars() {
+                this.columnround = base.Columns["round"];
+                this.columnvisible = base.Columns["visible"];
+                this.columnCoachConversation_Id = base.Columns["CoachConversation_Id"];
+                this.columnCoachNotes_Id = base.Columns["CoachNotes_Id"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            private void InitClass() {
+                this.columnround = new global::System.Data.DataColumn("round", typeof(byte), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnround);
+                this.columnvisible = new global::System.Data.DataColumn("visible", typeof(bool), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnvisible);
+                this.columnCoachConversation_Id = new global::System.Data.DataColumn("CoachConversation_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnCoachConversation_Id);
+                this.columnCoachNotes_Id = new global::System.Data.DataColumn("CoachNotes_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnCoachNotes_Id);
+                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
+                                this.columnCoachConversation_Id}, true));
+                this.columnround.AllowDBNull = false;
+                this.columnround.Namespace = "";
+                this.columnvisible.Namespace = "";
+                this.columnCoachConversation_Id.AutoIncrement = true;
+                this.columnCoachConversation_Id.AllowDBNull = false;
+                this.columnCoachConversation_Id.Unique = true;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public CoachConversationRow NewCoachConversationRow() {
+                return ((CoachConversationRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new CoachConversationRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Type GetRowType() {
+                return typeof(CoachConversationRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.CoachConversationRowChanged != null)) {
+                    this.CoachConversationRowChanged(this, new CoachConversationRowChangeEvent(((CoachConversationRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.CoachConversationRowChanging != null)) {
+                    this.CoachConversationRowChanging(this, new CoachConversationRowChangeEvent(((CoachConversationRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.CoachConversationRowDeleted != null)) {
+                    this.CoachConversationRowDeleted(this, new CoachConversationRowChangeEvent(((CoachConversationRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.CoachConversationRowDeleting != null)) {
+                    this.CoachConversationRowDeleting(this, new CoachConversationRowChangeEvent(((CoachConversationRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void RemoveCoachConversationRow(CoachConversationRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                StoryProject ds = new StoryProject();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "CoachConversationDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class CoachNoteDataTable : global::System.Data.TypedTableBase<CoachNoteRow> {
+            
+            private global::System.Data.DataColumn columnDirection;
+            
+            private global::System.Data.DataColumn columnCoachNote_text;
+            
+            private global::System.Data.DataColumn columnCoachConversation_Id;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public CoachNoteDataTable() {
@@ -9013,37 +9623,23 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn roundColumn {
+            public global::System.Data.DataColumn DirectionColumn {
                 get {
-                    return this.columnround;
+                    return this.columnDirection;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn visibleColumn {
+            public global::System.Data.DataColumn CoachNote_textColumn {
                 get {
-                    return this.columnvisible;
+                    return this.columnCoachNote_text;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn CoachCommentColumn {
+            public global::System.Data.DataColumn CoachConversation_IdColumn {
                 get {
-                    return this.columnCoachComment;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn ConsultantResponseColumn {
-                get {
-                    return this.columnConsultantResponse;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn CoachNotes_IdColumn {
-                get {
-                    return this.columnCoachNotes_Id;
+                    return this.columnCoachConversation_Id;
                 }
             }
             
@@ -9076,16 +9672,14 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public CoachNoteRow AddCoachNoteRow(byte round, bool visible, string CoachComment, string ConsultantResponse, CoachNotesRow parentCoachNotesRowByCoachNotes_CoachNote) {
+            public CoachNoteRow AddCoachNoteRow(string Direction, string CoachNote_text, CoachConversationRow parentCoachConversationRowByCoachConversation_CoachNote) {
                 CoachNoteRow rowCoachNoteRow = ((CoachNoteRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        round,
-                        visible,
-                        CoachComment,
-                        ConsultantResponse,
+                        Direction,
+                        CoachNote_text,
                         null};
-                if ((parentCoachNotesRowByCoachNotes_CoachNote != null)) {
-                    columnValuesArray[4] = parentCoachNotesRowByCoachNotes_CoachNote[0];
+                if ((parentCoachConversationRowByCoachConversation_CoachNote != null)) {
+                    columnValuesArray[2] = parentCoachConversationRowByCoachConversation_CoachNote[2];
                 }
                 rowCoachNoteRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowCoachNoteRow);
@@ -9106,28 +9700,22 @@ namespace OneStoryProjectEditor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
-                this.columnround = base.Columns["round"];
-                this.columnvisible = base.Columns["visible"];
-                this.columnCoachComment = base.Columns["CoachComment"];
-                this.columnConsultantResponse = base.Columns["ConsultantResponse"];
-                this.columnCoachNotes_Id = base.Columns["CoachNotes_Id"];
+                this.columnDirection = base.Columns["Direction"];
+                this.columnCoachNote_text = base.Columns["CoachNote_text"];
+                this.columnCoachConversation_Id = base.Columns["CoachConversation_Id"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             private void InitClass() {
-                this.columnround = new global::System.Data.DataColumn("round", typeof(byte), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnround);
-                this.columnvisible = new global::System.Data.DataColumn("visible", typeof(bool), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnvisible);
-                this.columnCoachComment = new global::System.Data.DataColumn("CoachComment", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnCoachComment);
-                this.columnConsultantResponse = new global::System.Data.DataColumn("ConsultantResponse", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnConsultantResponse);
-                this.columnCoachNotes_Id = new global::System.Data.DataColumn("CoachNotes_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
-                base.Columns.Add(this.columnCoachNotes_Id);
-                this.columnround.AllowDBNull = false;
-                this.columnround.Namespace = "";
-                this.columnvisible.Namespace = "";
+                this.columnDirection = new global::System.Data.DataColumn("Direction", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnDirection);
+                this.columnCoachNote_text = new global::System.Data.DataColumn("CoachNote_text", typeof(string), null, global::System.Data.MappingType.SimpleContent);
+                base.Columns.Add(this.columnCoachNote_text);
+                this.columnCoachConversation_Id = new global::System.Data.DataColumn("CoachConversation_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnCoachConversation_Id);
+                this.columnDirection.AllowDBNull = false;
+                this.columnDirection.Namespace = "";
+                this.columnCoachNote_text.AllowDBNull = false;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -11782,12 +12370,118 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public ConsultantConversationRow[] GetConsultantConversationRows() {
+                if ((this.Table.ChildRelations["ConsultantNotes_ConsultantConversation"] == null)) {
+                    return new ConsultantConversationRow[0];
+                }
+                else {
+                    return ((ConsultantConversationRow[])(base.GetChildRows(this.Table.ChildRelations["ConsultantNotes_ConsultantConversation"])));
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public partial class ConsultantConversationRow : global::System.Data.DataRow {
+            
+            private ConsultantConversationDataTable tableConsultantConversation;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal ConsultantConversationRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableConsultantConversation = ((ConsultantConversationDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public byte round {
+                get {
+                    return ((byte)(this[this.tableConsultantConversation.roundColumn]));
+                }
+                set {
+                    this[this.tableConsultantConversation.roundColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool visible {
+                get {
+                    try {
+                        return ((bool)(this[this.tableConsultantConversation.visibleColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'visible\' in table \'ConsultantConversation\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableConsultantConversation.visibleColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int ConsultantConversation_Id {
+                get {
+                    return ((int)(this[this.tableConsultantConversation.ConsultantConversation_IdColumn]));
+                }
+                set {
+                    this[this.tableConsultantConversation.ConsultantConversation_IdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int ConsultantNotes_Id {
+                get {
+                    try {
+                        return ((int)(this[this.tableConsultantConversation.ConsultantNotes_IdColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ConsultantNotes_Id\' in table \'ConsultantConversation\' is DB" +
+                                "Null.", e);
+                    }
+                }
+                set {
+                    this[this.tableConsultantConversation.ConsultantNotes_IdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public ConsultantNotesRow ConsultantNotesRow {
+                get {
+                    return ((ConsultantNotesRow)(this.GetParentRow(this.Table.ParentRelations["ConsultantNotes_ConsultantConversation"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["ConsultantNotes_ConsultantConversation"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsvisibleNull() {
+                return this.IsNull(this.tableConsultantConversation.visibleColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetvisibleNull() {
+                this[this.tableConsultantConversation.visibleColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsConsultantNotes_IdNull() {
+                return this.IsNull(this.tableConsultantConversation.ConsultantNotes_IdColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetConsultantNotes_IdNull() {
+                this[this.tableConsultantConversation.ConsultantNotes_IdColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public ConsultantNoteRow[] GetConsultantNoteRows() {
-                if ((this.Table.ChildRelations["ConsultantNotes_ConsultantNote"] == null)) {
+                if ((this.Table.ChildRelations["ConsultantConversation_ConsultantNote"] == null)) {
                     return new ConsultantNoteRow[0];
                 }
                 else {
-                    return ((ConsultantNoteRow[])(base.GetChildRows(this.Table.ChildRelations["ConsultantNotes_ConsultantNote"])));
+                    return ((ConsultantNoteRow[])(base.GetChildRows(this.Table.ChildRelations["ConsultantConversation_ConsultantNote"])));
                 }
             }
         }
@@ -11807,123 +12501,59 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public byte round {
+            public string Direction {
                 get {
-                    return ((byte)(this[this.tableConsultantNote.roundColumn]));
+                    return ((string)(this[this.tableConsultantNote.DirectionColumn]));
                 }
                 set {
-                    this[this.tableConsultantNote.roundColumn] = value;
+                    this[this.tableConsultantNote.DirectionColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool visible {
+            public string ConsultantNote_text {
                 get {
-                    try {
-                        return ((bool)(this[this.tableConsultantNote.visibleColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'visible\' in table \'ConsultantNote\' is DBNull.", e);
-                    }
+                    return ((string)(this[this.tableConsultantNote.ConsultantNote_textColumn]));
                 }
                 set {
-                    this[this.tableConsultantNote.visibleColumn] = value;
+                    this[this.tableConsultantNote.ConsultantNote_textColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string ConsultantComment {
+            public int ConsultantConversation_Id {
                 get {
                     try {
-                        return ((string)(this[this.tableConsultantNote.ConsultantCommentColumn]));
+                        return ((int)(this[this.tableConsultantNote.ConsultantConversation_IdColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'ConsultantComment\' in table \'ConsultantNote\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'ConsultantConversation_Id\' in table \'ConsultantNote\' is DBN" +
+                                "ull.", e);
                     }
                 }
                 set {
-                    this[this.tableConsultantNote.ConsultantCommentColumn] = value;
+                    this[this.tableConsultantNote.ConsultantConversation_IdColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string CrafterResponse {
+            public ConsultantConversationRow ConsultantConversationRow {
                 get {
-                    try {
-                        return ((string)(this[this.tableConsultantNote.CrafterResponseColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'CrafterResponse\' in table \'ConsultantNote\' is DBNull.", e);
-                    }
+                    return ((ConsultantConversationRow)(this.GetParentRow(this.Table.ParentRelations["ConsultantConversation_ConsultantNote"])));
                 }
                 set {
-                    this[this.tableConsultantNote.CrafterResponseColumn] = value;
+                    this.SetParentRow(value, this.Table.ParentRelations["ConsultantConversation_ConsultantNote"]);
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int ConsultantNotes_Id {
-                get {
-                    try {
-                        return ((int)(this[this.tableConsultantNote.ConsultantNotes_IdColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'ConsultantNotes_Id\' in table \'ConsultantNote\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableConsultantNote.ConsultantNotes_IdColumn] = value;
-                }
+            public bool IsConsultantConversation_IdNull() {
+                return this.IsNull(this.tableConsultantNote.ConsultantConversation_IdColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public ConsultantNotesRow ConsultantNotesRow {
-                get {
-                    return ((ConsultantNotesRow)(this.GetParentRow(this.Table.ParentRelations["ConsultantNotes_ConsultantNote"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["ConsultantNotes_ConsultantNote"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsvisibleNull() {
-                return this.IsNull(this.tableConsultantNote.visibleColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetvisibleNull() {
-                this[this.tableConsultantNote.visibleColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsConsultantCommentNull() {
-                return this.IsNull(this.tableConsultantNote.ConsultantCommentColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetConsultantCommentNull() {
-                this[this.tableConsultantNote.ConsultantCommentColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsCrafterResponseNull() {
-                return this.IsNull(this.tableConsultantNote.CrafterResponseColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetCrafterResponseNull() {
-                this[this.tableConsultantNote.CrafterResponseColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsConsultantNotes_IdNull() {
-                return this.IsNull(this.tableConsultantNote.ConsultantNotes_IdColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetConsultantNotes_IdNull() {
-                this[this.tableConsultantNote.ConsultantNotes_IdColumn] = global::System.Convert.DBNull;
+            public void SetConsultantConversation_IdNull() {
+                this[this.tableConsultantNote.ConsultantConversation_IdColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -11987,12 +12617,117 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public CoachConversationRow[] GetCoachConversationRows() {
+                if ((this.Table.ChildRelations["CoachNotes_CoachConversation"] == null)) {
+                    return new CoachConversationRow[0];
+                }
+                else {
+                    return ((CoachConversationRow[])(base.GetChildRows(this.Table.ChildRelations["CoachNotes_CoachConversation"])));
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public partial class CoachConversationRow : global::System.Data.DataRow {
+            
+            private CoachConversationDataTable tableCoachConversation;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal CoachConversationRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableCoachConversation = ((CoachConversationDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public byte round {
+                get {
+                    return ((byte)(this[this.tableCoachConversation.roundColumn]));
+                }
+                set {
+                    this[this.tableCoachConversation.roundColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool visible {
+                get {
+                    try {
+                        return ((bool)(this[this.tableCoachConversation.visibleColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'visible\' in table \'CoachConversation\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableCoachConversation.visibleColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int CoachConversation_Id {
+                get {
+                    return ((int)(this[this.tableCoachConversation.CoachConversation_IdColumn]));
+                }
+                set {
+                    this[this.tableCoachConversation.CoachConversation_IdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int CoachNotes_Id {
+                get {
+                    try {
+                        return ((int)(this[this.tableCoachConversation.CoachNotes_IdColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'CoachNotes_Id\' in table \'CoachConversation\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableCoachConversation.CoachNotes_IdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public CoachNotesRow CoachNotesRow {
+                get {
+                    return ((CoachNotesRow)(this.GetParentRow(this.Table.ParentRelations["CoachNotes_CoachConversation"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["CoachNotes_CoachConversation"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsvisibleNull() {
+                return this.IsNull(this.tableCoachConversation.visibleColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetvisibleNull() {
+                this[this.tableCoachConversation.visibleColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsCoachNotes_IdNull() {
+                return this.IsNull(this.tableCoachConversation.CoachNotes_IdColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetCoachNotes_IdNull() {
+                this[this.tableCoachConversation.CoachNotes_IdColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public CoachNoteRow[] GetCoachNoteRows() {
-                if ((this.Table.ChildRelations["CoachNotes_CoachNote"] == null)) {
+                if ((this.Table.ChildRelations["CoachConversation_CoachNote"] == null)) {
                     return new CoachNoteRow[0];
                 }
                 else {
-                    return ((CoachNoteRow[])(base.GetChildRows(this.Table.ChildRelations["CoachNotes_CoachNote"])));
+                    return ((CoachNoteRow[])(base.GetChildRows(this.Table.ChildRelations["CoachConversation_CoachNote"])));
                 }
             }
         }
@@ -12012,123 +12747,58 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public byte round {
+            public string Direction {
                 get {
-                    return ((byte)(this[this.tableCoachNote.roundColumn]));
+                    return ((string)(this[this.tableCoachNote.DirectionColumn]));
                 }
                 set {
-                    this[this.tableCoachNote.roundColumn] = value;
+                    this[this.tableCoachNote.DirectionColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool visible {
+            public string CoachNote_text {
                 get {
-                    try {
-                        return ((bool)(this[this.tableCoachNote.visibleColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'visible\' in table \'CoachNote\' is DBNull.", e);
-                    }
+                    return ((string)(this[this.tableCoachNote.CoachNote_textColumn]));
                 }
                 set {
-                    this[this.tableCoachNote.visibleColumn] = value;
+                    this[this.tableCoachNote.CoachNote_textColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string CoachComment {
+            public int CoachConversation_Id {
                 get {
                     try {
-                        return ((string)(this[this.tableCoachNote.CoachCommentColumn]));
+                        return ((int)(this[this.tableCoachNote.CoachConversation_IdColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'CoachComment\' in table \'CoachNote\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'CoachConversation_Id\' in table \'CoachNote\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableCoachNote.CoachCommentColumn] = value;
+                    this[this.tableCoachNote.CoachConversation_IdColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string ConsultantResponse {
+            public CoachConversationRow CoachConversationRow {
                 get {
-                    try {
-                        return ((string)(this[this.tableCoachNote.ConsultantResponseColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'ConsultantResponse\' in table \'CoachNote\' is DBNull.", e);
-                    }
+                    return ((CoachConversationRow)(this.GetParentRow(this.Table.ParentRelations["CoachConversation_CoachNote"])));
                 }
                 set {
-                    this[this.tableCoachNote.ConsultantResponseColumn] = value;
+                    this.SetParentRow(value, this.Table.ParentRelations["CoachConversation_CoachNote"]);
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int CoachNotes_Id {
-                get {
-                    try {
-                        return ((int)(this[this.tableCoachNote.CoachNotes_IdColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'CoachNotes_Id\' in table \'CoachNote\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableCoachNote.CoachNotes_IdColumn] = value;
-                }
+            public bool IsCoachConversation_IdNull() {
+                return this.IsNull(this.tableCoachNote.CoachConversation_IdColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public CoachNotesRow CoachNotesRow {
-                get {
-                    return ((CoachNotesRow)(this.GetParentRow(this.Table.ParentRelations["CoachNotes_CoachNote"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["CoachNotes_CoachNote"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsvisibleNull() {
-                return this.IsNull(this.tableCoachNote.visibleColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetvisibleNull() {
-                this[this.tableCoachNote.visibleColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsCoachCommentNull() {
-                return this.IsNull(this.tableCoachNote.CoachCommentColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetCoachCommentNull() {
-                this[this.tableCoachNote.CoachCommentColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsConsultantResponseNull() {
-                return this.IsNull(this.tableCoachNote.ConsultantResponseColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetConsultantResponseNull() {
-                this[this.tableCoachNote.ConsultantResponseColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsCoachNotes_IdNull() {
-                return this.IsNull(this.tableCoachNote.CoachNotes_IdColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetCoachNotes_IdNull() {
-                this[this.tableCoachNote.CoachNotes_IdColumn] = global::System.Convert.DBNull;
+            public void SetCoachConversation_IdNull() {
+                this[this.tableCoachNote.CoachConversation_IdColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -12942,6 +13612,37 @@ namespace OneStoryProjectEditor {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public class ConsultantConversationRowChangeEvent : global::System.EventArgs {
+            
+            private ConsultantConversationRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public ConsultantConversationRowChangeEvent(ConsultantConversationRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public ConsultantConversationRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         public class ConsultantNoteRowChangeEvent : global::System.EventArgs {
             
             private ConsultantNoteRow eventRow;
@@ -12987,6 +13688,37 @@ namespace OneStoryProjectEditor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public CoachNotesRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public class CoachConversationRowChangeEvent : global::System.EventArgs {
+            
+            private CoachConversationRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public CoachConversationRowChangeEvent(CoachConversationRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public CoachConversationRow Row {
                 get {
                     return this.eventRow;
                 }

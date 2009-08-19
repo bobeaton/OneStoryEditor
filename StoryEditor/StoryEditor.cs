@@ -13,7 +13,6 @@ namespace OneStoryProjectEditor
     // call to: webBrowserNetBible.ObjectForScripting = this;
     public partial class StoryEditor : Form
     {
-        internal const string CstrCaption = "OneStory Project Editor";
         internal const string CstrButtonDropTargetName = "buttonDropTarget";
 
         internal StoriesData Stories = null;
@@ -33,7 +32,7 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(String.Format("Problem initializing Sword (the Net Bible viewer):{0}{0}{1}", Environment.NewLine, ex.Message), StoryEditor.CstrCaption);
+                MessageBox.Show(String.Format("Problem initializing Sword (the Net Bible viewer):{0}{0}{1}", Environment.NewLine, ex.Message),  StoriesData.CstrCaption);
             }
 
             try
@@ -81,7 +80,7 @@ namespace OneStoryProjectEditor
                         string strFilename = ProjectSettings.GetDefaultProjectFileName(strProjectName);
                         if (File.Exists(strFilename))
                         {
-                            DialogResult res = MessageBox.Show(String.Format("You already have a project with the name, '{0}'. Do you want to delete the existing one?", strProjectName), CstrCaption, MessageBoxButtons.YesNoCancel);
+                            DialogResult res = MessageBox.Show(String.Format("You already have a project with the name, '{0}'. Do you want to delete the existing one?", strProjectName),  StoriesData.CstrCaption, MessageBoxButtons.YesNoCancel);
                             if (res != DialogResult.Yes)
                                 throw StoryEditor.BackOutWithNoUI;
 
@@ -108,7 +107,7 @@ namespace OneStoryProjectEditor
             catch (Exception ex)
             {
                 MessageBox.Show(String.Format("Unable to import the project '{1}'{0}{0}{2}{0}{0}Contact bob_eaton@sall.com for help",
-                    Environment.NewLine, strProjectName, ex.Message), CstrCaption);
+                    Environment.NewLine, strProjectName, ex.Message),  StoriesData.CstrCaption);
                 return;
             }
         }
@@ -168,7 +167,7 @@ namespace OneStoryProjectEditor
                 catch (Exception ex)
                 {
                     MessageBox.Show(String.Format("Unable to open the member list{0}{0}{1}{0}{0}Contact bob_eaton@sall.com for help",
-                        Environment.NewLine, ex.Message), CstrCaption);
+                        Environment.NewLine, ex.Message),  StoriesData.CstrCaption);
                     return;
                 }
             }
@@ -254,7 +253,7 @@ namespace OneStoryProjectEditor
                 string strErrorMsg = String.Format("Unable to open project '{1}'{0}{0}{2}{0}{0}{3}{0}{0}Send the project file along with the error message to bob_eaton@sall.com for help",
                     Environment.NewLine, projSettings.ProjectName,
                     ((ex.InnerException != null) ? ex.InnerException.Message : ""), ex.Message);
-                MessageBox.Show(strErrorMsg, CstrCaption);
+                MessageBox.Show(strErrorMsg,  StoriesData.CstrCaption);
             }
         }
 
@@ -292,7 +291,7 @@ namespace OneStoryProjectEditor
 
                 if (theStory == null)
                 {
-                    if (MessageBox.Show(String.Format("Unable to find the story '{0}'. Would you like to add a new one with that name?", strStoryToLoad), CstrCaption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+                    if (MessageBox.Show(String.Format("Unable to find the story '{0}'. Would you like to add a new one with that name?", strStoryToLoad),  StoriesData.CstrCaption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
                     {
                         System.Diagnostics.Debug.Assert(!comboBoxStorySelector.Items.Contains(strStoryToLoad));
                         comboBoxStorySelector.Items.Add(strStoryToLoad);
@@ -455,7 +454,7 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(String.Format("Unable to continue! Cause: {0}", ex.Message), CstrCaption);
+                MessageBox.Show(String.Format("Unable to continue! Cause: {0}", ex.Message),  StoriesData.CstrCaption);
                 return;
             }
         }
@@ -650,12 +649,12 @@ namespace OneStoryProjectEditor
             }
             catch (UnauthorizedAccessException)
             {
-                MessageBox.Show(String.Format("The project file '{0}' is locked. Is it read-only? Or opened in some other program? Unlock it and try again. Or try to save it as a different name.", strFilename), CstrCaption);
+                MessageBox.Show(String.Format("The project file '{0}' is locked. Is it read-only? Or opened in some other program? Unlock it and try again. Or try to save it as a different name.", strFilename),  StoriesData.CstrCaption);
                 return;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(String.Format("Unable to save the project file '{1}'{0}{0}{2}", Environment.NewLine, strFilename, ex.Message), CstrCaption);
+                MessageBox.Show(String.Format("Unable to save the project file '{1}'{0}{0}{2}", Environment.NewLine, strFilename, ex.Message),  StoriesData.CstrCaption);
                 return;
             }
 
@@ -674,7 +673,7 @@ namespace OneStoryProjectEditor
 
         protected void SetupTitleBar(string strProjectName, string strStoryName)
         {
-            String str = String.Format("{0} -- {1} -- {2}", CstrCaption, strProjectName, strStoryName);
+            String str = String.Format("{0} -- {1} -- {2}",  StoriesData.CstrCaption, strProjectName, strStoryName);
         }
         
         /*
@@ -835,11 +834,11 @@ namespace OneStoryProjectEditor
                 Properties.Settings.Default.RecentProjects.RemoveAt(nIndex);
                 Properties.Settings.Default.RecentProjectPaths.RemoveAt(nIndex);
                 Properties.Settings.Default.Save();
-                MessageBox.Show(ex.Message, CstrCaption);
+                MessageBox.Show(ex.Message,  StoriesData.CstrCaption);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, CstrCaption);
+                MessageBox.Show(ex.Message,  StoriesData.CstrCaption);
             }
         }
 
@@ -930,7 +929,7 @@ namespace OneStoryProjectEditor
                                 String.Format(theCurrentST.TerminalTransitionMessage,
                                 TeamMemberData.GetMemberTypeAsDisplayString(theNewST.MemberTypeWithEditToken), 
                                 theNewST.StageDisplayString), 
-                            CstrCaption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
+                             StoriesData.CstrCaption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
                             return;
 
                     theCurrentStory.ProjStage.ProjectStage = theNewST.CurrentStage;
@@ -978,7 +977,7 @@ namespace OneStoryProjectEditor
                             String.Format(st.TerminalTransitionMessage,
                                 TeamMemberData.GetMemberTypeAsDisplayString(stNext.MemberTypeWithEditToken),
                                 stNext.StageDisplayString), 
-                            CstrCaption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
+                             StoriesData.CstrCaption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
                         return false;
                 theCurrentStory.ProjStage.ProjectStage = st.NextState;  // if we are ready, then go ahead and transition
             }
@@ -1018,15 +1017,6 @@ namespace OneStoryProjectEditor
                 comboBoxStorySelector.SelectedItem = Stories[nIndex].StoryName;
         }
 
-        public static string GetRunningFolder
-        {
-            get
-            {
-                string strCurrentFolder = System.Reflection.Assembly.GetExecutingAssembly().GetModules()[0].FullyQualifiedName;
-                return Path.GetDirectoryName(strCurrentFolder);
-            }
-        }
-
         private void StoryEditor_FormClosing(object sender, FormClosingEventArgs e)
         {
             // the CheckForSaveDirtyFile automatically saves... so just to leave the user 
@@ -1034,7 +1024,7 @@ namespace OneStoryProjectEditor
             //  'X' in the upper right corner (i.e. this routine is called)
             if (Modified)
             {
-                DialogResult res = MessageBox.Show("Would you like to save your changes before you exit?", CstrCaption, MessageBoxButtons.YesNoCancel);
+                DialogResult res = MessageBox.Show("Would you like to save your changes before you exit?",  StoriesData.CstrCaption, MessageBoxButtons.YesNoCancel);
                 if (res == DialogResult.Cancel)
                     return;
                 if (res == DialogResult.Yes)

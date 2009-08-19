@@ -335,7 +335,7 @@ namespace OneStoryProjectEditor
 
         private void deleteTheWholeVerseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want to delete this verse (and all associated consultant notes, etc)?", StoryEditor.CstrCaption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+            if (MessageBox.Show("Are you sure you want to delete this verse (and all associated consultant notes, etc)?",  StoriesData.CstrCaption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
             {
                 StoryEditor theSE = (StoryEditor)FindForm();
                 theSE.DeleteVerse(_verseData);
@@ -374,7 +374,7 @@ namespace OneStoryProjectEditor
             string strFullStop;
             if (String.IsNullOrEmpty(theSE.Stories.ProjSettings.NationalBT.FullStop))
             {
-                strFullStop = Microsoft.VisualBasic.Interaction.InputBox("Enter the character in this language that ends a sentence (e.g. '.' for English or '।' for Hindi)", StoryEditor.CstrCaption, "।", Screen.PrimaryScreen.WorkingArea.Right / 2, Screen.PrimaryScreen.WorkingArea.Bottom / 2);
+                strFullStop = Microsoft.VisualBasic.Interaction.InputBox("Enter the character in this language that ends a sentence (e.g. '.' for English or '।' for Hindi)",  StoriesData.CstrCaption, "।", Screen.PrimaryScreen.WorkingArea.Right / 2, Screen.PrimaryScreen.WorkingArea.Bottom / 2);
                 if (String.IsNullOrEmpty(strFullStop))
                     return;
             }

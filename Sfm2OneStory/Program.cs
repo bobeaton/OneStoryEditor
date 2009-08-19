@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
 {
@@ -14,23 +15,53 @@ namespace OneStoryProjectEditor
         const string CstrTestor1 = "Testing 1:";
         const string CstrTestor2 = "Testing 2:";
 
-        const string CstrVernName = "Kangri";
-        const string CstrVernCode = "xnr";
+        const string CstrDefOutputFile = @"C:\Code\StoryEditor\StoryEditor\Dogri.onestory";
+        const string CstrVernName = "Dogri";
+        const string CstrVernCode = "doj";
+        const string CstrVernCodeSfm = @"\doj";
         const string CstrVernFullStop = "।";
         const string CstrNatlName = "Hindi";
         const string CstrNatlCode = "hi";
+        const string CstrNatlCodeSfm = @"\hnd";
         const string CstrNatlFullStop = "।";
         const string CstrIntlName = "English";
         const string CstrIntlCode = "en";
 
+        protected static List<string> lstSfmsToIgnore = new List<string>
+        {
+            @"\ash",
+            @"\dt",
+            @"\old",
+            @"\ohnd"
+        };
+
         static void Main(string[] args)
         {
-            string[] astrBt = File.ReadAllLines(@"L:\Pahari\Storying\Kangri\KangriStoriesBT.txt");
-            string[] astrRet = File.ReadAllLines(@"L:\Pahari\Storying\Kangri\KangriTestRetellings.txt");
-            string[] astrCon = File.ReadAllLines(@"L:\Pahari\Storying\Kangri\ProjectConNotes.txt");
-            string[] astrCoa = File.ReadAllLines(@"L:\Pahari\Storying\Kangri\CoachingNotes.txt");
+            string[] astrBt = File.ReadAllLines(@"L:\Pahari\Storying\Dogri\DogriStoriesBT.txt");
+            string[] astrRet = File.ReadAllLines(@"L:\Pahari\Storying\Dogri\DogriTestRetellings.txt");
+            string[] astrCon = File.ReadAllLines(@"L:\Pahari\Storying\Dogri\ProjectConNotes.txt");
+            string[] astrCoa = File.ReadAllLines(@"L:\Pahari\Storying\Dogri\CoachingNotes.txt");
 
-            StoriesData theStories = new StoriesData();
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Title = "Browse for the existing version of the output file (so we can reuse the GUIDs)";
+            StoriesData theStories;
+            TeamMemberData theLoggedOnMember = null;
+            bool bUsingStoryProject;
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                StoryProject projFile = new StoryProject();
+                projFile.ReadXml(dlg.FileName);
+                ProjectSettings projSettings = new ProjectSettings(Path.GetDirectoryName(dlg.FileName), Path.GetFileNameWithoutExtension(dlg.FileName));
+                theStories = new StoriesData(projFile, projSettings, ref theLoggedOnMember);
+                bUsingStoryProject = true;
+            }
+            else
+            {
+                ProjectSettings projSettings = new ProjectSettings(Path.GetDirectoryName(CstrDefOutputFile), Path.GetFileNameWithoutExtension(CstrDefOutputFile));
+                theStories = new StoriesData(projSettings);
+                bUsingStoryProject = false;
+            }
+
             int nIndexBt = 0, nIndexRet = 0, nIndexCon = 0, nIndexCoa = 0;
             SkipTo(@"\t ", @"\t ", astrBt, ref nIndexBt);
             SkipTo(@"\t ", @"\t ", astrRet, ref nIndexRet);
@@ -38,10 +69,16 @@ namespace OneStoryProjectEditor
             SkipTo(@"\t ", @"\t ", astrCoa, ref nIndexCoa);
 
             // set up a regex helper to pick apart the anchors
+            int nStoryNumber = 0;
             while (nIndexBt != -1)
             {
                 string strStoryName = astrBt[nIndexBt].Substring(3);
-                StoryData story = new StoryData(strStoryName);
+                StoryData story;
+                if (bUsingStoryProject)
+                    story = theStories[nStoryNumber];
+                else
+                    story = new StoryData(strStoryName, null);
+
                 Console.WriteLine("Story: " + strStoryName);
 
                 // first process the 'crafting info'
@@ -68,14 +105,20 @@ namespace OneStoryProjectEditor
                         else if (BeginsWith(strData, CstrTestor1))
                         {
                             string strTestor1 = strData.Substring(CstrTestor1.Length).Trim();
-                            strTestorGuid = MemberGuid(theStories.TeamMembers, strTestor1, TeamMemberData.UserTypes.eUNS);
-                            story.CraftingInfo.Testors.Add(1, strTestorGuid);
+                            if (!String.IsNullOrEmpty(strTestor1))
+                            {
+                                strTestorGuid = MemberGuid(theStories.TeamMembers, strTestor1, TeamMemberData.UserTypes.eUNS);
+                                story.CraftingInfo.Testors.Add(1, strTestorGuid);
+                            }
                         }
                         else if (BeginsWith(strData, CstrTestor2))
                         {
                             string strTestor2 = strData.Substring(CstrTestor2.Length).Trim();
-                            strTestorGuid = MemberGuid(theStories.TeamMembers, strTestor2, TeamMemberData.UserTypes.eUNS);
-                            story.CraftingInfo.Testors.Add(2, strTestorGuid);
+                            if (!String.IsNullOrEmpty(strTestor2))
+                            {
+                                strTestorGuid = MemberGuid(theStories.TeamMembers, strTestor2, TeamMemberData.UserTypes.eUNS);
+                                story.CraftingInfo.Testors.Add(2, strTestorGuid);
+                            }
                         }
                     }
                     else if (strMarker == @"\c")
@@ -93,12 +136,12 @@ namespace OneStoryProjectEditor
                     ParseLine(astrBt[++nIndexBt], out strMarker, out strData);
                     while ((strMarker != @"\ln") && (strMarker != @"\c"))
                     {
-                        if (strMarker == @"\xnr")
-                            verse.VernacularText = strData;
-                        else if (strMarker == @"\hnd")
-                            verse.NationalBTText = strData;
+                        if (strMarker == CstrVernCodeSfm)
+                            verse.VernacularText.SetValue(strData);
+                        else if (strMarker == CstrNatlCodeSfm)
+                            verse.NationalBTText.SetValue(strData);
                         else if (strMarker == @"\bt")
-                            verse.InternationalBTText = strData;
+                            verse.InternationalBTText.SetValue(strData);
                         else if (strMarker == @"\anc")
                         {
                             Dictionary<string, string> map = GetListOfAnchors(strData);
@@ -108,16 +151,16 @@ namespace OneStoryProjectEditor
                         else if (strMarker == @"\tsth")
                         {
                             verse.TestQuestions.AddTestQuestion();
-                            verse.TestQuestions[++nTQIndex].QuestionVernacular = strData;
+                            verse.TestQuestions[++nTQIndex].QuestionVernacular.SetValue(strData);
                         }
                         else if (strMarker == @"\tst")
-                            verse.TestQuestions[nTQIndex].QuestionEnglish = strData;
+                            verse.TestQuestions[nTQIndex].QuestionEnglish.SetValue(strData);
                         else if (strMarker == @"\ans")
                         {
                             if (nTQIndex >= 0)
                             {
                                 System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(strTestorGuid));
-                                verse.TestQuestions[nTQIndex].Answers.AddNewLine(strData, strTestorGuid);
+                                verse.TestQuestions[nTQIndex].Answers.AddNewLine(strTestorGuid).SetValue(strData);
                             }
                         }
                         else if (strMarker == @"\cn")
@@ -125,8 +168,10 @@ namespace OneStoryProjectEditor
                             System.Diagnostics.Debug.Assert(verse.Anchors.Count > 0);
                             verse.Anchors[0].ExegeticalHelpNotes.AddExegeticalHelpNote(strData);
                         }
-                        else if ((strMarker == @"\ash") || (strMarker == @"\dt") || (strMarker == @"\old"))
-                            Console.WriteLine("Found:" + strMarker);
+                        else if (lstSfmsToIgnore.Contains(strMarker))
+                        {
+                            Console.WriteLine("Found, but don't care about marker:" + strMarker);
+                        }
                         else if (!String.IsNullOrEmpty(strMarker) && !String.IsNullOrEmpty(strData))
                             System.Diagnostics.Debug.Assert(false, String.Format("not handling the '{0}' marker", strMarker));
                         
@@ -146,7 +191,7 @@ namespace OneStoryProjectEditor
                             if (strMarker == @"\ret")
                             {
                                 System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(strTestorGuid));
-                                verse.Retellings.AddNewLine(strData, strTestorGuid);
+                                verse.Retellings.AddNewLine(strTestorGuid).SetValue(strData);
                             }
                             else if (!String.IsNullOrEmpty(strMarker) && !String.IsNullOrEmpty(strData))
                                 System.Diagnostics.Debug.Assert(false, String.Format("not handling the '{0}' marker", strMarker));
@@ -163,8 +208,6 @@ namespace OneStoryProjectEditor
                         {
                             if (strMarker == @"\con")
                             {
-                                ConsultNoteDataConverter con = new ConsultantNoteData();
-                                con.MentorComment = strData;
                                 int nRound = 1;
                                 try
                                 {
@@ -172,14 +215,15 @@ namespace OneStoryProjectEditor
                                     nRound = Convert.ToInt32(chRound.ToString());
                                 }
                                 catch { }
-                                con.RoundNum = nRound;
+                                ConsultNoteDataConverter con = new ConsultantNoteData(nRound);
+                                con.MentorComment.SetValue(strData);
                                 verse.ConsultantNotes.Add(con);
                             }
                             else if (strMarker == @"\fac")
                             {
                                 System.Diagnostics.Debug.Assert(verse.ConsultantNotes.Count > 0);
                                 ConsultNoteDataConverter con = verse.ConsultantNotes[verse.ConsultantNotes.Count - 1];
-                                con.MenteeResponse = strData;
+                                con.MenteeResponse.SetValue(strData);
                             }
                             else if (!String.IsNullOrEmpty(strMarker) && !String.IsNullOrEmpty(strData))
                                 System.Diagnostics.Debug.Assert(false, String.Format("not handling the '{0}' marker", strMarker));
@@ -194,25 +238,27 @@ namespace OneStoryProjectEditor
                         ParseLine(astrCoa[++nIndexCoa], out strMarker, out strData);
                         while ((strMarker != @"\ln") && (strMarker != @"\c"))
                         {
+                            int nRound = 1;
                             if (strMarker == @"\cch")
                             {
-                                ConsultNoteDataConverter coa = new CoachNoteData();
-                                verse.CoachNotes.Add(coa);
-                                coa.MentorComment = strData;
-                                int nRound = 1;
                                 try
                                 {
                                     char chRound = (strData.Substring(0, 2) == "JP") ? strData[2] : '1';
                                     nRound = Convert.ToInt32(chRound);
                                 }
                                 catch { }
-                                coa.RoundNum = nRound;
+                                ConsultNoteDataConverter coa = new CoachNoteData(nRound);
+                                verse.CoachNotes.Add(coa);
+                                coa.MentorComment.SetValue(strData);
                             }
                             else if ((strMarker == @"\con") || (strMarker == @"\fac"))
                             {
                                 if (verse.CoachNotes.Count == 0)
                                 {
-                                    ConsultNoteDataConverter coa2 = new CoachNoteData();
+                                    // sometimes the CIT has a comment for the coach (in which case, the MentorComment won't exist)
+                                    //  of course, the problem is that in this case, the Mentor comment will come in what
+                                    //  appears to be a following note... nothing we can do about that.
+                                    ConsultNoteDataConverter coa2 = new CoachNoteData(nRound);
                                     verse.CoachNotes.Add(coa2);
                                 }
                                 System.Diagnostics.Debug.Assert(verse.CoachNotes.Count > 0);
@@ -250,7 +296,7 @@ namespace OneStoryProjectEditor
             theStories.ProjSettings.NationalBT.FullStop = CstrNatlFullStop;
             theStories.ProjSettings.InternationalBT.LangName = CstrIntlName;
             theStories.ProjSettings.InternationalBT.LangCode = CstrIntlCode;
-            SaveXElement(theStories.GetXml, @"C:\Code\StoryEditor\StoryEditor\Kangri.onestory");
+            SaveXElement(theStories.GetXml, theStories.ProjSettings.ProjectFileName);
         }
 
         static void ParseLine(string strLine, out string strMarker, out string strData)
@@ -289,6 +335,8 @@ namespace OneStoryProjectEditor
             return false;
         }
 
+        protected static Regex SearchRegExErrors2 = new Regex(@"[a-zA-Z1-3]{3}[ \:]\d{1,3}[ \.\:]\d{2}", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
+        protected static Regex SearchRegExErrors = new Regex(@"[a-zA-Z1-3]{3}[ \.\:]\d{1,3}[ \.]\d{2}", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
         protected static Regex SearchRegEx3 = new Regex(@"([a-zA-Z1-3]{3}\.\d{2,3}\:)(\d{2}) ?- ?(\d{2})", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
         protected static Regex SearchRegEx2 = new Regex(@"([a-zA-Z1-3]{3}\.\d{2,3}\:)(\d{2}), ?(\d{2})", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
         protected static Regex SearchRegEx = new Regex(@"[a-zA-Z1-3]{3}\.\d{2,3}\:\d{2}", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
@@ -307,7 +355,15 @@ namespace OneStoryProjectEditor
                 string strTrimmed = str.Trim();
                 if (!String.IsNullOrEmpty(strTrimmed))
                 {
-                    MatchCollection mc = SearchRegEx2.Matches(strTrimmed);
+                    MatchCollection mc = SearchRegExErrors.Matches(strTrimmed);
+                    if (mc.Count > 0)
+                        System.Diagnostics.Debug.Assert(false, "possible bad anchor");
+
+                    mc = SearchRegExErrors2.Matches(strTrimmed);
+                    if (mc.Count > 0)
+                        System.Diagnostics.Debug.Assert(false, "possible bad anchor");
+
+                    mc = SearchRegEx2.Matches(strTrimmed);
                     if (mc.Count > 0)
                     {
                         System.Diagnostics.Debug.Assert(mc.Count == 1);

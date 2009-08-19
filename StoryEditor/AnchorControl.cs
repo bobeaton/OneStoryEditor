@@ -136,7 +136,7 @@ namespace OneStoryProjectEditor
             if (e.Data.GetDataPresent(typeof(NetBibleViewer)))
             {
                 NetBibleViewer theNetBibleViewer = (NetBibleViewer)e.Data.GetData(typeof(NetBibleViewer));
-                AnchorData theAnchorData = _myAnchorsData.AddAnchorData(theNetBibleViewer.ScriptureReference);
+                AnchorData theAnchorData = _myAnchorsData.AddAnchorData(theNetBibleViewer.ScriptureReference, theNetBibleViewer.ScriptureReference);
                 InitAnchorButton(toolStripAnchors, theAnchorData);
             }
         }
@@ -147,7 +147,7 @@ namespace OneStoryProjectEditor
             {
                 if (_mapAnchorsToTextBoxes.ContainsKey(m_theLastButtonClicked))
                 {
-                    DialogResult res = MessageBox.Show(String.Format("The anchor you are about to delete has exegetical or cultural note(s) attached to it. These will be deleted also. Click 'OK' to continue with the deletion.{0}{0}[if you would rather have kept them, say associated to another anchor, then tell bob_eaton@sall.com and he may implement that feature. For now, you can copy the note and paste it into a new note added to a new or existing anchor (right-click on the anchor and choose 'Add Exegetical/Cultural Note'). Then come back here and delete this anchor]", Environment.NewLine), StoryEditor.CstrCaption, MessageBoxButtons.OKCancel);
+                    DialogResult res = MessageBox.Show(String.Format("The anchor you are about to delete has exegetical or cultural note(s) attached to it. These will be deleted also. Click 'OK' to continue with the deletion.{0}{0}[if you would rather have kept them, say associated to another anchor, then tell bob_eaton@sall.com and he may implement that feature. For now, you can copy the note and paste it into a new note added to a new or existing anchor (right-click on the anchor and choose 'Add Exegetical/Cultural Note'). Then come back here and delete this anchor]", Environment.NewLine),  StoriesData.CstrCaption, MessageBoxButtons.OKCancel);
                     if (res != DialogResult.OK)
                         return;
 
@@ -169,7 +169,7 @@ namespace OneStoryProjectEditor
                 m_theLastButtonClicked = null;
             }
             else
-                MessageBox.Show("Right-click on one of the buttons to choose which one to delete", StoryEditor.CstrCaption);
+                MessageBox.Show("Right-click on one of the buttons to choose which one to delete",  StoriesData.CstrCaption);
         }
 
         private void addCommentToolStripMenuItem_Click(object sender, EventArgs e)
@@ -190,7 +190,7 @@ namespace OneStoryProjectEditor
                 }
             }
             else
-                MessageBox.Show("Right-click on one of the buttons to choose which one to add the comment to", StoryEditor.CstrCaption);
+                MessageBox.Show("Right-click on one of the buttons to choose which one to add the comment to",  StoriesData.CstrCaption);
         }
 
         private void toolStripAnchors_MouseDown(object sender, MouseEventArgs e)
@@ -209,7 +209,7 @@ namespace OneStoryProjectEditor
                 AdjustHeightWithSuspendLayout(null);
             }
             else
-                MessageBox.Show("Right-click on one of the buttons to choose which one to add the exegetical or cultural note to", StoryEditor.CstrCaption);
+                MessageBox.Show("Right-click on one of the buttons to choose which one to add the exegetical or cultural note to",  StoriesData.CstrCaption);
         }
     }
 }

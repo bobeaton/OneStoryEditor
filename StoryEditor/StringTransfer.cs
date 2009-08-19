@@ -14,7 +14,9 @@ namespace OneStoryProjectEditor
 
         protected SetValueDelegate theSetValueDelegate = null;
         protected string Value;
+#if !DataDllBuild
         protected CtrlTextBox _tb = null;
+#endif
 
         public StringTransfer(string strValue)
         {
@@ -27,6 +29,7 @@ namespace OneStoryProjectEditor
             Value = strValue;
         }
 
+#if !DataDllBuild
         public void SetAssociation(CtrlTextBox tb)
         {
             _tb = tb;
@@ -38,6 +41,7 @@ namespace OneStoryProjectEditor
         {
             get { return _tb; }
         }
+#endif
 
         // make it a little non-obvious how to get the string out so we can benefit from compiler-time errors
         public override string ToString()

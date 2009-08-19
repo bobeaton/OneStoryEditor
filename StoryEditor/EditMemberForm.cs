@@ -34,7 +34,7 @@ namespace OneStoryProjectEditor
             {
                 MessageBox.Show(
                     "You have to enter at least a name and indicate your role (even if you're 'just looking')!",
-                    StoryEditor.CstrCaption);
+                     StoriesData.CstrCaption);
                 return;
             }
 

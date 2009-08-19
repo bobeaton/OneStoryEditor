@@ -156,7 +156,11 @@ namespace OneStoryProjectEditor
             {
                 return String.Format(@"{0}\{1}",
                     Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+#if !DataDllBuild
                     Properties.Settings.Default.DefMyDocsSubfolder);
+#else
+                    "OneStory");
+#endif
             }
         }
 

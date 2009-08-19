@@ -37,8 +37,12 @@ namespace OneStoryProjectEditor
 
             // finally populate the buttons on that tool strip
             int nNumRows = 1;
-            InitRow(aCNDC.MentorLabel, aCNDC.MentorComment, aCNDC.CommentColor, aCNDC.MentorRequiredEditor, ref nNumRows);
-            InitRow(aCNDC.MenteeLabel, aCNDC.MenteeResponse, aCNDC.ResponseColor, aCNDC.MenteeRequiredEditor, ref nNumRows);
+            foreach (CommInstance aCI in aCNDC)
+                if ((aCI.Direction == ConsultNoteDataConverter.CommunicationDirections.eConsultantToCrafter)
+                    || (aCI.Direction == ConsultNoteDataConverter.CommunicationDirections.eCoachToConsultant))
+                    InitRow(aCNDC.MentorLabel, aCI, aCNDC.CommentColor, aCNDC.MentorRequiredEditor, ref nNumRows);
+                else
+                    InitRow(aCNDC.MenteeLabel, aCI, aCNDC.ResponseColor, aCNDC.MenteeRequiredEditor, ref nNumRows);
 
             tableLayoutPanel.ResumeLayout(false);
             ResumeLayout(false);
@@ -75,8 +79,8 @@ namespace OneStoryProjectEditor
 
         private void deleteMenuItem_Click(object sender, EventArgs e)
         {
-            if (_myCNDC.MentorComment.HasData || _myCNDC.MenteeResponse.HasData)
-                if (MessageBox.Show("Are you sure you want to delete this note?", StoryEditor.CstrCaption, MessageBoxButtons.YesNo) != DialogResult.Yes)
+            if (_myCNDC.HasData)
+                if (MessageBox.Show("Are you sure you want to delete this note?",  StoriesData.CstrCaption, MessageBoxButtons.YesNo) != DialogResult.Yes)
                     return;
 
             _myCollection.Remove(_myCNDC);

@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryEditor", "StoryEditor\StoryEditor.csproj", "{EE63B2ED-1488-491F-990A-3FA16E2DB135}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup OneStory Editor", "Setup OneStory Editor\Setup OneStory Editor.vdproj", "{C80B2478-A312-432B-98E7-90550C718A33}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

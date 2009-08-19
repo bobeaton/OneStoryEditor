@@ -147,11 +147,10 @@
 																<xs:element name="ConsultantNotes" minOccurs="0" maxOccurs="1">
 																	<xs:complexType>
 																		<xs:sequence>
-																			<xs:element name="ConsultantNote" minOccurs="0" maxOccurs="unbounded">
+																			<xs:element name="ConsultantConversation" minOccurs="1" maxOccurs="unbounded">
 																				<xs:complexType>
 																					<xs:sequence>
-																						<xs:element name="ConsultantComment" minOccurs="0" maxOccurs="1" type="xs:string"></xs:element>
-																						<xs:element name="CrafterResponse" minOccurs="0" maxOccurs="1" type="xs:string"></xs:element>
+																						<xs:element name="ConsultantNote" minOccurs="1" maxOccurs="unbounded" type="Comment" />
 																					</xs:sequence>
 																					<xs:attribute name="round" type="xs:unsignedByte" use="required" />
 																					<xs:attribute name="visible" type="xs:boolean" />
@@ -163,11 +162,10 @@
 																<xs:element name="CoachNotes" minOccurs="0" maxOccurs="1">
 																	<xs:complexType>
 																		<xs:sequence>
-																			<xs:element name="CoachNote" minOccurs="0" maxOccurs="unbounded">
+																			<xs:element name="CoachConversation" minOccurs="1" maxOccurs="unbounded">
 																				<xs:complexType>
 																					<xs:sequence>
-																						<xs:element name="CoachComment" minOccurs="0" maxOccurs="1" type="xs:string"></xs:element>
-																						<xs:element name="ConsultantResponse" minOccurs="0" maxOccurs="1" type="xs:string"></xs:element>
+																						<xs:element name="CoachNote" minOccurs="1" maxOccurs="unbounded" type="Comment" />
 																					</xs:sequence>
 																					<xs:attribute name="round" type="xs:unsignedByte" use="required" />
 																					<xs:attribute name="visible" type="xs:boolean" />
@@ -259,5 +257,20 @@
 		<xs:attribute name="FontSize" type="xs:float" use="required" />
 		<xs:attribute name="FontColor" type="xs:string" use="required" />
 		<xs:attribute name="SentenceFinalPunct" type="xs:string" />
+	</xs:complexType>
+	<xs:simpleType name="FromTo">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ConsultantToCrafter" />
+			<xs:enumeration value="CrafterToConsultant" />
+			<xs:enumeration value="ConsultantToCoach" />
+			<xs:enumeration value="CoachToConsultant" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Comment">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="Direction" type="FromTo" use="required" />
+			</xs:extension>
+		</xs:simpleContent>
 	</xs:complexType>
 </xs:schema>

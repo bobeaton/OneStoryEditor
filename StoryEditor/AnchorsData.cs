@@ -10,7 +10,7 @@ namespace OneStoryProjectEditor
     {
         public string JumpTarget = null;
         public string ToolTipText = null;
-        internal ExegeticalHelpNotesData ExegeticalHelpNotes = null;
+        public ExegeticalHelpNotesData ExegeticalHelpNotes = null;
 
         public AnchorData(StoryProject.anchorRow theAnchorRow, StoryProject projFile)
         {
@@ -61,10 +61,10 @@ namespace OneStoryProjectEditor
         {
         }
 
-        public AnchorData AddAnchorData(string strJumpTarget)
+        public AnchorData AddAnchorData(string strJumpTarget, string strComment)
         {
-            AnchorData anAD = new AnchorData(strJumpTarget, strJumpTarget);
-            this.Add(anAD);
+            AnchorData anAD = new AnchorData(strJumpTarget, strComment);
+            Add(anAD);
             return anAD;
         }
 

@@ -6,13 +6,49 @@ using System.Drawing;
 
 namespace OneStoryProjectEditor
 {
-    public abstract class ConsultNoteDataConverter
+    public class CommInstance : StringTransfer
     {
+        public ConsultNoteDataConverter.CommunicationDirections Direction;
+        public CommInstance(string strValue, ConsultNoteDataConverter.CommunicationDirections direction)
+            : base(strValue)
+        {
+            Direction = direction;
+        }
+    }
+
+    public abstract class ConsultNoteDataConverter : List<CommInstance>
+    {
+        public CommunicationDirections CommunicationDirection;
+
+        public enum CommunicationDirections
+        {
+            eConsultantToCrafter,
+            eCrafterToConsultant,
+            eConsultantToCoach,
+            eCoachToConsultant
+        }
+
+        protected static Dictionary<string, CommunicationDirections> CmapDirectionStringToEnumType = new Dictionary<string, CommunicationDirections>()
+        {
+            { "ConsultantToCrafter", CommunicationDirections.eConsultantToCrafter },
+            { "CrafterToConsultant", CommunicationDirections.eCrafterToConsultant },
+            { "ConsultantToCoach", CommunicationDirections.eConsultantToCoach },
+            { "CoachToConsultant", CommunicationDirections.eCoachToConsultant }
+        };
+
+        protected CommunicationDirections GetDirectionFromString(string strDirectionString)
+        {
+            System.Diagnostics.Debug.Assert(CmapDirectionStringToEnumType.ContainsKey(strDirectionString));
+            return CmapDirectionStringToEnumType[strDirectionString];
+        }
+
+        public string GetDirectionString(CommunicationDirections eDirection)
+        {
+            return eDirection.ToString().Substring(1);
+        }
+
         public int RoundNum = 0;
         public bool Visible = true;
-
-        public StringTransfer MentorComment = null;
-        public StringTransfer MenteeResponse = null;
 
         public abstract string MentorLabel
         {
@@ -34,17 +70,12 @@ namespace OneStoryProjectEditor
             get { return Color.Blue; }
         }
 
-        protected abstract string InstanceElementName
+        protected abstract string InstanceElementName   // *Conversation
         {
             get;
         }
 
-        protected abstract string CommentElementName
-        {
-            get;
-        }
-
-        protected abstract string ResponseElementName
+        protected abstract string SubElementName   // *Note
         {
             get;
         }
@@ -63,8 +94,7 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                System.Diagnostics.Debug.Assert((MentorComment != null) && (MenteeResponse != null));
-                return (MentorComment.HasData || MenteeResponse.HasData);
+                return (Count > 0);
             }
         }
 
@@ -72,16 +102,15 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                System.Diagnostics.Debug.Assert((MentorComment != null) && (MenteeResponse != null) && HasData);
+                System.Diagnostics.Debug.Assert(Count > 0);
 
                 XElement eleNote = new XElement(InstanceElementName, new XAttribute("round", RoundNum));
                 if (!Visible)
                     eleNote.Add(new XAttribute("visible", "false"));
 
-                if (MentorComment.HasData)
-                    eleNote.Add(new XElement(CommentElementName, MentorComment));
-                if (MenteeResponse.HasData)
-                    eleNote.Add(new XElement(ResponseElementName, MenteeResponse));
+                foreach (CommInstance aCI in this)
+                    eleNote.Add(new XElement(SubElementName, new XAttribute("Direction", GetDirectionString(CommunicationDirection)),
+                        aCI.ToString()));
 
                 return eleNote;
             }
@@ -90,21 +119,20 @@ namespace OneStoryProjectEditor
 
     public class ConsultantNoteData : ConsultNoteDataConverter
     {
-        public ConsultantNoteData(StoryProject.ConsultantNoteRow aCNRow)
+        public ConsultantNoteData(StoryProject.ConsultantConversationRow aConRow)
         {
-            RoundNum = aCNRow.round;
-            if (!aCNRow.IsvisibleNull())
-                Visible = aCNRow.visible;
+            RoundNum = aConRow.round;
+            if (!aConRow.IsvisibleNull())
+                Visible = aConRow.visible;
 
-            MentorComment = new StringTransfer((aCNRow.IsConsultantCommentNull()) ? null : aCNRow.ConsultantComment);
-            MenteeResponse = new StringTransfer((aCNRow.IsCrafterResponseNull()) ? null : aCNRow.CrafterResponse);
+            StoryProject.ConsultantNoteRow[] theNoteRows = aConRow.GetConsultantNoteRows();
+            foreach (StoryProject.ConsultantNoteRow aNoteRow in theNoteRows)
+                Add(new CommInstance(aNoteRow.ConsultantNote_text, GetDirectionFromString(aNoteRow.Direction)));
         }
 
         public ConsultantNoteData(int nRound)
         {
             RoundNum = nRound;
-            MentorComment = new StringTransfer(null);
-            MenteeResponse = new StringTransfer(null);
         }
 
         public override string MentorLabel
@@ -119,17 +147,12 @@ namespace OneStoryProjectEditor
 
         protected override string InstanceElementName
         {
+            get { return "ConsultantConversation"; }
+        }
+
+        protected override string SubElementName
+        {
             get { return "ConsultantNote"; }
-        }
-
-        protected override string CommentElementName
-        {
-            get { return "ConsultantComment"; }
-        }
-
-        protected override string ResponseElementName
-        {
-            get { return "CrafterResponse"; }
         }
 
         public override TeamMemberData.UserTypes MentorRequiredEditor
@@ -143,52 +166,22 @@ namespace OneStoryProjectEditor
         }
     }
 
-    public class ConsultantNotesData : ConsultNotesDataConverter
-    {
-        public ConsultantNotesData(StoryProject.verseRow theVerseRow, StoryProject projFile)
-        {
-            CollectionElementName = "ConsultantNotes";
-
-            StoryProject.ConsultantNotesRow[] theConsultantNotesRows = theVerseRow.GetConsultantNotesRows();
-            StoryProject.ConsultantNotesRow theConsultantNotesRow;
-            if (theConsultantNotesRows.Length == 0)
-                theConsultantNotesRow = projFile.ConsultantNotes.AddConsultantNotesRow(theVerseRow);
-            else
-                theConsultantNotesRow = theConsultantNotesRows[0];
-
-            foreach (StoryProject.ConsultantNoteRow aConsultantNoteRow in theConsultantNotesRow.GetConsultantNoteRows())
-                Add(new ConsultantNoteData(aConsultantNoteRow));
-        }
-
-        public override void AddEmpty(int nRound)
-        {
-            // always add closest to the verse label
-            Insert(0, new ConsultantNoteData(nRound));
-        }
-
-        public ConsultantNotesData()
-        {
-            CollectionElementName = "ConsultantNotes";
-        }
-    }
-
     public class CoachNoteData : ConsultNoteDataConverter
     {
-        public CoachNoteData(StoryProject.CoachNoteRow aCoNRow)
+        public CoachNoteData(StoryProject.CoachConversationRow aCoaCRow)
         {
-            RoundNum = aCoNRow.round;
-            if (!aCoNRow.IsvisibleNull())
-                Visible = aCoNRow.visible;
+            RoundNum = aCoaCRow.round;
+            if (!aCoaCRow.IsvisibleNull())
+                Visible = aCoaCRow.visible;
 
-            MentorComment = new StringTransfer((aCoNRow.IsCoachCommentNull()) ? null : aCoNRow.CoachComment);
-            MenteeResponse = new StringTransfer((aCoNRow.IsConsultantResponseNull()) ? null : aCoNRow.ConsultantResponse);
+            StoryProject.CoachNoteRow[] theNoteRows = aCoaCRow.GetCoachNoteRows();
+            foreach (StoryProject.CoachNoteRow aNoteRow in theNoteRows)
+                Add(new CommInstance(aNoteRow.CoachNote_text, GetDirectionFromString(aNoteRow.Direction)));
         }
 
         public CoachNoteData(int nRound)
         {
             RoundNum = nRound;
-            MentorComment = new StringTransfer(null);
-            MenteeResponse = new StringTransfer(null);
         }
 
         public override string MentorLabel
@@ -203,17 +196,12 @@ namespace OneStoryProjectEditor
 
         protected override string InstanceElementName
         {
+            get { return "CoachConversation"; }
+        }
+
+        protected override string SubElementName
+        {
             get { return "CoachNote"; }
-        }
-
-        protected override string CommentElementName
-        {
-            get { return "CoachComment"; }
-        }
-
-        protected override string ResponseElementName
-        {
-            get { return "ConsultantResponse"; }
         }
 
         public override TeamMemberData.UserTypes MentorRequiredEditor
@@ -252,6 +240,35 @@ namespace OneStoryProjectEditor
         }
     }
 
+    public class ConsultantNotesData : ConsultNotesDataConverter
+    {
+        public ConsultantNotesData(StoryProject.verseRow theVerseRow, StoryProject projFile)
+        {
+            CollectionElementName = "ConsultantNotes";
+
+            StoryProject.ConsultantNotesRow[] theConsultantNotesRows = theVerseRow.GetConsultantNotesRows();
+            StoryProject.ConsultantNotesRow theConsultantNotesRow;
+            if (theConsultantNotesRows.Length == 0)
+                theConsultantNotesRow = projFile.ConsultantNotes.AddConsultantNotesRow(theVerseRow);
+            else
+                theConsultantNotesRow = theConsultantNotesRows[0];
+
+            foreach (StoryProject.ConsultantConversationRow aConsultantConversationRow in theConsultantNotesRow.GetConsultantConversationRows())
+                Add(new ConsultantNoteData(aConsultantConversationRow));
+        }
+
+        public override void AddEmpty(int nRound)
+        {
+            // always add closest to the verse label
+            Insert(0, new ConsultantNoteData(nRound));
+        }
+
+        public ConsultantNotesData()
+        {
+            CollectionElementName = "ConsultantNotes";
+        }
+    }
+
     public class CoachNotesData : ConsultNotesDataConverter
     {
         public CoachNotesData(StoryProject.verseRow theVerseRow, StoryProject projFile)
@@ -265,8 +282,8 @@ namespace OneStoryProjectEditor
             else
                 theCoachNotesRow = theCoachNotesRows[0];
 
-            foreach (StoryProject.CoachNoteRow aCoachNoteRow in theCoachNotesRow.GetCoachNoteRows())
-                Add(new CoachNoteData(aCoachNoteRow));
+            foreach (StoryProject.CoachConversationRow aCoachConversationRow in theCoachNotesRow.GetCoachConversationRows())
+                Add(new CoachNoteData(aCoachConversationRow));
         }
 
         public override void AddEmpty(int nRound)

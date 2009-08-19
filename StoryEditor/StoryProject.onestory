@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <StoryProject>
-  <stories ProjectName="StoryProject">
+  <stories ProjectName="Kangri">
     <Members>
       <Member name="Pawan" memberType="Crafter" email="koundal@kastanet.org" altPhone="1862230839" phone="93571-99065" memberKey="mem-99CDE60E-453A-4947-8627-83B33223EF0B" />
       <Member name="Karn" memberType="Crafter" email="Karan_Dogra@kastanet.org" phone="93189-69891" memberKey="mem-68A82D25-D414-4489-A484-8F17D8808818" />
@@ -57,29 +57,31 @@
             <Retelling memberID="mem-FCAC1BB2-827F-47b8-B1BD-60245BB15392">Whatever we see around us, god has made it.</Retelling>
           </Retellings>
           <ConsultantNotes>
-            <ConsultantNote round="2">
-              <ConsultantComment>note in the retelling, she said "... God has made it", whereas in the original story, it says, "... God was before them all" (which gets repeated in the next verse). Do you think we should change 00.01 to be more like her retelling? The "God made everything" concept is really from the next story, from which she might be getting confused, but it might work here too.</ConsultantComment>
-              <CrafterResponse>Yes, it is more natural and I have changed it.</CrafterResponse>
-            </ConsultantNote>
-            <ConsultantNote round="1">
-              <ConsultantComment>just a reminder to word the question as much as possible as the original text (i.e. जितनी भी 'whatever' rather than जितनी 'what')</ConsultantComment>
-              <CrafterResponse>done</CrafterResponse>
-            </ConsultantNote>
-            <ConsultantNote round="1">
-              <ConsultantComment>good question: given the Hindu perspective of maya 'illusion', it'd be interesting to see what they think is actually around them.</ConsultantComment>
-              <CrafterResponse>done</CrafterResponse>
-            </ConsultantNote>
+            <ConsultantConversation round="2" visible="true">
+              <ConsultantNote Direction="ConsultantToCrafter">note in the retelling, she said "... God has made it", whereas in the original story, it says, "... God was before them all" (which gets repeated in the next verse). Do you think we should change 00.01 to be more like her retelling? The "God made everything" concept is really from the next story, from which she might be getting confused, but it might work here too.</ConsultantNote>
+              <ConsultantNote Direction="CrafterToConsultant">Yes, it is ok, but do we have changed it?</ConsultantNote>
+              <ConsultantNote Direction="ConsultantToCrafter">No, not if you don't feel it is better. It was just a thought.</ConsultantNote>
+            </ConsultantConversation>
+            <ConsultantConversation round="1">
+              <ConsultantNote Direction="ConsultantToCrafter">just a reminder to word the question as much as possible as the original text (i.e. जितनी भी 'whatever' rather than जितनी 'what')</ConsultantNote>
+              <ConsultantNote Direction="CrafterToConsultant">done</ConsultantNote>
+            </ConsultantConversation>
+            <ConsultantConversation round="1">
+              <ConsultantNote Direction="ConsultantToCrafter">good question: given the Hindu perspective of maya 'illusion', it'd be interesting to see what they think is actually around them.</ConsultantNote>
+              <ConsultantNote Direction="CrafterToConsultant">done</ConsultantNote>
+            </ConsultantConversation>
           </ConsultantNotes>
           <CoachNotes>
-            <CoachNote round="1">
-              <CoachComment>since the anchored verse doesn't actually say who the agent of creation was, add an exegetical comment indicating God was (e.g. from TN on gen.02:04)</CoachComment>
-              <ConsultantResponse>done</ConsultantResponse>
-            </CoachNote>
+            <CoachConversation round="1">
+              <CoachNote Direction="CoachToConsultant">since the anchored verse doesn't actually say who the agent of creation was, add an exegetical comment indicating God was (e.g. from TN on gen.02:04)</CoachNote>
+              <CoachNote Direction="ConsultantToCoach">done</CoachNote>
+            </CoachConversation>
+            <CoachConversation round="2">
+              <CoachNote Direction="ConsultantToCoach">is it okay to say the word "schmaboogle" in a story?</CoachNote>
+              <CoachNote Direction="CoachToConsultant">Not unless you want to be flogged.</CoachNote>
+              <CoachNote Direction="ConsultantToCoach">Okay, we'll take it out.</CoachNote>
+            </CoachConversation>
           </CoachNotes>
-        </verse>
-        <verse guid="3ead55ef-1828-47d9-bb00-8e513c3aa42a">
-          <NationalBT>sdgvds।</NationalBT>
-          <InternationalBT>asdg</InternationalBT>
         </verse>
         <verse guid="25F6726D-F0A8-4b38-9EC9-8DBB2919B764">
           <Vernacular>अपर परमेसर इह़ना चीज़ा ते पैह़ले थे, हुण हन, कने तिह़ना म्‍हे़सा तिकर रैह़णा है।</Vernacular>

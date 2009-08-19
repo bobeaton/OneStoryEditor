@@ -15,7 +15,7 @@ namespace OneStoryProjectEditor
         public CraftingInfoData CraftingInfo = null;
         public VersesData Verses = null;
 
-        internal StoryData(string strStoryName, string strLoggedOnMemberGuid)
+        public StoryData(string strStoryName, string strLoggedOnMemberGuid)
         {
             StoryName = strStoryName;
             StoryGuid = Guid.NewGuid().ToString();
@@ -57,9 +57,11 @@ namespace OneStoryProjectEditor
 
     public class StoriesData : List<StoryData>
     {
-        internal TeamMembersData TeamMembers = null;
-        internal ProjectSettings ProjSettings = null;
+        public const string CstrCaption = "OneStory Project Editor";
+        public TeamMembersData TeamMembers = null;
+        public ProjectSettings ProjSettings = null;
 
+#if !DataDllBuild
         public StoriesData(ref TeamMemberData loggedOnMember)
         {
             // if this is "new", then we won't have a project name yet, so query the user for it
@@ -71,6 +73,14 @@ namespace OneStoryProjectEditor
             if (loggedOnMember == null)
                 loggedOnMember = GetLogin();
         }
+#else
+        public StoriesData(ProjectSettings projSettings)
+        {
+            // if this is "new", then we won't have a project name yet, so query the user for it
+            TeamMembers = new TeamMembersData();
+            ProjSettings = projSettings;
+        }
+#endif
 
         public StoriesData(StoryProject projFile, ProjectSettings projSettings, ref TeamMemberData loggedOnMember)
         {
@@ -87,8 +97,10 @@ namespace OneStoryProjectEditor
             ProjSettings.SerializeProjectSettings(projFile);
 
             // the LoggedOnMemb might have been passed in from a previous file
+#if !DataDllBuild
             if (loggedOnMember == null)
                 loggedOnMember = GetLogin();
+#endif
 
             // finally, if it's not new, then it might (should) have stories as well
             foreach (StoryProject.storyRow aStoryRow in projFile.stories[0].GetstoryRows())
@@ -109,6 +121,7 @@ namespace OneStoryProjectEditor
             return strMemberName;
         }
 
+#if !DataDllBuild
         internal static string QueryProjectName()
         {
             bool bDoItAgain;
@@ -116,7 +129,7 @@ namespace OneStoryProjectEditor
             do
             {
                 bDoItAgain = false;
-                strProjectName = Microsoft.VisualBasic.Interaction.InputBox("Enter the name you want to give this project (e.g. the language name).", StoryEditor.CstrCaption, strProjectName, 300, 200);
+                strProjectName = Microsoft.VisualBasic.Interaction.InputBox("Enter the name you want to give this project (e.g. the language name).", CstrCaption, strProjectName, 300, 200);
                 if (String.IsNullOrEmpty(strProjectName))
                     throw new ApplicationException("Unable to create a project without a project name!");
 
@@ -127,7 +140,7 @@ namespace OneStoryProjectEditor
                     if (strProject == strProjectName)
                     {
                         string strProjectFolder = Properties.Settings.Default.RecentProjectPaths[i];
-                        DialogResult res = MessageBox.Show(String.Format("You already have a project with the name '{0}' that is in another location. If you create this new project with the same name, then you won't be able to access the earlier project that is located in the '{1}' folder. Do you want to continue creating the new project and lose the reference to the earlier project (it won't be deleted if you do)?", strProjectName, strProjectFolder), StoryEditor.CstrCaption, MessageBoxButtons.YesNoCancel);
+                        DialogResult res = MessageBox.Show(String.Format("You already have a project with the name '{0}' that is in another location. If you create this new project with the same name, then you won't be able to access the earlier project that is located in the '{1}' folder. Do you want to continue creating the new project and lose the reference to the earlier project (it won't be deleted if you do)?", strProjectName, strProjectFolder), CstrCaption, MessageBoxButtons.YesNoCancel);
                         if (res == DialogResult.Cancel)
                             throw StoryEditor.BackOutWithNoUI;
                         if (res == DialogResult.No)
@@ -175,6 +188,15 @@ namespace OneStoryProjectEditor
                 throw new ApplicationException("You have to log in in order to continue");
 
             return TeamMembers[dlg.SelectedMember];
+        }
+#endif
+        public static string GetRunningFolder
+        {
+            get
+            {
+                string strCurrentFolder = System.Reflection.Assembly.GetExecutingAssembly().GetModules()[0].FullyQualifiedName;
+                return Path.GetDirectoryName(strCurrentFolder);
+            }
         }
 
         public XElement GetXml
