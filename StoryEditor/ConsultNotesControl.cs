@@ -91,7 +91,9 @@ namespace OneStoryProjectEditor
                 if (eCurState > StoryStageLogic.ProjectStages.eConsultantReviseRound2Notes)
                     round = 3;
             }
-            _theCNsDC.AddEmpty(round);
+
+            // always add at the front (so they're stay close to the collection label
+            _theCNsDC.InsertEmpty(0, round);
             theSE.ReInitConsultNotesPane(_theCNsDC);
         }
     }

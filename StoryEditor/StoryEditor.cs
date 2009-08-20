@@ -227,7 +227,7 @@ namespace OneStoryProjectEditor
                 projFile.ReadXml(projSettings.ProjectFileName);
 
                 // get the data into another structure that we use internally (more flexible)
-                Stories = new StoriesData(projFile, projSettings, ref LoggedOnMember);
+                Stories = GetOldStoriesData(projFile, projSettings);
 
                 // enable the button
                 buttonsStoryStage.Enabled = true;
@@ -261,10 +261,21 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                StoriesData ssd = new StoriesData(ref LoggedOnMember);
+                StoriesData ssd = new StoriesData(null);    // null causes us to query for the project name
+                if (LoggedOnMember == null)
+                    LoggedOnMember = ssd.GetLogin();
+
                 Modified = true;
                 return ssd;
             }
+        }
+
+        protected StoriesData GetOldStoriesData(StoryProject projFile, ProjectSettings projSettings)
+        {
+            StoriesData theOldStories = new StoriesData(projFile, projSettings);
+            if (LoggedOnMember == null)
+                LoggedOnMember = Stories.GetLogin();
+            return theOldStories;
         }
 
         private void comboBoxStorySelector_KeyUp(object sender, KeyEventArgs e)

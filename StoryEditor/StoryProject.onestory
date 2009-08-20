@@ -58,28 +58,28 @@
           </Retellings>
           <ConsultantNotes>
             <ConsultantConversation round="2" visible="true">
-              <ConsultantNote Direction="ConsultantToCrafter">note in the retelling, she said "... God has made it", whereas in the original story, it says, "... God was before them all" (which gets repeated in the next verse). Do you think we should change 00.01 to be more like her retelling? The "God made everything" concept is really from the next story, from which she might be getting confused, but it might work here too.</ConsultantNote>
-              <ConsultantNote Direction="CrafterToConsultant">Yes, it is ok, but do we have changed it?</ConsultantNote>
-              <ConsultantNote Direction="ConsultantToCrafter">No, not if you don't feel it is better. It was just a thought.</ConsultantNote>
+              <ConsultantNote Direction="ConsultantToCrafter" guid="4C06109F-644A-4bde-AFBC-9E05A10B9885">note in the retelling, she said "... God has made it", whereas in the original story, it says, "... God was before them all" (which gets repeated in the next verse). Do you think we should change 00.01 to be more like her retelling? The "God made everything" concept is really from the next story, from which she might be getting confused, but it might work here too.</ConsultantNote>
+              <ConsultantNote Direction="CrafterToConsultant" guid="FFF8F952-1FB2-439d-956F-1C755EBD287B">Yes, it is ok, but do we have changed it?</ConsultantNote>
+              <ConsultantNote Direction="ConsultantToCrafter" guid="FEFF2C92-DFD1-4241-8738-A617053A2C8C">No, not if you don't feel it is better. It was just a thought.</ConsultantNote>
             </ConsultantConversation>
             <ConsultantConversation round="1">
-              <ConsultantNote Direction="ConsultantToCrafter">just a reminder to word the question as much as possible as the original text (i.e. जितनी भी 'whatever' rather than जितनी 'what')</ConsultantNote>
-              <ConsultantNote Direction="CrafterToConsultant">done</ConsultantNote>
+              <ConsultantNote Direction="ConsultantToCrafter" guid="7BD4B64B-FBAA-40a9-8080-013D53142BAC">just a reminder to word the question as much as possible as the original text (i.e. जितनी भी 'whatever' rather than जितनी 'what')</ConsultantNote>
+              <ConsultantNote Direction="CrafterToConsultant" guid="FFDD998B-E30D-4ce4-9CBC-F7BD5FD5FA44">done</ConsultantNote>
             </ConsultantConversation>
             <ConsultantConversation round="1">
-              <ConsultantNote Direction="ConsultantToCrafter">good question: given the Hindu perspective of maya 'illusion', it'd be interesting to see what they think is actually around them.</ConsultantNote>
-              <ConsultantNote Direction="CrafterToConsultant">done</ConsultantNote>
+              <ConsultantNote Direction="ConsultantToCrafter" guid="5A93972A-3DCA-4b07-B51F-0A56CF029E0E">good question: given the Hindu perspective of maya 'illusion', it'd be interesting to see what they think is actually around them.</ConsultantNote>
+              <ConsultantNote Direction="CrafterToConsultant" guid="5E99414F-51D1-448b-9AA7-CB264A414705">done</ConsultantNote>
             </ConsultantConversation>
           </ConsultantNotes>
           <CoachNotes>
             <CoachConversation round="1">
-              <CoachNote Direction="CoachToConsultant">since the anchored verse doesn't actually say who the agent of creation was, add an exegetical comment indicating God was (e.g. from TN on gen.02:04)</CoachNote>
-              <CoachNote Direction="ConsultantToCoach">done</CoachNote>
+              <CoachNote Direction="CoachToConsultant" guid="142A8192-D61A-4154-B077-FA08CDDA0946">since the anchored verse doesn't actually say who the agent of creation was, add an exegetical comment indicating God was (e.g. from TN on gen.02:04)</CoachNote>
+              <CoachNote Direction="ConsultantToCoach" guid="3D248E2D-4D38-46e5-9BB4-26729AED2FB6">done</CoachNote>
             </CoachConversation>
             <CoachConversation round="2">
-              <CoachNote Direction="ConsultantToCoach">is it okay to say the word "schmaboogle" in a story?</CoachNote>
-              <CoachNote Direction="CoachToConsultant">Not unless you want to be flogged.</CoachNote>
-              <CoachNote Direction="ConsultantToCoach">Okay, we'll take it out.</CoachNote>
+              <CoachNote Direction="ConsultantToCoach" guid="C502D6A8-AA8D-4fae-83E1-051F8206303F">is it okay to say the word "schmaboogle" in a story?</CoachNote>
+              <CoachNote Direction="CoachToConsultant" guid="D9E7C8FB-8D70-4e18-89BF-CF48BD5F0B71">Not unless you want to be flogged.</CoachNote>
+              <CoachNote Direction="ConsultantToCoach" guid="82AAB012-F6E6-4263-BDE9-10AA59A4574F">Okay, we'll take it out.</CoachNote>
             </CoachConversation>
           </CoachNotes>
         </verse>

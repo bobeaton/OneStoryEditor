@@ -57,6 +57,16 @@ namespace OneStoryProjectEditor
             CoachNotes = new CoachNotesData();
         }
 
+        public bool HasData
+        {
+            get
+            {
+                return (VernacularText.HasData || NationalBTText.HasData || InternationalBTText.HasData
+                    || Anchors.HasData || TestQuestions.HasData || Retellings.HasData 
+                    || ConsultantNotes.HasData || CoachNotes.HasData);
+            }
+        }
+
         public XElement GetXml
         {
             get
@@ -78,6 +88,7 @@ namespace OneStoryProjectEditor
                     elemVerse.Add(ConsultantNotes.GetXml);
                 if (CoachNotes.HasData)
                     elemVerse.Add(CoachNotes.GetXml);
+
                 return elemVerse;
             }
         }

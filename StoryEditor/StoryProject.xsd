@@ -270,6 +270,7 @@
 		<xs:simpleContent>
 			<xs:extension base="xs:string">
 				<xs:attribute name="Direction" type="FromTo" use="required" />
+				<xs:attribute name="guid" type="xs:string" use="required" />
 			</xs:extension>
 		</xs:simpleContent>
 	</xs:complexType>

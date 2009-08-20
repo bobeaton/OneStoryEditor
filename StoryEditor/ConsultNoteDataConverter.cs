@@ -9,17 +9,18 @@ namespace OneStoryProjectEditor
     public class CommInstance : StringTransfer
     {
         public ConsultNoteDataConverter.CommunicationDirections Direction;
-        public CommInstance(string strValue, ConsultNoteDataConverter.CommunicationDirections direction)
+        public string Guid;
+
+        public CommInstance(string strValue, ConsultNoteDataConverter.CommunicationDirections direction, string strGuid)
             : base(strValue)
         {
             Direction = direction;
+            Guid = strGuid;
         }
     }
 
     public abstract class ConsultNoteDataConverter : List<CommInstance>
     {
-        public CommunicationDirections CommunicationDirection;
-
         public enum CommunicationDirections
         {
             eConsultantToCrafter,
@@ -109,7 +110,9 @@ namespace OneStoryProjectEditor
                     eleNote.Add(new XAttribute("visible", "false"));
 
                 foreach (CommInstance aCI in this)
-                    eleNote.Add(new XElement(SubElementName, new XAttribute("Direction", GetDirectionString(CommunicationDirection)),
+                    eleNote.Add(new XElement(SubElementName, 
+                        new XAttribute("Direction", GetDirectionString(aCI.Direction)),
+                        new XAttribute("guid", aCI.Guid),
                         aCI.ToString()));
 
                 return eleNote;
@@ -127,7 +130,7 @@ namespace OneStoryProjectEditor
 
             StoryProject.ConsultantNoteRow[] theNoteRows = aConRow.GetConsultantNoteRows();
             foreach (StoryProject.ConsultantNoteRow aNoteRow in theNoteRows)
-                Add(new CommInstance(aNoteRow.ConsultantNote_text, GetDirectionFromString(aNoteRow.Direction)));
+                Add(new CommInstance(aNoteRow.ConsultantNote_text, GetDirectionFromString(aNoteRow.Direction), aNoteRow.guid));
         }
 
         public ConsultantNoteData(int nRound)
@@ -137,12 +140,12 @@ namespace OneStoryProjectEditor
 
         public override string MentorLabel
         {
-            get { return "con:"; }
+            get { return "cons:"; }
         }
 
         public override string MenteeLabel
         {
-            get { return "res:"; }
+            get { return "crft:"; }
         }
 
         protected override string InstanceElementName
@@ -176,7 +179,7 @@ namespace OneStoryProjectEditor
 
             StoryProject.CoachNoteRow[] theNoteRows = aCoaCRow.GetCoachNoteRows();
             foreach (StoryProject.CoachNoteRow aNoteRow in theNoteRows)
-                Add(new CommInstance(aNoteRow.CoachNote_text, GetDirectionFromString(aNoteRow.Direction)));
+                Add(new CommInstance(aNoteRow.CoachNote_text, GetDirectionFromString(aNoteRow.Direction), aNoteRow.guid));
         }
 
         public CoachNoteData(int nRound)
@@ -186,12 +189,12 @@ namespace OneStoryProjectEditor
 
         public override string MentorLabel
         {
-            get { return "co:"; }
+            get { return "coach:"; }
         }
 
         public override string MenteeLabel
         {
-            get { return "con:"; }
+            get { return "cons:"; }
         }
 
         protected override string InstanceElementName
@@ -224,7 +227,8 @@ namespace OneStoryProjectEditor
             get { return (this.Count > 0); }
         }
 
-        public abstract void AddEmpty(int nRound);
+        public abstract ConsultNoteDataConverter InsertEmpty(int nIndex, int nRound);
+        public abstract ConsultNoteDataConverter AddEmpty(int nRound);
 
         public XElement GetXml
         {
@@ -257,10 +261,19 @@ namespace OneStoryProjectEditor
                 Add(new ConsultantNoteData(aConsultantConversationRow));
         }
 
-        public override void AddEmpty(int nRound)
+        public override ConsultNoteDataConverter AddEmpty(int nRound)
         {
             // always add closest to the verse label
-            Insert(0, new ConsultantNoteData(nRound));
+            ConsultNoteDataConverter theNewCN = new ConsultantNoteData(nRound);
+            Add(theNewCN);
+            return theNewCN;
+        }
+
+        public override ConsultNoteDataConverter InsertEmpty(int nIndex, int nRound)
+        {
+            ConsultNoteDataConverter theNewCN = new ConsultantNoteData(nRound);
+            Insert(nIndex, theNewCN);
+            return theNewCN;
         }
 
         public ConsultantNotesData()
@@ -286,10 +299,20 @@ namespace OneStoryProjectEditor
                 Add(new CoachNoteData(aCoachConversationRow));
         }
 
-        public override void AddEmpty(int nRound)
+        public override ConsultNoteDataConverter AddEmpty(int nRound)
         {
             // always add closest to the verse label
-            Insert(0, new CoachNoteData(nRound));
+            ConsultNoteDataConverter theNewCN = new CoachNoteData(nRound);
+            Add(theNewCN);
+            return theNewCN;
+        }
+
+        public override ConsultNoteDataConverter InsertEmpty(int nIndex, int nRound)
+        {
+            // always add closest to the verse label
+            ConsultNoteDataConverter theNewCN = new CoachNoteData(nRound);
+            Insert(0, theNewCN);
+            return theNewCN;
         }
 
         public CoachNotesData()

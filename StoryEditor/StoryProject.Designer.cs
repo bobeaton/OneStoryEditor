@@ -8816,6 +8816,8 @@ namespace OneStoryProjectEditor {
             
             private global::System.Data.DataColumn columnDirection;
             
+            private global::System.Data.DataColumn columnguid;
+            
             private global::System.Data.DataColumn columnConsultantNote_text;
             
             private global::System.Data.DataColumn columnConsultantConversation_Id;
@@ -8854,6 +8856,13 @@ namespace OneStoryProjectEditor {
             public global::System.Data.DataColumn DirectionColumn {
                 get {
                     return this.columnDirection;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn guidColumn {
+                get {
+                    return this.columnguid;
                 }
             }
             
@@ -8900,14 +8909,15 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public ConsultantNoteRow AddConsultantNoteRow(string Direction, string ConsultantNote_text, ConsultantConversationRow parentConsultantConversationRowByConsultantConversation_ConsultantNote) {
+            public ConsultantNoteRow AddConsultantNoteRow(string Direction, string guid, string ConsultantNote_text, ConsultantConversationRow parentConsultantConversationRowByConsultantConversation_ConsultantNote) {
                 ConsultantNoteRow rowConsultantNoteRow = ((ConsultantNoteRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Direction,
+                        guid,
                         ConsultantNote_text,
                         null};
                 if ((parentConsultantConversationRowByConsultantConversation_ConsultantNote != null)) {
-                    columnValuesArray[2] = parentConsultantConversationRowByConsultantConversation_ConsultantNote[2];
+                    columnValuesArray[3] = parentConsultantConversationRowByConsultantConversation_ConsultantNote[2];
                 }
                 rowConsultantNoteRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowConsultantNoteRow);
@@ -8929,6 +8939,7 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
                 this.columnDirection = base.Columns["Direction"];
+                this.columnguid = base.Columns["guid"];
                 this.columnConsultantNote_text = base.Columns["ConsultantNote_text"];
                 this.columnConsultantConversation_Id = base.Columns["ConsultantConversation_Id"];
             }
@@ -8937,12 +8948,16 @@ namespace OneStoryProjectEditor {
             private void InitClass() {
                 this.columnDirection = new global::System.Data.DataColumn("Direction", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnDirection);
+                this.columnguid = new global::System.Data.DataColumn("guid", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnguid);
                 this.columnConsultantNote_text = new global::System.Data.DataColumn("ConsultantNote_text", typeof(string), null, global::System.Data.MappingType.SimpleContent);
                 base.Columns.Add(this.columnConsultantNote_text);
                 this.columnConsultantConversation_Id = new global::System.Data.DataColumn("ConsultantConversation_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnConsultantConversation_Id);
                 this.columnDirection.AllowDBNull = false;
                 this.columnDirection.Namespace = "";
+                this.columnguid.AllowDBNull = false;
+                this.columnguid.Namespace = "";
                 this.columnConsultantNote_text.AllowDBNull = false;
             }
             
@@ -9588,6 +9603,8 @@ namespace OneStoryProjectEditor {
             
             private global::System.Data.DataColumn columnDirection;
             
+            private global::System.Data.DataColumn columnguid;
+            
             private global::System.Data.DataColumn columnCoachNote_text;
             
             private global::System.Data.DataColumn columnCoachConversation_Id;
@@ -9626,6 +9643,13 @@ namespace OneStoryProjectEditor {
             public global::System.Data.DataColumn DirectionColumn {
                 get {
                     return this.columnDirection;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn guidColumn {
+                get {
+                    return this.columnguid;
                 }
             }
             
@@ -9672,14 +9696,15 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public CoachNoteRow AddCoachNoteRow(string Direction, string CoachNote_text, CoachConversationRow parentCoachConversationRowByCoachConversation_CoachNote) {
+            public CoachNoteRow AddCoachNoteRow(string Direction, string guid, string CoachNote_text, CoachConversationRow parentCoachConversationRowByCoachConversation_CoachNote) {
                 CoachNoteRow rowCoachNoteRow = ((CoachNoteRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Direction,
+                        guid,
                         CoachNote_text,
                         null};
                 if ((parentCoachConversationRowByCoachConversation_CoachNote != null)) {
-                    columnValuesArray[2] = parentCoachConversationRowByCoachConversation_CoachNote[2];
+                    columnValuesArray[3] = parentCoachConversationRowByCoachConversation_CoachNote[2];
                 }
                 rowCoachNoteRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowCoachNoteRow);
@@ -9701,6 +9726,7 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
                 this.columnDirection = base.Columns["Direction"];
+                this.columnguid = base.Columns["guid"];
                 this.columnCoachNote_text = base.Columns["CoachNote_text"];
                 this.columnCoachConversation_Id = base.Columns["CoachConversation_Id"];
             }
@@ -9709,12 +9735,16 @@ namespace OneStoryProjectEditor {
             private void InitClass() {
                 this.columnDirection = new global::System.Data.DataColumn("Direction", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnDirection);
+                this.columnguid = new global::System.Data.DataColumn("guid", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnguid);
                 this.columnCoachNote_text = new global::System.Data.DataColumn("CoachNote_text", typeof(string), null, global::System.Data.MappingType.SimpleContent);
                 base.Columns.Add(this.columnCoachNote_text);
                 this.columnCoachConversation_Id = new global::System.Data.DataColumn("CoachConversation_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnCoachConversation_Id);
                 this.columnDirection.AllowDBNull = false;
                 this.columnDirection.Namespace = "";
+                this.columnguid.AllowDBNull = false;
+                this.columnguid.Namespace = "";
                 this.columnCoachNote_text.AllowDBNull = false;
             }
             
@@ -12511,6 +12541,16 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string guid {
+                get {
+                    return ((string)(this[this.tableConsultantNote.guidColumn]));
+                }
+                set {
+                    this[this.tableConsultantNote.guidColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public string ConsultantNote_text {
                 get {
                     return ((string)(this[this.tableConsultantNote.ConsultantNote_textColumn]));
@@ -12753,6 +12793,16 @@ namespace OneStoryProjectEditor {
                 }
                 set {
                     this[this.tableCoachNote.DirectionColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string guid {
+                get {
+                    return ((string)(this[this.tableCoachNote.guidColumn]));
+                }
+                set {
+                    this[this.tableCoachNote.guidColumn] = value;
                 }
             }
             

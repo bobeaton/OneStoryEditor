@@ -24,12 +24,12 @@ namespace OneStoryProjectEditor
             Verses = new VersesData();
         }
 
-        public StoryData(StoryProject.storyRow theStoryRow, StoryProject projFile, string strLoggedOnMemberGuid)
+        public StoryData(StoryProject.storyRow theStoryRow, StoryProject projFile)
         {
             StoryName = theStoryRow.name;
             StoryGuid = theStoryRow.guid;
             ProjStage = new StoryStageLogic(theStoryRow.stage);
-            CraftingInfo = new CraftingInfoData(theStoryRow, projFile, strLoggedOnMemberGuid);
+            CraftingInfo = new CraftingInfoData(theStoryRow, projFile);
             Verses = new VersesData(theStoryRow, projFile);
         }
 
@@ -61,28 +61,24 @@ namespace OneStoryProjectEditor
         public TeamMembersData TeamMembers = null;
         public ProjectSettings ProjSettings = null;
 
-#if !DataDllBuild
-        public StoriesData(ref TeamMemberData loggedOnMember)
-        {
-            // if this is "new", then we won't have a project name yet, so query the user for it
-            string strProjectName = QueryProjectName();
-            TeamMembers = new TeamMembersData();
-            ProjSettings = new ProjectSettings(null, strProjectName);
-
-            // the LoggedOnMemb might have been passed in from a previous file
-            if (loggedOnMember == null)
-                loggedOnMember = GetLogin();
-        }
-#else
         public StoriesData(ProjectSettings projSettings)
         {
             // if this is "new", then we won't have a project name yet, so query the user for it
-            TeamMembers = new TeamMembersData();
-            ProjSettings = projSettings;
-        }
+            if (projSettings == null)
+            {
+#if !DataDllBuild
+                string strProjectName = QueryProjectName();
+                ProjSettings = new ProjectSettings(null, strProjectName);
 #endif
+            }
+            else
+                ProjSettings = projSettings;
 
-        public StoriesData(StoryProject projFile, ProjectSettings projSettings, ref TeamMemberData loggedOnMember)
+            TeamMembers = new TeamMembersData();
+
+        }
+
+        public StoriesData(StoryProject projFile, ProjectSettings projSettings)
         {
             // this version comes with a project settings object
             ProjSettings = projSettings;
@@ -96,15 +92,9 @@ namespace OneStoryProjectEditor
             TeamMembers = new TeamMembersData(projFile);
             ProjSettings.SerializeProjectSettings(projFile);
 
-            // the LoggedOnMemb might have been passed in from a previous file
-#if !DataDllBuild
-            if (loggedOnMember == null)
-                loggedOnMember = GetLogin();
-#endif
-
             // finally, if it's not new, then it might (should) have stories as well
             foreach (StoryProject.storyRow aStoryRow in projFile.stories[0].GetstoryRows())
-                Add(new StoryData(aStoryRow, projFile, loggedOnMember.MemberGuid));
+                Add(new StoryData(aStoryRow, projFile));
         }
 
         internal string GetMemberNameFromMemberGuid(string strMemberGuid)
@@ -152,7 +142,7 @@ namespace OneStoryProjectEditor
             return strProjectName;
         }
 
-        protected TeamMemberData GetLogin()
+        internal TeamMemberData GetLogin()
         {
             // look at the last person to log in and see if we ought to automatically log them in again
             //  (basically Crafters or others that are also the same role as last time)
@@ -229,7 +219,7 @@ namespace OneStoryProjectEditor
             StoryCrafterMemberID = strLoggedOnMemberGuid;
         }
 
-        public CraftingInfoData(StoryProject.storyRow theStoryRow, StoryProject projFile, string strLoggedOnMemberGuid)
+        public CraftingInfoData(StoryProject.storyRow theStoryRow, StoryProject projFile)
         {
             StoryProject.CraftingInfoRow[] aCIRs = theStoryRow.GetCraftingInfoRows();
             if (aCIRs.Length == 1)
@@ -240,7 +230,7 @@ namespace OneStoryProjectEditor
                 if (aSCRs.Length == 1)
                     StoryCrafterMemberID = aSCRs[0].memberID;
                 else
-                    StoryCrafterMemberID = strLoggedOnMemberGuid;
+                    throw new ApplicationException("The project file is corrupted. No 'StoryCrafterMemberID' record found. Send to bob_eaton@sall.com for help.");
 
                 if (!theCIR.IsStoryPurposeNull())
                     StoryPurpose = theCIR.StoryPurpose;
@@ -260,9 +250,7 @@ namespace OneStoryProjectEditor
                 }
             }
             else
-            {
-                StoryCrafterMemberID = strLoggedOnMemberGuid;
-            }
+                throw new ApplicationException("The project file is corrupted. No 'CraftingInfo' record found. Send to bob_eaton@sall.com for help.");
         }
 
         public XElement GetXml

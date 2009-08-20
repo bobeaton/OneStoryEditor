@@ -7,10 +7,10 @@ namespace OneStoryProjectEditor
 {
     public abstract class MultipleLineDataConverter : List<StringTransfer>
     {
-        public string LabelTextFormat = null;
         protected List<string> MemberIDs = new List<string>();
-        protected string CollectionElementName = null;
-        protected string InstanceElementName = null;
+        protected abstract string CollectionElementName { get; }
+        protected abstract string InstanceElementName { get; }
+        public abstract string LabelTextFormat { get; }
 
         public bool HasData
         {
@@ -61,10 +61,6 @@ namespace OneStoryProjectEditor
     {
         public RetellingsData(StoryProject.verseRow theVerseRow, StoryProject projFile)
         {
-            LabelTextFormat = "ret {0}:";
-            CollectionElementName = "Retellings";
-            InstanceElementName = "Retelling";
-
             StoryProject.RetellingsRow[] theRetellingsRows = theVerseRow.GetRetellingsRows();
             StoryProject.RetellingsRow theRetellingsRow;
             if (theRetellingsRows.Length == 0)
@@ -81,9 +77,21 @@ namespace OneStoryProjectEditor
 
         public RetellingsData()
         {
-            LabelTextFormat = "ret {0}:";
-            CollectionElementName = "Retellings";
-            InstanceElementName = "Retelling";
+        }
+
+        protected override string CollectionElementName
+        {
+            get { return "Retellings"; }
+        }
+
+        protected override string InstanceElementName
+        {
+            get { return "Retelling"; }
+        }
+
+        public override string LabelTextFormat
+        {
+            get { return "ret {0}:"; }
         }
     }
 
@@ -91,10 +99,6 @@ namespace OneStoryProjectEditor
     {
         public AnswersData(StoryProject.TestQuestionRow theTestQuestionRow, StoryProject projFile)
         {
-            LabelTextFormat = "ans {0}:";
-            CollectionElementName = "Answers";
-            InstanceElementName = "answer";
-
             StoryProject.AnswersRow[] theAnswersRows = theTestQuestionRow.GetAnswersRows();
             StoryProject.AnswersRow theAnswersRow;
             if (theAnswersRows.Length == 0)
@@ -111,6 +115,21 @@ namespace OneStoryProjectEditor
 
         public AnswersData()
         {
+        }
+
+        protected override string CollectionElementName
+        {
+            get { return "Answers"; }
+        }
+
+        protected override string InstanceElementName
+        {
+            get { return "answer"; }
+        }
+
+        public override string LabelTextFormat
+        {
+            get { return "ans {0}:"; }
         }
     }
 }
