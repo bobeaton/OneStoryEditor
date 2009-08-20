@@ -3666,7 +3666,7 @@
     </story>
     <story name="Prophesy Story -- the coming Servant" stage="CoachReviewTest2Notes" guid="9b54fe5b-f029-43fe-b6a7-6e4d7cc5dfa4">
       <CraftingInfo>
-        <StoryCrafter memberID="" />
+        <StoryCrafter memberID="mem-4c6dbfd1-aa1d-4c53-b81e-f67d71fbd011" />
         <Tests>
           <Test number="1" memberID="mem-b54a9dc0-0583-4235-b14d-51408058b292" />
         </Tests>
@@ -4504,7 +4504,7 @@
     </story>
     <story name="Baptism of Jesus" stage="CoachReviewTest2Notes" guid="e8d2b928-b475-4911-9351-77253726b837">
       <CraftingInfo>
-        <StoryCrafter memberID="" />
+        <StoryCrafter memberID="mem-4c6dbfd1-aa1d-4c53-b81e-f67d71fbd011" />
         <StoryPurpose>This story proves that Jesus is God's son.  It also sets the example for new believers to obey.</StoryPurpose>
         <Tests>
           <Test number="1" memberID="mem-1b5bd0a2-59a9-4459-a439-6a6b56c66379" />
@@ -5760,7 +5760,7 @@
     </story>
     <story name="Prayer of the Pharisee and tax collector" stage="CoachReviewTest2Notes" guid="ecbe985e-6813-4cf8-8dd2-8c620a7f39f9">
       <CraftingInfo>
-        <StoryCrafter memberID="" />
+        <StoryCrafter memberID="mem-4c6dbfd1-aa1d-4c53-b81e-f67d71fbd011" />
         <Tests>
           <Test number="1" memberID="mem-b54a9dc0-0583-4235-b14d-51408058b292" />
         </Tests>
