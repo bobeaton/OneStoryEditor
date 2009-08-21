@@ -24,6 +24,8 @@
       <Member name="Anil" memberType="UNS" memberKey="mem-305658ba-99e0-45b2-9e88-ca5ef73af030" />
       <Member name="Dolly" memberType="UNS" memberKey="mem-6d1fd1de-aeff-4c9a-8b46-fb9f3d3a1de8" />
       <Member name="Sonia" memberType="UNS" memberKey="mem-7ec5c371-ae13-411c-b7fc-6523caff937e" />
+      <Member name="Judy" memberType="Coach" memberKey="mem-f2d9de05-94e2-43ff-beed-00c6990a8b2a" />
+      <Member name="Bob" memberType="ConsultantInTraining" memberKey="mem-e0a51296-1658-4349-89e7-a1a33438c612" />
     </Members>
     <Languages>
       <VernacularLang name="Kangri" code="xnr" FontName="Arial Unicode MS" FontSize="12" FontColor="Maroon" SentenceFinalPunct="।" />

@@ -1,4 +1,7 @@
-﻿namespace OneStoryProjectEditor
+﻿using System.Collections.Generic;
+using System.Windows.Forms;
+
+namespace OneStoryProjectEditor
 {
     partial class StoryEditor
     {
@@ -69,10 +72,10 @@
             this.textBoxStoryVerse = new System.Windows.Forms.TextBox();
             this.netBibleViewer = new OneStoryProjectEditor.NetBibleViewer();
             this.splitContainerMentorNotes = new System.Windows.Forms.SplitContainer();
-            this.flowLayoutPanelConsultantNotes = new System.Windows.Forms.FlowLayoutPanel();
+            this.flowLayoutPanelConsultantNotes = new ConNoteFlowLayoutPanel();
             this.textBoxConsultantNotesTable = new System.Windows.Forms.TextBox();
             this.textBoxCoachNotes = new System.Windows.Forms.TextBox();
-            this.flowLayoutPanelCoachNotes = new System.Windows.Forms.FlowLayoutPanel();
+            this.flowLayoutPanelCoachNotes = new ConNoteFlowLayoutPanel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.buttonsStoryStage = new System.Windows.Forms.ToolStripSplitButton();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -641,8 +644,8 @@
         private NetBibleViewer netBibleViewer;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.SplitContainer splitContainerMentorNotes;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelConsultantNotes;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelCoachNotes;
+        private ConNoteFlowLayoutPanel flowLayoutPanelConsultantNotes;
+        private ConNoteFlowLayoutPanel flowLayoutPanelCoachNotes;
         private System.Windows.Forms.TextBox textBoxConsultantNotesTable;
         private System.Windows.Forms.TextBox textBoxCoachNotes;
         private System.Windows.Forms.TextBox textBoxStoryVerse;
@@ -661,6 +664,29 @@
         private System.Windows.Forms.ToolStripMenuItem showFullStorySetToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem enterTheReasonThisStoryIsInTheSetToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem storyToolStripMenuItem;
+    }
+
+    public class ConNoteFlowLayoutPanel : FlowLayoutPanel
+    {
+        protected List<ConsultNotesDataConverter> lstCNsD = new List<ConsultNotesDataConverter>();
+
+        public void Clear()
+        {
+            Controls.Clear();
+            lstCNsD.Clear();
+        }
+
+        public void AddCtrl(ConsultNotesControl aCtrl)
+        {
+            Controls.Add(aCtrl);
+            System.Diagnostics.Debug.Assert(!lstCNsD.Contains(aCtrl._theCNsDC));
+            lstCNsD.Add(aCtrl._theCNsDC);
+        }
+
+        public bool Contains(ConsultNotesDataConverter aCNsD)
+        {
+            return lstCNsD.Contains(aCNsD);
+        }
     }
 }
 

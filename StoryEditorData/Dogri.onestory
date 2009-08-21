@@ -19,6 +19,8 @@
       <Member name="Vicky" memberType="UNS" memberKey="mem-2b2f5feb-c07c-4a45-8c44-befa119a13cb" />
       <Member name="Neelam" memberType="UNS" memberKey="mem-2b522e5a-8b3d-4d64-8a07-76d9a18bf6a3" />
       <Member name="Anil Kumar" memberType="UNS" memberKey="mem-f8f74ac0-df8c-4e16-b86c-32129d449a70" />
+      <Member name="Judy" memberType="Coach" memberKey="mem-faa2c0cc-dc13-45ee-8c9a-5d65669a03f2" />
+      <Member name="Bob" memberType="ConsultantInTraining" memberKey="mem-6151e5b3-1066-424a-bc9a-531b6e693f5f" />
     </Members>
     <Languages>
       <VernacularLang name="Dogri" code="doj" FontName="Arial Unicode MS" FontSize="12" FontColor="Maroon" SentenceFinalPunct="।" />

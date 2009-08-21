@@ -16,11 +16,8 @@ namespace OneStoryProjectEditor
         {
             IsVisible = theTestQuestionRow.visible;
 
-            if (!theTestQuestionRow.IsTQVernacularNull())
-                QuestionVernacular = new StringTransfer(theTestQuestionRow.TQVernacular);
-            if (!theTestQuestionRow.IsTQInternationalBTNull())
-                QuestionEnglish = new StringTransfer(theTestQuestionRow.TQInternationalBT);
-
+            QuestionVernacular = new StringTransfer((theTestQuestionRow.IsTQVernacularNull()) ? null : theTestQuestionRow.TQVernacular);
+            QuestionEnglish = new StringTransfer((theTestQuestionRow.IsTQInternationalBTNull()) ? null : theTestQuestionRow.TQInternationalBT);
             Answers = new AnswersData(theTestQuestionRow, projFile);
         }
 

@@ -12,14 +12,15 @@ namespace OneStoryProjectEditor
     {
         protected const string CstrRoundLabel = "Round: ";
         protected int m_nRoundNum = -1;
-        protected ConsultNoteDataConverter _myCNDC = null;
-        protected ConsultNotesDataConverter _myCollection = null;
+        internal ConsultNoteDataConverter _myCNDC = null;
+        internal ConsultNotesDataConverter _myCollection = null;
 
         public ConsultNoteControl(StoryStageLogic storyStageLogic, ConsultNotesDataConverter theCollection, ConsultNoteDataConverter aCNDC)
             : base(storyStageLogic)
         {
             _myCNDC = aCNDC;
             _myCollection = theCollection;
+
             m_nRoundNum = aCNDC.RoundNum;
             InitializeComponent();
 
@@ -86,6 +87,18 @@ namespace OneStoryProjectEditor
             _myCollection.Remove(_myCNDC);
             StoryEditor theSE = (StoryEditor)FindForm();
             theSE.ReInitConsultNotesPane(_myCollection);
+        }
+
+        void buttonDragDropHandle_QueryContinueDrag(object sender, System.Windows.Forms.QueryContinueDragEventArgs e)
+        {
+            StoryEditor theSE = (StoryEditor)FindForm();
+            theSE.HandleQueryContinueDrag((ConsultNotesControl)ParentControl, e);
+        }
+
+        void buttonDragDropHandle_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+                buttonDragDropHandle.DoDragDrop(this, DragDropEffects.Move);
         }
     }
 }

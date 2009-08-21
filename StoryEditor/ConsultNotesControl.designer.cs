@@ -57,6 +57,9 @@
             this.buttonDragDropHandle.TabIndex = 1;
             this.buttonDragDropHandle.UseVisualStyleBackColor = true;
             this.buttonDragDropHandle.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonDragDropHandle_MouseDown);
+            this.buttonDragDropHandle.AllowDrop = true;
+            this.buttonDragDropHandle.DragEnter += new System.Windows.Forms.DragEventHandler(buttonDragDropHandle_DragEnter);
+            this.buttonDragDropHandle.DragDrop += new System.Windows.Forms.DragEventHandler(buttonDragDropHandle_DragDrop);
             // 
             // contextMenuStripNotesOptions
             // 
@@ -87,7 +90,7 @@
         #endregion
 
         private System.Windows.Forms.Label labelReference;
-        private System.Windows.Forms.Button buttonDragDropHandle;
+        internal System.Windows.Forms.Button buttonDragDropHandle;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripNotesOptions;
         private System.Windows.Forms.ToolStripMenuItem addNoteToolStripMenuItem;
     }

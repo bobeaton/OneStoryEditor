@@ -13,7 +13,7 @@ namespace OneStoryProjectEditor
         protected const string CstrFieldNameConsultantNote = "ConsultantNoteControl";
 
         internal int VerseNumber = -1;
-        protected ConsultNotesDataConverter _theCNsDC = null;
+        internal ConsultNotesDataConverter _theCNsDC = null;
         public ConsultNotesControl(StoryStageLogic storyStageLogic, ConsultNotesDataConverter aCNsDC, int nVerseNumber)
             : base(storyStageLogic)
         {
@@ -95,6 +95,27 @@ namespace OneStoryProjectEditor
             // always add at the front (so they're stay close to the collection label
             _theCNsDC.InsertEmpty(0, round);
             theSE.ReInitConsultNotesPane(_theCNsDC);
+        }
+
+        void buttonDragDropHandle_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(typeof(ConsultNoteControl)))
+            {
+                ConsultNoteControl theCNC = (ConsultNoteControl)e.Data.GetData(typeof(ConsultNoteControl));
+                System.Diagnostics.Debug.Assert((sender is Button) && (sender == buttonDragDropHandle) && (theCNC.ParentControl != null) && (theCNC.ParentControl is ConsultNotesControl));
+                ConsultNoteDataConverter theMovingCNDC = theCNC._myCNDC;
+                theCNC._myCollection.Remove(theMovingCNDC);
+                _theCNsDC.Insert(0, theMovingCNDC);
+
+                StoryEditor theSE = (StoryEditor)FindForm();
+                theSE.ReInitConsultNotesPane(_theCNsDC);
+            }
+        }
+
+        void buttonDragDropHandle_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(typeof(ConsultNoteControl)))
+                e.Effect = DragDropEffects.Move;
         }
     }
 }

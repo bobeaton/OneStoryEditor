@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
@@ -274,7 +275,11 @@ namespace OneStoryProjectEditor
         {
             StoriesData theOldStories = new StoriesData(projFile, projSettings);
             if (LoggedOnMember == null)
-                LoggedOnMember = Stories.GetLogin();
+            {
+                LoggedOnMember = theOldStories.GetLogin();
+                Modified = true;
+            }
+            
             return theOldStories;
         }
 
@@ -353,6 +358,9 @@ namespace OneStoryProjectEditor
 
             // finally, initialize the verse controls
             InitAllPanes();
+
+            // get the focus off the combo box, so mouse scroll doesn't rip thru the stories!
+            flowLayoutPanelVerses.Focus();
         }
 
         protected void InitAllPanes(VersesData theVerses)
@@ -409,32 +417,87 @@ namespace OneStoryProjectEditor
             ResumeLayout(true);
         }
 
-        protected Dictionary<ConsultNotesDataConverter, FlowLayoutPanel> _WhichConNoteToWhichFlowPanel = new Dictionary<ConsultNotesDataConverter, FlowLayoutPanel>();
-        protected void InitConsultNotesPane(FlowLayoutPanel theFLP, ConsultNotesDataConverter aCNsDC, int nVerseIndex)
+        protected void InitConsultNotesPane(ConNoteFlowLayoutPanel theFLP, ConsultNotesDataConverter aCNsDC, int nVerseIndex)
         {
             ConsultNotesControl aConsultNotesCtrl = new ConsultNotesControl(theCurrentStory.ProjStage, aCNsDC, nVerseIndex);
             aConsultNotesCtrl.UpdateHeight(Panel2_Width);
-            theFLP.Controls.Add(aConsultNotesCtrl);
-            if (!_WhichConNoteToWhichFlowPanel.ContainsKey(aCNsDC))
-                _WhichConNoteToWhichFlowPanel.Add(aCNsDC, theFLP);
+            theFLP.AddCtrl(aConsultNotesCtrl);
         }
 
-        // this is for use by the consultant panes if we add or remove or hide a note
-        internal void ReInitConsultNotesPane(ConsultNotesDataConverter aCNsDC)
+        // this is for use by the consultant panes if we add or remove or hide a single note
+        internal void ReInitConsultNotesPane(ConsultNotesDataConverter aCNsD)
         {
-            System.Diagnostics.Debug.Assert(_WhichConNoteToWhichFlowPanel.ContainsKey(aCNsDC));
-            FlowLayoutPanel theFLP = _WhichConNoteToWhichFlowPanel[aCNsDC];
-            theFLP.Controls.Clear();
-            
-            theFLP.SuspendLayout();
-            SuspendLayout();
-
             int nVerseIndex = 0;
-            foreach (VerseData aVerse in theCurrentStory.Verses)
-                InitConsultNotesPane(theFLP, aCNsDC, nVerseIndex++);
+            if (flowLayoutPanelConsultantNotes.Contains(aCNsD))
+            {
+                flowLayoutPanelConsultantNotes.Clear();
+                flowLayoutPanelConsultantNotes.SuspendLayout();
+                SuspendLayout();
 
-            theFLP.ResumeLayout(true);
-            ResumeLayout(true);
+                foreach (VerseData aVerse in theCurrentStory.Verses)
+                    InitConsultNotesPane(flowLayoutPanelConsultantNotes, aVerse.ConsultantNotes, ++nVerseIndex);
+
+                flowLayoutPanelConsultantNotes.ResumeLayout(true);
+                ResumeLayout(true);
+            }
+            else
+            {
+                System.Diagnostics.Debug.Assert(flowLayoutPanelCoachNotes.Contains(aCNsD));
+                flowLayoutPanelCoachNotes.Clear();
+                flowLayoutPanelCoachNotes.SuspendLayout();
+                SuspendLayout();
+
+                foreach (VerseData aVerse in theCurrentStory.Verses)
+                    InitConsultNotesPane(flowLayoutPanelCoachNotes, aVerse.CoachNotes, ++nVerseIndex);
+
+                flowLayoutPanelCoachNotes.ResumeLayout(true);
+                ResumeLayout(true);
+            }
+
+            // if we do this, it's because something changed
+            Modified = true;
+        }
+
+        internal void HandleQueryContinueDrag(ConsultNotesControl aCNsDC, QueryContinueDragEventArgs e)
+        {
+            System.Diagnostics.Debug.Assert(flowLayoutPanelConsultantNotes.Contains(aCNsDC._theCNsDC)
+                || flowLayoutPanelCoachNotes.Contains(aCNsDC._theCNsDC));
+            FlowLayoutPanel theFLP = (flowLayoutPanelConsultantNotes.Contains(aCNsDC._theCNsDC)) ? flowLayoutPanelConsultantNotes : flowLayoutPanelCoachNotes;
+
+            // this code causes the vertical scroll bar to move if the user is dragging the mouse beyond
+            //  the boundary of the flowLayout panel that these verse controls are sitting it.
+            Point pt = theFLP.PointToClient(MousePosition);
+            if (theFLP.Bounds.Height < (pt.Y + 10))    // close to the bottom edge...
+                theFLP.VerticalScroll.Value += 10;     // bump the scroll bar down
+            else if ((pt.Y < 10) && theFLP.VerticalScroll.Value > 0)   // close to the top edge, while the scroll bar position is non-zero
+                theFLP.VerticalScroll.Value -= Math.Min(10, theFLP.VerticalScroll.Value);
+
+            if (e.Action != DragAction.Continue)
+                DimConsultNotesDropTargetButtons(theFLP, aCNsDC);
+            else
+                LightUpConsultNotesDropTargetButtons(theFLP, aCNsDC);
+        }
+
+        private static void LightUpConsultNotesDropTargetButtons(FlowLayoutPanel theFLP, ConsultNotesControl control)
+        {
+            foreach (Control ctrl in theFLP.Controls)
+            {
+                System.Diagnostics.Debug.Assert(ctrl is ConsultNotesControl);
+                ConsultNotesControl aCNsC = (ConsultNotesControl)ctrl;
+                if (aCNsC != control)
+                    aCNsC.buttonDragDropHandle.Dock = DockStyle.Fill;
+            }
+        }
+
+        private static void DimConsultNotesDropTargetButtons(FlowLayoutPanel theFLP, ConsultNotesControl control)
+        {
+            foreach (Control ctrl in theFLP.Controls)
+            {
+                System.Diagnostics.Debug.Assert(ctrl is ConsultNotesControl);
+                ConsultNotesControl aCNsC = (ConsultNotesControl)ctrl;
+                if (aCNsC != control)
+                    aCNsC.buttonDragDropHandle.Dock = DockStyle.Right;
+            }
         }
 
         internal void AddNewVerse(VerseBtControl theVerse, int nNumberToAdd, bool bAfter)
@@ -602,8 +665,8 @@ namespace OneStoryProjectEditor
         protected void ClearFlowControls()
         {
             flowLayoutPanelVerses.Controls.Clear();
-            flowLayoutPanelConsultantNotes.Controls.Clear();
-            flowLayoutPanelCoachNotes.Controls.Clear();
+            flowLayoutPanelConsultantNotes.Clear();
+            flowLayoutPanelCoachNotes.Clear();
         }
 
         protected void SaveClicked()
@@ -651,10 +714,13 @@ namespace OneStoryProjectEditor
             try
             {
                 // let's see if the UNS entered the purpose and resources used on this story
-                System.Diagnostics.Debug.Assert((theCurrentStory != null) && (theCurrentStory.CraftingInfo != null));
-                if (String.IsNullOrEmpty(theCurrentStory.CraftingInfo.StoryPurpose)
-                    || String.IsNullOrEmpty(theCurrentStory.CraftingInfo.ResourcesUsed))
-                    QueryStoryPurpose();
+                if (theCurrentStory != null)
+                {
+                    System.Diagnostics.Debug.Assert(theCurrentStory.CraftingInfo != null);
+                    if (String.IsNullOrEmpty(theCurrentStory.CraftingInfo.StoryPurpose)
+                        || String.IsNullOrEmpty(theCurrentStory.CraftingInfo.ResourcesUsed))
+                        QueryStoryPurpose();
+                }
 
                 SaveXElement(GetXml, strFilename);
             }

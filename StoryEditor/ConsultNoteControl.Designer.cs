@@ -57,6 +57,8 @@
             this.buttonDragDropHandle.Size = new System.Drawing.Size(15, 15);
             this.buttonDragDropHandle.TabIndex = 1;
             this.buttonDragDropHandle.UseVisualStyleBackColor = true;
+            this.buttonDragDropHandle.MouseDown += new System.Windows.Forms.MouseEventHandler(buttonDragDropHandle_MouseDown);
+            this.buttonDragDropHandle.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(buttonDragDropHandle_QueryContinueDrag);
             // 
             // contextMenuStripNoteOptions
             // 
