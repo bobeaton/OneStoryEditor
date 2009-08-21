@@ -22,7 +22,14 @@ namespace OneStoryProjectEditor
         {
             _stories = stories;
             InitializeComponent();
+            InitGrid();
+        }
 
+        public bool Modified = false;
+
+        protected void InitGrid()
+        {
+            dataGridViewPanorama.Rows.Clear();
             foreach (StoryData aSD in _stories)
             {
                 StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[aSD.ProjStage.ProjectStage];
@@ -45,9 +52,13 @@ namespace OneStoryProjectEditor
             int nSelectedRowIndex = theSelectedRow.Index;
             if (nSelectedRowIndex > 0)
             {
-                dataGridViewPanorama.Rows.RemoveAt(nSelectedRowIndex);
-                dataGridViewPanorama.Rows.Insert(--nSelectedRowIndex, theSelectedRow);
-                theSelectedRow.Selected = true;
+                StoryData theSDToMove = _stories[nSelectedRowIndex];
+                _stories.RemoveAt(nSelectedRowIndex);
+                _stories.Insert(--nSelectedRowIndex, theSDToMove);
+                InitGrid();
+                System.Diagnostics.Debug.Assert(nSelectedRowIndex < dataGridViewPanorama.Rows.Count);
+                dataGridViewPanorama.Rows[nSelectedRowIndex].Selected = true;
+                Modified = true;
             }
         }
 
@@ -61,9 +72,34 @@ namespace OneStoryProjectEditor
             int nSelectedRowIndex = theSelectedRow.Index;
             if (nSelectedRowIndex < dataGridViewPanorama.Rows.Count - 1)
             {
-                dataGridViewPanorama.Rows.RemoveAt(nSelectedRowIndex);
-                dataGridViewPanorama.Rows.Insert(++nSelectedRowIndex, theSelectedRow);
-                theSelectedRow.Selected = true;
+                StoryData theSDToMove = _stories[nSelectedRowIndex];
+                _stories.RemoveAt(nSelectedRowIndex);
+                _stories.Insert(++nSelectedRowIndex, theSDToMove);
+                InitGrid();
+                System.Diagnostics.Debug.Assert(nSelectedRowIndex < dataGridViewPanorama.Rows.Count);
+                dataGridViewPanorama.Rows[nSelectedRowIndex].Selected = true;
+                Modified = true;
+            }
+        }
+
+        private void buttonDelete_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.Assert(dataGridViewPanorama.SelectedRows.Count < 2);   // 1 or 0
+            if (dataGridViewPanorama.SelectedRows.Count != 1)
+                return;
+
+            DataGridViewRow theSelectedRow = dataGridViewPanorama.SelectedRows[0];
+            int nSelectedRowIndex = theSelectedRow.Index;
+            if (nSelectedRowIndex < dataGridViewPanorama.Rows.Count - 1)
+            {
+                StoryData theSDToDelete = _stories[nSelectedRowIndex];
+                _stories.RemoveAt(nSelectedRowIndex);
+                InitGrid();
+                if (nSelectedRowIndex >= dataGridViewPanorama.Rows.Count)
+                    nSelectedRowIndex--;
+
+                dataGridViewPanorama.Rows[nSelectedRowIndex].Selected = true;
+                Modified = true;
             }
         }
 

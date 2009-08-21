@@ -1078,6 +1078,8 @@ namespace OneStoryProjectEditor
         {
             PanoramaView dlg = new PanoramaView(Stories);
             dlg.ShowDialog();
+
+            Modified |= dlg.Modified;
         }
 
         private void deleteStoryToolStripMenuItem_Click(object sender, EventArgs e)
