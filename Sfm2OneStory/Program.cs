@@ -17,25 +17,20 @@ namespace OneStoryProjectEditor
         const string CstrBackTranslator = "Backtranslator to Hindi:";
         const string CstrTestor1 = "Testing 1:";
         const string CstrTestor2 = "Testing 2:";
+        const string CstrAnchorFormat = "{0}.{1}:{2}";
 
         // details about the project we're trying to convert
-        /*
-        const string CstrBtFile = @"L:\Pahari\Storying\Dogri\DogriStoriesBT.txt";
-        const string CstrRetFile = @"L:\Pahari\Storying\Dogri\DogriTestRetellings.txt";
-        const string CstrConFile = @"L:\Pahari\Storying\Dogri\ProjectConNotes.txt";
-        const string CstrCoaFile = @"L:\Pahari\Storying\Dogri\CoachingNotes.txt";
-        const string CstrDefOutputFile = @"C:\Code\StoryEditor\StoryEditor\Dogri.onestory";
-        const string CstrVernName = "Dogri";
-        const string CstrVernCode = "doj";
-        const string CstrVernCodeSfm = @"\doj";
+#if DoKangri
+        const string CstrBtFile = @"L:\Pahari\Storying\Kangri\KangriStoriesBT.txt";
+        const string CstrRetFile = @"L:\Pahari\Storying\Kangri\KangriTestRetellings.txt";
+        const string CstrConFile = @"L:\Pahari\Storying\Kangri\ProjectConNotes.txt";
+        const string CstrCoaFile = @"L:\Pahari\Storying\Kangri\CoachingNotes.txt";
+        const string CstrDefOutputFile = @"C:\Code\StoryEditor\StoryEditor\Kangri.onestory";
+        const string CstrVernName = "Kangri";
+        const string CstrVernCode = "xnr";
+        const string CstrVernCodeSfm = @"\xnr";
         const string CstrVernFullStop = "।";
-        const string CstrNatlName = "Hindi";
-        const string CstrNatlCode = "hi";
-        const string CstrNatlCodeSfm = @"\hnd";
-        const string CstrNatlFullStop = "।";
-        const string CstrIntlName = "English";
-        const string CstrIntlCode = "en";
-        */
+#else
         const string CstrBtFile = @"L:\Pahari\Storying\Dogri\DogriStoriesBT.txt";
         const string CstrRetFile = @"L:\Pahari\Storying\Dogri\DogriTestRetellings.txt";
         const string CstrConFile = @"L:\Pahari\Storying\Dogri\ProjectConNotes.txt";
@@ -45,6 +40,8 @@ namespace OneStoryProjectEditor
         const string CstrVernCode = "doj";
         const string CstrVernCodeSfm = @"\doj";
         const string CstrVernFullStop = "।";
+#endif
+
         const string CstrNatlName = "Hindi";
         const string CstrNatlCode = "hi";
         const string CstrNatlCodeSfm = @"\hnd";
@@ -53,6 +50,7 @@ namespace OneStoryProjectEditor
         const string CstrIntlCode = "en";
         const string CstrConsultantsInitials = "BE";
         const string CstrCoachsInitials = "JP";
+
 
         private static readonly List<string> CastrConsultantMenteeSfms = new List<string>
                                                            {
@@ -149,7 +147,7 @@ namespace OneStoryProjectEditor
                     VerseData verse;
                     if (bUsingStoryProject)
                     {
-                        System.Diagnostics.Debug.Assert(nVerseNumber < story.Verses.Count);
+                        System.Diagnostics.Debug.Assert((nVerseNumber < story.Verses.Count), String.Format("Verse count not the same: this could be because some verse in chapter with '{0}' has no data for all files (so it wasn't ultimately added the first time thru)", strRef));
                         verse = story.Verses[nVerseNumber];
 
                         // clear out any data that doesn't have guids (so we don't add them again)
@@ -160,39 +158,51 @@ namespace OneStoryProjectEditor
                     else
                         verse = new VerseData();
 
-                    if (DoVerseData(verse, astrBt, strTestorGuid, ref nIndexBt))
+                    DoVerseData(verse, astrBt, strTestorGuid, ref nIndexBt);
+
+                    // now grab the retelling
+                    if (SkipTo(@"\ln ", strRef, @"\c ", astrRet, ref nIndexRet))
                     {
-                        // now grab the retelling
-                        if (SkipTo(@"\ln ", strRef, @"\c ", astrRet, ref nIndexRet))
-                        {
-                            DoRetellingData(astrRet, ref nIndexRet, verse, strTestorGuid);
-                        }
+                        DoRetellingData(astrRet, ref nIndexRet, verse, strTestorGuid);
+                    }
 
-                        // now grab the consultant notes
-                        if (SkipTo(@"\ln ", strRef, @"\c ", astrCon, ref nIndexCon))
-                        {
-                            DoConsultData(astrCon, ref nIndexCon, bUsingStoryProject, verse.ConsultantNotes, @"\con", CstrConsultantsInitials,
-                                CastrConsultantMenteeSfms, ConsultNoteDataConverter.CommunicationDirections.eConsultantToCrafter,
-                                ConsultNoteDataConverter.CommunicationDirections.eCrafterToConsultant);
-                        }
+                    // now grab the consultant notes
+                    if (SkipTo(@"\ln ", strRef, @"\c ", astrCon, ref nIndexCon))
+                    {
+                        DoConsultData(astrCon, ref nIndexCon, bUsingStoryProject, verse.ConsultantNotes, @"\con", CstrConsultantsInitials,
+                            CastrConsultantMenteeSfms, ConsultNoteDataConverter.CommunicationDirections.eConsultantToCrafter,
+                            ConsultNoteDataConverter.CommunicationDirections.eCrafterToConsultant);
+                    }
 
-                        // now grab the coach notes
-                        if (SkipTo(@"\ln ", strRef, @"\c ", astrCoa, ref nIndexCoa))
-                        {
-                            DoConsultData(astrCoa, ref nIndexCoa, bUsingStoryProject, verse.CoachNotes, @"\cch", CstrCoachsInitials,
-                                CastrCoachMenteeSfms, ConsultNoteDataConverter.CommunicationDirections.eCoachToConsultant,
-                                ConsultNoteDataConverter.CommunicationDirections.eConsultantToCoach);
-                        }
+                    // now grab the coach notes
+                    if (SkipTo(@"\ln ", strRef, @"\c ", astrCoa, ref nIndexCoa))
+                    {
+                        DoConsultData(astrCoa, ref nIndexCoa, bUsingStoryProject, verse.CoachNotes, @"\cch", CstrCoachsInitials,
+                            CastrCoachMenteeSfms, ConsultNoteDataConverter.CommunicationDirections.eCoachToConsultant,
+                            ConsultNoteDataConverter.CommunicationDirections.eConsultantToCoach);
+                    }
 
-                        System.Diagnostics.Debug.Assert(verse.HasData);
+                    if (verse.HasData)
+                    {
                         if (bUsingStoryProject)
                             nVerseNumber++;
                         else
                             story.Verses.Add(verse);
                     }
 
-                    if ((nIndexBt >= astrBt.Length) || (astrBt[nIndexBt].Substring(0,3) == @"\c "))
+                    if ((nIndexBt >= astrBt.Length) || (astrBt[nIndexBt].Substring(0, 3) == @"\c "))
+                    {
+                        // TODO: for others, we could do a special case if there's a second record with an earlier retelling
+                        //  (but for K&D, those lines aren't likely to have any association with the current version of the story...
+
+                        if (nIndexBt < astrBt.Length)
+                            System.Diagnostics.Debug.Assert(
+                                (astrBt[nIndexBt] == astrRet[nIndexRet])
+                                && (astrBt[nIndexBt] == astrCon[nIndexCon])
+                                && (astrBt[nIndexBt] == astrCoa[nIndexCoa]), "Fixup problem in data files: one file has an extra record");
+
                         break;
+                    }
                 }
 
                 story.ProjStage.ProjectStage = StoryStageLogic.ProjectStages.eCoachReviewTest2Notes;
@@ -401,6 +411,8 @@ namespace OneStoryProjectEditor
                     {
                         CommInstance aCI = con[nNoteNumber];
                         System.Diagnostics.Debug.Assert((aCI.ToString() == strData) && (aCI.Direction == eMentorToMentee));
+                        aCI.SetValue(strData);
+                        aCI.Direction = eMentorToMentee;
                     }
                     else
                         con.Add(new CommInstance(strData, eMentorToMentee, Guid.NewGuid().ToString()));
@@ -417,6 +429,8 @@ namespace OneStoryProjectEditor
                     {
                         CommInstance aCI = con[nNoteNumber];
                         System.Diagnostics.Debug.Assert((aCI.ToString() == strData) && (aCI.Direction == eMenteeToMentor));
+                        aCI.SetValue(strData);
+                        aCI.Direction = eMenteeToMentor;
                     }
                     else
                         con.Add(new CommInstance(strData, eMenteeToMentor, Guid.NewGuid().ToString()));
@@ -468,7 +482,7 @@ namespace OneStoryProjectEditor
             else
             {
                 strMarker = strLine.Substring(0, nSpace);
-                strData = strLine.Substring(nSpace + 1);
+                strData = strLine.Substring(nSpace + 1).Trim();
             }
         }
 
@@ -545,7 +559,7 @@ namespace OneStoryProjectEditor
                     {
                         bool bAdded = false;
                         foreach (Match match in mc)
-                            bAdded |= FixupAnchorError(strTrimmed, "{0}.{1}", match, mapJt2Comment);
+                            bAdded |= FixupAnchorError(strTrimmed, match, mapJt2Comment);
                         if (bAdded)
                             continue;
                     }
@@ -559,7 +573,7 @@ namespace OneStoryProjectEditor
                     {
                         bool bAdded = false;
                         foreach (Match match in mc)
-                            bAdded |= FixupAnchorError(strTrimmed, "{0}:{1}", match, mapJt2Comment);
+                            bAdded |= FixupAnchorError(strTrimmed, match, mapJt2Comment);
                         if (bAdded)
                             continue;
                     }
@@ -623,12 +637,14 @@ namespace OneStoryProjectEditor
             return mapJt2Comment;
         }
 
-        static bool FixupAnchorError(string strTrimmed, string strRepairFormat, Match match, Dictionary<string, string> mapJt2Comment)
+        static bool FixupAnchorError(string strTrimmed, Match match, Dictionary<string, string> mapJt2Comment)
         {
-            string str1 = match.Groups[1].ToString();   // should be "gen.03" or "gen"
-            string str2 = match.Groups[2].ToString();   // should be "01"     or "03:01"
+            // assuming gen:01.03...
+            string str1 = match.Groups[1].ToString();   // ... this should be "gen"
+            string str2 = match.Groups[2].ToString();   // ... this should be "01"
+            string str3 = match.Groups[3].ToString();   // ... this should be "03"
 
-            string strRepaired = String.Format(strRepairFormat, str1, str2);
+            string strRepaired = String.Format(CstrAnchorFormat, str1, str2, str3);
 
             // These are questionable to change automatically, so just throw an error and let the user decide
             string strMsg = String.Format("Found a possible bad anchor:{0}{0}{1}{0}{0} in the string,{0}{0}{2}{0}{0}Shall I change this to: \"{3}\"?)",

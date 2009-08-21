@@ -1,0 +1,44 @@
+\_sh v3.0  302  StoryNotes
+
+\c 00
+\t Angelic World
+\cat ConNotes -- Bob Eaton
+\co Dogri
+\con Consultant comment
+\fac Facilitator's responses
+
+\con BE1: 17/Apr/2009
+
+\ln 00.01
+\con BE1: good question!
+\fac ok
+\ln 00.02
+\con BE1: I've changed your anchor here from Heb:13:08. This is a good verse, but it really doesn't support the story verse that God was there before the creation of the things we see around us today, whereas the ones that I added (i.e. Gen.01:01, jhn.17:05, Eph.01.04) do.
+\fac yes, but do we need to
+\con BE2: no
+\ln 00.03
+\fac is this okay?
+\con yes
+\ln 00.04
+\fac is it okay to use "schmaboogle"?
+\con only if you want to be flogged
+\fac okay, we'll leave it out
+\ln 00.05
+\con BE1: Since these are both probably unfamiliar things to people (i.e. the heavens and angels), don't introduce them too quickly. Stretch it out more so that each thing can get a proper introduction. e.g. "First of all, God made the heavens and the earth." (anchor: gen.01:01; and perhaps a question: /स्‍वर्ग से आप क्‍या समझते हैं, यह कैसा होता है?/ 'What do you understand by 'heaven'? And what kind of thing is it?' Then in a new verse (i.e. 00.04b) you could add. /स्वर्ग में रहने और उनकी सेवा करने के लिए, परमेश्‍वर ने स्‍वर्गदूत बनाऐ/ "For living in heaven and serving him, God also created angels".
+\fac yes we made the changes
+\con BE1: I added gen.01:01 as the anchor for 'made heaven'.
+\fac ok
+\con BE1: As with the Creation story, if you have a word which distinguishes between "create" (cf. /रचना/) and "make" (cf. /बनाना/), it would be better to use the word that means 'create' for what He did with/to the heavens and the angels.
+\fac ok we used the word creat
+\ln 00.06
+\fac starting conversation
+\con BE1: This verse introduce a *contrast*. Despite the fact that God had created angels to glorify him, *some of them* had other thoughts. This kind of contrast probably needs to be introduced with the word /पर/ 'but' (i.e. /पर उन में से कुछ स्‍वर्गदूत सोचने लगे…/ "But among the angels some of them began to think'..."
+\fac done
+\con BE1: "Just as we glorify the Lord, some one should glorify us also." needs an anchor (Jud.01:06 doesn't do it), and I'm not sure we can find one that isn't contested. See the document about the Origin of the spirit world, which lays out the facts that are agreed upon and the ones that are disputed. How about, "They were each given their own responsibilities, but decided that they didn't want to obey God and sinned in the sight of God, and left their living place (anchor: • Jud 1:6 "who did not keep within their proper domain (i.e. their own responsibilities)"; 1Jn 3:8 "sinned"). You can also use: Job 4:18, 15:15 which shows that "Some angels did wrong and violated God’s trust".
+\fac we have added this that God gave them responsibilites
+\ln 00.07
+\con BE1: "Just as we glorify the Lord, some one should glorify us also." needs an anchor (Jud.01:06 doesn't do it), and I'm not sure we can find one that isn't contested. See the document about the Origin of the spirit world, which lays out the facts that are agreed upon and the ones that are disputed. How about, "They were each given their own responsibilities, but decided that they didn't want to obey God and sinned in the sight of God, and left their living place (anchor: • Jud 1:6 "who did not keep within their proper domain (i.e. their own responsibilities)"; 1Jn 3:8 "sinned"). You can also use: Job 4:18, 15:15 which shows that "Some angels did wrong and violated God’s trust".
+\fac we have added this that God gave them responsibilites
+\fac starting conversation
+\con BE1: This verse introduce a *contrast*. Despite the fact that God had created angels to glorify him, *some of them* had other thoughts. This kind of contrast probably needs to be introduced with the word /पर/ 'but' (i.e. /पर उन में से कुछ स्‍वर्गदूत सोचने लगे…/ "But among the angels some of them began to think'..."
+\fac done
