@@ -411,7 +411,7 @@ namespace OneStoryProjectEditor
 #if DEBUG
             string strWorkingFolder = @"C:\Code\StoryEditor\StoryEditor";
 #else
-            string strWorkingFolder = StoryEditor.GetRunningFolder;
+            string strWorkingFolder = StoriesData.GetRunningFolder;
 #endif
 
             // finally, we put at least the NetBible below our working dir.

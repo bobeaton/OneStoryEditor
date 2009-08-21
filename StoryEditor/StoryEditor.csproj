@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{EE63B2ED-1488-491F-990A-3FA16E2DB135}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -138,7 +138,6 @@
       <DependentUpon>PanoramaView.cs</DependentUpon>
     </Compile>
     <Compile Include="ProjectSettings.cs" />
-    <Compile Include="Repository.cs" />
     <Compile Include="StoryData.cs" />
     <Compile Include="StoryFrontMatterForm.cs">
       <SubType>Form</SubType>
@@ -225,9 +224,6 @@
       <DependentUpon>StoryLineControl.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="SynchronizeProgressDlg.resx">
-      <DependentUpon>SynchronizeProgressDlg.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="TeamMemberForm.resx">
       <DependentUpon>TeamMemberForm.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -269,12 +265,6 @@
       <DependentUpon>StoryLineControl.cs</DependentUpon>
     </Compile>
     <Compile Include="StringTransfer.cs" />
-    <Compile Include="SynchronizeProgressDlg.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SynchronizeProgressDlg.designer.cs">
-      <DependentUpon>SynchronizeProgressDlg.cs</DependentUpon>
-    </Compile>
     <Compile Include="TeamMemberData.cs" />
     <Compile Include="TeamMemberForm.cs">
       <SubType>Form</SubType>

@@ -79,10 +79,14 @@ namespace OneStoryProjectEditor
         static void Main(string[] args)
         {
             string[] astrBt = File.ReadAllLines(CstrBtFile);
+            CleanSfmFileContents(ref astrBt);
             string[] astrRet = File.ReadAllLines(CstrRetFile);
+            CleanSfmFileContents(ref astrRet);
             string[] astrCon = File.ReadAllLines(CstrConFile);
+            CleanSfmFileContents(ref astrCon);
             string[] astrCoa = File.ReadAllLines(CstrCoaFile);
-
+            CleanSfmFileContents(ref astrCoa);
+            
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Title = "Browse for the existing version of the output file (so we can reuse the GUIDs)";
             StoriesData theStories;
@@ -110,14 +114,19 @@ namespace OneStoryProjectEditor
 
             // skip down to the title of the first story (in each file)
             int nIndexBt = 0, nIndexRet = 0, nIndexCon = 0, nIndexCoa = 0;
-            SkipTo(@"\t ", @"\t ", astrBt, ref nIndexBt);
-            SkipTo(@"\t ", @"\t ", astrRet, ref nIndexRet);
-            SkipTo(@"\t ", @"\t ", astrCon, ref nIndexCon);
-            SkipTo(@"\t ", @"\t ", astrCoa, ref nIndexCoa);
+            SkipTo(@"\t ", null, @"\t ", astrBt, ref nIndexBt);
+            SkipTo(@"\t ", null, @"\t ", astrRet, ref nIndexRet);
+            SkipTo(@"\t ", null, @"\t ", astrCon, ref nIndexCon);
+            SkipTo(@"\t ", null, @"\t ", astrCoa, ref nIndexCoa);
 
             int nStoryNumber = 0;
             while (nIndexBt != -1)
             {
+                System.Diagnostics.Debug.Assert(
+                    (astrBt[nIndexBt] == astrRet[nIndexRet])
+                    && (astrBt[nIndexBt] == astrCon[nIndexCon])
+                    && (astrBt[nIndexBt] == astrCoa[nIndexCoa]), "Fixup problem in data files: one file has an extra record");
+
                 string strStoryName = astrBt[nIndexBt].Substring(3);
                 StoryData story;
                 if (bUsingStoryProject)
@@ -132,7 +141,7 @@ namespace OneStoryProjectEditor
                 DoStoryFrontMatter(theStories, story, astrBt, ref nIndexBt, bUsingStoryProject, out strTestorGuid);
 
                 int nVerseNumber = 0;
-                while (true) // verse line number field
+                while (nIndexBt < astrBt.Length)
                 {
                     string strRef = astrBt[nIndexBt].Substring(4);
                     Console.WriteLine(" ln: " + strRef);
@@ -151,17 +160,16 @@ namespace OneStoryProjectEditor
                     else
                         verse = new VerseData();
 
-                    bool bVerseMarkerHasData = false;
-                    if (DoVerseData(verse, astrBt, strTestorGuid, ref nIndexBt, ref bVerseMarkerHasData))
+                    if (DoVerseData(verse, astrBt, strTestorGuid, ref nIndexBt))
                     {
                         // now grab the retelling
-                        if (SkipTo(@"\ln " + strRef, @"\c ", astrRet, ref nIndexRet))
+                        if (SkipTo(@"\ln ", strRef, @"\c ", astrRet, ref nIndexRet))
                         {
                             DoRetellingData(astrRet, ref nIndexRet, verse, strTestorGuid);
                         }
 
                         // now grab the consultant notes
-                        if (SkipTo(@"\ln " + strRef, @"\c ", astrCon, ref nIndexCon))
+                        if (SkipTo(@"\ln ", strRef, @"\c ", astrCon, ref nIndexCon))
                         {
                             DoConsultData(astrCon, ref nIndexCon, bUsingStoryProject, verse.ConsultantNotes, @"\con", CstrConsultantsInitials,
                                 CastrConsultantMenteeSfms, ConsultNoteDataConverter.CommunicationDirections.eConsultantToCrafter,
@@ -169,28 +177,31 @@ namespace OneStoryProjectEditor
                         }
 
                         // now grab the coach notes
-                        if (SkipTo(@"\ln " + strRef, @"\c ", astrCoa, ref nIndexCoa))
+                        if (SkipTo(@"\ln ", strRef, @"\c ", astrCoa, ref nIndexCoa))
                         {
                             DoConsultData(astrCoa, ref nIndexCoa, bUsingStoryProject, verse.CoachNotes, @"\cch", CstrCoachsInitials,
                                 CastrCoachMenteeSfms, ConsultNoteDataConverter.CommunicationDirections.eCoachToConsultant,
                                 ConsultNoteDataConverter.CommunicationDirections.eConsultantToCoach);
                         }
 
-                        if (bVerseMarkerHasData)
-                        {
-                            System.Diagnostics.Debug.Assert(verse.HasData);
-                            if (bUsingStoryProject)
-                                nVerseNumber++;
-                            else
-                                story.Verses.Add(verse);
-                        }
+                        System.Diagnostics.Debug.Assert(verse.HasData);
+                        if (bUsingStoryProject)
+                            nVerseNumber++;
+                        else
+                            story.Verses.Add(verse);
                     }
 
-                    story.ProjStage.ProjectStage = StoryStageLogic.ProjectStages.eCoachReviewTest2Notes;
-                    if (!bUsingStoryProject)
-                        theStories.Add(story);
-                    SkipTo(@"\t ", @"\t ", astrBt, ref nIndexBt);
+                    if ((nIndexBt >= astrBt.Length) || (astrBt[nIndexBt].Substring(0,3) == @"\c "))
+                        break;
                 }
+
+                story.ProjStage.ProjectStage = StoryStageLogic.ProjectStages.eCoachReviewTest2Notes;
+                if (!bUsingStoryProject)
+                    theStories.Add(story);
+                SkipTo(@"\t ", null, @"\t ", astrBt, ref nIndexBt);
+                SkipTo(@"\t ", null, @"\t ", astrRet, ref nIndexRet);
+                SkipTo(@"\t ", null, @"\t ", astrCon, ref nIndexCon);
+                SkipTo(@"\t ", null, @"\t ", astrCoa, ref nIndexCoa);
             }
 
             theStories.ProjSettings.Vernacular.LangName = CstrVernName;
@@ -283,11 +294,17 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private static bool DoVerseData(VerseData verse, string[] astrBt, string strTestorGuid, ref int nIndexBt, ref bool bVerseMarkerHasData)
+        private static bool DoVerseData(VerseData verse, string[] astrBt, string strTestorGuid, ref int nIndexBt)
         {
             int nTQIndex = -1;
             string strMarker, strData;
             ParseLine(astrBt[++nIndexBt], out strMarker, out strData);
+
+            // check to see if this verse is empty
+            if (strMarker == @"\ln")
+                return false;
+
+            bool bVerseMarkerHasData = false;
             while ((strMarker != @"\ln") && (strMarker != @"\c"))   // until we hit the next line or the next chapter
             {
                 if (strMarker == CstrVernCodeSfm)
@@ -345,20 +362,22 @@ namespace OneStoryProjectEditor
                     break;
             }
 
-            if (nIndexBt < astrBt.Length - 1)
-                ParseLine(astrBt[nIndexBt], out strMarker, out strData);
-            else
-                return true;
-            return false;
+            return bVerseMarkerHasData;
         }
 
         static void DoConsultData(string[] astrFile, ref int nIndexLine, bool bUsingStoryProject, 
             ConsultNotesDataConverter theCNsD, string strMentorSfm, string strMentorInitials, List<string> astrMenteeSfms, 
             ConsultNoteDataConverter.CommunicationDirections eMentorToMentee, ConsultNoteDataConverter.CommunicationDirections eMenteeToMentor)
         {
+            if (++nIndexLine >= astrFile.Length)
+                return;
+
             int nConvNumber = 0, nNoteNumber = 0;
             string strMarker, strData;
-            ParseLine(astrFile[++nIndexLine], out strMarker, out strData);
+            ParseLine(astrFile[nIndexLine], out strMarker, out strData);
+            if (strMarker == @"\ln")
+                return;
+
             while ((strMarker != @"\ln") && (strMarker != @"\c"))
             {
                 ConsultNoteDataConverter con = null;
@@ -453,7 +472,7 @@ namespace OneStoryProjectEditor
             }
         }
 
-        static bool SkipTo(string strSfmCodeFind, string strSfmCodeStopBy, string[] astr, ref int nIndex)
+        static bool SkipTo(string strSfmCodeFind, string strValue, string strSfmCodeStopBy, string[] astr, ref int nIndex)
         {
             int nLen = astr.Length;
             for (int i = nIndex; i < nLen; i++)
@@ -461,19 +480,37 @@ namespace OneStoryProjectEditor
                 string strLine = astr[i];
                 if (String.IsNullOrEmpty(strLine.Trim()))
                     continue;
-                if (BeginsWith(strLine, strSfmCodeFind))
+
+                string strMarker, strData;
+                ParseLine(strLine, out strMarker, out strData);
+                strMarker += ' ';
+                if (strMarker == strSfmCodeFind)
                 {
+                    if (!String.IsNullOrEmpty(strValue))
+                    {
+                        if (strData.CompareTo(strValue) < 0)
+                        {
+                            continue;
+                        }
+                        else if (strData.CompareTo(strValue) > 0)
+                        {
+                            System.Diagnostics.Debug.Assert(false, String.Format("subsidary files are missing verse: {0} {1}", strSfmCodeFind, strValue));
+                            nIndex = i;
+                            return false;
+                        }
+                    }
                     nIndex = i;
                     return true;
                 }
-                if (BeginsWith(strLine, strSfmCodeStopBy))
+
+                if (strMarker == strSfmCodeStopBy)
                 {
                     nIndex = i + 1; // add one so we don't stop there again
                     return false;
                 }
             }
 
-            System.Diagnostics.Debug.Assert(false);
+            System.Diagnostics.Debug.Assert(nIndex == astr.Length);
             nIndex = -1;
             return false;
         }
@@ -630,6 +667,51 @@ namespace OneStoryProjectEditor
 
             // save it with an extra extn.
             doc.Save(strFilename);
+        }
+
+        protected static void CleanSfmFileContents(ref string[] aStrFileContents)
+        {
+            int i = 0, nLastSfmIndex = 0, nRemovedLines = 0;
+            while (i < aStrFileContents.Length - 1)
+            {
+                if (aStrFileContents[i + 1].Length > 0)
+                {
+                    char cFirstCharOfNextLine = aStrFileContents[i + 1][0];
+
+                    if ((cFirstCharOfNextLine != '\\')
+                     && (cFirstCharOfNextLine != '\r'))
+                    {
+                        // this means this is a redundant line break so move it to the 
+                        //  preceding line (but make sure there's only one space)
+                        string strLine = aStrFileContents[nLastSfmIndex];
+
+                        // if the last character is *not* a space, then put one in.
+                        if (strLine[strLine.Length - 1] != ' ')
+                            aStrFileContents[nLastSfmIndex] += ' ';
+
+                        // and add the next line.
+                        aStrFileContents[nLastSfmIndex] += aStrFileContents[i + 1];
+
+                        // null it out
+                        aStrFileContents[i + 1] = null;
+
+                        // keep track of new size
+                        nRemovedLines++;
+                    }
+                    else
+                        nLastSfmIndex = i + 1;
+                }
+
+                i++;
+            }
+
+            string[] aStrs = new string[aStrFileContents.Length - nRemovedLines];
+            int j = 0;
+            for (i = 0; i < aStrFileContents.Length; i++)
+                if (aStrFileContents[i] != null)
+                    aStrs[j++] = aStrFileContents[i];
+
+            aStrFileContents = aStrs;
         }
     }
 }
