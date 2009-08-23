@@ -85,7 +85,7 @@ namespace OneStoryProjectEditor
 
         public ApplicationException WrongMemberTypeEx
         {
-            get { return new ApplicationException(String.Format("Right now, only a '{0}' should be editing the story. If you're a {0}, click 'Project', 'Settings' to login", TeamMemberData.GetMemberTypeAsDisplayString(MemberTypeWithEditToken))); }
+            get { return new ApplicationException(String.Format("Right now, this story is in a state where only a '{0}' should be editing it. If you're a {0}, click 'Project', 'Settings' to login", TeamMemberData.GetMemberTypeAsDisplayString(MemberTypeWithEditToken))); }
         }
 
         // this isn't 100% effective. Sometimes a particular stage can have a single (but varied) editors

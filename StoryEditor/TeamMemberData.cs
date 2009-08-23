@@ -174,7 +174,7 @@ namespace OneStoryProjectEditor
         //  of the ones in this project (for auto-login)
         public bool CanLoginMember(string strMemberName, string strMemberType)
         {
-            if (this.ContainsKey(strMemberName))
+            if (ContainsKey(strMemberName))
             {
                 TeamMemberData aTMD = this[strMemberName];
                 return (aTMD.MemberTypeAsString == strMemberType);

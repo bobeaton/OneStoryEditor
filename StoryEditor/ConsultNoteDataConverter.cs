@@ -43,29 +43,21 @@ namespace OneStoryProjectEditor
             return CmapDirectionStringToEnumType[strDirectionString];
         }
 
-        // more slots are needed if we only have one in the list OR if we have an even number and the mentee started the conversation
-        protected bool MoreSlotsNeeded
-        {
-            get { return ((Count == 1) || ((Count % 2) == 0) && (this[0].Direction == MenteeDirection)); }
-        }
-
         public string GetDirectionString(CommunicationDirections eDirection)
         {
             return eDirection.ToString().Substring(1);
         }
 
-        public void MakeExtraSlots()
+        public void InsureExtraBox(bool bIsMentorLoggedIn)
         {
-            if ((Count % 2) == 1)
-            {
-                // make it the opposite of the one that's there
-                CommunicationDirections cd = (this[0].Direction == MentorDirection)
-                    ? MenteeDirection : MentorDirection;
-                Add(new CommInstance(null, cd, null));
-            }
+            // in case the user re-logs in, we might have extra boxes here. So remove any null ones before
+            //  "insuring" the one(s) we need
+            while (!this[Count - 1].HasData)
+                RemoveAt(Count - 1);
 
-            // if the conversation was started by the mentee, then they need to finish it
-            if (((Count % 2) == 0) && (this[0].Direction == MenteeDirection))
+            if (bIsMentorLoggedIn && (this[Count - 1].Direction != MentorDirection))
+                Add(new CommInstance(null, MentorDirection, null));
+            else if (!bIsMentorLoggedIn && (this[Count - 1].Direction != MenteeDirection))
                 Add(new CommInstance(null, MenteeDirection, null));
         }
 
@@ -159,16 +151,12 @@ namespace OneStoryProjectEditor
 
             // make sure that there are at least two (we can't save them if they're empty)
             System.Diagnostics.Debug.Assert(Count != 0);
-            if (MoreSlotsNeeded)
-                MakeExtraSlots();
         }
 
-        public ConsultantNoteData(int nRound, CommunicationDirections eDirectionOfFirst)
+        public ConsultantNoteData(int nRound, bool bIsMentorLoggedIn)
         {
             RoundNum = nRound;
-            Add(new CommInstance(null, eDirectionOfFirst, null));
-            System.Diagnostics.Debug.Assert(MoreSlotsNeeded);
-            MakeExtraSlots();
+            InsureExtraBox(bIsMentorLoggedIn);
         }
 
         public override CommunicationDirections MentorDirection
@@ -226,8 +214,12 @@ namespace OneStoryProjectEditor
 
             // make sure that there are at least two (we can't save them if they're empty)
             System.Diagnostics.Debug.Assert(Count != 0);
-            if (MoreSlotsNeeded)
-                MakeExtraSlots();
+        }
+
+        public CoachNoteData(int nRound, bool bIsMentorLoggedIn)
+        {
+            RoundNum = nRound;
+            InsureExtraBox(bIsMentorLoggedIn);
         }
 
         public override CommunicationDirections MentorDirection
@@ -238,14 +230,6 @@ namespace OneStoryProjectEditor
         public override CommunicationDirections MenteeDirection
         {
             get { return CommunicationDirections.eConsultantToCoach; }
-        }
-
-        public CoachNoteData(int nRound, CommunicationDirections eDirectionOfFirst)
-        {
-            RoundNum = nRound;
-            Add(new CommInstance(null, eDirectionOfFirst, null));
-            System.Diagnostics.Debug.Assert(MoreSlotsNeeded);
-            MakeExtraSlots();
         }
 
         public override string MentorLabel
@@ -288,7 +272,8 @@ namespace OneStoryProjectEditor
             get { return (this.Count > 0); }
         }
 
-        public abstract ConsultNoteDataConverter InsertEmpty(int nIndex, int nRound);
+        public abstract ConsultNoteDataConverter InsertEmpty(int nIndex, int nRound, bool bIsMentorLoggedIn);
+        public abstract TeamMemberData.UserTypes MentorType { get; }
 
         public XElement GetXml
         {
@@ -321,16 +306,22 @@ namespace OneStoryProjectEditor
                 Add(new ConsultantNoteData(aConsultantConversationRow));
         }
 
-        public override ConsultNoteDataConverter InsertEmpty(int nIndex, int nRound)
+        public ConsultantNotesData()
         {
-            ConsultNoteDataConverter theNewCN = new ConsultantNoteData(nRound, ConsultNoteDataConverter.CommunicationDirections.eConsultantToCrafter);
+            CollectionElementName = "ConsultantNotes";
+        }
+
+        public override ConsultNoteDataConverter InsertEmpty(int nIndex, int nRound, bool bIsMentorLoggedIn)
+        {
+            ConsultNoteDataConverter theNewCN = new ConsultantNoteData(nRound, bIsMentorLoggedIn);
             Insert(nIndex, theNewCN);
             return theNewCN;
         }
 
-        public ConsultantNotesData()
+        internal static TeamMemberData.UserTypes myMentorType = TeamMemberData.UserTypes.eConsultantInTraining;
+        public override TeamMemberData.UserTypes MentorType
         {
-            CollectionElementName = "ConsultantNotes";
+            get { return myMentorType; }
         }
     }
 
@@ -351,17 +342,23 @@ namespace OneStoryProjectEditor
                 Add(new CoachNoteData(aCoachConversationRow));
         }
 
-        public override ConsultNoteDataConverter InsertEmpty(int nIndex, int nRound)
+        public CoachNotesData()
+        {
+            CollectionElementName = "CoachNotes";
+        }
+
+        public override ConsultNoteDataConverter InsertEmpty(int nIndex, int nRound, bool bIsMentorLoggedIn)
         {
             // always add closest to the verse label
-            ConsultNoteDataConverter theNewCN = new CoachNoteData(nRound, ConsultNoteDataConverter.CommunicationDirections.eCoachToConsultant);
+            ConsultNoteDataConverter theNewCN = new CoachNoteData(nRound, bIsMentorLoggedIn);
             Insert(0, theNewCN);
             return theNewCN;
         }
 
-        public CoachNotesData()
+        internal static TeamMemberData.UserTypes myMentorType = TeamMemberData.UserTypes.eCoach;
+        public override TeamMemberData.UserTypes MentorType
         {
-            CollectionElementName = "CoachNotes";
+            get { return myMentorType; }
         }
     }
 }

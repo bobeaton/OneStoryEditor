@@ -15,7 +15,8 @@ namespace OneStoryProjectEditor
         internal ConsultNoteDataConverter _myCNDC = null;
         internal ConsultNotesDataConverter _myCollection = null;
 
-        public ConsultNoteControl(StoryStageLogic storyStageLogic, ConsultNotesDataConverter theCollection, ConsultNoteDataConverter aCNDC)
+        public ConsultNoteControl(StoryStageLogic storyStageLogic, ConsultNotesDataConverter theCollection,
+            ConsultNoteDataConverter aCNDC, TeamMemberData.UserTypes eLoggedOnMemberType)
             : base(storyStageLogic)
         {
             _myCNDC = aCNDC;
@@ -37,6 +38,7 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert(tableLayoutPanel.RowCount == 1, "otherwise, fix this assumption: ConsultNoteControl.cs.28");
 
             // finally populate the buttons on that tool strip
+            aCNDC.InsureExtraBox(eLoggedOnMemberType == theCollection.MentorType);
             int nNumRows = 1;
             foreach (CommInstance aCI in aCNDC)
                 if ((aCI.Direction == ConsultNoteDataConverter.CommunicationDirections.eConsultantToCrafter)
@@ -91,9 +93,7 @@ namespace OneStoryProjectEditor
 
         private void addAnotherCommentToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _myCNDC.MakeExtraSlots();
-            StoryEditor theSE = (StoryEditor)FindForm();
-            theSE.ReInitConsultNotesPane(_myCollection);
+            throw new NotImplementedException();
         }
 
         void buttonDragDropHandle_QueryContinueDrag(object sender, QueryContinueDragEventArgs e)

@@ -176,8 +176,16 @@ namespace OneStoryProjectEditor
             {
                 try
                 {
+                    // detect if the logged on member type changed, and if so, redo the Consult Notes panes
+                    System.Diagnostics.Debug.Assert(LoggedOnMember != null);
+                    TeamMemberData.UserTypes eCurrentMemberType = LoggedOnMember.MemberType;
                     LoggedOnMember = Stories.EditTeamMembers(LoggedOnMember.Name, TeamMemberForm.CstrDefaultOKLabel);
                     Modified = true;
+                    if ((eCurrentMemberType != LoggedOnMember.MemberType) && (theCurrentStory != null))
+                    {
+                        InitAllPanes(theCurrentStory.Verses);
+                        CheckForProperMemberType();
+                    }
                 }
                 catch { }   // this might throw if the user cancels, but we don't care
             }
@@ -274,12 +282,13 @@ namespace OneStoryProjectEditor
         protected StoriesData GetOldStoriesData(StoryProject projFile, ProjectSettings projSettings)
         {
             StoriesData theOldStories = new StoriesData(projFile, projSettings);
+
             if (LoggedOnMember == null)
             {
                 LoggedOnMember = theOldStories.GetLogin();
                 Modified = true;
             }
-            
+
             return theOldStories;
         }
 
@@ -359,8 +368,25 @@ namespace OneStoryProjectEditor
             // finally, initialize the verse controls
             InitAllPanes();
 
+            CheckForProperMemberType();
+
             // get the focus off the combo box, so mouse scroll doesn't rip thru the stories!
             flowLayoutPanelVerses.Focus();
+        }
+
+        private void CheckForProperMemberType()
+        {
+            // inform the user that they won't be able to edit this if they aren't the proper member type
+            System.Diagnostics.Debug.Assert((theCurrentStory != null) && (LoggedOnMember != null));
+            if (LoggedOnMember.MemberType != theCurrentStory.ProjStage.MemberTypeWithEditToken)
+                try
+                {
+                    throw theCurrentStory.ProjStage.WrongMemberTypeEx;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, StoriesData.CstrCaption);
+                }
         }
 
         protected void InitAllPanes(VersesData theVerses)
@@ -419,7 +445,7 @@ namespace OneStoryProjectEditor
 
         protected void InitConsultNotesPane(ConNoteFlowLayoutPanel theFLP, ConsultNotesDataConverter aCNsDC, int nVerseIndex)
         {
-            ConsultNotesControl aConsultNotesCtrl = new ConsultNotesControl(theCurrentStory.ProjStage, aCNsDC, nVerseIndex);
+            ConsultNotesControl aConsultNotesCtrl = new ConsultNotesControl(theCurrentStory.ProjStage, aCNsDC, nVerseIndex, LoggedOnMember.MemberType);
             aConsultNotesCtrl.UpdateHeight(Panel2_Width);
             theFLP.AddCtrl(aConsultNotesCtrl);
         }

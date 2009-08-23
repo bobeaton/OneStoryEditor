@@ -91,6 +91,7 @@
             this.addAnotherCommentToolStripMenuItem.Name = "addAnotherCommentToolStripMenuItem";
             this.addAnotherCommentToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.addAnotherCommentToolStripMenuItem.Text = "&Add another comment";
+            this.addAnotherCommentToolStripMenuItem.Visible = false;
             this.addAnotherCommentToolStripMenuItem.Click += new System.EventHandler(this.addAnotherCommentToolStripMenuItem_Click);
             // 
             // ConsultNoteControl

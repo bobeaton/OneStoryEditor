@@ -14,7 +14,8 @@ namespace OneStoryProjectEditor
 
         internal int VerseNumber = -1;
         internal ConsultNotesDataConverter _theCNsDC = null;
-        public ConsultNotesControl(StoryStageLogic storyStageLogic, ConsultNotesDataConverter aCNsDC, int nVerseNumber)
+        public ConsultNotesControl(StoryStageLogic storyStageLogic, ConsultNotesDataConverter aCNsDC, 
+            int nVerseNumber, TeamMemberData.UserTypes eLoggedOnMemberType)
             : base(storyStageLogic)
         {
             _theCNsDC = aCNsDC;
@@ -35,7 +36,7 @@ namespace OneStoryProjectEditor
                 {
                     if (aCNDC.Visible)
                     {
-                        ConsultNoteControl aCNCtrl = new ConsultNoteControl(storyStageLogic, aCNsDC, aCNDC);
+                        ConsultNoteControl aCNCtrl = new ConsultNoteControl(storyStageLogic, aCNsDC, aCNDC, eLoggedOnMemberType);
                         aCNCtrl.Name = CstrFieldNameConsultantNote + nRowIndex;
                         aCNCtrl.ParentControl = this;
 
@@ -92,8 +93,8 @@ namespace OneStoryProjectEditor
                     round = 3;
             }
 
-            // always add at the front (so they're stay close to the collection label
-            _theCNsDC.InsertEmpty(0, round);
+            // always add at the front (so they're stay close to the verse number label)
+            _theCNsDC.InsertEmpty(0, round, (theSE.LoggedOnMember.MemberType == _theCNsDC.MentorType));
             theSE.ReInitConsultNotesPane(_theCNsDC);
         }
 
