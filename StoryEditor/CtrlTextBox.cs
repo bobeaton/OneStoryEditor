@@ -79,13 +79,13 @@ namespace OneStoryProjectEditor
 
                 // update the status bar (in case we previously put an error there
                 StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[_stageLogic.ProjectStage];
-                theSE.SetStatusBar(String.Format("{0}  Press F1 for instructions", st.StageDisplayString), st.StageInstructions);
+                theSE.SetStatusBar(String.Format("{0}  Press F1 for instructions", st.StageDisplayString));
             }
             catch (Exception ex)
             {
                 Console.Beep();
                 if (theSE != null)
-                    theSE.SetStatusBar(String.Format("Error: {0}", ex.Message), null);
+                    theSE.SetStatusBar(String.Format("Error: {0}", ex.Message));
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
@@ -93,6 +93,7 @@ namespace OneStoryProjectEditor
 
         protected bool IsKeyAutomaticallyAllowed(Keys keyCode)
         {
+            System.Diagnostics.Debug.WriteLine(String.Format("key: {0}", keyCode));
             switch (keyCode)
             {
                 case Keys.Left:
@@ -102,6 +103,10 @@ namespace OneStoryProjectEditor
                 case Keys.Up:
                     return true;
                 case Keys.Down:
+                    return true;
+                case Keys.Menu:
+                    return true;
+                case Keys.ShiftKey:
                     return true;
             }
             return false;

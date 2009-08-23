@@ -16,7 +16,6 @@ namespace OneStoryProjectEditor
         protected const string CstrFieldNameTestQuestions = "TestQuestions";
 
         internal VerseData _verseData = null;
-        protected string _strUnsMemberId = null;
         protected int _VerseNumber = -1;
 
         public string Guid = null;
@@ -27,14 +26,21 @@ namespace OneStoryProjectEditor
             _verseData = dataVerse;
             Guid = _verseData.guid;
             InitializeComponent();
-            VerseNumber = nVerseNumber;
 
-            tableLayoutPanel.SuspendLayout();
-            SuspendLayout();
+            VerseNumber = nVerseNumber;
 
             tableLayoutPanel.Controls.Add(labelReference, 0, 0);
             tableLayoutPanel.Controls.Add(buttonDragDropHandle, 1, 0);
-            
+
+            InitControls(aSE);
+        }
+
+        protected void InitControls(StoryEditor aSE)
+        {
+            tableLayoutPanel.DumpTable();
+            tableLayoutPanel.SuspendLayout();
+            SuspendLayout();
+
             int nNumRows = 1;
             // if the user is requesting one of the story lines (vernacular, nationalBT, or English), then...
             if (aSE.viewVernacularLangFieldMenuItem.Checked || aSE.viewNationalLangFieldMenuItem.Checked || aSE.viewEnglishBTFieldMenuItem.Checked)
@@ -74,6 +80,12 @@ namespace OneStoryProjectEditor
 
             tableLayoutPanel.ResumeLayout(false);
             ResumeLayout(false);
+        }
+
+        protected void ClearControls()
+        {
+            while (tableLayoutPanel.RowCount > 1)
+                RemoveRow(tableLayoutPanel.RowCount - 1);
         }
 
         internal int VerseNumber
@@ -173,10 +185,7 @@ namespace OneStoryProjectEditor
         private void menuAddTestQuestion_Click(object sender, EventArgs e)
         {
             _verseData.TestQuestions.AddTestQuestion();
-
-            // this is kind of sledge-hammer-y... but it works
-            StoryEditor theSE = (StoryEditor)FindForm();
-            theSE.ReInitVerseControls();
+            UpdateViewOfThisVerse();
         }
 
         private void contextMenuStrip_Opening(object sender, CancelEventArgs e)
@@ -255,9 +264,17 @@ namespace OneStoryProjectEditor
             ToolStripMenuItem tsm = (ToolStripMenuItem)sender;
             MultipleLineDataConverter theObj = (MultipleLineDataConverter)tsm.Tag;
             theObj.RemoveLine(tsm.Text);
+            UpdateViewOfThisVerse();
+        }
 
+        private void UpdateViewOfThisVerse()
+        {
             StoryEditor theSE = (StoryEditor)FindForm();
-            theSE.ReInitVerseControls();
+            ClearControls();
+            InitControls(theSE);
+            UpdateHeight(Width);
+            tableLayoutPanel.PerformLayout();
+            PerformLayout();
         }
 
         protected const string CstrAddAnswerPrefix = "For the question: ";
@@ -272,47 +289,46 @@ namespace OneStoryProjectEditor
 
         protected void AddAnswerSubmenu(string strText, int nIndex)
         {
-            ToolStripMenuItem tsm = new ToolStripMenuItem();
-            tsm.Name = strText;
-            tsm.Size = new System.Drawing.Size(202, 22);
-            tsm.Text = CstrAddAnswerPrefix + strText;
-            tsm.Tag = nIndex;
+            ToolStripMenuItem tsm = new ToolStripMenuItem
+                                        {
+                                            Name = strText,
+                                            Size = new System.Drawing.Size(202, 22),
+                                            Text = CstrAddAnswerPrefix + strText,
+                                            Tag = nIndex
+                                        };
             tsm.Click += addTestQuestionAnswerToolStripMenuItem_Click;
             addTestQuestionAnswerToolStripMenuItem.DropDown.Items.Add(tsm);
         }
 
         private void addTestQuestionAnswerToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            ToolStripMenuItem tsm = (ToolStripMenuItem)sender;
             StoryEditor theSE = (StoryEditor)FindForm();
 
-            // gotta query for the UNS
-            if (String.IsNullOrEmpty(_strUnsMemberId))
+            //have to query for the UNS that this test is from (if we don't already have it).
+            System.Diagnostics.Debug.Assert((theSE != null) && (theSE.theCurrentStory != null) && (theSE.theCurrentStory.CraftingInfo != null));
+            System.Diagnostics.Debug.Assert(theSE.theCurrentStory.CraftingInfo.Testors.Count == _verseData.TestQuestions.Count);
+            System.Diagnostics.Debug.Assert((tsm.Tag != null) && (tsm.Tag is int) && (((int)tsm.Tag) < _verseData.TestQuestions.Count));
+            TestQuestionData tqd = _verseData.TestQuestions[(int)tsm.Tag];
+            System.Diagnostics.Debug.Assert(CstrAddAnswerPrefix + tqd.QuestionVernacular.ToString() == tsm.Text);
+            byte nNewIndex = (byte)tqd.Answers.Count;
+            while (((nNewIndex >= theSE.theCurrentStory.CraftingInfo.Testors.Count) || String.IsNullOrEmpty(theSE.theCurrentStory.CraftingInfo.Testors[nNewIndex])))
             {
                 MemberPicker dlg = new MemberPicker(theSE.Stories, TeamMemberData.UserTypes.eUNS);
-                if (dlg.ShowDialog() == DialogResult.OK)
-                    _strUnsMemberId = dlg.SelectedMember.MemberGuid;
+                dlg.Text = "Choose the UNS that gave these answers";
+                if (dlg.ShowDialog() == DialogResult.Cancel)
+                    return;
+
+                tqd.Answers.AddNewLine(dlg.SelectedMember.MemberGuid);
+                break;
             }
 
-            if (String.IsNullOrEmpty(_strUnsMemberId))
-                return;
-
-            ToolStripMenuItem theTSM = (ToolStripMenuItem) sender;
-            int nIndex;
-            if (theTSM.Tag == null)
-                nIndex = 0;
-            else
-                nIndex = (int)theTSM.Tag;
-
-            System.Diagnostics.Debug.Assert(nIndex < _verseData.TestQuestions.Count);
-
-            TestQuestionData theTQD = _verseData.TestQuestions[nIndex];
-            theTQD.Answers.AddNewLine(_strUnsMemberId);
-
-            theSE.ReInitVerseControls();
+            UpdateViewOfThisVerse();
         }
 
         private void addRetellingToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            /*
             StoryEditor theSE = (StoryEditor)FindForm();
 
             // gotta query for the UNS
@@ -331,6 +347,7 @@ namespace OneStoryProjectEditor
 
             // this is kind of sledge-hammer-y... but it works
             theSE.ReInitVerseControls();
+            */
         }
 
         private void deleteTheWholeVerseToolStripMenuItem_Click(object sender, EventArgs e)

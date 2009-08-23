@@ -117,7 +117,7 @@ namespace OneStoryProjectEditor
                     // light it up and let the user know they need to do something!
                     aVerseData.InternationalBTText.TextBox.Focus();
                     Console.Beep();
-                    theSE.SetStatusBar(String.Format("Error: Verse {0} has multiple sentences in English, but only 1 in {1}. Adjust the English to match the {1}", nVerseNumber, theStories.ProjSettings.NationalBT.LangName), null);
+                    theSE.SetStatusBar(String.Format("Error: Verse {0} has multiple sentences in English, but only 1 in {1}. Adjust the English to match the {1}", nVerseNumber, theStories.ProjSettings.NationalBT.LangName));
                     return false;
                 }
 
@@ -128,21 +128,52 @@ namespace OneStoryProjectEditor
 
         protected static void ShowErrorFocus(StoryEditor theSE, CtrlTextBox tb, string strStatusMessage)
         {
-            Console.Beep();
             tb.Focus();
             tb.SelectAll();
-            theSE.SetStatusBar(strStatusMessage, null);
+            ShowError(theSE, strStatusMessage);
+        }
+
+        protected static void ShowError(StoryEditor theSE, string strStatusMessage)
+        {
+            theSE.SetStatusBar(strStatusMessage);
+            Console.Beep();
         }
 
         public static bool CrafterAddAnchors(StoryEditor theSE, StoriesData theStories, StoryData theCurrentStory)
         {
             Console.WriteLine(String.Format("Checking if stage 'CrafterAddAnchors' work is finished: Name: {0}", theCurrentStory.StoryName));
+
+            // for each verse, make sure that there is at least one anchor.
+            int nVerseNumber = 1;
+            foreach (VerseData aVerseData in theCurrentStory.Verses)
+            {
+                if (aVerseData.Anchors.Count == 0)
+                {
+                    ShowErrorFocus(theSE, aVerseData.NationalBTText.TextBox,
+                        String.Format("Error: Verse {0} doesn't have an anchor. Did you forget it?", nVerseNumber));
+                    return false;
+                }
+                nVerseNumber++;
+            }
             return true;
         }
 
         public static bool CrafterAddStoryQuestions(StoryEditor theSE, StoriesData theStories, StoryData theCurrentStory)
         {
             Console.WriteLine(String.Format("Checking if stage 'CrafterAddStoryQuestions' work is finished: Name: {0}", theCurrentStory.StoryName));
+
+            // there should be at least half as many questions as there are verses.
+            int nNumOfVerses = 0;
+            foreach (VerseData aVerseData in theCurrentStory.Verses)
+                nNumOfVerses += aVerseData.TestQuestions.Count;
+
+            if (nNumOfVerses < (theCurrentStory.Verses.Count / 2))
+            {
+                int nNumLacking = (theCurrentStory.Verses.Count / 2) - nNumOfVerses;
+                ShowError(theSE,
+                    String.Format("Error: You should have at least half as many Story Testing Questions as verses in the story. Please add at least {0} more testing question(s). (right-click on the 'verse options' button and choose 'Add a story testing question')", nNumLacking));
+                return false;
+            }
             return true;
         }
 

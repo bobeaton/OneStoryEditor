@@ -5,16 +5,14 @@
     <StageInstructions>
 By this stage, you will have already crafted and recorded a story according to the procedure you 
 learned in the workshop. Now you as the story Crafter must find an uninitiated native speaker 
-(UNS) to listen to the story and have him or her "back-translate" it into the national language 
-(e.g. Hindi), line-by-line. Then you will type the back-translation into the verse field(s) 
-in this window.
+(UNS) to listen to the story and have him or her "back-translate" the story into the national 
+language (e.g. Hindi). Then you will type the back-translation line-by-line into the verse 
+field(s) in this window.
 
-You can type the entire story into a single verse box. When you're finished, 
-right click on the small button in the upper right corner of the verse box (known as the 
-'verse commands' button) and choose 'Split story into verses'. This will automatically split 
-the story into verses. [You might need to click 'File', 'Settings' and on the 
-'Project/Language Settings' tab, to update the field for 'Sentence Final Punctuation' for this
-to work correctly].
+You can type the entire story into a single verse box. Then when you're finished, right-click 
+on the small button in the upper right corner of the verse box (known as the 'verse commands' 
+button) and choose 'Split story into verses'. This will automatically split the story into 
+verses.
 
 You can also manually add new verse boxes by right-clicking on that same 'verse commands' 
 button and choose either 'Insert new verse(s) before' or 'Add new verse(s) after'.
@@ -68,22 +66,35 @@ The program will check to make sure that each line has one and only one sentence
   <StateTransition stage="eCrafterAddAnchors" MemberTypeWithEditToken="eCrafter" NextState="eCrafterAddStoryQuestions">
     <StageDisplayString>Crafter adds biblical anchors</StageDisplayString>
     <StageInstructions>
-In this stage, one of the crafting team will go through the story verse-by-verse and look
-up one or more Bible references in the NetBible that supports the information in the verse. 
-These Bible references are known as "Anchors", because they 'fix' the story verse to the 
-Bible.
+In this stage, one of the crafting team will go through the story verse-by-verse and look up one or more Bible references 
+in the Bible pane that supports the information in the verse. These Bible references are known as "Anchors", because they 
+tie the story verse to the Bible.
 
-For example, if your story verse were, "First of all, God made heaven and earth.", then 
-you could use the reference "Gen 1:1" as the anchor. You could also include a 2nd anchor
-like Col 1:16
+For example, if your story verse were, "First of all, God made heaven and earth", then you could use the reference 
+"Gen 1:1" as the anchor, which in the Net Bible says, "In the beginning God created the heavens and the earth". You could 
+also include another anchor like Col 1:16, which says, "for all things in heaven and on earth were created by him..."
+Both of these passages support the idea that "First of all, God made heaven and earth"
 
-back translate the Hindi of the story into
-English. Unlike the last state, where the Hindi back translation had to be from a UNS,
-in this state, anyone can do the English back translation.
+When you find a supporting Bible passage, then click and hold down the left mouse button on the button to the left of the 
+Bible passage in the Bible pane. Then while the left mouse button is held down, drag the mouse onto the line in the story 
+verse area above with the label, "anc:". This is the anchor bar for the verse. When the mouse is over the anchor bar, 
+release the left mouse button and a new "anchor button" will appear on the anchor bar for that passage.
 
-When you are finished entering the English back translation, then click the button in the
-left-hand side of the status bar and choose 'Next Stage' to go to the next stage in the
-process.
+Now, you can click on the anchor button to jump to the anchored verse. You can also right-click on the anchor button for 
+other options, like adding a comment to the anchor (e.g. "implied by ..."). These comments will be displayed when you hover 
+the mouse over an anchor button. You can also add a cultural or exegetical note about the anchor by right-clicking on the 
+anchor button and choosing "Add Exegetical/Cultural Note". Such notes can help the consultant understand why you chose the 
+Bible reference that you did.
+
+In the Bible pane in the lower left, by default the NetBible version of the Bible will be displayed. In the upper portion 
+of that pane, there are several small "radio buttons" with labels like "NETfree" (which refers to the NetBible) and "Other". 
+Click on the "Other" button to view different Bible text resources that may be installed on your computer, such as a Hindi 
+Bible translation or an Easy English version of the Bible. Talk with your workshop advisor for other options available.
+
+Remember that each verse must have at least one anchor. 
+
+When you are finished adding anchors for each verse, then click the button in the left-hand side of the status bar and 
+choose 'Next Stage' to go to the next stage in the process.
     </StageInstructions>
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
@@ -97,7 +108,45 @@ process.
   </StateTransition>
   <StateTransition stage="eCrafterAddStoryQuestions" MemberTypeWithEditToken="eCrafter" NextState="eConsultantCheckAnchors">
     <StageDisplayString>Crafter adds story testing questions</StageDisplayString>
-    <StageInstructions></StageInstructions>
+    <StageInstructions>
+In this stage, one of the crafting team will go through the story and add "Story Testing Questions" (STQs). These are 
+questions that you will eventually ask an uninitiated native speaker (UNS) in order to test the implications of the story.
+
+The best kind of STQ are those that invite the UNS to speculate on "Why" or "How" of what is going on in the story. Or
+questions that ask, "What kinds of things might be an example of this?" are also useful. They should be based on the 
+story verses, but should try to get the UNS to speculate beyond what the story itself says. For example, suppose that the
+story had a verse like, "And the people took baptism and left their sins". You could ask a question like, "Why
+(or how) do you think they took baptism?" or "How (or why) do you think they left their sins?"
+
+These would be good questions, because the answer isn't in the story and based on what the UNS thinks, it might be 
+necessary to revise the story to avoid a wrong understanding. Other questions that begin with "What", "Who", "When", 
+"Where", are usually not as good, because often they can be answered from the information in the story itself, which 
+are less useful. For example, suppose the story verse says, "Jesus and three of his disciples when up on a hill..." and 
+the question is, "How many disciples went up on the hill with Jesus?" The answer to this question is right in the story.
+Such questions are known as "closed questions" and are not good STQs. 
+
+Also, STQs shouldn’t be questions for which the answer is either "yes" or "no" (e.g. "Did Joseph reveal himself to his 
+brothers before they left?) or questions about what something means (e.g. "What does the phrase "sabt din" mean?"). These 
+are also examples of questions that are not good STQs.
+
+Also, they also shouldn’t be questions which ask the UNS for their personal beliefs or theological opinion (e.g. "Do you 
+think that God could really have created the world in 6 days?") or questions which can't really help the story regardless 
+of the answer (e.g. "In your opinion can a person stay in a cattle shed?"). Besides being a "yes-no" question, this one 
+can't possibly help correct any misinterpretation from the story, regardless of what answer is given.
+
+So always keep in mind what kind of answer you might get from the UNS. If the answer could show that they misunderstood 
+the situation, then it's probably a good question.
+
+Depending on what agreement you make with your consultant and coach, you may translate the testing questions you create 
+into English so the consultant and coach can review them. However, remember that these questions should always be asked 
+and answered with the UNS in the story language itself; not the national language, nor in English. 
+
+You should have at least half as many STQs as verses in the story. So if your story is 20 verses long, then you need to 
+have at least 10 questions, and don't forget that it's okay if some verses have multiple questions.
+
+When you are finished adding these testing questions, then click the button in the left-hand side of the status bar and 
+choose 'Next Stage' to go to the next stage in the process.
+    </StageInstructions>
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterTypeInternationalBT</AllowableBackwardsTransition>
@@ -136,7 +185,7 @@ process.
     <AllowableForwardsTransitions>
       <AllowableForwardsTransition>eCoachReviewRound1Notes</AllowableForwardsTransition>
     </AllowableForwardsTransitions>
-    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
+    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eCoachReviewRound1Notes" MemberTypeWithEditToken="eCoach" NextState="eConsultantReviseRound1Notes">
     <StageDisplayString>Coach reviews round 1 consultant notes</StageDisplayString>

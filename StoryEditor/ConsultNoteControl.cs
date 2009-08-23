@@ -89,13 +89,20 @@ namespace OneStoryProjectEditor
             theSE.ReInitConsultNotesPane(_myCollection);
         }
 
-        void buttonDragDropHandle_QueryContinueDrag(object sender, System.Windows.Forms.QueryContinueDragEventArgs e)
+        private void addAnotherCommentToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _myCNDC.MakeExtraSlots();
+            StoryEditor theSE = (StoryEditor)FindForm();
+            theSE.ReInitConsultNotesPane(_myCollection);
+        }
+
+        void buttonDragDropHandle_QueryContinueDrag(object sender, QueryContinueDragEventArgs e)
         {
             StoryEditor theSE = (StoryEditor)FindForm();
             theSE.HandleQueryContinueDrag((ConsultNotesControl)ParentControl, e);
         }
 
-        void buttonDragDropHandle_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+        void buttonDragDropHandle_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
                 buttonDragDropHandle.DoDragDrop(this, DragDropEffects.Move);

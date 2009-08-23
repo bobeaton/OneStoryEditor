@@ -72,10 +72,10 @@ namespace OneStoryProjectEditor
             this.textBoxStoryVerse = new System.Windows.Forms.TextBox();
             this.netBibleViewer = new OneStoryProjectEditor.NetBibleViewer();
             this.splitContainerMentorNotes = new System.Windows.Forms.SplitContainer();
-            this.flowLayoutPanelConsultantNotes = new ConNoteFlowLayoutPanel();
+            this.flowLayoutPanelConsultantNotes = new OneStoryProjectEditor.ConNoteFlowLayoutPanel();
             this.textBoxConsultantNotesTable = new System.Windows.Forms.TextBox();
             this.textBoxCoachNotes = new System.Windows.Forms.TextBox();
-            this.flowLayoutPanelCoachNotes = new ConNoteFlowLayoutPanel();
+            this.flowLayoutPanelCoachNotes = new OneStoryProjectEditor.ConNoteFlowLayoutPanel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.buttonsStoryStage = new System.Windows.Forms.ToolStripSplitButton();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -552,7 +552,6 @@ namespace OneStoryProjectEditor
             this.statusLabel});
             this.statusStrip.Location = new System.Drawing.Point(0, 314);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.ShowItemToolTips = true;
             this.statusStrip.Size = new System.Drawing.Size(895, 22);
             this.statusStrip.TabIndex = 1;
             this.statusStrip.Text = "statusStrip1";

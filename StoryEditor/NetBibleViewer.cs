@@ -50,7 +50,6 @@ namespace OneStoryProjectEditor
             "for (var i=0; i < links.length; i++)" +
             "{" +
             "  links[i].onclick = function(){return OpenHoverWindow(this);};" +
-            "  links[i].onmouseover = function(){return OpenHoverWindow(this);};" +
             "}" +
             "var buttons = document.getElementsByTagName(\"button\");" +
             "for (var i=0; i < buttons.length; i++)" +

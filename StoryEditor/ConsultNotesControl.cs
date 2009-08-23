@@ -79,7 +79,7 @@ namespace OneStoryProjectEditor
             catch (Exception ex)
             {
                 if (theSE != null)
-                    theSE.SetStatusBar(String.Format("Error: {0}", ex.Message), null);
+                    theSE.SetStatusBar(String.Format("Error: {0}", ex.Message));
                 return;
             }
 

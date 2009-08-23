@@ -30,13 +30,13 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PanoramaView));
             this.dataGridViewPanorama = new System.Windows.Forms.DataGridView();
+            this.buttonMoveDown = new System.Windows.Forms.Button();
+            this.buttonMoveUp = new System.Windows.Forms.Button();
+            this.buttonDelete = new System.Windows.Forms.Button();
             this.StoryName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnPurpose = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.EditToken = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StoryStage = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.buttonMoveDown = new System.Windows.Forms.Button();
-            this.buttonMoveUp = new System.Windows.Forms.Button();
-            this.buttonDelete = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPanorama)).BeginInit();
             this.SuspendLayout();
             // 
@@ -45,15 +45,14 @@
             this.dataGridViewPanorama.AllowUserToAddRows = false;
             this.dataGridViewPanorama.AllowUserToOrderColumns = true;
             this.dataGridViewPanorama.AllowUserToResizeRows = false;
-            this.dataGridViewPanorama.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridViewPanorama.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Sunken;
             this.dataGridViewPanorama.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewPanorama.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.StoryName,
             this.ColumnPurpose,
             this.EditToken,
             this.StoryStage});
+            this.dataGridViewPanorama.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewPanorama.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dataGridViewPanorama.Location = new System.Drawing.Point(0, 0);
             this.dataGridViewPanorama.MultiSelect = false;
@@ -62,40 +61,8 @@
             this.dataGridViewPanorama.RowHeadersWidth = 25;
             this.dataGridViewPanorama.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dataGridViewPanorama.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewPanorama.Size = new System.Drawing.Size(665, 362);
+            this.dataGridViewPanorama.Size = new System.Drawing.Size(709, 362);
             this.dataGridViewPanorama.TabIndex = 0;
-            // 
-            // StoryName
-            // 
-            this.StoryName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.StoryName.Frozen = true;
-            this.StoryName.HeaderText = "Story Name";
-            this.StoryName.Name = "StoryName";
-            this.StoryName.ReadOnly = true;
-            this.StoryName.Width = 87;
-            // 
-            // ColumnPurpose
-            // 
-            this.ColumnPurpose.HeaderText = "Purpose";
-            this.ColumnPurpose.Name = "ColumnPurpose";
-            this.ColumnPurpose.ReadOnly = true;
-            this.ColumnPurpose.Width = 180;
-            // 
-            // EditToken
-            // 
-            this.EditToken.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.EditToken.HeaderText = "Who Edits";
-            this.EditToken.Name = "EditToken";
-            this.EditToken.ReadOnly = true;
-            this.EditToken.Width = 81;
-            // 
-            // StoryStage
-            // 
-            this.StoryStage.HeaderText = "Stage";
-            this.StoryStage.Name = "StoryStage";
-            this.StoryStage.ReadOnly = true;
-            this.StoryStage.ToolTipText = "Right-click to change state";
-            this.StoryStage.Width = 290;
             // 
             // buttonMoveDown
             // 
@@ -130,6 +97,36 @@
             this.buttonDelete.UseVisualStyleBackColor = true;
             this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
             // 
+            // StoryName
+            // 
+            this.StoryName.Frozen = true;
+            this.StoryName.HeaderText = "Story Name";
+            this.StoryName.Name = "StoryName";
+            this.StoryName.ReadOnly = true;
+            this.StoryName.Width = 87;
+            // 
+            // ColumnPurpose
+            // 
+            this.ColumnPurpose.HeaderText = "Purpose";
+            this.ColumnPurpose.Name = "ColumnPurpose";
+            this.ColumnPurpose.ReadOnly = true;
+            this.ColumnPurpose.Width = 180;
+            // 
+            // EditToken
+            // 
+            this.EditToken.HeaderText = "Who Edits";
+            this.EditToken.Name = "EditToken";
+            this.EditToken.ReadOnly = true;
+            this.EditToken.Width = 81;
+            // 
+            // StoryStage
+            // 
+            this.StoryStage.HeaderText = "Stage";
+            this.StoryStage.Name = "StoryStage";
+            this.StoryStage.ReadOnly = true;
+            this.StoryStage.ToolTipText = "Right-click to change state";
+            this.StoryStage.Width = 290;
+            // 
             // PanoramaView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -152,10 +149,10 @@
         private System.Windows.Forms.DataGridView dataGridViewPanorama;
         private System.Windows.Forms.Button buttonMoveUp;
         private System.Windows.Forms.Button buttonMoveDown;
+        private System.Windows.Forms.Button buttonDelete;
         private System.Windows.Forms.DataGridViewTextBoxColumn StoryName;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnPurpose;
         private System.Windows.Forms.DataGridViewTextBoxColumn EditToken;
         private System.Windows.Forms.DataGridViewTextBoxColumn StoryStage;
-        private System.Windows.Forms.Button buttonDelete;
     }
 }

@@ -47,7 +47,10 @@ namespace OneStoryProjectEditor
             tableLayoutPanel.Controls.Add(label, 0, 1);
             tableLayoutPanel.DumpTable();
 
-            bool bShowVernAndShowHeaders = (aSE.viewVernacularLangFieldMenuItem.Checked);
+            // the Crafter definitely wants to see both, so even if the vern button is off, 
+            //  show the vern for the testing question--except for the coach
+            bool bShowVernAndShowHeaders = (aSE.viewVernacularLangFieldMenuItem.Checked
+                || (StageLogic.MemberTypeWithEditToken != TeamMemberData.UserTypes.eCoach));
 
             int nNumColumns = 1;
 

@@ -34,6 +34,7 @@
             this.contextMenuStripNoteOptions = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hideMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addAnotherCommentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripNoteOptions.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -57,21 +58,22 @@
             this.buttonDragDropHandle.Size = new System.Drawing.Size(15, 15);
             this.buttonDragDropHandle.TabIndex = 1;
             this.buttonDragDropHandle.UseVisualStyleBackColor = true;
-            this.buttonDragDropHandle.MouseDown += new System.Windows.Forms.MouseEventHandler(buttonDragDropHandle_MouseDown);
-            this.buttonDragDropHandle.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(buttonDragDropHandle_QueryContinueDrag);
+            this.buttonDragDropHandle.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.buttonDragDropHandle_QueryContinueDrag);
+            this.buttonDragDropHandle.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonDragDropHandle_MouseDown);
             // 
             // contextMenuStripNoteOptions
             // 
             this.contextMenuStripNoteOptions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.deleteMenuItem,
-            this.hideMenuItem});
+            this.hideMenuItem,
+            this.addAnotherCommentToolStripMenuItem});
             this.contextMenuStripNoteOptions.Name = "contextMenuStripNoteOptions";
-            this.contextMenuStripNoteOptions.Size = new System.Drawing.Size(153, 70);
+            this.contextMenuStripNoteOptions.Size = new System.Drawing.Size(181, 92);
             // 
             // deleteMenuItem
             // 
             this.deleteMenuItem.Name = "deleteMenuItem";
-            this.deleteMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.deleteMenuItem.Size = new System.Drawing.Size(180, 22);
             this.deleteMenuItem.Text = "&Delete";
             this.deleteMenuItem.ToolTipText = "Click to delete this note from the project";
             this.deleteMenuItem.Click += new System.EventHandler(this.deleteMenuItem_Click);
@@ -79,10 +81,17 @@
             // hideMenuItem
             // 
             this.hideMenuItem.Name = "hideMenuItem";
-            this.hideMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.hideMenuItem.Size = new System.Drawing.Size(180, 22);
             this.hideMenuItem.Text = "&Hide";
             this.hideMenuItem.ToolTipText = "Click to hide this note, but keep it in the project";
             this.hideMenuItem.Click += new System.EventHandler(this.hideMenuItem_Click);
+            // 
+            // addAnotherCommentToolStripMenuItem
+            // 
+            this.addAnotherCommentToolStripMenuItem.Name = "addAnotherCommentToolStripMenuItem";
+            this.addAnotherCommentToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.addAnotherCommentToolStripMenuItem.Text = "&Add another comment";
+            this.addAnotherCommentToolStripMenuItem.Click += new System.EventHandler(this.addAnotherCommentToolStripMenuItem_Click);
             // 
             // ConsultNoteControl
             // 
@@ -103,5 +112,6 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStripNoteOptions;
         private System.Windows.Forms.ToolStripMenuItem deleteMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hideMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addAnotherCommentToolStripMenuItem;
     }
 }

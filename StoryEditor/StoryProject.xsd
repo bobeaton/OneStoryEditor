@@ -54,7 +54,7 @@
 															<xs:attribute name="memberID" type="xs:IDREF" use="optional" />
 														</xs:complexType>
 													</xs:element>
-													<xs:element name="Tests" minOccurs="1" maxOccurs="1">
+													<xs:element name="Tests" minOccurs="0" maxOccurs="1">
 														<xs:complexType>
 															<xs:sequence>
 																<xs:element name="Test" maxOccurs="unbounded">
@@ -196,10 +196,6 @@
 		<xs:key name="MemberKey" msdata:PrimaryKey="true">
 			<xs:selector xpath=".//Member" />
 			<xs:field xpath="@memberKey" />
-		</xs:key>
-		<xs:key name="EditEventKey" msdata:PrimaryKey="true">
-			<xs:selector xpath=".//edit" />
-			<xs:field xpath="@editKey" />
 		</xs:key>
 		<xs:key name="StoryKey" msdata:PrimaryKey="true">
 			<xs:selector xpath=".//story" />

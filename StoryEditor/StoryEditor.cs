@@ -545,7 +545,7 @@ namespace OneStoryProjectEditor
 
             st.SetView(this);
             helpProvider.SetHelpString(this, st.StageInstructions);
-            SetStatusBar(String.Format("{0}  Press F1 for instructions", st.StageDisplayString), st.StageInstructions);
+            SetStatusBar(String.Format("{0}  Press F1 for instructions", st.StageDisplayString));
         }
 
         protected Button AddDropTargetToFlowLayout(int nVerseIndex)
@@ -938,10 +938,9 @@ namespace OneStoryProjectEditor
             }
         }
 
-        internal void SetStatusBar(string strText, string strToolTipText)
+        internal void SetStatusBar(string strText)
         {
             statusLabel.Text = strText;
-            statusLabel.ToolTipText = strToolTipText;
         }
 
         private void buttonsStoryStage_DropDownOpening(object sender, EventArgs e)
