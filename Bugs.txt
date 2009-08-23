@@ -1,0 +1,10 @@
+it queries for UNS for each verse of the story, but it should only do that once.
+Transitioning to the 'enter answers' stage should automatically add an answer box for each Q
+Transitioning to the 'enter retelling' stage should automatically add a box for each retelling
+remove the tooltip on the 'Next State' button, since it just thrashes..
+remove tooltips in login dialog (maybe use HelpStrings instead)
+for 2nd answers and retelling, make sure it's a different UNS?
+clicking on insert answer for ... menu causes one of them to be selected when it should only bring up the drop down
+can't 'Ctrl+C' in the CtrlTextBoxes :-(
+Ctrl+S seems to be eaten at various places...
+Set focus on newly added controls after adding them (so they come into view)

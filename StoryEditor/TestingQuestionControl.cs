@@ -45,7 +45,6 @@ namespace OneStoryProjectEditor
                 Text = CstrTestQuestionsLabelFormat
             };
             tableLayoutPanel.Controls.Add(label, 0, 1);
-            tableLayoutPanel.DumpTable();
 
             // the Crafter definitely wants to see both, so even if the vern button is off, 
             //  show the vern for the testing question--except for the coach
