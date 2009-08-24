@@ -87,6 +87,7 @@ namespace OneStoryProjectEditor
             public Font Font;
             public Color FontColor;
             public string FullStop;
+            public bool IsRTL = false;
 
             public LanguageInfo(Font font, Color fontColor)
             {

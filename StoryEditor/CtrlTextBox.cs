@@ -55,7 +55,7 @@ namespace OneStoryProjectEditor
                         "Unable to edit the file! Try rebooting and if it persists, contact bob_eaton@sall.com");
 
                 // certain keys (like arrow keys), we just want to allow in any case.
-                if (!IsKeyAutomaticallyAllowed(e.KeyCode))
+                if (!IsKeyAutomaticallyAllowed(e.KeyCode, e.KeyData))
                 {
                     // if the creator has defined a particular required editor (e.g. for consultant notes,
                     //  the *mentor* must be a *consultant*), then throw if we don't have one and always
@@ -91,9 +91,14 @@ namespace OneStoryProjectEditor
             }
         }
 
-        protected bool IsKeyAutomaticallyAllowed(Keys keyCode)
+        protected bool IsKeyAutomaticallyAllowed(Keys keyCode, Keys keyData)
         {
-            System.Diagnostics.Debug.WriteLine(String.Format("key: {0}", keyCode));
+            System.Diagnostics.Debug.WriteLine(String.Format("keyCode: {0}; keyData: {1}", keyCode, keyData));
+            
+            // pass on the control-S
+            if (keyData == (Keys.Control | Keys.S))
+                return true;
+
             switch (keyCode)
             {
                 case Keys.Left:

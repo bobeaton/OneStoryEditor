@@ -410,5 +410,76 @@ namespace OneStoryProjectEditor
 
             theSE.InitAllPanes();
         }
+
+        private void glossNationalBTToEnglishToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                StoryEditor theSE = (StoryEditor)FindForm();
+                System.Diagnostics.Debug.Assert(theSE != null);
+                GlossingForm dlg = new GlossingForm(theSE.Stories.ProjSettings, _verseData.VernacularText.ToString(), false);
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    string strTargetSentence = dlg.TargetSentence;
+                    if (_verseData.InternationalBTText.HasData && (_verseData.InternationalBTText.ToString() != strTargetSentence))
+                    {
+                        DialogResult res = MessageBox.Show(String.Format("Click 'Yes' to replace the existing English back-translation:{0}{0}    {1}{0}{0}With the following{0}{0}    {2}",
+                            Environment.NewLine, _verseData.InternationalBTText, strTargetSentence), StoriesData.CstrCaption, MessageBoxButtons.YesNoCancel);
+                        if (res == DialogResult.Yes)
+                        {
+                            _verseData.InternationalBTText.SetValue(strTargetSentence);
+                            UpdateViewOfThisVerse();
+                        }
+                    }
+                    else if (!_verseData.InternationalBTText.HasData)
+                    {
+                        _verseData.InternationalBTText.SetValue(strTargetSentence);
+                        UpdateViewOfThisVerse();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(String.Format("Unable to launch Glossing tool{0}{0}{1}{0}{0}Contact bob_eaton@sall.com for help",
+                    Environment.NewLine, ex.Message), StoriesData.CstrCaption);
+                return;
+            }
+        }
+
+        private void glossVernacularToNationalBTToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                StoryEditor theSE = (StoryEditor)FindForm();
+                System.Diagnostics.Debug.Assert(theSE != null);
+                GlossingForm dlg = new GlossingForm(theSE.Stories.ProjSettings, _verseData.VernacularText.ToString(), true);
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    string strTargetSentence = dlg.TargetSentence;
+                    if (_verseData.NationalBTText.HasData && (_verseData.NationalBTText.ToString() != strTargetSentence))
+                    {
+                        DialogResult res = MessageBox.Show(String.Format("Click 'Yes' to replace the existing {1} back-translation{0}{0}    {2}{0}{0}With the following{0}{0}    {3}",
+                            Environment.NewLine, theSE.Stories.ProjSettings.NationalBT.LangName, _verseData.NationalBTText, strTargetSentence), 
+                            StoriesData.CstrCaption, MessageBoxButtons.YesNoCancel);
+                        if (res == DialogResult.Yes)
+                        {
+                            _verseData.NationalBTText.SetValue(strTargetSentence);
+                            UpdateViewOfThisVerse();
+                        }
+                    }
+                    else if (!_verseData.NationalBTText.HasData)
+                    {
+                        _verseData.NationalBTText.SetValue(strTargetSentence);
+                        UpdateViewOfThisVerse();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(String.Format("Unable to launch Glossing tool{0}{0}{1}{0}{0}Contact bob_eaton@sall.com for help",
+                    Environment.NewLine, ex.Message), StoriesData.CstrCaption);
+                return;
+            }
+        }
     }
 }

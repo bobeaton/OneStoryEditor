@@ -101,5 +101,12 @@ namespace OneStoryProjectEditor.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        internal static System.Drawing.Bitmap Hyperlink {
+            get {
+                object obj = ResourceManager.GetObject("Hyperlink", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

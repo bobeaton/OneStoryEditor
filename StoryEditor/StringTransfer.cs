@@ -52,7 +52,7 @@ namespace OneStoryProjectEditor
 
         public bool HasData
         {
-            get { return (Value != null); }
+            get { return !String.IsNullOrEmpty(Value); }
         }
     }
 }

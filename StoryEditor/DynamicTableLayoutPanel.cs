@@ -136,5 +136,23 @@ namespace OneStoryProjectEditor
             }
             return nHeight + Padding.Vertical; // padding
         }
+
+        public int GetPreferredWidth()
+        {
+            int nWidth = 0;
+            for (int i = 0; i < RowCount; i++)
+            {
+                int nColumnWidth = 0;
+                for (int j = 0; j < ColumnCount; j++)
+                {
+                    Control ctrl = GetControlFromPosition(j, i);
+                    if (ctrl != null)
+                        // the total row height is the control's height plus any margin it may have and...
+                        nColumnWidth = Math.Max(nColumnWidth, ctrl.Width + ctrl.Margin.Horizontal);
+                }
+                nWidth += nColumnWidth;
+            }
+            return nWidth + Padding.Horizontal; // padding
+        }
     }
 }
