@@ -186,24 +186,95 @@ namespace OneStoryProjectEditor
         public static bool ConsultantCheckStoryQuestions(StoryEditor theSE, StoriesData theStories, StoryData theCurrentStory)
         {
             Console.WriteLine(String.Format("Checking if stage 'ConsultantCheckStoryQuestions' work is finished: Name: {0}", theCurrentStory.StoryName));
+
+            // before handing it over to the coach, let's make sure that if the crafter had initiated
+            //  a conversation, that the consultant answered it.
+            int nVerseNumber = 0;
+            foreach (VerseData aVerseData in theCurrentStory.Verses)
+            {
+                foreach (ConsultNoteDataConverter aConNote in aVerseData.ConsultantNotes)
+                    if ((aConNote.Count > 0) && (aConNote[0].Direction == ConsultNoteDataConverter.CommunicationDirections.eCrafterToConsultant))
+                        if ((aConNote.Count == 1) || !aConNote[1].HasData)
+                        {
+                            ShowErrorFocus(theSE, aConNote[1].TextBox,
+                                String.Format("Error: in verse {0}, the Crafter asked a question, which you didn't respond to. Did you forget it?", nVerseNumber));
+                            return false;
+                        }
+                nVerseNumber++;
+            }
             return true;
         }
 
         public static bool CoachReviewRound1Notes(StoryEditor theSE, StoriesData theStories, StoryData theCurrentStory)
         {
             Console.WriteLine(String.Format("Checking if stage 'CoachReviewRound1Notes' work is finished: Name: {0}", theCurrentStory.StoryName));
+
+            // before handing it back to the consultant, let's make sure that if the consultant had initiated
+            //  a conversation, that the coach answered it.
+            int nVerseNumber = 0;
+            foreach (VerseData aVerseData in theCurrentStory.Verses)
+            {
+                foreach (ConsultNoteDataConverter aConNote in aVerseData.CoachNotes)
+                    if ((aConNote.Count > 0) && (aConNote[0].Direction == ConsultNoteDataConverter.CommunicationDirections.eConsultantToCoach))
+                        if ((aConNote.Count == 1) || !aConNote[1].HasData)
+                        {
+                            ShowErrorFocus(theSE, aConNote[1].TextBox,
+                                String.Format("Error: in verse {0}, the consultant-in-training asked a question, which you didn't respond to. Did you forget it?", nVerseNumber));
+                            return false;
+                        }
+                nVerseNumber++;
+            }
             return true;
         }
 
         public static bool ConsultantReviseRound1Notes(StoryEditor theSE, StoriesData theStories, StoryData theCurrentStory)
         {
             Console.WriteLine(String.Format("Checking if stage 'ConsultantReviseRound1Notes' work is finished: Name: {0}", theCurrentStory.StoryName));
+
+            // before handing it back to the crafter, let's make sure that if the coach had made 
+            //  a comment, that the CIT answered it.
+            int nVerseNumber = 0;
+            foreach (VerseData aVerseData in theCurrentStory.Verses)
+            {
+                foreach (ConsultNoteDataConverter aConNote in aVerseData.CoachNotes)
+                {
+                    int nIndex = aConNote.Count;
+                    CommInstance theLastCI = aConNote[nIndex];
+                    System.Diagnostics.Debug.Assert(theLastCI.Direction == ConsultNoteDataConverter.CommunicationDirections.eConsultantToCoach);
+                    if (!theLastCI.HasData)
+                    {
+                        ShowErrorFocus(theSE, aConNote[1].TextBox,
+                            String.Format("Error: in verse {0}, the coach made a comment, which you didn't respond to. Did you forget it?", nVerseNumber));
+                        return false;
+                    }
+                }
+                nVerseNumber++;
+            }
             return true;
         }
 
         public static bool CrafterReviseBasedOnRound1Notes(StoryEditor theSE, StoriesData theStories, StoryData theCurrentStory)
         {
             Console.WriteLine(String.Format("Checking if stage 'CrafterReviseBasedOnRound1Notes' work is finished: Name: {0}", theCurrentStory.StoryName));
+
+            // let's make sure that if the CIT had made a comment, that the Crafter answered it.
+            int nVerseNumber = 0;
+            foreach (VerseData aVerseData in theCurrentStory.Verses)
+            {
+                foreach (ConsultNoteDataConverter aConNote in aVerseData.ConsultantNotes)
+                {
+                    int nIndex = aConNote.Count;
+                    CommInstance theLastCI = aConNote[nIndex];
+                    System.Diagnostics.Debug.Assert(theLastCI.Direction == ConsultNoteDataConverter.CommunicationDirections.eCrafterToConsultant);
+                    if (!theLastCI.HasData)
+                    {
+                        ShowErrorFocus(theSE, aConNote[1].TextBox,
+                            String.Format("Error: in verse {0}, the consultant made a comment, which you didn't respond to. Did you forget it?", nVerseNumber));
+                        return false;
+                    }
+                }
+                nVerseNumber++;
+            }
             return true;
         }
 

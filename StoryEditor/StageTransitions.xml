@@ -114,35 +114,37 @@ questions that you will eventually ask an uninitiated native speaker (UNS) in or
 
 The best kind of STQ are those that invite the UNS to speculate on "Why" or "How" of what is going on in the story. Or
 questions that ask, "What kinds of things might be an example of this?" are also useful. They should be based on the 
-story verses, but should try to get the UNS to speculate beyond what the story itself says. For example, suppose that the
+story, but you should try to get the UNS to speculate beyond what the story itself says. For example, suppose that the
 story had a verse like, "And the people took baptism and left their sins". You could ask a question like, "Why
-(or how) do you think they took baptism?" or "How (or why) do you think they left their sins?"
+(or how) do you think they took baptism?" or "How (or why) do you think they left their sins?" These would be good 
+questions, because the answer isn't in the story and based on what the UNS thinks, it might be necessary to revise the 
+story to avoid a wrong understanding. 
 
-These would be good questions, because the answer isn't in the story and based on what the UNS thinks, it might be 
-necessary to revise the story to avoid a wrong understanding. Other questions that begin with "What", "Who", "When", 
-"Where", are usually not as good, because often they can be answered from the information in the story itself, which 
-are less useful. For example, suppose the story verse says, "Jesus and three of his disciples when up on a hill..." and 
-the question is, "How many disciples went up on the hill with Jesus?" The answer to this question is right in the story.
-Such questions are known as "closed questions" and are not good STQs. 
+Other kinds of questions that begin with "What", "Who", "When", "Where", are usually not as good, especially if they can 
+be answered from the story itself. For example, suppose the story verse says, "Jesus and three of his disciples went up 
+on a hill..." Then the question, "How many disciples went up on the hill with Jesus?" would not be a good question, 
+because the answer was just mentioned in the story. Such questions are known as "closed questions" and are not good 
+questions to test the story.
 
-Also, STQs shouldn’t be questions for which the answer is either "yes" or "no" (e.g. "Did Joseph reveal himself to his 
-brothers before they left?) or questions about what something means (e.g. "What does the phrase "sabt din" mean?"). These 
-are also examples of questions that are not good STQs.
+Also, story testing questions shouldn’t be questions for which the answer is either "yes" or "no". For example, a
+question like, "Did Joseph reveal himself to his brothers before they left?" Also, questions about what something means 
+are not good questions. For example, "What does the phrase "sabt din" mean?". These are examples of questions that are 
+not good story testing questions.
 
 Also, they also shouldn’t be questions which ask the UNS for their personal beliefs or theological opinion (e.g. "Do you 
 think that God could really have created the world in 6 days?") or questions which can't really help the story regardless 
 of the answer (e.g. "In your opinion can a person stay in a cattle shed?"). Besides being a "yes-no" question, this one 
 can't possibly help correct any misinterpretation from the story, regardless of what answer is given.
 
-So always keep in mind what kind of answer you might get from the UNS. If the answer could show that they misunderstood 
-the situation, then it's probably a good question.
+When you think of questions to ask, keep in mind what kind of answer you might get from the UNS. If the answer could show 
+that they misunderstood the situation in the story, then it's probably a good question.
 
-Depending on what agreement you make with your consultant and coach, you may translate the testing questions you create 
-into English so the consultant and coach can review them. However, remember that these questions should always be asked 
-and answered with the UNS in the story language itself; not the national language, nor in English. 
+Depending on what agreement you make with your consultant and coach, you may need to translate the testing questions you 
+create into English so the consultant and coach can review them. However, remember that these questions should always be 
+asked and answered with the UNS in the story language itself; not the national language, nor in English. 
 
-You should have at least half as many STQs as verses in the story. So if your story is 20 verses long, then you need to 
-have at least 10 questions, and don't forget that it's okay if some verses have multiple questions.
+You should have at least half as many story testing questions as verses in the story. So if your story is 20 verses long, 
+then you need to have at least 10 questions, and don't forget that it's okay if some verses have multiple questions.
 
 When you are finished adding these testing questions, then click the button in the left-hand side of the status bar and 
 choose 'Next Stage' to go to the next stage in the process.
@@ -159,7 +161,28 @@ choose 'Next Stage' to go to the next stage in the process.
   </StateTransition>
   <StateTransition stage="eConsultantCheckAnchors" MemberTypeWithEditToken="eConsultantInTraining" NextState="eConsultantCheckStoryQuestions">
     <StageDisplayString>Consultant checks the story anchors</StageDisplayString>
-    <StageInstructions></StageInstructions>
+    <StageInstructions>
+In this stage, you (the consultant) need to check the anchors added by the crafter(s) for each verse of the story.
+
+The anchors shown in the Story pane are actually buttons, which if you click, will jump to the passage in the 
+Bible pane. You need to make sure that all the information in the story verse is covered by the anchored 
+passage(s). If the story verse has information which is not in the anchored passages, it's okay for you to add 
+further anchors if you can think of a scripture passage which supports what the story crafter is trying say (or 
+add a consultant note for the crafter to look up the passage and add the anchor themself).
+
+As you evaluate whether the story verse is a valid interpretation of the anchored verses, in addition to the 
+text in the Bible pane, it is recommended that you look in Translator's Workplace exegetical resources. If you 
+find a passage in a good exegetical resource that supports the rendering of the story crafter (when, perhaps, 
+the scripture passage in the Bible pane doesn't seem to support it), then you can copy the reference from TW 
+and paste it into an exegetical comment line (right-click on an anchor button in the Story pane and choose 
+"Add cultural/exegetical note" and paste the comment from TW).
+
+As you look up passages in the Bible pane, you can right-click on the book name box to shift to other books 
+in the Bible or click the up/down arrows to shift to the next/previous verse, chapter or book.
+
+When you are finished adding these testing questions, then click the button in the left-hand side of the 
+status bar and choose 'Next Stage' to go to the next stage in the process.
+    </StageInstructions>
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterTypeInternationalBT</AllowableBackwardsTransition>
@@ -174,7 +197,51 @@ choose 'Next Stage' to go to the next stage in the process.
   </StateTransition>
   <StateTransition stage="eConsultantCheckStoryQuestions" MemberTypeWithEditToken="eConsultantInTraining" NextState="eCoachReviewRound1Notes">
     <StageDisplayString>Consultant checks the story testing questions</StageDisplayString>
-    <StageInstructions></StageInstructions>
+    <StageInstructions>
+In this stage, you (the consultant) need to check the story testing questions added by the crafter(s).
+
+As you consider the story testing questions (STQs), keep in mind that their function is to test the 
+implications of the story. The best kind of STQ are those that invite the UNS to speculate on "Why" 
+or "How" of what is going on in the story. Or questions that ask, "What kinds of things might be an 
+example of this?" are also useful. They should be based on the story, but you should try to get the 
+UNS to speculate beyond what the story itself says. For example, suppose that the story had a verse 
+like, "And the people took baptism and left their sins". A good question would be like, "Why (or how) 
+do you think they took baptism?" or "How (or why) do you think they left their sins?" These would be 
+good questions, because the answer isn't in the story and based on what answer the UNS gives, it 
+might indicate that the story is giving a wrong understanding.
+
+Less useful are content-questions that begin with "What", "Who", "When", "Where", which can usually 
+be answered from the story itself (e.g. for a story verse like, "Jesus and three of his disciples 
+went up on a hill..." Then it wouldn't be as useful to ask questions like, "How many disciples went 
+up on the hill with Jesus?" or "Where did Jesus go?" Such questions are known as "closed questions" 
+and are not good for testing the story.
+
+Also, story testing questions shouldn’t be "yes-no" questions (questions for which the answer is either 
+"yes" or "no"). For example, a question like, "Did Joseph reveal himself to his brothers before they 
+left?" Also, questions about what something means are not good questions. For example, "What does the 
+phrase "sabt din" mean?". These are examples of questions that are not good story testing questions.
+
+Also, they also shouldn’t be questions which ask the UNS for their personal beliefs or theological 
+opinion (e.g. "Do you think that God could really have created the world in 6 days?").
+
+Finally, as you evaluate a question always be thinking about what kind of answer a UNS might give. If
+the answer can't really help the story regardless of what the answer is, then it is not a good question.
+For example, a question like, "In your opinion can a person stay in a cattle shed?". Besides being a 
+"yes-no" question, this one can't possibly help correct any misinterpretation from the story, regardless 
+of what answer the UNS gives.
+
+If you feel that any particular question is not a good question, then add a note to the Consultant Note
+pane for that line recommending that the Crafting team make a change to the question. It is important
+to indicate why the question is not a good one so that they can learn what our goal is in asking the
+questions.
+
+When you are finished adding these testing questions, then click the button in the left-hand side of 
+the status bar and choose 'Next Stage' to go to the next stage in the process. In the next state, the
+Coach will evaluate your feedback and possibly put comments in the Coach Notes pane, which you will 
+respond to before your feedback goes back to the Crafting team. If you have a question about your 
+feedback, you can show the Coach Notes pane ("View" menu, "Coach notes field") and right-click on the
+small button to the right-hand side of the appropriate line number and choose "Add Note".
+    </StageInstructions>
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterTypeInternationalBT</AllowableBackwardsTransition>
@@ -189,7 +256,16 @@ choose 'Next Stage' to go to the next stage in the process.
   </StateTransition>
   <StateTransition stage="eCoachReviewRound1Notes" MemberTypeWithEditToken="eCoach" NextState="eConsultantReviseRound1Notes">
     <StageDisplayString>Coach reviews round 1 consultant notes</StageDisplayString>
-    <StageInstructions></StageInstructions>
+    <StageInstructions>
+In this stage, you (the coach) will check the consultant notes added by the consultant-in-training 
+in the Consultant Notes pane.
+
+You can right-click on the small button to the right-hand side of the appropriate line number and 
+choose "Add Note" to enter the comment you have.
+
+When you are finished, then click the button in the left-hand side of the status bar and choose 
+'Next Stage' to go to the next stage in the process.
+    </StageInstructions>
     <AllowableForwardsTransitions>
       <AllowableForwardsTransition>eConsultantReviseRound1Notes</AllowableForwardsTransition>
     </AllowableForwardsTransitions>
@@ -197,7 +273,18 @@ choose 'Next Stage' to go to the next stage in the process.
   </StateTransition>
   <StateTransition stage="eConsultantReviseRound1Notes" MemberTypeWithEditToken="eConsultantInTraining" NextState="eCrafterReviseBasedOnRound1Notes">
     <StageDisplayString>Consultant revises round 1 notes based on Coach's feedback</StageDisplayString>
-    <StageInstructions></StageInstructions>
+    <StageInstructions>
+In this stage, you (the consultant) will go through the feedback given by the coach in the Coach Notes 
+pane and, if necessary, modify or add to your feedback to the crafting team.
+
+For each comment by the coach, you should give some response to close the loop on the conversation (even 
+just "done" is fine). If you have further questions, it's okay to ask for clarification in another line.
+You can add another line for additional comments by right-clicking on the small button and choosing 
+"Add Note" if one is not already visible.
+
+When you are finished, then click the button in the left-hand side of the status bar and choose 
+'Next Stage' to go to the next stage in the process.
+    </StageInstructions>
     <AllowableForwardsTransitions>
       <AllowableForwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableForwardsTransition>
     </AllowableForwardsTransitions>
