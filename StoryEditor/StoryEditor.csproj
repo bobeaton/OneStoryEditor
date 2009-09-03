@@ -335,6 +335,9 @@
   <ItemGroup>
     <Content Include="LanguageCodes.tab" />
     <Content Include="OneStory.ico" />
+    <None Include="..\Setup OneStory Editor\SetSwordPath.wxs">
+      <Link>SetSwordPath.wxs</Link>
+    </None>
     <None Include="Resources\DeleteHS.png" />
     <None Include="Resources\BuilderDialog_moveup.png" />
     <None Include="Resources\BuilderDialog_movedown.PNG" />

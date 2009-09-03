@@ -1,33 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <ProjectStates>
-  <StateTransition stage="eCrafterTypeNationalBT" MemberTypeWithEditToken="eCrafter" NextState="eCrafterTypeInternationalBT">
-    <StageDisplayString>Crafter enters the National language back-translation</StageDisplayString>
+  <StateTransition stage="eCrafterTypeVernacular" MemberTypeWithEditToken="eCrafter" NextState="eCrafterTypeNationalBT">
+    <StageDisplayString>Crafter enters the story in the language of the stories</StageDisplayString>
     <StageInstructions>
 By this stage, you will have already crafted and recorded a story according to the procedure you 
-learned in the workshop. Now you as the story Crafter must find an uninitiated native speaker 
-(UNS) to listen to the story and have him or her "back-translate" the story into the national 
-language (e.g. Hindi). Then you will type the back-translation line-by-line into the verse 
-field(s) in this window.
+learned in the workshop. See the document "Steps in the Story Crafting Process.doc" for details.
 
-You can type the entire story into a single verse box. Then when you're finished, right-click 
-on the small button in the upper right corner of the verse box (known as the 'verse commands' 
-button) and choose 'Split story into verses'. This will automatically split the story into 
-verses.
+Now you should listen line-by-line to the recording you made of your partner telling the story 
+that you're all happy with and type it in the verse fields in this window.
 
-You can also manually add new verse boxes by right-clicking on that same 'verse commands' 
-button and choose either 'Insert new verse(s) before' or 'Add new verse(s) after'.
-Each of these menus has a sub-menu that allows you to insert more than one at a time.
+You can type the entire story into a single verse box. Then when you're finished, you can click 
+on the "Next State" button in the lower left corner of the screen and the program will 
+automatically split the story into sentences so that each verse line has a single sentence in it.
 
-When you are finished entering or splitting the story into separate verses of one sentence per 
-verse, then click the button in the left-hand side of the status bar with the label 'Next State' 
-to go to the next stage in the process.
+You can also manually add new verse boxes by right-clicking on the small 'verse commands' button 
+in the upper-right of the verse area. Then in the resulting popup menu, choose either the 
+'Insert new verse(s) before' or 'Add new verse(s) after' commands. Each of these menus has a 
+sub-menu that allows you to insert more than one at a time.
 
-The program will check to make sure that each line has one and only one sentence.
-
-At the end, you will also be asked to identify which UNS did the back-translation as well
-as other story information which may not have previously been filled in, such as the purpose
-of the story and the list of resources used in crafting it. You can also access this 
-information by clicking, "Story", and then "Story Information".
+At the end, you will also be asked to type in the purpose that this story is in the set; that is, 
+why have you chosen this particular story? How does it fit with the theme of your panorama? You
+will also enter the list of resources used in crafting the story (audio recordings of Bibles, 
+videos, etc).
     </StageInstructions>
     <AllowableForwardsTransitions>
       <AllowableForwardsTransition>eCrafterTypeInternationalBT</AllowableForwardsTransition>
@@ -35,7 +29,32 @@ information by clicking, "Story", and then "Story Information".
       <AllowableForwardsTransition>eCrafterAddStoryQuestions</AllowableForwardsTransition>
       <AllowableForwardsTransition>eConsultantCheckAnchors</AllowableForwardsTransition>
     </AllowableForwardsTransitions>
-    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
+    <ViewSettings viewVernacularLangField="true" viewNationalLangField="false" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
+  </StateTransition>
+  <StateTransition stage="eCrafterTypeNationalBT" MemberTypeWithEditToken="eCrafter" NextState="eCrafterTypeInternationalBT">
+    <StageDisplayString>Crafter enters the National language back-translation</StageDisplayString>
+    <StageInstructions>
+In this stage, you will find an uninitiated native speaker (UNS) to listen to the story and 
+have him or her "back-translate" the story into the national language (e.g. Hindi). Then you 
+will type the back-translation line-by-line into the verse field(s) in this window. Be sure 
+to type the UNS's back-translation into the same line number as the story verse to the left,
+so that the story verse matches the back-translation.
+
+When you are finished entering the national language back-translation, then click the button 
+in the left-hand side of the status bar with the label 'Next State' to go to the next stage.
+
+If you have not already done so, you will be asked to identify which UNS did the back-translation 
+as well as other story information, such as the purpose of the story and the list of resources 
+used in crafting it. You can also access this information by clicking, "Story", and then "Story 
+Information".
+    </StageInstructions>
+    <AllowableForwardsTransitions>
+      <AllowableForwardsTransition>eCrafterTypeInternationalBT</AllowableForwardsTransition>
+      <AllowableForwardsTransition>eCrafterAddAnchors</AllowableForwardsTransition>
+      <AllowableForwardsTransition>eCrafterAddStoryQuestions</AllowableForwardsTransition>
+      <AllowableForwardsTransition>eConsultantCheckAnchors</AllowableForwardsTransition>
+    </AllowableForwardsTransitions>
+    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
   <StateTransition stage="eCrafterTypeInternationalBT" MemberTypeWithEditToken="eCrafter" NextState="eCrafterAddAnchors">
     <StageDisplayString>Crafter enters the English back-translation</StageDisplayString>
@@ -47,11 +66,23 @@ Unlike the last stage, where the National Language back translation had to done 
 a UNS, in this state, anyone can do the English back translation. However, you must be 
 logged in as a Crafter to add this new back-translation.
 
+If you don't know English well, there is a tool available for making the English back-
+translation more simply by right-clicking on the 'verse commands' button and choose 
+"Gloss story in English". This will bring up a dialog in which you can enter the English 
+translation for each word (or combine two or more words together using the 'chain-link' 
+button). Then once that word comes up again, the program will automatically fill in the 
+translation box.
+
+You can also have the English back translation created by someone who knows English and
+the national language well by right-clicking on the 'verse command' button and choose
+"Create English back-translation from National language". This process is similar, but
+rather than adapting from the story language into English, this process will adapt from
+the national language (e.g. Hindi) into English. The database words for this translation
+can come from many different projects when you do this.
+
 When you are finished entering the English back translation, then click the button in 
 the left-hand side of the status bar with the label 'Next State' to go to the next stage 
 in the process.
-
-The program will check to make sure that each line has one and only one sentence.
     </StageInstructions>
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>

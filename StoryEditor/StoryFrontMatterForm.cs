@@ -25,6 +25,8 @@ namespace OneStoryProjectEditor
                 textBoxUnsTest1.Text = theStoriesData.GetMemberNameFromMemberGuid(theCurrentStory.CraftingInfo.Testors[1]);
             if (theCurrentStory.CraftingInfo.Testors.Count > 1)
                 textBoxUnsTest2.Text = theStoriesData.GetMemberNameFromMemberGuid(theCurrentStory.CraftingInfo.Testors[2]);
+
+            Text = String.Format("Story Information for '{0}'", theCurrentStory.Name);
         }
 
         private void buttonBrowseForStoryCrafter_Click(object sender, EventArgs e)

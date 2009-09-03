@@ -190,8 +190,6 @@ namespace OneStoryProjectEditor
 
         private void contextMenuStrip_Opening(object sender, CancelEventArgs e)
         {
-            splitStoryIntoVersesToolStripMenuItem.Enabled = _verseData.NationalBTText.HasData;
-
             // for answers, we have to attach them to the correct question
             int nTestQuestionCount = _verseData.TestQuestions.Count;
             if (nTestQuestionCount > 1)
@@ -381,69 +379,20 @@ namespace OneStoryProjectEditor
 
             StoryEditor theSE = (StoryEditor)FindForm();
             theSE.AddNewVerse(this, nNumNewVerses, false);
+            
+            // focus on something in this verse so it doesn't just go back up to the top
+            FocusOnSomethingInThisVerse();
         }
 
-        private void splitStoryIntoVersesToolStripMenuItem_Click(object sender, EventArgs e)
+        protected void FocusOnSomethingInThisVerse()
         {
-            System.Diagnostics.Debug.Assert(_verseData.NationalBTText.HasData);
-
-            StoryEditor theSE = (StoryEditor)FindForm();
-            string strFullStop;
-            if (String.IsNullOrEmpty(theSE.Stories.ProjSettings.NationalBT.FullStop))
-            {
-                strFullStop = Microsoft.VisualBasic.Interaction.InputBox("Enter the character in this language that ends a sentence (e.g. '.' for English or '।' for Hindi)",  StoriesData.CstrCaption, "।", Screen.PrimaryScreen.WorkingArea.Right / 2, Screen.PrimaryScreen.WorkingArea.Bottom / 2);
-                if (String.IsNullOrEmpty(strFullStop))
-                    return;
-            }
-            else
-                strFullStop = theSE.Stories.ProjSettings.NationalBT.FullStop;
-
-            List<string> lstSentences = CheckEndOfStateTransition.GetListOfSentences(_verseData.NationalBTText, strFullStop);
-            System.Diagnostics.Debug.Assert((lstSentences != null) && (lstSentences.Count > 0));
-            int nNewVerses = lstSentences.Count;
-            while (nNewVerses-- > 1)
-            {
-                string strSentence = lstSentences[nNewVerses] + strFullStop;
-                theSE.AddNewVerse(VerseNumber, strSentence);
-            }
-            _verseData.NationalBTText.SetValue(lstSentences[nNewVerses] + strFullStop);
-
-            theSE.InitAllPanes();
-        }
-
-        private void glossNationalBTToEnglishToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                StoryEditor theSE = (StoryEditor)FindForm();
-                System.Diagnostics.Debug.Assert(theSE != null);
-                GlossingForm dlg = new GlossingForm(theSE.Stories.ProjSettings, _verseData.VernacularText.ToString(), false);
-                if (dlg.ShowDialog() == DialogResult.OK)
-                {
-                    string strTargetSentence = dlg.TargetSentence;
-                    if (_verseData.InternationalBTText.HasData && (_verseData.InternationalBTText.ToString() != strTargetSentence))
-                    {
-                        DialogResult res = MessageBox.Show(String.Format("Click 'Yes' to replace the existing English back-translation:{0}{0}    {1}{0}{0}With the following{0}{0}    {2}",
-                            Environment.NewLine, _verseData.InternationalBTText, strTargetSentence), StoriesData.CstrCaption, MessageBoxButtons.YesNoCancel);
-                        if (res == DialogResult.Yes)
-                        {
-                            _verseData.InternationalBTText.SetValue(strTargetSentence);
-                            UpdateViewOfThisVerse();
-                        }
-                    }
-                    else if (!_verseData.InternationalBTText.HasData)
-                    {
-                        _verseData.InternationalBTText.SetValue(strTargetSentence);
-                        UpdateViewOfThisVerse();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(String.Format("Unable to launch Glossing tool{0}{0}{1}{0}{0}Contact bob_eaton@sall.com for help",
-                    Environment.NewLine, ex.Message), StoriesData.CstrCaption);
-                return;
-            }
+            // I'm not even really sure if this text box is visible
+            if (_verseData.NationalBTText.TextBox != null)
+                _verseData.NationalBTText.TextBox.Focus();
+            else if (_verseData.VernacularText.TextBox != null)
+                _verseData.VernacularText.TextBox.Focus();
+            else if (_verseData.InternationalBTText.TextBox != null)
+                _verseData.InternationalBTText.TextBox.Focus();
         }
 
         private void glossVernacularToNationalBTToolStripMenuItem_Click(object sender, EventArgs e)
@@ -452,7 +401,7 @@ namespace OneStoryProjectEditor
             {
                 StoryEditor theSE = (StoryEditor)FindForm();
                 System.Diagnostics.Debug.Assert(theSE != null);
-                GlossingForm dlg = new GlossingForm(theSE.Stories.ProjSettings, _verseData.VernacularText.ToString(), true);
+                GlossingForm dlg = new GlossingForm(theSE.Stories.ProjSettings, _verseData.VernacularText.ToString(), GlossingForm.GlossType.eVernacularToNational);
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
                     string strTargetSentence = dlg.TargetSentence;
@@ -464,13 +413,95 @@ namespace OneStoryProjectEditor
                         if (res == DialogResult.Yes)
                         {
                             _verseData.NationalBTText.SetValue(strTargetSentence);
+                            theSE.Modified = true;
                             UpdateViewOfThisVerse();
+                            _verseData.NationalBTText.TextBox.Focus();
                         }
                     }
                     else if (!_verseData.NationalBTText.HasData)
                     {
                         _verseData.NationalBTText.SetValue(strTargetSentence);
+                        theSE.Modified = true;
                         UpdateViewOfThisVerse();
+                        _verseData.NationalBTText.TextBox.Focus();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(String.Format("Unable to launch Glossing tool{0}{0}{1}{0}{0}Contact bob_eaton@sall.com for help",
+                    Environment.NewLine, ex.Message), StoriesData.CstrCaption);
+                return;
+            }
+        }
+
+        private void glossVernacularToEnglishToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                StoryEditor theSE = (StoryEditor)FindForm();
+                System.Diagnostics.Debug.Assert(theSE != null);
+                GlossingForm dlg = new GlossingForm(theSE.Stories.ProjSettings, _verseData.VernacularText.ToString(), GlossingForm.GlossType.eVernacularToEnglish);
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    string strTargetSentence = dlg.TargetSentence;
+                    if (_verseData.InternationalBTText.HasData && (_verseData.InternationalBTText.ToString() != strTargetSentence))
+                    {
+                        DialogResult res = MessageBox.Show(String.Format("Click 'Yes' to replace the existing English back-translation:{0}{0}    {1}{0}{0}With the following{0}{0}    {2}",
+                            Environment.NewLine, _verseData.InternationalBTText, strTargetSentence), StoriesData.CstrCaption, MessageBoxButtons.YesNoCancel);
+                        if (res == DialogResult.Yes)
+                        {
+                            _verseData.InternationalBTText.SetValue(strTargetSentence);
+                            theSE.Modified = true;
+                            UpdateViewOfThisVerse();
+                            _verseData.InternationalBTText.TextBox.Focus();
+                        }
+                    }
+                    else if (!_verseData.InternationalBTText.HasData)
+                    {
+                        _verseData.InternationalBTText.SetValue(strTargetSentence);
+                        theSE.Modified = true;
+                        UpdateViewOfThisVerse();
+                        _verseData.InternationalBTText.TextBox.Focus();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(String.Format("Unable to launch Glossing tool{0}{0}{1}{0}{0}Contact bob_eaton@sall.com for help",
+                    Environment.NewLine, ex.Message), StoriesData.CstrCaption);
+                return;
+            }
+        }
+
+        private void createEnglishBacktranslationFromNationalLanguageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                StoryEditor theSE = (StoryEditor)FindForm();
+                System.Diagnostics.Debug.Assert(theSE != null);
+                GlossingForm dlg = new GlossingForm(theSE.Stories.ProjSettings, _verseData.NationalBTText.ToString(), GlossingForm.GlossType.eNationalToEnglish);
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    string strTargetSentence = dlg.TargetSentence;
+                    if (_verseData.InternationalBTText.HasData && (_verseData.InternationalBTText.ToString() != strTargetSentence))
+                    {
+                        DialogResult res = MessageBox.Show(String.Format("Click 'Yes' to replace the existing English back-translation:{0}{0}    {1}{0}{0}With the following{0}{0}    {2}",
+                            Environment.NewLine, _verseData.InternationalBTText, strTargetSentence), StoriesData.CstrCaption, MessageBoxButtons.YesNoCancel);
+                        if (res == DialogResult.Yes)
+                        {
+                            _verseData.InternationalBTText.SetValue(strTargetSentence);
+                            theSE.Modified = true;
+                            UpdateViewOfThisVerse();
+                            _verseData.InternationalBTText.TextBox.Focus();
+                        }
+                    }
+                    else if (!_verseData.InternationalBTText.HasData)
+                    {
+                        _verseData.InternationalBTText.SetValue(strTargetSentence);
+                        theSE.Modified = true;
+                        UpdateViewOfThisVerse();
+                        _verseData.InternationalBTText.TextBox.Focus();
                     }
                 }
             }

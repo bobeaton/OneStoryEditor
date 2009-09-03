@@ -31,19 +31,6 @@ namespace OneStoryProjectEditor
             CoachNotes = new CoachNotesData(theVerseRow, projFile);
         }
 
-        public VerseData(string strNationalBT)
-        {
-            guid = Guid.NewGuid().ToString();
-            VernacularText = new StringTransfer(null);
-            NationalBTText = new StringTransfer(strNationalBT);
-            InternationalBTText = new StringTransfer(null);
-            Anchors = new AnchorsData();
-            TestQuestions = new TestQuestionsData();
-            Retellings = new RetellingsData();
-            ConsultantNotes = new ConsultantNotesData();
-            CoachNotes = new CoachNotesData();
-        }
-
         public VerseData()
         {
             guid = Guid.NewGuid().ToString();
@@ -113,9 +100,14 @@ namespace OneStoryProjectEditor
         {
         }
 
-        public VerseData InsertVerse(int nIndex, string strNationalBT)
+        public VerseData InsertVerse(int nIndex, string strVernacular, string strNationalBT, string strInternationalBT)
         {
-            VerseData dataVerse = new VerseData(strNationalBT);
+            VerseData dataVerse = new VerseData
+                                        {
+                                            VernacularText = new StringTransfer(strVernacular),
+                                            NationalBTText = new StringTransfer(strNationalBT),
+                                            InternationalBTText = new StringTransfer(strInternationalBT)
+                                        };
             Insert(nIndex, dataVerse);
             return dataVerse;
         }

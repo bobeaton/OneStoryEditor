@@ -181,7 +181,7 @@ namespace OneStoryProjectEditor
                     TeamMemberData.UserTypes eCurrentMemberType = LoggedOnMember.MemberType;
                     LoggedOnMember = Stories.EditTeamMembers(LoggedOnMember.Name, TeamMemberForm.CstrDefaultOKLabel);
                     Modified = true;
-                    if ((eCurrentMemberType != LoggedOnMember.MemberType) && (theCurrentStory != null))
+                    if (theCurrentStory != null)
                     {
                         InitAllPanes(theCurrentStory.Verses);
                         CheckForProperMemberType();
@@ -246,8 +246,8 @@ namespace OneStoryProjectEditor
                 {
                     // populate the combo boxes with all the existing story names
                     foreach (StoryData aStory in Stories)
-                        comboBoxStorySelector.Items.Add(aStory.StoryName);
-                    strStoryToLoad = Stories[0].StoryName;    // default
+                        comboBoxStorySelector.Items.Add(aStory.Name);
+                    strStoryToLoad = Stories[0].Name;    // default
                 }
 
                 // check for project settings that might have been saved from a previous session
@@ -292,6 +292,53 @@ namespace OneStoryProjectEditor
             return theOldStories;
         }
 
+        private void insertNewStoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string strStoryName;
+            int nIndexOfCurrentStory = -1;
+            if (AddNewStoryGetIndex(ref nIndexOfCurrentStory, out strStoryName))
+            {
+                System.Diagnostics.Debug.Assert(nIndexOfCurrentStory != -1);
+                InsertNewStory(strStoryName, nIndexOfCurrentStory);
+                Modified = true;
+            }
+        }
+
+        protected bool AddNewStoryGetIndex(ref int nIndexForInsert, out string strStoryName)
+        {
+            // ask the user for what story they want to add (i.e. the name)
+            strStoryName = Microsoft.VisualBasic.Interaction.InputBox("Enter the name of the story to add", StoriesData.CstrCaption, null, 300, 200);
+            if (!String.IsNullOrEmpty(strStoryName))
+            {
+                foreach (StoryData aStory in Stories)
+                    if (aStory.Name == strStoryName)
+                    {
+                        // if they already have a story by that name, just go there
+                        comboBoxStorySelector.SelectedItem = strStoryName;
+                        return false;
+                    }
+                    else if (aStory.Name == theCurrentStory.Name)
+                    {
+                        nIndexForInsert = Stories.IndexOf(aStory);
+                        return true;
+                    }
+            }
+
+            return false;
+        }
+
+        private void addNewStoryAfterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string strStoryName;
+            int nIndexOfCurrentStory = -1;
+            if (AddNewStoryGetIndex(ref nIndexOfCurrentStory, out strStoryName))
+            {
+                System.Diagnostics.Debug.Assert(nIndexOfCurrentStory != -1);
+                InsertNewStory(strStoryName, nIndexOfCurrentStory + 1);
+                Modified = true;
+            }
+        }
+
         private void comboBoxStorySelector_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)    // user just finished entering a story name to select (or add)
@@ -310,7 +357,7 @@ namespace OneStoryProjectEditor
                     StoryData aStory = Stories[i];
                     if ((theCurrentStory != null) && (theCurrentStory == aStory))
                         nInsertIndex = i + 1;
-                    if (aStory.StoryName == strStoryToLoad)
+                    if (aStory.Name == strStoryToLoad)
                         theStory = aStory;
                 }
 
@@ -319,15 +366,21 @@ namespace OneStoryProjectEditor
                     if (MessageBox.Show(String.Format("Unable to find the story '{0}'. Would you like to add a new one with that name?", strStoryToLoad),  StoriesData.CstrCaption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
                     {
                         System.Diagnostics.Debug.Assert(!comboBoxStorySelector.Items.Contains(strStoryToLoad));
-                        comboBoxStorySelector.Items.Add(strStoryToLoad);
-                        theCurrentStory = new StoryData(strStoryToLoad, LoggedOnMember.MemberGuid);
-                        Stories.Insert(nInsertIndex, theCurrentStory);
-                        comboBoxStorySelector.SelectedItem = strStoryToLoad;
+                        InsertNewStory(strStoryToLoad, nInsertIndex);
                     }
                 }
                 else
-                    comboBoxStorySelector.SelectedItem = theStory.StoryName;
+                    comboBoxStorySelector.SelectedItem = theStory.Name;
             }
+        }
+
+        protected void InsertNewStory(string strStoryName, int nIndexToInsert)
+        {
+            CheckForSaveDirtyFile();
+            comboBoxStorySelector.Items.Insert(nIndexToInsert, strStoryName);
+            theCurrentStory = new StoryData(strStoryName, LoggedOnMember.MemberGuid);
+            Stories.Insert(nIndexToInsert, theCurrentStory);
+            comboBoxStorySelector.SelectedItem = strStoryName;
         }
 
         private void comboBoxStorySelector_SelectedIndexChanged(object sender, EventArgs e)
@@ -349,15 +402,17 @@ namespace OneStoryProjectEditor
 
             // find the story they've chosen (this shouldn't be possible to fail)
             foreach (StoryData aStory in Stories)
-                if (aStory.StoryName == (string)comboBoxStorySelector.SelectedItem)
+                if (aStory.Name == (string)comboBoxStorySelector.SelectedItem)
                 {
                     theCurrentStory = aStory;
                     break;
                 }
             System.Diagnostics.Debug.Assert(theCurrentStory != null);
+            Properties.Settings.Default.LastStoryWorkedOn = theCurrentStory.Name;
+            Properties.Settings.Default.Save();
 
             // initialize the text box showing the storying they're editing
-            textBoxStoryVerse.Text = "Story: " + theCurrentStory.StoryName;
+            textBoxStoryVerse.Text = "Story: " + theCurrentStory.Name;
             this.Text = String.Format("OneStory Editor -- {0} Story Project", Stories.ProjSettings.ProjectName);
 
             // initialize the project stage details (which might hide certain views)
@@ -394,7 +449,8 @@ namespace OneStoryProjectEditor
             ClearFlowControls();
             int nVerseIndex = 0;
             if (theVerses.Count == 0)
-                theCurrentStory.Verses.InsertVerse(0, "<Type the UNS's back translation>");
+                theCurrentStory.Verses.InsertVerse(0, "<Type the Story here>", 
+                    "<Type the UNS's back-translation here>", "<Type the English back-translation here>");
 
             flowLayoutPanelVerses.SuspendLayout();
             flowLayoutPanelConsultantNotes.SuspendLayout();
@@ -540,10 +596,10 @@ namespace OneStoryProjectEditor
             InitAllPanes();
         }
 
-        internal void AddNewVerse(int nInsertionIndex, string strNationalBT)
+        internal void AddNewVerse(int nInsertionIndex, string strVernacular, string strNationalBT, string strInternationalBT)
         {
             System.Diagnostics.Debug.Assert((theCurrentStory != null) && (theCurrentStory.Verses != null));
-            theCurrentStory.Verses.InsertVerse(nInsertionIndex, strNationalBT);
+            theCurrentStory.Verses.InsertVerse(nInsertionIndex, strVernacular, strNationalBT, strInternationalBT);
         }
 
         internal void InitAllPanes()
@@ -729,7 +785,7 @@ namespace OneStoryProjectEditor
 
         protected const string CstrExtraExtnToAvoidClobberingFilesWithFailedSaves = ".out";
 
-        protected void QueryStoryPurpose()
+        internal void QueryStoryPurpose()
         {
             StoryFrontMatterForm dlg = new StoryFrontMatterForm(Stories, theCurrentStory);
             dlg.ShowDialog();
@@ -1092,6 +1148,7 @@ namespace OneStoryProjectEditor
                                                                           (theCurrentStory.CraftingInfo != null));
             deleteStoryToolStripMenuItem.Enabled = (theCurrentStory != null);
             showFullStorySetToolStripMenuItem.Enabled = ((Stories != null) && (Stories.Count > 0));
+            addNewStoryAfterToolStripMenuItem.Enabled = (Stories != null);
         }
 
         private void enterTheReasonThisStoryIsInTheSetToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1112,13 +1169,13 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert(theCurrentStory != null);
             int nIndex = Stories.IndexOf(theCurrentStory);
             Stories.RemoveAt(nIndex);
-            System.Diagnostics.Debug.Assert(comboBoxStorySelector.Items.IndexOf(theCurrentStory.StoryName) == nIndex);
-            comboBoxStorySelector.Items.Remove(theCurrentStory.StoryName);
+            System.Diagnostics.Debug.Assert(comboBoxStorySelector.Items.IndexOf(theCurrentStory.Name) == nIndex);
+            comboBoxStorySelector.Items.Remove(theCurrentStory.Name);
 
             if (nIndex > 0)
                 nIndex--;
             if (nIndex < Stories.Count)
-                comboBoxStorySelector.SelectedItem = Stories[nIndex].StoryName;
+                comboBoxStorySelector.SelectedItem = Stories[nIndex].Name;
         }
 
         private void StoryEditor_FormClosing(object sender, FormClosingEventArgs e)
@@ -1134,6 +1191,60 @@ namespace OneStoryProjectEditor
                 if (res == DialogResult.Yes)
                     CheckForSaveDirtyFile();
             }
+        }
+
+        private void editToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            copyToolStripMenuItem.Enabled =
+                copyNationalBackTranslationToolStripMenuItem.Enabled =
+                copyEnglishBackTranslationToolStripMenuItem.Enabled =
+                ((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
+
+        }
+
+        private void copyStoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // iterate thru the verses and copy them to the clipboard
+            System.Diagnostics.Debug.Assert((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
+
+            string strStory = theCurrentStory.Verses[0].VernacularText.ToString();
+            for (int i = 1; i < theCurrentStory.Verses.Count; i++)
+            {
+                VerseData aVerse = theCurrentStory.Verses[i];
+                strStory += ' ' + aVerse.VernacularText.ToString();
+            }
+
+            Clipboard.SetText(strStory);
+        }
+
+        private void copyNationalBackTranslationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // iterate thru the verses and copy them to the clipboard
+            System.Diagnostics.Debug.Assert((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
+
+            string strStory = theCurrentStory.Verses[0].NationalBTText.ToString();
+            for (int i = 1; i < theCurrentStory.Verses.Count; i++)
+            {
+                VerseData aVerse = theCurrentStory.Verses[i];
+                strStory += ' ' + aVerse.NationalBTText.ToString();
+            }
+
+            Clipboard.SetText(strStory);
+        }
+
+        private void copyEnglishBackTranslationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // iterate thru the verses and copy them to the clipboard
+            System.Diagnostics.Debug.Assert((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
+
+            string strStory = theCurrentStory.Verses[0].InternationalBTText.ToString();
+            for (int i = 1; i < theCurrentStory.Verses.Count; i++)
+            {
+                VerseData aVerse = theCurrentStory.Verses[i];
+                strStory += ' ' + aVerse.InternationalBTText.ToString();
+            }
+
+            Clipboard.SetText(strStory);
         }
 
         /*

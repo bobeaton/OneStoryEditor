@@ -4,57 +4,84 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using ECInterfaces;                 // for IEncConverter
-using SilEncConverters30;           // for AdaptItEncConverter
+using SilEncConverters31;           // for AdaptItEncConverter
 
 namespace OneStoryProjectEditor
 {
     public partial class GlossingForm : Form
     {
+        public enum GlossType
+        {
+            eUndefined = 0,
+            eVernacularToNational,  // use Vern -> Natl project
+            eVernacularToEnglish,   // use Vern -> Natl project (glossing KB)
+            eNationalToEnglish      // use Natl -> Engl project (which can be shared by other clients)
+        }
+
         protected static char[] achWordDelimiters = new[] { ' ' };
         private AdaptItEncConverter m_aEC = null;
         public List<string> TargetWords;
         public List<string> SourceWords;
         public List<string> StringsInBetween;
 
-        public GlossingForm(ProjectSettings proj, string strSentence, bool bVernacularToNational)
+        public GlossingForm(ProjectSettings proj, string strSentence, GlossType eGlossType)
         {
             InitializeComponent();
 
-            m_aEC = InitLookupAdapter(proj, bVernacularToNational);
-
-            m_aEC.SplitAndConvert(strSentence, out SourceWords, out StringsInBetween, out TargetWords);
-
-            if (SourceWords.Count == 0)
-                throw new ApplicationException("No sentence to gloss!");
+            m_aEC = InitLookupAdapter(proj, eGlossType);
 
             string strSourceFullStop, strTargetFullStop;
             Font fontSource, fontTarget;
             Color colorSource, colorTarget;
-            if (bVernacularToNational)
+            switch (eGlossType)
             {
-                strSourceFullStop = proj.Vernacular.FullStop;
-                strTargetFullStop = proj.NationalBT.FullStop;
-                fontSource = proj.Vernacular.Font;
-                fontTarget = proj.NationalBT.Font;
-                colorSource = proj.Vernacular.FontColor;
-                colorTarget = proj.NationalBT.FontColor;
+                case GlossType.eVernacularToNational:
+                    strSourceFullStop = proj.Vernacular.FullStop;
+                    strTargetFullStop = proj.NationalBT.FullStop;
+                    fontSource = proj.Vernacular.Font;
+                    fontTarget = proj.NationalBT.Font;
+                    colorSource = proj.Vernacular.FontColor;
+                    colorTarget = proj.NationalBT.FontColor;
+                    break;
+
+                case GlossType.eVernacularToEnglish:    // the glossing KB for the Vern to Natl project
+                    strSourceFullStop = proj.Vernacular.FullStop;
+                    strTargetFullStop = proj.InternationalBT.FullStop;
+                    fontSource = proj.Vernacular.Font;
+                    fontTarget = proj.InternationalBT.Font;
+                    colorSource = proj.Vernacular.FontColor;
+                    colorTarget = proj.InternationalBT.FontColor;
+                    break;
+
+                case GlossType.eNationalToEnglish:
+                    strSourceFullStop = proj.NationalBT.FullStop;
+                    strTargetFullStop = proj.InternationalBT.FullStop;
+                    fontSource = proj.NationalBT.Font;
+                    fontTarget = proj.InternationalBT.Font;
+                    colorSource = proj.NationalBT.FontColor;
+                    colorTarget = proj.InternationalBT.FontColor;
+                    break;
+
+                default:
+                    System.Diagnostics.Debug.Assert(false);
+                    throw new ApplicationException("Wrong glossing type specified. Send to bob_eaton@sall.com for help");
             }
-            else
-            {
-                strSourceFullStop = proj.Vernacular.FullStop;
-                strTargetFullStop = proj.InternationalBT.FullStop;
-                fontSource = proj.Vernacular.Font;
-                fontTarget = proj.InternationalBT.Font;
-                colorSource = proj.Vernacular.FontColor;
-                colorTarget = proj.InternationalBT.FontColor;
-            }
+
+            // get the EncConverter to break apart the given sentence into bundles
+            m_aEC.SplitAndConvert(strSentence, out SourceWords, out StringsInBetween, out TargetWords);
+            if (SourceWords.Count == 0)
+                throw new ApplicationException("No sentence to gloss!");
 
             System.Diagnostics.Debug.Assert(SourceWords.Count == TargetWords.Count);
             for (int i = 0; i < SourceWords.Count; i++)
             {
                 GlossingControl gc = new GlossingControl(this, fontSource, colorSource, SourceWords[i],
                     fontTarget, colorTarget, TargetWords[i],
-                     StringsInBetween[i + 1], strSourceFullStop, strTargetFullStop);
+                    StringsInBetween[i + 1], strSourceFullStop, strTargetFullStop);
+
+                // Bill Martin says that glossing KBs can't have Map greater than 1.
+                if (eGlossType == GlossType.eVernacularToEnglish)
+                    gc.DisableButton();
 
                 flowLayoutPanel.Controls.Add(gc);
             }
@@ -131,26 +158,41 @@ namespace OneStoryProjectEditor
                 strSourceLangName, strTargetLangName);
         }
 
-        protected AdaptItEncConverter InitLookupAdapter(ProjectSettings proj, bool bVernacularToNational)
+        protected AdaptItEncConverter InitLookupAdapter(ProjectSettings proj, GlossType eGlossType)
         {
-            string strSourceLangName = proj.Vernacular.LangName;
-            string strTargetLangName = proj.NationalBT.LangName;
-
             EncConverters aECs = new EncConverters();
             string strName, strConverterSpec;
-            if (bVernacularToNational)
+            ProjectSettings.LanguageInfo liSource, liTarget;
+            switch (eGlossType)
             {
-                strName = AdaptItLookupConverterName(strSourceLangName, strTargetLangName);
-                strConverterSpec = AdaptItLookupFileSpec(strSourceLangName, strTargetLangName);
-            }
-            else
-            {
-                strName = AdaptItGlossingLookupConverterName(strSourceLangName, strTargetLangName);
-                strConverterSpec = AdaptItGlossingLookupFileSpec(strSourceLangName, strTargetLangName);
+                case GlossType.eVernacularToNational:
+                    strName = AdaptItLookupConverterName(proj.Vernacular.LangName, proj.NationalBT.LangName);
+                    strConverterSpec = AdaptItLookupFileSpec(proj.Vernacular.LangName, proj.NationalBT.LangName);
+                    liSource = proj.Vernacular;
+                    liTarget = proj.NationalBT;
+                    break;
+
+                case GlossType.eVernacularToEnglish:    // the glossing KB for the Vern to Natl project
+                    strName = AdaptItGlossingLookupConverterName(proj.Vernacular.LangName, proj.NationalBT.LangName);
+                    strConverterSpec = AdaptItGlossingLookupFileSpec(proj.Vernacular.LangName, proj.NationalBT.LangName);
+                    liSource = proj.Vernacular;
+                    liTarget = proj.NationalBT; // this is still the national lg project (but the glossing KB)
+                    break;
+
+                case GlossType.eNationalToEnglish:
+                    strName = AdaptItLookupConverterName(proj.NationalBT.LangName, proj.InternationalBT.LangName);
+                    strConverterSpec = AdaptItLookupFileSpec(proj.NationalBT.LangName, proj.InternationalBT.LangName);
+                    liSource = proj.NationalBT;         // this is a whole nuther national to English project
+                    liTarget = proj.InternationalBT;
+                    break;
+
+                default:
+                    System.Diagnostics.Debug.Assert(false);
+                    throw new ApplicationException("Wrong glossing type specified. Send to bob_eaton@sall.com for help");
             }
 
             // just in case the project doesn't exist yet...
-            WriteAdaptItProjectFiles(proj);
+            WriteAdaptItProjectFiles(liSource, liTarget, proj.InternationalBT); // move this to AIGuesserEC project when it's mature.
 
             // if we don't have the converter already in the repository.
             if (!aECs.ContainsKey(strName))
@@ -168,44 +210,45 @@ namespace OneStoryProjectEditor
             return theLookupAdapter;
         }
 
-        protected void WriteAdaptItProjectFiles(ProjectSettings proj)
+        protected void WriteAdaptItProjectFiles(ProjectSettings.LanguageInfo liSource,
+            ProjectSettings.LanguageInfo liTarget, ProjectSettings.LanguageInfo liNavigation)
         {
             // create folders...
-            if (!Directory.Exists(AdaptItProjectAdaptationsFolder(proj.Vernacular.LangName, proj.NationalBT.LangName)))
-                Directory.CreateDirectory(AdaptItProjectAdaptationsFolder(proj.Vernacular.LangName, proj.NationalBT.LangName));
+            if (!Directory.Exists(AdaptItProjectAdaptationsFolder(liSource.LangName, liTarget.LangName)))
+                Directory.CreateDirectory(AdaptItProjectAdaptationsFolder(liSource.LangName, liTarget.LangName));
 
             // create Project file
-            if (!File.Exists(AdaptItProjectFileSpec(proj.Vernacular.LangName, proj.NationalBT.LangName)))
+            if (!File.Exists(AdaptItProjectFileSpec(liSource.LangName, liTarget.LangName)))
             {
                 string strFormat = Properties.Settings.Default.DefaultAIProjectFile;
                 string strProjectFileContents = String.Format(strFormat,
-                    proj.Vernacular.Font.Name,
-                    proj.NationalBT.Font.Name,
-                    proj.InternationalBT.Font.Name,
-                    proj.Vernacular.LangName,
-                    proj.NationalBT.LangName,
+                    liSource.Font.Name,
+                    liTarget.Font.Name,
+                    liNavigation.Font.Name,
+                    liSource.LangName,
+                    liTarget.LangName,
                     Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
                     "{}",
-                    proj.Vernacular.FullStop,
-                    proj.NationalBT.FullStop,
-                    (proj.Vernacular.IsRTL) ? "1" : "0",
-                    (proj.NationalBT.IsRTL) ? "1" : "0");
-                File.WriteAllText(AdaptItProjectFileSpec(proj.Vernacular.LangName, proj.NationalBT.LangName), strProjectFileContents);
+                    liSource.FullStop,
+                    liTarget.FullStop,
+                    (liSource.IsRTL) ? "1" : "0",
+                    (liTarget.IsRTL) ? "1" : "0");
+                File.WriteAllText(AdaptItProjectFileSpec(liSource.LangName, liTarget.LangName), strProjectFileContents);
             }
 
             // create main KB
-            if (!File.Exists(AdaptItLookupFileSpec(proj.Vernacular.LangName, proj.NationalBT.LangName)))
+            if (!File.Exists(AdaptItLookupFileSpec(liSource.LangName, liTarget.LangName)))
             {
                 string strFormat = Properties.Settings.Default.DefaultAIKBFile;
-                string strKBContents = String.Format(strFormat, proj.Vernacular.LangName, proj.NationalBT.LangName);
-                File.WriteAllText(AdaptItLookupFileSpec(proj.Vernacular.LangName, proj.NationalBT.LangName), strKBContents);
+                string strKBContents = String.Format(strFormat, liSource.LangName, liTarget.LangName);
+                File.WriteAllText(AdaptItLookupFileSpec(liSource.LangName, liTarget.LangName), strKBContents);
             }
 
-            if (!File.Exists(AdaptItGlossingLookupFileSpec(proj.Vernacular.LangName, proj.NationalBT.LangName)))
+            if (!File.Exists(AdaptItGlossingLookupFileSpec(liSource.LangName, liTarget.LangName)))
             {
                 string strFormat = Properties.Settings.Default.DefaultAIKBFile;
-                string strKBContents = String.Format(strFormat, proj.Vernacular.LangName, proj.NationalBT.LangName);
-                File.WriteAllText(AdaptItGlossingLookupFileSpec(proj.Vernacular.LangName, proj.NationalBT.LangName), strKBContents);
+                string strKBContents = String.Format(strFormat, liSource.LangName, liTarget.LangName);
+                File.WriteAllText(AdaptItGlossingLookupFileSpec(liSource.LangName, liTarget.LangName), strKBContents);
             }
         }
 
@@ -235,6 +278,7 @@ namespace OneStoryProjectEditor
                     theNextGC.SourceWord = String.Format("{0} {1}", control.SourceWord, theNextGC.SourceWord);
                     theNextGC.TargetWord = String.Format("{0} {1}", control.TargetWord, theNextGC.TargetWord);
                     flowLayoutPanel.Controls.Remove(aGC);
+                    theNextGC.Focus();
                     break;
                 }
             }

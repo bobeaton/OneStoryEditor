@@ -244,7 +244,6 @@ namespace OneStoryProjectEditor.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""UTF-8"" standalone=""yes""?>
-<AdaptItKnowledgeBase xmlns=""http://www.sil.org/computing/schemas/AdaptIt KB.xsd"">
 <!--
 	 Note: Using Microsoft WORD 2003 or later is not a good way to edit this xml file.
 	 Instead, use NotePad, WordPad or Windows Explorer.
@@ -253,7 +252,6 @@ namespace OneStoryProjectEditor.Properties {
 	<MAP mn=""1"">
 	</MAP>
 </KB>
-</AdaptItKnowledgeBase>
 ")]
         public string DefaultAIKBFile {
             get {

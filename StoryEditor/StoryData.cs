@@ -9,16 +9,16 @@ namespace OneStoryProjectEditor
 {
     public class StoryData
     {
-        public string StoryName = null;
-        public string StoryGuid = null;
+        public string Name = null;
+        public string guid = null;
         public StoryStageLogic ProjStage = null;
         public CraftingInfoData CraftingInfo = null;
         public VersesData Verses = null;
 
         public StoryData(string strStoryName, string strLoggedOnMemberGuid)
         {
-            StoryName = strStoryName;
-            StoryGuid = Guid.NewGuid().ToString();
+            Name = strStoryName;
+            guid = Guid.NewGuid().ToString();
             ProjStage = new StoryStageLogic();
             CraftingInfo = new CraftingInfoData(strLoggedOnMemberGuid);
             Verses = new VersesData();
@@ -26,8 +26,8 @@ namespace OneStoryProjectEditor
 
         public StoryData(StoryProject.storyRow theStoryRow, StoryProject projFile)
         {
-            StoryName = theStoryRow.name;
-            StoryGuid = theStoryRow.guid;
+            Name = theStoryRow.name;
+            guid = theStoryRow.guid;
             ProjStage = new StoryStageLogic(theStoryRow.stage);
             CraftingInfo = new CraftingInfoData(theStoryRow, projFile);
             Verses = new VersesData(theStoryRow, projFile);
@@ -37,14 +37,14 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(StoryName)
+                System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(Name)
                     && !String.IsNullOrEmpty(ProjStage.ProjectStage.ToString())
-                    && !String.IsNullOrEmpty(StoryGuid));
+                    && !String.IsNullOrEmpty(guid));
 
                 XElement elemStory = new XElement("story",
-                        new XAttribute("name", StoryName),
+                        new XAttribute("name", Name),
                         new XAttribute("stage", ProjStage.ToString()),
-                        new XAttribute("guid", StoryGuid),
+                        new XAttribute("guid", guid),
                         CraftingInfo.GetXml);
 
                 if (Verses.HasData)

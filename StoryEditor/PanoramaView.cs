@@ -33,7 +33,7 @@ namespace OneStoryProjectEditor
             foreach (StoryData aSD in _stories)
             {
                 StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[aSD.ProjStage.ProjectStage];
-                object[] aObs = new object[] { aSD.StoryName, aSD.CraftingInfo.StoryPurpose, 
+                object[] aObs = new object[] { aSD.Name, aSD.CraftingInfo.StoryPurpose, 
                     TeamMemberData.GetMemberTypeAsDisplayString(aSD.ProjStage.MemberTypeWithEditToken), 
                     st.StageDisplayString };
                 int nRowIndex = dataGridViewPanorama.Rows.Add(aObs);
@@ -142,7 +142,7 @@ namespace OneStoryProjectEditor
 
             string strStoryName = (string)theCurrentST.Cells[CnColumnStoryName].Value;
             foreach (StoryData aSD in _stories)
-                if (aSD.StoryName == strStoryName)
+                if (aSD.Name == strStoryName)
                 {
                     GetTransitionInfoForRow(theCurrentStageTransition.StageDisplayString, out eStage);
                     aSD.ProjStage.ProjectStage = eStage;

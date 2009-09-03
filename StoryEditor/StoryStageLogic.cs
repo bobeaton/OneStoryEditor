@@ -11,12 +11,12 @@ namespace OneStoryProjectEditor
     public class StoryStageLogic
     {
         protected ProjectStages _ProjectStage = ProjectStages.eUndefined;
-        protected const string CstrDefaultProjectStage = "CrafterTypeNationalBT";
         internal static StateTransitions stateTransitions = new StateTransitions();
 
         public enum ProjectStages
         {
             eUndefined = 0,
+            eCrafterTypeVernacular,
             eCrafterTypeNationalBT,
             eCrafterTypeInternationalBT,
             eCrafterAddAnchors,
@@ -53,7 +53,7 @@ namespace OneStoryProjectEditor
 
         public StoryStageLogic()
         {
-            ProjectStage = ProjectStages.eCrafterTypeNationalBT;
+            ProjectStage = ProjectStages.eCrafterTypeVernacular;
         }
 
         public StoryStageLogic(string strProjectStage)
@@ -104,7 +104,8 @@ namespace OneStoryProjectEditor
             return _ProjectStage.ToString().Substring(1);
         }
 
-        protected static Dictionary<string, StoryStageLogic.ProjectStages> CmapStageStringToEnumType = new Dictionary<string, StoryStageLogic.ProjectStages>() {
+        protected static Dictionary<string, ProjectStages> CmapStageStringToEnumType = new Dictionary<string, ProjectStages>() {
+            { "CrafterTypeVernacular", ProjectStages.eCrafterTypeVernacular },
             { "CrafterTypeNationalBT", ProjectStages.eCrafterTypeNationalBT },
             { "CrafterTypeInternationalBT", ProjectStages.eCrafterTypeInternationalBT },
             { "CrafterAddAnchors", ProjectStages.eCrafterAddAnchors },
