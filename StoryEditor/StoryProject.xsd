@@ -252,8 +252,10 @@
 		<xs:attribute name="FontName" type="xs:string" use="required" />
 		<xs:attribute name="FontSize" type="xs:float" use="required" />
 		<xs:attribute name="FontColor" type="xs:string" use="required" />
-		<xs:attribute name="SentenceFinalPunct" type="xs:string" />
-	</xs:complexType>
+    <xs:attribute name="SentenceFinalPunct" type="xs:string" use="required" />
+    <xs:attribute name="Keyboard" type="xs:string" />
+    <xs:attribute name="RTL" type="xs:boolean" />
+  </xs:complexType>
 	<xs:simpleType name="FromTo">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="ConsultantToCrafter" />

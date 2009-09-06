@@ -40,7 +40,8 @@ namespace OneStoryProjectEditor
             {
                 InsertColumn(nNumColumns);
                 InitLabel(aSE.Stories.ProjSettings.Vernacular.LangName, nNumColumns);
-                InitTextBox(CstrFieldNameVernacular, _aVerseData.VernacularText, aSE.Stories.ProjSettings.Vernacular.Font, aSE.Stories.ProjSettings.Vernacular.FontColor, nNumColumns);
+                InitTextBox(CstrFieldNameVernacular, _aVerseData.VernacularText, aSE.Stories.ProjSettings.Vernacular, 
+                    nNumColumns);
                 nNumColumns++;
             }
 
@@ -48,7 +49,8 @@ namespace OneStoryProjectEditor
             {
                 InsertColumn(nNumColumns);
                 InitLabel(aSE.Stories.ProjSettings.NationalBT.LangName, nNumColumns);
-                InitTextBox(CstrFieldNameNationalBt, _aVerseData.NationalBTText, aSE.Stories.ProjSettings.NationalBT.Font, aSE.Stories.ProjSettings.NationalBT.FontColor, nNumColumns);
+                InitTextBox(CstrFieldNameNationalBt, _aVerseData.NationalBTText, aSE.Stories.ProjSettings.NationalBT, 
+                    nNumColumns);
                 nNumColumns++;
             }
 
@@ -56,7 +58,8 @@ namespace OneStoryProjectEditor
             {
                 InsertColumn(nNumColumns);
                 InitLabel(aSE.Stories.ProjSettings.InternationalBT.LangName, nNumColumns);
-                InitTextBox(CstrFieldNameInternationalBt, _aVerseData.InternationalBTText, aSE.Stories.ProjSettings.InternationalBT.Font, aSE.Stories.ProjSettings.InternationalBT.FontColor, nNumColumns);
+                InitTextBox(CstrFieldNameInternationalBt, _aVerseData.InternationalBTText, 
+                    aSE.Stories.ProjSettings.InternationalBT, nNumColumns);
                 nNumColumns++;
             }
 
@@ -79,10 +82,10 @@ namespace OneStoryProjectEditor
             tableLayoutPanel.Controls.Add(lbl, nLayoutColumn, 0);
         }
 
-        protected void InitTextBox(string strTbName, StringTransfer strTbText, Font font, Color color, int nLayoutColumn)
+        protected void InitTextBox(string strTbName, StringTransfer strTbText, ProjectSettings.LanguageInfo li, int nLayoutColumn)
         {
             System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(strTbName + CstrSuffixTextBox), "otherwise, fix wrong assumption");
-            CtrlTextBox tb = new CtrlTextBox(strTbName + CstrSuffixTextBox, this, strTbText, font, color);
+            CtrlTextBox tb = new CtrlTextBox(strTbName + CstrSuffixTextBox, this, strTbText, li);
             tableLayoutPanel.Controls.Add(tb, nLayoutColumn, 1);
         }
     }

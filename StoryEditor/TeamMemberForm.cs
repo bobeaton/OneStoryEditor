@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.IO;
+using Palaso.UI.WindowsForms.Keyboarding;
 
 namespace OneStoryProjectEditor
 {
     public partial class TeamMemberForm : Form
     {
         protected const string CstrDefaultFontTooltipVernacular =
-            "Click here to choose the font, size, and color of the Story language text{0}Currently, Font: {1}, Color: {2}";
+            "Click here to choose the font, size, and color of the Story language text{0}Currently, Font: {1}, Color: {2}, Keyboard: {3}, RTL: {4}";
         protected const string CstrDefaultFontTooltipNationalBT =
-            "Click here to choose the font, size, and color of the National language back-translation text{0}Currently, Font: {1}, Color: {2}";
+            "Click here to choose the font, size, and color of the National language back-translation text{0}Currently, Font: {1}, Color: {2}, Keyboard: {3}, RTL: {4}";
         protected const string CstrDefaultFontTooltipInternationalBT =
-            "Click here to choose the font, size, and color of the English language back-translation text{0}Currently, Font: {1}, Color: {2}";
+            "Click here to choose the font, size, and color of the English language back-translation text{0}Currently, Font: {1}, Color: {2}, Keyboard: {3}, RTL: {4}";
         internal const string CstrDefaultOKLabel = "&Login";
 
         protected ProjectSettings m_projSettings = null;
@@ -39,27 +40,47 @@ namespace OneStoryProjectEditor
             if ((listBoxTeamMembers.Items.Count > 0) && !String.IsNullOrEmpty(Properties.Settings.Default.LastMemberLogin))
                 listBoxTeamMembers.SelectedItem = Properties.Settings.Default.LastMemberLogin;
 
-            textBoxVernacular.Font = textBoxVernacularEthCode.Font = projSettings.Vernacular.Font;
+            // initialize the keyboard combo list
+            foreach (KeyboardController.KeyboardDescriptor keyboard in
+                KeyboardController.GetAvailableKeyboards(KeyboardController.Engines.All))
+            {
+                comboBoxKeyboardVernacular.Items.Add(keyboard.Name);
+                comboBoxKeyboardNationalBT.Items.Add(keyboard.Name);
+            }
+
+            textBoxVernacular.Font = textBoxVernacularEthCode.Font = projSettings.Vernacular.LangFont;
             textBoxVernacular.ForeColor = textBoxVernacularEthCode.ForeColor = projSettings.Vernacular.FontColor;
             textBoxVernacular.Text = ((String.IsNullOrEmpty(projSettings.Vernacular.LangName))? projSettings.ProjectName : projSettings.Vernacular.LangName);
             textBoxVernacularEthCode.Text = projSettings.Vernacular.LangCode;
+            if (!String.IsNullOrEmpty(projSettings.Vernacular.Keyboard) && comboBoxKeyboardVernacular.Items.Contains(projSettings.Vernacular.Keyboard))
+                comboBoxKeyboardVernacular.SelectedItem = projSettings.Vernacular.Keyboard;
             textBoxVernSentFullStop.Text = projSettings.Vernacular.FullStop;
+            checkBoxVernacularRTL.Checked = projSettings.Vernacular.IsRTL;
 
-            textBoxNationalBTLanguage.Font = textBoxNationalBTEthCode.Font = projSettings.NationalBT.Font;
+            textBoxNationalBTLanguage.Font = textBoxNationalBTEthCode.Font = projSettings.NationalBT.LangFont;
             textBoxNationalBTLanguage.ForeColor = textBoxNationalBTEthCode.ForeColor = projSettings.NationalBT.FontColor;
             textBoxNationalBTLanguage.Text = projSettings.NationalBT.LangName;
             textBoxNationalBTEthCode.Text = projSettings.NationalBT.LangCode;
+            if (!String.IsNullOrEmpty(projSettings.NationalBT.Keyboard) && comboBoxKeyboardNationalBT.Items.Contains(projSettings.NationalBT.Keyboard))
+                comboBoxKeyboardNationalBT.SelectedItem = projSettings.NationalBT.Keyboard;
             textBoxNationalBTSentFullStop.Text = projSettings.NationalBT.FullStop;
+            checkBoxNationalRTL.Checked = projSettings.NationalBT.IsRTL;
 
             toolTip.SetToolTip(buttonVernacularFont, String.Format(CstrDefaultFontTooltipVernacular,
-                                                                   Environment.NewLine, projSettings.Vernacular.Font,
-                                                                   projSettings.Vernacular.FontColor));
+                                                                   Environment.NewLine, projSettings.Vernacular.LangFont,
+                                                                   projSettings.Vernacular.FontColor,
+                                                                   projSettings.Vernacular.Keyboard,
+                                                                   projSettings.Vernacular.IsRTL));
             toolTip.SetToolTip(buttonNationalBTFont, String.Format(CstrDefaultFontTooltipNationalBT,
-                                                                   Environment.NewLine, projSettings.NationalBT.Font,
-                                                                   projSettings.NationalBT.FontColor));
+                                                                   Environment.NewLine, projSettings.NationalBT.LangFont,
+                                                                   projSettings.NationalBT.FontColor,
+                                                                   projSettings.NationalBT.Keyboard,
+                                                                   projSettings.NationalBT.IsRTL));
             toolTip.SetToolTip(buttonInternationalBTFont, String.Format(CstrDefaultFontTooltipInternationalBT,
-                                                                   Environment.NewLine, projSettings.InternationalBT.Font,
-                                                                   projSettings.InternationalBT.FontColor));
+                                                                   Environment.NewLine, projSettings.InternationalBT.LangFont,
+                                                                   projSettings.InternationalBT.FontColor,
+                                                                   projSettings.InternationalBT.Keyboard,
+                                                                   projSettings.InternationalBT.IsRTL));
 
 
             textBoxProjectName.Text = projSettings.ProjectName;
@@ -103,18 +124,21 @@ namespace OneStoryProjectEditor
             // update the language information as well (in case that was changed also)
             m_projSettings.Vernacular.LangName = textBoxVernacular.Text;
             m_projSettings.Vernacular.LangCode = textBoxVernacularEthCode.Text;
-            m_projSettings.Vernacular.Font = textBoxVernacular.Font;
+            m_projSettings.Vernacular.LangFont = textBoxVernacular.Font;
             m_projSettings.Vernacular.FontColor = textBoxVernacular.ForeColor;
+            m_projSettings.Vernacular.Keyboard = (string)comboBoxKeyboardVernacular.SelectedItem;
             m_projSettings.Vernacular.FullStop = textBoxVernSentFullStop.Text;
+            m_projSettings.Vernacular.IsRTL = checkBoxVernacularRTL.Checked;
 
             m_projSettings.NationalBT.LangName = textBoxNationalBTLanguage.Text;
             m_projSettings.NationalBT.LangCode = textBoxNationalBTEthCode.Text;
-            m_projSettings.NationalBT.Font = textBoxNationalBTLanguage.Font;
+            m_projSettings.NationalBT.LangFont = textBoxNationalBTLanguage.Font;
             m_projSettings.NationalBT.FontColor = textBoxNationalBTLanguage.ForeColor;
+            m_projSettings.NationalBT.Keyboard = (string)comboBoxKeyboardNationalBT.SelectedItem;
             m_projSettings.NationalBT.FullStop = textBoxNationalBTSentFullStop.Text;
+            m_projSettings.NationalBT.IsRTL = checkBoxNationalRTL.Checked;
 
             // English was done by the font dialog handler
-
             Modified = false;
         }
 
@@ -167,12 +191,13 @@ namespace OneStoryProjectEditor
                 return;
             }
 
-            // indicate that this is the currently logged on user
-            // _dataTeamMembers.LoggedOn = _dataTeamMembers[SelectedMember];
-
-            Properties.Settings.Default.LastMemberLogin = SelectedMember;
-            Properties.Settings.Default.LastUserType = _dataTeamMembers[SelectedMember].MemberTypeAsString;
-            Properties.Settings.Default.Save();
+            // when the button label is "OK", it means we're adding a UNS
+            if (buttonOK.Text == CstrDefaultOKLabel)
+            {
+                Properties.Settings.Default.LastMemberLogin = SelectedMember;
+                Properties.Settings.Default.LastUserType = _dataTeamMembers[SelectedMember].MemberTypeAsString;
+                Properties.Settings.Default.Save();
+            }
 
             DialogResult = DialogResult.OK;
             this.Close();
@@ -311,11 +336,11 @@ namespace OneStoryProjectEditor
 
         private void buttonInternationalBTFont_Click(object sender, EventArgs e)
         {
-            fontDialog.Font = m_projSettings.InternationalBT.Font;
+            fontDialog.Font = m_projSettings.InternationalBT.LangFont;
             fontDialog.Color = m_projSettings.InternationalBT.FontColor;
             if (fontDialog.ShowDialog() == DialogResult.OK)
             {
-                m_projSettings.InternationalBT.Font = fontDialog.Font;
+                m_projSettings.InternationalBT.LangFont = fontDialog.Font;
                 m_projSettings.InternationalBT.FontColor = fontDialog.Color;
                 Modified = true;
             }

@@ -92,7 +92,7 @@ in the process.
       <AllowableForwardsTransition>eCrafterAddStoryQuestions</AllowableForwardsTransition>
       <AllowableForwardsTransition>eConsultantCheckAnchors</AllowableForwardsTransition>
     </AllowableForwardsTransitions>
-    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
+    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
   <StateTransition stage="eCrafterAddAnchors" MemberTypeWithEditToken="eCrafter" NextState="eCrafterAddStoryQuestions">
     <StageDisplayString>Crafter adds biblical anchors</StageDisplayString>

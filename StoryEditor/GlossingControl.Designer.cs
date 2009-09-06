@@ -32,8 +32,8 @@
             this.tableLayoutPanel = new OneStoryProjectEditor.DynamicTableLayoutPanel();
             this.textBoxSourceWord = new System.Windows.Forms.TextBox();
             this.textBoxTargetWord = new System.Windows.Forms.TextBox();
-            this.buttonJoin = new System.Windows.Forms.Button();
             this.contextMenuStripAmbiguityPicker = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.buttonJoin = new System.Windows.Forms.Button();
             this.tableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -59,10 +59,11 @@
             this.textBoxSourceWord.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxSourceWord.Location = new System.Drawing.Point(3, 3);
             this.textBoxSourceWord.Name = "textBoxSourceWord";
+            this.textBoxSourceWord.ReadOnly = true;
             this.textBoxSourceWord.Size = new System.Drawing.Size(100, 20);
-            this.textBoxSourceWord.TabIndex = 0;
+            this.textBoxSourceWord.TabIndex = 3;
             this.textBoxSourceWord.TabStop = false;
-            this.textBoxSourceWord.TextChanged += new System.EventHandler(this.textBoxSourceWord_TextChanged);
+            this.textBoxSourceWord.TextChanged += new System.EventHandler(this.textBox_TextChanged);
             // 
             // textBoxTargetWord
             // 
@@ -72,25 +73,28 @@
             this.textBoxTargetWord.Name = "textBoxTargetWord";
             this.textBoxTargetWord.Size = new System.Drawing.Size(100, 20);
             this.textBoxTargetWord.TabIndex = 0;
-            this.textBoxTargetWord.TextChanged += new System.EventHandler(this.textBoxTargetWord_TextChanged);
+            this.textBoxTargetWord.TextChanged += new System.EventHandler(this.textBox_TextChanged);
             this.textBoxTargetWord.Enter += new System.EventHandler(this.textBoxTargetWord_Enter);
-            // 
-            // buttonJoin
-            // 
-            this.buttonJoin.Image = global::OneStoryProjectEditor.Properties.Resources.Hyperlink;
-            this.buttonJoin.Location = new System.Drawing.Point(109, 3);
-            this.buttonJoin.Name = "buttonJoin";
-            this.tableLayoutPanel.SetRowSpan(this.buttonJoin, 2);
-            this.buttonJoin.Size = new System.Drawing.Size(24, 23);
-            this.buttonJoin.TabIndex = 1;
-            this.buttonJoin.TabStop = false;
-            this.buttonJoin.UseVisualStyleBackColor = true;
-            this.buttonJoin.Click += new System.EventHandler(this.buttonJoin_Click);
+            this.textBoxTargetWord.Leave += new System.EventHandler(textBoxTargetWord_Leave);
             // 
             // contextMenuStripAmbiguityPicker
             // 
             this.contextMenuStripAmbiguityPicker.Name = "contextMenuStripAmbiguityPicker";
             this.contextMenuStripAmbiguityPicker.Size = new System.Drawing.Size(61, 4);
+            // 
+            // buttonJoin
+            // 
+            this.buttonJoin.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.buttonJoin.AutoSize = true;
+            this.buttonJoin.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.buttonJoin.Image = global::OneStoryProjectEditor.Properties.Resources.Hyperlink;
+            this.buttonJoin.Location = new System.Drawing.Point(110, 3);
+            this.buttonJoin.Name = "buttonJoin";
+            this.tableLayoutPanel.SetRowSpan(this.buttonJoin, 2);
+            this.buttonJoin.Size = new System.Drawing.Size(22, 22);
+            this.buttonJoin.TabIndex = 1;
+            this.buttonJoin.UseVisualStyleBackColor = true;
+            this.buttonJoin.Click += new System.EventHandler(this.buttonJoin_Click);
             // 
             // GlossingControl
             // 

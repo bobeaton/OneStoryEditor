@@ -33,40 +33,45 @@ namespace OneStoryProjectEditor
 
             if (projFile.VernacularLang.Count == 0)
                 projFile.VernacularLang.AddVernacularLangRow(Vernacular.LangName,
-                    Vernacular.LangCode, Vernacular.Font.Name, Vernacular.Font.Size,
-                    Vernacular.FontColor.Name, Vernacular.FullStop, theLangRow);
+                    Vernacular.LangCode, Vernacular.LangFont.Name, Vernacular.LangFont.Size,
+                    Vernacular.FontColor.Name, Vernacular.FullStop, Vernacular.Keyboard, Vernacular.IsRTL, theLangRow);
             else
             {
                 System.Diagnostics.Debug.Assert(projFile.VernacularLang.Count == 1);
                 StoryProject.VernacularLangRow theVernRow = projFile.VernacularLang[0];
                 Vernacular.LangName = theVernRow.name;
                 Vernacular.LangCode = theVernRow.code;
-                Vernacular.Font = new Font(theVernRow.FontName, theVernRow.FontSize);
+                Vernacular.LangFont = new Font(theVernRow.FontName, theVernRow.FontSize);
                 Vernacular.FontColor = Color.FromName(theVernRow.FontColor);
                 Vernacular.FullStop = theVernRow.SentenceFinalPunct;
-
+                Vernacular.IsRTL = (!theVernRow.IsRTLNull() && theVernRow.RTL);
+                Vernacular.Keyboard = (!theVernRow.IsKeyboardNull() && !String.IsNullOrEmpty(theVernRow.Keyboard))
+                    ? theVernRow.Keyboard : null;
             }
 
             if (projFile.NationalBTLang.Count == 0)
                 projFile.NationalBTLang.AddNationalBTLangRow(NationalBT.LangName,
-                    NationalBT.LangCode, NationalBT.Font.Name, NationalBT.Font.Size,
-                    NationalBT.FontColor.Name, NationalBT.FullStop, theLangRow);
+                    NationalBT.LangCode, NationalBT.LangFont.Name, NationalBT.LangFont.Size,
+                    NationalBT.FontColor.Name, NationalBT.FullStop, NationalBT.Keyboard, NationalBT.IsRTL, theLangRow);
             else
             {
                 System.Diagnostics.Debug.Assert(projFile.NationalBTLang.Count == 1);
                 StoryProject.NationalBTLangRow rowNatlRow = projFile.NationalBTLang[0];
                 NationalBT.LangName = rowNatlRow.name;
                 NationalBT.LangCode = rowNatlRow.code;
-                NationalBT.Font = new Font(rowNatlRow.FontName, rowNatlRow.FontSize);
+                NationalBT.LangFont = new Font(rowNatlRow.FontName, rowNatlRow.FontSize);
                 NationalBT.FontColor = Color.FromName(rowNatlRow.FontColor);
                 NationalBT.FullStop = rowNatlRow.SentenceFinalPunct;
+                NationalBT.IsRTL = (!rowNatlRow.IsRTLNull() && rowNatlRow.RTL);
+                NationalBT.Keyboard = (!rowNatlRow.IsKeyboardNull() && !String.IsNullOrEmpty(rowNatlRow.Keyboard))
+                    ? rowNatlRow.Keyboard : null;
             }
 
             if (projFile.InternationalBTLang.Count == 0)
                 projFile.InternationalBTLang.AddInternationalBTLangRow(
                     InternationalBT.LangName, InternationalBT.LangCode,
-                    InternationalBT.Font.Name, InternationalBT.Font.Size,
-                    InternationalBT.FontColor.Name, InternationalBT.FullStop, 
+                    InternationalBT.LangFont.Name, InternationalBT.LangFont.Size,
+                    InternationalBT.FontColor.Name, InternationalBT.FullStop, InternationalBT.Keyboard, InternationalBT.IsRTL,
                     theLangRow);
             else
             {
@@ -74,9 +79,12 @@ namespace OneStoryProjectEditor
                 StoryProject.InternationalBTLangRow rowEngRow = projFile.InternationalBTLang[0];
                 InternationalBT.LangName = rowEngRow.name;
                 InternationalBT.LangCode = rowEngRow.code;
-                InternationalBT.Font = new Font(rowEngRow.FontName, rowEngRow.FontSize);
+                InternationalBT.LangFont = new Font(rowEngRow.FontName, rowEngRow.FontSize);
                 InternationalBT.FontColor = Color.FromName(rowEngRow.FontColor);
                 InternationalBT.FullStop = rowEngRow.SentenceFinalPunct;
+                InternationalBT.IsRTL = (!rowEngRow.IsRTLNull() && rowEngRow.RTL);
+                InternationalBT.Keyboard = (!rowEngRow.IsKeyboardNull() && !String.IsNullOrEmpty(rowEngRow.Keyboard))
+                    ? rowEngRow.Keyboard : null;
             }
         }
 
@@ -84,15 +92,16 @@ namespace OneStoryProjectEditor
         {
             public string LangName = null;
             public string LangCode = null;
-            public Font Font;
+            public Font LangFont;
             public Color FontColor;
             public string FullStop;
+            public string Keyboard = null;
             public bool IsRTL = false;
 
             public LanguageInfo(Font font, Color fontColor)
             {
                 FullStop = ".";
-                Font = font;
+                LangFont = font;
                 FontColor = fontColor;
             }
 
@@ -101,7 +110,7 @@ namespace OneStoryProjectEditor
                 LangName = strLangName;
                 LangCode = strLangCode;
                 FullStop = ".";
-                Font = font;
+                LangFont = font;
                 FontColor = fontColor;
             }
 
@@ -111,12 +120,18 @@ namespace OneStoryProjectEditor
                     new XElement(strLangType,
                         new XAttribute("name", LangName),
                         new XAttribute("code", LangCode),
-                        new XAttribute("FontName", Font.Name),
-                        new XAttribute("FontSize", Font.Size),
+                        new XAttribute("FontName", LangFont.Name),
+                        new XAttribute("FontSize", LangFont.Size),
                         new XAttribute("FontColor", FontColor.Name));
 
                 if (!String.IsNullOrEmpty(FullStop))
                     elemLang.Add(new XAttribute("SentenceFinalPunct", FullStop));
+
+                if (IsRTL)
+                    elemLang.Add(new XAttribute("RTL", IsRTL));
+
+                if (!String.IsNullOrEmpty(Keyboard))
+                    elemLang.Add(new XAttribute("Keyboard", Keyboard));
 
                 return elemLang;
             }

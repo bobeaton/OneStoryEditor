@@ -7,6 +7,7 @@ using System.Xml.Linq;
 using System.Windows.Forms;
 using System.IO;
 using System.Xml.Serialization;
+using SilEncConverters31;
 
 namespace OneStoryProjectEditor
 {
@@ -1015,7 +1016,7 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                System.Diagnostics.Debug.Assert((Stories != null) && (Stories.Count > 0));
+                System.Diagnostics.Debug.Assert(Stories != null);
                 return Stories.GetXml;
             }
         }
@@ -1198,6 +1199,8 @@ namespace OneStoryProjectEditor
             copyToolStripMenuItem.Enabled =
                 copyNationalBackTranslationToolStripMenuItem.Enabled =
                 copyEnglishBackTranslationToolStripMenuItem.Enabled =
+                exportStoryToolStripMenuItem.Enabled = 
+                exportNationalBacktranslationToolStripMenuItem.Enabled = 
                 ((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
 
         }
@@ -1245,6 +1248,150 @@ namespace OneStoryProjectEditor
             }
 
             Clipboard.SetText(strStory);
+        }
+
+        private void exportStoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // iterate thru the verses and copy them to the clipboard
+            System.Diagnostics.Debug.Assert((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
+
+            string strStory = theCurrentStory.Verses[0].VernacularText.ToString();
+            for (int i = 1; i < theCurrentStory.Verses.Count; i++)
+            {
+                VerseData aVerse = theCurrentStory.Verses[i];
+                strStory += ' ' + aVerse.VernacularText.ToString();
+            }
+
+            AdaptItEncConverter theEC = GlossingForm.InitLookupAdapter(Stories.ProjSettings, GlossingForm.GlossType.eVernacularToNational);
+
+            ExportToAI(theEC, strStory);
+        }
+
+        private void exportNationalBacktranslationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // iterate thru the verses and copy them to the clipboard
+            System.Diagnostics.Debug.Assert((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
+
+            string strStory = theCurrentStory.Verses[0].NationalBTText.ToString();
+            for (int i = 1; i < theCurrentStory.Verses.Count; i++)
+            {
+                VerseData aVerse = theCurrentStory.Verses[i];
+                strStory += ' ' + aVerse.NationalBTText.ToString();
+            }
+
+            AdaptItEncConverter theEC = GlossingForm.InitLookupAdapter(Stories.ProjSettings, GlossingForm.GlossType.eNationalToEnglish);
+            ExportToAI(theEC, strStory);
+        }
+
+        protected void ExportToAI(AdaptItEncConverter theEC, string strStory)
+        {
+            List<string> TargetWords;
+            List<string> SourceWords;
+            List<string> StringsInBetween;
+            theEC.SplitAndConvert(strStory, out SourceWords, out StringsInBetween, out TargetWords);
+            System.Diagnostics.Debug.Assert((SourceWords.Count == TargetWords.Count) 
+                && (SourceWords.Count == (StringsInBetween.Count - 1)));
+
+            XElement elem = new XElement("AdaptItDoc");
+            for (int i = 0; i < SourceWords.Count; i++)
+            {
+                // the SplitAndConvert routine will actually join multi-word segments into a phrase, but for 
+                //  initializing the adaptation file, we really don't want that, so split them back into 
+                //  single word bundles.
+                string strSourceWord = SourceWords[i];
+                string[] astrSourcePhraseWords = strSourceWord.Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                if (astrSourcePhraseWords.Length > 1)
+                {
+                    strSourceWord = SourceWords[i] = astrSourcePhraseWords[0];
+                    for (int j = 1; j < astrSourcePhraseWords.Length; j++)
+                    {
+                        string str = astrSourcePhraseWords[j];
+                        SourceWords.Insert(i + j, str);
+                        StringsInBetween.Insert(i, "");
+                    }
+                }
+
+                string strInBetweenStuff = StringsInBetween[i + 1].Trim();
+
+                string strFattr = AIBools(strSourceWord, strInBetweenStuff,
+                    Stories.ProjSettings.Vernacular.FullStop);
+
+                XElement elemWord =
+                    new XElement("S",
+                        new XAttribute("s", strSourceWord + strInBetweenStuff),
+                        new XAttribute("k", strSourceWord),
+                        new XAttribute("f", strFattr),
+                        new XAttribute("sn", i),
+                        new XAttribute("w", 1),
+                        new XAttribute("ty", 1));
+
+                if (!String.IsNullOrEmpty(strInBetweenStuff))
+                    elemWord.Add(new XAttribute("fp", strInBetweenStuff.Trim()));
+
+                elemWord.Add("");
+
+                elem.Add(elemWord);
+            }
+
+            XDocument doc = new XDocument(
+                new XDeclaration("1.0", "utf-8", "yes"),
+                elem);
+
+            string strFilename = String.Format(@"{0}\Adaptations\{1}.xml",
+                Path.GetDirectoryName(theEC.ConverterIdentifier),
+                theCurrentStory.Name);
+            if (File.Exists(strFilename))
+            {
+                File.Copy(strFilename, strFilename + ".bak");
+                File.Delete(strFilename);
+            }
+            doc.Save(strFilename);
+        }
+
+        const UInt32 hasKBEntryMask = 1; // position 1
+        const UInt32 notInKBMask = 2; // position 2
+        const UInt32 hasGlossingKBEntryMask = 4; // position 3
+        const UInt32 specialTextMask = 8; // position 4
+        const UInt32 firstOfTypeMask = 16; // position 5
+        const UInt32 boundaryMask = 32; // position 6
+        const UInt32 nullSourcePhraseMask = 64; // position 7
+        const UInt32 retranslationMask = 128; // position 8
+        const UInt32 beginRetranslationMask = 256; // position 9
+        const UInt32 endRetranslationMask = 512; // position 10
+        const UInt32 hasFreeTransMask = 1024; // position 11
+        const UInt32 startFreeTransMask = 2048; // position 12
+        const UInt32 endFreeTransMask = 4096; // position 13
+        const UInt32 hasNoteMask = 8192; // position 14
+        const UInt32 hasBookmarkMask = 16384; // position 15
+        const UInt32 chapterMask = 32768; // position 16
+        const UInt32 verseMask = 65536; // position 17
+        const UInt32 hasInternalMarkersMask = 131072; // position 18
+        const UInt32 hasInternalPunctMask = 262144; // position 19
+        const UInt32 footnoteMask = 524288; // position 20
+        const UInt32 footnoteEndMask = 1048576; // position 21
+        const UInt32 paragraphMask = 2097152; // position 22
+
+        protected string AIBools(string strSourceWord, string strInBetweenStuff, string strFullStop)
+        {
+            UInt32 value = 0;
+            /*
+            if (strSourceWord != strTargetWord)
+                value |= hasKBEntryMask;
+            if (!String.IsNullOrEmpty(strGlossWord))
+                value |= hasGlossingKBEntryMask;
+            */
+            if (strInBetweenStuff == strFullStop)
+                value |= boundaryMask;
+            if (strSourceWord.IndexOf(Environment.NewLine) != -1)
+                value |= paragraphMask;
+
+            string strValue = String.Format("{3}000000000000000{2}00{1}0{0}",
+                (((value & hasKBEntryMask) == hasKBEntryMask) ? "1" : "0"),
+                (((value & hasGlossingKBEntryMask) == hasGlossingKBEntryMask) ? "1" : "0"),
+                (((value & boundaryMask) == boundaryMask) ? "1" : "0"),
+                (((value & paragraphMask) == paragraphMask) ? "1" : "0"));
+
+            return strValue;
         }
 
         /*

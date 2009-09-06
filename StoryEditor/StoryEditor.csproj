@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{EE63B2ED-1488-491F-990A-3FA16E2DB135}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -18,6 +18,8 @@
     <GenerateManifests>true</GenerateManifests>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
     <IsWebBootstrapper>false</IsWebBootstrapper>
+    <SuiteName>OneStory</SuiteName>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
     <PublishUrl>ftp://ftp.seedconnect.org/OneStoryEditor/</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -31,11 +33,9 @@
     <TargetCulture>en</TargetCulture>
     <ProductName>OneStory Editor</ProductName>
     <PublisherName>SIL</PublisherName>
-    <SuiteName>OneStory</SuiteName>
     <ApplicationRevision>3</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
-    <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -64,6 +64,14 @@
       <HintPath>..\..\..\src\FW_6.0\Lib\release\ECInterfaces.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Palaso, Version=1.2.448.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\Palaso.dll</HintPath>
+    </Reference>
+    <Reference Include="PalasoUIWindowsForms, Version=1.2.448.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\PalasoUIWindowsForms.dll</HintPath>
+    </Reference>
     <Reference Include="SilEncConverters30, Version=3.0.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\src\FW_6.0\Lib\release\SilEncConverters30.dll</HintPath>
@@ -219,9 +227,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GlossingControl.resx">
       <DependentUpon>GlossingControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GlossingForm.resx">
       <DependentUpon>GlossingForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="NetBibleFootnoteTooltip.resx">
       <DependentUpon>NetBibleFootnoteTooltip.cs</DependentUpon>
@@ -394,11 +404,6 @@
     <Content Include="SWORD\mods.d\farsiopv.conf" />
   </ItemGroup>
   <ItemGroup>
-    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework Client Profile</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
       <Visible>False</Visible>
       <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
@@ -441,7 +446,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="libsword.dll">
@@ -451,7 +455,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="libsword_csharpsword.dll">
@@ -461,7 +464,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="OneStory.ico">
@@ -471,7 +473,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>Exclude</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="Resources\GoLtrHS.bmp">
@@ -481,7 +482,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>Exclude</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="Resources\GoRtlHS.bmp">
@@ -491,7 +491,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>Exclude</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="StageTransitions.xml">
@@ -501,7 +500,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SwigSword">
@@ -511,7 +509,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>Assembly</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\mods.d\bbe.conf">
@@ -521,7 +518,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\mods.d\bwe.conf">
@@ -531,7 +527,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\mods.d\farsiopv.conf">
@@ -541,7 +536,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\mods.d\globals.conf">
@@ -551,7 +545,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\mods.d\hindi.conf">
@@ -561,7 +554,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\mods.d\netfree.conf">
@@ -571,7 +563,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\bbe\bbe.doc">
@@ -581,7 +572,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\bbe\nt.bzs">
@@ -591,7 +581,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\bbe\nt.bzv">
@@ -601,7 +590,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\bbe\nt.bzz">
@@ -611,7 +599,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\bbe\ot.bzs">
@@ -621,7 +608,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\bbe\ot.bzv">
@@ -631,7 +617,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\bbe\ot.bzz">
@@ -641,7 +626,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\bwe\nt.bzs">
@@ -651,7 +635,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\bwe\nt.bzv">
@@ -661,7 +644,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\bwe\nt.bzz">
@@ -671,7 +653,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\farsiopv\errata">
@@ -681,7 +662,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\farsiopv\nt.bzs">
@@ -691,7 +671,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\farsiopv\nt.bzv">
@@ -701,7 +680,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\farsiopv\nt.bzz">
@@ -711,7 +689,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\farsiopv\ot.bzs">
@@ -721,7 +698,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\farsiopv\ot.bzv">
@@ -731,7 +707,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\farsiopv\ot.bzz">
@@ -741,7 +716,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\hindi\nt.bzs">
@@ -751,7 +725,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\hindi\nt.bzv">
@@ -761,7 +734,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\hindi\nt.bzz">
@@ -771,7 +743,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\hindi\ot.bzs">
@@ -781,7 +752,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\hindi\ot.bzv">
@@ -791,7 +761,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\hindi\ot.bzz">
@@ -801,7 +770,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\netfree\nt.bzs">
@@ -811,7 +779,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\netfree\nt.bzv">
@@ -821,7 +788,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\netfree\nt.bzz">
@@ -831,7 +797,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\netfree\ot.bzs">
@@ -841,7 +806,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\netfree\ot.bzv">
@@ -851,7 +815,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\netfree\ot.bzz">
@@ -861,7 +824,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
   </ItemGroup>

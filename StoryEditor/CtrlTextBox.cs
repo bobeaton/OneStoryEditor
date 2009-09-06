@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
+using Palaso.UI.WindowsForms.Keyboarding;
 
 namespace OneStoryProjectEditor
 {
@@ -12,8 +13,10 @@ namespace OneStoryProjectEditor
         protected TeamMemberData.UserTypes _eRequiredEditor = TeamMemberData.UserTypes.eUndefined;
         protected StoryStageLogic _stageLogic = null;
         protected ResizableControl _ctrlParent = null;
+        protected string _strKeyboardName = null;
 
-        public CtrlTextBox(string strName, ResizableControl ctrlParent, StringTransfer stData, TeamMemberData.UserTypes eRequiredEditor)
+        public CtrlTextBox(string strName, ResizableControl ctrlParent, StringTransfer stData, 
+            TeamMemberData.UserTypes eRequiredEditor)
         {
             Name = strName;
             Multiline = true;
@@ -26,18 +29,22 @@ namespace OneStoryProjectEditor
             _eRequiredEditor = eRequiredEditor; // can only be edited by this member!
         }
 
-        public CtrlTextBox(string strName, ResizableControl ctrlParent, StringTransfer stData, Font font, Color colorText)
+        public CtrlTextBox(string strName, ResizableControl ctrlParent, StringTransfer stData,
+            ProjectSettings.LanguageInfo li)
         {
             Name = strName;
             Multiline = true;
             Dock = DockStyle.Fill;
-            Font = font;
-            ForeColor = colorText;
+            Font = li.LangFont;
+            ForeColor = li.FontColor;
+            if (li.IsRTL)
+                RightToLeft = RightToLeft.Yes;
             stData.SetAssociation(this);
             TextChanged += new EventHandler(ctrlParent.textBox_TextChanged);
             System.Diagnostics.Debug.Assert(ctrlParent.StageLogic != null);
             _stageLogic = ctrlParent.StageLogic;
             _ctrlParent = ctrlParent;
+            _strKeyboardName = li.Keyboard;
         }
 
         protected override void OnKeyDown(KeyEventArgs e)
@@ -91,6 +98,19 @@ namespace OneStoryProjectEditor
             }
         }
 
+        protected override void OnEnter(EventArgs e)
+        {
+            if (!String.IsNullOrEmpty(_strKeyboardName))
+                KeyboardController.ActivateKeyboard(_strKeyboardName);
+
+            base.OnEnter(e);
+        }
+
+        protected override void OnLeave(EventArgs e)
+        {
+            KeyboardController.DeactivateKeyboard();
+            base.OnLeave(e);
+        }
         protected bool IsKeyAutomaticallyAllowed(Keys keyCode, Keys keyData)
         {
             System.Diagnostics.Debug.WriteLine(String.Format("keyCode: {0}; keyData: {1}", keyCode, keyData));

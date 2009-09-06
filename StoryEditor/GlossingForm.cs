@@ -30,36 +30,23 @@ namespace OneStoryProjectEditor
 
             m_aEC = InitLookupAdapter(proj, eGlossType);
 
-            string strSourceFullStop, strTargetFullStop;
-            Font fontSource, fontTarget;
-            Color colorSource, colorTarget;
+            ProjectSettings.LanguageInfo liSource;
+            ProjectSettings.LanguageInfo liTarget;
             switch (eGlossType)
             {
                 case GlossType.eVernacularToNational:
-                    strSourceFullStop = proj.Vernacular.FullStop;
-                    strTargetFullStop = proj.NationalBT.FullStop;
-                    fontSource = proj.Vernacular.Font;
-                    fontTarget = proj.NationalBT.Font;
-                    colorSource = proj.Vernacular.FontColor;
-                    colorTarget = proj.NationalBT.FontColor;
+                    liSource = proj.Vernacular;
+                    liTarget = proj.NationalBT;
                     break;
 
                 case GlossType.eVernacularToEnglish:    // the glossing KB for the Vern to Natl project
-                    strSourceFullStop = proj.Vernacular.FullStop;
-                    strTargetFullStop = proj.InternationalBT.FullStop;
-                    fontSource = proj.Vernacular.Font;
-                    fontTarget = proj.InternationalBT.Font;
-                    colorSource = proj.Vernacular.FontColor;
-                    colorTarget = proj.InternationalBT.FontColor;
+                    liSource = proj.Vernacular;
+                    liTarget = proj.InternationalBT;
                     break;
 
                 case GlossType.eNationalToEnglish:
-                    strSourceFullStop = proj.NationalBT.FullStop;
-                    strTargetFullStop = proj.InternationalBT.FullStop;
-                    fontSource = proj.NationalBT.Font;
-                    fontTarget = proj.InternationalBT.Font;
-                    colorSource = proj.NationalBT.FontColor;
-                    colorTarget = proj.InternationalBT.FontColor;
+                    liSource = proj.NationalBT;
+                    liTarget = proj.InternationalBT;
                     break;
 
                 default:
@@ -72,12 +59,16 @@ namespace OneStoryProjectEditor
             if (SourceWords.Count == 0)
                 throw new ApplicationException("No sentence to gloss!");
 
+            if (liSource.IsRTL)
+                flowLayoutPanel.FlowDirection = FlowDirection.RightToLeft;
+
             System.Diagnostics.Debug.Assert(SourceWords.Count == TargetWords.Count);
             for (int i = 0; i < SourceWords.Count; i++)
             {
-                GlossingControl gc = new GlossingControl(this, fontSource, colorSource, SourceWords[i],
-                    fontTarget, colorTarget, TargetWords[i],
-                    StringsInBetween[i + 1], strSourceFullStop, strTargetFullStop);
+                GlossingControl gc = new GlossingControl(this,
+                    liSource, SourceWords[i],
+                    liTarget, TargetWords[i],
+                    StringsInBetween[i + 1]);
 
                 // Bill Martin says that glossing KBs can't have Map greater than 1.
                 if (eGlossType == GlossType.eVernacularToEnglish)
@@ -158,7 +149,7 @@ namespace OneStoryProjectEditor
                 strSourceLangName, strTargetLangName);
         }
 
-        protected AdaptItEncConverter InitLookupAdapter(ProjectSettings proj, GlossType eGlossType)
+        public static AdaptItEncConverter InitLookupAdapter(ProjectSettings proj, GlossType eGlossType)
         {
             EncConverters aECs = new EncConverters();
             string strName, strConverterSpec;
@@ -210,7 +201,7 @@ namespace OneStoryProjectEditor
             return theLookupAdapter;
         }
 
-        protected void WriteAdaptItProjectFiles(ProjectSettings.LanguageInfo liSource,
+        protected static void WriteAdaptItProjectFiles(ProjectSettings.LanguageInfo liSource,
             ProjectSettings.LanguageInfo liTarget, ProjectSettings.LanguageInfo liNavigation)
         {
             // create folders...
@@ -222,9 +213,9 @@ namespace OneStoryProjectEditor
             {
                 string strFormat = Properties.Settings.Default.DefaultAIProjectFile;
                 string strProjectFileContents = String.Format(strFormat,
-                    liSource.Font.Name,
-                    liTarget.Font.Name,
-                    liNavigation.Font.Name,
+                    liSource.LangFont.Name,
+                    liTarget.LangFont.Name,
+                    liNavigation.LangFont.Name,
                     liSource.LangName,
                     liTarget.LangName,
                     Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),

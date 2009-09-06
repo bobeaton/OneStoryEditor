@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using Palaso.UI.WindowsForms.Keyboarding;
 
 namespace OneStoryProjectEditor
 {
@@ -9,24 +10,35 @@ namespace OneStoryProjectEditor
     {
         protected GlossingForm _parent;
         protected string strAmbiguitySeparator = "¦";
-
-        public GlossingControl(GlossingForm parent, Font fontSourceWord, Color colorSourceWord, string strSourceWord,
-            Font fontTargetWord, Color colorTargetWord, string strTargetWord,
-            string strInBetween, string strSourceFullStop, string strTargetFullStop)
+        protected string _strTargetKeyboard;
+        public GlossingControl(GlossingForm parent, 
+            ProjectSettings.LanguageInfo liSource, string strSourceWord,
+            ProjectSettings.LanguageInfo liTarget, string strTargetWord,
+            string strInBetween)
         {
             _parent = parent;
             InitializeComponent();
+
+            _strTargetKeyboard = liTarget.Keyboard;
+
+            if (liSource.IsRTL)
+                this.tableLayoutPanel.RightToLeft = RightToLeft.Yes;
 
             string strFollowingSource = strInBetween.Trim();
             if (!String.IsNullOrEmpty(strFollowingSource))
                 buttonJoin.Visible = false;
 
-            textBoxSourceWord.Font = fontSourceWord;
-            textBoxSourceWord.ForeColor = colorSourceWord;
+            textBoxSourceWord.Font = liSource.LangFont;
+            textBoxSourceWord.ForeColor = liSource.FontColor;
+            if (liSource.IsRTL)
+                textBoxSourceWord.RightToLeft = RightToLeft.Yes;
             textBoxSourceWord.Text = strSourceWord + strFollowingSource;
 
-            textBoxTargetWord.Font = fontTargetWord;
-            textBoxTargetWord.ForeColor = colorTargetWord;
+            textBoxTargetWord.Font = liTarget.LangFont;
+            textBoxTargetWord.ForeColor = liTarget.FontColor;
+            if (liTarget.IsRTL)
+                textBoxTargetWord.RightToLeft = RightToLeft.Yes;
+
             MatchCollection mc = FindMultipleAmbiguities.Matches(strTargetWord);
             if (mc.Count > 0)
             {
@@ -34,7 +46,7 @@ namespace OneStoryProjectEditor
                 strTargetWord = strAmbiguityList.Replace("%", strAmbiguitySeparator);
             }
 
-            textBoxTargetWord.Text = strTargetWord + strFollowingSource.Replace(strSourceFullStop, strTargetFullStop);
+            textBoxTargetWord.Text = strTargetWord + strFollowingSource.Replace(liSource.FullStop, liTarget.FullStop);
         }
 
         public string SourceWord
@@ -54,13 +66,7 @@ namespace OneStoryProjectEditor
             buttonJoin.Visible = false;
         }
 
-        private void textBoxSourceWord_TextChanged(object sender, EventArgs e)
-        {
-            TextBox tb = (TextBox)sender;
-            AdjustWidth(tb);
-        }
-
-        private void textBoxTargetWord_TextChanged(object sender, EventArgs e)
+        private void textBox_TextChanged(object sender, EventArgs e)
         {
             TextBox tb = (TextBox)sender;
             AdjustWidth(tb);
@@ -74,8 +80,8 @@ namespace OneStoryProjectEditor
 
         protected static bool ResizeTextBoxToFitText(TextBox tb)
         {
-            Size sz = tb.GetPreferredSize(new Size(1000, tb.Height));
-            bool bWidthChanged = (sz.Width != tb.Size.Width);
+            Size sz = tb.GetPreferredSize(new Size(0, 0));
+            bool bWidthChanged = (sz.Width != tb.Width);
             if (bWidthChanged)
                 tb.Width = sz.Width;
             return bWidthChanged;
@@ -104,6 +110,9 @@ namespace OneStoryProjectEditor
 
         private void textBoxTargetWord_Enter(object sender, EventArgs e)
         {
+            if (!String.IsNullOrEmpty(_strTargetKeyboard))
+                KeyboardController.ActivateKeyboard(_strTargetKeyboard);
+
             contextMenuStripAmbiguityPicker.Items.Clear();
             if (String.IsNullOrEmpty(textBoxTargetWord.Text))
                 return;
@@ -121,6 +130,11 @@ namespace OneStoryProjectEditor
 
                 contextMenuStripAmbiguityPicker.Show(textBoxTargetWord, textBoxTargetWord.Bounds.Location, ToolStripDropDownDirection.BelowRight);
             }
+        }
+
+        void textBoxTargetWord_Leave(object sender, System.EventArgs e)
+        {
+            KeyboardController.DeactivateKeyboard();
         }
 
         void OnSelectAmbiguity(object sender, EventArgs e)
