@@ -142,5 +142,16 @@ namespace OneStoryProjectEditor
             ToolStripMenuItem aTSMI = (ToolStripMenuItem)sender;
             textBoxTargetWord.Text = aTSMI.Text;
         }
+
+        private void textBoxTargetWord_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                SendKeys.Send("\t");
+                if (buttonJoin.Visible)
+                    SendKeys.Send("\t");
+                e.Handled = true;
+            }
+        }
     }
 }

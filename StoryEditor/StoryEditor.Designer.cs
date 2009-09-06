@@ -69,6 +69,9 @@ namespace OneStoryProjectEditor
             this.addNewStoryAfterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteStoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showFullStorySetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportToAdaptItToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportStoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportNationalBacktranslationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.flowLayoutPanelVerses = new System.Windows.Forms.FlowLayoutPanel();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
@@ -85,9 +88,7 @@ namespace OneStoryProjectEditor
             this.buttonsStoryStage = new System.Windows.Forms.ToolStripSplitButton();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.helpProvider = new System.Windows.Forms.HelpProvider();
-            this.exportToAdaptItToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportStoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportNationalBacktranslationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importfromAdaptItToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
             this.splitContainerLeftRight.Panel2.SuspendLayout();
@@ -212,7 +213,7 @@ namespace OneStoryProjectEditor
             this.copyNationalBackTranslationToolStripMenuItem,
             this.copyEnglishBackTranslationToolStripMenuItem});
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(102, 22);
             this.copyToolStripMenuItem.Text = "&Copy";
             // 
             // copyStoryToolStripMenuItem
@@ -388,7 +389,8 @@ namespace OneStoryProjectEditor
             this.addNewStoryAfterToolStripMenuItem,
             this.deleteStoryToolStripMenuItem,
             this.showFullStorySetToolStripMenuItem,
-            this.exportToAdaptItToolStripMenuItem});
+            this.exportToAdaptItToolStripMenuItem,
+            this.importfromAdaptItToolStripMenuItem});
             this.storyToolStripMenuItem.Name = "storyToolStripMenuItem";
             this.storyToolStripMenuItem.Size = new System.Drawing.Size(46, 23);
             this.storyToolStripMenuItem.Text = "&Story";
@@ -433,6 +435,29 @@ namespace OneStoryProjectEditor
             this.showFullStorySetToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.showFullStorySetToolStripMenuItem.Text = "&Show full Panorama";
             this.showFullStorySetToolStripMenuItem.Click += new System.EventHandler(this.showFullStorySetToolStripMenuItem_Click);
+            // 
+            // exportToAdaptItToolStripMenuItem
+            // 
+            this.exportToAdaptItToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exportStoryToolStripMenuItem,
+            this.exportNationalBacktranslationToolStripMenuItem});
+            this.exportToAdaptItToolStripMenuItem.Name = "exportToAdaptItToolStripMenuItem";
+            this.exportToAdaptItToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.exportToAdaptItToolStripMenuItem.Text = "&Export to Adapt It";
+            // 
+            // exportStoryToolStripMenuItem
+            // 
+            this.exportStoryToolStripMenuItem.Name = "exportStoryToolStripMenuItem";
+            this.exportStoryToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.exportStoryToolStripMenuItem.Text = "&Story";
+            this.exportStoryToolStripMenuItem.Click += new System.EventHandler(this.exportStoryToolStripMenuItem_Click);
+            // 
+            // exportNationalBacktranslationToolStripMenuItem
+            // 
+            this.exportNationalBacktranslationToolStripMenuItem.Name = "exportNationalBacktranslationToolStripMenuItem";
+            this.exportNationalBacktranslationToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.exportNationalBacktranslationToolStripMenuItem.Text = "&National back-translation";
+            this.exportNationalBacktranslationToolStripMenuItem.Click += new System.EventHandler(this.exportNationalBacktranslationToolStripMenuItem_Click);
             // 
             // flowLayoutPanelVerses
             // 
@@ -631,28 +656,12 @@ namespace OneStoryProjectEditor
             this.statusLabel.Spring = true;
             this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // exportToAdaptItToolStripMenuItem
+            // importfromAdaptItToolStripMenuItem
             // 
-            this.exportToAdaptItToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exportStoryToolStripMenuItem,
-            this.exportNationalBacktranslationToolStripMenuItem});
-            this.exportToAdaptItToolStripMenuItem.Name = "exportToAdaptItToolStripMenuItem";
-            this.exportToAdaptItToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
-            this.exportToAdaptItToolStripMenuItem.Text = "&Export to Adapt It";
-            // 
-            // exportStoryToolStripMenuItem
-            // 
-            this.exportStoryToolStripMenuItem.Name = "exportStoryToolStripMenuItem";
-            this.exportStoryToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
-            this.exportStoryToolStripMenuItem.Text = "&Story";
-            this.exportStoryToolStripMenuItem.Click += new System.EventHandler(this.exportStoryToolStripMenuItem_Click);
-            // 
-            // exportNationalBacktranslationToolStripMenuItem
-            // 
-            this.exportNationalBacktranslationToolStripMenuItem.Name = "exportNationalBacktranslationToolStripMenuItem";
-            this.exportNationalBacktranslationToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
-            this.exportNationalBacktranslationToolStripMenuItem.Text = "&National back-translation";
-            this.exportNationalBacktranslationToolStripMenuItem.Click += new System.EventHandler(this.exportNationalBacktranslationToolStripMenuItem_Click);
+            this.importfromAdaptItToolStripMenuItem.Name = "importfromAdaptItToolStripMenuItem";
+            this.importfromAdaptItToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.importfromAdaptItToolStripMenuItem.Text = "Import &from Adapt It";
+            this.importfromAdaptItToolStripMenuItem.Click += new System.EventHandler(this.importfromAdaptItToolStripMenuItem_Click);
             // 
             // StoryEditor
             // 
@@ -746,6 +755,7 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem exportToAdaptItToolStripMenuItem;
         private ToolStripMenuItem exportStoryToolStripMenuItem;
         private ToolStripMenuItem exportNationalBacktranslationToolStripMenuItem;
+        private ToolStripMenuItem importfromAdaptItToolStripMenuItem;
     }
 
     public class ConNoteFlowLayoutPanel : FlowLayoutPanel

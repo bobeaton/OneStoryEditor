@@ -7,7 +7,9 @@ using System.Xml.Linq;
 using System.Windows.Forms;
 using System.IO;
 using System.Xml.Serialization;
+using System.Xml.XPath;                 // for XPathNavigator
 using SilEncConverters31;
+using System.Diagnostics;               // Process
 
 namespace OneStoryProjectEditor
 {
@@ -1150,6 +1152,12 @@ namespace OneStoryProjectEditor
             deleteStoryToolStripMenuItem.Enabled = (theCurrentStory != null);
             showFullStorySetToolStripMenuItem.Enabled = ((Stories != null) && (Stories.Count > 0));
             addNewStoryAfterToolStripMenuItem.Enabled = (Stories != null);
+
+            exportStoryToolStripMenuItem.Enabled =
+                exportNationalBacktranslationToolStripMenuItem.Enabled =
+                importfromAdaptItToolStripMenuItem.Enabled = 
+                ((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
+
         }
 
         private void enterTheReasonThisStoryIsInTheSetToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1199,8 +1207,6 @@ namespace OneStoryProjectEditor
             copyToolStripMenuItem.Enabled =
                 copyNationalBackTranslationToolStripMenuItem.Enabled =
                 copyEnglishBackTranslationToolStripMenuItem.Enabled =
-                exportStoryToolStripMenuItem.Enabled = 
-                exportNationalBacktranslationToolStripMenuItem.Enabled = 
                 ((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
 
         }
@@ -1337,61 +1343,140 @@ namespace OneStoryProjectEditor
                 new XDeclaration("1.0", "utf-8", "yes"),
                 elem);
 
-            string strFilename = String.Format(@"{0}\Adaptations\{1}.xml",
-                Path.GetDirectoryName(theEC.ConverterIdentifier),
-                theCurrentStory.Name);
+            string strFilename = AdaptationFilespec(theEC.ConverterIdentifier, theCurrentStory.Name);
             if (File.Exists(strFilename))
             {
-                File.Copy(strFilename, strFilename + ".bak");
+                string strBackupName = strFilename + ".bak";
+                if (File.Exists(strBackupName))
+                    File.Delete(strBackupName);
+                File.Copy(strFilename, strBackupName);
                 File.Delete(strFilename);
             }
             doc.Save(strFilename);
+
+            string strAdaptIt = String.Format(@"{0}\Adapt It WX Unicode\Adapt_It_Unicode.exe",
+                Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles));
+
+            LaunchProgram(strAdaptIt, null);
+
+            string strProjectName = Path.GetFileNameWithoutExtension(theEC.ConverterIdentifier);
+            string strTargetLangName = strProjectName.Split(" ".ToCharArray())[2];
+            MessageBox.Show(String.Format("Switch over to the Adapt It program and open the '{0}' project and then the '{1}' file and translate the story into {2}. When you're finished, return here, click 'OK' and choose the 'Story' menu, 'Import from Adapt It' command",
+                strProjectName, theCurrentStory.Name, strTargetLangName));
         }
 
-        const UInt32 hasKBEntryMask = 1; // position 1
-        const UInt32 notInKBMask = 2; // position 2
-        const UInt32 hasGlossingKBEntryMask = 4; // position 3
-        const UInt32 specialTextMask = 8; // position 4
-        const UInt32 firstOfTypeMask = 16; // position 5
+        static protected void LaunchProgram(string strProgram, string strArguments)
+        {
+            try
+            {
+                Process myProcess = new Process();
+
+                myProcess.StartInfo.FileName = strProgram;
+                myProcess.StartInfo.Arguments = strArguments;
+                myProcess.Start();
+            }
+            catch { }    // we tried...
+        }
+
+        // from AdaptIt baseline XML.h
         const UInt32 boundaryMask = 32; // position 6
-        const UInt32 nullSourcePhraseMask = 64; // position 7
-        const UInt32 retranslationMask = 128; // position 8
-        const UInt32 beginRetranslationMask = 256; // position 9
-        const UInt32 endRetranslationMask = 512; // position 10
-        const UInt32 hasFreeTransMask = 1024; // position 11
-        const UInt32 startFreeTransMask = 2048; // position 12
-        const UInt32 endFreeTransMask = 4096; // position 13
-        const UInt32 hasNoteMask = 8192; // position 14
-        const UInt32 hasBookmarkMask = 16384; // position 15
-        const UInt32 chapterMask = 32768; // position 16
-        const UInt32 verseMask = 65536; // position 17
-        const UInt32 hasInternalMarkersMask = 131072; // position 18
-        const UInt32 hasInternalPunctMask = 262144; // position 19
-        const UInt32 footnoteMask = 524288; // position 20
-        const UInt32 footnoteEndMask = 1048576; // position 21
         const UInt32 paragraphMask = 2097152; // position 22
 
         protected string AIBools(string strSourceWord, string strInBetweenStuff, string strFullStop)
         {
             UInt32 value = 0;
-            /*
-            if (strSourceWord != strTargetWord)
-                value |= hasKBEntryMask;
-            if (!String.IsNullOrEmpty(strGlossWord))
-                value |= hasGlossingKBEntryMask;
-            */
             if (strInBetweenStuff == strFullStop)
                 value |= boundaryMask;
             if (strSourceWord.IndexOf(Environment.NewLine) != -1)
                 value |= paragraphMask;
 
-            string strValue = String.Format("{3}000000000000000{2}00{1}0{0}",
-                (((value & hasKBEntryMask) == hasKBEntryMask) ? "1" : "0"),
-                (((value & hasGlossingKBEntryMask) == hasGlossingKBEntryMask) ? "1" : "0"),
+            string strValue = String.Format("{1}000000000000000{0}00000",
                 (((value & boundaryMask) == boundaryMask) ? "1" : "0"),
                 (((value & paragraphMask) == paragraphMask) ? "1" : "0"));
 
             return strValue;
+        }
+
+        private void importfromAdaptItToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.Assert((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
+
+            AdaptItEncConverter theEC = GlossingForm.InitLookupAdapter(Stories.ProjSettings, GlossingForm.GlossType.eNationalToEnglish);
+
+            string strAdaptationFilespec = AdaptationFilespec(theEC.ConverterIdentifier, theCurrentStory.Name);
+
+            try
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.Load(strAdaptationFilespec);
+                XPathNavigator navigator = doc.CreateNavigator();
+
+                XPathNodeIterator xpIterator = navigator.Select("/AdaptItDoc/S");
+
+                for (int nVerseNum = 0; nVerseNum < theCurrentStory.Verses.Count; nVerseNum++)
+                {
+                    VerseData aVerse = theCurrentStory.Verses[nVerseNum];
+                    string strStoryVerse = aVerse.NationalBTText.ToString();
+                    if (String.IsNullOrEmpty(strStoryVerse))
+                        continue;
+
+                    List<string> TargetWords;
+                    List<string> SourceWords;
+                    List<string> StringsInBetween;
+                    theEC.SplitAndConvert(strStoryVerse, out SourceWords, out StringsInBetween, out TargetWords);
+                    System.Diagnostics.Debug.Assert((SourceWords.Count == TargetWords.Count)
+                        && (SourceWords.Count == (StringsInBetween.Count - 1)));
+
+                    string strEnglishBT = null;
+                    for (int nWordNum = 0; nWordNum < SourceWords.Count; nWordNum++)
+                    {
+                        string strSourceWord = SourceWords[nWordNum];
+                        string strTargetWord = TargetWords[nWordNum];
+
+                        if (xpIterator.MoveNext())
+                        {
+                            string strSourceKey = xpIterator.Current.GetAttribute("k", navigator.NamespaceURI);
+                            if (strSourceKey != strSourceWord)
+                                throw new ApplicationException(String.Format("The data from Adapt It doesn't appear to match what's in the {1} back-translation of this story.{0}In verse number {2}, I was expecting {3}, but got {4} instead.{0}If you've made changes in the {1} back-translation, then you need to re-export the 'National back-translation' to Adapt It,{0}re-process the file there, and then try to import",
+                                    Environment.NewLine, Stories.ProjSettings.NationalBT.LangName, nVerseNum + 1, strSourceKey, strSourceWord));
+
+                            string strTargetKey = xpIterator.Current.GetAttribute("a", navigator.NamespaceURI);
+                            System.Diagnostics.Debug.Assert((strTargetWord.IndexOf('%') != -1) || (strTargetWord == strTargetKey));
+
+                            strTargetWord = xpIterator.Current.GetAttribute("t", navigator.NamespaceURI);
+                            strEnglishBT += strTargetWord + ' ';
+                        }
+                    }
+
+                    strEnglishBT = strEnglishBT.Remove(strEnglishBT.Length - 1);
+                    aVerse.InternationalBTText.SetValue(strEnglishBT);
+                    Modified = true;
+                    ReInitVerseControls();
+                }
+            }
+            catch (System.Data.DataException ex)
+            {
+                if (ex.Message == "A child row has multiple parents.")
+                {
+                    // this happens when the knowledge base has invalid data in it (e.g. when there is two
+                    //  canonically equivalent words in different records). This is technically a bug in 
+                    //  AdaptIt.
+                    throw new ApplicationException("The AdaptIt knowledge base has invalid data in it! Contact silconverters_support@sil.org", ex);
+                }
+
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, StoriesData.CstrCaption);
+            }
+        }
+
+        protected string AdaptationFilespec(string strConverterFilespec, string strStoryName)
+        {
+            return String.Format(@"{0}\Adaptations\{1}.xml",
+                Path.GetDirectoryName(strConverterFilespec),
+                strStoryName);
         }
 
         /*

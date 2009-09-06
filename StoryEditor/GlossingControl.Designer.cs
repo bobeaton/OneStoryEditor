@@ -29,13 +29,18 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            this.contextMenuStripAmbiguityPicker = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tableLayoutPanel = new OneStoryProjectEditor.DynamicTableLayoutPanel();
             this.textBoxSourceWord = new System.Windows.Forms.TextBox();
             this.textBoxTargetWord = new System.Windows.Forms.TextBox();
-            this.contextMenuStripAmbiguityPicker = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.buttonJoin = new System.Windows.Forms.Button();
             this.tableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // contextMenuStripAmbiguityPicker
+            // 
+            this.contextMenuStripAmbiguityPicker.Name = "contextMenuStripAmbiguityPicker";
+            this.contextMenuStripAmbiguityPicker.Size = new System.Drawing.Size(61, 4);
             // 
             // tableLayoutPanel
             // 
@@ -73,14 +78,11 @@
             this.textBoxTargetWord.Name = "textBoxTargetWord";
             this.textBoxTargetWord.Size = new System.Drawing.Size(100, 20);
             this.textBoxTargetWord.TabIndex = 0;
+            this.textBoxTargetWord.WordWrap = false;
             this.textBoxTargetWord.TextChanged += new System.EventHandler(this.textBox_TextChanged);
+            this.textBoxTargetWord.Leave += new System.EventHandler(this.textBoxTargetWord_Leave);
+            this.textBoxTargetWord.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxTargetWord_KeyPress);
             this.textBoxTargetWord.Enter += new System.EventHandler(this.textBoxTargetWord_Enter);
-            this.textBoxTargetWord.Leave += new System.EventHandler(textBoxTargetWord_Leave);
-            // 
-            // contextMenuStripAmbiguityPicker
-            // 
-            this.contextMenuStripAmbiguityPicker.Name = "contextMenuStripAmbiguityPicker";
-            this.contextMenuStripAmbiguityPicker.Size = new System.Drawing.Size(61, 4);
             // 
             // buttonJoin
             // 
