@@ -66,8 +66,11 @@ Unlike the last stage, where the National Language back translation had to done 
 a UNS, in this state, anyone can do the English back translation. However, you must be 
 logged in as a Crafter to add this new back-translation.
 
-If you don't know English well, there is a tool available for making the English back-
-translation more simply by right-clicking on the 'verse commands' button and choose 
+If you don't know English well, there is another program available to help you make the 
+English back-translation more efficiently. Click on the 'Story' menu, and then the 
+'Do English glossing in Adapt It' menu,
+and then one of the sub-commands to decide which language to translate into English from.
+command more simply by right-clicking on the 'verse commands' button and choose 
 "Gloss story in English". This will bring up a dialog in which you can enter the English 
 translation for each word (or combine two or more words together using the 'chain-link' 
 button). Then once that word comes up again, the program will automatically fill in the 

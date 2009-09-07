@@ -1155,9 +1155,13 @@ namespace OneStoryProjectEditor
 
             exportStoryToolStripMenuItem.Enabled =
                 exportNationalBacktranslationToolStripMenuItem.Enabled =
-                importfromAdaptItToolStripMenuItem.Enabled = 
                 ((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
 
+            if (exportStoryToolStripMenuItem.Enabled)
+                exportStoryToolStripMenuItem.Text = String.Format("&From {0} (for Discourse Charting)", Stories.ProjSettings.Vernacular.LangName);
+
+            if (exportNationalBacktranslationToolStripMenuItem.Enabled)
+                exportNationalBacktranslationToolStripMenuItem.Text = String.Format("&From {0}", Stories.ProjSettings.NationalBT.LangName);
         }
 
         private void enterTheReasonThisStoryIsInTheSetToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1209,6 +1213,12 @@ namespace OneStoryProjectEditor
                 copyEnglishBackTranslationToolStripMenuItem.Enabled =
                 ((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
 
+            if (Stories != null)
+            {
+                copyStoryToolStripMenuItem.Text = String.Format("{0} story text", Stories.ProjSettings.Vernacular.LangName);
+                copyNationalBackTranslationToolStripMenuItem.Text = String.Format("{0} back-translation of the story", Stories.ProjSettings.NationalBT.LangName);
+                deleteStoryNationalBackTranslationToolStripMenuItem.Text = String.Format("{0} back-translation of the story", Stories.ProjSettings.NationalBT.LangName);
+            }
         }
 
         private void copyStoryToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1268,9 +1278,23 @@ namespace OneStoryProjectEditor
                 strStory += ' ' + aVerse.VernacularText.ToString();
             }
 
-            AdaptItEncConverter theEC = GlossingForm.InitLookupAdapter(Stories.ProjSettings, GlossingForm.GlossType.eVernacularToNational);
+            GlossInAdaptIt(strStory, GlossingForm.GlossType.eVernacularToEnglish);
+        }
 
-            ExportToAI(theEC, strStory);
+        private void deleteStoryNationalBackTranslationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.Assert(theCurrentStory != null);
+            foreach (VerseData aVerse in theCurrentStory.Verses)
+                aVerse.NationalBTText.SetValue(null);
+            ReInitVerseControls();
+        }
+
+        private void deleteEnglishBacktranslationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.Assert(theCurrentStory != null);
+            foreach (VerseData aVerse in theCurrentStory.Verses)
+                aVerse.InternationalBTText.SetValue(null);
+            ReInitVerseControls();
         }
 
         private void exportNationalBacktranslationToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1285,95 +1309,199 @@ namespace OneStoryProjectEditor
                 strStory += ' ' + aVerse.NationalBTText.ToString();
             }
 
-            AdaptItEncConverter theEC = GlossingForm.InitLookupAdapter(Stories.ProjSettings, GlossingForm.GlossType.eNationalToEnglish);
-            ExportToAI(theEC, strStory);
+            GlossInAdaptIt(strStory, GlossingForm.GlossType.eNationalToEnglish);
         }
 
-        protected void ExportToAI(AdaptItEncConverter theEC, string strStory)
+        protected void GlossInAdaptIt(string strStoryText, GlossingForm.GlossType eGlossType)
         {
-            List<string> TargetWords;
-            List<string> SourceWords;
-            List<string> StringsInBetween;
-            theEC.SplitAndConvert(strStory, out SourceWords, out StringsInBetween, out TargetWords);
-            System.Diagnostics.Debug.Assert((SourceWords.Count == TargetWords.Count) 
-                && (SourceWords.Count == (StringsInBetween.Count - 1)));
-
-            XElement elem = new XElement("AdaptItDoc");
-            for (int i = 0; i < SourceWords.Count; i++)
+            AdaptItEncConverter theEC = GlossingForm.InitLookupAdapter(Stories.ProjSettings, eGlossType);
+            string strAdaptationFilespec = AdaptationFilespec(theEC.ConverterIdentifier, theCurrentStory.Name);
+            string strProjectName = Path.GetFileNameWithoutExtension(theEC.ConverterIdentifier);
+            DialogResult res = DialogResult.Yes;
+            if (File.Exists(strAdaptationFilespec))
             {
-                // the SplitAndConvert routine will actually join multi-word segments into a phrase, but for 
-                //  initializing the adaptation file, we really don't want that, so split them back into 
-                //  single word bundles.
-                string strSourceWord = SourceWords[i];
-                string[] astrSourcePhraseWords = strSourceWord.Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-                if (astrSourcePhraseWords.Length > 1)
+                res = MessageBox.Show(String.Format("The Adapt It file for the project '{0}', story '{1}' already exists. If you want to delete that file and do the English translation of the story all over again, then click 'Yes'. If you just want to try to import the existing file again, choose 'No'. Otherwise, click 'Cancel' to stop this command.",
+                    strProjectName, theCurrentStory.Name), StoriesData.CstrCaption, MessageBoxButtons.YesNoCancel);
+                
+                if (res == DialogResult.Cancel)
+                    return;
+
+                if (res == DialogResult.Yes)
                 {
-                    strSourceWord = SourceWords[i] = astrSourcePhraseWords[0];
-                    for (int j = 1; j < astrSourcePhraseWords.Length; j++)
+                    string strBackupName = strAdaptationFilespec + ".bak";
+                    if (File.Exists(strBackupName))
+                        File.Delete(strBackupName);
+                    File.Copy(strAdaptationFilespec, strBackupName);
+                    File.Delete(strAdaptationFilespec);
+                }
+            }
+
+            if (res == DialogResult.Yes)
+            {
+                List<string> TargetWords;
+                List<string> SourceWords;
+                List<string> StringsInBetween;
+                theEC.SplitAndConvert(strStoryText, out SourceWords, out StringsInBetween, out TargetWords);
+                System.Diagnostics.Debug.Assert((SourceWords.Count == TargetWords.Count)
+                    && (SourceWords.Count == (StringsInBetween.Count - 1)));
+
+                XElement elem = new XElement("AdaptItDoc");
+                for (int i = 0; i < SourceWords.Count; i++)
+                {
+                    // the SplitAndConvert routine will actually join multi-word segments into a phrase, but for 
+                    //  initializing the adaptation file, we really don't want that, so split them back into 
+                    //  single word bundles.
+                    string strSourceWord = SourceWords[i];
+                    string[] astrSourcePhraseWords = strSourceWord.Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                    if (astrSourcePhraseWords.Length > 1)
                     {
-                        string str = astrSourcePhraseWords[j];
-                        SourceWords.Insert(i + j, str);
-                        StringsInBetween.Insert(i, "");
+                        strSourceWord = SourceWords[i] = astrSourcePhraseWords[0];
+                        for (int j = 1; j < astrSourcePhraseWords.Length; j++)
+                        {
+                            string str = astrSourcePhraseWords[j];
+                            SourceWords.Insert(i + j, str);
+                            StringsInBetween.Insert(i, "");
+                        }
                     }
+
+                    string strInBetweenStuff = StringsInBetween[i + 1].Trim();
+
+                    string strFattr = AIBools(strSourceWord, strInBetweenStuff,
+                        Stories.ProjSettings.Vernacular.FullStop);
+
+                    XElement elemWord =
+                        new XElement("S",
+                            new XAttribute("s", strSourceWord + strInBetweenStuff),
+                            new XAttribute("k", strSourceWord),
+                            new XAttribute("f", strFattr),
+                            new XAttribute("sn", i),
+                            new XAttribute("w", 1),
+                            new XAttribute("ty", 1));
+
+                    if (!String.IsNullOrEmpty(strInBetweenStuff))
+                        elemWord.Add(new XAttribute("fp", strInBetweenStuff.Trim()));
+
+                    elemWord.Add("");
+
+                    elem.Add(elemWord);
                 }
 
-                string strInBetweenStuff = StringsInBetween[i + 1].Trim();
+                XDocument doc = new XDocument(
+                    new XDeclaration("1.0", "utf-8", "yes"),
+                    elem);
 
-                string strFattr = AIBools(strSourceWord, strInBetweenStuff,
-                    Stories.ProjSettings.Vernacular.FullStop);
+                doc.Save(strAdaptationFilespec);
 
-                XElement elemWord =
-                    new XElement("S",
-                        new XAttribute("s", strSourceWord + strInBetweenStuff),
-                        new XAttribute("k", strSourceWord),
-                        new XAttribute("f", strFattr),
-                        new XAttribute("sn", i),
-                        new XAttribute("w", 1),
-                        new XAttribute("ty", 1));
+                string strAdaptIt = String.Format(@"{0}\Adapt It WX Unicode\Adapt_It_Unicode.exe",
+                    Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles));
 
-                if (!String.IsNullOrEmpty(strInBetweenStuff))
-                    elemWord.Add(new XAttribute("fp", strInBetweenStuff.Trim()));
+                LaunchProgram(strAdaptIt, null);
 
-                elemWord.Add("");
+                string strTargetLangName = strProjectName.Split(" ".ToCharArray())[2];
+                string strMessage = String.Format("Follow these steps to use the Adapt It program to translate the story into English:{0}{0}1) Switch to the Adapt It program using Alt+Tab keys{0}2) Select the '{1}' project and click the 'Next' button (if a file is already open in Adapt It, then choose the 'File' menu, 'Close Project' command and then the 'File' menu, 'Start Working' command first).{0}3) Select the '{2}.xls' document to open and press the 'Finished' button.{0}4) When you see this story in the adaptation window, then translate it into English.",
+                        Environment.NewLine, strProjectName, theCurrentStory.Name);
+                MessageBoxButtons mbb = MessageBoxButtons.OK;
 
-                elem.Add(elemWord);
+                if (eGlossType == GlossingForm.GlossType.eNationalToEnglish)
+                {
+                    strMessage += "5) When you're finished, return to this window and click the 'Yes' button to re-import the translated English text back into the English fields.{0}{0}Have you finished translating the story to English and are ready to import it into the English fields?";
+                    mbb = MessageBoxButtons.YesNoCancel;
+                }
+
+                res = MessageBox.Show(strMessage, StoriesData.CstrCaption, mbb);
+
+                if (res != DialogResult.Yes)
+                    return;
             }
 
-            XDocument doc = new XDocument(
-                new XDeclaration("1.0", "utf-8", "yes"),
-                elem);
-
-            string strFilename = AdaptationFilespec(theEC.ConverterIdentifier, theCurrentStory.Name);
-            if (File.Exists(strFilename))
+            try
             {
-                string strBackupName = strFilename + ".bak";
-                if (File.Exists(strBackupName))
-                    File.Delete(strBackupName);
-                File.Copy(strFilename, strBackupName);
-                File.Delete(strFilename);
+                XmlDocument doc = new XmlDocument();
+                doc.Load(strAdaptationFilespec);
+                XPathNavigator navigator = doc.CreateNavigator();
+
+                XPathNodeIterator xpIterator = navigator.Select("/AdaptItDoc/S");
+
+                for (int nVerseNum = 0; nVerseNum < theCurrentStory.Verses.Count; nVerseNum++)
+                {
+                    VerseData aVerse = theCurrentStory.Verses[nVerseNum];
+                    System.Diagnostics.Debug.Assert((eGlossType == GlossingForm.GlossType.eVernacularToEnglish)
+                        || (eGlossType == GlossingForm.GlossType.eNationalToEnglish));
+                    string strStoryVerse = (eGlossType == GlossingForm.GlossType.eVernacularToEnglish) 
+                        ? aVerse.VernacularText.ToString() : aVerse.NationalBTText.ToString();
+                    if (String.IsNullOrEmpty(strStoryVerse))
+                        continue;
+
+                    List<string> TargetWords;
+                    List<string> SourceWords;
+                    List<string> StringsInBetween;
+                    theEC.SplitAndConvert(strStoryVerse, out SourceWords, out StringsInBetween, out TargetWords);
+                    System.Diagnostics.Debug.Assert((SourceWords.Count == TargetWords.Count)
+                        && (SourceWords.Count == (StringsInBetween.Count - 1)));
+
+                    string strEnglishBT = null;
+                    for (int nWordNum = 0; nWordNum < SourceWords.Count; nWordNum++)
+                    {
+                        string strSourceWord = SourceWords[nWordNum];
+                        string strTargetWord = TargetWords[nWordNum];
+
+                        if (xpIterator.MoveNext())
+                        {
+                            string strSourceKey = xpIterator.Current.GetAttribute("k", navigator.NamespaceURI);
+                            if (strSourceKey != strSourceWord)
+                                throw new ApplicationException(String.Format("The data from Adapt It doesn't appear to match what's in the story.{0}In verse number {2}, I was expecting {3}, but got {4} instead.{0}If you've made changes in the story or the {1} back-translation, then you need to re-export the story or {1} back-translation to Adapt It,{0}re-process the file there, and then try to import again.",
+                                    Environment.NewLine, Stories.ProjSettings.NationalBT.LangName, nVerseNum + 1, strSourceKey, strSourceWord));
+
+                            string strTargetKey = xpIterator.Current.GetAttribute("a", navigator.NamespaceURI);
+                            System.Diagnostics.Debug.Assert((strTargetWord.IndexOf('%') != -1) || (strTargetWord == strTargetKey));
+
+                            strTargetWord = xpIterator.Current.GetAttribute("t", navigator.NamespaceURI);
+                            strEnglishBT += strTargetWord + ' ';
+                        }
+                    }
+
+                    strEnglishBT = strEnglishBT.Remove(strEnglishBT.Length - 1);
+                    aVerse.InternationalBTText.SetValue(strEnglishBT);
+                }
+
+                Modified = true;
+                if (!viewEnglishBTFieldMenuItem.Checked)
+                    viewEnglishBTFieldMenuItem.Checked = true;
+                else
+                    ReInitVerseControls();
             }
-            doc.Save(strFilename);
+            catch (System.Data.DataException ex)
+            {
+                if (ex.Message == "A child row has multiple parents.")
+                {
+                    // this happens when the knowledge base has invalid data in it (e.g. when there is two
+                    //  canonically equivalent words in different records). This is technically a bug in 
+                    //  AdaptIt.
+                    throw new ApplicationException("The AdaptIt knowledge base has invalid data in it! Contact silconverters_support@sil.org", ex);
+                }
 
-            string strAdaptIt = String.Format(@"{0}\Adapt It WX Unicode\Adapt_It_Unicode.exe",
-                Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles));
-
-            LaunchProgram(strAdaptIt, null);
-
-            string strProjectName = Path.GetFileNameWithoutExtension(theEC.ConverterIdentifier);
-            string strTargetLangName = strProjectName.Split(" ".ToCharArray())[2];
-            MessageBox.Show(String.Format("Switch over to the Adapt It program and open the '{0}' project and then the '{1}' file and translate the story into {2}. When you're finished, return here, click 'OK' and choose the 'Story' menu, 'Import from Adapt It' command",
-                strProjectName, theCurrentStory.Name, strTargetLangName));
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, StoriesData.CstrCaption);
+            }
         }
 
         static protected void LaunchProgram(string strProgram, string strArguments)
         {
             try
             {
-                Process myProcess = new Process();
+                foreach (Process aProcess in Process.GetProcesses())
+                    if (aProcess.ProcessName == "Adapt_It_Unicode")
+                        return;
 
+                Process myProcess = new Process();
                 myProcess.StartInfo.FileName = strProgram;
                 myProcess.StartInfo.Arguments = strArguments;
+                myProcess.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
                 myProcess.Start();
+                System.Threading.Thread.Sleep(2000);
             }
             catch { }    // we tried...
         }
@@ -1397,86 +1525,20 @@ namespace OneStoryProjectEditor
             return strValue;
         }
 
-        private void importfromAdaptItToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            System.Diagnostics.Debug.Assert((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
-
-            AdaptItEncConverter theEC = GlossingForm.InitLookupAdapter(Stories.ProjSettings, GlossingForm.GlossType.eNationalToEnglish);
-
-            string strAdaptationFilespec = AdaptationFilespec(theEC.ConverterIdentifier, theCurrentStory.Name);
-
-            try
-            {
-                XmlDocument doc = new XmlDocument();
-                doc.Load(strAdaptationFilespec);
-                XPathNavigator navigator = doc.CreateNavigator();
-
-                XPathNodeIterator xpIterator = navigator.Select("/AdaptItDoc/S");
-
-                for (int nVerseNum = 0; nVerseNum < theCurrentStory.Verses.Count; nVerseNum++)
-                {
-                    VerseData aVerse = theCurrentStory.Verses[nVerseNum];
-                    string strStoryVerse = aVerse.NationalBTText.ToString();
-                    if (String.IsNullOrEmpty(strStoryVerse))
-                        continue;
-
-                    List<string> TargetWords;
-                    List<string> SourceWords;
-                    List<string> StringsInBetween;
-                    theEC.SplitAndConvert(strStoryVerse, out SourceWords, out StringsInBetween, out TargetWords);
-                    System.Diagnostics.Debug.Assert((SourceWords.Count == TargetWords.Count)
-                        && (SourceWords.Count == (StringsInBetween.Count - 1)));
-
-                    string strEnglishBT = null;
-                    for (int nWordNum = 0; nWordNum < SourceWords.Count; nWordNum++)
-                    {
-                        string strSourceWord = SourceWords[nWordNum];
-                        string strTargetWord = TargetWords[nWordNum];
-
-                        if (xpIterator.MoveNext())
-                        {
-                            string strSourceKey = xpIterator.Current.GetAttribute("k", navigator.NamespaceURI);
-                            if (strSourceKey != strSourceWord)
-                                throw new ApplicationException(String.Format("The data from Adapt It doesn't appear to match what's in the {1} back-translation of this story.{0}In verse number {2}, I was expecting {3}, but got {4} instead.{0}If you've made changes in the {1} back-translation, then you need to re-export the 'National back-translation' to Adapt It,{0}re-process the file there, and then try to import",
-                                    Environment.NewLine, Stories.ProjSettings.NationalBT.LangName, nVerseNum + 1, strSourceKey, strSourceWord));
-
-                            string strTargetKey = xpIterator.Current.GetAttribute("a", navigator.NamespaceURI);
-                            System.Diagnostics.Debug.Assert((strTargetWord.IndexOf('%') != -1) || (strTargetWord == strTargetKey));
-
-                            strTargetWord = xpIterator.Current.GetAttribute("t", navigator.NamespaceURI);
-                            strEnglishBT += strTargetWord + ' ';
-                        }
-                    }
-
-                    strEnglishBT = strEnglishBT.Remove(strEnglishBT.Length - 1);
-                    aVerse.InternationalBTText.SetValue(strEnglishBT);
-                    Modified = true;
-                    ReInitVerseControls();
-                }
-            }
-            catch (System.Data.DataException ex)
-            {
-                if (ex.Message == "A child row has multiple parents.")
-                {
-                    // this happens when the knowledge base has invalid data in it (e.g. when there is two
-                    //  canonically equivalent words in different records). This is technically a bug in 
-                    //  AdaptIt.
-                    throw new ApplicationException("The AdaptIt knowledge base has invalid data in it! Contact silconverters_support@sil.org", ex);
-                }
-
-                throw ex;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, StoriesData.CstrCaption);
-            }
-        }
-
         protected string AdaptationFilespec(string strConverterFilespec, string strStoryName)
         {
             return String.Format(@"{0}\Adaptations\{1}.xml",
                 Path.GetDirectoryName(strConverterFilespec),
                 strStoryName);
+        }
+
+        private void viewToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            if (Stories != null)
+            {
+                viewVernacularLangFieldMenuItem.Text = String.Format("{0} &language fields", Stories.ProjSettings.Vernacular.LangName);
+                viewNationalLangFieldMenuItem.Text = String.Format("&{0} back-translation field", Stories.ProjSettings.NationalBT.LangName);
+            }
         }
 
         /*

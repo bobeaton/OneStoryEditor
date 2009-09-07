@@ -14,7 +14,7 @@ namespace OneStoryProjectEditor
         {
             eUndefined = 0,
             eVernacularToNational,  // use Vern -> Natl project
-            eVernacularToEnglish,   // use Vern -> Natl project (glossing KB)
+            eVernacularToEnglish,   // use Vern -> Engl project
             eNationalToEnglish      // use Natl -> Engl project (which can be shared by other clients)
         }
 
@@ -104,6 +104,14 @@ namespace OneStoryProjectEditor
                 AdaptItProjectFolder(strSourceLangName, strTargetLangName));
         }
 
+        /*
+        protected static string AdaptItGlossingLookupConverterName(string strSourceLangName, string strTargetLangName)
+        {
+            return String.Format(@"Lookup in {0} to {1} adaptations (Glossing Knowledge Base)",
+                strSourceLangName, strTargetLangName);
+        }
+        */
+
         protected static string AdaptItLookupFileSpec(string strSourceLangName, string strTargetLangName)
         {
             return String.Format(@"{0}\{1} to {2} adaptations.xml",
@@ -137,12 +145,6 @@ namespace OneStoryProjectEditor
                 AdaptItProjectFolder(strSourceLangName, strTargetLangName));
         }
 
-        protected static string AdaptItGlossingLookupConverterName(string strSourceLangName, string strTargetLangName)
-        {
-            return String.Format(@"Lookup in {0} to {1} adaptations (Glossing Knowledge Base)",
-                strSourceLangName, strTargetLangName);
-        }
-
         protected static string AdaptItLookupConverterName(string strSourceLangName, string strTargetLangName)
         {
             return String.Format(@"Lookup in {0} to {1} adaptations",
@@ -164,10 +166,10 @@ namespace OneStoryProjectEditor
                     break;
 
                 case GlossType.eVernacularToEnglish:    // the glossing KB for the Vern to Natl project
-                    strName = AdaptItGlossingLookupConverterName(proj.Vernacular.LangName, proj.NationalBT.LangName);
-                    strConverterSpec = AdaptItGlossingLookupFileSpec(proj.Vernacular.LangName, proj.NationalBT.LangName);
+                    strName = AdaptItLookupConverterName(proj.Vernacular.LangName, proj.InternationalBT.LangName);
+                    strConverterSpec = AdaptItLookupFileSpec(proj.Vernacular.LangName, proj.InternationalBT.LangName);
                     liSource = proj.Vernacular;
-                    liTarget = proj.NationalBT; // this is still the national lg project (but the glossing KB)
+                    liTarget = proj.InternationalBT; // this is still the national lg project (but the glossing KB)
                     break;
 
                 case GlossType.eNationalToEnglish:
