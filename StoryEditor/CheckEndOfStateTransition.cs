@@ -45,11 +45,11 @@ namespace OneStoryProjectEditor
                         int nNewVerses = lstSentences.Count;
                         while (nNewVerses-- > 1)
                         {
-                            string strSentence = lstSentences[nNewVerses] + strFullStop;
+                            string strSentence = lstSentences[nNewVerses];
                             theCurrentStory.Verses.InsertVerse(nVerseNumber, strSentence, null, null); 
                         }
 
-                        aVerseData.VernacularText.SetValue(lstSentences[nNewVerses] + strFullStop);
+                        aVerseData.VernacularText.SetValue(lstSentences[nNewVerses]);
                         bRepeatAfterMe = true;
                         break;  // we have to exit the loop since we've modified the collection
                     }
@@ -60,8 +60,12 @@ namespace OneStoryProjectEditor
             } while (bRepeatAfterMe);
 
             // finally, we need to know the purpose of the story and the resources used.
-            MessageBox.Show(String.Format("In the following window, type in the purpose of the story (why you have it in your panorama){0}and list the resources you used to craft the story", Environment.NewLine), StoriesData.CstrCaption);
-            theSE.QueryStoryPurpose();
+            if (String.IsNullOrEmpty(theCurrentStory.CraftingInfo.StoryPurpose)
+                || String.IsNullOrEmpty(theCurrentStory.CraftingInfo.ResourcesUsed))
+            {
+                MessageBox.Show(String.Format("In the following window, type in the purpose of the story (why you have it in your panorama){0}and list the resources you used to craft the story", Environment.NewLine), StoriesData.CstrCaption);
+                theSE.QueryStoryPurpose();
+            }
             return true;
         }
 
@@ -96,11 +100,11 @@ namespace OneStoryProjectEditor
                         int nNewVerses = lstSentences.Count;
                         while (nNewVerses-- > 1)
                         {
-                            string strSentence = lstSentences[nNewVerses] + strFullStop;
+                            string strSentence = lstSentences[nNewVerses];
                             theCurrentStory.Verses.InsertVerse(nVerseNumber, null, strSentence, null); 
                         }
 
-                        aVerseData.NationalBTText.SetValue(lstSentences[nNewVerses] + strFullStop);
+                        aVerseData.NationalBTText.SetValue(lstSentences[nNewVerses]);
                         bRepeatAfterMe = true;
                         break;  // we have to exit the loop since we've modified the collection
                     }
@@ -121,20 +125,29 @@ namespace OneStoryProjectEditor
             return true;
         }
 
+        protected static char[] achQuotes = new char[] { '"', '\'', '\u2018', '\u2019', '\u201B', 
+            '\u201C', '\u201d', '\u201E', '\u201F' };
+        protected static string strSentenceFinalPunctuation = "!?:";    // plus the fullstop
+
         public static List<string> GetListOfSentences(StringTransfer stParagraph, string strFullStop)
         {
             string strParagraph = stParagraph.ToString();
             if (strParagraph == null)
                 return null;
 
-            string[] aStrSentences = strParagraph.Split(strFullStop.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-
+            char[] achSplitOn = (strSentenceFinalPunctuation + strFullStop).ToCharArray();
+            int nStartIndex = 0, nIndex;
             List<string> lstStrRet = new List<string>();
-            foreach (string str in aStrSentences)
+            while ((nStartIndex < strParagraph.Length) && (nIndex = strParagraph.IndexOfAny(achSplitOn, nStartIndex)) != -1)
             {
-                string strTrimmed = str.Trim();
-                if (!String.IsNullOrEmpty(strTrimmed))
-                    lstStrRet.Add(strTrimmed);
+                if (((nIndex + 1) < strParagraph.Length) && (strParagraph.IndexOfAny(achQuotes, nIndex + 1, 1) != -1))
+                    nIndex++;
+
+                string strLine = strParagraph.Substring(nStartIndex, nIndex - nStartIndex + 1).Trim();
+                if (!string.IsNullOrEmpty(strLine))
+                    lstStrRet.Add(strLine);
+
+                nStartIndex = nIndex + 1;
             }
 
             if (lstStrRet.Count == 0)

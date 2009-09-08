@@ -379,20 +379,6 @@ namespace OneStoryProjectEditor
 
             StoryEditor theSE = (StoryEditor)FindForm();
             theSE.AddNewVerse(this, nNumNewVerses, false);
-            
-            // focus on something in this verse so it doesn't just go back up to the top
-            FocusOnSomethingInThisVerse();
-        }
-
-        protected void FocusOnSomethingInThisVerse()
-        {
-            // I'm not even really sure if this text box is visible
-            if (_verseData.NationalBTText.TextBox != null)
-                _verseData.NationalBTText.TextBox.Focus();
-            else if (_verseData.VernacularText.TextBox != null)
-                _verseData.VernacularText.TextBox.Focus();
-            else if (_verseData.InternationalBTText.TextBox != null)
-                _verseData.InternationalBTText.TextBox.Focus();
         }
 
         private void glossVernacularToNationalBTToolStripMenuItem_Click(object sender, EventArgs e)

@@ -68,24 +68,24 @@ translation of the story into English.
 
 Unlike the last stage, where the National Language back translation had to done by 
 a UNS, in this state, anyone can do the English back translation. However, you must be 
-logged in as a Crafter to add this new back-translation.
+logged in as a Crafter to add this new back-translation. So if you don't know English 
+well, see if you can find someone who does to help you make it. 
 
-If you don't know English well, there is another program available to help you make the 
-English back-translation more efficiently. Click on the 'Story' menu, and then the 
-'Do English glossing in Adapt It' menu,
-and then one of the sub-commands to decide which language to translate into English from.
-command more simply by right-clicking on the 'verse commands' button and choose 
-"Gloss story in English". This will bring up a dialog in which you can enter the English 
-translation for each word (or combine two or more words together using the 'chain-link' 
-button). Then once that word comes up again, the program will automatically fill in the 
-translation box.
+There's a program called 'Adapt It' that can be used to help make the English back-
+translation more efficiently. Click on the 'Story' menu, 'Do English Glossing in Adapt 
+It' menu, and then click the "From (National language)" command. This will write the 
+national language back-translation of the story into an Adapt It file so you can use 
+that program to do the translation.
 
-You can also have the English back translation created by someone who knows English and
-the national language well by right-clicking on the 'verse command' button and choose
-"Create English back-translation from National language". This process is similar, but
-rather than adapting from the story language into English, this process will adapt from
-the national language (e.g. Hindi) into English. The database words for this translation
-can come from many different projects when you do this.
+[note: there's another command on the 'Do English Glossing in Adapt It' menu: 
+"From (Story) language (for Discourse Charting)". This command is useful if you want to 
+create the English back-translation directly from your story language (e.g. Kangri) rather
+than the national language (e.g. Hindi). You might do this primarily if you want to create 
+a discourse chart in the story language itself and have English glosses. However, this 
+cannot be used to populate the English back-translation in this program, because the English 
+back-translation is supposed to be based on the Hindi back-translation rather than the 
+original story language. Discuss this with your advisor/consultant to know which one you
+should use.
 
 When you are finished entering the English back translation, then click the button in 
 the left-hand side of the status bar with the label 'Next State' to go to the next stage 

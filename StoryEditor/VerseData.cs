@@ -44,6 +44,20 @@ namespace OneStoryProjectEditor
             CoachNotes = new CoachNotesData();
         }
 
+        public void FocusOnSomethingInThisVerse()
+        {
+            // I'm not even really sure if this text box is visible
+            System.Diagnostics.Debug.Assert((NationalBTText != null) && (VernacularText != null)
+                && (InternationalBTText != null));
+
+            if (NationalBTText.TextBox != null)
+                NationalBTText.TextBox.Focus();
+            else if (VernacularText.TextBox != null)
+                VernacularText.TextBox.Focus();
+            else if (InternationalBTText.TextBox != null)
+                InternationalBTText.TextBox.Focus();
+        }
+
         public bool HasData
         {
             get

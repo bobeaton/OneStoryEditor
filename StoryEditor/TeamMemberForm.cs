@@ -411,5 +411,26 @@ namespace OneStoryProjectEditor
                 return strFileToCheck;
             }
         }
+
+        private void textBoxVernSentFullStop_Enter(object sender, EventArgs e)
+        {
+            SetKeyboard((string)comboBoxKeyboardVernacular.SelectedItem);
+        }
+
+        private void textBoxNationalBTSentFullStop_Enter(object sender, EventArgs e)
+        {
+            SetKeyboard((string)comboBoxKeyboardNationalBT.SelectedItem);
+        }
+
+        protected void SetKeyboard(string strKeybaordToSet)
+        {
+            if (!String.IsNullOrEmpty(strKeybaordToSet))
+                KeyboardController.ActivateKeyboard(strKeybaordToSet);
+        }
+
+        private void textBoxSentFullStop_Leave(object sender, EventArgs e)
+        {
+            KeyboardController.DeactivateKeyboard();
+        }
     }
 }

@@ -597,6 +597,8 @@ namespace OneStoryProjectEditor
             
             theCurrentStory.Verses.InsertRange(nInsertionIndex, lstNewVerses);
             InitAllPanes();
+            System.Diagnostics.Debug.Assert(lstNewVerses.Count > 0);
+            lstNewVerses[0].FocusOnSomethingInThisVerse();
         }
 
         internal void AddNewVerse(int nInsertionIndex, string strVernacular, string strNationalBT, string strInternationalBT)

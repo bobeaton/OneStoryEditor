@@ -228,6 +228,8 @@
             this.toolTip.SetToolTip(this.textBoxVernSentFullStop, "Enter the punctional character used in this language to end a sentence (e.g. in E" +
                     "nglish, it is the period \'.\', and in Hindi, it is the Devanagari Danda, \'।\')");
             this.textBoxVernSentFullStop.TextChanged += new System.EventHandler(this.textBox_TextChanged);
+            this.textBoxVernSentFullStop.Leave += new System.EventHandler(this.textBoxSentFullStop_Leave);
+            this.textBoxVernSentFullStop.Enter += new System.EventHandler(this.textBoxVernSentFullStop_Enter);
             // 
             // textBoxNationalBTSentFullStop
             // 
@@ -240,6 +242,8 @@
             this.toolTip.SetToolTip(this.textBoxNationalBTSentFullStop, "Enter the punctional character used in this language to end a sentence (e.g. in E" +
                     "nglish, it is the period \'.\', and in Hindi, it is the Devanagari Danda, \'।\')");
             this.textBoxNationalBTSentFullStop.TextChanged += new System.EventHandler(this.textBox_TextChanged);
+            this.textBoxNationalBTSentFullStop.Leave += new System.EventHandler(this.textBoxSentFullStop_Leave);
+            this.textBoxNationalBTSentFullStop.Enter += new System.EventHandler(this.textBoxNationalBTSentFullStop_Enter);
             // 
             // buttonVernacularFont
             // 
