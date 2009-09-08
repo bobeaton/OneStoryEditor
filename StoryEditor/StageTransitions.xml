@@ -24,6 +24,7 @@ will also enter the list of resources used in crafting the story (audio recordin
 videos, etc).
     </StageInstructions>
     <AllowableForwardsTransitions>
+      <AllowableForwardsTransition>eCrafterTypeNationalBT</AllowableForwardsTransition>
       <AllowableForwardsTransition>eCrafterTypeInternationalBT</AllowableForwardsTransition>
       <AllowableForwardsTransition>eCrafterAddAnchors</AllowableForwardsTransition>
       <AllowableForwardsTransition>eCrafterAddStoryQuestions</AllowableForwardsTransition>
@@ -48,6 +49,9 @@ as well as other story information, such as the purpose of the story and the lis
 used in crafting it. You can also access this information by clicking, "Story", and then "Story 
 Information".
     </StageInstructions>
+    <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eCrafterTypeVernacular</AllowableBackwardsTransition>
+    </AllowableBackwardsTransitions>
     <AllowableForwardsTransitions>
       <AllowableForwardsTransition>eCrafterTypeInternationalBT</AllowableForwardsTransition>
       <AllowableForwardsTransition>eCrafterAddAnchors</AllowableForwardsTransition>
@@ -88,6 +92,7 @@ the left-hand side of the status bar with the label 'Next State' to go to the ne
 in the process.
     </StageInstructions>
     <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eCrafterTypeVernacular</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <AllowableForwardsTransitions>
@@ -131,6 +136,7 @@ When you are finished adding anchors for each verse, then click the button in th
 choose 'Next Stage' to go to the next stage in the process.
     </StageInstructions>
     <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eCrafterTypeVernacular</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterTypeInternationalBT</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
@@ -184,6 +190,7 @@ When you are finished adding these testing questions, then click the button in t
 choose 'Next Stage' to go to the next stage in the process.
     </StageInstructions>
     <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eCrafterTypeVernacular</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterTypeInternationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterAddAnchors</AllowableBackwardsTransition>
@@ -218,6 +225,7 @@ When you are finished adding these testing questions, then click the button in t
 status bar and choose 'Next Stage' to go to the next stage in the process.
     </StageInstructions>
     <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eCrafterTypeVernacular</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterTypeInternationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterAddAnchors</AllowableBackwardsTransition>
@@ -277,6 +285,7 @@ feedback, you can show the Coach Notes pane ("View" menu, "Coach notes field") a
 small button to the right-hand side of the appropriate line number and choose "Add Note".
     </StageInstructions>
     <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eCrafterTypeVernacular</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterTypeInternationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterAddAnchors</AllowableBackwardsTransition>

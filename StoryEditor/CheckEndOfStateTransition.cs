@@ -28,16 +28,18 @@ namespace OneStoryProjectEditor
                 {
                     string strFullStop = theStories.ProjSettings.Vernacular.FullStop;
                     List<string> lstSentences = GetListOfSentences(aVerseData.VernacularText, strFullStop);
-                    if ((lstSentences == null) || (lstSentences.Count == 0))
+                    if (lstSentences == null)
                     {
-                        theCurrentStory.Verses.Remove(aVerseData);
-                        bRepeatAfterMe = true;
-                        break;  // we have to exit the loop since we've modified the collection
+                        if (!aVerseData.HasData)
+                        {
+                            theCurrentStory.Verses.Remove(aVerseData);
+                            bRepeatAfterMe = true;
+                            break;  // we have to exit the loop since we've modified the collection
+                        }
                     }
-                    
-                    if (lstSentences.Count > 1)
+                    else if (lstSentences.Count > 1)
                     {
-                        if (MessageBox.Show(String.Format("Verse number '{0}' has multiple sentences. Click Yes to have them separated into their own verses.", nVerseNumber),  StoriesData.CstrCaption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
+                        if (MessageBox.Show(String.Format("Verse number '{0}' has multiple sentences. Click 'Yes' to have them separated into their own verses.", nVerseNumber),  StoriesData.CstrCaption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
                             return false;
 
                         int nNewVerses = lstSentences.Count;
@@ -76,14 +78,17 @@ namespace OneStoryProjectEditor
                 {
                     string strFullStop = theStories.ProjSettings.NationalBT.FullStop;
                     List<string> lstSentences = GetListOfSentences(aVerseData.NationalBTText, strFullStop);
-                    if ((lstSentences == null) || (lstSentences.Count == 0))
+                    if (lstSentences == null)
                     {
-                        theCurrentStory.Verses.Remove(aVerseData);
-                        bRepeatAfterMe = true;
-                        break;  // we have to exit the loop since we've modified the collection
+                        if (!aVerseData.HasData)
+                        {
+                            theCurrentStory.Verses.Remove(aVerseData);
+                            bRepeatAfterMe = true;
+                            break;  // we have to exit the loop since we've modified the collection
+                        }
                     }
                     
-                    if (lstSentences.Count > 1)
+                    else if (lstSentences.Count > 1)
                     {
                         if (MessageBox.Show(String.Format("Verse number '{0}' has multiple sentences. Click Yes to have them separated into their own verses.", nVerseNumber),  StoriesData.CstrCaption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
                             return false;
@@ -108,7 +113,7 @@ namespace OneStoryProjectEditor
             // finally, we need to know who (which UNS) did the bt.
             while(String.IsNullOrEmpty(theCurrentStory.CraftingInfo.BackTranslatorMemberID))
             {
-                MessageBox.Show("In the following window, click on the button to select which UNS did this back-translation",  StoriesData.CstrCaption);
+                MessageBox.Show("In the following window, click on the browse button to select the 'UNS Back-translator' and add or choose the UNS that did this back-translation.", StoriesData.CstrCaption);
                 StoryFrontMatterForm dlg = new StoryFrontMatterForm(theStories, theCurrentStory);
                 dlg.Text = String.Format("Choose the UNS that did the {0} language back-translation", theStories.ProjSettings.NationalBT.LangName);
                 dlg.ShowDialog();
@@ -131,6 +136,10 @@ namespace OneStoryProjectEditor
                 if (!String.IsNullOrEmpty(strTrimmed))
                     lstStrRet.Add(strTrimmed);
             }
+
+            if (lstStrRet.Count == 0)
+                return null;
+
             return lstStrRet;
         }
 
