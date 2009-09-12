@@ -54,6 +54,8 @@ namespace OneStoryProjectEditor
             {
                 if (radioButtonStoryCrafter.Checked)
                     return TeamMemberData.UserTypes.eCrafter;
+                if (radioButtonEnglishBackTranslator.Checked)
+                    return TeamMemberData.UserTypes.eEnglishBacktranslator;
                 if (radioButtonUNS.Checked)
                     return TeamMemberData.UserTypes.eUNS;
                 if (radioButtonConsultantInTraining.Checked)
@@ -70,6 +72,9 @@ namespace OneStoryProjectEditor
                 {
                     case TeamMemberData.UserTypes.eCrafter:
                         radioButtonStoryCrafter.Checked = true;
+                        break;
+                    case TeamMemberData.UserTypes.eEnglishBacktranslator:
+                        radioButtonEnglishBackTranslator.Checked = true;
                         break;
                     case TeamMemberData.UserTypes.eUNS:
                         radioButtonUNS.Checked = true;

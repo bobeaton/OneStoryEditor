@@ -5,11 +5,13 @@ namespace OneStoryProjectEditor
 {
     public partial class StoryFrontMatterForm : Form
     {
+        protected StoryEditor _theSE = null;
         protected StoriesData _theStoriesData = null;
         protected StoryData _theCurrentStory = null;
 
-        public StoryFrontMatterForm(StoriesData theStoriesData, StoryData theCurrentStory)
+        public StoryFrontMatterForm(StoryEditor theSE, StoriesData theStoriesData, StoryData theCurrentStory)
         {
+            _theSE = theSE;
             _theStoriesData = theStoriesData;
             _theCurrentStory = theCurrentStory;
 
@@ -77,15 +79,26 @@ namespace OneStoryProjectEditor
             {
                 TeamMemberData theSC = (TeamMemberData) textBoxStoryCrafter.Tag;
                 _theCurrentStory.CraftingInfo.StoryCrafterMemberID = theSC.MemberGuid;
+                _theSE.Modified = true;                
             }
 
-            _theCurrentStory.CraftingInfo.StoryPurpose = textBoxStoryPurpose.Text;
-            _theCurrentStory.CraftingInfo.ResourcesUsed = textBoxResourcesUsed.Text;
+            if (_theCurrentStory.CraftingInfo.StoryPurpose != textBoxStoryPurpose.Text)
+            {
+                _theCurrentStory.CraftingInfo.StoryPurpose = textBoxStoryPurpose.Text;
+                _theSE.Modified = true;
+            }
+
+            if (_theCurrentStory.CraftingInfo.ResourcesUsed != textBoxResourcesUsed.Text)
+            {
+                _theCurrentStory.CraftingInfo.ResourcesUsed = textBoxResourcesUsed.Text;
+                _theSE.Modified = true;
+            }
 
             if (textBoxUnsBackTranslator.Tag != null)
             {
                 TeamMemberData theBT = (TeamMemberData)textBoxUnsBackTranslator.Tag;
                 _theCurrentStory.CraftingInfo.BackTranslatorMemberID = theBT.MemberGuid;
+                _theSE.Modified = true;
             }
 
             if (textBoxUnsTest1.Tag != null)
@@ -95,6 +108,7 @@ namespace OneStoryProjectEditor
                     _theCurrentStory.CraftingInfo.Testors[1] = theUns.MemberGuid;
                 else 
                     _theCurrentStory.CraftingInfo.Testors.Add(1, theUns.MemberGuid);
+                _theSE.Modified = true;
             }
 
             if (textBoxUnsTest2.Tag != null)
@@ -104,6 +118,7 @@ namespace OneStoryProjectEditor
                     _theCurrentStory.CraftingInfo.Testors[2] = theUns.MemberGuid;
                 else
                     _theCurrentStory.CraftingInfo.Testors.Add(2, theUns.MemberGuid);
+                _theSE.Modified = true;
             }
             
             DialogResult = DialogResult.OK;

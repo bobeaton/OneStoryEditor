@@ -48,6 +48,7 @@ namespace OneStoryProjectEditor
                 comboBoxKeyboardNationalBT.Items.Add(keyboard.Name);
             }
 
+            // initialize the vernacular language controls
             textBoxVernacular.Font = textBoxVernacularEthCode.Font = projSettings.Vernacular.LangFont;
             textBoxVernacular.ForeColor = textBoxVernacularEthCode.ForeColor = projSettings.Vernacular.FontColor;
             textBoxVernacular.Text = ((String.IsNullOrEmpty(projSettings.Vernacular.LangName))? projSettings.ProjectName : projSettings.Vernacular.LangName);
@@ -57,14 +58,21 @@ namespace OneStoryProjectEditor
             textBoxVernSentFullStop.Text = projSettings.Vernacular.FullStop;
             checkBoxVernacularRTL.Checked = projSettings.Vernacular.IsRTL;
 
-            textBoxNationalBTLanguage.Font = textBoxNationalBTEthCode.Font = projSettings.NationalBT.LangFont;
-            textBoxNationalBTLanguage.ForeColor = textBoxNationalBTEthCode.ForeColor = projSettings.NationalBT.FontColor;
-            textBoxNationalBTLanguage.Text = projSettings.NationalBT.LangName;
-            textBoxNationalBTEthCode.Text = projSettings.NationalBT.LangCode;
-            if (!String.IsNullOrEmpty(projSettings.NationalBT.Keyboard) && comboBoxKeyboardNationalBT.Items.Contains(projSettings.NationalBT.Keyboard))
-                comboBoxKeyboardNationalBT.SelectedItem = projSettings.NationalBT.Keyboard;
-            textBoxNationalBTSentFullStop.Text = projSettings.NationalBT.FullStop;
-            checkBoxNationalRTL.Checked = projSettings.NationalBT.IsRTL;
+            // if there is a national language configured, then initialize those as well.
+            if (projSettings.NationalBT.HasData)
+            {
+                checkBoxNationalLangBT.Checked = true;
+                textBoxNationalBTLanguage.Font = textBoxNationalBTEthCode.Font = projSettings.NationalBT.LangFont;
+                textBoxNationalBTLanguage.ForeColor = textBoxNationalBTEthCode.ForeColor = projSettings.NationalBT.FontColor;
+                textBoxNationalBTLanguage.Text = projSettings.NationalBT.LangName;
+                textBoxNationalBTEthCode.Text = projSettings.NationalBT.LangCode;
+                if (!String.IsNullOrEmpty(projSettings.NationalBT.Keyboard) && comboBoxKeyboardNationalBT.Items.Contains(projSettings.NationalBT.Keyboard))
+                    comboBoxKeyboardNationalBT.SelectedItem = projSettings.NationalBT.Keyboard;
+                textBoxNationalBTSentFullStop.Text = projSettings.NationalBT.FullStop;
+                checkBoxNationalRTL.Checked = projSettings.NationalBT.IsRTL;
+            }
+            else
+                checkBoxNationalLangBT.Checked = false;
 
             toolTip.SetToolTip(buttonVernacularFont, String.Format(CstrDefaultFontTooltipVernacular,
                                                                    Environment.NewLine, projSettings.Vernacular.LangFont,
@@ -107,7 +115,7 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private void DoAccept()
+        private bool DoAccept()
         {
             try
             {
@@ -116,11 +124,17 @@ namespace OneStoryProjectEditor
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message,  StoriesData.CstrCaption);
+                return false;
             }
+
+            return true;
         }
 
         protected void FinishEdit()
         {
+            if (!checkBoxEnglishBT.Checked && !checkBoxNationalLangBT.Checked)
+                throw new ApplicationException("You must have a back-translation language; either a national language back-translation or English. Check one of the boxes that begins 'Project will use a *** BT?'");
+
             // update the language information as well (in case that was changed also)
             m_projSettings.Vernacular.LangName = textBoxVernacular.Text;
             m_projSettings.Vernacular.LangCode = textBoxVernacularEthCode.Text;
@@ -130,13 +144,22 @@ namespace OneStoryProjectEditor
             m_projSettings.Vernacular.FullStop = textBoxVernSentFullStop.Text;
             m_projSettings.Vernacular.IsRTL = checkBoxVernacularRTL.Checked;
 
-            m_projSettings.NationalBT.LangName = textBoxNationalBTLanguage.Text;
-            m_projSettings.NationalBT.LangCode = textBoxNationalBTEthCode.Text;
-            m_projSettings.NationalBT.LangFont = textBoxNationalBTLanguage.Font;
-            m_projSettings.NationalBT.FontColor = textBoxNationalBTLanguage.ForeColor;
-            m_projSettings.NationalBT.Keyboard = (string)comboBoxKeyboardNationalBT.SelectedItem;
-            m_projSettings.NationalBT.FullStop = textBoxNationalBTSentFullStop.Text;
-            m_projSettings.NationalBT.IsRTL = checkBoxNationalRTL.Checked;
+            if (checkBoxNationalLangBT.Checked)
+            {
+                m_projSettings.NationalBT.LangName = textBoxNationalBTLanguage.Text;
+                m_projSettings.NationalBT.LangCode = textBoxNationalBTEthCode.Text;
+                m_projSettings.NationalBT.LangFont = textBoxNationalBTLanguage.Font;
+                m_projSettings.NationalBT.FontColor = textBoxNationalBTLanguage.ForeColor;
+                m_projSettings.NationalBT.Keyboard = (string)comboBoxKeyboardNationalBT.SelectedItem;
+                m_projSettings.NationalBT.FullStop = textBoxNationalBTSentFullStop.Text;
+                m_projSettings.NationalBT.IsRTL = checkBoxNationalRTL.Checked;
+            }
+            else
+                m_projSettings.NationalBT.HasData = false;
+
+            if (!checkBoxEnglishBT.Checked)
+                // don't set via 'Checked' because HasData should only be set if false
+                m_projSettings.InternationalBT.HasData = false; 
 
             // English was done by the font dialog handler
             Modified = false;
@@ -301,7 +324,8 @@ namespace OneStoryProjectEditor
                 // if the user made some changes and then is moving away from the tab, 
                 //  then do an implicit Accept
                 if (Modified)
-                    DoAccept();
+                    if (!DoAccept())
+                        tabControlProjectMetaData.SelectedTab = tabPageLanguageInfo;
             }
         }
 
@@ -431,6 +455,22 @@ namespace OneStoryProjectEditor
         private void textBoxSentFullStop_Leave(object sender, EventArgs e)
         {
             KeyboardController.DeactivateKeyboard();
+        }
+
+        private void checkBoxNationalLangBT_CheckedChanged(object sender, EventArgs e)
+        {
+            labelNationalBTLanguage.Enabled =
+                textBoxNationalBTLanguage.Enabled =
+                textBoxNationalBTEthCode.Enabled =
+                comboBoxKeyboardNationalBT.Enabled =
+                textBoxNationalBTSentFullStop.Enabled =
+                buttonNationalBTFont.Enabled =
+                checkBoxNationalRTL.Enabled = checkBoxNationalLangBT.Checked;
+        }
+
+        private void checkBoxEnglishBT_CheckedChanged(object sender, EventArgs e)
+        {
+            buttonInternationalBTFont.Enabled = checkBoxEnglishBT.Checked;
         }
     }
 }

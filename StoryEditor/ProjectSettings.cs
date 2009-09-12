@@ -12,6 +12,7 @@ namespace OneStoryProjectEditor
         public string ProjectName = null;
         protected string _strProjectFolder = null;
 
+        // default is to have all 3, but the user might disable one or the other bt languages
         public LanguageInfo Vernacular = new LanguageInfo(new Font("Arial Unicode MS", 12), Color.Maroon);
         public LanguageInfo NationalBT = new LanguageInfo(new Font("Arial Unicode MS", 12), Color.Green);
         public LanguageInfo InternationalBT = new LanguageInfo("English", "en", new Font("Times New Roman", 10), Color.Blue);
@@ -31,12 +32,14 @@ namespace OneStoryProjectEditor
 
             StoryProject.LanguagesRow theLangRow = InsureLanguagesRow(projFile);
 
+            // if there is no vernacular row, we must add it (it's required)
             if (projFile.VernacularLang.Count == 0)
                 projFile.VernacularLang.AddVernacularLangRow(Vernacular.LangName,
                     Vernacular.LangCode, Vernacular.LangFont.Name, Vernacular.LangFont.Size,
                     Vernacular.FontColor.Name, Vernacular.FullStop, Vernacular.Keyboard, Vernacular.IsRTL, theLangRow);
             else
             {
+                // otherwise, read in the details
                 System.Diagnostics.Debug.Assert(projFile.VernacularLang.Count == 1);
                 StoryProject.VernacularLangRow theVernRow = projFile.VernacularLang[0];
                 Vernacular.LangName = theVernRow.name;
@@ -49,11 +52,9 @@ namespace OneStoryProjectEditor
                     ? theVernRow.Keyboard : null;
             }
 
-            if (projFile.NationalBTLang.Count == 0)
-                projFile.NationalBTLang.AddNationalBTLangRow(NationalBT.LangName,
-                    NationalBT.LangCode, NationalBT.LangFont.Name, NationalBT.LangFont.Size,
-                    NationalBT.FontColor.Name, NationalBT.FullStop, NationalBT.Keyboard, NationalBT.IsRTL, theLangRow);
-            else
+            // the national language BT isn't strictly necessary...
+            //  so only initialize if there's one in the file (shouldn't be more than 1)
+            if (projFile.NationalBTLang.Count == 1)
             {
                 System.Diagnostics.Debug.Assert(projFile.NationalBTLang.Count == 1);
                 StoryProject.NationalBTLangRow rowNatlRow = projFile.NationalBTLang[0];
@@ -67,13 +68,10 @@ namespace OneStoryProjectEditor
                     ? rowNatlRow.Keyboard : null;
             }
 
-            if (projFile.InternationalBTLang.Count == 0)
-                projFile.InternationalBTLang.AddInternationalBTLangRow(
-                    InternationalBT.LangName, InternationalBT.LangCode,
-                    InternationalBT.LangFont.Name, InternationalBT.LangFont.Size,
-                    InternationalBT.FontColor.Name, InternationalBT.FullStop, InternationalBT.Keyboard, InternationalBT.IsRTL,
-                    theLangRow);
-            else
+            // the international language BT isn't strictly necessary... (e.g. if they're only doing
+            //  national lang BTs) (but have to have one or the other; neither is not acceptable)
+            //  so only initialize if there's one in the file (shouldn't be more than 1)
+            if (projFile.InternationalBTLang.Count == 1)
             {
                 System.Diagnostics.Debug.Assert(projFile.InternationalBTLang.Count == 1);
                 StoryProject.InternationalBTLangRow rowEngRow = projFile.InternationalBTLang[0];
@@ -112,6 +110,18 @@ namespace OneStoryProjectEditor
                 FullStop = ".";
                 LangFont = font;
                 FontColor = fontColor;
+            }
+
+            public bool HasData
+            {
+                get { return !String.IsNullOrEmpty(LangName); }
+                set
+                {
+                    if (!value)
+                        LangName = null;
+                    else
+                        System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(LangName));
+                }
             }
 
             public XElement GetXml(string strLangType)
@@ -184,10 +194,19 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                return new XElement("Languages",
-                    Vernacular.GetXml("VernacularLang"),
-                    NationalBT.GetXml("NationalBTLang"),
-                    InternationalBT.GetXml("InternationalBTLang"));
+                // have to have one or the other BT language
+                System.Diagnostics.Debug.Assert(NationalBT.HasData || InternationalBT.HasData);
+
+                XElement elem = new XElement("Languages",
+                    Vernacular.GetXml("VernacularLang"));
+                    
+                if (NationalBT.HasData)
+                    elem.Add(NationalBT.GetXml("NationalBTLang"));
+
+                if (InternationalBT.HasData)
+                    elem.Add(InternationalBT.GetXml("InternationalBTLang"));
+
+                return elem;
             }
         }
 

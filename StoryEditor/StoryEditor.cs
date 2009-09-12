@@ -380,8 +380,12 @@ namespace OneStoryProjectEditor
         protected void InsertNewStory(string strStoryName, int nIndexToInsert)
         {
             CheckForSaveDirtyFile();
+            DialogResult res = MessageBox.Show("Is this a story from the Bible?", StoriesData.CstrCaption, MessageBoxButtons.YesNoCancel);
+            if (res == DialogResult.Cancel)
+                return;
+
             comboBoxStorySelector.Items.Insert(nIndexToInsert, strStoryName);
-            theCurrentStory = new StoryData(strStoryName, LoggedOnMember.MemberGuid);
+            theCurrentStory = new StoryData(strStoryName, LoggedOnMember.MemberGuid, (res == DialogResult.Yes));
             Stories.Insert(nIndexToInsert, theCurrentStory);
             comboBoxStorySelector.SelectedItem = strStoryName;
         }
@@ -792,7 +796,7 @@ namespace OneStoryProjectEditor
 
         internal void QueryStoryPurpose()
         {
-            StoryFrontMatterForm dlg = new StoryFrontMatterForm(Stories, theCurrentStory);
+            StoryFrontMatterForm dlg = new StoryFrontMatterForm(this, Stories, theCurrentStory);
             dlg.ShowDialog();
         }
 
@@ -804,8 +808,9 @@ namespace OneStoryProjectEditor
                 if (theCurrentStory != null)
                 {
                     System.Diagnostics.Debug.Assert(theCurrentStory.CraftingInfo != null);
-                    if (String.IsNullOrEmpty(theCurrentStory.CraftingInfo.StoryPurpose)
-                        || String.IsNullOrEmpty(theCurrentStory.CraftingInfo.ResourcesUsed))
+                    if (theCurrentStory.CraftingInfo.IsBiblicalStory 
+                        &&  (String.IsNullOrEmpty(theCurrentStory.CraftingInfo.StoryPurpose)
+                        || String.IsNullOrEmpty(theCurrentStory.CraftingInfo.ResourcesUsed)))
                         QueryStoryPurpose();
                 }
 
@@ -1131,18 +1136,19 @@ namespace OneStoryProjectEditor
                 return false;
 
             StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[theCurrentStory.ProjStage.ProjectStage];
-            bool bRet = st.IsReadyForTransition(this, Stories, theCurrentStory);
+            StoryStageLogic.ProjectStages eProposedNextState = st.NextState;
+            bool bRet = st.IsReadyForTransition(this, Stories, theCurrentStory, ref eProposedNextState);
             if (bRet)
             {
-                StoryStageLogic.StateTransition stNext = StoryStageLogic.stateTransitions[st.NextState];
-                if (st.IsTerminalTransition(st.NextState))
+                StoryStageLogic.StateTransition stNext = StoryStageLogic.stateTransitions[eProposedNextState];
+                if (st.IsTerminalTransition(eProposedNextState))
                     if (MessageBox.Show(
                             String.Format(st.TerminalTransitionMessage,
                                 TeamMemberData.GetMemberTypeAsDisplayString(stNext.MemberTypeWithEditToken),
                                 stNext.StageDisplayString), 
                              StoriesData.CstrCaption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
                         return false;
-                theCurrentStory.ProjStage.ProjectStage = st.NextState;  // if we are ready, then go ahead and transition
+                theCurrentStory.ProjStage.ProjectStage = eProposedNextState;  // if we are ready, then go ahead and transition
             }
             return bRet;
         }
@@ -1366,22 +1372,39 @@ namespace OneStoryProjectEditor
                         }
                     }
 
-                    string strInBetweenStuff = StringsInBetween[i + 1].Trim();
+                    // if the stuff in between is ", ", then clearly it wants to go on the end
+                    // but if it's like " (", then it wants to go on the next word
+                    string strBefore = StringsInBetween[i].Trim(), strAfter = StringsInBetween[i + 1];
+                    if (!String.IsNullOrEmpty(strAfter))
+                    {
+                        System.Diagnostics.Debug.Assert(strAfter.Length > 0);  // should at least be a space
+                        int nIndexOfSpace = strAfter.IndexOf(' ');
+                        if (nIndexOfSpace != -1)
+                        {
+                            string strBeforeNextWord = (nIndexOfSpace < strAfter.Length) ?
+                                strAfter.Substring(nIndexOfSpace) : null;
+                            strAfter = (nIndexOfSpace > 0) ? strAfter.Substring(0, nIndexOfSpace).Trim() : null;
+                            StringsInBetween[i + 1] = strBeforeNextWord;
+                        }
+                    }
 
-                    string strFattr = AIBools(strSourceWord, strInBetweenStuff,
+                    string strFattr = AIBools(strSourceWord, strAfter,
                         Stories.ProjSettings.Vernacular.FullStop);
 
                     XElement elemWord =
                         new XElement("S",
-                            new XAttribute("s", strSourceWord + strInBetweenStuff),
+                            new XAttribute("s", strBefore + strSourceWord + strAfter),
                             new XAttribute("k", strSourceWord),
                             new XAttribute("f", strFattr),
                             new XAttribute("sn", i),
                             new XAttribute("w", 1),
                             new XAttribute("ty", 1));
 
-                    if (!String.IsNullOrEmpty(strInBetweenStuff))
-                        elemWord.Add(new XAttribute("fp", strInBetweenStuff.Trim()));
+                    if (!String.IsNullOrEmpty(strBefore))
+                        elemWord.Add(new XAttribute("pp", strBefore.Trim()));
+
+                    if (!String.IsNullOrEmpty(strAfter))
+                        elemWord.Add(new XAttribute("fp", strAfter.Trim()));
 
                     elemWord.Add("");
 
@@ -1406,7 +1429,8 @@ namespace OneStoryProjectEditor
 
                 if (eGlossType == GlossingForm.GlossType.eNationalToEnglish)
                 {
-                    strMessage += "5) When you're finished, return to this window and click the 'Yes' button to re-import the translated English text back into the English fields.{0}{0}Have you finished translating the story to English and are ready to import it into the English fields?";
+                    strMessage += String.Format("{0}5) When you're finished, return to this window and click the 'Yes' button to re-import the translated English text back into the English fields.{0}{0}Have you finished translating the story to English and are ready to import it into the English fields?",
+                        Environment.NewLine);
                     mbb = MessageBoxButtons.YesNoCancel;
                 }
 
@@ -1451,11 +1475,13 @@ namespace OneStoryProjectEditor
                         {
                             string strSourceKey = xpIterator.Current.GetAttribute("k", navigator.NamespaceURI);
                             if (strSourceKey != strSourceWord)
-                                throw new ApplicationException(String.Format("The data from Adapt It doesn't appear to match what's in the story.{0}In verse number {2}, I was expecting {3}, but got {4} instead.{0}If you've made changes in the story or the {1} back-translation, then you need to re-export the story or {1} back-translation to Adapt It,{0}re-process the file there, and then try to import again.",
+                                throw new ApplicationException(String.Format("The data from Adapt It doesn't appear to match what's in the story.{0}In verse number {2}, I was expecting \"{3}\", but got \"{4}\" instead.{0}If you've made changes in the story or the {1} back-translation, then you need to re-export the story or {1} back-translation to Adapt It,{0}re-process the file there, and then try to import again.",
                                     Environment.NewLine, Stories.ProjSettings.NationalBT.LangName, nVerseNum + 1, strSourceKey, strSourceWord));
 
                             string strTargetKey = xpIterator.Current.GetAttribute("a", navigator.NamespaceURI);
-                            System.Diagnostics.Debug.Assert((strTargetWord.IndexOf('%') != -1) || (strTargetWord == strTargetKey));
+                            if ((strTargetWord.IndexOf('%') == -1) && (strTargetWord != strTargetKey))
+                                throw new ApplicationException(String.Format("The data from Adapt It doesn't appear to match what's in the story.{0}In verse number {2}, I was expecting \"{3}\", but got \"{4}\" instead.{0}If you've made changes in the story or the {1} back-translation, then you need to re-export the story or {1} back-translation to Adapt It,{0}re-process the file there, and then try to import again.",
+                                    Environment.NewLine, Stories.ProjSettings.NationalBT.LangName, nVerseNum + 1, strTargetKey, strTargetWord));
 
                             strTargetWord = xpIterator.Current.GetAttribute("t", navigator.NamespaceURI);
                             strEnglishBT += strTargetWord + ' ';
@@ -1512,10 +1538,10 @@ namespace OneStoryProjectEditor
         const UInt32 boundaryMask = 32; // position 6
         const UInt32 paragraphMask = 2097152; // position 22
 
-        protected string AIBools(string strSourceWord, string strInBetweenStuff, string strFullStop)
+        protected string AIBools(string strSourceWord, string strAfter, string strFullStop)
         {
             UInt32 value = 0;
-            if (strInBetweenStuff == strFullStop)
+            if (strAfter == strFullStop)
                 value |= boundaryMask;
             if (strSourceWord.IndexOf(Environment.NewLine) != -1)
                 value |= paragraphMask;

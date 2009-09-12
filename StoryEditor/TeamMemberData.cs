@@ -11,6 +11,7 @@ namespace OneStoryProjectEditor
         {
             eUndefined = 0,
             eCrafter,
+            eEnglishBacktranslator,
             eUNS,
             eConsultantInTraining,
             eCoach,
@@ -18,11 +19,13 @@ namespace OneStoryProjectEditor
         }
 
         internal const string CstrCrafter = "Crafter";
+        internal const string CstrEnglishBackTranslator = "EnglishBackTranslator";
         internal const string CstrUNS = "UNS";
         internal const string CstrConsultantInTraining = "ConsultantInTraining";
         internal const string CstrCoach = "Coach";
         internal const string CstrJustLooking = "JustLooking"; // gives full access, but no change privileges
-        
+
+        protected const string CstrEnglishBackTranslatorDisplay = "English Back Translator";
         protected const string CstrConsultantInTrainingDisplay = "Consultant";
         
         public string Name = null;
@@ -78,6 +81,8 @@ namespace OneStoryProjectEditor
         {
             if (strMemberTypeString == CstrCrafter)
                 return TeamMemberData.UserTypes.eCrafter;
+            else if (strMemberTypeString == CstrEnglishBackTranslator)
+                return TeamMemberData.UserTypes.eEnglishBacktranslator;
             else if (strMemberTypeString == CstrUNS)
                 return TeamMemberData.UserTypes.eUNS;
             else if (strMemberTypeString == CstrConsultantInTraining)
@@ -99,6 +104,8 @@ namespace OneStoryProjectEditor
         {
             if (eMemberType == UserTypes.eConsultantInTraining)
                 return CstrConsultantInTrainingDisplay;
+            else if (eMemberType == UserTypes.eEnglishBacktranslator)
+                return CstrEnglishBackTranslatorDisplay;
             else
                 return GetMemberTypeAsString(eMemberType);
         }
@@ -109,6 +116,8 @@ namespace OneStoryProjectEditor
             {
                 case TeamMemberData.UserTypes.eCrafter:
                     return CstrCrafter;
+                case UserTypes.eEnglishBacktranslator:
+                    return CstrEnglishBackTranslator;
                 case TeamMemberData.UserTypes.eUNS:
                     return CstrUNS;
                 case TeamMemberData.UserTypes.eConsultantInTraining:
@@ -177,9 +186,30 @@ namespace OneStoryProjectEditor
             if (ContainsKey(strMemberName))
             {
                 TeamMemberData aTMD = this[strMemberName];
-                return (aTMD.MemberTypeAsString == strMemberType);
+                if (aTMD.MemberTypeAsString == strMemberType)
+                {
+                    // kind of a kludge, but necessary for the state logic
+                    //  If we're going to return true (meaning that we can auto-log this person in), then
+                    //  if we have an English Back-translator person in the team, then we have to set the 
+                    //  member with the edit token when we get to the EnglishBT state as that person
+                    //  otherwise, it's a crafter
+                    StoryStageLogic.stateTransitions[StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT].MemberTypeWithEditToken =
+                        (IsThereASeparateEnglishBackTranslator) ? TeamMemberData.UserTypes.eEnglishBacktranslator : TeamMemberData.UserTypes.eCrafter;
+                    return true;
+                }
             }
             return false;
+        }
+
+        public bool IsThereASeparateEnglishBackTranslator
+        {
+            get
+            {
+                foreach (TeamMemberData aTM in this.Values)
+                    if (aTM.MemberType == TeamMemberData.UserTypes.eEnglishBacktranslator)
+                        return true;
+                return false;
+            }
         }
 
         public XElement GetXml

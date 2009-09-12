@@ -468,6 +468,18 @@
         </verse>
       </verses>
     </story>
+    <story name="temp" stage="CrafterTypeVernacular" guid="ae3de9e4-64ef-4734-af14-7303f0f52fec">
+      <CraftingInfo>
+        <StoryCrafter memberID="mem-292e6bf3-6c3f-4953-88fd-851a111b343f" />
+      </CraftingInfo>
+      <verses>
+        <verse guid="63da00d0-daef-45ab-a424-09482f63c730">
+          <Vernacular>एह़</Vernacular>
+          <NationalBT>&lt;Type the UNS's back-translation here&gt;</NationalBT>
+          <InternationalBT>&lt;Type the English back-translation here&gt;</InternationalBT>
+        </verse>
+      </verses>
+    </story>
     <story name="Creation Story" stage="CoachReviewTest2Notes" guid="e632ae4d-6986-4329-b7c6-88961aa048eb">
       <CraftingInfo>
         <StoryCrafter memberID="mem-deeea5b6-b118-4eda-a6e7-969765a6c675" />

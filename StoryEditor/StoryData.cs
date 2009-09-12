@@ -15,12 +15,12 @@ namespace OneStoryProjectEditor
         public CraftingInfoData CraftingInfo = null;
         public VersesData Verses = null;
 
-        public StoryData(string strStoryName, string strLoggedOnMemberGuid)
+        public StoryData(string strStoryName, string strLoggedOnMemberGuid, bool bIsBiblicalStory)
         {
             Name = strStoryName;
             guid = Guid.NewGuid().ToString();
             ProjStage = new StoryStageLogic();
-            CraftingInfo = new CraftingInfoData(strLoggedOnMemberGuid);
+            CraftingInfo = new CraftingInfoData(strLoggedOnMemberGuid, bIsBiblicalStory);
             Verses = new VersesData();
         }
 
@@ -177,6 +177,13 @@ namespace OneStoryProjectEditor
             if (dlg.ShowDialog() != DialogResult.OK)
                 throw new ApplicationException("You have to log in in order to continue");
 
+            // kind of a kludge, but necessary for the state logic
+            //  If we have an English Back-translator person in the team, then we have to set the 
+            //  member with the edit token when we get to the EnglishBT state as that person
+            //  otherwise, it's a crafter
+            StoryStageLogic.stateTransitions[StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT].MemberTypeWithEditToken =
+                (TeamMembers.IsThereASeparateEnglishBackTranslator) ? TeamMemberData.UserTypes.eEnglishBacktranslator : TeamMemberData.UserTypes.eCrafter;
+
             return TeamMembers[dlg.SelectedMember];
         }
 #endif
@@ -213,10 +220,12 @@ namespace OneStoryProjectEditor
         public string ResourcesUsed = null;
         public string BackTranslatorMemberID = null;
         public Dictionary<byte, string> Testors = new Dictionary<byte, string>();
+        public bool IsBiblicalStory = true;
 
-        public CraftingInfoData(string strLoggedOnMemberGuid)
+        public CraftingInfoData(string strLoggedOnMemberGuid, bool bIsBiblicalStory)
         {
             StoryCrafterMemberID = strLoggedOnMemberGuid;
+            IsBiblicalStory = bIsBiblicalStory;
         }
 
         public CraftingInfoData(StoryProject.storyRow theStoryRow, StoryProject projFile)
@@ -225,6 +234,8 @@ namespace OneStoryProjectEditor
             if (aCIRs.Length == 1)
             {
                 StoryProject.CraftingInfoRow theCIR = aCIRs[0];
+                if (!theCIR.IsNonBiblicalStoryNull())
+                    IsBiblicalStory = !theCIR.NonBiblicalStory;
 
                 StoryProject.StoryCrafterRow[] aSCRs = theCIR.GetStoryCrafterRows();
                 if (aSCRs.Length == 1)
@@ -258,6 +269,7 @@ namespace OneStoryProjectEditor
             get
             {
                 XElement elemCraftingInfo = new XElement("CraftingInfo",
+                    new XAttribute("NonBiblicalStory", !IsBiblicalStory),
                     new XElement("StoryCrafter", new XAttribute("memberID", StoryCrafterMemberID)));
 
                 if (!String.IsNullOrEmpty(StoryPurpose))

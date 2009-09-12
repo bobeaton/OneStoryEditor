@@ -18,9 +18,9 @@ namespace OneStoryProjectEditor
             eUndefined = 0,
             eCrafterTypeVernacular,
             eCrafterTypeNationalBT,
-            eCrafterTypeInternationalBT,
             eCrafterAddAnchors,
             eCrafterAddStoryQuestions,
+            eBackTranslatorTypeInternationalBT,
             eConsultantCheckAnchors,
             eConsultantCheckStoryQuestions,
             eCoachReviewRound1Notes,
@@ -107,9 +107,9 @@ namespace OneStoryProjectEditor
         protected static Dictionary<string, ProjectStages> CmapStageStringToEnumType = new Dictionary<string, ProjectStages>() {
             { "CrafterTypeVernacular", ProjectStages.eCrafterTypeVernacular },
             { "CrafterTypeNationalBT", ProjectStages.eCrafterTypeNationalBT },
-            { "CrafterTypeInternationalBT", ProjectStages.eCrafterTypeInternationalBT },
             { "CrafterAddAnchors", ProjectStages.eCrafterAddAnchors },
             { "CrafterAddStoryQuestions", ProjectStages.eCrafterAddStoryQuestions },
+            { "BackTranslatorTypeInternationalBT", ProjectStages.eBackTranslatorTypeInternationalBT },
 			{ "ConsultantCheckAnchors", ProjectStages.eConsultantCheckAnchors },
             { "ConsultantCheckStoryQuestions", ProjectStages.eConsultantCheckStoryQuestions },
             { "CoachReviewRound1Notes", ProjectStages.eCoachReviewRound1Notes },
@@ -321,8 +321,8 @@ namespace OneStoryProjectEditor
             public void SetView(StoryEditor theSE)
             {
                 theSE.viewVernacularLangFieldMenuItem.Checked = _abViewSettings[0];
-                theSE.viewNationalLangFieldMenuItem.Checked = _abViewSettings[1];
-                theSE.viewEnglishBTFieldMenuItem.Checked = _abViewSettings[2];
+                theSE.viewNationalLangFieldMenuItem.Checked = (_abViewSettings[1] && theSE.Stories.ProjSettings.NationalBT.HasData);
+                theSE.viewEnglishBTFieldMenuItem.Checked = (_abViewSettings[2] && theSE.Stories.ProjSettings.InternationalBT.HasData);
                 theSE.viewAnchorFieldMenuItem.Checked = _abViewSettings[3];
                 theSE.viewStoryTestingQuestionFieldMenuItem.Checked = _abViewSettings[4];
                 theSE.viewRetellingFieldMenuItem.Checked = _abViewSettings[5];

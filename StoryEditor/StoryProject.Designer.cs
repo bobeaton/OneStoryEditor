@@ -4079,6 +4079,8 @@ namespace OneStoryProjectEditor {
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
         public partial class CraftingInfoDataTable : global::System.Data.TypedTableBase<CraftingInfoRow> {
             
+            private global::System.Data.DataColumn columnNonBiblicalStory;
+            
             private global::System.Data.DataColumn columnStoryPurpose;
             
             private global::System.Data.DataColumn columnResourcesUsed;
@@ -4115,6 +4117,13 @@ namespace OneStoryProjectEditor {
             protected CraftingInfoDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn NonBiblicalStoryColumn {
+                get {
+                    return this.columnNonBiblicalStory;
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4174,15 +4183,16 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public CraftingInfoRow AddCraftingInfoRow(string StoryPurpose, string ResourcesUsed, storyRow parentstoryRowBystory_CraftingInfo) {
+            public CraftingInfoRow AddCraftingInfoRow(bool NonBiblicalStory, string StoryPurpose, string ResourcesUsed, storyRow parentstoryRowBystory_CraftingInfo) {
                 CraftingInfoRow rowCraftingInfoRow = ((CraftingInfoRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
+                        NonBiblicalStory,
                         StoryPurpose,
                         ResourcesUsed,
                         null,
                         null};
                 if ((parentstoryRowBystory_CraftingInfo != null)) {
-                    columnValuesArray[3] = parentstoryRowBystory_CraftingInfo[0];
+                    columnValuesArray[4] = parentstoryRowBystory_CraftingInfo[0];
                 }
                 rowCraftingInfoRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowCraftingInfoRow);
@@ -4203,6 +4213,7 @@ namespace OneStoryProjectEditor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
+                this.columnNonBiblicalStory = base.Columns["NonBiblicalStory"];
                 this.columnStoryPurpose = base.Columns["StoryPurpose"];
                 this.columnResourcesUsed = base.Columns["ResourcesUsed"];
                 this.columnCraftingInfo_Id = base.Columns["CraftingInfo_Id"];
@@ -4211,6 +4222,8 @@ namespace OneStoryProjectEditor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             private void InitClass() {
+                this.columnNonBiblicalStory = new global::System.Data.DataColumn("NonBiblicalStory", typeof(bool), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnNonBiblicalStory);
                 this.columnStoryPurpose = new global::System.Data.DataColumn("StoryPurpose", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnStoryPurpose);
                 this.columnResourcesUsed = new global::System.Data.DataColumn("ResourcesUsed", typeof(string), null, global::System.Data.MappingType.Element);
@@ -4221,6 +4234,7 @@ namespace OneStoryProjectEditor {
                 base.Columns.Add(this.columnname);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnCraftingInfo_Id}, true));
+                this.columnNonBiblicalStory.Namespace = "";
                 this.columnCraftingInfo_Id.AutoIncrement = true;
                 this.columnCraftingInfo_Id.AllowDBNull = false;
                 this.columnCraftingInfo_Id.Unique = true;
@@ -4432,7 +4446,7 @@ namespace OneStoryProjectEditor {
                         memberID,
                         null};
                 if ((parentCraftingInfoRowByCraftingInfo_StoryCrafter != null)) {
-                    columnValuesArray[1] = parentCraftingInfoRowByCraftingInfo_StoryCrafter[2];
+                    columnValuesArray[1] = parentCraftingInfoRowByCraftingInfo_StoryCrafter[3];
                 }
                 rowStoryCrafterRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowStoryCrafterRow);
@@ -4672,7 +4686,7 @@ namespace OneStoryProjectEditor {
                         memberID,
                         null};
                 if ((parentCraftingInfoRowByCraftingInfo_BackTranslator != null)) {
-                    columnValuesArray[1] = parentCraftingInfoRowByCraftingInfo_BackTranslator[2];
+                    columnValuesArray[1] = parentCraftingInfoRowByCraftingInfo_BackTranslator[3];
                 }
                 rowBackTranslatorRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowBackTranslatorRow);
@@ -4912,7 +4926,7 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentCraftingInfoRowByCraftingInfo_Tests != null)) {
-                    columnValuesArray[1] = parentCraftingInfoRowByCraftingInfo_Tests[2];
+                    columnValuesArray[1] = parentCraftingInfoRowByCraftingInfo_Tests[3];
                 }
                 rowTestsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowTestsRow);
@@ -11000,6 +11014,21 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool NonBiblicalStory {
+                get {
+                    try {
+                        return ((bool)(this[this.tableCraftingInfo.NonBiblicalStoryColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'NonBiblicalStory\' in table \'CraftingInfo\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableCraftingInfo.NonBiblicalStoryColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public string StoryPurpose {
                 get {
                     try {
@@ -11062,6 +11091,16 @@ namespace OneStoryProjectEditor {
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["story_CraftingInfo"]);
                 }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsNonBiblicalStoryNull() {
+                return this.IsNull(this.tableCraftingInfo.NonBiblicalStoryColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetNonBiblicalStoryNull() {
+                this[this.tableCraftingInfo.NonBiblicalStoryColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

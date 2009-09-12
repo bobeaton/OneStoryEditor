@@ -9,7 +9,7 @@ namespace OneStoryProjectEditor
     {
         public bool IsVisible = true;
         public StringTransfer QuestionVernacular = null;
-        public StringTransfer QuestionEnglish = null;
+        public StringTransfer QuestionBackTranslation = null;
         public AnswersData Answers = null;
 
         public TestQuestionData(StoryProject.TestQuestionRow theTestQuestionRow, StoryProject projFile)
@@ -17,36 +17,36 @@ namespace OneStoryProjectEditor
             IsVisible = theTestQuestionRow.visible;
 
             QuestionVernacular = new StringTransfer((theTestQuestionRow.IsTQVernacularNull()) ? null : theTestQuestionRow.TQVernacular);
-            QuestionEnglish = new StringTransfer((theTestQuestionRow.IsTQInternationalBTNull()) ? null : theTestQuestionRow.TQInternationalBT);
+            QuestionBackTranslation = new StringTransfer((theTestQuestionRow.IsTQInternationalBTNull()) ? null : theTestQuestionRow.TQInternationalBT);
             Answers = new AnswersData(theTestQuestionRow, projFile);
         }
 
         public TestQuestionData()
         {
             QuestionVernacular = new StringTransfer(null);
-            QuestionEnglish = new StringTransfer(null);
+            QuestionBackTranslation = new StringTransfer(null);
             Answers = new AnswersData();
         }
 
         public bool HasData
         {
-            get { return (QuestionVernacular.HasData || QuestionEnglish.HasData || Answers.HasData); }
+            get { return (QuestionVernacular.HasData || QuestionBackTranslation.HasData || Answers.HasData); }
         }
 
         public XElement GetXml
         {
             get
             {
-                System.Diagnostics.Debug.Assert(QuestionVernacular.HasData 
-                    || QuestionEnglish.HasData
+                System.Diagnostics.Debug.Assert(QuestionVernacular.HasData
+                    || QuestionBackTranslation.HasData
                     || Answers.HasData, "you have an empty TestQuestionData");
 
                 XElement eleTQ = new XElement("TestQuestion", new XAttribute("visible", IsVisible));
                 
                 if (QuestionVernacular.HasData)
                     eleTQ.Add(new XElement("TQVernacular", QuestionVernacular));
-                if (QuestionEnglish.HasData)
-                    eleTQ.Add(new XElement("TQInternationalBT", QuestionEnglish));
+                if (QuestionBackTranslation.HasData)
+                    eleTQ.Add(new XElement("TQInternationalBT", QuestionBackTranslation));
                 if (Answers.HasData)
                     eleTQ.Add(Answers.GetXml);
 

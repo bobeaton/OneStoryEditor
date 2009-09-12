@@ -30,8 +30,8 @@
 								<xs:complexType>
 									<xs:sequence>
 										<xs:element name="VernacularLang" type="LanguageInfo" minOccurs="1" maxOccurs="1" />
-										<xs:element name="NationalBTLang" type="LanguageInfo" minOccurs="1" maxOccurs="1" />
-										<xs:element name="InternationalBTLang" type="LanguageInfo" minOccurs="1" maxOccurs="1" />
+										<xs:element name="NationalBTLang" type="LanguageInfo" maxOccurs="1" />
+										<xs:element name="InternationalBTLang" type="LanguageInfo" maxOccurs="1" />
 									</xs:sequence>
 								</xs:complexType>
 							</xs:element>
@@ -66,7 +66,8 @@
 														</xs:complexType>
 													</xs:element>
 												</xs:sequence>
-											</xs:complexType>
+                        <xs:attribute name="NonBiblicalStory" type="xs:boolean" use="optional" />
+                      </xs:complexType>
 										</xs:element>
 										<xs:element name="verses" minOccurs="1" maxOccurs="1">
 											<xs:complexType>
@@ -208,7 +209,8 @@
 	<xs:simpleType name="MemberType">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="Crafter" />
-			<xs:enumeration value="UNS" />
+      <xs:enumeration value="EnglishBackTranslator" />
+      <xs:enumeration value="UNS" />
 			<xs:enumeration value="ConsultantInTraining" />
 			<xs:enumeration value="Coach" />
 			<xs:enumeration value="JustLooking" />
@@ -218,10 +220,10 @@
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="CrafterTypeVernacular" />
 			<xs:enumeration value="CrafterTypeNationalBT" />
-			<xs:enumeration value="CrafterTypeInternationalBT" />
 			<xs:enumeration value="CrafterAddAnchors" />
 			<xs:enumeration value="CrafterAddStoryQuestions" />
-			<xs:enumeration value="ConsultantCheckAnchors" />
+      <xs:enumeration value="BackTranslatorTypeInternationalBT" />
+      <xs:enumeration value="ConsultantCheckAnchors" />
 			<xs:enumeration value="ConsultantCheckStoryQuestions" />
 			<xs:enumeration value="CoachReviewRound1Notes" />
 			<xs:enumeration value="ConsultantReviseRound1Notes" />

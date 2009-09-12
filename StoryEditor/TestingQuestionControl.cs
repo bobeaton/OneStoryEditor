@@ -15,8 +15,8 @@ namespace OneStoryProjectEditor
         protected TestQuestionData _aTQData = null;
         protected int _nNumAnswerRows = 0;
 
-        public TestingQuestionControl(StoryEditor aSE, TestQuestionData aTQData)
-            : base(aSE.theCurrentStory.ProjStage)
+        public TestingQuestionControl(StoryEditor theSE, TestQuestionData aTQData)
+            : base(theSE.theCurrentStory.ProjStage)
         {
             _aTQData = aTQData;
 
@@ -48,7 +48,7 @@ namespace OneStoryProjectEditor
 
             // the Crafter definitely wants to see both, so even if the vern button is off, 
             //  show the vern for the testing question--except for the coach
-            bool bShowVernAndShowHeaders = (aSE.viewVernacularLangFieldMenuItem.Checked
+            bool bShowVernAndShowHeaders = (theSE.viewVernacularLangFieldMenuItem.Checked
                 || (StageLogic.MemberTypeWithEditToken != TeamMemberData.UserTypes.eCoach));
 
             int nNumColumns = 1;
@@ -57,18 +57,23 @@ namespace OneStoryProjectEditor
             if (bShowVernAndShowHeaders)
             {
                 InsertColumn(nNumColumns);
-                InitColumnLabel(aSE.Stories.ProjSettings.Vernacular.LangName, nNumColumns);
+                InitColumnLabel(theSE.Stories.ProjSettings.Vernacular.LangName, nNumColumns);
                 InitTextBox(CstrFieldNameVernacular, _aTQData.QuestionVernacular, 
-                    aSE.Stories.ProjSettings.Vernacular, nNumColumns);
+                    theSE.Stories.ProjSettings.Vernacular, nNumColumns);
                 nNumColumns++;
             }
-            tableLayoutPanel.DumpTable();
 
-            // insert the EnglishBT representation of the testing question (always)
+            // insert the English or NationalBT representation of the testing question (always)
+            ProjectSettings.LanguageInfo theLangInfo;
+            if (!theSE.Stories.ProjSettings.InternationalBT.HasData)
+                theLangInfo = theSE.Stories.ProjSettings.NationalBT;
+            else
+                theLangInfo = theSE.Stories.ProjSettings.InternationalBT;
+
             InsertColumn(nNumColumns);
             if (bShowVernAndShowHeaders)    // but no need to show the lang title header unless there are two
-                InitColumnLabel(aSE.Stories.ProjSettings.InternationalBT.LangName, nNumColumns);
-            InitTextBox(CstrFieldNameVernacular, _aTQData.QuestionEnglish, aSE.Stories.ProjSettings.InternationalBT, nNumColumns);
+                InitColumnLabel(theLangInfo.LangName, nNumColumns);
+            InitTextBox(CstrFieldNameVernacular, _aTQData.QuestionBackTranslation, theLangInfo, nNumColumns);
             tableLayoutPanel.DumpTable();
 
             // add a row so we can display a multiple line control with the answers

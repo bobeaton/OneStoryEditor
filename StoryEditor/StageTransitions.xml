@@ -25,17 +25,17 @@ videos, etc).
     </StageInstructions>
     <AllowableForwardsTransitions>
       <AllowableForwardsTransition>eCrafterTypeNationalBT</AllowableForwardsTransition>
-      <AllowableForwardsTransition>eCrafterTypeInternationalBT</AllowableForwardsTransition>
       <AllowableForwardsTransition>eCrafterAddAnchors</AllowableForwardsTransition>
       <AllowableForwardsTransition>eCrafterAddStoryQuestions</AllowableForwardsTransition>
+      <AllowableForwardsTransition>eBackTranslatorTypeInternationalBT</AllowableForwardsTransition>
       <AllowableForwardsTransition>eConsultantCheckAnchors</AllowableForwardsTransition>
     </AllowableForwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="false" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
-  <StateTransition stage="eCrafterTypeNationalBT" MemberTypeWithEditToken="eCrafter" NextState="eCrafterTypeInternationalBT">
-    <StageDisplayString>Crafter enters the National language back-translation</StageDisplayString>
+  <StateTransition stage="eCrafterTypeNationalBT" MemberTypeWithEditToken="eCrafter" NextState="eCrafterAddAnchors">
+    <StageDisplayString>Crafter enters a UNS's back-translation of the story into the National language</StageDisplayString>
     <StageInstructions>
-In this stage, you will find an uninitiated native speaker (UNS) to listen to the story and 
+In this stage, you need to find an uninitiated native speaker (UNS) to listen to the story and 
 have him or her "back-translate" the story into the national language (e.g. Hindi). Then you 
 will type the back-translation line-by-line into the verse field(s) in this window. Be sure 
 to type the UNS's back-translation into the same line number as the story verse to the left,
@@ -53,54 +53,12 @@ Information".
       <AllowableBackwardsTransition>eCrafterTypeVernacular</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <AllowableForwardsTransitions>
-      <AllowableForwardsTransition>eCrafterTypeInternationalBT</AllowableForwardsTransition>
       <AllowableForwardsTransition>eCrafterAddAnchors</AllowableForwardsTransition>
       <AllowableForwardsTransition>eCrafterAddStoryQuestions</AllowableForwardsTransition>
+      <AllowableForwardsTransition>eBackTranslatorTypeInternationalBT</AllowableForwardsTransition>
       <AllowableForwardsTransition>eConsultantCheckAnchors</AllowableForwardsTransition>
     </AllowableForwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
-  </StateTransition>
-  <StateTransition stage="eCrafterTypeInternationalBT" MemberTypeWithEditToken="eCrafter" NextState="eCrafterAddAnchors">
-    <StageDisplayString>Crafter enters the English back-translation</StageDisplayString>
-    <StageInstructions>
-In this stage, one of the crafting team will translate the National language back
-translation of the story into English.
-
-Unlike the last stage, where the National Language back translation had to done by 
-a UNS, in this state, anyone can do the English back translation. However, you must be 
-logged in as a Crafter to add this new back-translation. So if you don't know English 
-well, see if you can find someone who does to help you make it. 
-
-There's a program called 'Adapt It' that can be used to help make the English back-
-translation more efficiently. Click on the 'Story' menu, 'Do English Glossing in Adapt 
-It' menu, and then click the "From (National language)" command. This will write the 
-national language back-translation of the story into an Adapt It file so you can use 
-that program to do the translation.
-
-[note: there's another command on the 'Do English Glossing in Adapt It' menu: 
-"From (Story) language (for Discourse Charting)". This command is useful if you want to 
-create the English back-translation directly from your story language (e.g. Kangri) rather
-than the national language (e.g. Hindi). You might do this primarily if you want to create 
-a discourse chart in the story language itself and have English glosses. However, this 
-cannot be used to populate the English back-translation in this program, because the English 
-back-translation is supposed to be based on the Hindi back-translation rather than the 
-original story language. Discuss this with your advisor/consultant to know which one you
-should use.
-
-When you are finished entering the English back translation, then click the button in 
-the left-hand side of the status bar with the label 'Next State' to go to the next stage 
-in the process.
-    </StageInstructions>
-    <AllowableBackwardsTransitions>
-      <AllowableBackwardsTransition>eCrafterTypeVernacular</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
-    </AllowableBackwardsTransitions>
-    <AllowableForwardsTransitions>
-      <AllowableForwardsTransition>eCrafterAddAnchors</AllowableForwardsTransition>
-      <AllowableForwardsTransition>eCrafterAddStoryQuestions</AllowableForwardsTransition>
-      <AllowableForwardsTransition>eConsultantCheckAnchors</AllowableForwardsTransition>
-    </AllowableForwardsTransitions>
-    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
   <StateTransition stage="eCrafterAddAnchors" MemberTypeWithEditToken="eCrafter" NextState="eCrafterAddStoryQuestions">
     <StageDisplayString>Crafter adds biblical anchors</StageDisplayString>
@@ -138,15 +96,15 @@ choose 'Next Stage' to go to the next stage in the process.
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eCrafterTypeVernacular</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eCrafterTypeInternationalBT</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <AllowableForwardsTransitions>
       <AllowableForwardsTransition>eCrafterAddStoryQuestions</AllowableForwardsTransition>
+      <AllowableForwardsTransition>eBackTranslatorTypeInternationalBT</AllowableForwardsTransition>
       <AllowableForwardsTransition>eConsultantCheckAnchors</AllowableForwardsTransition>
     </AllowableForwardsTransitions>
-    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="true" />
+    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="true" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
-  <StateTransition stage="eCrafterAddStoryQuestions" MemberTypeWithEditToken="eCrafter" NextState="eConsultantCheckAnchors">
+  <StateTransition stage="eCrafterAddStoryQuestions" MemberTypeWithEditToken="eCrafter" NextState="eBackTranslatorTypeInternationalBT">
     <StageDisplayString>Crafter adds story testing questions</StageDisplayString>
     <StageInstructions>
 In this stage, one of the crafting team will go through the story and add "Story Testing Questions" (STQs). These are 
@@ -192,13 +150,57 @@ choose 'Next Stage' to go to the next stage in the process.
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eCrafterTypeVernacular</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eCrafterTypeInternationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterAddAnchors</AllowableBackwardsTransition>
+    </AllowableBackwardsTransitions>
+    <AllowableForwardsTransitions>
+      <AllowableBackwardsTransition>eBackTranslatorTypeInternationalBT</AllowableBackwardsTransition>
+      <AllowableForwardsTransition>eConsultantCheckAnchors</AllowableForwardsTransition>
+    </AllowableForwardsTransitions>
+    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="true" />
+  </StateTransition>
+  <StateTransition stage="eBackTranslatorTypeInternationalBT" MemberTypeWithEditToken="eEnglishBacktranslator" NextState="eConsultantCheckAnchors">
+    <StageDisplayString>Crafter (or special back-translator) enters the English back-translation</StageDisplayString>
+    <StageInstructions>
+In this stage, one of the crafting team will translate the National language back
+translation of the story into English.
+
+Unlike the last stage, where the National Language back translation had to done by
+a UNS, in this state, anyone can do the English back translation. However, you must be
+logged in as the 'English back-translator' to add this new back-translation. So if you
+are going to do the English back-translation, you will need to create another user
+with the same name who is fulfilling the 'English back-translation' role to log-in
+and enter the back-translation.
+
+There's a program called 'Adapt It' that can be used to help make the English back-
+translation more efficiently. Click on the 'Story' menu, 'Do English Glossing in Adapt
+It' menu, and then click the "From (National language)" command. This will write the
+national language back-translation of the story into an Adapt It file so you can use
+that program to do the translation.
+
+[note: there's another command on the 'Do English Glossing in Adapt It' menu:
+"From (Story) language (for Discourse Charting)". This command is useful if you want to
+create the English back-translation directly from your story language (e.g. Kangri) rather
+than the national language (e.g. Hindi). You might do this primarily if you want to create
+a discourse chart in the story language itself and have English glosses. However, this
+cannot be used to populate the English back-translation in this program, because the English
+back-translation is supposed to be based on the Hindi back-translation rather than the
+original story language. Discuss this with your advisor/consultant to know which one you
+should use.
+
+When you are finished entering the English back translation, then click the button in
+the left-hand side of the status bar with the label 'Next State' to go to the next stage
+in the process.
+    </StageInstructions>
+    <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eCrafterTypeVernacular</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eCrafterAddAnchors</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eCrafterAddStoryQuestions</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <AllowableForwardsTransitions>
       <AllowableForwardsTransition>eConsultantCheckAnchors</AllowableForwardsTransition>
     </AllowableForwardsTransitions>
-    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="true" />
+    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
   <StateTransition stage="eConsultantCheckAnchors" MemberTypeWithEditToken="eConsultantInTraining" NextState="eConsultantCheckStoryQuestions">
     <StageDisplayString>Consultant checks the story anchors</StageDisplayString>
@@ -227,9 +229,9 @@ status bar and choose 'Next Stage' to go to the next stage in the process.
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eCrafterTypeVernacular</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eCrafterTypeInternationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterAddAnchors</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterAddStoryQuestions</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eBackTranslatorTypeInternationalBT</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <AllowableForwardsTransitions>
       <AllowableForwardsTransition>eConsultantCheckStoryQuestions</AllowableForwardsTransition>
@@ -287,9 +289,9 @@ small button to the right-hand side of the appropriate line number and choose "A
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eCrafterTypeVernacular</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eCrafterTypeInternationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterAddAnchors</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterAddStoryQuestions</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eBackTranslatorTypeInternationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eConsultantCheckAnchors</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <AllowableForwardsTransitions>

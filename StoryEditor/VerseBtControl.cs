@@ -222,9 +222,9 @@ namespace OneStoryProjectEditor
         protected void AddRemTQSubmenu(ToolStripMenuItem tsm, TestQuestionData theTQ, int nIndex)
         {
             ToolStripMenuItem tsmSub = new ToolStripMenuItem();
-            tsmSub.Name = theTQ.QuestionEnglish.ToString();
+            tsmSub.Name = theTQ.QuestionBackTranslation.ToString();
             tsmSub.Text = theTQ.QuestionVernacular.ToString();
-            tsmSub.ToolTipText = theTQ.QuestionEnglish.ToString();
+            tsmSub.ToolTipText = theTQ.QuestionBackTranslation.ToString();
             tsmSub.Tag = theTQ;
             tsmSub.Click += remTQ_Click;
             tsm.DropDown.Items.Add(tsmSub);
