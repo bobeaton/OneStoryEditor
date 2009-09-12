@@ -384,8 +384,23 @@ namespace OneStoryProjectEditor
             if (res == DialogResult.Cancel)
                 return;
 
+            string strCrafterGuid;
+            // query for the crafter if non-biblical story (since for biblical stories we can assume
+            //  it's the logged in member)
+            if (res == DialogResult.No)
+            {
+                MemberPicker dlg = new MemberPicker(Stories, TeamMemberData.UserTypes.eCrafter);
+                dlg.Text = "Choose the Story Crafter";
+                if (dlg.ShowDialog() != DialogResult.OK)
+                    return;
+
+                strCrafterGuid = dlg.SelectedMember.MemberGuid;
+            }
+            else
+                strCrafterGuid = LoggedOnMember.MemberGuid;
+
             comboBoxStorySelector.Items.Insert(nIndexToInsert, strStoryName);
-            theCurrentStory = new StoryData(strStoryName, LoggedOnMember.MemberGuid, (res == DialogResult.Yes));
+            theCurrentStory = new StoryData(strStoryName, strCrafterGuid, (res == DialogResult.Yes));
             Stories.Insert(nIndexToInsert, theCurrentStory);
             comboBoxStorySelector.SelectedItem = strStoryName;
         }
@@ -1049,18 +1064,23 @@ namespace OneStoryProjectEditor
             AddListOfButtons(theCurrentST.AllowableBackwardsTransitions);
         }
 
-        protected bool AddListOfButtons(List<StoryStageLogic.ProjectStages> allowableTransitions)
+        protected bool AddListOfButtons(List<StoryStageLogic.AllowablePreviousStateWithConditions> allowableTransitions)
         {
             if (allowableTransitions.Count == 0)
                 return false;
 
-            foreach (StoryStageLogic.ProjectStages eAllowableTransition in allowableTransitions)
+            foreach (StoryStageLogic.AllowablePreviousStateWithConditions aps in allowableTransitions)
             {
                 // put the allowable transitions into the DropDown list
-                StoryStageLogic.StateTransition aST = StoryStageLogic.stateTransitions[eAllowableTransition];
-                ToolStripItem tsi = buttonsStoryStage.DropDown.Items.Add(
-                    aST.StageDisplayString, null, OnSelectOtherState);
-                tsi.Tag = aST;
+                if ((!aps.RequiresUsingNationalBT || Stories.ProjSettings.NationalBT.HasData)
+                    && (!aps.RequiresUsingEnglishBT || Stories.ProjSettings.InternationalBT.HasData)
+                    && (!aps.RequiresBiblicalStory || theCurrentStory.CraftingInfo.IsBiblicalStory))
+                {
+                    StoryStageLogic.StateTransition aST = StoryStageLogic.stateTransitions[aps.ProjectStage];
+                    ToolStripItem tsi = buttonsStoryStage.DropDown.Items.Add(
+                        aST.StageDisplayString, null, OnSelectOtherState);
+                    tsi.Tag = aST;
+                }
             }
             return true;
         }
@@ -1163,11 +1183,9 @@ namespace OneStoryProjectEditor
                 exportNationalBacktranslationToolStripMenuItem.Enabled =
                 ((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
 
-            if (exportStoryToolStripMenuItem.Enabled)
-                exportStoryToolStripMenuItem.Text = String.Format("&From {0} (for Discourse Charting)", Stories.ProjSettings.Vernacular.LangName);
-
-            if (exportNationalBacktranslationToolStripMenuItem.Enabled && Stories.ProjSettings.NationalBT.HasData)
-                exportNationalBacktranslationToolStripMenuItem.Text = String.Format("&From {0}", Stories.ProjSettings.NationalBT.LangName);
+            exportStoryToolStripMenuItem.Text = String.Format("&From {0} (for Discourse Charting)", Stories.ProjSettings.Vernacular.LangName);
+            exportNationalBacktranslationToolStripMenuItem.Text = String.Format("&From {0}", Stories.ProjSettings.NationalBT.LangName);
+            exportNationalBacktranslationToolStripMenuItem.Visible = Stories.ProjSettings.NationalBT.HasData;
         }
 
         private void enterTheReasonThisStoryIsInTheSetToolStripMenuItem_Click(object sender, EventArgs e)

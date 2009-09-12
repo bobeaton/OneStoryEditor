@@ -21,6 +21,7 @@ namespace OneStoryProjectEditor
             eCrafterAddAnchors,
             eCrafterAddStoryQuestions,
             eBackTranslatorTypeInternationalBT,
+            eConsultantCheckNonBiblicalStory,
             eConsultantCheckAnchors,
             eConsultantCheckStoryQuestions,
             eCoachReviewRound1Notes,
@@ -110,6 +111,7 @@ namespace OneStoryProjectEditor
             { "CrafterAddAnchors", ProjectStages.eCrafterAddAnchors },
             { "CrafterAddStoryQuestions", ProjectStages.eCrafterAddStoryQuestions },
             { "BackTranslatorTypeInternationalBT", ProjectStages.eBackTranslatorTypeInternationalBT },
+            { "ConsultantCheckNonBiblicalStory", ProjectStages.eConsultantCheckNonBiblicalStory },
 			{ "ConsultantCheckAnchors", ProjectStages.eConsultantCheckAnchors },
             { "ConsultantCheckStoryQuestions", ProjectStages.eConsultantCheckStoryQuestions },
             { "CoachReviewRound1Notes", ProjectStages.eCoachReviewRound1Notes },
@@ -223,9 +225,18 @@ namespace OneStoryProjectEditor
                             strStageInstructions = xpNextElement.Current.Value;
 
                         xpNextElement = xpStageTransition.Current.Select("AllowableBackwardsTransitions/AllowableBackwardsTransition");
-                        List<ProjectStages> lstAllowableBackwardsStages = new List<ProjectStages>();
+                        List<AllowablePreviousStateWithConditions> lstAllowableBackwardsStages = new List<AllowablePreviousStateWithConditions>();
                         while (xpNextElement.MoveNext())
-                            lstAllowableBackwardsStages.Add((ProjectStages)Enum.Parse(typeof(ProjectStages), xpNextElement.Current.Value));
+                        {
+                            AllowablePreviousStateWithConditions aps = new AllowablePreviousStateWithConditions
+                            {
+                                ProjectStage = (ProjectStages)Enum.Parse(typeof(ProjectStages), xpNextElement.Current.Value),
+                                RequiresUsingNationalBT = (xpNextElement.Current.GetAttribute("RequiresUsingNationalBT", navigator.NamespaceURI) == "true"),
+                                RequiresUsingEnglishBT = (xpNextElement.Current.GetAttribute("RequiresUsingEnglishBT", navigator.NamespaceURI) == "true"),
+                                RequiresBiblicalStory = (xpNextElement.Current.GetAttribute("RequiresBiblicalStory", navigator.NamespaceURI) == "true")
+                            };
+                            lstAllowableBackwardsStages.Add(aps);
+                        }
 
                         xpNextElement = xpStageTransition.Current.Select("ViewSettings");
                         List<bool> lstViewStates = new List<bool>();
@@ -256,11 +267,19 @@ namespace OneStoryProjectEditor
             }
         }
 
+        public class AllowablePreviousStateWithConditions
+        {
+            public ProjectStages ProjectStage { get; set; }
+            public bool RequiresUsingNationalBT { get; set; }
+            public bool RequiresUsingEnglishBT { get; set; }
+            public bool RequiresBiblicalStory { get; set; }
+        }
+
         public class StateTransition
         {
             internal ProjectStages CurrentStage = ProjectStages.eUndefined;
             internal ProjectStages NextState = ProjectStages.eUndefined;
-            internal List<ProjectStages> AllowableBackwardsTransitions = new List<ProjectStages>();
+            internal List<AllowablePreviousStateWithConditions> AllowableBackwardsTransitions = new List<AllowablePreviousStateWithConditions>();
             internal TeamMemberData.UserTypes MemberTypeWithEditToken = TeamMemberData.UserTypes.eUndefined;
             protected List<bool> _abViewSettings = null;
             internal string StageDisplayString = null;
@@ -276,7 +295,7 @@ namespace OneStoryProjectEditor
                 TeamMemberData.UserTypes eMemberTypeWithEditToken,
                 string strDisplayString,
                 string strInstructions,
-                List<ProjectStages> lstAllowableBackwardsStages,
+                List<AllowablePreviousStateWithConditions> lstAllowableBackwardsStages,
                 List<bool> abViewSettings)
             {
                 CurrentStage = thisStage;
@@ -298,14 +317,17 @@ namespace OneStoryProjectEditor
             public bool IsTerminalTransition(ProjectStages eToStage)
             {
                 if ((int)eToStage < (int)CurrentStage)
-                    return (AllowableBackwardsTransitions[0] == eToStage);
+                    return (AllowableBackwardsTransitions[0].ProjectStage == eToStage);
 
                 return false;
             }
 
             public bool IsTransitionValid(ProjectStages eToStage)
             {
-                return AllowableBackwardsTransitions.Contains(eToStage);
+                foreach (AllowablePreviousStateWithConditions aps in AllowableBackwardsTransitions)
+                    if (aps.ProjectStage == eToStage)
+                        return true;
+                return false;
             }
 
 #if !DataDllBuild
@@ -328,8 +350,18 @@ namespace OneStoryProjectEditor
                 get
                 {
                     XElement elemAllowableBackwardsTransition = new XElement("AllowableBackwardsTransitions");
-                    foreach (ProjectStages ps in AllowableBackwardsTransitions)
-                        elemAllowableBackwardsTransition.Add(new XElement("AllowableBackwardsTransition", ps));
+                    foreach (AllowablePreviousStateWithConditions ps in AllowableBackwardsTransitions)
+                    {
+                        XElement elemAPS = new XElement("AllowableBackwardsTransition");
+                        if (ps.RequiresBiblicalStory)
+                            elemAPS.Add(new XAttribute("RequiresBiblicalStory", true));
+                        if (ps.RequiresUsingEnglishBT)
+                            elemAPS.Add(new XAttribute("RequiresUsingEnglishBT", true));
+                        if (ps.RequiresUsingNationalBT)
+                            elemAPS.Add(new XAttribute("RequiresUsingNationalBT", true));
+                        elemAPS.Add(ps);
+                        elemAllowableBackwardsTransition.Add(elemAPS);
+                    }
 
                     XElement elem = new XElement("StateTransition", 
                         new XAttribute("stage", CurrentStage),
@@ -353,687 +385,5 @@ namespace OneStoryProjectEditor
                 }
             }
         }
-
-        #region static StageTransition implementation
-        /*
-        protected static Dictionary<ProjectStages, StageTransition> CmapAllowableStageTransitions = new Dictionary<ProjectStages, StageTransition>()
-        {
-            { 
-                // read this as: from the "CrafterTypeNationalBT" state, you (the Crafter) can go to the
-                //  CrafterTypeInternationalBT, CrafterAddAnchors, CrafterAddStoryQuestions, or ConsultantAddRound1Notes
-                //  state (the latter of which is the terminal stage (beyond which the edit token goes to the next)
-                ProjectStages.eCrafterTypeNationalBT, 
-                new StageTransition(TeamMemberData.UserTypes.eCrafter, 
-                    "Crafter enters the National language back-translation",
-                    "If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.",
-                    "",
-                    new List<ProjectStages>
-                    {
-                        ProjectStages.eCrafterTypeInternationalBT, 
-                        ProjectStages.eCrafterAddAnchors,
-                        ProjectStages.eCrafterAddStoryQuestions,
-                        ProjectStages.eConsultantCheckAnchors
-                    },
-                    new List<bool>
-                    {
-                        false,  // viewVernacularLangFieldMenuItem
-                        true,   // viewNationalLangFieldMenuItem
-                        false,  // viewEnglishBTFieldMenuItem
-                        false,  // viewAnchorFieldMenuItem
-                        false,  // viewStoryTestingQuestionFieldMenuItem
-                        false,  // viewRetellingFieldMenuItem
-                        false,  // viewConsultantNoteFieldMenuItem
-                        false,  // viewCoachNotesFieldMenuItem
-                        false   // viewNetBibleMenuItem
-                    } )
-            },
-            { 
-                ProjectStages.eCrafterTypeInternationalBT, 
-                new StageTransition(TeamMemberData.UserTypes.eCrafter, 
-                    "Crafter enters the English back-translation",
-                    "If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.",
-                    "",
-                    new List<ProjectStages>
-                    {
-                        ProjectStages.eCrafterTypeNationalBT, 
-                        ProjectStages.eCrafterAddAnchors,
-                        ProjectStages.eCrafterAddStoryQuestions,
-                        ProjectStages.eConsultantCheckAnchors
-                    },
-                    new List<bool>
-                    {
-                        false,  // viewVernacularLangFieldMenuItem
-                        true,   // viewNationalLangFieldMenuItem
-                        true,   // viewEnglishBTFieldMenuItem
-                        false,  // viewAnchorFieldMenuItem
-                        false,  // viewStoryTestingQuestionFieldMenuItem
-                        false,  // viewRetellingFieldMenuItem
-                        false,  // viewConsultantNoteFieldMenuItem
-                        false,  // viewCoachNotesFieldMenuItem
-                        false   // viewNetBibleMenuItem
-                    } )
-            },
-            { 
-                ProjectStages.eCrafterAddAnchors, 
-                new StageTransition(TeamMemberData.UserTypes.eCrafter, 
-                    "Crafter adds biblical anchors",
-                    "If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.",
-                    "",
-                    new List<ProjectStages>
-                    {
-                        ProjectStages.eCrafterTypeNationalBT, 
-                        ProjectStages.eCrafterTypeInternationalBT,
-                        ProjectStages.eCrafterAddStoryQuestions,
-                        ProjectStages.eConsultantCheckAnchors
-                    },
-                    new List<bool>
-                    {
-                        false,  // viewVernacularLangFieldMenuItem
-                        true,   // viewNationalLangFieldMenuItem
-                        true,   // viewEnglishBTFieldMenuItem
-                        true,   // viewAnchorFieldMenuItem
-                        false,  // viewStoryTestingQuestionFieldMenuItem
-                        false,  // viewRetellingFieldMenuItem
-                        false,  // viewConsultantNoteFieldMenuItem
-                        false,  // viewCoachNotesFieldMenuItem
-                        true    // viewNetBibleMenuItem
-                    } )
-            },
-            { 
-                ProjectStages.eCrafterAddStoryQuestions, 
-                new StageTransition(TeamMemberData.UserTypes.eCrafter, 
-                    "Crafter adds story testing questions",
-                    "If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.",
-                    "",
-                    new List<ProjectStages>
-                    {
-                        ProjectStages.eCrafterTypeNationalBT, 
-                        ProjectStages.eCrafterTypeInternationalBT,
-                        ProjectStages.eCrafterAddAnchors,
-                        ProjectStages.eConsultantCheckAnchors
-                    },
-                    new List<bool>
-                    {
-                        false,  // viewVernacularLangFieldMenuItem
-                        true,   // viewNationalLangFieldMenuItem
-                        true,   // viewEnglishBTFieldMenuItem
-                        true,   // viewAnchorFieldMenuItem
-                        true,   // viewStoryTestingQuestionFieldMenuItem
-                        false,  // viewRetellingFieldMenuItem
-                        false,  // viewConsultantNoteFieldMenuItem
-                        false,  // viewCoachNotesFieldMenuItem
-                        true    // viewNetBibleMenuItem
-                    } )
-            },
-            { 
-                ProjectStages.eConsultantCheckAnchors, 
-                new StageTransition(TeamMemberData.UserTypes.eConsultantInTraining, 
-                    "Consultant checks the story anchors",
-                    "If you change to this stage, then you won't be able to edit the story until after the coach has reviewed it.",
-                    "",
-                    new List<ProjectStages>
-                    {
-                        ProjectStages.eCrafterTypeNationalBT, 
-                        ProjectStages.eCrafterTypeInternationalBT,
-                        ProjectStages.eCrafterAddAnchors,
-                        ProjectStages.eCrafterAddStoryQuestions,
-                        ProjectStages.eConsultantCheckStoryQuestions,
-                        ProjectStages.eCoachReviewRound1Notes
-                    },
-                    new List<bool>
-                    {
-                        false,  // viewVernacularLangFieldMenuItem
-                        true,   // viewNationalLangFieldMenuItem
-                        true,   // viewEnglishBTFieldMenuItem
-                        true,   // viewAnchorFieldMenuItem
-                        false,  // viewStoryTestingQuestionFieldMenuItem
-                        false,  // viewRetellingFieldMenuItem
-                        true,   // viewConsultantNoteFieldMenuItem
-                        false,  // viewCoachNotesFieldMenuItem
-                        true    // viewNetBibleMenuItem
-                    } )
-            },
-            { 
-                ProjectStages.eConsultantCheckStoryQuestions, 
-                new StageTransition(TeamMemberData.UserTypes.eConsultantInTraining, 
-                    "Consultant checks the story testing questions",
-                    "If you change to this stage, then you won't be able to edit the story until after the coach has reviewed it.",
-                    "",
-                    new List<ProjectStages>
-                    {
-                        ProjectStages.eCrafterTypeNationalBT, 
-                        ProjectStages.eCrafterTypeInternationalBT,
-                        ProjectStages.eCrafterAddAnchors,
-                        ProjectStages.eCrafterAddStoryQuestions,
-                        ProjectStages.eConsultantCheckAnchors,
-                        ProjectStages.eCoachReviewRound1Notes
-                    },
-                    new List<bool>
-                    {
-                        false,  // viewVernacularLangFieldMenuItem
-                        true,   // viewNationalLangFieldMenuItem
-                        true,   // viewEnglishBTFieldMenuItem
-                        true,   // viewAnchorFieldMenuItem
-                        true,   // viewStoryTestingQuestionFieldMenuItem
-                        false,  // viewRetellingFieldMenuItem
-                        true,   // viewConsultantNoteFieldMenuItem
-                        false,  // viewCoachNotesFieldMenuItem
-                        true    // viewNetBibleMenuItem
-                    } )
-            },
-            { 
-                ProjectStages.eCoachReviewRound1Notes, 
-                new StageTransition(TeamMemberData.UserTypes.eCoach,
-                    "Coach reviews round 1 consultant notes",
-                    "If you change to this stage, then you won't be able to edit the story until after the consultant returns it to you for the next round of review.",
-                    "",
-                    new List<ProjectStages>
-                    {
-                        ProjectStages.eConsultantReviseRound1Notes
-                    },
-                    new List<bool>
-                    {
-                        false,  // viewVernacularLangFieldMenuItem
-                        true,   // viewNationalLangFieldMenuItem
-                        true,   // viewEnglishBTFieldMenuItem
-                        true,   // viewAnchorFieldMenuItem
-                        true,   // viewStoryTestingQuestionFieldMenuItem
-                        false,  // viewRetellingFieldMenuItem
-                        true,   // viewConsultantNoteFieldMenuItem
-                        true,   // viewCoachNotesFieldMenuItem
-                        true    // viewNetBibleMenuItem
-                    } )
-            },
-            { 
-                ProjectStages.eConsultantReviseRound1Notes, 
-                new StageTransition(TeamMemberData.UserTypes.eConsultantInTraining,
-                    "Consultant revises round 1 notes based on Coach's feedback",
-                    "If you change to this stage, then you won't be able to edit the story until after the crafter has returned it to you after the first (formal) UNS test.",
-                    "",
-                    new List<ProjectStages>
-                    {
-                        ProjectStages.eCrafterReviseBasedOnRound1Notes
-                    },
-                    new List<bool>
-                    {
-                        false,  // viewVernacularLangFieldMenuItem
-                        true,   // viewNationalLangFieldMenuItem
-                        true,   // viewEnglishBTFieldMenuItem
-                        true,   // viewAnchorFieldMenuItem
-                        true,   // viewStoryTestingQuestionFieldMenuItem
-                        false,  // viewRetellingFieldMenuItem
-                        true,   // viewConsultantNoteFieldMenuItem
-                        true,   // viewCoachNotesFieldMenuItem
-                        true    // viewNetBibleMenuItem
-                    } )
-            },
-            { 
-                ProjectStages.eCrafterReviseBasedOnRound1Notes, 
-                new StageTransition(TeamMemberData.UserTypes.eCrafter,
-                    "Crafter revises story based on Consultant's feedback",
-                    "If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.",
-                    "",
-                    new List<ProjectStages>
-                    {
-                        ProjectStages.eCrafterOnlineReview1WithConsultant,
-                        ProjectStages.eCrafterReadyForTest1,
-                        ProjectStages.eCrafterEnterAnswersToStoryQuestionsOfTest1,
-                        ProjectStages.eCrafterEnterRetellingOfTest1,
-                        ProjectStages.eConsultantCheckAnchorsRound2
-                    },
-                    new List<bool>
-                    {
-                        false,  // viewVernacularLangFieldMenuItem
-                        true,   // viewNationalLangFieldMenuItem
-                        true,   // viewEnglishBTFieldMenuItem
-                        true,   // viewAnchorFieldMenuItem
-                        true,   // viewStoryTestingQuestionFieldMenuItem
-                        false,  // viewRetellingFieldMenuItem
-                        true,   // viewConsultantNoteFieldMenuItem
-                        false,  // viewCoachNotesFieldMenuItem
-                        true    // viewNetBibleMenuItem
-                    } )
-            },
-            { 
-                ProjectStages.eCrafterOnlineReview1WithConsultant, 
-                new StageTransition(TeamMemberData.UserTypes.eCrafter,
-                    "Crafter has 1st online review with consultant",
-                    "If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.",
-                    "",
-                    new List<ProjectStages>
-                    {
-                        ProjectStages.eCrafterReviseBasedOnRound1Notes,
-                        ProjectStages.eCrafterReadyForTest1,
-                        ProjectStages.eCrafterEnterAnswersToStoryQuestionsOfTest1,
-                        ProjectStages.eCrafterEnterRetellingOfTest1,
-                        ProjectStages.eConsultantCheckAnchorsRound2
-                    },
-                    new List<bool>
-                    {
-                        false,  // viewVernacularLangFieldMenuItem
-                        true,   // viewNationalLangFieldMenuItem
-                        true,   // viewEnglishBTFieldMenuItem
-                        true,   // viewAnchorFieldMenuItem
-                        true,   // viewStoryTestingQuestionFieldMenuItem
-                        false,  // viewRetellingFieldMenuItem
-                        true,   // viewConsultantNoteFieldMenuItem
-                        false,  // viewCoachNotesFieldMenuItem
-                        true    // viewNetBibleMenuItem
-                    } )
-            },
-            { 
-                ProjectStages.eCrafterReadyForTest1, 
-                new StageTransition(TeamMemberData.UserTypes.eCrafter,
-                    "Crafter is ready for the 1st (formal) UNS test",
-                    "If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.",
-                    "",
-                    new List<ProjectStages>
-                    {
-                        ProjectStages.eCrafterReviseBasedOnRound1Notes,
-                        ProjectStages.eCrafterOnlineReview1WithConsultant,
-                        ProjectStages.eCrafterEnterAnswersToStoryQuestionsOfTest1,
-                        ProjectStages.eCrafterEnterRetellingOfTest1,
-                        ProjectStages.eConsultantCheckAnchorsRound2
-                    },
-                    new List<bool>
-                    {
-                        false,  // viewVernacularLangFieldMenuItem
-                        true,   // viewNationalLangFieldMenuItem
-                        false,  // viewEnglishBTFieldMenuItem
-                        false,  // viewAnchorFieldMenuItem
-                        true,   // viewStoryTestingQuestionFieldMenuItem
-                        false,  // viewRetellingFieldMenuItem
-                        false,  // viewConsultantNoteFieldMenuItem
-                        false,  // viewCoachNotesFieldMenuItem
-                        false   // viewNetBibleMenuItem
-                    } )
-            },
-            { 
-                ProjectStages.eCrafterEnterAnswersToStoryQuestionsOfTest1, 
-                new StageTransition(TeamMemberData.UserTypes.eCrafter,
-                    "Crafter enters answers to the test 1 story questions",
-                    "If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.",
-                    "",
-                    new List<ProjectStages>
-                    {
-                        ProjectStages.eCrafterReviseBasedOnRound1Notes,
-                        ProjectStages.eCrafterOnlineReview1WithConsultant,
-                        ProjectStages.eCrafterReadyForTest1,
-                        ProjectStages.eCrafterEnterRetellingOfTest1,
-                        ProjectStages.eConsultantCheckAnchorsRound2
-                    },
-                    new List<bool>
-                    {
-                        false,  // viewVernacularLangFieldMenuItem
-                        true,   // viewNationalLangFieldMenuItem
-                        false,  // viewEnglishBTFieldMenuItem
-                        false,  // viewAnchorFieldMenuItem
-                        true,   // viewStoryTestingQuestionFieldMenuItem
-                        false,  // viewRetellingFieldMenuItem
-                        false,  // viewConsultantNoteFieldMenuItem
-                        false,  // viewCoachNotesFieldMenuItem
-                        false   // viewNetBibleMenuItem
-                    } )
-            },
-            { 
-                ProjectStages.eCrafterEnterRetellingOfTest1, 
-                new StageTransition(TeamMemberData.UserTypes.eCrafter,
-                    "Crafter enters test 1 retelling back-translation",
-                    "If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.",
-                    "",
-                    new List<ProjectStages>
-                    {
-                        ProjectStages.eCrafterReviseBasedOnRound1Notes,
-                        ProjectStages.eCrafterOnlineReview1WithConsultant,
-                        ProjectStages.eCrafterReadyForTest1,
-                        ProjectStages.eCrafterEnterAnswersToStoryQuestionsOfTest1,
-                        ProjectStages.eConsultantCheckAnchorsRound2
-                    },
-                    new List<bool>
-                    {
-                        false,  // viewVernacularLangFieldMenuItem
-                        true,   // viewNationalLangFieldMenuItem
-                        true,   // viewEnglishBTFieldMenuItem
-                        false,  // viewAnchorFieldMenuItem
-                        false,  // viewStoryTestingQuestionFieldMenuItem
-                        true,   // viewRetellingFieldMenuItem
-                        false,  // viewConsultantNoteFieldMenuItem
-                        false,  // viewCoachNotesFieldMenuItem
-                        false   // viewNetBibleMenuItem
-                    } )
-            },
-            { 
-                ProjectStages.eConsultantCheckAnchorsRound2, 
-                new StageTransition(TeamMemberData.UserTypes.eConsultantInTraining,
-                    "Consultant checks story anchors for round 2",
-                    "If you change to this stage, then you won't be able to edit the story until after the coach has reviewed it.",
-                    "",
-                    new List<ProjectStages>
-                    {
-                        ProjectStages.eCrafterReviseBasedOnRound1Notes,
-                        ProjectStages.eConsultantCheckAnswersToTestingQuestionsRound2,
-                        ProjectStages.eConsultantCheckRetellingRound2,
-                        ProjectStages.eCoachReviewRound2Notes
-                    },
-                    new List<bool>
-                    {
-                        false,  // viewVernacularLangFieldMenuItem
-                        true,   // viewNationalLangFieldMenuItem
-                        true,   // viewEnglishBTFieldMenuItem
-                        true,   // viewAnchorFieldMenuItem
-                        false,  // viewStoryTestingQuestionFieldMenuItem
-                        false,  // viewRetellingFieldMenuItem
-                        true,   // viewConsultantNoteFieldMenuItem
-                        false,  // viewCoachNotesFieldMenuItem
-                        true    // viewNetBibleMenuItem
-                    } )
-            },
-            { 
-                ProjectStages.eConsultantCheckAnswersToTestingQuestionsRound2, 
-                new StageTransition(TeamMemberData.UserTypes.eConsultantInTraining,
-                    "Consultant checks test 1 answers to story testing questions",
-                    "If you change to this stage, then you won't be able to edit the story until after the coach has reviewed it.",
-                    "",
-                    new List<ProjectStages>
-                    {
-                        ProjectStages.eCrafterReviseBasedOnRound1Notes,
-                        ProjectStages.eConsultantCheckAnchorsRound2,
-                        ProjectStages.eConsultantCheckRetellingRound2,
-                        ProjectStages.eCoachReviewRound2Notes
-                    },
-                    new List<bool>
-                    {
-                        false,  // viewVernacularLangFieldMenuItem
-                        true,   // viewNationalLangFieldMenuItem
-                        true,   // viewEnglishBTFieldMenuItem
-                        true,   // viewAnchorFieldMenuItem
-                        true,   // viewStoryTestingQuestionFieldMenuItem
-                        false,  // viewRetellingFieldMenuItem
-                        true,   // viewConsultantNoteFieldMenuItem
-                        false,  // viewCoachNotesFieldMenuItem
-                        true    // viewNetBibleMenuItem
-                    } )
-            },
-            { 
-                ProjectStages.eConsultantCheckRetellingRound2, 
-                new StageTransition(TeamMemberData.UserTypes.eConsultantInTraining,
-                    "Consultant checks test 1 retelling",
-                    "If you change to this stage, then you won't be able to edit the story until after the coach has reviewed it.",
-                    "",
-                    new List<ProjectStages>
-                    {
-                        ProjectStages.eCrafterReviseBasedOnRound1Notes,
-                        ProjectStages.eConsultantCheckAnchorsRound2,
-                        ProjectStages.eConsultantCheckAnswersToTestingQuestionsRound2,
-                        ProjectStages.eCoachReviewRound2Notes
-                    },
-                    new List<bool>
-                    {
-                        false,  // viewVernacularLangFieldMenuItem
-                        true,   // viewNationalLangFieldMenuItem
-                        true,   // viewEnglishBTFieldMenuItem
-                        false,  // viewAnchorFieldMenuItem
-                        false,  // viewStoryTestingQuestionFieldMenuItem
-                        true,   // viewRetellingFieldMenuItem
-                        true,   // viewConsultantNoteFieldMenuItem
-                        false,  // viewCoachNotesFieldMenuItem
-                        true    // viewNetBibleMenuItem
-                    } )
-            },
-            { 
-                ProjectStages.eCoachReviewRound2Notes, 
-                new StageTransition(TeamMemberData.UserTypes.eCoach,
-                    "Coach reviews test 1 notes",
-                    "If you change to this stage, then you won't be able to edit the story until after the consultant has returned it for round 2.",
-                    "",
-                    new List<ProjectStages>
-                    {
-                        ProjectStages.eConsultantReviseRound2Notes
-                    },
-                    new List<bool>
-                    {
-                        false,  // viewVernacularLangFieldMenuItem
-                        true,   // viewNationalLangFieldMenuItem
-                        true,   // viewEnglishBTFieldMenuItem
-                        true,   // viewAnchorFieldMenuItem
-                        true,   // viewStoryTestingQuestionFieldMenuItem
-                        true,   // viewRetellingFieldMenuItem
-                        true,   // viewConsultantNoteFieldMenuItem
-                        true,   // viewCoachNotesFieldMenuItem
-                        true    // viewNetBibleMenuItem
-                    } )
-            },
-            { 
-                ProjectStages.eConsultantReviseRound2Notes, 
-                new StageTransition(TeamMemberData.UserTypes.eConsultantInTraining,
-                    "Consultant revises round 2 notes based on Coach's feedback",
-                    "If you change to this stage, then you won't be able to edit the story until after the crafter has returned it for a final review.",
-                    "",
-                    new List<ProjectStages>
-                    {
-                        ProjectStages.eCrafterReviseBasedOnRound2Notes
-                    },
-                    new List<bool>
-                    {
-                        false,  // viewVernacularLangFieldMenuItem
-                        true,   // viewNationalLangFieldMenuItem
-                        true,   // viewEnglishBTFieldMenuItem
-                        true,   // viewAnchorFieldMenuItem
-                        true,   // viewStoryTestingQuestionFieldMenuItem
-                        true,   // viewRetellingFieldMenuItem
-                        true,   // viewConsultantNoteFieldMenuItem
-                        true,   // viewCoachNotesFieldMenuItem
-                        true    // viewNetBibleMenuItem
-                    } )
-            },
-            { 
-                ProjectStages.eCrafterReviseBasedOnRound2Notes, 
-                new StageTransition(TeamMemberData.UserTypes.eCrafter,
-                    "Crafter revises story based on round 2 notes",
-                    "If you change to this stage, then you won't be able to edit the story until after the consultant has returned it.",
-                    "",
-                    new List<ProjectStages>
-                    {
-                        ProjectStages.eCrafterOnlineReview2WithConsultant,
-                        ProjectStages.eCrafterReadyForTest2,
-                        ProjectStages.eCrafterEnterAnswersToStoryQuestionsOfTest2,
-                        ProjectStages.eCrafterEnterRetellingOfTest2,
-                        ProjectStages.eConsultantReviewTest2
-                    },
-                    new List<bool>
-                    {
-                        false,  // viewVernacularLangFieldMenuItem
-                        true,   // viewNationalLangFieldMenuItem
-                        true,   // viewEnglishBTFieldMenuItem
-                        true,   // viewAnchorFieldMenuItem
-                        true,   // viewStoryTestingQuestionFieldMenuItem
-                        true,   // viewRetellingFieldMenuItem
-                        true,   // viewConsultantNoteFieldMenuItem
-                        false,  // viewCoachNotesFieldMenuItem
-                        true    // viewNetBibleMenuItem
-                    } )
-            },
-            { 
-                ProjectStages.eCrafterOnlineReview2WithConsultant, 
-                new StageTransition(TeamMemberData.UserTypes.eCrafter,
-                    "Crafter has 2nd online review with consultant",
-                    "If you change to this stage, then you won't be able to edit the story until after the consultant has returned it.",
-                    "",
-                    new List<ProjectStages>
-                    {
-                        ProjectStages.eCrafterReviseBasedOnRound2Notes,
-                        ProjectStages.eCrafterReadyForTest2,
-                        ProjectStages.eCrafterEnterAnswersToStoryQuestionsOfTest2,
-                        ProjectStages.eCrafterEnterRetellingOfTest2,
-                        ProjectStages.eConsultantReviewTest2
-                    },
-                    new List<bool>
-                    {
-                        false,  // viewVernacularLangFieldMenuItem
-                        true,   // viewNationalLangFieldMenuItem
-                        true,   // viewEnglishBTFieldMenuItem
-                        true,   // viewAnchorFieldMenuItem
-                        true,   // viewStoryTestingQuestionFieldMenuItem
-                        true,   // viewRetellingFieldMenuItem
-                        true,   // viewConsultantNoteFieldMenuItem
-                        false,  // viewCoachNotesFieldMenuItem
-                        true    // viewNetBibleMenuItem
-                    } )
-            },
-            { 
-                ProjectStages.eCrafterReadyForTest2, 
-                new StageTransition(TeamMemberData.UserTypes.eCrafter,
-                    "Crafter is ready for the second (formal) UNS test",
-                    "If you change to this stage, then you won't be able to edit the story until after the consultant has returned it.",
-                    "",
-                    new List<ProjectStages>
-                    {
-                        ProjectStages.eCrafterReviseBasedOnRound2Notes,
-                        ProjectStages.eCrafterOnlineReview2WithConsultant,
-                        ProjectStages.eCrafterEnterAnswersToStoryQuestionsOfTest2,
-                        ProjectStages.eCrafterEnterRetellingOfTest2,
-                        ProjectStages.eConsultantReviewTest2
-                    },
-                    new List<bool>
-                    {
-                        false,  // viewVernacularLangFieldMenuItem
-                        true,   // viewNationalLangFieldMenuItem
-                        false,  // viewEnglishBTFieldMenuItem
-                        false,  // viewAnchorFieldMenuItem
-                        true,   // viewStoryTestingQuestionFieldMenuItem
-                        false,  // viewRetellingFieldMenuItem
-                        false,  // viewConsultantNoteFieldMenuItem
-                        false,  // viewCoachNotesFieldMenuItem
-                        false   // viewNetBibleMenuItem
-                    } )
-            },
-            { 
-                ProjectStages.eCrafterEnterAnswersToStoryQuestionsOfTest2, 
-                new StageTransition(TeamMemberData.UserTypes.eCrafter,
-                    "Crafter enters test 2 answers to story testing questions",
-                    "If you change to this stage, then you won't be able to edit the story until after the consultant has returned it.",
-                    "",
-                    new List<ProjectStages>
-                    {
-                        ProjectStages.eCrafterReviseBasedOnRound2Notes,
-                        ProjectStages.eCrafterOnlineReview2WithConsultant,
-                        ProjectStages.eCrafterReadyForTest2,
-                        ProjectStages.eCrafterEnterRetellingOfTest2,
-                        ProjectStages.eConsultantReviewTest2
-                    },
-                    new List<bool>
-                    {
-                        false,  // viewVernacularLangFieldMenuItem
-                        true,   // viewNationalLangFieldMenuItem
-                        false,  // viewEnglishBTFieldMenuItem
-                        false,  // viewAnchorFieldMenuItem
-                        true,   // viewStoryTestingQuestionFieldMenuItem
-                        false,  // viewRetellingFieldMenuItem
-                        false,  // viewConsultantNoteFieldMenuItem
-                        false,  // viewCoachNotesFieldMenuItem
-                        false   // viewNetBibleMenuItem
-                    } )
-            },
-            { 
-                ProjectStages.eCrafterEnterRetellingOfTest2, 
-                new StageTransition(TeamMemberData.UserTypes.eCrafter,
-                    "Crafter enters test 2 retelling back-translation",
-                    "If you change to this stage, then you won't be able to edit the story until after the consultant has returned it.",
-                    "",
-                    new List<ProjectStages>
-                    {
-                        ProjectStages.eCrafterReviseBasedOnRound2Notes,
-                        ProjectStages.eCrafterOnlineReview2WithConsultant,
-                        ProjectStages.eCrafterReadyForTest2,
-                        ProjectStages.eCrafterEnterAnswersToStoryQuestionsOfTest2,
-                        ProjectStages.eConsultantReviewTest2
-                    },
-                    new List<bool>
-                    {
-                        false,  // viewVernacularLangFieldMenuItem
-                        true,   // viewNationalLangFieldMenuItem
-                        true,   // viewEnglishBTFieldMenuItem
-                        false,  // viewAnchorFieldMenuItem
-                        false,  // viewStoryTestingQuestionFieldMenuItem
-                        true,   // viewRetellingFieldMenuItem
-                        false,  // viewConsultantNoteFieldMenuItem
-                        false,  // viewCoachNotesFieldMenuItem
-                        false   // viewNetBibleMenuItem
-                    } )
-            },
-            { 
-                ProjectStages.eConsultantReviewTest2, 
-                new StageTransition(TeamMemberData.UserTypes.eConsultantInTraining,
-                    "Consultant reviews test 2 results",
-                    "If you change to this stage, then you won't be able to edit the story until after the coach has returned it.",
-                    "",
-                    new List<ProjectStages>
-                    {
-                        ProjectStages.eCrafterReviseBasedOnRound2Notes,
-                        ProjectStages.eCoachReviewTest2Notes
-                    },
-                    new List<bool>
-                    {
-                        false,  // viewVernacularLangFieldMenuItem
-                        true,   // viewNationalLangFieldMenuItem
-                        true,   // viewEnglishBTFieldMenuItem
-                        true,   // viewAnchorFieldMenuItem
-                        true,   // viewStoryTestingQuestionFieldMenuItem
-                        true,   // viewRetellingFieldMenuItem
-                        true,   // viewConsultantNoteFieldMenuItem
-                        false,  // viewCoachNotesFieldMenuItem
-                        true    // viewNetBibleMenuItem
-                    } )
-            },
-            { 
-                ProjectStages.eCoachReviewTest2Notes, 
-                new StageTransition(TeamMemberData.UserTypes.eCoach,
-                    "Coach reviews test 2 results",
-                    "If you change to this stage, then you won't be able to edit the story until after the consultant has returned it.",
-                    "",
-                    new List<ProjectStages>
-                    {
-                        ProjectStages.eConsultantReviseRound2Notes,
-                        ProjectStages.eTeamComplete
-                    },
-                    new List<bool>
-                    {
-                        false,  // viewVernacularLangFieldMenuItem
-                        true,   // viewNationalLangFieldMenuItem
-                        true,   // viewEnglishBTFieldMenuItem
-                        true,   // viewAnchorFieldMenuItem
-                        true,   // viewStoryTestingQuestionFieldMenuItem
-                        true,   // viewRetellingFieldMenuItem
-                        true,   // viewConsultantNoteFieldMenuItem
-                        true,   // viewCoachNotesFieldMenuItem
-                        true    // viewNetBibleMenuItem
-                    } )
-            },
-            { 
-                ProjectStages.eTeamComplete, 
-                new StageTransition(TeamMemberData.UserTypes.eCrafter,
-                    "Story testing complete (waiting for panorama completion review)",
-                    "If you change to this stage, then you won't be able to edit the story until after the consultant has reviewed it.",
-                    "",
-                    new List<ProjectStages>
-                    {
-                        ProjectStages.eConsultantReviewTest2
-                    },
-                    new List<bool>
-                    {
-                        true,   // viewVernacularLangFieldMenuItem
-                        true,   // viewNationalLangFieldMenuItem
-                        true,   // viewEnglishBTFieldMenuItem
-                        true,   // viewAnchorFieldMenuItem
-                        true,   // viewStoryTestingQuestionFieldMenuItem
-                        true,   // viewRetellingFieldMenuItem
-                        true,   // viewConsultantNoteFieldMenuItem
-                        true,   // viewCoachNotesFieldMenuItem
-                        true    // viewNetBibleMenuItem
-                    } )
-            }
-        };
-        */
-        #endregion static StageTransition implementation
     }
 }

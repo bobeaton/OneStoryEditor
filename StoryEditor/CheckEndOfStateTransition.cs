@@ -135,13 +135,19 @@ namespace OneStoryProjectEditor
                 }
             } while (bRepeatAfterMe);
 
-            // finally, we need to know who (which UNS) did the BT.
+            // we'd like need to know who (which UNS) did the BT.
             QueryForUnsBackTranslator(theSE, theStories, theCurrentStory);
-
-            // normally, we'd go to doing anchors next, but if this isn't a biblical story, then
-            //  no anchors and we skip right ot the English BT
+            
             if (!theCurrentStory.CraftingInfo.IsBiblicalStory)
-                eProposedNextState = StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT;
+            {
+                // normally, we'd go to doing anchors next, but if this isn't a biblical story, then
+                //  no anchors and we skip right ot the English BT
+                // but only if there is an English BT... if not, then we're done
+                if (theStories.ProjSettings.InternationalBT.HasData)
+                    eProposedNextState = StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT;
+                else
+                    eProposedNextState = StoryStageLogic.ProjectStages.eConsultantCheckNonBiblicalStory;
+            }
 
             return true;
         }
@@ -165,14 +171,16 @@ namespace OneStoryProjectEditor
                     nIndex++;
 
                 string strLine = strParagraph.Substring(nStartIndex, nIndex - nStartIndex + 1).Trim();
-                if (!string.IsNullOrEmpty(strLine))
+                if (!String.IsNullOrEmpty(strLine))
                     lstStrRet.Add(strLine);
 
                 nStartIndex = nIndex + 1;
             }
 
+            // if we didn't find any final punctuation...
             if (lstStrRet.Count == 0)
             {
+                // it may just be that the user forgot it.
                 if (!String.IsNullOrEmpty(strParagraph))
                 {
                     // this means the user forgot the full stop, so help him/her out and add one.
@@ -181,6 +189,18 @@ namespace OneStoryProjectEditor
                 }
                 else
                     return null;
+            }
+
+            // otherwise, there may have been multiple sentences, but the last one didn't have
+            //  a full stop
+            else if (nStartIndex < strParagraph.Length)
+            {
+                string strLine = strParagraph.Substring(nStartIndex).Trim();
+                if (!String.IsNullOrEmpty(strLine))
+                {
+                    // this means the user forgot the full stop, so help him/her out and add one.
+                    lstStrRet.Add(strLine + strFullStop);
+                }
             }
 
             return lstStrRet;
@@ -274,6 +294,9 @@ namespace OneStoryProjectEditor
             // if there's only an English BT, then we need to know who (which UNS) did the BT.
             if (!theStories.ProjSettings.NationalBT.HasData)
                 QueryForUnsBackTranslator(theSE, theStories, theCurrentStory);
+
+            if (!theCurrentStory.CraftingInfo.IsBiblicalStory)
+                eProposedNextState = StoryStageLogic.ProjectStages.eConsultantCheckNonBiblicalStory;
             
             return true;
         }
@@ -282,11 +305,29 @@ namespace OneStoryProjectEditor
         {
             while (String.IsNullOrEmpty(theCurrentStory.CraftingInfo.BackTranslatorMemberID))
             {
-                MessageBox.Show("In the following window, click on the browse button to select the 'UNS Back-translator' and add or choose the UNS that did this back-translation.", StoriesData.CstrCaption);
-                StoryFrontMatterForm dlg = new StoryFrontMatterForm(theSE, theStories, theCurrentStory);
-                dlg.Text = "Choose the UNS that did the back-translation";
-                dlg.ShowDialog();
+                if (theCurrentStory.CraftingInfo.IsBiblicalStory)
+                {
+                    MessageBox.Show("In the following window, click on the browse button to select the 'UNS Back-translator' and add or choose the UNS that did this back-translation.", StoriesData.CstrCaption);
+                    StoryFrontMatterForm dlg = new StoryFrontMatterForm(theSE, theStories, theCurrentStory);
+                    dlg.Text = "Choose the UNS that did the back-translation";
+                    dlg.ShowDialog();
+                }
+                else
+                {
+                    MemberPicker dlg = new MemberPicker(theStories, TeamMemberData.UserTypes.eUNS);
+                    dlg.Text = "Choose the UNS that did this back-translation";
+                    if (dlg.ShowDialog() != DialogResult.OK)
+                        return;
+
+                    theCurrentStory.CraftingInfo.BackTranslatorMemberID = dlg.SelectedMember.MemberGuid;
+                }
             }
+        }
+
+        public static bool ConsultantCheckNonBiblicalStory(StoryEditor theSE, StoriesData theStories, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
+        {
+            Console.WriteLine(String.Format("Checking if stage 'ConsultantCheckNonBiblicalStory' work is finished: Name: {0}", theCurrentStory.Name));
+            return true;
         }
 
         public static bool ConsultantCheckAnchors(StoryEditor theSE, StoriesData theStories, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)

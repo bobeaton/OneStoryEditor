@@ -6,22 +6,16 @@
 By this stage, you will have already crafted and recorded a story according to the procedure you 
 learned in the workshop. See the document "Steps in the Story Crafting Process.doc" for details.
 
-Now you should listen line-by-line to the recording you made of your partner telling the story 
-that you're all happy with and type it in the verse fields in this window.
+Now you should listen line-by-line to the recording and type it in the verse fields in this window.
 
-You can type the entire story into a single verse box. Then when you're finished, you can click 
-on the "Next State" button in the lower left corner of the screen and the program will 
-automatically split the story into sentences so that each verse line has a single sentence in it.
+You can type the entire story into a single verse box. Then when you're finished, click on the 
+"Next State" button in the lower left corner of the screen and the program will split the story 
+into sentences so that each verse line has a single sentence in it.
 
-You can also manually add new verse boxes by right-clicking on the small 'verse commands' button 
-in the upper-right of the verse area. Then in the resulting popup menu, choose either the 
-'Insert new verse(s) before' or 'Add new verse(s) after' commands. Each of these menus has a 
-sub-menu that allows you to insert more than one at a time.
-
-At the end, you will also be asked to type in the purpose that this story is in the set; that is, 
-why have you chosen this particular story? How does it fit with the theme of your panorama? You
-will also enter the list of resources used in crafting the story (audio recordings of Bibles, 
-videos, etc).
+If this is a story from the Bible, then you will also be asked to type in the purpose that this 
+story is in the set; that is, why have you chosen this particular story? How does it fit with the 
+theme of your panorama? You will also enter the list of resources used in crafting the story 
+(audio recordings of Bibles, videos, etc).
     </StageInstructions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="false" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
@@ -30,17 +24,18 @@ videos, etc).
     <StageInstructions>
 In this stage, you need to find an uninitiated native speaker (UNS) to listen to the story and 
 have him or her "back-translate" the story into the national language (e.g. Hindi). Then you 
-will type the back-translation line-by-line into the verse field(s) in this window. Be sure 
-to type the UNS's back-translation into the same line number as the story verse to the left,
-so that the story verse matches the back-translation.
+will type the back-translation line-by-line into the verse field(s) in this window.
+
+Be sure to type the UNS's back-translation into the same line number as the story verse to the 
+left, so that the back-translation matches what's in the story verse.
 
 When you are finished entering the national language back-translation, then click the button 
 in the left-hand side of the status bar with the label 'Next State' to go to the next stage.
 
-If you have not already done so, you will be asked to identify which UNS did the back-translation 
-as well as other story information, such as the purpose of the story and the list of resources 
-used in crafting it. You can also access this information by clicking, "Story", and then "Story 
-Information".
+You will also be asked to identify which UNS did the back-translation, and if it is a story 
+from the Bible, you will be asked for other information, such as the purpose of the story and 
+the list of resources used in crafting it. You can also access this information by clicking, 
+"Story", and then "Story Information".
     </StageInstructions>
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eCrafterTypeVernacular</AllowableBackwardsTransition>
@@ -82,7 +77,7 @@ choose 'Next Stage' to go to the next stage in the process.
     </StageInstructions>
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eCrafterTypeVernacular</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingNationalBT="true">eCrafterTypeNationalBT</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="true" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
@@ -131,49 +126,72 @@ choose 'Next Stage' to go to the next stage in the process.
     </StageInstructions>
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eCrafterTypeVernacular</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eCrafterAddAnchors</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingNationalBT="true">eCrafterTypeNationalBT</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresBiblicalStory="true">eCrafterAddAnchors</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eBackTranslatorTypeInternationalBT" MemberTypeWithEditToken="eEnglishBacktranslator" NextState="eConsultantCheckAnchors">
     <StageDisplayString>Crafter (or special back-translator) enters the English back-translation</StageDisplayString>
     <StageInstructions>
-In this stage, one of the crafting team will translate the National language back
-translation of the story into English.
+In this stage, one of the crafting team will translate the National language back translation of the 
+story into English (or from the story language if not using the national language back-translation).
 
-Unlike the last stage, where the National Language back translation had to done by
-a UNS, in this state, anyone can do the English back translation. However, you must be
-logged in as the 'English back-translator' to add this new back-translation. So if you
-are going to do the English back-translation, you will need to create another user
-with the same name who is fulfilling the 'English back-translation' role to log-in
-and enter the back-translation.
+Unlike the last stage, where the National Language back translation had to done by a UNS, in this 
+state, anyone can do the English back translation. However, if you have an "English Back-translator"
+on your team, then you must be logged in as the 'English back-translator' to add this new back-
+translation. You can click, 'Project', 'Settings', and click the 'Add New Member' button to add
+an "English back-translator".
 
-There's a program called 'Adapt It' that can be used to help make the English back-
-translation more efficiently. Click on the 'Story' menu, 'Do English Glossing in Adapt
-It' menu, and then click the "From (National language)" command. This will write the
-national language back-translation of the story into an Adapt It file so you can use
-that program to do the translation.
+There's a program called 'Adapt It' that can be used to help make the English back-translation more 
+efficiently. Click on the 'Story' menu, 'Do English Glossing in Adapt It' menu, and then click the 
+"From (National language)" command. This will write the national language back-translation of the 
+story into an Adapt It file so you can use that program to do the translation.
 
-[note: there's another command on the 'Do English Glossing in Adapt It' menu:
-"From (Story) language (for Discourse Charting)". This command is useful if you want to
-create the English back-translation directly from your story language (e.g. Kangri) rather
-than the national language (e.g. Hindi). You might do this primarily if you want to create
-a discourse chart in the story language itself and have English glosses. However, this
-cannot be used to populate the English back-translation in this program, because the English
-back-translation is supposed to be based on the Hindi back-translation rather than the
-original story language. Discuss this with your advisor/consultant to know which one you
-should use.
+[note: there's another command on the 'Do English Glossing in Adapt It' menu: "From (Story) language 
+(for Discourse Charting)". This command is useful if you want to create the English back-translation 
+directly from your story language (e.g. Kangri) rather than the national language (e.g. Hindi). You 
+might do this primarily if you want to create a discourse chart in the story language itself and have 
+English glosses. However, this cannot be used to populate the English back-translation fields in this 
+program. This is because the English back-translation is supposed to be based on the Hindi back-
+translation rather than the original story language. Discuss this with your advisor/consultant to know 
+which one you should use.
 
-When you are finished entering the English back translation, then click the button in
-the left-hand side of the status bar with the label 'Next State' to go to the next stage
-in the process.
+When you are finished entering the English back translation, then click the button in the left-hand 
+side of the status bar with the label 'Next State' to go to the next stage in the process.
     </StageInstructions>
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eCrafterTypeVernacular</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eCrafterAddAnchors</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eCrafterAddStoryQuestions</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingNationalBT="true">eCrafterTypeNationalBT</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresBiblicalStory="true">eCrafterAddAnchors</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresBiblicalStory="true">eCrafterAddStoryQuestions</AllowableBackwardsTransition>
+    </AllowableBackwardsTransitions>
+    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
+  </StateTransition>
+  <StateTransition stage="eConsultantCheckNonBiblicalStory" MemberTypeWithEditToken="eConsultantInTraining" NextState="eConsultantCheckNonBiblicalStory">
+    <StageDisplayString>Consultant checks the discourse features of the story</StageDisplayString>
+    <StageInstructions>
+In this stage, you (the consultant) will help the team chart this story in the "Discourse Chart 
+Helper" program.
+
+To copy the story from this program to use in the Discourse Chart Helper program, you can click 
+'Edit', 'Copy', 'Story' command and then paste the copied text into the 'Workspace' area at the 
+bottom of that Discourse Chart Helper program.
+
+If the team (or you) have used Adapt It to gloss the story into English (see 'Story', 
+'Do English Glossing in Adapt It' menu and the "From (Story) language (for Discourse Charting)" 
+command, then you can use the "Lookup" converter for the Adapt It '(Story language) to (English) 
+adaptations' project as your glossing SILConverter in the Discourse Chart Helper.
+
+See the instructions in the 'Start', 'All Programs', 'SIL Converters', 'Help', 'Readme for Discourse 
+Chart Helper' program for details.
+
+This is the final stage of the process for this non-biblical story.
+    </StageInstructions>
+    <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eCrafterTypeVernacular</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingNationalBT="true">eCrafterTypeNationalBT</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingEnglishBT="true">eBackTranslatorTypeInternationalBT</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
@@ -203,10 +221,10 @@ status bar and choose 'Next Stage' to go to the next stage in the process.
     </StageInstructions>
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eCrafterTypeVernacular</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eCrafterAddAnchors</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eCrafterAddStoryQuestions</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eBackTranslatorTypeInternationalBT</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingNationalBT="true">eCrafterTypeNationalBT</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresBiblicalStory="true">eCrafterAddAnchors</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresBiblicalStory="true">eCrafterAddStoryQuestions</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingEnglishBT="true">eBackTranslatorTypeInternationalBT</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
@@ -259,10 +277,10 @@ small button to the right-hand side of the appropriate line number and choose "A
     </StageInstructions>
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eCrafterTypeVernacular</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eCrafterAddAnchors</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eCrafterAddStoryQuestions</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eBackTranslatorTypeInternationalBT</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingNationalBT="true">eCrafterTypeNationalBT</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresBiblicalStory="true">eCrafterAddAnchors</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresBiblicalStory="true">eCrafterAddStoryQuestions</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingEnglishBT="true">eBackTranslatorTypeInternationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eConsultantCheckAnchors</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />

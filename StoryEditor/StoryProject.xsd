@@ -223,6 +223,7 @@
 			<xs:enumeration value="CrafterAddAnchors" />
 			<xs:enumeration value="CrafterAddStoryQuestions" />
       <xs:enumeration value="BackTranslatorTypeInternationalBT" />
+      <xs:enumeration value="ConsultantCheckNonBiblicalStory" />
       <xs:enumeration value="ConsultantCheckAnchors" />
 			<xs:enumeration value="ConsultantCheckStoryQuestions" />
 			<xs:enumeration value="CoachReviewRound1Notes" />
