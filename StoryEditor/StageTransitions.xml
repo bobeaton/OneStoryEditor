@@ -23,13 +23,6 @@ why have you chosen this particular story? How does it fit with the theme of you
 will also enter the list of resources used in crafting the story (audio recordings of Bibles, 
 videos, etc).
     </StageInstructions>
-    <AllowableForwardsTransitions>
-      <AllowableForwardsTransition>eCrafterTypeNationalBT</AllowableForwardsTransition>
-      <AllowableForwardsTransition>eCrafterAddAnchors</AllowableForwardsTransition>
-      <AllowableForwardsTransition>eCrafterAddStoryQuestions</AllowableForwardsTransition>
-      <AllowableForwardsTransition>eBackTranslatorTypeInternationalBT</AllowableForwardsTransition>
-      <AllowableForwardsTransition>eConsultantCheckAnchors</AllowableForwardsTransition>
-    </AllowableForwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="false" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
   <StateTransition stage="eCrafterTypeNationalBT" MemberTypeWithEditToken="eCrafter" NextState="eCrafterAddAnchors">
@@ -52,12 +45,6 @@ Information".
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eCrafterTypeVernacular</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
-    <AllowableForwardsTransitions>
-      <AllowableForwardsTransition>eCrafterAddAnchors</AllowableForwardsTransition>
-      <AllowableForwardsTransition>eCrafterAddStoryQuestions</AllowableForwardsTransition>
-      <AllowableForwardsTransition>eBackTranslatorTypeInternationalBT</AllowableForwardsTransition>
-      <AllowableForwardsTransition>eConsultantCheckAnchors</AllowableForwardsTransition>
-    </AllowableForwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
   <StateTransition stage="eCrafterAddAnchors" MemberTypeWithEditToken="eCrafter" NextState="eCrafterAddStoryQuestions">
@@ -97,11 +84,6 @@ choose 'Next Stage' to go to the next stage in the process.
       <AllowableBackwardsTransition>eCrafterTypeVernacular</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
-    <AllowableForwardsTransitions>
-      <AllowableForwardsTransition>eCrafterAddStoryQuestions</AllowableForwardsTransition>
-      <AllowableForwardsTransition>eBackTranslatorTypeInternationalBT</AllowableForwardsTransition>
-      <AllowableForwardsTransition>eConsultantCheckAnchors</AllowableForwardsTransition>
-    </AllowableForwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="true" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eCrafterAddStoryQuestions" MemberTypeWithEditToken="eCrafter" NextState="eBackTranslatorTypeInternationalBT">
@@ -152,10 +134,6 @@ choose 'Next Stage' to go to the next stage in the process.
       <AllowableBackwardsTransition>eCrafterTypeNationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterAddAnchors</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
-    <AllowableForwardsTransitions>
-      <AllowableBackwardsTransition>eBackTranslatorTypeInternationalBT</AllowableBackwardsTransition>
-      <AllowableForwardsTransition>eConsultantCheckAnchors</AllowableForwardsTransition>
-    </AllowableForwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eBackTranslatorTypeInternationalBT" MemberTypeWithEditToken="eEnglishBacktranslator" NextState="eConsultantCheckAnchors">
@@ -197,9 +175,6 @@ in the process.
       <AllowableBackwardsTransition>eCrafterAddAnchors</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterAddStoryQuestions</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
-    <AllowableForwardsTransitions>
-      <AllowableForwardsTransition>eConsultantCheckAnchors</AllowableForwardsTransition>
-    </AllowableForwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
   <StateTransition stage="eConsultantCheckAnchors" MemberTypeWithEditToken="eConsultantInTraining" NextState="eConsultantCheckStoryQuestions">
@@ -233,10 +208,6 @@ status bar and choose 'Next Stage' to go to the next stage in the process.
       <AllowableBackwardsTransition>eCrafterAddStoryQuestions</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eBackTranslatorTypeInternationalBT</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
-    <AllowableForwardsTransitions>
-      <AllowableForwardsTransition>eConsultantCheckStoryQuestions</AllowableForwardsTransition>
-      <AllowableForwardsTransition>eCoachReviewRound1Notes</AllowableForwardsTransition>
-    </AllowableForwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eConsultantCheckStoryQuestions" MemberTypeWithEditToken="eConsultantInTraining" NextState="eCoachReviewRound1Notes">
@@ -294,9 +265,6 @@ small button to the right-hand side of the appropriate line number and choose "A
       <AllowableBackwardsTransition>eBackTranslatorTypeInternationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eConsultantCheckAnchors</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
-    <AllowableForwardsTransitions>
-      <AllowableForwardsTransition>eCoachReviewRound1Notes</AllowableForwardsTransition>
-    </AllowableForwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eCoachReviewRound1Notes" MemberTypeWithEditToken="eCoach" NextState="eConsultantReviseRound1Notes">
@@ -311,9 +279,6 @@ choose "Add Note" to enter the comment you have.
 When you are finished, then click the button in the left-hand side of the status bar and choose 
 'Next Stage' to go to the next stage in the process.
     </StageInstructions>
-    <AllowableForwardsTransitions>
-      <AllowableForwardsTransition>eConsultantReviseRound1Notes</AllowableForwardsTransition>
-    </AllowableForwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="false" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eConsultantReviseRound1Notes" MemberTypeWithEditToken="eConsultantInTraining" NextState="eCrafterReviseBasedOnRound1Notes">
@@ -330,21 +295,11 @@ You can add another line for additional comments by right-clicking on the small 
 When you are finished, then click the button in the left-hand side of the status bar and choose 
 'Next Stage' to go to the next stage in the process.
     </StageInstructions>
-    <AllowableForwardsTransitions>
-      <AllowableForwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableForwardsTransition>
-    </AllowableForwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eCrafterReviseBasedOnRound1Notes" MemberTypeWithEditToken="eCrafter" NextState="eCrafterOnlineReview1WithConsultant">
     <StageDisplayString>Crafter revises story based on Consultant's feedback</StageDisplayString>
     <StageInstructions></StageInstructions>
-    <AllowableForwardsTransitions>
-      <AllowableForwardsTransition>eCrafterOnlineReview1WithConsultant</AllowableForwardsTransition>
-      <AllowableForwardsTransition>eCrafterReadyForTest1</AllowableForwardsTransition>
-      <AllowableForwardsTransition>eCrafterEnterAnswersToStoryQuestionsOfTest1</AllowableForwardsTransition>
-      <AllowableForwardsTransition>eCrafterEnterRetellingOfTest1</AllowableForwardsTransition>
-      <AllowableForwardsTransition>eConsultantCheckAnchorsRound2</AllowableForwardsTransition>
-    </AllowableForwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eCrafterOnlineReview1WithConsultant" MemberTypeWithEditToken="eCrafter" NextState="eCrafterReadyForTest1">
@@ -353,12 +308,6 @@ When you are finished, then click the button in the left-hand side of the status
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
-    <AllowableForwardsTransitions>
-      <AllowableForwardsTransition>eCrafterReadyForTest1</AllowableForwardsTransition>
-      <AllowableForwardsTransition>eCrafterEnterAnswersToStoryQuestionsOfTest1</AllowableForwardsTransition>
-      <AllowableForwardsTransition>eCrafterEnterRetellingOfTest1</AllowableForwardsTransition>
-      <AllowableForwardsTransition>eConsultantCheckAnchorsRound2</AllowableForwardsTransition>
-    </AllowableForwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eCrafterReadyForTest1" MemberTypeWithEditToken="eCrafter" NextState="eCrafterEnterAnswersToStoryQuestionsOfTest1">
@@ -368,11 +317,6 @@ When you are finished, then click the button in the left-hand side of the status
       <AllowableBackwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterOnlineReview1WithConsultant</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
-    <AllowableForwardsTransitions>
-      <AllowableForwardsTransition>eCrafterEnterAnswersToStoryQuestionsOfTest1</AllowableForwardsTransition>
-      <AllowableForwardsTransition>eCrafterEnterRetellingOfTest1</AllowableForwardsTransition>
-      <AllowableForwardsTransition>eConsultantCheckAnchorsRound2</AllowableForwardsTransition>
-    </AllowableForwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
   <StateTransition stage="eCrafterEnterAnswersToStoryQuestionsOfTest1" MemberTypeWithEditToken="eCrafter" NextState="eCrafterEnterRetellingOfTest1">
@@ -383,10 +327,6 @@ When you are finished, then click the button in the left-hand side of the status
       <AllowableBackwardsTransition>eCrafterOnlineReview1WithConsultant</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterReadyForTest1</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
-    <AllowableForwardsTransitions>
-      <AllowableForwardsTransition>eCrafterEnterRetellingOfTest1</AllowableForwardsTransition>
-      <AllowableForwardsTransition>eConsultantCheckAnchorsRound2</AllowableForwardsTransition>
-    </AllowableForwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
   <StateTransition stage="eCrafterEnterRetellingOfTest1" MemberTypeWithEditToken="eCrafter" NextState="eConsultantCheckAnchorsRound2">
@@ -398,9 +338,6 @@ When you are finished, then click the button in the left-hand side of the status
       <AllowableBackwardsTransition>eCrafterReadyForTest1</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterEnterAnswersToStoryQuestionsOfTest1</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
-    <AllowableForwardsTransitions>
-      <AllowableForwardsTransition>eConsultantCheckAnchorsRound2</AllowableForwardsTransition>
-    </AllowableForwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="true" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
   <StateTransition stage="eConsultantCheckAnchorsRound2" MemberTypeWithEditToken="eConsultantInTraining" NextState="eConsultantCheckAnswersToTestingQuestionsRound2">
@@ -409,11 +346,6 @@ When you are finished, then click the button in the left-hand side of the status
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
-    <AllowableForwardsTransitions>
-      <AllowableForwardsTransition>eConsultantCheckAnswersToTestingQuestionsRound2</AllowableForwardsTransition>
-      <AllowableForwardsTransition>eConsultantCheckRetellingRound2</AllowableForwardsTransition>
-      <AllowableForwardsTransition>eCoachReviewRound2Notes</AllowableForwardsTransition>
-    </AllowableForwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eConsultantCheckAnswersToTestingQuestionsRound2" MemberTypeWithEditToken="eConsultantInTraining" NextState="eConsultantCheckRetellingRound2">
@@ -423,10 +355,6 @@ When you are finished, then click the button in the left-hand side of the status
       <AllowableBackwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eConsultantCheckAnchorsRound2</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
-    <AllowableForwardsTransitions>
-      <AllowableForwardsTransition>eConsultantCheckRetellingRound2</AllowableForwardsTransition>
-      <AllowableForwardsTransition>eCoachReviewRound2Notes</AllowableForwardsTransition>
-    </AllowableForwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eConsultantCheckRetellingRound2" MemberTypeWithEditToken="eConsultantInTraining" NextState="eCoachReviewRound2Notes">
@@ -437,37 +365,21 @@ When you are finished, then click the button in the left-hand side of the status
       <AllowableBackwardsTransition>eConsultantCheckAnchorsRound2</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eConsultantCheckAnswersToTestingQuestionsRound2</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
-    <AllowableForwardsTransitions>
-      <AllowableForwardsTransition>eCoachReviewRound2Notes</AllowableForwardsTransition>
-    </AllowableForwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eCoachReviewRound2Notes" MemberTypeWithEditToken="eCoach" NextState="eConsultantReviseRound2Notes">
     <StageDisplayString>Coach reviews test 1 notes</StageDisplayString>
     <StageInstructions></StageInstructions>
-    <AllowableForwardsTransitions>
-      <AllowableForwardsTransition>eConsultantReviseRound2Notes</AllowableForwardsTransition>
-    </AllowableForwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="false" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eConsultantReviseRound2Notes" MemberTypeWithEditToken="eConsultantInTraining" NextState="eCrafterReviseBasedOnRound2Notes">
     <StageDisplayString>Consultant revises round 2 notes based on Coach's feedback</StageDisplayString>
     <StageInstructions></StageInstructions>
-    <AllowableForwardsTransitions>
-      <AllowableForwardsTransition>eCrafterReviseBasedOnRound2Notes</AllowableForwardsTransition>
-    </AllowableForwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eCrafterReviseBasedOnRound2Notes" MemberTypeWithEditToken="eCrafter" NextState="eCrafterOnlineReview2WithConsultant">
     <StageDisplayString>Crafter revises story based on round 2 notes</StageDisplayString>
     <StageInstructions></StageInstructions>
-    <AllowableForwardsTransitions>
-      <AllowableForwardsTransition>eCrafterOnlineReview2WithConsultant</AllowableForwardsTransition>
-      <AllowableForwardsTransition>eCrafterReadyForTest2</AllowableForwardsTransition>
-      <AllowableForwardsTransition>eCrafterEnterAnswersToStoryQuestionsOfTest2</AllowableForwardsTransition>
-      <AllowableForwardsTransition>eCrafterEnterRetellingOfTest2</AllowableForwardsTransition>
-      <AllowableForwardsTransition>eConsultantReviewTest2</AllowableForwardsTransition>
-    </AllowableForwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eCrafterOnlineReview2WithConsultant" MemberTypeWithEditToken="eCrafter" NextState="eCrafterReadyForTest2">
@@ -476,12 +388,6 @@ When you are finished, then click the button in the left-hand side of the status
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eCrafterReviseBasedOnRound2Notes</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
-    <AllowableForwardsTransitions>
-      <AllowableForwardsTransition>eCrafterReadyForTest2</AllowableForwardsTransition>
-      <AllowableForwardsTransition>eCrafterEnterAnswersToStoryQuestionsOfTest2</AllowableForwardsTransition>
-      <AllowableForwardsTransition>eCrafterEnterRetellingOfTest2</AllowableForwardsTransition>
-      <AllowableForwardsTransition>eConsultantReviewTest2</AllowableForwardsTransition>
-    </AllowableForwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eCrafterReadyForTest2" MemberTypeWithEditToken="eCrafter" NextState="eCrafterEnterAnswersToStoryQuestionsOfTest2">
@@ -491,11 +397,6 @@ When you are finished, then click the button in the left-hand side of the status
       <AllowableBackwardsTransition>eCrafterReviseBasedOnRound2Notes</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterOnlineReview2WithConsultant</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
-    <AllowableForwardsTransitions>
-      <AllowableForwardsTransition>eCrafterEnterAnswersToStoryQuestionsOfTest2</AllowableForwardsTransition>
-      <AllowableForwardsTransition>eCrafterEnterRetellingOfTest2</AllowableForwardsTransition>
-      <AllowableForwardsTransition>eConsultantReviewTest2</AllowableForwardsTransition>
-    </AllowableForwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
   <StateTransition stage="eCrafterEnterAnswersToStoryQuestionsOfTest2" MemberTypeWithEditToken="eCrafter" NextState="eCrafterEnterRetellingOfTest2">
@@ -506,10 +407,6 @@ When you are finished, then click the button in the left-hand side of the status
       <AllowableBackwardsTransition>eCrafterOnlineReview2WithConsultant</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterReadyForTest2</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
-    <AllowableForwardsTransitions>
-      <AllowableForwardsTransition>eCrafterEnterRetellingOfTest2</AllowableForwardsTransition>
-      <AllowableForwardsTransition>eConsultantReviewTest2</AllowableForwardsTransition>
-    </AllowableForwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
   <StateTransition stage="eCrafterEnterRetellingOfTest2" MemberTypeWithEditToken="eCrafter" NextState="eConsultantReviewTest2">
@@ -521,9 +418,6 @@ When you are finished, then click the button in the left-hand side of the status
       <AllowableBackwardsTransition>eCrafterReadyForTest2</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterEnterAnswersToStoryQuestionsOfTest2</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
-    <AllowableForwardsTransitions>
-      <AllowableForwardsTransition>eConsultantReviewTest2</AllowableForwardsTransition>
-    </AllowableForwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="true" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
   <StateTransition stage="eConsultantReviewTest2" MemberTypeWithEditToken="eConsultantInTraining" NextState="eCoachReviewTest2Notes">
@@ -532,9 +426,6 @@ When you are finished, then click the button in the left-hand side of the status
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eCrafterReviseBasedOnRound2Notes</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
-    <AllowableForwardsTransitions>
-      <AllowableForwardsTransition>eCoachReviewTest2Notes</AllowableForwardsTransition>
-    </AllowableForwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eCoachReviewTest2Notes" MemberTypeWithEditToken="eCoach" NextState="eTeamComplete">
@@ -543,9 +434,6 @@ When you are finished, then click the button in the left-hand side of the status
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eConsultantReviseRound2Notes</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
-    <AllowableForwardsTransitions>
-      <AllowableForwardsTransition>eTeamComplete</AllowableForwardsTransition>
-    </AllowableForwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="false" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eTeamComplete" MemberTypeWithEditToken="eCrafter" NextState="eTeamComplete">

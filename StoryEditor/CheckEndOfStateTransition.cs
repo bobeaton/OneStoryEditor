@@ -64,7 +64,7 @@ namespace OneStoryProjectEditor
                 (String.IsNullOrEmpty(theCurrentStory.CraftingInfo.StoryPurpose)
                 || String.IsNullOrEmpty(theCurrentStory.CraftingInfo.ResourcesUsed)))
             {
-                MessageBox.Show(String.Format("In the following window, type in the purpose of the story (why you have it in your panorama){0}and list the resources you used to craft the story", Environment.NewLine), StoriesData.CstrCaption);
+                MessageBox.Show(String.Format("In the following window, type in the purpose of the story (why you have it in your panorama) and list the resources you used to craft the story", Environment.NewLine), StoriesData.CstrCaption);
                 theSE.QueryStoryPurpose();
             }
 
@@ -78,6 +78,8 @@ namespace OneStoryProjectEditor
                 //  no anchors and we skip right ot the English BT
                 if (!theCurrentStory.CraftingInfo.IsBiblicalStory)
                     eProposedNextState = StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT;
+                else
+                    eProposedNextState = StoryStageLogic.ProjectStages.eCrafterAddAnchors;
             }
             return true;
         }
@@ -146,7 +148,7 @@ namespace OneStoryProjectEditor
 
         protected static char[] achQuotes = new char[] { '"', '\'', '\u2018', '\u2019', '\u201B', 
             '\u201C', '\u201d', '\u201E', '\u201F' };
-        protected static string strSentenceFinalPunctuation = "!?:";    // plus the fullstop
+        protected static string strSentenceFinalPunctuation = "!?:\n";    // plus the fullstop
 
         public static List<string> GetListOfSentences(StringTransfer stParagraph, string strFullStop)
         {

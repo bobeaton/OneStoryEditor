@@ -130,7 +130,7 @@ namespace OneStoryProjectEditor
                     if (strProject == strProjectName)
                     {
                         string strProjectFolder = Properties.Settings.Default.RecentProjectPaths[i];
-                        DialogResult res = MessageBox.Show(String.Format("You already have a project with the name '{0}' that is in another location. If you create this new project with the same name, then you won't be able to access the earlier project that is located in the '{1}' folder. Do you want to continue creating the new project and lose the reference to the earlier project (it won't be deleted if you do)?", strProjectName, strProjectFolder), CstrCaption, MessageBoxButtons.YesNoCancel);
+                        DialogResult res = MessageBox.Show(String.Format("You already have a project with the name '{1}' that is in another location. If you create this new project with the same name, then you won't be able to access the earlier project that is located in the '{2}' folder.{0}{0}Do you want to continue creating the new project and lose the reference to the earlier project (it won't be deleted if you do)?", Environment.NewLine, strProjectName, strProjectFolder), CstrCaption, MessageBoxButtons.YesNoCancel);
                         if (res == DialogResult.Cancel)
                             throw StoryEditor.BackOutWithNoUI;
                         if (res == DialogResult.No)

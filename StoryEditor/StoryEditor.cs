@@ -745,8 +745,7 @@ namespace OneStoryProjectEditor
 
         private void CheckForSaveDirtyFile()
         {
-            if (Modified)
-                SaveClicked();
+            SaveClicked();
 
             // do cleanup, because this is always called before starting something new (new file or empty project)
             ClearFlowControls();
@@ -760,8 +759,11 @@ namespace OneStoryProjectEditor
             flowLayoutPanelCoachNotes.Clear();
         }
 
-        protected void SaveClicked()
+        internal void SaveClicked()
         {
+            if (!Modified)
+                return;
+            
             System.Diagnostics.Debug.Assert(Stories != null);
             string strFilename = Stories.ProjSettings.ProjectFileName;
             SaveFile(strFilename);
@@ -980,8 +982,6 @@ namespace OneStoryProjectEditor
             }
 
             recentProjectsToolStripMenuItem.Enabled = (recentProjectsToolStripMenuItem.DropDownItems.Count > 0);
-
-            saveToolStripMenuItem.Enabled = (Modified && (Stories != null) && (Stories.Count > 0));
         }
 
         private void recentProjectsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1046,9 +1046,7 @@ namespace OneStoryProjectEditor
             StoryStageLogic.StateTransition theCurrentST = StoryStageLogic.stateTransitions[theCurrentStory.ProjStage.ProjectStage];
             System.Diagnostics.Debug.Assert(theCurrentST != null);
 
-            if (AddListOfButtons(theCurrentST.AllowableBackwardsTransitions))
-                buttonsStoryStage.DropDown.Items.Add(new ToolStripSeparator());
-            AddListOfButtons(theCurrentST.AllowableForwardsTransitions);
+            AddListOfButtons(theCurrentST.AllowableBackwardsTransitions);
         }
 
         protected bool AddListOfButtons(List<StoryStageLogic.ProjectStages> allowableTransitions)
@@ -1168,7 +1166,7 @@ namespace OneStoryProjectEditor
             if (exportStoryToolStripMenuItem.Enabled)
                 exportStoryToolStripMenuItem.Text = String.Format("&From {0} (for Discourse Charting)", Stories.ProjSettings.Vernacular.LangName);
 
-            if (exportNationalBacktranslationToolStripMenuItem.Enabled)
+            if (exportNationalBacktranslationToolStripMenuItem.Enabled && Stories.ProjSettings.NationalBT.HasData)
                 exportNationalBacktranslationToolStripMenuItem.Text = String.Format("&From {0}", Stories.ProjSettings.NationalBT.LangName);
         }
 

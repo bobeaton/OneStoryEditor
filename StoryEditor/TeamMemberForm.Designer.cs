@@ -44,6 +44,8 @@
             this.textBoxNationalBTEthCode = new System.Windows.Forms.TextBox();
             this.textBoxVernSentFullStop = new System.Windows.Forms.TextBox();
             this.textBoxNationalBTSentFullStop = new System.Windows.Forms.TextBox();
+            this.checkBoxNationalLangBT = new System.Windows.Forms.CheckBox();
+            this.checkBoxEnglishBT = new System.Windows.Forms.CheckBox();
             this.buttonVernacularFont = new System.Windows.Forms.Button();
             this.buttonNationalBTFont = new System.Windows.Forms.Button();
             this.tabControlProjectMetaData = new System.Windows.Forms.TabControl();
@@ -70,9 +72,6 @@
             this.comboBoxKeyboardNationalBT = new System.Windows.Forms.ComboBox();
             this.fontDialog = new System.Windows.Forms.FontDialog();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.checkBoxNationalLangBT = new System.Windows.Forms.CheckBox();
-            this.checkBoxEnglishBT = new System.Windows.Forms.CheckBox();
-            this.checkBoxNoAnchors = new System.Windows.Forms.CheckBox();
             this.tabControlProjectMetaData.SuspendLayout();
             this.tabPageMemberList.SuspendLayout();
             this.tableLayoutPanelTeamMembers.SuspendLayout();
@@ -175,9 +174,9 @@
             // 
             this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.textBoxVernacular, 2);
             this.textBoxVernacular.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxVernacular.Location = new System.Drawing.Point(104, 90);
+            this.textBoxVernacular.Location = new System.Drawing.Point(104, 110);
             this.textBoxVernacular.Name = "textBoxVernacular";
-            this.textBoxVernacular.Size = new System.Drawing.Size(176, 20);
+            this.textBoxVernacular.Size = new System.Drawing.Size(207, 20);
             this.textBoxVernacular.TabIndex = 0;
             this.toolTip.SetToolTip(this.textBoxVernacular, "Enter the name of the language that the stories are going to be crafted into");
             this.textBoxVernacular.TextChanged += new System.EventHandler(this.textBox_TextChanged);
@@ -187,9 +186,9 @@
             // 
             this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.textBoxNationalBTLanguage, 2);
             this.textBoxNationalBTLanguage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxNationalBTLanguage.Location = new System.Drawing.Point(286, 90);
+            this.textBoxNationalBTLanguage.Location = new System.Drawing.Point(317, 110);
             this.textBoxNationalBTLanguage.Name = "textBoxNationalBTLanguage";
-            this.textBoxNationalBTLanguage.Size = new System.Drawing.Size(176, 20);
+            this.textBoxNationalBTLanguage.Size = new System.Drawing.Size(208, 20);
             this.textBoxNationalBTLanguage.TabIndex = 7;
             this.toolTip.SetToolTip(this.textBoxNationalBTLanguage, "Enter the name of the language that the stories will be back-translated into by t" +
                     "he UNSs (i.e. typically, the National language)");
@@ -200,9 +199,9 @@
             // 
             this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.textBoxVernacularEthCode, 2);
             this.textBoxVernacularEthCode.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxVernacularEthCode.Location = new System.Drawing.Point(104, 116);
+            this.textBoxVernacularEthCode.Location = new System.Drawing.Point(104, 136);
             this.textBoxVernacularEthCode.Name = "textBoxVernacularEthCode";
-            this.textBoxVernacularEthCode.Size = new System.Drawing.Size(176, 20);
+            this.textBoxVernacularEthCode.Size = new System.Drawing.Size(207, 20);
             this.textBoxVernacularEthCode.TabIndex = 1;
             this.toolTip.SetToolTip(this.textBoxVernacularEthCode, "Enter the 2-3 letter code for this language (e.g. English is \'en\', Hindi is \'hi\')" +
                     "");
@@ -212,9 +211,9 @@
             // 
             this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.textBoxNationalBTEthCode, 2);
             this.textBoxNationalBTEthCode.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxNationalBTEthCode.Location = new System.Drawing.Point(286, 116);
+            this.textBoxNationalBTEthCode.Location = new System.Drawing.Point(317, 136);
             this.textBoxNationalBTEthCode.Name = "textBoxNationalBTEthCode";
-            this.textBoxNationalBTEthCode.Size = new System.Drawing.Size(176, 20);
+            this.textBoxNationalBTEthCode.Size = new System.Drawing.Size(208, 20);
             this.textBoxNationalBTEthCode.TabIndex = 8;
             this.toolTip.SetToolTip(this.textBoxNationalBTEthCode, "Enter the 2-3 letter code for this language (e.g. English is \'en\', Hindi is \'hi\')" +
                     "");
@@ -223,9 +222,9 @@
             // 
             this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.textBoxVernSentFullStop, 2);
             this.textBoxVernSentFullStop.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxVernSentFullStop.Location = new System.Drawing.Point(104, 169);
+            this.textBoxVernSentFullStop.Location = new System.Drawing.Point(104, 189);
             this.textBoxVernSentFullStop.Name = "textBoxVernSentFullStop";
-            this.textBoxVernSentFullStop.Size = new System.Drawing.Size(176, 20);
+            this.textBoxVernSentFullStop.Size = new System.Drawing.Size(207, 20);
             this.textBoxVernSentFullStop.TabIndex = 3;
             this.toolTip.SetToolTip(this.textBoxVernSentFullStop, "Enter the punctional character used in this language to end a sentence (e.g. in E" +
                     "nglish, it is the period \'.\', and in Hindi, it is the Devanagari Danda, \'।\')");
@@ -237,9 +236,9 @@
             // 
             this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.textBoxNationalBTSentFullStop, 2);
             this.textBoxNationalBTSentFullStop.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxNationalBTSentFullStop.Location = new System.Drawing.Point(286, 169);
+            this.textBoxNationalBTSentFullStop.Location = new System.Drawing.Point(317, 189);
             this.textBoxNationalBTSentFullStop.Name = "textBoxNationalBTSentFullStop";
-            this.textBoxNationalBTSentFullStop.Size = new System.Drawing.Size(176, 20);
+            this.textBoxNationalBTSentFullStop.Size = new System.Drawing.Size(208, 20);
             this.textBoxNationalBTSentFullStop.TabIndex = 10;
             this.toolTip.SetToolTip(this.textBoxNationalBTSentFullStop, "Enter the punctional character used in this language to end a sentence (e.g. in E" +
                     "nglish, it is the period \'.\', and in Hindi, it is the Devanagari Danda, \'।\')");
@@ -247,9 +246,43 @@
             this.textBoxNationalBTSentFullStop.Leave += new System.EventHandler(this.textBoxSentFullStop_Leave);
             this.textBoxNationalBTSentFullStop.Enter += new System.EventHandler(this.textBoxNationalBTSentFullStop_Enter);
             // 
+            // checkBoxNationalLangBT
+            // 
+            this.checkBoxNationalLangBT.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.checkBoxNationalLangBT.AutoSize = true;
+            this.checkBoxNationalLangBT.Checked = true;
+            this.checkBoxNationalLangBT.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.checkBoxNationalLangBT, 2);
+            this.checkBoxNationalLangBT.Location = new System.Drawing.Point(317, 66);
+            this.checkBoxNationalLangBT.Name = "checkBoxNationalLangBT";
+            this.checkBoxNationalLangBT.Size = new System.Drawing.Size(170, 17);
+            this.checkBoxNationalLangBT.TabIndex = 21;
+            this.checkBoxNationalLangBT.Text = "Project will use a National BT?";
+            this.toolTip.SetToolTip(this.checkBoxNationalLangBT, "Check this box to configure the project to use a national langauage (e.g. Hindi) " +
+                    "as the primary back-translation for checking");
+            this.checkBoxNationalLangBT.UseVisualStyleBackColor = true;
+            this.checkBoxNationalLangBT.CheckedChanged += new System.EventHandler(this.checkBoxNationalLangBT_CheckedChanged);
+            // 
+            // checkBoxEnglishBT
+            // 
+            this.checkBoxEnglishBT.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.checkBoxEnglishBT.AutoSize = true;
+            this.checkBoxEnglishBT.Checked = true;
+            this.checkBoxEnglishBT.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.checkBoxEnglishBT, 2);
+            this.checkBoxEnglishBT.Location = new System.Drawing.Point(317, 281);
+            this.checkBoxEnglishBT.Name = "checkBoxEnglishBT";
+            this.checkBoxEnglishBT.Size = new System.Drawing.Size(171, 17);
+            this.checkBoxEnglishBT.TabIndex = 22;
+            this.checkBoxEnglishBT.Text = "Project will use an English BT?";
+            this.toolTip.SetToolTip(this.checkBoxEnglishBT, "Check this box to configure the project to use English as a secondary back-transl" +
+                    "ation for checking (primarily for the benefit of the consultant and coach)");
+            this.checkBoxEnglishBT.UseVisualStyleBackColor = true;
+            this.checkBoxEnglishBT.CheckedChanged += new System.EventHandler(this.checkBoxEnglishBT_CheckedChanged);
+            // 
             // buttonVernacularFont
             // 
-            this.buttonVernacularFont.Location = new System.Drawing.Point(104, 195);
+            this.buttonVernacularFont.Location = new System.Drawing.Point(104, 215);
             this.buttonVernacularFont.Name = "buttonVernacularFont";
             this.buttonVernacularFont.Size = new System.Drawing.Size(85, 23);
             this.buttonVernacularFont.TabIndex = 4;
@@ -259,7 +292,7 @@
             // 
             // buttonNationalBTFont
             // 
-            this.buttonNationalBTFont.Location = new System.Drawing.Point(286, 195);
+            this.buttonNationalBTFont.Location = new System.Drawing.Point(317, 215);
             this.buttonNationalBTFont.Name = "buttonNationalBTFont";
             this.buttonNationalBTFont.Size = new System.Drawing.Size(85, 23);
             this.buttonNationalBTFont.TabIndex = 11;
@@ -275,7 +308,7 @@
             this.tabControlProjectMetaData.Location = new System.Drawing.Point(0, 0);
             this.tabControlProjectMetaData.Name = "tabControlProjectMetaData";
             this.tabControlProjectMetaData.SelectedIndex = 0;
-            this.tabControlProjectMetaData.Size = new System.Drawing.Size(479, 444);
+            this.tabControlProjectMetaData.Size = new System.Drawing.Size(542, 444);
             this.tabControlProjectMetaData.TabIndex = 1;
             this.tabControlProjectMetaData.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControlProjectMetaData_Selected);
             // 
@@ -349,7 +382,7 @@
             this.tabPageLanguageInfo.Location = new System.Drawing.Point(4, 22);
             this.tabPageLanguageInfo.Name = "tabPageLanguageInfo";
             this.tabPageLanguageInfo.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLanguageInfo.Size = new System.Drawing.Size(471, 418);
+            this.tabPageLanguageInfo.Size = new System.Drawing.Size(534, 418);
             this.tabPageLanguageInfo.TabIndex = 2;
             this.tabPageLanguageInfo.Text = "Project/Language Settings";
             this.tabPageLanguageInfo.UseVisualStyleBackColor = true;
@@ -373,7 +406,7 @@
             this.tableLayoutPanelLanguageInformation.Controls.Add(this.buttonInternationalBTFont, 3, 9);
             this.tableLayoutPanelLanguageInformation.Controls.Add(this.labelProjectName, 0, 0);
             this.tableLayoutPanelLanguageInformation.Controls.Add(this.textBoxProjectName, 1, 0);
-            this.tableLayoutPanelLanguageInformation.Controls.Add(this.labelReturnToTeamMemberTabInstructions, 1, 11);
+            this.tableLayoutPanelLanguageInformation.Controls.Add(this.labelReturnToTeamMemberTabInstructions, 1, 10);
             this.tableLayoutPanelLanguageInformation.Controls.Add(this.labelSentenceTerm, 0, 6);
             this.tableLayoutPanelLanguageInformation.Controls.Add(this.textBoxVernSentFullStop, 1, 6);
             this.tableLayoutPanelLanguageInformation.Controls.Add(this.textBoxNationalBTSentFullStop, 3, 6);
@@ -387,31 +420,30 @@
             this.tableLayoutPanelLanguageInformation.Controls.Add(this.comboBoxKeyboardNationalBT, 3, 5);
             this.tableLayoutPanelLanguageInformation.Controls.Add(this.checkBoxNationalLangBT, 3, 1);
             this.tableLayoutPanelLanguageInformation.Controls.Add(this.checkBoxEnglishBT, 3, 8);
-            this.tableLayoutPanelLanguageInformation.Controls.Add(this.checkBoxNoAnchors, 3, 10);
             this.tableLayoutPanelLanguageInformation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelLanguageInformation.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanelLanguageInformation.Name = "tableLayoutPanelLanguageInformation";
-            this.tableLayoutPanelLanguageInformation.RowCount = 12;
+            this.tableLayoutPanelLanguageInformation.RowCount = 11;
             this.tableLayoutPanelLanguageInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelLanguageInformation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanelLanguageInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelLanguageInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelLanguageInformation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanelLanguageInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelLanguageInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelLanguageInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelLanguageInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelLanguageInformation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanelLanguageInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelLanguageInformation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanelLanguageInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelLanguageInformation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.tableLayoutPanelLanguageInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelLanguageInformation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelLanguageInformation.Size = new System.Drawing.Size(465, 412);
+            this.tableLayoutPanelLanguageInformation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanelLanguageInformation.Size = new System.Drawing.Size(528, 412);
             this.tableLayoutPanelLanguageInformation.TabIndex = 0;
             // 
             // labelLanguageName
             // 
             this.labelLanguageName.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelLanguageName.AutoSize = true;
-            this.labelLanguageName.Location = new System.Drawing.Point(3, 93);
+            this.labelLanguageName.Location = new System.Drawing.Point(3, 113);
             this.labelLanguageName.Name = "labelLanguageName";
             this.labelLanguageName.Size = new System.Drawing.Size(38, 13);
             this.labelLanguageName.TabIndex = 3;
@@ -423,9 +455,9 @@
             this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.labelStoryLanguage, 2);
             this.labelStoryLanguage.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.labelStoryLanguage.Font = new System.Drawing.Font("Segoe UI", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelStoryLanguage.Location = new System.Drawing.Point(104, 66);
+            this.labelStoryLanguage.Location = new System.Drawing.Point(104, 86);
             this.labelStoryLanguage.Name = "labelStoryLanguage";
-            this.labelStoryLanguage.Size = new System.Drawing.Size(176, 21);
+            this.labelStoryLanguage.Size = new System.Drawing.Size(207, 21);
             this.labelStoryLanguage.TabIndex = 2;
             this.labelStoryLanguage.Text = "Story Language";
             this.labelStoryLanguage.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -436,9 +468,9 @@
             this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.labelNationalBTLanguage, 2);
             this.labelNationalBTLanguage.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.labelNationalBTLanguage.Font = new System.Drawing.Font("Segoe UI", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelNationalBTLanguage.Location = new System.Drawing.Point(286, 66);
+            this.labelNationalBTLanguage.Location = new System.Drawing.Point(317, 86);
             this.labelNationalBTLanguage.Name = "labelNationalBTLanguage";
-            this.labelNationalBTLanguage.Size = new System.Drawing.Size(176, 21);
+            this.labelNationalBTLanguage.Size = new System.Drawing.Size(208, 21);
             this.labelNationalBTLanguage.TabIndex = 6;
             this.labelNationalBTLanguage.Text = "National BT Language";
             this.labelNationalBTLanguage.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -447,7 +479,7 @@
             // 
             this.labelEthnologueCode.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelEthnologueCode.AutoSize = true;
-            this.labelEthnologueCode.Location = new System.Drawing.Point(3, 119);
+            this.labelEthnologueCode.Location = new System.Drawing.Point(3, 139);
             this.labelEthnologueCode.Name = "labelEthnologueCode";
             this.labelEthnologueCode.Size = new System.Drawing.Size(62, 13);
             this.labelEthnologueCode.TabIndex = 5;
@@ -456,7 +488,7 @@
             // buttonInternationalBTFont
             // 
             this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.buttonInternationalBTFont, 2);
-            this.buttonInternationalBTFont.Location = new System.Drawing.Point(286, 264);
+            this.buttonInternationalBTFont.Location = new System.Drawing.Point(317, 304);
             this.buttonInternationalBTFont.Name = "buttonInternationalBTFont";
             this.buttonInternationalBTFont.Size = new System.Drawing.Size(108, 23);
             this.buttonInternationalBTFont.TabIndex = 13;
@@ -481,7 +513,7 @@
             this.textBoxProjectName.Location = new System.Drawing.Point(104, 3);
             this.textBoxProjectName.Name = "textBoxProjectName";
             this.textBoxProjectName.ReadOnly = true;
-            this.textBoxProjectName.Size = new System.Drawing.Size(358, 20);
+            this.textBoxProjectName.Size = new System.Drawing.Size(421, 20);
             this.textBoxProjectName.TabIndex = 1;
             this.textBoxProjectName.TabStop = false;
             this.textBoxProjectName.TextChanged += new System.EventHandler(this.textBox_TextChanged);
@@ -492,7 +524,7 @@
             this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.labelReturnToTeamMemberTabInstructions, 4);
             this.labelReturnToTeamMemberTabInstructions.Location = new System.Drawing.Point(104, 355);
             this.labelReturnToTeamMemberTabInstructions.Name = "labelReturnToTeamMemberTabInstructions";
-            this.labelReturnToTeamMemberTabInstructions.Size = new System.Drawing.Size(290, 31);
+            this.labelReturnToTeamMemberTabInstructions.Size = new System.Drawing.Size(298, 31);
             this.labelReturnToTeamMemberTabInstructions.TabIndex = 19;
             this.labelReturnToTeamMemberTabInstructions.Text = "When you\'re finished entering this information, click on the \'Team Members\' tab a" +
                 "nd choose your name to Login";
@@ -501,7 +533,7 @@
             // 
             this.labelSentenceTerm.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelSentenceTerm.AutoSize = true;
-            this.labelSentenceTerm.Location = new System.Drawing.Point(3, 172);
+            this.labelSentenceTerm.Location = new System.Drawing.Point(3, 192);
             this.labelSentenceTerm.Name = "labelSentenceTerm";
             this.labelSentenceTerm.Size = new System.Drawing.Size(95, 13);
             this.labelSentenceTerm.TabIndex = 17;
@@ -511,7 +543,7 @@
             // 
             this.labelFont.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelFont.AutoSize = true;
-            this.labelFont.Location = new System.Drawing.Point(3, 200);
+            this.labelFont.Location = new System.Drawing.Point(3, 220);
             this.labelFont.Name = "labelFont";
             this.labelFont.Size = new System.Drawing.Size(31, 13);
             this.labelFont.TabIndex = 8;
@@ -520,7 +552,7 @@
             // checkBoxVernacularRTL
             // 
             this.checkBoxVernacularRTL.AutoSize = true;
-            this.checkBoxVernacularRTL.Location = new System.Drawing.Point(195, 195);
+            this.checkBoxVernacularRTL.Location = new System.Drawing.Point(195, 215);
             this.checkBoxVernacularRTL.Name = "checkBoxVernacularRTL";
             this.checkBoxVernacularRTL.Size = new System.Drawing.Size(47, 17);
             this.checkBoxVernacularRTL.TabIndex = 5;
@@ -530,7 +562,7 @@
             // checkBoxNationalRTL
             // 
             this.checkBoxNationalRTL.AutoSize = true;
-            this.checkBoxNationalRTL.Location = new System.Drawing.Point(377, 195);
+            this.checkBoxNationalRTL.Location = new System.Drawing.Point(408, 215);
             this.checkBoxNationalRTL.Name = "checkBoxNationalRTL";
             this.checkBoxNationalRTL.Size = new System.Drawing.Size(47, 17);
             this.checkBoxNationalRTL.TabIndex = 12;
@@ -541,7 +573,7 @@
             // 
             this.labelKeyboard.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelKeyboard.AutoSize = true;
-            this.labelKeyboard.Location = new System.Drawing.Point(3, 146);
+            this.labelKeyboard.Location = new System.Drawing.Point(3, 166);
             this.labelKeyboard.Name = "labelKeyboard";
             this.labelKeyboard.Size = new System.Drawing.Size(55, 13);
             this.labelKeyboard.TabIndex = 20;
@@ -554,9 +586,9 @@
             this.comboBoxKeyboardVernacular.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxKeyboardVernacular.FormattingEnabled = true;
             this.comboBoxKeyboardVernacular.ItemHeight = 13;
-            this.comboBoxKeyboardVernacular.Location = new System.Drawing.Point(104, 142);
+            this.comboBoxKeyboardVernacular.Location = new System.Drawing.Point(104, 162);
             this.comboBoxKeyboardVernacular.Name = "comboBoxKeyboardVernacular";
-            this.comboBoxKeyboardVernacular.Size = new System.Drawing.Size(176, 21);
+            this.comboBoxKeyboardVernacular.Size = new System.Drawing.Size(207, 21);
             this.comboBoxKeyboardVernacular.TabIndex = 2;
             // 
             // comboBoxKeyboardNationalBT
@@ -566,9 +598,9 @@
             this.comboBoxKeyboardNationalBT.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxKeyboardNationalBT.FormattingEnabled = true;
             this.comboBoxKeyboardNationalBT.ItemHeight = 13;
-            this.comboBoxKeyboardNationalBT.Location = new System.Drawing.Point(286, 142);
+            this.comboBoxKeyboardNationalBT.Location = new System.Drawing.Point(317, 162);
             this.comboBoxKeyboardNationalBT.Name = "comboBoxKeyboardNationalBT";
-            this.comboBoxKeyboardNationalBT.Size = new System.Drawing.Size(176, 21);
+            this.comboBoxKeyboardNationalBT.Size = new System.Drawing.Size(208, 21);
             this.comboBoxKeyboardNationalBT.TabIndex = 9;
             // 
             // fontDialog
@@ -579,63 +611,13 @@
             // 
             this.folderBrowserDialog.RootFolder = System.Environment.SpecialFolder.Personal;
             // 
-            // checkBoxNationalLangBT
-            // 
-            this.checkBoxNationalLangBT.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.checkBoxNationalLangBT.AutoSize = true;
-            this.checkBoxNationalLangBT.Checked = true;
-            this.checkBoxNationalLangBT.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.checkBoxNationalLangBT, 2);
-            this.checkBoxNationalLangBT.Location = new System.Drawing.Point(286, 46);
-            this.checkBoxNationalLangBT.Name = "checkBoxNationalLangBT";
-            this.checkBoxNationalLangBT.Size = new System.Drawing.Size(170, 17);
-            this.checkBoxNationalLangBT.TabIndex = 21;
-            this.checkBoxNationalLangBT.Text = "Project will use a National BT?";
-            this.toolTip.SetToolTip(this.checkBoxNationalLangBT, "Check this box to configure the project to use a national langauage (e.g. Hindi) " +
-                    "as the primary back-translation for checking");
-            this.checkBoxNationalLangBT.UseVisualStyleBackColor = true;
-            this.checkBoxNationalLangBT.CheckedChanged += new System.EventHandler(this.checkBoxNationalLangBT_CheckedChanged);
-            // 
-            // checkBoxEnglishBT
-            // 
-            this.checkBoxEnglishBT.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.checkBoxEnglishBT.AutoSize = true;
-            this.checkBoxEnglishBT.Checked = true;
-            this.checkBoxEnglishBT.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.checkBoxEnglishBT, 2);
-            this.checkBoxEnglishBT.Location = new System.Drawing.Point(286, 241);
-            this.checkBoxEnglishBT.Name = "checkBoxEnglishBT";
-            this.checkBoxEnglishBT.Size = new System.Drawing.Size(171, 17);
-            this.checkBoxEnglishBT.TabIndex = 22;
-            this.checkBoxEnglishBT.Text = "Project will use an English BT?";
-            this.toolTip.SetToolTip(this.checkBoxEnglishBT, "Check this box to configure the project to use English as a secondary back-transl" +
-                    "ation for checking (primarily for the benefit of the consultant and coach)");
-            this.checkBoxEnglishBT.UseVisualStyleBackColor = true;
-            this.checkBoxEnglishBT.CheckedChanged += new System.EventHandler(this.checkBoxEnglishBT_CheckedChanged);
-            // 
-            // checkBoxNoAnchors
-            // 
-            this.checkBoxNoAnchors.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.checkBoxNoAnchors.AutoSize = true;
-            this.checkBoxNoAnchors.Checked = true;
-            this.checkBoxNoAnchors.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.checkBoxNoAnchors, 2);
-            this.checkBoxNoAnchors.Location = new System.Drawing.Point(286, 310);
-            this.checkBoxNoAnchors.Name = "checkBoxNoAnchors";
-            this.checkBoxNoAnchors.Size = new System.Drawing.Size(128, 17);
-            this.checkBoxNoAnchors.TabIndex = 23;
-            this.checkBoxNoAnchors.Text = "&Biblical Story Project?";
-            this.toolTip.SetToolTip(this.checkBoxNoAnchors, "Check this box if this project is for Biblical stories (in which case, the Bible " +
-                    "Anchor fields will be enabled)");
-            this.checkBoxNoAnchors.UseVisualStyleBackColor = true;
-            // 
             // TeamMemberForm
             // 
             this.AcceptButton = this.buttonOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(479, 444);
+            this.ClientSize = new System.Drawing.Size(542, 444);
             this.Controls.Add(this.tabControlProjectMetaData);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -697,6 +679,5 @@
         private System.Windows.Forms.ComboBox comboBoxKeyboardNationalBT;
         private System.Windows.Forms.CheckBox checkBoxNationalLangBT;
         private System.Windows.Forms.CheckBox checkBoxEnglishBT;
-        private System.Windows.Forms.CheckBox checkBoxNoAnchors;
     }
 }

@@ -227,11 +227,6 @@ namespace OneStoryProjectEditor
                         while (xpNextElement.MoveNext())
                             lstAllowableBackwardsStages.Add((ProjectStages)Enum.Parse(typeof(ProjectStages), xpNextElement.Current.Value));
 
-                        xpNextElement = xpStageTransition.Current.Select("AllowableForwardsTransitions/AllowableForwardsTransition");
-                        List<ProjectStages> lstAllowableForwardsStages = new List<ProjectStages>();
-                        while (xpNextElement.MoveNext())
-                            lstAllowableForwardsStages.Add((ProjectStages)Enum.Parse(typeof(ProjectStages), xpNextElement.Current.Value));
-
                         xpNextElement = xpStageTransition.Current.Select("ViewSettings");
                         List<bool> lstViewStates = new List<bool>();
                         if (xpNextElement.MoveNext())
@@ -249,7 +244,7 @@ namespace OneStoryProjectEditor
 
                         StateTransition st = new StateTransition(eThisStage, eNextStage, eMemberType, 
                             strStageDisplayString, strStageInstructions,
-                            lstAllowableBackwardsStages, lstAllowableForwardsStages, lstViewStates);
+                            lstAllowableBackwardsStages, lstViewStates);
 
                         Add(eThisStage, st);
                     }
@@ -266,7 +261,6 @@ namespace OneStoryProjectEditor
             internal ProjectStages CurrentStage = ProjectStages.eUndefined;
             internal ProjectStages NextState = ProjectStages.eUndefined;
             internal List<ProjectStages> AllowableBackwardsTransitions = new List<ProjectStages>();
-            internal List<ProjectStages> AllowableForwardsTransitions = new List<ProjectStages>();
             internal TeamMemberData.UserTypes MemberTypeWithEditToken = TeamMemberData.UserTypes.eUndefined;
             protected List<bool> _abViewSettings = null;
             internal string StageDisplayString = null;
@@ -283,7 +277,6 @@ namespace OneStoryProjectEditor
                 string strDisplayString,
                 string strInstructions,
                 List<ProjectStages> lstAllowableBackwardsStages,
-                List<ProjectStages> lstAllowableForwardsStages, 
                 List<bool> abViewSettings)
             {
                 CurrentStage = thisStage;
@@ -292,7 +285,6 @@ namespace OneStoryProjectEditor
                 StageDisplayString = strDisplayString;
                 StageInstructions = strInstructions;
                 AllowableBackwardsTransitions.AddRange(lstAllowableBackwardsStages);
-                AllowableForwardsTransitions.AddRange(lstAllowableForwardsStages);
                 _abViewSettings = abViewSettings;
                 string strMethodName = thisStage.ToString().Substring(1);
 
@@ -307,14 +299,13 @@ namespace OneStoryProjectEditor
             {
                 if ((int)eToStage < (int)CurrentStage)
                     return (AllowableBackwardsTransitions[0] == eToStage);
-                else
-                    return (AllowableForwardsTransitions[AllowableForwardsTransitions.Count - 1] == eToStage);
+
+                return false;
             }
 
             public bool IsTransitionValid(ProjectStages eToStage)
             {
-                return (AllowableBackwardsTransitions.Contains(eToStage)
-                    || AllowableForwardsTransitions.Contains(eToStage));
+                return AllowableBackwardsTransitions.Contains(eToStage);
             }
 
 #if !DataDllBuild
@@ -340,10 +331,6 @@ namespace OneStoryProjectEditor
                     foreach (ProjectStages ps in AllowableBackwardsTransitions)
                         elemAllowableBackwardsTransition.Add(new XElement("AllowableBackwardsTransition", ps));
 
-                    XElement elemAllowableForwardsTransition = new XElement("AllowableForwardsTransitions");
-                    foreach (ProjectStages ps in AllowableForwardsTransitions)
-                        elemAllowableForwardsTransition.Add(new XElement("AllowableForwardsTransition", ps));
-
                     XElement elem = new XElement("StateTransition", 
                         new XAttribute("stage", CurrentStage),
                         new XAttribute("MemberTypeWithEditToken", MemberTypeWithEditToken),
@@ -351,7 +338,6 @@ namespace OneStoryProjectEditor
                         new XElement("StageDisplayString", StageDisplayString),
                         new XElement("StageInstructions", StageInstructions),
                         elemAllowableBackwardsTransition,
-                        elemAllowableForwardsTransition,
                         new XElement("ViewSettings",
                             new XAttribute("viewVernacularLangFieldMenuItem", _abViewSettings[0]),
                             new XAttribute("viewNationalLangFieldMenuItem", _abViewSettings[1]),
