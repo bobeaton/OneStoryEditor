@@ -88,7 +88,7 @@
             this.listBoxTeamMembers.MultiColumn = true;
             this.listBoxTeamMembers.Name = "listBoxTeamMembers";
             this.tableLayoutPanelTeamMembers.SetRowSpan(this.listBoxTeamMembers, 3);
-            this.listBoxTeamMembers.Size = new System.Drawing.Size(168, 342);
+            this.listBoxTeamMembers.Size = new System.Drawing.Size(199, 342);
             this.listBoxTeamMembers.TabIndex = 0;
             this.toolTip.SetToolTip(this.listBoxTeamMembers, "This list shows all the members of the team");
             this.listBoxTeamMembers.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBoxTeamMembers_MouseDoubleClick);
@@ -98,7 +98,7 @@
             // 
             this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonOK.Enabled = false;
-            this.buttonOK.Location = new System.Drawing.Point(183, 386);
+            this.buttonOK.Location = new System.Drawing.Point(229, 386);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(75, 23);
             this.buttonOK.TabIndex = 4;
@@ -110,7 +110,7 @@
             // buttonCancel
             // 
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(264, 386);
+            this.buttonCancel.Location = new System.Drawing.Point(310, 386);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 5;
@@ -121,7 +121,7 @@
             // 
             // buttonAddNewMember
             // 
-            this.buttonAddNewMember.Location = new System.Drawing.Point(351, 38);
+            this.buttonAddNewMember.Location = new System.Drawing.Point(412, 38);
             this.buttonAddNewMember.Name = "buttonAddNewMember";
             this.buttonAddNewMember.Size = new System.Drawing.Size(111, 30);
             this.buttonAddNewMember.TabIndex = 1;
@@ -133,7 +133,7 @@
             // buttonEditMember
             // 
             this.buttonEditMember.Enabled = false;
-            this.buttonEditMember.Location = new System.Drawing.Point(351, 74);
+            this.buttonEditMember.Location = new System.Drawing.Point(412, 74);
             this.buttonEditMember.Name = "buttonEditMember";
             this.buttonEditMember.Size = new System.Drawing.Size(111, 30);
             this.buttonEditMember.TabIndex = 2;
@@ -144,7 +144,7 @@
             // 
             // buttonDeleteMember
             // 
-            this.buttonDeleteMember.Location = new System.Drawing.Point(351, 110);
+            this.buttonDeleteMember.Location = new System.Drawing.Point(412, 110);
             this.buttonDeleteMember.Name = "buttonDeleteMember";
             this.buttonDeleteMember.Size = new System.Drawing.Size(111, 30);
             this.buttonDeleteMember.TabIndex = 3;
@@ -160,12 +160,12 @@
             this.listBoxMemberRoles.ColumnWidth = 151;
             this.listBoxMemberRoles.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listBoxMemberRoles.FormattingEnabled = true;
-            this.listBoxMemberRoles.Location = new System.Drawing.Point(177, 38);
+            this.listBoxMemberRoles.Location = new System.Drawing.Point(208, 38);
             this.listBoxMemberRoles.MultiColumn = true;
             this.listBoxMemberRoles.Name = "listBoxMemberRoles";
             this.tableLayoutPanelTeamMembers.SetRowSpan(this.listBoxMemberRoles, 3);
             this.listBoxMemberRoles.SelectionMode = System.Windows.Forms.SelectionMode.None;
-            this.listBoxMemberRoles.Size = new System.Drawing.Size(168, 342);
+            this.listBoxMemberRoles.Size = new System.Drawing.Size(198, 342);
             this.listBoxMemberRoles.TabIndex = 7;
             this.toolTip.SetToolTip(this.listBoxMemberRoles, "This list shows all the member\'s role on the team");
             this.listBoxMemberRoles.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBoxMemberRoles_MouseDoubleClick);
@@ -256,7 +256,7 @@
             this.checkBoxNationalLangBT.Location = new System.Drawing.Point(317, 66);
             this.checkBoxNationalLangBT.Name = "checkBoxNationalLangBT";
             this.checkBoxNationalLangBT.Size = new System.Drawing.Size(170, 17);
-            this.checkBoxNationalLangBT.TabIndex = 21;
+            this.checkBoxNationalLangBT.TabIndex = 6;
             this.checkBoxNationalLangBT.Text = "Project will use a National BT?";
             this.toolTip.SetToolTip(this.checkBoxNationalLangBT, "Check this box to configure the project to use a national langauage (e.g. Hindi) " +
                     "as the primary back-translation for checking");
@@ -273,7 +273,7 @@
             this.checkBoxEnglishBT.Location = new System.Drawing.Point(317, 281);
             this.checkBoxEnglishBT.Name = "checkBoxEnglishBT";
             this.checkBoxEnglishBT.Size = new System.Drawing.Size(171, 17);
-            this.checkBoxEnglishBT.TabIndex = 22;
+            this.checkBoxEnglishBT.TabIndex = 13;
             this.checkBoxEnglishBT.Text = "Project will use an English BT?";
             this.toolTip.SetToolTip(this.checkBoxEnglishBT, "Check this box to configure the project to use English as a secondary back-transl" +
                     "ation for checking (primarily for the benefit of the consultant and coach)");
@@ -318,7 +318,7 @@
             this.tabPageMemberList.Location = new System.Drawing.Point(4, 22);
             this.tabPageMemberList.Name = "tabPageMemberList";
             this.tabPageMemberList.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageMemberList.Size = new System.Drawing.Size(471, 418);
+            this.tabPageMemberList.Size = new System.Drawing.Size(534, 418);
             this.tabPageMemberList.TabIndex = 0;
             this.tabPageMemberList.Text = "Team Members";
             this.tabPageMemberList.UseVisualStyleBackColor = true;
@@ -348,7 +348,7 @@
             this.tableLayoutPanelTeamMembers.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelTeamMembers.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanelTeamMembers.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelTeamMembers.Size = new System.Drawing.Size(465, 412);
+            this.tableLayoutPanelTeamMembers.Size = new System.Drawing.Size(528, 412);
             this.tableLayoutPanelTeamMembers.TabIndex = 0;
             // 
             // textBoxMemberNames
@@ -358,7 +358,7 @@
             this.textBoxMemberNames.Location = new System.Drawing.Point(3, 3);
             this.textBoxMemberNames.Name = "textBoxMemberNames";
             this.textBoxMemberNames.ReadOnly = true;
-            this.textBoxMemberNames.Size = new System.Drawing.Size(168, 29);
+            this.textBoxMemberNames.Size = new System.Drawing.Size(199, 29);
             this.textBoxMemberNames.TabIndex = 8;
             this.textBoxMemberNames.Text = "Team Members";
             this.textBoxMemberNames.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -368,10 +368,10 @@
             this.tableLayoutPanelTeamMembers.SetColumnSpan(this.textBoxMemberRoles, 2);
             this.textBoxMemberRoles.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxMemberRoles.Font = new System.Drawing.Font("Segoe UI", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxMemberRoles.Location = new System.Drawing.Point(177, 3);
+            this.textBoxMemberRoles.Location = new System.Drawing.Point(208, 3);
             this.textBoxMemberRoles.Name = "textBoxMemberRoles";
             this.textBoxMemberRoles.ReadOnly = true;
-            this.textBoxMemberRoles.Size = new System.Drawing.Size(168, 29);
+            this.textBoxMemberRoles.Size = new System.Drawing.Size(198, 29);
             this.textBoxMemberRoles.TabIndex = 9;
             this.textBoxMemberRoles.Text = "Roles";
             this.textBoxMemberRoles.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -491,7 +491,7 @@
             this.buttonInternationalBTFont.Location = new System.Drawing.Point(317, 304);
             this.buttonInternationalBTFont.Name = "buttonInternationalBTFont";
             this.buttonInternationalBTFont.Size = new System.Drawing.Size(108, 23);
-            this.buttonInternationalBTFont.TabIndex = 13;
+            this.buttonInternationalBTFont.TabIndex = 14;
             this.buttonInternationalBTFont.Text = "&English BT Font";
             this.buttonInternationalBTFont.UseVisualStyleBackColor = true;
             this.buttonInternationalBTFont.Click += new System.EventHandler(this.buttonInternationalBTFont_Click);

@@ -59,20 +59,15 @@ namespace OneStoryProjectEditor
             checkBoxVernacularRTL.Checked = projSettings.Vernacular.IsRTL;
 
             // if there is a national language configured, then initialize those as well.
-            if (projSettings.NationalBT.HasData)
-            {
-                checkBoxNationalLangBT.Checked = true;
-                textBoxNationalBTLanguage.Font = textBoxNationalBTEthCode.Font = projSettings.NationalBT.LangFont;
-                textBoxNationalBTLanguage.ForeColor = textBoxNationalBTEthCode.ForeColor = projSettings.NationalBT.FontColor;
-                textBoxNationalBTLanguage.Text = projSettings.NationalBT.LangName;
-                textBoxNationalBTEthCode.Text = projSettings.NationalBT.LangCode;
-                if (!String.IsNullOrEmpty(projSettings.NationalBT.Keyboard) && comboBoxKeyboardNationalBT.Items.Contains(projSettings.NationalBT.Keyboard))
-                    comboBoxKeyboardNationalBT.SelectedItem = projSettings.NationalBT.Keyboard;
-                textBoxNationalBTSentFullStop.Text = projSettings.NationalBT.FullStop;
-                checkBoxNationalRTL.Checked = projSettings.NationalBT.IsRTL;
-            }
-            else
-                checkBoxNationalLangBT.Checked = false;
+            textBoxNationalBTLanguage.Font = textBoxNationalBTEthCode.Font = projSettings.NationalBT.LangFont;
+            textBoxNationalBTLanguage.ForeColor = textBoxNationalBTEthCode.ForeColor = projSettings.NationalBT.FontColor;
+            textBoxNationalBTLanguage.Text = projSettings.NationalBT.LangName;
+            textBoxNationalBTEthCode.Text = projSettings.NationalBT.LangCode;
+            if (!String.IsNullOrEmpty(projSettings.NationalBT.Keyboard) && comboBoxKeyboardNationalBT.Items.Contains(projSettings.NationalBT.Keyboard))
+                comboBoxKeyboardNationalBT.SelectedItem = projSettings.NationalBT.Keyboard;
+            textBoxNationalBTSentFullStop.Text = projSettings.NationalBT.FullStop;
+            checkBoxNationalRTL.Checked = projSettings.NationalBT.IsRTL;
+            checkBoxNationalLangBT.Checked = projSettings.NationalBT.HasData;
 
             toolTip.SetToolTip(buttonVernacularFont, String.Format(CstrDefaultFontTooltipVernacular,
                                                                    Environment.NewLine, projSettings.Vernacular.LangFont,

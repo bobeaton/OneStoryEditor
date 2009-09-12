@@ -120,9 +120,19 @@ namespace OneStoryProjectEditor
         {
             System.Diagnostics.Debug.Assert(!Modified);
             Stories = null;
+            ClearState();
+        }
+
+        protected void ClearState()
+        {
+            ClearFlowControls();
             theCurrentStory = null;
             comboBoxStorySelector.Items.Clear();
             comboBoxStorySelector.Text = "<type the name of a story to create and hit Enter>";
+            textBoxStoryVerse.Text = "Story";
+            viewConsultantNoteFieldMenuItem.Checked = false;
+            viewCoachNotesFieldMenuItem.Checked = false;
+            viewNetBibleMenuItem.Checked = false;
         }
 
         protected void NewProjectFile()
@@ -1137,7 +1147,9 @@ namespace OneStoryProjectEditor
 
         protected bool DoNextState(bool bDoUpdateCtrls)
         {
-            System.Diagnostics.Debug.Assert((Stories != null) && (Stories.ProjSettings != null));
+            if ((Stories == null) || (Stories.ProjSettings == null) || (theCurrentStory == null))
+                return false;
+
             if (SetNextStateIfReady())
             {
                 SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage);
@@ -1180,6 +1192,7 @@ namespace OneStoryProjectEditor
             addNewStoryAfterToolStripMenuItem.Enabled = (Stories != null);
 
             exportStoryToolStripMenuItem.Enabled =
+                exportToAdaptItToolStripMenuItem.Enabled =
                 exportNationalBacktranslationToolStripMenuItem.Enabled =
                 ((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
 
@@ -1198,13 +1211,28 @@ namespace OneStoryProjectEditor
             PanoramaView dlg = new PanoramaView(Stories);
             dlg.ShowDialog();
 
-            Modified |= dlg.Modified;
+            if (dlg.Modified)
+            {
+                // this means that the order was probably switched, so we have to reload the combo box
+                comboBoxStorySelector.Items.Clear();
+                foreach (StoryData aStory in Stories)
+                    comboBoxStorySelector.Items.Add(aStory.Name);
+
+                Modified = true;
+            }
         }
 
         private void deleteStoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Debug.Assert(theCurrentStory != null);
+            if (theCurrentStory == null)
+                return;
+
             int nIndex = Stories.IndexOf(theCurrentStory);
+            System.Diagnostics.Debug.Assert(nIndex != -1);
+            if (nIndex == -1)
+                return;
+
             Stories.RemoveAt(nIndex);
             System.Diagnostics.Debug.Assert(comboBoxStorySelector.Items.IndexOf(theCurrentStory.Name) == nIndex);
             comboBoxStorySelector.Items.Remove(theCurrentStory.Name);
@@ -1213,6 +1241,9 @@ namespace OneStoryProjectEditor
                 nIndex--;
             if (nIndex < Stories.Count)
                 comboBoxStorySelector.SelectedItem = Stories[nIndex].Name;
+            else
+                ClearState();
+            Modified = true;
         }
 
         private void StoryEditor_FormClosing(object sender, FormClosingEventArgs e)
@@ -1235,6 +1266,9 @@ namespace OneStoryProjectEditor
             copyToolStripMenuItem.Enabled =
                 copyNationalBackTranslationToolStripMenuItem.Enabled =
                 copyEnglishBackTranslationToolStripMenuItem.Enabled =
+                deleteBackTranslationToolStripMenuItem.Enabled = 
+                deleteStoryNationalBackTranslationToolStripMenuItem.Enabled =
+                deleteEnglishBacktranslationToolStripMenuItem.Enabled = 
                 ((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
 
             if (Stories != null)
@@ -1242,6 +1276,8 @@ namespace OneStoryProjectEditor
                 copyStoryToolStripMenuItem.Text = String.Format("{0} story text", Stories.ProjSettings.Vernacular.LangName);
                 copyNationalBackTranslationToolStripMenuItem.Text = String.Format("{0} back-translation of the story", Stories.ProjSettings.NationalBT.LangName);
                 deleteStoryNationalBackTranslationToolStripMenuItem.Text = String.Format("{0} back-translation of the story", Stories.ProjSettings.NationalBT.LangName);
+                deleteStoryNationalBackTranslationToolStripMenuItem.Visible = copyNationalBackTranslationToolStripMenuItem.Visible = (Stories.ProjSettings.NationalBT.HasData);
+                deleteEnglishBacktranslationToolStripMenuItem.Visible = copyEnglishBackTranslationToolStripMenuItem.Visible = (Stories.ProjSettings.InternationalBT.HasData);
             }
         }
 
@@ -1311,6 +1347,7 @@ namespace OneStoryProjectEditor
             foreach (VerseData aVerse in theCurrentStory.Verses)
                 aVerse.NationalBTText.SetValue(null);
             ReInitVerseControls();
+            Modified = true;
         }
 
         private void deleteEnglishBacktranslationToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1319,6 +1356,7 @@ namespace OneStoryProjectEditor
             foreach (VerseData aVerse in theCurrentStory.Verses)
                 aVerse.InternationalBTText.SetValue(null);
             ReInitVerseControls();
+            Modified = true;
         }
 
         private void exportNationalBacktranslationToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1582,6 +1620,8 @@ namespace OneStoryProjectEditor
             {
                 viewVernacularLangFieldMenuItem.Text = String.Format("{0} &language fields", Stories.ProjSettings.Vernacular.LangName);
                 viewNationalLangFieldMenuItem.Text = String.Format("&{0} back-translation field", Stories.ProjSettings.NationalBT.LangName);
+                viewNationalLangFieldMenuItem.Visible = (Stories.ProjSettings.NationalBT.HasData);
+                viewEnglishBTFieldMenuItem.Visible = (Stories.ProjSettings.InternationalBT.HasData);
             }
         }
 
