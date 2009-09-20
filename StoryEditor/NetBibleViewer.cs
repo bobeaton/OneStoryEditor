@@ -180,7 +180,7 @@ namespace OneStoryProjectEditor
                     if (Properties.Settings.Default.SwordModulesUsed.Contains(strModuleName))
                     {
                         lstBibleResources.Add(new SwordResource(strModuleName, strModuleDesc, true));
-                        InitSwordResourceRadioButton(strModuleName);
+                        InitSwordResourceRadioButton(strModuleName, strModuleDesc);
                     }
                     else
                         lstBibleResources.Add(new SwordResource(strModuleName, strModuleDesc, false));
@@ -216,7 +216,7 @@ namespace OneStoryProjectEditor
             }
         }
 
-        protected RadioButton InitSwordResourceRadioButton(string strModuleName)
+        protected RadioButton InitSwordResourceRadioButton(string strModuleName, string strModuleDescription)
         {
             RadioButton rb = new RadioButton
                                  {
@@ -225,6 +225,7 @@ namespace OneStoryProjectEditor
                                      Text = strModuleName,
                                      UseVisualStyleBackColor = true
                                  };
+            toolTip.SetToolTip(rb, strModuleDescription);
             rb.CheckedChanged += rb_CheckedChanged;
 
             int nIndex = tableLayoutPanelSpinControls.Controls.Count - 1;   // insert at the penultimate position
@@ -247,7 +248,7 @@ namespace OneStoryProjectEditor
                         {
                             if (tableLayoutPanelSpinControls.Controls[CstrRadioButtonPrefix + aSR.Name] == null)
                                 // means the user selected it, but it's not there. So add it
-                                rbOn = InitSwordResourceRadioButton(aSR.Name);
+                                rbOn = InitSwordResourceRadioButton(aSR.Name, aSR.Description);
                             else
                                 rbOn = (RadioButton)tableLayoutPanelSpinControls.Controls[CstrRadioButtonPrefix + aSR.Name];
 

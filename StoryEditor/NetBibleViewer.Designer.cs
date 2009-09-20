@@ -41,6 +41,7 @@
             this.textBoxNetFlixViewer = new System.Windows.Forms.TextBox();
             this.radioButtonShowOtherSwordResources = new System.Windows.Forms.RadioButton();
             this.contextMenuStripBibleBooks = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanel.SuspendLayout();
             this.tableLayoutPanelSpinControls.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownChapterNumber)).BeginInit();
@@ -286,5 +287,6 @@
         private System.Windows.Forms.TextBox textBoxNetFlixViewer;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripBibleBooks;
         private System.Windows.Forms.RadioButton radioButtonShowOtherSwordResources;
+        private System.Windows.Forms.ToolTip toolTip;
     }
 }
