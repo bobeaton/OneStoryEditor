@@ -42,14 +42,51 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private void buttonMoveUp_Click(object sender, EventArgs e)
+        private void dataGridViewPanorama_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            System.Diagnostics.Debug.Assert(dataGridViewPanorama.SelectedRows.Count < 2);   // 1 or 0
-            if (dataGridViewPanorama.SelectedRows.Count != 1)
+            if ((e.RowIndex < 0) || (e.RowIndex >= dataGridViewPanorama.Rows.Count)
+                || (e.ColumnIndex < 0) || (e.ColumnIndex > CnColumnStoryPurpose))
                 return;
 
-            DataGridViewRow theSelectedRow = dataGridViewPanorama.SelectedRows[0];
-            int nSelectedRowIndex = theSelectedRow.Index;
+            DataGridViewRow theRow = dataGridViewPanorama.Rows[e.RowIndex];
+            DataGridViewCell theCell = theRow.Cells[e.ColumnIndex];
+            if (theCell.Value == null)
+                return;
+
+            string strCellValue = ((string)theCell.Value).Trim();
+            if (String.IsNullOrEmpty(strCellValue))
+                return;
+
+            System.Diagnostics.Debug.Assert(theRow.Index < _stories.Count);
+            StoryData theSD = _stories[theRow.Index];
+
+            if (e.ColumnIndex == CnColumnStoryName)
+            {
+                if (theSD.Name != strCellValue)
+                    theSD.Name = strCellValue;
+                else
+                    return; // return unModified
+            }
+            else
+            {
+                System.Diagnostics.Debug.Assert(e.ColumnIndex == CnColumnStoryPurpose);
+                if (theSD.CraftingInfo.StoryPurpose != strCellValue)
+                    theSD.CraftingInfo.StoryPurpose = strCellValue;
+                else
+                    return; // return unModified
+            }
+
+            Modified = true;
+        }
+
+        private void buttonMoveUp_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.Assert(dataGridViewPanorama.SelectedCells.Count < 2);   // 1 or 0
+            if (dataGridViewPanorama.SelectedCells.Count != 1)
+                return;
+
+            int nSelectedColumnIndex = dataGridViewPanorama.SelectedCells[0].ColumnIndex;
+            int nSelectedRowIndex = dataGridViewPanorama.SelectedCells[0].RowIndex;
             if (nSelectedRowIndex > 0)
             {
                 StoryData theSDToMove = _stories[nSelectedRowIndex];
@@ -57,19 +94,19 @@ namespace OneStoryProjectEditor
                 _stories.Insert(--nSelectedRowIndex, theSDToMove);
                 InitGrid();
                 System.Diagnostics.Debug.Assert(nSelectedRowIndex < dataGridViewPanorama.Rows.Count);
-                dataGridViewPanorama.Rows[nSelectedRowIndex].Selected = true;
+                dataGridViewPanorama.Rows[nSelectedRowIndex].Cells[nSelectedColumnIndex].Selected = true;
                 Modified = true;
             }
         }
 
         private void buttonMoveDown_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.Assert(dataGridViewPanorama.SelectedRows.Count < 2);   // 1 or 0
-            if (dataGridViewPanorama.SelectedRows.Count != 1)
+            System.Diagnostics.Debug.Assert(dataGridViewPanorama.SelectedCells.Count < 2);   // 1 or 0 (or I'm not understanding this properly
+            if (dataGridViewPanorama.SelectedCells.Count != 1)
                 return;
 
-            DataGridViewRow theSelectedRow = dataGridViewPanorama.SelectedRows[0];
-            int nSelectedRowIndex = theSelectedRow.Index;
+            int nSelectedColumnIndex = dataGridViewPanorama.SelectedCells[0].ColumnIndex;
+            int nSelectedRowIndex = dataGridViewPanorama.SelectedCells[0].RowIndex;
             if (nSelectedRowIndex < dataGridViewPanorama.Rows.Count - 1)
             {
                 StoryData theSDToMove = _stories[nSelectedRowIndex];
@@ -77,19 +114,18 @@ namespace OneStoryProjectEditor
                 _stories.Insert(++nSelectedRowIndex, theSDToMove);
                 InitGrid();
                 System.Diagnostics.Debug.Assert(nSelectedRowIndex < dataGridViewPanorama.Rows.Count);
-                dataGridViewPanorama.Rows[nSelectedRowIndex].Selected = true;
+                dataGridViewPanorama.Rows[nSelectedRowIndex].Cells[nSelectedColumnIndex].Selected = true;
                 Modified = true;
             }
         }
 
         private void buttonDelete_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.Assert(dataGridViewPanorama.SelectedRows.Count < 2);   // 1 or 0
-            if (dataGridViewPanorama.SelectedRows.Count != 1)
+            System.Diagnostics.Debug.Assert(dataGridViewPanorama.SelectedCells.Count < 2);   // 1 or 0
+            if (dataGridViewPanorama.SelectedCells.Count != 1)
                 return;
 
-            DataGridViewRow theSelectedRow = dataGridViewPanorama.SelectedRows[0];
-            int nSelectedRowIndex = theSelectedRow.Index;
+            int nSelectedRowIndex = dataGridViewPanorama.SelectedCells[0].RowIndex;
             if (nSelectedRowIndex < dataGridViewPanorama.Rows.Count - 1)
             {
                 StoryData theSDToDelete = _stories[nSelectedRowIndex];

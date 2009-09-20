@@ -36,7 +36,7 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(String.Format("Problem initializing Sword (the Net Bible viewer):{0}{0}{1}", Environment.NewLine, ex.Message),  StoriesData.CstrCaption);
+                MessageBox.Show(String.Format(Properties.Resources.IDS_NeedToReboot, Environment.NewLine, ex.Message), Properties.Resources.IDS_Caption);
             }
 
             try
@@ -84,7 +84,7 @@ namespace OneStoryProjectEditor
                         string strFilename = ProjectSettings.GetDefaultProjectFileName(strProjectName);
                         if (File.Exists(strFilename))
                         {
-                            DialogResult res = MessageBox.Show(String.Format("You already have a project with the name, '{0}'. Do you want to delete the existing one?", strProjectName),  StoriesData.CstrCaption, MessageBoxButtons.YesNoCancel);
+                            DialogResult res = MessageBox.Show(String.Format(Properties.Resources.IDS_OverwriteProject, strProjectName), Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
                             if (res != DialogResult.Yes)
                                 throw StoryEditor.BackOutWithNoUI;
 
@@ -110,8 +110,8 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(String.Format("Unable to import the project '{1}'{0}{0}{2}{0}{0}Contact bob_eaton@sall.com for help",
-                    Environment.NewLine, strProjectName, ex.Message),  StoriesData.CstrCaption);
+                MessageBox.Show(String.Format(Properties.Resources.IDS_UnableToImportProject,
+                    Environment.NewLine, strProjectName, ex.Message),  Properties.Resources.IDS_Caption);
                 return;
             }
         }
@@ -128,8 +128,8 @@ namespace OneStoryProjectEditor
             ClearFlowControls();
             theCurrentStory = null;
             comboBoxStorySelector.Items.Clear();
-            comboBoxStorySelector.Text = "<type the name of a story to create and hit Enter>";
-            textBoxStoryVerse.Text = "Story";
+            comboBoxStorySelector.Text = Properties.Resources.IDS_EnterStoryName;
+            textBoxStoryVerse.Text = Properties.Resources.IDS_Story;
             viewConsultantNoteFieldMenuItem.Checked = false;
             viewCoachNotesFieldMenuItem.Checked = false;
             viewNetBibleMenuItem.Checked = false;
@@ -165,34 +165,48 @@ namespace OneStoryProjectEditor
             get { return new BackOutWithNoUIException(); }
         }
 
+        protected bool InitStoriesObject()
+        {
+            System.Diagnostics.Debug.Assert(Stories == null);
+
+            try
+            {
+                Stories = new StoriesData(null);    // null causes us to query for the project name
+                if (LoggedOnMember == null)
+                    LoggedOnMember = Stories.GetLogin(ref Modified);
+
+                buttonsStoryStage.Enabled = true;
+                return true;
+            }
+            catch (BackOutWithNoUIException)
+            {
+                // sub-routine has taken care of the UI, just exit without doing anything
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(String.Format(Properties.Resources.IDS_UnableToOpenMemberList,
+                    Environment.NewLine, ex.Message),  Properties.Resources.IDS_Caption);
+            }
+
+            return false;
+        }
+
         private void teamMembersToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (Stories == null)
             {
-                try
-                {
-                    Stories = GetNewStoriesData;
-                    buttonsStoryStage.Enabled = true;
-                }
-                catch (BackOutWithNoUIException)
-                {
-                    // sub-routine has taken care of the UI, just exit without doing anything
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(String.Format("Unable to open the member list{0}{0}{1}{0}{0}Contact bob_eaton@sall.com for help",
-                        Environment.NewLine, ex.Message),  StoriesData.CstrCaption);
-                    return;
-                }
+                InitStoriesObject();
             }
             else
             {
                 try
                 {
                     // detect if the logged on member type changed, and if so, redo the Consult Notes panes
-                    System.Diagnostics.Debug.Assert(LoggedOnMember != null);
-                    TeamMemberData.UserTypes eCurrentMemberType = LoggedOnMember.MemberType;
-                    LoggedOnMember = Stories.EditTeamMembers(LoggedOnMember.Name, TeamMemberForm.CstrDefaultOKLabel);
+                    string strMemberName = null;
+                    if (LoggedOnMember != null)
+                        strMemberName = LoggedOnMember.Name;
+
+                    LoggedOnMember = Stories.EditTeamMembers(strMemberName, TeamMemberForm.CstrDefaultOKLabel);
                     Modified = true;
                     if (theCurrentStory != null)
                     {
@@ -270,25 +284,16 @@ namespace OneStoryProjectEditor
                 if (!String.IsNullOrEmpty(strStoryToLoad) && comboBoxStorySelector.Items.Contains(strStoryToLoad))
                     comboBoxStorySelector.SelectedItem = strStoryToLoad;
             }
+            catch (BackOutWithNoUIException)
+            {
+                // sub-routine has taken care of the UI, just exit without doing anything
+            }
             catch (Exception ex)
             {
-                string strErrorMsg = String.Format("Unable to open project '{1}'{0}{0}{2}{0}{0}{3}{0}{0}Send the project file along with the error message to bob_eaton@sall.com for help",
+                string strErrorMsg = String.Format(Properties.Resources.IDS_UnableToOpenProjectFile,
                     Environment.NewLine, projSettings.ProjectName,
                     ((ex.InnerException != null) ? ex.InnerException.Message : ""), ex.Message);
-                MessageBox.Show(strErrorMsg,  StoriesData.CstrCaption);
-            }
-        }
-
-        protected StoriesData GetNewStoriesData
-        {
-            get
-            {
-                StoriesData ssd = new StoriesData(null);    // null causes us to query for the project name
-                if (LoggedOnMember == null)
-                    LoggedOnMember = ssd.GetLogin();
-
-                Modified = true;
-                return ssd;
+                MessageBox.Show(strErrorMsg,  Properties.Resources.IDS_Caption);
             }
         }
 
@@ -298,8 +303,7 @@ namespace OneStoryProjectEditor
 
             if (LoggedOnMember == null)
             {
-                LoggedOnMember = theOldStories.GetLogin();
-                Modified = true;
+                LoggedOnMember = theOldStories.GetLogin(ref Modified);
             }
 
             return theOldStories;
@@ -317,24 +321,50 @@ namespace OneStoryProjectEditor
             }
         }
 
+        protected bool CheckForCrafter()
+        {
+            System.Diagnostics.Debug.Assert(LoggedOnMember != null);
+            if ((LoggedOnMember == null) || (LoggedOnMember.MemberType != TeamMemberData.UserTypes.eCrafter))
+            {
+                MessageBox.Show(Properties.Resources.IDS_LogInAsCrafter, Properties.Resources.IDS_Caption);
+                return false;
+            }
+            return true;
+        }
+
         protected bool AddNewStoryGetIndex(ref int nIndexForInsert, out string strStoryName)
         {
+            System.Diagnostics.Debug.Assert(LoggedOnMember != null);
+            if (!CheckForCrafter())
+            {
+                strStoryName = null;
+                return false;
+            }
+
             // ask the user for what story they want to add (i.e. the name)
-            strStoryName = Microsoft.VisualBasic.Interaction.InputBox("Enter the name of the story to add", StoriesData.CstrCaption, null, 300, 200);
+            strStoryName = Microsoft.VisualBasic.Interaction.InputBox(Properties.Resources.IDS_EnterStoryToAdd, Properties.Resources.IDS_Caption, null, 300, 200);
             if (!String.IsNullOrEmpty(strStoryName))
             {
-                foreach (StoryData aStory in Stories)
-                    if (aStory.Name == strStoryName)
-                    {
-                        // if they already have a story by that name, just go there
-                        comboBoxStorySelector.SelectedItem = strStoryName;
-                        return false;
-                    }
-                    else if (aStory.Name == theCurrentStory.Name)
-                    {
-                        nIndexForInsert = Stories.IndexOf(aStory);
-                        return true;
-                    }
+                if (Stories.Count > 0)
+                {
+                    foreach (StoryData aStory in Stories)
+                        if (aStory.Name == strStoryName)
+                        {
+                            // if they already have a story by that name, just go there
+                            comboBoxStorySelector.SelectedItem = strStoryName;
+                            return false;
+                        }
+                        else if (aStory.Name == theCurrentStory.Name)
+                        {
+                            nIndexForInsert = Stories.IndexOf(aStory);
+                            return true;
+                        }
+                }
+                else
+                {
+                    nIndexForInsert = 0;
+                    return true;
+                }
             }
 
             return false;
@@ -352,14 +382,28 @@ namespace OneStoryProjectEditor
             }
         }
 
+        TimeSpan tsFalseEnter = new TimeSpan(0, 0, 1);
+        DateTime dtLastKey = DateTime.Now;
         private void comboBoxStorySelector_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)    // user just finished entering a story name to select (or add)
             {
+                // ignore false double-Enters (from hitting enter in the dialog box for 'CheckForCrafter')
+                if ((DateTime.Now - dtLastKey) < tsFalseEnter)
+                    return;
+
                 if (Stories == null)
+                    if (!InitStoriesObject())
+                    {
+                        comboBoxStorySelector.Text = Properties.Resources.IDS_EnterStoryName;
+                        return;
+                    }
+
+                if (!CheckForCrafter())
                 {
-                    Stories = GetNewStoriesData;
-                    buttonsStoryStage.Enabled = true;
+                    comboBoxStorySelector.Text = Properties.Resources.IDS_EnterStoryName;
+                    dtLastKey = DateTime.Now;
+                    return;
                 }
 
                 int nInsertIndex = 0;
@@ -376,11 +420,13 @@ namespace OneStoryProjectEditor
 
                 if (theStory == null)
                 {
-                    if (MessageBox.Show(String.Format("Unable to find the story '{0}'. Would you like to add a new one with that name?", strStoryToLoad),  StoriesData.CstrCaption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+                    if (MessageBox.Show(String.Format(Properties.Resources.IDS_UnableToFindStoryAdd, strStoryToLoad), Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
                     {
                         System.Diagnostics.Debug.Assert(!comboBoxStorySelector.Items.Contains(strStoryToLoad));
                         InsertNewStory(strStoryToLoad, nInsertIndex);
                     }
+                    else
+                        comboBoxStorySelector.Text = Properties.Resources.IDS_EnterStoryName;
                 }
                 else
                     comboBoxStorySelector.SelectedItem = theStory.Name;
@@ -390,24 +436,23 @@ namespace OneStoryProjectEditor
         protected void InsertNewStory(string strStoryName, int nIndexToInsert)
         {
             CheckForSaveDirtyFile();
-            DialogResult res = MessageBox.Show("Is this a story from the Bible?", StoriesData.CstrCaption, MessageBoxButtons.YesNoCancel);
+            DialogResult res = MessageBox.Show(Properties.Resources.IDS_IsThisStoryFromTheBible, Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
             if (res == DialogResult.Cancel)
                 return;
 
-            string strCrafterGuid;
             // query for the crafter if non-biblical story (since for biblical stories we can assume
             //  it's the logged in member)
             if (res == DialogResult.No)
             {
                 MemberPicker dlg = new MemberPicker(Stories, TeamMemberData.UserTypes.eCrafter);
-                dlg.Text = "Choose the Story Crafter";
-                if (dlg.ShowDialog() != DialogResult.OK)
+                dlg.Text = Properties.Resources.IDS_ChooseTheStoryCrafter;
+                if ((dlg.ShowDialog() != DialogResult.OK) || (dlg.SelectedMember == null))
                     return;
 
-                strCrafterGuid = dlg.SelectedMember.MemberGuid;
+                LoggedOnMember = dlg.SelectedMember;
             }
-            else
-                strCrafterGuid = LoggedOnMember.MemberGuid;
+
+            string strCrafterGuid = LoggedOnMember.MemberGuid;
 
             comboBoxStorySelector.Items.Insert(nIndexToInsert, strStoryName);
             theCurrentStory = new StoryData(strStoryName, strCrafterGuid, (res == DialogResult.Yes));
@@ -427,10 +472,8 @@ namespace OneStoryProjectEditor
 
             // we might could come thru here without having opened any file (e.g. after New)
             if (Stories == null)
-            {
-                Stories = GetNewStoriesData;
-                buttonsStoryStage.Enabled = true;
-            }
+                if (!InitStoriesObject())
+                    return;
 
             // find the story they've chosen (this shouldn't be possible to fail)
             foreach (StoryData aStory in Stories)
@@ -444,8 +487,8 @@ namespace OneStoryProjectEditor
             Properties.Settings.Default.Save();
 
             // initialize the text box showing the storying they're editing
-            textBoxStoryVerse.Text = "Story: " + theCurrentStory.Name;
-            this.Text = String.Format("OneStory Editor -- {0} Story Project", Stories.ProjSettings.ProjectName);
+            textBoxStoryVerse.Text = Properties.Resources.IDS_StoryColon + theCurrentStory.Name;
+            this.Text = String.Format(Properties.Resources.IDS_MainFrameTitle, Stories.ProjSettings.ProjectName);
 
             // initialize the project stage details (which might hide certain views)
             //  (do this *after* initializing the whole thing, because if we save, we'll
@@ -472,7 +515,7 @@ namespace OneStoryProjectEditor
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, StoriesData.CstrCaption);
+                    MessageBox.Show(ex.Message, Properties.Resources.IDS_Caption);
                 }
         }
 
@@ -481,8 +524,7 @@ namespace OneStoryProjectEditor
             ClearFlowControls();
             int nVerseIndex = 0;
             if (theVerses.Count == 0)
-                theCurrentStory.Verses.InsertVerse(0, "<Type the Story here>", 
-                    "<Type the UNS's back-translation here>", "<Type the English back-translation here>");
+                theCurrentStory.Verses.InsertVerse(0, null, null, null);
 
             flowLayoutPanelVerses.SuspendLayout();
             flowLayoutPanelConsultantNotes.SuspendLayout();
@@ -644,7 +686,7 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(String.Format("Unable to continue! Cause: {0}", ex.Message),  StoriesData.CstrCaption);
+                MessageBox.Show(String.Format(Properties.Resources.IDS_UnableToContinue, ex.Message), Properties.Resources.IDS_Caption);
                 return;
             }
         }
@@ -653,6 +695,7 @@ namespace OneStoryProjectEditor
         {
             theCurrentStory.Verses.Remove(theVerseDataToDelete);
             InitAllPanes();
+            Modified = true;
         }
 
         internal void SetViewBasedOnProjectStage(StoryStageLogic.ProjectStages eStage)
@@ -661,7 +704,7 @@ namespace OneStoryProjectEditor
 
             st.SetView(this);
             helpProvider.SetHelpString(this, st.StageInstructions);
-            SetStatusBar(String.Format("{0}  Press F1 for instructions", st.StageDisplayString));
+            SetStatusBar(String.Format(Properties.Resources.IDS_PressF1ForInstructions, st.StageDisplayString));
         }
 
         protected Button AddDropTargetToFlowLayout(int nVerseIndex)
@@ -770,11 +813,20 @@ namespace OneStoryProjectEditor
 
         private void CheckForSaveDirtyFile()
         {
-            SaveClicked();
+            if (Modified)
+            {
+                DialogResult res = MessageBox.Show(Properties.Resources.IDS_SaveChanges, Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+                if (res != DialogResult.Yes)
+                {
+                    Modified = false;
+                    return;
+                }
+                SaveClicked();
+            }
 
             // do cleanup, because this is always called before starting something new (new file or empty project)
             ClearFlowControls();
-            textBoxStoryVerse.Text = "Story";
+            textBoxStoryVerse.Text = Properties.Resources.IDS_Story;
         }
 
         protected void ClearFlowControls()
@@ -786,10 +838,9 @@ namespace OneStoryProjectEditor
 
         internal void SaveClicked()
         {
-            if (!Modified)
+            if (!Modified || (Stories == null) || (Stories.ProjSettings == null))
                 return;
-            
-            System.Diagnostics.Debug.Assert(Stories != null);
+
             string strFilename = Stories.ProjSettings.ProjectFileName;
             SaveFile(strFilename);
         }
@@ -836,6 +887,7 @@ namespace OneStoryProjectEditor
                 {
                     System.Diagnostics.Debug.Assert(theCurrentStory.CraftingInfo != null);
                     if (theCurrentStory.CraftingInfo.IsBiblicalStory 
+                        &&  (((int)theCurrentStory.ProjStage.ProjectStage) > (int)StoryStageLogic.ProjectStages.eCrafterTypeVernacular)
                         &&  (String.IsNullOrEmpty(theCurrentStory.CraftingInfo.StoryPurpose)
                         || String.IsNullOrEmpty(theCurrentStory.CraftingInfo.ResourcesUsed)))
                         QueryStoryPurpose();
@@ -845,12 +897,12 @@ namespace OneStoryProjectEditor
             }
             catch (UnauthorizedAccessException)
             {
-                MessageBox.Show(String.Format("The project file '{0}' is locked. Is it read-only? Or opened in some other program? Unlock it and try again. Or try to save it as a different name.", strFilename),  StoriesData.CstrCaption);
+                MessageBox.Show(String.Format(Properties.Resources.IDS_FileLockedMessage, strFilename), Properties.Resources.IDS_Caption);
                 return;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(String.Format("Unable to save the project file '{1}'{0}{0}{2}", Environment.NewLine, strFilename, ex.Message),  StoriesData.CstrCaption);
+                MessageBox.Show(String.Format(Properties.Resources.IDS_UnableToSave, Environment.NewLine, strFilename, ex.Message),  Properties.Resources.IDS_Caption);
                 return;
             }
 
@@ -869,7 +921,7 @@ namespace OneStoryProjectEditor
 
         protected void SetupTitleBar(string strProjectName, string strStoryName)
         {
-            String str = String.Format("{0} -- {1} -- {2}",  StoriesData.CstrCaption, strProjectName, strStoryName);
+            String str = String.Format("{0} -- {1} -- {2}",  Properties.Resources.IDS_Caption, strProjectName, strStoryName);
         }
         
         /*
@@ -1003,7 +1055,7 @@ namespace OneStoryProjectEditor
             {
                 string strRecentFile = Properties.Settings.Default.RecentProjects[i];
                 ToolStripItem tsi = recentProjectsToolStripMenuItem.DropDownItems.Add(strRecentFile, null, recentProjectsToolStripMenuItem_Click);
-                tsi.ToolTipText = String.Format("Located in folder '{0}'", Properties.Settings.Default.RecentProjectPaths[i]);
+                tsi.ToolTipText = String.Format(Properties.Resources.IDS_LocatedInFolder, Properties.Settings.Default.RecentProjectPaths[i]);
             }
 
             recentProjectsToolStripMenuItem.Enabled = (recentProjectsToolStripMenuItem.DropDownItems.Count > 0);
@@ -1028,11 +1080,11 @@ namespace OneStoryProjectEditor
                 Properties.Settings.Default.RecentProjects.RemoveAt(nIndex);
                 Properties.Settings.Default.RecentProjectPaths.RemoveAt(nIndex);
                 Properties.Settings.Default.Save();
-                MessageBox.Show(ex.Message,  StoriesData.CstrCaption);
+                MessageBox.Show(ex.Message,  Properties.Resources.IDS_Caption);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message,  StoriesData.CstrCaption);
+                MessageBox.Show(ex.Message,  Properties.Resources.IDS_Caption);
             }
         }
 
@@ -1125,7 +1177,7 @@ namespace OneStoryProjectEditor
                                 String.Format(theCurrentST.TerminalTransitionMessage,
                                 TeamMemberData.GetMemberTypeAsDisplayString(theNewST.MemberTypeWithEditToken), 
                                 theNewST.StageDisplayString), 
-                             StoriesData.CstrCaption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
+                             Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
                             return;
 
                     theCurrentStory.ProjStage.ProjectStage = theNewST.CurrentStage;
@@ -1176,7 +1228,7 @@ namespace OneStoryProjectEditor
                             String.Format(st.TerminalTransitionMessage,
                                 TeamMemberData.GetMemberTypeAsDisplayString(stNext.MemberTypeWithEditToken),
                                 stNext.StageDisplayString), 
-                             StoriesData.CstrCaption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
+                             Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
                         return false;
                 theCurrentStory.ProjStage.ProjectStage = eProposedNextState;  // if we are ready, then go ahead and transition
             }
@@ -1189,16 +1241,37 @@ namespace OneStoryProjectEditor
                                                                           (theCurrentStory.CraftingInfo != null));
             deleteStoryToolStripMenuItem.Enabled = (theCurrentStory != null);
             showFullStorySetToolStripMenuItem.Enabled = ((Stories != null) && (Stories.Count > 0));
-            addNewStoryAfterToolStripMenuItem.Enabled = (Stories != null);
+            insertNewStoryToolStripMenuItem.Enabled = addNewStoryAfterToolStripMenuItem.Enabled = 
+                ((Stories != null) && (LoggedOnMember != null));
 
             exportStoryToolStripMenuItem.Enabled =
                 exportToAdaptItToolStripMenuItem.Enabled =
                 exportNationalBacktranslationToolStripMenuItem.Enabled =
                 ((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
 
-            exportStoryToolStripMenuItem.Text = String.Format("&From {0} (for Discourse Charting)", Stories.ProjSettings.Vernacular.LangName);
-            exportNationalBacktranslationToolStripMenuItem.Text = String.Format("&From {0}", Stories.ProjSettings.NationalBT.LangName);
-            exportNationalBacktranslationToolStripMenuItem.Visible = Stories.ProjSettings.NationalBT.HasData;
+            // if there's a story that has more than no verses, AND if it's a bible
+            //  story and before the add anchors stage or a non-biblical story and
+            //  before the consultant check stage...
+            if ((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0)
+                && ((theCurrentStory.CraftingInfo.IsBiblicalStory && (theCurrentStory.ProjStage.ProjectStage < StoryStageLogic.ProjectStages.eCrafterAddAnchors))
+                    || ((!theCurrentStory.CraftingInfo.IsBiblicalStory && (theCurrentStory.ProjStage.ProjectStage < StoryStageLogic.ProjectStages.eConsultantCheckNonBiblicalStory)))))            
+            {
+                // then we can do splitting and collapsing of the story
+                splitIntoLinesToolStripMenuItem.Enabled = true;
+                if (theCurrentStory.Verses.Count == 1)
+                    splitIntoLinesToolStripMenuItem.Text = "S&plit into Lines";
+                else
+                    splitIntoLinesToolStripMenuItem.Text = "&Collapse into 1 line";
+            }
+            else
+                splitIntoLinesToolStripMenuItem.Enabled = false;
+
+            if ((Stories != null) && (Stories.ProjSettings != null))
+            {
+                exportStoryToolStripMenuItem.Text = String.Format(Properties.Resources.IDS_FromStoryForDiscourseCharting, Stories.ProjSettings.Vernacular.LangName);
+                exportNationalBacktranslationToolStripMenuItem.Text = String.Format(Properties.Resources.IDS_FromNatlLanguage, Stories.ProjSettings.NationalBT.LangName);
+                exportNationalBacktranslationToolStripMenuItem.Visible = Stories.ProjSettings.NationalBT.HasData;
+            }
         }
 
         private void enterTheReasonThisStoryIsInTheSetToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1248,17 +1321,7 @@ namespace OneStoryProjectEditor
 
         private void StoryEditor_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // the CheckForSaveDirtyFile automatically saves... so just to leave the user 
-            //  *some* way of backing out of changes, do it differently if they click the 
-            //  'X' in the upper right corner (i.e. this routine is called)
-            if (Modified)
-            {
-                DialogResult res = MessageBox.Show("Would you like to save your changes before you exit?",  StoriesData.CstrCaption, MessageBoxButtons.YesNoCancel);
-                if (res == DialogResult.Cancel)
-                    return;
-                if (res == DialogResult.Yes)
-                    CheckForSaveDirtyFile();
-            }
+            CheckForSaveDirtyFile();
         }
 
         private void editToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
@@ -1273,9 +1336,9 @@ namespace OneStoryProjectEditor
 
             if (Stories != null)
             {
-                copyStoryToolStripMenuItem.Text = String.Format("{0} story text", Stories.ProjSettings.Vernacular.LangName);
-                copyNationalBackTranslationToolStripMenuItem.Text = String.Format("{0} back-translation of the story", Stories.ProjSettings.NationalBT.LangName);
-                deleteStoryNationalBackTranslationToolStripMenuItem.Text = String.Format("{0} back-translation of the story", Stories.ProjSettings.NationalBT.LangName);
+                copyStoryToolStripMenuItem.Text = String.Format(Properties.Resources.IDS_StoryText, Stories.ProjSettings.Vernacular.LangName);
+                copyNationalBackTranslationToolStripMenuItem.Text = String.Format(Properties.Resources.IDS_NationalBtOfStory, Stories.ProjSettings.NationalBT.LangName);
+                deleteStoryNationalBackTranslationToolStripMenuItem.Text = String.Format(Properties.Resources.IDS_NationalBtOfStory, Stories.ProjSettings.NationalBT.LangName);
                 deleteStoryNationalBackTranslationToolStripMenuItem.Visible = copyNationalBackTranslationToolStripMenuItem.Visible = (Stories.ProjSettings.NationalBT.HasData);
                 deleteEnglishBacktranslationToolStripMenuItem.Visible = copyEnglishBackTranslationToolStripMenuItem.Visible = (Stories.ProjSettings.InternationalBT.HasData);
             }
@@ -1286,14 +1349,89 @@ namespace OneStoryProjectEditor
             // iterate thru the verses and copy them to the clipboard
             System.Diagnostics.Debug.Assert((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
 
-            string strStory = theCurrentStory.Verses[0].VernacularText.ToString();
-            for (int i = 1; i < theCurrentStory.Verses.Count; i++)
-            {
-                VerseData aVerse = theCurrentStory.Verses[i];
-                strStory += ' ' + aVerse.VernacularText.ToString();
-            }
+            string strStory = GetFullStoryContentsVernacular;
+            PutOnClipboard(strStory);
+        }
 
-            Clipboard.SetText(strStory);
+        protected string GetFullStoryContentsVernacular
+        {
+            get
+            {
+                System.Diagnostics.Debug.Assert((theCurrentStory != null) 
+                    && (theCurrentStory.Verses.Count > 0));
+
+                string strText = theCurrentStory.Verses[0].VernacularText.ToString();
+                for (int i = 1; i < theCurrentStory.Verses.Count; i++)
+                {
+                    VerseData aVerse = theCurrentStory.Verses[i];
+                    if (aVerse.VernacularText.HasData)
+                        strText += ' ' + aVerse.VernacularText.ToString();
+                }
+
+                return strText;
+            }
+        }
+
+        protected string GetFullStoryContentsNationalBTText
+        {
+            get
+            {
+                System.Diagnostics.Debug.Assert((theCurrentStory != null)
+                    && (theCurrentStory.Verses.Count > 0));
+
+                string strText = theCurrentStory.Verses[0].NationalBTText.ToString();
+                for (int i = 1; i < theCurrentStory.Verses.Count; i++)
+                {
+                    VerseData aVerse = theCurrentStory.Verses[i];
+                    if (aVerse.NationalBTText.HasData)
+                        strText += ' ' + aVerse.NationalBTText.ToString();
+                }
+
+                return strText;
+            }
+        }
+
+        protected string GetFullStoryContentsInternationalBTText
+        {
+            get
+            {
+                System.Diagnostics.Debug.Assert((theCurrentStory != null)
+                    && (theCurrentStory.Verses.Count > 0));
+
+                string strText = theCurrentStory.Verses[0].InternationalBTText.ToString();
+                for (int i = 1; i < theCurrentStory.Verses.Count; i++)
+                {
+                    VerseData aVerse = theCurrentStory.Verses[i];
+                    if (aVerse.InternationalBTText.HasData)
+                        strText += ' ' + aVerse.InternationalBTText.ToString();
+                }
+
+                return strText;
+            }
+        }
+
+        protected void PutOnClipboard(string strText)
+        {
+            try
+            {
+                Clipboard.SetDataObject(strText);
+            }
+            catch (Exception ex)
+            {
+                // seems to fail sometimes on Windows7. If it actually worked, then just ignore the exception
+                IDataObject iData = Clipboard.GetDataObject();
+                if( iData.GetDataPresent(DataFormats.UnicodeText) )
+                {
+                    string strInput = (string)iData.GetData(DataFormats.UnicodeText);
+                    if (strInput == strText)
+                        return;
+                }
+
+                string strErrorMsg = String.Format(Properties.Resources.IDS_UnableToCopyText,
+                    Environment.NewLine, ex.Message,
+                    ((ex.InnerException != null) ? ex.InnerException.Message : ""));
+                MessageBox.Show(strErrorMsg, Properties.Resources.IDS_Caption);
+            }
         }
 
         private void copyNationalBackTranslationToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1301,14 +1439,8 @@ namespace OneStoryProjectEditor
             // iterate thru the verses and copy them to the clipboard
             System.Diagnostics.Debug.Assert((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
 
-            string strStory = theCurrentStory.Verses[0].NationalBTText.ToString();
-            for (int i = 1; i < theCurrentStory.Verses.Count; i++)
-            {
-                VerseData aVerse = theCurrentStory.Verses[i];
-                strStory += ' ' + aVerse.NationalBTText.ToString();
-            }
-
-            Clipboard.SetText(strStory);
+            string strStory = GetFullStoryContentsNationalBTText;
+            PutOnClipboard(strStory);
         }
 
         private void copyEnglishBackTranslationToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1316,14 +1448,8 @@ namespace OneStoryProjectEditor
             // iterate thru the verses and copy them to the clipboard
             System.Diagnostics.Debug.Assert((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
 
-            string strStory = theCurrentStory.Verses[0].InternationalBTText.ToString();
-            for (int i = 1; i < theCurrentStory.Verses.Count; i++)
-            {
-                VerseData aVerse = theCurrentStory.Verses[i];
-                strStory += ' ' + aVerse.InternationalBTText.ToString();
-            }
-
-            Clipboard.SetText(strStory);
+            string strStory = GetFullStoryContentsInternationalBTText;
+            PutOnClipboard(strStory);
         }
 
         private void exportStoryToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1382,8 +1508,8 @@ namespace OneStoryProjectEditor
             DialogResult res = DialogResult.Yes;
             if (File.Exists(strAdaptationFilespec))
             {
-                res = MessageBox.Show(String.Format("The Adapt It file for the project '{0}', story '{1}' already exists. If you want to delete that file and do the English translation of the story all over again, then click 'Yes'. If you just want to try to import the existing file again, choose 'No'. Otherwise, click 'Cancel' to stop this command.",
-                    strProjectName, theCurrentStory.Name), StoriesData.CstrCaption, MessageBoxButtons.YesNoCancel);
+                res = MessageBox.Show(String.Format(Properties.Resources.IDS_AdaptItFileAlreadyExists,
+                    strProjectName, theCurrentStory.Name), Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
                 
                 if (res == DialogResult.Cancel)
                     return;
@@ -1442,6 +1568,7 @@ namespace OneStoryProjectEditor
                         }
                     }
 
+                    System.Diagnostics.Debug.Assert(Stories.ProjSettings.Vernacular.FullStop.Length > 0);
                     string strFattr = AIBools(strSourceWord, strAfter,
                         Stories.ProjSettings.Vernacular.FullStop);
 
@@ -1477,18 +1604,18 @@ namespace OneStoryProjectEditor
                 LaunchProgram(strAdaptIt, null);
 
                 string strTargetLangName = strProjectName.Split(" ".ToCharArray())[2];
-                string strMessage = String.Format("Follow these steps to use the Adapt It program to translate the story into English:{0}{0}1) Switch to the Adapt It program using Alt+Tab keys{0}2) Select the '{1}' project and click the 'Next' button (if a file is already open in Adapt It, then choose the 'File' menu, 'Close Project' command and then the 'File' menu, 'Start Working' command first).{0}3) Select the '{2}.xls' document to open and press the 'Finished' button.{0}4) When you see this story in the adaptation window, then translate it into English.",
+                string strMessage = String.Format(Properties.Resources.IDS_AdaptationInstructions,
                         Environment.NewLine, strProjectName, theCurrentStory.Name);
                 MessageBoxButtons mbb = MessageBoxButtons.OK;
 
                 if (eGlossType == GlossingForm.GlossType.eNationalToEnglish)
                 {
-                    strMessage += String.Format("{0}5) When you're finished, return to this window and click the 'Yes' button to re-import the translated English text back into the English fields.{0}{0}Have you finished translating the story to English and are ready to import it into the English fields?",
+                    strMessage += String.Format(Properties.Resources.IDS_AdaptationInstructionsContinue,
                         Environment.NewLine);
                     mbb = MessageBoxButtons.YesNoCancel;
                 }
 
-                res = MessageBox.Show(strMessage, StoriesData.CstrCaption, mbb);
+                res = MessageBox.Show(strMessage, Properties.Resources.IDS_Caption, mbb);
 
                 if (res != DialogResult.Yes)
                     return;
@@ -1529,12 +1656,12 @@ namespace OneStoryProjectEditor
                         {
                             string strSourceKey = xpIterator.Current.GetAttribute("k", navigator.NamespaceURI);
                             if (strSourceKey != strSourceWord)
-                                throw new ApplicationException(String.Format("The data from Adapt It doesn't appear to match what's in the story.{0}In verse number {2}, I was expecting \"{3}\", but got \"{4}\" instead.{0}If you've made changes in the story or the {1} back-translation, then you need to re-export the story or {1} back-translation to Adapt It,{0}re-process the file there, and then try to import again.",
+                                throw new ApplicationException(String.Format(Properties.Resources.IDS_ErrorInAdaptation,
                                     Environment.NewLine, Stories.ProjSettings.NationalBT.LangName, nVerseNum + 1, strSourceKey, strSourceWord));
 
                             string strTargetKey = xpIterator.Current.GetAttribute("a", navigator.NamespaceURI);
                             if ((strTargetWord.IndexOf('%') == -1) && (strTargetWord != strTargetKey))
-                                throw new ApplicationException(String.Format("The data from Adapt It doesn't appear to match what's in the story.{0}In verse number {2}, I was expecting \"{3}\", but got \"{4}\" instead.{0}If you've made changes in the story or the {1} back-translation, then you need to re-export the story or {1} back-translation to Adapt It,{0}re-process the file there, and then try to import again.",
+                                throw new ApplicationException(String.Format(Properties.Resources.IDS_ErrorInAdaptation,
                                     Environment.NewLine, Stories.ProjSettings.NationalBT.LangName, nVerseNum + 1, strTargetKey, strTargetWord));
 
                             strTargetWord = xpIterator.Current.GetAttribute("t", navigator.NamespaceURI);
@@ -1552,21 +1679,9 @@ namespace OneStoryProjectEditor
                 else
                     ReInitVerseControls();
             }
-            catch (System.Data.DataException ex)
-            {
-                if (ex.Message == "A child row has multiple parents.")
-                {
-                    // this happens when the knowledge base has invalid data in it (e.g. when there is two
-                    //  canonically equivalent words in different records). This is technically a bug in 
-                    //  AdaptIt.
-                    throw new ApplicationException("The AdaptIt knowledge base has invalid data in it! Contact silconverters_support@sil.org", ex);
-                }
-
-                throw ex;
-            }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, StoriesData.CstrCaption);
+                MessageBox.Show(ex.Message, Properties.Resources.IDS_Caption);
             }
         }
 
@@ -1595,7 +1710,7 @@ namespace OneStoryProjectEditor
         protected string AIBools(string strSourceWord, string strAfter, string strFullStop)
         {
             UInt32 value = 0;
-            if (strAfter == strFullStop)
+            if (!String.IsNullOrEmpty(strAfter) && (strFullStop.IndexOf(strAfter) != -1))
                 value |= boundaryMask;
             if (strSourceWord.IndexOf(Environment.NewLine) != -1)
                 value |= paragraphMask;
@@ -1618,11 +1733,101 @@ namespace OneStoryProjectEditor
         {
             if (Stories != null)
             {
-                viewVernacularLangFieldMenuItem.Text = String.Format("{0} &language fields", Stories.ProjSettings.Vernacular.LangName);
-                viewNationalLangFieldMenuItem.Text = String.Format("&{0} back-translation field", Stories.ProjSettings.NationalBT.LangName);
+                viewVernacularLangFieldMenuItem.Text = String.Format(Properties.Resources.IDS_LanguageFields, Stories.ProjSettings.Vernacular.LangName);
+                viewNationalLangFieldMenuItem.Text = String.Format(Properties.Resources.IDS_StoryLanguageField, Stories.ProjSettings.NationalBT.LangName);
+                viewVernacularLangFieldMenuItem.Visible = (Stories.ProjSettings.Vernacular.HasData);
                 viewNationalLangFieldMenuItem.Visible = (Stories.ProjSettings.NationalBT.HasData);
                 viewEnglishBTFieldMenuItem.Visible = (Stories.ProjSettings.InternationalBT.HasData);
             }
+        }
+
+        private void viewNetBibleMenuItem_Click(object sender, EventArgs e)
+        {
+            InitAllPanes();
+        }
+
+        private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (CtrlTextBox._inTextBox != null)
+            {
+                IDataObject iData = Clipboard.GetDataObject();
+                if (iData.GetDataPresent(DataFormats.UnicodeText))
+                {
+                    string strText = (string)iData.GetData(DataFormats.UnicodeText);
+                    CtrlTextBox._inTextBox.SelectedText = strText;
+                    // CtrlTextBox._inTextBox.Select(CtrlTextBox._inTextBox.Text.Length, 0);
+                }
+            }
+        }
+
+        protected List<string> GetSentencesVernacular(VerseData aVerseData)
+        {
+            string strSentenceFinalPunct = Stories.ProjSettings.Vernacular.FullStop;
+            List<string> lstSentences;
+            CheckEndOfStateTransition.GetListOfSentences(aVerseData.VernacularText, strSentenceFinalPunct, out lstSentences);
+            return lstSentences;
+        }
+
+        protected List<string> GetSentencesNationalBT(VerseData aVerseData)
+        {
+            string strSentenceFinalPunct = Stories.ProjSettings.NationalBT.FullStop;
+            List<string> lstSentences;
+            CheckEndOfStateTransition.GetListOfSentences(aVerseData.NationalBTText, strSentenceFinalPunct, out lstSentences);
+            return lstSentences;
+        }
+
+        protected List<string> GetSentencesEnglishBT(VerseData aVerseData)
+        {
+            string strSentenceFinalPunct = Stories.ProjSettings.InternationalBT.FullStop;
+            List<string> lstSentences;
+            CheckEndOfStateTransition.GetListOfSentences(aVerseData.InternationalBTText, strSentenceFinalPunct, out lstSentences);
+            return lstSentences;
+        }
+
+        protected string GetSentence(int nIndex, List<string> lstSentences)
+        {
+            if ((lstSentences != null) && (lstSentences.Count > nIndex))
+                return lstSentences[nIndex];
+            return null;
+        }
+
+        private void splitIntoLinesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.Assert((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
+            if (theCurrentStory.Verses.Count == 1)
+            {
+                // means 'split into lines'
+                VerseData aVerseData = theCurrentStory.Verses[0];
+                List<string> lstSentencesVernacular = GetSentencesVernacular(aVerseData);
+                List<string> lstSentencesNationalBT = GetSentencesNationalBT(aVerseData);
+                List<string> lstSentencesEnglishBT = GetSentencesEnglishBT(aVerseData);
+                int nNumVerses = Math.Max(lstSentencesVernacular.Count,
+                    Math.Max(lstSentencesNationalBT.Count, lstSentencesEnglishBT.Count));
+
+                // remove what's there so we can add the new ones from scratch
+                theCurrentStory.Verses.Remove(aVerseData);
+
+                for (int i = 0; i < nNumVerses; i++)
+                {
+                    theCurrentStory.Verses.InsertVerse(i,
+                        GetSentence(i, lstSentencesVernacular),
+                        GetSentence(i, lstSentencesNationalBT),
+                        GetSentence(i, lstSentencesEnglishBT));
+                }
+            }
+            else
+            {
+                // means 'collapse into 1 line'
+                string strVernacular = GetFullStoryContentsVernacular;
+                string strNationalBT = GetFullStoryContentsNationalBTText;
+                string strEnglishBT = GetFullStoryContentsInternationalBTText;
+
+                theCurrentStory.Verses.RemoveRange(0, theCurrentStory.Verses.Count);
+                theCurrentStory.Verses.InsertVerse(0, strVernacular, strNationalBT,
+                    strEnglishBT);
+            }
+
+            InitAllPanes();
         }
 
         /*

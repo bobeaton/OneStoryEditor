@@ -98,8 +98,11 @@ namespace OneStoryProjectEditor
             }
         }
 
+        internal static CtrlTextBox _inTextBox = null;
+
         protected override void OnEnter(EventArgs e)
         {
+            _inTextBox = this;
             if (!String.IsNullOrEmpty(_strKeyboardName))
                 KeyboardController.ActivateKeyboard(_strKeyboardName);
 
@@ -108,9 +111,11 @@ namespace OneStoryProjectEditor
 
         protected override void OnLeave(EventArgs e)
         {
+            _inTextBox = null;
             KeyboardController.DeactivateKeyboard();
             base.OnLeave(e);
         }
+
         protected bool IsKeyAutomaticallyAllowed(StoryEditor theSE, KeyEventArgs e)
         {
             Keys keyCode = e.KeyCode;

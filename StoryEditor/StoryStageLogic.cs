@@ -74,7 +74,7 @@ namespace OneStoryProjectEditor
                 || (loggedOnMember.MemberType == MemberTypeWithEditToken));
 
             if (!bRet)
-                MessageBox.Show(String.Format("Right now, only a '{0}' can change the state of this story. If you're a {0}, click 'Project', 'Settings' to login. You can log in as a 'Just Looking' member to be able to transition to any state, but without edit privileges.", TeamMemberData.GetMemberTypeAsDisplayString(MemberTypeWithEditToken)),  StoriesData.CstrCaption);
+                MessageBox.Show(String.Format("Right now, only a '{0}' can change the state of this story. If you're a {0}, click 'Project', 'Settings' to login. You can log in as a 'Just Looking' member to be able to transition to any state, but without edit privileges.", TeamMemberData.GetMemberTypeAsDisplayString(MemberTypeWithEditToken)),  Properties.Resources.IDS_Caption);
 
             return bRet;
         }

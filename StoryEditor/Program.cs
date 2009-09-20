@@ -40,7 +40,7 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(String.Format("Error occurred:{0}{0}{1}", Environment.NewLine, ex.Message),  StoriesData.CstrCaption);
+                MessageBox.Show(String.Format("Error occurred:{0}{0}{1}", Environment.NewLine, ex.Message),  Properties.Resources.IDS_Caption);
             }
         }
     }

@@ -31,6 +31,9 @@ namespace OneStoryProjectEditor
             foreach (TeamMemberData aTMD in _theStoryData.TeamMembers.Values)
                 if (aTMD.MemberType == eType)
                     listBoxUNSs.Items.Add(aTMD.Name);
+
+            if (listBoxUNSs.Items.Count > 0)
+                listBoxUNSs.SelectedIndex = 0;
         }
 
         public TeamMemberData SelectedMember
@@ -41,9 +44,16 @@ namespace OneStoryProjectEditor
 
         private void buttonAddNewMember_Click(object sender, EventArgs e)
         {
-            TeamMemberData theMember = _theStoryData.EditTeamMembers(null, "&Return");
-            InitializeListBox(_eWantedType);
-            listBoxUNSs.SelectedItem = theMember.Name;
+            try
+            {
+                TeamMemberData theMember = _theStoryData.EditTeamMembers(null, "&Return");
+                InitializeListBox(_eWantedType);
+                listBoxUNSs.SelectedItem = theMember.Name;
+            }
+            catch (StoryEditor.BackOutWithNoUIException)
+            {
+                // sub-routine has taken care of the UI, just exit without doing anything
+            }
         }
 
         private void buttonOK_Click(object sender, EventArgs e)
@@ -58,6 +68,11 @@ namespace OneStoryProjectEditor
         private void listBoxUNSs_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             buttonOK_Click(null, null);
+        }
+
+        private void listBoxUNSs_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            buttonOK.Enabled = (listBoxUNSs.SelectedIndex != -1);                
         }
     }
 }

@@ -53,16 +53,16 @@
             this.EditToken,
             this.StoryStage});
             this.dataGridViewPanorama.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridViewPanorama.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dataGridViewPanorama.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
             this.dataGridViewPanorama.Location = new System.Drawing.Point(0, 0);
             this.dataGridViewPanorama.MultiSelect = false;
             this.dataGridViewPanorama.Name = "dataGridViewPanorama";
-            this.dataGridViewPanorama.ReadOnly = true;
             this.dataGridViewPanorama.RowHeadersWidth = 25;
             this.dataGridViewPanorama.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.dataGridViewPanorama.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewPanorama.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dataGridViewPanorama.Size = new System.Drawing.Size(709, 362);
             this.dataGridViewPanorama.TabIndex = 0;
+            this.dataGridViewPanorama.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewPanorama_CellEndEdit);
             // 
             // buttonMoveDown
             // 
@@ -102,14 +102,12 @@
             this.StoryName.Frozen = true;
             this.StoryName.HeaderText = "Story Name";
             this.StoryName.Name = "StoryName";
-            this.StoryName.ReadOnly = true;
             this.StoryName.Width = 87;
             // 
             // ColumnPurpose
             // 
             this.ColumnPurpose.HeaderText = "Purpose";
             this.ColumnPurpose.Name = "ColumnPurpose";
-            this.ColumnPurpose.ReadOnly = true;
             this.ColumnPurpose.Width = 180;
             // 
             // EditToken

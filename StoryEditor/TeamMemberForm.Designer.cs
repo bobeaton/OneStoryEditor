@@ -179,7 +179,7 @@
             this.textBoxVernacular.Size = new System.Drawing.Size(207, 20);
             this.textBoxVernacular.TabIndex = 0;
             this.toolTip.SetToolTip(this.textBoxVernacular, "Enter the name of the language that the stories are going to be crafted into");
-            this.textBoxVernacular.TextChanged += new System.EventHandler(this.textBox_TextChanged);
+            this.textBoxVernacular.TextChanged += new System.EventHandler(this.textBoxVernacular_TextChanged);
             this.textBoxVernacular.Leave += new System.EventHandler(this.textBoxVernacular_Leave);
             // 
             // textBoxNationalBTLanguage
@@ -192,7 +192,7 @@
             this.textBoxNationalBTLanguage.TabIndex = 7;
             this.toolTip.SetToolTip(this.textBoxNationalBTLanguage, "Enter the name of the language that the stories will be back-translated into by t" +
                     "he UNSs (i.e. typically, the National language)");
-            this.textBoxNationalBTLanguage.TextChanged += new System.EventHandler(this.textBox_TextChanged);
+            this.textBoxNationalBTLanguage.TextChanged += new System.EventHandler(this.textBoxNationalBTLanguage_TextChanged);
             this.textBoxNationalBTLanguage.Leave += new System.EventHandler(this.textBoxNationalBTLanguage_Leave);
             // 
             // textBoxVernacularEthCode
@@ -226,8 +226,7 @@
             this.textBoxVernSentFullStop.Name = "textBoxVernSentFullStop";
             this.textBoxVernSentFullStop.Size = new System.Drawing.Size(207, 20);
             this.textBoxVernSentFullStop.TabIndex = 3;
-            this.toolTip.SetToolTip(this.textBoxVernSentFullStop, "Enter the punctional character used in this language to end a sentence (e.g. in E" +
-                    "nglish, it is the period \'.\', and in Hindi, it is the Devanagari Danda, \'।\')");
+            this.toolTip.SetToolTip(this.textBoxVernSentFullStop, resources.GetString("textBoxVernSentFullStop.ToolTip"));
             this.textBoxVernSentFullStop.TextChanged += new System.EventHandler(this.textBox_TextChanged);
             this.textBoxVernSentFullStop.Leave += new System.EventHandler(this.textBoxSentFullStop_Leave);
             this.textBoxVernSentFullStop.Enter += new System.EventHandler(this.textBoxVernSentFullStop_Enter);
@@ -240,8 +239,7 @@
             this.textBoxNationalBTSentFullStop.Name = "textBoxNationalBTSentFullStop";
             this.textBoxNationalBTSentFullStop.Size = new System.Drawing.Size(208, 20);
             this.textBoxNationalBTSentFullStop.TabIndex = 10;
-            this.toolTip.SetToolTip(this.textBoxNationalBTSentFullStop, "Enter the punctional character used in this language to end a sentence (e.g. in E" +
-                    "nglish, it is the period \'.\', and in Hindi, it is the Devanagari Danda, \'।\')");
+            this.toolTip.SetToolTip(this.textBoxNationalBTSentFullStop, resources.GetString("textBoxNationalBTSentFullStop.ToolTip"));
             this.textBoxNationalBTSentFullStop.TextChanged += new System.EventHandler(this.textBox_TextChanged);
             this.textBoxNationalBTSentFullStop.Leave += new System.EventHandler(this.textBoxSentFullStop_Leave);
             this.textBoxNationalBTSentFullStop.Enter += new System.EventHandler(this.textBoxNationalBTSentFullStop_Enter);
@@ -551,22 +549,26 @@
             // 
             // checkBoxVernacularRTL
             // 
+            this.checkBoxVernacularRTL.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxVernacularRTL.AutoSize = true;
-            this.checkBoxVernacularRTL.Location = new System.Drawing.Point(195, 215);
+            this.checkBoxVernacularRTL.Location = new System.Drawing.Point(195, 218);
             this.checkBoxVernacularRTL.Name = "checkBoxVernacularRTL";
-            this.checkBoxVernacularRTL.Size = new System.Drawing.Size(47, 17);
+            this.checkBoxVernacularRTL.Size = new System.Drawing.Size(80, 17);
             this.checkBoxVernacularRTL.TabIndex = 5;
-            this.checkBoxVernacularRTL.Text = "RTL";
+            this.checkBoxVernacularRTL.Text = "Right to left";
+            this.toolTip.SetToolTip(this.checkBoxVernacularRTL, "Check this if your language reads from right-to-left (e.g. Arabic)");
             this.checkBoxVernacularRTL.UseVisualStyleBackColor = true;
             // 
             // checkBoxNationalRTL
             // 
+            this.checkBoxNationalRTL.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxNationalRTL.AutoSize = true;
-            this.checkBoxNationalRTL.Location = new System.Drawing.Point(408, 215);
+            this.checkBoxNationalRTL.Location = new System.Drawing.Point(408, 218);
             this.checkBoxNationalRTL.Name = "checkBoxNationalRTL";
-            this.checkBoxNationalRTL.Size = new System.Drawing.Size(47, 17);
+            this.checkBoxNationalRTL.Size = new System.Drawing.Size(80, 17);
             this.checkBoxNationalRTL.TabIndex = 12;
-            this.checkBoxNationalRTL.Text = "RTL";
+            this.checkBoxNationalRTL.Text = "Right to left";
+            this.toolTip.SetToolTip(this.checkBoxNationalRTL, "Check this if your language reads from right-to-left (e.g. Arabic)");
             this.checkBoxNationalRTL.UseVisualStyleBackColor = true;
             // 
             // labelKeyboard
@@ -590,6 +592,7 @@
             this.comboBoxKeyboardVernacular.Name = "comboBoxKeyboardVernacular";
             this.comboBoxKeyboardVernacular.Size = new System.Drawing.Size(207, 21);
             this.comboBoxKeyboardVernacular.TabIndex = 2;
+            this.comboBoxKeyboardVernacular.DragDrop += new System.Windows.Forms.DragEventHandler(this.comboBoxKeyboard_DragDrop);
             // 
             // comboBoxKeyboardNationalBT
             // 
@@ -602,6 +605,7 @@
             this.comboBoxKeyboardNationalBT.Name = "comboBoxKeyboardNationalBT";
             this.comboBoxKeyboardNationalBT.Size = new System.Drawing.Size(208, 21);
             this.comboBoxKeyboardNationalBT.TabIndex = 9;
+            this.comboBoxKeyboardNationalBT.DragDrop += new System.Windows.Forms.DragEventHandler(this.comboBoxKeyboard_DragDrop);
             // 
             // fontDialog
             // 

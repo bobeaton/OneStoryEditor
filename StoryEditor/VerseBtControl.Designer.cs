@@ -53,9 +53,6 @@
             this.addRetellingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteTheWholeVerseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.glossVernacularToNationalBTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.glossVernacularToEnglishToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.createEnglishBacktranslationFromNationalLanguageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -87,16 +84,10 @@
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addANewVerseToolStripMenuItem,
             this.addNewVersesAfterToolStripMenuItem,
-            this.menuAddTestQuestion,
-            this.addTestQuestionAnswerToolStripMenuItem,
-            this.addRetellingToolStripMenuItem,
             this.removeToolStripMenuItem,
-            this.deleteTheWholeVerseToolStripMenuItem,
-            this.glossVernacularToNationalBTToolStripMenuItem,
-            this.glossVernacularToEnglishToolStripMenuItem,
-            this.createEnglishBacktranslationFromNationalLanguageToolStripMenuItem});
+            this.deleteTheWholeVerseToolStripMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(338, 246);
+            this.contextMenuStrip.Size = new System.Drawing.Size(283, 180);
             this.contextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Opening);
             // 
             // addANewVerseToolStripMenuItem
@@ -110,7 +101,7 @@
             this.toolStripMenuItem7,
             this.toolStripMenuItem8});
             this.addANewVerseToolStripMenuItem.Name = "addANewVerseToolStripMenuItem";
-            this.addANewVerseToolStripMenuItem.Size = new System.Drawing.Size(337, 22);
+            this.addANewVerseToolStripMenuItem.Size = new System.Drawing.Size(282, 22);
             this.addANewVerseToolStripMenuItem.Text = "Insert new &verse(s) before";
             this.addANewVerseToolStripMenuItem.ToolTipText = "This verse will move down and the new verse will be inserted before";
             this.addANewVerseToolStripMenuItem.Click += new System.EventHandler(this.addANewVerseToolStripMenuItem_Click);
@@ -175,7 +166,7 @@
             this.toolStripMenuItem14,
             this.toolStripMenuItem15});
             this.addNewVersesAfterToolStripMenuItem.Name = "addNewVersesAfterToolStripMenuItem";
-            this.addNewVersesAfterToolStripMenuItem.Size = new System.Drawing.Size(337, 22);
+            this.addNewVersesAfterToolStripMenuItem.Size = new System.Drawing.Size(282, 22);
             this.addNewVersesAfterToolStripMenuItem.Text = "&Add new verse(s) after";
             // 
             // toolStripMenuItem9
@@ -230,7 +221,7 @@
             // menuAddTestQuestion
             // 
             this.menuAddTestQuestion.Name = "menuAddTestQuestion";
-            this.menuAddTestQuestion.Size = new System.Drawing.Size(337, 22);
+            this.menuAddTestQuestion.Size = new System.Drawing.Size(282, 22);
             this.menuAddTestQuestion.Text = "Add a story testing &question";
             this.menuAddTestQuestion.ToolTipText = "Click to add a Story Testing Question";
             this.menuAddTestQuestion.Click += new System.EventHandler(this.menuAddTestQuestion_Click);
@@ -238,50 +229,29 @@
             // addTestQuestionAnswerToolStripMenuItem
             // 
             this.addTestQuestionAnswerToolStripMenuItem.Name = "addTestQuestionAnswerToolStripMenuItem";
-            this.addTestQuestionAnswerToolStripMenuItem.Size = new System.Drawing.Size(337, 22);
+            this.addTestQuestionAnswerToolStripMenuItem.Size = new System.Drawing.Size(282, 22);
             this.addTestQuestionAnswerToolStripMenuItem.Text = "Add a UNS answer to a &testing question";
             this.addTestQuestionAnswerToolStripMenuItem.Click += new System.EventHandler(this.addTestQuestionAnswerToolStripMenuItem_Click);
             // 
             // addRetellingToolStripMenuItem
             // 
             this.addRetellingToolStripMenuItem.Name = "addRetellingToolStripMenuItem";
-            this.addRetellingToolStripMenuItem.Size = new System.Drawing.Size(337, 22);
+            this.addRetellingToolStripMenuItem.Size = new System.Drawing.Size(282, 22);
             this.addRetellingToolStripMenuItem.Text = "Add a &UNS retelling";
             this.addRetellingToolStripMenuItem.Click += new System.EventHandler(this.addRetellingToolStripMenuItem_Click);
             // 
             // removeToolStripMenuItem
             // 
             this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(337, 22);
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(282, 22);
             this.removeToolStripMenuItem.Text = "&Remove";
             // 
             // deleteTheWholeVerseToolStripMenuItem
             // 
             this.deleteTheWholeVerseToolStripMenuItem.Name = "deleteTheWholeVerseToolStripMenuItem";
-            this.deleteTheWholeVerseToolStripMenuItem.Size = new System.Drawing.Size(337, 22);
+            this.deleteTheWholeVerseToolStripMenuItem.Size = new System.Drawing.Size(282, 22);
             this.deleteTheWholeVerseToolStripMenuItem.Text = "&Delete verse";
             this.deleteTheWholeVerseToolStripMenuItem.Click += new System.EventHandler(this.deleteTheWholeVerseToolStripMenuItem_Click);
-            // 
-            // glossVernacularToNationalBTToolStripMenuItem
-            // 
-            this.glossVernacularToNationalBTToolStripMenuItem.Name = "glossVernacularToNationalBTToolStripMenuItem";
-            this.glossVernacularToNationalBTToolStripMenuItem.Size = new System.Drawing.Size(337, 22);
-            this.glossVernacularToNationalBTToolStripMenuItem.Text = "Gloss story in the &National language";
-            this.glossVernacularToNationalBTToolStripMenuItem.Click += new System.EventHandler(this.glossVernacularToNationalBTToolStripMenuItem_Click);
-            // 
-            // glossVernacularToEnglishToolStripMenuItem
-            // 
-            this.glossVernacularToEnglishToolStripMenuItem.Name = "glossVernacularToEnglishToolStripMenuItem";
-            this.glossVernacularToEnglishToolStripMenuItem.Size = new System.Drawing.Size(337, 22);
-            this.glossVernacularToEnglishToolStripMenuItem.Text = "&Gloss story in English";
-            this.glossVernacularToEnglishToolStripMenuItem.Click += new System.EventHandler(this.glossVernacularToEnglishToolStripMenuItem_Click);
-            // 
-            // createEnglishBacktranslationFromNationalLanguageToolStripMenuItem
-            // 
-            this.createEnglishBacktranslationFromNationalLanguageToolStripMenuItem.Name = "createEnglishBacktranslationFromNationalLanguageToolStripMenuItem";
-            this.createEnglishBacktranslationFromNationalLanguageToolStripMenuItem.Size = new System.Drawing.Size(337, 22);
-            this.createEnglishBacktranslationFromNationalLanguageToolStripMenuItem.Text = "&Create English back-translation from National language";
-            this.createEnglishBacktranslationFromNationalLanguageToolStripMenuItem.Click += new System.EventHandler(this.createEnglishBacktranslationFromNationalLanguageToolStripMenuItem_Click);
             // 
             // VerseBtControl
             // 
@@ -321,8 +291,5 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem13;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem14;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem15;
-        private System.Windows.Forms.ToolStripMenuItem glossVernacularToEnglishToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem glossVernacularToNationalBTToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem createEnglishBacktranslationFromNationalLanguageToolStripMenuItem;
     }
 }

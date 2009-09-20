@@ -57,7 +57,6 @@ namespace OneStoryProjectEditor
 
     public class StoriesData : List<StoryData>
     {
-        public const string CstrCaption = "OneStory Project Editor";
         public TeamMembersData TeamMembers = null;
         public ProjectSettings ProjSettings = null;
 
@@ -119,9 +118,9 @@ namespace OneStoryProjectEditor
             do
             {
                 bDoItAgain = false;
-                strProjectName = Microsoft.VisualBasic.Interaction.InputBox("Enter the name you want to give this project (e.g. the language name).", CstrCaption, strProjectName, 300, 200);
+                strProjectName = Microsoft.VisualBasic.Interaction.InputBox(Properties.Resources.IDS_EnterProjectName, Properties.Resources.IDS_Caption, strProjectName, 300, 200);
                 if (String.IsNullOrEmpty(strProjectName))
-                    throw new ApplicationException("Unable to create a project without a project name!");
+                    throw new ApplicationException(Properties.Resources.IDS_UnableToCreateProjectWithoutName);
 
                 // See if there's already a project with this name (which may be elsewhere)
                 for (int i = 0; i < Properties.Settings.Default.RecentProjects.Count; i++)
@@ -130,7 +129,7 @@ namespace OneStoryProjectEditor
                     if (strProject == strProjectName)
                     {
                         string strProjectFolder = Properties.Settings.Default.RecentProjectPaths[i];
-                        DialogResult res = MessageBox.Show(String.Format("You already have a project with the name '{1}' that is in another location. If you create this new project with the same name, then you won't be able to access the earlier project that is located in the '{2}' folder.{0}{0}Do you want to continue creating the new project and lose the reference to the earlier project (it won't be deleted if you do)?", Environment.NewLine, strProjectName, strProjectFolder), CstrCaption, MessageBoxButtons.YesNoCancel);
+                        DialogResult res = MessageBox.Show(String.Format(Properties.Resources.IDS_AboutToStrandProject, Environment.NewLine, strProjectName, strProjectFolder), Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
                         if (res == DialogResult.Cancel)
                             throw StoryEditor.BackOutWithNoUI;
                         if (res == DialogResult.No)
@@ -142,7 +141,7 @@ namespace OneStoryProjectEditor
             return strProjectName;
         }
 
-        internal TeamMemberData GetLogin()
+        internal TeamMemberData GetLogin(ref bool bModified)
         {
             // look at the last person to log in and see if we ought to automatically log them in again
             //  (basically Crafters or others that are also the same role as last time)
@@ -156,6 +155,7 @@ namespace OneStoryProjectEditor
             }
 
             // otherwise, fall thru and make them pick it.
+            bModified = true;
             return EditTeamMembers(strMemberName, TeamMemberForm.CstrDefaultOKLabel);
         }
 
@@ -175,7 +175,10 @@ namespace OneStoryProjectEditor
             }
 
             if (dlg.ShowDialog() != DialogResult.OK)
-                throw new ApplicationException("You have to log in in order to continue");
+            {
+                MessageBox.Show(Properties.Resources.IDS_HaveToLogInToContinue, Properties.Resources.IDS_Caption);
+                throw StoryEditor.BackOutWithNoUI;
+            }
 
             // kind of a kludge, but necessary for the state logic
             //  If we have an English Back-translator person in the team, then we have to set the 
@@ -241,7 +244,7 @@ namespace OneStoryProjectEditor
                 if (aSCRs.Length == 1)
                     StoryCrafterMemberID = aSCRs[0].memberID;
                 else
-                    throw new ApplicationException("The project file is corrupted. No 'StoryCrafterMemberID' record found. Send to bob_eaton@sall.com for help.");
+                    throw new ApplicationException(Properties.Resources.IDS_ProjectFileCorrupted);
 
                 if (!theCIR.IsStoryPurposeNull())
                     StoryPurpose = theCIR.StoryPurpose;
@@ -261,7 +264,7 @@ namespace OneStoryProjectEditor
                 }
             }
             else
-                throw new ApplicationException("The project file is corrupted. No 'CraftingInfo' record found. Send to bob_eaton@sall.com for help.");
+                throw new ApplicationException(Properties.Resources.IDS_ProjectFileCorruptedNoCraftingInfo);
         }
 
         public XElement GetXml

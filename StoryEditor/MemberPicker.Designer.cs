@@ -43,6 +43,7 @@
             this.listBoxUNSs.Size = new System.Drawing.Size(217, 342);
             this.listBoxUNSs.TabIndex = 0;
             this.listBoxUNSs.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBoxUNSs_MouseDoubleClick);
+            this.listBoxUNSs.SelectedIndexChanged += new System.EventHandler(this.listBoxUNSs_SelectedIndexChanged);
             // 
             // buttonAddNewMember
             // 
@@ -57,6 +58,7 @@
             // buttonOK
             // 
             this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonOK.Enabled = false;
             this.buttonOK.Location = new System.Drawing.Point(114, 400);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(75, 23);
@@ -76,7 +78,7 @@
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
             // 
-            // UnsPicker
+            // MemberPicker
             // 
             this.AcceptButton = this.buttonOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -88,7 +90,7 @@
             this.Controls.Add(this.listBoxUNSs);
             this.Controls.Add(this.buttonOK);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "UnsPicker";
+            this.Name = "MemberPicker";
             this.Text = "Choose the Member (UNS) taking the test";
             this.ResumeLayout(false);
 

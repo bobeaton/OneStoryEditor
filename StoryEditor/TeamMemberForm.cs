@@ -118,7 +118,7 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message,  StoriesData.CstrCaption);
+                MessageBox.Show(ex.Message,  Properties.Resources.IDS_Caption);
                 return false;
             }
 
@@ -198,7 +198,7 @@ namespace OneStoryProjectEditor
                         || String.IsNullOrEmpty(textBoxNationalBTSentFullStop.Text)))
             {
                 tabControlProjectMetaData.SelectedTab = tabPageLanguageInfo;
-                MessageBox.Show("Configure the Project and Language Name information as well.",  StoriesData.CstrCaption);
+                MessageBox.Show("Configure the Project and Language Name information as well.",  Properties.Resources.IDS_Caption);
                 return;
             }
 
@@ -206,7 +206,7 @@ namespace OneStoryProjectEditor
             TeamMemberData theMember = _dataTeamMembers[SelectedMember];
             if ((theMember.MemberType == TeamMemberData.UserTypes.eUNS) && (buttonOK.Text == CstrDefaultOKLabel))
             {
-                MessageBox.Show("You may have added a UNS in order to identify, for example, which UNS did the back translation or a particular test. However, you as the crafter should still be logged in to enter the UNS's comments. So select your *crafter* member name and click 'Login' again",  StoriesData.CstrCaption);
+                MessageBox.Show("You may have added a UNS in order to identify, for example, which UNS did the back translation or a particular test. However, you as the crafter should still be logged in to enter the UNS's comments. So select your *crafter* member name and click 'Login' again",  Properties.Resources.IDS_Caption);
                 return;
             }
 
@@ -276,6 +276,7 @@ namespace OneStoryProjectEditor
         {
             // this button should only be enabled if a team member is selected
             System.Diagnostics.Debug.Assert(listBoxTeamMembers.SelectedIndex != -1);
+            int nIndex = listBoxTeamMembers.SelectedIndex;
 
             m_strSelectedMember = (string)listBoxTeamMembers.SelectedItem;
             System.Diagnostics.Debug.Assert(_dataTeamMembers.ContainsKey(m_strSelectedMember));
@@ -294,8 +295,15 @@ namespace OneStoryProjectEditor
             theMemberData.TeamViewerID = dlg.TeamViewerID;
 
             // update the role listbox
-            int nIndex = listBoxTeamMembers.Items.IndexOf(dlg.MemberName);
             listBoxMemberRoles.Items[nIndex] = TeamMemberData.GetMemberTypeAsDisplayString(theMemberData.MemberType);
+            if (theMemberData.Name != m_strSelectedMember)
+            {
+                _dataTeamMembers.Remove(m_strSelectedMember);
+                m_strSelectedMember = theMemberData.Name;
+                _dataTeamMembers.Add(m_strSelectedMember, theMemberData);
+            }
+
+            listBoxTeamMembers.Items[nIndex] = theMemberData.Name;
 
             // keep a hang on it so we don't try to, for example, give it a new guid
             if (!m_mapNewMembersThisSession.ContainsKey(dlg.MemberName))
@@ -332,37 +340,61 @@ namespace OneStoryProjectEditor
 
         private void buttonVernacularFont_Click(object sender, EventArgs e)
         {
-            fontDialog.Font = textBoxVernacular.Font;
-            fontDialog.Color = textBoxVernacular.ForeColor;
-            if (fontDialog.ShowDialog() == DialogResult.OK)
+            try
             {
-                textBoxVernacular.Font = textBoxVernacularEthCode.Font = fontDialog.Font;
-                textBoxVernacular.ForeColor = textBoxVernacularEthCode.ForeColor = fontDialog.Color;
-                Modified = true;
+                fontDialog.Font = textBoxVernacular.Font;
+                fontDialog.Color = textBoxVernacular.ForeColor;
+                if (fontDialog.ShowDialog() == DialogResult.OK)
+                {
+                    textBoxVernacular.Font = textBoxVernacularEthCode.Font = fontDialog.Font;
+                    textBoxVernacular.ForeColor = textBoxVernacularEthCode.ForeColor = fontDialog.Color;
+                    Modified = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message == "Only TrueType fonts are supported. This is not a TrueType font.")
+                    MessageBox.Show("Since you just added this font, you have to restart the program for it to work", Properties.Resources.IDS_Caption);
             }
         }
 
         private void buttonNationalBTFont_Click(object sender, EventArgs e)
         {
-            fontDialog.Font = textBoxNationalBTLanguage.Font;
-            fontDialog.Color = textBoxNationalBTLanguage.ForeColor;
-            if (fontDialog.ShowDialog() == DialogResult.OK)
+            try
             {
-                textBoxNationalBTLanguage.Font = textBoxNationalBTEthCode.Font = fontDialog.Font;
-                textBoxNationalBTLanguage.ForeColor = textBoxNationalBTEthCode.ForeColor = fontDialog.Color;
-                Modified = true;
+                fontDialog.Font = textBoxNationalBTLanguage.Font;
+                fontDialog.Color = textBoxNationalBTLanguage.ForeColor;
+                if (fontDialog.ShowDialog() == DialogResult.OK)
+                {
+                    textBoxNationalBTLanguage.Font = textBoxNationalBTEthCode.Font = fontDialog.Font;
+                    textBoxNationalBTLanguage.ForeColor = textBoxNationalBTEthCode.ForeColor = fontDialog.Color;
+                    Modified = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message == "Only TrueType fonts are supported. This is not a TrueType font.")
+                    MessageBox.Show("Since you just added this font, you have to restart the program for it to work", Properties.Resources.IDS_Caption);
             }
         }
 
         private void buttonInternationalBTFont_Click(object sender, EventArgs e)
         {
-            fontDialog.Font = m_projSettings.InternationalBT.LangFont;
-            fontDialog.Color = m_projSettings.InternationalBT.FontColor;
-            if (fontDialog.ShowDialog() == DialogResult.OK)
+            try
             {
-                m_projSettings.InternationalBT.LangFont = fontDialog.Font;
-                m_projSettings.InternationalBT.FontColor = fontDialog.Color;
-                Modified = true;
+                fontDialog.Font = m_projSettings.InternationalBT.LangFont;
+                fontDialog.Color = m_projSettings.InternationalBT.FontColor;
+                if (fontDialog.ShowDialog() == DialogResult.OK)
+                {
+                    m_projSettings.InternationalBT.LangFont = fontDialog.Font;
+                    m_projSettings.InternationalBT.FontColor = fontDialog.Color;
+                    Modified = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message == "Only TrueType fonts are supported. This is not a TrueType font.")
+                    MessageBox.Show("Since you just added this font, you have to restart the program for it to work", Properties.Resources.IDS_Caption);
             }
         }
 
@@ -467,6 +499,38 @@ namespace OneStoryProjectEditor
         private void checkBoxEnglishBT_CheckedChanged(object sender, EventArgs e)
         {
             buttonInternationalBTFont.Enabled = checkBoxEnglishBT.Checked;
+        }
+
+        private void textBoxVernacular_TextChanged(object sender, EventArgs e)
+        {
+            Modified = true;
+
+            // if the user retypes the language name, then clobber the eth code as well
+            //  (so we'll guess again)
+            textBoxVernacularEthCode.Text = null;
+        }
+
+        private void textBoxNationalBTLanguage_TextChanged(object sender, EventArgs e)
+        {
+            Modified = true;
+
+            // if the user retypes the language name, then clobber the eth code as well
+            //  (so we'll guess again)
+            textBoxNationalBTEthCode.Text = null;
+        }
+
+        private void comboBoxKeyboard_DragDrop(object sender, DragEventArgs e)
+        {
+            // initialize the keyboard combo list (in case the user just added it while
+            //  we were open
+            System.Diagnostics.Debug.Assert(sender is ComboBox);
+            ComboBox cb = (ComboBox)sender;
+            cb.Items.Clear();
+            foreach (KeyboardController.KeyboardDescriptor keyboard in
+                KeyboardController.GetAvailableKeyboards(KeyboardController.Engines.All))
+            {
+                cb.Items.Add(keyboard.Name);
+            }
         }
     }
 }

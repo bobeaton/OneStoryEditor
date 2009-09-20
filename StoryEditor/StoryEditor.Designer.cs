@@ -48,6 +48,7 @@ namespace OneStoryProjectEditor
             this.copyStoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyNationalBackTranslationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyEnglishBackTranslationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteBackTranslationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteStoryNationalBackTranslationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteEnglishBacktranslationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -64,6 +65,8 @@ namespace OneStoryProjectEditor
             this.viewCoachNotesFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.viewNetBibleMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.comboBoxStorySelector = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripTextBoxChooseStory = new System.Windows.Forms.ToolStripTextBox();
             this.storyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -81,16 +84,17 @@ namespace OneStoryProjectEditor
             this.splitContainerLeftRight = new System.Windows.Forms.SplitContainer();
             this.splitContainerUpDown = new System.Windows.Forms.SplitContainer();
             this.textBoxStoryVerse = new System.Windows.Forms.TextBox();
+            this.netBibleViewer = new OneStoryProjectEditor.NetBibleViewer();
             this.splitContainerMentorNotes = new System.Windows.Forms.SplitContainer();
+            this.flowLayoutPanelConsultantNotes = new OneStoryProjectEditor.ConNoteFlowLayoutPanel();
             this.textBoxConsultantNotesTable = new System.Windows.Forms.TextBox();
             this.textBoxCoachNotes = new System.Windows.Forms.TextBox();
+            this.flowLayoutPanelCoachNotes = new OneStoryProjectEditor.ConNoteFlowLayoutPanel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.buttonsStoryStage = new System.Windows.Forms.ToolStripSplitButton();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.helpProvider = new System.Windows.Forms.HelpProvider();
-            this.netBibleViewer = new OneStoryProjectEditor.NetBibleViewer();
-            this.flowLayoutPanelConsultantNotes = new OneStoryProjectEditor.ConNoteFlowLayoutPanel();
-            this.flowLayoutPanelCoachNotes = new OneStoryProjectEditor.ConNoteFlowLayoutPanel();
+            this.splitIntoLinesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
             this.splitContainerLeftRight.Panel2.SuspendLayout();
@@ -203,6 +207,7 @@ namespace OneStoryProjectEditor
             // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.copyToolStripMenuItem,
+            this.pasteToolStripMenuItem,
             this.deleteBackTranslationToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 23);
@@ -216,7 +221,7 @@ namespace OneStoryProjectEditor
             this.copyNationalBackTranslationToolStripMenuItem,
             this.copyEnglishBackTranslationToolStripMenuItem});
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.copyToolStripMenuItem.Text = "&Copy";
             // 
             // copyStoryToolStripMenuItem
@@ -240,13 +245,20 @@ namespace OneStoryProjectEditor
             this.copyEnglishBackTranslationToolStripMenuItem.Text = "&English back-translation of the story";
             this.copyEnglishBackTranslationToolStripMenuItem.Click += new System.EventHandler(this.copyEnglishBackTranslationToolStripMenuItem_Click);
             // 
+            // pasteToolStripMenuItem
+            // 
+            this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
+            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.pasteToolStripMenuItem.Text = "&Paste";
+            this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
+            // 
             // deleteBackTranslationToolStripMenuItem
             // 
             this.deleteBackTranslationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.deleteStoryNationalBackTranslationToolStripMenuItem,
             this.deleteEnglishBacktranslationToolStripMenuItem});
             this.deleteBackTranslationToolStripMenuItem.Name = "deleteBackTranslationToolStripMenuItem";
-            this.deleteBackTranslationToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.deleteBackTranslationToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.deleteBackTranslationToolStripMenuItem.Text = "&Delete";
             // 
             // deleteStoryNationalBackTranslationToolStripMenuItem
@@ -277,7 +289,9 @@ namespace OneStoryProjectEditor
             this.viewConsultantNoteFieldMenuItem,
             this.viewCoachNotesFieldMenuItem,
             this.toolStripSeparator3,
-            this.viewNetBibleMenuItem});
+            this.viewNetBibleMenuItem,
+            this.toolStripSeparator7,
+            this.refreshToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 23);
             this.viewToolStripMenuItem.Text = "&View";
@@ -387,6 +401,18 @@ namespace OneStoryProjectEditor
             this.viewNetBibleMenuItem.Size = new System.Drawing.Size(284, 22);
             this.viewNetBibleMenuItem.Text = "&Bible viewer";
             this.viewNetBibleMenuItem.CheckedChanged += new System.EventHandler(this.viewNetBibleMenuItem_CheckedChanged);
+            this.viewNetBibleMenuItem.Click += new System.EventHandler(this.viewNetBibleMenuItem_Click);
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(281, 6);
+            // 
+            // refreshToolStripMenuItem
+            // 
+            this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
+            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(284, 22);
+            this.refreshToolStripMenuItem.Text = "Re&fresh";
             // 
             // comboBoxStorySelector
             // 
@@ -416,7 +442,8 @@ namespace OneStoryProjectEditor
             this.addNewStoryAfterToolStripMenuItem,
             this.deleteStoryToolStripMenuItem,
             this.showFullStorySetToolStripMenuItem,
-            this.exportToAdaptItToolStripMenuItem});
+            this.exportToAdaptItToolStripMenuItem,
+            this.splitIntoLinesToolStripMenuItem});
             this.storyToolStripMenuItem.Name = "storyToolStripMenuItem";
             this.storyToolStripMenuItem.Size = new System.Drawing.Size(46, 23);
             this.storyToolStripMenuItem.Text = "&Story";
@@ -569,6 +596,17 @@ namespace OneStoryProjectEditor
             this.textBoxStoryVerse.Text = "Story";
             this.textBoxStoryVerse.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // netBibleViewer
+            // 
+            this.netBibleViewer.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.netBibleViewer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.netBibleViewer.Location = new System.Drawing.Point(0, 0);
+            this.netBibleViewer.Margin = new System.Windows.Forms.Padding(0);
+            this.netBibleViewer.Name = "netBibleViewer";
+            this.netBibleViewer.ScriptureReference = "gen 1:1";
+            this.netBibleViewer.Size = new System.Drawing.Size(521, 115);
+            this.netBibleViewer.TabIndex = 0;
+            // 
             // splitContainerMentorNotes
             // 
             this.splitContainerMentorNotes.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -589,6 +627,19 @@ namespace OneStoryProjectEditor
             this.splitContainerMentorNotes.Size = new System.Drawing.Size(368, 287);
             this.splitContainerMentorNotes.SplitterDistance = 171;
             this.splitContainerMentorNotes.TabIndex = 0;
+            // 
+            // flowLayoutPanelConsultantNotes
+            // 
+            this.flowLayoutPanelConsultantNotes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.flowLayoutPanelConsultantNotes.AutoScroll = true;
+            this.flowLayoutPanelConsultantNotes.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanelConsultantNotes.Location = new System.Drawing.Point(0, 29);
+            this.flowLayoutPanelConsultantNotes.Name = "flowLayoutPanelConsultantNotes";
+            this.flowLayoutPanelConsultantNotes.Size = new System.Drawing.Size(364, 141);
+            this.flowLayoutPanelConsultantNotes.TabIndex = 0;
+            this.flowLayoutPanelConsultantNotes.WrapContents = false;
             // 
             // textBoxConsultantNotesTable
             // 
@@ -615,6 +666,19 @@ namespace OneStoryProjectEditor
             this.textBoxCoachNotes.TabStop = false;
             this.textBoxCoachNotes.Text = "Coach Notes";
             this.textBoxCoachNotes.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // flowLayoutPanelCoachNotes
+            // 
+            this.flowLayoutPanelCoachNotes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.flowLayoutPanelCoachNotes.AutoScroll = true;
+            this.flowLayoutPanelCoachNotes.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanelCoachNotes.Location = new System.Drawing.Point(0, 27);
+            this.flowLayoutPanelCoachNotes.Name = "flowLayoutPanelCoachNotes";
+            this.flowLayoutPanelCoachNotes.Size = new System.Drawing.Size(366, 85);
+            this.flowLayoutPanelCoachNotes.TabIndex = 1;
+            this.flowLayoutPanelCoachNotes.WrapContents = false;
             // 
             // statusStrip
             // 
@@ -650,42 +714,12 @@ namespace OneStoryProjectEditor
             this.statusLabel.Spring = true;
             this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // netBibleViewer
+            // splitIntoLinesToolStripMenuItem
             // 
-            this.netBibleViewer.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.netBibleViewer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.netBibleViewer.Location = new System.Drawing.Point(0, 0);
-            this.netBibleViewer.Margin = new System.Windows.Forms.Padding(0);
-            this.netBibleViewer.Name = "netBibleViewer";
-            this.netBibleViewer.ScriptureReference = "gen 1:1";
-            this.netBibleViewer.Size = new System.Drawing.Size(521, 115);
-            this.netBibleViewer.TabIndex = 0;
-            // 
-            // flowLayoutPanelConsultantNotes
-            // 
-            this.flowLayoutPanelConsultantNotes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.flowLayoutPanelConsultantNotes.AutoScroll = true;
-            this.flowLayoutPanelConsultantNotes.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanelConsultantNotes.Location = new System.Drawing.Point(0, 29);
-            this.flowLayoutPanelConsultantNotes.Name = "flowLayoutPanelConsultantNotes";
-            this.flowLayoutPanelConsultantNotes.Size = new System.Drawing.Size(364, 141);
-            this.flowLayoutPanelConsultantNotes.TabIndex = 0;
-            this.flowLayoutPanelConsultantNotes.WrapContents = false;
-            // 
-            // flowLayoutPanelCoachNotes
-            // 
-            this.flowLayoutPanelCoachNotes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.flowLayoutPanelCoachNotes.AutoScroll = true;
-            this.flowLayoutPanelCoachNotes.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanelCoachNotes.Location = new System.Drawing.Point(0, 27);
-            this.flowLayoutPanelCoachNotes.Name = "flowLayoutPanelCoachNotes";
-            this.flowLayoutPanelCoachNotes.Size = new System.Drawing.Size(366, 85);
-            this.flowLayoutPanelCoachNotes.TabIndex = 1;
-            this.flowLayoutPanelCoachNotes.WrapContents = false;
+            this.splitIntoLinesToolStripMenuItem.Name = "splitIntoLinesToolStripMenuItem";
+            this.splitIntoLinesToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.splitIntoLinesToolStripMenuItem.Text = "S&plit into Lines";
+            this.splitIntoLinesToolStripMenuItem.Click += new System.EventHandler(this.splitIntoLinesToolStripMenuItem_Click);
             // 
             // StoryEditor
             // 
@@ -782,6 +816,10 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem deleteBackTranslationToolStripMenuItem;
         private ToolStripMenuItem deleteStoryNationalBackTranslationToolStripMenuItem;
         private ToolStripMenuItem deleteEnglishBacktranslationToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator7;
+        private ToolStripMenuItem refreshToolStripMenuItem;
+        private ToolStripMenuItem pasteToolStripMenuItem;
+        private ToolStripMenuItem splitIntoLinesToolStripMenuItem;
     }
 
     public class ConNoteFlowLayoutPanel : FlowLayoutPanel

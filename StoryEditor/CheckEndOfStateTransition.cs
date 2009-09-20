@@ -26,9 +26,9 @@ namespace OneStoryProjectEditor
                 int nVerseNumber = 1;
                 foreach (VerseData aVerseData in theCurrentStory.Verses)
                 {
-                    string strFullStop = theStories.ProjSettings.Vernacular.FullStop;
-                    List<string> lstSentences = GetListOfSentences(aVerseData.VernacularText, strFullStop);
-                    if (lstSentences == null)
+                    string strSentenceFinalPunct = theStories.ProjSettings.Vernacular.FullStop;
+                    List<string> lstSentences;
+                    if (!GetListOfSentences(aVerseData.VernacularText, strSentenceFinalPunct, out lstSentences))
                     {
                         if (!aVerseData.HasData)
                         {
@@ -39,7 +39,7 @@ namespace OneStoryProjectEditor
                     }
                     else if (lstSentences.Count > 1)
                     {
-                        if (MessageBox.Show(String.Format("Verse number '{0}' has multiple sentences. Click 'Yes' to have them separated into their own verses.", nVerseNumber),  StoriesData.CstrCaption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
+                        if (MessageBox.Show(String.Format("Verse number '{0}' has multiple sentences. Click 'Yes' to have them separated into their own verses.", nVerseNumber),  Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
                             return false;
 
                         int nNewVerses = lstSentences.Count;
@@ -64,7 +64,7 @@ namespace OneStoryProjectEditor
                 (String.IsNullOrEmpty(theCurrentStory.CraftingInfo.StoryPurpose)
                 || String.IsNullOrEmpty(theCurrentStory.CraftingInfo.ResourcesUsed)))
             {
-                MessageBox.Show(String.Format("In the following window, type in the purpose of the story (why you have it in your panorama) and list the resources you used to craft the story", Environment.NewLine), StoriesData.CstrCaption);
+                MessageBox.Show(String.Format("In the following window, type in the purpose of the story (why you have it in your panorama) and list the resources you used to craft the story", Environment.NewLine), Properties.Resources.IDS_Caption);
                 theSE.QueryStoryPurpose();
             }
 
@@ -96,9 +96,9 @@ namespace OneStoryProjectEditor
                 int nVerseNumber = 1;
                 foreach (VerseData aVerseData in theCurrentStory.Verses)
                 {
-                    string strFullStop = theStories.ProjSettings.NationalBT.FullStop;
-                    List<string> lstSentences = GetListOfSentences(aVerseData.NationalBTText, strFullStop);
-                    if (lstSentences == null)
+                    string strSentenceFinalPunct = theStories.ProjSettings.NationalBT.FullStop;
+                    List<string> lstSentences;
+                    if (!GetListOfSentences(aVerseData.NationalBTText, strSentenceFinalPunct, out lstSentences))
                     {
                         if (!aVerseData.HasData)
                         {
@@ -115,7 +115,7 @@ namespace OneStoryProjectEditor
                     
                     else if (lstSentences.Count > 1)
                     {
-                        if (MessageBox.Show(String.Format("Verse number '{0}' has multiple sentences. Click Yes to have them separated into their own verses.", nVerseNumber),  StoriesData.CstrCaption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
+                        if (MessageBox.Show(String.Format("Verse number '{0}' has multiple sentences. Click Yes to have them separated into their own verses.", nVerseNumber),  Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
                             return false;
 
                         int nNewVerses = lstSentences.Count;
@@ -154,17 +154,20 @@ namespace OneStoryProjectEditor
 
         protected static char[] achQuotes = new char[] { '"', '\'', '\u2018', '\u2019', '\u201B', 
             '\u201C', '\u201d', '\u201E', '\u201F' };
-        protected static string strSentenceFinalPunctuation = "!?:\n";    // plus the fullstop
+        protected static string CstrSentenceFinalPunctuation = "!?:\n";   // standard ones
 
-        public static List<string> GetListOfSentences(StringTransfer stParagraph, string strFullStop)
+        public static bool GetListOfSentences(StringTransfer stParagraph, string strSentenceFinalPunct, out List<string> lstSentences)
         {
+            lstSentences = new List<string>();
+            
             string strParagraph = stParagraph.ToString();
             if (strParagraph == null)
-                return null;
+                return false;
 
-            char[] achSplitOn = (strSentenceFinalPunctuation + strFullStop).ToCharArray();
+            // split it up based on the sentence final punctuation: (the standard list, plus the list from
+            //  the project passed in)
+            char[] achSplitOn = (CstrSentenceFinalPunctuation + strSentenceFinalPunct).ToCharArray();
             int nStartIndex = 0, nIndex;
-            List<string> lstStrRet = new List<string>();
             while ((nStartIndex < strParagraph.Length) && (nIndex = strParagraph.IndexOfAny(achSplitOn, nStartIndex)) != -1)
             {
                 if (((nIndex + 1) < strParagraph.Length) && (strParagraph.IndexOfAny(achQuotes, nIndex + 1, 1) != -1))
@@ -172,23 +175,23 @@ namespace OneStoryProjectEditor
 
                 string strLine = strParagraph.Substring(nStartIndex, nIndex - nStartIndex + 1).Trim();
                 if (!String.IsNullOrEmpty(strLine))
-                    lstStrRet.Add(strLine);
+                    lstSentences.Add(strLine);
 
                 nStartIndex = nIndex + 1;
             }
 
             // if we didn't find any final punctuation...
-            if (lstStrRet.Count == 0)
+            if (lstSentences.Count == 0)
             {
                 // it may just be that the user forgot it.
                 if (!String.IsNullOrEmpty(strParagraph))
                 {
                     // this means the user forgot the full stop, so help him/her out and add one.
-                    stParagraph.SetValue(strParagraph.Trim() + strFullStop);
-                    lstStrRet.Add(strParagraph);
+                    stParagraph.SetValue(strParagraph.Trim() + strSentenceFinalPunct[0]);
+                    lstSentences.Add(strParagraph);
                 }
                 else
-                    return null;
+                    return false;
             }
 
             // otherwise, there may have been multiple sentences, but the last one didn't have
@@ -199,11 +202,11 @@ namespace OneStoryProjectEditor
                 if (!String.IsNullOrEmpty(strLine))
                 {
                     // this means the user forgot the full stop, so help him/her out and add one.
-                    lstStrRet.Add(strLine + strFullStop);
+                    lstSentences.Add(strLine + strSentenceFinalPunct[0]);
                 }
             }
 
-            return lstStrRet;
+            return (lstSentences.Count > 0);
         }
 
         protected static void ShowErrorFocus(StoryEditor theSE, CtrlTextBox tb, string strStatusMessage)
@@ -269,9 +272,10 @@ namespace OneStoryProjectEditor
             int nVerseNumber = 1;
             foreach (VerseData aVerseData in theCurrentStory.Verses)
             {
-                string strFullStop = theStories.ProjSettings.InternationalBT.FullStop;
-                List<string> lstSentences = GetListOfSentences(aVerseData.InternationalBTText, strFullStop);
-                if ((lstSentences == null) || (lstSentences.Count == 0))
+                string strSentenceFinalPunct = theStories.ProjSettings.InternationalBT.FullStop;
+                List<string> lstSentences;
+                if ((!GetListOfSentences(aVerseData.InternationalBTText, strSentenceFinalPunct, out lstSentences))
+                    || (lstSentences.Count == 0))
                 {
                     // light it up and let the user know they need to do something!
                     ShowErrorFocus(theSE, aVerseData.InternationalBTText.TextBox,
@@ -307,7 +311,7 @@ namespace OneStoryProjectEditor
             {
                 if (theCurrentStory.CraftingInfo.IsBiblicalStory)
                 {
-                    MessageBox.Show("In the following window, click on the browse button to select the 'UNS Back-translator' and add or choose the UNS that did this back-translation.", StoriesData.CstrCaption);
+                    MessageBox.Show("In the following window, click on the browse button to select the 'UNS Back-translator' and add or choose the UNS that did this back-translation.", Properties.Resources.IDS_Caption);
                     StoryFrontMatterForm dlg = new StoryFrontMatterForm(theSE, theStories, theCurrentStory);
                     dlg.Text = "Choose the UNS that did the back-translation";
                     dlg.ShowDialog();

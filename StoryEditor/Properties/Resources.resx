@@ -139,4 +139,131 @@
   <data name="Hyperlink" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Hyperlink.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="IDS_AdaptationInstructions" xml:space="preserve">
+    <value>Follow these steps to use the Adapt It program to translate the story into English:{0}{0}1) Switch to the Adapt It program using Alt+Tab keys{0}2) Select the '{1}' project and click the 'Next' button (if a file is already open in Adapt It, then choose the 'File' menu, 'Close Project' command and then the 'File' menu, 'Start Working' command first).{0}3) Select the '{2}.xls' document to open and press the 'Finished' button.{0}4) When you see this story in the adaptation window, then translate it into English.</value>
+  </data>
+  <data name="IDS_AdaptationInstructionsContinue" xml:space="preserve">
+    <value>{0}5) When you're finished, return to this window and click the 'Yes' button to re-import the translated English text back into the English fields.{0}{0}Have you finished translating the story to English and are ready to import it into the English fields?</value>
+  </data>
+  <data name="IDS_AdaptItFileAlreadyExists" xml:space="preserve">
+    <value>The Adapt It file for the project '{0}', story '{1}' already exists. If you want to delete that file and do the English translation of the story all over again, then click 'Yes'. If you just want to try to import the existing file again, choose 'No'. Otherwise, click 'Cancel' to stop this command.</value>
+  </data>
+  <data name="IDS_Caption" xml:space="preserve">
+    <value>"एक-कहानी" प्रोजैक्‍ट ऐडिटर</value>
+    <comment>OneStory Project Editor</comment>
+  </data>
+  <data name="IDS_ChooseTheStoryCrafter" xml:space="preserve">
+    <value>Choose the Story Crafter</value>
+  </data>
+  <data name="IDS_EnterProjectName" xml:space="preserve">
+    <value>Enter the name you want to give this project (e.g. the language name).</value>
+  </data>
+  <data name="IDS_EnterStoryName" xml:space="preserve">
+    <value>&lt;नई कहानी का नाम यहीं टाइप करके 'ऐटर' बटन दबाओ&gt;</value>
+    <comment>&lt;type the name of a story to create and hit Enter&gt;</comment>
+  </data>
+  <data name="IDS_EnterStoryToAdd" xml:space="preserve">
+    <value>नई कहानी का नाम यहीं टाइप करके 'ऐटर' बटन दबाओ</value>
+    <comment>Enter the name of the story to add</comment>
+  </data>
+  <data name="IDS_ErrorInAdaptation" xml:space="preserve">
+    <value>"The data from Adapt It doesn't appear to match what's in the story.{0}In verse number {2}, I was expecting \"{3}\", but got \"{4}\" instead.{0}If you've made changes in the story or the {1} back-translation, then you need to re-export the story or {1} back-translation to Adapt It,{0}re-process the file there, and then try to import again."</value>
+  </data>
+  <data name="IDS_FileLockedMessage" xml:space="preserve">
+    <value>The project file '{0}' is locked. Is it read-only? Or opened in some other program? Unlock it and try again. Or try to save it as a different name.</value>
+  </data>
+  <data name="IDS_FromNatlLanguage" xml:space="preserve">
+    <value>&amp;From {0}</value>
+  </data>
+  <data name="IDS_FromStoryForDiscourseCharting" xml:space="preserve">
+    <value>&amp;From {0} (for Discourse Charting)</value>
+  </data>
+  <data name="IDS_IsThisStoryFromTheBible" xml:space="preserve">
+    <value>क्‍या यह कहानी बाइबल से है?</value>
+    <comment>Is this a story from the Bible?</comment>
+  </data>
+  <data name="IDS_LanguageFields" xml:space="preserve">
+    <value>{0} &amp;language fields</value>
+  </data>
+  <data name="IDS_LocatedInFolder" xml:space="preserve">
+    <value>जो '{0}' फ़ोलडर में है</value>
+    <comment>Located in folder '{0}'</comment>
+  </data>
+  <data name="IDS_LogInAsCrafter" xml:space="preserve">
+    <value>You have to be logged in as a 'Crafter' to add stories. To login, click 'Project', 'Settings'</value>
+  </data>
+  <data name="IDS_MainFrameTitle" xml:space="preserve">
+    <value>OneStory Editor -- {0} Story Project</value>
+  </data>
+  <data name="IDS_NationalBtOfStory" xml:space="preserve">
+    <value>{0} back-translation of the story</value>
+  </data>
+  <data name="IDS_NeedToReboot" xml:space="preserve">
+    <value>Problem initializing Sword (the Net Bible viewer):{0}{0}{1}</value>
+  </data>
+  <data name="IDS_OverwriteProject" xml:space="preserve">
+    <value>You already have a project with the name, '{0}'. Do you want to delete the existing one?</value>
+  </data>
+  <data name="IDS_PressF1ForInstructions" xml:space="preserve">
+    <value>{0}  निर्देश मिलने के लिए 'F1' बटन दबाओ</value>
+    <comment>{0}  Press F1 for instructions</comment>
+  </data>
+  <data name="IDS_SaveChanges" xml:space="preserve">
+    <value>क्‍या बंद करने से पहले सेव किया जाए?</value>
+    <comment>Would you like to save your changes before you exit?</comment>
+  </data>
+  <data name="IDS_Story" xml:space="preserve">
+    <value>कहानी</value>
+    <comment>Story</comment>
+  </data>
+  <data name="IDS_StoryColon" xml:space="preserve">
+    <value>कहानी:</value>
+    <comment>Story:</comment>
+  </data>
+  <data name="IDS_StoryLanguageField" xml:space="preserve">
+    <value>&amp;{0} back-translation field</value>
+  </data>
+  <data name="IDS_StoryText" xml:space="preserve">
+    <value>{0} story text</value>
+  </data>
+  <data name="IDS_UnableToContinue" xml:space="preserve">
+    <value>Unable to continue! Cause: {0}</value>
+  </data>
+  <data name="IDS_UnableToCopyText" xml:space="preserve">
+    <value>Unable to copy text to the clipboard!{0}{0}{1}{0}{0}{2}</value>
+  </data>
+  <data name="IDS_UnableToFindStoryAdd" xml:space="preserve">
+    <value>'{0}' नामक कहानी नहीं है। क्‍या उस नाम की नई कहानी जोड़ दिया जाए?</value>
+    <comment>Unable to find the story '{0}'. Would you like to add a new story with that name?</comment>
+  </data>
+  <data name="IDS_UnableToImportProject" xml:space="preserve">
+    <value>Unable to import the project '{1}'{0}{0}{2}{0}{0}Contact bob_eaton@sall.com for help</value>
+  </data>
+  <data name="IDS_UnableToOpenMemberList" xml:space="preserve">
+    <value>Unable to open the member list{0}{0}{1}{0}{0}Contact bob_eaton@sall.com for help</value>
+  </data>
+  <data name="IDS_UnableToOpenProjectFile" xml:space="preserve">
+    <value>Unable to open project '{1}'{0}{0}{2}{0}{0}{3}{0}{0}Send the project file along with the error message to bob_eaton@sall.com for help</value>
+  </data>
+  <data name="IDS_UnableToSave" xml:space="preserve">
+    <value>Unable to save the project file '{1}'{0}{0}{2}</value>
+  </data>
+  <data name="IDS_AboutToStrandProject" xml:space="preserve">
+    <value>'{1}' नाम का एक प्रजैक्ट दूसरे फ़ोल्‍डर में हो चुका है। अगर यह नया प्रोजैक्ट इसी नाम के साथ बनता है, तब दूसरा प्रोजैक्‍ट नहीं खोल पाएगा, जो '{2}' फ़ोल्‍डर में है।{0}{0}क्‍या आप नया प्रोजैक्ट फिर भी बनाना चाहते हैं?</value>
+    <comment>You already have a project with the name '{1}' that is in another location. If you create this new project with the same name, then you won't be able to access the earlier project that is located in the '{2}' folder.{0}{0}Do you want to continue creating the new project and lose the reference to the earlier project (it won't be deleted if you do)?</comment>
+  </data>
+  <data name="IDS_HaveToLogInToContinue" xml:space="preserve">
+    <value>काम करने के लिए आपको लॉग-इन करना है। 'Project' मेनू, 'Settings' पर क्‍लिक करो और अपना नाम चुनकर 'लॉग-इन' बटन दबाओ।</value>
+    <comment>You have to log in to continue. Click 'Project', 'Settings' and choose or add your name.</comment>
+  </data>
+  <data name="IDS_ProjectFileCorrupted" xml:space="preserve">
+    <value>The project file is corrupted. No 'StoryCrafterMemberID' record found. Send to bob_eaton@sall.com for help.</value>
+  </data>
+  <data name="IDS_ProjectFileCorruptedNoCraftingInfo" xml:space="preserve">
+    <value>The project file is corrupted. No 'CraftingInfo' record found. Send to bob_eaton@sall.com for help.</value>
+  </data>
+  <data name="IDS_UnableToCreateProjectWithoutName" xml:space="preserve">
+    <value>प्रोजैक्ट नाम के बिना नया प्रोजैक्ट नहीं बन सकता है!</value>
+    <comment>Unable to create a project without a project name!</comment>
+  </data>
 </root>

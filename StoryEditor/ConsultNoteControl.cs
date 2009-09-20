@@ -83,7 +83,7 @@ namespace OneStoryProjectEditor
         private void deleteMenuItem_Click(object sender, EventArgs e)
         {
             if (_myCNDC.HasData)
-                if (MessageBox.Show("Are you sure you want to delete this note?",  StoriesData.CstrCaption, MessageBoxButtons.YesNo) != DialogResult.Yes)
+                if (MessageBox.Show("Are you sure you want to delete this note?",  Properties.Resources.IDS_Caption, MessageBoxButtons.YesNo) != DialogResult.Yes)
                     return;
 
             _myCollection.Remove(_myCNDC);

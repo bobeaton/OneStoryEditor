@@ -190,6 +190,15 @@ namespace OneStoryProjectEditor
 
         private void contextMenuStrip_Opening(object sender, CancelEventArgs e)
         {
+            // if this is a Biblical story, we have to add a few menu items
+            StoryEditor theSE = (StoryEditor)FindForm();
+            if (theSE.theCurrentStory.CraftingInfo.IsBiblicalStory)
+            {
+                contextMenuStrip.Items.Insert(2, menuAddTestQuestion);
+                contextMenuStrip.Items.Insert(3, addTestQuestionAnswerToolStripMenuItem);
+                contextMenuStrip.Items.Insert(4, addRetellingToolStripMenuItem);
+            }
+
             // for answers, we have to attach them to the correct question
             int nTestQuestionCount = _verseData.TestQuestions.Count;
             if (nTestQuestionCount > 1)
@@ -204,7 +213,6 @@ namespace OneStoryProjectEditor
 
             // add all the test questions, retellings, and answers to a drop down menu to remove them
             removeToolStripMenuItem.DropDown.Items.Clear();
-            StoryEditor theSE = (StoryEditor)FindForm();
             if (theSE.viewRetellingFieldMenuItem.Checked)
                 AddRemoveRetellingSubmenus(_verseData.Retellings);
             if (theSE.viewStoryTestingQuestionFieldMenuItem.Checked)
@@ -350,7 +358,7 @@ namespace OneStoryProjectEditor
 
         private void deleteTheWholeVerseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want to delete this verse (and all associated consultant notes, etc)?",  StoriesData.CstrCaption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+            if (MessageBox.Show("Are you sure you want to delete this verse (and all associated consultant notes, etc)?",  Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
             {
                 StoryEditor theSE = (StoryEditor)FindForm();
                 theSE.DeleteVerse(_verseData);
@@ -395,7 +403,7 @@ namespace OneStoryProjectEditor
                     {
                         DialogResult res = MessageBox.Show(String.Format("Click 'Yes' to replace the existing {1} back-translation{0}{0}    {2}{0}{0}With the following{0}{0}    {3}",
                             Environment.NewLine, theSE.Stories.ProjSettings.NationalBT.LangName, _verseData.NationalBTText, strTargetSentence), 
-                            StoriesData.CstrCaption, MessageBoxButtons.YesNoCancel);
+                            Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
                         if (res == DialogResult.Yes)
                         {
                             _verseData.NationalBTText.SetValue(strTargetSentence);
@@ -416,7 +424,7 @@ namespace OneStoryProjectEditor
             catch (Exception ex)
             {
                 MessageBox.Show(String.Format("Unable to launch Glossing tool{0}{0}{1}{0}{0}Contact bob_eaton@sall.com for help",
-                    Environment.NewLine, ex.Message), StoriesData.CstrCaption);
+                    Environment.NewLine, ex.Message), Properties.Resources.IDS_Caption);
                 return;
             }
         }
@@ -434,7 +442,7 @@ namespace OneStoryProjectEditor
                     if (_verseData.InternationalBTText.HasData && (_verseData.InternationalBTText.ToString() != strTargetSentence))
                     {
                         DialogResult res = MessageBox.Show(String.Format("Click 'Yes' to replace the existing English back-translation:{0}{0}    {1}{0}{0}With the following{0}{0}    {2}",
-                            Environment.NewLine, _verseData.InternationalBTText, strTargetSentence), StoriesData.CstrCaption, MessageBoxButtons.YesNoCancel);
+                            Environment.NewLine, _verseData.InternationalBTText, strTargetSentence), Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
                         if (res == DialogResult.Yes)
                         {
                             _verseData.InternationalBTText.SetValue(strTargetSentence);
@@ -455,7 +463,7 @@ namespace OneStoryProjectEditor
             catch (Exception ex)
             {
                 MessageBox.Show(String.Format("Unable to launch Glossing tool{0}{0}{1}{0}{0}Contact bob_eaton@sall.com for help",
-                    Environment.NewLine, ex.Message), StoriesData.CstrCaption);
+                    Environment.NewLine, ex.Message), Properties.Resources.IDS_Caption);
                 return;
             }
         }
@@ -473,7 +481,7 @@ namespace OneStoryProjectEditor
                     if (_verseData.InternationalBTText.HasData && (_verseData.InternationalBTText.ToString() != strTargetSentence))
                     {
                         DialogResult res = MessageBox.Show(String.Format("Click 'Yes' to replace the existing English back-translation:{0}{0}    {1}{0}{0}With the following{0}{0}    {2}",
-                            Environment.NewLine, _verseData.InternationalBTText, strTargetSentence), StoriesData.CstrCaption, MessageBoxButtons.YesNoCancel);
+                            Environment.NewLine, _verseData.InternationalBTText, strTargetSentence), Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
                         if (res == DialogResult.Yes)
                         {
                             _verseData.InternationalBTText.SetValue(strTargetSentence);
@@ -494,7 +502,7 @@ namespace OneStoryProjectEditor
             catch (Exception ex)
             {
                 MessageBox.Show(String.Format("Unable to launch Glossing tool{0}{0}{1}{0}{0}Contact bob_eaton@sall.com for help",
-                    Environment.NewLine, ex.Message), StoriesData.CstrCaption);
+                    Environment.NewLine, ex.Message), Properties.Resources.IDS_Caption);
                 return;
             }
         }

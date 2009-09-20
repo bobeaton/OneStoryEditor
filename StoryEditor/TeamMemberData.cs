@@ -160,8 +160,13 @@ namespace OneStoryProjectEditor
 
     public class TeamMembersData : Dictionary<string, TeamMemberData>
     {
+        protected const string CstrBrowserMemberName = "Browser";
+
         public TeamMembersData()
         {
+            TeamMemberData aTMD = new TeamMemberData(CstrBrowserMemberName, TeamMemberData.UserTypes.eJustLooking,
+                Guid.NewGuid().ToString(), null, null, null, null, null, null);
+            Add(CstrBrowserMemberName, aTMD);
         }
 
         public TeamMembersData(StoryProject projFile)
