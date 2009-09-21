@@ -266,4 +266,8 @@
     <value>प्रोजैक्ट नाम के बिना नया प्रोजैक्ट नहीं बन सकता है!</value>
     <comment>Unable to create a project without a project name!</comment>
   </data>
+  <data name="IDS_TerminalTransitionMessage" xml:space="preserve">
+    <value>अगर अगले स्‍टेट में जाएं, तो इसके बाद आप इस कहानी को तब तक नहीं बदल सकते हैं, जब तक {0} अपने काम इस पर पूरा नहीं किया। क्‍या आप पक्‍का हैं कि अगले स्‍टेट (अनिकि '{1}' स्‍टेट) में जाएँ?</value>
+    <comment>If you change to this next state, then you won't be able to edit the story until after the {0} has done his or her changes. Are you sure you want to change to the '{1}' state?</comment>
+  </data>
 </root>

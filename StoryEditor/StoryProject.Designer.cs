@@ -7122,6 +7122,8 @@ namespace OneStoryProjectEditor {
             
             private global::System.Data.DataColumn columnTQVernacular;
             
+            private global::System.Data.DataColumn columnTQNationalBT;
+            
             private global::System.Data.DataColumn columnTQInternationalBT;
             
             private global::System.Data.DataColumn columnTestQuestion_Id;
@@ -7169,6 +7171,13 @@ namespace OneStoryProjectEditor {
             public global::System.Data.DataColumn TQVernacularColumn {
                 get {
                     return this.columnTQVernacular;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn TQNationalBTColumn {
+                get {
+                    return this.columnTQNationalBT;
                 }
             }
             
@@ -7222,16 +7231,17 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public TestQuestionRow AddTestQuestionRow(bool visible, string TQVernacular, string TQInternationalBT, TestQuestionsRow parentTestQuestionsRowByTestQuestions_TestQuestion) {
+            public TestQuestionRow AddTestQuestionRow(bool visible, string TQVernacular, string TQNationalBT, string TQInternationalBT, TestQuestionsRow parentTestQuestionsRowByTestQuestions_TestQuestion) {
                 TestQuestionRow rowTestQuestionRow = ((TestQuestionRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         visible,
                         TQVernacular,
+                        TQNationalBT,
                         TQInternationalBT,
                         null,
                         null};
                 if ((parentTestQuestionsRowByTestQuestions_TestQuestion != null)) {
-                    columnValuesArray[4] = parentTestQuestionsRowByTestQuestions_TestQuestion[0];
+                    columnValuesArray[5] = parentTestQuestionsRowByTestQuestions_TestQuestion[0];
                 }
                 rowTestQuestionRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowTestQuestionRow);
@@ -7254,6 +7264,7 @@ namespace OneStoryProjectEditor {
             internal void InitVars() {
                 this.columnvisible = base.Columns["visible"];
                 this.columnTQVernacular = base.Columns["TQVernacular"];
+                this.columnTQNationalBT = base.Columns["TQNationalBT"];
                 this.columnTQInternationalBT = base.Columns["TQInternationalBT"];
                 this.columnTestQuestion_Id = base.Columns["TestQuestion_Id"];
                 this.columnTestQuestions_Id = base.Columns["TestQuestions_Id"];
@@ -7265,6 +7276,8 @@ namespace OneStoryProjectEditor {
                 base.Columns.Add(this.columnvisible);
                 this.columnTQVernacular = new global::System.Data.DataColumn("TQVernacular", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnTQVernacular);
+                this.columnTQNationalBT = new global::System.Data.DataColumn("TQNationalBT", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTQNationalBT);
                 this.columnTQInternationalBT = new global::System.Data.DataColumn("TQInternationalBT", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnTQInternationalBT);
                 this.columnTestQuestion_Id = new global::System.Data.DataColumn("TestQuestion_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
@@ -7485,7 +7498,7 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentTestQuestionRowByTestQuestion_Answers != null)) {
-                    columnValuesArray[1] = parentTestQuestionRowByTestQuestion_Answers[3];
+                    columnValuesArray[1] = parentTestQuestionRowByTestQuestion_Answers[4];
                 }
                 rowAnswersRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowAnswersRow);
@@ -12160,6 +12173,21 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string TQNationalBT {
+                get {
+                    try {
+                        return ((string)(this[this.tableTestQuestion.TQNationalBTColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TQNationalBT\' in table \'TestQuestion\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableTestQuestion.TQNationalBTColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public string TQInternationalBT {
                 get {
                     try {
@@ -12227,6 +12255,16 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public void SetTQVernacularNull() {
                 this[this.tableTestQuestion.TQVernacularColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsTQNationalBTNull() {
+                return this.IsNull(this.tableTestQuestion.TQNationalBTColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetTQNationalBTNull() {
+                this[this.tableTestQuestion.TQNationalBTColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

@@ -380,6 +380,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to अगर अगले स्‍टेट में जाएं, तो इसके बाद आप इस कहानी को तब तक नहीं बदल सकते हैं, जब तक {0} अपने काम इस पर पूरा नहीं किया। क्‍या आप पक्‍का हैं कि अगले स्‍टेट (अनिकि &apos;{1}&apos; स्‍टेट) में जाएँ?.
+        /// </summary>
+        internal static string IDS_TerminalTransitionMessage {
+            get {
+                return ResourceManager.GetString("IDS_TerminalTransitionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to continue! Cause: {0}.
         /// </summary>
         internal static string IDS_UnableToContinue {

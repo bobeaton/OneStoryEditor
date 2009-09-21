@@ -190,6 +190,7 @@ namespace OneStoryProjectEditor
             return TeamMembers[dlg.SelectedMember];
         }
 #endif
+
         public static string GetRunningFolder
         {
             get

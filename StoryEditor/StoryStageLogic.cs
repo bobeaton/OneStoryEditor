@@ -18,6 +18,7 @@ namespace OneStoryProjectEditor
             eUndefined = 0,
             eCrafterTypeVernacular,
             eCrafterTypeNationalBT,
+            eCrafterTypeInternationalBT,
             eCrafterAddAnchors,
             eCrafterAddStoryQuestions,
             eBackTranslatorTypeInternationalBT,
@@ -100,6 +101,13 @@ namespace OneStoryProjectEditor
             }
         }
 
+        public bool IsTerminalTransition(ProjectStages eNextStage)
+        {
+            StateTransition stThis = stateTransitions[ProjectStage];
+            StateTransition stNext = stateTransitions[eNextStage];
+            return (stThis.MemberTypeWithEditToken != stNext.MemberTypeWithEditToken);
+        }
+
         public override string ToString()
         {
             return _ProjectStage.ToString().Substring(1);
@@ -108,6 +116,7 @@ namespace OneStoryProjectEditor
         protected static Dictionary<string, ProjectStages> CmapStageStringToEnumType = new Dictionary<string, ProjectStages>() {
             { "CrafterTypeVernacular", ProjectStages.eCrafterTypeVernacular },
             { "CrafterTypeNationalBT", ProjectStages.eCrafterTypeNationalBT },
+            { "CrafterTypeInternationalBT", ProjectStages.eCrafterTypeInternationalBT },
             { "CrafterAddAnchors", ProjectStages.eCrafterAddAnchors },
             { "CrafterAddStoryQuestions", ProjectStages.eCrafterAddStoryQuestions },
             { "BackTranslatorTypeInternationalBT", ProjectStages.eBackTranslatorTypeInternationalBT },
@@ -283,7 +292,6 @@ namespace OneStoryProjectEditor
             internal TeamMemberData.UserTypes MemberTypeWithEditToken = TeamMemberData.UserTypes.eUndefined;
             protected List<bool> _abViewSettings = null;
             internal string StageDisplayString = null;
-            internal string TerminalTransitionMessage = "If you change to this next state, then you won't be able to edit the story until after the {0} has done his or her changes. Are you sure you want to change to the '{1}' state?";
             internal string StageInstructions = null;
 #if !DataDllBuild
             public CheckEndOfStateTransition.CheckForValidEndOfState IsReadyForTransition = null;
@@ -314,13 +322,16 @@ namespace OneStoryProjectEditor
 #endif
             }
 
+            /*
             public bool IsTerminalTransition(ProjectStages eToStage)
             {
+
                 if ((int)eToStage < (int)CurrentStage)
                     return (AllowableBackwardsTransitions[0].ProjectStage == eToStage);
 
                 return false;
             }
+            */
 
             public bool IsTransitionValid(ProjectStages eToStage)
             {

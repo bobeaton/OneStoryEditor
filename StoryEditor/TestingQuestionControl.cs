@@ -7,6 +7,7 @@ namespace OneStoryProjectEditor
     public partial class TestingQuestionControl : ResizableControl
     {
         protected const string CstrFieldNameVernacular = "TQVernacular";
+        protected const string CstrFieldNameNationalBt = "TQNationalBT";
         protected const string CstrFieldNameInternationalBt = "TQInternationalBT";
         protected const string CstrFieldNameAnswers = "Answers";
         protected const string CstrFieldNameTestQuestionsLabel = "TestQuestionsLabel";
@@ -63,18 +64,28 @@ namespace OneStoryProjectEditor
                 nNumColumns++;
             }
 
-            // insert the English or NationalBT representation of the testing question (always)
-            ProjectSettings.LanguageInfo theLangInfo;
-            if (!theSE.Stories.ProjSettings.InternationalBT.HasData)
-                theLangInfo = theSE.Stories.ProjSettings.NationalBT;
-            else
-                theLangInfo = theSE.Stories.ProjSettings.InternationalBT;
+            // the only time we show the National BT is if there's an "other" English BTr (who will
+            //  do the EnglishBT from the NationalBT) AND only if there *is* a national BT
+            if (theSE.Stories.ProjSettings.NationalBT.HasData && 
+                theSE.Stories.TeamMembers.IsThereASeparateEnglishBackTranslator)
+            {
+                InsertColumn(nNumColumns);
+                if (bShowVernAndShowHeaders)    // but no need to show the lang title header unless there are two
+                    InitColumnLabel(theSE.Stories.ProjSettings.NationalBT.LangName, nNumColumns);
+                InitTextBox(CstrFieldNameNationalBt, _aTQData.QuestionNationalBT, theSE.Stories.ProjSettings.NationalBT, nNumColumns);
+                nNumColumns++;
+            }
 
-            InsertColumn(nNumColumns);
-            if (bShowVernAndShowHeaders)    // but no need to show the lang title header unless there are two
-                InitColumnLabel(theLangInfo.LangName, nNumColumns);
-            InitTextBox(CstrFieldNameVernacular, _aTQData.QuestionBackTranslation, theLangInfo, nNumColumns);
-            tableLayoutPanel.DumpTable();
+            if (theSE.Stories.ProjSettings.InternationalBT.HasData
+                && (!theSE.Stories.TeamMembers.IsThereASeparateEnglishBackTranslator
+                    || (StageLogic.MemberTypeWithEditToken ==
+                            TeamMemberData.UserTypes.eEnglishBacktranslator)))
+            {
+                InsertColumn(nNumColumns);
+                if (bShowVernAndShowHeaders)    // but no need to show the lang title header unless there are two
+                    InitColumnLabel(theSE.Stories.ProjSettings.InternationalBT.LangName, nNumColumns);
+                InitTextBox(CstrFieldNameVernacular, _aTQData.QuestionInternationalBT, theSE.Stories.ProjSettings.InternationalBT, nNumColumns);
+            }
 
             // add a row so we can display a multiple line control with the answers
             if ((_aTQData.Answers != null) && (_aTQData.Answers.Count > 0))

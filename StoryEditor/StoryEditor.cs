@@ -1172,9 +1172,10 @@ namespace OneStoryProjectEditor
                     System.Diagnostics.Debug.Assert(theCurrentST.IsTransitionValid(theNewST.CurrentStage));
                     // if this is the last transition before they lose edit privilege, then make
                     //  sure they really want to do this.
-                    if (theCurrentST.IsTerminalTransition(theNewST.CurrentStage) && (theNewST.MemberTypeWithEditToken != LoggedOnMember.MemberType))
+                    if (theCurrentStory.ProjStage.IsTerminalTransition(theNewST.CurrentStage) 
+                        && (theNewST.MemberTypeWithEditToken != LoggedOnMember.MemberType))
                         if (MessageBox.Show(
-                                String.Format(theCurrentST.TerminalTransitionMessage,
+                                String.Format(Properties.Resources.IDS_TerminalTransitionMessage,
                                 TeamMemberData.GetMemberTypeAsDisplayString(theNewST.MemberTypeWithEditToken), 
                                 theNewST.StageDisplayString), 
                              Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
@@ -1223,9 +1224,9 @@ namespace OneStoryProjectEditor
             if (bRet)
             {
                 StoryStageLogic.StateTransition stNext = StoryStageLogic.stateTransitions[eProposedNextState];
-                if (st.IsTerminalTransition(eProposedNextState))
+                if (theCurrentStory.ProjStage.IsTerminalTransition(eProposedNextState))
                     if (MessageBox.Show(
-                            String.Format(st.TerminalTransitionMessage,
+                            String.Format(Properties.Resources.IDS_TerminalTransitionMessage,
                                 TeamMemberData.GetMemberTypeAsDisplayString(stNext.MemberTypeWithEditToken),
                                 stNext.StageDisplayString), 
                              Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)

@@ -9,7 +9,8 @@ namespace OneStoryProjectEditor
     {
         public bool IsVisible = true;
         public StringTransfer QuestionVernacular = null;
-        public StringTransfer QuestionBackTranslation = null;
+        public StringTransfer QuestionNationalBT = null;
+        public StringTransfer QuestionInternationalBT = null;
         public AnswersData Answers = null;
 
         public TestQuestionData(StoryProject.TestQuestionRow theTestQuestionRow, StoryProject projFile)
@@ -17,20 +18,28 @@ namespace OneStoryProjectEditor
             IsVisible = theTestQuestionRow.visible;
 
             QuestionVernacular = new StringTransfer((theTestQuestionRow.IsTQVernacularNull()) ? null : theTestQuestionRow.TQVernacular);
-            QuestionBackTranslation = new StringTransfer((theTestQuestionRow.IsTQInternationalBTNull()) ? null : theTestQuestionRow.TQInternationalBT);
+            QuestionNationalBT = new StringTransfer((theTestQuestionRow.IsTQNationalBTNull()) ? null : theTestQuestionRow.TQNationalBT);
+            QuestionInternationalBT = new StringTransfer((theTestQuestionRow.IsTQInternationalBTNull()) ? null : theTestQuestionRow.TQInternationalBT);
             Answers = new AnswersData(theTestQuestionRow, projFile);
         }
 
         public TestQuestionData()
         {
             QuestionVernacular = new StringTransfer(null);
-            QuestionBackTranslation = new StringTransfer(null);
+            QuestionNationalBT = new StringTransfer(null);
+            QuestionInternationalBT = new StringTransfer(null);
             Answers = new AnswersData();
         }
 
         public bool HasData
         {
-            get { return (QuestionVernacular.HasData || QuestionBackTranslation.HasData || Answers.HasData); }
+            get
+            {
+                return (QuestionVernacular.HasData
+                    || QuestionNationalBT.HasData
+                    || QuestionInternationalBT.HasData 
+                    || Answers.HasData);
+            }
         }
 
         public XElement GetXml
@@ -38,15 +47,18 @@ namespace OneStoryProjectEditor
             get
             {
                 System.Diagnostics.Debug.Assert(QuestionVernacular.HasData
-                    || QuestionBackTranslation.HasData
+                    || QuestionNationalBT.HasData
+                    || QuestionInternationalBT.HasData
                     || Answers.HasData, "you have an empty TestQuestionData");
 
                 XElement eleTQ = new XElement("TestQuestion", new XAttribute("visible", IsVisible));
                 
                 if (QuestionVernacular.HasData)
                     eleTQ.Add(new XElement("TQVernacular", QuestionVernacular));
-                if (QuestionBackTranslation.HasData)
-                    eleTQ.Add(new XElement("TQInternationalBT", QuestionBackTranslation));
+                if (QuestionNationalBT.HasData)
+                    eleTQ.Add(new XElement("TQNationalBT", QuestionNationalBT));
+                if (QuestionInternationalBT.HasData)
+                    eleTQ.Add(new XElement("TQInternationalBT", QuestionInternationalBT));
                 if (Answers.HasData)
                     eleTQ.Add(Answers.GetXml);
 

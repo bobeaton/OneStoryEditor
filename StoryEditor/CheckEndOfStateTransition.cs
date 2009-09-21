@@ -74,13 +74,26 @@ namespace OneStoryProjectEditor
                 // otherwise, there has to be an international bt field...
                 System.Diagnostics.Debug.Assert(theStories.ProjSettings.InternationalBT.HasData);
 
-                // normally, we'd go to doing anchors next, but if this isn't a biblical story, then
-                //  no anchors and we skip right ot the English BT
-                if (!theCurrentStory.CraftingInfo.IsBiblicalStory)
-                    eProposedNextState = StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT;
+                // normally, we'd go to the "crafter enters English BT" state next, but 
+                //  if there's a separate English BTr on the team, then we go do anchors 
+                //  first (and then Story Qs so that he/she can do the English BT for 
+                //  those afterwards as well).
+                if (theCurrentStory.CraftingInfo.IsBiblicalStory)
+                {
+                    if (theStories.TeamMembers.IsThereASeparateEnglishBackTranslator)
+                        eProposedNextState = StoryStageLogic.ProjectStages.eCrafterAddAnchors;
+                    else
+                        eProposedNextState = StoryStageLogic.ProjectStages.eCrafterTypeInternationalBT;
+                }
                 else
-                    eProposedNextState = StoryStageLogic.ProjectStages.eCrafterAddAnchors;
+                {
+                    if (theStories.TeamMembers.IsThereASeparateEnglishBackTranslator)
+                        eProposedNextState = StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT;
+                    else
+                        eProposedNextState = StoryStageLogic.ProjectStages.eCrafterTypeInternationalBT;
+                }
             }
+
             return true;
         }
 
@@ -135,20 +148,78 @@ namespace OneStoryProjectEditor
                 }
             } while (bRepeatAfterMe);
 
-            // we'd like need to know who (which UNS) did the BT.
+            // we need to know who (which UNS) did the BT.
             QueryForUnsBackTranslator(theSE, theStories, theCurrentStory);
-            
-            if (!theCurrentStory.CraftingInfo.IsBiblicalStory)
+
+            if (theCurrentStory.CraftingInfo.IsBiblicalStory)
+            {
+                if (theStories.ProjSettings.InternationalBT.HasData
+                    && !theStories.TeamMembers.IsThereASeparateEnglishBackTranslator)
+                    System.Diagnostics.Debug.Assert(eProposedNextState == 
+                        StoryStageLogic.ProjectStages.eCrafterTypeInternationalBT);
+                else
+                    eProposedNextState = StoryStageLogic.ProjectStages.eCrafterAddAnchors;
+            }
+            else
             {
                 // normally, we'd go to doing anchors next, but if this isn't a biblical story, then
                 //  no anchors and we skip right ot the English BT
                 // but only if there is an English BT... if not, then we're done
-                if (theStories.ProjSettings.InternationalBT.HasData)
+                if (theStories.TeamMembers.IsThereASeparateEnglishBackTranslator)
                     eProposedNextState = StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT;
-                else
+                else if (!theStories.ProjSettings.InternationalBT.HasData)
                     eProposedNextState = StoryStageLogic.ProjectStages.eConsultantCheckNonBiblicalStory;
+                else
+                    System.Diagnostics.Debug.Assert(eProposedNextState == 
+                        StoryStageLogic.ProjectStages.eCrafterTypeInternationalBT);
             }
 
+            return true;
+        }
+
+        public static bool CrafterTypeInternationalBT(StoryEditor theSE, StoriesData theStories, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
+        {
+            System.Diagnostics.Debug.Assert(theStories.ProjSettings.InternationalBT.HasData);
+            Console.WriteLine(String.Format("Checking if stage 'CrafterTypeInternationalBT' work is finished: Name: {0}", theCurrentStory.Name));
+
+            // now go thru the English BT parts and make sure that there's only one sentence/verse.
+            // make sure that each verse has only one sentence
+            int nVerseNumber = 1;
+            foreach (VerseData aVerseData in theCurrentStory.Verses)
+            {
+                string strSentenceFinalPunct = theStories.ProjSettings.InternationalBT.FullStop;
+                List<string> lstSentences;
+                if ((!GetListOfSentences(aVerseData.InternationalBTText, strSentenceFinalPunct, out lstSentences))
+                    || (lstSentences.Count == 0))
+                {
+                    // light it up and let the user know they need to do something!
+                    ShowErrorFocus(theSE, aVerseData.InternationalBTText.TextBox,
+                        String.Format("Error: Verse {0} doesn't have any English back-translation in it. Did you forget it?", nVerseNumber));
+                    return false;
+                }
+
+                if (lstSentences.Count > 1)
+                {
+                    // light it up and let the user know they need to do something!
+                    aVerseData.InternationalBTText.TextBox.Focus();
+                    Console.Beep();
+                    theSE.SetStatusBar(String.Format("Error: Verse {0} has multiple sentences in English, but only 1 in {1}. Adjust the English to match the {1}", nVerseNumber, theStories.ProjSettings.NationalBT.LangName));
+                    return false;
+                }
+
+                nVerseNumber++;
+            }
+
+            // if there's only an English BT, then we need to know who (which UNS) did the BT.
+            if (!theStories.ProjSettings.NationalBT.HasData)
+                QueryForUnsBackTranslator(theSE, theStories, theCurrentStory);
+
+            if (!theCurrentStory.CraftingInfo.IsBiblicalStory)
+                eProposedNextState = StoryStageLogic.ProjectStages.eConsultantCheckNonBiblicalStory;
+            else
+                System.Diagnostics.Debug.Assert(eProposedNextState ==
+                    StoryStageLogic.ProjectStages.eCrafterAddAnchors);
+            
             return true;
         }
 
@@ -239,6 +310,10 @@ namespace OneStoryProjectEditor
                 }
                 nVerseNumber++;
             }
+
+            System.Diagnostics.Debug.Assert(eProposedNextState ==
+                StoryStageLogic.ProjectStages.eCrafterAddStoryQuestions);
+
             return true;
         }
 
@@ -259,6 +334,13 @@ namespace OneStoryProjectEditor
                     String.Format("Error: You should have at least half as many Story Testing Questions as verses in the story. Please add at least {0} more testing question(s). (right-click on the 'verse options' button and choose 'Add a story testing question')", nNumLacking));
                 return false;
             }
+
+            if (!theStories.TeamMembers.IsThereASeparateEnglishBackTranslator)
+                eProposedNextState = StoryStageLogic.ProjectStages.eConsultantCheckAnchors;
+            else
+                System.Diagnostics.Debug.Assert(eProposedNextState ==
+                    StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT);
+
             return true;
         }
 
@@ -301,6 +383,9 @@ namespace OneStoryProjectEditor
 
             if (!theCurrentStory.CraftingInfo.IsBiblicalStory)
                 eProposedNextState = StoryStageLogic.ProjectStages.eConsultantCheckNonBiblicalStory;
+            else
+                System.Diagnostics.Debug.Assert(eProposedNextState ==
+                    StoryStageLogic.ProjectStages.eConsultantCheckAnchors);
             
             return true;
         }

@@ -42,6 +42,41 @@ the list of resources used in crafting it. You can also access this information 
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
+  <StateTransition stage="eCrafterTypeInternationalBT" MemberTypeWithEditToken="eCrafter" NextState="eCrafterAddAnchors">
+    <StageDisplayString>Crafter enters the English back-translation</StageDisplayString>
+    <StageInstructions>
+In this stage, one of the crafting team will translate the National language back translation of the
+story into English (or from the story language if not using the national language back-translation).
+
+Unlike the last stage, where the National Language back translation had to done by a UNS, in this
+state, anyone can do the English back translation. However, if you have an "English Back-translator"
+on your team, then you must be logged in as the 'English back-translator' to add this new back-
+translation. You can click, 'Project', 'Settings', and click the 'Add New Member' button to add
+an "English back-translator".
+
+There's a program called 'Adapt It' that can be used to help make the English back-translation more
+efficiently. Click on the 'Story' menu, 'Do English Glossing in Adapt It' menu, and then click the
+"From (National language)" command. This will write the national language back-translation of the
+story into an Adapt It file so you can use that program to do the translation.
+
+[note: there's another command on the 'Do English Glossing in Adapt It' menu: "From (Story) language
+(for Discourse Charting)". This command is useful if you want to create the English back-translation
+directly from your story language (e.g. Kangri) rather than the national language (e.g. Hindi). You
+might do this primarily if you want to create a discourse chart in the story language itself and have
+English glosses. However, this cannot be used to populate the English back-translation fields in this
+program. This is because the English back-translation is supposed to be based on the Hindi back-
+translation rather than the original story language. Discuss this with your advisor/consultant to know
+which one you should use.
+
+When you are finished entering the English back translation, then click the button in the left-hand
+side of the status bar with the label 'Next State' to go to the next stage in the process.
+    </StageInstructions>
+    <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eCrafterTypeVernacular</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingNationalBT="true">eCrafterTypeNationalBT</AllowableBackwardsTransition>
+    </AllowableBackwardsTransitions>
+    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
+  </StateTransition>
   <StateTransition stage="eCrafterAddAnchors" MemberTypeWithEditToken="eCrafter" NextState="eCrafterAddStoryQuestions">
     <StageDisplayString>Crafter adds biblical anchors</StageDisplayString>
     <StageInstructions>
@@ -132,7 +167,7 @@ choose 'Next Stage' to go to the next stage in the process.
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eBackTranslatorTypeInternationalBT" MemberTypeWithEditToken="eEnglishBacktranslator" NextState="eConsultantCheckAnchors">
-    <StageDisplayString>Crafter (or special back-translator) enters the English back-translation</StageDisplayString>
+    <StageDisplayString>Special back-translator enters the English back-translation</StageDisplayString>
     <StageInstructions>
 In this stage, one of the crafting team will translate the National language back translation of the 
 story into English (or from the story language if not using the national language back-translation).
@@ -166,7 +201,7 @@ side of the status bar with the label 'Next State' to go to the next stage in th
       <AllowableBackwardsTransition RequiresBiblicalStory="true">eCrafterAddAnchors</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresBiblicalStory="true">eCrafterAddStoryQuestions</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
-    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
+    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
   <StateTransition stage="eConsultantCheckNonBiblicalStory" MemberTypeWithEditToken="eConsultantInTraining" NextState="eConsultantCheckNonBiblicalStory">
     <StageDisplayString>Consultant checks the discourse features of the story</StageDisplayString>
