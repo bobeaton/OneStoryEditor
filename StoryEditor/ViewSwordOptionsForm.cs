@@ -60,15 +60,13 @@ namespace OneStoryProjectEditor
                 && (e.NewValue == CheckState.Checked)
                 && !_bInCtor)
             {
-                string strNetKey = Microsoft.VisualBasic.Interaction.InputBox("Visit 'http://bible.org/downloads' or 'http://bible.org/sites/default/resources/assets/sword/' for details on how to acquire the key for the full 'Sword Premium Edition with 60,000+ notes' version and enter the unlock key here:",
-                    Properties.Resources.IDS_Caption, Properties.Settings.Default.NetBibleKey, 300, 200);
-                if (!String.IsNullOrEmpty(strNetKey))
+                HtmlForm dlg = new HtmlForm
                 {
-                    Properties.Settings.Default.NetBibleKey = strNetKey;
-                    Properties.Settings.Default.Save();
-                }
-                else
-                    e.NewValue = e.CurrentValue;
+                    Text = "NET Bible",
+                    ClientText = Properties.Resources.IDS_NetBibleDonateMessage
+                };
+
+                dlg.ShowDialog();
             }
         }
     }

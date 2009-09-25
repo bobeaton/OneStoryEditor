@@ -164,19 +164,18 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 
-        ///OneStory Editor is Copyright © 2009 SIL International
-        ///For limited support, contact: bob_eaton@sall.com
-        ///
-        ///The names: THE NET BIBLE®, NEW ENGLISH TRANSLATION
-        ///COPYRIGHT (c) 1996 BY BIBLICAL STUDIES PRESS, L.L.C.
-        ///NET Bible® IS A REGISTERED TRADEMARK
-        ///THE NET BIBLE® LOGO, SERVICE MARK
-        ///COPYRIGHT (c) 1997 BY BIBLICAL STUDIES PRESS, L.L.C.
-        ///ALL RIGHTS RESERVED
-        ///Visit: http://bible.org for more information about 
-        ///the NetBible
-        ///    .
+        ///   Looks up a localized string similar to &lt;head&gt;
+        ///&lt;meta http-equiv=Content-Type content=&quot;text/html; charset=windows-1252&quot;&gt;
+        ///&lt;meta name=ProgId content=Word.Document&gt;
+        ///&lt;meta name=Generator content=&quot;Microsoft Word 11&quot;&gt;
+        ///&lt;meta name=Originator content=&quot;Microsoft Word 11&quot;&gt;
+        ///&lt;link rel=File-List href=&quot;OneStory%20Editor%20is%20Copyright_files/filelist.xml&quot;&gt;
+        ///&lt;title&gt;OneStory Editor is Copyright © 2009 SIL International &lt;/title&gt;
+        ///&lt;!--[if gte mso 9]&gt;&lt;xml&gt;
+        /// &lt;o:DocumentProperties&gt;
+        ///  &lt;o:Author&gt;Bob Eaton&lt;/o:Author&gt;
+        ///  &lt;o:LastAuthor&gt;Bob Eaton&lt;/o:LastAuthor&gt;
+        ///  &lt;o [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string IDS_CopyrightInfo {
             get {
@@ -325,6 +324,26 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_NeedToReboot {
             get {
                 return ResourceManager.GetString("IDS_NeedToReboot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;html xmlns:v=&quot;urn:schemas-microsoft-com:vml&quot;
+        ///xmlns:o=&quot;urn:schemas-microsoft-com:office:office&quot;
+        ///xmlns:w=&quot;urn:schemas-microsoft-com:office:word&quot;
+        ///xmlns:m=&quot;http://schemas.microsoft.com/office/2004/12/omml&quot;
+        ///xmlns=&quot;http://www.w3.org/TR/REC-html40&quot;&gt;
+        ///
+        ///&lt;head&gt;
+        ///&lt;meta http-equiv=Content-Type content=&quot;text/html; charset=windows-1252&quot;&gt;
+        ///&lt;meta name=ProgId content=Word.Document&gt;
+        ///&lt;meta name=Generator content=&quot;Microsoft Word 12&quot;&gt;
+        ///&lt;meta name=Originator content=&quot;Microsoft Word 12&quot;&gt;
+        ///&lt;link rel=File-List href=&quot;OneStory [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string IDS_NetBibleDonateMessage {
+            get {
+                return ResourceManager.GetString("IDS_NetBibleDonateMessage", resourceCulture);
             }
         }
         

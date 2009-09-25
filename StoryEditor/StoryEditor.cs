@@ -1880,7 +1880,13 @@ namespace OneStoryProjectEditor
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(Properties.Resources.IDS_CopyrightInfo, Properties.Resources.IDS_Caption);
+            HtmlForm dlg = new HtmlForm
+                               {
+                                   Text = "About... OneStory Editor",
+                                   ClientText = Properties.Resources.IDS_CopyrightInfo
+                               };
+
+            dlg.ShowDialog();
         }
     }
 }

@@ -278,18 +278,1063 @@
     <comment>ख़ास शब्‍द या उसका स्टैटस बदल गया है। इन परिवर्तनों को सेव किया जाए?</comment>
   </data>
   <data name="IDS_CopyrightInfo" xml:space="preserve">
-    <value>
-OneStory Editor is Copyright © 2009 SIL International
-For limited support, contact: bob_eaton@sall.com
+    <value>&lt;head&gt;
+&lt;meta http-equiv=Content-Type content="text/html; charset=windows-1252"&gt;
+&lt;meta name=ProgId content=Word.Document&gt;
+&lt;meta name=Generator content="Microsoft Word 11"&gt;
+&lt;meta name=Originator content="Microsoft Word 11"&gt;
+&lt;link rel=File-List href="OneStory%20Editor%20is%20Copyright_files/filelist.xml"&gt;
+&lt;title&gt;OneStory Editor is Copyright © 2009 SIL International &lt;/title&gt;
+&lt;!--[if gte mso 9]&gt;&lt;xml&gt;
+ &lt;o:DocumentProperties&gt;
+  &lt;o:Author&gt;Bob Eaton&lt;/o:Author&gt;
+  &lt;o:LastAuthor&gt;Bob Eaton&lt;/o:LastAuthor&gt;
+  &lt;o:Revision&gt;1&lt;/o:Revision&gt;
+  &lt;o:TotalTime&gt;26&lt;/o:TotalTime&gt;
+  &lt;o:Created&gt;2009-09-25T20:16:00Z&lt;/o:Created&gt;
+  &lt;o:LastSaved&gt;2009-09-25T20:42:00Z&lt;/o:LastSaved&gt;
+  &lt;o:Pages&gt;1&lt;/o:Pages&gt;
+  &lt;o:Words&gt;105&lt;/o:Words&gt;
+  &lt;o:Characters&gt;600&lt;/o:Characters&gt;
+  &lt;o:Company&gt;SIL&lt;/o:Company&gt;
+  &lt;o:Lines&gt;5&lt;/o:Lines&gt;
+  &lt;o:Paragraphs&gt;1&lt;/o:Paragraphs&gt;
+  &lt;o:CharactersWithSpaces&gt;704&lt;/o:CharactersWithSpaces&gt;
+  &lt;o:Version&gt;11.9999&lt;/o:Version&gt;
+ &lt;/o:DocumentProperties&gt;
+&lt;/xml&gt;&lt;![endif]--&gt;&lt;!--[if gte mso 9]&gt;&lt;xml&gt;
+ &lt;w:WordDocument&gt;
+  &lt;w:SpellingState&gt;Clean&lt;/w:SpellingState&gt;
+  &lt;w:GrammarState&gt;Clean&lt;/w:GrammarState&gt;
+  &lt;w:PunctuationKerning/&gt;
+  &lt;w:ValidateAgainstSchemas/&gt;
+  &lt;w:SaveIfXMLInvalid&gt;false&lt;/w:SaveIfXMLInvalid&gt;
+  &lt;w:IgnoreMixedContent&gt;false&lt;/w:IgnoreMixedContent&gt;
+  &lt;w:AlwaysShowPlaceholderText&gt;false&lt;/w:AlwaysShowPlaceholderText&gt;
+  &lt;w:Compatibility&gt;
+   &lt;w:BreakWrappedTables/&gt;
+   &lt;w:SnapToGridInCell/&gt;
+   &lt;w:WrapTextWithPunct/&gt;
+   &lt;w:UseAsianBreakRules/&gt;
+   &lt;w:DontGrowAutofit/&gt;
+  &lt;/w:Compatibility&gt;
+  &lt;w:BrowserLevel&gt;MicrosoftInternetExplorer4&lt;/w:BrowserLevel&gt;
+ &lt;/w:WordDocument&gt;
+&lt;/xml&gt;&lt;![endif]--&gt;&lt;!--[if gte mso 9]&gt;&lt;xml&gt;
+ &lt;w:LatentStyles DefLockedState="false" LatentStyleCount="156"&gt;
+ &lt;/w:LatentStyles&gt;
+&lt;/xml&gt;&lt;![endif]--&gt;
+&lt;style&gt;
+&lt;!--
+ /* Font Definitions */
+ @font-face
+	{font-family:Mangal;
+	panose-1:0 0 4 0 0 0 0 0 0 0;
+	mso-font-charset:1;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:32768 0 0 0 0 0;}
+@font-face
+	{font-family:"Arial Unicode MS";
+	panose-1:2 11 6 4 2 2 2 2 2 4;
+	mso-font-charset:128;
+	mso-generic-font-family:swiss;
+	mso-font-pitch:variable;
+	mso-font-signature:-1 -369098753 63 0 4129279 0;}
+@font-face
+	{font-family:"BEN Bhagirati";
+	mso-font-alt:Symbol;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+@font-face
+	{font-family:"\@Arial Unicode MS";
+	panose-1:2 11 6 4 2 2 2 2 2 4;
+	mso-font-charset:128;
+	mso-generic-font-family:swiss;
+	mso-font-pitch:variable;
+	mso-font-signature:-1 -369098753 63 0 4129279 0;}
+@font-face
+	{font-family:"DEV Panini";
+	mso-font-alt:Symbol;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+@font-face
+	{font-family:"GUJ Gir";
+	mso-font-alt:Symbol;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+@font-face
+	{font-family:"GUR Arjun";
+	mso-font-alt:Symbol;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+@font-face
+	{font-family:"KAN Badami";
+	mso-font-alt:Symbol;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+@font-face
+	{font-family:"MAL Vayalar";
+	mso-font-alt:Symbol;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+@font-face
+	{font-family:"ORI Asika";
+	mso-font-alt:Symbol;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+@font-face
+	{font-family:"TAM ThiruValluvar";
+	mso-font-alt:Symbol;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+@font-face
+	{font-family:"TEL Nirmal";
+	mso-font-alt:Symbol;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-parent:"";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:Mangal;}
+p.MsoFootnoteText, li.MsoFootnoteText, div.MsoFootnoteText
+	{mso-style-update:auto;
+	margin:0in;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	mso-pagination:widow-orphan;
+	font-size:16.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Arial Unicode MS";}
+a:link, span.MsoHyperlink
+	{color:blue;
+	text-decoration:underline;
+	text-underline:single;}
+a:visited, span.MsoHyperlinkFollowed
+	{color:purple;
+	text-decoration:underline;
+	text-underline:single;}
+p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
+	{margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Courier New";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-language:EN-GB;
+	mso-bidi-language:AR-SA;}
+p.IntroOutlineLevel1io1, li.IntroOutlineLevel1io1, div.IntroOutlineLevel1io1
+	{mso-style-name:"Intro Outline Level 1 \(io1\)";
+	mso-style-update:auto;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	text-align:justify;
+	text-indent:.5in;
+	line-height:120%;
+	mso-pagination:widow-orphan;
+	font-size:16.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Arial Unicode MS";}
+p.NormalParagraph, li.NormalParagraph, div.NormalParagraph
+	{mso-style-name:"Normal Paragraph";
+	mso-style-update:auto;
+	margin-top:6.0pt;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	text-align:justify;
+	text-indent:.5in;
+	line-height:110%;
+	mso-pagination:widow-orphan;
+	tab-stops:5.25in;
+	font-size:18.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Arial Unicode MS";}
+p.BENParagraph, li.BENParagraph, div.BENParagraph
+	{mso-style-name:"BEN Paragraph";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"BEN Bhagirati";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-language:EN-GB;
+	mso-bidi-language:AR-SA;}
+p.DEVParagraph, li.DEVParagraph, div.DEVParagraph
+	{mso-style-name:"DEV Paragraph";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"DEV Panini";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-language:EN-GB;
+	mso-bidi-language:AR-SA;}
+p.GUJParagraph, li.GUJParagraph, div.GUJParagraph
+	{mso-style-name:"GUJ Paragraph";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"GUJ Gir";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-language:EN-GB;
+	mso-bidi-language:AR-SA;}
+p.GURParagraph, li.GURParagraph, div.GURParagraph
+	{mso-style-name:"GUR Paragraph";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"GUR Arjun";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-language:EN-GB;
+	mso-bidi-language:AR-SA;}
+p.KANParagraph, li.KANParagraph, div.KANParagraph
+	{mso-style-name:"KAN Paragraph";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"KAN Badami";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-language:EN-GB;
+	mso-bidi-language:AR-SA;}
+p.MALParagraph, li.MALParagraph, div.MALParagraph
+	{mso-style-name:"MAL Paragraph";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"MAL Vayalar";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-language:EN-GB;
+	mso-bidi-language:AR-SA;}
+p.ORIParagraph, li.ORIParagraph, div.ORIParagraph
+	{mso-style-name:"ORI Paragraph";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"ORI Asika";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-language:EN-GB;
+	mso-bidi-language:AR-SA;}
+p.TAMParagraph, li.TAMParagraph, div.TAMParagraph
+	{mso-style-name:"TAM Paragraph";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"TAM ThiruValluvar";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-language:EN-GB;
+	mso-bidi-language:AR-SA;}
+p.TELParagraph, li.TELParagraph, div.TELParagraph
+	{mso-style-name:"TEL Paragraph";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"TEL Nirmal";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-language:EN-GB;
+	mso-bidi-language:AR-SA;}
+p.NonRoman, li.NonRoman, div.NonRoman
+	{mso-style-name:NonRoman;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-language:EN-GB;
+	mso-bidi-language:AR-SA;}
+p.NormalWithSpaceAfter, li.NormalWithSpaceAfter, div.NormalWithSpaceAfter
+	{mso-style-name:"Normal With Space After";
+	mso-style-next:Normal;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:30.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-language:EN-GB;
+	mso-bidi-language:AR-SA;}
+span.SpellE
+	{mso-style-name:"";
+	mso-spl-e:yes;}
+span.GramE
+	{mso-style-name:"";
+	mso-gram-e:yes;}
+@page Section1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.25in 1.0in 1.25in;
+	mso-header-margin:.5in;
+	mso-footer-margin:.5in;
+	mso-paper-source:0;}
+div.Section1
+	{page:Section1;}
+--&gt;
+&lt;/style&gt;
+&lt;!--[if gte mso 10]&gt;
+&lt;style&gt;
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"Table Normal";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400;}
+&lt;/style&gt;
+&lt;![endif]--&gt;&lt;!--[if gte mso 9]&gt;&lt;xml&gt;
+ &lt;o:shapedefaults v:ext="edit" spidmax="2050"/&gt;
+&lt;/xml&gt;&lt;![endif]--&gt;&lt;!--[if gte mso 9]&gt;&lt;xml&gt;
+ &lt;o:shapelayout v:ext="edit"&gt;
+  &lt;o:idmap v:ext="edit" data="1"/&gt;
+ &lt;/o:shapelayout&gt;&lt;/xml&gt;&lt;![endif]--&gt;
+&lt;/head&gt;
 
-The names: THE NET BIBLE®, NEW ENGLISH TRANSLATION
-COPYRIGHT (c) 1996 BY BIBLICAL STUDIES PRESS, L.L.C.
-NET Bible® IS A REGISTERED TRADEMARK
-THE NET BIBLE® LOGO, SERVICE MARK
-COPYRIGHT (c) 1997 BY BIBLICAL STUDIES PRESS, L.L.C.
-ALL RIGHTS RESERVED
-Visit: http://bible.org for more information about 
-the NetBible
-    </value>
+&lt;body lang=EN-US link=blue vlink=purple style='tab-interval:.5in'&gt;
+
+&lt;div class=Section1&gt;
+
+&lt;p class=MsoNormal&gt;&lt;span class=SpellE&gt;OneStory&lt;/span&gt; Editor is Copyright ©
+2009 SIL International &lt;/p&gt;
+
+&lt;p class=MsoNormal&gt;For limited support, contact: &lt;a
+href="mailto:bob_eaton@sall.com"&gt;bob_eaton@sall.com&lt;/a&gt;&lt;/p&gt;
+
+&lt;p class=MsoNormal&gt;&lt;o:p&gt;&amp;nbsp;&lt;/o:p&gt;&lt;/p&gt;
+
+&lt;p class=MsoNormal&gt;The names: THE NET BIBLE®, NEW ENGLISH TRANSLATION COPYRIGHT
+(c) 1996 BY BIBLICAL STUDIES PRESS, L.L.C.&lt;/p&gt;
+
+&lt;p class=MsoNormal&gt;&lt;o:p&gt;&amp;nbsp;&lt;/o:p&gt;&lt;/p&gt;
+
+&lt;p class=MsoNormal&gt;NET Bible® IS A REGISTERED TRADEMARK THE NET BIBLE® LOGO,
+SERVICE MARK COPYRIGHT (c) 1997 BY BIBLICAL STUDIES PRESS, L.L.C. ALL RIGHTS
+RESERVED&lt;/p&gt;
+
+&lt;p class=MsoNormal&gt;&lt;o:p&gt;&amp;nbsp;&lt;/o:p&gt;&lt;/p&gt;
+
+&lt;p class=MsoNormal&gt;The &lt;span class=SpellE&gt;NETBible&lt;/span&gt; with all 60,000+ notes
+has been supplied to the &lt;span class=SpellE&gt;OneStory&lt;/span&gt; Editor free of
+charge, however, a &lt;span class=GramE&gt;donation&lt;span style='mso-spacerun:yes'&gt; 
+&lt;/span&gt;would&lt;/span&gt; be much appreciated &lt;a href="http://bible.org/donate"&gt;http://bible.org/donate&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p class=MsoNormal&gt;&lt;o:p&gt;&amp;nbsp;&lt;/o:p&gt;&lt;/p&gt;
+
+&lt;p class=MsoNormal&gt;Visit: &lt;a href="http://netbible.org/"&gt;http://netbible.org&lt;/a&gt;
+for more extensive study materials.&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;/body&gt;
+
+&lt;/html&gt;</value>
+  </data>
+  <data name="IDS_NetBibleDonateMessage" xml:space="preserve">
+    <value>&lt;html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40"&gt;
+
+&lt;head&gt;
+&lt;meta http-equiv=Content-Type content="text/html; charset=windows-1252"&gt;
+&lt;meta name=ProgId content=Word.Document&gt;
+&lt;meta name=Generator content="Microsoft Word 12"&gt;
+&lt;meta name=Originator content="Microsoft Word 12"&gt;
+&lt;link rel=File-List href="OneStory%20Editor%20is%20Copyright_files/filelist.xml"&gt;
+&lt;title&gt;OneStory Editor is Copyright © 2009 SIL International &lt;/title&gt;
+&lt;!--[if gte mso 9]&gt;&lt;xml&gt;
+ &lt;o:DocumentProperties&gt;
+  &lt;o:Author&gt;Bob Eaton&lt;/o:Author&gt;
+  &lt;o:LastAuthor&gt;Bob Eaton&lt;/o:LastAuthor&gt;
+  &lt;o:Revision&gt;4&lt;/o:Revision&gt;
+  &lt;o:TotalTime&gt;29&lt;/o:TotalTime&gt;
+  &lt;o:Created&gt;2009-09-25T20:16:00Z&lt;/o:Created&gt;
+  &lt;o:LastSaved&gt;2009-09-25T20:56:00Z&lt;/o:LastSaved&gt;
+  &lt;o:Pages&gt;1&lt;/o:Pages&gt;
+  &lt;o:Words&gt;52&lt;/o:Words&gt;
+  &lt;o:Characters&gt;301&lt;/o:Characters&gt;
+  &lt;o:Company&gt;SIL&lt;/o:Company&gt;
+  &lt;o:Lines&gt;2&lt;/o:Lines&gt;
+  &lt;o:Paragraphs&gt;1&lt;/o:Paragraphs&gt;
+  &lt;o:CharactersWithSpaces&gt;352&lt;/o:CharactersWithSpaces&gt;
+  &lt;o:Version&gt;12.00&lt;/o:Version&gt;
+ &lt;/o:DocumentProperties&gt;
+&lt;/xml&gt;&lt;![endif]--&gt;
+&lt;link rel=themeData
+href="OneStory%20Editor%20is%20Copyright_files/themedata.thmx"&gt;
+&lt;link rel=colorSchemeMapping
+href="OneStory%20Editor%20is%20Copyright_files/colorschememapping.xml"&gt;
+&lt;!--[if gte mso 9]&gt;&lt;xml&gt;
+ &lt;w:WordDocument&gt;
+  &lt;w:SpellingState&gt;Clean&lt;/w:SpellingState&gt;
+  &lt;w:GrammarState&gt;Clean&lt;/w:GrammarState&gt;
+  &lt;w:TrackMoves&gt;false&lt;/w:TrackMoves&gt;
+  &lt;w:TrackFormatting/&gt;
+  &lt;w:PunctuationKerning/&gt;
+  &lt;w:ValidateAgainstSchemas/&gt;
+  &lt;w:SaveIfXMLInvalid&gt;false&lt;/w:SaveIfXMLInvalid&gt;
+  &lt;w:IgnoreMixedContent&gt;false&lt;/w:IgnoreMixedContent&gt;
+  &lt;w:AlwaysShowPlaceholderText&gt;false&lt;/w:AlwaysShowPlaceholderText&gt;
+  &lt;w:DoNotPromoteQF/&gt;
+  &lt;w:LidThemeOther&gt;EN-US&lt;/w:LidThemeOther&gt;
+  &lt;w:LidThemeAsian&gt;X-NONE&lt;/w:LidThemeAsian&gt;
+  &lt;w:LidThemeComplexScript&gt;HI&lt;/w:LidThemeComplexScript&gt;
+  &lt;w:Compatibility&gt;
+   &lt;w:BreakWrappedTables/&gt;
+   &lt;w:SnapToGridInCell/&gt;
+   &lt;w:WrapTextWithPunct/&gt;
+   &lt;w:UseAsianBreakRules/&gt;
+   &lt;w:DontGrowAutofit/&gt;
+   &lt;w:SplitPgBreakAndParaMark/&gt;
+   &lt;w:DontVertAlignCellWithSp/&gt;
+   &lt;w:DontBreakConstrainedForcedTables/&gt;
+   &lt;w:DontVertAlignInTxbx/&gt;
+   &lt;w:Word11KerningPairs/&gt;
+   &lt;w:CachedColBalance/&gt;
+  &lt;/w:Compatibility&gt;
+  &lt;w:BrowserLevel&gt;MicrosoftInternetExplorer4&lt;/w:BrowserLevel&gt;
+  &lt;m:mathPr&gt;
+   &lt;m:mathFont m:val="Cambria Math"/&gt;
+   &lt;m:brkBin m:val="before"/&gt;
+   &lt;m:brkBinSub m:val="&amp;#45;-"/&gt;
+   &lt;m:smallFrac m:val="off"/&gt;
+   &lt;m:dispDef/&gt;
+   &lt;m:lMargin m:val="0"/&gt;
+   &lt;m:rMargin m:val="0"/&gt;
+   &lt;m:defJc m:val="centerGroup"/&gt;
+   &lt;m:wrapIndent m:val="1440"/&gt;
+   &lt;m:intLim m:val="subSup"/&gt;
+   &lt;m:naryLim m:val="undOvr"/&gt;
+  &lt;/m:mathPr&gt;&lt;/w:WordDocument&gt;
+&lt;/xml&gt;&lt;![endif]--&gt;&lt;!--[if gte mso 9]&gt;&lt;xml&gt;
+ &lt;w:LatentStyles DefLockedState="false" DefUnhideWhenUsed="false"
+  DefSemiHidden="false" DefQFormat="false" LatentStyleCount="267"&gt;
+  &lt;w:LsdException Locked="false" QFormat="true" Name="Normal"/&gt;
+  &lt;w:LsdException Locked="false" QFormat="true" Name="heading 1"/&gt;
+  &lt;w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="heading 2"/&gt;
+  &lt;w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="heading 3"/&gt;
+  &lt;w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="heading 4"/&gt;
+  &lt;w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="heading 5"/&gt;
+  &lt;w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="heading 6"/&gt;
+  &lt;w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="heading 7"/&gt;
+  &lt;w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="heading 8"/&gt;
+  &lt;w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="heading 9"/&gt;
+  &lt;w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="caption"/&gt;
+  &lt;w:LsdException Locked="false" QFormat="true" Name="Title"/&gt;
+  &lt;w:LsdException Locked="false" Priority="1" Name="Default Paragraph Font"/&gt;
+  &lt;w:LsdException Locked="false" QFormat="true" Name="Subtitle"/&gt;
+  &lt;w:LsdException Locked="false" QFormat="true" Name="Strong"/&gt;
+  &lt;w:LsdException Locked="false" QFormat="true" Name="Emphasis"/&gt;
+  &lt;w:LsdException Locked="false" Priority="99" Name="No List"/&gt;
+  &lt;w:LsdException Locked="false" Priority="99" SemiHidden="true"
+   Name="Placeholder Text"/&gt;
+  &lt;w:LsdException Locked="false" Priority="1" QFormat="true" Name="No Spacing"/&gt;
+  &lt;w:LsdException Locked="false" Priority="60" Name="Light Shading"/&gt;
+  &lt;w:LsdException Locked="false" Priority="61" Name="Light List"/&gt;
+  &lt;w:LsdException Locked="false" Priority="62" Name="Light Grid"/&gt;
+  &lt;w:LsdException Locked="false" Priority="63" Name="Medium Shading 1"/&gt;
+  &lt;w:LsdException Locked="false" Priority="64" Name="Medium Shading 2"/&gt;
+  &lt;w:LsdException Locked="false" Priority="65" Name="Medium List 1"/&gt;
+  &lt;w:LsdException Locked="false" Priority="66" Name="Medium List 2"/&gt;
+  &lt;w:LsdException Locked="false" Priority="67" Name="Medium Grid 1"/&gt;
+  &lt;w:LsdException Locked="false" Priority="68" Name="Medium Grid 2"/&gt;
+  &lt;w:LsdException Locked="false" Priority="69" Name="Medium Grid 3"/&gt;
+  &lt;w:LsdException Locked="false" Priority="70" Name="Dark List"/&gt;
+  &lt;w:LsdException Locked="false" Priority="71" Name="Colorful Shading"/&gt;
+  &lt;w:LsdException Locked="false" Priority="72" Name="Colorful List"/&gt;
+  &lt;w:LsdException Locked="false" Priority="73" Name="Colorful Grid"/&gt;
+  &lt;w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 1"/&gt;
+  &lt;w:LsdException Locked="false" Priority="61" Name="Light List Accent 1"/&gt;
+  &lt;w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 1"/&gt;
+  &lt;w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 1"/&gt;
+  &lt;w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 1"/&gt;
+  &lt;w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 1"/&gt;
+  &lt;w:LsdException Locked="false" Priority="99" SemiHidden="true" Name="Revision"/&gt;
+  &lt;w:LsdException Locked="false" Priority="34" QFormat="true"
+   Name="List Paragraph"/&gt;
+  &lt;w:LsdException Locked="false" Priority="29" QFormat="true" Name="Quote"/&gt;
+  &lt;w:LsdException Locked="false" Priority="30" QFormat="true"
+   Name="Intense Quote"/&gt;
+  &lt;w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 1"/&gt;
+  &lt;w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 1"/&gt;
+  &lt;w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 1"/&gt;
+  &lt;w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 1"/&gt;
+  &lt;w:LsdException Locked="false" Priority="70" Name="Dark List Accent 1"/&gt;
+  &lt;w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 1"/&gt;
+  &lt;w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 1"/&gt;
+  &lt;w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 1"/&gt;
+  &lt;w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 2"/&gt;
+  &lt;w:LsdException Locked="false" Priority="61" Name="Light List Accent 2"/&gt;
+  &lt;w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 2"/&gt;
+  &lt;w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 2"/&gt;
+  &lt;w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 2"/&gt;
+  &lt;w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 2"/&gt;
+  &lt;w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 2"/&gt;
+  &lt;w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 2"/&gt;
+  &lt;w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 2"/&gt;
+  &lt;w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 2"/&gt;
+  &lt;w:LsdException Locked="false" Priority="70" Name="Dark List Accent 2"/&gt;
+  &lt;w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 2"/&gt;
+  &lt;w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 2"/&gt;
+  &lt;w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 2"/&gt;
+  &lt;w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 3"/&gt;
+  &lt;w:LsdException Locked="false" Priority="61" Name="Light List Accent 3"/&gt;
+  &lt;w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 3"/&gt;
+  &lt;w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 3"/&gt;
+  &lt;w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 3"/&gt;
+  &lt;w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 3"/&gt;
+  &lt;w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 3"/&gt;
+  &lt;w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 3"/&gt;
+  &lt;w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 3"/&gt;
+  &lt;w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 3"/&gt;
+  &lt;w:LsdException Locked="false" Priority="70" Name="Dark List Accent 3"/&gt;
+  &lt;w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 3"/&gt;
+  &lt;w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 3"/&gt;
+  &lt;w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 3"/&gt;
+  &lt;w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 4"/&gt;
+  &lt;w:LsdException Locked="false" Priority="61" Name="Light List Accent 4"/&gt;
+  &lt;w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 4"/&gt;
+  &lt;w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 4"/&gt;
+  &lt;w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 4"/&gt;
+  &lt;w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 4"/&gt;
+  &lt;w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 4"/&gt;
+  &lt;w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 4"/&gt;
+  &lt;w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 4"/&gt;
+  &lt;w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 4"/&gt;
+  &lt;w:LsdException Locked="false" Priority="70" Name="Dark List Accent 4"/&gt;
+  &lt;w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 4"/&gt;
+  &lt;w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 4"/&gt;
+  &lt;w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 4"/&gt;
+  &lt;w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 5"/&gt;
+  &lt;w:LsdException Locked="false" Priority="61" Name="Light List Accent 5"/&gt;
+  &lt;w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 5"/&gt;
+  &lt;w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 5"/&gt;
+  &lt;w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 5"/&gt;
+  &lt;w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 5"/&gt;
+  &lt;w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 5"/&gt;
+  &lt;w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 5"/&gt;
+  &lt;w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 5"/&gt;
+  &lt;w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 5"/&gt;
+  &lt;w:LsdException Locked="false" Priority="70" Name="Dark List Accent 5"/&gt;
+  &lt;w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 5"/&gt;
+  &lt;w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 5"/&gt;
+  &lt;w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 5"/&gt;
+  &lt;w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 6"/&gt;
+  &lt;w:LsdException Locked="false" Priority="61" Name="Light List Accent 6"/&gt;
+  &lt;w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 6"/&gt;
+  &lt;w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 6"/&gt;
+  &lt;w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 6"/&gt;
+  &lt;w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 6"/&gt;
+  &lt;w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 6"/&gt;
+  &lt;w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 6"/&gt;
+  &lt;w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 6"/&gt;
+  &lt;w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 6"/&gt;
+  &lt;w:LsdException Locked="false" Priority="70" Name="Dark List Accent 6"/&gt;
+  &lt;w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 6"/&gt;
+  &lt;w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 6"/&gt;
+  &lt;w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 6"/&gt;
+  &lt;w:LsdException Locked="false" Priority="19" QFormat="true"
+   Name="Subtle Emphasis"/&gt;
+  &lt;w:LsdException Locked="false" Priority="21" QFormat="true"
+   Name="Intense Emphasis"/&gt;
+  &lt;w:LsdException Locked="false" Priority="31" QFormat="true"
+   Name="Subtle Reference"/&gt;
+  &lt;w:LsdException Locked="false" Priority="32" QFormat="true"
+   Name="Intense Reference"/&gt;
+  &lt;w:LsdException Locked="false" Priority="33" QFormat="true" Name="Book Title"/&gt;
+  &lt;w:LsdException Locked="false" Priority="37" SemiHidden="true"
+   UnhideWhenUsed="true" Name="Bibliography"/&gt;
+  &lt;w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" QFormat="true" Name="TOC Heading"/&gt;
+ &lt;/w:LatentStyles&gt;
+&lt;/xml&gt;&lt;![endif]--&gt;
+&lt;style&gt;
+&lt;!--
+ /* Font Definitions */
+ @font-face
+	{font-family:Mangal;
+	panose-1:0 0 4 0 0 0 0 0 0 0;
+	mso-font-charset:1;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:32768 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;
+	mso-font-charset:1;
+	mso-generic-font-family:roman;
+	mso-font-format:other;
+	mso-font-pitch:variable;
+	mso-font-signature:0 0 0 0 0 0;}
+@font-face
+	{font-family:"Arial Unicode MS";
+	panose-1:2 11 6 4 2 2 2 2 2 4;
+	mso-font-charset:128;
+	mso-generic-font-family:swiss;
+	mso-font-pitch:variable;
+	mso-font-signature:-134238209 -371195905 63 0 4129279 0;}
+@font-face
+	{font-family:"BEN Bhagirati";
+	mso-font-alt:Symbol;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+@font-face
+	{font-family:"\@Arial Unicode MS";
+	panose-1:2 11 6 4 2 2 2 2 2 4;
+	mso-font-charset:128;
+	mso-generic-font-family:swiss;
+	mso-font-pitch:variable;
+	mso-font-signature:-1 -369098753 63 0 4129279 0;}
+@font-face
+	{font-family:"DEV Panini";
+	mso-font-alt:Symbol;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+@font-face
+	{font-family:"GUJ Gir";
+	mso-font-alt:Symbol;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+@font-face
+	{font-family:"GUR Arjun";
+	mso-font-alt:Symbol;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+@font-face
+	{font-family:"KAN Badami";
+	mso-font-alt:Symbol;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+@font-face
+	{font-family:"MAL Vayalar";
+	mso-font-alt:Symbol;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+@font-face
+	{font-family:"ORI Asika";
+	mso-font-alt:Symbol;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+@font-face
+	{font-family:"TAM ThiruValluvar";
+	mso-font-alt:Symbol;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+@font-face
+	{font-family:"TEL Nirmal";
+	mso-font-alt:Symbol;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+@font-face
+	{font-family:Consolas;
+	panose-1:2 11 6 9 2 2 4 3 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:roman;
+	mso-font-format:other;
+	mso-font-pitch:auto;
+	mso-font-signature:0 0 0 0 0 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-parent:"";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:Mangal;}
+p.MsoFootnoteText, li.MsoFootnoteText, div.MsoFootnoteText
+	{mso-style-update:auto;
+	mso-style-unhide:no;
+	mso-style-link:"Footnote Text Char";
+	margin:0in;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	mso-pagination:widow-orphan;
+	font-size:16.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Arial Unicode MS";}
+a:link, span.MsoHyperlink
+	{mso-style-unhide:no;
+	color:blue;
+	text-decoration:underline;
+	text-underline:single;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-unhide:no;
+	color:purple;
+	text-decoration:underline;
+	text-underline:single;}
+p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
+	{mso-style-unhide:no;
+	mso-style-link:"Plain Text Char";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Courier New";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-language:EN-GB;
+	mso-bidi-language:AR-SA;}
+span.FootnoteTextChar
+	{mso-style-name:"Footnote Text Char";
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Footnote Text";
+	mso-bidi-font-size:9.0pt;
+	font-family:Mangal;
+	mso-bidi-font-family:Mangal;}
+span.PlainTextChar
+	{mso-style-name:"Plain Text Char";
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Plain Text";
+	mso-ansi-font-size:10.5pt;
+	mso-bidi-font-size:9.5pt;
+	font-family:"Consolas","serif";
+	mso-ascii-font-family:Consolas;
+	mso-hansi-font-family:Consolas;
+	mso-bidi-font-family:Mangal;}
+p.IntroOutlineLevel1io1, li.IntroOutlineLevel1io1, div.IntroOutlineLevel1io1
+	{mso-style-name:"Intro Outline Level 1 \(io1\)";
+	mso-style-update:auto;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	text-align:justify;
+	text-indent:.5in;
+	line-height:120%;
+	mso-pagination:widow-orphan;
+	font-size:16.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Arial Unicode MS";}
+p.NormalParagraph, li.NormalParagraph, div.NormalParagraph
+	{mso-style-name:"Normal Paragraph";
+	mso-style-update:auto;
+	mso-style-unhide:no;
+	margin-top:6.0pt;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	text-align:justify;
+	text-indent:.5in;
+	line-height:110%;
+	mso-pagination:widow-orphan;
+	tab-stops:5.25in;
+	font-size:18.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Arial Unicode MS";}
+p.BENParagraph, li.BENParagraph, div.BENParagraph
+	{mso-style-name:"BEN Paragraph";
+	mso-style-unhide:no;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"BEN Bhagirati";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-language:EN-GB;
+	mso-bidi-language:AR-SA;}
+p.DEVParagraph, li.DEVParagraph, div.DEVParagraph
+	{mso-style-name:"DEV Paragraph";
+	mso-style-unhide:no;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"DEV Panini";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-language:EN-GB;
+	mso-bidi-language:AR-SA;}
+p.GUJParagraph, li.GUJParagraph, div.GUJParagraph
+	{mso-style-name:"GUJ Paragraph";
+	mso-style-unhide:no;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"GUJ Gir";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-language:EN-GB;
+	mso-bidi-language:AR-SA;}
+p.GURParagraph, li.GURParagraph, div.GURParagraph
+	{mso-style-name:"GUR Paragraph";
+	mso-style-unhide:no;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"GUR Arjun";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-language:EN-GB;
+	mso-bidi-language:AR-SA;}
+p.KANParagraph, li.KANParagraph, div.KANParagraph
+	{mso-style-name:"KAN Paragraph";
+	mso-style-unhide:no;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"KAN Badami";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-language:EN-GB;
+	mso-bidi-language:AR-SA;}
+p.MALParagraph, li.MALParagraph, div.MALParagraph
+	{mso-style-name:"MAL Paragraph";
+	mso-style-unhide:no;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"MAL Vayalar";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-language:EN-GB;
+	mso-bidi-language:AR-SA;}
+p.ORIParagraph, li.ORIParagraph, div.ORIParagraph
+	{mso-style-name:"ORI Paragraph";
+	mso-style-unhide:no;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"ORI Asika";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-language:EN-GB;
+	mso-bidi-language:AR-SA;}
+p.TAMParagraph, li.TAMParagraph, div.TAMParagraph
+	{mso-style-name:"TAM Paragraph";
+	mso-style-unhide:no;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"TAM ThiruValluvar";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-language:EN-GB;
+	mso-bidi-language:AR-SA;}
+p.TELParagraph, li.TELParagraph, div.TELParagraph
+	{mso-style-name:"TEL Paragraph";
+	mso-style-unhide:no;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"TEL Nirmal";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-language:EN-GB;
+	mso-bidi-language:AR-SA;}
+p.NonRoman, li.NonRoman, div.NonRoman
+	{mso-style-name:NonRoman;
+	mso-style-unhide:no;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"Times New Roman";
+	mso-ansi-language:EN-GB;
+	mso-bidi-language:AR-SA;}
+p.NormalWithSpaceAfter, li.NormalWithSpaceAfter, div.NormalWithSpaceAfter
+	{mso-style-name:"Normal With Space After";
+	mso-style-unhide:no;
+	mso-style-next:Normal;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:30.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"Times New Roman";
+	mso-ansi-language:EN-GB;
+	mso-bidi-language:AR-SA;}
+span.SpellE
+	{mso-style-name:"";
+	mso-spl-e:yes;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	mso-default-props:yes;
+	font-size:10.0pt;
+	mso-ansi-font-size:10.0pt;}
+@page Section1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.25in 1.0in 1.25in;
+	mso-header-margin:.5in;
+	mso-footer-margin:.5in;
+	mso-paper-source:0;}
+div.Section1
+	{page:Section1;}
+--&gt;
+&lt;/style&gt;
+&lt;!--[if gte mso 10]&gt;
+&lt;style&gt;
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"Table Normal";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-qformat:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman","serif";}
+&lt;/style&gt;
+&lt;![endif]--&gt;&lt;!--[if gte mso 9]&gt;&lt;xml&gt;
+ &lt;o:shapedefaults v:ext="edit" spidmax="3074"/&gt;
+&lt;/xml&gt;&lt;![endif]--&gt;&lt;!--[if gte mso 9]&gt;&lt;xml&gt;
+ &lt;o:shapelayout v:ext="edit"&gt;
+  &lt;o:idmap v:ext="edit" data="1"/&gt;
+ &lt;/o:shapelayout&gt;&lt;/xml&gt;&lt;![endif]--&gt;
+&lt;/head&gt;
+
+&lt;body lang=EN-US link=blue vlink=purple style='tab-interval:.5in'&gt;
+
+&lt;div class=Section1&gt;
+
+&lt;p class=MsoNormal&gt;The &lt;span class=SpellE&gt;NETBible&lt;/span&gt; with all 60,000+
+notes has been supplied to the OneStory Editor free of charge. However, a donation
+would be much appreciated at: &lt;a href="http://bible.org/donate"&gt;http://bible.org/donate&lt;/a&gt;&lt;/p&gt;
+
+&lt;p class=MsoNormal&gt;&lt;o:p&gt;&amp;nbsp;&lt;/o:p&gt;&lt;/p&gt;
+
+&lt;p class=MsoNormal&gt;There’s also a community site for creating groups and
+sharing about the &lt;span class=SpellE&gt;NetBible&lt;/span&gt; at: &lt;a
+href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
+
+&lt;p class=MsoNormal&gt;&lt;o:p&gt;&amp;nbsp;&lt;/o:p&gt;&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;/body&gt;
+
+&lt;/html&gt;</value>
   </data>
 </root>

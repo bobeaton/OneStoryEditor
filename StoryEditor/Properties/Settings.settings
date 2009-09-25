@@ -160,8 +160,5 @@ DoAdaptingBeforeGlossing_InVerticalEdit	1</Value>
 &lt;/KB&gt;
 </Value>
     </Setting>
-    <Setting Name="NetBibleKey" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
   </Settings>
 </SettingsFile>
