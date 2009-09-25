@@ -68,6 +68,7 @@ namespace OneStoryProjectEditor
         NetBibleFootnoteTooltip tooltipNBFNs;
         int m_nBook = 0, m_nChapter = 0, m_nVerse = 0;
         protected const string CstrNetFreeModuleName = "NETfree";
+        protected const string CstrNetModuleName = "NET";
         protected const string CstrOtherSwordModules = "Other";
         protected const string CstrRadioButtonPrefix = "radioButton";
         protected const string CstrFontForHindi = "Arial Unicode MS";

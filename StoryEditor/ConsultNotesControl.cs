@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
@@ -50,6 +45,12 @@ namespace OneStoryProjectEditor
 
             tableLayoutPanel.ResumeLayout(false);
             ResumeLayout(false);
+        }
+
+        public new bool Focus()
+        {
+            base.Focus();
+            return labelReference.Focus();
         }
 
         void buttonDragDropHandle_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)

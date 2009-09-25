@@ -77,7 +77,7 @@ side of the status bar with the label 'Next State' to go to the next stage in th
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
-  <StateTransition stage="eCrafterAddAnchors" MemberTypeWithEditToken="eCrafter" NextState="eCrafterAddStoryQuestions">
+  <StateTransition stage="eCrafterAddAnchors" MemberTypeWithEditToken="eCrafter" NextState="eCrafterCheckKeyTerms">
     <StageDisplayString>Crafter adds biblical anchors</StageDisplayString>
     <StageInstructions>
 In this stage, one of the crafting team will go through the story verse-by-verse and look up one or more Bible references 
@@ -109,6 +109,45 @@ Remember that each verse must have at least one anchor.
 
 When you are finished adding anchors for each verse, then click the button in the left-hand side of the status bar and 
 choose 'Next Stage' to go to the next stage in the process.
+    </StageInstructions>
+    <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eCrafterTypeVernacular</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingNationalBT="true">eCrafterTypeNationalBT</AllowableBackwardsTransition>
+    </AllowableBackwardsTransitions>
+    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="true" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="true" />
+  </StateTransition>
+  <StateTransition stage="eCrafterCheckKeyTerms" MemberTypeWithEditToken="eCrafter" NextState="eCrafterAddStoryQuestions">
+    <StageDisplayString>Crafter checks Key Biblical terms</StageDisplayString>
+    <StageInstructions>
+  In this stage, one of the crafting team will go through the story verse-by-verse and look up one or more Bible references
+  in the Bible pane that supports the information in the verse. These Bible references are known as "Anchors", because they
+  tie the story verse to the Bible.
+
+  For example, if your story verse were, "First of all, God made heaven and earth", then you could use the reference
+  "Gen 1:1" as the anchor, which in the Net Bible says, "In the beginning God created the heavens and the earth". You could
+  also include another anchor like Col 1:16, which says, "for all things in heaven and on earth were created by him..."
+  Both of these passages support the idea that "First of all, God made heaven and earth"
+
+  When you find a supporting Bible passage, then click and hold down the left mouse button on the button to the left of the
+  Bible passage in the Bible pane. Then while the left mouse button is held down, drag the mouse onto the line in the story
+  verse area above with the label, "anc:". This is the anchor bar for the verse. When the mouse is over the anchor bar,
+  release the left mouse button and a new "anchor button" will appear on the anchor bar for that passage.
+
+  Now, you can click on the anchor button to jump to the anchored verse. You can also right-click on the anchor button for
+  other options, like adding a comment to the anchor (e.g. "implied by ..."). These comments will be displayed when you hover
+  the mouse over an anchor button. You can also add a cultural or exegetical note about the anchor by right-clicking on the
+  anchor button and choosing "Add Exegetical/Cultural Note". Such notes can help the consultant understand why you chose the
+  Bible reference that you did.
+
+  In the Bible pane in the lower left, by default the NetBible version of the Bible will be displayed. In the upper portion
+  of that pane, there are several small "radio buttons" with labels like "NETfree" (which refers to the NetBible) and "Other".
+  Click on the "Other" button to view different Bible text resources that may be installed on your computer, such as a Hindi
+  Bible translation or an Easy English version of the Bible. Talk with your workshop advisor for other options available.
+
+  Remember that each verse must have at least one anchor.
+
+  When you are finished adding anchors for each verse, then click the button in the left-hand side of the status bar and
+  choose 'Next Stage' to go to the next stage in the process.
     </StageInstructions>
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eCrafterTypeVernacular</AllowableBackwardsTransition>
@@ -348,6 +387,9 @@ You can add another line for additional comments by right-clicking on the small 
 When you are finished, then click the button in the left-hand side of the status bar and choose 
 'Next Stage' to go to the next stage in the process.
     </StageInstructions>
+    <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eCoachReviewRound1Notes</AllowableBackwardsTransition>
+    </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eCrafterReviseBasedOnRound1Notes" MemberTypeWithEditToken="eCrafter" NextState="eCrafterOnlineReview1WithConsultant">

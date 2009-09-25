@@ -98,6 +98,15 @@ namespace OneStoryProjectEditor
             }
         }
 
+        public bool Focus(StoryEditor theSE)
+        {
+            System.Diagnostics.Debug.Assert(tableLayoutPanel.Controls.ContainsKey(CstrFieldNameStoryLine));
+            StoryLineControl theStoryLineCtrl = tableLayoutPanel.Controls[CstrFieldNameStoryLine] as StoryLineControl;
+            if (theStoryLineCtrl != null)
+                return theStoryLineCtrl.Focus(theSE);
+            return false;
+        }
+
         protected void InitStoryLine(StoryEditor aSE, VerseData aVerseData, int nLayoutRow)
         {
             System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(CstrFieldNameStoryLine));

@@ -23,13 +23,14 @@ namespace OneStoryProjectEditor
         string refererencesHtml;  // text loaded into html references browser
         private BiblicalTermsList _biblicalTerms;   // All Biblical terms
         string idToScrollTo = null;		// Set this to scroll to an elementid when loaded
-        StoryEditor _theSE;
+        internal StoryEditor _theSE;
 
         public BiblicalKeyTermsForm(StoryEditor theSE)
         {
             _theSE = theSE;
             InitializeComponent();
             _biblicalTerms = BiblicalTermsList.GetBiblicalTerms();
+            htmlBuilder = new BiblicalTermsHTMLBuilder(theSE.Stories.ProjSettings.Vernacular);
         }
 
         public void Show(AnchorsData theAnchors, StoriesData theStories)
@@ -63,6 +64,9 @@ namespace OneStoryProjectEditor
                     progressBarLoadingKeyTerms.Value++;
                 }
 
+                // indicate that we've checked the key terms here.
+                theAnchors.IsKeyTermChecked = true;
+
                 if (visibleTerms.Count == 0)
                 {
                     MessageBox.Show(Localizer.Str("There are no Biblical Terms in this verse(s)."));
@@ -71,9 +75,9 @@ namespace OneStoryProjectEditor
 
                 renderings = TermRenderingsList.GetTermRenderings(theStories.ProjSettings.ProjectFolder, theStories.ProjSettings.Vernacular.LangCode);
                 termLocalizations = TermLocalizations.Localizations;
-                htmlBuilder = new BiblicalTermsHTMLBuilder(theStories.ProjSettings.Vernacular);
 
                 ColumnTermLemma.DefaultCellStyle.Font = new Font("Charis SIL", 12);
+                ColumnStatus.DefaultCellStyle.Font = new Font("Wingdings", 11);
                 ColumnRenderings.DefaultCellStyle.Font = theStories.ProjSettings.Vernacular.LangFont;
                 ColumnRenderings.DefaultCellStyle.ForeColor = theStories.ProjSettings.Vernacular.FontColor;
 
@@ -314,9 +318,9 @@ namespace OneStoryProjectEditor
 
             if (dataGridViewKeyTerms.RowCount > 0)
                 dataGridViewKeyTerms.FirstDisplayedScrollingRowIndex = 0;
-            // dataGridViewKeyTerms.ClearSelection();
 
-            dataGridViewKeyTerms.RowCount = visibleTerms.Count;
+            if (dataGridViewKeyTerms.RowCount != visibleTerms.Count)
+                dataGridViewKeyTerms.RowCount = visibleTerms.Count;
             dataGridViewKeyTerms.Invalidate();
 
             LoadReferencesDisplay(true);
@@ -513,7 +517,7 @@ namespace OneStoryProjectEditor
         /// <param name="myTermIndex">index of term to laod in visibilTerms</param>
         private void LoadReferencesDisplayNonRentrant(int myTermIndex)
         {
-            if (myTermIndex == -1)
+            if ((myTermIndex == -1) || (visibleTerms.Count <= myTermIndex))
                 return;
 
             progressBarLoadingKeyTerms.Visible = true;

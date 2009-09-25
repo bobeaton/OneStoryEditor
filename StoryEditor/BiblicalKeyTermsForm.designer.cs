@@ -34,7 +34,7 @@
             this.progressBarLoadingKeyTerms = new System.Windows.Forms.ProgressBar();
             this.webBrowser = new onlyconnect.HtmlEditor();
             this.ColumnTermLemma = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.StatusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnGlossEnglish = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnRenderings = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -72,7 +72,7 @@
             this.dataGridViewKeyTerms.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewKeyTerms.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ColumnTermLemma,
-            this.StatusColumn,
+            this.ColumnStatus,
             this.ColumnGlossEnglish,
             this.ColumnRenderings});
             this.dataGridViewKeyTerms.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -131,11 +131,11 @@
             this.ColumnTermLemma.Name = "ColumnTermLemma";
             this.ColumnTermLemma.ReadOnly = true;
             // 
-            // StatusColumn
+            // ColumnStatus
             // 
-            this.StatusColumn.HeaderText = "Status";
-            this.StatusColumn.Name = "StatusColumn";
-            this.StatusColumn.ReadOnly = true;
+            this.ColumnStatus.HeaderText = "Status";
+            this.ColumnStatus.Name = "ColumnStatus";
+            this.ColumnStatus.ReadOnly = true;
             // 
             // ColumnGlossEnglish
             // 
@@ -175,7 +175,7 @@
         private onlyconnect.HtmlEditor webBrowser;
         private System.Windows.Forms.ProgressBar progressBarLoadingKeyTerms;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnTermLemma;
-        private System.Windows.Forms.DataGridViewTextBoxColumn StatusColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnStatus;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnGlossEnglish;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnRenderings;
 

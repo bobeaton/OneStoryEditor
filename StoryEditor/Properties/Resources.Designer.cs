@@ -110,7 +110,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;{1}&apos; नाम का एक प्रजैक्ट दूसरे फ़ोल्‍डर में हो चुका है। अगर यह नया प्रोजैक्ट इसी नाम के साथ बनता है, तब दूसरा प्रोजैक्‍ट नहीं खोल पाएगा, जो &apos;{2}&apos; फ़ोल्‍डर में है।{0}{0}क्‍या आप नया प्रोजैक्ट फिर भी बनाना चाहते हैं?.
+        ///   Looks up a localized string similar to You already have a project with the name &apos;{1}&apos; that is in another location. If you create this new project with the same name, then you won&apos;t be able to access the earlier project that is located in the &apos;{2}&apos; folder.{0}{0}Do you want to continue creating the new project and lose the reference to the earlier project (it won&apos;t be deleted if you do)?.
         /// </summary>
         internal static string IDS_AboutToStrandProject {
             get {
@@ -146,7 +146,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &quot;एक-कहानी&quot; प्रोजैक्‍ट ऐडिटर.
+        ///   Looks up a localized string similar to OneStory Project Editor.
         /// </summary>
         internal static string IDS_Caption {
             get {
@@ -164,6 +164,27 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 
+        ///OneStory Editor is Copyright © 2009 SIL International
+        ///For limited support, contact: bob_eaton@sall.com
+        ///
+        ///The names: THE NET BIBLE®, NEW ENGLISH TRANSLATION
+        ///COPYRIGHT (c) 1996 BY BIBLICAL STUDIES PRESS, L.L.C.
+        ///NET Bible® IS A REGISTERED TRADEMARK
+        ///THE NET BIBLE® LOGO, SERVICE MARK
+        ///COPYRIGHT (c) 1997 BY BIBLICAL STUDIES PRESS, L.L.C.
+        ///ALL RIGHTS RESERVED
+        ///Visit: http://bible.org for more information about 
+        ///the NetBible
+        ///    .
+        /// </summary>
+        internal static string IDS_CopyrightInfo {
+            get {
+                return ResourceManager.GetString("IDS_CopyrightInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter the name you want to give this project (e.g. the language name)..
         /// </summary>
         internal static string IDS_EnterProjectName {
@@ -173,7 +194,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;नई कहानी का नाम यहीं टाइप करके &apos;ऐटर&apos; बटन दबाओ&gt;.
+        ///   Looks up a localized string similar to &lt;type the name of a story to create and hit Enter&gt;.
         /// </summary>
         internal static string IDS_EnterStoryName {
             get {
@@ -182,7 +203,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to नई कहानी का नाम यहीं टाइप करके &apos;ऐटर&apos; बटन दबाओ.
+        ///   Looks up a localized string similar to Enter the name of the story to add.
         /// </summary>
         internal static string IDS_EnterStoryToAdd {
             get {
@@ -227,7 +248,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to काम करने के लिए आपको लॉग-इन करना है। &apos;Project&apos; मेनू, &apos;Settings&apos; पर क्‍लिक करो और अपना नाम चुनकर &apos;लॉग-इन&apos; बटन दबाओ।.
+        ///   Looks up a localized string similar to You have to log in to continue. Click &apos;Project&apos;, &apos;Settings&apos; and choose or add your name..
         /// </summary>
         internal static string IDS_HaveToLogInToContinue {
             get {
@@ -236,7 +257,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to क्‍या यह कहानी बाइबल से है?.
+        ///   Looks up a localized string similar to Is this a story from the Bible?.
         /// </summary>
         internal static string IDS_IsThisStoryFromTheBible {
             get {
@@ -263,7 +284,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to जो &apos;{0}&apos; फ़ोलडर में है.
+        ///   Looks up a localized string similar to Located in folder &apos;{0}&apos;.
         /// </summary>
         internal static string IDS_LocatedInFolder {
             get {
@@ -317,7 +338,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0}  निर्देश मिलने के लिए &apos;F1&apos; बटन दबाओ.
+        ///   Looks up a localized string similar to {0}  Press F1 for instructions.
         /// </summary>
         internal static string IDS_PressF1ForInstructions {
             get {
@@ -344,7 +365,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to क्‍या परिवर्तन सेव किया जाए?.
+        ///   Looks up a localized string similar to Would you like to save changes?.
         /// </summary>
         internal static string IDS_SaveChanges {
             get {
@@ -353,7 +374,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ख़ास शब्‍द या उसका स्टैटस बदल गया है। इन परिवर्तनों को सेव किया जाए?.
+        ///   Looks up a localized string similar to A key term or its status has changed. Do you wish to save these changes?.
         /// </summary>
         internal static string IDS_SaveKeyTermsPrompt {
             get {
@@ -362,7 +383,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to कहानी.
+        ///   Looks up a localized string similar to Story.
         /// </summary>
         internal static string IDS_Story {
             get {
@@ -371,7 +392,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to कहानी:.
+        ///   Looks up a localized string similar to Story: .
         /// </summary>
         internal static string IDS_StoryColon {
             get {
@@ -398,7 +419,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to अगर अगले स्‍टेट में जाएं, तो इसके बाद आप इस कहानी को तब तक नहीं बदल सकते हैं, जब तक {0} अपने काम इस पर पूरा नहीं किया। क्‍या आप पक्‍का हैं कि अगले स्‍टेट (अनिकि &apos;{1}&apos; स्‍टेट) में जाएँ?.
+        ///   Looks up a localized string similar to If you change to this next state, then you won&apos;t be able to edit the story until after the {0} has done his or her changes. Are you sure you want to change to the &apos;{1}&apos; state?.
         /// </summary>
         internal static string IDS_TerminalTransitionMessage {
             get {
@@ -425,7 +446,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to प्रोजैक्ट नाम के बिना नया प्रोजैक्ट नहीं बन सकता है!.
+        ///   Looks up a localized string similar to Unable to create a project without a project name!.
         /// </summary>
         internal static string IDS_UnableToCreateProjectWithoutName {
             get {
@@ -434,7 +455,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;{0}&apos; नामक कहानी नहीं है। क्‍या उस नाम की नई कहानी जोड़ दिया जाए?.
+        ///   Looks up a localized string similar to Unable to find the story &apos;{0}&apos;. Would you like to add a new story with that name?.
         /// </summary>
         internal static string IDS_UnableToFindStoryAdd {
             get {

@@ -46,6 +46,8 @@
             this.textBoxNationalBTSentFullStop = new System.Windows.Forms.TextBox();
             this.checkBoxNationalLangBT = new System.Windows.Forms.CheckBox();
             this.checkBoxEnglishBT = new System.Windows.Forms.CheckBox();
+            this.checkBoxVernacularRTL = new System.Windows.Forms.CheckBox();
+            this.checkBoxNationalRTL = new System.Windows.Forms.CheckBox();
             this.buttonVernacularFont = new System.Windows.Forms.Button();
             this.buttonNationalBTFont = new System.Windows.Forms.Button();
             this.tabControlProjectMetaData = new System.Windows.Forms.TabControl();
@@ -63,10 +65,8 @@
             this.labelProjectName = new System.Windows.Forms.Label();
             this.textBoxProjectName = new System.Windows.Forms.TextBox();
             this.labelReturnToTeamMemberTabInstructions = new System.Windows.Forms.Label();
-            this.labelSentenceTerm = new System.Windows.Forms.Label();
             this.labelFont = new System.Windows.Forms.Label();
-            this.checkBoxVernacularRTL = new System.Windows.Forms.CheckBox();
-            this.checkBoxNationalRTL = new System.Windows.Forms.CheckBox();
+            this.labelSentenceTerm = new System.Windows.Forms.Label();
             this.labelKeyboard = new System.Windows.Forms.Label();
             this.comboBoxKeyboardVernacular = new System.Windows.Forms.ComboBox();
             this.comboBoxKeyboardNationalBT = new System.Windows.Forms.ComboBox();
@@ -222,10 +222,10 @@
             // 
             this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.textBoxVernSentFullStop, 2);
             this.textBoxVernSentFullStop.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxVernSentFullStop.Location = new System.Drawing.Point(104, 189);
+            this.textBoxVernSentFullStop.Location = new System.Drawing.Point(104, 218);
             this.textBoxVernSentFullStop.Name = "textBoxVernSentFullStop";
             this.textBoxVernSentFullStop.Size = new System.Drawing.Size(207, 20);
-            this.textBoxVernSentFullStop.TabIndex = 3;
+            this.textBoxVernSentFullStop.TabIndex = 5;
             this.toolTip.SetToolTip(this.textBoxVernSentFullStop, resources.GetString("textBoxVernSentFullStop.ToolTip"));
             this.textBoxVernSentFullStop.TextChanged += new System.EventHandler(this.textBox_TextChanged);
             this.textBoxVernSentFullStop.Leave += new System.EventHandler(this.textBoxSentFullStop_Leave);
@@ -235,10 +235,10 @@
             // 
             this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.textBoxNationalBTSentFullStop, 2);
             this.textBoxNationalBTSentFullStop.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxNationalBTSentFullStop.Location = new System.Drawing.Point(317, 189);
+            this.textBoxNationalBTSentFullStop.Location = new System.Drawing.Point(317, 218);
             this.textBoxNationalBTSentFullStop.Name = "textBoxNationalBTSentFullStop";
             this.textBoxNationalBTSentFullStop.Size = new System.Drawing.Size(208, 20);
-            this.textBoxNationalBTSentFullStop.TabIndex = 10;
+            this.textBoxNationalBTSentFullStop.TabIndex = 12;
             this.toolTip.SetToolTip(this.textBoxNationalBTSentFullStop, resources.GetString("textBoxNationalBTSentFullStop.ToolTip"));
             this.textBoxNationalBTSentFullStop.TextChanged += new System.EventHandler(this.textBox_TextChanged);
             this.textBoxNationalBTSentFullStop.Leave += new System.EventHandler(this.textBoxSentFullStop_Leave);
@@ -278,22 +278,46 @@
             this.checkBoxEnglishBT.UseVisualStyleBackColor = true;
             this.checkBoxEnglishBT.CheckedChanged += new System.EventHandler(this.checkBoxEnglishBT_CheckedChanged);
             // 
+            // checkBoxVernacularRTL
+            // 
+            this.checkBoxVernacularRTL.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.checkBoxVernacularRTL.AutoSize = true;
+            this.checkBoxVernacularRTL.Location = new System.Drawing.Point(195, 192);
+            this.checkBoxVernacularRTL.Name = "checkBoxVernacularRTL";
+            this.checkBoxVernacularRTL.Size = new System.Drawing.Size(80, 17);
+            this.checkBoxVernacularRTL.TabIndex = 4;
+            this.checkBoxVernacularRTL.Text = "Right to left";
+            this.toolTip.SetToolTip(this.checkBoxVernacularRTL, "Check this if your language reads from right-to-left (e.g. Arabic)");
+            this.checkBoxVernacularRTL.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxNationalRTL
+            // 
+            this.checkBoxNationalRTL.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.checkBoxNationalRTL.AutoSize = true;
+            this.checkBoxNationalRTL.Location = new System.Drawing.Point(408, 192);
+            this.checkBoxNationalRTL.Name = "checkBoxNationalRTL";
+            this.checkBoxNationalRTL.Size = new System.Drawing.Size(80, 17);
+            this.checkBoxNationalRTL.TabIndex = 11;
+            this.checkBoxNationalRTL.Text = "Right to left";
+            this.toolTip.SetToolTip(this.checkBoxNationalRTL, "Check this if your language reads from right-to-left (e.g. Arabic)");
+            this.checkBoxNationalRTL.UseVisualStyleBackColor = true;
+            // 
             // buttonVernacularFont
             // 
-            this.buttonVernacularFont.Location = new System.Drawing.Point(104, 215);
+            this.buttonVernacularFont.Location = new System.Drawing.Point(104, 189);
             this.buttonVernacularFont.Name = "buttonVernacularFont";
             this.buttonVernacularFont.Size = new System.Drawing.Size(85, 23);
-            this.buttonVernacularFont.TabIndex = 4;
+            this.buttonVernacularFont.TabIndex = 3;
             this.buttonVernacularFont.Text = "&Choose Font";
             this.buttonVernacularFont.UseVisualStyleBackColor = true;
             this.buttonVernacularFont.Click += new System.EventHandler(this.buttonVernacularFont_Click);
             // 
             // buttonNationalBTFont
             // 
-            this.buttonNationalBTFont.Location = new System.Drawing.Point(317, 215);
+            this.buttonNationalBTFont.Location = new System.Drawing.Point(317, 189);
             this.buttonNationalBTFont.Name = "buttonNationalBTFont";
             this.buttonNationalBTFont.Size = new System.Drawing.Size(85, 23);
-            this.buttonNationalBTFont.TabIndex = 11;
+            this.buttonNationalBTFont.TabIndex = 10;
             this.buttonNationalBTFont.Text = "Choose &Font";
             this.buttonNationalBTFont.UseVisualStyleBackColor = true;
             this.buttonNationalBTFont.Click += new System.EventHandler(this.buttonNationalBTFont_Click);
@@ -405,14 +429,14 @@
             this.tableLayoutPanelLanguageInformation.Controls.Add(this.labelProjectName, 0, 0);
             this.tableLayoutPanelLanguageInformation.Controls.Add(this.textBoxProjectName, 1, 0);
             this.tableLayoutPanelLanguageInformation.Controls.Add(this.labelReturnToTeamMemberTabInstructions, 1, 10);
-            this.tableLayoutPanelLanguageInformation.Controls.Add(this.labelSentenceTerm, 0, 6);
-            this.tableLayoutPanelLanguageInformation.Controls.Add(this.textBoxVernSentFullStop, 1, 6);
-            this.tableLayoutPanelLanguageInformation.Controls.Add(this.textBoxNationalBTSentFullStop, 3, 6);
-            this.tableLayoutPanelLanguageInformation.Controls.Add(this.buttonVernacularFont, 1, 7);
-            this.tableLayoutPanelLanguageInformation.Controls.Add(this.buttonNationalBTFont, 3, 7);
-            this.tableLayoutPanelLanguageInformation.Controls.Add(this.labelFont, 0, 7);
-            this.tableLayoutPanelLanguageInformation.Controls.Add(this.checkBoxVernacularRTL, 2, 7);
-            this.tableLayoutPanelLanguageInformation.Controls.Add(this.checkBoxNationalRTL, 4, 7);
+            this.tableLayoutPanelLanguageInformation.Controls.Add(this.buttonVernacularFont, 1, 6);
+            this.tableLayoutPanelLanguageInformation.Controls.Add(this.buttonNationalBTFont, 3, 6);
+            this.tableLayoutPanelLanguageInformation.Controls.Add(this.labelFont, 0, 6);
+            this.tableLayoutPanelLanguageInformation.Controls.Add(this.checkBoxVernacularRTL, 2, 6);
+            this.tableLayoutPanelLanguageInformation.Controls.Add(this.checkBoxNationalRTL, 4, 6);
+            this.tableLayoutPanelLanguageInformation.Controls.Add(this.labelSentenceTerm, 0, 7);
+            this.tableLayoutPanelLanguageInformation.Controls.Add(this.textBoxVernSentFullStop, 1, 7);
+            this.tableLayoutPanelLanguageInformation.Controls.Add(this.textBoxNationalBTSentFullStop, 3, 7);
             this.tableLayoutPanelLanguageInformation.Controls.Add(this.labelKeyboard, 0, 5);
             this.tableLayoutPanelLanguageInformation.Controls.Add(this.comboBoxKeyboardVernacular, 1, 5);
             this.tableLayoutPanelLanguageInformation.Controls.Add(this.comboBoxKeyboardNationalBT, 3, 5);
@@ -527,49 +551,25 @@
             this.labelReturnToTeamMemberTabInstructions.Text = "When you\'re finished entering this information, click on the \'Team Members\' tab a" +
                 "nd choose your name to Login";
             // 
-            // labelSentenceTerm
-            // 
-            this.labelSentenceTerm.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.labelSentenceTerm.AutoSize = true;
-            this.labelSentenceTerm.Location = new System.Drawing.Point(3, 192);
-            this.labelSentenceTerm.Name = "labelSentenceTerm";
-            this.labelSentenceTerm.Size = new System.Drawing.Size(95, 13);
-            this.labelSentenceTerm.TabIndex = 17;
-            this.labelSentenceTerm.Text = "Sentence full stop:";
-            // 
             // labelFont
             // 
             this.labelFont.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelFont.AutoSize = true;
-            this.labelFont.Location = new System.Drawing.Point(3, 220);
+            this.labelFont.Location = new System.Drawing.Point(3, 194);
             this.labelFont.Name = "labelFont";
             this.labelFont.Size = new System.Drawing.Size(31, 13);
             this.labelFont.TabIndex = 8;
             this.labelFont.Text = "Font:";
             // 
-            // checkBoxVernacularRTL
+            // labelSentenceTerm
             // 
-            this.checkBoxVernacularRTL.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.checkBoxVernacularRTL.AutoSize = true;
-            this.checkBoxVernacularRTL.Location = new System.Drawing.Point(195, 218);
-            this.checkBoxVernacularRTL.Name = "checkBoxVernacularRTL";
-            this.checkBoxVernacularRTL.Size = new System.Drawing.Size(80, 17);
-            this.checkBoxVernacularRTL.TabIndex = 5;
-            this.checkBoxVernacularRTL.Text = "Right to left";
-            this.toolTip.SetToolTip(this.checkBoxVernacularRTL, "Check this if your language reads from right-to-left (e.g. Arabic)");
-            this.checkBoxVernacularRTL.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxNationalRTL
-            // 
-            this.checkBoxNationalRTL.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.checkBoxNationalRTL.AutoSize = true;
-            this.checkBoxNationalRTL.Location = new System.Drawing.Point(408, 218);
-            this.checkBoxNationalRTL.Name = "checkBoxNationalRTL";
-            this.checkBoxNationalRTL.Size = new System.Drawing.Size(80, 17);
-            this.checkBoxNationalRTL.TabIndex = 12;
-            this.checkBoxNationalRTL.Text = "Right to left";
-            this.toolTip.SetToolTip(this.checkBoxNationalRTL, "Check this if your language reads from right-to-left (e.g. Arabic)");
-            this.checkBoxNationalRTL.UseVisualStyleBackColor = true;
+            this.labelSentenceTerm.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.labelSentenceTerm.AutoSize = true;
+            this.labelSentenceTerm.Location = new System.Drawing.Point(3, 221);
+            this.labelSentenceTerm.Name = "labelSentenceTerm";
+            this.labelSentenceTerm.Size = new System.Drawing.Size(95, 13);
+            this.labelSentenceTerm.TabIndex = 17;
+            this.labelSentenceTerm.Text = "Sentence full stop:";
             // 
             // labelKeyboard
             // 

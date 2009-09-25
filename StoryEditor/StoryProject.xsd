@@ -66,8 +66,8 @@
 														</xs:complexType>
 													</xs:element>
 												</xs:sequence>
-                        <xs:attribute name="NonBiblicalStory" type="xs:boolean" use="optional" />
-                      </xs:complexType>
+												<xs:attribute name="NonBiblicalStory" type="xs:boolean" use="optional" />
+											</xs:complexType>
 										</xs:element>
 										<xs:element name="verses" minOccurs="1" maxOccurs="1">
 											<xs:complexType>
@@ -92,18 +92,12 @@
 																								</xs:sequence>
 																							</xs:complexType>
 																						</xs:element>
-																						<xs:element name="keyTerms" minOccurs="0" maxOccurs="1">
-																							<xs:complexType>
-																								<xs:sequence>
-																									<xs:element name="keyTerm" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
-																								</xs:sequence>
-																							</xs:complexType>
-																						</xs:element>
 																					</xs:sequence>
 																					<xs:attribute name="jumpTarget" type="xs:string" use="required" />
 																				</xs:complexType>
 																			</xs:element>
 																		</xs:sequence>
+																		<xs:attribute name="keyTermChecked" type="xs:boolean" />
 																	</xs:complexType>
 																</xs:element>
 																<xs:element name="TestQuestions" minOccurs="0" maxOccurs="1">
@@ -114,8 +108,8 @@
 																					<xs:sequence>
 																						<xs:element name="TQVernacular" minOccurs="0" maxOccurs="1" type="xs:string" />
 																						<xs:element name="TQNationalBT" minOccurs="0" maxOccurs="1" type="xs:string" />
-                                            <xs:element name="TQInternationalBT" minOccurs="0" maxOccurs="1" type="xs:string" />
-                                            <xs:element name="Answers" minOccurs="0" maxOccurs="1">
+																						<xs:element name="TQInternationalBT" minOccurs="0" maxOccurs="1" type="xs:string" />
+																						<xs:element name="Answers" minOccurs="0" maxOccurs="1">
 																							<xs:complexType>
 																								<xs:sequence>
 																									<xs:element name="answer" minOccurs="0" maxOccurs="unbounded">
@@ -217,8 +211,8 @@
 	<xs:simpleType name="MemberType">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="Crafter" />
-      <xs:enumeration value="EnglishBackTranslator" />
-      <xs:enumeration value="UNS" />
+			<xs:enumeration value="EnglishBackTranslator" />
+			<xs:enumeration value="UNS" />
 			<xs:enumeration value="ConsultantInTraining" />
 			<xs:enumeration value="Coach" />
 			<xs:enumeration value="JustLooking" />
@@ -228,12 +222,13 @@
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="CrafterTypeVernacular" />
 			<xs:enumeration value="CrafterTypeNationalBT" />
-      <xs:enumeration value="CrafterTypeInternationalBT" />
+			<xs:enumeration value="CrafterTypeInternationalBT" />
 			<xs:enumeration value="CrafterAddAnchors" />
+			<xs:enumeration value="CrafterCheckKeyTerms" />
 			<xs:enumeration value="CrafterAddStoryQuestions" />
-      <xs:enumeration value="BackTranslatorTypeInternationalBT" />
-      <xs:enumeration value="ConsultantCheckNonBiblicalStory" />
-      <xs:enumeration value="ConsultantCheckAnchors" />
+			<xs:enumeration value="BackTranslatorTypeInternationalBT" />
+			<xs:enumeration value="ConsultantCheckNonBiblicalStory" />
+			<xs:enumeration value="ConsultantCheckAnchors" />
 			<xs:enumeration value="ConsultantCheckStoryQuestions" />
 			<xs:enumeration value="CoachReviewRound1Notes" />
 			<xs:enumeration value="ConsultantReviseRound1Notes" />
@@ -264,10 +259,10 @@
 		<xs:attribute name="FontName" type="xs:string" use="required" />
 		<xs:attribute name="FontSize" type="xs:float" use="required" />
 		<xs:attribute name="FontColor" type="xs:string" use="required" />
-    <xs:attribute name="SentenceFinalPunct" type="xs:string" use="required" />
-    <xs:attribute name="Keyboard" type="xs:string" />
-    <xs:attribute name="RTL" type="xs:boolean" />
-  </xs:complexType>
+		<xs:attribute name="SentenceFinalPunct" type="xs:string" use="required" />
+		<xs:attribute name="Keyboard" type="xs:string" />
+		<xs:attribute name="RTL" type="xs:boolean" />
+	</xs:complexType>
 	<xs:simpleType name="FromTo">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="ConsultantToCrafter" />

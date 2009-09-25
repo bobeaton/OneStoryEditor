@@ -46,6 +46,7 @@
             this.checkedListBoxSwordBibles.Name = "checkedListBoxSwordBibles";
             this.checkedListBoxSwordBibles.Size = new System.Drawing.Size(462, 334);
             this.checkedListBoxSwordBibles.TabIndex = 0;
+            this.checkedListBoxSwordBibles.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBoxSwordBibles_ItemCheck);
             // 
             // buttonOK
             // 

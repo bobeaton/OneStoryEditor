@@ -127,7 +127,8 @@ namespace OneStoryProjectEditor
 
         protected void FinishEdit()
         {
-            if (!checkBoxEnglishBT.Checked && !checkBoxNationalLangBT.Checked)
+            // the only time you can *not* have a BT language is if the vernacular is "English"
+            if ((textBoxVernacular.Text != "English") && !checkBoxEnglishBT.Checked && !checkBoxNationalLangBT.Checked)
                 throw new ApplicationException("You must have a back-translation language; either a national language back-translation or English. Check one of the boxes that begins 'Project will use a *** BT?'");
 
             // update the language information as well (in case that was changed also)

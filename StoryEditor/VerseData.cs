@@ -44,29 +44,6 @@ namespace OneStoryProjectEditor
             CoachNotes = new CoachNotesData();
         }
 
-        public void FocusOnSomethingInThisVerse(StoryEditor theSE)
-        {
-            // I'm not even really sure if this text box is visible
-            System.Diagnostics.Debug.Assert((NationalBTText != null) && (VernacularText != null)
-                && (InternationalBTText != null));
-
-            if (theSE.viewVernacularLangFieldMenuItem.Checked)
-            {
-                System.Diagnostics.Debug.Assert((VernacularText.TextBox != null) && VernacularText.TextBox.Visible);
-                VernacularText.TextBox.Focus();
-            }
-            else if (theSE.viewNationalLangFieldMenuItem.Checked)
-            {
-                System.Diagnostics.Debug.Assert((NationalBTText.TextBox != null) && NationalBTText.TextBox.Visible);
-                NationalBTText.TextBox.Focus();
-            }
-            else if (theSE.viewEnglishBTFieldMenuItem.Checked)
-            {
-                System.Diagnostics.Debug.Assert((InternationalBTText.TextBox != null) && InternationalBTText.TextBox.Visible);
-                InternationalBTText.TextBox.Focus();
-            }
-        }
-
         public bool HasData
         {
             get

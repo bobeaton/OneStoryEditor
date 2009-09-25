@@ -63,10 +63,6 @@ namespace OneStoryProjectEditor {
         
         private exegeticalHelpDataTable tableexegeticalHelp;
         
-        private keyTermsDataTable tablekeyTerms;
-        
-        private keyTermDataTable tablekeyTerm;
-        
         private TestQuestionsDataTable tableTestQuestions;
         
         private TestQuestionDataTable tableTestQuestion;
@@ -126,10 +122,6 @@ namespace OneStoryProjectEditor {
         private global::System.Data.DataRelation relationanchor_exegeticalHelps;
         
         private global::System.Data.DataRelation relationexegeticalHelps_exegeticalHelp;
-        
-        private global::System.Data.DataRelation relationanchor_keyTerms;
-        
-        private global::System.Data.DataRelation relationkeyTerms_keyTerm;
         
         private global::System.Data.DataRelation relationverse_TestQuestions;
         
@@ -237,12 +229,6 @@ namespace OneStoryProjectEditor {
                 }
                 if ((ds.Tables["exegeticalHelp"] != null)) {
                     base.Tables.Add(new exegeticalHelpDataTable(ds.Tables["exegeticalHelp"]));
-                }
-                if ((ds.Tables["keyTerms"] != null)) {
-                    base.Tables.Add(new keyTermsDataTable(ds.Tables["keyTerms"]));
-                }
-                if ((ds.Tables["keyTerm"] != null)) {
-                    base.Tables.Add(new keyTermDataTable(ds.Tables["keyTerm"]));
                 }
                 if ((ds.Tables["TestQuestions"] != null)) {
                     base.Tables.Add(new TestQuestionsDataTable(ds.Tables["TestQuestions"]));
@@ -472,24 +458,6 @@ namespace OneStoryProjectEditor {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public keyTermsDataTable keyTerms {
-            get {
-                return this.tablekeyTerms;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.ComponentModel.Browsable(false)]
-        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public keyTermDataTable keyTerm {
-            get {
-                return this.tablekeyTerm;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.ComponentModel.Browsable(false)]
-        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
         public TestQuestionsDataTable TestQuestions {
             get {
                 return this.tableTestQuestions;
@@ -711,12 +679,6 @@ namespace OneStoryProjectEditor {
                 if ((ds.Tables["exegeticalHelp"] != null)) {
                     base.Tables.Add(new exegeticalHelpDataTable(ds.Tables["exegeticalHelp"]));
                 }
-                if ((ds.Tables["keyTerms"] != null)) {
-                    base.Tables.Add(new keyTermsDataTable(ds.Tables["keyTerms"]));
-                }
-                if ((ds.Tables["keyTerm"] != null)) {
-                    base.Tables.Add(new keyTermDataTable(ds.Tables["keyTerm"]));
-                }
                 if ((ds.Tables["TestQuestions"] != null)) {
                     base.Tables.Add(new TestQuestionsDataTable(ds.Tables["TestQuestions"]));
                 }
@@ -897,18 +859,6 @@ namespace OneStoryProjectEditor {
                     this.tableexegeticalHelp.InitVars();
                 }
             }
-            this.tablekeyTerms = ((keyTermsDataTable)(base.Tables["keyTerms"]));
-            if ((initTable == true)) {
-                if ((this.tablekeyTerms != null)) {
-                    this.tablekeyTerms.InitVars();
-                }
-            }
-            this.tablekeyTerm = ((keyTermDataTable)(base.Tables["keyTerm"]));
-            if ((initTable == true)) {
-                if ((this.tablekeyTerm != null)) {
-                    this.tablekeyTerm.InitVars();
-                }
-            }
             this.tableTestQuestions = ((TestQuestionsDataTable)(base.Tables["TestQuestions"]));
             if ((initTable == true)) {
                 if ((this.tableTestQuestions != null)) {
@@ -999,8 +949,6 @@ namespace OneStoryProjectEditor {
             this.relationanchors_anchor = this.Relations["anchors_anchor"];
             this.relationanchor_exegeticalHelps = this.Relations["anchor_exegeticalHelps"];
             this.relationexegeticalHelps_exegeticalHelp = this.Relations["exegeticalHelps_exegeticalHelp"];
-            this.relationanchor_keyTerms = this.Relations["anchor_keyTerms"];
-            this.relationkeyTerms_keyTerm = this.Relations["keyTerms_keyTerm"];
             this.relationverse_TestQuestions = this.Relations["verse_TestQuestions"];
             this.relationTestQuestions_TestQuestion = this.Relations["TestQuestions_TestQuestion"];
             this.relationTestQuestion_Answers = this.Relations["TestQuestion_Answers"];
@@ -1059,10 +1007,6 @@ namespace OneStoryProjectEditor {
             base.Tables.Add(this.tableexegeticalHelps);
             this.tableexegeticalHelp = new exegeticalHelpDataTable();
             base.Tables.Add(this.tableexegeticalHelp);
-            this.tablekeyTerms = new keyTermsDataTable();
-            base.Tables.Add(this.tablekeyTerms);
-            this.tablekeyTerm = new keyTermDataTable();
-            base.Tables.Add(this.tablekeyTerm);
             this.tableTestQuestions = new TestQuestionsDataTable();
             base.Tables.Add(this.tableTestQuestions);
             this.tableTestQuestion = new TestQuestionDataTable();
@@ -1211,20 +1155,6 @@ namespace OneStoryProjectEditor {
                         this.tableexegeticalHelps.exegeticalHelps_IdColumn}, new global::System.Data.DataColumn[] {
                         this.tableexegeticalHelp.exegeticalHelps_IdColumn});
             this.tableexegeticalHelp.Constraints.Add(fkc);
-            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
-            fkc.DeleteRule = global::System.Data.Rule.Cascade;
-            fkc.UpdateRule = global::System.Data.Rule.Cascade;
-            fkc = new global::System.Data.ForeignKeyConstraint("anchor_keyTerms", new global::System.Data.DataColumn[] {
-                        this.tableanchor.anchor_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tablekeyTerms.anchor_IdColumn});
-            this.tablekeyTerms.Constraints.Add(fkc);
-            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
-            fkc.DeleteRule = global::System.Data.Rule.Cascade;
-            fkc.UpdateRule = global::System.Data.Rule.Cascade;
-            fkc = new global::System.Data.ForeignKeyConstraint("keyTerms_keyTerm", new global::System.Data.DataColumn[] {
-                        this.tablekeyTerms.keyTerms_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tablekeyTerm.keyTerms_IdColumn});
-            this.tablekeyTerm.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
@@ -1402,16 +1332,6 @@ namespace OneStoryProjectEditor {
                         this.tableexegeticalHelp.exegeticalHelps_IdColumn}, false);
             this.relationexegeticalHelps_exegeticalHelp.Nested = true;
             this.Relations.Add(this.relationexegeticalHelps_exegeticalHelp);
-            this.relationanchor_keyTerms = new global::System.Data.DataRelation("anchor_keyTerms", new global::System.Data.DataColumn[] {
-                        this.tableanchor.anchor_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tablekeyTerms.anchor_IdColumn}, false);
-            this.relationanchor_keyTerms.Nested = true;
-            this.Relations.Add(this.relationanchor_keyTerms);
-            this.relationkeyTerms_keyTerm = new global::System.Data.DataRelation("keyTerms_keyTerm", new global::System.Data.DataColumn[] {
-                        this.tablekeyTerms.keyTerms_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tablekeyTerm.keyTerms_IdColumn}, false);
-            this.relationkeyTerms_keyTerm.Nested = true;
-            this.Relations.Add(this.relationkeyTerms_keyTerm);
             this.relationverse_TestQuestions = new global::System.Data.DataRelation("verse_TestQuestions", new global::System.Data.DataColumn[] {
                         this.tableverse.guidColumn}, new global::System.Data.DataColumn[] {
                         this.tableTestQuestions.guidColumn}, false);
@@ -1570,16 +1490,6 @@ namespace OneStoryProjectEditor {
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        private bool ShouldSerializekeyTerms() {
-            return false;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        private bool ShouldSerializekeyTerm() {
-            return false;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         private bool ShouldSerializeTestQuestions() {
             return false;
         }
@@ -1729,10 +1639,6 @@ namespace OneStoryProjectEditor {
         public delegate void exegeticalHelpsRowChangeEventHandler(object sender, exegeticalHelpsRowChangeEvent e);
         
         public delegate void exegeticalHelpRowChangeEventHandler(object sender, exegeticalHelpRowChangeEvent e);
-        
-        public delegate void keyTermsRowChangeEventHandler(object sender, keyTermsRowChangeEvent e);
-        
-        public delegate void keyTermRowChangeEventHandler(object sender, keyTermRowChangeEvent e);
         
         public delegate void TestQuestionsRowChangeEventHandler(object sender, TestQuestionsRowChangeEvent e);
         
@@ -5969,6 +5875,8 @@ namespace OneStoryProjectEditor {
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
         public partial class anchorsDataTable : global::System.Data.TypedTableBase<anchorsRow> {
             
+            private global::System.Data.DataColumn columnkeyTermChecked;
+            
             private global::System.Data.DataColumn columnanchors_Id;
             
             private global::System.Data.DataColumn columnguid;
@@ -6001,6 +5909,13 @@ namespace OneStoryProjectEditor {
             protected anchorsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn keyTermCheckedColumn {
+                get {
+                    return this.columnkeyTermChecked;
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -6046,13 +5961,14 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public anchorsRow AddanchorsRow(verseRow parentverseRowByverse_anchors) {
+            public anchorsRow AddanchorsRow(bool keyTermChecked, verseRow parentverseRowByverse_anchors) {
                 anchorsRow rowanchorsRow = ((anchorsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
+                        keyTermChecked,
                         null,
                         null};
                 if ((parentverseRowByverse_anchors != null)) {
-                    columnValuesArray[1] = parentverseRowByverse_anchors[0];
+                    columnValuesArray[2] = parentverseRowByverse_anchors[0];
                 }
                 rowanchorsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowanchorsRow);
@@ -6073,18 +5989,22 @@ namespace OneStoryProjectEditor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
+                this.columnkeyTermChecked = base.Columns["keyTermChecked"];
                 this.columnanchors_Id = base.Columns["anchors_Id"];
                 this.columnguid = base.Columns["guid"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             private void InitClass() {
+                this.columnkeyTermChecked = new global::System.Data.DataColumn("keyTermChecked", typeof(bool), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnkeyTermChecked);
                 this.columnanchors_Id = new global::System.Data.DataColumn("anchors_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnanchors_Id);
                 this.columnguid = new global::System.Data.DataColumn("guid", typeof(string), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnguid);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnanchors_Id}, true));
+                this.columnkeyTermChecked.Namespace = "";
                 this.columnanchors_Id.AutoIncrement = true;
                 this.columnanchors_Id.AllowDBNull = false;
                 this.columnanchors_Id.Unique = true;
@@ -6316,7 +6236,7 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentanchorsRowByanchors_anchor != null)) {
-                    columnValuesArray[3] = parentanchorsRowByanchors_anchor[0];
+                    columnValuesArray[3] = parentanchorsRowByanchors_anchor[1];
                 }
                 rowanchorRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowanchorRow);
@@ -6920,489 +6840,6 @@ namespace OneStoryProjectEditor {
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
                 attribute2.FixedValue = "exegeticalHelpDataTable";
-                type.Attributes.Add(attribute2);
-                type.Particle = sequence;
-                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
-                if (xs.Contains(dsSchema.TargetNamespace)) {
-                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
-                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
-                    try {
-                        global::System.Xml.Schema.XmlSchema schema = null;
-                        dsSchema.Write(s1);
-                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
-                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
-                            s2.SetLength(0);
-                            schema.Write(s2);
-                            if ((s1.Length == s2.Length)) {
-                                s1.Position = 0;
-                                s2.Position = 0;
-                                for (; ((s1.Position != s1.Length) 
-                                            && (s1.ReadByte() == s2.ReadByte())); ) {
-                                    ;
-                                }
-                                if ((s1.Position == s1.Length)) {
-                                    return type;
-                                }
-                            }
-                        }
-                    }
-                    finally {
-                        if ((s1 != null)) {
-                            s1.Close();
-                        }
-                        if ((s2 != null)) {
-                            s2.Close();
-                        }
-                    }
-                }
-                xs.Add(dsSchema);
-                return type;
-            }
-        }
-        
-        /// <summary>
-        ///Represents the strongly named DataTable class.
-        ///</summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        [global::System.Serializable()]
-        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class keyTermsDataTable : global::System.Data.TypedTableBase<keyTermsRow> {
-            
-            private global::System.Data.DataColumn columnkeyTerms_Id;
-            
-            private global::System.Data.DataColumn columnanchor_Id;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public keyTermsDataTable() {
-                this.TableName = "keyTerms";
-                this.BeginInit();
-                this.InitClass();
-                this.EndInit();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal keyTermsDataTable(global::System.Data.DataTable table) {
-                this.TableName = table.TableName;
-                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
-                    this.CaseSensitive = table.CaseSensitive;
-                }
-                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
-                    this.Locale = table.Locale;
-                }
-                if ((table.Namespace != table.DataSet.Namespace)) {
-                    this.Namespace = table.Namespace;
-                }
-                this.Prefix = table.Prefix;
-                this.MinimumCapacity = table.MinimumCapacity;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected keyTermsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
-                    base(info, context) {
-                this.InitVars();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn keyTerms_IdColumn {
-                get {
-                    return this.columnkeyTerms_Id;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn anchor_IdColumn {
-                get {
-                    return this.columnanchor_Id;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.ComponentModel.Browsable(false)]
-            public int Count {
-                get {
-                    return this.Rows.Count;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public keyTermsRow this[int index] {
-                get {
-                    return ((keyTermsRow)(this.Rows[index]));
-                }
-            }
-            
-            public event keyTermsRowChangeEventHandler keyTermsRowChanging;
-            
-            public event keyTermsRowChangeEventHandler keyTermsRowChanged;
-            
-            public event keyTermsRowChangeEventHandler keyTermsRowDeleting;
-            
-            public event keyTermsRowChangeEventHandler keyTermsRowDeleted;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void AddkeyTermsRow(keyTermsRow row) {
-                this.Rows.Add(row);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public keyTermsRow AddkeyTermsRow(anchorRow parentanchorRowByanchor_keyTerms) {
-                keyTermsRow rowkeyTermsRow = ((keyTermsRow)(this.NewRow()));
-                object[] columnValuesArray = new object[] {
-                        null,
-                        null};
-                if ((parentanchorRowByanchor_keyTerms != null)) {
-                    columnValuesArray[1] = parentanchorRowByanchor_keyTerms[2];
-                }
-                rowkeyTermsRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowkeyTermsRow);
-                return rowkeyTermsRow;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public override global::System.Data.DataTable Clone() {
-                keyTermsDataTable cln = ((keyTermsDataTable)(base.Clone()));
-                cln.InitVars();
-                return cln;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override global::System.Data.DataTable CreateInstance() {
-                return new keyTermsDataTable();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal void InitVars() {
-                this.columnkeyTerms_Id = base.Columns["keyTerms_Id"];
-                this.columnanchor_Id = base.Columns["anchor_Id"];
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            private void InitClass() {
-                this.columnkeyTerms_Id = new global::System.Data.DataColumn("keyTerms_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
-                base.Columns.Add(this.columnkeyTerms_Id);
-                this.columnanchor_Id = new global::System.Data.DataColumn("anchor_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
-                base.Columns.Add(this.columnanchor_Id);
-                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
-                                this.columnkeyTerms_Id}, true));
-                this.columnkeyTerms_Id.AutoIncrement = true;
-                this.columnkeyTerms_Id.AllowDBNull = false;
-                this.columnkeyTerms_Id.Unique = true;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public keyTermsRow NewkeyTermsRow() {
-                return ((keyTermsRow)(this.NewRow()));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new keyTermsRow(builder);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override global::System.Type GetRowType() {
-                return typeof(keyTermsRow);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowChanged(e);
-                if ((this.keyTermsRowChanged != null)) {
-                    this.keyTermsRowChanged(this, new keyTermsRowChangeEvent(((keyTermsRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowChanging(e);
-                if ((this.keyTermsRowChanging != null)) {
-                    this.keyTermsRowChanging(this, new keyTermsRowChangeEvent(((keyTermsRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowDeleted(e);
-                if ((this.keyTermsRowDeleted != null)) {
-                    this.keyTermsRowDeleted(this, new keyTermsRowChangeEvent(((keyTermsRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowDeleting(e);
-                if ((this.keyTermsRowDeleting != null)) {
-                    this.keyTermsRowDeleting(this, new keyTermsRowChangeEvent(((keyTermsRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void RemovekeyTermsRow(keyTermsRow row) {
-                this.Rows.Remove(row);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
-                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
-                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                StoryProject ds = new StoryProject();
-                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
-                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
-                any1.MinOccurs = new decimal(0);
-                any1.MaxOccurs = decimal.MaxValue;
-                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
-                sequence.Items.Add(any1);
-                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
-                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
-                any2.MinOccurs = new decimal(1);
-                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
-                sequence.Items.Add(any2);
-                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
-                attribute1.Name = "namespace";
-                attribute1.FixedValue = ds.Namespace;
-                type.Attributes.Add(attribute1);
-                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
-                attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "keyTermsDataTable";
-                type.Attributes.Add(attribute2);
-                type.Particle = sequence;
-                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
-                if (xs.Contains(dsSchema.TargetNamespace)) {
-                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
-                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
-                    try {
-                        global::System.Xml.Schema.XmlSchema schema = null;
-                        dsSchema.Write(s1);
-                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
-                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
-                            s2.SetLength(0);
-                            schema.Write(s2);
-                            if ((s1.Length == s2.Length)) {
-                                s1.Position = 0;
-                                s2.Position = 0;
-                                for (; ((s1.Position != s1.Length) 
-                                            && (s1.ReadByte() == s2.ReadByte())); ) {
-                                    ;
-                                }
-                                if ((s1.Position == s1.Length)) {
-                                    return type;
-                                }
-                            }
-                        }
-                    }
-                    finally {
-                        if ((s1 != null)) {
-                            s1.Close();
-                        }
-                        if ((s2 != null)) {
-                            s2.Close();
-                        }
-                    }
-                }
-                xs.Add(dsSchema);
-                return type;
-            }
-        }
-        
-        /// <summary>
-        ///Represents the strongly named DataTable class.
-        ///</summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        [global::System.Serializable()]
-        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class keyTermDataTable : global::System.Data.TypedTableBase<keyTermRow> {
-            
-            private global::System.Data.DataColumn columnkeyTerm_Column;
-            
-            private global::System.Data.DataColumn columnkeyTerms_Id;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public keyTermDataTable() {
-                this.TableName = "keyTerm";
-                this.BeginInit();
-                this.InitClass();
-                this.EndInit();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal keyTermDataTable(global::System.Data.DataTable table) {
-                this.TableName = table.TableName;
-                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
-                    this.CaseSensitive = table.CaseSensitive;
-                }
-                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
-                    this.Locale = table.Locale;
-                }
-                if ((table.Namespace != table.DataSet.Namespace)) {
-                    this.Namespace = table.Namespace;
-                }
-                this.Prefix = table.Prefix;
-                this.MinimumCapacity = table.MinimumCapacity;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected keyTermDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
-                    base(info, context) {
-                this.InitVars();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn keyTerm_ColumnColumn {
-                get {
-                    return this.columnkeyTerm_Column;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn keyTerms_IdColumn {
-                get {
-                    return this.columnkeyTerms_Id;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.ComponentModel.Browsable(false)]
-            public int Count {
-                get {
-                    return this.Rows.Count;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public keyTermRow this[int index] {
-                get {
-                    return ((keyTermRow)(this.Rows[index]));
-                }
-            }
-            
-            public event keyTermRowChangeEventHandler keyTermRowChanging;
-            
-            public event keyTermRowChangeEventHandler keyTermRowChanged;
-            
-            public event keyTermRowChangeEventHandler keyTermRowDeleting;
-            
-            public event keyTermRowChangeEventHandler keyTermRowDeleted;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void AddkeyTermRow(keyTermRow row) {
-                this.Rows.Add(row);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public keyTermRow AddkeyTermRow(string keyTerm_Column, keyTermsRow parentkeyTermsRowBykeyTerms_keyTerm) {
-                keyTermRow rowkeyTermRow = ((keyTermRow)(this.NewRow()));
-                object[] columnValuesArray = new object[] {
-                        keyTerm_Column,
-                        null};
-                if ((parentkeyTermsRowBykeyTerms_keyTerm != null)) {
-                    columnValuesArray[1] = parentkeyTermsRowBykeyTerms_keyTerm[0];
-                }
-                rowkeyTermRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowkeyTermRow);
-                return rowkeyTermRow;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public override global::System.Data.DataTable Clone() {
-                keyTermDataTable cln = ((keyTermDataTable)(base.Clone()));
-                cln.InitVars();
-                return cln;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override global::System.Data.DataTable CreateInstance() {
-                return new keyTermDataTable();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal void InitVars() {
-                this.columnkeyTerm_Column = base.Columns["keyTerm_Column"];
-                this.columnkeyTerms_Id = base.Columns["keyTerms_Id"];
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            private void InitClass() {
-                this.columnkeyTerm_Column = new global::System.Data.DataColumn("keyTerm_Column", typeof(string), null, global::System.Data.MappingType.SimpleContent);
-                base.Columns.Add(this.columnkeyTerm_Column);
-                this.columnkeyTerms_Id = new global::System.Data.DataColumn("keyTerms_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
-                base.Columns.Add(this.columnkeyTerms_Id);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public keyTermRow NewkeyTermRow() {
-                return ((keyTermRow)(this.NewRow()));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new keyTermRow(builder);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override global::System.Type GetRowType() {
-                return typeof(keyTermRow);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowChanged(e);
-                if ((this.keyTermRowChanged != null)) {
-                    this.keyTermRowChanged(this, new keyTermRowChangeEvent(((keyTermRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowChanging(e);
-                if ((this.keyTermRowChanging != null)) {
-                    this.keyTermRowChanging(this, new keyTermRowChangeEvent(((keyTermRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowDeleted(e);
-                if ((this.keyTermRowDeleted != null)) {
-                    this.keyTermRowDeleted(this, new keyTermRowChangeEvent(((keyTermRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowDeleting(e);
-                if ((this.keyTermRowDeleting != null)) {
-                    this.keyTermRowDeleting(this, new keyTermRowChangeEvent(((keyTermRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void RemovekeyTermRow(keyTermRow row) {
-                this.Rows.Remove(row);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
-                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
-                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                StoryProject ds = new StoryProject();
-                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
-                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
-                any1.MinOccurs = new decimal(0);
-                any1.MaxOccurs = decimal.MaxValue;
-                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
-                sequence.Items.Add(any1);
-                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
-                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
-                any2.MinOccurs = new decimal(1);
-                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
-                sequence.Items.Add(any2);
-                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
-                attribute1.Name = "namespace";
-                attribute1.FixedValue = ds.Namespace;
-                type.Attributes.Add(attribute1);
-                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
-                attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "keyTermDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -12329,6 +11766,21 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool keyTermChecked {
+                get {
+                    try {
+                        return ((bool)(this[this.tableanchors.keyTermCheckedColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'keyTermChecked\' in table \'anchors\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableanchors.keyTermCheckedColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public int anchors_Id {
                 get {
                     return ((int)(this[this.tableanchors.anchors_IdColumn]));
@@ -12361,6 +11813,16 @@ namespace OneStoryProjectEditor {
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["verse_anchors"]);
                 }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IskeyTermCheckedNull() {
+                return this.IsNull(this.tableanchors.keyTermCheckedColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetkeyTermCheckedNull() {
+                this[this.tableanchors.keyTermCheckedColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -12485,16 +11947,6 @@ namespace OneStoryProjectEditor {
                 }
                 else {
                     return ((exegeticalHelpsRow[])(base.GetChildRows(this.Table.ChildRelations["anchor_exegeticalHelps"])));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public keyTermsRow[] GetkeyTermsRows() {
-                if ((this.Table.ChildRelations["anchor_keyTerms"] == null)) {
-                    return new keyTermsRow[0];
-                }
-                else {
-                    return ((keyTermsRow[])(base.GetChildRows(this.Table.ChildRelations["anchor_keyTerms"])));
                 }
             }
         }
@@ -12642,151 +12094,6 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public void SetexegeticalHelps_IdNull() {
                 this[this.tableexegeticalHelp.exegeticalHelps_IdColumn] = global::System.Convert.DBNull;
-            }
-        }
-        
-        /// <summary>
-        ///Represents strongly named DataRow class.
-        ///</summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        public partial class keyTermsRow : global::System.Data.DataRow {
-            
-            private keyTermsDataTable tablekeyTerms;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal keyTermsRow(global::System.Data.DataRowBuilder rb) : 
-                    base(rb) {
-                this.tablekeyTerms = ((keyTermsDataTable)(this.Table));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int keyTerms_Id {
-                get {
-                    return ((int)(this[this.tablekeyTerms.keyTerms_IdColumn]));
-                }
-                set {
-                    this[this.tablekeyTerms.keyTerms_IdColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int anchor_Id {
-                get {
-                    try {
-                        return ((int)(this[this.tablekeyTerms.anchor_IdColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'anchor_Id\' in table \'keyTerms\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tablekeyTerms.anchor_IdColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public anchorRow anchorRow {
-                get {
-                    return ((anchorRow)(this.GetParentRow(this.Table.ParentRelations["anchor_keyTerms"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["anchor_keyTerms"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool Isanchor_IdNull() {
-                return this.IsNull(this.tablekeyTerms.anchor_IdColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void Setanchor_IdNull() {
-                this[this.tablekeyTerms.anchor_IdColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public keyTermRow[] GetkeyTermRows() {
-                if ((this.Table.ChildRelations["keyTerms_keyTerm"] == null)) {
-                    return new keyTermRow[0];
-                }
-                else {
-                    return ((keyTermRow[])(base.GetChildRows(this.Table.ChildRelations["keyTerms_keyTerm"])));
-                }
-            }
-        }
-        
-        /// <summary>
-        ///Represents strongly named DataRow class.
-        ///</summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        public partial class keyTermRow : global::System.Data.DataRow {
-            
-            private keyTermDataTable tablekeyTerm;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal keyTermRow(global::System.Data.DataRowBuilder rb) : 
-                    base(rb) {
-                this.tablekeyTerm = ((keyTermDataTable)(this.Table));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string keyTerm_Column {
-                get {
-                    try {
-                        return ((string)(this[this.tablekeyTerm.keyTerm_ColumnColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'keyTerm_Column\' in table \'keyTerm\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tablekeyTerm.keyTerm_ColumnColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int keyTerms_Id {
-                get {
-                    try {
-                        return ((int)(this[this.tablekeyTerm.keyTerms_IdColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'keyTerms_Id\' in table \'keyTerm\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tablekeyTerm.keyTerms_IdColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public keyTermsRow keyTermsRow {
-                get {
-                    return ((keyTermsRow)(this.GetParentRow(this.Table.ParentRelations["keyTerms_keyTerm"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["keyTerms_keyTerm"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IskeyTerm_ColumnNull() {
-                return this.IsNull(this.tablekeyTerm.keyTerm_ColumnColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetkeyTerm_ColumnNull() {
-                this[this.tablekeyTerm.keyTerm_ColumnColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IskeyTerms_IdNull() {
-                return this.IsNull(this.tablekeyTerm.keyTerms_IdColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetkeyTerms_IdNull() {
-                this[this.tablekeyTerm.keyTerms_IdColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -14428,68 +13735,6 @@ namespace OneStoryProjectEditor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public exegeticalHelpRow Row {
-                get {
-                    return this.eventRow;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataRowAction Action {
-                get {
-                    return this.eventAction;
-                }
-            }
-        }
-        
-        /// <summary>
-        ///Row event argument class
-        ///</summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        public class keyTermsRowChangeEvent : global::System.EventArgs {
-            
-            private keyTermsRow eventRow;
-            
-            private global::System.Data.DataRowAction eventAction;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public keyTermsRowChangeEvent(keyTermsRow row, global::System.Data.DataRowAction action) {
-                this.eventRow = row;
-                this.eventAction = action;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public keyTermsRow Row {
-                get {
-                    return this.eventRow;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataRowAction Action {
-                get {
-                    return this.eventAction;
-                }
-            }
-        }
-        
-        /// <summary>
-        ///Row event argument class
-        ///</summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        public class keyTermRowChangeEvent : global::System.EventArgs {
-            
-            private keyTermRow eventRow;
-            
-            private global::System.Data.DataRowAction eventAction;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public keyTermRowChangeEvent(keyTermRow row, global::System.Data.DataRowAction action) {
-                this.eventRow = row;
-                this.eventAction = action;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public keyTermRow Row {
                 get {
                     return this.eventRow;
                 }

@@ -668,8 +668,37 @@ namespace OneStoryProjectEditor
             
             theCurrentStory.Verses.InsertRange(nInsertionIndex, lstNewVerses);
             InitAllPanes();
-            System.Diagnostics.Debug.Assert(lstNewVerses.Count > 0);
-            lstNewVerses[0].FocusOnSomethingInThisVerse(this);
+            Debug.Assert(lstNewVerses.Count > 0);
+            FocusOnVerse(nInsertionIndex);
+        }
+
+        public void FocusOnVerse(int nVerseIndex)
+        {
+            // light up whichever text box is visible
+            // from the verses pane...
+            Debug.Assert(((nVerseIndex * 2) + 1) < flowLayoutPanelVerses.Controls.Count);
+            Control ctrl = flowLayoutPanelVerses.Controls[(nVerseIndex * 2) + 1];
+            Debug.Assert(ctrl is VerseBtControl);
+            VerseBtControl theVerse = ctrl as VerseBtControl;
+            theVerse.Focus(this);
+
+            if (viewConsultantNoteFieldMenuItem.Checked)
+            {
+                Debug.Assert(nVerseIndex < flowLayoutPanelConsultantNotes.Controls.Count);
+                ctrl = flowLayoutPanelConsultantNotes.Controls[nVerseIndex];
+                Debug.Assert(ctrl is ConsultNotesControl);
+                ConsultNotesControl theConsultantNotes = ctrl as ConsultNotesControl;
+                theConsultantNotes.Focus();
+            }
+
+            if (viewCoachNotesFieldMenuItem.Checked)
+            {
+                Debug.Assert(nVerseIndex < flowLayoutPanelCoachNotes.Controls.Count);
+                ctrl = flowLayoutPanelCoachNotes.Controls[nVerseIndex];
+                Debug.Assert(ctrl is ConsultNotesControl);
+                ConsultNotesControl theCoachNotes = ctrl as ConsultNotesControl;
+                theCoachNotes.Focus();
+            }
         }
 
         internal void AddNewVerse(int nInsertionIndex, string strVernacular, string strNationalBT, string strInternationalBT)
@@ -1794,7 +1823,8 @@ namespace OneStoryProjectEditor
 
         private void splitIntoLinesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.Assert((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
+            Debug.Assert((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
+            CheckForSaveDirtyFile();    // ought to do a save before this so we don't cause them to lose anything.
             if (theCurrentStory.Verses.Count == 1)
             {
                 // means 'split into lines'
@@ -1839,13 +1869,18 @@ namespace OneStoryProjectEditor
             repo.SynchronizeWithRemote();
         */
 
-        public void NavigateTo(string strStoryName, int nLineNumber, string strAnchor)
+        public void NavigateTo(string strStoryName, int nLineIndex, string strAnchor)
         {
             Debug.Assert(comboBoxStorySelector.Items.Contains(strStoryName));
             comboBoxStorySelector.SelectedItem = strStoryName;
             SetNetBibleVerse(strAnchor);
-            Debug.Assert(theCurrentStory.Verses.Count > nLineNumber);
-            theCurrentStory.Verses[nLineNumber].FocusOnSomethingInThisVerse(this);
+            Debug.Assert(theCurrentStory.Verses.Count > nLineIndex);
+            FocusOnVerse(nLineIndex);
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(Properties.Resources.IDS_CopyrightInfo, Properties.Resources.IDS_Caption);
         }
     }
 }

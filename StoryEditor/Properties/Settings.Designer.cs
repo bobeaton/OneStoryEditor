@@ -261,5 +261,17 @@ namespace OneStoryProjectEditor.Properties {
                 this["DefaultAIKBFile"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string NetBibleKey {
+            get {
+                return ((string)(this["NetBibleKey"]));
+            }
+            set {
+                this["NetBibleKey"] = value;
+            }
+        }
     }
 }

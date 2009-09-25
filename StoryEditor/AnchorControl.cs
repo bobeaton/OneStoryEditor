@@ -222,6 +222,10 @@ namespace OneStoryProjectEditor
 
             try
             {
+                // if the project info changed...
+                if ((m_dlgKeyTerms != null) && (m_dlgKeyTerms._theSE.Stories.ProjSettings.Vernacular != theSE.Stories.ProjSettings.Vernacular))
+                    m_dlgKeyTerms = null;
+
                 if (m_dlgKeyTerms == null)
                     m_dlgKeyTerms = new BiblicalKeyTermsForm(theSE);
                 m_dlgKeyTerms.Show(_myAnchorsData, theSE.Stories);

@@ -68,29 +68,30 @@ namespace OneStoryProjectEditor
                 theSE.QueryStoryPurpose();
             }
 
-            // finally (again) if the user isn't doing a national bt, then we need to modify the next state
+            // finally, if the user isn't doing a national bt, then we need to modify the next state
             if (!theStories.ProjSettings.NationalBT.HasData)
             {
-                // otherwise, there has to be an international bt field...
-                System.Diagnostics.Debug.Assert(theStories.ProjSettings.InternationalBT.HasData);
+                // otherwise, there has to be an international bt field... unless the vern is English
+                if (!theStories.ProjSettings.InternationalBT.HasData)
+                {
+                    System.Diagnostics.Debug.Assert(theStories.ProjSettings.Vernacular.LangName == "English");
+                    eProposedNextState = (theCurrentStory.CraftingInfo.IsBiblicalStory) 
+                        ? StoryStageLogic.ProjectStages.eCrafterAddAnchors : StoryStageLogic.ProjectStages.eConsultantCheckNonBiblicalStory;
+                }
 
                 // normally, we'd go to the "crafter enters English BT" state next, but 
                 //  if there's a separate English BTr on the team, then we go do anchors 
                 //  first (and then Story Qs so that he/she can do the English BT for 
                 //  those afterwards as well).
-                if (theCurrentStory.CraftingInfo.IsBiblicalStory)
+                else if (theCurrentStory.CraftingInfo.IsBiblicalStory)
                 {
-                    if (theStories.TeamMembers.IsThereASeparateEnglishBackTranslator)
-                        eProposedNextState = StoryStageLogic.ProjectStages.eCrafterAddAnchors;
-                    else
-                        eProposedNextState = StoryStageLogic.ProjectStages.eCrafterTypeInternationalBT;
+                    eProposedNextState = (theStories.TeamMembers.IsThereASeparateEnglishBackTranslator) 
+                        ? StoryStageLogic.ProjectStages.eCrafterAddAnchors : StoryStageLogic.ProjectStages.eCrafterTypeInternationalBT;
                 }
                 else
                 {
-                    if (theStories.TeamMembers.IsThereASeparateEnglishBackTranslator)
-                        eProposedNextState = StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT;
-                    else
-                        eProposedNextState = StoryStageLogic.ProjectStages.eCrafterTypeInternationalBT;
+                    eProposedNextState = theStories.TeamMembers.IsThereASeparateEnglishBackTranslator 
+                        ? StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT : StoryStageLogic.ProjectStages.eCrafterTypeInternationalBT;
                 }
             }
 
@@ -119,7 +120,8 @@ namespace OneStoryProjectEditor
                             bRepeatAfterMe = true;
                             break;  // we have to exit the loop since we've modified the collection
                         }
-                        else if (aVerseData.VernacularText.HasData)
+                        
+                        if (aVerseData.VernacularText.HasData)
                         {
                             ShowErrorFocus(theSE, aVerseData.NationalBTText.TextBox, String.Format("Error: Verse {0} is missing a back-translation. Did you forget it?", nVerseNumber));
                             return false;
@@ -305,9 +307,41 @@ namespace OneStoryProjectEditor
                 if (aVerseData.Anchors.Count == 0)
                 {
                     ShowError(theSE, String.Format("Error: Verse {0} doesn't have an anchor. Did you forget it?", nVerseNumber));
-                    aVerseData.FocusOnSomethingInThisVerse(theSE);
+                    theSE.FocusOnVerse(nVerseNumber - 1);
                     return false;
                 }
+                nVerseNumber++;
+            }
+
+            System.Diagnostics.Debug.Assert(eProposedNextState ==
+                StoryStageLogic.ProjectStages.eCrafterCheckKeyTerms);
+
+            return true;
+        }
+
+        public static bool CrafterCheckKeyTerms(StoryEditor theSE, StoriesData theStories, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
+        {
+            System.Diagnostics.Debug.Assert(theCurrentStory.CraftingInfo.IsBiblicalStory);
+            Console.WriteLine(String.Format("Checking if stage 'CrafterCheckKeyTerms' work is finished: Name: {0}", theCurrentStory.Name));
+
+            // for each verse, make sure that each anchor has had it's key terms checked.
+            int nVerseNumber = 1;
+            foreach (VerseData aVerseData in theCurrentStory.Verses)
+            {
+                if (aVerseData.Anchors.Count == 0)
+                {
+                    ShowError(theSE, String.Format("Error: Verse {0} doesn't have an anchor. Did you forget it?", nVerseNumber));
+                    theSE.FocusOnVerse(nVerseNumber - 1);
+                    return false;
+                }
+
+                if (!aVerseData.Anchors.IsKeyTermChecked)
+                {
+                    ShowError(theSE, String.Format("Verse {0} needs to have its key terms checked. right-click on the anchor bar and choose doesn't 'Edit Key Terms'", nVerseNumber));
+                    theSE.FocusOnVerse(nVerseNumber - 1);
+                    return false;
+                }
+
                 nVerseNumber++;
             }
 
@@ -316,7 +350,7 @@ namespace OneStoryProjectEditor
 
             return true;
         }
-
+        
         public static bool CrafterAddStoryQuestions(StoryEditor theSE, StoriesData theStories, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             System.Diagnostics.Debug.Assert(theCurrentStory.CraftingInfo.IsBiblicalStory);

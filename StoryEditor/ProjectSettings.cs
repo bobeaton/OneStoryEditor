@@ -195,7 +195,7 @@ namespace OneStoryProjectEditor
             get
             {
                 // have to have one or the other BT language
-                System.Diagnostics.Debug.Assert(NationalBT.HasData || InternationalBT.HasData);
+                System.Diagnostics.Debug.Assert(NationalBT.HasData || InternationalBT.HasData || (Vernacular.LangName == "English"));
 
                 XElement elem = new XElement("Languages",
                     Vernacular.GetXml("VernacularLang"));
