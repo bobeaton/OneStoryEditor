@@ -353,7 +353,7 @@ When you are finished, then click the button in the left-hand side of the status
   <StateTransition stage="eCrafterReviseBasedOnRound1Notes" MemberTypeWithEditToken="eCrafter" NextState="eCrafterOnlineReview1WithConsultant">
     <StageDisplayString>Crafter revises story based on Consultant's feedback</StageDisplayString>
     <StageInstructions></StageInstructions>
-    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
+    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eCrafterOnlineReview1WithConsultant" MemberTypeWithEditToken="eCrafter" NextState="eCrafterReadyForTest1">
     <StageDisplayString>Crafter has 1st online review with consultant</StageDisplayString>

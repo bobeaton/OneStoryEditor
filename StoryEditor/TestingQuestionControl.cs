@@ -78,8 +78,8 @@ namespace OneStoryProjectEditor
 
             if (theSE.Stories.ProjSettings.InternationalBT.HasData
                 && (!theSE.Stories.TeamMembers.IsThereASeparateEnglishBackTranslator
-                    || (StageLogic.MemberTypeWithEditToken ==
-                            TeamMemberData.UserTypes.eEnglishBacktranslator)))
+                    || (StageLogic.MemberTypeWithEditToken !=
+                            TeamMemberData.UserTypes.eCrafter)))
             {
                 InsertColumn(nNumColumns);
                 if (bShowVernAndShowHeaders)    // but no need to show the lang title header unless there are two

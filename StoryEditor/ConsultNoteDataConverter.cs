@@ -52,10 +52,11 @@ namespace OneStoryProjectEditor
         {
             // in case the user re-logs in, we might have extra boxes here. So remove any null ones before
             //  "insuring" the one(s) we need
-            while (!this[Count - 1].HasData)
-                RemoveAt(Count - 1);
+            if (Count > 1)
+                while (!this[Count - 1].HasData)
+                    RemoveAt(Count - 1);
 
-            if (bIsMentorLoggedIn && (this[Count - 1].Direction != MentorDirection))
+            if (bIsMentorLoggedIn && ((Count == 0) || (this[Count - 1].Direction != MentorDirection)))
                 Add(new CommInstance(null, MentorDirection, null));
             else if (!bIsMentorLoggedIn && (this[Count - 1].Direction != MenteeDirection))
                 Add(new CommInstance(null, MenteeDirection, null));
@@ -234,7 +235,7 @@ namespace OneStoryProjectEditor
 
         public override string MentorLabel
         {
-            get { return "coach:"; }
+            get { return "coch:"; }
         }
 
         public override string MenteeLabel

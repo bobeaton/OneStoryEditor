@@ -669,7 +669,7 @@ namespace OneStoryProjectEditor
             theCurrentStory.Verses.InsertRange(nInsertionIndex, lstNewVerses);
             InitAllPanes();
             System.Diagnostics.Debug.Assert(lstNewVerses.Count > 0);
-            lstNewVerses[0].FocusOnSomethingInThisVerse();
+            lstNewVerses[0].FocusOnSomethingInThisVerse(this);
         }
 
         internal void AddNewVerse(int nInsertionIndex, string strVernacular, string strNationalBT, string strInternationalBT)
@@ -1838,5 +1838,14 @@ namespace OneStoryProjectEditor
 
             repo.SynchronizeWithRemote();
         */
+
+        public void NavigateTo(string strStoryName, int nLineNumber, string strAnchor)
+        {
+            Debug.Assert(comboBoxStorySelector.Items.Contains(strStoryName));
+            comboBoxStorySelector.SelectedItem = strStoryName;
+            SetNetBibleVerse(strAnchor);
+            Debug.Assert(theCurrentStory.Verses.Count > nLineNumber);
+            theCurrentStory.Verses[nLineNumber].FocusOnSomethingInThisVerse(this);
+        }
     }
 }

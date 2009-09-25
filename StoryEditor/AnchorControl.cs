@@ -211,5 +211,27 @@ namespace OneStoryProjectEditor
             else
                 MessageBox.Show("Right-click on one of the buttons to choose which one to add the exegetical or cultural note to",  Properties.Resources.IDS_Caption);
         }
+
+        protected BiblicalKeyTermsForm m_dlgKeyTerms = null;
+
+        private void editKeyTermsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            StoryEditor theSE = (StoryEditor)FindForm();
+            if (theSE == null)
+                return;
+
+            try
+            {
+                if (m_dlgKeyTerms == null)
+                    m_dlgKeyTerms = new BiblicalKeyTermsForm(theSE);
+                m_dlgKeyTerms.Show(_myAnchorsData, theSE.Stories);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(String.Format(Properties.Resources.IDS_KeyTermsProblem,
+                    Environment.NewLine, ex.Message), Properties.Resources.IDS_Caption);
+                return;
+            }
+        }
     }
 }

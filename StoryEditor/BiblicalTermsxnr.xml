@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TermRenderingsList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <RenderingsChanged>true</RenderingsChanged>
+  <ScrTextName>xnr</ScrTextName>
+  <Renderings>
+    <TermRendering>
+      <Id>אֱלֹהִים</Id>
+      <Status>SomeMissing</Status>
+      <Guess>false</Guess>
+      <Renderings>परमेसरैं</Renderings>
+      <Notes />
+      <Denials />
+      <Tag />
+    </TermRendering>
+    <TermRendering>
+      <Id>יהוה</Id>
+      <Status>SomeMissing</Status>
+      <Guess>false</Guess>
+      <Renderings />
+      <Notes />
+      <Denials />
+      <Tag />
+    </TermRendering>
+  </Renderings>
+</TermRenderingsList>

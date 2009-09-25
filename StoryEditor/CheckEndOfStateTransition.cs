@@ -305,7 +305,7 @@ namespace OneStoryProjectEditor
                 if (aVerseData.Anchors.Count == 0)
                 {
                     ShowError(theSE, String.Format("Error: Verse {0} doesn't have an anchor. Did you forget it?", nVerseNumber));
-                    aVerseData.FocusOnSomethingInThisVerse();
+                    aVerseData.FocusOnSomethingInThisVerse(theSE);
                     return false;
                 }
                 nVerseNumber++;
@@ -475,18 +475,18 @@ namespace OneStoryProjectEditor
 
             // before handing it back to the crafter, let's make sure that if the coach had made 
             //  a comment, that the CIT answered it.
-            int nVerseNumber = 0;
+            int nVerseNumber = 1;
             foreach (VerseData aVerseData in theCurrentStory.Verses)
             {
                 foreach (ConsultNoteDataConverter aConNote in aVerseData.CoachNotes)
                 {
                     int nIndex = aConNote.Count;
-                    CommInstance theLastCI = aConNote[nIndex];
+                    CommInstance theLastCI = aConNote[nIndex - 1];
                     System.Diagnostics.Debug.Assert(theLastCI.Direction == ConsultNoteDataConverter.CommunicationDirections.eConsultantToCoach);
                     if (!theLastCI.HasData)
                     {
                         ShowErrorFocus(theSE, aConNote[1].TextBox,
-                            String.Format("Error: in verse {0}, the coach made a comment, which you didn't respond to. Did you forget it?", nVerseNumber));
+                            String.Format("Error: in line {0}, the coach made a comment, which you didn't respond to. Did you forget it?", nVerseNumber));
                         return false;
                     }
                 }

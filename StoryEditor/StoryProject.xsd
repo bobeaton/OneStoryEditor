@@ -92,6 +92,13 @@
 																								</xs:sequence>
 																							</xs:complexType>
 																						</xs:element>
+																						<xs:element name="keyTerms" minOccurs="0" maxOccurs="1">
+																							<xs:complexType>
+																								<xs:sequence>
+																									<xs:element name="keyTerm" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
+																								</xs:sequence>
+																							</xs:complexType>
+																						</xs:element>
 																					</xs:sequence>
 																					<xs:attribute name="jumpTarget" type="xs:string" use="required" />
 																				</xs:complexType>

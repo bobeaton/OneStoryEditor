@@ -1,0 +1,2226 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SharedScrUtils</name>
+    </assembly>
+    <members>
+        <member name="T:SILUBS.SharedScrUtils.VersificationTable">
+            <summary>
+            Manipulate information for standard chatper/verse schemes
+            </summary>
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.VersificationTable.Initialize(System.String)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            This method should be called once before an application accesses anything that
+            requires versification info.
+            TODO: Paratext needs to call this with ScrTextCollection.SettingsDirectory.
+            </summary>
+            <param name="vrsFolder">Path to the folder containing the .vrs files</param>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.VersificationTable.Get(Paratext.ScrVers)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Get the versification table for this versification
+            </summary>
+            <param name="vers"></param>
+            <returns></returns>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.VersificationTable.ReadVersificationFile(System.String,SILUBS.SharedScrUtils.VersificationTable)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Read versification file and "add" its entries.
+            At the moment we only do this once. Eventually we will call this twice.
+            Once for the standard versification, once for custom entries in versification.vrs
+            file for this project.
+            </summary>
+            <param name="fileName"></param>
+            <param name="versification"></param>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.VersificationTable.GetFileNameForVersification(Paratext.ScrVers)">
+            <summary>
+            Gets the name of this requested versification file.
+            </summary>
+            <param name="vers">Versification scheme</param>
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.VersificationTable.LastChapter(System.Int32)">
+            <summary>
+            Last chapter number in this book.
+            </summary>
+            <param name="bookNum"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.VersificationTable.LastVerse(System.Int32,System.Int32)">
+            <summary>
+            Last verse number in this book/chapter.
+            </summary>
+            <param name="bookNum"></param>
+            <param name="chapterNum"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.VersificationTable.ChangeVersification(SILUBS.SharedScrUtils.IVerseReference)">
+            <summary>
+            Change the passed VerseRef to be this versification.
+            </summary>
+            <param name="vref"></param>
+        </member>
+        <member name="T:SILUBS.SharedScrUtils.RecordErrorEventArgs">
+            ----------------------------------------------------------------------------------------
+            <summary>
+            Class of object to be passed to the RecodError delegate, containing information about
+            the location and nature of the checking inconsistency.
+            </summary>
+            ----------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.RecordErrorEventArgs.#ctor(SILUBS.SharedScrUtils.TextTokenSubstring,System.Guid)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Initializes a new instance of the <see cref="T:SILUBS.SharedScrUtils.RecordErrorEventArgs"/> class.
+            </summary>
+            <param name="tts">The TextTokenSubstring.</param>
+            <param name="checkId">The GUID identifying the check.</param>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.RecordErrorEventArgs.Tts">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets the TextTokenSubstring.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.RecordErrorEventArgs.CheckId">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets the GUID identifying the check.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="T:SILUBS.SharedScrUtils.RecordErrorHandler">
+            ----------------------------------------------------------------------------------------
+            <summary>
+            Callback to record an error occuring at the specified location within
+            the token. The message will have already been localized by calling the
+            IChecksDataSource.GetLocalizedString() method.
+            </summary>
+            ----------------------------------------------------------------------------------------
+        </member>
+        <member name="T:SILUBS.SharedScrUtils.ParagraphContinuationType">
+            <summary></summary>
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.ParagraphContinuationType.None">
+            <summary></summary>
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.ParagraphContinuationType.RequireAll">
+            <summary></summary>
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.ParagraphContinuationType.RequireInnermost">
+            <summary></summary>
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.ParagraphContinuationType.RequireOutermost">
+            <summary></summary>
+        </member>
+        <member name="T:SILUBS.SharedScrUtils.ParagraphContinuationMark">
+            <summary></summary>
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.ParagraphContinuationMark.None">
+            <summary></summary>
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.ParagraphContinuationMark.Opening">
+            <summary></summary>
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.ParagraphContinuationMark.Closing">
+            <summary></summary>
+        </member>
+        <member name="T:SILUBS.SharedScrUtils.QuotationMarksList">
+            ----------------------------------------------------------------------------------------
+            <summary>
+            Encapsulates a list of QuotationMarks objects.
+            </summary>
+            ----------------------------------------------------------------------------------------
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.QuotationMarksList.LocaleOfLangUsedFrom">
+            <summary></summary>
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.QuotationMarksList.ContinuationType">
+            <summary></summary>
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.QuotationMarksList.ContinuationMark">
+            <summary></summary>
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.QuotationMarksList.NewList">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Initializes and returns a new instance of the <see cref="T:SILUBS.SharedScrUtils.QuotationMarksList"/> class.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.QuotationMarksList.Load(System.String,System.String)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Creates a QuotationMarksList from the specified XML string.
+            </summary>
+            <param name="xmlSrc">The XML source string to load.</param>
+            <param name="wsName">Name of the writing system (used for error reporting).</param>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.QuotationMarksList.Add(SILUBS.SharedScrUtils.QuotationMarks)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Adds the specified quotation mark object.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.QuotationMarksList.RemoveAt(System.Int32)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Removes the QuotationMarks object specified by the index i, from the list.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.QuotationMarksList.Remove(SILUBS.SharedScrUtils.QuotationMarks)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Removes the specified item from the list.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.QuotationMarksList.RemoveLastLevel">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Removes the last item from the list.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.QuotationMarksList.Clear">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Clears the list of quotation marks.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.QuotationMarksList.Copy">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Returns a copy of the list.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.QuotationMarksList.EnsureLevelExists(System.Int32)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Ensures that the specified number of levels exists.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.QuotationMarksList.Equals(SILUBS.SharedScrUtils.QuotationMarksList,System.Boolean)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets a value indicating whether or not the list is equal to the specified list.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.QuotationMarksList.FindGap">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Finds the first level that is followed by a non empty level.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.QuotationMarksList.AddLevel">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Adds a new level (if there are fewer than three already) and initializes the
+            paragraph continuation values in each level. This returns true when a level
+            was added and false if the list is already full so no more levels can be added.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.QuotationMarksList.Item(System.Int32)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets the <see cref="T:SILUBS.SharedScrUtils.QuotationMarks"/> with the specified index.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.QuotationMarksList.XmlString">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets an XML string representing the list of quotation marks.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.QuotationMarksList.Levels">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets the number of quotation levels.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.QuotationMarksList.TrimmedList">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets a copy of the list after having removed empty levels from the end.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.QuotationMarksList.IsEmpty">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets a value indicating whether or not the list is empty at all levels.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.QuotationMarksList.InvalidOpenerCloserCombinations">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets the first quote mark levels in the list that have conflicting opener/closer 
+            combinations
+            </summary>
+            <remarks>See tests for handled cases</remarks>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.QuotationMarksList.AnyEmptyRows">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets a value indicating whether or not the list contains a quote mark list with an
+            empty opening and an empty closing mark.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.QuotationMarksList.DistinctLevels">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets the number of unique levels that form a nested chain.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="T:SILUBS.SharedScrUtils.QuotationMarksList.InvalidComboInfo">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Stores information returned by the InvalidOpenerCloserCombinations property to
+            indicate what levels contain the same quotation mark as an opener and a closer.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.QuotationMarksList.InvalidComboInfo.LowerLevel">
+            <summary></summary>
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.QuotationMarksList.InvalidComboInfo.LowerLevelIsOpener">
+            <summary></summary>
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.QuotationMarksList.InvalidComboInfo.UpperLevel">
+            <summary></summary>
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.QuotationMarksList.InvalidComboInfo.UpperLevelIsOpener">
+            <summary></summary>
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.QuotationMarksList.InvalidComboInfo.QMark">
+            <summary></summary>
+        </member>
+        <member name="T:SILUBS.SharedScrUtils.QuotationMarks">
+            ----------------------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            ----------------------------------------------------------------------------------------
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.QuotationMarks.Opening">
+            <summary></summary>
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.QuotationMarks.Closing">
+            <summary></summary>
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.QuotationMarks.ToString">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.QuotationMarks.Equals(SILUBS.SharedScrUtils.QuotationMarks)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Returns a value indicating whether or not the specified QuotationMarks object is
+            equal to this one.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.QuotationMarks.IsEmpty">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets a value indicating whether or not both opening and closing are empty.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.QuotationMarks.IsComplete">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets a value indicating whether or not one or the other of the quotation marks
+            exists but not both.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.QuotationMarks.HasIdenticalOpenerAndCloser">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets a value indicating whether this quote marks has identical opening and closing 
+            marks.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.IChecksDataSource.GetParameterValue(System.String)">
+            <summary>
+            Retrieve named checking parameter value.
+            Checks use this to get their setup information.
+            If the key isn't found, the implementation should return an empty string.
+            </summary>
+            <param name="key">Parameter name</param>
+            <returns>Parameter value</returns>
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.IChecksDataSource.SetParameterValue(System.String,System.String)">
+            <summary>
+            Set the named checking parameter value. This is normally done by
+            the inventory display associated with the check.
+            </summary>
+            <param name="key">Parmameter name</param>
+            <param name="value">Parameter value</param>
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.IChecksDataSource.Save">
+            <summary>
+            Save all changes to parameter values
+            </summary>
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.IChecksDataSource.GetText(System.Int32,System.Int32)">
+            <summary>
+            Read the text for the specified book number. Parse into Tokens.
+            The tokens are accessed via the TextTokens() method.
+            We split this operation into two parts since we often want to create
+            the tokens list once and then present them to several different checks.
+            REVIEW: Rather than splitting this in this way, would it make more sense
+            to leave the onus on the implementor to cache the list if desired?
+            </summary>
+            <param name="bookNum">Number of book. This may be different in different
+            applications. This number comes from BooksPresent below.</param>
+            <param name="chapterNum">0=read whole book, else specified chapter number</param>
+            <returns><c>true</c> for success, <c>false</c> if no tokens are found for the
+            requested book and chapter</returns>
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.IChecksDataSource.TextTokens">
+            <summary>
+            Enumerate all the ITextToken's from the most recent GetText call.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.IChecksDataSource.GetLocalizedString(System.String)">
+            <summary>
+            Returns a localized version of the specified string.
+            </summary>
+            <param name="strToLocalize"></param>
+            <returns>A Localized version of strToLocalize</returns>
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.IChecksDataSource.BooksPresent">
+            <summary>
+            Return a list of the book numbers present.
+            This list is used as an argument to GetText above when retrieving the
+            data for each book.
+            The book number is arbitrary as long as BooksPresent/GetText agree.
+            This list should be in ascending order (because TextInventory.AddReference
+            can be implemented more efficiently if this is so --- and it gets called
+            a zillion times when building a character inventory).
+            </summary>
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.IChecksDataSource.CharacterCategorizer">
+            <summary>
+            Get information about characters and words.
+            This is needed for platform such as Paratext which allow the user to
+            overide some chracter info. Platform which don't allow this can mostly
+            likely just use the distributed version of CharacterCategorizer with
+            an empty conctructor.
+            ISSUE: what to do about word medial punctuation, I think every application
+            will have to have a way to specify this list.
+            </summary>
+            <returns>A character categorizer</returns>
+        </member>
+        <member name="T:SILUBS.SharedScrUtils.IScrProjMetaDataProvider">
+            ----------------------------------------------------------------------------------------
+            <summary>
+            Represents a scripture reference
+            </summary>
+            ----------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.IScrProjMetaDataProvider.Versification">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets the current versification scheme
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="T:SILUBS.SharedScrUtils.SilBooks">
+            ----------------------------------------------------------------------------------------
+            <summary>
+            Static class for getting info about the SIL Book codes
+            </summary>
+            ----------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.SilBooks.Codes_3Letter">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets an array of the 3-letter codes.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.SilBooks.Codes_2Letter">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets an array of the 2-letter codes.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="T:SILUBS.SharedScrUtils.BCVRef">
+            ----------------------------------------------------------------------------------------
+            <summary>
+            Represents a scripture reference
+            </summary>
+            ----------------------------------------------------------------------------------------
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.BCVRef.s_fSupportDeuterocanon">
+            <summary>Whether or not deuterocanonical books are supported</summary>
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.#ctor">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Default constructor
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.#ctor(System.Int32)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Construct a reference with an initial BBCCCVVV value
+            </summary>
+            <param name="initialRef"></param>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.#ctor(System.Int32,System.Int32,System.Int32)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Construct a reference with a book, chapter, and verse
+            </summary>
+            <param name="book">The book.</param>
+            <param name="chapter">The chapter.</param>
+            <param name="verse">The verse.</param>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.#ctor(SILUBS.SharedScrUtils.BCVRef)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Copy a reference
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.#ctor(System.Int32,System.Int32,System.Int32,System.Int32)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Initialize a reference - utility for the constructors
+            </summary>
+            <param name="book">The book.</param>
+            <param name="chapter">The chapter.</param>
+            <param name="verse">The verse.</param>
+            <param name="segment">The segment.</param>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.#ctor(System.String)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Initializes a new instance of the <see cref="T:BCVRef"/> class based on a string
+            that can be parsed.
+            </summary>
+            <param name="strReference">The reference as a string.</param>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.op_Implicit(SILUBS.SharedScrUtils.BCVRef)~System.Int32">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Implicit conversion of a <see cref="T:SILUBS.SharedScrUtils.BCVRef"/> to an integer
+            </summary>
+            <param name="scrRef">The <see cref="T:SILUBS.SharedScrUtils.BCVRef"/> to be converted</param>
+            <returns>An integer representing a Scripture Reference as a BBCCCVVV value</returns>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.op_Implicit(System.Int32)~SILUBS.SharedScrUtils.BCVRef">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Implicit conversion of an integer to a <see cref="T:SILUBS.SharedScrUtils.BCVRef"/>.
+            </summary>
+            <param name="nBCV">The integer representing a Scripture Reference as a BBCCVVV value
+            </param>
+            <returns>A <see cref="T:SILUBS.SharedScrUtils.BCVRef"/></returns>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.op_LessThan(SILUBS.SharedScrUtils.BCVRef,SILUBS.SharedScrUtils.BCVRef)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            less than operator
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.op_LessThanOrEqual(SILUBS.SharedScrUtils.BCVRef,SILUBS.SharedScrUtils.BCVRef)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            less than or equal operator
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.op_GreaterThanOrEqual(SILUBS.SharedScrUtils.BCVRef,SILUBS.SharedScrUtils.BCVRef)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            greater than or equal operator
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.op_GreaterThan(SILUBS.SharedScrUtils.BCVRef,SILUBS.SharedScrUtils.BCVRef)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            greater than operator
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.op_Equality(SILUBS.SharedScrUtils.BCVRef,SILUBS.SharedScrUtils.BCVRef)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            equals operator
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.AreEqual(SILUBS.SharedScrUtils.BCVRef,SILUBS.SharedScrUtils.BCVRef)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Helper for equals operator that can be used by derived classes as well.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.op_Equality(System.Int32,SILUBS.SharedScrUtils.BCVRef)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            equals operator. This implementation implicitly assumes that the integer
+            representation of the left reference is in the same versification as the right
+            reference.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.op_Equality(SILUBS.SharedScrUtils.BCVRef,System.Int32)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            equals operator This implementation implicitly assumes that the integer
+            representation of the right reference is in the same versification as the left
+            reference.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.op_Inequality(SILUBS.SharedScrUtils.BCVRef,SILUBS.SharedScrUtils.BCVRef)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            not equals operator
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.op_Inequality(System.Int32,SILUBS.SharedScrUtils.BCVRef)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            not equals operator
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.op_Inequality(SILUBS.SharedScrUtils.BCVRef,System.Int32)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            not equals operator
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.Equals(System.Object)">
+            ------------------------------------------------------------------------------------
+            <summary>Equals is same as ==</summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.GetHashCode">
+            ------------------------------------------------------------------------------------
+            <summary>
+            GetHashCode uses the BBCCCVVV as the hash code
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.ToString">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Returns the verse reference as a string
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.ToString(SILUBS.SharedScrUtils.BCVRef.RefStringFormat)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Returns the verse reference as a string
+            </summary>
+            <param name="format">The format.</param>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.ToString(System.Int32)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Returns the verse reference as a string
+            </summary>
+            <param name="bcv">The book-chapter-verse representation of a reference</param>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.ToString(System.Int32,SILUBS.SharedScrUtils.BCVRef.RefStringFormat)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Returns the verse reference as a string
+            </summary>
+            <param name="bcv">The book-chapter-verse representation of a reference</param>
+            <param name="format">Indicates whether to format the reference for general purposes
+            of using a format to facilitate exchange (e.g., XML).</param>
+            <returns></returns>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.MakeReferenceString(SILUBS.SharedScrUtils.BCVRef,SILUBS.SharedScrUtils.BCVRef,System.String,System.String)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Handy little utility function for making a Reference string using the SIL book code
+            for the book name.
+            </summary>
+            <param name="startRef">The beginning Scripture reference</param>
+            <param name="endRef">The ending Scripture reference</param>
+            <param name="chapterVerseSeparator">Character(s) used to delimit the chapter and verse
+            number</param>
+            <param name="verseBridge">Character(s) used to connect two references, indicating a
+            range</param>
+            <returns>The reference range as a formatted string.</returns>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.MakeReferenceString(SILUBS.SharedScrUtils.BCVRef,SILUBS.SharedScrUtils.BCVRef,System.String,System.String,System.Boolean)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Handy little utility function for making a Reference string using the SIL book code
+            for the book name.
+            </summary>
+            <param name="startRef">The beginning Scripture reference</param>
+            <param name="endRef">The ending Scripture reference</param>
+            <param name="chapterVerseSeparator">Character(s) used to delimit the chapter and verse
+            number</param>
+            <param name="verseBridge">Character(s) used to connect two references, indicating a
+            range</param>
+            <param name="supressChapterForIntroMatter">Does not include the chapter number
+            when the start and end reference chapter and verse are the same and that
+            chapter and verse is 1:0</param>
+            <returns>The reference range as a formatted string.</returns>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.MakeReferenceString(System.String,SILUBS.SharedScrUtils.BCVRef,SILUBS.SharedScrUtils.BCVRef,System.String,System.String)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Handy little utility function for making a Reference string. When the end reference
+            is not specified, it is treated as though it is the same as the start reference.
+            </summary>
+            <param name="bookName">The Scripture book name</param>
+            <param name="startRef">The beginning Scripture reference</param>
+            <param name="endRef">The ending Scripture reference</param>
+            <param name="chapterVerseSeparator">Character(s) used to delimit the chapter and verse
+            number</param>
+            <param name="verseBridge">Character(s) used to connect two references, indicating a
+            range</param>
+            <returns>The reference range as a formatted string.</returns>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.MakeReferenceString(System.String,SILUBS.SharedScrUtils.BCVRef,SILUBS.SharedScrUtils.BCVRef,System.String,System.String,System.Boolean)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Handy little utility function for making a Reference string. When the end reference
+            is not specified, it is treated as though it is the same as the start reference.
+            </summary>
+            <param name="bookName">The Scripture book name</param>
+            <param name="startRef">The beginning Scripture reference</param>
+            <param name="endRef">The ending Scripture reference</param>
+            <param name="chapterVerseSeparator">Character(s) used to delimit the chapter and verse
+            number</param>
+            <param name="verseBridge">Character(s) used to connect two references, indicating a
+            range</param>
+            <param name="supressChapterForIntroMatter">Does not include the chapter number
+            when the start and end reference chapter and verse are the same and that
+            chapter and verse is 1:0</param>
+            <returns>The reference range as a formatted string.</returns>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.ClosestTo(System.Int32,System.Int32)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Determine which BBCCCVVV reference is closest to this reference. For this method
+            a reference is always considered "closer" if it is in the same chapter as this
+            reference and the other reference is in a different chapter.
+            </summary>
+            <param name="left">first reference to check</param>
+            <param name="right">second reference to check</param>
+            <returns>0 if the left item is closest (or if they are equally close), 1 if the
+            right item is closest</returns>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.Parse(System.String)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Parses Scripture reference string.
+            </summary>
+            <param name="sTextToBeParsed">Reference string the user types in.</param>
+            <remarks>This method is pretty similar to MultilingScrBooks.ParseRefString, but
+            it deals only with SIL codes.</remarks>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.BookToNumber(System.String)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Map an SIL book code to a book number (1=GEN, 66=REV)
+            </summary>
+            <param name="book"></param>
+            <returns>The book code if the string passed is a valid SIL book code; -1 if it is a
+            Deuterocanonical book code; 0 if it is a totally bogus string</returns>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.NumberToBookCode(System.Int32)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Map a book number to an SIL book code
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.GetVerseFromBcv(System.Int32)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Returns the verse part of the specified bcv
+            </summary>
+            <param name="bcv">The bcv to parse</param>
+            <returns>The verse part of the specified bcv</returns>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.GetChapterFromBcv(System.Int32)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Returns the chapter part of the specified bcv
+            </summary>
+            <param name="bcv">The bcv to parse</param>
+            <returns>The chapter part of the specified bcv</returns>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.GetBookFromBcv(System.Int32)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Returns the book part of the specified bcv
+            </summary>
+            <param name="bcv">The bcv to parse</param>
+            <returns>The book part of the specified bcv</returns>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.VerseToScrRef(System.String,SILUBS.SharedScrUtils.BCVRef@,SILUBS.SharedScrUtils.BCVRef@)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Overloaded version of VerseToScrRef that ignores some parameters
+            </summary>
+            <param name="sourceString">string containing the verse number</param>
+            <param name="firstRef">first reference that will have the verse portion adjusted</param>
+            <param name="lastRef">last reference that will have the verse portion adjusted</param>
+            <returns>true if converted successfully</returns>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.VerseToScrRef(System.String,System.String@,System.String@,SILUBS.SharedScrUtils.BCVRef@,SILUBS.SharedScrUtils.BCVRef@)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Extract the verse numbers from a verse string. Determine verse number begin and end 
+            values as well as verse segment values. Ignore any unusual syntax.
+            Limitations: This class does not have access to the FDO Scripture bridge character 
+            or to a character property engine with PUA character information.
+            </summary>
+            <param name="sourceString">string from which to attempt extracting verse numbers
+            </param>
+            <param name="literalVerse">returns the text that was converted to a verse number
+            </param>
+            <param name="remainingText">returns the remaining text after the verse number
+            </param>
+            <param name="firstRef">returns the first reference</param>
+            <param name="lastRef">returns the last reference in the case of a verse bridge
+            </param>
+            <returns>true if converted successfully</returns>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.ParseRefRange(System.String,SILUBS.SharedScrUtils.BCVRef@,SILUBS.SharedScrUtils.BCVRef@)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Parses the given string representing the reference range.
+            </summary>
+            <param name="sRefRng">The string representing the reference range.</param>
+            <param name="bcvRefStart">The BCV ref start.</param>
+            <param name="bcvRefEnd">The BCV ref end.</param>
+            <returns><c>true</c> if successfully parsed; <c>false</c> otherwise</returns>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.ParseRefRange(System.String,SILUBS.SharedScrUtils.BCVRef@,SILUBS.SharedScrUtils.BCVRef@,System.Boolean)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Parses the given string representing the reference range.
+            </summary>
+            <param name="sRefRng">The string representing the reference range.</param>
+            <param name="bcvRefStart">The BCV ref start.</param>
+            <param name="bcvRefEnd">The BCV ref end.</param>
+            <param name="fAllowDifferentBooks">if set to <c>true</c> range is allowed to span books.</param>
+            <returns>
+            	<c>true</c> if successfully parsed; <c>false</c> otherwise
+            </returns>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.BCVRef.CompareTo(System.Object)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Compares the current instance with another object of the same type.
+            </summary>
+            <param name="obj">An object to compare with this instance.</param>
+            <returns>
+            A 32-bit signed integer that indicates the relative order of the objects being 
+            compared. The return value has these meanings: 
+            
+            Value				Meaning 
+            Less than zero		This instance is less than <paramref name="obj"/>. 
+            Zero				This instance is equal to <paramref name="obj"/>. 
+            Greater than zero	This instance is greater than <paramref name="obj"/>.
+            </returns>
+            <exception cref="T:System.ArgumentException">
+            	<paramref name="obj"/> is not the same type as this instance. </exception>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.BCVRef.SupportDeuterocanon">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Sets a value indicating whether the deuterocanon (apocrypha, etc.) is allowed. This
+            should be initialized before this class is used.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.BCVRef.Book">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets/sets the book portion of the reference
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.BCVRef.Chapter">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets/sets the chapter portion of the reference
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.BCVRef.Verse">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets/sets the verse portion of the reference
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.BCVRef.Segment">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets/sets the segment portion of the reference
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.BCVRef.LastBook">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets the number for the last book.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.BCVRef.AsString">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Returns the verse reference as a string
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.BCVRef.Valid">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Determine if the reference is valid.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.BCVRef.BookIsValid">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Determine if the book is valid.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.BCVRef.BBCCCVVV">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets/sets the reference as a book/chapter/verse integer
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.BCVRef.IsEmpty">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Determines if a reference is empty
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="T:SILUBS.SharedScrUtils.BCVRef.RefStringFormat">
+            ------------------------------------------------------------------------------------
+            <summary>Format options for use with the ToString methods</summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.BCVRef.RefStringFormat.General">
+            <summary>general purpose format</summary>
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.BCVRef.RefStringFormat.Exchange">
+            <summary>format to facilitate exchange (e.g., XML)</summary>
+        </member>
+        <member name="T:SILUBS.SharedScrUtils.IVerseReference">
+            ----------------------------------------------------------------------------------------
+            <summary>
+            Represents a scripture reference
+            </summary>
+            ----------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.IVerseReference.ToString">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Returns the verse reference as a string
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.IVerseReference.Parse(System.String)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Parses Scripture reference string.
+            </summary>
+            <param name="sTextToBeParsed">Reference string the user types in.</param>
+            <remarks>This method is pretty similar to MultilingScrBooks.ParseRefString, but
+            it deals only with SIL codes.</remarks>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.IVerseReference.Versification">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets and sets the current versification scheme
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="T:SILUBS.SharedScrUtils.TextFileDataSource">
+            ----------------------------------------------------------------------------------------
+            <summary>
+            A class representing a file that can be parsed to find characters
+            </summary>
+            ----------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.TextFileDataSource.#ctor(System.String,System.String,System.String[],System.String)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Initializes a new instance of the <see cref="T:SILUBS.SharedScrUtils.TextFileDataSource"/> class.
+            </summary>
+            <param name="scrChecksDllFile">The DLL that contains the CharactersCheck class
+            </param>
+            <param name="scrCheck">Name of the scripture check to use</param>
+            <param name="fileData">An array of strings with the lines of data from the file.
+            </param>
+            <param name="scrRefFormatString">Format string used to format scripture references.
+            </param>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.TextFileDataSource.#ctor(System.String,System.String,System.String[],System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Initializes a new instance of the <see cref="T:SILUBS.SharedScrUtils.TextFileDataSource"/> class.
+            </summary>
+            <param name="scrChecksDllFile">The DLL that contains the CharactersCheck class
+            </param>
+            <param name="scrCheck">Name of the scripture check to use</param>
+            <param name="fileData">An array of strings with the lines of data from the file.
+            </param>
+            <param name="scrRefFormatString">Format string used to format scripture references.
+            </param>
+            <param name="parameters">Checking parameters to send the check.</param>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.TextFileDataSource.GetParameterValue(System.String)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets the parameter value.
+            </summary>
+            <param name="key">The key.</param>
+            <returns>An empty string</returns>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.TextFileDataSource.GetText(System.Int32,System.Int32)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets the text (not supported).
+            </summary>
+            <param name="bookNum">The book num.</param>
+            <param name="chapterNum">The chapter num.</param>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.TextFileDataSource.Save">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Saves this instance (not supported).
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.TextFileDataSource.SetParameterValue(System.String,System.String)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Sets the parameter value (not supported).
+            </summary>
+            <param name="key">The key.</param>
+            <param name="value">The value.</param>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.TextFileDataSource.TextTokens">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets the text tokens.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.TextFileDataSource.GetLocalizedString(System.String)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.TextFileDataSource.GetReferences">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets the references.
+            </summary>
+            <returns></returns>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.TextFileDataSource.BooksPresent">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets the books present (not supported).
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.TextFileDataSource.CharacterCategorizer">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets the character categorizer.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="T:SILUBS.SharedScrUtils.TextFileToken">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Text token object used for reading any, nondescript text file in order to discover
+            all the characters therein.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="T:SILUBS.SharedScrUtils.ITextToken">
+            <summary>
+            ScriptureChecks are written to process text in small chunks called Text Tokens.
+            These are intended to be generatable from a wide variety of sources, e.g.
+            FieldWorks Translation Editor, Paratext, OurWord, etc.
+            
+            No tokens will be returned for non-publishable text  (\id, \rem, ...)
+            
+            The note caller from USFM (i.e. the + in \f + My note\f) will not be
+            passed with the note text.
+            
+            Normally this interface will be supported by an application specific class
+            that also contains additional information specific to the application.
+            </summary>
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.ITextToken.Clone">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Creates a deep copy of this text token.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.ITextToken.Text">
+            ------------------------------------------------------------------------------------
+            <summary>
+            The text of the token.
+            Verse and chapter numbers are included in this field.
+            ISSUE: should footnote callers be included in this field???
+            should not be, if not needed by any check.
+            If needed this should be a seperate token property.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.ITextToken.IsParagraphStart">
+            ------------------------------------------------------------------------------------
+            <summary>
+            True iff this token starts a new typographic paragraph.
+            In this model section headings, poetic lines, etc are paragraphs since
+            typographically they all force a newline.
+            ISSUE: What about chapter numbers? Currently no.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.ITextToken.IsNoteStart">
+            ------------------------------------------------------------------------------------
+            <summary>
+            True iff this token starts a new note.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.ITextToken.Locale">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Application specific name locale name. Fieldworks=ICU Locale.
+            Paratext=Language name. 
+            This is null if this is the default locale for this text.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.ITextToken.TextType">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets the type of the text contained in token.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.ITextToken.ParaStyleName">
+            ------------------------------------------------------------------------------------
+            <summary>
+            This is the style name for the paragraph containing this text. It is needed by
+            * Matched Pair check
+            * Uncapitalized Styles check
+            * Quotations check
+            
+            The quotation check which must have a list of paragraph types which
+            require continuation quotes.
+            
+            Quotation checking requires being able to say things like:
+                (these rules assume USFM markup, not sure how this would translate
+                 into TE markup model, maybe just different style names?)
+                * If there is an open quote all \p paragraphs should start with
+                  a continuer
+                * If there is an open quote all \q1 paragraphs should start with
+                  a continuer if they follow a \p or \b but not if they follow
+                  \q2 or \q1.
+            
+            ALTERNATIVE
+            have two properties just for Quotations check
+                  bool ParagraphRequiresQuoteContinuer
+                  bool ParagraphRequiresQuoteInQuoteContinuer
+            have two properties just for Matched Pair check
+                  bool IsPoeticStyle
+                  bool IsIntroductionOutlineStyle
+            no alternative for the Uncapitalized Styles check
+            
+            Checks will use the ParaStyleName or CharStyleName below, and not any of the alternatives.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.ITextToken.CharStyleName">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets the name of the character style (if any).
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.ITextToken.ScrRefString">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets or sets the Scripture reference as a string,
+            suitable for displaying in the UI
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.ITextToken.MissingStartRef">
+            ------------------------------------------------------------------------------------
+            <summary>
+            This property is primarily for the chapter/verse check and allows the
+            check to set the beginning reference of a missing chapter or verse range.
+            If the missing verse is not part of a range, then this just contains
+            the missing verse reference and the MissingEndRef is empty.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.ITextToken.MissingEndRef">
+            ------------------------------------------------------------------------------------
+            <summary>
+            This property is primarily for the chapter/verse check and allows the
+            check to set the ending reference of a missing chapter or verse range.
+            If the missing verse is not part of a range, then this is empty.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.TextFileToken.#ctor(System.String,System.Int32,System.String)">
+            --------------------------------------------------------------------------------
+            <summary>
+            Initializes a new instance of the <see cref="T:SILUBS.SharedScrUtils.TextFileToken"/> class.
+            </summary>
+            --------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.TextFileToken.Clone">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Makes a deep copy of the specified text token.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.TextFileToken.IsNoteStart">
+            --------------------------------------------------------------------------------
+            <summary>
+            Not used.
+            </summary>
+            --------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.TextFileToken.IsParagraphStart">
+            --------------------------------------------------------------------------------------------
+            <summary>
+            Not used.
+            </summary>
+            --------------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.TextFileToken.Locale">
+            --------------------------------------------------------------------------------------------
+            <summary>
+            Not used.
+            </summary>
+            --------------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.TextFileToken.ScrRefString">
+            --------------------------------------------------------------------------------------------
+            <summary>
+            Not used.
+            </summary>
+            --------------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.TextFileToken.ParaStyleName">
+            --------------------------------------------------------------------------------------------
+            <summary>
+            Not used.
+            </summary>
+            --------------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.TextFileToken.CharStyleName">
+            --------------------------------------------------------------------------------------------
+            <summary>
+            Not used.
+            </summary>
+            --------------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.TextFileToken.Text">
+            --------------------------------------------------------------------------------------------
+            <summary>
+            Gets the text.
+            </summary>
+            --------------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.TextFileToken.TextType">
+            --------------------------------------------------------------------------------------------
+            <summary>
+            Force the check to treat the text like verse text.
+            </summary>
+            --------------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.TextFileToken.MissingEndRef">
+            --------------------------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            --------------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.TextFileToken.MissingStartRef">
+            --------------------------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            --------------------------------------------------------------------------------------------
+        </member>
+        <member name="T:SILUBS.SharedScrUtils.TextType">
+            <summary>Type of text contained in a token</summary>
+        </member>
+        <member name="T:SILUBS.SharedScrUtils.StyleMarkupInfo">
+            ----------------------------------------------------------------------------------------
+            <summary>
+            StyleMarkupInfo contains information from a stylesheet needed for Scripture checking.
+            It deserializes from an XML file and provides serialized lists of styles for particular
+            checks.
+            </summary>
+            ----------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.StyleMarkupInfo.Load(System.String)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Loads the specified XML file.
+            </summary>
+            <param name="filename">The name of the XML file.</param>
+            <returns>information from the stylesheet needed for checking</returns>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.StyleMarkupInfo.StylesAreLoaded">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets a value indicating whether styles information have been loaded.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.StyleMarkupInfo.StyleInfo">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets the information about the styles.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="T:SILUBS.SharedScrUtils.StyleMarkup">
+            ----------------------------------------------------------------------------------------
+            <summary>
+            StyleMarkup contains information from a single style in a stylesheet which will be used
+            for Scripture checks.
+            </summary>
+            ----------------------------------------------------------------------------------------
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.StyleMarkup.Id">
+            <summary>The name of a style in the stylesheet.</summary>
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.StyleMarkup.Type">
+            <summary>The type attribute value (i.e. character or paragraph) for a style in the stylesheet.</summary>
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.StyleMarkup.Use">
+            <summary>The use attribute value for a style in the stylesheet.</summary>
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.StyleMarkup.Context">
+            <summary>The context attribute value for a style in the stylesheet.</summary>
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.StyleMarkup.Structure">
+            <summary>The structure attribute value for a style in the stylesheet.</summary>
+        </member>
+        <member name="T:SILUBS.SharedScrUtils.StyleInfo">
+            ----------------------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            ----------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.StyleInfo.#ctor">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Initializes a new instance of the <see cref="T:SILUBS.SharedScrUtils.StyleInfo"/> class.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.StyleInfo.#ctor(System.String,SILUBS.SharedScrUtils.StyleInfo.StyleTypes,SILUBS.SharedScrUtils.StyleInfo.UseTypes)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Initializes a new instance of the <see cref="T:SILUBS.SharedScrUtils.StyleInfo"/> class.
+            </summary>
+            <param name="styleName">Name of the style.</param>
+            <param name="styleType">Type of the style.</param>
+            <param name="useType">Style usage.</param>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.StyleInfo.ToString">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+            </summary>
+            <returns>
+            A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+            </returns>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.StyleInfo.StyleName">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets or sets the name of the style.
+            </summary>
+            <value>The name of the style.</value>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.StyleInfo.StyleType">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets or sets the type of the style.
+            </summary>
+            <value>The type of the style.</value>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.StyleInfo.UseType">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets or sets the usage of the style.
+            </summary>
+            <value>The usage of the style.</value>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="T:SILUBS.SharedScrUtils.StyleInfo.StyleTypes">
+            <summary></summary>
+        </member>
+        <member name="T:SILUBS.SharedScrUtils.StylePropsInfo">
+            ----------------------------------------------------------------------------------------
+            <summary>
+            StylePropsInfo contains lists of styles with certain properties. Styles that:
+            * begin sentences,
+            * are used for proper nouns,
+            * are used in tables,
+            * are used for lists,
+            * have special use (e.g. Interlude, Opening, Closing),
+            * are used for titles,
+            * are used for headings
+            </summary>
+            ----------------------------------------------------------------------------------------
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.StylePropsInfo.s_sentenceInitial">
+            <summary>styles that begin with a capital because they start a sentence.</summary>
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.StylePropsInfo.s_properNoun">
+            <summary>styles that begin with a capital because they are proper names.</summary>
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.StylePropsInfo.s_table">
+            <summary>styles that begin with a capital because they occur in a table.</summary>
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.StylePropsInfo.s_list">
+            <summary>styles that begin with a capital because they occur in a list.</summary>
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.StylePropsInfo.s_special">
+            <summary>styles that begin with a capital for miscellaneous reasons (e.g. interlude)</summary>
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.StylePropsInfo.s_title">
+            <summary>styles that begin with a capital because they are titles.</summary>
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.StylePropsInfo.s_heading">
+            <summary>styles that begin with a capital because they are headings</summary>
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.StylePropsInfo.#ctor">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Initializes the <see cref="T:SILUBS.SharedScrUtils.StylePropsInfo"/> class.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.StylePropsInfo.#ctor(SILUBS.SharedScrUtils.StyleMarkupInfo)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Initializes the <see cref="T:SILUBS.SharedScrUtils.StylePropsInfo"/> class.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.StylePropsInfo.CreateStyleLists(SILUBS.SharedScrUtils.StyleMarkupInfo)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Creates the style lists needed for Scripture checking.
+            </summary>
+            <param name="smi">information needed for Scripture checking from all styles</param>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.StylePropsInfo.Load(System.String)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Loads the specified XML source.
+            </summary>
+            <param name="xmlSource">The XML source.</param>
+            <returns>information about the styles deserialized from the XML source</returns>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.StylePropsInfo.XmlString">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets the list of styles in this class as a serialized string.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.StylePropsInfo.SentenceInitial">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets the styles that begin sentences.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.StylePropsInfo.ProperNouns">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets the styles used for proper nouns.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.StylePropsInfo.Table">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets the styles used in tables.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.StylePropsInfo.List">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets the styles used for lists.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.StylePropsInfo.Special">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets the styles with special uses (e.g. Interlude, Opening, Closing).
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.StylePropsInfo.Heading">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets the styles used for headings.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.StylePropsInfo.Title">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets the styles used for titles.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="T:SILUBS.SharedScrUtils.WordAndPunct">
+            <summary>
+            (optional) key string followed by (optional) punctuation/whitespace string.
+            </summary>
+        </member>
+        <member name="T:SILUBS.SharedScrUtils.CharacterCategorizer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.CharacterCategorizer.#ctor">
+            <summary>
+            Use this constructor to default to Unicode character semantics.
+            </summary>
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.CharacterCategorizer.#ctor(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            This constructor allows overriding Unicode character semantics for use with hacked
+            fonts.
+            </summary>
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.CharacterCategorizer.IsSingleCharacterWord(System.Char)">
+            <summary>
+            Determines whether the specified character is a single character word.
+            </summary>
+            <param name="cc">The specified character.</param>
+            <returns>
+            	<c>true</c> if the character is single character word; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.CharacterCategorizer.IsWordFormingCharacter(System.Char)">
+            <summary>
+            Determines whether a character is a word forming character.
+            </summary>
+            <param name="cc">The specified character.</param>
+            <returns>
+            	<c>true</c> if the character is a word forming character; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.CharacterCategorizer.DiacriticsFollowBaseCharacters">
+            <summary>
+            Diacritics always follow base characters in Unicode. In hacked fonts
+            this may not be true.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SILUBS.SharedScrUtils.StandardCheckIds">
+            ----------------------------------------------------------------------------------------
+            <summary>
+            This static class is just a holding-place for all the standard Check ID GUIDs.
+            </summary>
+            ----------------------------------------------------------------------------------------
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.StandardCheckIds.kguidCharacters">
+            <summary>Check ID for Characters check</summary>
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.StandardCheckIds.kguidMixedCapitalization">
+            <summary>Find Mixed Capitalization check</summary>
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.StandardCheckIds.kguidChapterVerse">
+            <summary>Check ID for Chapter and Verse check</summary>
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.StandardCheckIds.kguidMatchedPairs">
+            <summary>Check ID for Matching Punctuation Pairs check</summary>
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.StandardCheckIds.kguidPunctuation">
+            <summary>Check ID for Punctuation Patterns check</summary>
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.StandardCheckIds.kguidRepeatedWords">
+            <summary>Check ID for Repeated Words check</summary>
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.StandardCheckIds.kguidCapitalization">
+            <summary>Check ID for Capitalization check</summary>
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.StandardCheckIds.kguidQuotations">
+            <summary>Check ID for Quotations check</summary>
+        </member>
+        <member name="T:SILUBS.SharedScrUtils.TextTokenSubstring">
+            ----------------------------------------------------------------------------------------
+            <summary>
+            Class that represents a sub-string of one or more consecutive source tokens
+            </summary>
+            ----------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.TextTokenSubstring.#ctor(SILUBS.SharedScrUtils.ITextToken,System.Int32,System.Int32)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Initializes a new instance of the <see cref="T:SILUBS.SharedScrUtils.TextTokenSubstring"/> class with a
+            single source token.
+            </summary>
+            <param name="token">The token.</param>
+            <param name="offset">The offset.</param>
+            <param name="length">The length.</param>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.TextTokenSubstring.#ctor(SILUBS.SharedScrUtils.ITextToken,System.Int32,System.Int32,System.String)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Initializes a new instance of the <see cref="T:SILUBS.SharedScrUtils.TextTokenSubstring"/> class with a
+            single source token.
+            </summary>
+            <param name="token">The token.</param>
+            <param name="offset">The offset.</param>
+            <param name="length">The length.</param>
+            <param name="msg">The error message.</param>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.TextTokenSubstring.#ctor(SILUBS.SharedScrUtils.TextTokenSubstring,System.String)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Initializes a new instance of the <see cref="T:SILUBS.SharedScrUtils.TextTokenSubstring"/> class based on
+            another TextTokenSubstring, but having a different Message.
+            </summary>
+            <param name="tts">The instance to copy from.</param>
+            <param name="msg">The message.</param>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.TextTokenSubstring.op_Increment(SILUBS.SharedScrUtils.TextTokenSubstring)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Implements the operator ++.
+            </summary>
+            <param name="tts">The TextTokenSubstring.</param>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.TextTokenSubstring.AddToken(SILUBS.SharedScrUtils.ITextToken)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Adds a token.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.TextTokenSubstring.ToString">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+            </summary>
+            <returns>
+            A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+            </returns>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.TextTokenSubstring.InventoryText">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets or sets the inventory text, which is often the same as the Text.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.TextTokenSubstring.Text">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets the text representing the substring (which can come from more than one source
+            token).
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.TextTokenSubstring.FullTokenText">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets the full text of all text tokens covered (in part or whole) by this substring.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.TextTokenSubstring.Message">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets or sets an error message associated with this substring (can be empty).
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.TextTokenSubstring.Offset">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets the character offset into the first token.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.TextTokenSubstring.Length">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets the total length of the substring, from the start offset in the first token
+            through the ending position in the last token. Note that this can be longer than the
+            Text length (because intermediate verse and chapter numbers are excluded from the
+            Text property. Unless FirstToken and LastToken are the same, it is NOT safe to
+            calculate a substring using the String.Substring method, applied to the FirstToken
+            using the Offset and this Length.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.TextTokenSubstring.ParagraphStyle">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets the paragraph style name.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.TextTokenSubstring.FirstToken">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets the first text token.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.TextTokenSubstring.LastToken">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets the last text token.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.TextTokenSubstring.MissingStartRef">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets the missing start reference, if any.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.TextTokenSubstring.MissingEndRef">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets the missing and reference, if any.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="T:SILUBS.SharedScrUtils.MatchedPairList">
+            ----------------------------------------------------------------------------------------
+            <summary>
+            Encapsulates a list of MatchedPair objects.
+            </summary>
+            ----------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.MatchedPairList.Load(System.String,System.String)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Creates a MatchedPairList from the specified XML string.
+            </summary>
+            <param name="xmlSrc">The XML source string to load.</param>
+            <param name="wsName">Name of the writing system (used for error reporting).</param>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.MatchedPairList.BelongsToPair(System.String)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Determines whether or not the specified string is an opening or closing part of a
+            matched pair.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.MatchedPairList.IsMatchedPair(System.String,System.String)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Determines whether or not the two specified strings are a matched pair.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.MatchedPairList.GetPairForOpen(System.String)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets the matched pair object for the specified opening part of a pair.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.MatchedPairList.GetPairForClose(System.String)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets the matched pair object for the specified closing part of a pair.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.MatchedPairList.IsOpen(System.String)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Determines whether or not the specified string is the opening part of a pair.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.MatchedPairList.IsClose(System.String)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Determines whether or not the specified string is the opening part of a pair.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.MatchedPairList.Sort(System.Windows.Forms.SortOrder,System.Comparison{SILUBS.SharedScrUtils.MatchedPair})">
+            ------------------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.MatchedPairList.OpenComparer(SILUBS.SharedScrUtils.MatchedPair,SILUBS.SharedScrUtils.MatchedPair)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Compares matched pairs opening characters.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.MatchedPairList.CloseComparer(SILUBS.SharedScrUtils.MatchedPair,SILUBS.SharedScrUtils.MatchedPair)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Compares matched pairs closing characters.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.MatchedPairList.OpenCodeComparer(SILUBS.SharedScrUtils.MatchedPair,SILUBS.SharedScrUtils.MatchedPair)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Compares matched pairs open character's codepoint.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.MatchedPairList.CloseCodeComparer(SILUBS.SharedScrUtils.MatchedPair,SILUBS.SharedScrUtils.MatchedPair)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Compares matched pairs close character's codepoint.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.MatchedPairList.ClosedByParaComparer(SILUBS.SharedScrUtils.MatchedPair,SILUBS.SharedScrUtils.MatchedPair)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Compares matched pairs "ClosedByPara" fields.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.MatchedPairList.XmlString">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets an XML string representing the list of matched pairs.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.MatchedPairList.Item(System.Int32)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Finds the specified pattern in the list and returns the associated PuncPattern
+            object.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="T:SILUBS.SharedScrUtils.MatchedPair">
+            ----------------------------------------------------------------------------------------
+            <summary>
+            Stores a single pair of matching characters and a value indicating whether or not an
+            opening of the matched pairs is automatically closed by the end of a paragraph.
+            </summary>
+            ----------------------------------------------------------------------------------------
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.MatchedPair.Open">
+            ------------------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.MatchedPair.Close">
+            ------------------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.MatchedPair.PermitParaSpanning">
+            ------------------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="T:SILUBS.SharedScrUtils.IScriptureCheck">
+            ----------------------------------------------------------------------------------------
+            <summary>
+            Interface for checks that don't need to implement an inventory mode.
+            </summary>
+            ----------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.IScriptureCheck.Check(System.Collections.Generic.IEnumerable{SILUBS.SharedScrUtils.ITextToken},SILUBS.SharedScrUtils.RecordErrorHandler)">
+            <summary>
+            Execute the check.
+            Call 'RecordError' for every error found.
+            </summary>
+            <param name="toks">ITextToken's corresponding to the text to be checked.
+            Typically this is one books worth.</param>
+            <param name="record">Call this delegate to report each error found.</param>
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.IScriptureCheck.CheckName">
+            <summary>
+            The full name of the check, e.g. "Repeated Words". After replacing any spaces
+            with underscores, this can also be used as a key for looking up a localized
+            string if the application supports localization.  If this is ever changed,
+            DO NOT change the CheckId!
+            </summary>
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.IScriptureCheck.CheckId">
+            <summary>
+            The unique identifier of the check. This should never be changed!
+            </summary>
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.IScriptureCheck.CheckGroup">
+            <summary>
+            The group which the check belongs to, e.g. "Basic". After replacing any spaces
+            with underscores, this can also be used as a key for looking up a localized
+            string if the application supports localization.
+            </summary>
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.IScriptureCheck.RelativeOrder">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets a number that can be used to order this check relative to other checks in the
+            same group when displaying checks in the UI.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.IScriptureCheck.Description">
+            <summary>
+            A description for the check, e.g. "Searches for all occurrences of repeated words".
+            After replacing any spaces with underscores, this can also be used as a key for 
+            looking up a localized string if the application supports localization.
+            </summary>
+        </member>
+        <member name="T:SILUBS.SharedScrUtils.IScrCheckInventory">
+            ----------------------------------------------------------------------------------------
+            <summary>
+            Interface for scripture checks that provide an inventory mode.
+            </summary>
+            ----------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.IScrCheckInventory.GetReferences(System.Collections.Generic.IEnumerable{SILUBS.SharedScrUtils.ITextToken},System.String)">
+            <summary>
+            Get all instances of the item being checked in the token list passed.
+            This includes both valid and invalid instances.
+            This is used 1) to create an inventory of these items.
+            To show the user all instance of an item with a specified key.
+            2) With a "desiredKey" in order to fetch instance of a specific
+            item (e.g. all the places where "the" is a repeated word.
+            </summary>
+            <param name="tokens">Tokens for text to be scanned</param>
+            <param name="desiredKey">If you only want instance of a specific key (e.g. one word, one punctuation pattern,
+            one character, etc.) place it here. Empty string returns all items.</param>
+            <returns>List of token substrings</returns>
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.IScrCheckInventory.Save">
+            <summary>
+            Update the parameter values for storing the valid and invalid lists in CheckDataSource
+            and then save them. This is here because the inventory form does not know the names of
+            the parameters that need to be saved for a given check, only the check knows this.
+            </summary>
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.IScrCheckInventory.InventoryColumnHeader">
+            <summary>
+            The name of the basic unit that this check covers as it occurs in the
+            inventory for this check (e.g. "Words"). Empty string if none. After
+            replacing any spaces with underscores, this can also be used as a key
+            for looking up a localized string if the application supports localization.
+            </summary>
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.IScrCheckInventory.ValidItems">
+            <summary>
+            THIS REALLY OUGHT TO BE List
+            Valid items, separated by spaces.
+            Inventory form queries this to know how what status to give each item
+            in the inventory. Inventory form updates this if user has changed the status
+            of any item.
+            </summary>
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.IScrCheckInventory.InvalidItems">
+            <summary>
+            THIS REALLY OUGHT TO BE List
+            Invalid items, separated by spaces.
+            Inventory form queries this to know how what status to give each item
+            in the inventory. Inventory form updates this if user has changed the status
+            of any item.
+            </summary>
+        </member>
+        <member name="T:SILUBS.SharedScrUtils.PuncPatternStatus">
+            ----------------------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            ----------------------------------------------------------------------------------------
+        </member>
+        <member name="T:SILUBS.SharedScrUtils.ContextPosition">
+            ----------------------------------------------------------------------------------------
+            <summary>
+            Enumeration indicating where a punctuation pattern occurs with respect to its context
+            </summary>
+            ----------------------------------------------------------------------------------------
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.ContextPosition.WordInitial">
+            <summary>Occurs at the start of a word or paragraph</summary>
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.ContextPosition.WordMedial">
+            <summary>Occurs between two words and is word-forming (or in the middle
+            of a compound word)</summary>
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.ContextPosition.WordBreaking">
+            <summary>Occurs between two words and is not word-forming (or in the middle
+            of a compound word)</summary>
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.ContextPosition.WordFinal">
+            <summary>Occurs at the end of a word or paragraph</summary>
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.ContextPosition.Isolated">
+            <summary>Occurs surrounded by whitespace or alone in a paragraph</summary>
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.ContextPosition.Undefined">
+            <summary>Undefined</summary>
+        </member>
+        <member name="T:SILUBS.SharedScrUtils.PuncPatternsList">
+            ----------------------------------------------------------------------------------------
+            <summary>
+            Encapsulates a list of PuncPattern objects.
+            </summary>
+            ----------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.PuncPatternsList.Load(System.String,System.String)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Creates a PuncPatternsList from the specified XML string.
+            </summary>
+            <param name="xmlSrc">The XML source string to load.</param>
+            <param name="wsName">Name of the writing system (used for error reporting).</param>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.PuncPatternsList.Clone">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Returns a clone of the list of punctuation patterns.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.PuncPatternsList.Sort(System.Windows.Forms.SortOrder,System.Comparison{SILUBS.SharedScrUtils.PuncPattern})">
+            ------------------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.PuncPatternsList.PatternComparer(SILUBS.SharedScrUtils.PuncPattern,SILUBS.SharedScrUtils.PuncPattern)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Compares punctuation patterns.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.PuncPatternsList.ContextComparer(SILUBS.SharedScrUtils.PuncPattern,SILUBS.SharedScrUtils.PuncPattern)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Compares punctuation pattern contexts.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.PuncPatternsList.CountComparer(SILUBS.SharedScrUtils.PuncPattern,SILUBS.SharedScrUtils.PuncPattern)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Compares punctuation pattern counts.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.PuncPatternsList.StatusComparer(SILUBS.SharedScrUtils.PuncPattern,SILUBS.SharedScrUtils.PuncPattern)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Compares punctuation pattern statuses.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.PuncPatternsList.Item(System.String)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Finds the specified pattern in the list and returns the associated PuncPattern
+            object.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.PuncPatternsList.Item(System.Int32)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets the <see cref="T:SILUBS.SharedScrUtils.PuncPattern"/> with the specified index.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.PuncPatternsList.XmlString">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets an XML string representing the list of puncutation patterns.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="T:SILUBS.SharedScrUtils.PuncPattern">
+            ----------------------------------------------------------------------------------------
+            <summary>
+            Stores a single punctuation pattern and a value indicating whether or not the pattern
+            is considered to be valid in the language.
+            </summary>
+            ----------------------------------------------------------------------------------------
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.PuncPattern.Pattern">
+            ------------------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.PuncPattern.ContextPos">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Indicates where this punctuation pattern occurs with respect to its context.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="F:SILUBS.SharedScrUtils.PuncPattern.Count">
+            ------------------------------------------------------------------------------------
+            <summary>
+            
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SILUBS.SharedScrUtils.PuncPattern.Clone">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Returns a clone of the punctuation pattern.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SILUBS.SharedScrUtils.PuncPattern.Valid">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Use this property only for serialization and deserialization. Use Status when the
+            user modifies this pattern in the UI.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+    </members>
+</doc>

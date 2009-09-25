@@ -47,6 +47,15 @@ namespace OneStoryProjectEditor
             _strKeyboardName = li.Keyboard;
         }
 
+        public new bool Focus()
+        {
+            StoryEditor theSE = (StoryEditor)_ctrlParent.FindForm();
+            _ctrlParent.Focus();
+            base.Focus();
+            Visible = true;
+            return true;
+        }
+
         protected override void OnKeyDown(KeyEventArgs e)
         {
             Console.WriteLine(String.Format("KeyCode: {0}; KeyData: {1}, KeyValue: {2}",

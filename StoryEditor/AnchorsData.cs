@@ -11,7 +11,7 @@ namespace OneStoryProjectEditor
         public string JumpTarget = null;
         public string ToolTipText = null;
         public ExegeticalHelpNotesData ExegeticalHelpNotes = null;
-
+        public List<string> keyTerms = new List<string>();
         public AnchorData(StoryProject.anchorRow theAnchorRow, StoryProject projFile)
         {
             JumpTarget = theAnchorRow.jumpTarget;
@@ -19,6 +19,14 @@ namespace OneStoryProjectEditor
                 ToolTipText = theAnchorRow.toolTip;
 
             ExegeticalHelpNotes = new ExegeticalHelpNotesData(theAnchorRow, projFile);
+
+            StoryProject.keyTermsRow[] thekeyTermsRows = theAnchorRow.GetkeyTermsRows();
+            if (thekeyTermsRows.Length > 0)
+            {
+                StoryProject.keyTermsRow thekeyTermsRow = thekeyTermsRows[0];
+                foreach (StoryProject.keyTermRow aKeyTermRow in thekeyTermsRow.GetkeyTermRows())
+                    keyTerms.Add(aKeyTermRow.keyTerm_Column);
+            }
         }
 
         public AnchorData(string strJumpTarget, string strComment)
@@ -26,6 +34,12 @@ namespace OneStoryProjectEditor
             JumpTarget = strJumpTarget;
             ToolTipText = strComment;
             ExegeticalHelpNotes = new ExegeticalHelpNotesData();
+        }
+
+        public void AddKeyTerm(string strKeyTerm)
+        {
+            if (!keyTerms.Contains(strKeyTerm))
+                keyTerms.Add(strKeyTerm);
         }
 
         public XElement GetXml
@@ -37,6 +51,15 @@ namespace OneStoryProjectEditor
                     new XElement("toolTip", ToolTipText));
                 if (ExegeticalHelpNotes.HasData)
                     elemAnchor.Add(ExegeticalHelpNotes.GetXml);
+
+                if (keyTerms.Count > 0)
+                {
+                    XElement elemKeyTerms = new XElement("keyTerms");
+                    foreach (string strKeyTerm in keyTerms)
+                        elemKeyTerms.Add(new XElement("keyTerm", strKeyTerm));
+                    elemAnchor.Add(elemKeyTerms);
+                }
+                
                 return elemAnchor;
             }
         }

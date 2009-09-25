@@ -209,8 +209,8 @@
     <comment>{0}  Press F1 for instructions</comment>
   </data>
   <data name="IDS_SaveChanges" xml:space="preserve">
-    <value>क्‍या बंद करने से पहले सेव किया जाए?</value>
-    <comment>Would you like to save your changes before you exit?</comment>
+    <value>क्‍या परिवर्तन सेव किया जाए?</value>
+    <comment>Would you like to save changes?</comment>
   </data>
   <data name="IDS_Story" xml:space="preserve">
     <value>कहानी</value>
@@ -269,5 +269,12 @@
   <data name="IDS_TerminalTransitionMessage" xml:space="preserve">
     <value>अगर अगले स्‍टेट में जाएं, तो इसके बाद आप इस कहानी को तब तक नहीं बदल सकते हैं, जब तक {0} अपने काम इस पर पूरा नहीं किया। क्‍या आप पक्‍का हैं कि अगले स्‍टेट (अनिकि '{1}' स्‍टेट) में जाएँ?</value>
     <comment>If you change to this next state, then you won't be able to edit the story until after the {0} has done his or her changes. Are you sure you want to change to the '{1}' state?</comment>
+  </data>
+  <data name="IDS_KeyTermsProblem" xml:space="preserve">
+    <value>Unable to process Key Terms: cause: {0}{0}{1}</value>
+  </data>
+  <data name="IDS_SaveKeyTermsPrompt" xml:space="preserve">
+    <value>ख़ास शब्‍द या उसका स्टैटस बदल गया है। इन परिवर्तनों को सेव किया जाए?</value>
+    <comment>A key term or its status has changed. Do you wish to save these changes?</comment>
   </data>
 </root>

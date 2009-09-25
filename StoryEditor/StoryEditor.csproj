@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{EE63B2ED-1488-491F-990A-3FA16E2DB135}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -18,8 +18,6 @@
     <GenerateManifests>true</GenerateManifests>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <SuiteName>OneStory</SuiteName>
-    <PublishWizardCompleted>true</PublishWizardCompleted>
     <PublishUrl>ftp://ftp.seedconnect.org/OneStoryEditor/</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -33,9 +31,11 @@
     <TargetCulture>en</TargetCulture>
     <ProductName>OneStory Editor</ProductName>
     <PublisherName>SIL</PublisherName>
+    <SuiteName>OneStory</SuiteName>
     <ApplicationRevision>3</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -63,7 +63,15 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\src\FW_6.0\Lib\release\ECInterfaces.dll</HintPath>
     </Reference>
+    <Reference Include="HtmlEditor, Version=7.0.100.5147, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\HtmlEditor.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="NetLoc, Version=7.0.100.5029, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\NetLoc.dll</HintPath>
+    </Reference>
     <Reference Include="Palaso, Version=1.2.448.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\Palaso.dll</HintPath>
@@ -71,6 +79,14 @@
     <Reference Include="PalasoUIWindowsForms, Version=1.2.448.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\PalasoUIWindowsForms.dll</HintPath>
+    </Reference>
+    <Reference Include="ParatextShared, Version=7.0.100.5029, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\ParatextShared.dll</HintPath>
+    </Reference>
+    <Reference Include="SharedScrUtils, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\SharedScrUtils.dll</HintPath>
     </Reference>
     <Reference Include="SilEncConverters30, Version=3.0.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
@@ -96,8 +112,20 @@
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="Utilities, Version=7.0.100.5029, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\Utilities.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BiblicalKeyTermsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BiblicalKeyTermsForm.designer.cs">
+      <DependentUpon>BiblicalKeyTermsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BiblicalTerms.cs" />
+    <Compile Include="BiblicalTermsHTMLBuilder.cs" />
     <Compile Include="CheckEndOfStateTransition.cs" />
     <Compile Include="EditMemberForm.cs">
       <SubType>Form</SubType>
@@ -136,6 +164,12 @@
     </Compile>
     <Compile Include="DynamicTableLayoutPanel.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="EditRenderingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditRenderingsForm.designer.cs">
+      <DependentUpon>EditRenderingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ExegeticalHelpNotesData.cs" />
     <Compile Include="GlossingControl.cs">
@@ -205,6 +239,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="BiblicalKeyTermsForm.resx">
+      <DependentUpon>BiblicalKeyTermsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ConsultNotesControl.resx">
       <DependentUpon>ConsultNotesControl.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -224,6 +261,9 @@
     <EmbeddedResource Include="ConsultNoteControl.resx">
       <DependentUpon>ConsultNoteControl.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditRenderingsForm.resx">
+      <DependentUpon>EditRenderingsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GlossingControl.resx">
       <DependentUpon>GlossingControl.cs</DependentUpon>
@@ -315,6 +355,9 @@
     <Compile Include="TeamMemberForm.Designer.cs">
       <DependentUpon>TeamMemberForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="TermLocalizations.cs" />
+    <Compile Include="TermRendering.cs" />
+    <Compile Include="TermRenderings.cs" />
     <Compile Include="TestingQuestionControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -343,6 +386,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="BiblicalTerms\BiblicalTerms.xml" />
+    <Content Include="BiblicalTerms\BiblicalTermsEn.xml" />
+    <Content Include="BiblicalTerms\StatHasErrDenied.gif" />
+    <Content Include="BiblicalTerms\StatHasErrors.gif" />
+    <Content Include="BiblicalTerms\StatHasNoErrors.gif" />
+    <Content Include="BiblicalTerms\Term.PNG" />
     <Content Include="LanguageCodes.tab" />
     <Content Include="OneStory.ico" />
     <None Include="..\Setup OneStory Editor\SetSwordPath.wxs">
@@ -404,6 +453,11 @@
     <Content Include="SWORD\mods.d\farsiopv.conf" />
   </ItemGroup>
   <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
       <Visible>False</Visible>
       <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
@@ -441,389 +495,432 @@
   <ItemGroup>
     <PublishFile Include="LanguageCodes.tab">
       <Visible>False</Visible>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>DataFile</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="libsword.dll">
       <Visible>False</Visible>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>Include</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="libsword_csharpsword.dll">
       <Visible>False</Visible>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>Include</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="OneStory.ico">
       <Visible>False</Visible>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>Exclude</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="Resources\GoLtrHS.bmp">
       <Visible>False</Visible>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>Exclude</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="Resources\GoRtlHS.bmp">
       <Visible>False</Visible>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>Exclude</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="StageTransitions.xml">
       <Visible>False</Visible>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>DataFile</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SwigSword">
       <Visible>False</Visible>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>Include</PublishState>
       <FileType>Assembly</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\mods.d\bbe.conf">
       <Visible>False</Visible>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>DataFile</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\mods.d\bwe.conf">
       <Visible>False</Visible>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>DataFile</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\mods.d\farsiopv.conf">
       <Visible>False</Visible>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>DataFile</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\mods.d\globals.conf">
       <Visible>False</Visible>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>DataFile</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\mods.d\hindi.conf">
       <Visible>False</Visible>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>DataFile</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\mods.d\netfree.conf">
       <Visible>False</Visible>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>DataFile</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\bbe\bbe.doc">
       <Visible>False</Visible>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>DataFile</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\bbe\nt.bzs">
       <Visible>False</Visible>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>DataFile</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\bbe\nt.bzv">
       <Visible>False</Visible>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>DataFile</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\bbe\nt.bzz">
       <Visible>False</Visible>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>DataFile</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\bbe\ot.bzs">
       <Visible>False</Visible>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>DataFile</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\bbe\ot.bzv">
       <Visible>False</Visible>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>DataFile</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\bbe\ot.bzz">
       <Visible>False</Visible>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>DataFile</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\bwe\nt.bzs">
       <Visible>False</Visible>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>DataFile</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\bwe\nt.bzv">
       <Visible>False</Visible>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>DataFile</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\bwe\nt.bzz">
       <Visible>False</Visible>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>DataFile</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\farsiopv\errata">
       <Visible>False</Visible>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>DataFile</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\farsiopv\nt.bzs">
       <Visible>False</Visible>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>DataFile</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\farsiopv\nt.bzv">
       <Visible>False</Visible>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>DataFile</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\farsiopv\nt.bzz">
       <Visible>False</Visible>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>DataFile</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\farsiopv\ot.bzs">
       <Visible>False</Visible>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>DataFile</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\farsiopv\ot.bzv">
       <Visible>False</Visible>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>DataFile</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\farsiopv\ot.bzz">
       <Visible>False</Visible>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>DataFile</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\hindi\nt.bzs">
       <Visible>False</Visible>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>DataFile</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\hindi\nt.bzv">
       <Visible>False</Visible>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>DataFile</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\hindi\nt.bzz">
       <Visible>False</Visible>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>DataFile</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\hindi\ot.bzs">
       <Visible>False</Visible>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>DataFile</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\hindi\ot.bzv">
       <Visible>False</Visible>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>DataFile</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\hindi\ot.bzz">
       <Visible>False</Visible>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>DataFile</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\netfree\nt.bzs">
       <Visible>False</Visible>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>DataFile</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\netfree\nt.bzv">
       <Visible>False</Visible>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>DataFile</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\netfree\nt.bzz">
       <Visible>False</Visible>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>DataFile</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\netfree\ot.bzs">
       <Visible>False</Visible>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>DataFile</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\netfree\ot.bzv">
       <Visible>False</Visible>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>DataFile</PublishState>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="SWORD\modules\texts\ztext\netfree\ot.bzz">
       <Visible>False</Visible>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>DataFile</PublishState>
       <FileType>File</FileType>
     </PublishFile>
   </ItemGroup>
