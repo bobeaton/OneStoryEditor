@@ -249,7 +249,7 @@ namespace OneStoryProjectEditor
                     for (int nAnchorNumber = 0; nAnchorNumber < aVerse.Anchors.Count; nAnchorNumber++)
                     {
                         AnchorData anAnchor = aVerse.Anchors[nAnchorNumber];
-                        VerseRef theVerseRef = new VerseRef(anAnchor.JumpTarget);
+                        VerseRef theVerseRef = new VerseRef(anAnchor.AnchorAsVerseRef);
                         foreach (VerseRef aVerseRef in references)
                             if (theVerseRef.BBBCCCVVVS() == aVerseRef.BBBCCCVVVS())
                             {

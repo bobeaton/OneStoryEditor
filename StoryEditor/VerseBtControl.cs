@@ -165,7 +165,14 @@ namespace OneStoryProjectEditor
         void buttonDragDropHandle_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
+            {
+                // the only function of the button here is to add a slot to type a con note
+                StoryEditor theSE;
+                if (!CheckForProperEditToken(out theSE))
+                    return;
+
                 buttonDragDropHandle.DoDragDrop(_verseData, DragDropEffects.Move);
+            }
         }
 
         void buttonDragDropHandle_QueryContinueDrag(object sender, System.Windows.Forms.QueryContinueDragEventArgs e)
@@ -249,11 +256,15 @@ namespace OneStoryProjectEditor
 
         void remTQ_Click(object sender, EventArgs e)
         {
-            ToolStripMenuItem tsm = (ToolStripMenuItem) sender;
+            // the only function of the button here is to add a slot to type a con note
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
+                return;
+
+            ToolStripMenuItem tsm = (ToolStripMenuItem)sender;
             TestQuestionData theTQD = (TestQuestionData)tsm.Tag;
             _verseData.TestQuestions.Remove(theTQD);
 
-            StoryEditor theSE = (StoryEditor)FindForm();
             theSE.ReInitVerseControls();
         }
 
@@ -317,8 +328,12 @@ namespace OneStoryProjectEditor
 
         private void addTestQuestionAnswerToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // the only function of the button here is to add a slot to type a con note
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
+                return;
+
             ToolStripMenuItem tsm = (ToolStripMenuItem)sender;
-            StoryEditor theSE = (StoryEditor)FindForm();
 
             //have to query for the UNS that this test is from (if we don't already have it).
             System.Diagnostics.Debug.Assert((theSE != null) && (theSE.theCurrentStory != null) && (theSE.theCurrentStory.CraftingInfo != null));
@@ -369,14 +384,22 @@ namespace OneStoryProjectEditor
         {
             if (MessageBox.Show("Are you sure you want to delete this verse (and all associated consultant notes, etc)?",  Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
             {
-                StoryEditor theSE = (StoryEditor)FindForm();
+                // the only function of the button here is to add a slot to type a con note
+                StoryEditor theSE;
+                if (!CheckForProperEditToken(out theSE))
+                    return;
+
                 theSE.DeleteVerse(_verseData);
             }
         }
 
         private void addANewVerseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            StoryEditor theSE = (StoryEditor)FindForm();
+            // the only function of the button here is to add a slot to type a con note
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
+                return;
+
             theSE.AddNewVerse(this, 1, false);
         }
 
@@ -385,7 +408,11 @@ namespace OneStoryProjectEditor
             ToolStripMenuItem tsmi = (ToolStripMenuItem)sender;
             int nNumNewVerses = Convert.ToInt32(tsmi.Text);
 
-            StoryEditor theSE = (StoryEditor)FindForm();
+            // the only function of the button here is to add a slot to type a con note
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
+                return;
+
             theSE.AddNewVerse(this, nNumNewVerses, true);
         }
 
@@ -394,10 +421,15 @@ namespace OneStoryProjectEditor
             ToolStripMenuItem tsmi = (ToolStripMenuItem)sender;
             int nNumNewVerses = Convert.ToInt32(tsmi.Text);
 
-            StoryEditor theSE = (StoryEditor)FindForm();
+            // the only function of the button here is to add a slot to type a con note
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
+                return;
+
             theSE.AddNewVerse(this, nNumNewVerses, false);
         }
 
+        /*
         private void glossVernacularToNationalBTToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
@@ -515,5 +547,6 @@ namespace OneStoryProjectEditor
                 return;
             }
         }
+        */
     }
 }

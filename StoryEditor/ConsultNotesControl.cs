@@ -68,22 +68,9 @@ namespace OneStoryProjectEditor
         protected void DoAddNote()
         {
             // the only function of the button here is to add a slot to type a con note
-            StoryEditor theSE = (StoryEditor)FindForm();
-            try
-            {
-                if (theSE == null)
-                    throw new ApplicationException(
-                        "Unable to edit the file! Reboot and if it persists, contact bob_eaton@sall.com");
-
-                if (!theSE.theCurrentStory.ProjStage.IsEditAllowed(theSE.LoggedOnMember))
-                    throw theSE.theCurrentStory.ProjStage.WrongMemberTypeEx;
-            }
-            catch (Exception ex)
-            {
-                if (theSE != null)
-                    theSE.SetStatusBar(String.Format("Error: {0}", ex.Message));
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
                 return;
-            }
 
             StoryStageLogic.ProjectStages eCurState = theSE.theCurrentStory.ProjStage.ProjectStage;
             int round = 1;

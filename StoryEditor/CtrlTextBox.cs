@@ -85,7 +85,7 @@ namespace OneStoryProjectEditor
 
                     // finally, the last possible blockage is if the currently logged on member isn't the 
                     //  right editor for the state we are in (which has to do with who has the edit token)
-                    else if (!_stageLogic.IsEditAllowed(theSE.LoggedOnMember))
+                    if (!_stageLogic.IsEditAllowed(theSE.LoggedOnMember))
                         throw _stageLogic.WrongMemberTypeEx;
                 }
 

@@ -175,6 +175,9 @@ namespace OneStoryProjectEditor
                 if (LoggedOnMember == null)
                     LoggedOnMember = Stories.GetLogin(ref Modified);
 
+                if (Modified)
+                    SaveClicked();
+
                 buttonsStoryStage.Enabled = true;
                 return true;
             }
@@ -1165,7 +1168,11 @@ namespace OneStoryProjectEditor
                 // put the allowable transitions into the DropDown list
                 if ((!aps.RequiresUsingNationalBT || Stories.ProjSettings.NationalBT.HasData)
                     && (!aps.RequiresUsingEnglishBT || Stories.ProjSettings.InternationalBT.HasData)
-                    && (!aps.RequiresBiblicalStory || theCurrentStory.CraftingInfo.IsBiblicalStory))
+                    && (!aps.RequiresBiblicalStory || theCurrentStory.CraftingInfo.IsBiblicalStory)
+                    && (!aps.HasUsingOtherEnglishBTer
+                        || (aps.RequiresUsingOtherEnglishBTer == 
+                            Stories.TeamMembers.IsThereASeparateEnglishBackTranslator))
+                    )
                 {
                     StoryStageLogic.StateTransition aST = StoryStageLogic.stateTransitions[aps.ProjectStage];
                     ToolStripItem tsi = buttonsStoryStage.DropDown.Items.Add(
@@ -1261,6 +1268,7 @@ namespace OneStoryProjectEditor
                              Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
                         return false;
                 theCurrentStory.ProjStage.ProjectStage = eProposedNextState;  // if we are ready, then go ahead and transition
+                Modified = true;
             }
             return bRet;
         }
@@ -1351,7 +1359,23 @@ namespace OneStoryProjectEditor
 
         private void StoryEditor_FormClosing(object sender, FormClosingEventArgs e)
         {
-            CheckForSaveDirtyFile();
+            if (Modified)
+            {
+                DialogResult res = MessageBox.Show(Properties.Resources.IDS_SaveChanges, Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+                if (res == DialogResult.Cancel)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+
+                if (res != DialogResult.Yes)
+                {
+                    Modified = false;
+                    return;
+                }
+
+                SaveClicked();
+            }
         }
 
         private void editToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
@@ -1494,7 +1518,7 @@ namespace OneStoryProjectEditor
                 strStory += ' ' + aVerse.VernacularText.ToString();
             }
 
-            GlossInAdaptIt(strStory, GlossingForm.GlossType.eVernacularToEnglish);
+            GlossInAdaptIt(strStory, AdaptItGlossing.GlossType.eVernacularToEnglish);
         }
 
         private void deleteStoryNationalBackTranslationToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1527,12 +1551,12 @@ namespace OneStoryProjectEditor
                 strStory += ' ' + aVerse.NationalBTText.ToString();
             }
 
-            GlossInAdaptIt(strStory, GlossingForm.GlossType.eNationalToEnglish);
+            GlossInAdaptIt(strStory, AdaptItGlossing.GlossType.eNationalToEnglish);
         }
 
-        protected void GlossInAdaptIt(string strStoryText, GlossingForm.GlossType eGlossType)
+        protected void GlossInAdaptIt(string strStoryText, AdaptItGlossing.GlossType eGlossType)
         {
-            AdaptItEncConverter theEC = GlossingForm.InitLookupAdapter(Stories.ProjSettings, eGlossType);
+            AdaptItEncConverter theEC = AdaptItGlossing.InitLookupAdapter(Stories.ProjSettings, eGlossType);
             string strAdaptationFilespec = AdaptationFilespec(theEC.ConverterIdentifier, theCurrentStory.Name);
             string strProjectName = Path.GetFileNameWithoutExtension(theEC.ConverterIdentifier);
             DialogResult res = DialogResult.Yes;
@@ -1638,7 +1662,7 @@ namespace OneStoryProjectEditor
                         Environment.NewLine, strProjectName, theCurrentStory.Name);
                 MessageBoxButtons mbb = MessageBoxButtons.OK;
 
-                if (eGlossType == GlossingForm.GlossType.eNationalToEnglish)
+                if (eGlossType == AdaptItGlossing.GlossType.eNationalToEnglish)
                 {
                     strMessage += String.Format(Properties.Resources.IDS_AdaptationInstructionsContinue,
                         Environment.NewLine);
@@ -1649,6 +1673,10 @@ namespace OneStoryProjectEditor
 
                 if (res != DialogResult.Yes)
                     return;
+
+                // do a dummy conversion to trigger a reload of the KB now that we've surely
+                //  added things.
+                theEC.Convert("dummy");
             }
 
             try
@@ -1662,9 +1690,9 @@ namespace OneStoryProjectEditor
                 for (int nVerseNum = 0; nVerseNum < theCurrentStory.Verses.Count; nVerseNum++)
                 {
                     VerseData aVerse = theCurrentStory.Verses[nVerseNum];
-                    System.Diagnostics.Debug.Assert((eGlossType == GlossingForm.GlossType.eVernacularToEnglish)
-                        || (eGlossType == GlossingForm.GlossType.eNationalToEnglish));
-                    string strStoryVerse = (eGlossType == GlossingForm.GlossType.eVernacularToEnglish) 
+                    System.Diagnostics.Debug.Assert((eGlossType == AdaptItGlossing.GlossType.eVernacularToEnglish)
+                        || (eGlossType == AdaptItGlossing.GlossType.eNationalToEnglish));
+                    string strStoryVerse = (eGlossType == AdaptItGlossing.GlossType.eVernacularToEnglish) 
                         ? aVerse.VernacularText.ToString() : aVerse.NationalBTText.ToString();
                     if (String.IsNullOrEmpty(strStoryVerse))
                         continue;

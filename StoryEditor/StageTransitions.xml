@@ -6,11 +6,21 @@
 By this stage, you will have already crafted and recorded a story according to the procedure you 
 learned in the workshop. See the document "Steps in the Story Crafting Process.doc" for details.
 
-Now you should listen line-by-line to the recording and type it in the verse fields in this window.
+Now you should listen line-by-line to the recording and type it in the verse field in this window.
 
 You can type the entire story into a single verse box. Then when you're finished, click on the 
-"Next State" button in the lower left corner of the screen and the program will split the story 
-into sentences so that each verse line has a single sentence in it.
+"Next State" button in the lower left corner of the screen and the program will ask if you want 
+the story to be split into sentences so that each verse line has a single sentence in it. You can 
+also use the 'Story' menu, 'Split into Lines' command, which will be visible if the entire story is
+in a single verse box.
+
+The lines will be split into sentences based on Sentence Final punctuation (i.e. ".!?", etc). If 
+your language has special sentence final punctuation (e.g. the Hindi Danda '।' or the Arabic '؟'), 
+you will want to add these to the list of sentence final punctuation in the 'Project' menu, 
+'Settings' command, on the 'Project/Language Settings' tab. When entering special punctuation, 
+be sure to enter the plain (most common) 'full stop' punctuation character as the first one and no 
+spaces between the characters. This (first) character will be used for any sentences that don't 
+have a full stop (i.e. if you forget one, then it will be added to the sentence).
 
 If this is a story from the Bible, then you will also be asked to type in the purpose that this 
 story is in the set; that is, why have you chosen this particular story? How does it fit with the 
@@ -19,7 +29,7 @@ theme of your panorama? You will also enter the list of resources used in crafti
     </StageInstructions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="false" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
-  <StateTransition stage="eCrafterTypeNationalBT" MemberTypeWithEditToken="eCrafter" NextState="eCrafterAddAnchors">
+  <StateTransition stage="eCrafterTypeNationalBT" MemberTypeWithEditToken="eCrafter" NextState="eCrafterTypeInternationalBT">
     <StageDisplayString>Crafter enters a UNS's back-translation of the story into the National language</StageDisplayString>
     <StageInstructions>
 In this stage, you need to find an uninitiated native speaker (UNS) to listen to the story and 
@@ -29,13 +39,20 @@ will type the back-translation line-by-line into the verse field(s) in this wind
 Be sure to type the UNS's back-translation into the same line number as the story verse to the 
 left, so that the back-translation matches what's in the story verse.
 
+You can toggle between the 'Story' menu, 'Collapse into 1 lines' command (to put all lines 
+into a single box) and the 'Split into lines' command (to split the story into 1 sentence 
+length lines). This will insure that you have the proper punctuation in both the story lines 
+and in the National language back-translation lines.
+
 When you are finished entering the national language back-translation, then click the button 
 in the left-hand side of the status bar with the label 'Next State' to go to the next stage.
 
-You will also be asked to identify which UNS did the back-translation, and if it is a story 
-from the Bible, you will be asked for other information, such as the purpose of the story and 
-the list of resources used in crafting it. You can also access this information by clicking, 
-"Story", and then "Story Information".
+You will be asked to identify which UNS did the back-translation. You can also access this and 
+other story information by clicking, "Story", and then "Story Information" command.
+
+If you have a team member with the role "English back-translator", then the next state will
+be for you, the crafter, to enter the biblical references, "anchors" for the story. Otherwise,
+the next state is for you to enter the English back-translation.
     </StageInstructions>
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eCrafterTypeVernacular</AllowableBackwardsTransition>
@@ -46,18 +63,27 @@ the list of resources used in crafting it. You can also access this information 
     <StageDisplayString>Crafter enters the English back-translation</StageDisplayString>
     <StageInstructions>
 In this stage, one of the crafting team will translate the National language back translation of the
-story into English (or from the story language if not using the national language back-translation).
+story into English.
 
-Unlike the last stage, where the National Language back translation had to done by a UNS, in this
-state, anyone can do the English back translation. However, if you have an "English Back-translator"
-on your team, then you must be logged in as the 'English back-translator' to add this new back-
-translation. You can click, 'Project', 'Settings', and click the 'Add New Member' button to add
-an "English back-translator".
+Unlike the last stage, where the National Language back-translation had to done by a UNS, in this
+state, anyone can do the English back translation. If no one on the crafting team understands English
+well enough to do an English back-translation, you may be able to arrange with your consultant to 
+have someone else who knows both the national language and English do the English back-translation
+for you. To do this, you must add that person to your team with the "English back-translator" role.
+If you have a separate "English back-translator" member, then instead of this state, the program
+will go to the stage where the English back-translation is entered after you have entered the anchors
+and testing questions (because the testing questions will need to be translated into English as well).
+
+But first, discuss with your consultant whether an English back-translation is even needed and 
+whether it can be done by someone else. As long as the first back-translation is
+done by a UNS, then it's okay to add an 'English back-translator' team member to do the English
+back-translation. Click, 'Project', 'Settings', and click the 'Add New Member' button to add an 
+"English back-translator" team member.
 
 There's a program called 'Adapt It' that can be used to help make the English back-translation more
 efficiently. Click on the 'Story' menu, 'Do English Glossing in Adapt It' menu, and then click the
 "From (National language)" command. This will write the national language back-translation of the
-story into an Adapt It file so you can use that program to do the translation.
+story into an Adapt It file so you can use that program to do the English back-translation.
 
 [note: there's another command on the 'Do English Glossing in Adapt It' menu: "From (Story) language
 (for Discourse Charting)". This command is useful if you want to create the English back-translation
@@ -85,12 +111,12 @@ in the Bible pane that supports the information in the verse. These Bible refere
 tie the story verse to the Bible.
 
 For example, if your story verse were, "First of all, God made heaven and earth", then you could use the reference 
-"Gen 1:1" as the anchor, which in the Net Bible says, "In the beginning God created the heavens and the earth". You could 
-also include another anchor like Col 1:16, which says, "for all things in heaven and on earth were created by him..."
-Both of these passages support the idea that "First of all, God made heaven and earth"
+"Gen 1:1" as the anchor, which in the NetBible says, "In the beginning God created the heavens and the earth". You could 
+also include another anchor like "Col 1:16", which says, "for all things in heaven and on earth were created by him..."
+Both of these passages support the idea that "First of all, God made heaven and earth".
 
 When you find a supporting Bible passage, then click and hold down the left mouse button on the button to the left of the 
-Bible passage in the Bible pane. Then while the left mouse button is held down, drag the mouse onto the line in the story 
+Bible passage in the Bible pane. Then while the left mouse button is held down, drag the mouse onto the line in the story
 verse area above with the label, "anc:". This is the anchor bar for the verse. When the mouse is over the anchor bar, 
 release the left mouse button and a new "anchor button" will appear on the anchor bar for that passage.
 
@@ -107,55 +133,74 @@ Bible translation or an Easy English version of the Bible. Talk with your worksh
 
 Remember that each verse must have at least one anchor. 
 
-When you are finished adding anchors for each verse, then click the button in the left-hand side of the status bar and 
-choose 'Next Stage' to go to the next stage in the process.
+When you are finished adding one or more anchors for each verse, then click the button in the left-hand side of the status 
+bar and choose 'Next Stage' to go to the next stage in the process.
     </StageInstructions>
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eCrafterTypeVernacular</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresUsingNationalBT="true">eCrafterTypeNationalBT</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="false">eCrafterTypeInternationalBT</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="true" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eCrafterCheckKeyTerms" MemberTypeWithEditToken="eCrafter" NextState="eCrafterAddStoryQuestions">
     <StageDisplayString>Crafter checks Key Biblical terms</StageDisplayString>
     <StageInstructions>
-  In this stage, one of the crafting team will go through the story verse-by-verse and look up one or more Bible references
-  in the Bible pane that supports the information in the verse. These Bible references are known as "Anchors", because they
-  tie the story verse to the Bible.
+In this stage, one of the crafting team will go through the story verse-by-verse and right-
+click on the Anchor bar and choose "Edit Key Terms". This will bring up the Key Terms dialog
+box which will show you all the Key biblical terms associated with your anchored verses. It
+will also list all the story verses in your project which use the same key term as those 
+used in the anchored scripture passages. This is so that you can make sure that you are 
+using the same term in each place where the same underlying Greek or Hebrew word is used.
 
-  For example, if your story verse were, "First of all, God made heaven and earth", then you could use the reference
-  "Gen 1:1" as the anchor, which in the Net Bible says, "In the beginning God created the heavens and the earth". You could
-  also include another anchor like Col 1:16, which says, "for all things in heaven and on earth were created by him..."
-  Both of these passages support the idea that "First of all, God made heaven and earth"
+To work on the key terms, you first select one of the key terms shown in the table at the 
+top of the Key Terms dialog box (for example, "אֱלֹהִים", which means 'god; gods; God'). Then 
+in the lower portion of the Key Terms dialog box will be listed all the story verses where
+the same key term is used (based on the anchors of all the story verses in the project). 
 
-  When you find a supporting Bible passage, then click and hold down the left mouse button on the button to the left of the
-  Bible passage in the Bible pane. Then while the left mouse button is held down, drag the mouse onto the line in the story
-  verse area above with the label, "anc:". This is the anchor bar for the verse. When the mouse is over the anchor bar,
-  release the left mouse button and a new "anchor button" will appear on the anchor bar for that passage.
+To indicate which word in the (lower portion) story verse corresponds to the key term (in
+the upper portion), double-click on the word in the lower portion of the screen to select it.
+Once the proper term is selected in the story language, then drag-drop it onto the row in 
+the table above that corresponds to the key term (note, there may be more than one). This 
+will add the selected word to the list of "Renderings" shown in the fourth column of the 
+table.
 
-  Now, you can click on the anchor button to jump to the anchored verse. You can also right-click on the anchor button for
-  other options, like adding a comment to the anchor (e.g. "implied by ..."). These comments will be displayed when you hover
-  the mouse over an anchor button. You can also add a cultural or exegetical note about the anchor by right-clicking on the
-  anchor button and choosing "Add Exegetical/Cultural Note". Such notes can help the consultant understand why you chose the
-  Bible reference that you did.
+You can also edit the renderings by double-clicking on the row in the table, which brings up
+the Edit Renderings dialog box. All renderings of the same key term should be separated by a
+comma and a space.
 
-  In the Bible pane in the lower left, by default the NetBible version of the Bible will be displayed. In the upper portion
-  of that pane, there are several small "radio buttons" with labels like "NETfree" (which refers to the NetBible) and "Other".
-  Click on the "Other" button to view different Bible text resources that may be installed on your computer, such as a Hindi
-  Bible translation or an Easy English version of the Bible. Talk with your workshop advisor for other options available.
+All of the verses in all of your stories that have the same key term will be displayed in the 
+lower portion of the screen. You'll want to go through all the lines one by one and either 
+make sure the rendering of the key term is in bold (which means it matches one of the already
+existing renderings) or if the word for the key term doesn't exist, then click the box with 
+the red 'X' in it. This says that that the key term doesn't show up in this verse of the 
+story. This might happen, for example, if instead of using the proper name for 'god' in some 
+particular story verse, you use a pronoun instead. The pronoun shouldn't be listed as a 
+rendering of the key term, so you can click the red 'X' to 'deny' that it's necessary for 
+this particular verse. It might also happen that an anchor is used for only one portion of 
+the underlying scripture passage, so while in a scripture translation, the key term may be
+necessary, it's possible that in a story, some portion of that scripture verse may be left
+out. 
 
-  Remember that each verse must have at least one anchor.
+When all the stories have either a check mark (indicating that the rendering of the key term 
+is in that verse) or have been 'denied', then you can click the 'X' in the upper right corner 
+of the Key Terms dialog box to dismiss it.
 
-  When you are finished adding anchors for each verse, then click the button in the left-hand side of the status bar and
-  choose 'Next Stage' to go to the next stage in the process.
+You must edit the key terms for every line of the story.
+
+When you are finished checking the key terms for each verse, then click the button in the 
+left-hand side of the status bar and choose 'Next Stage' to go to the next stage in the 
+process.
     </StageInstructions>
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eCrafterTypeVernacular</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresUsingNationalBT="true">eCrafterTypeNationalBT</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="false">eCrafterTypeInternationalBT</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresBiblicalStory="true">eCrafterAddAnchors</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="true" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
-  <StateTransition stage="eCrafterAddStoryQuestions" MemberTypeWithEditToken="eCrafter" NextState="eBackTranslatorTypeInternationalBT">
+  <StateTransition stage="eCrafterAddStoryQuestions" MemberTypeWithEditToken="eCrafter" NextState="eConsultantCheckAnchors">
     <StageDisplayString>Crafter adds story testing questions</StageDisplayString>
     <StageInstructions>
 In this stage, one of the crafting team will go through the story and add "Story Testing Questions" (STQs). These are 
@@ -201,21 +246,25 @@ choose 'Next Stage' to go to the next stage in the process.
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eCrafterTypeVernacular</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresUsingNationalBT="true">eCrafterTypeNationalBT</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="false">eCrafterTypeInternationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresBiblicalStory="true">eCrafterAddAnchors</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresBiblicalStory="true">eCrafterCheckKeyTerms</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eBackTranslatorTypeInternationalBT" MemberTypeWithEditToken="eEnglishBacktranslator" NextState="eConsultantCheckAnchors">
     <StageDisplayString>Special back-translator enters the English back-translation</StageDisplayString>
     <StageInstructions>
-In this stage, one of the crafting team will translate the National language back translation of the 
-story into English (or from the story language if not using the national language back-translation).
+In this stage, someone typically outside of the crafting team will translate the National 
+language back translation of the story into English (or from the story language if not using 
+the national language back-translation). This is useful for when the crafting team doesn't
+know English well and someone else can do the back-translation from the national language 
+(which was done by a UNS) into English. 
 
-Unlike the last stage, where the National Language back translation had to done by a UNS, in this 
-state, anyone can do the English back translation. However, if you have an "English Back-translator"
-on your team, then you must be logged in as the 'English back-translator' to add this new back-
-translation. You can click, 'Project', 'Settings', and click the 'Add New Member' button to add
-an "English back-translator".
+This stage only occurs if you have an "English Back-translator" member on your team and it
+occurs after all the Crafter states are finished and just before the story goes to the 
+consultant. During this stage, you, the special English back-translator will translate the
+story from the National back-translation as well as the story testing questions into English.
 
 There's a program called 'Adapt It' that can be used to help make the English back-translation more 
 efficiently. Click on the 'Story' menu, 'Do English Glossing in Adapt It' menu, and then click the 
@@ -237,7 +286,9 @@ side of the status bar with the label 'Next State' to go to the next stage in th
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eCrafterTypeVernacular</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresUsingNationalBT="true">eCrafterTypeNationalBT</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="false">eCrafterTypeInternationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresBiblicalStory="true">eCrafterAddAnchors</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresBiblicalStory="true">eCrafterCheckKeyTerms</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresBiblicalStory="true">eCrafterAddStoryQuestions</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
@@ -265,7 +316,8 @@ This is the final stage of the process for this non-biblical story.
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eCrafterTypeVernacular</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresUsingNationalBT="true">eCrafterTypeNationalBT</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresUsingEnglishBT="true">eBackTranslatorTypeInternationalBT</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="false">eCrafterTypeInternationalBT</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTypeInternationalBT</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
@@ -296,9 +348,11 @@ status bar and choose 'Next Stage' to go to the next stage in the process.
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eCrafterTypeVernacular</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresUsingNationalBT="true">eCrafterTypeNationalBT</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="false">eCrafterTypeInternationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresBiblicalStory="true">eCrafterAddAnchors</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresBiblicalStory="true">eCrafterCheckKeyTerms</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresBiblicalStory="true">eCrafterAddStoryQuestions</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresUsingEnglishBT="true">eBackTranslatorTypeInternationalBT</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTypeInternationalBT</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
@@ -352,12 +406,14 @@ small button to the right-hand side of the appropriate line number and choose "A
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eCrafterTypeVernacular</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresUsingNationalBT="true">eCrafterTypeNationalBT</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="false">eCrafterTypeInternationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresBiblicalStory="true">eCrafterAddAnchors</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresBiblicalStory="true">eCrafterCheckKeyTerms</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresBiblicalStory="true">eCrafterAddStoryQuestions</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresUsingEnglishBT="true">eBackTranslatorTypeInternationalBT</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTypeInternationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eConsultantCheckAnchors</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
-    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
+    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eCoachReviewRound1Notes" MemberTypeWithEditToken="eCoach" NextState="eConsultantReviseRound1Notes">
     <StageDisplayString>Coach reviews round 1 consultant notes</StageDisplayString>
@@ -403,7 +459,7 @@ When you are finished, then click the button in the left-hand side of the status
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
-    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
+    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eCrafterReadyForTest1" MemberTypeWithEditToken="eCrafter" NextState="eCrafterEnterAnswersToStoryQuestionsOfTest1">
     <StageDisplayString>Crafter is ready for the 1st (formal) UNS test</StageDisplayString>
@@ -412,7 +468,7 @@ When you are finished, then click the button in the left-hand side of the status
       <AllowableBackwardsTransition>eCrafterReviseBasedOnRound1Notes</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterOnlineReview1WithConsultant</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
-    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
+    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
   <StateTransition stage="eCrafterEnterAnswersToStoryQuestionsOfTest1" MemberTypeWithEditToken="eCrafter" NextState="eCrafterEnterRetellingOfTest1">
     <StageDisplayString>Crafter enters answers to the test 1 story questions</StageDisplayString>
@@ -422,7 +478,7 @@ When you are finished, then click the button in the left-hand side of the status
       <AllowableBackwardsTransition>eCrafterOnlineReview1WithConsultant</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterReadyForTest1</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
-    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
+    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
   <StateTransition stage="eCrafterEnterRetellingOfTest1" MemberTypeWithEditToken="eCrafter" NextState="eConsultantCheckAnchorsRound2">
     <StageDisplayString>Crafter enters test 1 retelling back-translation</StageDisplayString>
@@ -433,7 +489,7 @@ When you are finished, then click the button in the left-hand side of the status
       <AllowableBackwardsTransition>eCrafterReadyForTest1</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterEnterAnswersToStoryQuestionsOfTest1</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
-    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="true" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
+    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="true" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
   <StateTransition stage="eConsultantCheckAnchorsRound2" MemberTypeWithEditToken="eConsultantInTraining" NextState="eConsultantCheckAnswersToTestingQuestionsRound2">
     <StageDisplayString>Consultant checks story anchors for round 2</StageDisplayString>
@@ -475,7 +531,7 @@ When you are finished, then click the button in the left-hand side of the status
   <StateTransition stage="eCrafterReviseBasedOnRound2Notes" MemberTypeWithEditToken="eCrafter" NextState="eCrafterOnlineReview2WithConsultant">
     <StageDisplayString>Crafter revises story based on round 2 notes</StageDisplayString>
     <StageInstructions></StageInstructions>
-    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
+    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eCrafterOnlineReview2WithConsultant" MemberTypeWithEditToken="eCrafter" NextState="eCrafterReadyForTest2">
     <StageDisplayString>Crafter has 2nd online review with consultant</StageDisplayString>
@@ -483,7 +539,7 @@ When you are finished, then click the button in the left-hand side of the status
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eCrafterReviseBasedOnRound2Notes</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
-    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
+    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eCrafterReadyForTest2" MemberTypeWithEditToken="eCrafter" NextState="eCrafterEnterAnswersToStoryQuestionsOfTest2">
     <StageDisplayString>Crafter is ready for the second (formal) UNS test</StageDisplayString>
@@ -492,7 +548,7 @@ When you are finished, then click the button in the left-hand side of the status
       <AllowableBackwardsTransition>eCrafterReviseBasedOnRound2Notes</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterOnlineReview2WithConsultant</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
-    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
+    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
   <StateTransition stage="eCrafterEnterAnswersToStoryQuestionsOfTest2" MemberTypeWithEditToken="eCrafter" NextState="eCrafterEnterRetellingOfTest2">
     <StageDisplayString>Crafter enters test 2 answers to story testing questions</StageDisplayString>
@@ -502,7 +558,7 @@ When you are finished, then click the button in the left-hand side of the status
       <AllowableBackwardsTransition>eCrafterOnlineReview2WithConsultant</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterReadyForTest2</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
-    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
+    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
   <StateTransition stage="eCrafterEnterRetellingOfTest2" MemberTypeWithEditToken="eCrafter" NextState="eConsultantReviewTest2">
     <StageDisplayString>Crafter enters test 2 retelling back-translation</StageDisplayString>
@@ -513,7 +569,7 @@ When you are finished, then click the button in the left-hand side of the status
       <AllowableBackwardsTransition>eCrafterReadyForTest2</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eCrafterEnterAnswersToStoryQuestionsOfTest2</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
-    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="true" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
+    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="true" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
   <StateTransition stage="eConsultantReviewTest2" MemberTypeWithEditToken="eConsultantInTraining" NextState="eCoachReviewTest2Notes">
     <StageDisplayString>Consultant reviews test 2 results</StageDisplayString>

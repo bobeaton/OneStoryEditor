@@ -21,5 +21,11 @@ namespace OneStoryProjectEditor
             get { return webBrowser.DocumentText; }
             set { webBrowser.DocumentText = value; }
         }
+
+        private void buttonOK_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.OK;
+            Close();
+        }
     }
 }

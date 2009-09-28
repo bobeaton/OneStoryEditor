@@ -109,8 +109,8 @@
             this.webBrowser.DefaultPreamble = onlyconnect.EncodingType.UTF8;
             this.webBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
             this.webBrowser.DocumentEncoding = onlyconnect.EncodingType.WindowsCurrent;
+            this.webBrowser.IsActivationEnabled = false;
             this.webBrowser.Location = new System.Drawing.Point(0, 0);
-            this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser.Name = "webBrowser";
             this.webBrowser.SelectionAlignment = System.Windows.Forms.HorizontalAlignment.Left;
             this.webBrowser.SelectionBackColor = System.Drawing.Color.Empty;

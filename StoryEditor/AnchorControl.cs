@@ -135,9 +135,18 @@ namespace OneStoryProjectEditor
         {
             if (e.Data.GetDataPresent(typeof(NetBibleViewer)))
             {
+                // the only function of the button here is to add a slot to type a con note
+                StoryEditor theSE;
+                if (!CheckForProperEditToken(out theSE))
+                    return;
+
                 NetBibleViewer theNetBibleViewer = (NetBibleViewer)e.Data.GetData(typeof(NetBibleViewer));
                 AnchorData theAnchorData = _myAnchorsData.AddAnchorData(theNetBibleViewer.ScriptureReference, theNetBibleViewer.ScriptureReference);
                 InitAnchorButton(toolStripAnchors, theAnchorData);
+
+                // indicate that we've changed something so that we don't exit without offering
+                //  to save.
+                theSE.Modified = true;
             }
         }
 
@@ -202,6 +211,11 @@ namespace OneStoryProjectEditor
         {
             if (m_theLastButtonClicked != null)
             {
+                // the only function of the button here is to add a slot to type a con note
+                StoryEditor theSE;
+                if (!CheckForProperEditToken(out theSE))
+                    return;
+
                 System.Diagnostics.Debug.Assert(m_theLastButtonClicked.Tag is AnchorData);
                 AnchorData theAnchorData = (AnchorData)m_theLastButtonClicked.Tag;
                 ExegeticalHelpNoteData anEHN = theAnchorData.ExegeticalHelpNotes.AddExegeticalHelpNote("Re: " + m_theLastButtonClicked.Text);
@@ -216,8 +230,9 @@ namespace OneStoryProjectEditor
 
         private void editKeyTermsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            StoryEditor theSE = (StoryEditor)FindForm();
-            if (theSE == null)
+            // the only function of the button here is to add a slot to type a con note
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
                 return;
 
             try

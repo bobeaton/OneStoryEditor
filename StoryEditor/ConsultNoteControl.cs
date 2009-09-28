@@ -75,19 +75,27 @@ namespace OneStoryProjectEditor
 
         private void hideMenuItem_Click(object sender, EventArgs e)
         {
+            // the only function of the button here is to add a slot to type a con note
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
+                return;
+
             _myCNDC.Visible = false;
-            StoryEditor theSE = (StoryEditor)FindForm();
             theSE.ReInitConsultNotesPane(_myCollection);
         }
 
         private void deleteMenuItem_Click(object sender, EventArgs e)
         {
+            // the only function of the button here is to add a slot to type a con note
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
+                return;
+
             if (_myCNDC.HasData)
                 if (MessageBox.Show("Are you sure you want to delete this note?",  Properties.Resources.IDS_Caption, MessageBoxButtons.YesNo) != DialogResult.Yes)
                     return;
 
             _myCollection.Remove(_myCNDC);
-            StoryEditor theSE = (StoryEditor)FindForm();
             theSE.ReInitConsultNotesPane(_myCollection);
         }
 
@@ -105,7 +113,14 @@ namespace OneStoryProjectEditor
         void buttonDragDropHandle_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
+            {
+                // the only function of the button here is to add a slot to type a con note
+                StoryEditor theSE;
+                if (!CheckForProperEditToken(out theSE))
+                    return;
+
                 buttonDragDropHandle.DoDragDrop(this, DragDropEffects.Move);
+            }
         }
     }
 }

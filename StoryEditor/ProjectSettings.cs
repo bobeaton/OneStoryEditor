@@ -88,17 +88,18 @@ namespace OneStoryProjectEditor
 
         public class LanguageInfo
         {
+            internal static string CstrSentenceFinalPunctuation = ".!?:";
+
             public string LangName = null;
             public string LangCode = null;
             public Font LangFont;
             public Color FontColor;
-            public string FullStop;
+            public string FullStop = CstrSentenceFinalPunctuation;
             public string Keyboard = null;
             public bool IsRTL = false;
 
             public LanguageInfo(Font font, Color fontColor)
             {
-                FullStop = ".";
                 LangFont = font;
                 FontColor = fontColor;
             }
@@ -107,7 +108,6 @@ namespace OneStoryProjectEditor
             {
                 LangName = strLangName;
                 LangCode = strLangCode;
-                FullStop = ".";
                 LangFont = font;
                 FontColor = fontColor;
             }

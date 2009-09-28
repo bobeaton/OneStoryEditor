@@ -227,7 +227,6 @@ namespace OneStoryProjectEditor
 
         protected static char[] achQuotes = new char[] { '"', '\'', '\u2018', '\u2019', '\u201B', 
             '\u201C', '\u201d', '\u201E', '\u201F' };
-        protected static string CstrSentenceFinalPunctuation = "!?:\n";   // standard ones
 
         public static bool GetListOfSentences(StringTransfer stParagraph, string strSentenceFinalPunct, out List<string> lstSentences)
         {
@@ -239,7 +238,7 @@ namespace OneStoryProjectEditor
 
             // split it up based on the sentence final punctuation: (the standard list, plus the list from
             //  the project passed in)
-            char[] achSplitOn = (CstrSentenceFinalPunctuation + strSentenceFinalPunct).ToCharArray();
+            char[] achSplitOn = strSentenceFinalPunct.ToCharArray();
             int nStartIndex = 0, nIndex;
             while ((nStartIndex < strParagraph.Length) && (nIndex = strParagraph.IndexOfAny(achSplitOn, nStartIndex)) != -1)
             {
@@ -247,6 +246,9 @@ namespace OneStoryProjectEditor
                     nIndex++;
 
                 string strLine = strParagraph.Substring(nStartIndex, nIndex - nStartIndex + 1).Trim();
+                strLine = strLine.Replace("\r\n", " ");
+                while (strLine.IndexOf("  ") != -1)
+                    strLine = strLine.Replace("  ", " ");
                 if (!String.IsNullOrEmpty(strLine))
                     lstSentences.Add(strLine);
 
@@ -369,11 +371,11 @@ namespace OneStoryProjectEditor
                 return false;
             }
 
-            if (!theStories.TeamMembers.IsThereASeparateEnglishBackTranslator)
-                eProposedNextState = StoryStageLogic.ProjectStages.eConsultantCheckAnchors;
+            if (theStories.TeamMembers.IsThereASeparateEnglishBackTranslator)
+                eProposedNextState = StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT;
             else
                 System.Diagnostics.Debug.Assert(eProposedNextState ==
-                    StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT);
+                    StoryStageLogic.ProjectStages.eConsultantCheckAnchors);
 
             return true;
         }

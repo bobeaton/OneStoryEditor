@@ -47,15 +47,10 @@ namespace OneStoryProjectEditor
             };
             tableLayoutPanel.Controls.Add(label, 0, 1);
 
-            // the Crafter definitely wants to see both, so even if the vern button is off, 
-            //  show the vern for the testing question--except for the coach
-            bool bShowVernAndShowHeaders = (theSE.viewVernacularLangFieldMenuItem.Checked
-                || (StageLogic.MemberTypeWithEditToken != TeamMemberData.UserTypes.eCoach));
-
             int nNumColumns = 1;
 
             // insert the vernacular representation of the testing question
-            if (bShowVernAndShowHeaders)
+            if (theSE.viewVernacularLangFieldMenuItem.Checked)
             {
                 InsertColumn(nNumColumns);
                 InitColumnLabel(theSE.Stories.ProjSettings.Vernacular.LangName, nNumColumns);
@@ -70,9 +65,9 @@ namespace OneStoryProjectEditor
                 theSE.Stories.TeamMembers.IsThereASeparateEnglishBackTranslator)
             {
                 InsertColumn(nNumColumns);
-                if (bShowVernAndShowHeaders)    // but no need to show the lang title header unless there are two
-                    InitColumnLabel(theSE.Stories.ProjSettings.NationalBT.LangName, nNumColumns);
-                InitTextBox(CstrFieldNameNationalBt, _aTQData.QuestionNationalBT, theSE.Stories.ProjSettings.NationalBT, nNumColumns);
+                InitColumnLabel(theSE.Stories.ProjSettings.NationalBT.LangName, nNumColumns);
+                InitTextBox(CstrFieldNameNationalBt, _aTQData.QuestionNationalBT, 
+                    theSE.Stories.ProjSettings.NationalBT, nNumColumns);
                 nNumColumns++;
             }
 
@@ -82,9 +77,10 @@ namespace OneStoryProjectEditor
                             TeamMemberData.UserTypes.eCrafter)))
             {
                 InsertColumn(nNumColumns);
-                if (bShowVernAndShowHeaders)    // but no need to show the lang title header unless there are two
-                    InitColumnLabel(theSE.Stories.ProjSettings.InternationalBT.LangName, nNumColumns);
-                InitTextBox(CstrFieldNameVernacular, _aTQData.QuestionInternationalBT, theSE.Stories.ProjSettings.InternationalBT, nNumColumns);
+                InitColumnLabel(theSE.Stories.ProjSettings.InternationalBT.LangName, nNumColumns);
+                InitTextBox(CstrFieldNameVernacular, _aTQData.QuestionInternationalBT, 
+                    theSE.Stories.ProjSettings.InternationalBT, nNumColumns);
+                nNumColumns++;
             }
 
             // add a row so we can display a multiple line control with the answers

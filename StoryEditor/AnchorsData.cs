@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Xml.Linq;
 using System.Text;
+using System.Text.RegularExpressions;   // for Regex
 using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
@@ -27,6 +28,20 @@ namespace OneStoryProjectEditor
             JumpTarget = strJumpTarget;
             ToolTipText = strComment;
             ExegeticalHelpNotes = new ExegeticalHelpNotesData();
+        }
+
+        // match for things like "2Cor" and turn it into "2Co"
+        protected Regex regexParsingAnchor = new Regex(@"^(.{3})[^ ]", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
+                
+        public string AnchorAsVerseRef
+        {
+            get
+            {
+                // some things which work as anchors for Sword don't work for the Paratext
+                //  key terms stuff as "VerseRef" objects
+                string strVerseRef = regexParsingAnchor.Replace(JumpTarget, "$1");
+                return strVerseRef;
+            }
         }
 
         public XElement GetXml

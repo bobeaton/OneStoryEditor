@@ -244,6 +244,7 @@ namespace OneStoryProjectEditor
                                 ProjectStage = (ProjectStages)Enum.Parse(typeof(ProjectStages), xpNextElement.Current.Value),
                                 RequiresUsingNationalBT = (xpNextElement.Current.GetAttribute("RequiresUsingNationalBT", navigator.NamespaceURI) == "true"),
                                 RequiresUsingEnglishBT = (xpNextElement.Current.GetAttribute("RequiresUsingEnglishBT", navigator.NamespaceURI) == "true"),
+                                UsingOtherEnglishBTer = xpNextElement.Current.GetAttribute("RequiresUsingOtherEnglishBTer", navigator.NamespaceURI),
                                 RequiresBiblicalStory = (xpNextElement.Current.GetAttribute("RequiresBiblicalStory", navigator.NamespaceURI) == "true")
                             };
                             lstAllowableBackwardsStages.Add(aps);
@@ -283,7 +284,23 @@ namespace OneStoryProjectEditor
             public ProjectStages ProjectStage { get; set; }
             public bool RequiresUsingNationalBT { get; set; }
             public bool RequiresUsingEnglishBT { get; set; }
+            public bool HasUsingOtherEnglishBTer { get; set; }
+            public bool RequiresUsingOtherEnglishBTer { get; set; }
             public bool RequiresBiblicalStory { get; set; }
+            public object UsingOtherEnglishBTer
+            {
+                set
+                {
+                    string strValue = (string)value;
+                    if (String.IsNullOrEmpty(strValue))
+                        HasUsingOtherEnglishBTer = false;
+                    else
+                    {
+                        HasUsingOtherEnglishBTer = true;
+                        RequiresUsingOtherEnglishBTer = (strValue == "true");
+                    }
+                }
+            }
         }
 
         public class StateTransition
@@ -370,6 +387,8 @@ namespace OneStoryProjectEditor
                             elemAPS.Add(new XAttribute("RequiresBiblicalStory", true));
                         if (ps.RequiresUsingEnglishBT)
                             elemAPS.Add(new XAttribute("RequiresUsingEnglishBT", true));
+                        if (ps.HasUsingOtherEnglishBTer)
+                            elemAPS.Add(new XAttribute("RequiresUsingOtherEnglishBTer", ps.RequiresUsingOtherEnglishBTer));
                         if (ps.RequiresUsingNationalBT)
                             elemAPS.Add(new XAttribute("RequiresUsingNationalBT", true));
                         elemAPS.Add(ps);

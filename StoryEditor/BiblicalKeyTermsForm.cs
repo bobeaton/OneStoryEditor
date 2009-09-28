@@ -46,7 +46,7 @@ namespace OneStoryProjectEditor
                 List<string> lstRefs = new List<string>();
                 foreach (AnchorData anAnchor in theAnchors)
                 {
-                    VerseRef verseRef = new VerseRef(anAnchor.JumpTarget);
+                    VerseRef verseRef = new VerseRef(anAnchor.AnchorAsVerseRef);
                     lstRefs.Add(verseRef.BBBCCCVVV());
                 }
 
@@ -81,6 +81,7 @@ namespace OneStoryProjectEditor
                 ColumnRenderings.DefaultCellStyle.Font = theStories.ProjSettings.Vernacular.LangFont;
                 ColumnRenderings.DefaultCellStyle.ForeColor = theStories.ProjSettings.Vernacular.FontColor;
 
+                termIndexRequested = -1;
                 LoadTermsList();
             }
             catch (Exception ex)
@@ -248,7 +249,9 @@ namespace OneStoryProjectEditor
             LoadReferencesDisplay(false);
 
             reference = reference.Replace(" ", "_");
-            idToScrollTo = "project1_" + reference;
+            
+            // e.g. projectxnr_Story: 'BibStory', line: 1, anchor: Gen 2:4
+            idToScrollTo = String.Format("project{0}_{1}", renderings.ScrTextName, reference);
 
             NotifyRenderingsChanged();
         }
@@ -274,6 +277,7 @@ namespace OneStoryProjectEditor
                 }
             }
         }
+
         private bool loadTermsListInProgress = false;
         private bool repeatLoadTermsList = false;
 
@@ -321,9 +325,10 @@ namespace OneStoryProjectEditor
 
             if (dataGridViewKeyTerms.RowCount != visibleTerms.Count)
                 dataGridViewKeyTerms.RowCount = visibleTerms.Count;
-            dataGridViewKeyTerms.Invalidate();
+            else
+                LoadReferencesDisplay(true);
 
-            LoadReferencesDisplay(true);
+            dataGridViewKeyTerms.Invalidate();
         }
 
         private string SelectedText

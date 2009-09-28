@@ -241,6 +241,11 @@ namespace OneStoryProjectEditor
                 TeamMemberData theNewMemberData;
                 if (m_mapNewMembersThisSession.TryGetValue(dlg.MemberName, out theNewMemberData))
                 {
+                    // I don't see how this could happen... this must have been from back when
+                    //  you could edit and add in a similar way. Now *Add* means *add a new one*
+                    //  and they can't exist in this map...
+                    System.Diagnostics.Debug.Assert(false);
+
                     // must just be editing the already added member...
                     System.Diagnostics.Debug.Assert(listBoxTeamMembers.Items.Contains(dlg.MemberName));
 
