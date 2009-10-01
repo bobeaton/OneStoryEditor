@@ -375,7 +375,7 @@ namespace OneStoryProjectEditor
                 eProposedNextState = StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT;
             else
                 System.Diagnostics.Debug.Assert(eProposedNextState ==
-                    StoryStageLogic.ProjectStages.eConsultantCheckAnchors);
+                    StoryStageLogic.ProjectStages.eConsultantCheckStoryInfo);
 
             return true;
         }
@@ -421,7 +421,7 @@ namespace OneStoryProjectEditor
                 eProposedNextState = StoryStageLogic.ProjectStages.eConsultantCheckNonBiblicalStory;
             else
                 System.Diagnostics.Debug.Assert(eProposedNextState ==
-                    StoryStageLogic.ProjectStages.eConsultantCheckAnchors);
+                    StoryStageLogic.ProjectStages.eConsultantCheckStoryInfo);
             
             return true;
         }
@@ -452,6 +452,12 @@ namespace OneStoryProjectEditor
         public static bool ConsultantCheckNonBiblicalStory(StoryEditor theSE, StoriesData theStories, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ConsultantCheckNonBiblicalStory' work is finished: Name: {0}", theCurrentStory.Name));
+            return true;
+        }
+
+        public static bool ConsultantCheckStoryInfo(StoryEditor theSE, StoriesData theStories, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
+        {
+            Console.WriteLine(String.Format("Checking if stage 'ConsultantCheckStoryInfo' work is finished: Name: {0}", theCurrentStory.Name));
             return true;
         }
 

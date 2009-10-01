@@ -11,3 +11,4 @@ Set focus on newly added controls after adding them (so they come into view)
 Changing the language fonts (Project, Settings), doesn't repaint the controls.
 have it launch into the last story the member was working on
 make sure that AdaptItEncConverter is putting the UTF-8 flag
+Key Term goes back to last index after drag-dropping a rendering.

@@ -49,22 +49,22 @@ namespace OneStoryProjectEditor
             }
 
             // initialize the vernacular language controls
-            textBoxVernacular.Font = textBoxVernacularEthCode.Font = projSettings.Vernacular.LangFont;
-            textBoxVernacular.ForeColor = textBoxVernacularEthCode.ForeColor = projSettings.Vernacular.FontColor;
             textBoxVernacular.Text = ((String.IsNullOrEmpty(projSettings.Vernacular.LangName))? projSettings.ProjectName : projSettings.Vernacular.LangName);
             textBoxVernacularEthCode.Text = projSettings.Vernacular.LangCode;
             if (!String.IsNullOrEmpty(projSettings.Vernacular.Keyboard) && comboBoxKeyboardVernacular.Items.Contains(projSettings.Vernacular.Keyboard))
                 comboBoxKeyboardVernacular.SelectedItem = projSettings.Vernacular.Keyboard;
+            textBoxVernSentFullStop.Font = projSettings.Vernacular.LangFont;
+            textBoxVernSentFullStop.ForeColor = projSettings.Vernacular.FontColor;
             textBoxVernSentFullStop.Text = projSettings.Vernacular.FullStop;
             checkBoxVernacularRTL.Checked = projSettings.Vernacular.IsRTL;
 
             // if there is a national language configured, then initialize those as well.
-            textBoxNationalBTLanguage.Font = textBoxNationalBTEthCode.Font = projSettings.NationalBT.LangFont;
-            textBoxNationalBTLanguage.ForeColor = textBoxNationalBTEthCode.ForeColor = projSettings.NationalBT.FontColor;
             textBoxNationalBTLanguage.Text = projSettings.NationalBT.LangName;
             textBoxNationalBTEthCode.Text = projSettings.NationalBT.LangCode;
             if (!String.IsNullOrEmpty(projSettings.NationalBT.Keyboard) && comboBoxKeyboardNationalBT.Items.Contains(projSettings.NationalBT.Keyboard))
                 comboBoxKeyboardNationalBT.SelectedItem = projSettings.NationalBT.Keyboard;
+            textBoxNationalBTSentFullStop.Font = projSettings.NationalBT.LangFont;
+            textBoxNationalBTSentFullStop.ForeColor = projSettings.NationalBT.FontColor;
             textBoxNationalBTSentFullStop.Text = projSettings.NationalBT.FullStop;
             checkBoxNationalRTL.Checked = projSettings.NationalBT.IsRTL;
             checkBoxNationalLangBT.Checked = projSettings.NationalBT.HasData;
