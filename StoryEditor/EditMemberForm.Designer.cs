@@ -33,6 +33,7 @@
             this.labelName = new System.Windows.Forms.Label();
             this.textBoxName = new System.Windows.Forms.TextBox();
             this.groupBoxRole = new System.Windows.Forms.GroupBox();
+            this.radioButtonEnglishBackTranslator = new System.Windows.Forms.RadioButton();
             this.radioButtonJustViewing = new System.Windows.Forms.RadioButton();
             this.radioButtonCoach = new System.Windows.Forms.RadioButton();
             this.radioButtonConsultantInTraining = new System.Windows.Forms.RadioButton();
@@ -48,11 +49,11 @@
             this.textBoxSkypeID = new System.Windows.Forms.TextBox();
             this.labelTeamViewerID = new System.Windows.Forms.Label();
             this.textBoxTeamViewer = new System.Windows.Forms.TextBox();
-            this.labelAddress = new System.Windows.Forms.Label();
-            this.textBoxAddress = new System.Windows.Forms.TextBox();
+            this.labelBioData = new System.Windows.Forms.Label();
+            this.textBoxBioData = new System.Windows.Forms.TextBox();
             this.buttonOK = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
-            this.radioButtonEnglishBackTranslator = new System.Windows.Forms.RadioButton();
+            this.radioButtonProjectFacilitator = new System.Windows.Forms.RadioButton();
             this.tableLayoutPanelMemberInformation.SuspendLayout();
             this.groupBoxRole.SuspendLayout();
             this.SuspendLayout();
@@ -78,8 +79,8 @@
             this.tableLayoutPanelMemberInformation.Controls.Add(this.textBoxSkypeID, 1, 5);
             this.tableLayoutPanelMemberInformation.Controls.Add(this.labelTeamViewerID, 0, 6);
             this.tableLayoutPanelMemberInformation.Controls.Add(this.textBoxTeamViewer, 1, 6);
-            this.tableLayoutPanelMemberInformation.Controls.Add(this.labelAddress, 0, 7);
-            this.tableLayoutPanelMemberInformation.Controls.Add(this.textBoxAddress, 1, 7);
+            this.tableLayoutPanelMemberInformation.Controls.Add(this.labelBioData, 0, 7);
+            this.tableLayoutPanelMemberInformation.Controls.Add(this.textBoxBioData, 1, 7);
             this.tableLayoutPanelMemberInformation.Location = new System.Drawing.Point(12, 12);
             this.tableLayoutPanelMemberInformation.Name = "tableLayoutPanelMemberInformation";
             this.tableLayoutPanelMemberInformation.RowCount = 8;
@@ -91,7 +92,7 @@
             this.tableLayoutPanelMemberInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelMemberInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelMemberInformation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelMemberInformation.Size = new System.Drawing.Size(393, 410);
+            this.tableLayoutPanelMemberInformation.Size = new System.Drawing.Size(447, 450);
             this.tableLayoutPanelMemberInformation.TabIndex = 2;
             // 
             // labelName
@@ -109,7 +110,7 @@
             this.textBoxName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxName.Location = new System.Drawing.Point(92, 3);
             this.textBoxName.Name = "textBoxName";
-            this.textBoxName.Size = new System.Drawing.Size(298, 20);
+            this.textBoxName.Size = new System.Drawing.Size(352, 20);
             this.textBoxName.TabIndex = 0;
             // 
             // groupBoxRole
@@ -120,23 +121,35 @@
             this.groupBoxRole.Controls.Add(this.radioButtonEnglishBackTranslator);
             this.groupBoxRole.Controls.Add(this.radioButtonJustViewing);
             this.groupBoxRole.Controls.Add(this.radioButtonCoach);
+            this.groupBoxRole.Controls.Add(this.radioButtonProjectFacilitator);
             this.groupBoxRole.Controls.Add(this.radioButtonConsultantInTraining);
             this.groupBoxRole.Controls.Add(this.radioButtonUNS);
             this.groupBoxRole.Controls.Add(this.radioButtonStoryCrafter);
             this.groupBoxRole.Location = new System.Drawing.Point(92, 29);
             this.groupBoxRole.Name = "groupBoxRole";
-            this.groupBoxRole.Size = new System.Drawing.Size(298, 174);
+            this.groupBoxRole.Size = new System.Drawing.Size(352, 186);
             this.groupBoxRole.TabIndex = 3;
             this.groupBoxRole.TabStop = false;
             this.groupBoxRole.Text = "What role do you have in the team?";
             // 
+            // radioButtonEnglishBackTranslator
+            // 
+            this.radioButtonEnglishBackTranslator.AutoSize = true;
+            this.radioButtonEnglishBackTranslator.Location = new System.Drawing.Point(68, 43);
+            this.radioButtonEnglishBackTranslator.Name = "radioButtonEnglishBackTranslator";
+            this.radioButtonEnglishBackTranslator.Size = new System.Drawing.Size(132, 17);
+            this.radioButtonEnglishBackTranslator.TabIndex = 2;
+            this.radioButtonEnglishBackTranslator.TabStop = true;
+            this.radioButtonEnglishBackTranslator.Text = "&English back-translator";
+            this.radioButtonEnglishBackTranslator.UseVisualStyleBackColor = true;
+            // 
             // radioButtonJustViewing
             // 
             this.radioButtonJustViewing.AutoSize = true;
-            this.radioButtonJustViewing.Location = new System.Drawing.Point(80, 138);
+            this.radioButtonJustViewing.Location = new System.Drawing.Point(68, 158);
             this.radioButtonJustViewing.Name = "radioButtonJustViewing";
             this.radioButtonJustViewing.Size = new System.Drawing.Size(85, 17);
-            this.radioButtonJustViewing.TabIndex = 6;
+            this.radioButtonJustViewing.TabIndex = 7;
             this.radioButtonJustViewing.TabStop = true;
             this.radioButtonJustViewing.Text = "&Just Looking";
             this.radioButtonJustViewing.UseVisualStyleBackColor = true;
@@ -144,10 +157,10 @@
             // radioButtonCoach
             // 
             this.radioButtonCoach.AutoSize = true;
-            this.radioButtonCoach.Location = new System.Drawing.Point(80, 115);
+            this.radioButtonCoach.Location = new System.Drawing.Point(68, 135);
             this.radioButtonCoach.Name = "radioButtonCoach";
             this.radioButtonCoach.Size = new System.Drawing.Size(56, 17);
-            this.radioButtonCoach.TabIndex = 5;
+            this.radioButtonCoach.TabIndex = 6;
             this.radioButtonCoach.TabStop = true;
             this.radioButtonCoach.Text = "Coac&h";
             this.radioButtonCoach.UseVisualStyleBackColor = true;
@@ -155,18 +168,18 @@
             // radioButtonConsultantInTraining
             // 
             this.radioButtonConsultantInTraining.AutoSize = true;
-            this.radioButtonConsultantInTraining.Location = new System.Drawing.Point(80, 92);
+            this.radioButtonConsultantInTraining.Location = new System.Drawing.Point(68, 112);
             this.radioButtonConsultantInTraining.Name = "radioButtonConsultantInTraining";
-            this.radioButtonConsultantInTraining.Size = new System.Drawing.Size(123, 17);
-            this.radioButtonConsultantInTraining.TabIndex = 4;
+            this.radioButtonConsultantInTraining.Size = new System.Drawing.Size(58, 17);
+            this.radioButtonConsultantInTraining.TabIndex = 5;
             this.radioButtonConsultantInTraining.TabStop = true;
-            this.radioButtonConsultantInTraining.Text = "&Consultant-in-training";
+            this.radioButtonConsultantInTraining.Text = "&Mentor";
             this.radioButtonConsultantInTraining.UseVisualStyleBackColor = true;
             // 
             // radioButtonUNS
             // 
             this.radioButtonUNS.AutoSize = true;
-            this.radioButtonUNS.Location = new System.Drawing.Point(80, 67);
+            this.radioButtonUNS.Location = new System.Drawing.Point(68, 66);
             this.radioButtonUNS.Name = "radioButtonUNS";
             this.radioButtonUNS.Size = new System.Drawing.Size(126, 17);
             this.radioButtonUNS.TabIndex = 3;
@@ -177,7 +190,7 @@
             // 
             this.radioButtonStoryCrafter.AutoSize = true;
             this.radioButtonStoryCrafter.Checked = true;
-            this.radioButtonStoryCrafter.Location = new System.Drawing.Point(80, 20);
+            this.radioButtonStoryCrafter.Location = new System.Drawing.Point(68, 19);
             this.radioButtonStoryCrafter.Name = "radioButtonStoryCrafter";
             this.radioButtonStoryCrafter.Size = new System.Drawing.Size(83, 17);
             this.radioButtonStoryCrafter.TabIndex = 1;
@@ -189,7 +202,7 @@
             // 
             this.labelEmail.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelEmail.AutoSize = true;
-            this.labelEmail.Location = new System.Drawing.Point(3, 212);
+            this.labelEmail.Location = new System.Drawing.Point(3, 224);
             this.labelEmail.Name = "labelEmail";
             this.labelEmail.Size = new System.Drawing.Size(35, 13);
             this.labelEmail.TabIndex = 4;
@@ -198,16 +211,16 @@
             // textBoxEmail
             // 
             this.textBoxEmail.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxEmail.Location = new System.Drawing.Point(92, 209);
+            this.textBoxEmail.Location = new System.Drawing.Point(92, 221);
             this.textBoxEmail.Name = "textBoxEmail";
-            this.textBoxEmail.Size = new System.Drawing.Size(298, 20);
-            this.textBoxEmail.TabIndex = 5;
+            this.textBoxEmail.Size = new System.Drawing.Size(352, 20);
+            this.textBoxEmail.TabIndex = 8;
             // 
             // labelPhoneNumber
             // 
             this.labelPhoneNumber.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelPhoneNumber.AutoSize = true;
-            this.labelPhoneNumber.Location = new System.Drawing.Point(3, 238);
+            this.labelPhoneNumber.Location = new System.Drawing.Point(3, 250);
             this.labelPhoneNumber.Name = "labelPhoneNumber";
             this.labelPhoneNumber.Size = new System.Drawing.Size(41, 13);
             this.labelPhoneNumber.TabIndex = 6;
@@ -216,16 +229,16 @@
             // textBoxPhoneNumber
             // 
             this.textBoxPhoneNumber.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxPhoneNumber.Location = new System.Drawing.Point(92, 235);
+            this.textBoxPhoneNumber.Location = new System.Drawing.Point(92, 247);
             this.textBoxPhoneNumber.Name = "textBoxPhoneNumber";
-            this.textBoxPhoneNumber.Size = new System.Drawing.Size(298, 20);
-            this.textBoxPhoneNumber.TabIndex = 7;
+            this.textBoxPhoneNumber.Size = new System.Drawing.Size(352, 20);
+            this.textBoxPhoneNumber.TabIndex = 9;
             // 
             // labelAltPhone
             // 
             this.labelAltPhone.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelAltPhone.AutoSize = true;
-            this.labelAltPhone.Location = new System.Drawing.Point(3, 264);
+            this.labelAltPhone.Location = new System.Drawing.Point(3, 276);
             this.labelAltPhone.Name = "labelAltPhone";
             this.labelAltPhone.Size = new System.Drawing.Size(56, 13);
             this.labelAltPhone.TabIndex = 8;
@@ -234,16 +247,16 @@
             // textBoxAltPhone
             // 
             this.textBoxAltPhone.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxAltPhone.Location = new System.Drawing.Point(92, 261);
+            this.textBoxAltPhone.Location = new System.Drawing.Point(92, 273);
             this.textBoxAltPhone.Name = "textBoxAltPhone";
-            this.textBoxAltPhone.Size = new System.Drawing.Size(298, 20);
-            this.textBoxAltPhone.TabIndex = 9;
+            this.textBoxAltPhone.Size = new System.Drawing.Size(352, 20);
+            this.textBoxAltPhone.TabIndex = 10;
             // 
             // labelSkype
             // 
             this.labelSkype.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelSkype.AutoSize = true;
-            this.labelSkype.Location = new System.Drawing.Point(3, 290);
+            this.labelSkype.Location = new System.Drawing.Point(3, 302);
             this.labelSkype.Name = "labelSkype";
             this.labelSkype.Size = new System.Drawing.Size(54, 13);
             this.labelSkype.TabIndex = 10;
@@ -252,16 +265,16 @@
             // textBoxSkypeID
             // 
             this.textBoxSkypeID.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxSkypeID.Location = new System.Drawing.Point(92, 287);
+            this.textBoxSkypeID.Location = new System.Drawing.Point(92, 299);
             this.textBoxSkypeID.Name = "textBoxSkypeID";
-            this.textBoxSkypeID.Size = new System.Drawing.Size(298, 20);
+            this.textBoxSkypeID.Size = new System.Drawing.Size(352, 20);
             this.textBoxSkypeID.TabIndex = 11;
             // 
             // labelTeamViewerID
             // 
             this.labelTeamViewerID.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelTeamViewerID.AutoSize = true;
-            this.labelTeamViewerID.Location = new System.Drawing.Point(3, 316);
+            this.labelTeamViewerID.Location = new System.Drawing.Point(3, 328);
             this.labelTeamViewerID.Name = "labelTeamViewerID";
             this.labelTeamViewerID.Size = new System.Drawing.Size(83, 13);
             this.labelTeamViewerID.TabIndex = 12;
@@ -270,34 +283,34 @@
             // textBoxTeamViewer
             // 
             this.textBoxTeamViewer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxTeamViewer.Location = new System.Drawing.Point(92, 313);
+            this.textBoxTeamViewer.Location = new System.Drawing.Point(92, 325);
             this.textBoxTeamViewer.Name = "textBoxTeamViewer";
-            this.textBoxTeamViewer.Size = new System.Drawing.Size(298, 20);
-            this.textBoxTeamViewer.TabIndex = 13;
+            this.textBoxTeamViewer.Size = new System.Drawing.Size(352, 20);
+            this.textBoxTeamViewer.TabIndex = 12;
             // 
-            // labelAddress
+            // labelBioData
             // 
-            this.labelAddress.AutoSize = true;
-            this.labelAddress.Location = new System.Drawing.Point(3, 336);
-            this.labelAddress.Name = "labelAddress";
-            this.labelAddress.Size = new System.Drawing.Size(48, 13);
-            this.labelAddress.TabIndex = 14;
-            this.labelAddress.Text = "A&ddress:";
-            this.labelAddress.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.labelBioData.AutoSize = true;
+            this.labelBioData.Location = new System.Drawing.Point(3, 348);
+            this.labelBioData.Name = "labelBioData";
+            this.labelBioData.Size = new System.Drawing.Size(25, 13);
+            this.labelBioData.TabIndex = 14;
+            this.labelBioData.Text = "&Bio:";
+            this.labelBioData.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
-            // textBoxAddress
+            // textBoxBioData
             // 
-            this.textBoxAddress.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxAddress.Location = new System.Drawing.Point(92, 339);
-            this.textBoxAddress.Multiline = true;
-            this.textBoxAddress.Name = "textBoxAddress";
-            this.textBoxAddress.Size = new System.Drawing.Size(298, 68);
-            this.textBoxAddress.TabIndex = 15;
+            this.textBoxBioData.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxBioData.Location = new System.Drawing.Point(92, 351);
+            this.textBoxBioData.Multiline = true;
+            this.textBoxBioData.Name = "textBoxBioData";
+            this.textBoxBioData.Size = new System.Drawing.Size(352, 96);
+            this.textBoxBioData.TabIndex = 13;
             // 
             // buttonOK
             // 
             this.buttonOK.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.buttonOK.Location = new System.Drawing.Point(130, 430);
+            this.buttonOK.Location = new System.Drawing.Point(157, 470);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(75, 23);
             this.buttonOK.TabIndex = 3;
@@ -309,23 +322,23 @@
             // 
             this.buttonCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(212, 430);
+            this.buttonCancel.Location = new System.Drawing.Point(239, 470);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 4;
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
             // 
-            // radioButtonEnglishBackTranslator
+            // radioButtonProjectFacilitator
             // 
-            this.radioButtonEnglishBackTranslator.AutoSize = true;
-            this.radioButtonEnglishBackTranslator.Location = new System.Drawing.Point(80, 44);
-            this.radioButtonEnglishBackTranslator.Name = "radioButtonEnglishBackTranslator";
-            this.radioButtonEnglishBackTranslator.Size = new System.Drawing.Size(132, 17);
-            this.radioButtonEnglishBackTranslator.TabIndex = 2;
-            this.radioButtonEnglishBackTranslator.TabStop = true;
-            this.radioButtonEnglishBackTranslator.Text = "&English back-translator";
-            this.radioButtonEnglishBackTranslator.UseVisualStyleBackColor = true;
+            this.radioButtonProjectFacilitator.AutoSize = true;
+            this.radioButtonProjectFacilitator.Location = new System.Drawing.Point(68, 89);
+            this.radioButtonProjectFacilitator.Name = "radioButtonProjectFacilitator";
+            this.radioButtonProjectFacilitator.Size = new System.Drawing.Size(106, 17);
+            this.radioButtonProjectFacilitator.TabIndex = 4;
+            this.radioButtonProjectFacilitator.TabStop = true;
+            this.radioButtonProjectFacilitator.Text = "&Project Facilitator";
+            this.radioButtonProjectFacilitator.UseVisualStyleBackColor = true;
             // 
             // EditMemberForm
             // 
@@ -333,7 +346,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(417, 465);
+            this.ClientSize = new System.Drawing.Size(471, 505);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOK);
             this.Controls.Add(this.tableLayoutPanelMemberInformation);
@@ -369,10 +382,11 @@
         private System.Windows.Forms.TextBox textBoxSkypeID;
         private System.Windows.Forms.Label labelTeamViewerID;
         private System.Windows.Forms.TextBox textBoxTeamViewer;
-        private System.Windows.Forms.Label labelAddress;
-        private System.Windows.Forms.TextBox textBoxAddress;
+        private System.Windows.Forms.Label labelBioData;
+        private System.Windows.Forms.TextBox textBoxBioData;
         private System.Windows.Forms.Button buttonOK;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.RadioButton radioButtonEnglishBackTranslator;
+        private System.Windows.Forms.RadioButton radioButtonProjectFacilitator;
     }
 }

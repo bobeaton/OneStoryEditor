@@ -167,14 +167,15 @@ table.
 
 You can also edit the renderings by double-clicking on the row in the table, which brings up
 the Edit Renderings dialog box. All renderings of the same key term should be separated by a
-comma and a space.
+comma and a space. In this dialog box, you can also enter notes about the key term (why you 
+chose it, whether it has any special cultural significance, etc).
 
 All of the verses in all of your stories that have the same key term will be displayed in the 
 lower portion of the screen. You'll want to go through all the lines one by one and either 
 make sure the rendering of the key term is in bold (which means it matches one of the already
 existing renderings) or if the word for the key term doesn't exist, then click the box with 
 the red 'X' in it. This says that that the key term doesn't show up in this verse of the 
-story. This might happen, for example, if instead of using the proper name for 'god' in some 
+story. This might happen, for example, if instead of using the proper name for 'God' in some 
 particular story verse, you use a pronoun instead. The pronoun shouldn't be listed as a 
 rendering of the key term, so you can click the red 'X' to 'deny' that it's necessary for 
 this particular verse. It might also happen that an anchor is used for only one portion of 
@@ -206,7 +207,7 @@ process.
 In this stage, one of the crafting team will go through the story and add "Story Testing Questions" (STQs). These are 
 questions that you will eventually ask an uninitiated native speaker (UNS) in order to test the implications of the story.
 
-The best kind of STQ are those that invite the UNS to speculate on "Why" or "How" of what is going on in the story. Or
+The best kind of STQs are those that invite the UNS to speculate on "Why" or "How" of what is going on in the story. Or
 questions that ask, "What kinds of things might be an example of this?" are also useful. They should be based on the 
 story, but you should try to get the UNS to speculate beyond what the story itself says. For example, suppose that the
 story had a verse like, "And the people took baptism and left their sins". You could ask a question like, "Why
@@ -235,10 +236,14 @@ that they misunderstood the situation in the story, then it's probably a good qu
 
 Depending on what agreement you make with your consultant and coach, you may need to translate the testing questions you 
 create into English so the consultant and coach can review them. However, remember that these questions should always be 
-asked and answered with the UNS in the story language itself; not the national language, nor in English. 
+asked and answered with the UNS in the story language itself; not the national language, nor in English. And they should
+use the exact same wording as in the story itself. So, for example, if the story said, "Adam was given the fruit and he 
+ate.", then don't word the question as, "Why do you think Eve gave the fruit to Adam to eat?" (since the story verse
+didn't mention Eve, you shouldn't add her to the question.
 
 You should have at least half as many story testing questions as verses in the story. So if your story is 20 verses long, 
-then you need to have at least 10 questions, and don't forget that it's okay if some verses have multiple questions.
+then you need to have at least 10 questions, and don't forget that it's okay if some verses have multiple questions. If 
+you have trouble coming up with enough questions, then contact your consultant for some suggestions.
 
 When you are finished adding these testing questions, then click the button in the left-hand side of the status bar and 
 choose 'Next Stage' to go to the next stage in the process.
@@ -255,16 +260,16 @@ choose 'Next Stage' to go to the next stage in the process.
   <StateTransition stage="eBackTranslatorTypeInternationalBT" MemberTypeWithEditToken="eEnglishBacktranslator" NextState="eConsultantCheckStoryInfo">
     <StageDisplayString>Special back-translator enters the English back-translation</StageDisplayString>
     <StageInstructions>
-In this stage, someone typically outside of the crafting team will translate the National 
-language back translation of the story into English (or from the story language if not using 
-the national language back-translation). This is useful for when the crafting team doesn't
-know English well and someone else can do the back-translation from the national language 
-(which was done by a UNS) into English. 
+In this stage, someone typically outside of the crafting team will translate the National language 
+back translation of the story into English (or from the story language if not using the national 
+language back-translation). This is useful for when the crafting team doesn't know English well and 
+someone else can do the back-translation from the national language (which was done by a UNS) into 
+English. 
 
-This stage only occurs if you have an "English Back-translator" member on your team and it
-occurs after all the Crafter states are finished and just before the story goes to the 
-consultant. During this stage, you, the special English back-translator will translate the
-story from the National back-translation as well as the story testing questions into English.
+This stage only occurs if you have an "English Back-translator" member on your team and it occurs 
+after all the Crafter states are finished and just before the story goes to the consultant. During 
+this stage, you, the special English back-translator will translate the story from the National 
+back-translation as well as the story testing questions into English.
 
 There's a program called 'Adapt It' that can be used to help make the English back-translation more 
 efficiently. Click on the 'Story' menu, 'Do English Glossing in Adapt It' menu, and then click the 
@@ -277,8 +282,8 @@ directly from your story language (e.g. Kangri) rather than the national languag
 might do this primarily if you want to create a discourse chart in the story language itself and have 
 English glosses. However, this cannot be used to populate the English back-translation fields in this 
 program. This is because the English back-translation is supposed to be based on the Hindi back-
-translation rather than the original story language. Discuss this with your advisor/consultant to know 
-which one you should use.
+translation rather than the original story language. Discuss this with your advisor/consultant to 
+know which one you should use.
 
 When you are finished entering the English back translation, then click the button in the left-hand 
 side of the status bar with the label 'Next State' to go to the next stage in the process.
@@ -308,8 +313,8 @@ If the team (or you) have used Adapt It to gloss the story into English (see 'St
 command, then you can use the "Lookup" converter for the Adapt It '(Story language) to (English) 
 adaptations' project as your glossing SILConverter in the Discourse Chart Helper.
 
-See the instructions in the 'Start', 'All Programs', 'SIL Converters', 'Help', 'Readme for Discourse 
-Chart Helper' program for details.
+See the instructions in the 'Start', 'All Programs', 'SIL Converters', 'Help', 'Readme for 
+Discourse Chart Helper' program for details.
 
 This is the final stage of the process for this non-biblical story.
     </StageInstructions>

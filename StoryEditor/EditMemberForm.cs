@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
@@ -25,7 +19,7 @@ namespace OneStoryProjectEditor
             textBoxAltPhone.Text = theMemberData.AltPhone;
             textBoxSkypeID.Text = theMemberData.SkypeID;
             textBoxTeamViewer.Text = theMemberData.TeamViewerID;
-            textBoxAddress.Text = theMemberData.Address;
+            textBoxBioData.Text = theMemberData.Address;
         }
 
         private void buttonOK_Click(object sender, EventArgs e)
@@ -58,6 +52,8 @@ namespace OneStoryProjectEditor
                     return TeamMemberData.UserTypes.eEnglishBacktranslator;
                 if (radioButtonUNS.Checked)
                     return TeamMemberData.UserTypes.eUNS;
+                if (radioButtonProjectFacilitator.Checked)
+                    return TeamMemberData.UserTypes.eProjectFacilitator;
                 if (radioButtonConsultantInTraining.Checked)
                     return TeamMemberData.UserTypes.eConsultantInTraining;
                 if (radioButtonCoach.Checked)
@@ -78,6 +74,9 @@ namespace OneStoryProjectEditor
                         break;
                     case TeamMemberData.UserTypes.eUNS:
                         radioButtonUNS.Checked = true;
+                        break;
+                    case TeamMemberData.UserTypes.eProjectFacilitator:
+                        radioButtonProjectFacilitator.Checked = true;
                         break;
                     case TeamMemberData.UserTypes.eConsultantInTraining:
                         radioButtonConsultantInTraining.Checked = true;
@@ -127,8 +126,8 @@ namespace OneStoryProjectEditor
 
         public string Address
         {
-            get { return (String.IsNullOrEmpty(textBoxAddress.Text) ? null : textBoxAddress.Text); }
-            set { textBoxAddress.Text = value; }
+            get { return (String.IsNullOrEmpty(textBoxBioData.Text) ? null : textBoxBioData.Text); }
+            set { textBoxBioData.Text = value; }
         }
     }
 }
