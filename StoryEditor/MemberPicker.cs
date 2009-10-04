@@ -11,13 +11,13 @@ namespace OneStoryProjectEditor
 {
     public partial class MemberPicker : Form
     {
-        protected StoriesData _theStoryData = null;
+        protected StoryProjectData _theStoryProjectData;
         protected TeamMemberData _dataSelectedMember = null;
         protected TeamMemberData.UserTypes _eWantedType = TeamMemberData.UserTypes.eUndefined;
 
-        public MemberPicker(StoriesData theStoryData, TeamMemberData.UserTypes eWantedType)
+        public MemberPicker(StoryProjectData theStoryProjectData, TeamMemberData.UserTypes eWantedType)
         {
-            _theStoryData = theStoryData;
+            _theStoryProjectData = theStoryProjectData;
             _eWantedType = eWantedType;
 
             InitializeComponent();
@@ -28,7 +28,7 @@ namespace OneStoryProjectEditor
         protected void InitializeListBox(TeamMemberData.UserTypes eType)
         {
             listBoxUNSs.Items.Clear();
-            foreach (TeamMemberData aTMD in _theStoryData.TeamMembers.Values)
+            foreach (TeamMemberData aTMD in _theStoryProjectData.TeamMembers.Values)
                 if (aTMD.MemberType == eType)
                     listBoxUNSs.Items.Add(aTMD.Name);
 
@@ -46,7 +46,7 @@ namespace OneStoryProjectEditor
         {
             try
             {
-                TeamMemberData theMember = _theStoryData.EditTeamMembers(null, "&Return");
+                TeamMemberData theMember = _theStoryProjectData.EditTeamMembers(null, "&Return");
                 InitializeListBox(_eWantedType);
                 listBoxUNSs.SelectedItem = theMember.Name;
             }
@@ -59,7 +59,7 @@ namespace OneStoryProjectEditor
         private void buttonOK_Click(object sender, EventArgs e)
         {
             string strSelectedMember = (string)listBoxUNSs.SelectedItem;
-            SelectedMember = _theStoryData.TeamMembers[strSelectedMember];
+            SelectedMember = _theStoryProjectData.TeamMembers[strSelectedMember];
 
             DialogResult = DialogResult.OK;
             this.Close();

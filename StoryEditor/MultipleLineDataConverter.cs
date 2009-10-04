@@ -12,9 +12,22 @@ namespace OneStoryProjectEditor
         protected abstract string InstanceElementName { get; }
         public abstract string LabelTextFormat { get; }
 
+        protected MultipleLineDataConverter(MultipleLineDataConverter rhs)
+        {
+            foreach (string str in rhs.MemberIDs)
+                MemberIDs.Add(str);
+
+            foreach (StringTransfer aST in rhs)
+                Add(new StringTransfer(aST.ToString()));
+        }
+
+        protected MultipleLineDataConverter()
+        {
+        }
+
         public bool HasData
         {
-            get { return (this.Count > 0); }
+            get { return (Count > 0); }
         }
 
         // add a new retelling (have to know the member ID of the UNS giving it)
@@ -59,20 +72,25 @@ namespace OneStoryProjectEditor
 
     public class RetellingsData : MultipleLineDataConverter
     {
-        public RetellingsData(StoryProject.verseRow theVerseRow, StoryProject projFile)
+        public RetellingsData(NewDataSet.verseRow theVerseRow, NewDataSet projFile)
         {
-            StoryProject.RetellingsRow[] theRetellingsRows = theVerseRow.GetRetellingsRows();
-            StoryProject.RetellingsRow theRetellingsRow;
+            NewDataSet.RetellingsRow[] theRetellingsRows = theVerseRow.GetRetellingsRows();
+            NewDataSet.RetellingsRow theRetellingsRow;
             if (theRetellingsRows.Length == 0)
                 theRetellingsRow = projFile.Retellings.AddRetellingsRow(theVerseRow);
             else
                 theRetellingsRow = theRetellingsRows[0];
 
-            foreach (StoryProject.RetellingRow aRetellingRow in theRetellingsRow.GetRetellingRows())
+            foreach (NewDataSet.RetellingRow aRetellingRow in theRetellingsRow.GetRetellingRows())
             {
                 Add(new StringTransfer(aRetellingRow.Retelling_text));
                 MemberIDs.Add(aRetellingRow.memberID);
             }
+        }
+
+        public RetellingsData(MultipleLineDataConverter rhs)
+            : base(rhs)
+        {
         }
 
         public RetellingsData()
@@ -97,20 +115,25 @@ namespace OneStoryProjectEditor
 
     public class AnswersData : MultipleLineDataConverter
     {
-        public AnswersData(StoryProject.TestQuestionRow theTestQuestionRow, StoryProject projFile)
+        public AnswersData(NewDataSet.TestQuestionRow theTestQuestionRow, NewDataSet projFile)
         {
-            StoryProject.AnswersRow[] theAnswersRows = theTestQuestionRow.GetAnswersRows();
-            StoryProject.AnswersRow theAnswersRow;
+            NewDataSet.AnswersRow[] theAnswersRows = theTestQuestionRow.GetAnswersRows();
+            NewDataSet.AnswersRow theAnswersRow;
             if (theAnswersRows.Length == 0)
                 theAnswersRow = projFile.Answers.AddAnswersRow(theTestQuestionRow);
             else
                 theAnswersRow = theAnswersRows[0];
 
-            foreach (StoryProject.answerRow anAnswerRow in theAnswersRow.GetanswerRows())
+            foreach (NewDataSet.answerRow anAnswerRow in theAnswersRow.GetanswerRows())
             {
                 Add(new StringTransfer(anAnswerRow.answer_text));
                 MemberIDs.Add(anAnswerRow.memberID);
             }
+        }
+
+        public AnswersData(MultipleLineDataConverter rhs)
+            : base(rhs)
+        {
         }
 
         public AnswersData()

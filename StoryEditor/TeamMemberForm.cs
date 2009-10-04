@@ -253,7 +253,7 @@ namespace OneStoryProjectEditor
                     theNewMemberData.Email = dlg.Email;
                     theNewMemberData.AltPhone = dlg.AltPhone;
                     theNewMemberData.Phone = dlg.Phone;
-                    theNewMemberData.Address = dlg.Address;
+                    theNewMemberData.BioData = dlg.BioData;
                     theNewMemberData.SkypeID = dlg.SkypeID;
                     theNewMemberData.TeamViewerID = dlg.TeamViewerID;
 
@@ -267,7 +267,7 @@ namespace OneStoryProjectEditor
                     theNewMemberData = new TeamMemberData(dlg.MemberName,
                         dlg.MemberType, String.Format("mem-{0}", Guid.NewGuid()),
                         dlg.Email, dlg.SkypeID, dlg.TeamViewerID, dlg.Phone, dlg.AltPhone,
-                        dlg.Address);
+                        dlg.BioData);
 
                     _dataTeamMembers.Add(dlg.MemberName, theNewMemberData);
                     m_mapNewMembersThisSession.Add(dlg.MemberName, theNewMemberData);
@@ -296,7 +296,7 @@ namespace OneStoryProjectEditor
             theMemberData.Email = dlg.Email;
             theMemberData.AltPhone = dlg.AltPhone;
             theMemberData.Phone = dlg.Phone;
-            theMemberData.Address = dlg.Address;
+            theMemberData.BioData = dlg.BioData;
             theMemberData.SkypeID = dlg.SkypeID;
             theMemberData.TeamViewerID = dlg.TeamViewerID;
 

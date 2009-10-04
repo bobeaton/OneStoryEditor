@@ -7,7 +7,7 @@ namespace OneStoryProjectEditor
 {
     public class VerseData
     {
-        public string guid = null;
+        public string guid;
         public StringTransfer VernacularText = null;
         public StringTransfer NationalBTText = null;
         public StringTransfer InternationalBTText = null;
@@ -17,7 +17,7 @@ namespace OneStoryProjectEditor
         public ConsultantNotesData ConsultantNotes = null;
         public CoachNotesData CoachNotes = null;
 
-        public VerseData(StoryProject.verseRow theVerseRow, StoryProject projFile)
+        public VerseData(NewDataSet.verseRow theVerseRow, NewDataSet projFile)
         {
             guid = theVerseRow.guid;
             VernacularText = new StringTransfer((!theVerseRow.IsVernacularNull()) ? theVerseRow.Vernacular : null);
@@ -42,6 +42,19 @@ namespace OneStoryProjectEditor
             Retellings = new RetellingsData();
             ConsultantNotes = new ConsultantNotesData();
             CoachNotes = new CoachNotesData();
+        }
+
+        public VerseData(VerseData rhs)
+        {
+            guid = rhs.guid;
+            VernacularText = new StringTransfer(rhs.VernacularText.ToString());
+            NationalBTText = new StringTransfer(rhs.NationalBTText.ToString());
+            InternationalBTText = new StringTransfer(rhs.InternationalBTText.ToString());
+            Anchors = new AnchorsData(rhs.Anchors);
+            TestQuestions = new TestQuestionsData(rhs.TestQuestions);
+            Retellings = new RetellingsData(rhs.Retellings);
+            ConsultantNotes = new ConsultantNotesData(rhs.ConsultantNotes);
+            CoachNotes = new CoachNotesData(rhs.CoachNotes);
         }
 
         public bool HasData
@@ -83,17 +96,23 @@ namespace OneStoryProjectEditor
 
     public class VersesData : List<VerseData>
     {
-        public VersesData(StoryProject.storyRow theStoryRow, StoryProject projFile)
+        public VersesData(NewDataSet.storyRow theStoryRow, NewDataSet projFile)
         {
-            StoryProject.versesRow[] theVersesRows = theStoryRow.GetversesRows();
-            StoryProject.versesRow theVersesRow;
+            NewDataSet.versesRow[] theVersesRows = theStoryRow.GetversesRows();
+            NewDataSet.versesRow theVersesRow;
             if (theVersesRows.Length == 0)
                 theVersesRow = projFile.verses.AddversesRow(theStoryRow);
             else
                 theVersesRow = theVersesRows[0];
 
-            foreach (StoryProject.verseRow aVerseRow in theVersesRow.GetverseRows())
+            foreach (NewDataSet.verseRow aVerseRow in theVersesRow.GetverseRows())
                 Add(new VerseData(aVerseRow, projFile));
+        }
+
+        public VersesData(VersesData rhs)
+        {
+            foreach (VerseData aVerse in rhs)
+                Add(new VerseData(aVerse));
         }
 
         public VersesData()

@@ -24,13 +24,22 @@ namespace OneStoryProjectEditor
             Verses = new VersesData();
         }
 
-        public StoryData(StoryProject.storyRow theStoryRow, StoryProject projFile)
+        public StoryData(NewDataSet.storyRow theStoryRow, NewDataSet projFile)
         {
             Name = theStoryRow.name;
             guid = theStoryRow.guid;
             ProjStage = new StoryStageLogic(theStoryRow.stage);
             CraftingInfo = new CraftingInfoData(theStoryRow, projFile);
             Verses = new VersesData(theStoryRow, projFile);
+        }
+
+        public StoryData(StoryData rhs)
+        {
+            Name = rhs.Name;
+            guid = rhs.guid;
+            ProjStage = new StoryStageLogic(rhs.ProjStage);
+            CraftingInfo = new CraftingInfoData(rhs.CraftingInfo);
+            Verses = new VersesData(rhs.Verses);
         }
 
         public XElement GetXml
@@ -55,45 +64,187 @@ namespace OneStoryProjectEditor
         }
     }
 
+    public class CraftingInfoData
+    {
+        public string StoryCrafterMemberID = null;
+        public string StoryPurpose = null;
+        public string ResourcesUsed = null;
+        public string BackTranslatorMemberID = null;
+        public Dictionary<byte, string> Testors = new Dictionary<byte, string>();
+        public bool IsBiblicalStory = true;
+
+        public CraftingInfoData(string strLoggedOnMemberGuid, bool bIsBiblicalStory)
+        {
+            StoryCrafterMemberID = strLoggedOnMemberGuid;
+            IsBiblicalStory = bIsBiblicalStory;
+        }
+
+        public CraftingInfoData(NewDataSet.storyRow theStoryRow, NewDataSet projFile)
+        {
+            NewDataSet.CraftingInfoRow[] aCIRs = theStoryRow.GetCraftingInfoRows();
+            if (aCIRs.Length == 1)
+            {
+                NewDataSet.CraftingInfoRow theCIR = aCIRs[0];
+                if (!theCIR.IsNonBiblicalStoryNull())
+                    IsBiblicalStory = !theCIR.NonBiblicalStory;
+
+                NewDataSet.StoryCrafterRow[] aSCRs = theCIR.GetStoryCrafterRows();
+                if (aSCRs.Length == 1)
+                    StoryCrafterMemberID = aSCRs[0].memberID;
+                else
+                    throw new ApplicationException(Properties.Resources.IDS_ProjectFileCorrupted);
+
+                if (!theCIR.IsStoryPurposeNull())
+                    StoryPurpose = theCIR.StoryPurpose;
+
+                if (!theCIR.IsResourcesUsedNull())
+                    ResourcesUsed = theCIR.ResourcesUsed;
+
+                NewDataSet.BackTranslatorRow[] aBTRs = theCIR.GetBackTranslatorRows();
+                if (aBTRs.Length == 1)
+                    BackTranslatorMemberID = aBTRs[0].memberID;
+
+                NewDataSet.TestsRow[] aTsRs = theCIR.GetTestsRows();
+                if (aTsRs.Length == 1)
+                {
+                    foreach (NewDataSet.TestRow aTR in aTsRs[0].GetTestRows())
+                        Testors.Add(aTR.number, aTR.memberID);
+                }
+            }
+            else
+                throw new ApplicationException(Properties.Resources.IDS_ProjectFileCorruptedNoCraftingInfo);
+        }
+
+        public CraftingInfoData(CraftingInfoData rhs)
+        {
+            StoryCrafterMemberID = rhs.StoryCrafterMemberID;
+            StoryPurpose = rhs.StoryPurpose;
+            ResourcesUsed = rhs.ResourcesUsed;
+            BackTranslatorMemberID = rhs.BackTranslatorMemberID;
+            IsBiblicalStory = rhs.IsBiblicalStory;
+            foreach (KeyValuePair<byte, string> kvp in rhs.Testors)
+                Testors.Add(kvp.Key, kvp.Value);
+        }
+
+        public XElement GetXml
+        {
+            get
+            {
+                XElement elemCraftingInfo = new XElement("CraftingInfo",
+                    new XAttribute("NonBiblicalStory", !IsBiblicalStory),
+                    new XElement("StoryCrafter", new XAttribute("memberID", StoryCrafterMemberID)));
+
+                if (!String.IsNullOrEmpty(StoryPurpose))
+                    elemCraftingInfo.Add(new XElement("StoryPurpose", StoryPurpose));
+
+                if (!String.IsNullOrEmpty(ResourcesUsed))
+                    elemCraftingInfo.Add(new XElement("ResourcesUsed", ResourcesUsed));
+
+                if (!String.IsNullOrEmpty(BackTranslatorMemberID))
+                    elemCraftingInfo.Add(new XElement("BackTranslator", new XAttribute("memberID", BackTranslatorMemberID)));
+
+                if (Testors.Count > 0)
+                {
+                    XElement elemTestors = new XElement("Tests");
+                    foreach (KeyValuePair<byte, string> kvp in Testors)
+                        elemTestors.Add(new XElement("Test", new XAttribute("number", kvp.Key), new XAttribute("memberID", kvp.Value)));
+                    elemCraftingInfo.Add(elemTestors);
+                }
+
+                return elemCraftingInfo;
+            }
+        }
+    }
+
     public class StoriesData : List<StoryData>
+    {
+        public string SetName;
+
+        public StoriesData(string strSetName)
+        {
+            SetName = strSetName;
+        }
+
+        public StoriesData(NewDataSet.storiesRow theStoriesRow, NewDataSet projFile)
+        {
+            SetName = theStoriesRow.SetName;
+
+            // finally, if it's not new, then it might (should) have stories as well
+            foreach (NewDataSet.storyRow aStoryRow in theStoriesRow.GetstoryRows())
+                Add(new StoryData(aStoryRow, projFile));
+        }
+
+        public new bool Contains(StoryData theSD)
+        {
+            foreach (StoryData aSD in this)
+                if (aSD.Name == theSD.Name)
+                    return true;
+            return false;
+        }
+
+        public XElement GetXml
+        {
+            get
+            {
+                XElement elemStories = new XElement("stories", new XAttribute("SetName", SetName));
+
+                foreach (StoryData aSD in this)
+                    elemStories.Add(aSD.GetXml);
+
+                return elemStories;
+            }
+        }
+    }
+
+    public class StoryProjectData : Dictionary<string, StoriesData>
     {
         public TeamMembersData TeamMembers = null;
         public ProjectSettings ProjSettings = null;
+        public string PanoramaFrontMatter = null;
 
-        public StoriesData(ProjectSettings projSettings)
+        public StoryProjectData()
         {
             // if this is "new", then we won't have a project name yet, so query the user for it
-            if (projSettings == null)
-            {
 #if !DataDllBuild
-                string strProjectName = QueryProjectName();
-                ProjSettings = new ProjectSettings(null, strProjectName);
+            string strProjectName = QueryProjectName();
+            ProjSettings = new ProjectSettings(null, strProjectName);
 #endif
-            }
-            else
-                ProjSettings = projSettings;
-
             TeamMembers = new TeamMembersData();
+            PanoramaFrontMatter = Properties.Resources.IDS_DefaultPanoramaFrontMatter;
 
+            // start with to stories sets (the current one and the obsolete ones)
+            Add(Properties.Resources.IDS_MainStoriesSet, new StoriesData(Properties.Resources.IDS_MainStoriesSet));
+            Add(Properties.Resources.IDS_ObsoleteStoriesSet, new StoriesData(Properties.Resources.IDS_ObsoleteStoriesSet));
         }
 
-        public StoriesData(StoryProject projFile, ProjectSettings projSettings)
+        public StoryProjectData(NewDataSet projFile, ProjectSettings projSettings)
         {
             // this version comes with a project settings object
             ProjSettings = projSettings;
 
             // if the project file we opened doesn't have anything yet.. (shouldn't really happen)
-            if (projFile.stories.Count == 0)
-                projFile.stories.AddstoriesRow(ProjSettings.ProjectName);
+            if (projFile.StoryProject.Count == 0)
+                projFile.StoryProject.AddStoryProjectRow(ProjSettings.ProjectName, Properties.Resources.IDS_DefaultPanoramaFrontMatter);
             else
-                projFile.stories[0].ProjectName = ProjSettings.ProjectName; // in case the user changed it.
+                projFile.StoryProject[0].ProjectName = ProjSettings.ProjectName; // in case the user changed it.
+
+            PanoramaFrontMatter = projFile.StoryProject[0].PanoramaFrontMatter;
+            if (String.IsNullOrEmpty(PanoramaFrontMatter))
+                PanoramaFrontMatter = Properties.Resources.IDS_DefaultPanoramaFrontMatter;
+
+            if (projFile.stories.Count == 0)
+            {
+                projFile.stories.AddstoriesRow(Properties.Resources.IDS_MainStoriesSet, projFile.StoryProject[0]);
+                projFile.stories.AddstoriesRow(Properties.Resources.IDS_ObsoleteStoriesSet, projFile.StoryProject[0]);
+            }
+            else
 
             TeamMembers = new TeamMembersData(projFile);
             ProjSettings.SerializeProjectSettings(projFile);
 
             // finally, if it's not new, then it might (should) have stories as well
-            foreach (StoryProject.storyRow aStoryRow in projFile.stories[0].GetstoryRows())
-                Add(new StoryData(aStoryRow, projFile));
+            foreach (NewDataSet.storiesRow aStoriesRow in projFile.StoryProject[0].GetstoriesRows())
+                Add(aStoriesRow.SetName, new StoriesData(aStoriesRow, projFile));
         }
 
         internal string GetMemberNameFromMemberGuid(string strMemberGuid)
@@ -204,96 +355,17 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                XElement elemStories =
-                    new XElement("stories", new XAttribute("ProjectName", ProjSettings.ProjectName),
+                XElement elemStoryProject =
+                    new XElement("StoryProject", 
+                        new XAttribute("ProjectName", ProjSettings.ProjectName),
+                        new XAttribute("PanoramaFrontMatter", PanoramaFrontMatter),
                         TeamMembers.GetXml,
                         ProjSettings.GetXml);
 
-                foreach (StoryData aSD in this)
-                    elemStories.Add(aSD.GetXml);
+                foreach (StoriesData aSsD in Values)
+                    elemStoryProject.Add(aSsD.GetXml);
 
-                return elemStories;
-            }
-        }
-    }
-
-    public class CraftingInfoData
-    {
-        public string StoryCrafterMemberID = null;
-        public string StoryPurpose = null;
-        public string ResourcesUsed = null;
-        public string BackTranslatorMemberID = null;
-        public Dictionary<byte, string> Testors = new Dictionary<byte, string>();
-        public bool IsBiblicalStory = true;
-
-        public CraftingInfoData(string strLoggedOnMemberGuid, bool bIsBiblicalStory)
-        {
-            StoryCrafterMemberID = strLoggedOnMemberGuid;
-            IsBiblicalStory = bIsBiblicalStory;
-        }
-
-        public CraftingInfoData(StoryProject.storyRow theStoryRow, StoryProject projFile)
-        {
-            StoryProject.CraftingInfoRow[] aCIRs = theStoryRow.GetCraftingInfoRows();
-            if (aCIRs.Length == 1)
-            {
-                StoryProject.CraftingInfoRow theCIR = aCIRs[0];
-                if (!theCIR.IsNonBiblicalStoryNull())
-                    IsBiblicalStory = !theCIR.NonBiblicalStory;
-
-                StoryProject.StoryCrafterRow[] aSCRs = theCIR.GetStoryCrafterRows();
-                if (aSCRs.Length == 1)
-                    StoryCrafterMemberID = aSCRs[0].memberID;
-                else
-                    throw new ApplicationException(Properties.Resources.IDS_ProjectFileCorrupted);
-
-                if (!theCIR.IsStoryPurposeNull())
-                    StoryPurpose = theCIR.StoryPurpose;
-
-                if (!theCIR.IsResourcesUsedNull())
-                    ResourcesUsed = theCIR.ResourcesUsed;
-
-                StoryProject.BackTranslatorRow[] aBTRs = theCIR.GetBackTranslatorRows();
-                if (aBTRs.Length == 1)
-                    BackTranslatorMemberID = aBTRs[0].memberID;
-
-                StoryProject.TestsRow[] aTsRs = theCIR.GetTestsRows();
-                if (aTsRs.Length == 1)
-                {
-                    foreach (StoryProject.TestRow aTR in aTsRs[0].GetTestRows())
-                        Testors.Add(aTR.number, aTR.memberID);
-                }
-            }
-            else
-                throw new ApplicationException(Properties.Resources.IDS_ProjectFileCorruptedNoCraftingInfo);
-        }
-
-        public XElement GetXml
-        {
-            get
-            {
-                XElement elemCraftingInfo = new XElement("CraftingInfo",
-                    new XAttribute("NonBiblicalStory", !IsBiblicalStory),
-                    new XElement("StoryCrafter", new XAttribute("memberID", StoryCrafterMemberID)));
-
-                if (!String.IsNullOrEmpty(StoryPurpose))
-                    elemCraftingInfo.Add(new XElement("StoryPurpose", StoryPurpose));
-
-                if (!String.IsNullOrEmpty(ResourcesUsed))
-                    elemCraftingInfo.Add(new XElement("ResourcesUsed", ResourcesUsed));
-
-                if (!String.IsNullOrEmpty(BackTranslatorMemberID))
-                    elemCraftingInfo.Add(new XElement("BackTranslator", new XAttribute("memberID", BackTranslatorMemberID)));
-
-                if (Testors.Count > 0)
-                {
-                    XElement elemTestors = new XElement("Tests");
-                    foreach (KeyValuePair<byte, string> kvp in Testors)
-                        elemTestors.Add(new XElement("Test", new XAttribute("number", kvp.Key), new XAttribute("memberID", kvp.Value)));
-                    elemCraftingInfo.Add(elemTestors);
-                }
-
-                return elemCraftingInfo;
+                return elemStoryProject;
             }
         }
     }

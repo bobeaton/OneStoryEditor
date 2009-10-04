@@ -160,5 +160,8 @@ DoAdaptingBeforeGlossing_InVerticalEdit	1</Value>
 &lt;/KB&gt;
 </Value>
     </Setting>
+    <Setting Name="LastPanoramaViewTabIndex" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

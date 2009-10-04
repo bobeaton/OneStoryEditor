@@ -39,17 +39,17 @@ namespace OneStoryProjectEditor
             if (aSE.viewVernacularLangFieldMenuItem.Checked)
             {
                 InsertColumn(nNumColumns);
-                InitLabel(aSE.Stories.ProjSettings.Vernacular.LangName, nNumColumns);
+                InitLabel(aSE.StoryProject.ProjSettings.Vernacular.LangName, nNumColumns);
 
                 // if we're in the one of the states where the user is entering in the 
                 //  national or international BT, then disable the Vernacular as a tab stop.
                 bool bDisableTabStopVernacular =
-                    ((aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eCrafterTypeNationalBT)
-                    || (aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eCrafterTypeInternationalBT)
+                    ((aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eProjFacTypeNationalBT)
+                    || (aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT)
                     || (aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT));
 
                 InitTextBox(CstrFieldNameVernacular, _aVerseData.VernacularText, 
-                    aSE.Stories.ProjSettings.Vernacular, bDisableTabStopVernacular,
+                    aSE.StoryProject.ProjSettings.Vernacular, bDisableTabStopVernacular,
                     nNumColumns);
                 nNumColumns++;
             }
@@ -57,16 +57,16 @@ namespace OneStoryProjectEditor
             if (aSE.viewNationalLangFieldMenuItem.Checked)
             {
                 InsertColumn(nNumColumns);
-                InitLabel(aSE.Stories.ProjSettings.NationalBT.LangName, nNumColumns);
+                InitLabel(aSE.StoryProject.ProjSettings.NationalBT.LangName, nNumColumns);
 
                 // if we're in the one of the states where the user is entering in the 
                 //  international BT, then disable the National BT as a tab stop.
                 bool bDisableTabStopNationalBT =
-                    ((aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eCrafterTypeInternationalBT)
+                    ((aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT)
                     || (aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT));
 
                 InitTextBox(CstrFieldNameNationalBt, _aVerseData.NationalBTText, 
-                    aSE.Stories.ProjSettings.NationalBT, 
+                    aSE.StoryProject.ProjSettings.NationalBT, 
                     bDisableTabStopNationalBT,
                     nNumColumns);
 
@@ -76,10 +76,10 @@ namespace OneStoryProjectEditor
             if (aSE.viewEnglishBTFieldMenuItem.Checked)
             {
                 InsertColumn(nNumColumns);
-                InitLabel(aSE.Stories.ProjSettings.InternationalBT.LangName, nNumColumns);
+                InitLabel(aSE.StoryProject.ProjSettings.InternationalBT.LangName, nNumColumns);
 
                 InitTextBox(CstrFieldNameInternationalBt, _aVerseData.InternationalBTText, 
-                    aSE.Stories.ProjSettings.InternationalBT, false, nNumColumns);
+                    aSE.StoryProject.ProjSettings.InternationalBT, false, nNumColumns);
                 nNumColumns++;
             }
 

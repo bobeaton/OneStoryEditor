@@ -26,11 +26,11 @@ namespace OneStoryProjectEditor
                 _strProjectFolder = strProjectFolderDefaultIfNull;
         }
 
-        public void SerializeProjectSettings(StoryProject projFile)
+        public void SerializeProjectSettings(NewDataSet projFile)
         {
-            System.Diagnostics.Debug.Assert((projFile != null) && (projFile.stories[0].ProjectName == ProjectName));
+            System.Diagnostics.Debug.Assert((projFile != null) && (projFile.StoryProject[0].ProjectName == ProjectName));
 
-            StoryProject.LanguagesRow theLangRow = InsureLanguagesRow(projFile);
+            NewDataSet.LanguagesRow theLangRow = InsureLanguagesRow(projFile);
 
             // if there is no vernacular row, we must add it (it's required)
             if (projFile.VernacularLang.Count == 0)
@@ -41,7 +41,7 @@ namespace OneStoryProjectEditor
             {
                 // otherwise, read in the details
                 System.Diagnostics.Debug.Assert(projFile.VernacularLang.Count == 1);
-                StoryProject.VernacularLangRow theVernRow = projFile.VernacularLang[0];
+                NewDataSet.VernacularLangRow theVernRow = projFile.VernacularLang[0];
                 Vernacular.LangName = theVernRow.name;
                 Vernacular.LangCode = theVernRow.code;
                 Vernacular.LangFont = new Font(theVernRow.FontName, theVernRow.FontSize);
@@ -57,7 +57,7 @@ namespace OneStoryProjectEditor
             if (projFile.NationalBTLang.Count == 1)
             {
                 System.Diagnostics.Debug.Assert(projFile.NationalBTLang.Count == 1);
-                StoryProject.NationalBTLangRow rowNatlRow = projFile.NationalBTLang[0];
+                NewDataSet.NationalBTLangRow rowNatlRow = projFile.NationalBTLang[0];
                 NationalBT.LangName = rowNatlRow.name;
                 NationalBT.LangCode = rowNatlRow.code;
                 NationalBT.LangFont = new Font(rowNatlRow.FontName, rowNatlRow.FontSize);
@@ -74,7 +74,7 @@ namespace OneStoryProjectEditor
             if (projFile.InternationalBTLang.Count == 1)
             {
                 System.Diagnostics.Debug.Assert(projFile.InternationalBTLang.Count == 1);
-                StoryProject.InternationalBTLangRow rowEngRow = projFile.InternationalBTLang[0];
+                NewDataSet.InternationalBTLangRow rowEngRow = projFile.InternationalBTLang[0];
                 InternationalBT.LangName = rowEngRow.name;
                 InternationalBT.LangCode = rowEngRow.code;
                 InternationalBT.LangFont = new Font(rowEngRow.FontName, rowEngRow.FontSize);
@@ -210,11 +210,11 @@ namespace OneStoryProjectEditor
             }
         }
 
-        protected StoryProject.LanguagesRow InsureLanguagesRow(StoryProject projFile)
+        protected NewDataSet.LanguagesRow InsureLanguagesRow(NewDataSet projFile)
         {
-            System.Diagnostics.Debug.Assert(projFile.stories.Count == 1);
+            System.Diagnostics.Debug.Assert(projFile.StoryProject.Count == 1);
             if (projFile.Languages.Count == 0)
-                return projFile.Languages.AddLanguagesRow(projFile.stories[0]);
+                return projFile.Languages.AddLanguagesRow(projFile.StoryProject[0]);
             else
             {
                 System.Diagnostics.Debug.Assert(projFile.Languages.Count == 1);

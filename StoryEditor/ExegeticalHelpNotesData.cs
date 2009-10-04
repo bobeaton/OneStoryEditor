@@ -9,7 +9,7 @@ namespace OneStoryProjectEditor
     {
         public StringTransfer ExegeticalHelpNote = null;
 
-        public ExegeticalHelpNoteData(StoryProject.exegeticalHelpRow theExHelpNoteRow)
+        public ExegeticalHelpNoteData(NewDataSet.exegeticalHelpRow theExHelpNoteRow)
         {
             ExegeticalHelpNote = new StringTransfer(theExHelpNoteRow.exegeticalHelp_Column);
         }
@@ -17,6 +17,11 @@ namespace OneStoryProjectEditor
         public ExegeticalHelpNoteData(string strInitialText)
         {
             ExegeticalHelpNote = new StringTransfer(strInitialText);
+        }
+
+        public ExegeticalHelpNoteData(ExegeticalHelpNoteData rhs)
+        {
+            ExegeticalHelpNote = new StringTransfer(rhs.ExegeticalHelpNote.ToString());
         }
 
         public bool HasData
@@ -36,17 +41,23 @@ namespace OneStoryProjectEditor
 
     public class ExegeticalHelpNotesData : List<ExegeticalHelpNoteData>
     {
-        public ExegeticalHelpNotesData(StoryProject.anchorRow theAnchorRow, StoryProject projFile)
+        public ExegeticalHelpNotesData(NewDataSet.anchorRow theAnchorRow, NewDataSet projFile)
         {
-            StoryProject.exegeticalHelpsRow[] theExHelpNotesRows = theAnchorRow.GetexegeticalHelpsRows();
-            StoryProject.exegeticalHelpsRow theExHelpNotesRow;
+            NewDataSet.exegeticalHelpsRow[] theExHelpNotesRows = theAnchorRow.GetexegeticalHelpsRows();
+            NewDataSet.exegeticalHelpsRow theExHelpNotesRow;
             if (theExHelpNotesRows.Length == 0)
                 theExHelpNotesRow = projFile.exegeticalHelps.AddexegeticalHelpsRow(theAnchorRow);
             else
                 theExHelpNotesRow = theExHelpNotesRows[0];
 
-            foreach (StoryProject.exegeticalHelpRow anExHelpNoteRow in theExHelpNotesRow.GetexegeticalHelpRows())
+            foreach (NewDataSet.exegeticalHelpRow anExHelpNoteRow in theExHelpNotesRow.GetexegeticalHelpRows())
                 Add(new ExegeticalHelpNoteData(anExHelpNoteRow));
+        }
+
+        public ExegeticalHelpNotesData(ExegeticalHelpNotesData rhs)
+        {
+            foreach (ExegeticalHelpNoteData aEHN in rhs)
+                Add(new ExegeticalHelpNoteData(aEHN));
         }
 
         public ExegeticalHelpNotesData()
@@ -62,7 +73,7 @@ namespace OneStoryProjectEditor
 
         public bool HasData
         {
-            get { return (this.Count > 0); }
+            get { return (Count > 0); }
         }
 
         public XElement GetXml

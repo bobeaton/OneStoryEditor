@@ -53,33 +53,33 @@ namespace OneStoryProjectEditor
             if (theSE.viewVernacularLangFieldMenuItem.Checked)
             {
                 InsertColumn(nNumColumns);
-                InitColumnLabel(theSE.Stories.ProjSettings.Vernacular.LangName, nNumColumns);
+                InitColumnLabel(theSE.StoryProject.ProjSettings.Vernacular.LangName, nNumColumns);
                 InitTextBox(CstrFieldNameVernacular, _aTQData.QuestionVernacular, 
-                    theSE.Stories.ProjSettings.Vernacular, nNumColumns);
+                    theSE.StoryProject.ProjSettings.Vernacular, nNumColumns);
                 nNumColumns++;
             }
 
             // the only time we show the National BT is if there's an "other" English BTr (who will
             //  do the EnglishBT from the NationalBT) AND only if there *is* a national BT
-            if (theSE.Stories.ProjSettings.NationalBT.HasData && 
-                theSE.Stories.TeamMembers.IsThereASeparateEnglishBackTranslator)
+            if (theSE.StoryProject.ProjSettings.NationalBT.HasData && 
+                theSE.StoryProject.TeamMembers.IsThereASeparateEnglishBackTranslator)
             {
                 InsertColumn(nNumColumns);
-                InitColumnLabel(theSE.Stories.ProjSettings.NationalBT.LangName, nNumColumns);
+                InitColumnLabel(theSE.StoryProject.ProjSettings.NationalBT.LangName, nNumColumns);
                 InitTextBox(CstrFieldNameNationalBt, _aTQData.QuestionNationalBT, 
-                    theSE.Stories.ProjSettings.NationalBT, nNumColumns);
+                    theSE.StoryProject.ProjSettings.NationalBT, nNumColumns);
                 nNumColumns++;
             }
 
-            if (theSE.Stories.ProjSettings.InternationalBT.HasData
-                && (!theSE.Stories.TeamMembers.IsThereASeparateEnglishBackTranslator
+            if (theSE.StoryProject.ProjSettings.InternationalBT.HasData
+                && (!theSE.StoryProject.TeamMembers.IsThereASeparateEnglishBackTranslator
                     || (StageLogic.MemberTypeWithEditToken !=
                             TeamMemberData.UserTypes.eCrafter)))
             {
                 InsertColumn(nNumColumns);
-                InitColumnLabel(theSE.Stories.ProjSettings.InternationalBT.LangName, nNumColumns);
+                InitColumnLabel(theSE.StoryProject.ProjSettings.InternationalBT.LangName, nNumColumns);
                 InitTextBox(CstrFieldNameVernacular, _aTQData.QuestionInternationalBT, 
-                    theSE.Stories.ProjSettings.InternationalBT, nNumColumns);
+                    theSE.StoryProject.ProjSettings.InternationalBT, nNumColumns);
                 nNumColumns++;
             }
 

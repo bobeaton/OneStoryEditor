@@ -19,7 +19,7 @@ namespace OneStoryProjectEditor
             textBoxAltPhone.Text = theMemberData.AltPhone;
             textBoxSkypeID.Text = theMemberData.SkypeID;
             textBoxTeamViewer.Text = theMemberData.TeamViewerID;
-            textBoxBioData.Text = theMemberData.Address;
+            textBoxBioData.Text = theMemberData.BioData;
         }
 
         private void buttonOK_Click(object sender, EventArgs e)
@@ -124,7 +124,7 @@ namespace OneStoryProjectEditor
             set { textBoxTeamViewer.Text = value; }
         }
 
-        public string Address
+        public string BioData
         {
             get { return (String.IsNullOrEmpty(textBoxBioData.Text) ? null : textBoxBioData.Text); }
             set { textBoxBioData.Text = value; }

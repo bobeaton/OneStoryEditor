@@ -74,6 +74,13 @@ namespace OneStoryProjectEditor.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap CopyHS {
+            get {
+                object obj = ResourceManager.GetObject("CopyHS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap DeleteHS {
             get {
                 object obj = ResourceManager.GetObject("DeleteHS", resourceCulture);
@@ -180,6 +187,16 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_CopyrightInfo {
             get {
                 return ResourceManager.GetString("IDS_CopyrightInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {\rtf1\adeflang1081\ansi\ansicpg1252\uc1\adeff0\deff0\stshfdbch0\stshfloch0\stshfhich0\stshfbi0\deflang1033\deflangfe1033{\fonttbl{\f0\froman\fcharset0\fprq2{\*\panose 02020603050405020304}Times New Roman;}{\f312\froman\fcharset238\fprq2 Times New Roman CE;}{\f313\froman\fcharset204\fprq2 Times New Roman Cyr;}
+        ///{\f315\froman\fcharset161\fprq2 Times New Roman Greek;}{\f316\froman\fcharset162\fprq2 Times New Roman Tur;}{\f317\fbidi \froman\fcharset177\fprq2 Times New Roman (Hebrew);}{\f318\fbidi \froman\fchar [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string IDS_DefaultPanoramaFrontMatter {
+            get {
+                return ResourceManager.GetString("IDS_DefaultPanoramaFrontMatter", resourceCulture);
             }
         }
         
@@ -292,11 +309,11 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You have to be logged in as a &apos;Crafter&apos; to add stories. To login, click &apos;Project&apos;, &apos;Settings&apos;.
+        ///   Looks up a localized string similar to You have to be logged in as a &apos;Project Facilitator&apos; to add stories. To login, click &apos;Project&apos;, &apos;Settings&apos;.
         /// </summary>
-        internal static string IDS_LogInAsCrafter {
+        internal static string IDS_LogInAsProjFac {
             get {
-                return ResourceManager.GetString("IDS_LogInAsCrafter", resourceCulture);
+                return ResourceManager.GetString("IDS_LogInAsProjFac", resourceCulture);
             }
         }
         
@@ -306,6 +323,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_MainFrameTitle {
             get {
                 return ResourceManager.GetString("IDS_MainFrameTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stories.
+        /// </summary>
+        internal static string IDS_MainStoriesSet {
+            get {
+                return ResourceManager.GetString("IDS_MainStoriesSet", resourceCulture);
             }
         }
         
@@ -344,6 +370,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_NetBibleDonateMessage {
             get {
                 return ResourceManager.GetString("IDS_NetBibleDonateMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Old Stories.
+        /// </summary>
+        internal static string IDS_ObsoleteStoriesSet {
+            get {
+                return ResourceManager.GetString("IDS_ObsoleteStoriesSet", resourceCulture);
             }
         }
         

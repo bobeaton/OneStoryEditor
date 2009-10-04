@@ -5,35 +5,35 @@ namespace OneStoryProjectEditor
 {
     public partial class StoryFrontMatterForm : Form
     {
-        protected StoryEditor _theSE = null;
-        protected StoriesData _theStoriesData = null;
-        protected StoryData _theCurrentStory = null;
+        protected StoryEditor _theSE;
+        protected StoryProjectData _theStoryProjectData;
+        protected StoryData _theCurrentStory;
 
-        public StoryFrontMatterForm(StoryEditor theSE, StoriesData theStoriesData, StoryData theCurrentStory)
+        public StoryFrontMatterForm(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory)
         {
             _theSE = theSE;
-            _theStoriesData = theStoriesData;
+            _theStoryProjectData = theStoryProjectData;
             _theCurrentStory = theCurrentStory;
 
             InitializeComponent();
             
             textBoxStoryCrafter.Text =
-                theStoriesData.GetMemberNameFromMemberGuid(theCurrentStory.CraftingInfo.StoryCrafterMemberID);
+                theStoryProjectData.GetMemberNameFromMemberGuid(theCurrentStory.CraftingInfo.StoryCrafterMemberID);
             textBoxStoryPurpose.Text = theCurrentStory.CraftingInfo.StoryPurpose;
             textBoxResourcesUsed.Text = theCurrentStory.CraftingInfo.ResourcesUsed;
             textBoxUnsBackTranslator.Text =
-                theStoriesData.GetMemberNameFromMemberGuid(theCurrentStory.CraftingInfo.BackTranslatorMemberID);
+                theStoryProjectData.GetMemberNameFromMemberGuid(theCurrentStory.CraftingInfo.BackTranslatorMemberID);
             if (theCurrentStory.CraftingInfo.Testors.Count > 0)
-                textBoxUnsTest1.Text = theStoriesData.GetMemberNameFromMemberGuid(theCurrentStory.CraftingInfo.Testors[1]);
+                textBoxUnsTest1.Text = theStoryProjectData.GetMemberNameFromMemberGuid(theCurrentStory.CraftingInfo.Testors[1]);
             if (theCurrentStory.CraftingInfo.Testors.Count > 1)
-                textBoxUnsTest2.Text = theStoriesData.GetMemberNameFromMemberGuid(theCurrentStory.CraftingInfo.Testors[2]);
+                textBoxUnsTest2.Text = theStoryProjectData.GetMemberNameFromMemberGuid(theCurrentStory.CraftingInfo.Testors[2]);
 
             Text = String.Format("Story Information for '{0}'", theCurrentStory.Name);
         }
 
         private void buttonBrowseForStoryCrafter_Click(object sender, EventArgs e)
         {
-            MemberPicker dlg = new MemberPicker(_theStoriesData, TeamMemberData.UserTypes.eCrafter);
+            MemberPicker dlg = new MemberPicker(_theStoryProjectData, TeamMemberData.UserTypes.eCrafter);
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 textBoxStoryCrafter.Tag = dlg.SelectedMember;
@@ -43,7 +43,7 @@ namespace OneStoryProjectEditor
 
         protected TeamMemberData SelectedUnsMember()
         {
-            MemberPicker dlg = new MemberPicker(_theStoriesData, TeamMemberData.UserTypes.eUNS);
+            MemberPicker dlg = new MemberPicker(_theStoryProjectData, TeamMemberData.UserTypes.eUNS);
             if (dlg.ShowDialog() == DialogResult.OK)
                 return dlg.SelectedMember;
             return null;

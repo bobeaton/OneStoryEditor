@@ -16,12 +16,12 @@ namespace OneStoryProjectEditor
         public enum ProjectStages
         {
             eUndefined = 0,
-            eCrafterTypeVernacular,
-            eCrafterTypeNationalBT,
-            eCrafterTypeInternationalBT,
-            eCrafterAddAnchors,
-            eCrafterCheckKeyTerms,
-            eCrafterAddStoryQuestions,
+            eProjFacTypeVernacular,
+            eProjFacTypeNationalBT,
+            eProjFacTypeInternationalBT,
+            eProjFacAddAnchors,
+            eProjFacCheckKeyTerms,
+            eProjFacAddStoryQuestions,
             eBackTranslatorTypeInternationalBT,
             eConsultantCheckNonBiblicalStory,
             eConsultantCheckStoryInfo,
@@ -29,21 +29,21 @@ namespace OneStoryProjectEditor
             eConsultantCheckStoryQuestions,
             eCoachReviewRound1Notes,
             eConsultantReviseRound1Notes,
-            eCrafterReviseBasedOnRound1Notes,
-            eCrafterOnlineReview1WithConsultant,
-            eCrafterReadyForTest1,
-            eCrafterEnterAnswersToStoryQuestionsOfTest1,
-            eCrafterEnterRetellingOfTest1,
+            eProjFacReviseBasedOnRound1Notes,
+            eProjFacOnlineReview1WithConsultant,
+            eProjFacReadyForTest1,
+            eProjFacEnterAnswersToStoryQuestionsOfTest1,
+            eProjFacEnterRetellingOfTest1,
             eConsultantCheckAnchorsRound2,
             eConsultantCheckAnswersToTestingQuestionsRound2,
             eConsultantCheckRetellingRound2,
             eCoachReviewRound2Notes,
             eConsultantReviseRound2Notes,
-            eCrafterReviseBasedOnRound2Notes,
-            eCrafterOnlineReview2WithConsultant,
-            eCrafterReadyForTest2,
-            eCrafterEnterAnswersToStoryQuestionsOfTest2,
-            eCrafterEnterRetellingOfTest2,
+            eProjFacReviseBasedOnRound2Notes,
+            eProjFacOnlineReview2WithConsultant,
+            eProjFacReadyForTest2,
+            eProjFacEnterAnswersToStoryQuestionsOfTest2,
+            eProjFacEnterRetellingOfTest2,
             eConsultantReviewTest2,
             eCoachReviewTest2Notes,
             eTeamComplete
@@ -57,12 +57,17 @@ namespace OneStoryProjectEditor
 
         public StoryStageLogic()
         {
-            ProjectStage = ProjectStages.eCrafterTypeVernacular;
+            ProjectStage = ProjectStages.eProjFacTypeVernacular;
         }
 
         public StoryStageLogic(string strProjectStage)
         {
             ProjectStage = GetProjectStageFromString(strProjectStage);
+        }
+
+        public StoryStageLogic(StoryStageLogic rhs)
+        {
+            ProjectStage = rhs.ProjectStage;
         }
 
         protected ProjectStages GetProjectStageFromString(string strProjectStageString)
@@ -93,7 +98,7 @@ namespace OneStoryProjectEditor
         }
 
         // this isn't 100% effective. Sometimes a particular stage can have a single (but varied) editors
-        //  (e.g. the Online consult could either be the crafter or the consultant)
+        //  (e.g. the Online consult could either be the ProjFac or the consultant)
         public TeamMemberData.UserTypes MemberTypeWithEditToken
         {
             get
@@ -116,12 +121,12 @@ namespace OneStoryProjectEditor
         }
 
         protected static Dictionary<string, ProjectStages> CmapStageStringToEnumType = new Dictionary<string, ProjectStages>() {
-            { "CrafterTypeVernacular", ProjectStages.eCrafterTypeVernacular },
-            { "CrafterTypeNationalBT", ProjectStages.eCrafterTypeNationalBT },
-            { "CrafterTypeInternationalBT", ProjectStages.eCrafterTypeInternationalBT },
-            { "CrafterAddAnchors", ProjectStages.eCrafterAddAnchors },
-            { "CrafterCheckKeyTerms", ProjectStages.eCrafterCheckKeyTerms },
-            { "CrafterAddStoryQuestions", ProjectStages.eCrafterAddStoryQuestions },
+            { "ProjFacTypeVernacular", ProjectStages.eProjFacTypeVernacular },
+            { "ProjFacTypeNationalBT", ProjectStages.eProjFacTypeNationalBT },
+            { "ProjFacTypeInternationalBT", ProjectStages.eProjFacTypeInternationalBT },
+            { "ProjFacAddAnchors", ProjectStages.eProjFacAddAnchors },
+            { "ProjFacCheckKeyTerms", ProjectStages.eProjFacCheckKeyTerms },
+            { "ProjFacAddStoryQuestions", ProjectStages.eProjFacAddStoryQuestions },
             { "BackTranslatorTypeInternationalBT", ProjectStages.eBackTranslatorTypeInternationalBT },
             { "ConsultantCheckNonBiblicalStory", ProjectStages.eConsultantCheckNonBiblicalStory },
 			{ "ConsultantCheckStoryInfo", ProjectStages.eConsultantCheckStoryInfo },
@@ -129,21 +134,21 @@ namespace OneStoryProjectEditor
             { "ConsultantCheckStoryQuestions", ProjectStages.eConsultantCheckStoryQuestions },
             { "CoachReviewRound1Notes", ProjectStages.eCoachReviewRound1Notes },
             { "ConsultantReviseRound1Notes", ProjectStages.eConsultantReviseRound1Notes },
-            { "CrafterReviseBasedOnRound1Notes", ProjectStages.eCrafterReviseBasedOnRound1Notes },
-            { "CrafterOnlineReview1WithConsultant", ProjectStages.eCrafterOnlineReview1WithConsultant },
-            { "CrafterReadyForTest1", ProjectStages.eCrafterReadyForTest1 },
-            { "CrafterEnterAnswersToStoryQuestionsOfTest1", ProjectStages.eCrafterEnterAnswersToStoryQuestionsOfTest1 },
-            { "CrafterEnterRetellingOfTest1", ProjectStages.eCrafterEnterRetellingOfTest1 },
+            { "ProjFacReviseBasedOnRound1Notes", ProjectStages.eProjFacReviseBasedOnRound1Notes },
+            { "ProjFacOnlineReview1WithConsultant", ProjectStages.eProjFacOnlineReview1WithConsultant },
+            { "ProjFacReadyForTest1", ProjectStages.eProjFacReadyForTest1 },
+            { "ProjFacEnterAnswersToStoryQuestionsOfTest1", ProjectStages.eProjFacEnterAnswersToStoryQuestionsOfTest1 },
+            { "ProjFacEnterRetellingOfTest1", ProjectStages.eProjFacEnterRetellingOfTest1 },
             { "ConsultantCheckAnchorsRound2", ProjectStages.eConsultantCheckAnchorsRound2 },
             { "ConsultantCheckAnswersToTestingQuestionsRound2", ProjectStages.eConsultantCheckAnswersToTestingQuestionsRound2 },
             { "ConsultantCheckRetellingRound2", ProjectStages.eConsultantCheckRetellingRound2 },
             { "CoachReviewRound2Notes", ProjectStages.eCoachReviewRound2Notes },
             { "ConsultantReviseRound2Notes", ProjectStages.eConsultantReviseRound2Notes },
-            { "CrafterReviseBasedOnRound2Notes", ProjectStages.eCrafterReviseBasedOnRound2Notes },
-            { "CrafterOnlineReview2WithConsultant", ProjectStages.eCrafterOnlineReview2WithConsultant },
-            { "CrafterReadyForTest2", ProjectStages.eCrafterReadyForTest2 },
-            { "CrafterEnterAnswersToStoryQuestionsOfTest2", ProjectStages.eCrafterEnterAnswersToStoryQuestionsOfTest2 },
-            { "CrafterEnterRetellingOfTest2", ProjectStages.eCrafterEnterRetellingOfTest2 },
+            { "ProjFacReviseBasedOnRound2Notes", ProjectStages.eProjFacReviseBasedOnRound2Notes },
+            { "ProjFacOnlineReview2WithConsultant", ProjectStages.eProjFacOnlineReview2WithConsultant },
+            { "ProjFacReadyForTest2", ProjectStages.eProjFacReadyForTest2 },
+            { "ProjFacEnterAnswersToStoryQuestionsOfTest2", ProjectStages.eProjFacEnterAnswersToStoryQuestionsOfTest2 },
+            { "ProjFacEnterRetellingOfTest2", ProjectStages.eProjFacEnterRetellingOfTest2 },
             { "ConsultantReviewTest2", ProjectStages.eConsultantReviewTest2 },
             { "CoachReviewTest2Notes", ProjectStages.eCoachReviewTest2Notes },
             { "TeamComplete", ProjectStages.eTeamComplete }};
@@ -164,7 +169,7 @@ namespace OneStoryProjectEditor
                     // try the same folder as we're executing out of
                     string strCurrentFolder = System.Reflection.Assembly.GetExecutingAssembly().GetModules()[0].FullyQualifiedName;
                     strCurrentFolder = Path.GetDirectoryName(strCurrentFolder);
-                    string strFileToCheck = String.Format(@"{0}\{1}", StoriesData.GetRunningFolder, CstrStateTransitionsXmlFilename);
+                    string strFileToCheck = String.Format(@"{0}\{1}", StoryProjectData.GetRunningFolder, CstrStateTransitionsXmlFilename);
 #if DEBUG
                     if (!File.Exists(strFileToCheck))
                         // on dev machines, this file is in the "..\..\src\EC\TECkit Mapping Editor" folder
@@ -367,8 +372,8 @@ namespace OneStoryProjectEditor
             public void SetView(StoryEditor theSE)
             {
                 theSE.viewVernacularLangFieldMenuItem.Checked = _abViewSettings[0];
-                theSE.viewNationalLangFieldMenuItem.Checked = (_abViewSettings[1] && theSE.Stories.ProjSettings.NationalBT.HasData);
-                theSE.viewEnglishBTFieldMenuItem.Checked = (_abViewSettings[2] && theSE.Stories.ProjSettings.InternationalBT.HasData);
+                theSE.viewNationalLangFieldMenuItem.Checked = (_abViewSettings[1] && theSE.StoryProject.ProjSettings.NationalBT.HasData);
+                theSE.viewEnglishBTFieldMenuItem.Checked = (_abViewSettings[2] && theSE.StoryProject.ProjSettings.InternationalBT.HasData);
                 theSE.viewAnchorFieldMenuItem.Checked = _abViewSettings[3];
                 theSE.viewStoryTestingQuestionFieldMenuItem.Checked = _abViewSettings[4];
                 theSE.viewRetellingFieldMenuItem.Checked = _abViewSettings[5];

@@ -13,7 +13,7 @@ namespace OneStoryProjectEditor
         public StringTransfer QuestionInternationalBT = null;
         public AnswersData Answers = null;
 
-        public TestQuestionData(StoryProject.TestQuestionRow theTestQuestionRow, StoryProject projFile)
+        public TestQuestionData(NewDataSet.TestQuestionRow theTestQuestionRow, NewDataSet projFile)
         {
             IsVisible = theTestQuestionRow.visible;
 
@@ -21,6 +21,15 @@ namespace OneStoryProjectEditor
             QuestionNationalBT = new StringTransfer((theTestQuestionRow.IsTQNationalBTNull()) ? null : theTestQuestionRow.TQNationalBT);
             QuestionInternationalBT = new StringTransfer((theTestQuestionRow.IsTQInternationalBTNull()) ? null : theTestQuestionRow.TQInternationalBT);
             Answers = new AnswersData(theTestQuestionRow, projFile);
+        }
+
+        public TestQuestionData(TestQuestionData rhs)
+        {
+            IsVisible = rhs.IsVisible;
+            QuestionVernacular = new StringTransfer(rhs.QuestionVernacular.ToString());
+            QuestionNationalBT = new StringTransfer(rhs.QuestionNationalBT.ToString());
+            QuestionInternationalBT = new StringTransfer(rhs.QuestionInternationalBT.ToString());
+            Answers = new AnswersData(rhs.Answers);
         }
 
         public TestQuestionData()
@@ -69,17 +78,23 @@ namespace OneStoryProjectEditor
 
     public class TestQuestionsData : List<TestQuestionData>
     {
-        public TestQuestionsData(StoryProject.verseRow theVerseRow, StoryProject projFile)
+        public TestQuestionsData(NewDataSet.verseRow theVerseRow, NewDataSet projFile)
         {
-            StoryProject.TestQuestionsRow[] theTestQuestionsRows = theVerseRow.GetTestQuestionsRows();
-            StoryProject.TestQuestionsRow theTestQuestionsRow;
+            NewDataSet.TestQuestionsRow[] theTestQuestionsRows = theVerseRow.GetTestQuestionsRows();
+            NewDataSet.TestQuestionsRow theTestQuestionsRow;
             if (theTestQuestionsRows.Length == 0)
                 theTestQuestionsRow = projFile.TestQuestions.AddTestQuestionsRow(theVerseRow);
             else
                 theTestQuestionsRow = theTestQuestionsRows[0];
 
-            foreach (StoryProject.TestQuestionRow aTestingQuestionRow in theTestQuestionsRow.GetTestQuestionRows())
+            foreach (NewDataSet.TestQuestionRow aTestingQuestionRow in theTestQuestionsRow.GetTestQuestionRows())
                 Add(new TestQuestionData(aTestingQuestionRow, projFile));
+        }
+
+        public TestQuestionsData(TestQuestionsData rhs)
+        {
+            foreach (TestQuestionData aTQ in rhs)
+                Add(new TestQuestionData(aTQ));
         }
 
         public TestQuestionsData()

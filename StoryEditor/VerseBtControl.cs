@@ -344,7 +344,7 @@ namespace OneStoryProjectEditor
             byte nNewIndex = (byte)tqd.Answers.Count;
             while (((nNewIndex >= theSE.theCurrentStory.CraftingInfo.Testors.Count) || String.IsNullOrEmpty(theSE.theCurrentStory.CraftingInfo.Testors[nNewIndex])))
             {
-                MemberPicker dlg = new MemberPicker(theSE.Stories, TeamMemberData.UserTypes.eUNS);
+                MemberPicker dlg = new MemberPicker(theSE.StoryProject, TeamMemberData.UserTypes.eUNS);
                 dlg.Text = "Choose the UNS that gave these answers";
                 if (dlg.ShowDialog() == DialogResult.Cancel)
                     return;
@@ -436,14 +436,14 @@ namespace OneStoryProjectEditor
             {
                 StoryEditor theSE = (StoryEditor)FindForm();
                 System.Diagnostics.Debug.Assert(theSE != null);
-                GlossingForm dlg = new GlossingForm(theSE.Stories.ProjSettings, _verseData.VernacularText.ToString(), GlossingForm.GlossType.eVernacularToNational);
+                GlossingForm dlg = new GlossingForm(theSE.StoryProject.ProjSettings, _verseData.VernacularText.ToString(), GlossingForm.GlossType.eVernacularToNational);
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
                     string strTargetSentence = dlg.TargetSentence;
                     if (_verseData.NationalBTText.HasData && (_verseData.NationalBTText.ToString() != strTargetSentence))
                     {
                         DialogResult res = MessageBox.Show(String.Format("Click 'Yes' to replace the existing {1} back-translation{0}{0}    {2}{0}{0}With the following{0}{0}    {3}",
-                            Environment.NewLine, theSE.Stories.ProjSettings.NationalBT.LangName, _verseData.NationalBTText, strTargetSentence), 
+                            Environment.NewLine, theSE.StoryProject.ProjSettings.NationalBT.LangName, _verseData.NationalBTText, strTargetSentence), 
                             Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
                         if (res == DialogResult.Yes)
                         {
@@ -476,7 +476,7 @@ namespace OneStoryProjectEditor
             {
                 StoryEditor theSE = (StoryEditor)FindForm();
                 System.Diagnostics.Debug.Assert(theSE != null);
-                GlossingForm dlg = new GlossingForm(theSE.Stories.ProjSettings, _verseData.VernacularText.ToString(), GlossingForm.GlossType.eVernacularToEnglish);
+                GlossingForm dlg = new GlossingForm(theSE.StoryProject.ProjSettings, _verseData.VernacularText.ToString(), GlossingForm.GlossType.eVernacularToEnglish);
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
                     string strTargetSentence = dlg.TargetSentence;
@@ -515,7 +515,7 @@ namespace OneStoryProjectEditor
             {
                 StoryEditor theSE = (StoryEditor)FindForm();
                 System.Diagnostics.Debug.Assert(theSE != null);
-                GlossingForm dlg = new GlossingForm(theSE.Stories.ProjSettings, _verseData.NationalBTText.ToString(), GlossingForm.GlossType.eNationalToEnglish);
+                GlossingForm dlg = new GlossingForm(theSE.StoryProject.ProjSettings, _verseData.NationalBTText.ToString(), GlossingForm.GlossType.eNationalToEnglish);
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
                     string strTargetSentence = dlg.TargetSentence;

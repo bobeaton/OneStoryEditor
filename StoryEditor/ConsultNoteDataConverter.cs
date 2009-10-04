@@ -17,22 +17,45 @@ namespace OneStoryProjectEditor
             Direction = direction;
             Guid = strGuid ?? System.Guid.NewGuid().ToString();
         }
+
+        public CommInstance(CommInstance rhs)
+            : base(rhs.ToString())
+        {
+            Direction = rhs.Direction;
+            Guid = rhs.Guid;
+        }
     }
 
     public abstract class ConsultNoteDataConverter : List<CommInstance>
     {
+        public int RoundNum = 0;
+        public bool Visible = true;
+
         public enum CommunicationDirections
         {
-            eConsultantToCrafter,
-            eCrafterToConsultant,
+            eConsultantToProjFac,
+            eProjFacToConsultant,
             eConsultantToCoach,
             eCoachToConsultant
         }
 
+        protected ConsultNoteDataConverter()
+        {
+        }
+
+        protected ConsultNoteDataConverter(ConsultNoteDataConverter rhs)
+        {
+            RoundNum = rhs.RoundNum;
+            Visible = rhs.Visible;
+
+            foreach (CommInstance aCI in rhs)
+                Add(new CommInstance(aCI));
+        }
+
         protected static Dictionary<string, CommunicationDirections> CmapDirectionStringToEnumType = new Dictionary<string, CommunicationDirections>()
         {
-            { "ConsultantToCrafter", CommunicationDirections.eConsultantToCrafter },
-            { "CrafterToConsultant", CommunicationDirections.eCrafterToConsultant },
+            { "ConsultantToProjFac", CommunicationDirections.eConsultantToProjFac },
+            { "ProjFacToConsultant", CommunicationDirections.eProjFacToConsultant },
             { "ConsultantToCoach", CommunicationDirections.eConsultantToCoach },
             { "CoachToConsultant", CommunicationDirections.eCoachToConsultant }
         };
@@ -61,9 +84,6 @@ namespace OneStoryProjectEditor
             else if (!bIsMentorLoggedIn && (this[Count - 1].Direction != MenteeDirection))
                 Add(new CommInstance(null, MenteeDirection, null));
         }
-
-        public int RoundNum = 0;
-        public bool Visible = true;
 
         public abstract CommunicationDirections MenteeDirection { get; }
         public abstract CommunicationDirections MentorDirection { get; }
@@ -140,14 +160,14 @@ namespace OneStoryProjectEditor
 
     public class ConsultantNoteData : ConsultNoteDataConverter
     {
-        public ConsultantNoteData(StoryProject.ConsultantConversationRow aConRow)
+        public ConsultantNoteData(NewDataSet.ConsultantConversationRow aConRow)
         {
             RoundNum = aConRow.round;
             if (!aConRow.IsvisibleNull())
                 Visible = aConRow.visible;
 
-            StoryProject.ConsultantNoteRow[] theNoteRows = aConRow.GetConsultantNoteRows();
-            foreach (StoryProject.ConsultantNoteRow aNoteRow in theNoteRows)
+            NewDataSet.ConsultantNoteRow[] theNoteRows = aConRow.GetConsultantNoteRows();
+            foreach (NewDataSet.ConsultantNoteRow aNoteRow in theNoteRows)
                 Add(new CommInstance(aNoteRow.ConsultantNote_text, GetDirectionFromString(aNoteRow.Direction), aNoteRow.guid));
 
             // make sure that there are at least two (we can't save them if they're empty)
@@ -160,14 +180,19 @@ namespace OneStoryProjectEditor
             InsureExtraBox(bIsMentorLoggedIn);
         }
 
+        public ConsultantNoteData(ConsultNoteDataConverter rhs)
+            : base(rhs)
+        {
+        }
+
         public override CommunicationDirections MentorDirection
         {
-            get { return CommunicationDirections.eConsultantToCrafter; }
+            get { return CommunicationDirections.eConsultantToProjFac; }
         }
 
         public override CommunicationDirections MenteeDirection
         {
-            get { return CommunicationDirections.eCrafterToConsultant; }
+            get { return CommunicationDirections.eProjFacToConsultant; }
         }
 
         public override string MentorLabel
@@ -197,20 +222,20 @@ namespace OneStoryProjectEditor
 
         public override TeamMemberData.UserTypes MenteeRequiredEditor
         {
-            get { return TeamMemberData.UserTypes.eCrafter; }
+            get { return TeamMemberData.UserTypes.eProjectFacilitator; }
         }
     }
 
     public class CoachNoteData : ConsultNoteDataConverter
     {
-        public CoachNoteData(StoryProject.CoachConversationRow aCoaCRow)
+        public CoachNoteData(NewDataSet.CoachConversationRow aCoaCRow)
         {
             RoundNum = aCoaCRow.round;
             if (!aCoaCRow.IsvisibleNull())
                 Visible = aCoaCRow.visible;
 
-            StoryProject.CoachNoteRow[] theNoteRows = aCoaCRow.GetCoachNoteRows();
-            foreach (StoryProject.CoachNoteRow aNoteRow in theNoteRows)
+            NewDataSet.CoachNoteRow[] theNoteRows = aCoaCRow.GetCoachNoteRows();
+            foreach (NewDataSet.CoachNoteRow aNoteRow in theNoteRows)
                 Add(new CommInstance(aNoteRow.CoachNote_text, GetDirectionFromString(aNoteRow.Direction), aNoteRow.guid));
 
             // make sure that there are at least two (we can't save them if they're empty)
@@ -221,6 +246,11 @@ namespace OneStoryProjectEditor
         {
             RoundNum = nRound;
             InsureExtraBox(bIsMentorLoggedIn);
+        }
+
+        public CoachNoteData(ConsultNoteDataConverter rhs)
+            : base(rhs)
+        {
         }
 
         public override CommunicationDirections MentorDirection
@@ -268,6 +298,11 @@ namespace OneStoryProjectEditor
     {
         protected string CollectionElementName = null;
 
+        protected ConsultNotesDataConverter(string strCollectionElementName)
+        {
+            CollectionElementName = strCollectionElementName;
+        }
+
         public bool HasData
         {
             get { return (this.Count > 0); }
@@ -292,24 +327,32 @@ namespace OneStoryProjectEditor
 
     public class ConsultantNotesData : ConsultNotesDataConverter
     {
-        public ConsultantNotesData(StoryProject.verseRow theVerseRow, StoryProject projFile)
-        {
-            CollectionElementName = "ConsultantNotes";
+        protected const string CstrCollectionElementName = "ConsultantNotes";
 
-            StoryProject.ConsultantNotesRow[] theConsultantNotesRows = theVerseRow.GetConsultantNotesRows();
-            StoryProject.ConsultantNotesRow theConsultantNotesRow;
+        public ConsultantNotesData(NewDataSet.verseRow theVerseRow, NewDataSet projFile)
+            : base(CstrCollectionElementName)
+        {
+            NewDataSet.ConsultantNotesRow[] theConsultantNotesRows = theVerseRow.GetConsultantNotesRows();
+            NewDataSet.ConsultantNotesRow theConsultantNotesRow;
             if (theConsultantNotesRows.Length == 0)
                 theConsultantNotesRow = projFile.ConsultantNotes.AddConsultantNotesRow(theVerseRow);
             else
                 theConsultantNotesRow = theConsultantNotesRows[0];
 
-            foreach (StoryProject.ConsultantConversationRow aConsultantConversationRow in theConsultantNotesRow.GetConsultantConversationRows())
+            foreach (NewDataSet.ConsultantConversationRow aConsultantConversationRow in theConsultantNotesRow.GetConsultantConversationRows())
                 Add(new ConsultantNoteData(aConsultantConversationRow));
         }
 
-        public ConsultantNotesData()
+        public ConsultantNotesData(IEnumerable<ConsultNoteDataConverter> rhs)
+            : base(CstrCollectionElementName)
         {
-            CollectionElementName = "ConsultantNotes";
+            foreach (var aCND in rhs)
+                Add(new ConsultantNoteData(aCND));
+        }
+
+        public ConsultantNotesData()
+            : base(CstrCollectionElementName)
+        {
         }
 
         public override ConsultNoteDataConverter InsertEmpty(int nIndex, int nRound, bool bIsMentorLoggedIn)
@@ -328,24 +371,32 @@ namespace OneStoryProjectEditor
 
     public class CoachNotesData : ConsultNotesDataConverter
     {
-        public CoachNotesData(StoryProject.verseRow theVerseRow, StoryProject projFile)
-        {
-            CollectionElementName = "CoachNotes";
+        protected const string CstrCollectionElementName = "CoachNotes";
 
-            StoryProject.CoachNotesRow[] theCoachNotesRows = theVerseRow.GetCoachNotesRows();
-            StoryProject.CoachNotesRow theCoachNotesRow;
+        public CoachNotesData(NewDataSet.verseRow theVerseRow, NewDataSet projFile)
+            : base(CstrCollectionElementName)
+        {
+            NewDataSet.CoachNotesRow[] theCoachNotesRows = theVerseRow.GetCoachNotesRows();
+            NewDataSet.CoachNotesRow theCoachNotesRow;
             if (theCoachNotesRows.Length == 0)
                 theCoachNotesRow = projFile.CoachNotes.AddCoachNotesRow(theVerseRow);
             else
                 theCoachNotesRow = theCoachNotesRows[0];
 
-            foreach (StoryProject.CoachConversationRow aCoachConversationRow in theCoachNotesRow.GetCoachConversationRows())
+            foreach (NewDataSet.CoachConversationRow aCoachConversationRow in theCoachNotesRow.GetCoachConversationRows())
                 Add(new CoachNoteData(aCoachConversationRow));
         }
 
-        public CoachNotesData()
+        public CoachNotesData(IEnumerable<ConsultNoteDataConverter> rhs)
+            : base(CstrCollectionElementName)
         {
-            CollectionElementName = "CoachNotes";
+            foreach (var aCND in rhs)
+                Add(new CoachNoteData(aCND));
+        }
+
+        public CoachNotesData()
+            : base(CstrCollectionElementName)
+        {
         }
 
         public override ConsultNoteDataConverter InsertEmpty(int nIndex, int nRound, bool bIsMentorLoggedIn)

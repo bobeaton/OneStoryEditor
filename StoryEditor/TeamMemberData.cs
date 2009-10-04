@@ -39,9 +39,9 @@ namespace OneStoryProjectEditor
         public string TeamViewerID = null;
         public string Phone = null;
         public string AltPhone = null;
-        public string Address = null;
+        public string BioData = null;
 
-        public TeamMemberData(string strName, TeamMemberData.UserTypes eMemberType, string strMemberGuid, string strEmail, string strSkypeID, string strTeamViewerID, string strPhone, string strAltPhone, string strAddress)
+        public TeamMemberData(string strName, TeamMemberData.UserTypes eMemberType, string strMemberGuid, string strEmail, string strSkypeID, string strTeamViewerID, string strPhone, string strAltPhone, string strBioData)
         {
             Name = strName;
             MemberType = eMemberType;
@@ -51,10 +51,10 @@ namespace OneStoryProjectEditor
             TeamViewerID = strTeamViewerID;
             Phone = strPhone;
             AltPhone = strAltPhone;
-            Address = strAddress;
+            BioData = strBioData;
         }
 
-        public TeamMemberData(StoryProject.MemberRow theMemberRow)
+        public TeamMemberData(NewDataSet.MemberRow theMemberRow)
         {
             Name = theMemberRow.name;
             MemberType = GetMemberType(theMemberRow.memberType);
@@ -76,28 +76,27 @@ namespace OneStoryProjectEditor
             if (!theMemberRow.IsaltPhoneNull())
                 AltPhone = theMemberRow.altPhone;
 
-            if (!theMemberRow.IsaddressNull())
-                Address = theMemberRow.address;
+            if (!theMemberRow.IsbioDataNull())
+                BioData = theMemberRow.bioData;
         }
 
-        public static TeamMemberData.UserTypes GetMemberType(string strMemberTypeString)
+        public static UserTypes GetMemberType(string strMemberTypeString)
         {
             if (strMemberTypeString == CstrCrafter)
-                return TeamMemberData.UserTypes.eCrafter;
-            else if (strMemberTypeString == CstrEnglishBackTranslator)
-                return TeamMemberData.UserTypes.eEnglishBacktranslator;
-            else if (strMemberTypeString == CstrUNS)
-                return TeamMemberData.UserTypes.eUNS;
-            else if (strMemberTypeString == CstrProjectFacilitator)
-                return TeamMemberData.UserTypes.eProjectFacilitator;
-            else if (strMemberTypeString == CstrConsultantInTraining)
-                return TeamMemberData.UserTypes.eConsultantInTraining;
-            else if (strMemberTypeString == CstrCoach)
-                return TeamMemberData.UserTypes.eCoach;
-            else if (strMemberTypeString == CstrJustLooking)
-                return TeamMemberData.UserTypes.eJustLooking;
-            else
-                return TeamMemberData.UserTypes.eUndefined;
+                return UserTypes.eCrafter;
+            if (strMemberTypeString == CstrEnglishBackTranslator)
+                return UserTypes.eEnglishBacktranslator;
+            if (strMemberTypeString == CstrUNS)
+                return UserTypes.eUNS;
+            if (strMemberTypeString == CstrProjectFacilitator)
+                return UserTypes.eProjectFacilitator;
+            if (strMemberTypeString == CstrConsultantInTraining)
+                return UserTypes.eConsultantInTraining;
+            if (strMemberTypeString == CstrCoach)
+                return UserTypes.eCoach;
+            if (strMemberTypeString == CstrJustLooking)
+                return UserTypes.eJustLooking;
+            return UserTypes.eUndefined;
         }
 
         public string MemberTypeAsString
@@ -109,31 +108,30 @@ namespace OneStoryProjectEditor
         {
             if (eMemberType == UserTypes.eConsultantInTraining)
                 return CstrConsultantInTrainingDisplay;
-            else if (eMemberType == UserTypes.eEnglishBacktranslator)
+            if (eMemberType == UserTypes.eEnglishBacktranslator)
                 return CstrEnglishBackTranslatorDisplay;
-            else if (eMemberType == UserTypes.eProjectFacilitator)
+            if (eMemberType == UserTypes.eProjectFacilitator)
                 return CstrProjectFacilitatorDisplay;
-            else
-                return GetMemberTypeAsString(eMemberType);
+            return GetMemberTypeAsString(eMemberType);
         }
 
         public static string GetMemberTypeAsString(TeamMemberData.UserTypes eMemberType)
         {
             switch (eMemberType)
             {
-                case TeamMemberData.UserTypes.eCrafter:
+                case UserTypes.eCrafter:
                     return CstrCrafter;
                 case UserTypes.eEnglishBacktranslator:
                     return CstrEnglishBackTranslator;
-                case TeamMemberData.UserTypes.eUNS:
+                case UserTypes.eUNS:
                     return CstrUNS;
-                case TeamMemberData.UserTypes.eProjectFacilitator:
+                case UserTypes.eProjectFacilitator:
                     return CstrProjectFacilitator;
-                case TeamMemberData.UserTypes.eConsultantInTraining:
+                case UserTypes.eConsultantInTraining:
                     return CstrConsultantInTraining;
-                case TeamMemberData.UserTypes.eCoach:
+                case UserTypes.eCoach:
                     return CstrCoach;
-                case TeamMemberData.UserTypes.eJustLooking:
+                case UserTypes.eJustLooking:
                     return CstrJustLooking;
                 default:
                     System.Diagnostics.Debug.Assert(false); // shouldn't get here
@@ -146,21 +144,21 @@ namespace OneStoryProjectEditor
             get
             {
                 XElement eleMember = new XElement("Member",
-                    new XAttribute("name", this.Name),
-                    new XAttribute("memberType", this.MemberTypeAsString));
-                    if (!String.IsNullOrEmpty(this.Email))
-                        eleMember.Add(new XAttribute("email", this.Email));
-                    if (!String.IsNullOrEmpty(this.AltPhone))
-                        eleMember.Add(new XAttribute("altPhone", this.AltPhone));
-                    if (!String.IsNullOrEmpty(this.Phone))
-                        eleMember.Add(new XAttribute("phone", this.Phone));
-                    if (!String.IsNullOrEmpty(this.Address))
-                        eleMember.Add(new XAttribute("address", this.Address));
-                    if (!String.IsNullOrEmpty(this.SkypeID))
-                        eleMember.Add(new XAttribute("skypeID", this.SkypeID));
-                    if (!String.IsNullOrEmpty(this.TeamViewerID))
-                        eleMember.Add(new XAttribute("teamViewerID", this.TeamViewerID));
-                    eleMember.Add(new XAttribute("memberKey", this.MemberGuid));
+                    new XAttribute("name", Name),
+                    new XAttribute("memberType", MemberTypeAsString));
+                    if (!String.IsNullOrEmpty(Email))
+                        eleMember.Add(new XAttribute("email", Email));
+                    if (!String.IsNullOrEmpty(AltPhone))
+                        eleMember.Add(new XAttribute("altPhone", AltPhone));
+                    if (!String.IsNullOrEmpty(Phone))
+                        eleMember.Add(new XAttribute("phone", Phone));
+                    if (!String.IsNullOrEmpty(BioData))
+                        eleMember.Add(new XAttribute("bioData", BioData));
+                    if (!String.IsNullOrEmpty(SkypeID))
+                        eleMember.Add(new XAttribute("skypeID", SkypeID));
+                    if (!String.IsNullOrEmpty(TeamViewerID))
+                        eleMember.Add(new XAttribute("teamViewerID", TeamViewerID));
+                    eleMember.Add(new XAttribute("memberKey", MemberGuid));
 
                 return eleMember;
             }
@@ -178,18 +176,18 @@ namespace OneStoryProjectEditor
             Add(CstrBrowserMemberName, aTMD);
         }
 
-        public TeamMembersData(StoryProject projFile)
+        public TeamMembersData(NewDataSet projFile)
         {
-            System.Diagnostics.Debug.Assert((projFile != null) && (projFile.stories != null) && (projFile.stories.Count > 0));
-            StoryProject.storiesRow theStoriesRow = projFile.stories[0];
-            StoryProject.MembersRow[] aMembersRows = theStoriesRow.GetMembersRows();
-            StoryProject.MembersRow theMembersRow;
+            System.Diagnostics.Debug.Assert((projFile != null) && (projFile.StoryProject != null) && (projFile.StoryProject.Count > 0));
+            NewDataSet.StoryProjectRow theStoryProjectRow = projFile.StoryProject[0];
+            NewDataSet.MembersRow[] aMembersRows = theStoryProjectRow.GetMembersRows();
+            NewDataSet.MembersRow theMembersRow;
             if (aMembersRows.Length == 0)
-                theMembersRow = projFile.Members.AddMembersRow(theStoriesRow);
+                theMembersRow = projFile.Members.AddMembersRow(theStoryProjectRow);
             else
                 theMembersRow = aMembersRows[0];
 
-            foreach (StoryProject.MemberRow aMemberRow in theMembersRow.GetMemberRows())
+            foreach (NewDataSet.MemberRow aMemberRow in theMembersRow.GetMemberRows())
                 Add(aMemberRow.name, new TeamMemberData(aMemberRow));
         }
 
@@ -208,7 +206,7 @@ namespace OneStoryProjectEditor
                     //  member with the edit token when we get to the EnglishBT state as that person
                     //  otherwise, it's a crafter
                     StoryStageLogic.stateTransitions[StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT].MemberTypeWithEditToken =
-                        (IsThereASeparateEnglishBackTranslator) ? TeamMemberData.UserTypes.eEnglishBacktranslator : TeamMemberData.UserTypes.eCrafter;
+                        (IsThereASeparateEnglishBackTranslator) ? TeamMemberData.UserTypes.eEnglishBacktranslator : TeamMemberData.UserTypes.eProjectFacilitator;
                     return true;
                 }
             }
@@ -226,12 +224,12 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public bool IsThereAProjectFacilitator
+        public bool IsThereACoach
         {
             get
             {
                 foreach (TeamMemberData aTM in Values)
-                    if (aTM.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
+                    if (aTM.MemberType == TeamMemberData.UserTypes.eCoach)
                         return true;
                 return false;
             }

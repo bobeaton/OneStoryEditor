@@ -238,12 +238,12 @@ namespace OneStoryProjectEditor
             try
             {
                 // if the project info changed...
-                if ((m_dlgKeyTerms != null) && (m_dlgKeyTerms._theSE.Stories.ProjSettings.Vernacular != theSE.Stories.ProjSettings.Vernacular))
+                if ((m_dlgKeyTerms != null) && (m_dlgKeyTerms._theSE.StoryProject.ProjSettings.Vernacular != theSE.StoryProject.ProjSettings.Vernacular))
                     m_dlgKeyTerms = null;
 
                 if (m_dlgKeyTerms == null)
                     m_dlgKeyTerms = new BiblicalKeyTermsForm(theSE);
-                m_dlgKeyTerms.Show(_myAnchorsData, theSE.Stories);
+                m_dlgKeyTerms.Show(_myAnchorsData, theSE.StoryProject);
             }
             catch (Exception ex)
             {

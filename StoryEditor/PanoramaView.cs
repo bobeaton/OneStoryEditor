@@ -16,13 +16,17 @@ namespace OneStoryProjectEditor
         protected const int CnColumnStoryEditToken = 2;
         protected const int CnColumnStoryStage = 3;
 
-        protected StoriesData _stories = null;
+        protected StoryProjectData _storyProject;
+        protected StoriesData _stories;
 
-        public PanoramaView(StoriesData stories)
+        public PanoramaView(StoryProjectData storyProject)
         {
-            _stories = stories;
+            _storyProject = storyProject;
             InitializeComponent();
-            InitGrid();
+            richTextBoxPanoramaFrontMatter.Rtf = storyProject.PanoramaFrontMatter;
+
+            if (Properties.Settings.Default.LastPanoramaViewTabIndex < tabControlSets.TabPages.Count)
+                tabControlSets.SelectedTab = tabControlSets.TabPages[Properties.Settings.Default.LastPanoramaViewTabIndex];
         }
 
         public bool Modified = false;
@@ -119,6 +123,29 @@ namespace OneStoryProjectEditor
             }
         }
 
+        void buttonCopyToOldStories_Click(object sender, System.EventArgs e)
+        {
+            System.Diagnostics.Debug.Assert(dataGridViewPanorama.SelectedCells.Count < 2);   // 1 or 0
+            if (dataGridViewPanorama.SelectedCells.Count != 1)
+                return;
+
+            int nSelectedRowIndex = dataGridViewPanorama.SelectedCells[0].RowIndex;
+            if (nSelectedRowIndex < dataGridViewPanorama.Rows.Count - 1)
+            {
+                StoryData theSD = new StoryData(_stories[nSelectedRowIndex]);
+                int n = 1;
+                if (_storyProject[Properties.Resources.IDS_ObsoleteStoriesSet].Contains(theSD))
+                {
+                    string strName = theSD.Name;
+                    while (_storyProject[Properties.Resources.IDS_ObsoleteStoriesSet].Contains(theSD))
+                        theSD.Name = String.Format("{0}.{1}", strName, n++);
+                    theSD.guid = Guid.NewGuid().ToString();
+                }
+                _storyProject[Properties.Resources.IDS_ObsoleteStoriesSet].Add(theSD);
+                Modified = true;
+            }
+        }
+
         private void buttonDelete_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Debug.Assert(dataGridViewPanorama.SelectedCells.Count < 2);   // 1 or 0
@@ -128,7 +155,6 @@ namespace OneStoryProjectEditor
             int nSelectedRowIndex = dataGridViewPanorama.SelectedCells[0].RowIndex;
             if (nSelectedRowIndex < dataGridViewPanorama.Rows.Count - 1)
             {
-                StoryData theSDToDelete = _stories[nSelectedRowIndex];
                 _stories.RemoveAt(nSelectedRowIndex);
                 InitGrid();
                 if (nSelectedRowIndex >= dataGridViewPanorama.Rows.Count)
@@ -137,6 +163,36 @@ namespace OneStoryProjectEditor
                 dataGridViewPanorama.Rows[nSelectedRowIndex].Selected = true;
                 Modified = true;
             }
+        }
+
+        private void tabControlSets_Selected(object sender, TabControlEventArgs e)
+        {
+            TabPage tab = e.TabPage;
+            if (tab != null)
+            {
+                Properties.Settings.Default.LastPanoramaViewTabIndex = e.TabPageIndex;
+                if ((tab == tabPagePanorama) || (tab == tabPageObsolete))
+                {
+                    if (tab == tabPagePanorama)
+                        _stories = _storyProject[Properties.Resources.IDS_MainStoriesSet];
+                    else if (tab == tabPageObsolete)
+                        _stories = _storyProject[Properties.Resources.IDS_ObsoleteStoriesSet];
+                    InitParentTab(tab);
+                    InitGrid();
+                }
+            }
+        }
+
+        protected void InitParentTab(TabPage tab)
+        {
+            tableLayoutPanel.Parent = tab;
+            buttonCopyToOldStories.Enabled = (tab != tabPageObsolete);
+        }
+
+        private void richTextBoxPanoramaFrontMatter_TextChanged(object sender, EventArgs e)
+        {
+            Modified = true;
+            _storyProject.PanoramaFrontMatter = richTextBoxPanoramaFrontMatter.Rtf;
         }
 
         #region obsolete code

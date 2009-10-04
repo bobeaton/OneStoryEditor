@@ -13,7 +13,8 @@ namespace OneStoryProjectEditor
         public string ToolTipText = null;
         public ExegeticalHelpNotesData ExegeticalHelpNotes = null;
         public List<string> keyTerms = new List<string>();
-        public AnchorData(StoryProject.anchorRow theAnchorRow, StoryProject projFile)
+
+        public AnchorData(NewDataSet.anchorRow theAnchorRow, NewDataSet projFile)
         {
             JumpTarget = theAnchorRow.jumpTarget;
 
@@ -28,6 +29,15 @@ namespace OneStoryProjectEditor
             JumpTarget = strJumpTarget;
             ToolTipText = strComment;
             ExegeticalHelpNotes = new ExegeticalHelpNotesData();
+        }
+
+        public AnchorData(AnchorData rhs)
+        {
+            JumpTarget = rhs.JumpTarget;
+            ToolTipText = rhs.ToolTipText;
+            ExegeticalHelpNotes = new ExegeticalHelpNotesData(rhs.ExegeticalHelpNotes);
+            foreach (string str in rhs.keyTerms)
+                keyTerms.Add(str);
         }
 
         // match for things like "2Cor" and turn it into "2Co"
@@ -72,10 +82,10 @@ namespace OneStoryProjectEditor
     public class AnchorsData : List<AnchorData>
     {
         public bool IsKeyTermChecked = false;
-        public AnchorsData(StoryProject.verseRow theVerseRow, StoryProject projFile)
+        public AnchorsData(NewDataSet.verseRow theVerseRow, NewDataSet projFile)
         {
-            StoryProject.anchorsRow[] theAnchorsRows = theVerseRow.GetanchorsRows();
-            StoryProject.anchorsRow theAnchorsRow;
+            NewDataSet.anchorsRow[] theAnchorsRows = theVerseRow.GetanchorsRows();
+            NewDataSet.anchorsRow theAnchorsRow;
             if (theAnchorsRows.Length == 0)
                 theAnchorsRow = projFile.anchors.AddanchorsRow(false, theVerseRow);
             else
@@ -84,8 +94,15 @@ namespace OneStoryProjectEditor
             if (!theAnchorsRow.IskeyTermCheckedNull())
                 IsKeyTermChecked = theAnchorsRow.keyTermChecked;
 
-            foreach (StoryProject.anchorRow anAnchorRow in theAnchorsRow.GetanchorRows())
+            foreach (NewDataSet.anchorRow anAnchorRow in theAnchorsRow.GetanchorRows())
                 Add(new AnchorData(anAnchorRow, projFile));
+        }
+
+        public AnchorsData(AnchorsData rhs)
+        {
+            IsKeyTermChecked = rhs.IsKeyTermChecked;
+            foreach (AnchorData aAnchor in rhs)
+                Add(new AnchorData(aAnchor));
         }
 
         public AnchorsData()

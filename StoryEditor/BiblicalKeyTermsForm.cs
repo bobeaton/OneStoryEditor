@@ -18,7 +18,7 @@ namespace OneStoryProjectEditor
         protected List<Term> visibleTerms = new List<Term>();
         TermRenderingsList renderings;   // Rendering info for terms in target language
         TermLocalizations termLocalizations;   // Term info unique to UI language
-        StoriesData _theStories;
+        StoryProjectData _theStoryProject;
         BiblicalTermsHTMLBuilder htmlBuilder;  // Class used to build references window text as html
         string refererencesHtml;  // text loaded into html references browser
         private BiblicalTermsList _biblicalTerms;   // All Biblical terms
@@ -30,10 +30,10 @@ namespace OneStoryProjectEditor
             _theSE = theSE;
             InitializeComponent();
             _biblicalTerms = BiblicalTermsList.GetBiblicalTerms();
-            htmlBuilder = new BiblicalTermsHTMLBuilder(theSE.Stories.ProjSettings.Vernacular);
+            htmlBuilder = new BiblicalTermsHTMLBuilder(theSE.StoryProject.ProjSettings.Vernacular);
         }
 
-        public void Show(AnchorsData theAnchors, StoriesData theStories)
+        public void Show(AnchorsData theAnchors, StoryProjectData theStoryProject)
         {
             Show();
             Cursor curCursor = Cursor;
@@ -41,7 +41,7 @@ namespace OneStoryProjectEditor
 
             try
             {
-                _theStories = theStories;
+                _theStoryProject = theStoryProject;
 
                 List<string> lstRefs = new List<string>();
                 foreach (AnchorData anAnchor in theAnchors)
@@ -73,13 +73,13 @@ namespace OneStoryProjectEditor
                     return;
                 }
 
-                renderings = TermRenderingsList.GetTermRenderings(theStories.ProjSettings.ProjectFolder, theStories.ProjSettings.Vernacular.LangCode);
+                renderings = TermRenderingsList.GetTermRenderings(_theStoryProject.ProjSettings.ProjectFolder, _theStoryProject.ProjSettings.Vernacular.LangCode);
                 termLocalizations = TermLocalizations.Localizations;
 
                 ColumnTermLemma.DefaultCellStyle.Font = new Font("Charis SIL", 12);
                 ColumnStatus.DefaultCellStyle.Font = new Font("Wingdings", 11);
-                ColumnRenderings.DefaultCellStyle.Font = theStories.ProjSettings.Vernacular.LangFont;
-                ColumnRenderings.DefaultCellStyle.ForeColor = theStories.ProjSettings.Vernacular.FontColor;
+                ColumnRenderings.DefaultCellStyle.Font = _theStoryProject.ProjSettings.Vernacular.LangFont;
+                ColumnRenderings.DefaultCellStyle.ForeColor = _theStoryProject.ProjSettings.Vernacular.FontColor;
 
                 termIndexRequested = -1;
                 LoadTermsList();
@@ -465,10 +465,10 @@ namespace OneStoryProjectEditor
 			}
 
 			EditRenderingsForm form = new EditRenderingsForm(
-                _theStories.ProjSettings.Vernacular.LangFont,
+                _theStoryProject.ProjSettings.Vernacular.LangFont,
 				currentRenderings,
 				termRendering,
-                _theStories.ProjSettings.Vernacular.LangCode,
+                _theStoryProject.ProjSettings.Vernacular.LangCode,
 				termLocalization);
 
 			if (form.ShowDialog() == DialogResult.OK)
@@ -532,7 +532,7 @@ namespace OneStoryProjectEditor
 
             if (_lastTerm != myTerm)
             {
-                htmlBuilder.ReadVerseText(myTerm, vrefs, _theStories, progressBarLoadingKeyTerms);
+                htmlBuilder.ReadVerseText(myTerm, vrefs, _theStoryProject[Properties.Resources.IDS_MainStoriesSet], progressBarLoadingKeyTerms);
                 _lastTerm = myTerm;
             }
 
@@ -540,7 +540,7 @@ namespace OneStoryProjectEditor
 
             // Build HTML text for references display.
             refererencesHtml = htmlBuilder.Build(vrefs, myTerm.Id, 
-                _theStories.ProjSettings.ProjectFolder, _theStories.ProjSettings.Vernacular.LangCode, progressBarLoadingKeyTerms, out status);
+                _theStoryProject.ProjSettings.ProjectFolder, _theStoryProject.ProjSettings.Vernacular.LangCode, progressBarLoadingKeyTerms, out status);
 
             TermRendering termRendering = renderings.GetRendering(myTerm.Id);
             if (termRendering.Status != status)  // If status has changed, updated it.
@@ -568,7 +568,7 @@ namespace OneStoryProjectEditor
 
         public void DoClosingTasks()
         {
-            renderings.PromptForSave(_theStories.ProjSettings.ProjectFolder);
+            renderings.PromptForSave(_theStoryProject.ProjSettings.ProjectFolder);
         }
     }
 }

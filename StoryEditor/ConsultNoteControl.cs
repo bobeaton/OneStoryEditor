@@ -41,7 +41,7 @@ namespace OneStoryProjectEditor
             aCNDC.InsureExtraBox(eLoggedOnMemberType == theCollection.MentorType);
             int nNumRows = 1;
             foreach (CommInstance aCI in aCNDC)
-                if ((aCI.Direction == ConsultNoteDataConverter.CommunicationDirections.eConsultantToCrafter)
+                if ((aCI.Direction == ConsultNoteDataConverter.CommunicationDirections.eConsultantToProjFac)
                     || (aCI.Direction == ConsultNoteDataConverter.CommunicationDirections.eCoachToConsultant))
                     InitRow(aCNDC.MentorLabel, aCI, aCNDC.CommentColor, aCNDC.MentorRequiredEditor, ref nNumRows);
                 else

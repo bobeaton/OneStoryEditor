@@ -4,37 +4,37 @@
 	<xs:element name="StoryProject">
 		<xs:complexType>
 			<xs:sequence>
+				<xs:element name="Members" minOccurs="0" maxOccurs="1">
+					<xs:complexType>
+						<xs:choice maxOccurs="unbounded">
+							<xs:element name="Member" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:attribute name="name" type="xs:string" use="required" />
+									<xs:attribute name="memberType" type="MemberType" use="required" />
+									<xs:attribute name="email" type="xs:string" use="optional" />
+									<xs:attribute name="altPhone" type="xs:string" use="optional" />
+									<xs:attribute name="phone" type="xs:string" use="optional" />
+									<xs:attribute name="bioData" type="xs:string" use="optional" />
+									<xs:attribute name="skypeID" type="xs:string" use="optional" />
+									<xs:attribute name="teamViewerID" type="xs:string" use="optional" />
+									<xs:attribute name="memberKey" type="xs:ID" use="required" />
+								</xs:complexType>
+							</xs:element>
+						</xs:choice>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Languages" minOccurs="0" maxOccurs="1">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="VernacularLang" type="LanguageInfo" minOccurs="1" maxOccurs="1" />
+							<xs:element name="NationalBTLang" type="LanguageInfo" maxOccurs="1" />
+							<xs:element name="InternationalBTLang" type="LanguageInfo" maxOccurs="1" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 				<xs:element name="stories" minOccurs="1" maxOccurs="unbounded">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element name="Members" minOccurs="0" maxOccurs="1">
-								<xs:complexType>
-									<xs:choice maxOccurs="unbounded">
-										<xs:element name="Member" maxOccurs="unbounded">
-											<xs:complexType>
-												<xs:attribute name="name" type="xs:string" use="required" />
-												<xs:attribute name="memberType" type="MemberType" use="required" />
-												<xs:attribute name="email" type="xs:string" use="optional" />
-												<xs:attribute name="altPhone" type="xs:string" use="optional" />
-												<xs:attribute name="phone" type="xs:string" use="optional" />
-												<xs:attribute name="address" type="xs:string" use="optional" />
-												<xs:attribute name="skypeID" type="xs:string" use="optional" />
-												<xs:attribute name="teamViewerID" type="xs:string" use="optional" />
-												<xs:attribute name="memberKey" type="xs:ID" use="required" />
-											</xs:complexType>
-										</xs:element>
-									</xs:choice>
-								</xs:complexType>
-							</xs:element>
-							<xs:element name="Languages" minOccurs="0" maxOccurs="1">
-								<xs:complexType>
-									<xs:sequence>
-										<xs:element name="VernacularLang" type="LanguageInfo" minOccurs="1" maxOccurs="1" />
-										<xs:element name="NationalBTLang" type="LanguageInfo" maxOccurs="1" />
-										<xs:element name="InternationalBTLang" type="LanguageInfo" maxOccurs="1" />
-									</xs:sequence>
-								</xs:complexType>
-							</xs:element>
 							<xs:element name="story" minOccurs="0" maxOccurs="unbounded">
 								<xs:complexType>
 									<xs:sequence>
@@ -190,10 +190,12 @@
 								</xs:complexType>
 							</xs:element>
 						</xs:sequence>
-						<xs:attribute name="ProjectName" type="xs:string" use="required" />
+						<xs:attribute name="SetName" type="xs:string" use="required" />
 					</xs:complexType>
 				</xs:element>
 			</xs:sequence>
+			<xs:attribute name="ProjectName" type="xs:string" use="required" />
+			<xs:attribute name="PanoramaFrontMatter" type="xs:string" />
 		</xs:complexType>
 		<xs:key name="MemberKey" msdata:PrimaryKey="true">
 			<xs:selector xpath=".//Member" />
@@ -221,12 +223,12 @@
 	</xs:simpleType>
 	<xs:simpleType name="ProjectStages">
 		<xs:restriction base="xs:string">
-			<xs:enumeration value="CrafterTypeVernacular" />
-			<xs:enumeration value="CrafterTypeNationalBT" />
-			<xs:enumeration value="CrafterTypeInternationalBT" />
-			<xs:enumeration value="CrafterAddAnchors" />
-			<xs:enumeration value="CrafterCheckKeyTerms" />
-			<xs:enumeration value="CrafterAddStoryQuestions" />
+			<xs:enumeration value="ProjFacTypeVernacular" />
+			<xs:enumeration value="ProjFacTypeNationalBT" />
+			<xs:enumeration value="ProjFacTypeInternationalBT" />
+			<xs:enumeration value="ProjFacAddAnchors" />
+			<xs:enumeration value="ProjFacCheckKeyTerms" />
+			<xs:enumeration value="ProjFacAddStoryQuestions" />
 			<xs:enumeration value="BackTranslatorTypeInternationalBT" />
 			<xs:enumeration value="ConsultantCheckNonBiblicalStory" />
 			<xs:enumeration value="ConsultantCheckStoryInfo" />
@@ -234,21 +236,21 @@
 			<xs:enumeration value="ConsultantCheckStoryQuestions" />
 			<xs:enumeration value="CoachReviewRound1Notes" />
 			<xs:enumeration value="ConsultantReviseRound1Notes" />
-			<xs:enumeration value="CrafterReviseBasedOnRound1Notes" />
-			<xs:enumeration value="CrafterOnlineReview1WithConsultant" />
-			<xs:enumeration value="CrafterReadyForTest1" />
-			<xs:enumeration value="CrafterEnterAnswersToStoryQuestionsOfTest1" />
-			<xs:enumeration value="CrafterEnterRetellingOfTest1" />
+			<xs:enumeration value="ProjFacReviseBasedOnRound1Notes" />
+			<xs:enumeration value="ProjFacOnlineReview1WithConsultant" />
+			<xs:enumeration value="ProjFacReadyForTest1" />
+			<xs:enumeration value="ProjFacEnterAnswersToStoryQuestionsOfTest1" />
+			<xs:enumeration value="ProjFacEnterRetellingOfTest1" />
 			<xs:enumeration value="ConsultantCheckAnchorsRound2" />
 			<xs:enumeration value="ConsultantCheckAnswersToTestingQuestionsRound2" />
 			<xs:enumeration value="ConsultantCheckRetellingRound2" />
 			<xs:enumeration value="CoachReviewRound2Notes" />
 			<xs:enumeration value="ConsultantReviseRound2Notes" />
-			<xs:enumeration value="CrafterReviseBasedOnRound2Notes" />
-			<xs:enumeration value="CrafterOnlineReview2WithConsultant" />
-			<xs:enumeration value="CrafterReadyForTest2" />
-			<xs:enumeration value="CrafterEnterAnswersToStoryQuestionsOfTest2" />
-			<xs:enumeration value="CrafterEnterRetellingOfTest2" />
+			<xs:enumeration value="ProjFacReviseBasedOnRound2Notes" />
+			<xs:enumeration value="ProjFacOnlineReview2WithConsultant" />
+			<xs:enumeration value="ProjFacReadyForTest2" />
+			<xs:enumeration value="ProjFacEnterAnswersToStoryQuestionsOfTest2" />
+			<xs:enumeration value="ProjFacEnterRetellingOfTest2" />
 			<xs:enumeration value="ConsultantReviewTest2" />
 			<xs:enumeration value="CoachReviewTest2Notes" />
 			<xs:enumeration value="TeamComplete" />
@@ -267,8 +269,8 @@
 	</xs:complexType>
 	<xs:simpleType name="FromTo">
 		<xs:restriction base="xs:string">
-			<xs:enumeration value="ConsultantToCrafter" />
-			<xs:enumeration value="CrafterToConsultant" />
+			<xs:enumeration value="ConsultantToProjFac" />
+			<xs:enumeration value="ProjFacToConsultant" />
 			<xs:enumeration value="ConsultantToCoach" />
 			<xs:enumeration value="CoachToConsultant" />
 		</xs:restriction>
