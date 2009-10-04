@@ -36,7 +36,7 @@ namespace OneStoryProjectEditor
 
             try
             {
-                Application.Run(new StoryEditor());
+                Application.Run(new StoryEditor(Properties.Resources.IDS_MainStoriesSet));
             }
             catch (Exception ex)
             {

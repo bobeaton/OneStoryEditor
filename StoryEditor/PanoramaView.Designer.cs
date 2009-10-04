@@ -35,7 +35,6 @@
             this.tabPageFrontMatter = new System.Windows.Forms.TabPage();
             this.tabPagePanorama = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.buttonMoveDown = new System.Windows.Forms.Button();
             this.dataGridViewPanorama = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -44,6 +43,7 @@
             this.buttonMoveUp = new System.Windows.Forms.Button();
             this.buttonDelete = new System.Windows.Forms.Button();
             this.buttonCopyToOldStories = new System.Windows.Forms.Button();
+            this.buttonMoveDown = new System.Windows.Forms.Button();
             this.tabPageObsolete = new System.Windows.Forms.TabPage();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tabControlSets.SuspendLayout();
@@ -204,7 +204,9 @@
             this.buttonCopyToOldStories.Name = "buttonCopyToOldStories";
             this.buttonCopyToOldStories.Size = new System.Drawing.Size(26, 23);
             this.buttonCopyToOldStories.TabIndex = 3;
-            this.toolTip.SetToolTip(this.buttonCopyToOldStories, "Copy the selected story to the \"Old Stories\" list");
+            this.toolTip.SetToolTip(this.buttonCopyToOldStories, "Copy the selected story to the \"Old Stories\" list. Then you can use the \'View\' me" +
+                    "nu, \'View Old Stories\' command (from the main window) to view stories in the \'Ol" +
+                    "d Stories\' list.");
             this.buttonCopyToOldStories.UseVisualStyleBackColor = true;
             this.buttonCopyToOldStories.Click += new System.EventHandler(this.buttonCopyToOldStories_Click);
             // 

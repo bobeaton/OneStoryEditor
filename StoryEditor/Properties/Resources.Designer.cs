@@ -327,6 +327,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to OneStory Editor -- {0} Story Project -- Viewing Old Stories.
+        /// </summary>
+        internal static string IDS_MainFrameTitleOldStories {
+            get {
+                return ResourceManager.GetString("IDS_MainFrameTitleOldStories", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Stories.
         /// </summary>
         internal static string IDS_MainStoriesSet {

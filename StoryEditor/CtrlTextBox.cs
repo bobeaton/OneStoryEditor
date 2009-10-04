@@ -73,6 +73,9 @@ namespace OneStoryProjectEditor
                 // certain keys (like arrow keys), we just want to allow in any case.
                 if (!IsKeyAutomaticallyAllowed(theSE, e))
                 {
+                    if (!theSE.IsInStoriesSet)
+                        throw theSE.CantEditOldStoriesEx;
+
                     // if the creator has defined a particular required editor (e.g. for consultant notes,
                     //  the *mentor* must be a *consultant*), then throw if we don't have one and always
                     //  allow the edit otherwise (since no one else can, we don't have to worry about conflicts).

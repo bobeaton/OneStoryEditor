@@ -169,7 +169,10 @@ namespace OneStoryProjectEditor
             {
                 if (theSE == null)
                     throw new ApplicationException(
-                        "Unable to edit the file! Reboot and if it persists, contact bob_eaton@sall.com");
+                        "Unable to edit the file! Restart the program and if it persists, contact bob_eaton@sall.com");
+
+                if (!theSE.IsInStoriesSet)
+                    throw theSE.CantEditOldStoriesEx;
 
                 if (!theSE.theCurrentStory.ProjStage.IsEditAllowed(theSE.LoggedOnMember))
                     throw theSE.theCurrentStory.ProjStage.WrongMemberTypeEx;

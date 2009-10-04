@@ -21,15 +21,20 @@ namespace OneStoryProjectEditor
 
         internal StoryProjectData StoryProject;
         internal StoryData theCurrentStory;
+        protected string _strStoriesSet;
 
         // we keep a copy of this, because it ought to persist across multiple files
-        internal TeamMemberData LoggedOnMember = null;
+        internal TeamMemberData LoggedOnMember;
+        internal bool Modified;
 
-        internal bool Modified = false;
-
-        public StoryEditor()
+        public StoryEditor(string strStoriesSet)
         {
+            _strStoriesSet = strStoriesSet;
+
             InitializeComponent();
+
+            toolStripMenuItemShowPanorama.Visible = IsInStoriesSet;
+
             try
             {
                 InitializeNetBibleViewer();
@@ -48,6 +53,25 @@ namespace OneStoryProjectEditor
                     OpenProject(Properties.Settings.Default.LastProjectPath, Properties.Settings.Default.LastProject);
             }
             catch { }   // this was only a bene anyway, so just ignore it
+        }
+
+        protected StoriesData TheCurrentStoriesSet
+        {
+            get
+            {
+                Debug.Assert((StoryProject != null) && !String.IsNullOrEmpty(_strStoriesSet) && (StoryProject[_strStoriesSet] != null));
+                return StoryProject[_strStoriesSet];
+            }
+        }
+
+        internal bool IsInStoriesSet
+        {
+            get { return (_strStoriesSet != Properties.Resources.IDS_ObsoleteStoriesSet); }
+        }
+
+        internal ApplicationException CantEditOldStoriesEx
+        {
+            get { return new ApplicationException("The stories are not editable in the 'Old Stories' set"); }
         }
 
         // this is now browse for project in non-default location.
@@ -272,12 +296,10 @@ namespace OneStoryProjectEditor
                 buttonsStoryStage.Enabled = true;
 
                 string strStoryToLoad = null;
-                if (StoryProject.Count > 0)
+                if (TheCurrentStoriesSet.Count > 0)
                 {
-                    // populate the combo boxes with all the existing story names
-                    foreach (StoryData aStory in StoryProject[Properties.Resources.IDS_MainStoriesSet])
-                        comboBoxStorySelector.Items.Add(aStory.Name);
-                    strStoryToLoad = StoryProject[Properties.Resources.IDS_MainStoriesSet][0].Name;    // default
+                    LoadComboBox();
+                    strStoryToLoad = TheCurrentStoriesSet[0].Name;    // default
                 }
 
                 // check for project settings that might have been saved from a previous session
@@ -298,6 +320,13 @@ namespace OneStoryProjectEditor
                     ((ex.InnerException != null) ? ex.InnerException.Message : ""), ex.Message);
                 MessageBox.Show(strErrorMsg,  Properties.Resources.IDS_Caption);
             }
+        }
+
+        protected void LoadComboBox()
+        {
+            // populate the combo boxes with all the existing story names
+            foreach (StoryData aStory in TheCurrentStoriesSet)
+                comboBoxStorySelector.Items.Add(aStory.Name);
         }
 
         protected StoryProjectData GetOldStoryProjectData(NewDataSet projFile, ProjectSettings projSettings)
@@ -346,9 +375,9 @@ namespace OneStoryProjectEditor
             strStoryName = Microsoft.VisualBasic.Interaction.InputBox(Properties.Resources.IDS_EnterStoryToAdd, Properties.Resources.IDS_Caption, null, 300, 200);
             if (!String.IsNullOrEmpty(strStoryName))
             {
-                if (StoryProject[Properties.Resources.IDS_MainStoriesSet].Count > 0)
+                if (TheCurrentStoriesSet.Count > 0)
                 {
-                    foreach (StoryData aStory in StoryProject[Properties.Resources.IDS_MainStoriesSet])
+                    foreach (StoryData aStory in TheCurrentStoriesSet)
                         if (aStory.Name == strStoryName)
                         {
                             // if they already have a story by that name, just go there
@@ -357,7 +386,7 @@ namespace OneStoryProjectEditor
                         }
                         else if (aStory.Name == theCurrentStory.Name)
                         {
-                            nIndexForInsert = StoryProject[Properties.Resources.IDS_MainStoriesSet].IndexOf(aStory);
+                            nIndexForInsert = TheCurrentStoriesSet.IndexOf(aStory);
                             return true;
                         }
                 }
@@ -410,9 +439,9 @@ namespace OneStoryProjectEditor
                 int nInsertIndex = 0;
                 StoryData theStory = null;
                 string strStoryToLoad = comboBoxStorySelector.Text;
-                for (int i = 0; i < StoryProject[Properties.Resources.IDS_MainStoriesSet].Count; i++)
+                for (int i = 0; i < TheCurrentStoriesSet.Count; i++)
                 {
-                    StoryData aStory = StoryProject[Properties.Resources.IDS_MainStoriesSet][i];
+                    StoryData aStory = TheCurrentStoriesSet[i];
                     if ((theCurrentStory != null) && (theCurrentStory == aStory))
                         nInsertIndex = i + 1;
                     if (aStory.Name == strStoryToLoad)
@@ -452,7 +481,7 @@ namespace OneStoryProjectEditor
 
             comboBoxStorySelector.Items.Insert(nIndexToInsert, strStoryName);
             theCurrentStory = new StoryData(strStoryName, strCrafterGuid, (res == DialogResult.Yes));
-            StoryProject[Properties.Resources.IDS_MainStoriesSet].Insert(nIndexToInsert, theCurrentStory);
+            TheCurrentStoriesSet.Insert(nIndexToInsert, theCurrentStory);
             comboBoxStorySelector.SelectedItem = strStoryName;
         }
 
@@ -472,19 +501,27 @@ namespace OneStoryProjectEditor
                     return;
 
             // find the story they've chosen (this shouldn't be possible to fail)
-            foreach (StoryData aStory in StoryProject[Properties.Resources.IDS_MainStoriesSet])
+            foreach (StoryData aStory in TheCurrentStoriesSet)
                 if (aStory.Name == (string)comboBoxStorySelector.SelectedItem)
                 {
                     theCurrentStory = aStory;
                     break;
                 }
             Debug.Assert(theCurrentStory != null);
-            Properties.Settings.Default.LastStoryWorkedOn = theCurrentStory.Name;
-            Properties.Settings.Default.Save();
+            if (IsInStoriesSet)
+            {
+                Properties.Settings.Default.LastStoryWorkedOn = theCurrentStory.Name;
+                Properties.Settings.Default.Save();
+
+                Text = String.Format(Properties.Resources.IDS_MainFrameTitle, StoryProject.ProjSettings.ProjectName);
+            }
+            else
+            {
+                Text = String.Format(Properties.Resources.IDS_MainFrameTitleOldStories, StoryProject.ProjSettings.ProjectName);
+            }
 
             // initialize the text box showing the storying they're editing
             textBoxStoryVerse.Text = Properties.Resources.IDS_StoryColon + theCurrentStory.Name;
-            this.Text = String.Format(Properties.Resources.IDS_MainFrameTitle, StoryProject.ProjSettings.ProjectName);
 
             // initialize the project stage details (which might hide certain views)
             //  (do this *after* initializing the whole thing, because if we save, we'll
@@ -494,7 +531,8 @@ namespace OneStoryProjectEditor
             // finally, initialize the verse controls
             InitAllPanes();
 
-            CheckForProperMemberType();
+            if (IsInStoriesSet)
+                CheckForProperMemberType();
 
             // get the focus off the combo box, so mouse scroll doesn't rip thru the stories!
             flowLayoutPanelVerses.Focus();
@@ -838,6 +876,9 @@ namespace OneStoryProjectEditor
 
         private void CheckForSaveDirtyFile()
         {
+            if (!IsInStoriesSet)
+                return;
+
             if (Modified)
             {
                 DialogResult res = MessageBox.Show(Properties.Resources.IDS_SaveChanges, Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
@@ -863,7 +904,7 @@ namespace OneStoryProjectEditor
 
         internal void SaveClicked()
         {
-            if (!Modified || (StoryProject == null) || (StoryProject.ProjSettings == null))
+            if (!IsInStoriesSet || !Modified || (StoryProject == null) || (StoryProject.ProjSettings == null))
                 return;
 
             string strFilename = StoryProject.ProjSettings.ProjectFileName;
@@ -1073,16 +1114,27 @@ namespace OneStoryProjectEditor
 
         private void projectToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
-            recentProjectsToolStripMenuItem.DropDownItems.Clear();
-            Debug.Assert(Properties.Settings.Default.RecentProjects.Count == Properties.Settings.Default.RecentProjectPaths.Count);
-            for (int i = 0; i < Properties.Settings.Default.RecentProjects.Count; i++)
+            if (IsInStoriesSet)
             {
-                string strRecentFile = Properties.Settings.Default.RecentProjects[i];
-                ToolStripItem tsi = recentProjectsToolStripMenuItem.DropDownItems.Add(strRecentFile, null, recentProjectsToolStripMenuItem_Click);
-                tsi.ToolTipText = String.Format(Properties.Resources.IDS_LocatedInFolder, Properties.Settings.Default.RecentProjectPaths[i]);
-            }
+                recentProjectsToolStripMenuItem.DropDownItems.Clear();
+                Debug.Assert(Properties.Settings.Default.RecentProjects.Count == Properties.Settings.Default.RecentProjectPaths.Count);
+                for (int i = 0; i < Properties.Settings.Default.RecentProjects.Count; i++)
+                {
+                    string strRecentFile = Properties.Settings.Default.RecentProjects[i];
+                    ToolStripItem tsi = recentProjectsToolStripMenuItem.DropDownItems.Add(strRecentFile, null, recentProjectsToolStripMenuItem_Click);
+                    tsi.ToolTipText = String.Format(Properties.Resources.IDS_LocatedInFolder, Properties.Settings.Default.RecentProjectPaths[i]);
+                }
 
-            recentProjectsToolStripMenuItem.Enabled = (recentProjectsToolStripMenuItem.DropDownItems.Count > 0);
+                recentProjectsToolStripMenuItem.Enabled = (recentProjectsToolStripMenuItem.DropDownItems.Count > 0);
+            }
+            else
+            {
+                recentProjectsToolStripMenuItem.Enabled = false;
+                newToolStripMenuItem.Enabled = false;
+                saveToolStripMenuItem.Enabled = false;
+                browseForProjectToolStripMenuItem.Enabled = false;
+                teamMembersToolStripMenuItem.Enabled = false;
+            }
         }
 
         private void recentProjectsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1269,9 +1321,9 @@ namespace OneStoryProjectEditor
         {
             enterTheReasonThisStoryIsInTheSetToolStripMenuItem.Enabled = ((theCurrentStory != null) &&
                                                                           (theCurrentStory.CraftingInfo != null));
-            deleteStoryToolStripMenuItem.Enabled = (theCurrentStory != null);
+            deleteStoryToolStripMenuItem.Enabled = (IsInStoriesSet && (theCurrentStory != null));
             insertNewStoryToolStripMenuItem.Enabled = addNewStoryAfterToolStripMenuItem.Enabled =
-                ((StoryProject != null) && (LoggedOnMember != null));
+                (IsInStoriesSet && (StoryProject != null) && (LoggedOnMember != null));
 
             exportStoryToolStripMenuItem.Enabled =
                 exportToAdaptItToolStripMenuItem.Enabled =
@@ -1320,7 +1372,7 @@ namespace OneStoryProjectEditor
             {
                 // this means that the order was probably switched, so we have to reload the combo box
                 comboBoxStorySelector.Items.Clear();
-                foreach (StoryData aStory in StoryProject[Properties.Resources.IDS_MainStoriesSet])
+                foreach (StoryData aStory in TheCurrentStoriesSet)
                     comboBoxStorySelector.Items.Add(aStory.Name);
 
                 Modified = true;
@@ -1333,19 +1385,19 @@ namespace OneStoryProjectEditor
             if (theCurrentStory == null)
                 return;
 
-            int nIndex = StoryProject[Properties.Resources.IDS_MainStoriesSet].IndexOf(theCurrentStory);
+            int nIndex = TheCurrentStoriesSet.IndexOf(theCurrentStory);
             Debug.Assert(nIndex != -1);
             if (nIndex == -1)
                 return;
 
-            StoryProject[Properties.Resources.IDS_MainStoriesSet].RemoveAt(nIndex);
+            TheCurrentStoriesSet.RemoveAt(nIndex);
             Debug.Assert(comboBoxStorySelector.Items.IndexOf(theCurrentStory.Name) == nIndex);
             comboBoxStorySelector.Items.Remove(theCurrentStory.Name);
 
             if (nIndex > 0)
                 nIndex--;
-            if (nIndex < StoryProject[Properties.Resources.IDS_MainStoriesSet].Count)
-                comboBoxStorySelector.SelectedItem = StoryProject[Properties.Resources.IDS_MainStoriesSet][nIndex].Name;
+            if (nIndex < TheCurrentStoriesSet.Count)
+                comboBoxStorySelector.SelectedItem = TheCurrentStoriesSet[nIndex].Name;
             else
                 ClearState();
             Modified = true;
@@ -1377,10 +1429,13 @@ namespace OneStoryProjectEditor
             copyToolStripMenuItem.Enabled =
                 copyNationalBackTranslationToolStripMenuItem.Enabled =
                 copyEnglishBackTranslationToolStripMenuItem.Enabled =
-                deleteBackTranslationToolStripMenuItem.Enabled = 
-                deleteStoryNationalBackTranslationToolStripMenuItem.Enabled =
-                deleteEnglishBacktranslationToolStripMenuItem.Enabled = 
                 ((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
+
+            deleteBackTranslationToolStripMenuItem.Enabled =
+                deleteStoryNationalBackTranslationToolStripMenuItem.Enabled =
+                deleteEnglishBacktranslationToolStripMenuItem.Enabled =
+                pasteToolStripMenuItem.Enabled = 
+                (IsInStoriesSet && (theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
 
             if ((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0))
             {
@@ -1791,6 +1846,29 @@ namespace OneStoryProjectEditor
                 viewNationalLangFieldMenuItem.Visible = (StoryProject.ProjSettings.NationalBT.HasData);
                 viewEnglishBTFieldMenuItem.Visible = (StoryProject.ProjSettings.InternationalBT.HasData);
             }
+
+            if (IsInStoriesSet)
+            {
+                if (StoryProject[Properties.Resources.IDS_ObsoleteStoriesSet] != null)
+                {
+                    viewOldStoriesToolStripMenuItem.DropDownItems.Clear();
+                    foreach (StoryData aStory in StoryProject[Properties.Resources.IDS_ObsoleteStoriesSet])
+                        viewOldStoriesToolStripMenuItem.DropDownItems.Add(aStory.Name, null, onClickViewOldStory);
+                }
+            }
+            else
+                viewOldStoriesToolStripMenuItem.Enabled = false;
+        }
+
+        private void onClickViewOldStory(object sender, EventArgs e)
+        {
+            ToolStripItem tsi = sender as ToolStripItem;
+            StoryEditor theOldStoryEditor = new StoryEditor(Properties.Resources.IDS_ObsoleteStoriesSet);
+            theOldStoryEditor.StoryProject = StoryProject;
+            theOldStoryEditor.LoggedOnMember = LoggedOnMember;
+            theOldStoryEditor.Show(this);
+            theOldStoryEditor.LoadComboBox();
+            theOldStoryEditor.comboBoxStorySelector.SelectedItem = tsi.Text;
         }
 
         private void viewNetBibleMenuItem_Click(object sender, EventArgs e)
