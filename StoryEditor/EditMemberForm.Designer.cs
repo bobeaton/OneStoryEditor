@@ -36,7 +36,8 @@
             this.radioButtonEnglishBackTranslator = new System.Windows.Forms.RadioButton();
             this.radioButtonJustViewing = new System.Windows.Forms.RadioButton();
             this.radioButtonCoach = new System.Windows.Forms.RadioButton();
-            this.radioButtonConsultantInTraining = new System.Windows.Forms.RadioButton();
+            this.radioButtonProjectFacilitator = new System.Windows.Forms.RadioButton();
+            this.radioButtonFirstPassMentor = new System.Windows.Forms.RadioButton();
             this.radioButtonUNS = new System.Windows.Forms.RadioButton();
             this.radioButtonStoryCrafter = new System.Windows.Forms.RadioButton();
             this.labelEmail = new System.Windows.Forms.Label();
@@ -53,7 +54,7 @@
             this.textBoxBioData = new System.Windows.Forms.TextBox();
             this.buttonOK = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
-            this.radioButtonProjectFacilitator = new System.Windows.Forms.RadioButton();
+            this.radioButtonConsultantInTraining = new System.Windows.Forms.RadioButton();
             this.tableLayoutPanelMemberInformation.SuspendLayout();
             this.groupBoxRole.SuspendLayout();
             this.SuspendLayout();
@@ -123,11 +124,12 @@
             this.groupBoxRole.Controls.Add(this.radioButtonCoach);
             this.groupBoxRole.Controls.Add(this.radioButtonProjectFacilitator);
             this.groupBoxRole.Controls.Add(this.radioButtonConsultantInTraining);
+            this.groupBoxRole.Controls.Add(this.radioButtonFirstPassMentor);
             this.groupBoxRole.Controls.Add(this.radioButtonUNS);
             this.groupBoxRole.Controls.Add(this.radioButtonStoryCrafter);
             this.groupBoxRole.Location = new System.Drawing.Point(92, 29);
             this.groupBoxRole.Name = "groupBoxRole";
-            this.groupBoxRole.Size = new System.Drawing.Size(352, 186);
+            this.groupBoxRole.Size = new System.Drawing.Size(352, 122);
             this.groupBoxRole.TabIndex = 3;
             this.groupBoxRole.TabStop = false;
             this.groupBoxRole.Text = "What role do you have in the team?";
@@ -135,7 +137,7 @@
             // radioButtonEnglishBackTranslator
             // 
             this.radioButtonEnglishBackTranslator.AutoSize = true;
-            this.radioButtonEnglishBackTranslator.Location = new System.Drawing.Point(68, 43);
+            this.radioButtonEnglishBackTranslator.Location = new System.Drawing.Point(30, 66);
             this.radioButtonEnglishBackTranslator.Name = "radioButtonEnglishBackTranslator";
             this.radioButtonEnglishBackTranslator.Size = new System.Drawing.Size(132, 17);
             this.radioButtonEnglishBackTranslator.TabIndex = 2;
@@ -146,7 +148,7 @@
             // radioButtonJustViewing
             // 
             this.radioButtonJustViewing.AutoSize = true;
-            this.radioButtonJustViewing.Location = new System.Drawing.Point(68, 158);
+            this.radioButtonJustViewing.Location = new System.Drawing.Point(195, 88);
             this.radioButtonJustViewing.Name = "radioButtonJustViewing";
             this.radioButtonJustViewing.Size = new System.Drawing.Size(85, 17);
             this.radioButtonJustViewing.TabIndex = 7;
@@ -157,7 +159,7 @@
             // radioButtonCoach
             // 
             this.radioButtonCoach.AutoSize = true;
-            this.radioButtonCoach.Location = new System.Drawing.Point(68, 135);
+            this.radioButtonCoach.Location = new System.Drawing.Point(195, 65);
             this.radioButtonCoach.Name = "radioButtonCoach";
             this.radioButtonCoach.Size = new System.Drawing.Size(56, 17);
             this.radioButtonCoach.TabIndex = 6;
@@ -165,21 +167,32 @@
             this.radioButtonCoach.Text = "Coac&h";
             this.radioButtonCoach.UseVisualStyleBackColor = true;
             // 
-            // radioButtonConsultantInTraining
+            // radioButtonProjectFacilitator
             // 
-            this.radioButtonConsultantInTraining.AutoSize = true;
-            this.radioButtonConsultantInTraining.Location = new System.Drawing.Point(68, 112);
-            this.radioButtonConsultantInTraining.Name = "radioButtonConsultantInTraining";
-            this.radioButtonConsultantInTraining.Size = new System.Drawing.Size(58, 17);
-            this.radioButtonConsultantInTraining.TabIndex = 5;
-            this.radioButtonConsultantInTraining.TabStop = true;
-            this.radioButtonConsultantInTraining.Text = "&Mentor";
-            this.radioButtonConsultantInTraining.UseVisualStyleBackColor = true;
+            this.radioButtonProjectFacilitator.AutoSize = true;
+            this.radioButtonProjectFacilitator.Location = new System.Drawing.Point(30, 89);
+            this.radioButtonProjectFacilitator.Name = "radioButtonProjectFacilitator";
+            this.radioButtonProjectFacilitator.Size = new System.Drawing.Size(106, 17);
+            this.radioButtonProjectFacilitator.TabIndex = 4;
+            this.radioButtonProjectFacilitator.TabStop = true;
+            this.radioButtonProjectFacilitator.Text = "&Project Facilitator";
+            this.radioButtonProjectFacilitator.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonFirstPassMentor
+            // 
+            this.radioButtonFirstPassMentor.AutoSize = true;
+            this.radioButtonFirstPassMentor.Location = new System.Drawing.Point(195, 19);
+            this.radioButtonFirstPassMentor.Name = "radioButtonFirstPassMentor";
+            this.radioButtonFirstPassMentor.Size = new System.Drawing.Size(106, 17);
+            this.radioButtonFirstPassMentor.TabIndex = 5;
+            this.radioButtonFirstPassMentor.TabStop = true;
+            this.radioButtonFirstPassMentor.Text = "&First Pass Mentor";
+            this.radioButtonFirstPassMentor.UseVisualStyleBackColor = true;
             // 
             // radioButtonUNS
             // 
             this.radioButtonUNS.AutoSize = true;
-            this.radioButtonUNS.Location = new System.Drawing.Point(68, 66);
+            this.radioButtonUNS.Location = new System.Drawing.Point(30, 43);
             this.radioButtonUNS.Name = "radioButtonUNS";
             this.radioButtonUNS.Size = new System.Drawing.Size(126, 17);
             this.radioButtonUNS.TabIndex = 3;
@@ -190,7 +203,7 @@
             // 
             this.radioButtonStoryCrafter.AutoSize = true;
             this.radioButtonStoryCrafter.Checked = true;
-            this.radioButtonStoryCrafter.Location = new System.Drawing.Point(68, 19);
+            this.radioButtonStoryCrafter.Location = new System.Drawing.Point(30, 19);
             this.radioButtonStoryCrafter.Name = "radioButtonStoryCrafter";
             this.radioButtonStoryCrafter.Size = new System.Drawing.Size(83, 17);
             this.radioButtonStoryCrafter.TabIndex = 1;
@@ -202,7 +215,7 @@
             // 
             this.labelEmail.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelEmail.AutoSize = true;
-            this.labelEmail.Location = new System.Drawing.Point(3, 224);
+            this.labelEmail.Location = new System.Drawing.Point(3, 160);
             this.labelEmail.Name = "labelEmail";
             this.labelEmail.Size = new System.Drawing.Size(35, 13);
             this.labelEmail.TabIndex = 4;
@@ -211,7 +224,7 @@
             // textBoxEmail
             // 
             this.textBoxEmail.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxEmail.Location = new System.Drawing.Point(92, 221);
+            this.textBoxEmail.Location = new System.Drawing.Point(92, 157);
             this.textBoxEmail.Name = "textBoxEmail";
             this.textBoxEmail.Size = new System.Drawing.Size(352, 20);
             this.textBoxEmail.TabIndex = 8;
@@ -220,7 +233,7 @@
             // 
             this.labelPhoneNumber.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelPhoneNumber.AutoSize = true;
-            this.labelPhoneNumber.Location = new System.Drawing.Point(3, 250);
+            this.labelPhoneNumber.Location = new System.Drawing.Point(3, 186);
             this.labelPhoneNumber.Name = "labelPhoneNumber";
             this.labelPhoneNumber.Size = new System.Drawing.Size(41, 13);
             this.labelPhoneNumber.TabIndex = 6;
@@ -229,7 +242,7 @@
             // textBoxPhoneNumber
             // 
             this.textBoxPhoneNumber.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxPhoneNumber.Location = new System.Drawing.Point(92, 247);
+            this.textBoxPhoneNumber.Location = new System.Drawing.Point(92, 183);
             this.textBoxPhoneNumber.Name = "textBoxPhoneNumber";
             this.textBoxPhoneNumber.Size = new System.Drawing.Size(352, 20);
             this.textBoxPhoneNumber.TabIndex = 9;
@@ -238,7 +251,7 @@
             // 
             this.labelAltPhone.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelAltPhone.AutoSize = true;
-            this.labelAltPhone.Location = new System.Drawing.Point(3, 276);
+            this.labelAltPhone.Location = new System.Drawing.Point(3, 212);
             this.labelAltPhone.Name = "labelAltPhone";
             this.labelAltPhone.Size = new System.Drawing.Size(56, 13);
             this.labelAltPhone.TabIndex = 8;
@@ -247,7 +260,7 @@
             // textBoxAltPhone
             // 
             this.textBoxAltPhone.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxAltPhone.Location = new System.Drawing.Point(92, 273);
+            this.textBoxAltPhone.Location = new System.Drawing.Point(92, 209);
             this.textBoxAltPhone.Name = "textBoxAltPhone";
             this.textBoxAltPhone.Size = new System.Drawing.Size(352, 20);
             this.textBoxAltPhone.TabIndex = 10;
@@ -256,7 +269,7 @@
             // 
             this.labelSkype.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelSkype.AutoSize = true;
-            this.labelSkype.Location = new System.Drawing.Point(3, 302);
+            this.labelSkype.Location = new System.Drawing.Point(3, 238);
             this.labelSkype.Name = "labelSkype";
             this.labelSkype.Size = new System.Drawing.Size(54, 13);
             this.labelSkype.TabIndex = 10;
@@ -265,7 +278,7 @@
             // textBoxSkypeID
             // 
             this.textBoxSkypeID.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxSkypeID.Location = new System.Drawing.Point(92, 299);
+            this.textBoxSkypeID.Location = new System.Drawing.Point(92, 235);
             this.textBoxSkypeID.Name = "textBoxSkypeID";
             this.textBoxSkypeID.Size = new System.Drawing.Size(352, 20);
             this.textBoxSkypeID.TabIndex = 11;
@@ -274,7 +287,7 @@
             // 
             this.labelTeamViewerID.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelTeamViewerID.AutoSize = true;
-            this.labelTeamViewerID.Location = new System.Drawing.Point(3, 328);
+            this.labelTeamViewerID.Location = new System.Drawing.Point(3, 264);
             this.labelTeamViewerID.Name = "labelTeamViewerID";
             this.labelTeamViewerID.Size = new System.Drawing.Size(83, 13);
             this.labelTeamViewerID.TabIndex = 12;
@@ -283,7 +296,7 @@
             // textBoxTeamViewer
             // 
             this.textBoxTeamViewer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxTeamViewer.Location = new System.Drawing.Point(92, 325);
+            this.textBoxTeamViewer.Location = new System.Drawing.Point(92, 261);
             this.textBoxTeamViewer.Name = "textBoxTeamViewer";
             this.textBoxTeamViewer.Size = new System.Drawing.Size(352, 20);
             this.textBoxTeamViewer.TabIndex = 12;
@@ -291,7 +304,7 @@
             // labelBioData
             // 
             this.labelBioData.AutoSize = true;
-            this.labelBioData.Location = new System.Drawing.Point(3, 348);
+            this.labelBioData.Location = new System.Drawing.Point(3, 284);
             this.labelBioData.Name = "labelBioData";
             this.labelBioData.Size = new System.Drawing.Size(25, 13);
             this.labelBioData.TabIndex = 14;
@@ -301,10 +314,10 @@
             // textBoxBioData
             // 
             this.textBoxBioData.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxBioData.Location = new System.Drawing.Point(92, 351);
+            this.textBoxBioData.Location = new System.Drawing.Point(92, 287);
             this.textBoxBioData.Multiline = true;
             this.textBoxBioData.Name = "textBoxBioData";
-            this.textBoxBioData.Size = new System.Drawing.Size(352, 96);
+            this.textBoxBioData.Size = new System.Drawing.Size(352, 160);
             this.textBoxBioData.TabIndex = 13;
             // 
             // buttonOK
@@ -329,16 +342,16 @@
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
             // 
-            // radioButtonProjectFacilitator
+            // radioButtonConsultantInTraining
             // 
-            this.radioButtonProjectFacilitator.AutoSize = true;
-            this.radioButtonProjectFacilitator.Location = new System.Drawing.Point(68, 89);
-            this.radioButtonProjectFacilitator.Name = "radioButtonProjectFacilitator";
-            this.radioButtonProjectFacilitator.Size = new System.Drawing.Size(106, 17);
-            this.radioButtonProjectFacilitator.TabIndex = 4;
-            this.radioButtonProjectFacilitator.TabStop = true;
-            this.radioButtonProjectFacilitator.Text = "&Project Facilitator";
-            this.radioButtonProjectFacilitator.UseVisualStyleBackColor = true;
+            this.radioButtonConsultantInTraining.AutoSize = true;
+            this.radioButtonConsultantInTraining.Location = new System.Drawing.Point(195, 42);
+            this.radioButtonConsultantInTraining.Name = "radioButtonConsultantInTraining";
+            this.radioButtonConsultantInTraining.Size = new System.Drawing.Size(127, 17);
+            this.radioButtonConsultantInTraining.TabIndex = 5;
+            this.radioButtonConsultantInTraining.TabStop = true;
+            this.radioButtonConsultantInTraining.Text = "&Consultant in Training";
+            this.radioButtonConsultantInTraining.UseVisualStyleBackColor = true;
             // 
             // EditMemberForm
             // 
@@ -369,7 +382,7 @@
         private System.Windows.Forms.GroupBox groupBoxRole;
         private System.Windows.Forms.RadioButton radioButtonJustViewing;
         private System.Windows.Forms.RadioButton radioButtonCoach;
-        private System.Windows.Forms.RadioButton radioButtonConsultantInTraining;
+        private System.Windows.Forms.RadioButton radioButtonFirstPassMentor;
         private System.Windows.Forms.RadioButton radioButtonUNS;
         private System.Windows.Forms.RadioButton radioButtonStoryCrafter;
         private System.Windows.Forms.Label labelEmail;
@@ -388,5 +401,6 @@
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.RadioButton radioButtonEnglishBackTranslator;
         private System.Windows.Forms.RadioButton radioButtonProjectFacilitator;
+        private System.Windows.Forms.RadioButton radioButtonConsultantInTraining;
     }
 }

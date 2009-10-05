@@ -11,6 +11,7 @@ namespace OneStoryProjectEditor
     {
         public string Name = null;
         public string guid = null;
+        public DateTime StageTimeStamp;
         public StoryStageLogic ProjStage = null;
         public CraftingInfoData CraftingInfo = null;
         public VersesData Verses = null;
@@ -19,6 +20,7 @@ namespace OneStoryProjectEditor
         {
             Name = strStoryName;
             guid = Guid.NewGuid().ToString();
+            StageTimeStamp = DateTime.Now;
             ProjStage = new StoryStageLogic();
             CraftingInfo = new CraftingInfoData(strLoggedOnMemberGuid, bIsBiblicalStory);
             Verses = new VersesData();
@@ -28,6 +30,7 @@ namespace OneStoryProjectEditor
         {
             Name = theStoryRow.name;
             guid = theStoryRow.guid;
+            StageTimeStamp = (theStoryRow.IsstageDateTimeStampNull()) ? DateTime.Now : theStoryRow.stageDateTimeStamp;
             ProjStage = new StoryStageLogic(theStoryRow.stage);
             CraftingInfo = new CraftingInfoData(theStoryRow, projFile);
             Verses = new VersesData(theStoryRow, projFile);
@@ -37,6 +40,7 @@ namespace OneStoryProjectEditor
         {
             Name = rhs.Name;
             guid = rhs.guid;
+            StageTimeStamp = rhs.StageTimeStamp;
             ProjStage = new StoryStageLogic(rhs.ProjStage);
             CraftingInfo = new CraftingInfoData(rhs.CraftingInfo);
             Verses = new VersesData(rhs.Verses);
@@ -54,6 +58,7 @@ namespace OneStoryProjectEditor
                         new XAttribute("name", Name),
                         new XAttribute("stage", ProjStage.ToString()),
                         new XAttribute("guid", guid),
+                        new XAttribute("stageDateTimeStamp", StageTimeStamp),
                         CraftingInfo.GetXml);
 
                 if (Verses.HasData)

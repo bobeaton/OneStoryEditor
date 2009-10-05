@@ -54,6 +54,8 @@ namespace OneStoryProjectEditor
                     return TeamMemberData.UserTypes.eUNS;
                 if (radioButtonProjectFacilitator.Checked)
                     return TeamMemberData.UserTypes.eProjectFacilitator;
+                if (radioButtonFirstPassMentor.Checked)
+                    return TeamMemberData.UserTypes.eFirstPassMentor;
                 if (radioButtonConsultantInTraining.Checked)
                     return TeamMemberData.UserTypes.eConsultantInTraining;
                 if (radioButtonCoach.Checked)
@@ -79,7 +81,7 @@ namespace OneStoryProjectEditor
                         radioButtonProjectFacilitator.Checked = true;
                         break;
                     case TeamMemberData.UserTypes.eConsultantInTraining:
-                        radioButtonConsultantInTraining.Checked = true;
+                        radioButtonFirstPassMentor.Checked = true;
                         break;
                     case TeamMemberData.UserTypes.eCoach:
                         radioButtonCoach.Checked = true;

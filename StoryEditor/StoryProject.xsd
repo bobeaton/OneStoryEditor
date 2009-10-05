@@ -187,6 +187,7 @@
 									<xs:attribute name="name" type="xs:string" use="required" />
 									<xs:attribute name="stage" type="ProjectStages" use="required" />
 									<xs:attribute name="guid" type="xs:string" use="required" />
+									<xs:attribute name="stageDateTimeStamp" type="xs:dateTime" />
 								</xs:complexType>
 							</xs:element>
 						</xs:sequence>
@@ -216,6 +217,7 @@
 			<xs:enumeration value="EnglishBackTranslator" />
 			<xs:enumeration value="UNS" />
 			<xs:enumeration value="ProjectFacilitator" />
+			<xs:enumeration value="FirstPassMentor" />
 			<xs:enumeration value="ConsultantInTraining" />
 			<xs:enumeration value="Coach" />
 			<xs:enumeration value="JustLooking" />

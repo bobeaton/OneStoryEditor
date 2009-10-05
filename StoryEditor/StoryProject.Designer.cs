@@ -4117,6 +4117,8 @@ namespace OneStoryProjectEditor {
             
             private global::System.Data.DataColumn columnguid;
             
+            private global::System.Data.DataColumn columnstageDateTimeStamp;
+            
             private global::System.Data.DataColumn columnstory_Id;
             
             private global::System.Data.DataColumn columnstories_Id;
@@ -4173,6 +4175,13 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn stageDateTimeStampColumn {
+                get {
+                    return this.columnstageDateTimeStamp;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public global::System.Data.DataColumn story_IdColumn {
                 get {
                     return this.columnstory_Id;
@@ -4215,16 +4224,17 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public storyRow AddstoryRow(string name, string stage, string guid, storiesRow parentstoriesRowBystories_story) {
+            public storyRow AddstoryRow(string name, string stage, string guid, System.DateTime stageDateTimeStamp, storiesRow parentstoriesRowBystories_story) {
                 storyRow rowstoryRow = ((storyRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         name,
                         stage,
                         guid,
+                        stageDateTimeStamp,
                         null,
                         null};
                 if ((parentstoriesRowBystories_story != null)) {
-                    columnValuesArray[4] = parentstoriesRowBystories_story[1];
+                    columnValuesArray[5] = parentstoriesRowBystories_story[1];
                 }
                 rowstoryRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowstoryRow);
@@ -4248,6 +4258,7 @@ namespace OneStoryProjectEditor {
                 this.columnname = base.Columns["name"];
                 this.columnstage = base.Columns["stage"];
                 this.columnguid = base.Columns["guid"];
+                this.columnstageDateTimeStamp = base.Columns["stageDateTimeStamp"];
                 this.columnstory_Id = base.Columns["story_Id"];
                 this.columnstories_Id = base.Columns["stories_Id"];
             }
@@ -4260,6 +4271,8 @@ namespace OneStoryProjectEditor {
                 base.Columns.Add(this.columnstage);
                 this.columnguid = new global::System.Data.DataColumn("guid", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnguid);
+                this.columnstageDateTimeStamp = new global::System.Data.DataColumn("stageDateTimeStamp", typeof(global::System.DateTime), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnstageDateTimeStamp);
                 this.columnstory_Id = new global::System.Data.DataColumn("story_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnstory_Id);
                 this.columnstories_Id = new global::System.Data.DataColumn("stories_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
@@ -4272,6 +4285,7 @@ namespace OneStoryProjectEditor {
                 this.columnstage.Namespace = "";
                 this.columnguid.AllowDBNull = false;
                 this.columnguid.Namespace = "";
+                this.columnstageDateTimeStamp.Namespace = "";
                 this.columnstory_Id.AutoIncrement = true;
                 this.columnstory_Id.AllowDBNull = false;
                 this.columnstory_Id.Unique = true;
@@ -4513,7 +4527,7 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentstoryRowBystory_CraftingInfo != null)) {
-                    columnValuesArray[4] = parentstoryRowBystory_CraftingInfo[3];
+                    columnValuesArray[4] = parentstoryRowBystory_CraftingInfo[4];
                 }
                 rowCraftingInfoRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowCraftingInfoRow);
@@ -5746,7 +5760,7 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentstoryRowBystory_verses != null)) {
-                    columnValuesArray[1] = parentstoryRowBystory_verses[3];
+                    columnValuesArray[1] = parentstoryRowBystory_verses[4];
                 }
                 rowversesRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowversesRow);
@@ -11406,6 +11420,21 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.DateTime stageDateTimeStamp {
+                get {
+                    try {
+                        return ((global::System.DateTime)(this[this.tablestory.stageDateTimeStampColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'stageDateTimeStamp\' in table \'story\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablestory.stageDateTimeStampColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public int story_Id {
                 get {
                     return ((int)(this[this.tablestory.story_IdColumn]));
@@ -11438,6 +11467,16 @@ namespace OneStoryProjectEditor {
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["stories_story"]);
                 }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsstageDateTimeStampNull() {
+                return this.IsNull(this.tablestory.stageDateTimeStampColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetstageDateTimeStampNull() {
+                this[this.tablestory.stageDateTimeStampColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

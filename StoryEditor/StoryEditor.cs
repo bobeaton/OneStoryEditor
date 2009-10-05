@@ -1312,6 +1312,7 @@ namespace OneStoryProjectEditor
                              Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
                         return false;
                 theCurrentStory.ProjStage.ProjectStage = eProposedNextState;  // if we are ready, then go ahead and transition
+                theCurrentStory.StageTimeStamp = DateTime.Now;
                 Modified = true;
             }
             return bRet;

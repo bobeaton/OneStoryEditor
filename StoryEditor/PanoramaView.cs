@@ -15,6 +15,7 @@ namespace OneStoryProjectEditor
         protected const int CnColumnStoryPurpose = 1;
         protected const int CnColumnStoryEditToken = 2;
         protected const int CnColumnStoryStage = 3;
+        protected const int CnColumnStoryTimeInStage = 4;
 
         protected StoryProjectData _storyProject;
         protected StoriesData _stories;
@@ -24,9 +25,6 @@ namespace OneStoryProjectEditor
             _storyProject = storyProject;
             InitializeComponent();
             richTextBoxPanoramaFrontMatter.Rtf = storyProject.PanoramaFrontMatter;
-
-            if (Properties.Settings.Default.LastPanoramaViewTabIndex < tabControlSets.TabPages.Count)
-                tabControlSets.SelectedTab = tabControlSets.TabPages[Properties.Settings.Default.LastPanoramaViewTabIndex];
         }
 
         public bool Modified = false;
@@ -36,10 +34,23 @@ namespace OneStoryProjectEditor
             dataGridViewPanorama.Rows.Clear();
             foreach (StoryData aSD in _stories)
             {
+                TimeSpan ts = DateTime.Now - aSD.StageTimeStamp;
+                string strTimeInState = "";
+                if (ts.Days > 0)
+                    strTimeInState += String.Format("{0} days, ", ts.Days);
+                if (ts.Hours > 0)
+                    strTimeInState += String.Format("{0} hours, ", ts.Hours);
+                strTimeInState += String.Format("{0} minutes", ts.Minutes);
+
                 StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[aSD.ProjStage.ProjectStage];
-                object[] aObs = new object[] { aSD.Name, aSD.CraftingInfo.StoryPurpose, 
+                object[] aObs = new object[]
+                {   
+                    aSD.Name, 
+                    aSD.CraftingInfo.StoryPurpose, 
                     TeamMemberData.GetMemberTypeAsDisplayString(aSD.ProjStage.MemberTypeWithEditToken), 
-                    st.StageDisplayString };
+                    st.StageDisplayString, 
+                    strTimeInState
+                };
                 int nRowIndex = dataGridViewPanorama.Rows.Add(aObs);
                 DataGridViewRow aRow = dataGridViewPanorama.Rows[nRowIndex];
                 aRow.Tag = st;
@@ -170,7 +181,6 @@ namespace OneStoryProjectEditor
             TabPage tab = e.TabPage;
             if (tab != null)
             {
-                Properties.Settings.Default.LastPanoramaViewTabIndex = e.TabPageIndex;
                 if ((tab == tabPagePanorama) || (tab == tabPageObsolete))
                 {
                     if (tab == tabPagePanorama)

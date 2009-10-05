@@ -23,6 +23,7 @@ namespace OneStoryProjectEditor
             eProjFacCheckKeyTerms,
             eProjFacAddStoryQuestions,
             eBackTranslatorTypeInternationalBT,
+            eFirstPassMentorCheck,
             eConsultantCheckNonBiblicalStory,
             eConsultantCheckStoryInfo,
             eConsultantCheckAnchors,

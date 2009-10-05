@@ -14,6 +14,7 @@ namespace OneStoryProjectEditor
             eEnglishBacktranslator,
             eUNS,
             eProjectFacilitator,
+            eFirstPassMentor,
             eConsultantInTraining,
             eCoach,
             eJustLooking
@@ -23,12 +24,14 @@ namespace OneStoryProjectEditor
         internal const string CstrEnglishBackTranslator = "EnglishBackTranslator";
         internal const string CstrUNS = "UNS";
         internal const string CstrProjectFacilitator = "ProjectFacilitator";
+        internal const string CstrFirstPassMentor = "FirstPassMentor";
         internal const string CstrConsultantInTraining = "ConsultantInTraining";
         internal const string CstrCoach = "Coach";
         internal const string CstrJustLooking = "JustLooking"; // gives full access, but no change privileges
 
         protected const string CstrEnglishBackTranslatorDisplay = "English Back Translator";
-        protected const string CstrConsultantInTrainingDisplay = "Mentor";
+        protected const string CstrFirstPassMentorDisplay = "First Pass Mentor";
+        protected const string CstrConsultantInTrainingDisplay = "Consultant in Training";
         protected const string CstrProjectFacilitatorDisplay = "Project Facilitator";
         
         public string Name = null;
@@ -41,7 +44,7 @@ namespace OneStoryProjectEditor
         public string AltPhone = null;
         public string BioData = null;
 
-        public TeamMemberData(string strName, TeamMemberData.UserTypes eMemberType, string strMemberGuid, string strEmail, string strSkypeID, string strTeamViewerID, string strPhone, string strAltPhone, string strBioData)
+        public TeamMemberData(string strName, UserTypes eMemberType, string strMemberGuid, string strEmail, string strSkypeID, string strTeamViewerID, string strPhone, string strAltPhone, string strBioData)
         {
             Name = strName;
             MemberType = eMemberType;
@@ -90,6 +93,8 @@ namespace OneStoryProjectEditor
                 return UserTypes.eUNS;
             if (strMemberTypeString == CstrProjectFacilitator)
                 return UserTypes.eProjectFacilitator;
+            if (strMemberTypeString == CstrFirstPassMentor)
+                return UserTypes.eFirstPassMentor;
             if (strMemberTypeString == CstrConsultantInTraining)
                 return UserTypes.eConsultantInTraining;
             if (strMemberTypeString == CstrCoach)
@@ -104,7 +109,7 @@ namespace OneStoryProjectEditor
             get { return GetMemberTypeAsString(MemberType); }
         }
 
-        public static string GetMemberTypeAsDisplayString(TeamMemberData.UserTypes eMemberType)
+        public static string GetMemberTypeAsDisplayString(UserTypes eMemberType)
         {
             if (eMemberType == UserTypes.eConsultantInTraining)
                 return CstrConsultantInTrainingDisplay;
@@ -112,10 +117,12 @@ namespace OneStoryProjectEditor
                 return CstrEnglishBackTranslatorDisplay;
             if (eMemberType == UserTypes.eProjectFacilitator)
                 return CstrProjectFacilitatorDisplay;
+            if (eMemberType == UserTypes.eFirstPassMentor)
+                return CstrFirstPassMentorDisplay;
             return GetMemberTypeAsString(eMemberType);
         }
 
-        public static string GetMemberTypeAsString(TeamMemberData.UserTypes eMemberType)
+        public static string GetMemberTypeAsString(UserTypes eMemberType)
         {
             switch (eMemberType)
             {
@@ -127,6 +134,8 @@ namespace OneStoryProjectEditor
                     return CstrUNS;
                 case UserTypes.eProjectFacilitator:
                     return CstrProjectFacilitator;
+                case UserTypes.eFirstPassMentor:
+                    return CstrFirstPassMentor;
                 case UserTypes.eConsultantInTraining:
                     return CstrConsultantInTraining;
                 case UserTypes.eCoach:
