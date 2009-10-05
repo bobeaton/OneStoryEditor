@@ -23,8 +23,8 @@ namespace OneStoryProjectEditor
             eProjFacCheckKeyTerms,
             eProjFacAddStoryQuestions,
             eBackTranslatorTypeInternationalBT,
-            eFirstPassMentorCheck,
             eConsultantCheckNonBiblicalStory,
+            eFirstPassMentorCheck1,
             eConsultantCheckStoryInfo,
             eConsultantCheckAnchors,
             eConsultantCheckStoryQuestions,
@@ -130,6 +130,7 @@ namespace OneStoryProjectEditor
             { "ProjFacAddStoryQuestions", ProjectStages.eProjFacAddStoryQuestions },
             { "BackTranslatorTypeInternationalBT", ProjectStages.eBackTranslatorTypeInternationalBT },
             { "ConsultantCheckNonBiblicalStory", ProjectStages.eConsultantCheckNonBiblicalStory },
+            { "FirstPassMentorCheck1", ProjectStages.eFirstPassMentorCheck1 },
 			{ "ConsultantCheckStoryInfo", ProjectStages.eConsultantCheckStoryInfo },
             { "ConsultantCheckAnchors", ProjectStages.eConsultantCheckAnchors },
             { "ConsultantCheckStoryQuestions", ProjectStages.eConsultantCheckStoryQuestions },
@@ -254,7 +255,8 @@ namespace OneStoryProjectEditor
                                 RequiresUsingNationalBT = (xpNextElement.Current.GetAttribute("RequiresUsingNationalBT", navigator.NamespaceURI) == "true"),
                                 RequiresUsingEnglishBT = (xpNextElement.Current.GetAttribute("RequiresUsingEnglishBT", navigator.NamespaceURI) == "true"),
                                 UsingOtherEnglishBTer = xpNextElement.Current.GetAttribute("RequiresUsingOtherEnglishBTer", navigator.NamespaceURI),
-                                RequiresBiblicalStory = (xpNextElement.Current.GetAttribute("RequiresBiblicalStory", navigator.NamespaceURI) == "true")
+                                RequiresBiblicalStory = (xpNextElement.Current.GetAttribute("RequiresBiblicalStory", navigator.NamespaceURI) == "true"),
+                                RequiresFirstPassMentor = (xpNextElement.Current.GetAttribute("RequiresFirstPassMentor", navigator.NamespaceURI) == "true")
                             };
                             lstAllowableBackwardsStages.Add(aps);
                         }
@@ -296,6 +298,7 @@ namespace OneStoryProjectEditor
             public bool HasUsingOtherEnglishBTer { get; set; }
             public bool RequiresUsingOtherEnglishBTer { get; set; }
             public bool RequiresBiblicalStory { get; set; }
+            public bool RequiresFirstPassMentor { get; set; }
             public object UsingOtherEnglishBTer
             {
                 set

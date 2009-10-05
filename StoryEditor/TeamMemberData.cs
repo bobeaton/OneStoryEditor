@@ -244,6 +244,17 @@ namespace OneStoryProjectEditor
             }
         }
 
+        public bool IsThereAFirstPassMentor
+        {
+            get
+            {
+                foreach (TeamMemberData aTM in Values)
+                    if (aTM.MemberType == TeamMemberData.UserTypes.eFirstPassMentor)
+                        return true;
+                return false;
+            }
+        }
+
         public XElement GetXml
         {
             get

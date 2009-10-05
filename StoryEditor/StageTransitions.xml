@@ -257,7 +257,7 @@ choose 'Next Stage' to go to the next stage in the process.
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
-  <StateTransition stage="eBackTranslatorTypeInternationalBT" MemberTypeWithEditToken="eEnglishBacktranslator" NextState="eConsultantCheckStoryInfo">
+  <StateTransition stage="eBackTranslatorTypeInternationalBT" MemberTypeWithEditToken="eEnglishBacktranslator" NextState="eFirstPassMentorCheck1">
     <StageDisplayString>Special back-translator enters the English back-translation</StageDisplayString>
     <StageInstructions>
 In this stage, someone typically outside of the crafting team will translate the National language 
@@ -326,6 +326,50 @@ This is the final stage of the process for this non-biblical story.
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
+  <StateTransition stage="eFirstPassMentorCheck1" MemberTypeWithEditToken="eFirstPassMentor" NextState="eConsultantCheckStoryInfo">
+    <StageDisplayString>First-pass mentor checks the story</StageDisplayString>
+    <StageInstructions>
+In this stage, you (the first-pass mentor) will check the story and make any suggestions you can
+think of that would make the story more accurate, clear, and natural. This will be things related
+to:
+
+Anchors: are the story verse(s) supported by the anchored verses, or has the story crafter mis-
+    interpreted something?
+
+Story Flow: does the story flow nicely?
+
+Story Length: is the length of the story nice? Does it seem re-tellable?
+
+Translation issues: are any words translated in a way that makes you think it might be mis-translated?
+
+Matches the story purpose: does the story seem to support the purpose for which it was created? 
+    (see 'Story' menu, 'Story Information' to see the 'Purpose').
+    
+If there are major problems with the flow and/or thematic focus (e.g. it's too long, or doesn't
+really support the purpose mentioned), you can add a few consultant notes in the ConNotes pane
+and send it back to the Project Facilitator for revision (i.e. before spending a lot of time
+checking it further and/or passing it along to the Consultant). To send it back to the Project 
+Facilitator for such revisions, click on the small downward arrow to the right-hand side of the 
+'Next Stage' button in the lower left corner of the screen. This will bring up a pop-up list of 
+the previous stages. Just select the previous stage to go back to. Then close the editor and the 
+file will be uploaded to the internet where it can be downloaded by the crafting team for 
+revisions.
+
+Otherwise, when you are finished reviewing the Story and putting any consultant notes you have in
+the 'Consultant Notes' pane, then click the button in the left-hand side of the status bar and 
+choose 'Next Stage' to go to the next stage in the process.
+    </StageInstructions>
+    <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eProjFacTypeVernacular</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingNationalBT="true">eProjFacTypeNationalBT</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="false">eProjFacTypeInternationalBT</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresBiblicalStory="true">eProjFacAddAnchors</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresBiblicalStory="true">eProjFacCheckKeyTerms</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresBiblicalStory="true">eProjFacAddStoryQuestions</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTypeInternationalBT</AllowableBackwardsTransition>
+    </AllowableBackwardsTransitions>
+    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
+  </StateTransition>
   <StateTransition stage="eConsultantCheckStoryInfo" MemberTypeWithEditToken="eConsultantInTraining" NextState="eConsultantCheckAnchors">
     <StageDisplayString>Consultant checks the story information</StageDisplayString>
     <StageInstructions>
@@ -359,6 +403,7 @@ left-hand side of the status bar and choose 'Next Stage' to go to the next stage
       <AllowableBackwardsTransition RequiresBiblicalStory="true">eProjFacCheckKeyTerms</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresBiblicalStory="true">eProjFacAddStoryQuestions</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTypeInternationalBT</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresFirstPassMentor="true">eFirstPassMentorCheck1</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>

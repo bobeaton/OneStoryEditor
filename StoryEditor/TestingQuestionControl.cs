@@ -74,7 +74,7 @@ namespace OneStoryProjectEditor
             if (theSE.StoryProject.ProjSettings.InternationalBT.HasData
                 && (!theSE.StoryProject.TeamMembers.IsThereASeparateEnglishBackTranslator
                     || (StageLogic.MemberTypeWithEditToken !=
-                            TeamMemberData.UserTypes.eCrafter)))
+                            TeamMemberData.UserTypes.eProjectFacilitator)))
             {
                 InsertColumn(nNumColumns);
                 InitColumnLabel(theSE.StoryProject.ProjSettings.InternationalBT.LangName, nNumColumns);

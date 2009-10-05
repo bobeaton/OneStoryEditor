@@ -419,9 +419,11 @@ namespace OneStoryProjectEditor
 
             if (!theCurrentStory.CraftingInfo.IsBiblicalStory)
                 eProposedNextState = StoryStageLogic.ProjectStages.eConsultantCheckNonBiblicalStory;
+            else if (!theStoryProjectData.TeamMembers.IsThereAFirstPassMentor)
+                eProposedNextState = StoryStageLogic.ProjectStages.eConsultantCheckStoryInfo;
             else
                 System.Diagnostics.Debug.Assert(eProposedNextState ==
-                    StoryStageLogic.ProjectStages.eConsultantCheckStoryInfo);
+                    StoryStageLogic.ProjectStages.eFirstPassMentorCheck1);
             
             return true;
         }
@@ -452,6 +454,16 @@ namespace OneStoryProjectEditor
         public static bool ConsultantCheckNonBiblicalStory(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ConsultantCheckNonBiblicalStory' work is finished: Name: {0}", theCurrentStory.Name));
+            return true;
+        }
+
+        public static bool FirstPassMentorCheck1(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
+        {
+            Console.WriteLine(String.Format("Checking if stage 'FirstPassMentorCheck1' work is finished: Name: {0}", theCurrentStory.Name));
+            
+            System.Diagnostics.Debug.Assert(eProposedNextState ==
+                StoryStageLogic.ProjectStages.eConsultantCheckStoryInfo);
+            
             return true;
         }
 
