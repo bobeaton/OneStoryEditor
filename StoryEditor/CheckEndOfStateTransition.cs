@@ -475,10 +475,11 @@ namespace OneStoryProjectEditor
         public static bool ConsultantCheckStoryQuestions(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ConsultantCheckStoryQuestions' work is finished: Name: {0}", theCurrentStory.Name));
-
+            
+            /* I took this out, because it gets checked later after the coach has had at it (in case the CIT is asking the coach what to do)
             // before handing it over to the coach, let's make sure that if the Project Facilitator had initiated
             //  a conversation, that the consultant answered it.
-            int nVerseNumber = 0;
+            int nVerseNumber = 1;
             foreach (VerseData aVerseData in theCurrentStory.Verses)
             {
                 foreach (ConsultNoteDataConverter aConNote in aVerseData.ConsultantNotes)
@@ -486,11 +487,13 @@ namespace OneStoryProjectEditor
                         if ((aConNote.Count == 1) || !aConNote[1].HasData)
                         {
                             ShowErrorFocus(theSE, aConNote[1].TextBox,
-                                String.Format("Error: in verse {0}, the ProjFac asked a question, which you didn't respond to. Did you forget it?", nVerseNumber));
+                                String.Format("Error: in line {0}, the ProjFac asked a question, which you didn't respond to. Did you forget it?", nVerseNumber));
                             return false;
                         }
                 nVerseNumber++;
             }
+            */
+
             return true;
         }
 
@@ -500,7 +503,7 @@ namespace OneStoryProjectEditor
 
             // before handing it back to the consultant, let's make sure that if the consultant had initiated
             //  a conversation, that the coach answered it.
-            int nVerseNumber = 0;
+            int nVerseNumber = 1;
             foreach (VerseData aVerseData in theCurrentStory.Verses)
             {
                 foreach (ConsultNoteDataConverter aConNote in aVerseData.CoachNotes)
@@ -508,7 +511,7 @@ namespace OneStoryProjectEditor
                         if ((aConNote.Count == 1) || !aConNote[1].HasData)
                         {
                             ShowErrorFocus(theSE, aConNote[1].TextBox,
-                                String.Format("Error: in verse {0}, the consultant-in-training asked a question, which you didn't respond to. Did you forget it?", nVerseNumber));
+                                String.Format("Error: in line {0}, the consultant-in-training asked a question, which you didn't respond to. Did you forget it?", nVerseNumber));
                             return false;
                         }
                 nVerseNumber++;
@@ -527,16 +530,25 @@ namespace OneStoryProjectEditor
             {
                 foreach (ConsultNoteDataConverter aConNote in aVerseData.CoachNotes)
                 {
-                    int nIndex = aConNote.Count;
-                    CommInstance theLastCI = aConNote[nIndex - 1];
+                    int nIndex = aConNote.Count - 1;
+                    CommInstance theLastCI = aConNote[nIndex];
                     System.Diagnostics.Debug.Assert(theLastCI.Direction == ConsultNoteDataConverter.CommunicationDirections.eConsultantToCoach);
                     if (!theLastCI.HasData)
                     {
-                        ShowErrorFocus(theSE, aConNote[1].TextBox,
+                        ShowErrorFocus(theSE, aConNote[nIndex].TextBox,
                             String.Format("Error: in line {0}, the coach made a comment, which you didn't respond to. Did you forget it?", nVerseNumber));
                         return false;
                     }
                 }
+
+                foreach (ConsultNoteDataConverter aConNote in aVerseData.ConsultantNotes)
+                    if ((aConNote.Count > 0) && (aConNote[0].Direction == ConsultNoteDataConverter.CommunicationDirections.eProjFacToConsultant))
+                        if ((aConNote.Count == 1) || !aConNote[1].HasData)
+                        {
+                            ShowErrorFocus(theSE, aConNote[1].TextBox,
+                                String.Format("Error: in line {0}, the ProjFac asked a question, which you didn't respond to. Did you forget it?", nVerseNumber));
+                            return false;
+                        }
                 nVerseNumber++;
             }
             return true;
@@ -547,18 +559,18 @@ namespace OneStoryProjectEditor
             Console.WriteLine(String.Format("Checking if stage 'ProjFacReviseBasedOnRound1Notes' work is finished: Name: {0}", theCurrentStory.Name));
 
             // let's make sure that if the CIT had made a comment, that the ProjFac answered it.
-            int nVerseNumber = 0;
+            int nVerseNumber = 1;
             foreach (VerseData aVerseData in theCurrentStory.Verses)
             {
                 foreach (ConsultNoteDataConverter aConNote in aVerseData.ConsultantNotes)
                 {
-                    int nIndex = aConNote.Count;
+                    int nIndex = aConNote.Count - 1;
                     CommInstance theLastCI = aConNote[nIndex];
                     System.Diagnostics.Debug.Assert(theLastCI.Direction == ConsultNoteDataConverter.CommunicationDirections.eProjFacToConsultant);
                     if (!theLastCI.HasData)
                     {
-                        ShowErrorFocus(theSE, aConNote[1].TextBox,
-                            String.Format("Error: in verse {0}, the consultant made a comment, which you didn't respond to. Did you forget it?", nVerseNumber));
+                        ShowErrorFocus(theSE, aConNote[nIndex].TextBox,
+                            String.Format("Error: in line {0}, the consultant made a comment, which you didn't respond to. Did you forget it?", nVerseNumber));
                         return false;
                     }
                 }

@@ -72,6 +72,15 @@ namespace OneStoryProjectEditor
             if (!CheckForProperEditToken(out theSE))
                 return;
 
+            // if the coach tries to add a note in the consultant's pane, that should fail.
+            // (but it's okay for a project facilitator to add one)
+            if ((theSE.LoggedOnMember.MemberType != _theCNsDC.MentorType) && (theSE.LoggedOnMember.MemberType != _theCNsDC.MenteeType))
+            {
+                theSE.SetStatusBar("Error: " + String.Format("You must be a '{0}' to add a note here", 
+                    TeamMemberData.GetMemberTypeAsDisplayString(_theCNsDC.MentorType)));
+                return;
+            }
+
             StoryStageLogic.ProjectStages eCurState = theSE.theCurrentStory.ProjStage.ProjectStage;
             int round = 1;
             if (eCurState > StoryStageLogic.ProjectStages.eConsultantReviseRound1Notes)
@@ -82,7 +91,7 @@ namespace OneStoryProjectEditor
             }
 
             // always add at the front (so they're stay close to the verse number label)
-            _theCNsDC.InsertEmpty(0, round, (theSE.LoggedOnMember.MemberType == _theCNsDC.MentorType));
+            _theCNsDC.InsertEmpty(0, round, theSE.LoggedOnMember.MemberType);
             theSE.ReInitConsultNotesPane(_theCNsDC);
         }
 

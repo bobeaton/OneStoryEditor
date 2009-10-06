@@ -71,7 +71,8 @@ namespace OneStoryProjectEditor
             return eDirection.ToString().Substring(1);
         }
 
-        public void InsureExtraBox(bool bIsMentorLoggedIn)
+        public void InsureExtraBox(TeamMemberData.UserTypes eLoggedOnMember, TeamMemberData.UserTypes eMentorType, 
+            TeamMemberData.UserTypes eMenteeType)
         {
             // in case the user re-logs in, we might have extra boxes here. So remove any null ones before
             //  "insuring" the one(s) we need
@@ -79,9 +80,9 @@ namespace OneStoryProjectEditor
                 while (!this[Count - 1].HasData)
                     RemoveAt(Count - 1);
 
-            if (bIsMentorLoggedIn && ((Count == 0) || (this[Count - 1].Direction != MentorDirection)))
+            if ((eLoggedOnMember == eMentorType) && ((Count == 0) || (this[Count - 1].Direction == MenteeDirection)))
                 Add(new CommInstance(null, MentorDirection, null));
-            else if (!bIsMentorLoggedIn && (this[Count - 1].Direction != MenteeDirection))
+            else if ((eLoggedOnMember == eMenteeType) && ((Count == 0) || (this[Count - 1].Direction == MentorDirection)))
                 Add(new CommInstance(null, MenteeDirection, null));
         }
 
@@ -174,10 +175,11 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert(Count != 0);
         }
 
-        public ConsultantNoteData(int nRound, bool bIsMentorLoggedIn)
+        public ConsultantNoteData(int nRound, TeamMemberData.UserTypes eLoggedOnMember,
+            TeamMemberData.UserTypes eMentorType, TeamMemberData.UserTypes eMenteeType)
         {
             RoundNum = nRound;
-            InsureExtraBox(bIsMentorLoggedIn);
+            InsureExtraBox(eLoggedOnMember, eMentorType, eMenteeType);
         }
 
         public ConsultantNoteData(ConsultNoteDataConverter rhs)
@@ -202,7 +204,7 @@ namespace OneStoryProjectEditor
 
         public override string MenteeLabel
         {
-            get { return "crftr:"; }
+            get { return "prfc:"; }
         }
 
         protected override string InstanceElementName
@@ -237,15 +239,13 @@ namespace OneStoryProjectEditor
             NewDataSet.CoachNoteRow[] theNoteRows = aCoaCRow.GetCoachNoteRows();
             foreach (NewDataSet.CoachNoteRow aNoteRow in theNoteRows)
                 Add(new CommInstance(aNoteRow.CoachNote_text, GetDirectionFromString(aNoteRow.Direction), aNoteRow.guid));
-
-            // make sure that there are at least two (we can't save them if they're empty)
-            System.Diagnostics.Debug.Assert(Count != 0);
         }
 
-        public CoachNoteData(int nRound, bool bIsMentorLoggedIn)
+        public CoachNoteData(int nRound, TeamMemberData.UserTypes eLoggedOnMember,
+            TeamMemberData.UserTypes eMentorType, TeamMemberData.UserTypes eMenteeType)
         {
             RoundNum = nRound;
-            InsureExtraBox(bIsMentorLoggedIn);
+            InsureExtraBox(eLoggedOnMember, eMentorType, eMenteeType);
         }
 
         public CoachNoteData(ConsultNoteDataConverter rhs)
@@ -308,8 +308,9 @@ namespace OneStoryProjectEditor
             get { return (this.Count > 0); }
         }
 
-        public abstract ConsultNoteDataConverter InsertEmpty(int nIndex, int nRound, bool bIsMentorLoggedIn);
+        public abstract ConsultNoteDataConverter InsertEmpty(int nIndex, int nRound, TeamMemberData.UserTypes eLoggedOnMember);
         public abstract TeamMemberData.UserTypes MentorType { get; }
+        public abstract TeamMemberData.UserTypes MenteeType { get; }
 
         public XElement GetXml
         {
@@ -355,17 +356,21 @@ namespace OneStoryProjectEditor
         {
         }
 
-        public override ConsultNoteDataConverter InsertEmpty(int nIndex, int nRound, bool bIsMentorLoggedIn)
+        public override ConsultNoteDataConverter InsertEmpty(int nIndex, int nRound, TeamMemberData.UserTypes eLoggedOnMember)
         {
-            ConsultNoteDataConverter theNewCN = new ConsultantNoteData(nRound, bIsMentorLoggedIn);
+            ConsultNoteDataConverter theNewCN = new ConsultantNoteData(nRound, eLoggedOnMember, MentorType, MenteeType);
             Insert(nIndex, theNewCN);
             return theNewCN;
         }
 
-        internal static TeamMemberData.UserTypes myMentorType = TeamMemberData.UserTypes.eConsultantInTraining;
         public override TeamMemberData.UserTypes MentorType
         {
-            get { return myMentorType; }
+            get { return TeamMemberData.UserTypes.eConsultantInTraining; }
+        }
+
+        public override TeamMemberData.UserTypes MenteeType
+        {
+            get { return TeamMemberData.UserTypes.eProjectFacilitator; }
         }
     }
 
@@ -399,18 +404,22 @@ namespace OneStoryProjectEditor
         {
         }
 
-        public override ConsultNoteDataConverter InsertEmpty(int nIndex, int nRound, bool bIsMentorLoggedIn)
+        public override ConsultNoteDataConverter InsertEmpty(int nIndex, int nRound, TeamMemberData.UserTypes eLoggedOnMember)
         {
             // always add closest to the verse label
-            ConsultNoteDataConverter theNewCN = new CoachNoteData(nRound, bIsMentorLoggedIn);
+            ConsultNoteDataConverter theNewCN = new CoachNoteData(nRound, eLoggedOnMember, MentorType, MenteeType);
             Insert(0, theNewCN);
             return theNewCN;
         }
 
-        internal static TeamMemberData.UserTypes myMentorType = TeamMemberData.UserTypes.eCoach;
         public override TeamMemberData.UserTypes MentorType
         {
-            get { return myMentorType; }
+            get { return TeamMemberData.UserTypes.eCoach; }
+        }
+
+        public override TeamMemberData.UserTypes MenteeType
+        {
+            get { return TeamMemberData.UserTypes.eConsultantInTraining; }
         }
     }
 }

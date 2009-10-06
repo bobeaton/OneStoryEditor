@@ -38,7 +38,7 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert(tableLayoutPanel.RowCount == 1, "otherwise, fix this assumption: ConsultNoteControl.cs.28");
 
             // finally populate the buttons on that tool strip
-            aCNDC.InsureExtraBox(eLoggedOnMemberType == theCollection.MentorType);
+            aCNDC.InsureExtraBox(eLoggedOnMemberType, theCollection.MentorType, theCollection.MenteeType);
             int nNumRows = 1;
             foreach (CommInstance aCI in aCNDC)
                 if ((aCI.Direction == ConsultNoteDataConverter.CommunicationDirections.eConsultantToProjFac)

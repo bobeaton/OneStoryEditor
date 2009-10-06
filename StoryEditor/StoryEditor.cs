@@ -1027,8 +1027,9 @@ namespace OneStoryProjectEditor
                     splitContainerMentorNotes.Panel1Collapsed = true;
                 return;
             }
+            
             // showing the Consultant's pane
-            else if (splitContainerLeftRight.Panel2Collapsed)   // if the whole right-half is already collapsed...
+            if (splitContainerLeftRight.Panel2Collapsed)   // if the whole right-half is already collapsed...
             {
                 // ... first enable it.
                 splitContainerLeftRight.Panel2Collapsed = false;
@@ -1037,6 +1038,8 @@ namespace OneStoryProjectEditor
                 //  though it's menu item will be reset. So we need to hide it if we're enabling the other one
                 if (!splitContainerMentorNotes.Panel2Collapsed) // this means it's not actually hidden
                     splitContainerMentorNotes.Panel2Collapsed = true;
+                else
+                    splitContainerLeftRight_Panel2_SizeChanged(sender, e);
             }
 
             splitContainerMentorNotes.Panel1Collapsed = false;
@@ -1056,7 +1059,7 @@ namespace OneStoryProjectEditor
                 return;
             }
             // showing the Coach's pane
-            else if (splitContainerLeftRight.Panel2Collapsed)   // if the whole right-half is already collapsed...
+            if (splitContainerLeftRight.Panel2Collapsed)   // if the whole right-half is already collapsed...
             {
                 // ... first enable it.
                 splitContainerLeftRight.Panel2Collapsed = false;
@@ -1065,6 +1068,8 @@ namespace OneStoryProjectEditor
                 //  though it's menu item will be reset. So we need to hide it if we're enabling the other one
                 if (!splitContainerMentorNotes.Panel1Collapsed) // this means it's not actually hidden
                     splitContainerMentorNotes.Panel1Collapsed = true;
+                else
+                    splitContainerLeftRight_Panel2_SizeChanged(sender, e);
             }
 
             splitContainerMentorNotes.Panel2Collapsed = false;
@@ -1211,6 +1216,7 @@ namespace OneStoryProjectEditor
                 if ((!aps.RequiresUsingNationalBT || StoryProject.ProjSettings.NationalBT.HasData)
                     && (!aps.RequiresUsingEnglishBT || StoryProject.ProjSettings.InternationalBT.HasData)
                     && (!aps.RequiresBiblicalStory || theCurrentStory.CraftingInfo.IsBiblicalStory)
+                    && (!aps.RequiresFirstPassMentor || StoryProject.TeamMembers.IsThereAFirstPassMentor)
                     && (!aps.HasUsingOtherEnglishBTer
                         || (aps.RequiresUsingOtherEnglishBTer == 
                             StoryProject.TeamMembers.IsThereASeparateEnglishBackTranslator))
@@ -1302,16 +1308,22 @@ namespace OneStoryProjectEditor
             if (bRet)
             {
                 StoryStageLogic.StateTransition stNext = StoryStageLogic.stateTransitions[eProposedNextState];
+                bool bReqSave = false;
                 if (theCurrentStory.ProjStage.IsTerminalTransition(eProposedNextState))
+                {
                     if (MessageBox.Show(
                             String.Format(Properties.Resources.IDS_TerminalTransitionMessage,
                                 TeamMemberData.GetMemberTypeAsDisplayString(stNext.MemberTypeWithEditToken),
-                                stNext.StageDisplayString), 
+                                stNext.StageDisplayString),
                              Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
                         return false;
+                    bReqSave = true;  // request a save if we've just done a terminal transition
+                }
                 theCurrentStory.ProjStage.ProjectStage = eProposedNextState;  // if we are ready, then go ahead and transition
                 theCurrentStory.StageTimeStamp = DateTime.Now;
                 Modified = true;
+                if (bReqSave)
+                    CheckForSaveDirtyFile();
             }
             return bRet;
         }

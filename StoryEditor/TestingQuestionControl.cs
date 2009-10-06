@@ -63,7 +63,7 @@ namespace OneStoryProjectEditor
             //  do the EnglishBT from the NationalBT) OR there's no vernacular
             if (theSE.StoryProject.ProjSettings.NationalBT.HasData && 
                 (theSE.StoryProject.TeamMembers.IsThereASeparateEnglishBackTranslator 
-                ||  !theSE.StoryProject.ProjSettings.Vernacular.HasData))
+                ||  (theSE.viewNationalLangFieldMenuItem.Checked && !theSE.StoryProject.ProjSettings.Vernacular.HasData)))
             {
                 InsertColumn(nNumColumns);
                 InitColumnLabel(theSE.StoryProject.ProjSettings.NationalBT.LangName, nNumColumns);
