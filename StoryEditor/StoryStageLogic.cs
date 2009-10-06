@@ -56,9 +56,16 @@ namespace OneStoryProjectEditor
             set { _ProjectStage = value; }
         }
 
-        public StoryStageLogic()
+        public StoryStageLogic(ProjectSettings projSettings)
         {
-            ProjectStage = ProjectStages.eProjFacTypeVernacular;
+            System.Diagnostics.Debug.Assert(projSettings.Vernacular.HasData 
+                || projSettings.NationalBT.HasData
+                || projSettings.InternationalBT.HasData);
+
+            // the first state is either eProjFacTypeVernacular or eProjFacTypeNationalBT or eProjFacTypeInternationalBT
+            //  (can't have a separate EngBTr if there's no Vernacular or National BT)
+            ProjectStage = (projSettings.Vernacular.HasData) ? ProjectStages.eProjFacTypeVernacular : 
+                (projSettings.NationalBT.HasData) ? ProjectStages.eProjFacTypeNationalBT : ProjectStages.eProjFacTypeInternationalBT;
         }
 
         public StoryStageLogic(string strProjectStage)
@@ -375,7 +382,7 @@ namespace OneStoryProjectEditor
 #if !DataDllBuild
             public void SetView(StoryEditor theSE)
             {
-                theSE.viewVernacularLangFieldMenuItem.Checked = _abViewSettings[0];
+                theSE.viewVernacularLangFieldMenuItem.Checked = _abViewSettings[0] && theSE.StoryProject.ProjSettings.Vernacular.HasData;
                 theSE.viewNationalLangFieldMenuItem.Checked = (_abViewSettings[1] && theSE.StoryProject.ProjSettings.NationalBT.HasData);
                 theSE.viewEnglishBTFieldMenuItem.Checked = (_abViewSettings[2] && theSE.StoryProject.ProjSettings.InternationalBT.HasData);
                 theSE.viewAnchorFieldMenuItem.Checked = _abViewSettings[3];

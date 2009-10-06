@@ -48,6 +48,7 @@
             this.checkBoxEnglishBT = new System.Windows.Forms.CheckBox();
             this.checkBoxVernacularRTL = new System.Windows.Forms.CheckBox();
             this.checkBoxNationalRTL = new System.Windows.Forms.CheckBox();
+            this.checkBoxVernacular = new System.Windows.Forms.CheckBox();
             this.buttonVernacularFont = new System.Windows.Forms.Button();
             this.buttonNationalBTFont = new System.Windows.Forms.Button();
             this.tabControlProjectMetaData = new System.Windows.Forms.TabControl();
@@ -64,15 +65,14 @@
             this.buttonInternationalBTFont = new System.Windows.Forms.Button();
             this.labelProjectName = new System.Windows.Forms.Label();
             this.textBoxProjectName = new System.Windows.Forms.TextBox();
-            this.labelReturnToTeamMemberTabInstructions = new System.Windows.Forms.Label();
             this.labelFont = new System.Windows.Forms.Label();
             this.labelSentenceTerm = new System.Windows.Forms.Label();
             this.labelKeyboard = new System.Windows.Forms.Label();
             this.comboBoxKeyboardVernacular = new System.Windows.Forms.ComboBox();
             this.comboBoxKeyboardNationalBT = new System.Windows.Forms.ComboBox();
+            this.labelReturnToTeamMemberTabInstructions = new System.Windows.Forms.Label();
             this.fontDialog = new System.Windows.Forms.FontDialog();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.checkBoxVernacular = new System.Windows.Forms.CheckBox();
             this.tabControlProjectMetaData.SuspendLayout();
             this.tabPageMemberList.SuspendLayout();
             this.tableLayoutPanelTeamMembers.SuspendLayout();
@@ -89,7 +89,7 @@
             this.listBoxTeamMembers.MultiColumn = true;
             this.listBoxTeamMembers.Name = "listBoxTeamMembers";
             this.tableLayoutPanelTeamMembers.SetRowSpan(this.listBoxTeamMembers, 3);
-            this.listBoxTeamMembers.Size = new System.Drawing.Size(199, 342);
+            this.listBoxTeamMembers.Size = new System.Drawing.Size(206, 355);
             this.listBoxTeamMembers.TabIndex = 0;
             this.toolTip.SetToolTip(this.listBoxTeamMembers, "This list shows all the members of the team");
             this.listBoxTeamMembers.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBoxTeamMembers_MouseDoubleClick);
@@ -99,7 +99,7 @@
             // 
             this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonOK.Enabled = false;
-            this.buttonOK.Location = new System.Drawing.Point(229, 386);
+            this.buttonOK.Location = new System.Drawing.Point(240, 410);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(75, 23);
             this.buttonOK.TabIndex = 4;
@@ -111,7 +111,7 @@
             // buttonCancel
             // 
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(310, 386);
+            this.buttonCancel.Location = new System.Drawing.Point(321, 410);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 5;
@@ -122,7 +122,7 @@
             // 
             // buttonAddNewMember
             // 
-            this.buttonAddNewMember.Location = new System.Drawing.Point(412, 38);
+            this.buttonAddNewMember.Location = new System.Drawing.Point(427, 38);
             this.buttonAddNewMember.Name = "buttonAddNewMember";
             this.buttonAddNewMember.Size = new System.Drawing.Size(111, 30);
             this.buttonAddNewMember.TabIndex = 1;
@@ -134,7 +134,7 @@
             // buttonEditMember
             // 
             this.buttonEditMember.Enabled = false;
-            this.buttonEditMember.Location = new System.Drawing.Point(412, 74);
+            this.buttonEditMember.Location = new System.Drawing.Point(427, 74);
             this.buttonEditMember.Name = "buttonEditMember";
             this.buttonEditMember.Size = new System.Drawing.Size(111, 30);
             this.buttonEditMember.TabIndex = 2;
@@ -145,7 +145,7 @@
             // 
             // buttonDeleteMember
             // 
-            this.buttonDeleteMember.Location = new System.Drawing.Point(412, 110);
+            this.buttonDeleteMember.Location = new System.Drawing.Point(427, 110);
             this.buttonDeleteMember.Name = "buttonDeleteMember";
             this.buttonDeleteMember.Size = new System.Drawing.Size(111, 30);
             this.buttonDeleteMember.TabIndex = 3;
@@ -161,12 +161,12 @@
             this.listBoxMemberRoles.ColumnWidth = 151;
             this.listBoxMemberRoles.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listBoxMemberRoles.FormattingEnabled = true;
-            this.listBoxMemberRoles.Location = new System.Drawing.Point(208, 38);
+            this.listBoxMemberRoles.Location = new System.Drawing.Point(215, 38);
             this.listBoxMemberRoles.MultiColumn = true;
             this.listBoxMemberRoles.Name = "listBoxMemberRoles";
             this.tableLayoutPanelTeamMembers.SetRowSpan(this.listBoxMemberRoles, 3);
             this.listBoxMemberRoles.SelectionMode = System.Windows.Forms.SelectionMode.None;
-            this.listBoxMemberRoles.Size = new System.Drawing.Size(198, 342);
+            this.listBoxMemberRoles.Size = new System.Drawing.Size(206, 355);
             this.listBoxMemberRoles.TabIndex = 7;
             this.toolTip.SetToolTip(this.listBoxMemberRoles, "This list shows all the member\'s role on the team");
             this.listBoxMemberRoles.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBoxMemberRoles_MouseDoubleClick);
@@ -175,9 +175,9 @@
             // 
             this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.textBoxVernacular, 2);
             this.textBoxVernacular.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxVernacular.Location = new System.Drawing.Point(104, 95);
+            this.textBoxVernacular.Location = new System.Drawing.Point(104, 97);
             this.textBoxVernacular.Name = "textBoxVernacular";
-            this.textBoxVernacular.Size = new System.Drawing.Size(207, 20);
+            this.textBoxVernacular.Size = new System.Drawing.Size(214, 20);
             this.textBoxVernacular.TabIndex = 0;
             this.toolTip.SetToolTip(this.textBoxVernacular, "Enter the name of the language that the stories are going to be crafted into");
             this.textBoxVernacular.TextChanged += new System.EventHandler(this.textBoxVernacular_TextChanged);
@@ -187,9 +187,9 @@
             // 
             this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.textBoxNationalBTLanguage, 2);
             this.textBoxNationalBTLanguage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxNationalBTLanguage.Location = new System.Drawing.Point(317, 95);
+            this.textBoxNationalBTLanguage.Location = new System.Drawing.Point(324, 97);
             this.textBoxNationalBTLanguage.Name = "textBoxNationalBTLanguage";
-            this.textBoxNationalBTLanguage.Size = new System.Drawing.Size(208, 20);
+            this.textBoxNationalBTLanguage.Size = new System.Drawing.Size(215, 20);
             this.textBoxNationalBTLanguage.TabIndex = 7;
             this.toolTip.SetToolTip(this.textBoxNationalBTLanguage, "Enter the name of the language that the stories will be back-translated into by t" +
                     "he UNSs (i.e. typically, the National language)");
@@ -200,9 +200,9 @@
             // 
             this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.textBoxVernacularEthCode, 2);
             this.textBoxVernacularEthCode.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxVernacularEthCode.Location = new System.Drawing.Point(104, 121);
+            this.textBoxVernacularEthCode.Location = new System.Drawing.Point(104, 123);
             this.textBoxVernacularEthCode.Name = "textBoxVernacularEthCode";
-            this.textBoxVernacularEthCode.Size = new System.Drawing.Size(207, 20);
+            this.textBoxVernacularEthCode.Size = new System.Drawing.Size(214, 20);
             this.textBoxVernacularEthCode.TabIndex = 1;
             this.toolTip.SetToolTip(this.textBoxVernacularEthCode, "Enter the 2-3 letter code for this language (e.g. English is \'en\', Hindi is \'hi\')" +
                     "");
@@ -212,9 +212,9 @@
             // 
             this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.textBoxNationalBTEthCode, 2);
             this.textBoxNationalBTEthCode.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxNationalBTEthCode.Location = new System.Drawing.Point(317, 121);
+            this.textBoxNationalBTEthCode.Location = new System.Drawing.Point(324, 123);
             this.textBoxNationalBTEthCode.Name = "textBoxNationalBTEthCode";
-            this.textBoxNationalBTEthCode.Size = new System.Drawing.Size(208, 20);
+            this.textBoxNationalBTEthCode.Size = new System.Drawing.Size(215, 20);
             this.textBoxNationalBTEthCode.TabIndex = 8;
             this.toolTip.SetToolTip(this.textBoxNationalBTEthCode, "Enter the 2-3 letter code for this language (e.g. English is \'en\', Hindi is \'hi\')" +
                     "");
@@ -223,9 +223,9 @@
             // 
             this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.textBoxVernSentFullStop, 2);
             this.textBoxVernSentFullStop.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxVernSentFullStop.Location = new System.Drawing.Point(104, 203);
+            this.textBoxVernSentFullStop.Location = new System.Drawing.Point(104, 205);
             this.textBoxVernSentFullStop.Name = "textBoxVernSentFullStop";
-            this.textBoxVernSentFullStop.Size = new System.Drawing.Size(207, 20);
+            this.textBoxVernSentFullStop.Size = new System.Drawing.Size(214, 20);
             this.textBoxVernSentFullStop.TabIndex = 5;
             this.toolTip.SetToolTip(this.textBoxVernSentFullStop, resources.GetString("textBoxVernSentFullStop.ToolTip"));
             this.textBoxVernSentFullStop.TextChanged += new System.EventHandler(this.textBox_TextChanged);
@@ -236,9 +236,9 @@
             // 
             this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.textBoxNationalBTSentFullStop, 2);
             this.textBoxNationalBTSentFullStop.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxNationalBTSentFullStop.Location = new System.Drawing.Point(317, 203);
+            this.textBoxNationalBTSentFullStop.Location = new System.Drawing.Point(324, 205);
             this.textBoxNationalBTSentFullStop.Name = "textBoxNationalBTSentFullStop";
-            this.textBoxNationalBTSentFullStop.Size = new System.Drawing.Size(208, 20);
+            this.textBoxNationalBTSentFullStop.Size = new System.Drawing.Size(215, 20);
             this.textBoxNationalBTSentFullStop.TabIndex = 12;
             this.toolTip.SetToolTip(this.textBoxNationalBTSentFullStop, resources.GetString("textBoxNationalBTSentFullStop.ToolTip"));
             this.textBoxNationalBTSentFullStop.TextChanged += new System.EventHandler(this.textBox_TextChanged);
@@ -252,7 +252,7 @@
             this.checkBoxNationalLangBT.Checked = true;
             this.checkBoxNationalLangBT.CheckState = System.Windows.Forms.CheckState.Checked;
             this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.checkBoxNationalLangBT, 2);
-            this.checkBoxNationalLangBT.Location = new System.Drawing.Point(317, 51);
+            this.checkBoxNationalLangBT.Location = new System.Drawing.Point(324, 74);
             this.checkBoxNationalLangBT.Name = "checkBoxNationalLangBT";
             this.checkBoxNationalLangBT.Size = new System.Drawing.Size(170, 17);
             this.checkBoxNationalLangBT.TabIndex = 6;
@@ -269,7 +269,7 @@
             this.checkBoxEnglishBT.Checked = true;
             this.checkBoxEnglishBT.CheckState = System.Windows.Forms.CheckState.Checked;
             this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.checkBoxEnglishBT, 2);
-            this.checkBoxEnglishBT.Location = new System.Drawing.Point(317, 251);
+            this.checkBoxEnglishBT.Location = new System.Drawing.Point(324, 253);
             this.checkBoxEnglishBT.Name = "checkBoxEnglishBT";
             this.checkBoxEnglishBT.Size = new System.Drawing.Size(171, 17);
             this.checkBoxEnglishBT.TabIndex = 13;
@@ -283,7 +283,7 @@
             // 
             this.checkBoxVernacularRTL.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxVernacularRTL.AutoSize = true;
-            this.checkBoxVernacularRTL.Location = new System.Drawing.Point(195, 177);
+            this.checkBoxVernacularRTL.Location = new System.Drawing.Point(195, 179);
             this.checkBoxVernacularRTL.Name = "checkBoxVernacularRTL";
             this.checkBoxVernacularRTL.Size = new System.Drawing.Size(80, 17);
             this.checkBoxVernacularRTL.TabIndex = 4;
@@ -295,7 +295,7 @@
             // 
             this.checkBoxNationalRTL.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxNationalRTL.AutoSize = true;
-            this.checkBoxNationalRTL.Location = new System.Drawing.Point(408, 177);
+            this.checkBoxNationalRTL.Location = new System.Drawing.Point(415, 179);
             this.checkBoxNationalRTL.Name = "checkBoxNationalRTL";
             this.checkBoxNationalRTL.Size = new System.Drawing.Size(80, 17);
             this.checkBoxNationalRTL.TabIndex = 11;
@@ -303,9 +303,26 @@
             this.toolTip.SetToolTip(this.checkBoxNationalRTL, "Check this if your language reads from right-to-left (e.g. Arabic)");
             this.checkBoxNationalRTL.UseVisualStyleBackColor = true;
             // 
+            // checkBoxVernacular
+            // 
+            this.checkBoxVernacular.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.checkBoxVernacular.AutoSize = true;
+            this.checkBoxVernacular.Checked = true;
+            this.checkBoxVernacular.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.checkBoxVernacular, 2);
+            this.checkBoxVernacular.Location = new System.Drawing.Point(104, 74);
+            this.checkBoxVernacular.Name = "checkBoxVernacular";
+            this.checkBoxVernacular.Size = new System.Drawing.Size(214, 17);
+            this.checkBoxVernacular.TabIndex = 21;
+            this.checkBoxVernacular.Text = "Project will display the Story language line?";
+            this.toolTip.SetToolTip(this.checkBoxVernacular, "Check this box to configure the project to store the story in the story language " +
+                    "(i.e. as opposed to only storing one or other of the back-translations)");
+            this.checkBoxVernacular.UseVisualStyleBackColor = true;
+            this.checkBoxVernacular.CheckedChanged += new System.EventHandler(this.checkBoxVernacular_CheckedChanged);
+            // 
             // buttonVernacularFont
             // 
-            this.buttonVernacularFont.Location = new System.Drawing.Point(104, 174);
+            this.buttonVernacularFont.Location = new System.Drawing.Point(104, 176);
             this.buttonVernacularFont.Name = "buttonVernacularFont";
             this.buttonVernacularFont.Size = new System.Drawing.Size(85, 23);
             this.buttonVernacularFont.TabIndex = 3;
@@ -315,7 +332,7 @@
             // 
             // buttonNationalBTFont
             // 
-            this.buttonNationalBTFont.Location = new System.Drawing.Point(317, 174);
+            this.buttonNationalBTFont.Location = new System.Drawing.Point(324, 176);
             this.buttonNationalBTFont.Name = "buttonNationalBTFont";
             this.buttonNationalBTFont.Size = new System.Drawing.Size(85, 23);
             this.buttonNationalBTFont.TabIndex = 10;
@@ -331,7 +348,7 @@
             this.tabControlProjectMetaData.Location = new System.Drawing.Point(0, 0);
             this.tabControlProjectMetaData.Name = "tabControlProjectMetaData";
             this.tabControlProjectMetaData.SelectedIndex = 0;
-            this.tabControlProjectMetaData.Size = new System.Drawing.Size(542, 444);
+            this.tabControlProjectMetaData.Size = new System.Drawing.Size(556, 468);
             this.tabControlProjectMetaData.TabIndex = 1;
             this.tabControlProjectMetaData.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControlProjectMetaData_Selected);
             // 
@@ -341,7 +358,7 @@
             this.tabPageMemberList.Location = new System.Drawing.Point(4, 22);
             this.tabPageMemberList.Name = "tabPageMemberList";
             this.tabPageMemberList.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageMemberList.Size = new System.Drawing.Size(534, 418);
+            this.tabPageMemberList.Size = new System.Drawing.Size(548, 442);
             this.tabPageMemberList.TabIndex = 0;
             this.tabPageMemberList.Text = "Team Members";
             this.tabPageMemberList.UseVisualStyleBackColor = true;
@@ -371,7 +388,7 @@
             this.tableLayoutPanelTeamMembers.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelTeamMembers.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanelTeamMembers.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelTeamMembers.Size = new System.Drawing.Size(528, 412);
+            this.tableLayoutPanelTeamMembers.Size = new System.Drawing.Size(542, 436);
             this.tableLayoutPanelTeamMembers.TabIndex = 0;
             // 
             // textBoxMemberNames
@@ -381,7 +398,7 @@
             this.textBoxMemberNames.Location = new System.Drawing.Point(3, 3);
             this.textBoxMemberNames.Name = "textBoxMemberNames";
             this.textBoxMemberNames.ReadOnly = true;
-            this.textBoxMemberNames.Size = new System.Drawing.Size(199, 29);
+            this.textBoxMemberNames.Size = new System.Drawing.Size(206, 29);
             this.textBoxMemberNames.TabIndex = 8;
             this.textBoxMemberNames.Text = "Team Members";
             this.textBoxMemberNames.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -391,10 +408,10 @@
             this.tableLayoutPanelTeamMembers.SetColumnSpan(this.textBoxMemberRoles, 2);
             this.textBoxMemberRoles.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxMemberRoles.Font = new System.Drawing.Font("Segoe UI", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxMemberRoles.Location = new System.Drawing.Point(208, 3);
+            this.textBoxMemberRoles.Location = new System.Drawing.Point(215, 3);
             this.textBoxMemberRoles.Name = "textBoxMemberRoles";
             this.textBoxMemberRoles.ReadOnly = true;
-            this.textBoxMemberRoles.Size = new System.Drawing.Size(198, 29);
+            this.textBoxMemberRoles.Size = new System.Drawing.Size(206, 29);
             this.textBoxMemberRoles.TabIndex = 9;
             this.textBoxMemberRoles.Text = "Roles";
             this.textBoxMemberRoles.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -405,7 +422,7 @@
             this.tabPageLanguageInfo.Location = new System.Drawing.Point(4, 22);
             this.tabPageLanguageInfo.Name = "tabPageLanguageInfo";
             this.tabPageLanguageInfo.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLanguageInfo.Size = new System.Drawing.Size(534, 418);
+            this.tabPageLanguageInfo.Size = new System.Drawing.Size(548, 442);
             this.tabPageLanguageInfo.TabIndex = 2;
             this.tabPageLanguageInfo.Text = "Project/Language Settings";
             this.tabPageLanguageInfo.UseVisualStyleBackColor = true;
@@ -421,8 +438,8 @@
             this.tableLayoutPanelLanguageInformation.Controls.Add(this.labelLanguageName, 0, 3);
             this.tableLayoutPanelLanguageInformation.Controls.Add(this.textBoxVernacular, 1, 3);
             this.tableLayoutPanelLanguageInformation.Controls.Add(this.textBoxNationalBTLanguage, 3, 3);
-            this.tableLayoutPanelLanguageInformation.Controls.Add(this.labelStoryLanguage, 1, 2);
-            this.tableLayoutPanelLanguageInformation.Controls.Add(this.labelNationalBTLanguage, 3, 2);
+            this.tableLayoutPanelLanguageInformation.Controls.Add(this.labelStoryLanguage, 1, 1);
+            this.tableLayoutPanelLanguageInformation.Controls.Add(this.labelNationalBTLanguage, 3, 1);
             this.tableLayoutPanelLanguageInformation.Controls.Add(this.labelEthnologueCode, 0, 4);
             this.tableLayoutPanelLanguageInformation.Controls.Add(this.textBoxVernacularEthCode, 1, 4);
             this.tableLayoutPanelLanguageInformation.Controls.Add(this.textBoxNationalBTEthCode, 3, 4);
@@ -440,9 +457,9 @@
             this.tableLayoutPanelLanguageInformation.Controls.Add(this.labelKeyboard, 0, 5);
             this.tableLayoutPanelLanguageInformation.Controls.Add(this.comboBoxKeyboardVernacular, 1, 5);
             this.tableLayoutPanelLanguageInformation.Controls.Add(this.comboBoxKeyboardNationalBT, 3, 5);
-            this.tableLayoutPanelLanguageInformation.Controls.Add(this.checkBoxNationalLangBT, 3, 1);
+            this.tableLayoutPanelLanguageInformation.Controls.Add(this.checkBoxNationalLangBT, 3, 2);
             this.tableLayoutPanelLanguageInformation.Controls.Add(this.checkBoxEnglishBT, 3, 8);
-            this.tableLayoutPanelLanguageInformation.Controls.Add(this.checkBoxVernacular, 1, 1);
+            this.tableLayoutPanelLanguageInformation.Controls.Add(this.checkBoxVernacular, 1, 2);
             this.tableLayoutPanelLanguageInformation.Controls.Add(this.labelReturnToTeamMemberTabInstructions, 0, 10);
             this.tableLayoutPanelLanguageInformation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelLanguageInformation.Location = new System.Drawing.Point(3, 3);
@@ -459,14 +476,14 @@
             this.tableLayoutPanelLanguageInformation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
             this.tableLayoutPanelLanguageInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelLanguageInformation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelLanguageInformation.Size = new System.Drawing.Size(528, 412);
+            this.tableLayoutPanelLanguageInformation.Size = new System.Drawing.Size(542, 436);
             this.tableLayoutPanelLanguageInformation.TabIndex = 0;
             // 
             // labelLanguageName
             // 
             this.labelLanguageName.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelLanguageName.AutoSize = true;
-            this.labelLanguageName.Location = new System.Drawing.Point(3, 98);
+            this.labelLanguageName.Location = new System.Drawing.Point(3, 100);
             this.labelLanguageName.Name = "labelLanguageName";
             this.labelLanguageName.Size = new System.Drawing.Size(38, 13);
             this.labelLanguageName.TabIndex = 3;
@@ -478,9 +495,9 @@
             this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.labelStoryLanguage, 2);
             this.labelStoryLanguage.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.labelStoryLanguage.Font = new System.Drawing.Font("Segoe UI", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelStoryLanguage.Location = new System.Drawing.Point(104, 71);
+            this.labelStoryLanguage.Location = new System.Drawing.Point(104, 50);
             this.labelStoryLanguage.Name = "labelStoryLanguage";
-            this.labelStoryLanguage.Size = new System.Drawing.Size(207, 21);
+            this.labelStoryLanguage.Size = new System.Drawing.Size(214, 21);
             this.labelStoryLanguage.TabIndex = 2;
             this.labelStoryLanguage.Text = "Story Language";
             this.labelStoryLanguage.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -491,9 +508,9 @@
             this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.labelNationalBTLanguage, 2);
             this.labelNationalBTLanguage.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.labelNationalBTLanguage.Font = new System.Drawing.Font("Segoe UI", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelNationalBTLanguage.Location = new System.Drawing.Point(317, 71);
+            this.labelNationalBTLanguage.Location = new System.Drawing.Point(324, 50);
             this.labelNationalBTLanguage.Name = "labelNationalBTLanguage";
-            this.labelNationalBTLanguage.Size = new System.Drawing.Size(208, 21);
+            this.labelNationalBTLanguage.Size = new System.Drawing.Size(215, 21);
             this.labelNationalBTLanguage.TabIndex = 6;
             this.labelNationalBTLanguage.Text = "National BT Language";
             this.labelNationalBTLanguage.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -502,7 +519,7 @@
             // 
             this.labelEthnologueCode.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelEthnologueCode.AutoSize = true;
-            this.labelEthnologueCode.Location = new System.Drawing.Point(3, 124);
+            this.labelEthnologueCode.Location = new System.Drawing.Point(3, 126);
             this.labelEthnologueCode.Name = "labelEthnologueCode";
             this.labelEthnologueCode.Size = new System.Drawing.Size(62, 13);
             this.labelEthnologueCode.TabIndex = 5;
@@ -511,7 +528,7 @@
             // buttonInternationalBTFont
             // 
             this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.buttonInternationalBTFont, 2);
-            this.buttonInternationalBTFont.Location = new System.Drawing.Point(317, 274);
+            this.buttonInternationalBTFont.Location = new System.Drawing.Point(324, 276);
             this.buttonInternationalBTFont.Name = "buttonInternationalBTFont";
             this.buttonInternationalBTFont.Size = new System.Drawing.Size(108, 23);
             this.buttonInternationalBTFont.TabIndex = 14;
@@ -536,27 +553,16 @@
             this.textBoxProjectName.Location = new System.Drawing.Point(104, 3);
             this.textBoxProjectName.Name = "textBoxProjectName";
             this.textBoxProjectName.ReadOnly = true;
-            this.textBoxProjectName.Size = new System.Drawing.Size(421, 20);
+            this.textBoxProjectName.Size = new System.Drawing.Size(435, 20);
             this.textBoxProjectName.TabIndex = 1;
             this.textBoxProjectName.TabStop = false;
             this.textBoxProjectName.TextChanged += new System.EventHandler(this.textBox_TextChanged);
-            // 
-            // labelReturnToTeamMemberTabInstructions
-            // 
-            this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.labelReturnToTeamMemberTabInstructions, 5);
-            this.labelReturnToTeamMemberTabInstructions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelReturnToTeamMemberTabInstructions.Location = new System.Drawing.Point(3, 300);
-            this.labelReturnToTeamMemberTabInstructions.Name = "labelReturnToTeamMemberTabInstructions";
-            this.labelReturnToTeamMemberTabInstructions.Size = new System.Drawing.Size(522, 112);
-            this.labelReturnToTeamMemberTabInstructions.TabIndex = 19;
-            this.labelReturnToTeamMemberTabInstructions.Text = resources.GetString("labelReturnToTeamMemberTabInstructions.Text");
-            this.labelReturnToTeamMemberTabInstructions.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // labelFont
             // 
             this.labelFont.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelFont.AutoSize = true;
-            this.labelFont.Location = new System.Drawing.Point(3, 179);
+            this.labelFont.Location = new System.Drawing.Point(3, 181);
             this.labelFont.Name = "labelFont";
             this.labelFont.Size = new System.Drawing.Size(31, 13);
             this.labelFont.TabIndex = 8;
@@ -566,7 +572,7 @@
             // 
             this.labelSentenceTerm.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelSentenceTerm.AutoSize = true;
-            this.labelSentenceTerm.Location = new System.Drawing.Point(3, 206);
+            this.labelSentenceTerm.Location = new System.Drawing.Point(3, 208);
             this.labelSentenceTerm.Name = "labelSentenceTerm";
             this.labelSentenceTerm.Size = new System.Drawing.Size(95, 13);
             this.labelSentenceTerm.TabIndex = 17;
@@ -576,7 +582,7 @@
             // 
             this.labelKeyboard.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelKeyboard.AutoSize = true;
-            this.labelKeyboard.Location = new System.Drawing.Point(3, 151);
+            this.labelKeyboard.Location = new System.Drawing.Point(3, 153);
             this.labelKeyboard.Name = "labelKeyboard";
             this.labelKeyboard.Size = new System.Drawing.Size(55, 13);
             this.labelKeyboard.TabIndex = 20;
@@ -589,9 +595,9 @@
             this.comboBoxKeyboardVernacular.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxKeyboardVernacular.FormattingEnabled = true;
             this.comboBoxKeyboardVernacular.ItemHeight = 13;
-            this.comboBoxKeyboardVernacular.Location = new System.Drawing.Point(104, 147);
+            this.comboBoxKeyboardVernacular.Location = new System.Drawing.Point(104, 149);
             this.comboBoxKeyboardVernacular.Name = "comboBoxKeyboardVernacular";
-            this.comboBoxKeyboardVernacular.Size = new System.Drawing.Size(207, 21);
+            this.comboBoxKeyboardVernacular.Size = new System.Drawing.Size(214, 21);
             this.comboBoxKeyboardVernacular.TabIndex = 2;
             this.comboBoxKeyboardVernacular.DragDrop += new System.Windows.Forms.DragEventHandler(this.comboBoxKeyboard_DragDrop);
             // 
@@ -602,11 +608,22 @@
             this.comboBoxKeyboardNationalBT.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxKeyboardNationalBT.FormattingEnabled = true;
             this.comboBoxKeyboardNationalBT.ItemHeight = 13;
-            this.comboBoxKeyboardNationalBT.Location = new System.Drawing.Point(317, 147);
+            this.comboBoxKeyboardNationalBT.Location = new System.Drawing.Point(324, 149);
             this.comboBoxKeyboardNationalBT.Name = "comboBoxKeyboardNationalBT";
-            this.comboBoxKeyboardNationalBT.Size = new System.Drawing.Size(208, 21);
+            this.comboBoxKeyboardNationalBT.Size = new System.Drawing.Size(215, 21);
             this.comboBoxKeyboardNationalBT.TabIndex = 9;
             this.comboBoxKeyboardNationalBT.DragDrop += new System.Windows.Forms.DragEventHandler(this.comboBoxKeyboard_DragDrop);
+            // 
+            // labelReturnToTeamMemberTabInstructions
+            // 
+            this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.labelReturnToTeamMemberTabInstructions, 5);
+            this.labelReturnToTeamMemberTabInstructions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelReturnToTeamMemberTabInstructions.Location = new System.Drawing.Point(3, 302);
+            this.labelReturnToTeamMemberTabInstructions.Name = "labelReturnToTeamMemberTabInstructions";
+            this.labelReturnToTeamMemberTabInstructions.Size = new System.Drawing.Size(536, 134);
+            this.labelReturnToTeamMemberTabInstructions.TabIndex = 19;
+            this.labelReturnToTeamMemberTabInstructions.Text = resources.GetString("labelReturnToTeamMemberTabInstructions.Text");
+            this.labelReturnToTeamMemberTabInstructions.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // fontDialog
             // 
@@ -616,29 +633,13 @@
             // 
             this.folderBrowserDialog.RootFolder = System.Environment.SpecialFolder.Personal;
             // 
-            // checkBoxVernacular
-            // 
-            this.checkBoxVernacular.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.checkBoxVernacular.AutoSize = true;
-            this.checkBoxVernacular.Checked = true;
-            this.checkBoxVernacular.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.checkBoxVernacular, 2);
-            this.checkBoxVernacular.Location = new System.Drawing.Point(104, 51);
-            this.checkBoxVernacular.Name = "checkBoxVernacular";
-            this.checkBoxVernacular.Size = new System.Drawing.Size(207, 17);
-            this.checkBoxVernacular.TabIndex = 21;
-            this.checkBoxVernacular.Text = "Project will display the Story language line?";
-            this.toolTip.SetToolTip(this.checkBoxVernacular, "Check this box to configure the project to store the story in the story language " +
-                    "(i.e. as opposed to only storing one or other of the back-translations)");
-            this.checkBoxVernacular.UseVisualStyleBackColor = true;
-            // 
             // TeamMemberForm
             // 
             this.AcceptButton = this.buttonOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(542, 444);
+            this.ClientSize = new System.Drawing.Size(556, 468);
             this.Controls.Add(this.tabControlProjectMetaData);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;

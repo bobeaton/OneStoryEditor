@@ -60,9 +60,10 @@ namespace OneStoryProjectEditor
             }
 
             // the only time we show the National BT is if there's an "other" English BTr (who will
-            //  do the EnglishBT from the NationalBT) AND only if there *is* a national BT
+            //  do the EnglishBT from the NationalBT) OR there's no vernacular
             if (theSE.StoryProject.ProjSettings.NationalBT.HasData && 
-                theSE.StoryProject.TeamMembers.IsThereASeparateEnglishBackTranslator)
+                (theSE.StoryProject.TeamMembers.IsThereASeparateEnglishBackTranslator 
+                ||  !theSE.StoryProject.ProjSettings.Vernacular.HasData))
             {
                 InsertColumn(nNumColumns);
                 InitColumnLabel(theSE.StoryProject.ProjSettings.NationalBT.LangName, nNumColumns);

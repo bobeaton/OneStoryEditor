@@ -111,8 +111,8 @@ TargetLanguageName	{4}
 DefaultCCTablePath	
 LastExportPath	
 LastNewDocumentFolder	{5}\Adapt It Unicode Work
-PunctuationPairsSourceSet(stores space for an empty cell)	?.,;:"!()&lt;&gt;{6}[]“”‘’{7}
-PunctuationPairsTargetSet(stores space for an empty cell)	?.,;:"!()&lt;&gt;{6}[]“”‘’{8}
+PunctuationPairsSourceSet(stores space for an empty cell)	{6}
+PunctuationPairsTargetSet(stores space for an empty cell)	{7}
 
 PunctuationTwoCharacterPairsSourceSet(ditto)	
 PunctuationTwoCharacterPairsTargetSet(ditto)	
@@ -123,8 +123,8 @@ BackupDocumentFlag	0
 RTL_Layout	0
 SFMescapeChar	\
 SFMafterNewlines	0
-SourceIsRTL	{9}
-TargetIsRTL	{10}
+SourceIsRTL	{8}
+TargetIsRTL	{9}
 
 NavTextIsRTL	0
 LowerCaseSourceLanguageChars	abcdefghijklmnopqrstuvwxyz

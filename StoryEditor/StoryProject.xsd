@@ -233,6 +233,7 @@
 			<xs:enumeration value="ProjFacAddStoryQuestions" />
 			<xs:enumeration value="BackTranslatorTypeInternationalBT" />
 			<xs:enumeration value="ConsultantCheckNonBiblicalStory" />
+			<xs:enumeration value="FirstPassMentorCheck1" />
 			<xs:enumeration value="ConsultantCheckStoryInfo" />
 			<xs:enumeration value="ConsultantCheckAnchors" />
 			<xs:enumeration value="ConsultantCheckStoryQuestions" />

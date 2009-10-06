@@ -17,6 +17,8 @@ namespace OneStoryProjectEditor
         public LanguageInfo NationalBT = new LanguageInfo(new Font("Arial Unicode MS", 12), Color.Green);
         public LanguageInfo InternationalBT = new LanguageInfo("English", "en", new Font("Times New Roman", 10), Color.Blue);
 
+        public bool IsConfigured = false;
+
         public ProjectSettings(string strProjectFolderDefaultIfNull, string strProjectName)
         {
             ProjectName = strProjectName;
@@ -33,11 +35,7 @@ namespace OneStoryProjectEditor
             NewDataSet.LanguagesRow theLangRow = InsureLanguagesRow(projFile);
 
             // if there is no vernacular row, we must add it (it's required)
-            if (projFile.VernacularLang.Count == 0)
-                projFile.VernacularLang.AddVernacularLangRow(Vernacular.LangName,
-                    Vernacular.LangCode, Vernacular.LangFont.Name, Vernacular.LangFont.Size,
-                    Vernacular.FontColor.Name, Vernacular.FullStop, Vernacular.Keyboard, Vernacular.IsRTL, theLangRow);
-            else
+            if (projFile.VernacularLang.Count == 1)
             {
                 // otherwise, read in the details
                 System.Diagnostics.Debug.Assert(projFile.VernacularLang.Count == 1);
@@ -84,6 +82,9 @@ namespace OneStoryProjectEditor
                 InternationalBT.Keyboard = (!rowEngRow.IsKeyboardNull() && !String.IsNullOrEmpty(rowEngRow.Keyboard))
                     ? rowEngRow.Keyboard : null;
             }
+
+            // if we're setting this up from the file, then we're "configured"
+            IsConfigured = true;
         }
 
         public class LanguageInfo
@@ -195,10 +196,11 @@ namespace OneStoryProjectEditor
             get
             {
                 // have to have one or the other BT language
-                System.Diagnostics.Debug.Assert(NationalBT.HasData || InternationalBT.HasData || (Vernacular.LangName == "English"));
+                System.Diagnostics.Debug.Assert(NationalBT.HasData || InternationalBT.HasData || (Vernacular.HasData && (Vernacular.LangName == "English")));
 
-                XElement elem = new XElement("Languages",
-                    Vernacular.GetXml("VernacularLang"));
+                XElement elem = new XElement("Languages");
+                if (Vernacular.HasData)
+                    elem.Add(Vernacular.GetXml("VernacularLang"));
                     
                 if (NationalBT.HasData)
                     elem.Add(NationalBT.GetXml("NationalBTLang"));

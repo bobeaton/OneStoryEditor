@@ -17,6 +17,7 @@ namespace OneStoryProjectEditor
 
         public static bool ProjFacTypeVernacular(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
+            System.Diagnostics.Debug.Assert(theStoryProjectData.ProjSettings.Vernacular.HasData);
             Console.WriteLine(String.Format("Checking if stage 'ProjFacTypeVernacular' work is finished: Name: {0}", theCurrentStory.Name));
             
             // make sure that each verse has only one sentence
@@ -373,9 +374,11 @@ namespace OneStoryProjectEditor
 
             if (theStoryProjectData.TeamMembers.IsThereASeparateEnglishBackTranslator)
                 eProposedNextState = StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT;
+            else if (!theStoryProjectData.TeamMembers.IsThereAFirstPassMentor)
+                eProposedNextState = StoryStageLogic.ProjectStages.eConsultantCheckStoryInfo;
             else
                 System.Diagnostics.Debug.Assert(eProposedNextState ==
-                    StoryStageLogic.ProjectStages.eConsultantCheckStoryInfo);
+                    StoryStageLogic.ProjectStages.eFirstPassMentorCheck1);
 
             return true;
         }
@@ -432,22 +435,12 @@ namespace OneStoryProjectEditor
         {
             while (String.IsNullOrEmpty(theCurrentStory.CraftingInfo.BackTranslatorMemberID))
             {
-                if (theCurrentStory.CraftingInfo.IsBiblicalStory)
-                {
-                    MessageBox.Show("In the following window, click on the browse button to select the 'UNS Back-translator' and add or choose the UNS that did this back-translation.", Properties.Resources.IDS_Caption);
-                    StoryFrontMatterForm dlg = new StoryFrontMatterForm(theSE, theStoryProjectData, theCurrentStory);
-                    dlg.Text = "Choose the UNS that did the back-translation";
-                    dlg.ShowDialog();
-                }
-                else
-                {
-                    MemberPicker dlg = new MemberPicker(theStoryProjectData, TeamMemberData.UserTypes.eUNS);
-                    dlg.Text = "Choose the UNS that did this back-translation";
-                    if (dlg.ShowDialog() != DialogResult.OK)
-                        return;
+                MemberPicker dlg = new MemberPicker(theStoryProjectData, TeamMemberData.UserTypes.eUNS);
+                dlg.Text = "Choose the UNS that did this back-translation";
+                if (dlg.ShowDialog() != DialogResult.OK)
+                    return;
 
-                    theCurrentStory.CraftingInfo.BackTranslatorMemberID = dlg.SelectedMember.MemberGuid;
-                }
+                theCurrentStory.CraftingInfo.BackTranslatorMemberID = dlg.SelectedMember.MemberGuid;
             }
         }
 

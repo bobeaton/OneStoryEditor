@@ -233,10 +233,12 @@ namespace OneStoryProjectEditor
 		/// <summary>
 		/// Build by project by reference array of verse text for this term
 		/// </summary>
-        internal void ReadVerseText(Term myTerm, List<VerseRef> references, StoriesData theStories, ProgressBar progressBarLoadingKeyTerms)
+        internal void ReadVerseText(Term myTerm, List<VerseRef> references, StoryProjectData theSPD, ProgressBar progressBarLoadingKeyTerms)
         {
             mapReferenceToVerseText = new Dictionary<string, string>();
-            
+
+            // get the current stories only (not the obsolete ones)
+            StoriesData theStories = theSPD[Properties.Resources.IDS_MainStoriesSet];
             progressBarLoadingKeyTerms.Maximum = theStories.Count;
             progressBarLoadingKeyTerms.Value = 0;
 
@@ -255,7 +257,16 @@ namespace OneStoryProjectEditor
                             {
                                 string strVerseReference = String.Format("Story: '{0}', line: {1}, anchor: {2}",
                                     aStory.Name, nVerseNumber + 1, anAnchor.JumpTarget);
-                                mapReferenceToVerseText[strVerseReference] = aVerse.VernacularText.ToString();
+                                string strVerseText;
+                                if (theSPD.ProjSettings.Vernacular.HasData)
+                                    strVerseText = aVerse.VernacularText.ToString();
+                                else if (theSPD.ProjSettings.NationalBT.HasData)
+                                    strVerseText = aVerse.NationalBTText.ToString();
+                                else
+                                    strVerseText = aVerse.InternationalBTText.ToString();
+
+                                // keep track of this verse and it's reference
+                                mapReferenceToVerseText[strVerseReference] = strVerseText;
                             }
                         // ??? verseText[i] = HTMLBuilder.EscapeSpecialCharacters(verseText[i]);
                     }

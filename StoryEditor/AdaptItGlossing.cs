@@ -130,9 +130,8 @@ namespace OneStoryProjectEditor
                     liSource.LangName,
                     liTarget.LangName,
                     Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                    "{}",
-                    liSource.FullStop,
-                    liTarget.FullStop,
+                    AIPunctuation(liSource.FullStop),
+                    AIPunctuation(liTarget.FullStop),
                     (liSource.IsRTL) ? "1" : "0",
                     (liTarget.IsRTL) ? "1" : "0");
                 File.WriteAllText(AdaptItProjectFileSpec(liSource.LangName, liTarget.LangName), strProjectFileContents);
@@ -152,6 +151,16 @@ namespace OneStoryProjectEditor
                 string strKBContents = String.Format(strFormat, liSource.LangName, liTarget.LangName);
                 File.WriteAllText(AdaptItGlossingLookupFileSpec(liSource.LangName, liTarget.LangName), strKBContents);
             }
+        }
+
+        protected static string AIPunctuation(string strSentenceFinalPuncts)
+        {
+            const string CstrAdaptItPunct = "?.,;:\"!()<>{}[]“”‘’";
+            string strAllPunctuation = CstrAdaptItPunct;
+            foreach (char ch in strSentenceFinalPuncts)
+                if (strAllPunctuation.IndexOf(ch) == -1)
+                    strAllPunctuation += ch;
+            return strAllPunctuation;
         }
     }
 }

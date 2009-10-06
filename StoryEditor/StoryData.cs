@@ -16,12 +16,12 @@ namespace OneStoryProjectEditor
         public CraftingInfoData CraftingInfo = null;
         public VersesData Verses = null;
 
-        public StoryData(string strStoryName, string strLoggedOnMemberGuid, bool bIsBiblicalStory)
+        public StoryData(string strStoryName, string strLoggedOnMemberGuid, bool bIsBiblicalStory, ProjectSettings projSettings)
         {
             Name = strStoryName;
             guid = Guid.NewGuid().ToString();
             StageTimeStamp = DateTime.Now;
-            ProjStage = new StoryStageLogic();
+            ProjStage = new StoryStageLogic(projSettings);
             CraftingInfo = new CraftingInfoData(strLoggedOnMemberGuid, bIsBiblicalStory);
             Verses = new VersesData();
         }

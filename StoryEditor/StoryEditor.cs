@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using System.Windows.Forms;
 using System.IO;
-using System.Xml.Serialization;
 using System.Xml.XPath;                 // for XPathNavigator
 using SilEncConverters31;
 using System.Diagnostics;               // Process
@@ -55,7 +53,7 @@ namespace OneStoryProjectEditor
             catch { }   // this was only a bene anyway, so just ignore it
         }
 
-        protected StoriesData TheCurrentStoriesSet
+        internal StoriesData TheCurrentStoriesSet
         {
             get
             {
@@ -480,7 +478,7 @@ namespace OneStoryProjectEditor
                 return;
 
             comboBoxStorySelector.Items.Insert(nIndexToInsert, strStoryName);
-            theCurrentStory = new StoryData(strStoryName, strCrafterGuid, (res == DialogResult.Yes));
+            theCurrentStory = new StoryData(strStoryName, strCrafterGuid, (res == DialogResult.Yes), StoryProject.ProjSettings);
             TheCurrentStoriesSet.Insert(nIndexToInsert, theCurrentStory);
             comboBoxStorySelector.SelectedItem = strStoryName;
         }
@@ -1326,11 +1324,6 @@ namespace OneStoryProjectEditor
             insertNewStoryToolStripMenuItem.Enabled = addNewStoryAfterToolStripMenuItem.Enabled =
                 (IsInStoriesSet && (StoryProject != null) && (LoggedOnMember != null));
 
-            exportStoryToolStripMenuItem.Enabled =
-                exportToAdaptItToolStripMenuItem.Enabled =
-                exportNationalBacktranslationToolStripMenuItem.Enabled =
-                ((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
-
             // if there's a story that has more than no verses, AND if it's a bible
             //  story and before the add anchors stage or a non-biblical story and
             //  before the consultant check stage...
@@ -1350,9 +1343,21 @@ namespace OneStoryProjectEditor
 
             if ((StoryProject != null) && (StoryProject.ProjSettings != null))
             {
-                exportStoryToolStripMenuItem.Text = String.Format(Properties.Resources.IDS_FromStoryForDiscourseCharting, StoryProject.ProjSettings.Vernacular.LangName);
-                exportNationalBacktranslationToolStripMenuItem.Text = String.Format(Properties.Resources.IDS_FromNatlLanguage, StoryProject.ProjSettings.NationalBT.LangName);
-                exportNationalBacktranslationToolStripMenuItem.Visible = StoryProject.ProjSettings.NationalBT.HasData;
+                if (StoryProject.ProjSettings.Vernacular.HasData)
+                    exportStoryToolStripMenuItem.Text = String.Format(Properties.Resources.IDS_FromStoryForDiscourseCharting, StoryProject.ProjSettings.Vernacular.LangName);
+                else
+                    exportStoryToolStripMenuItem.Visible = false;
+
+                // do the Hindi to English glossing (but only makes sense if we have both languages...
+                if (StoryProject.ProjSettings.NationalBT.HasData && StoryProject.ProjSettings.InternationalBT.HasData)
+                    exportNationalBacktranslationToolStripMenuItem.Text = String.Format(Properties.Resources.IDS_FromNatlLanguage, StoryProject.ProjSettings.NationalBT.LangName);
+                else
+                    exportNationalBacktranslationToolStripMenuItem.Visible = false;
+
+                if (StoryProject.ProjSettings.InternationalBT.HasData)
+                    exportToAdaptItToolStripMenuItem.Enabled = ((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
+                else
+                    exportToAdaptItToolStripMenuItem.Visible = false;
             }
         }
 
@@ -1438,13 +1443,28 @@ namespace OneStoryProjectEditor
                 pasteToolStripMenuItem.Enabled = 
                 (IsInStoriesSet && (theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
 
-            if ((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0))
+            if ((StoryProject != null) && (StoryProject.ProjSettings != null) && (theCurrentStory != null) && (theCurrentStory.Verses.Count > 0))
             {
-                copyStoryToolStripMenuItem.Text = String.Format(Properties.Resources.IDS_StoryText, StoryProject.ProjSettings.Vernacular.LangName);
-                copyNationalBackTranslationToolStripMenuItem.Text = String.Format(Properties.Resources.IDS_NationalBtOfStory, StoryProject.ProjSettings.NationalBT.LangName);
-                deleteStoryNationalBackTranslationToolStripMenuItem.Text = String.Format(Properties.Resources.IDS_NationalBtOfStory, StoryProject.ProjSettings.NationalBT.LangName);
-                deleteStoryNationalBackTranslationToolStripMenuItem.Visible = copyNationalBackTranslationToolStripMenuItem.Visible = (StoryProject.ProjSettings.NationalBT.HasData);
-                deleteEnglishBacktranslationToolStripMenuItem.Visible = copyEnglishBackTranslationToolStripMenuItem.Visible = (StoryProject.ProjSettings.InternationalBT.HasData);
+                if (StoryProject.ProjSettings.Vernacular.HasData)
+                    copyStoryToolStripMenuItem.Text = String.Format(Properties.Resources.IDS_StoryText, StoryProject.ProjSettings.Vernacular.LangName);
+                else
+                {
+                    copyStoryToolStripMenuItem.Visible = false;
+                    deleteStoryVersesToolStripMenuItem.Visible = false;
+                }
+
+                if (StoryProject.ProjSettings.NationalBT.HasData)
+                {
+                    copyNationalBackTranslationToolStripMenuItem.Text = 
+                        deleteStoryNationalBackTranslationToolStripMenuItem.Text = 
+                        String.Format(Properties.Resources.IDS_NationalBtOfStory, StoryProject.ProjSettings.NationalBT.LangName);
+                }
+                else
+                    deleteStoryNationalBackTranslationToolStripMenuItem.Visible = copyNationalBackTranslationToolStripMenuItem.Visible = false;
+
+                if (!StoryProject.ProjSettings.InternationalBT.HasData)
+                    deleteEnglishBacktranslationToolStripMenuItem.Visible =
+                        copyEnglishBackTranslationToolStripMenuItem.Visible = false;
             }
         }
 
@@ -1571,6 +1591,15 @@ namespace OneStoryProjectEditor
             GlossInAdaptIt(strStory, AdaptItGlossing.GlossType.eVernacularToEnglish);
         }
 
+        private void deleteStoryVersesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Debug.Assert(theCurrentStory != null);
+            foreach (VerseData aVerse in theCurrentStory.Verses)
+                aVerse.VernacularText.SetValue(null);
+            ReInitVerseControls();
+            Modified = true;
+        }
+
         private void deleteStoryNationalBackTranslationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Debug.Assert(theCurrentStory != null);
@@ -1637,6 +1666,10 @@ namespace OneStoryProjectEditor
                 Debug.Assert((SourceWords.Count == TargetWords.Count)
                     && (SourceWords.Count == (StringsInBetween.Count - 1)));
 
+                string strSourceSentFinalPunct = (eGlossType == AdaptItGlossing.GlossType.eNationalToEnglish) ?
+                    StoryProject.ProjSettings.NationalBT.FullStop : StoryProject.ProjSettings.Vernacular.FullStop;
+                Debug.Assert(!String.IsNullOrEmpty(strSourceSentFinalPunct));
+
                 XElement elem = new XElement("AdaptItDoc");
                 for (int i = 0; i < SourceWords.Count; i++)
                 {
@@ -1672,9 +1705,7 @@ namespace OneStoryProjectEditor
                         }
                     }
 
-                    Debug.Assert(StoryProject.ProjSettings.Vernacular.FullStop.Length > 0);
-                    string strFattr = AIBools(strSourceWord, strAfter,
-                        StoryProject.ProjSettings.Vernacular.FullStop);
+                    string strFattr = AIBools(strSourceWord, strAfter, strSourceSentFinalPunct);
 
                     XElement elemWord =
                         new XElement("S",
@@ -1839,12 +1870,18 @@ namespace OneStoryProjectEditor
 
         private void viewToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
-            if (StoryProject != null)
+            if ((StoryProject != null) && (StoryProject.ProjSettings != null))
             {
-                viewVernacularLangFieldMenuItem.Text = String.Format(Properties.Resources.IDS_LanguageFields, StoryProject.ProjSettings.Vernacular.LangName);
-                viewNationalLangFieldMenuItem.Text = String.Format(Properties.Resources.IDS_StoryLanguageField, StoryProject.ProjSettings.NationalBT.LangName);
-                viewVernacularLangFieldMenuItem.Visible = (StoryProject.ProjSettings.Vernacular.HasData);
-                viewNationalLangFieldMenuItem.Visible = (StoryProject.ProjSettings.NationalBT.HasData);
+                if (StoryProject.ProjSettings.Vernacular.HasData)
+                    viewVernacularLangFieldMenuItem.Text = String.Format(Properties.Resources.IDS_LanguageFields, StoryProject.ProjSettings.Vernacular.LangName);
+                else
+                    viewVernacularLangFieldMenuItem.Visible = false;
+
+                if (StoryProject.ProjSettings.NationalBT.HasData)
+                    viewNationalLangFieldMenuItem.Text = String.Format(Properties.Resources.IDS_StoryLanguageField, StoryProject.ProjSettings.NationalBT.LangName);
+                else
+                    viewNationalLangFieldMenuItem.Visible = false;
+
                 viewEnglishBTFieldMenuItem.Visible = (StoryProject.ProjSettings.InternationalBT.HasData);
             }
 
