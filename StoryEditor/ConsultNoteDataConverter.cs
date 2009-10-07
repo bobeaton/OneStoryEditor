@@ -86,6 +86,13 @@ namespace OneStoryProjectEditor
                 Add(new CommInstance(null, MenteeDirection, null));
         }
 
+        // do this here, because we need to sub-class it to allow for FirstPassMentor working as well in addition to CIT
+        public virtual void ThrowIfWrongEditor(TeamMemberData.UserTypes eLoggedOnMember, TeamMemberData.UserTypes eRequiredEditor)
+        {
+            if (eLoggedOnMember != eRequiredEditor)
+                throw new ApplicationException(String.Format("Only a '{0}' can edit this field", TeamMemberData.GetMemberTypeAsDisplayString(eRequiredEditor)));
+        }
+
         public abstract CommunicationDirections MenteeDirection { get; }
         public abstract CommunicationDirections MentorDirection { get; }
 
@@ -217,6 +224,24 @@ namespace OneStoryProjectEditor
             get { return "ConsultantNote"; }
         }
 
+        // override to allow for FirstPassMentor working as well in addition to CIT
+        public override void ThrowIfWrongEditor(TeamMemberData.UserTypes eLoggedOnMember, TeamMemberData.UserTypes eRequiredEditor)
+        {
+            // if it's the *mentor* that we're supposed to be checking for... (this will get called for the mentee check
+            //  as well, but the special case is only for FirstPassMentor; not ProjFac)
+            if (eRequiredEditor == MentorRequiredEditor)
+            {
+                // ... and if the logged in member isn't that mentor, nor the First Pass Mentor...
+                if ((eLoggedOnMember != eRequiredEditor) && (eLoggedOnMember != TeamMemberData.UserTypes.eFirstPassMentor))
+                    // then throw that it's the wrong editor
+                    throw new ApplicationException(String.Format("Only a '{0}' or a '{1}' can edit this field", 
+                        TeamMemberData.GetMemberTypeAsDisplayString(eRequiredEditor),
+                        TeamMemberData.GetMemberTypeAsDisplayString(TeamMemberData.UserTypes.eFirstPassMentor)));
+            }
+            else // otherwise, let the base class handle it
+                base.ThrowIfWrongEditor(eLoggedOnMember, eRequiredEditor);
+        }
+
         public override TeamMemberData.UserTypes MentorRequiredEditor
         {
             get { return TeamMemberData.UserTypes.eConsultantInTraining; }
@@ -308,9 +333,29 @@ namespace OneStoryProjectEditor
             get { return (this.Count > 0); }
         }
 
+        public void InsureExtraBox(ConsultNoteDataConverter aCNDC, TeamMemberData.UserTypes eLoggedOnMemberType)
+        {
+            aCNDC.InsureExtraBox(eLoggedOnMemberType, MentorType, MenteeType);
+        }
+
+        // if the coach tries to add a note in the consultant's pane, that should fail.
+        // (but it's okay for a project facilitator to add one if they have a question
+        //  for the consultant)
+        public virtual bool CheckAddNotePrivilege(StoryEditor theSE, TeamMemberData.UserTypes eLoggedOnMember)
+        {
+            if ((eLoggedOnMember != MentorType) && (eLoggedOnMember != MenteeType))
+            {
+                theSE.SetStatusBar("Error: " + String.Format("You must be logged in as a '{0}' or a '{1}' to add a note here",
+                    TeamMemberData.GetMemberTypeAsDisplayString(MentorType),
+                    TeamMemberData.GetMemberTypeAsDisplayString(MenteeType)));
+                return false;
+            }
+            return true;
+        }
+
         public abstract ConsultNoteDataConverter InsertEmpty(int nIndex, int nRound, TeamMemberData.UserTypes eLoggedOnMember);
-        public abstract TeamMemberData.UserTypes MentorType { get; }
-        public abstract TeamMemberData.UserTypes MenteeType { get; }
+        protected abstract TeamMemberData.UserTypes MentorType { get; }
+        protected abstract TeamMemberData.UserTypes MenteeType { get; }
 
         public XElement GetXml
         {
@@ -358,17 +403,39 @@ namespace OneStoryProjectEditor
 
         public override ConsultNoteDataConverter InsertEmpty(int nIndex, int nRound, TeamMemberData.UserTypes eLoggedOnMember)
         {
-            ConsultNoteDataConverter theNewCN = new ConsultantNoteData(nRound, eLoggedOnMember, MentorType, MenteeType);
+            TeamMemberData.UserTypes eMentorType = MentorType;
+            if (eLoggedOnMember == TeamMemberData.UserTypes.eFirstPassMentor)
+                eMentorType = TeamMemberData.UserTypes.eFirstPassMentor;
+
+            ConsultNoteDataConverter theNewCN = new ConsultantNoteData(nRound, eLoggedOnMember, eMentorType, MenteeType);
             Insert(nIndex, theNewCN);
             return theNewCN;
         }
 
-        public override TeamMemberData.UserTypes MentorType
+        // if the coach tries to add a note in the consultant's pane, that should fail.
+        // (but it's okay for a project facilitator to add one if they have a question
+        //  for the consultant).
+        // The base class version is overridden here, because for the Consultant Pane, the 'First Pass Mentor' is
+        //  also a valid note adder
+        public override bool CheckAddNotePrivilege(StoryEditor theSE, TeamMemberData.UserTypes eLoggedOnMember)
+        {
+            if ((eLoggedOnMember != MentorType) && (eLoggedOnMember != TeamMemberData.UserTypes.eFirstPassMentor) && (eLoggedOnMember != MenteeType))
+            {
+                theSE.SetStatusBar("Error: " + String.Format("You must be logged in as a '{0}', a '{1}', or a '{2}' to add a note here",
+                    TeamMemberData.GetMemberTypeAsDisplayString(MentorType),
+                    TeamMemberData.GetMemberTypeAsDisplayString(TeamMemberData.UserTypes.eFirstPassMentor),
+                    TeamMemberData.GetMemberTypeAsDisplayString(MenteeType)));
+                return false;
+            }
+            return true;
+        }
+
+        protected override TeamMemberData.UserTypes MentorType
         {
             get { return TeamMemberData.UserTypes.eConsultantInTraining; }
         }
 
-        public override TeamMemberData.UserTypes MenteeType
+        protected override TeamMemberData.UserTypes MenteeType
         {
             get { return TeamMemberData.UserTypes.eProjectFacilitator; }
         }
@@ -412,12 +479,12 @@ namespace OneStoryProjectEditor
             return theNewCN;
         }
 
-        public override TeamMemberData.UserTypes MentorType
+        protected override TeamMemberData.UserTypes MentorType
         {
             get { return TeamMemberData.UserTypes.eCoach; }
         }
 
-        public override TeamMemberData.UserTypes MenteeType
+        protected override TeamMemberData.UserTypes MenteeType
         {
             get { return TeamMemberData.UserTypes.eConsultantInTraining; }
         }

@@ -38,20 +38,23 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert(tableLayoutPanel.RowCount == 1, "otherwise, fix this assumption: ConsultNoteControl.cs.28");
 
             // finally populate the buttons on that tool strip
-            aCNDC.InsureExtraBox(eLoggedOnMemberType, theCollection.MentorType, theCollection.MenteeType);
+            theCollection.InsureExtraBox(aCNDC, eLoggedOnMemberType);
             int nNumRows = 1;
             foreach (CommInstance aCI in aCNDC)
                 if ((aCI.Direction == ConsultNoteDataConverter.CommunicationDirections.eConsultantToProjFac)
                     || (aCI.Direction == ConsultNoteDataConverter.CommunicationDirections.eCoachToConsultant))
-                    InitRow(aCNDC.MentorLabel, aCI, aCNDC.CommentColor, aCNDC.MentorRequiredEditor, ref nNumRows);
+                    InitRow(aCNDC.MentorLabel, aCI, aCNDC.CommentColor, aCNDC.ThrowIfWrongEditor,
+                        aCNDC.MentorRequiredEditor, ref nNumRows);
                 else
-                    InitRow(aCNDC.MenteeLabel, aCI, aCNDC.ResponseColor, aCNDC.MenteeRequiredEditor, ref nNumRows);
+                    InitRow(aCNDC.MenteeLabel, aCI, aCNDC.ResponseColor, aCNDC.ThrowIfWrongEditor, 
+                        aCNDC.MenteeRequiredEditor, ref nNumRows);
 
             tableLayoutPanel.ResumeLayout(false);
             ResumeLayout(false);
         }
 
-        protected void InitRow(string strRowLabel, StringTransfer strRowData, Color clrText, TeamMemberData.UserTypes eReqEditor, ref int nNumRows)
+        protected void InitRow(string strRowLabel, StringTransfer strRowData, Color clrText,
+            CtrlTextBox.ThrowIfNotCorrectEditor delegateCheckEditor, TeamMemberData.UserTypes eReqEditor, ref int nNumRows)
         {
             int nLayoutRow = nNumRows++;
 
@@ -63,7 +66,7 @@ namespace OneStoryProjectEditor
 
             CtrlTextBox tb = new CtrlTextBox(
                 strRowLabel + CstrSuffixTextBox + nNumRows.ToString(),
-                this, strRowData, eReqEditor);
+                this, strRowData, delegateCheckEditor, eReqEditor);
             tb.ForeColor = clrText;
 
             // add the label and tool strip as a new row to the table layout panel

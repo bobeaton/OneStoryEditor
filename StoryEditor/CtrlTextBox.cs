@@ -10,13 +10,16 @@ namespace OneStoryProjectEditor
 {
     public class CtrlTextBox : TextBox
     {
-        protected TeamMemberData.UserTypes _eRequiredEditor = TeamMemberData.UserTypes.eUndefined;
         protected StoryStageLogic _stageLogic = null;
         protected ResizableControl _ctrlParent = null;
         protected string _strKeyboardName = null;
 
-        public CtrlTextBox(string strName, ResizableControl ctrlParent, StringTransfer stData, 
-            TeamMemberData.UserTypes eRequiredEditor)
+        public delegate void ThrowIfNotCorrectEditor(TeamMemberData.UserTypes eLoggedInMember, TeamMemberData.UserTypes eRequiredEditor);
+        protected ThrowIfNotCorrectEditor _delegateRequiredEditorCheck;
+        protected TeamMemberData.UserTypes _eRequiredEditor = TeamMemberData.UserTypes.eUndefined;
+
+        public CtrlTextBox(string strName, ResizableControl ctrlParent, StringTransfer stData,
+            ThrowIfNotCorrectEditor delegateRequiredEditorCheck, TeamMemberData.UserTypes eRequiredEditor)
         {
             Name = strName;
             Multiline = true;
@@ -26,7 +29,8 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert(ctrlParent.StageLogic != null);
             _stageLogic = ctrlParent.StageLogic;
             _ctrlParent = ctrlParent;
-            _eRequiredEditor = eRequiredEditor; // can only be edited by this member!
+            _delegateRequiredEditorCheck = delegateRequiredEditorCheck; // call to check if the proper member is logged in!
+            _eRequiredEditor = eRequiredEditor;
         }
 
         public CtrlTextBox(string strName, ResizableControl ctrlParent, StringTransfer stData,
@@ -79,11 +83,10 @@ namespace OneStoryProjectEditor
                     // if the creator has defined a particular required editor (e.g. for consultant notes,
                     //  the *mentor* must be a *consultant*), then throw if we don't have one and always
                     //  allow the edit otherwise (since no one else can, we don't have to worry about conflicts).
-                    if (_eRequiredEditor != TeamMemberData.UserTypes.eUndefined)    // ... i.e. a req. editor is defined
+                    if (_delegateRequiredEditorCheck != null)    // ... i.e. a req. editor checking delegate is defined
                     {
-                        // then throw if this is not him or her (fall thru otherwise)
-                        if (theSE.LoggedOnMember.MemberType != _eRequiredEditor)
-                            throw new ApplicationException(String.Format("Only a '{0}' can edit this field", TeamMemberData.GetMemberTypeAsDisplayString(_eRequiredEditor)));
+                        // throws if failure
+                        _delegateRequiredEditorCheck(theSE.LoggedOnMember.MemberType, _eRequiredEditor);
                     }
 
                     // finally, the last possible blockage is if the currently logged on member isn't the 

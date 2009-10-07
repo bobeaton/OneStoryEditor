@@ -47,7 +47,7 @@ namespace OneStoryProjectEditor
 
             CtrlTextBox tb = new CtrlTextBox(
                 strLabelTextFormat + CstrSuffixTextBox + nNumRows,
-                this, strRowData, TeamMemberData.UserTypes.eUndefined);
+                this, strRowData, null);
 
             // add the label and tool strip as a new row to the table layout panel
             InsertRow(nLayoutRow);

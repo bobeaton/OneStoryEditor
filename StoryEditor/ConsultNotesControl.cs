@@ -73,13 +73,10 @@ namespace OneStoryProjectEditor
                 return;
 
             // if the coach tries to add a note in the consultant's pane, that should fail.
-            // (but it's okay for a project facilitator to add one)
-            if ((theSE.LoggedOnMember.MemberType != _theCNsDC.MentorType) && (theSE.LoggedOnMember.MemberType != _theCNsDC.MenteeType))
-            {
-                theSE.SetStatusBar("Error: " + String.Format("You must be a '{0}' to add a note here", 
-                    TeamMemberData.GetMemberTypeAsDisplayString(_theCNsDC.MentorType)));
+            // (but it's okay for a project facilitator to add one if they have a question
+            //  for the consultant)
+            if (!_theCNsDC.CheckAddNotePrivilege(theSE, theSE.LoggedOnMember.MemberType))
                 return;
-            }
 
             StoryStageLogic.ProjectStages eCurState = theSE.theCurrentStory.ProjStage.ProjectStage;
             int round = 1;
