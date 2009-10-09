@@ -10,7 +10,7 @@ namespace OneStoryProjectEditor
 {
     public partial class MultiLineControl : OneStoryProjectEditor.ResizableControl
     {
-        public MultiLineControl(StoryStageLogic storyStageLogic, MultipleLineDataConverter aMLDC)
+        public MultiLineControl(StoryStageLogic storyStageLogic, MultipleLineDataConverter aMLDC, List<string> astrTestors)
             : base(storyStageLogic)
         {
             InitializeComponent();
@@ -24,32 +24,34 @@ namespace OneStoryProjectEditor
             // finally populate the buttons on that tool strip
             System.Diagnostics.Debug.Assert(aMLDC.Count > 0);
             int nNumRows = 0;
-            foreach (StringTransfer strRowData in aMLDC)
+            for (int i = 0; i < aMLDC.Count; i++)
             {
-                InitRow(aMLDC.LabelTextFormat, strRowData, ref nNumRows);
+                StringTransfer strRowData = aMLDC[i];
+                string strUnsGui = aMLDC.MemberIDs[i];
+                System.Diagnostics.Debug.Assert(astrTestors.Contains(strUnsGui));
+                int nTest = astrTestors.IndexOf(strUnsGui) + 1;
+                InitRow(aMLDC.LabelTextFormat, strRowData, nTest, ref nNumRows);
             }
 
             tableLayoutPanel.ResumeLayout(false);
             ResumeLayout(false);
         }
 
-        protected void InitRow(string strLabelTextFormat, StringTransfer strRowData, ref int nNumRows)
+        protected void InitRow(string strLabelTextFormat, StringTransfer strRowData, int nTest, ref int nNumRows)
         {
-            int nLayoutRow = nNumRows++;
-
             Label label = new Label
                               {
                                   Anchor = AnchorStyles.Left,
                                   AutoSize = true,
-                                  Name = strLabelTextFormat + nNumRows,
-                                  Text = String.Format(strLabelTextFormat, nNumRows)
+                                  Name = strLabelTextFormat + nTest,
+                                  Text = String.Format(strLabelTextFormat, nTest)
                               };
 
             CtrlTextBox tb = new CtrlTextBox(
-                strLabelTextFormat + CstrSuffixTextBox + nNumRows,
-                this, strRowData, null);
+                strLabelTextFormat + CstrSuffixTextBox + nTest, this, strRowData);
 
             // add the label and tool strip as a new row to the table layout panel
+            int nLayoutRow = nNumRows++;
             InsertRow(nLayoutRow);
             tableLayoutPanel.Controls.Add(label, 0, nLayoutRow);
             tableLayoutPanel.Controls.Add(tb, 1, nLayoutRow);

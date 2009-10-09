@@ -5422,8 +5422,6 @@ namespace OneStoryProjectEditor {
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
         public partial class TestDataTable : global::System.Data.TypedTableBase<TestRow> {
             
-            private global::System.Data.DataColumn columnnumber;
-            
             private global::System.Data.DataColumn columnmemberID;
             
             private global::System.Data.DataColumn columnTests_Id;
@@ -5456,13 +5454,6 @@ namespace OneStoryProjectEditor {
             protected TestDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn numberColumn {
-                get {
-                    return this.columnnumber;
-                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -5508,14 +5499,13 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public TestRow AddTestRow(byte number, string memberID, TestsRow parentTestsRowByTests_Test) {
+            public TestRow AddTestRow(string memberID, TestsRow parentTestsRowByTests_Test) {
                 TestRow rowTestRow = ((TestRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        number,
                         memberID,
                         null};
                 if ((parentTestsRowByTests_Test != null)) {
-                    columnValuesArray[2] = parentTestsRowByTests_Test[0];
+                    columnValuesArray[1] = parentTestsRowByTests_Test[0];
                 }
                 rowTestRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowTestRow);
@@ -5536,21 +5526,16 @@ namespace OneStoryProjectEditor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
-                this.columnnumber = base.Columns["number"];
                 this.columnmemberID = base.Columns["memberID"];
                 this.columnTests_Id = base.Columns["Tests_Id"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             private void InitClass() {
-                this.columnnumber = new global::System.Data.DataColumn("number", typeof(byte), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnnumber);
                 this.columnmemberID = new global::System.Data.DataColumn("memberID", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnmemberID);
                 this.columnTests_Id = new global::System.Data.DataColumn("Tests_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnTests_Id);
-                this.columnnumber.AllowDBNull = false;
-                this.columnnumber.Namespace = "";
                 this.columnmemberID.Namespace = "";
             }
             
@@ -8145,7 +8130,6 @@ namespace OneStoryProjectEditor {
                 this.columnAnswers_Id = new global::System.Data.DataColumn("Answers_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnAnswers_Id);
                 this.columnmemberID.Namespace = "";
-                this.columnanswer_text.AllowDBNull = false;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -8643,7 +8627,6 @@ namespace OneStoryProjectEditor {
                 this.columnRetellings_Id = new global::System.Data.DataColumn("Retellings_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnRetellings_Id);
                 this.columnmemberID.Namespace = "";
-                this.columnRetelling_text.AllowDBNull = false;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -11910,16 +11893,6 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public byte number {
-                get {
-                    return ((byte)(this[this.tableTest.numberColumn]));
-                }
-                set {
-                    this[this.tableTest.numberColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public string memberID {
                 get {
                     try {
@@ -12933,7 +12906,12 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public string answer_text {
                 get {
-                    return ((string)(this[this.tableanswer.answer_textColumn]));
+                    try {
+                        return ((string)(this[this.tableanswer.answer_textColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'answer_text\' in table \'answer\' is DBNull.", e);
+                    }
                 }
                 set {
                     this[this.tableanswer.answer_textColumn] = value;
@@ -12973,6 +12951,16 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public void SetmemberIDNull() {
                 this[this.tableanswer.memberIDColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool Isanswer_textNull() {
+                return this.IsNull(this.tableanswer.answer_textColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void Setanswer_textNull() {
+                this[this.tableanswer.answer_textColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -13088,7 +13076,12 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public string Retelling_text {
                 get {
-                    return ((string)(this[this.tableRetelling.Retelling_textColumn]));
+                    try {
+                        return ((string)(this[this.tableRetelling.Retelling_textColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Retelling_text\' in table \'Retelling\' is DBNull.", e);
+                    }
                 }
                 set {
                     this[this.tableRetelling.Retelling_textColumn] = value;
@@ -13128,6 +13121,16 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public void SetmemberIDNull() {
                 this[this.tableRetelling.memberIDColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsRetelling_textNull() {
+                return this.IsNull(this.tableRetelling.Retelling_textColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetRetelling_textNull() {
+                this[this.tableRetelling.Retelling_textColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

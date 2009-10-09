@@ -7,7 +7,7 @@ namespace OneStoryProjectEditor
 {
     public abstract class MultipleLineDataConverter : List<StringTransfer>
     {
-        protected List<string> MemberIDs = new List<string>();
+        public List<string> MemberIDs = new List<string>();
         protected abstract string CollectionElementName { get; }
         protected abstract string InstanceElementName { get; }
         public abstract string LabelTextFormat { get; }
@@ -41,12 +41,12 @@ namespace OneStoryProjectEditor
 
         public void RemoveLine(string strText)
         {
-            for (int i = 0; i < this.Count; i++)
+            for (int i = 0; i < Count; i++)
             {
                 StringTransfer st = this[i];
                 if (st.ToString() == strText)
                 {
-                    this.RemoveAt(i);
+                    RemoveAt(i);
                     MemberIDs.RemoveAt(i);
                     break;
                 }
@@ -62,7 +62,9 @@ namespace OneStoryProjectEditor
                 for (int i = 0; i < this.Count; i++)
                 {
                     System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(MemberIDs[i]));
-                    if (this[i].HasData)
+                    // for these instances of StringTransfers, we want to store them even if they are empty
+                    //  so that the boxes will persist across save and restarts
+                    // if (this[i].HasData)
                         elem.Add(new XElement(InstanceElementName, new XAttribute("memberID", MemberIDs[i]), this[i]));
                 }
                 return elem;
@@ -83,7 +85,7 @@ namespace OneStoryProjectEditor
 
             foreach (NewDataSet.RetellingRow aRetellingRow in theRetellingsRow.GetRetellingRows())
             {
-                Add(new StringTransfer(aRetellingRow.Retelling_text));
+                Add(new StringTransfer((aRetellingRow.IsRetelling_textNull()) ? "" : aRetellingRow.Retelling_text));
                 MemberIDs.Add(aRetellingRow.memberID);
             }
         }
@@ -126,7 +128,7 @@ namespace OneStoryProjectEditor
 
             foreach (NewDataSet.answerRow anAnswerRow in theAnswersRow.GetanswerRows())
             {
-                Add(new StringTransfer(anAnswerRow.answer_text));
+                Add(new StringTransfer((anAnswerRow.Isanswer_textNull()) ? "" : anAnswerRow.answer_text));
                 MemberIDs.Add(anAnswerRow.memberID);
             }
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using Chorus.UI.Sync;
 using Chorus.VcsDrivers;
@@ -37,25 +38,39 @@ namespace OneStoryProjectEditor
             try
             {
                 Application.Run(new StoryEditor(Properties.Resources.IDS_MainStoriesSet));
-                SyncWithRepository();
+#if DEBUG
+                if (MessageBox.Show("Do repository Sync?", Properties.Resources.IDS_Caption, MessageBoxButtons.YesNo) == DialogResult.No)
+                    return;
+#endif
+                foreach (string strProjectFolder in _astrProjectForSync)
+                    SyncWithRepository(strProjectFolder);
             }
             catch (Exception ex)
             {
                 string strMessage = String.Format("Error occurred:{0}{0}{1}", Environment.NewLine, ex.Message);
                 if (ex.InnerException != null)
                     strMessage += String.Format("{0}{1}", Environment.NewLine, ex.InnerException.Message);
-                MessageBox.Show(strMessage,  Properties.Resources.IDS_Caption);
+                MessageBox.Show(strMessage, Properties.Resources.IDS_Caption);
             }
         }
 
-        static void SyncWithRepository()
+        static List<string> _astrProjectForSync = new List<string>();
+
+        public static void SetProjectForSyncage(string strProjectFolder)
         {
-            var setup = new RepositorySetup("bobeaton");
+            if (!_astrProjectForSync.Contains(strProjectFolder))
+                _astrProjectForSync.Add(strProjectFolder);
+        }
+
+        static void SyncWithRepository(string strProjectFolder)
+        {
+            using (var setup = new RepositorySetup("bobeaton"))
             {
+                setup.ProjectFolderConfig.FolderPath = strProjectFolder;
                 Application.EnableVisualStyles();
-                setup.Repository.SetKnownRepositoryAddresses(new RepositoryAddress[]
+                setup.Repository.SetKnownRepositoryAddresses(new []
                 {
-                    RepositoryAddress.Create("language depot", "http://bobeaton:helpmepld@hg-private.languagedepot.org"),
+                    RepositoryAddress.Create("language depot", "http://bobeaton:helpmepld@hg-private.languagedepot.org/snwmtn-test"),
                 });
                 setup.Repository.SetDefaultSyncRepositoryAliases(new[] { "language depot" });
                 using (var dlg = new SyncDialog(setup.ProjectFolderConfig,

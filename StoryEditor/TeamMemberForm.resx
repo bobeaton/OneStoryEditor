@@ -120,14 +120,35 @@
   <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <data name="textBoxVernSentFullStop.ToolTip" xml:space="preserve">
-    <value>Enter the punctuation character used in this language to end a sentence (e.g. in English, it is the period '.', and in Hindi, it is the Devanagari Danda, '।'). You can also enter other sentence final punctuation that may be special in your language (e.g. in Arabic, the question mark '؟'). There should be no spaces between characters, and be sure the first one is the normal (most-common) full stop character.</value>
+  <metadata name="helpProvider.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>355, 17</value>
+  </metadata>
+  <metadata name="helpProvider.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>355, 17</value>
+  </metadata>
+  <metadata name="helpProvider.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>355, 17</value>
+  </metadata>
+  <metadata name="helpProvider.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>355, 17</value>
+  </metadata>
+  <metadata name="helpProvider.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>355, 17</value>
+  </metadata>
+  <metadata name="helpProvider.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>355, 17</value>
+  </metadata>
+  <data name="textBoxVernSentFullStop.HelpString" xml:space="preserve">
+    <value>Enter the punctuation characters used in this language to end a sentence. For example, in English, it is the period '.', and in Hindi, it is the Devanagari Danda, '।' plus the '?!:' characters. You can also enter other sentence final punctuation that may be special in your language (e.g. in Arabic, the question mark '؟'). There should be no spaces between characters, and be sure the first one is the normal (most-common) full stop character</value>
   </data>
-  <data name="textBoxNationalBTSentFullStop.ToolTip" xml:space="preserve">
-    <value>Enter the punctuation character used in this language to end a sentence (e.g. in English, it is the period '.', and in Hindi, it is the Devanagari Danda, '।'). You can also enter other sentence final punctuation that may be special in your language (e.g. in Arabic, the question mark '؟'). There should be no spaces between characters, and be sure the first one is the normal (most-common) full stop character.</value>
+  <data name="textBoxNationalBTSentFullStop.HelpString" xml:space="preserve">
+    <value>Enter the punctuation characters used in this language to end a sentence. For example, in English, it is the period '.', and in Hindi, it is the Devanagari Danda, '।' plus the '?!:' characters. You can also enter other sentence final punctuation that may be special in your language (e.g. in Arabic, the question mark '؟'). There should be no spaces between characters, and be sure the first one is the normal (most-common) full stop character.</value>
   </data>
   <data name="labelReturnToTeamMemberTabInstructions.Text" xml:space="preserve">
     <value>This tab window is to configure which languages you want the project to maintain. If you want the Project Facilitator to type the story in the story language, then check the box below the 'Story Language' field and configure the information in the boxes below it. If you want to use a national or regional language for a back-translation, then check the box below the 'National BT Language' field and configure the information in the boxes below it. If you want to use English as a second back-translation language, then check the box that says, 'Project will use an English BT?' When you're finished entering this information, click on the 'Team Members' tab and choose your name to Login. Note, you must be logged in as a Project Facilitator to type the story in these languages.</value>
+  </data>
+  <data name="listBoxTeamMembers.HelpString" xml:space="preserve">
+    <value>This list shows all the members of the team. To edit stories, you generally need to be logged in as a 'Project Facilitator'. So whichever member of the team will be typing in the documentation needs to have a 'Project Facilitator' role. The other main editors are a Consultant-in-training (for the Consultant Notes Pane), or a Coach (for the Coach Notes pane). The Crafter and UNS member types are respectively for the names of the one(s) who crafted the story and the testing helper(s). You will need to indicate who did these roles as you progress in the documentation process, but you wouldn't log in as one of them since they can’t edit the project file. To log in, select your name from the list of member names and click "Login" button.</value>
   </data>
   <metadata name="fontDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>102, 17</value>

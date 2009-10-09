@@ -87,7 +87,8 @@ namespace OneStoryProjectEditor
             // add a row so we can display a multiple line control with the answers
             if ((_aTQData.Answers != null) && (_aTQData.Answers.Count > 0))
             {
-                MultiLineControl aAnswersCtrl = new MultiLineControl(StageLogic, _aTQData.Answers);
+                System.Diagnostics.Debug.Assert(theSE.theCurrentStory.CraftingInfo.Testors.Count >= _aTQData.Answers.Count);
+                MultiLineControl aAnswersCtrl = new MultiLineControl(StageLogic, _aTQData.Answers, theSE.theCurrentStory.CraftingInfo.Testors);
                 aAnswersCtrl.Name = CstrFieldNameAnswers;
                 aAnswersCtrl.ParentControl = this;
 

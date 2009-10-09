@@ -45,13 +45,17 @@ namespace OneStoryProjectEditor
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editCopySelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyStoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyNationalBackTranslationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyEnglishBackTranslationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteBackTranslationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteStoryVersesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteStoryNationalBackTranslationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteEnglishBacktranslationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteTestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editAddTestResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewVernacularLangFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewNationalLangFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -73,13 +77,14 @@ namespace OneStoryProjectEditor
             this.toolStripTextBoxChooseStory = new System.Windows.Forms.ToolStripTextBox();
             this.storyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.enterTheReasonThisStoryIsInTheSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.insertNewStoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addNewStoryAfterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteStoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportToAdaptItToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportStoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportNationalBacktranslationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitIntoLinesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.panoramaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.insertNewStoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addNewStoryAfterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemShowPanorama = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.flowLayoutPanelVerses = new System.Windows.Forms.FlowLayoutPanel();
@@ -95,7 +100,6 @@ namespace OneStoryProjectEditor
             this.buttonsStoryStage = new System.Windows.Forms.ToolStripSplitButton();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.helpProvider = new System.Windows.Forms.HelpProvider();
-            this.deleteStoryVersesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.netBibleViewer = new OneStoryProjectEditor.NetBibleViewer();
             this.flowLayoutPanelConsultantNotes = new OneStoryProjectEditor.ConNoteFlowLayoutPanel();
             this.flowLayoutPanelCoachNotes = new OneStoryProjectEditor.ConNoteFlowLayoutPanel();
@@ -121,7 +125,7 @@ namespace OneStoryProjectEditor
             this.comboBoxStorySelector,
             this.toolStripTextBoxChooseStory,
             this.storyToolStripMenuItem,
-            this.toolStripMenuItemShowPanorama,
+            this.panoramaToolStripMenuItem,
             this.aboutToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
@@ -151,6 +155,8 @@ namespace OneStoryProjectEditor
             this.recentProjectsToolStripMenuItem.Name = "recentProjectsToolStripMenuItem";
             this.recentProjectsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.recentProjectsToolStripMenuItem.Text = "&Recent projects";
+            this.recentProjectsToolStripMenuItem.ToolTipText = "This shows the projects that have at one time or other been opened on this machin" +
+                "e";
             // 
             // newToolStripMenuItem
             // 
@@ -194,6 +200,9 @@ namespace OneStoryProjectEditor
             this.teamMembersToolStripMenuItem.Name = "teamMembersToolStripMenuItem";
             this.teamMembersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.teamMembersToolStripMenuItem.Text = "Se&ttings";
+            this.teamMembersToolStripMenuItem.ToolTipText = "Click this option to go to the Project Settings dialog in order to either log in " +
+                "as a team member, add a new team member, or edit the language properties (fonts," +
+                " keyboards, etc)";
             this.teamMembersToolStripMenuItem.Click += new System.EventHandler(this.teamMembersToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
@@ -207,6 +216,7 @@ namespace OneStoryProjectEditor
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "&Exit";
+            this.exitToolStripMenuItem.ToolTipText = "Click to exit the program and synchronize with the internet repository";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
@@ -214,7 +224,8 @@ namespace OneStoryProjectEditor
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.copyToolStripMenuItem,
             this.pasteToolStripMenuItem,
-            this.deleteBackTranslationToolStripMenuItem});
+            this.deleteBackTranslationToolStripMenuItem,
+            this.editAddTestResultsToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(37, 21);
             this.editToolStripMenuItem.Text = "&Edit";
@@ -223,6 +234,7 @@ namespace OneStoryProjectEditor
             // copyToolStripMenuItem
             // 
             this.copyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editCopySelectionToolStripMenuItem,
             this.copyStoryToolStripMenuItem,
             this.copyNationalBackTranslationToolStripMenuItem,
             this.copyEnglishBackTranslationToolStripMenuItem});
@@ -230,11 +242,21 @@ namespace OneStoryProjectEditor
             this.copyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.copyToolStripMenuItem.Text = "&Copy";
             // 
+            // editCopySelectionToolStripMenuItem
+            // 
+            this.editCopySelectionToolStripMenuItem.Name = "editCopySelectionToolStripMenuItem";
+            this.editCopySelectionToolStripMenuItem.Size = new System.Drawing.Size(247, 22);
+            this.editCopySelectionToolStripMenuItem.Text = "Sele&ction";
+            this.editCopySelectionToolStripMenuItem.ToolTipText = "Copy the selected text from the active text box to the clipboard";
+            this.editCopySelectionToolStripMenuItem.Click += new System.EventHandler(this.editCopySelectionToolStripMenuItem_Click);
+            // 
             // copyStoryToolStripMenuItem
             // 
             this.copyStoryToolStripMenuItem.Name = "copyStoryToolStripMenuItem";
             this.copyStoryToolStripMenuItem.Size = new System.Drawing.Size(247, 22);
             this.copyStoryToolStripMenuItem.Text = "&Story";
+            this.copyStoryToolStripMenuItem.ToolTipText = "Copy all of the lines of text in the story language into one big paragraph of tex" +
+                "t";
             this.copyStoryToolStripMenuItem.Click += new System.EventHandler(this.copyStoryToolStripMenuItem_Click);
             // 
             // copyNationalBackTranslationToolStripMenuItem
@@ -242,6 +264,8 @@ namespace OneStoryProjectEditor
             this.copyNationalBackTranslationToolStripMenuItem.Name = "copyNationalBackTranslationToolStripMenuItem";
             this.copyNationalBackTranslationToolStripMenuItem.Size = new System.Drawing.Size(247, 22);
             this.copyNationalBackTranslationToolStripMenuItem.Text = "&National back-translation";
+            this.copyNationalBackTranslationToolStripMenuItem.ToolTipText = "Copy all of the lines of text in the National back-translation language into one " +
+                "big paragraph of text";
             this.copyNationalBackTranslationToolStripMenuItem.Click += new System.EventHandler(this.copyNationalBackTranslationToolStripMenuItem_Click);
             // 
             // copyEnglishBackTranslationToolStripMenuItem
@@ -249,6 +273,8 @@ namespace OneStoryProjectEditor
             this.copyEnglishBackTranslationToolStripMenuItem.Name = "copyEnglishBackTranslationToolStripMenuItem";
             this.copyEnglishBackTranslationToolStripMenuItem.Size = new System.Drawing.Size(247, 22);
             this.copyEnglishBackTranslationToolStripMenuItem.Text = "&English back-translation of the story";
+            this.copyEnglishBackTranslationToolStripMenuItem.ToolTipText = "Copy all of the lines of text in the English back-translation into one big paragr" +
+                "aph of text";
             this.copyEnglishBackTranslationToolStripMenuItem.Click += new System.EventHandler(this.copyEnglishBackTranslationToolStripMenuItem_Click);
             // 
             // pasteToolStripMenuItem
@@ -256,6 +282,7 @@ namespace OneStoryProjectEditor
             this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
             this.pasteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.pasteToolStripMenuItem.Text = "&Paste";
+            this.pasteToolStripMenuItem.ToolTipText = "Paste the contents of the clipboard into the currently selected text box";
             this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
             // 
             // deleteBackTranslationToolStripMenuItem
@@ -263,16 +290,28 @@ namespace OneStoryProjectEditor
             this.deleteBackTranslationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.deleteStoryVersesToolStripMenuItem,
             this.deleteStoryNationalBackTranslationToolStripMenuItem,
-            this.deleteEnglishBacktranslationToolStripMenuItem});
+            this.deleteEnglishBacktranslationToolStripMenuItem,
+            this.deleteTestToolStripMenuItem});
             this.deleteBackTranslationToolStripMenuItem.Name = "deleteBackTranslationToolStripMenuItem";
             this.deleteBackTranslationToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.deleteBackTranslationToolStripMenuItem.Text = "&Delete";
+            // 
+            // deleteStoryVersesToolStripMenuItem
+            // 
+            this.deleteStoryVersesToolStripMenuItem.Name = "deleteStoryVersesToolStripMenuItem";
+            this.deleteStoryVersesToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
+            this.deleteStoryVersesToolStripMenuItem.Text = "&Story verses";
+            this.deleteStoryVersesToolStripMenuItem.ToolTipText = "Delete the contents of all of the text boxes of the story in the story language (" +
+                "the verses will remain, but just be emptied)";
+            this.deleteStoryVersesToolStripMenuItem.Click += new System.EventHandler(this.deleteStoryVersesToolStripMenuItem_Click);
             // 
             // deleteStoryNationalBackTranslationToolStripMenuItem
             // 
             this.deleteStoryNationalBackTranslationToolStripMenuItem.Name = "deleteStoryNationalBackTranslationToolStripMenuItem";
             this.deleteStoryNationalBackTranslationToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
             this.deleteStoryNationalBackTranslationToolStripMenuItem.Text = "&National language back-translation";
+            this.deleteStoryNationalBackTranslationToolStripMenuItem.ToolTipText = "Delete the contents of all of the text boxes of the national back-translation of " +
+                "the story (the verses will remain, but just be emptied)";
             this.deleteStoryNationalBackTranslationToolStripMenuItem.Click += new System.EventHandler(this.deleteStoryNationalBackTranslationToolStripMenuItem_Click);
             // 
             // deleteEnglishBacktranslationToolStripMenuItem
@@ -280,7 +319,26 @@ namespace OneStoryProjectEditor
             this.deleteEnglishBacktranslationToolStripMenuItem.Name = "deleteEnglishBacktranslationToolStripMenuItem";
             this.deleteEnglishBacktranslationToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
             this.deleteEnglishBacktranslationToolStripMenuItem.Text = "&English back-translation";
+            this.deleteEnglishBacktranslationToolStripMenuItem.ToolTipText = "Delete the contents of all of the text boxes of the English back-translation of t" +
+                "he story (the verses will remain, but just be emptied)";
             this.deleteEnglishBacktranslationToolStripMenuItem.Click += new System.EventHandler(this.deleteEnglishBacktranslationToolStripMenuItem_Click);
+            // 
+            // deleteTestToolStripMenuItem
+            // 
+            this.deleteTestToolStripMenuItem.Name = "deleteTestToolStripMenuItem";
+            this.deleteTestToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
+            this.deleteTestToolStripMenuItem.Text = "&Test";
+            this.deleteTestToolStripMenuItem.ToolTipText = "Delete the answers to the testing questions and the retellings associated with a " +
+                "particular testing helper (UNS). The text boxes will be deleted completely";
+            // 
+            // editAddTestResultsToolStripMenuItem
+            // 
+            this.editAddTestResultsToolStripMenuItem.Name = "editAddTestResultsToolStripMenuItem";
+            this.editAddTestResultsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.editAddTestResultsToolStripMenuItem.Text = "&Add test results";
+            this.editAddTestResultsToolStripMenuItem.ToolTipText = "Click here to add boxes for the answers to the testing questions and the retellin" +
+                "g back translation";
+            this.editAddTestResultsToolStripMenuItem.Click += new System.EventHandler(this.editAddTestResultsToolStripMenuItem_Click);
             // 
             // viewToolStripMenuItem
             // 
@@ -314,6 +372,7 @@ namespace OneStoryProjectEditor
             this.viewVernacularLangFieldMenuItem.Name = "viewVernacularLangFieldMenuItem";
             this.viewVernacularLangFieldMenuItem.Size = new System.Drawing.Size(262, 22);
             this.viewVernacularLangFieldMenuItem.Text = "Story &Language field";
+            this.viewVernacularLangFieldMenuItem.ToolTipText = "Show the text boxes for the story lines in the story language";
             this.viewVernacularLangFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
             // 
             // viewNationalLangFieldMenuItem
@@ -324,6 +383,8 @@ namespace OneStoryProjectEditor
             this.viewNationalLangFieldMenuItem.Name = "viewNationalLangFieldMenuItem";
             this.viewNationalLangFieldMenuItem.Size = new System.Drawing.Size(262, 22);
             this.viewNationalLangFieldMenuItem.Text = "National language &back translation field";
+            this.viewNationalLangFieldMenuItem.ToolTipText = "Show the text boxes for the national language back-translation of the story lines" +
+                "";
             this.viewNationalLangFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
             // 
             // viewEnglishBTFieldMenuItem
@@ -334,6 +395,7 @@ namespace OneStoryProjectEditor
             this.viewEnglishBTFieldMenuItem.Name = "viewEnglishBTFieldMenuItem";
             this.viewEnglishBTFieldMenuItem.Size = new System.Drawing.Size(262, 22);
             this.viewEnglishBTFieldMenuItem.Text = "&English back translation fields";
+            this.viewEnglishBTFieldMenuItem.ToolTipText = "Show the text boxes for the English language back-translation of the story lines";
             this.viewEnglishBTFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
             // 
             // viewAnchorFieldMenuItem
@@ -344,6 +406,7 @@ namespace OneStoryProjectEditor
             this.viewAnchorFieldMenuItem.Name = "viewAnchorFieldMenuItem";
             this.viewAnchorFieldMenuItem.Size = new System.Drawing.Size(262, 22);
             this.viewAnchorFieldMenuItem.Text = "&Anchor fields";
+            this.viewAnchorFieldMenuItem.ToolTipText = "Show the Anchor toolbar";
             this.viewAnchorFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
             // 
             // viewStoryTestingQuestionFieldMenuItem
@@ -354,6 +417,7 @@ namespace OneStoryProjectEditor
             this.viewStoryTestingQuestionFieldMenuItem.Name = "viewStoryTestingQuestionFieldMenuItem";
             this.viewStoryTestingQuestionFieldMenuItem.Size = new System.Drawing.Size(262, 22);
             this.viewStoryTestingQuestionFieldMenuItem.Text = "Story &testing questions fields";
+            this.viewStoryTestingQuestionFieldMenuItem.ToolTipText = "Show the text boxes for the testing questions (and UNS answers if available)";
             this.viewStoryTestingQuestionFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
             // 
             // toolStripSeparator5
@@ -369,6 +433,7 @@ namespace OneStoryProjectEditor
             this.viewRetellingFieldMenuItem.Name = "viewRetellingFieldMenuItem";
             this.viewRetellingFieldMenuItem.Size = new System.Drawing.Size(262, 22);
             this.viewRetellingFieldMenuItem.Text = "&Retelling fields";
+            this.viewRetellingFieldMenuItem.ToolTipText = "Show the text boxes for the UNS retelling responses";
             this.viewRetellingFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
             // 
             // toolStripSeparator6
@@ -384,6 +449,7 @@ namespace OneStoryProjectEditor
             this.viewConsultantNoteFieldMenuItem.Name = "viewConsultantNoteFieldMenuItem";
             this.viewConsultantNoteFieldMenuItem.Size = new System.Drawing.Size(262, 22);
             this.viewConsultantNoteFieldMenuItem.Text = "&Consultant notes fields";
+            this.viewConsultantNoteFieldMenuItem.ToolTipText = "Show the Consultant Notes pane";
             this.viewConsultantNoteFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewConsultantNoteFieldMenuItem_CheckedChanged);
             // 
             // viewCoachNotesFieldMenuItem
@@ -394,6 +460,7 @@ namespace OneStoryProjectEditor
             this.viewCoachNotesFieldMenuItem.Name = "viewCoachNotesFieldMenuItem";
             this.viewCoachNotesFieldMenuItem.Size = new System.Drawing.Size(262, 22);
             this.viewCoachNotesFieldMenuItem.Text = "Coac&h notes fields";
+            this.viewCoachNotesFieldMenuItem.ToolTipText = "Show the Coach Notes pane";
             this.viewCoachNotesFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewCoachNotesFieldMenuItem_CheckedChanged);
             // 
             // toolStripSeparator3
@@ -409,6 +476,7 @@ namespace OneStoryProjectEditor
             this.viewNetBibleMenuItem.Name = "viewNetBibleMenuItem";
             this.viewNetBibleMenuItem.Size = new System.Drawing.Size(262, 22);
             this.viewNetBibleMenuItem.Text = "&Bible viewer";
+            this.viewNetBibleMenuItem.ToolTipText = "Show the Bible Viewer pane";
             this.viewNetBibleMenuItem.CheckedChanged += new System.EventHandler(this.viewNetBibleMenuItem_CheckedChanged);
             this.viewNetBibleMenuItem.Click += new System.EventHandler(this.viewNetBibleMenuItem_Click);
             // 
@@ -422,6 +490,7 @@ namespace OneStoryProjectEditor
             this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
             this.refreshToolStripMenuItem.Size = new System.Drawing.Size(262, 22);
             this.refreshToolStripMenuItem.Text = "Re&fresh";
+            this.refreshToolStripMenuItem.ToolTipText = "Refresh the screen (if it doesn\'t look like it updated something properly)";
             // 
             // toolStripSeparator8
             // 
@@ -433,6 +502,9 @@ namespace OneStoryProjectEditor
             this.viewOldStoriesToolStripMenuItem.Name = "viewOldStoriesToolStripMenuItem";
             this.viewOldStoriesToolStripMenuItem.Size = new System.Drawing.Size(262, 22);
             this.viewOldStoriesToolStripMenuItem.Text = "&View \'Old Stories\'";
+            this.viewOldStoriesToolStripMenuItem.ToolTipText = "View older (obsolete) versions of the stories (that were earlier stored in the \'O" +
+                "ld Stories\' list from the \'Panorama View\' window--see \'Panorama\' menu, \'Show\' co" +
+                "mmand)";
             // 
             // comboBoxStorySelector
             // 
@@ -458,8 +530,6 @@ namespace OneStoryProjectEditor
             // 
             this.storyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.enterTheReasonThisStoryIsInTheSetToolStripMenuItem,
-            this.insertNewStoryToolStripMenuItem,
-            this.addNewStoryAfterToolStripMenuItem,
             this.deleteStoryToolStripMenuItem,
             this.exportToAdaptItToolStripMenuItem,
             this.splitIntoLinesToolStripMenuItem});
@@ -471,32 +541,16 @@ namespace OneStoryProjectEditor
             // enterTheReasonThisStoryIsInTheSetToolStripMenuItem
             // 
             this.enterTheReasonThisStoryIsInTheSetToolStripMenuItem.Name = "enterTheReasonThisStoryIsInTheSetToolStripMenuItem";
-            this.enterTheReasonThisStoryIsInTheSetToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
+            this.enterTheReasonThisStoryIsInTheSetToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
             this.enterTheReasonThisStoryIsInTheSetToolStripMenuItem.Text = "S&tory Information";
             this.enterTheReasonThisStoryIsInTheSetToolStripMenuItem.ToolTipText = "Enter information about this story, such as the reason it\'s in the set, the resou" +
                 "rces used, etc.";
             this.enterTheReasonThisStoryIsInTheSetToolStripMenuItem.Click += new System.EventHandler(this.enterTheReasonThisStoryIsInTheSetToolStripMenuItem_Click);
             // 
-            // insertNewStoryToolStripMenuItem
-            // 
-            this.insertNewStoryToolStripMenuItem.Name = "insertNewStoryToolStripMenuItem";
-            this.insertNewStoryToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
-            this.insertNewStoryToolStripMenuItem.Text = "&Insert new story before current";
-            this.insertNewStoryToolStripMenuItem.ToolTipText = "Click to insert a new, empty story before the one currently shown";
-            this.insertNewStoryToolStripMenuItem.Click += new System.EventHandler(this.insertNewStoryToolStripMenuItem_Click);
-            // 
-            // addNewStoryAfterToolStripMenuItem
-            // 
-            this.addNewStoryAfterToolStripMenuItem.Name = "addNewStoryAfterToolStripMenuItem";
-            this.addNewStoryAfterToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
-            this.addNewStoryAfterToolStripMenuItem.Text = "&Add new story after current";
-            this.addNewStoryAfterToolStripMenuItem.ToolTipText = "Click to add a new, empty story after the one currently shown";
-            this.addNewStoryAfterToolStripMenuItem.Click += new System.EventHandler(this.addNewStoryAfterToolStripMenuItem_Click);
-            // 
             // deleteStoryToolStripMenuItem
             // 
             this.deleteStoryToolStripMenuItem.Name = "deleteStoryToolStripMenuItem";
-            this.deleteStoryToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
+            this.deleteStoryToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
             this.deleteStoryToolStripMenuItem.Text = "&Delete story";
             this.deleteStoryToolStripMenuItem.ToolTipText = "Click to delete the story currently shown";
             this.deleteStoryToolStripMenuItem.Click += new System.EventHandler(this.deleteStoryToolStripMenuItem_Click);
@@ -507,7 +561,7 @@ namespace OneStoryProjectEditor
             this.exportStoryToolStripMenuItem,
             this.exportNationalBacktranslationToolStripMenuItem});
             this.exportToAdaptItToolStripMenuItem.Name = "exportToAdaptItToolStripMenuItem";
-            this.exportToAdaptItToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
+            this.exportToAdaptItToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
             this.exportToAdaptItToolStripMenuItem.Text = "Do &English glossing in Adapt It";
             // 
             // exportStoryToolStripMenuItem
@@ -532,15 +586,44 @@ namespace OneStoryProjectEditor
             // splitIntoLinesToolStripMenuItem
             // 
             this.splitIntoLinesToolStripMenuItem.Name = "splitIntoLinesToolStripMenuItem";
-            this.splitIntoLinesToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
+            this.splitIntoLinesToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
             this.splitIntoLinesToolStripMenuItem.Text = "S&plit into Lines";
             this.splitIntoLinesToolStripMenuItem.Click += new System.EventHandler(this.splitIntoLinesToolStripMenuItem_Click);
+            // 
+            // panoramaToolStripMenuItem
+            // 
+            this.panoramaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.insertNewStoryToolStripMenuItem,
+            this.addNewStoryAfterToolStripMenuItem,
+            this.toolStripMenuItemShowPanorama});
+            this.panoramaToolStripMenuItem.Name = "panoramaToolStripMenuItem";
+            this.panoramaToolStripMenuItem.Size = new System.Drawing.Size(67, 21);
+            this.panoramaToolStripMenuItem.Text = "Pa&norama";
+            this.panoramaToolStripMenuItem.DropDownOpening += new System.EventHandler(this.panoramaToolStripMenuItem_DropDownOpening);
+            // 
+            // insertNewStoryToolStripMenuItem
+            // 
+            this.insertNewStoryToolStripMenuItem.Name = "insertNewStoryToolStripMenuItem";
+            this.insertNewStoryToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
+            this.insertNewStoryToolStripMenuItem.Text = "&Insert new story before current";
+            this.insertNewStoryToolStripMenuItem.ToolTipText = "Click to insert a new, empty story before the one currently shown";
+            this.insertNewStoryToolStripMenuItem.Click += new System.EventHandler(this.insertNewStoryToolStripMenuItem_Click);
+            // 
+            // addNewStoryAfterToolStripMenuItem
+            // 
+            this.addNewStoryAfterToolStripMenuItem.Name = "addNewStoryAfterToolStripMenuItem";
+            this.addNewStoryAfterToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
+            this.addNewStoryAfterToolStripMenuItem.Text = "&Add new story after current";
+            this.addNewStoryAfterToolStripMenuItem.ToolTipText = "Click to add a new, empty story after the one currently shown";
+            this.addNewStoryAfterToolStripMenuItem.Click += new System.EventHandler(this.addNewStoryAfterToolStripMenuItem_Click);
             // 
             // toolStripMenuItemShowPanorama
             // 
             this.toolStripMenuItemShowPanorama.Name = "toolStripMenuItemShowPanorama";
-            this.toolStripMenuItemShowPanorama.Size = new System.Drawing.Size(96, 21);
-            this.toolStripMenuItemShowPanorama.Text = "Show Pa&norama";
+            this.toolStripMenuItemShowPanorama.Size = new System.Drawing.Size(227, 22);
+            this.toolStripMenuItemShowPanorama.Text = "&Show";
+            this.toolStripMenuItemShowPanorama.ToolTipText = "Show the Panorama View window to see all the stories in the set and their current" +
+                " state";
             this.toolStripMenuItemShowPanorama.Click += new System.EventHandler(this.toolStripMenuItemShowPanorama_Click);
             // 
             // aboutToolStripMenuItem
@@ -710,13 +793,6 @@ namespace OneStoryProjectEditor
             this.statusLabel.Spring = true;
             this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // deleteStoryVersesToolStripMenuItem
-            // 
-            this.deleteStoryVersesToolStripMenuItem.Name = "deleteStoryVersesToolStripMenuItem";
-            this.deleteStoryVersesToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
-            this.deleteStoryVersesToolStripMenuItem.Text = "&Story verses";
-            this.deleteStoryVersesToolStripMenuItem.Click += new System.EventHandler(this.deleteStoryVersesToolStripMenuItem_Click);
-            // 
             // netBibleViewer
             // 
             this.netBibleViewer.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
@@ -790,53 +866,53 @@ namespace OneStoryProjectEditor
 
         #endregion
 
-        private System.Windows.Forms.MenuStrip menuStrip;
-        private System.Windows.Forms.ToolStripMenuItem projectToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem browseForProjectToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripMenuItem teamMembersToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.OpenFileDialog openFileDialog;
-        private System.Windows.Forms.SaveFileDialog saveFileDialog;
-        internal System.Windows.Forms.FlowLayoutPanel flowLayoutPanelVerses;
-        private System.Windows.Forms.SplitContainer splitContainerLeftRight;
-        private System.Windows.Forms.SplitContainer splitContainerUpDown;
-        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
-        internal System.Windows.Forms.ToolStripMenuItem viewVernacularLangFieldMenuItem;
-        internal System.Windows.Forms.ToolStripMenuItem viewNationalLangFieldMenuItem;
-        internal System.Windows.Forms.ToolStripMenuItem viewEnglishBTFieldMenuItem;
-        internal System.Windows.Forms.ToolStripMenuItem viewAnchorFieldMenuItem;
-        internal System.Windows.Forms.ToolStripMenuItem viewStoryTestingQuestionFieldMenuItem;
-        internal System.Windows.Forms.ToolStripMenuItem viewRetellingFieldMenuItem;
-        internal System.Windows.Forms.ToolStripMenuItem viewConsultantNoteFieldMenuItem;
-        internal System.Windows.Forms.ToolStripMenuItem viewNetBibleMenuItem;
-        internal System.Windows.Forms.ToolStripMenuItem viewCoachNotesFieldMenuItem;
+        private MenuStrip menuStrip;
+        private ToolStripMenuItem projectToolStripMenuItem;
+        private ToolStripMenuItem browseForProjectToolStripMenuItem;
+        private ToolStripMenuItem saveToolStripMenuItem;
+        private ToolStripMenuItem exitToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripMenuItem teamMembersToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator2;
+        private OpenFileDialog openFileDialog;
+        private SaveFileDialog saveFileDialog;
+        internal FlowLayoutPanel flowLayoutPanelVerses;
+        private SplitContainer splitContainerLeftRight;
+        private SplitContainer splitContainerUpDown;
+        private ToolStripMenuItem viewToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator5;
+        private ToolStripSeparator toolStripSeparator6;
+        internal ToolStripMenuItem viewVernacularLangFieldMenuItem;
+        internal ToolStripMenuItem viewNationalLangFieldMenuItem;
+        internal ToolStripMenuItem viewEnglishBTFieldMenuItem;
+        internal ToolStripMenuItem viewAnchorFieldMenuItem;
+        internal ToolStripMenuItem viewStoryTestingQuestionFieldMenuItem;
+        internal ToolStripMenuItem viewRetellingFieldMenuItem;
+        internal ToolStripMenuItem viewConsultantNoteFieldMenuItem;
+        internal ToolStripMenuItem viewNetBibleMenuItem;
+        internal ToolStripMenuItem viewCoachNotesFieldMenuItem;
         private NetBibleViewer netBibleViewer;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.SplitContainer splitContainerMentorNotes;
+        private ToolStripSeparator toolStripSeparator3;
+        private SplitContainer splitContainerMentorNotes;
         private ConNoteFlowLayoutPanel flowLayoutPanelConsultantNotes;
         private ConNoteFlowLayoutPanel flowLayoutPanelCoachNotes;
-        private System.Windows.Forms.TextBox textBoxConsultantNotesTable;
-        private System.Windows.Forms.TextBox textBoxCoachNotes;
-        private System.Windows.Forms.TextBox textBoxStoryVerse;
-        private System.Windows.Forms.ToolStripComboBox comboBoxStorySelector;
-        private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBoxChooseStory;
-        private System.Windows.Forms.ToolStripMenuItem recentProjectsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-        private System.Windows.Forms.StatusStrip statusStrip;
-        private System.Windows.Forms.ToolStripSplitButton buttonsStoryStage;
-        private System.Windows.Forms.HelpProvider helpProvider;
-        private System.Windows.Forms.ToolStripStatusLabel statusLabel;
-        private System.Windows.Forms.ToolStripMenuItem insertNewStoryToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem deleteStoryToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem addNewStoryAfterToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem enterTheReasonThisStoryIsInTheSetToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem storyToolStripMenuItem;
+        private TextBox textBoxConsultantNotesTable;
+        private TextBox textBoxCoachNotes;
+        private TextBox textBoxStoryVerse;
+        private ToolStripComboBox comboBoxStorySelector;
+        private ToolStripMenuItem newToolStripMenuItem;
+        private ToolStripTextBox toolStripTextBoxChooseStory;
+        private ToolStripMenuItem recentProjectsToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator4;
+        private StatusStrip statusStrip;
+        private ToolStripSplitButton buttonsStoryStage;
+        private HelpProvider helpProvider;
+        private ToolStripStatusLabel statusLabel;
+        private ToolStripMenuItem insertNewStoryToolStripMenuItem;
+        private ToolStripMenuItem deleteStoryToolStripMenuItem;
+        private ToolStripMenuItem addNewStoryAfterToolStripMenuItem;
+        private ToolStripMenuItem enterTheReasonThisStoryIsInTheSetToolStripMenuItem;
+        private ToolStripMenuItem storyToolStripMenuItem;
         private ToolStripMenuItem editToolStripMenuItem;
         private ToolStripMenuItem copyToolStripMenuItem;
         private ToolStripMenuItem copyStoryToolStripMenuItem;
@@ -853,10 +929,14 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem pasteToolStripMenuItem;
         private ToolStripMenuItem splitIntoLinesToolStripMenuItem;
         private ToolStripMenuItem aboutToolStripMenuItem;
-        private ToolStripMenuItem toolStripMenuItemShowPanorama;
         private ToolStripSeparator toolStripSeparator8;
         private ToolStripMenuItem viewOldStoriesToolStripMenuItem;
         private ToolStripMenuItem deleteStoryVersesToolStripMenuItem;
+        private ToolStripMenuItem deleteTestToolStripMenuItem;
+        private ToolStripMenuItem toolStripMenuItemShowPanorama;
+        private ToolStripMenuItem panoramaToolStripMenuItem;
+        private ToolStripMenuItem editAddTestResultsToolStripMenuItem;
+        private ToolStripMenuItem editCopySelectionToolStripMenuItem;
     }
 
     public class ConNoteFlowLayoutPanel : FlowLayoutPanel

@@ -75,7 +75,7 @@ namespace OneStoryProjectEditor
 =g=
 		<td valign=""top"">
 			<p class=""{ProjectN}"">{Text}
-<span id=""{ProjectN}_{Reference}"">{StatusBMP}</span></p>
+<span id=""{ProjectN}_{ReferenceAsId}"">{StatusBMP}</span></p>
 		</td>
 =h=
 	</tr>
@@ -255,7 +255,7 @@ namespace OneStoryProjectEditor
                         foreach (VerseRef aVerseRef in references)
                             if (theVerseRef.BBBCCCVVVS() == aVerseRef.BBBCCCVVVS())
                             {
-                                string strVerseReference = String.Format("Story: '{0}', line: {1}, anchor: {2}",
+                                string strVerseReference = String.Format("Story: '{0}' line: {1} anchor: {2}",
                                     aStory.Name, nVerseNumber + 1, anAnchor.JumpTarget);
                                 string strVerseText;
                                 if (theSPD.ProjSettings.Vernacular.HasData)

@@ -4,12 +4,73 @@
   <ScrTextName>xnr</ScrTextName>
   <Renderings>
     <TermRendering>
+      <Id>γῆ</Id>
+      <Status>SomeMissing</Status>
+      <Guess>false</Guess>
+      <Renderings />
+      <Notes />
+      <Denials />
+      <Tag />
+    </TermRendering>
+    <TermRendering>
+      <Id>θρόνος</Id>
+      <Status>SomeMissing</Status>
+      <Guess>false</Guess>
+      <Renderings />
+      <Notes />
+      <Denials />
+      <Tag />
+    </TermRendering>
+    <TermRendering>
+      <Id>κυριότης</Id>
+      <Status>SomeMissing</Status>
+      <Guess>false</Guess>
+      <Renderings />
+      <Notes />
+      <Denials />
+      <Tag />
+    </TermRendering>
+    <TermRendering>
+      <Id>ἐξουσία</Id>
+      <Status>SomeMissing</Status>
+      <Guess>false</Guess>
+      <Renderings />
+      <Notes />
+      <Denials />
+      <Tag />
+    </TermRendering>
+    <TermRendering>
+      <Id>οὐρανός</Id>
+      <Status>SomeMissing</Status>
+      <Guess>false</Guess>
+      <Renderings />
+      <Notes />
+      <Denials />
+      <Tag />
+    </TermRendering>
+    <TermRendering>
+      <Id>ἀρχή</Id>
+      <Status>SomeMissing</Status>
+      <Guess>false</Guess>
+      <Renderings />
+      <Notes />
+      <Denials />
+      <Tag />
+    </TermRendering>
+    <TermRendering>
       <Id>אֱלֹהִים</Id>
       <Status>SomeMissing</Status>
       <Guess>false</Guess>
       <Renderings>परमेसरैं</Renderings>
       <Notes />
-      <Denials />
+      <Denials>
+        <string>Story: 'Fall of Man in Sin' line: 7 anchor: gen 03:03</string>
+        <string>Story: 'Fall of Man in Sin' line: 6 anchor: gen 03:03</string>
+        <string>Story: 'Fall of Man in Sin' line: 2 anchor: gen 03:13</string>
+        <string>Story: 'Fall of Man in Sin' line: 1 anchor: gen 02:15</string>
+        <string>Story: 'Fall of Man in Sin' line: 2 anchor: gen 03:01</string>
+        <string>Story: 'Fall of Man in Sin' line: 3 anchor: gen 03:01</string>
+      </Denials>
       <Tag />
     </TermRendering>
     <TermRendering>

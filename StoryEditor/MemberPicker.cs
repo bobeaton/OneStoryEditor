@@ -62,7 +62,7 @@ namespace OneStoryProjectEditor
             SelectedMember = _theStoryProjectData.TeamMembers[strSelectedMember];
 
             DialogResult = DialogResult.OK;
-            this.Close();
+            Close();
         }
 
         private void listBoxUNSs_MouseDoubleClick(object sender, MouseEventArgs e)

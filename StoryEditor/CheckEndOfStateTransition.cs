@@ -588,18 +588,60 @@ namespace OneStoryProjectEditor
         public static bool ProjFacReadyForTest1(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ProjFacReadyForTest1' work is finished: Name: {0}", theCurrentStory.Name));
+
+            System.Diagnostics.Debug.Assert(theCurrentStory.CraftingInfo.Testors.Count == 0);
+
+            // add the story question answer lines and retelling lines to the verses for test n
+            theSE.AddTest();
+
+            System.Diagnostics.Debug.Assert(eProposedNextState == StoryStageLogic.ProjectStages.eProjFacEnterAnswersToStoryQuestionsOfTest1);
             return true;
         }
 
         public static bool ProjFacEnterAnswersToStoryQuestionsOfTest1(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ProjFacEnterAnswersToStoryQuestionsOfTest1' work is finished: Name: {0}", theCurrentStory.Name));
+
+            // make sure they have some answer written into each question
+            int nVerseNumber = 1;
+            foreach (VerseData aVerseData in theCurrentStory.Verses)
+            {
+                foreach (TestQuestionData aTQ in aVerseData.TestQuestions)
+                    foreach (StringTransfer aST in aTQ.Answers)
+                        if (!aST.HasData)
+                        {
+                            ShowErrorFocus(theSE, aST.TextBox, String.Format("Error: Verse {0} is missing an answer to a testing question. Did you forget it?", nVerseNumber));
+                            return false;
+                        }
+
+                nVerseNumber++;
+            }
+
+            System.Diagnostics.Debug.Assert(eProposedNextState == StoryStageLogic.ProjectStages.eProjFacEnterRetellingOfTest1);
             return true;
         }
 
         public static bool ProjFacEnterRetellingOfTest1(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ProjFacEnterRetellingOfTest1' work is finished: Name: {0}", theCurrentStory.Name));
+            System.Diagnostics.Debug.Assert(eProposedNextState == StoryStageLogic.ProjectStages.eConsultantCheckAnchorsRound2);
+
+            // if they've only done one test, then ask them to do another
+            if (theCurrentStory.CraftingInfo.Testors.Count < 2)
+            {
+                DialogResult res = MessageBox.Show("Click 'Yes' to create the boxes for entering the 2nd UNS's answers to the testing questions", Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+                if (res != DialogResult.Yes)
+                    return false;
+
+                theSE.AddTest();
+
+                // this will go:
+                //  ProjFacEnterAnswersToStoryQuestionsOfTest1 (to get answer from UNS_1), then
+                //  ProjFacEnterRetellingOfTest1 (to get retelling from UNS_1), then (while Testor.Count < 2) back to:
+                //  ProjFacEnterAnswersToStoryQuestionsOfTest1, etc.
+                eProposedNextState = StoryStageLogic.ProjectStages.eProjFacEnterAnswersToStoryQuestionsOfTest1;
+            }
+
             return true;
         }
 

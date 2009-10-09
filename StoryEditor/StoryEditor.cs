@@ -30,8 +30,8 @@ namespace OneStoryProjectEditor
             _strStoriesSet = strStoriesSet;
 
             InitializeComponent();
-
-            toolStripMenuItemShowPanorama.Visible = IsInStoriesSet;
+            
+            panoramaToolStripMenuItem.Visible = IsInStoriesSet;
 
             try
             {
@@ -148,6 +148,7 @@ namespace OneStoryProjectEditor
         protected void ClearState()
         {
             ClearFlowControls();
+            CtrlTextBox._inTextBox = null;
             theCurrentStory = null;
             comboBoxStorySelector.Items.Clear();
             comboBoxStorySelector.Text = Properties.Resources.IDS_EnterStoryName;
@@ -969,6 +970,7 @@ namespace OneStoryProjectEditor
                 return;
             }
 
+            Program.SetProjectForSyncage(StoryProject.ProjSettings.ProjectFolder);
             Modified = false;
         }
 
@@ -1378,6 +1380,12 @@ namespace OneStoryProjectEditor
             QueryStoryPurpose();
         }
 
+        private void panoramaToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            Debug.Assert(IsInStoriesSet);
+            toolStripMenuItemShowPanorama.Enabled = (StoryProject != null);
+        }
+
         private void toolStripMenuItemShowPanorama_Click(object sender, EventArgs e)
         {
             if (StoryProject == null)
@@ -1452,8 +1460,11 @@ namespace OneStoryProjectEditor
             deleteBackTranslationToolStripMenuItem.Enabled =
                 deleteStoryNationalBackTranslationToolStripMenuItem.Enabled =
                 deleteEnglishBacktranslationToolStripMenuItem.Enabled =
-                pasteToolStripMenuItem.Enabled = 
+                editAddTestResultsToolStripMenuItem.Enabled = 
                 (IsInStoriesSet && (theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
+
+            pasteToolStripMenuItem.Enabled = (CtrlTextBox._inTextBox != null);
+            editCopySelectionToolStripMenuItem.Enabled = ((CtrlTextBox._inTextBox != null) && (!String.IsNullOrEmpty(CtrlTextBox._inTextBox.SelectedText)));
 
             if ((StoryProject != null) && (StoryProject.ProjSettings != null) && (theCurrentStory != null) && (theCurrentStory.Verses.Count > 0))
             {
@@ -1477,7 +1488,122 @@ namespace OneStoryProjectEditor
                 if (!StoryProject.ProjSettings.InternationalBT.HasData)
                     deleteEnglishBacktranslationToolStripMenuItem.Visible =
                         copyEnglishBackTranslationToolStripMenuItem.Visible = false;
+
+                if (theCurrentStory.CraftingInfo.Testors.Count > 0)
+                {
+                    deleteTestToolStripMenuItem.DropDownItems.Clear();
+                    for (int nTest = 0; nTest < theCurrentStory.CraftingInfo.Testors.Count; nTest++)
+                    {
+                        string strUnsGuid = theCurrentStory.CraftingInfo.Testors[nTest];
+                        AddDeleteTestSubmenu(deleteTestToolStripMenuItem,
+                            String.Format("Test {0} done by {1}", nTest + 1, StoryProject.GetMemberNameFromMemberGuid(strUnsGuid)),
+                            nTest, OnRemoveTest);
+                    }
+                }
+                else
+                    deleteTestToolStripMenuItem.Visible = false;
             }
+        }
+
+        private void editAddTestResultsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddTest();
+            InitAllPanes();
+        }
+
+        internal bool AddTest()
+        {
+            // query for the UNSs that will be doing this test
+            string strUnsGuid = null;
+            while (String.IsNullOrEmpty(strUnsGuid))
+            {
+                strUnsGuid = QueryForUnsTestor(StoryProject);
+                foreach (string strGuid in theCurrentStory.CraftingInfo.Testors)
+                    if (strGuid == strUnsGuid)
+                    {
+                        DialogResult res = MessageBox.Show("You can't use the same UNS for two different tests of the same story. Please select a different UNS.", Properties.Resources.IDS_Caption, MessageBoxButtons.OKCancel);
+                        if (res == DialogResult.Cancel)
+                            return false;
+                        strUnsGuid = null;
+                        break;
+                    }
+            }
+
+            theCurrentStory.CraftingInfo.Testors.Add(strUnsGuid);
+            foreach (VerseData aVerseData in theCurrentStory.Verses)
+            {
+                foreach (TestQuestionData aTQ in aVerseData.TestQuestions)
+                    aTQ.Answers.AddNewLine(strUnsGuid).SetValue("");
+                aVerseData.Retellings.AddNewLine(strUnsGuid).SetValue("");
+            }
+
+            Modified = true;
+            return true;
+        }
+
+        protected string QueryForUnsTestor(StoryProjectData theStoryProjectData)
+        {
+            string strUnsGuid = null;
+            while (String.IsNullOrEmpty(strUnsGuid))
+            {
+                MemberPicker dlg = new MemberPicker(theStoryProjectData, TeamMemberData.UserTypes.eUNS);
+                dlg.Text = "Choose the UNS that gave answers for this test";
+                if (dlg.ShowDialog() == DialogResult.OK)
+                    strUnsGuid = dlg.SelectedMember.MemberGuid;
+            }
+            return strUnsGuid;
+        }
+
+        private void OnRemoveTest(object sender, EventArgs e)
+        {
+            ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
+            if (MessageBox.Show("Are you sure you want to remove all of the results from " + tsmi.Text, Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+            {
+                int nTestNum = (int)tsmi.Tag;
+                Debug.Assert((nTestNum >= 0) && (nTestNum < theCurrentStory.CraftingInfo.Testors.Count));
+                string strUnsGuid = theCurrentStory.CraftingInfo.Testors[nTestNum];
+                foreach (VerseData aVerseData in theCurrentStory.Verses)
+                {
+                    int nIndex;
+                    foreach (TestQuestionData aTQ in aVerseData.TestQuestions)
+                    {
+                        // it's possible that a question is *newer*, in which case, there may only be answers from a new UNS 
+                        //  and not earlier ones. So delete the records based on the UnsGuid (since that is what the 
+                        //  user will have selected off of to delete)
+                        nIndex = aTQ.Answers.MemberIDs.IndexOf(strUnsGuid);
+                        if (nIndex != -1)
+                        {
+                            aTQ.Answers.MemberIDs.RemoveAt(nTestNum);
+                            Debug.Assert(nTestNum < aTQ.Answers.Count);
+                            aTQ.Answers.RemoveAt(nTestNum);
+                            break;
+                        }
+                    }
+
+                    // even the verse itself may be newer and only have a single retelling (compared
+                    //  with multiple retellings for verses that we're present from draft 1)
+                    nIndex = aVerseData.Retellings.MemberIDs.IndexOf(strUnsGuid);
+                    if (nIndex != -1)
+                    {
+                        aVerseData.Retellings.MemberIDs.RemoveAt(nTestNum);
+                        Debug.Assert(nTestNum < aVerseData.Retellings.Count);
+                        aVerseData.Retellings.RemoveAt(nTestNum);
+                    }
+                }
+
+                theCurrentStory.CraftingInfo.Testors.RemoveAt(nTestNum);
+                Modified = true;
+                InitAllPanes();
+            }
+        }
+
+        protected void AddDeleteTestSubmenu(ToolStripMenuItem tsm, string strText, int nTestNum, EventHandler theEH)
+        {
+            ToolStripMenuItem tsmSub = new ToolStripMenuItem { Name = strText, Text = strText, Tag = nTestNum,
+                                                               ToolTipText = "Delete the answers to the testing questions and the retellings associated with this testing helper (UNS). The text boxes will be deleted completely."
+            };
+            tsmSub.Click += theEH;
+            tsm.DropDown.Items.Add(tsmSub);
         }
 
         private void copyStoryToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1903,7 +2029,8 @@ namespace OneStoryProjectEditor
                 {
                     viewOldStoriesToolStripMenuItem.DropDownItems.Clear();
                     foreach (StoryData aStory in StoryProject[Properties.Resources.IDS_ObsoleteStoriesSet])
-                        viewOldStoriesToolStripMenuItem.DropDownItems.Add(aStory.Name, null, onClickViewOldStory);
+                        viewOldStoriesToolStripMenuItem.DropDownItems.Add(aStory.Name, null, onClickViewOldStory).ToolTipText =
+                            "View older (obsolete) versions of the stories (that were earlier stored in the 'Old Stories' list from the 'Panorama View' window--see 'Panorama' menu, 'Show' command)";
                 }
             }
             else
@@ -1924,6 +2051,16 @@ namespace OneStoryProjectEditor
         private void viewNetBibleMenuItem_Click(object sender, EventArgs e)
         {
             InitAllPanes();
+        }
+
+        private void editCopySelectionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (CtrlTextBox._inTextBox != null)
+            {
+                string strText = CtrlTextBox._inTextBox.SelectedText;
+                if (!String.IsNullOrEmpty(strText))
+                    Clipboard.SetDataObject(strText);
+            }
         }
 
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)

@@ -90,8 +90,7 @@ namespace OneStoryProjectEditor
             labelExegeticalHelp.Text = "cn:";
 
             CtrlTextBox tb = new CtrlTextBox(
-                CstrFieldNameExegeticalHelp + nLayoutRow.ToString(),
-                this, strQuote, null, TeamMemberData.UserTypes.eUndefined);
+                CstrFieldNameExegeticalHelp + nLayoutRow, this, strQuote);
 
             // add the label and tool strip as a new row to the table layout panel
             InsertRow(nLayoutRow);

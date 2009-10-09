@@ -18,6 +18,18 @@ namespace OneStoryProjectEditor
         protected ThrowIfNotCorrectEditor _delegateRequiredEditorCheck;
         protected TeamMemberData.UserTypes _eRequiredEditor = TeamMemberData.UserTypes.eUndefined;
 
+        public CtrlTextBox(string strName, ResizableControl ctrlParent, StringTransfer stData)
+        {
+            Name = strName;
+            Multiline = true;
+            Dock = DockStyle.Fill;
+            stData.SetAssociation(this);
+            TextChanged += new EventHandler(ctrlParent.textBox_TextChanged);
+            System.Diagnostics.Debug.Assert(ctrlParent.StageLogic != null);
+            _stageLogic = ctrlParent.StageLogic;
+            _ctrlParent = ctrlParent;
+        }
+
         public CtrlTextBox(string strName, ResizableControl ctrlParent, StringTransfer stData,
             ThrowIfNotCorrectEditor delegateRequiredEditorCheck, TeamMemberData.UserTypes eRequiredEditor)
         {
@@ -44,7 +56,7 @@ namespace OneStoryProjectEditor
             if (li.IsRTL)
                 RightToLeft = RightToLeft.Yes;
             stData.SetAssociation(this);
-            TextChanged += new EventHandler(ctrlParent.textBox_TextChanged);
+            TextChanged += ctrlParent.textBox_TextChanged;
             System.Diagnostics.Debug.Assert(ctrlParent.StageLogic != null);
             _stageLogic = ctrlParent.StageLogic;
             _ctrlParent = ctrlParent;

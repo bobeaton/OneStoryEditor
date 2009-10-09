@@ -49,8 +49,6 @@
             this.toolStripMenuItem14 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem15 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuAddTestQuestion = new System.Windows.Forms.ToolStripMenuItem();
-            this.addTestQuestionAnswerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addRetellingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteTheWholeVerseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip.SuspendLayout();
@@ -226,20 +224,6 @@
             this.menuAddTestQuestion.ToolTipText = "Click to add a Story Testing Question";
             this.menuAddTestQuestion.Click += new System.EventHandler(this.menuAddTestQuestion_Click);
             // 
-            // addTestQuestionAnswerToolStripMenuItem
-            // 
-            this.addTestQuestionAnswerToolStripMenuItem.Name = "addTestQuestionAnswerToolStripMenuItem";
-            this.addTestQuestionAnswerToolStripMenuItem.Size = new System.Drawing.Size(282, 22);
-            this.addTestQuestionAnswerToolStripMenuItem.Text = "Add a UNS answer to a &testing question";
-            this.addTestQuestionAnswerToolStripMenuItem.Click += new System.EventHandler(this.addTestQuestionAnswerToolStripMenuItem_Click);
-            // 
-            // addRetellingToolStripMenuItem
-            // 
-            this.addRetellingToolStripMenuItem.Name = "addRetellingToolStripMenuItem";
-            this.addRetellingToolStripMenuItem.Size = new System.Drawing.Size(282, 22);
-            this.addRetellingToolStripMenuItem.Text = "Add a &UNS retelling";
-            this.addRetellingToolStripMenuItem.Click += new System.EventHandler(this.addRetellingToolStripMenuItem_Click);
-            // 
             // removeToolStripMenuItem
             // 
             this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
@@ -271,8 +255,6 @@
         private System.Windows.Forms.Button buttonDragDropHandle;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem menuAddTestQuestion;
-        private System.Windows.Forms.ToolStripMenuItem addRetellingToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem addTestQuestionAnswerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteTheWholeVerseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addANewVerseToolStripMenuItem;

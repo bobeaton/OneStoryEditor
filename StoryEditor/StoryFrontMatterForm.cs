@@ -24,9 +24,23 @@ namespace OneStoryProjectEditor
             textBoxUnsBackTranslator.Text =
                 theStoryProjectData.GetMemberNameFromMemberGuid(theCurrentStory.CraftingInfo.BackTranslatorMemberID);
             if (theCurrentStory.CraftingInfo.Testors.Count > 0)
-                textBoxUnsTest1.Text = theStoryProjectData.GetMemberNameFromMemberGuid(theCurrentStory.CraftingInfo.Testors[1]);
+            {
+                textBoxUnsTest1.Text = theStoryProjectData.GetMemberNameFromMemberGuid(theCurrentStory.CraftingInfo.Testors[0]);
+                buttonBrowseUnsTest2.Enabled = true;
+            }
+            else
+                buttonBrowseUnsTest2.Enabled = false;
+
             if (theCurrentStory.CraftingInfo.Testors.Count > 1)
-                textBoxUnsTest2.Text = theStoryProjectData.GetMemberNameFromMemberGuid(theCurrentStory.CraftingInfo.Testors[2]);
+            {
+                textBoxUnsTest2.Text = theStoryProjectData.GetMemberNameFromMemberGuid(theCurrentStory.CraftingInfo.Testors[1]);
+                buttonBrowseUnsTest3.Enabled = true;
+            }
+            else
+                buttonBrowseUnsTest3.Enabled = false;
+
+            if (theCurrentStory.CraftingInfo.Testors.Count > 2)
+                textBoxUnsTest3.Text = theStoryProjectData.GetMemberNameFromMemberGuid(theCurrentStory.CraftingInfo.Testors[2]);
 
             Text = String.Format("Story Information for '{0}'", theCurrentStory.Name);
         }
@@ -73,6 +87,14 @@ namespace OneStoryProjectEditor
                 textBoxUnsTest2.Text = aUns.Name;
         }
 
+        private void buttonBrowseUnsTest3_Click(object sender, EventArgs e)
+        {
+            TeamMemberData aUns = SelectedUnsMember();
+            textBoxUnsTest3.Tag = aUns;
+            if (aUns != null)
+                textBoxUnsTest3.Text = aUns.Name;
+        }
+
         private void buttonOK_Click(object sender, EventArgs e)
         {
             if (textBoxStoryCrafter.Tag != null)
@@ -102,27 +124,26 @@ namespace OneStoryProjectEditor
             }
 
             if (textBoxUnsTest1.Tag != null)
-            {
-                TeamMemberData theUns = (TeamMemberData) textBoxUnsTest1.Tag;
-                if (_theCurrentStory.CraftingInfo.Testors.ContainsKey(1))
-                    _theCurrentStory.CraftingInfo.Testors[1] = theUns.MemberGuid;
-                else 
-                    _theCurrentStory.CraftingInfo.Testors.Add(1, theUns.MemberGuid);
-                _theSE.Modified = true;
-            }
+                AddOrInsertTestor(textBoxUnsTest1, 0);
 
             if (textBoxUnsTest2.Tag != null)
-            {
-                TeamMemberData theUns = (TeamMemberData) textBoxUnsTest2.Tag;
-                if (_theCurrentStory.CraftingInfo.Testors.ContainsKey(2))
-                    _theCurrentStory.CraftingInfo.Testors[2] = theUns.MemberGuid;
-                else
-                    _theCurrentStory.CraftingInfo.Testors.Add(2, theUns.MemberGuid);
-                _theSE.Modified = true;
-            }
-            
+                AddOrInsertTestor(textBoxUnsTest2, 1);
+
+            if (textBoxUnsTest3.Tag != null)
+                AddOrInsertTestor(textBoxUnsTest3, 2);
+
             DialogResult = DialogResult.OK;
-            this.Close();
+            Close();
+        }
+
+        protected void AddOrInsertTestor(TextBox tb, int nIndex)
+        {
+            TeamMemberData theUns = (TeamMemberData)tb.Tag;
+            if (_theCurrentStory.CraftingInfo.Testors.Count < nIndex)
+                _theCurrentStory.CraftingInfo.Testors.Add(theUns.MemberGuid);
+            else
+                _theCurrentStory.CraftingInfo.Testors[nIndex] = theUns.MemberGuid;
+            _theSE.Modified = true;
         }
     }
 }

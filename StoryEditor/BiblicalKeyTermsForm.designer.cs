@@ -31,12 +31,13 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BiblicalKeyTermsForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dataGridViewKeyTerms = new System.Windows.Forms.DataGridView();
-            this.progressBarLoadingKeyTerms = new System.Windows.Forms.ProgressBar();
-            this.webBrowser = new onlyconnect.HtmlEditor();
             this.ColumnTermLemma = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnGlossEnglish = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnRenderings = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.progressBarLoadingKeyTerms = new System.Windows.Forms.ProgressBar();
+            this.webBrowser = new onlyconnect.HtmlEditor();
+            this.helpProvider = new System.Windows.Forms.HelpProvider();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -77,12 +78,14 @@
             this.ColumnRenderings});
             this.dataGridViewKeyTerms.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewKeyTerms.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.helpProvider.SetHelpString(this.dataGridViewKeyTerms, resources.GetString("dataGridViewKeyTerms.HelpString"));
             this.dataGridViewKeyTerms.Location = new System.Drawing.Point(0, 0);
             this.dataGridViewKeyTerms.MultiSelect = false;
             this.dataGridViewKeyTerms.Name = "dataGridViewKeyTerms";
             this.dataGridViewKeyTerms.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dataGridViewKeyTerms.RowHeadersVisible = false;
             this.dataGridViewKeyTerms.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.helpProvider.SetShowHelp(this.dataGridViewKeyTerms, true);
             this.dataGridViewKeyTerms.Size = new System.Drawing.Size(602, 204);
             this.dataGridViewKeyTerms.TabIndex = 0;
             this.dataGridViewKeyTerms.VirtualMode = true;
@@ -91,39 +94,6 @@
             this.dataGridViewKeyTerms.DragOver += new System.Windows.Forms.DragEventHandler(this.dataGridViewKeyTerms_DragOver);
             this.dataGridViewKeyTerms.SelectionChanged += new System.EventHandler(this.dataGridViewKeyTerms_SelectionChanged);
             this.dataGridViewKeyTerms.DragDrop += new System.Windows.Forms.DragEventHandler(this.dataGridViewKeyTerms_DragDrop);
-            // 
-            // progressBarLoadingKeyTerms
-            // 
-            this.progressBarLoadingKeyTerms.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.progressBarLoadingKeyTerms.Location = new System.Drawing.Point(0, 177);
-            this.progressBarLoadingKeyTerms.Name = "progressBarLoadingKeyTerms";
-            this.progressBarLoadingKeyTerms.Size = new System.Drawing.Size(602, 23);
-            this.progressBarLoadingKeyTerms.TabIndex = 1;
-            // 
-            // webBrowser
-            // 
-            this.webBrowser.DefaultComposeSettings.BackColor = System.Drawing.Color.White;
-            this.webBrowser.DefaultComposeSettings.DefaultFont = new System.Drawing.Font("Arial", 10F);
-            this.webBrowser.DefaultComposeSettings.Enabled = false;
-            this.webBrowser.DefaultComposeSettings.ForeColor = System.Drawing.Color.Black;
-            this.webBrowser.DefaultPreamble = onlyconnect.EncodingType.UTF8;
-            this.webBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser.DocumentEncoding = onlyconnect.EncodingType.WindowsCurrent;
-            this.webBrowser.IsActivationEnabled = false;
-            this.webBrowser.Location = new System.Drawing.Point(0, 0);
-            this.webBrowser.Name = "webBrowser";
-            this.webBrowser.SelectionAlignment = System.Windows.Forms.HorizontalAlignment.Left;
-            this.webBrowser.SelectionBackColor = System.Drawing.Color.Empty;
-            this.webBrowser.SelectionBullets = false;
-            this.webBrowser.SelectionFont = null;
-            this.webBrowser.SelectionForeColor = System.Drawing.Color.Empty;
-            this.webBrowser.SelectionNumbering = false;
-            this.webBrowser.Size = new System.Drawing.Size(602, 200);
-            this.webBrowser.TabIndex = 0;
-            this.webBrowser.BeforeNavigate += new onlyconnect.BeforeNavigateEventHandler(this.webBrowser_BeforeNavigate);
-            this.webBrowser.MouseMove += new System.Windows.Forms.MouseEventHandler(this.webBrowser_MouseMove);
-            this.webBrowser.KeyDown += new System.Windows.Forms.KeyEventHandler(this.webBrowser_KeyDown);
-            this.webBrowser.ReadyStateChanged += new onlyconnect.ReadyStateChangedHandler(this.webBrowser_ReadyStateChanged);
             // 
             // ColumnTermLemma
             // 
@@ -150,13 +120,51 @@
             this.ColumnRenderings.Name = "ColumnRenderings";
             this.ColumnRenderings.ReadOnly = true;
             // 
+            // progressBarLoadingKeyTerms
+            // 
+            this.progressBarLoadingKeyTerms.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.progressBarLoadingKeyTerms.Location = new System.Drawing.Point(0, 177);
+            this.progressBarLoadingKeyTerms.Name = "progressBarLoadingKeyTerms";
+            this.progressBarLoadingKeyTerms.Size = new System.Drawing.Size(602, 23);
+            this.progressBarLoadingKeyTerms.TabIndex = 1;
+            // 
+            // webBrowser
+            // 
+            this.webBrowser.DefaultComposeSettings.BackColor = System.Drawing.Color.White;
+            this.webBrowser.DefaultComposeSettings.DefaultFont = new System.Drawing.Font("Arial", 10F);
+            this.webBrowser.DefaultComposeSettings.Enabled = false;
+            this.webBrowser.DefaultComposeSettings.ForeColor = System.Drawing.Color.Black;
+            this.webBrowser.DefaultPreamble = onlyconnect.EncodingType.UTF8;
+            this.webBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowser.DocumentEncoding = onlyconnect.EncodingType.WindowsCurrent;
+            this.helpProvider.SetHelpString(this.webBrowser, resources.GetString("webBrowser.HelpString"));
+            this.webBrowser.IsActivationEnabled = false;
+            this.webBrowser.Location = new System.Drawing.Point(0, 0);
+            this.webBrowser.Name = "webBrowser";
+            this.webBrowser.SelectionAlignment = System.Windows.Forms.HorizontalAlignment.Left;
+            this.webBrowser.SelectionBackColor = System.Drawing.Color.Empty;
+            this.webBrowser.SelectionBullets = false;
+            this.webBrowser.SelectionFont = null;
+            this.webBrowser.SelectionForeColor = System.Drawing.Color.Empty;
+            this.webBrowser.SelectionNumbering = false;
+            this.helpProvider.SetShowHelp(this.webBrowser, true);
+            this.webBrowser.Size = new System.Drawing.Size(602, 200);
+            this.webBrowser.TabIndex = 0;
+            this.webBrowser.BeforeNavigate += new onlyconnect.BeforeNavigateEventHandler(this.webBrowser_BeforeNavigate);
+            this.webBrowser.MouseMove += new System.Windows.Forms.MouseEventHandler(this.webBrowser_MouseMove);
+            this.webBrowser.KeyDown += new System.Windows.Forms.KeyEventHandler(this.webBrowser_KeyDown);
+            this.webBrowser.ReadyStateChanged += new onlyconnect.ReadyStateChangedHandler(this.webBrowser_ReadyStateChanged);
+            // 
             // BiblicalKeyTermsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(602, 408);
             this.Controls.Add(this.splitContainer1);
+            this.HelpButton = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "BiblicalKeyTermsForm";
             this.Text = "Key Terms";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BiblicalKeyTermsForm_FormClosing);
@@ -178,6 +186,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnStatus;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnGlossEnglish;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnRenderings;
+        private System.Windows.Forms.HelpProvider helpProvider;
 
     }
 }

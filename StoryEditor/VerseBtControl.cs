@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 
@@ -17,8 +18,8 @@ namespace OneStoryProjectEditor
 
         public string Guid = null;
 
-        public VerseBtControl(StoryEditor aSE, VerseData dataVerse, int nVerseNumber)
-            : base(aSE.theCurrentStory.ProjStage)
+        public VerseBtControl(StoryEditor theSE, VerseData dataVerse, int nVerseNumber)
+            : base(theSE.theCurrentStory.ProjStage)
         {
             _verseData = dataVerse;
             Guid = _verseData.guid;
@@ -29,25 +30,24 @@ namespace OneStoryProjectEditor
             tableLayoutPanel.Controls.Add(labelReference, 0, 0);
             tableLayoutPanel.Controls.Add(buttonDragDropHandle, 1, 0);
 
-            InitControls(aSE);
+            InitControls(theSE);
         }
 
-        protected void InitControls(StoryEditor aSE)
+        protected void InitControls(StoryEditor theSE)
         {
-            tableLayoutPanel.DumpTable();
             tableLayoutPanel.SuspendLayout();
             SuspendLayout();
 
             int nNumRows = 1;
             // if the user is requesting one of the story lines (vernacular, nationalBT, or English), then...
-            if (aSE.viewVernacularLangFieldMenuItem.Checked || aSE.viewNationalLangFieldMenuItem.Checked || aSE.viewEnglishBTFieldMenuItem.Checked)
+            if (theSE.viewVernacularLangFieldMenuItem.Checked || theSE.viewNationalLangFieldMenuItem.Checked || theSE.viewEnglishBTFieldMenuItem.Checked)
             {
                 // ask that control to do the Update View
-                InitStoryLine(aSE, _verseData, nNumRows);
+                InitStoryLine(theSE, _verseData, nNumRows);
                 nNumRows++;
             }
 
-            if (aSE.viewAnchorFieldMenuItem.Checked)
+            if (theSE.viewAnchorFieldMenuItem.Checked)
             {
                 AnchorsData anAnchorsData = _verseData.Anchors;
                 if (anAnchorsData != null)
@@ -57,20 +57,20 @@ namespace OneStoryProjectEditor
                 }
             }
 
-            if (aSE.viewRetellingFieldMenuItem.Checked)
+            if (theSE.viewRetellingFieldMenuItem.Checked)
             {
                 if (_verseData.Retellings.Count > 0)
                 {
-                    InitRetellings(_verseData.Retellings, nNumRows);
+                    InitRetellings(_verseData.Retellings, nNumRows, theSE.theCurrentStory.CraftingInfo.Testors);
                     nNumRows++;
                 }
             }
 
-            if (aSE.viewStoryTestingQuestionFieldMenuItem.Checked)
+            if (theSE.viewStoryTestingQuestionFieldMenuItem.Checked)
             {
                 if (_verseData.TestQuestions.Count > 0)
                 {
-                    InitTestingQuestions(aSE, _verseData.TestQuestions, nNumRows);
+                    InitTestingQuestions(theSE, _verseData.TestQuestions, nNumRows);
                     nNumRows++;
                 }
             }
@@ -104,10 +104,10 @@ namespace OneStoryProjectEditor
             return false;
         }
 
-        protected void InitStoryLine(StoryEditor aSE, VerseData aVerseData, int nLayoutRow)
+        protected void InitStoryLine(StoryEditor theSE, VerseData aVerseData, int nLayoutRow)
         {
             System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(CstrFieldNameStoryLine));
-            StoryLineControl aStoryLineCtrl = new StoryLineControl(aSE, aVerseData);
+            StoryLineControl aStoryLineCtrl = new StoryLineControl(theSE, aVerseData);
             aStoryLineCtrl.Name = CstrFieldNameStoryLine;
             aStoryLineCtrl.ParentControl = this;
 
@@ -128,10 +128,10 @@ namespace OneStoryProjectEditor
             tableLayoutPanel.Controls.Add(anAnchorCtrl, 0, nLayoutRow);
         }
 
-        protected void InitRetellings(RetellingsData aRetellingsData, int nLayoutRow)
+        protected void InitRetellings(RetellingsData aRetellingsData, int nLayoutRow, List<string> astrTestors)
         {
             System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(CstrFieldNameRetellings));
-            MultiLineControl aRetellingsCtrl = new MultiLineControl(StageLogic, aRetellingsData);
+            MultiLineControl aRetellingsCtrl = new MultiLineControl(StageLogic, aRetellingsData, astrTestors);
             aRetellingsCtrl.Name = CstrFieldNameRetellings;
             aRetellingsCtrl.ParentControl = this;
 
@@ -140,16 +140,16 @@ namespace OneStoryProjectEditor
             tableLayoutPanel.Controls.Add(aRetellingsCtrl, 0, nLayoutRow);
         }
 
-        protected void InitTestingQuestions(StoryEditor aSE, TestQuestionsData aTQsData, int nLayoutRow)
+        protected void InitTestingQuestions(StoryEditor theSE, TestQuestionsData aTQsData, int nLayoutRow)
         {
             for (int i = 0; i < aTQsData.Count; i++)
-                InitTestQuestion(aSE, i, aTQsData[i], nLayoutRow);
+                InitTestQuestion(theSE, i, aTQsData[i], nLayoutRow);
         }
 
-        protected void InitTestQuestion(StoryEditor aSE, int i, TestQuestionData aTQData, int nLayoutRow)
+        protected void InitTestQuestion(StoryEditor theSE, int i, TestQuestionData aTQData, int nLayoutRow)
         {
             int nTQNumber = i + 1;
-            TestingQuestionControl aTestingQuestionCtrl = new TestingQuestionControl(aSE, aTQData);
+            TestingQuestionControl aTestingQuestionCtrl = new TestingQuestionControl(theSE, aTQData);
             aTestingQuestionCtrl.ParentControl = this;
             aTestingQuestionCtrl.Name = CstrFieldNameTestQuestions + nLayoutRow.ToString();
 
@@ -197,8 +197,12 @@ namespace OneStoryProjectEditor
 
         private void menuAddTestQuestion_Click(object sender, EventArgs e)
         {
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
+                return;
+
             _verseData.TestQuestions.AddTestQuestion();
-            UpdateViewOfThisVerse();
+            UpdateViewOfThisVerse(theSE);
         }
 
         private void contextMenuStrip_Opening(object sender, CancelEventArgs e)
@@ -208,11 +212,14 @@ namespace OneStoryProjectEditor
             if (theSE.theCurrentStory.CraftingInfo.IsBiblicalStory)
             {
                 contextMenuStrip.Items.Insert(2, menuAddTestQuestion);
+                /* adding answer and retelling spots is now done during end-of-state processing for ProjFacReadyForTest1
                 contextMenuStrip.Items.Insert(3, addTestQuestionAnswerToolStripMenuItem);
                 contextMenuStrip.Items.Insert(4, addRetellingToolStripMenuItem);
+                */
             }
 
             // for answers, we have to attach them to the correct question
+            /* adding answer spots is now done during end-of-state processing for ProjFacReadyForTest1
             int nTestQuestionCount = _verseData.TestQuestions.Count;
             if (nTestQuestionCount > 1)
             {
@@ -223,11 +230,14 @@ namespace OneStoryProjectEditor
             }
             else if (nTestQuestionCount == 0)
                 addTestQuestionAnswerToolStripMenuItem.Enabled = false;
+            */
 
-            // add all the test questions, retellings, and answers to a drop down menu to remove them
+            // add all the test questions to a drop down menu to allow removing them
             removeToolStripMenuItem.DropDown.Items.Clear();
+            /*
             if (theSE.viewRetellingFieldMenuItem.Checked)
                 AddRemoveRetellingSubmenus(_verseData.Retellings);
+            */
             if (theSE.viewStoryTestingQuestionFieldMenuItem.Checked)
                 AddRemoveTestQuestionsAndAnswersSubmenus(_verseData.TestQuestions);
         }
@@ -243,9 +253,13 @@ namespace OneStoryProjectEditor
         protected void AddRemTQSubmenu(ToolStripMenuItem tsm, TestQuestionData theTQ, int nIndex)
         {
             ToolStripMenuItem tsmSub = new ToolStripMenuItem();
-            tsmSub.Name = theTQ.QuestionInternationalBT.ToString();
-            tsmSub.Text = theTQ.QuestionVernacular.ToString();
-            tsmSub.ToolTipText = theTQ.QuestionInternationalBT.ToString();
+            string strPrimary = (theTQ.QuestionVernacular.HasData) ? theTQ.QuestionVernacular.ToString() :
+                (theTQ.QuestionNationalBT.HasData) ? theTQ.QuestionNationalBT.ToString() : theTQ.QuestionInternationalBT.ToString();
+            string strSecondary = (theTQ.QuestionInternationalBT.HasData) ? theTQ.QuestionInternationalBT.ToString() :
+                (theTQ.QuestionNationalBT.HasData) ? theTQ.QuestionNationalBT.ToString() : theTQ.QuestionVernacular.ToString();
+            tsmSub.Name = strSecondary;
+            tsmSub.Text = strPrimary;
+            tsmSub.ToolTipText = strSecondary;
             tsmSub.Tag = theTQ;
             tsmSub.Click += remTQ_Click;
             tsm.DropDown.Items.Add(tsmSub);
@@ -253,7 +267,6 @@ namespace OneStoryProjectEditor
 
         void remTQ_Click(object sender, EventArgs e)
         {
-            // the only function of the button here is to add a slot to type a con note
             StoryEditor theSE;
             if (!CheckForProperEditToken(out theSE))
                 return;
@@ -261,15 +274,24 @@ namespace OneStoryProjectEditor
             ToolStripMenuItem tsm = (ToolStripMenuItem)sender;
             TestQuestionData theTQD = (TestQuestionData)tsm.Tag;
             _verseData.TestQuestions.Remove(theTQD);
-
-            theSE.ReInitVerseControls();
+            UpdateViewOfThisVerse(theSE);
         }
-
+        
+        /* can't think of a good reason to allow them to remove a retelling (at least not this way)
         protected void AddRemoveRetellingSubmenus(RetellingsData theRD)
         {
             ToolStripMenuItem tsm = AddHeadSubmenu("Retelling(s)");
+
+            int nRetellingNum = 1;
             foreach (StringTransfer rd in theRD)
-                AddSubmenu(tsm, rd.ToString(), theRD, remLine_Click);
+            {
+                string strText = rd.ToString();
+                if (String.IsNullOrEmpty(strText))
+                    strText = String.Format("<no retelling #{0}>", nRetellingNum);
+                nRetellingNum++;
+
+                AddSubmenu(tsm, strText, theRD, remLine_Click);
+            }
         }
 
         protected void AddSubmenu(ToolStripMenuItem tsm, string strText, MultipleLineDataConverter theObj, EventHandler theEH)
@@ -289,15 +311,17 @@ namespace OneStoryProjectEditor
             theObj.RemoveLine(tsm.Text);
             UpdateViewOfThisVerse();
         }
+        */
 
-        private void UpdateViewOfThisVerse()
+        internal void UpdateViewOfThisVerse(StoryEditor theSE)
         {
-            StoryEditor theSE = (StoryEditor)FindForm();
+            System.Diagnostics.Debug.Assert(theSE != null);
             ClearControls();
             InitControls(theSE);
             UpdateHeight(Width);
             tableLayoutPanel.PerformLayout();
             PerformLayout();
+            theSE.Modified = true;
         }
 
         protected const string CstrAddAnswerPrefix = "For the question: ";
@@ -310,6 +334,7 @@ namespace OneStoryProjectEditor
             return tsm;
         }
 
+        /*
         protected void AddAnswerSubmenu(string strText, int nIndex)
         {
             ToolStripMenuItem tsm = new ToolStripMenuItem
@@ -374,8 +399,9 @@ namespace OneStoryProjectEditor
 
             // this is kind of sledge-hammer-y... but it works
             theSE.ReInitVerseControls();
-            */
+            *//*
         }
+        */
 
         private void deleteTheWholeVerseToolStripMenuItem_Click(object sender, EventArgs e)
         {

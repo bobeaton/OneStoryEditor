@@ -18,13 +18,13 @@ namespace OneStoryProjectEditor
         protected List<Term> visibleTerms = new List<Term>();
         TermRenderingsList renderings;   // Rendering info for terms in target language
         TermLocalizations termLocalizations;   // Term info unique to UI language
-        BiblicalTermsHTMLBuilder htmlBuilder;  // Class used to build references window text as html
         string refererencesHtml;  // text loaded into html references browser
-        private BiblicalTermsList _biblicalTerms;   // All Biblical terms
         string idToScrollTo = null;		// Set this to scroll to an elementid when loaded
         protected StoryEditor _theSE;
         internal ProjectSettings.LanguageInfo _liToUse;
         internal ProjectSettings _projSettings;
+        readonly BiblicalTermsHTMLBuilder htmlBuilder;  // Class used to build references window text as html
+        readonly BiblicalTermsList _biblicalTerms;   // All Biblical terms
 
         public BiblicalKeyTermsForm(StoryEditor theSE, ProjectSettings.LanguageInfo liToUse, ProjectSettings projSettings)
         {
@@ -202,10 +202,10 @@ namespace OneStoryProjectEditor
 
         protected void ParseReference(string strReference, out string strStoryName, out int nLineNumber, out string strAnchor)
         {
-            // format for reference is: "Story: '{0}', line: {1}, anchor: {2}"
+            // format for reference is: "Story: '{0}' line: {1} anchor: {2}"
             const string CstrStoryPortion = "Story: '";
-            const string CstrLinePortion = "', line: ";
-            const string CstrAnchorPortion = ", anchor: ";
+            const string CstrLinePortion = "' line: ";
+            const string CstrAnchorPortion = " anchor: ";
 
             System.Diagnostics.Debug.Assert(strReference.IndexOf(CstrStoryPortion) == 0);
             int nIndexStoryName = CstrStoryPortion.Length;
@@ -251,7 +251,7 @@ namespace OneStoryProjectEditor
 
             reference = reference.Replace(" ", "_");
             
-            // e.g. projectxnr_Story: 'BibStory', line: 1, anchor: Gen 2:4
+            // e.g. projectxnr_Story: 'BibStory' line: 1 anchor: Gen 2:4
             idToScrollTo = String.Format("project{0}_{1}", renderings.ScrTextName, reference);
 
             NotifyRenderingsChanged();
@@ -262,6 +262,12 @@ namespace OneStoryProjectEditor
             if (e.Control && e.KeyCode == Keys.C)
             {
                 webBrowser.Copy();
+            }
+
+            // the "+" key will add the rendering
+            if (e.KeyValue == 107)
+            {
+                AddRendering(SelectedText, SelectedTermIndex);
             }
         }
 
@@ -366,40 +372,44 @@ namespace OneStoryProjectEditor
         {
             if (e.Data.GetDataPresent(typeof(string)))
             {
-                string strRendering = (string)e.Data.GetData(typeof(string));
-                if (!String.IsNullOrEmpty(strRendering))
-                    strRendering = strRendering.Trim();
-
-                if (String.IsNullOrEmpty(strRendering))
-                    return;
-
                 Point clientPoint = dataGridViewKeyTerms.PointToClient(new Point(e.X, e.Y));
                 DataGridView.HitTestInfo hti = dataGridViewKeyTerms.HitTest(clientPoint.X, clientPoint.Y);
                 if ((hti.RowIndex < 0) || (hti.RowIndex >= visibleTerms.Count)
                     || (hti.ColumnIndex < 0) || (hti.ColumnIndex > CnColumnRenderings))
                     return;
 
-                Term term = visibleTerms[hti.RowIndex];
-
-                TermRendering termRendering = renderings.GetRendering(term.Id);
-                if (termRendering.RenderingsList.Contains(strRendering))
-                {
-                    MessageBox.Show(Localizer.Str("Rendering already present."));
-                    return;
-                }
-
-                termRendering.RenderingsList.Add(strRendering);
-                string strRenderings;
-                if (String.IsNullOrEmpty(termRendering.Renderings))
-                    strRenderings = strRendering;
-                else
-                    strRenderings = termRendering.Renderings + ", " + strRendering;
-
-                termRendering.Renderings = strRenderings;
-                renderings.RenderingsChanged = true;
-                dataGridViewKeyTerms.UpdateCellValue(hti.ColumnIndex, hti.RowIndex);
-                LoadReferencesDisplay(true);
+                string strRendering = (string)e.Data.GetData(typeof(string));
+                AddRendering(strRendering, hti.RowIndex);
             }
+        }
+
+        protected void AddRendering(string strRendering, int nRowIndex)
+        {
+            if (!String.IsNullOrEmpty(strRendering))
+                strRendering = strRendering.Trim();
+
+            if (String.IsNullOrEmpty(strRendering) || (nRowIndex == -1))
+                return;
+
+            Term term = visibleTerms[nRowIndex];
+            TermRendering termRendering = renderings.GetRendering(term.Id);
+            if (termRendering.RenderingsList.Contains(strRendering))
+            {
+                MessageBox.Show(Localizer.Str("Rendering already present."));
+                return;
+            }
+
+            termRendering.RenderingsList.Add(strRendering);
+            string strRenderings;
+            if (String.IsNullOrEmpty(termRendering.Renderings))
+                strRenderings = strRendering;
+            else
+                strRenderings = termRendering.Renderings + ", " + strRendering;
+
+            termRendering.Renderings = strRenderings;
+            renderings.RenderingsChanged = true;
+            dataGridViewKeyTerms.UpdateCellValue(CnColumnRenderings, nRowIndex);
+            LoadReferencesDisplay(true);
         }
 
         // Index of selected determine.

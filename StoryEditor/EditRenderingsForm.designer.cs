@@ -84,11 +84,11 @@ namespace OneStoryProjectEditor
             this.groupBox1.Controls.Add(this.textNotes);
             this.groupBox1.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.groupBox1.Location = new System.Drawing.Point(2, 354);
+            this.groupBox1.Location = new System.Drawing.Point(2, 313);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox1.Size = new System.Drawing.Size(782, 100);
+            this.groupBox1.Size = new System.Drawing.Size(782, 167);
             this.groupBox1.TabIndex = 21;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Notes";
@@ -104,7 +104,7 @@ namespace OneStoryProjectEditor
             this.textNotes.Multiline = true;
             this.textNotes.Name = "textNotes";
             this.textNotes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textNotes.Size = new System.Drawing.Size(773, 79);
+            this.textNotes.Size = new System.Drawing.Size(773, 146);
             this.textNotes.TabIndex = 1;
             // 
             // tableLayoutPanel1
@@ -126,11 +126,11 @@ namespace OneStoryProjectEditor
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 6;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66611F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 44.9985F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 21.66928F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66611F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.Size = new System.Drawing.Size(786, 569);
             this.tableLayoutPanel1.TabIndex = 22;
@@ -148,7 +148,7 @@ namespace OneStoryProjectEditor
             this.groupBox3.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox3.Size = new System.Drawing.Size(782, 76);
+            this.groupBox3.Size = new System.Drawing.Size(782, 81);
             this.groupBox3.TabIndex = 23;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Term Definition";
@@ -164,7 +164,7 @@ namespace OneStoryProjectEditor
             this.txtTermDefinition.Multiline = true;
             this.txtTermDefinition.Name = "txtTermDefinition";
             this.txtTermDefinition.ReadOnly = true;
-            this.txtTermDefinition.Size = new System.Drawing.Size(768, 55);
+            this.txtTermDefinition.Size = new System.Drawing.Size(768, 60);
             this.txtTermDefinition.TabIndex = 1;
             // 
             // groupBox2
@@ -176,11 +176,11 @@ namespace OneStoryProjectEditor
             this.groupBox2.Controls.Add(this.textRenderings);
             this.groupBox2.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.groupBox2.Location = new System.Drawing.Point(2, 137);
+            this.groupBox2.Location = new System.Drawing.Point(2, 142);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox2.Size = new System.Drawing.Size(782, 213);
+            this.groupBox2.Size = new System.Drawing.Size(782, 167);
             this.groupBox2.TabIndex = 22;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Renderings";
@@ -193,7 +193,7 @@ namespace OneStoryProjectEditor
             this.textRenderings.Multiline = true;
             this.textRenderings.Name = "textRenderings";
             this.textRenderings.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textRenderings.Size = new System.Drawing.Size(778, 196);
+            this.textRenderings.Size = new System.Drawing.Size(778, 150);
             this.textRenderings.TabIndex = 0;
             // 
             // groupBox4
@@ -205,12 +205,13 @@ namespace OneStoryProjectEditor
             this.groupBox4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.tableLayoutPanel1.SetColumnSpan(this.groupBox4, 2);
             this.groupBox4.Controls.Add(this.textTag);
-            this.groupBox4.Location = new System.Drawing.Point(3, 83);
+            this.groupBox4.Location = new System.Drawing.Point(3, 88);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(780, 49);
             this.groupBox4.TabIndex = 25;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Tag";
+            this.groupBox4.Visible = false;
             // 
             // textTag
             // 
@@ -227,7 +228,7 @@ namespace OneStoryProjectEditor
             this.labelInstructions.AutoSize = true;
             this.tableLayoutPanel1.SetColumnSpan(this.labelInstructions, 2);
             this.labelInstructions.Font = new System.Drawing.Font("Arial Unicode MS", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelInstructions.Location = new System.Drawing.Point(3, 456);
+            this.labelInstructions.Location = new System.Drawing.Point(3, 482);
             this.labelInstructions.Name = "labelInstructions";
             this.labelInstructions.Size = new System.Drawing.Size(758, 54);
             this.labelInstructions.TabIndex = 26;

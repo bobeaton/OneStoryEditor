@@ -330,24 +330,39 @@ This is the final stage of the process for this non-biblical story.
     <StageDisplayString>First-pass mentor checks the story</StageDisplayString>
     <StageInstructions>
 In this stage, you (the first-pass mentor) will check the story and make any suggestions you can
-think of that would make the story more accurate, clear, and natural. This will be things related
-to:
+think of that would make the story more accurate, clear, and natural. You will put your suggestions
+in the 'Consultant Notes' pane of the editor in the boxes labeled 'cons:'
 
-Anchors: are the story verse(s) supported by the anchored verses, or has the story crafter mis-
+You can make comments related to any of the following issues:
+
+Anchors: are the lines of the story supported by the anchored verses, or has the story crafter mis-
     interpreted something?
 
 Story Flow: does the story flow nicely?
 
 Story Length: is the length of the story nice? Does it seem re-tellable?
 
-Translation issues: are any words translated in a way that makes you think it might be mis-translated?
+Translation issues: are any words translated in a way that makes you think it might be mis-
+    translated?
 
-Matches the story purpose: does the story seem to support the purpose for which it was created? 
-    (see 'Story' menu, 'Story Information' to see the 'Purpose').
+Story matches the stated purpose: does the story seem to support the purpose for which it was 
+    created? (see 'Story' menu, 'Story Information' to see the 'Purpose'). The redemptive theme
+    is also supposed to be written up in the first tab of the 'Show Panorama' command.
     
+Were enough resources used: look in 'Story' menu, 'Story Information' again to see the list of
+    resources used in crafting the story. Where possible, there should be at least two Bible 
+    versions and two visual resources (video and pictures) used when crafting a story.
+
+Story Testing Questions: are the story testing questions appropriate for the kind of testing that 
+    we want in a Storying project? e.g. do they cause the UNS to think outside of the text--"why" 
+    and "how" questions are better than "what", "who", "where", "when" kind of questions)? Have 
+    the they avoided questions whose answers are "yes" and "no" or questions which ask what 
+    something means? Is there a answer to the question which would be beneficial for checking the 
+    inferences of the story?
+
 If there are major problems with the flow and/or thematic focus (e.g. it's too long, or doesn't
-really support the purpose mentioned), you can add a few consultant notes in the ConNotes pane
-and send it back to the Project Facilitator for revision (i.e. before spending a lot of time
+really support the purpose mentioned), you can add a few consultant notes in the Consultant Notes 
+pane and send it back to the Project Facilitator for revision (i.e. before spending a lot of time
 checking it further and/or passing it along to the Consultant). To send it back to the Project 
 Facilitator for such revisions, click on the small downward arrow to the right-hand side of the 
 'Next Stage' button in the lower left corner of the screen. This will bring up a pop-up list of 
@@ -377,7 +392,7 @@ In this stage, you (the consultant) will check to make sure that the Project Fac
 entered the following information properly (click the 'Story' menu, 'Story Information' command):
 
     the crafter's name
-    the purpose for this story (does it fit within their redeptive theme?)
+    the purpose for this story (does it fit within their redeptive theme--See 'Show Panorama' command)
     the resources used (are the multiple and oral?)
     the name and details about the UNS that did the back-translation
     
@@ -385,12 +400,13 @@ You can also take a first pass read through the story to make sure that it flows
 within the purpose for which it was created. 
 
 If there are major problems with the flow and/or thematic focus (e.g. it's too long, or doesn't 
-really support the purpose mentioned), you can add a few consultant notes in the ConNotes pane
-and send it back to the Project Facilitator for revision (i.e. before spending a lot of time 
-checking it further). To send it back to the Project Facilitator for such revisions, click on the 
-small downward arrow to the right-hand side of the 'Next Stage' button in the lower left corner of 
-the screen. This will bring up a pop-up list of the previous stages. Just select the previous 
-stage to go back to and then upload the file (happens automatically when you exit the editor).
+really support the purpose mentioned), you can add a few consultant notes in the 'cons:' fields 
+in the 'Consultant Notes' pane and send it back to the Project Facilitator for revision (i.e. 
+before spending a lot of time checking it further). To send it back to the Project Facilitator 
+for such revisions, click on the small downward arrow to the right-hand side of the 'Next Stage' 
+button in the lower left corner of the screen. This will bring up a pop-up list of the previous 
+stages. Just select the previous stage to go back to and then upload the file (happens 
+automatically when you exit the editor).
 
 Otherwise, when you are finished reviewing the Story Information, then click the button in the 
 left-hand side of the status bar and choose 'Next Stage' to go to the next stage in the process.
@@ -413,10 +429,10 @@ left-hand side of the status bar and choose 'Next Stage' to go to the next stage
 In this stage, you (the consultant) need to check the anchors added by the crafter(s) for each verse of the story.
 
 The anchors shown in the Story pane are actually buttons, which if you click, will jump to the passage in the 
-Bible pane. You need to make sure that all the information in the story verse is covered by the anchored 
-passage(s). If the story verse has information which is not in the anchored passages, it's okay for you to add 
-further anchors if you can think of a scripture passage which supports what the story crafter is trying say (or 
-add a consultant note for the crafter to look up the passage and add the anchor themself).
+Bible pane. You need to make sure that all the information in each story line is covered by the anchored verse(s). 
+If the story verse has information which is not in the anchored passages, it's okay for you to add further anchors 
+if you can think of a scripture passage which supports what the story crafter is trying say (or add a consultant 
+note for the crafter to look up the passage and add the anchor themselves).
 
 As you evaluate whether the story verse is a valid interpretation of the anchored verses, in addition to the 
 text in the Bible pane, it is recommended that you look in Translator's Workplace exegetical resources. If you 
@@ -425,11 +441,11 @@ the scripture passage in the Bible pane doesn't seem to support it), then you ca
 and paste it into an exegetical comment line (right-click on an anchor button in the Story pane and choose 
 "Add cultural/exegetical note" and paste the comment from TW).
 
-As you look up passages in the Bible pane, you can right-click on the book name box to shift to other books 
+As you look up passages in the Bible pane, you can right-click on the book name combo box to move to other books 
 in the Bible or click the up/down arrows to shift to the next/previous verse, chapter or book.
 
-When you are finished adding these testing questions, then click the button in the left-hand side of the 
-status bar and choose 'Next Stage' to go to the next stage in the process.
+When you are finished checking all the anchors, then click the button in the left-hand side of the status bar and 
+choose 'Next Stage' to go to the next stage in the process.
     </StageInstructions>
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eProjFacTypeVernacular</AllowableBackwardsTransition>
@@ -453,16 +469,16 @@ implications of the story. The best kind of STQ are those that invite the UNS to
 or "How" of what is going on in the story. Or questions that ask, "What kinds of things might be an 
 example of this?" are also useful. They should be based on the story, but you should try to get the 
 UNS to speculate beyond what the story itself says. For example, suppose that the story had a verse 
-like, "And the people took baptism and left their sins". A good question would be like, "Why (or how) 
-do you think they took baptism?" or "How (or why) do you think they left their sins?" These would be 
+like, "And the people took baptism and left their sins". A good question would be, "Why (or how) do 
+you think they took baptism?" or "How (or why) do you think they left their sins?" These would be 
 good questions, because the answer isn't in the story and based on what answer the UNS gives, it 
 might indicate that the story is giving a wrong understanding.
 
 Less useful are content-questions that begin with "What", "Who", "When", "Where", which can usually 
-be answered from the story itself (e.g. for a story verse like, "Jesus and three of his disciples 
+be answered from the story itself (e.g. if the story line was, "Jesus and three of his disciples 
 went up on a hill..." Then it wouldn't be as useful to ask questions like, "How many disciples went 
-up on the hill with Jesus?" or "Where did Jesus go?" Such questions are known as "closed questions" 
-and are not good for testing the story.
+up on the hill with Jesus?" or "Where did Jesus go?" Such questions are known as "closed questions",
+because the answer is in the story itself, and they do not make good questions for testing the story.
 
 Also, story testing questions shouldn’t be "yes-no" questions (questions for which the answer is either 
 "yes" or "no"). For example, a question like, "Did Joseph reveal himself to his brothers before they 
@@ -470,7 +486,9 @@ left?" Also, questions about what something means are not good questions. For ex
 phrase "sabt din" mean?". These are examples of questions that are not good story testing questions.
 
 Also, they also shouldn’t be questions which ask the UNS for their personal beliefs or theological 
-opinion (e.g. "Do you think that God could really have created the world in 6 days?").
+opinion (e.g. "Do you think that God could really have created the world in 6 days?"). While they might
+have an interesting answer to such a question and it may help you learn about their culture better, any
+answer they give to such a question won't help test the implications of the story.
 
 Finally, as you evaluate a question always be thinking about what kind of answer a UNS might give. If
 the answer can't really help the story regardless of what the answer is, then it is not a good question.
@@ -481,14 +499,15 @@ of what answer the UNS gives.
 If you feel that any particular question is not a good question, then add a note to the Consultant Note
 pane for that line recommending that the Crafting team make a change to the question. It is important
 to indicate why the question is not a good one so that they can learn what our goal is in asking the
-questions.
+questions. And also, be sure to offer an alternative suggestion.
 
 When you are finished adding these testing questions, then click the button in the left-hand side of 
 the status bar and choose 'Next Stage' to go to the next stage in the process. In the next state, the
 Coach will evaluate your feedback and possibly put comments in the Coach Notes pane, which you will 
 respond to before your feedback goes back to the Crafting team. If you have a question about your 
-feedback, you can show the Coach Notes pane ("View" menu, "Coach notes field") and right-click on the
-small button to the right-hand side of the appropriate line number and choose "Add Note".
+feedback prior to passing your comments on to the coach, you can add a question to the Coach Notes pane 
+("View" menu, "Coach notes field" command) by right-clicking on the small button to the right-hand side 
+of the appropriate line number and choose "Add Note".
     </StageInstructions>
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eProjFacTypeVernacular</AllowableBackwardsTransition>
@@ -507,10 +526,9 @@ small button to the right-hand side of the appropriate line number and choose "A
     <StageDisplayString>Coach reviews round 1 consultant notes</StageDisplayString>
     <StageInstructions>
 In this stage, you (the coach) will check the consultant notes added by the consultant-in-training 
-in the Consultant Notes pane.
-
-You can right-click on the small button to the right-hand side of the appropriate line number and 
-choose "Add Note" to enter the comment you have.
+in the Consultant Notes pane. Any feedback you have can be put into a note in the "Coach Notes"
+pane. You can right-click on the small button to the right-hand side of the appropriate line number and 
+choose "Add Note" to enter the comment you have in the line labeled, "coch:"
 
 When you are finished, then click the button in the left-hand side of the status bar and choose 
 'Next Stage' to go to the next stage in the process.
@@ -523,8 +541,10 @@ When you are finished, then click the button in the left-hand side of the status
 In this stage, you (the consultant) will go through the feedback given by the coach in the Coach Notes 
 pane and, if necessary, modify or add to your feedback to the crafting team.
 
-For each comment by the coach, you should give some response to close the loop on the conversation (even 
-just "done" is fine). If you have further questions, it's okay to ask for clarification in another line.
+For each comment by the coach (the comments in the "coch:" lines in the Coach Notes pane), you should 
+give some response to close the loop on the conversation (even just "done" is fine). If you have further 
+questions, it's okay to ask for clarification in another line.
+
 You can add another line for additional comments by right-clicking on the small button and choosing 
 "Add Note" if one is not already visible.
 
@@ -538,12 +558,43 @@ When you are finished, then click the button in the left-hand side of the status
   </StateTransition>
   <StateTransition stage="eProjFacReviseBasedOnRound1Notes" MemberTypeWithEditToken="eProjectFacilitator" NextState="eProjFacOnlineReview1WithConsultant">
     <StageDisplayString>Project Facilitator revises story based on Consultant's feedback</StageDisplayString>
-    <StageInstructions></StageInstructions>
+    <StageInstructions>
+In this stage, you (the project facilitator) will go through the feedback given by the consultant in the 
+Consultant Notes pane and revise your story accordingly. As you process each issue, go ahead and decide
+on the appropriate change and re-record just that portion and splice the new recording over the old one
+in the original story recording. It's okay that this will create an odd sounding recording with portions
+from different recording sessions. When you're finished with all of the changes, you can learn the new
+revised version and make a new clean recording if you want to.
+
+For example, suppose that the back-translation of your story says that some character in the Bible story 
+said something which they didn't really say--something which is not anchorable. And the consultant points
+out that the person really said something else instead. Then you would make a recording of the something
+else (revised) version and overwrite the quote from the original recording.
+
+For each comment by the consultant (in the 'cons:' field of the 'Consultant Notes' pane), you should type 
+in some response in the boxes labeled 'prfc:' (for Project Facilitator) to close the loop on the 
+conversation (even just "done" is fine). If you have further questions, it's okay to ask for clarification 
+in another line. You can add another line for additional comments by right-clicking on the small button and 
+choosing "Add Note" if one is not already visible.
+
+When you are finished, then click the button in the left-hand side of the status bar and choose 
+'Next Stage' to go to the next stage in the process.
+    </StageInstructions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eProjFacOnlineReview1WithConsultant" MemberTypeWithEditToken="eProjectFacilitator" NextState="eProjFacReadyForTest1">
     <StageDisplayString>Project Facilitator has 1st online review with consultant</StageDisplayString>
-    <StageInstructions></StageInstructions>
+    <StageInstructions>
+In this stage, you (the Project Facilitator) will arrange a time to get online at the same time as the
+consultant so that you can discuss the feedback he or she gave. If your team has a First Pass Mentor, 
+that person should also be involved in this discussion so they can learn as well. Finally, if the team
+itself is a team that doesn't know English, it might also be necessary to have your the person on the
+team who does the English Back-translation also be present on-line, so that he or she can translate 
+between the team and the consultant.
+
+When you are finished, then click the button in the left-hand side of the status bar and choose 
+'Next Stage' to go to the next stage in the process.
+    </StageInstructions>
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eProjFacReviseBasedOnRound1Notes</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
@@ -551,7 +602,16 @@ When you are finished, then click the button in the left-hand side of the status
   </StateTransition>
   <StateTransition stage="eProjFacReadyForTest1" MemberTypeWithEditToken="eProjectFacilitator" NextState="eProjFacEnterAnswersToStoryQuestionsOfTest1">
     <StageDisplayString>Project Facilitator is ready for the 1st (formal) UNS test</StageDisplayString>
-    <StageInstructions></StageInstructions>
+    <StageInstructions>
+In this stage, you (the Project Facilitator) will arrange for the first formal test with two different
+UNSs. As discussed in the process document, each full UNS test includes:
+
+    UNS retelling
+    UNS inference testing
+
+When you are finished, then click the button in the left-hand side of the status bar and choose 
+'Next Stage' to go to the next stage in the process.
+    </StageInstructions>
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eProjFacReviseBasedOnRound1Notes</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eProjFacOnlineReview1WithConsultant</AllowableBackwardsTransition>
@@ -560,7 +620,17 @@ When you are finished, then click the button in the left-hand side of the status
   </StateTransition>
   <StateTransition stage="eProjFacEnterAnswersToStoryQuestionsOfTest1" MemberTypeWithEditToken="eProjectFacilitator" NextState="eProjFacEnterRetellingOfTest1">
     <StageDisplayString>Project Facilitator enters answers to the test 1 story questions</StageDisplayString>
-    <StageInstructions></StageInstructions>
+    <StageInstructions>
+In this stage, you (the Project Facilitator) will enter the UNS's responses to the inference testing 
+questions. Remember that since you run the test with two different UNSs, you will have two sets of 
+responses to back-translate into English and enter.
+
+If your team has a special English Back-translator, you will enter the answers in the national 
+language so that the English Back-translator can translate them into English during a later step.
+
+When you are finished, then click the button in the left-hand side of the status bar and choose 
+'Next Stage' to go to the next stage in the process.
+    </StageInstructions>
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eProjFacReviseBasedOnRound1Notes</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eProjFacOnlineReview1WithConsultant</AllowableBackwardsTransition>
@@ -584,6 +654,10 @@ When you are finished, then click the button in the left-hand side of the status
     <StageInstructions></StageInstructions>
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eProjFacReviseBasedOnRound1Notes</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eProjFacOnlineReview1WithConsultant</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eProjFacReadyForTest1</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eProjFacEnterAnswersToStoryQuestionsOfTest1</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eProjFacEnterRetellingOfTest1</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>

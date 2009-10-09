@@ -58,8 +58,7 @@
 															<xs:sequence>
 																<xs:element name="Test" maxOccurs="unbounded">
 																	<xs:complexType>
-																		<xs:attribute name="number" type="xs:unsignedByte" use="required" />
-																		<xs:attribute name="memberID" type="xs:IDREF" use="optional" />
+																		<xs:attribute name="memberID" type="xs:IDREF" />
 																	</xs:complexType>
 																</xs:element>
 															</xs:sequence>
@@ -112,7 +111,7 @@
 																						<xs:element name="Answers" minOccurs="0" maxOccurs="1">
 																							<xs:complexType>
 																								<xs:sequence>
-																									<xs:element name="answer" minOccurs="0" maxOccurs="unbounded">
+																									<xs:element name="answer" minOccurs="0" maxOccurs="unbounded" nillable="true">
 																										<xs:complexType>
 																											<xs:simpleContent>
 																												<xs:extension base="xs:string">
@@ -134,7 +133,7 @@
 																<xs:element name="Retellings" minOccurs="0" maxOccurs="1">
 																	<xs:complexType>
 																		<xs:sequence>
-																			<xs:element name="Retelling" minOccurs="0" maxOccurs="unbounded">
+																			<xs:element name="Retelling" minOccurs="0" maxOccurs="unbounded" nillable="true">
 																				<xs:complexType>
 																					<xs:simpleContent>
 																						<xs:extension base="xs:string">

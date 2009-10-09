@@ -75,7 +75,7 @@ namespace OneStoryProjectEditor
         public string StoryPurpose = null;
         public string ResourcesUsed = null;
         public string BackTranslatorMemberID = null;
-        public Dictionary<byte, string> Testors = new Dictionary<byte, string>();
+        public List<string> Testors = new List<string>();
         public bool IsBiblicalStory = true;
 
         public CraftingInfoData(string strLoggedOnMemberGuid, bool bIsBiblicalStory)
@@ -113,7 +113,7 @@ namespace OneStoryProjectEditor
                 if (aTsRs.Length == 1)
                 {
                     foreach (NewDataSet.TestRow aTR in aTsRs[0].GetTestRows())
-                        Testors.Add(aTR.number, aTR.memberID);
+                        Testors.Add(aTR.memberID);
                 }
             }
             else
@@ -127,8 +127,8 @@ namespace OneStoryProjectEditor
             ResourcesUsed = rhs.ResourcesUsed;
             BackTranslatorMemberID = rhs.BackTranslatorMemberID;
             IsBiblicalStory = rhs.IsBiblicalStory;
-            foreach (KeyValuePair<byte, string> kvp in rhs.Testors)
-                Testors.Add(kvp.Key, kvp.Value);
+            foreach (string strUnsGuid in rhs.Testors)
+                Testors.Add(strUnsGuid);
         }
 
         public XElement GetXml
@@ -151,8 +151,8 @@ namespace OneStoryProjectEditor
                 if (Testors.Count > 0)
                 {
                     XElement elemTestors = new XElement("Tests");
-                    foreach (KeyValuePair<byte, string> kvp in Testors)
-                        elemTestors.Add(new XElement("Test", new XAttribute("number", kvp.Key), new XAttribute("memberID", kvp.Value)));
+                    foreach (string strUnsGuid in Testors)
+                        elemTestors.Add(new XElement("Test", new XAttribute("memberID", strUnsGuid)));
                     elemCraftingInfo.Add(elemTestors);
                 }
 
