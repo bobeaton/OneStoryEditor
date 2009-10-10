@@ -195,8 +195,7 @@ namespace OneStoryProjectEditor
             try
             {
                 StoryProject = new StoryProjectData();    // null causes us to query for the project name
-                if (LoggedOnMember == null)
-                    LoggedOnMember = StoryProject.GetLogin(ref Modified);
+                CheckForLogon(StoryProject);
 
                 if (Modified)
                     SaveClicked();
@@ -328,13 +327,16 @@ namespace OneStoryProjectEditor
                 comboBoxStorySelector.Items.Add(aStory.Name);
         }
 
+        protected void CheckForLogon(StoryProjectData theStoryProject)
+        {
+            if (LoggedOnMember == null)
+                LoggedOnMember = theStoryProject.GetLogin(ref Modified);
+        }
+
         protected StoryProjectData GetOldStoryProjectData(NewDataSet projFile, ProjectSettings projSettings)
         {
             StoryProjectData theOldStoryProject = new StoryProjectData(projFile, projSettings);
-
-            if (LoggedOnMember == null)
-                LoggedOnMember = theOldStoryProject.GetLogin(ref Modified);
-
+            CheckForLogon(theOldStoryProject);
             return theOldStoryProject;
         }
 
@@ -427,6 +429,8 @@ namespace OneStoryProjectEditor
                         comboBoxStorySelector.Text = Properties.Resources.IDS_EnterStoryName;
                         return;
                     }
+
+                CheckForLogon(StoryProject);
 
                 if (!CheckForProjFac())
                 {
@@ -2145,6 +2149,7 @@ namespace OneStoryProjectEditor
                     strEnglishBT);
             }
 
+            Modified = true;
             InitAllPanes();
         }
 

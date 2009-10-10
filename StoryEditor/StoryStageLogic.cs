@@ -20,7 +20,6 @@ namespace OneStoryProjectEditor
             eProjFacTypeNationalBT,
             eProjFacTypeInternationalBT,
             eProjFacAddAnchors,
-            eProjFacCheckKeyTerms,
             eProjFacAddStoryQuestions,
             eBackTranslatorTypeInternationalBT,
             eConsultantCheckNonBiblicalStory,
@@ -30,21 +29,23 @@ namespace OneStoryProjectEditor
             eConsultantCheckStoryQuestions,
             eCoachReviewRound1Notes,
             eConsultantReviseRound1Notes,
+            eBackTranslatorTranslateConNotes,
             eProjFacReviseBasedOnRound1Notes,
             eProjFacOnlineReview1WithConsultant,
             eProjFacReadyForTest1,
             eProjFacEnterAnswersToStoryQuestionsOfTest1,
             eProjFacEnterRetellingOfTest1,
-            eConsultantCheckAnchorsRound2,
-            eConsultantCheckAnswersToTestingQuestionsRound2,
-            eConsultantCheckRetellingRound2,
+            eFirstPassMentorCheck2,
+            eConsultantCheck2,
             eCoachReviewRound2Notes,
             eConsultantReviseRound2Notes,
+            eBackTranslatorTranslateConNotes2,
             eProjFacReviseBasedOnRound2Notes,
             eProjFacOnlineReview2WithConsultant,
             eProjFacReadyForTest2,
             eProjFacEnterAnswersToStoryQuestionsOfTest2,
             eProjFacEnterRetellingOfTest2,
+            eFirstPassMentorReviewTest2,
             eConsultantReviewTest2,
             eCoachReviewTest2Notes,
             eTeamComplete
@@ -133,7 +134,6 @@ namespace OneStoryProjectEditor
             { "ProjFacTypeNationalBT", ProjectStages.eProjFacTypeNationalBT },
             { "ProjFacTypeInternationalBT", ProjectStages.eProjFacTypeInternationalBT },
             { "ProjFacAddAnchors", ProjectStages.eProjFacAddAnchors },
-            { "ProjFacCheckKeyTerms", ProjectStages.eProjFacCheckKeyTerms },
             { "ProjFacAddStoryQuestions", ProjectStages.eProjFacAddStoryQuestions },
             { "BackTranslatorTypeInternationalBT", ProjectStages.eBackTranslatorTypeInternationalBT },
             { "ConsultantCheckNonBiblicalStory", ProjectStages.eConsultantCheckNonBiblicalStory },
@@ -143,21 +143,23 @@ namespace OneStoryProjectEditor
             { "ConsultantCheckStoryQuestions", ProjectStages.eConsultantCheckStoryQuestions },
             { "CoachReviewRound1Notes", ProjectStages.eCoachReviewRound1Notes },
             { "ConsultantReviseRound1Notes", ProjectStages.eConsultantReviseRound1Notes },
+            { "BackTranslatorTranslateConNotes", ProjectStages.eBackTranslatorTranslateConNotes },
             { "ProjFacReviseBasedOnRound1Notes", ProjectStages.eProjFacReviseBasedOnRound1Notes },
             { "ProjFacOnlineReview1WithConsultant", ProjectStages.eProjFacOnlineReview1WithConsultant },
             { "ProjFacReadyForTest1", ProjectStages.eProjFacReadyForTest1 },
             { "ProjFacEnterAnswersToStoryQuestionsOfTest1", ProjectStages.eProjFacEnterAnswersToStoryQuestionsOfTest1 },
             { "ProjFacEnterRetellingOfTest1", ProjectStages.eProjFacEnterRetellingOfTest1 },
-            { "ConsultantCheckAnchorsRound2", ProjectStages.eConsultantCheckAnchorsRound2 },
-            { "ConsultantCheckAnswersToTestingQuestionsRound2", ProjectStages.eConsultantCheckAnswersToTestingQuestionsRound2 },
-            { "ConsultantCheckRetellingRound2", ProjectStages.eConsultantCheckRetellingRound2 },
+            { "FirstPassMentorCheck2", ProjectStages.eFirstPassMentorCheck2 },
+            { "ConsultantCheck2", ProjectStages.eConsultantCheck2 },
             { "CoachReviewRound2Notes", ProjectStages.eCoachReviewRound2Notes },
             { "ConsultantReviseRound2Notes", ProjectStages.eConsultantReviseRound2Notes },
+            { "BackTranslatorTranslateConNotes2", ProjectStages.eBackTranslatorTranslateConNotes2 },
             { "ProjFacReviseBasedOnRound2Notes", ProjectStages.eProjFacReviseBasedOnRound2Notes },
             { "ProjFacOnlineReview2WithConsultant", ProjectStages.eProjFacOnlineReview2WithConsultant },
             { "ProjFacReadyForTest2", ProjectStages.eProjFacReadyForTest2 },
             { "ProjFacEnterAnswersToStoryQuestionsOfTest2", ProjectStages.eProjFacEnterAnswersToStoryQuestionsOfTest2 },
             { "ProjFacEnterRetellingOfTest2", ProjectStages.eProjFacEnterRetellingOfTest2 },
+            { "FirstPassMentorReviewTest2", ProjectStages.eFirstPassMentorReviewTest2 },
             { "ConsultantReviewTest2", ProjectStages.eConsultantReviewTest2 },
             { "CoachReviewTest2Notes", ProjectStages.eCoachReviewTest2Notes },
             { "TeamComplete", ProjectStages.eTeamComplete }};
@@ -247,10 +249,14 @@ namespace OneStoryProjectEditor
                         if (xpNextElement.MoveNext())
                             strStageDisplayString = xpNextElement.Current.Value;
 
+                        System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(strStageDisplayString));
+
                         xpNextElement = xpStageTransition.Current.Select("StageInstructions");
                         string strStageInstructions = null;
                         if (xpNextElement.MoveNext())
                             strStageInstructions = xpNextElement.Current.Value;
+
+                        System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(strStageInstructions));
 
                         xpNextElement = xpStageTransition.Current.Select("AllowableBackwardsTransitions/AllowableBackwardsTransition");
                         List<AllowablePreviousStateWithConditions> lstAllowableBackwardsStages = new List<AllowablePreviousStateWithConditions>();

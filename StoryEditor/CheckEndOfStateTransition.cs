@@ -317,43 +317,11 @@ namespace OneStoryProjectEditor
             }
 
             System.Diagnostics.Debug.Assert(eProposedNextState ==
-                StoryStageLogic.ProjectStages.eProjFacCheckKeyTerms);
-
-            return true;
-        }
-
-        public static bool ProjFacCheckKeyTerms(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
-        {
-            System.Diagnostics.Debug.Assert(theCurrentStory.CraftingInfo.IsBiblicalStory);
-            Console.WriteLine(String.Format("Checking if stage 'ProjFacCheckKeyTerms' work is finished: Name: {0}", theCurrentStory.Name));
-
-            // for each verse, make sure that each anchor has had it's key terms checked.
-            int nVerseNumber = 1;
-            foreach (VerseData aVerseData in theCurrentStory.Verses)
-            {
-                if (aVerseData.Anchors.Count == 0)
-                {
-                    ShowError(theSE, String.Format("Error: Verse {0} doesn't have an anchor. Did you forget it?", nVerseNumber));
-                    theSE.FocusOnVerse(nVerseNumber - 1);
-                    return false;
-                }
-
-                if (!aVerseData.Anchors.IsKeyTermChecked)
-                {
-                    ShowError(theSE, String.Format("Verse {0} needs to have its key terms checked. right-click on the anchor bar and choose doesn't 'Edit Key Terms'", nVerseNumber));
-                    theSE.FocusOnVerse(nVerseNumber - 1);
-                    return false;
-                }
-
-                nVerseNumber++;
-            }
-
-            System.Diagnostics.Debug.Assert(eProposedNextState ==
                 StoryStageLogic.ProjectStages.eProjFacAddStoryQuestions);
 
             return true;
         }
-        
+
         public static bool ProjFacAddStoryQuestions(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             System.Diagnostics.Debug.Assert(theCurrentStory.CraftingInfo.IsBiblicalStory);
@@ -463,37 +431,114 @@ namespace OneStoryProjectEditor
         public static bool ConsultantCheckStoryInfo(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ConsultantCheckStoryInfo' work is finished: Name: {0}", theCurrentStory.Name));
+
+            System.Diagnostics.Debug.Assert(eProposedNextState ==
+                StoryStageLogic.ProjectStages.eConsultantCheckAnchors);
+
             return true;
         }
 
         public static bool ConsultantCheckAnchors(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ConsultantCheckAnchors' work is finished: Name: {0}", theCurrentStory.Name));
+            
+            System.Diagnostics.Debug.Assert(eProposedNextState ==
+                StoryStageLogic.ProjectStages.eConsultantCheckStoryQuestions);
+
             return true;
         }
 
         public static bool ConsultantCheckStoryQuestions(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ConsultantCheckStoryQuestions' work is finished: Name: {0}", theCurrentStory.Name));
-            
-            /* I took this out, because it gets checked later after the coach has had at it (in case the CIT is asking the coach what to do)
-            // before handing it over to the coach, let's make sure that if the Project Facilitator had initiated
-            //  a conversation, that the consultant answered it.
+
+            System.Diagnostics.Debug.Assert(eProposedNextState ==
+                StoryStageLogic.ProjectStages.eCoachReviewRound1Notes);
+
+            return true;
+        }
+
+        static bool CheckThatCoachAnsweredCITsQuestions(StoryEditor theSE, StoryData theCurrentStory)
+        {
             int nVerseNumber = 1;
             foreach (VerseData aVerseData in theCurrentStory.Verses)
             {
-                foreach (ConsultNoteDataConverter aConNote in aVerseData.ConsultantNotes)
-                    if ((aConNote.Count > 0) && (aConNote[0].Direction == ConsultNoteDataConverter.CommunicationDirections.eProjFacToConsultant))
-                        if ((aConNote.Count == 1) || !aConNote[1].HasData)
-                        {
-                            ShowErrorFocus(theSE, aConNote[1].TextBox,
-                                String.Format("Error: in line {0}, the ProjFac asked a question, which you didn't respond to. Did you forget it?", nVerseNumber));
-                            return false;
-                        }
+                if (!CheckThatMentorAnsweredMenteesQuestions(theSE, aVerseData.CoachNotes, ref nVerseNumber))
+                    return false;
                 nVerseNumber++;
             }
-            */
+            return true;
+        }
 
+        static bool CheckThatCITAnsweredPFsQuestions(StoryEditor theSE, StoryData theCurrentStory)
+        {
+            int nVerseNumber = 1;
+            foreach (VerseData aVerseData in theCurrentStory.Verses)
+            {
+                if (!CheckThatMentorAnsweredMenteesQuestions(theSE, aVerseData.ConsultantNotes, ref nVerseNumber))
+                    return false;
+                nVerseNumber++;
+            }
+            return true;
+        }
+
+        static bool CheckThatCITRespondedToCoachQuestions(StoryEditor theSE, StoryData theCurrentStory)
+        {
+            int nVerseNumber = 1;
+            foreach (VerseData aVerseData in theCurrentStory.Verses)
+            {
+                if (!CheckThatMenteeAnsweredMentorsQuestions(theSE, aVerseData.CoachNotes, ref nVerseNumber))
+                    return false;
+                nVerseNumber++;
+            }
+            return true;
+        }
+
+        static bool CheckThatPFRespondedToCITQuestions(StoryEditor theSE, StoryData theCurrentStory)
+        {
+            int nVerseNumber = 1;
+            foreach (VerseData aVerseData in theCurrentStory.Verses)
+            {
+                if (!CheckThatMenteeAnsweredMentorsQuestions(theSE, aVerseData.ConsultantNotes, ref nVerseNumber))
+                    return false;
+                nVerseNumber++;
+            }
+            return true;
+        }
+
+        static bool CheckThatMentorAnsweredMenteesQuestions(StoryEditor theSE, ConsultNotesDataConverter aCNDC, ref int nVerseNumber)
+        {
+            foreach (ConsultNoteDataConverter aConNote in aCNDC)
+            {
+                int nIndexLast = aConNote.Count - 1;
+                CommInstance theLastCI = aConNote[nIndexLast];
+                if ((theLastCI.Direction == aConNote.MentorDirection)
+                    && !theLastCI.HasData)
+                {
+                    ShowErrorFocus(theSE, theLastCI.TextBox,
+                        String.Format("Error: in line {0}, the {1} made a comment, which you didn't respond to. Did you forget it?",
+                        nVerseNumber, TeamMemberData.GetMemberTypeAsDisplayString(aConNote.MenteeRequiredEditor)));
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        static bool CheckThatMenteeAnsweredMentorsQuestions(StoryEditor theSE, ConsultNotesDataConverter aCNDC, ref int nVerseNumber)
+        {
+            foreach (ConsultNoteDataConverter aConNote in aCNDC)
+            {
+                int nIndexLast = aConNote.Count - 1;
+                CommInstance theLastCI = aConNote[nIndexLast];
+                if ((theLastCI.Direction == aConNote.MenteeDirection)
+                    && !theLastCI.HasData)
+                {
+                    ShowErrorFocus(theSE, theLastCI.TextBox,
+                        String.Format("Error: in line {0}, the {1} made a comment, which you didn't respond to. Did you forget it?",
+                        nVerseNumber, TeamMemberData.GetMemberTypeAsDisplayString(aConNote.MentorRequiredEditor)));
+                    return false;
+                }
+            }
             return true;
         }
 
@@ -503,19 +548,12 @@ namespace OneStoryProjectEditor
 
             // before handing it back to the consultant, let's make sure that if the consultant had initiated
             //  a conversation, that the coach answered it.
-            int nVerseNumber = 1;
-            foreach (VerseData aVerseData in theCurrentStory.Verses)
-            {
-                foreach (ConsultNoteDataConverter aConNote in aVerseData.CoachNotes)
-                    if ((aConNote.Count > 0) && (aConNote[0].Direction == ConsultNoteDataConverter.CommunicationDirections.eConsultantToCoach))
-                        if ((aConNote.Count == 1) || !aConNote[1].HasData)
-                        {
-                            ShowErrorFocus(theSE, aConNote[1].TextBox,
-                                String.Format("Error: in line {0}, the consultant-in-training asked a question, which you didn't respond to. Did you forget it?", nVerseNumber));
-                            return false;
-                        }
-                nVerseNumber++;
-            }
+            if (!CheckThatCoachAnsweredCITsQuestions(theSE, theCurrentStory))
+                return false;
+
+            System.Diagnostics.Debug.Assert(eProposedNextState ==
+                StoryStageLogic.ProjectStages.eConsultantReviseRound1Notes);
+
             return true;
         }
 
@@ -525,32 +563,29 @@ namespace OneStoryProjectEditor
 
             // before handing it back to the Project Facilitator, let's make sure that if the coach had made 
             //  a comment, that the CIT answered it.
-            int nVerseNumber = 1;
-            foreach (VerseData aVerseData in theCurrentStory.Verses)
-            {
-                foreach (ConsultNoteDataConverter aConNote in aVerseData.CoachNotes)
-                {
-                    int nIndex = aConNote.Count - 1;
-                    CommInstance theLastCI = aConNote[nIndex];
-                    System.Diagnostics.Debug.Assert(theLastCI.Direction == ConsultNoteDataConverter.CommunicationDirections.eConsultantToCoach);
-                    if (!theLastCI.HasData)
-                    {
-                        ShowErrorFocus(theSE, aConNote[nIndex].TextBox,
-                            String.Format("Error: in line {0}, the coach made a comment, which you didn't respond to. Did you forget it?", nVerseNumber));
-                        return false;
-                    }
-                }
+            if (!CheckThatCITRespondedToCoachQuestions(theSE, theCurrentStory))
+                return false;
 
-                foreach (ConsultNoteDataConverter aConNote in aVerseData.ConsultantNotes)
-                    if ((aConNote.Count > 0) && (aConNote[0].Direction == ConsultNoteDataConverter.CommunicationDirections.eProjFacToConsultant))
-                        if ((aConNote.Count == 1) || !aConNote[1].HasData)
-                        {
-                            ShowErrorFocus(theSE, aConNote[1].TextBox,
-                                String.Format("Error: in line {0}, the ProjFac asked a question, which you didn't respond to. Did you forget it?", nVerseNumber));
-                            return false;
-                        }
-                nVerseNumber++;
-            }
+            // and if the ProjectFac asked a question that the CIT responded to it.
+            if (!CheckThatCITAnsweredPFsQuestions(theSE, theCurrentStory))
+                return false;
+
+            if (!theStoryProjectData.TeamMembers.IsThereASeparateEnglishBackTranslator)
+                eProposedNextState = StoryStageLogic.ProjectStages.eProjFacReviseBasedOnRound1Notes;
+            else
+                System.Diagnostics.Debug.Assert(eProposedNextState ==
+                    StoryStageLogic.ProjectStages.eBackTranslatorTranslateConNotes);
+
+            return true;
+        }
+
+        public static bool BackTranslatorTranslateConNotes(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
+        {
+            Console.WriteLine(String.Format("Checking if stage 'BackTranslatorTranslateConNotes' work is finished: Name: {0}", theCurrentStory.Name));
+
+            System.Diagnostics.Debug.Assert(eProposedNextState ==
+                StoryStageLogic.ProjectStages.eProjFacReviseBasedOnRound1Notes);
+
             return true;
         }
 
@@ -558,30 +593,23 @@ namespace OneStoryProjectEditor
         {
             Console.WriteLine(String.Format("Checking if stage 'ProjFacReviseBasedOnRound1Notes' work is finished: Name: {0}", theCurrentStory.Name));
 
-            // let's make sure that if the CIT had made a comment, that the ProjFac answered it.
-            int nVerseNumber = 1;
-            foreach (VerseData aVerseData in theCurrentStory.Verses)
-            {
-                foreach (ConsultNoteDataConverter aConNote in aVerseData.ConsultantNotes)
-                {
-                    int nIndex = aConNote.Count - 1;
-                    CommInstance theLastCI = aConNote[nIndex];
-                    System.Diagnostics.Debug.Assert(theLastCI.Direction == ConsultNoteDataConverter.CommunicationDirections.eProjFacToConsultant);
-                    if (!theLastCI.HasData)
-                    {
-                        ShowErrorFocus(theSE, aConNote[nIndex].TextBox,
-                            String.Format("Error: in line {0}, the consultant made a comment, which you didn't respond to. Did you forget it?", nVerseNumber));
-                        return false;
-                    }
-                }
-                nVerseNumber++;
-            }
+            System.Diagnostics.Debug.Assert(eProposedNextState ==
+                StoryStageLogic.ProjectStages.eProjFacOnlineReview1WithConsultant);
+
             return true;
         }
 
         public static bool ProjFacOnlineReview1WithConsultant(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ProjFacOnlineReview1WithConsultant' work is finished: Name: {0}", theCurrentStory.Name));
+
+            // let's make sure that if the CIT had made a comment, that the ProjFac answered it.
+            if (!CheckThatPFRespondedToCITQuestions(theSE, theCurrentStory))
+                return false;
+
+            System.Diagnostics.Debug.Assert(eProposedNextState ==
+                StoryStageLogic.ProjectStages.eProjFacReadyForTest1);
+
             return true;
         }
 
@@ -589,20 +617,17 @@ namespace OneStoryProjectEditor
         {
             Console.WriteLine(String.Format("Checking if stage 'ProjFacReadyForTest1' work is finished: Name: {0}", theCurrentStory.Name));
 
-            System.Diagnostics.Debug.Assert(theCurrentStory.CraftingInfo.Testors.Count == 0);
-
             // add the story question answer lines and retelling lines to the verses for test n
             theSE.AddTest();
 
-            System.Diagnostics.Debug.Assert(eProposedNextState == StoryStageLogic.ProjectStages.eProjFacEnterAnswersToStoryQuestionsOfTest1);
+            System.Diagnostics.Debug.Assert(eProposedNextState == 
+                StoryStageLogic.ProjectStages.eProjFacEnterAnswersToStoryQuestionsOfTest1);
+
             return true;
         }
 
-        public static bool ProjFacEnterAnswersToStoryQuestionsOfTest1(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
+        static bool CheckAnswersAnswered(StoryEditor theSE, StoryData theCurrentStory)
         {
-            Console.WriteLine(String.Format("Checking if stage 'ProjFacEnterAnswersToStoryQuestionsOfTest1' work is finished: Name: {0}", theCurrentStory.Name));
-
-            // make sure they have some answer written into each question
             int nVerseNumber = 1;
             foreach (VerseData aVerseData in theCurrentStory.Verses)
             {
@@ -616,23 +641,32 @@ namespace OneStoryProjectEditor
 
                 nVerseNumber++;
             }
+            return true;
+        }
 
-            System.Diagnostics.Debug.Assert(eProposedNextState == StoryStageLogic.ProjectStages.eProjFacEnterRetellingOfTest1);
+        public static bool ProjFacEnterAnswersToStoryQuestionsOfTest1(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
+        {
+            Console.WriteLine(String.Format("Checking if stage 'ProjFacEnterAnswersToStoryQuestionsOfTest1' work is finished: Name: {0}", theCurrentStory.Name));
+
+            // make sure they have some answer written into each question
+            if (!CheckAnswersAnswered(theSE, theCurrentStory))
+                return false;
+
+            System.Diagnostics.Debug.Assert(eProposedNextState == 
+                StoryStageLogic.ProjectStages.eProjFacEnterRetellingOfTest1);
+
             return true;
         }
 
         public static bool ProjFacEnterRetellingOfTest1(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ProjFacEnterRetellingOfTest1' work is finished: Name: {0}", theCurrentStory.Name));
-            System.Diagnostics.Debug.Assert(eProposedNextState == StoryStageLogic.ProjectStages.eConsultantCheckAnchorsRound2);
-
-            // if they've only done one test, then ask them to do another
-            if (theCurrentStory.CraftingInfo.Testors.Count < 2)
+            
+            // if they've only done one test, then ask them to do another (but don't force them)
+            DialogResult res = DialogResult.No;
+            if ((theCurrentStory.CraftingInfo.Testors.Count < 2)
+                && ((res = MessageBox.Show("Click 'Yes' to create the boxes for entering the 2nd UNS's answers to the testing questions", Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel)) == DialogResult.Yes))
             {
-                DialogResult res = MessageBox.Show("Click 'Yes' to create the boxes for entering the 2nd UNS's answers to the testing questions", Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
-                if (res != DialogResult.Yes)
-                    return false;
-
                 theSE.AddTest();
 
                 // this will go:
@@ -641,79 +675,180 @@ namespace OneStoryProjectEditor
                 //  ProjFacEnterAnswersToStoryQuestionsOfTest1, etc.
                 eProposedNextState = StoryStageLogic.ProjectStages.eProjFacEnterAnswersToStoryQuestionsOfTest1;
             }
+            else if (res == DialogResult.Cancel)
+                return false;
+            else if (!theStoryProjectData.TeamMembers.IsThereAFirstPassMentor)
+                eProposedNextState = StoryStageLogic.ProjectStages.eConsultantCheck2;
+            else
+                System.Diagnostics.Debug.Assert(eProposedNextState ==
+                    StoryStageLogic.ProjectStages.eFirstPassMentorCheck2);
 
             return true;
         }
 
-        public static bool ConsultantCheckAnchorsRound2(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool FirstPassMentorCheck2(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
-            Console.WriteLine(String.Format("Checking if stage 'ConsultantCheckAnchorsRound2' work is finished: Name: {0}", theCurrentStory.Name));
+            Console.WriteLine(String.Format("Checking if stage 'FirstPassMentorCheck2' work is finished: Name: {0}", theCurrentStory.Name));
+            
+            System.Diagnostics.Debug.Assert(theStoryProjectData.TeamMembers.IsThereAFirstPassMentor
+                && (eProposedNextState == StoryStageLogic.ProjectStages.eConsultantCheck2));
+            
             return true;
         }
 
-        public static bool ConsultantCheckAnswersToTestingQuestionsRound2(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool ConsultantCheck2(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
-            Console.WriteLine(String.Format("Checking if stage 'ConsultantCheckAnswersToTestingQuestionsRound2' work is finished: Name: {0}", theCurrentStory.Name));
-            return true;
-        }
+            Console.WriteLine(String.Format("Checking if stage 'ConsultantCheck2' work is finished: Name: {0}", theCurrentStory.Name));
+            
+            System.Diagnostics.Debug.Assert(eProposedNextState == 
+                StoryStageLogic.ProjectStages.eCoachReviewRound2Notes);
 
-        public static bool ConsultantCheckRetellingRound2(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
-        {
-            Console.WriteLine(String.Format("Checking if stage 'ConsultantCheckRetellingRound2' work is finished: Name: {0}", theCurrentStory.Name));
             return true;
         }
 
         public static bool CoachReviewRound2Notes(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'CoachReviewRound2Notes' work is finished: Name: {0}", theCurrentStory.Name));
+
+            // before handing it back to the consultant, let's make sure that if the consultant had initiated
+            //  a conversation, that the coach answered it.
+            if (!CheckThatCoachAnsweredCITsQuestions(theSE, theCurrentStory))
+                return false;
+
+            System.Diagnostics.Debug.Assert(eProposedNextState == 
+                StoryStageLogic.ProjectStages.eConsultantReviseRound2Notes);
+
             return true;
         }
 
         public static bool ConsultantReviseRound2Notes(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ConsultantReviseRound2Notes' work is finished: Name: {0}", theCurrentStory.Name));
+
+            // before handing it back to the Project Facilitator, let's make sure that if the coach had made 
+            //  a comment, that the CIT answered it.
+            if (!CheckThatCITRespondedToCoachQuestions(theSE, theCurrentStory))
+                return false;
+
+            // and if the ProjectFac asked a question that the CIT responded to it.
+            if (!CheckThatCITAnsweredPFsQuestions(theSE, theCurrentStory))
+                return false;
+
+            if (!theStoryProjectData.TeamMembers.IsThereASeparateEnglishBackTranslator)
+                eProposedNextState = StoryStageLogic.ProjectStages.eProjFacReviseBasedOnRound2Notes;
+            else
+                System.Diagnostics.Debug.Assert(eProposedNextState ==
+                    StoryStageLogic.ProjectStages.eBackTranslatorTranslateConNotes2);
+
+            return true;
+        }
+
+        public static bool BackTranslatorTranslateConNotes2(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
+        {
+            Console.WriteLine(String.Format("Checking if stage 'BackTranslatorTranslateConNotes2' work is finished: Name: {0}", theCurrentStory.Name));
+
+            System.Diagnostics.Debug.Assert(eProposedNextState ==
+                StoryStageLogic.ProjectStages.eProjFacReviseBasedOnRound2Notes);
+
             return true;
         }
 
         public static bool ProjFacReviseBasedOnRound2Notes(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ProjFacReviseBasedOnRound2Notes' work is finished: Name: {0}", theCurrentStory.Name));
+
+            System.Diagnostics.Debug.Assert(eProposedNextState ==
+                StoryStageLogic.ProjectStages.eProjFacOnlineReview2WithConsultant);
+
             return true;
         }
 
         public static bool ProjFacOnlineReview2WithConsultant(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ProjFacOnlineReview2WithConsultant' work is finished: Name: {0}", theCurrentStory.Name));
+            
+            // let's make sure that if the CIT had made a comment, that the ProjFac answered it.
+            if (!CheckThatPFRespondedToCITQuestions(theSE, theCurrentStory))
+                return false;
+
+            System.Diagnostics.Debug.Assert(eProposedNextState ==
+                StoryStageLogic.ProjectStages.eProjFacReadyForTest2);
+
             return true;
         }
 
         public static bool ProjFacReadyForTest2(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ProjFacReadyForTest2' work is finished: Name: {0}", theCurrentStory.Name));
+
+            // add the story question answer lines and retelling lines to the verses for test n
+            theSE.AddTest();
+
+            System.Diagnostics.Debug.Assert(eProposedNextState ==
+                StoryStageLogic.ProjectStages.eProjFacEnterAnswersToStoryQuestionsOfTest2);
+
             return true;
         }
 
         public static bool ProjFacEnterAnswersToStoryQuestionsOfTest2(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ProjFacEnterAnswersToStoryQuestionsOfTest2' work is finished: Name: {0}", theCurrentStory.Name));
+
+            // make sure they have some answer written into each question
+            if (!CheckAnswersAnswered(theSE, theCurrentStory))
+                return false;
+
+            System.Diagnostics.Debug.Assert(eProposedNextState ==
+                StoryStageLogic.ProjectStages.eProjFacEnterRetellingOfTest2);
+
             return true;
         }
 
         public static bool ProjFacEnterRetellingOfTest2(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ProjFacEnterRetellingOfTest2' work is finished: Name: {0}", theCurrentStory.Name));
+            
+            if (!theStoryProjectData.TeamMembers.IsThereAFirstPassMentor)
+                eProposedNextState = StoryStageLogic.ProjectStages.eConsultantReviewTest2;
+            else
+                System.Diagnostics.Debug.Assert(eProposedNextState ==
+                    StoryStageLogic.ProjectStages.eFirstPassMentorReviewTest2);
+
+            return true;
+        }
+
+        public static bool FirstPassMentorReviewTest2(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
+        {
+            Console.WriteLine(String.Format("Checking if stage 'FirstPassMentorReviewTest2' work is finished: Name: {0}", theCurrentStory.Name));
+
+            System.Diagnostics.Debug.Assert(theStoryProjectData.TeamMembers.IsThereAFirstPassMentor
+                && (eProposedNextState == StoryStageLogic.ProjectStages.eConsultantReviewTest2));
+
             return true;
         }
 
         public static bool ConsultantReviewTest2(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ConsultantReviewTest2' work is finished: Name: {0}", theCurrentStory.Name));
+
+            System.Diagnostics.Debug.Assert(theStoryProjectData.TeamMembers.IsThereAFirstPassMentor
+                && (eProposedNextState == StoryStageLogic.ProjectStages.eCoachReviewTest2Notes));
+
             return true;
         }
 
         public static bool CoachReviewTest2Notes(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'CoachReviewTest2Notes' work is finished: Name: {0}", theCurrentStory.Name));
+
+            // before handing it back to the consultant, let's make sure that if the consultant had initiated
+            //  a conversation, that the coach answered it.
+            if (!CheckThatCoachAnsweredCITsQuestions(theSE, theCurrentStory))
+                return false;
+
+            System.Diagnostics.Debug.Assert(eProposedNextState ==
+                StoryStageLogic.ProjectStages.eTeamComplete);
+
             return true;
         }
 

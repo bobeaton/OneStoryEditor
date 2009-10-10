@@ -25,6 +25,8 @@
     <Member name="Sonia" memberType="UNS" memberKey="mem-7ec5c371-ae13-411c-b7fc-6523caff937e" />
     <Member name="Judy" memberType="Coach" memberKey="mem-f2d9de05-94e2-43ff-beed-00c6990a8b2a" />
     <Member name="Bob" memberType="ConsultantInTraining" memberKey="mem-e0a51296-1658-4349-89e7-a1a33438c612" />
+    <Member name="Pawan as Project Facilitator" memberType="ProjectFacilitator" memberKey="mem-71b8e551-a78d-4f6f-833c-afe376202fab" />
+    <Member name="Karan as Project Facilitator" memberType="ProjectFacilitator" memberKey="mem-53f8ddc7-4a0d-4139-a7e1-4ead7dd44117" />
   </Members>
   <Languages>
     <VernacularLang name="Kangri" code="xnr" FontName="Arial Unicode MS" FontSize="12" FontColor="Maroon" SentenceFinalPunct="।" />
@@ -32,14 +34,14 @@
     <InternationalBTLang name="English" code="en" FontName="Times New Roman" FontSize="10" FontColor="Blue" SentenceFinalPunct="." />
   </Languages>
   <stories SetName="Stories">
-    <story name="Spiritual World" stage="CoachReviewTest2Notes" guid="7e3958a2-5fa4-46db-a354-866bd8dc299b">
+    <story name="Spiritual World" stage="CoachReviewTest2Notes" guid="7e3958a2-5fa4-46db-a354-866bd8dc299b" stageDateTimeStamp="2009-10-10T12:39:17.421875-05:00">
       <CraftingInfo NonBiblicalStory="false">
         <StoryCrafter memberID="mem-0bd39d55-2ab4-4cfd-b741-de9ffce0e733" />
         <StoryPurpose>To explain where our enemy came from</StoryPurpose>
         <BackTranslator memberID="mem-11042b8c-fd67-4389-b752-6a796789b903" />
         <Tests>
-          <Test number="1" memberID="mem-11042b8c-fd67-4389-b752-6a796789b903" />
-          <Test number="2" memberID="mem-a9d91fcc-b680-42d1-9d0e-fb69002c353d" />
+          <Test memberID="mem-11042b8c-fd67-4389-b752-6a796789b903" />
+          <Test memberID="mem-a9d91fcc-b680-42d1-9d0e-fb69002c353d" />
         </Tests>
       </CraftingInfo>
       <verses>
@@ -468,14 +470,14 @@
         </verse>
       </verses>
     </story>
-    <story name="Creation Story" stage="CoachReviewTest2Notes" guid="e632ae4d-6986-4329-b7c6-88961aa048eb">
+    <story name="Creation Story" stage="CoachReviewTest2Notes" guid="e632ae4d-6986-4329-b7c6-88961aa048eb" stageDateTimeStamp="2009-10-10T12:39:17.484375-05:00">
       <CraftingInfo NonBiblicalStory="false">
         <StoryCrafter memberID="mem-deeea5b6-b118-4eda-a6e7-969765a6c675" />
         <StoryPurpose>To show that God created this world?</StoryPurpose>
         <BackTranslator memberID="mem-8b244f6e-7557-41c5-aff2-830e854b0604" />
         <Tests>
-          <Test number="1" memberID="mem-4c85436d-defe-4e00-81a3-abb5ff96e016" />
-          <Test number="2" memberID="mem-a9d91fcc-b680-42d1-9d0e-fb69002c353d" />
+          <Test memberID="mem-4c85436d-defe-4e00-81a3-abb5ff96e016" />
+          <Test memberID="mem-a9d91fcc-b680-42d1-9d0e-fb69002c353d" />
         </Tests>
       </CraftingInfo>
       <verses>
@@ -907,14 +909,14 @@
         </verse>
       </verses>
     </story>
-    <story name="Fall of Man in Sin" stage="CoachReviewTest2Notes" guid="ae0bc042-fe25-4b3b-8a13-4182401d1942">
+    <story name="Fall of Man in Sin" stage="CoachReviewTest2Notes" guid="ae0bc042-fe25-4b3b-8a13-4182401d1942" stageDateTimeStamp="2009-10-10T12:39:17.484375-05:00">
       <CraftingInfo NonBiblicalStory="false">
         <StoryCrafter memberID="mem-0bd39d55-2ab4-4cfd-b741-de9ffce0e733" />
         <StoryPurpose>To show how our relationship with God was broken</StoryPurpose>
         <BackTranslator memberID="mem-11042b8c-fd67-4389-b752-6a796789b903" />
         <Tests>
-          <Test number="1" memberID="mem-11042b8c-fd67-4389-b752-6a796789b903" />
-          <Test number="2" memberID="mem-a9d91fcc-b680-42d1-9d0e-fb69002c353d" />
+          <Test memberID="mem-11042b8c-fd67-4389-b752-6a796789b903" />
+          <Test memberID="mem-a9d91fcc-b680-42d1-9d0e-fb69002c353d" />
         </Tests>
       </CraftingInfo>
       <verses>
@@ -1582,14 +1584,14 @@
         </verse>
       </verses>
     </story>
-    <story name="Abraham's sacrifice of his son" stage="CoachReviewTest2Notes" guid="68d3d04e-307a-4b52-ac68-58d8e9e73d7b">
+    <story name="Abraham's sacrifice of his son" stage="CoachReviewTest2Notes" guid="68d3d04e-307a-4b52-ac68-58d8e9e73d7b" stageDateTimeStamp="2009-10-10T12:39:17.484375-05:00">
       <CraftingInfo NonBiblicalStory="false">
         <StoryCrafter memberID="mem-deeea5b6-b118-4eda-a6e7-969765a6c675" />
         <StoryPurpose>God did not abandon his relationship with man when man sinned.  He sought out a nation that would be His.  Through this nation, all nations would be blessed.</StoryPurpose>
         <BackTranslator memberID="mem-13e9757a-9710-4be0-8e19-31c51568ed26" />
         <Tests>
-          <Test number="1" memberID="mem-b6a67181-5f14-4db8-8b1d-fd6e40d76ef9" />
-          <Test number="2" memberID="mem-96801de3-cb04-40e8-82e0-c2370e6b78d9" />
+          <Test memberID="mem-b6a67181-5f14-4db8-8b1d-fd6e40d76ef9" />
+          <Test memberID="mem-96801de3-cb04-40e8-82e0-c2370e6b78d9" />
         </Tests>
       </CraftingInfo>
       <verses>
@@ -2249,14 +2251,14 @@
         </verse>
       </verses>
     </story>
-    <story name="Joseph's dream" stage="CoachReviewTest2Notes" guid="279277b8-6ae5-4e94-9b96-fca845893c59">
+    <story name="Joseph's dream" stage="CoachReviewTest2Notes" guid="279277b8-6ae5-4e94-9b96-fca845893c59" stageDateTimeStamp="2009-10-10T12:39:17.5-05:00">
       <CraftingInfo NonBiblicalStory="false">
         <StoryCrafter memberID="mem-deeea5b6-b118-4eda-a6e7-969765a6c675" />
         <StoryPurpose>Nobody can destroy any body who is annointed by God.</StoryPurpose>
         <BackTranslator memberID="mem-2b3f7d32-3b94-48a0-89e3-05d8afc73efb" />
         <Tests>
-          <Test number="1" memberID="mem-11042b8c-fd67-4389-b752-6a796789b903" />
-          <Test number="2" memberID="mem-2b3f7d32-3b94-48a0-89e3-05d8afc73efb" />
+          <Test memberID="mem-11042b8c-fd67-4389-b752-6a796789b903" />
+          <Test memberID="mem-2b3f7d32-3b94-48a0-89e3-05d8afc73efb" />
         </Tests>
       </CraftingInfo>
       <verses>
@@ -2855,13 +2857,13 @@
         </verse>
       </verses>
     </story>
-    <story name="Joseph put into Jail" stage="CoachReviewTest2Notes" guid="f478f78b-d800-4c9e-b1c9-f6455340f647">
+    <story name="Joseph put into Jail" stage="CoachReviewTest2Notes" guid="f478f78b-d800-4c9e-b1c9-f6455340f647" stageDateTimeStamp="2009-10-10T12:39:17.5-05:00">
       <CraftingInfo NonBiblicalStory="false">
         <StoryCrafter memberID="mem-deeea5b6-b118-4eda-a6e7-969765a6c675" />
         <BackTranslator memberID="mem-2b3f7d32-3b94-48a0-89e3-05d8afc73efb" />
         <Tests>
-          <Test number="1" memberID="mem-2b3f7d32-3b94-48a0-89e3-05d8afc73efb" />
-          <Test number="2" memberID="mem-11042b8c-fd67-4389-b752-6a796789b903" />
+          <Test memberID="mem-2b3f7d32-3b94-48a0-89e3-05d8afc73efb" />
+          <Test memberID="mem-11042b8c-fd67-4389-b752-6a796789b903" />
         </Tests>
       </CraftingInfo>
       <verses>
@@ -3350,13 +3352,13 @@
         </verse>
       </verses>
     </story>
-    <story name="Joseph becomes Governor" stage="CoachReviewTest2Notes" guid="b7ee0765-fdd5-4622-ae0b-6ba6ff67c76e">
+    <story name="Joseph becomes Governor" stage="CoachReviewTest2Notes" guid="b7ee0765-fdd5-4622-ae0b-6ba6ff67c76e" stageDateTimeStamp="2009-10-10T12:39:17.5-05:00">
       <CraftingInfo NonBiblicalStory="false">
         <StoryCrafter memberID="mem-deeea5b6-b118-4eda-a6e7-969765a6c675" />
         <BackTranslator memberID="mem-5dcd74dd-89c8-4732-a728-cbce160144db" />
         <Tests>
-          <Test number="1" memberID="mem-5dcd74dd-89c8-4732-a728-cbce160144db" />
-          <Test number="2" memberID="mem-7d2a3cf8-9e77-404c-b5c8-59a848bbf97a" />
+          <Test memberID="mem-5dcd74dd-89c8-4732-a728-cbce160144db" />
+          <Test memberID="mem-7d2a3cf8-9e77-404c-b5c8-59a848bbf97a" />
         </Tests>
       </CraftingInfo>
       <verses>
@@ -4133,13 +4135,13 @@
         </verse>
       </verses>
     </story>
-    <story name="Joseph meet with his brother" stage="CoachReviewTest2Notes" guid="57c80329-661f-4968-a10d-a253276eb49c">
+    <story name="Joseph meet with his brother" stage="CoachReviewTest2Notes" guid="57c80329-661f-4968-a10d-a253276eb49c" stageDateTimeStamp="2009-10-10T12:39:17.515625-05:00">
       <CraftingInfo NonBiblicalStory="false">
         <StoryCrafter memberID="mem-deeea5b6-b118-4eda-a6e7-969765a6c675" />
         <BackTranslator memberID="mem-5dcd74dd-89c8-4732-a728-cbce160144db" />
         <Tests>
-          <Test number="1" memberID="mem-2b3f7d32-3b94-48a0-89e3-05d8afc73efb" />
-          <Test number="2" memberID="mem-11042b8c-fd67-4389-b752-6a796789b903" />
+          <Test memberID="mem-2b3f7d32-3b94-48a0-89e3-05d8afc73efb" />
+          <Test memberID="mem-11042b8c-fd67-4389-b752-6a796789b903" />
         </Tests>
       </CraftingInfo>
       <verses>
@@ -4922,14 +4924,14 @@
         </verse>
       </verses>
     </story>
-    <story name="Moses - Saving his people from slavery" stage="CoachReviewTest2Notes" guid="78bf1c51-c0e5-479d-bce6-7b6c11402bbc">
+    <story name="Moses - Saving his people from slavery" stage="CoachReviewTest2Notes" guid="78bf1c51-c0e5-479d-bce6-7b6c11402bbc" stageDateTimeStamp="2009-10-10T12:39:17.515625-05:00">
       <CraftingInfo NonBiblicalStory="false">
         <StoryCrafter memberID="mem-deeea5b6-b118-4eda-a6e7-969765a6c675" />
         <StoryPurpose>God shows what kind of relationship he desires with his people. (Bridge) God never forget his promise</StoryPurpose>
         <BackTranslator memberID="mem-13e9757a-9710-4be0-8e19-31c51568ed26" />
         <Tests>
-          <Test number="1" memberID="mem-a9d91fcc-b680-42d1-9d0e-fb69002c353d" />
-          <Test number="2" memberID="mem-53e913fa-e3ae-485d-a76b-a9436ed94d44" />
+          <Test memberID="mem-a9d91fcc-b680-42d1-9d0e-fb69002c353d" />
+          <Test memberID="mem-53e913fa-e3ae-485d-a76b-a9436ed94d44" />
         </Tests>
       </CraftingInfo>
       <verses>
@@ -5477,14 +5479,14 @@
         </verse>
       </verses>
     </story>
-    <story name="David &amp; Goliath" stage="CoachReviewTest2Notes" guid="dc76ebdc-cd97-47c6-a7f3-13524cd53a6a">
+    <story name="David &amp; Goliath" stage="CoachReviewTest2Notes" guid="dc76ebdc-cd97-47c6-a7f3-13524cd53a6a" stageDateTimeStamp="2009-10-10T12:39:17.53125-05:00">
       <CraftingInfo NonBiblicalStory="false">
         <StoryCrafter memberID="mem-0bd39d55-2ab4-4cfd-b741-de9ffce0e733" />
         <StoryPurpose>To show how having a close relationship with God can lead to great faith, which can lead to great actions.</StoryPurpose>
         <BackTranslator memberID="mem-11042b8c-fd67-4389-b752-6a796789b903" />
         <Tests>
-          <Test number="1" memberID="mem-dbd2b0d4-423d-4d5d-a405-4c44cce3ee11" />
-          <Test number="2" memberID="mem-a9d91fcc-b680-42d1-9d0e-fb69002c353d" />
+          <Test memberID="mem-dbd2b0d4-423d-4d5d-a405-4c44cce3ee11" />
+          <Test memberID="mem-a9d91fcc-b680-42d1-9d0e-fb69002c353d" />
         </Tests>
       </CraftingInfo>
       <verses>
@@ -6264,13 +6266,13 @@
         </verse>
       </verses>
     </story>
-    <story name="Isaiah - Birth of Jesus foretold" stage="CoachReviewTest2Notes" guid="b841af18-6c10-4eb7-bd6e-e453e8251d48">
+    <story name="Isaiah - Birth of Jesus foretold" stage="CoachReviewTest2Notes" guid="b841af18-6c10-4eb7-bd6e-e453e8251d48" stageDateTimeStamp="2009-10-10T12:39:17.546875-05:00">
       <CraftingInfo NonBiblicalStory="false">
         <StoryCrafter memberID="mem-deeea5b6-b118-4eda-a6e7-969765a6c675" />
         <BackTranslator memberID="mem-2b9b82aa-b008-4935-9177-92c74b8ee386" />
         <Tests>
-          <Test number="1" memberID="mem-a9d91fcc-b680-42d1-9d0e-fb69002c353d" />
-          <Test number="2" memberID="mem-11042b8c-fd67-4389-b752-6a796789b903" />
+          <Test memberID="mem-a9d91fcc-b680-42d1-9d0e-fb69002c353d" />
+          <Test memberID="mem-11042b8c-fd67-4389-b752-6a796789b903" />
         </Tests>
       </CraftingInfo>
       <verses>
@@ -6826,14 +6828,14 @@
         </verse>
       </verses>
     </story>
-    <story name="Joseph and Mary" stage="CoachReviewTest2Notes" guid="67a71836-f28c-4cf6-ba1c-86e93a29c268">
+    <story name="Joseph and Mary" stage="CoachReviewTest2Notes" guid="67a71836-f28c-4cf6-ba1c-86e93a29c268" stageDateTimeStamp="2009-10-10T12:39:17.546875-05:00">
       <CraftingInfo NonBiblicalStory="false">
         <StoryCrafter memberID="mem-0bd39d55-2ab4-4cfd-b741-de9ffce0e733" />
         <StoryPurpose>To show that Jesus was truly God's provision for the restoration of a relationship with God for all peoples.</StoryPurpose>
         <BackTranslator memberID="mem-11042b8c-fd67-4389-b752-6a796789b903" />
         <Tests>
-          <Test number="1" memberID="mem-dbd2b0d4-423d-4d5d-a405-4c44cce3ee11" />
-          <Test number="2" memberID="mem-4948ecac-cdd2-4d26-a86d-ede4b1925cf6" />
+          <Test memberID="mem-dbd2b0d4-423d-4d5d-a405-4c44cce3ee11" />
+          <Test memberID="mem-4948ecac-cdd2-4d26-a86d-ede4b1925cf6" />
         </Tests>
       </CraftingInfo>
       <verses>
@@ -7626,14 +7628,14 @@
         </verse>
       </verses>
     </story>
-    <story name="Birth of Jesus (announcement to shepherd)" stage="CoachReviewTest2Notes" guid="9ca1618c-0044-48cb-b337-e70706ffb327">
+    <story name="Birth of Jesus (announcement to shepherd)" stage="CoachReviewTest2Notes" guid="9ca1618c-0044-48cb-b337-e70706ffb327" stageDateTimeStamp="2009-10-10T12:39:17.5625-05:00">
       <CraftingInfo NonBiblicalStory="false">
         <StoryCrafter memberID="mem-0bd39d55-2ab4-4cfd-b741-de9ffce0e733" />
         <StoryPurpose>Proclaiming the good news of the birth of a Saviour</StoryPurpose>
         <BackTranslator memberID="mem-11042b8c-fd67-4389-b752-6a796789b903" />
         <Tests>
-          <Test number="1" memberID="mem-2cb7bb2e-c014-436c-81b8-2fda9a86b316" />
-          <Test number="2" memberID="mem-3db92624-88b4-4d57-aae0-f8da896eda7a" />
+          <Test memberID="mem-2cb7bb2e-c014-436c-81b8-2fda9a86b316" />
+          <Test memberID="mem-3db92624-88b4-4d57-aae0-f8da896eda7a" />
         </Tests>
       </CraftingInfo>
       <verses>
@@ -8240,14 +8242,14 @@
         </verse>
       </verses>
     </story>
-    <story name="Baptism of Jesus (by John)" stage="CoachReviewTest2Notes" guid="8ff1224c-b970-4645-9102-aa7ceab04172">
+    <story name="Baptism of Jesus (by John)" stage="CoachReviewTest2Notes" guid="8ff1224c-b970-4645-9102-aa7ceab04172" stageDateTimeStamp="2009-10-10T12:39:17.5625-05:00">
       <CraftingInfo NonBiblicalStory="false">
         <StoryCrafter memberID="mem-deeea5b6-b118-4eda-a6e7-969765a6c675" />
         <StoryPurpose>This story proves that Jesus is God's son.  It also sets the example for new believers to obey.</StoryPurpose>
         <BackTranslator memberID="mem-4c85436d-defe-4e00-81a3-abb5ff96e016" />
         <Tests>
-          <Test number="1" memberID="mem-5dcd74dd-89c8-4732-a728-cbce160144db" />
-          <Test number="2" memberID="mem-11042b8c-fd67-4389-b752-6a796789b903" />
+          <Test memberID="mem-5dcd74dd-89c8-4732-a728-cbce160144db" />
+          <Test memberID="mem-11042b8c-fd67-4389-b752-6a796789b903" />
         </Tests>
       </CraftingInfo>
       <verses>
@@ -8860,14 +8862,14 @@
         </verse>
       </verses>
     </story>
-    <story name="Healing of demon possessed boy (Some Deeds)" stage="CoachReviewTest2Notes" guid="273f4ad2-d494-4bb6-9c17-a997dcb865e2">
+    <story name="Healing of demon possessed boy (Some Deeds)" stage="CoachReviewTest2Notes" guid="273f4ad2-d494-4bb6-9c17-a997dcb865e2" stageDateTimeStamp="2009-10-10T12:39:17.5625-05:00">
       <CraftingInfo NonBiblicalStory="false">
         <StoryCrafter memberID="mem-0bd39d55-2ab4-4cfd-b741-de9ffce0e733" />
         <StoryPurpose>This story shows how God can restore a broken relationship no matter what the situation may be.</StoryPurpose>
         <BackTranslator memberID="mem-30137c4e-5c36-43cf-8ce6-0d4c3b36772a" />
         <Tests>
-          <Test number="1" memberID="mem-11042b8c-fd67-4389-b752-6a796789b903" />
-          <Test number="2" memberID="mem-a9d91fcc-b680-42d1-9d0e-fb69002c353d" />
+          <Test memberID="mem-11042b8c-fd67-4389-b752-6a796789b903" />
+          <Test memberID="mem-a9d91fcc-b680-42d1-9d0e-fb69002c353d" />
         </Tests>
       </CraftingInfo>
       <verses>
@@ -9392,14 +9394,14 @@
         </verse>
       </verses>
     </story>
-    <story name="Strong Man" stage="CoachReviewTest2Notes" guid="7c08b2d2-1d35-4bb6-a523-dd1b9a7ee13a">
+    <story name="Strong Man" stage="CoachReviewTest2Notes" guid="7c08b2d2-1d35-4bb6-a523-dd1b9a7ee13a" stageDateTimeStamp="2009-10-10T12:39:17.5625-05:00">
       <CraftingInfo NonBiblicalStory="false">
         <StoryCrafter memberID="mem-0bd39d55-2ab4-4cfd-b741-de9ffce0e733" />
         <StoryPurpose>To show Jesus' desire and power to bind up the one who is keeping the relationship broken</StoryPurpose>
         <BackTranslator memberID="mem-305658ba-99e0-45b2-9e88-ca5ef73af030" />
         <Tests>
-          <Test number="1" memberID="mem-305658ba-99e0-45b2-9e88-ca5ef73af030" />
-          <Test number="2" memberID="mem-5dcd74dd-89c8-4732-a728-cbce160144db" />
+          <Test memberID="mem-305658ba-99e0-45b2-9e88-ca5ef73af030" />
+          <Test memberID="mem-5dcd74dd-89c8-4732-a728-cbce160144db" />
         </Tests>
       </CraftingInfo>
       <verses>
@@ -9669,14 +9671,14 @@
         </verse>
       </verses>
     </story>
-    <story name="Ninety nine plus one plus doctor for the sick" stage="CoachReviewTest2Notes" guid="73bffb04-1945-45bd-a431-7daf5f5d1e46">
+    <story name="Ninety nine plus one plus doctor for the sick" stage="CoachReviewTest2Notes" guid="73bffb04-1945-45bd-a431-7daf5f5d1e46" stageDateTimeStamp="2009-10-10T12:39:17.578125-05:00">
       <CraftingInfo NonBiblicalStory="false">
         <StoryCrafter memberID="mem-deeea5b6-b118-4eda-a6e7-969765a6c675" />
         <StoryPurpose>This shows how much God/Jesus loves those who are looked down upon and how far he's willing to go so that even one might not remain lost</StoryPurpose>
         <BackTranslator memberID="mem-13e9757a-9710-4be0-8e19-31c51568ed26" />
         <Tests>
-          <Test number="1" memberID="mem-5dcd74dd-89c8-4732-a728-cbce160144db" />
-          <Test number="2" memberID="mem-4c85436d-defe-4e00-81a3-abb5ff96e016" />
+          <Test memberID="mem-5dcd74dd-89c8-4732-a728-cbce160144db" />
+          <Test memberID="mem-4c85436d-defe-4e00-81a3-abb5ff96e016" />
         </Tests>
       </CraftingInfo>
       <verses>
@@ -10073,14 +10075,14 @@
         </verse>
       </verses>
     </story>
-    <story name="Prayer of the Pharisee and tax collector" stage="CoachReviewTest2Notes" guid="e671352e-7b41-42e6-a2c0-3fa41c8021b8">
+    <story name="Prayer of the Pharisee and tax collector" stage="CoachReviewTest2Notes" guid="e671352e-7b41-42e6-a2c0-3fa41c8021b8" stageDateTimeStamp="2009-10-10T12:39:17.578125-05:00">
       <CraftingInfo NonBiblicalStory="false">
         <StoryCrafter memberID="mem-deeea5b6-b118-4eda-a6e7-969765a6c675" />
         <StoryPurpose>To show a requirement in man's response to the broken relationship problem</StoryPurpose>
         <BackTranslator memberID="mem-6d1fd1de-aeff-4c9a-8b46-fb9f3d3a1de8" />
         <Tests>
-          <Test number="1" memberID="mem-5dcd74dd-89c8-4732-a728-cbce160144db" />
-          <Test number="2" memberID="mem-11042b8c-fd67-4389-b752-6a796789b903" />
+          <Test memberID="mem-5dcd74dd-89c8-4732-a728-cbce160144db" />
+          <Test memberID="mem-11042b8c-fd67-4389-b752-6a796789b903" />
         </Tests>
       </CraftingInfo>
       <verses>
@@ -10386,14 +10388,14 @@
         </verse>
       </verses>
     </story>
-    <story name="Jesus foreshadows the future" stage="CoachReviewTest2Notes" guid="c64ff258-b755-4981-a259-53c960131526">
+    <story name="Jesus foreshadows the future" stage="CoachReviewTest2Notes" guid="c64ff258-b755-4981-a259-53c960131526" stageDateTimeStamp="2009-10-10T12:39:17.578125-05:00">
       <CraftingInfo NonBiblicalStory="false">
         <StoryCrafter memberID="mem-0bd39d55-2ab4-4cfd-b741-de9ffce0e733" />
         <StoryPurpose>This is a prophesy story that foreshadows the remaining stories of the panorama and shows that Jesus was a prophet (telling about his impending death) (based on mrk.10:32 ff) and to give information about the function of the holy spirit when he comes (based on Jhn.14:15 ff, jhn.16:5 ff)</StoryPurpose>
         <BackTranslator memberID="mem-5dcd74dd-89c8-4732-a728-cbce160144db" />
         <Tests>
-          <Test number="1" memberID="mem-5dcd74dd-89c8-4732-a728-cbce160144db" />
-          <Test number="2" memberID="mem-11042b8c-fd67-4389-b752-6a796789b903" />
+          <Test memberID="mem-5dcd74dd-89c8-4732-a728-cbce160144db" />
+          <Test memberID="mem-11042b8c-fd67-4389-b752-6a796789b903" />
         </Tests>
       </CraftingInfo>
       <verses>
@@ -10553,14 +10555,14 @@
         </verse>
       </verses>
     </story>
-    <story name="Trial and death of Jesus" stage="CoachReviewTest2Notes" guid="615c92bb-c792-433c-b74c-43ec70d7d5e3">
+    <story name="Trial and death of Jesus" stage="CoachReviewTest2Notes" guid="615c92bb-c792-433c-b74c-43ec70d7d5e3" stageDateTimeStamp="2009-10-10T12:39:17.578125-05:00">
       <CraftingInfo NonBiblicalStory="false">
         <StoryCrafter memberID="mem-deeea5b6-b118-4eda-a6e7-969765a6c675" />
         <StoryPurpose>Jesus is alive</StoryPurpose>
         <BackTranslator memberID="mem-7ec5c371-ae13-411c-b7fc-6523caff937e" />
         <Tests>
-          <Test number="1" memberID="mem-7ec5c371-ae13-411c-b7fc-6523caff937e" />
-          <Test number="2" memberID="mem-4c85436d-defe-4e00-81a3-abb5ff96e016" />
+          <Test memberID="mem-7ec5c371-ae13-411c-b7fc-6523caff937e" />
+          <Test memberID="mem-4c85436d-defe-4e00-81a3-abb5ff96e016" />
         </Tests>
       </CraftingInfo>
       <verses>
@@ -11094,14 +11096,14 @@
         </verse>
       </verses>
     </story>
-    <story name="Resurrection" stage="CoachReviewTest2Notes" guid="9c3e90ac-a0b2-4003-aa94-42781a55c7b9">
+    <story name="Resurrection" stage="CoachReviewTest2Notes" guid="9c3e90ac-a0b2-4003-aa94-42781a55c7b9" stageDateTimeStamp="2009-10-10T12:39:17.59375-05:00">
       <CraftingInfo NonBiblicalStory="false">
         <StoryCrafter memberID="mem-deeea5b6-b118-4eda-a6e7-969765a6c675" />
         <StoryPurpose>To show that the prophecies concerning Jesus were fulfilled. Jesus came back to life, appeared to his followers, promised them the coming of God's Spirit, and then, returned to heaven.</StoryPurpose>
         <BackTranslator memberID="mem-6d1fd1de-aeff-4c9a-8b46-fb9f3d3a1de8" />
         <Tests>
-          <Test number="1" memberID="mem-5dcd74dd-89c8-4732-a728-cbce160144db" />
-          <Test number="2" memberID="mem-11042b8c-fd67-4389-b752-6a796789b903" />
+          <Test memberID="mem-5dcd74dd-89c8-4732-a728-cbce160144db" />
+          <Test memberID="mem-11042b8c-fd67-4389-b752-6a796789b903" />
         </Tests>
       </CraftingInfo>
       <verses>
@@ -11456,14 +11458,14 @@
         </verse>
       </verses>
     </story>
-    <story name="Holy spirit (Act)" stage="CoachReviewTest2Notes" guid="0f9b3e3a-22ab-4dcb-9a63-cb53cbcc952c">
+    <story name="Holy spirit (Act)" stage="CoachReviewTest2Notes" guid="0f9b3e3a-22ab-4dcb-9a63-cb53cbcc952c" stageDateTimeStamp="2009-10-10T12:39:17.59375-05:00">
       <CraftingInfo NonBiblicalStory="false">
         <StoryCrafter memberID="mem-0bd39d55-2ab4-4cfd-b741-de9ffce0e733" />
         <StoryPurpose>Show the Power of Holy Spirit</StoryPurpose>
         <BackTranslator memberID="mem-11042b8c-fd67-4389-b752-6a796789b903" />
         <Tests>
-          <Test number="1" memberID="mem-11042b8c-fd67-4389-b752-6a796789b903" />
-          <Test number="2" memberID="mem-a9d91fcc-b680-42d1-9d0e-fb69002c353d" />
+          <Test memberID="mem-11042b8c-fd67-4389-b752-6a796789b903" />
+          <Test memberID="mem-a9d91fcc-b680-42d1-9d0e-fb69002c353d" />
         </Tests>
       </CraftingInfo>
       <verses>
@@ -11988,14 +11990,14 @@
     </story>
   </stories>
   <stories SetName="Old Stories">
-    <story name="Spiritual World" stage="CoachReviewTest2Notes" guid="7e3958a2-5fa4-46db-a354-866bd8dc299b">
+    <story name="Spiritual World" stage="CoachReviewTest2Notes" guid="7e3958a2-5fa4-46db-a354-866bd8dc299b" stageDateTimeStamp="2009-10-10T12:39:17.59375-05:00">
       <CraftingInfo NonBiblicalStory="false">
         <StoryCrafter memberID="mem-0bd39d55-2ab4-4cfd-b741-de9ffce0e733" />
         <StoryPurpose>To explain where our enemy came from</StoryPurpose>
         <BackTranslator memberID="mem-11042b8c-fd67-4389-b752-6a796789b903" />
         <Tests>
-          <Test number="1" memberID="mem-11042b8c-fd67-4389-b752-6a796789b903" />
-          <Test number="2" memberID="mem-a9d91fcc-b680-42d1-9d0e-fb69002c353d" />
+          <Test memberID="mem-11042b8c-fd67-4389-b752-6a796789b903" />
+          <Test memberID="mem-a9d91fcc-b680-42d1-9d0e-fb69002c353d" />
         </Tests>
       </CraftingInfo>
       <verses>
