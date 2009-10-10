@@ -366,7 +366,7 @@ namespace OneStoryProjectEditor
 #if DEBUG
                 return @"C:\code\StoryEditor\StoryEditor\BiblicalTerms";
 #else
-                return StoriesData.GetRunningFolder + @"\BiblicalTerms";
+                return StoryProjectData.GetRunningFolder + @"\BiblicalTerms";
 #endif
             }
         }

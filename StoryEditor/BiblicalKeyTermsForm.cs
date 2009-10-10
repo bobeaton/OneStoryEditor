@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using NetLoc;
 using Paratext;
@@ -21,19 +22,19 @@ namespace OneStoryProjectEditor
         string refererencesHtml;  // text loaded into html references browser
         string idToScrollTo = null;		// Set this to scroll to an elementid when loaded
         protected StoryEditor _theSE;
-        internal ProjectSettings.LanguageInfo _liToUse;
+        internal ProjectSettings.LanguageInfo MainLang;
         internal ProjectSettings _projSettings;
         readonly BiblicalTermsHTMLBuilder htmlBuilder;  // Class used to build references window text as html
         readonly BiblicalTermsList _biblicalTerms;   // All Biblical terms
 
-        public BiblicalKeyTermsForm(StoryEditor theSE, ProjectSettings.LanguageInfo liToUse, ProjectSettings projSettings)
+        public BiblicalKeyTermsForm(StoryEditor theSE, ProjectSettings projSettings, ProjectSettings.LanguageInfo liMainLang)
         {
             _theSE = theSE;
-            _liToUse = liToUse;
+            MainLang = liMainLang;
             _projSettings = projSettings;
             InitializeComponent();
             _biblicalTerms = BiblicalTermsList.GetBiblicalTerms();
-            htmlBuilder = new BiblicalTermsHTMLBuilder(_liToUse);
+            htmlBuilder = new BiblicalTermsHTMLBuilder(projSettings);
         }
 
         public void Show(AnchorsData theAnchors, StoryProjectData theStoryProject)
@@ -74,13 +75,13 @@ namespace OneStoryProjectEditor
                     return;
                 }
 
-                renderings = TermRenderingsList.GetTermRenderings(_projSettings.ProjectFolder, _liToUse.LangCode);
+                renderings = TermRenderingsList.GetTermRenderings(_projSettings.ProjectFolder, MainLang.LangCode);
                 termLocalizations = TermLocalizations.Localizations;
 
                 ColumnTermLemma.DefaultCellStyle.Font = new Font("Charis SIL", 12);
                 ColumnStatus.DefaultCellStyle.Font = new Font("Wingdings", 11);
-                ColumnRenderings.DefaultCellStyle.Font = _liToUse.LangFont;
-                ColumnRenderings.DefaultCellStyle.ForeColor = _liToUse.FontColor;
+                ColumnRenderings.DefaultCellStyle.Font = MainLang.LangFont;
+                ColumnRenderings.DefaultCellStyle.ForeColor = MainLang.FontColor;
 
                 termIndexRequested = -1;
                 LoadTermsList();
@@ -252,7 +253,7 @@ namespace OneStoryProjectEditor
             reference = reference.Replace(" ", "_");
             
             // e.g. projectxnr_Story: 'BibStory' line: 1 anchor: Gen 2:4
-            idToScrollTo = String.Format("project{0}_{1}", renderings.ScrTextName, reference);
+            idToScrollTo = "project1_" + reference;
 
             NotifyRenderingsChanged();
         }
@@ -383,8 +384,19 @@ namespace OneStoryProjectEditor
             }
         }
 
+        protected static Regex SearchForSpanID = new Regex("<SPAN id=\"(.*?)\"", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
+
         protected void AddRendering(string strRendering, int nRowIndex)
         {
+            // try to keep track of where we were so we can go back there
+            string strID = webBrowser.HtmlDocument2.GetActiveElement().innerHTML;
+            if (!String.IsNullOrEmpty(strID))
+            {
+                MatchCollection mc = SearchForSpanID.Matches(strID);
+                if (mc.Count > 0)
+                    idToScrollTo = mc[0].Groups[1].Value;
+            }
+
             if (!String.IsNullOrEmpty(strRendering))
                 strRendering = strRendering.Trim();
 
@@ -476,10 +488,10 @@ namespace OneStoryProjectEditor
 			}
 
 			EditRenderingsForm form = new EditRenderingsForm(
-                _liToUse.LangFont,
+                MainLang.LangFont,
 				currentRenderings,
 				termRendering,
-                _liToUse.LangCode,
+                MainLang.LangCode,
 				termLocalization);
 
 			if (form.ShowDialog() == DialogResult.OK)
@@ -551,7 +563,7 @@ namespace OneStoryProjectEditor
 
             // Build HTML text for references display.
             refererencesHtml = htmlBuilder.Build(vrefs, myTerm.Id,
-                _projSettings.ProjectFolder, _liToUse.LangCode, progressBarLoadingKeyTerms, out status);
+                _projSettings.ProjectFolder, progressBarLoadingKeyTerms, out status);
 
             TermRendering termRendering = renderings.GetRendering(myTerm.Id);
             if (termRendering.Status != status)  // If status has changed, updated it.

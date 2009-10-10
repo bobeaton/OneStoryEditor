@@ -237,9 +237,9 @@ namespace OneStoryProjectEditor
             try
             {
                 // if the language code changed (such that we'll need to build a new key terms db)
-                ProjectSettings.LanguageInfo liToUse = WhichLangInfoToUseForKeyTerms;
+                ProjectSettings.LanguageInfo liMainLang = WhichLangInfoToUseForKeyTerms;
                 if ((m_dlgKeyTerms != null) &&
-                    ((m_dlgKeyTerms._liToUse.LangCode != liToUse.LangCode)
+                    ((m_dlgKeyTerms.MainLang.LangCode != liMainLang.LangCode)
                     || (m_dlgKeyTerms._projSettings.ProjectFolder != theSE.StoryProject.ProjSettings.ProjectFolder)))
                 {
                     m_dlgKeyTerms = null;
@@ -251,7 +251,7 @@ namespace OneStoryProjectEditor
                         || theSE.StoryProject.ProjSettings.NationalBT.HasData
                         || theSE.StoryProject.ProjSettings.InternationalBT.HasData);
 
-                    m_dlgKeyTerms = new BiblicalKeyTermsForm(theSE, liToUse, theSE.StoryProject.ProjSettings);
+                    m_dlgKeyTerms = new BiblicalKeyTermsForm(theSE, theSE.StoryProject.ProjSettings, liMainLang);
                 }
                 m_dlgKeyTerms.Show(_myAnchorsData, theSE.StoryProject);
             }

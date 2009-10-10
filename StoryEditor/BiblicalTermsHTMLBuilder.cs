@@ -11,12 +11,14 @@ namespace OneStoryProjectEditor
 	/// </summary>
 	public class BiblicalTermsHTMLBuilder
 	{
+		List<string> scrTextNames;   // Texts being displayed.
+
 		// Values in the template which change for each reference.
 		Dictionary<string, string> referenceVariables;
 		// Values in the template which are the same for each reference.
-		Dictionary<string, string> projectVariables;
+        List<Dictionary<string, string>> projectVariablesList;  // e.g. "Kangri" to Dictionary<"FontFace" to "Arial Unicode MS">
 
-        Dictionary<string, string> mapReferenceToVerseText; // e.g. "Spiritual World Verse 1" to "this is the text of that verse"
+        Dictionary<string, List<string>> mapReferenceToVerseTextList; // e.g. "Spiritual World Verse 1" to List<"<vern>", "<natlBT>", "<EnglBT>">
 
 		// Renderings for current term by project
 		List<TermRendering> termRenderingsList;
@@ -57,7 +59,7 @@ namespace OneStoryProjectEditor
 <thead>
 	<tr>
 =d=
-		<td><b>{ScrTextName}</b>:
+		<td width={ColWidthPercent}%><b>{ScrTextName}</b>:
 			<span id=""renderings"" class=""{ProjectN}"">{Renderings}</span>
 		</td>
 =e=
@@ -74,8 +76,8 @@ namespace OneStoryProjectEditor
 	<tr>
 =g=
 		<td valign=""top"">
-			<p class=""{ProjectN}"">{Text}
-<span id=""{ProjectN}_{ReferenceAsId}"">{StatusBMP}</span></p>
+			<p class=""{ProjectClass}"">{Text}
+<span id=""{ProjectClass}_{ReferenceAsId}"">{StatusBMP}</span></p>
 		</td>
 =h=
 	</tr>
@@ -87,25 +89,47 @@ namespace OneStoryProjectEditor
 </html>
 ";
 
-		public BiblicalTermsHTMLBuilder(ProjectSettings.LanguageInfo li)
+		public BiblicalTermsHTMLBuilder(ProjectSettings projSettings)
 		{
 			builder = new HTMLBuilder(template);
+            scrTextNames = new List<string>();
+            projectVariablesList = new List<Dictionary<string, string>>();
+
+            // Figure out how many side-by-side projects we're going to show (max is: vern, natlBt, english)
+            
+            if (projSettings.Vernacular.HasData)
+                scrTextNames.Add(projSettings.Vernacular.LangCode);
+            if (projSettings.NationalBT.HasData)
+                scrTextNames.Add(projSettings.NationalBT.LangCode);
+            if (projSettings.InternationalBT.HasData)
+                scrTextNames.Add(projSettings.InternationalBT.LangCode);
 
             // Create list of template variables which are the same for each reference
-            projectVariables = setupProjectVars(li);
+            int nProjectNum = 0;
+            if (projSettings.Vernacular.HasData)
+                projectVariablesList.Add(setupProjectVars(projSettings.Vernacular, ++nProjectNum, scrTextNames.Count));
+            if (projSettings.NationalBT.HasData)
+                projectVariablesList.Add(setupProjectVars(projSettings.NationalBT, ++nProjectNum, scrTextNames.Count));
+            if (projSettings.InternationalBT.HasData)
+                projectVariablesList.Add(setupProjectVars(projSettings.InternationalBT, ++nProjectNum, scrTextNames.Count));
+
+            System.Diagnostics.Debug.Assert(nProjectNum == scrTextNames.Count);
         }
 
 
 		/// <summary>
 		/// Setup the embedded template fields related to a specific project.
 		/// </summary>
+        /// <param name="li">language information about the 'projectNum' project</param>
+		/// <param name="projectNum"></param>
+		/// <param name="projectCount"></param>
 		/// <returns></returns>
-		private Dictionary<string, string> setupProjectVars(ProjectSettings.LanguageInfo li)
+        private Dictionary<string, string> setupProjectVars(ProjectSettings.LanguageInfo li, int projectNum, int projectCount)
 		{
 			Dictionary<string, string> dict = new Dictionary<string, string>();
 
-            dict["ProjectN"] = "project" + li.LangCode;
             dict["ScrTextName"] = li.LangName;
+            dict["ProjectN"] = "project" + projectNum.ToString();
             dict["FontFace"] = li.LangFont.Name;
             dict["FontSize"] = li.LangFont.Size.ToString();
 
@@ -120,8 +144,9 @@ namespace OneStoryProjectEditor
 				dict["Alignment"] = "left";
 			}
 
-			dict["ColWidthPercent"] = 100.ToString();
-			dict["ColCount"] = 1.ToString();
+			int colWidthPercent = 100 / projectCount;
+			dict["ColWidthPercent"] = colWidthPercent.ToString();
+			dict["ColCount"] = projectCount.ToString();
 
 			return dict;
 		}
@@ -134,11 +159,11 @@ namespace OneStoryProjectEditor
 		/// <param name="text"></param>
 		/// <param name="renderingFound"></param>
 		/// <returns></returns>
-		private string MarkRenderings(string text, out bool renderingFound)
+		private string MarkRenderings(int projectNum, string text, out bool renderingFound)
 		{
 			renderingFound = false;
 
-            TermRendering termRendering = termRenderingsList[0];
+            TermRendering termRendering = termRenderingsList[projectNum];
 
             foreach (string strRendering in termRendering.RenderingsList)
             {
@@ -179,23 +204,30 @@ namespace OneStoryProjectEditor
 		/// <summary>
 		/// Setup the template variables related to a single verse of a single project
 		/// </summary>
-		private void setupReferenceVars(string strVerseReference,
+        private void setupReferenceVars(int projectNum, string strVerseReference,
 			out bool renderingFound, out bool renderingDenied)
 		{
 			referenceVariables = new Dictionary<string, string>();
+
+            referenceVariables["ProjectClass"] = "project" + (projectNum + 1).ToString();
             referenceVariables["Reference"] = strVerseReference;
             referenceVariables["ReferenceAsId"] = strVerseReference.Replace(' ', '_');
 
-            string text = MarkRenderings(mapReferenceToVerseText[strVerseReference], out renderingFound);
-            referenceVariables["Text"] = text;
-
             renderingDenied = false;
+            string text = MarkRenderings(projectNum, mapReferenceToVerseTextList[strVerseReference][projectNum],
+                out renderingFound);
+
             TermRendering termRendering = termRenderingsList[0];
             if (!renderingFound)
                 renderingDenied = termRendering.Denials.Contains(strVerseReference);
 
-            referenceVariables["StatusBMP"] = RenderingStatus(renderingFound, renderingDenied, strVerseReference);
-		}
+            referenceVariables["Text"] = text;
+
+            if (projectNum == 0)
+                referenceVariables["StatusBMP"] = RenderingStatus(renderingFound, renderingDenied, strVerseReference);
+            else
+                referenceVariables["StatusBMP"] = "";
+        }
 
 		private static string RenderingStatus(bool renderingFound, bool renderingDenied, string reference)
 		{
@@ -235,7 +267,7 @@ namespace OneStoryProjectEditor
 		/// </summary>
         internal void ReadVerseText(Term myTerm, List<VerseRef> references, StoryProjectData theSPD, ProgressBar progressBarLoadingKeyTerms)
         {
-            mapReferenceToVerseText = new Dictionary<string, string>();
+            mapReferenceToVerseTextList = new Dictionary<string, List<string>>();
 
             // get the current stories only (not the obsolete ones)
             StoriesData theStories = theSPD[Properties.Resources.IDS_MainStoriesSet];
@@ -257,18 +289,25 @@ namespace OneStoryProjectEditor
                             {
                                 string strVerseReference = String.Format("Story: '{0}' line: {1} anchor: {2}",
                                     aStory.Name, nVerseNumber + 1, anAnchor.JumpTarget);
-                                string strVerseText;
+                                
+                                List<string> astrVerseText = new List<string>(projectVariablesList.Count);
                                 if (theSPD.ProjSettings.Vernacular.HasData)
-                                    strVerseText = aVerse.VernacularText.ToString();
-                                else if (theSPD.ProjSettings.NationalBT.HasData)
-                                    strVerseText = aVerse.NationalBTText.ToString();
-                                else
-                                    strVerseText = aVerse.InternationalBTText.ToString();
+                                    astrVerseText.Add(aVerse.VernacularText.ToString());
+                                if (theSPD.ProjSettings.NationalBT.HasData)
+                                    astrVerseText.Add(aVerse.NationalBTText.ToString());
+                                if (theSPD.ProjSettings.InternationalBT.HasData)
+                                    astrVerseText.Add(aVerse.InternationalBTText.ToString());
 
                                 // keep track of this verse and it's reference
-                                mapReferenceToVerseText[strVerseReference] = strVerseText;
+                                if (!mapReferenceToVerseTextList.ContainsKey(strVerseReference))
+                                    mapReferenceToVerseTextList.Add(strVerseReference, astrVerseText);
+
+                                // we don't need to do any more anchors with this same line of the same story
+                                //  so set the anchor # to the number of anchors so the next outer for loop
+                                //  will think it's finished
+                                nAnchorNumber = aVerse.Anchors.Count;
+                                break;
                             }
-                        // ??? verseText[i] = HTMLBuilder.EscapeSpecialCharacters(verseText[i]);
                     }
                 }
                 progressBarLoadingKeyTerms.Value++;
@@ -298,18 +337,31 @@ namespace OneStoryProjectEditor
 			return val;
 		}
 
-		private void BuildRenderings(string strProjectFolder, string strLangCode, string termId)
+		private void BuildRenderings(string strProjectFolder, string termId)
 		{
 			termRenderingsList = new List<TermRendering>();
+			int projectNum = 0;
 
-            TermRenderingsList termRenderings = TermRenderingsList.GetTermRenderings(strProjectFolder, strLangCode);
-			TermRendering termRendering = termRenderings.GetRendering(termId);
-			termRenderingsList.Add(termRendering);
+            for (int i = 0; i < scrTextNames.Count; i++)
+            {
+                string name = scrTextNames[i];
+                /* until we have a "TermRenderingsList" xml file for this project, we can't use this feature
+                 * the BiblicalTermsEn.xml in the BiblicalTerms folder is *not* one of these and won't work.
+                string strPath = strProjectFolder;
+                if (i > 0)
+                    strPath = BiblicalTermsList.DefaultBiblicalTermsFileFolder;
+                */
+                TermRenderingsList termRenderings = TermRenderingsList.GetTermRenderings(strProjectFolder, name);
+                TermRendering termRendering = termRenderings.GetRendering(termId);
+                termRenderingsList.Add(termRendering);
 
-			string val = termRendering.Renderings;
-			val += FormattedNotes(termRendering);
+                string val = termRendering.Renderings;
+                val += FormattedNotes(termRendering);
 
-            projectVariables["Renderings"] = val;
+                projectVariablesList[projectNum]["Renderings"] = val;
+
+                ++projectNum;
+            }
 		}
 
 		/// <summary>
@@ -323,50 +375,64 @@ namespace OneStoryProjectEditor
 			List<VerseRef> references, 
 			string termId,
             string strProjectFolder, 
-            string strLangCode,
             ProgressBar progressBarLoadingKeyTerms,
 			out BiblicalTermStatus status)
 		{
 			//BuildVerseText(references);
-            BuildRenderings(strProjectFolder, strLangCode, termId);
+            BuildRenderings(strProjectFolder, termId);
 
 			builder.Clear();
 
 			// Output the per project stylesheet info
-			builder.SetDictionary(projectVariables);
-			builder.Output("a");
-			builder.Output("b");
+			for (int i = 0; i < projectVariablesList.Count; ++i)
+			{
+				builder.SetDictionary(projectVariablesList[i]);
+				if (i == 0)
+			        builder.Output("a");
+			    builder.Output("b");
+			}
+
 			builder.Output("c");
 
 			// builder.Output the table header info
-			builder.SetDictionary(projectVariables);
-			builder.Output("d");
+			for (int i = 0; i < projectVariablesList.Count; ++i)
+			{
+				builder.SetDictionary(projectVariablesList[i]);
+			    builder.Output("d");
+			}
 
 			builder.Output("e");
 
 			status = BiblicalTermStatus.AllFound;
 
 			//For each reference output a cell for each project
-            progressBarLoadingKeyTerms.Maximum = mapReferenceToVerseText.Keys.Count;
+            progressBarLoadingKeyTerms.Maximum = mapReferenceToVerseTextList.Keys.Count;
             progressBarLoadingKeyTerms.Value = 0;
 
-            foreach (string strVerseReference in mapReferenceToVerseText.Keys)
+            foreach (string strVerseReference in mapReferenceToVerseTextList.Keys)
 			{
-                builder.SetDictionary(projectVariables);
+				for (int projectNum = 0; projectNum < projectVariablesList.Count; ++projectNum)
+				{
+					builder.SetDictionary(projectVariablesList[projectNum]);
 
-				bool renderingFound;
-				bool renderingDenied;
-                setupReferenceVars(strVerseReference, out renderingFound, out renderingDenied);
-				builder.SetDictionary(referenceVariables);
+				    bool renderingFound;
+				    bool renderingDenied;
+                    setupReferenceVars(projectNum, strVerseReference, 
+                        out renderingFound, out renderingDenied);
+				    builder.SetDictionary(referenceVariables);
 
-				// Decide whether to show this reference depending on whether
-				// a rendering was found/denied for the first project and the view settings.
-				// status is cumulative over all references
-				status = UpdateStatus(status, renderingFound, renderingDenied);
+				    // Decide whether to show this reference depending on whether
+				    // a rendering was found/denied for the first project and the view settings.
+					if (projectNum == 0)
+					{
+				        // status is cumulative over all references
+				        status = UpdateStatus(status, renderingFound, renderingDenied);
 
-				builder.Output("f");
+				        builder.Output("f");
+					}
 
-				builder.Output("g");
+				    builder.Output("g");
+				}
 
 				builder.Output("h");
 
