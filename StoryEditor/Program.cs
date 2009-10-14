@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
 using Chorus.UI.Sync;
 using Chorus.VcsDrivers;
@@ -37,13 +38,19 @@ namespace OneStoryProjectEditor
 
             try
             {
+                // one of the first things this might do is try to get a project from the internet, in which case
+                //  the OneStory folder should exist
+                if (!Directory.Exists(ProjectSettings.OneStoryProjectFolderRoot))
+                    Directory.CreateDirectory(ProjectSettings.OneStoryProjectFolderRoot);
+
                 Application.Run(new StoryEditor(Properties.Resources.IDS_MainStoriesSet));
 #if DEBUG
-                if (MessageBox.Show("Do repository Sync?", Properties.Resources.IDS_Caption, MessageBoxButtons.YesNo) == DialogResult.No)
-                    return;
+                if (_astrProjectForSync.Count > 0)
+                    if (MessageBox.Show("Do repository Sync?", Properties.Resources.IDS_Caption, MessageBoxButtons.YesNo) == DialogResult.No)
+                        return;
 #endif
                 foreach (string strProjectFolder in _astrProjectForSync)
-                    SyncWithRepository(strProjectFolder);
+                    SyncWithRepository(strProjectFolder, false);
             }
             catch (Exception ex)
             {
@@ -62,23 +69,65 @@ namespace OneStoryProjectEditor
                 _astrProjectForSync.Add(strProjectFolder);
         }
 
-        static void SyncWithRepository(string strProjectFolder)
+        // string strRepoPath = String.Format("http://bobeaton:helpmepld@hg-private.languagedepot.org/{0}", strProjectFolderName);
+
+        public static void SyncWithRepository(string strProjectFolder, bool bIsOpening)
         {
-            using (var setup = new RepositorySetup("bobeaton"))
+            string strProjectName = Path.GetFileNameWithoutExtension(strProjectFolder);
+            string strRepoUrl;
+            if (!QueryHgRepoParameters(strProjectName, out strRepoUrl))
+                return;
+
+            using (var setup = new RepositorySetup(Properties.Settings.Default.HgRepoUsername))
             {
                 setup.ProjectFolderConfig.FolderPath = strProjectFolder;
+                setup.ProjectFolderConfig.IncludePatterns.Add("*.onestory");
+                setup.ProjectFolderConfig.IncludePatterns.Add("*.xml"); // the P7 key terms list
                 Application.EnableVisualStyles();
+                
                 setup.Repository.SetKnownRepositoryAddresses(new []
                 {
-                    RepositoryAddress.Create("language depot", "http://bobeaton:helpmepld@hg-private.languagedepot.org/snwmtn-test"),
+                    RepositoryAddress.Create("language depot", strRepoUrl),
                 });
+
                 setup.Repository.SetDefaultSyncRepositoryAliases(new[] { "language depot" });
                 using (var dlg = new SyncDialog(setup.ProjectFolderConfig,
-                    SyncUIDialogBehaviors.Lazy, SyncUIFeatures.NormalRecommended))
+                    (bIsOpening) ? SyncUIDialogBehaviors.StartImmediatelyAndCloseWhenFinished : SyncUIDialogBehaviors.Lazy, 
+                    (bIsOpening) ? SyncUIFeatures.Minimal : SyncUIFeatures.NormalRecommended))
                 {
                     dlg.ShowDialog();
                 }
             }
+        }
+
+        private static bool QueryHgRepoParameters(string strProjectName, out string strRepoUrl)
+        {
+            if (String.IsNullOrEmpty(Properties.Settings.Default.HgRepoUrl))
+            {
+                HgRepoForm dlg = new HgRepoForm
+                                        {
+                                            ProjectName = strProjectName,
+                                            UrlBase = "http://hg-private.languagedepot.org",
+                                            Username = Properties.Settings.Default.HgRepoUsername,
+                                            Password = Properties.Settings.Default.HgRepoPassword
+                                        };
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    Properties.Settings.Default.HgRepoUrl = strRepoUrl = dlg.Url;
+                    Properties.Settings.Default.HgRepoUsername = dlg.Username;
+                    Properties.Settings.Default.HgRepoPassword = dlg.Password;
+                    Properties.Settings.Default.Save();
+                    return true;
+                }
+            }
+            else
+            {
+                strRepoUrl = Properties.Settings.Default.HgRepoUrl;
+                return true;
+            }
+
+            strRepoUrl = null;
+            return false;
         }
     }
 }

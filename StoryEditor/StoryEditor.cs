@@ -138,6 +138,20 @@ namespace OneStoryProjectEditor
             }
         }
 
+        private void projectFromTheInternetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var dlg = new Chorus.UI.Clone.GetCloneFromInternetDialog(ProjectSettings.OneStoryProjectFolderRoot))
+            {
+                if (DialogResult.Cancel == dlg.ShowDialog())
+                    return;
+
+                string strProjectDir = dlg.PathToNewProject;
+                string strProjectName = Path.GetFileNameWithoutExtension(dlg.PathToNewProject);
+                ProjectSettings projSettings = new ProjectSettings(strProjectDir, strProjectName);
+                OpenProject(projSettings);
+            }
+        }
+
         protected void CloseProjectFile()
         {
             Debug.Assert(!Modified);
@@ -264,6 +278,13 @@ namespace OneStoryProjectEditor
         protected void OpenProject(string strProjectFolder, string strProjectName)
         {
             ProjectSettings projSettings = new ProjectSettings(strProjectFolder, strProjectName);
+
+            // see if we can update from a repository first before opening.
+            string strDotHgFolder = projSettings.ProjectFolder + @"\.hg";
+            if (Directory.Exists(strDotHgFolder))
+            {
+                Program.SyncWithRepository(projSettings.ProjectFolder, true);
+            }
             OpenProject(projSettings);
         }
 

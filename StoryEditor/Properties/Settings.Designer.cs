@@ -273,5 +273,41 @@ namespace OneStoryProjectEditor.Properties {
                 this["LastPanoramaViewTabIndex"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string HgRepoUsername {
+            get {
+                return ((string)(this["HgRepoUsername"]));
+            }
+            set {
+                this["HgRepoUsername"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string HgRepoPassword {
+            get {
+                return ((string)(this["HgRepoPassword"]));
+            }
+            set {
+                this["HgRepoPassword"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string HgRepoUrl {
+            get {
+                return ((string)(this["HgRepoUrl"]));
+            }
+            set {
+                this["HgRepoUrl"] = value;
+            }
+        }
     }
 }

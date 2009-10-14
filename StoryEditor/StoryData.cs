@@ -242,7 +242,6 @@ namespace OneStoryProjectEditor
                 projFile.stories.AddstoriesRow(Properties.Resources.IDS_MainStoriesSet, projFile.StoryProject[0]);
                 projFile.stories.AddstoriesRow(Properties.Resources.IDS_ObsoleteStoriesSet, projFile.StoryProject[0]);
             }
-            else
 
             TeamMembers = new TeamMembersData(projFile);
             ProjSettings.SerializeProjectSettings(projFile);

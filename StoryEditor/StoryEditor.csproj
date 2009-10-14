@@ -75,10 +75,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\chorus\output\Debug\LibChorus.dll</HintPath>
     </Reference>
-    <Reference Include="LibChorus.Tests, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\chorus\output\Debug\LibChorus.Tests.dll</HintPath>
-    </Reference>
+    <Reference Include="LibChorus.Tests, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="NetLoc, Version=7.0.100.5029, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -185,6 +182,12 @@
       <DependentUpon>EditRenderingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ExegeticalHelpNotesData.cs" />
+    <Compile Include="HgRepoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HgRepoForm.Designer.cs">
+      <DependentUpon>HgRepoForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="HtmlForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -273,6 +276,9 @@
     <EmbeddedResource Include="EditRenderingsForm.resx">
       <DependentUpon>EditRenderingsForm.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HgRepoForm.resx">
+      <DependentUpon>HgRepoForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HtmlForm.resx">
       <DependentUpon>HtmlForm.cs</DependentUpon>
@@ -406,8 +412,8 @@
     <None Include="Resources\BuilderDialog_moveup.png" />
     <None Include="Resources\BuilderDialog_movedown.PNG" />
     <None Include="Resources\CopyHS.png" />
-    <Content Include="Resources\GoLtrHS.bmp" />
-    <Content Include="Resources\GoRtlHS.bmp" />
+    <None Include="Resources\GoLtrHS.bmp" />
+    <None Include="Resources\GoRtlHS.bmp" />
     <None Include="Resources\Hyperlink.bmp" />
     <Content Include="StageTransitions.xml" />
     <None Include="Properties\app.manifest" />

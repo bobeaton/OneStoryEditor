@@ -17,7 +17,8 @@ namespace OneStoryProjectEditor
         public LanguageInfo NationalBT = new LanguageInfo(new Font("Arial Unicode MS", 12), Color.Green);
         public LanguageInfo InternationalBT = new LanguageInfo("English", "en", new Font("Times New Roman", 10), Color.Blue);
 
-        public bool IsConfigured = false;
+        public bool IsConfigured;
+        public string HgRepoUrl = null;
 
         public ProjectSettings(string strProjectFolderDefaultIfNull, string strProjectName)
         {
@@ -25,7 +26,10 @@ namespace OneStoryProjectEditor
             if (String.IsNullOrEmpty(strProjectFolderDefaultIfNull))
                 _strProjectFolder = String.Format(@"{0}\{1}", OneStoryProjectFolderRoot, ProjectName);
             else
+            {
+                System.Diagnostics.Debug.Assert(strProjectFolderDefaultIfNull[strProjectFolderDefaultIfNull.Length-1] != '\\');
                 _strProjectFolder = strProjectFolderDefaultIfNull;
+            }
         }
 
         public void SerializeProjectSettings(NewDataSet projFile)

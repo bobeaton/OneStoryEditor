@@ -28,7 +28,8 @@ namespace OneStoryProjectEditor
 
     public abstract class ConsultNoteDataConverter : List<CommInstance>
     {
-        public int RoundNum = 0;
+        public int RoundNum;
+        public string guid;
         public bool Visible = true;
 
         public enum CommunicationDirections
@@ -39,13 +40,23 @@ namespace OneStoryProjectEditor
             eCoachToConsultant
         }
 
-        protected ConsultNoteDataConverter()
+        protected ConsultNoteDataConverter(int nRoundNum)
         {
+            RoundNum = nRoundNum;
+            guid = Guid.NewGuid().ToString();
+        }
+
+        protected ConsultNoteDataConverter(int nRoundNum, string strGuid, bool bVisible)
+        {
+            RoundNum = nRoundNum;
+            guid = strGuid;
+            Visible = bVisible;
         }
 
         protected ConsultNoteDataConverter(ConsultNoteDataConverter rhs)
         {
             RoundNum = rhs.RoundNum;
+            guid = rhs.guid;
             Visible = rhs.Visible;
 
             foreach (CommInstance aCI in rhs)
@@ -150,7 +161,10 @@ namespace OneStoryProjectEditor
             {
                 System.Diagnostics.Debug.Assert(Count > 0);
 
-                XElement eleNote = new XElement(InstanceElementName, new XAttribute("round", RoundNum));
+                XElement eleNote = new XElement(InstanceElementName, 
+                    new XAttribute("round", RoundNum),
+                    new XAttribute("guid", guid));
+
                 if (!Visible)
                     eleNote.Add(new XAttribute("visible", "false"));
 
@@ -169,11 +183,8 @@ namespace OneStoryProjectEditor
     public class ConsultantNoteData : ConsultNoteDataConverter
     {
         public ConsultantNoteData(NewDataSet.ConsultantConversationRow aConRow)
+            : base (aConRow.round, aConRow.guid, (aConRow.IsvisibleNull()) ? true : aConRow.visible)
         {
-            RoundNum = aConRow.round;
-            if (!aConRow.IsvisibleNull())
-                Visible = aConRow.visible;
-
             NewDataSet.ConsultantNoteRow[] theNoteRows = aConRow.GetConsultantNoteRows();
             foreach (NewDataSet.ConsultantNoteRow aNoteRow in theNoteRows)
                 Add(new CommInstance(aNoteRow.ConsultantNote_text, GetDirectionFromString(aNoteRow.Direction), aNoteRow.guid));
@@ -184,8 +195,8 @@ namespace OneStoryProjectEditor
 
         public ConsultantNoteData(int nRound, TeamMemberData.UserTypes eLoggedOnMember,
             TeamMemberData.UserTypes eMentorType, TeamMemberData.UserTypes eMenteeType)
+            : base(nRound)
         {
-            RoundNum = nRound;
             InsureExtraBox(eLoggedOnMember, eMentorType, eMenteeType);
         }
 
@@ -256,11 +267,8 @@ namespace OneStoryProjectEditor
     public class CoachNoteData : ConsultNoteDataConverter
     {
         public CoachNoteData(NewDataSet.CoachConversationRow aCoaCRow)
+            : base (aCoaCRow.round, aCoaCRow.guid, (aCoaCRow.IsvisibleNull()) ? true : aCoaCRow.visible)
         {
-            RoundNum = aCoaCRow.round;
-            if (!aCoaCRow.IsvisibleNull())
-                Visible = aCoaCRow.visible;
-
             NewDataSet.CoachNoteRow[] theNoteRows = aCoaCRow.GetCoachNoteRows();
             foreach (NewDataSet.CoachNoteRow aNoteRow in theNoteRows)
                 Add(new CommInstance(aNoteRow.CoachNote_text, GetDirectionFromString(aNoteRow.Direction), aNoteRow.guid));
@@ -268,8 +276,8 @@ namespace OneStoryProjectEditor
 
         public CoachNoteData(int nRound, TeamMemberData.UserTypes eLoggedOnMember,
             TeamMemberData.UserTypes eMentorType, TeamMemberData.UserTypes eMenteeType)
+            : base (nRound)
         {
-            RoundNum = nRound;
             InsureExtraBox(eLoggedOnMember, eMentorType, eMenteeType);
         }
 

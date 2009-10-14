@@ -103,6 +103,7 @@ namespace OneStoryProjectEditor
             this.buttonsStoryStage = new System.Windows.Forms.ToolStripSplitButton();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.helpProvider = new System.Windows.Forms.HelpProvider();
+            this.projectFromTheInternetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
             this.splitContainerLeftRight.Panel2.SuspendLayout();
@@ -141,6 +142,7 @@ namespace OneStoryProjectEditor
             this.saveToolStripMenuItem,
             this.toolStripSeparator1,
             this.browseForProjectToolStripMenuItem,
+            this.projectFromTheInternetToolStripMenuItem,
             this.toolStripSeparator4,
             this.teamMembersToolStripMenuItem,
             this.toolStripSeparator2,
@@ -239,7 +241,7 @@ namespace OneStoryProjectEditor
             this.copyNationalBackTranslationToolStripMenuItem,
             this.copyEnglishBackTranslationToolStripMenuItem});
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.copyToolStripMenuItem.Text = "&Copy";
             // 
             // editCopySelectionToolStripMenuItem
@@ -280,7 +282,7 @@ namespace OneStoryProjectEditor
             // pasteToolStripMenuItem
             // 
             this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.pasteToolStripMenuItem.Text = "&Paste";
             this.pasteToolStripMenuItem.ToolTipText = "Paste the contents of the clipboard into the currently selected text box";
             this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
@@ -293,7 +295,7 @@ namespace OneStoryProjectEditor
             this.deleteEnglishBacktranslationToolStripMenuItem,
             this.deleteTestToolStripMenuItem});
             this.deleteBackTranslationToolStripMenuItem.Name = "deleteBackTranslationToolStripMenuItem";
-            this.deleteBackTranslationToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.deleteBackTranslationToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.deleteBackTranslationToolStripMenuItem.Text = "&Delete";
             // 
             // deleteStoryVersesToolStripMenuItem
@@ -334,7 +336,7 @@ namespace OneStoryProjectEditor
             // editAddTestResultsToolStripMenuItem
             // 
             this.editAddTestResultsToolStripMenuItem.Name = "editAddTestResultsToolStripMenuItem";
-            this.editAddTestResultsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.editAddTestResultsToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.editAddTestResultsToolStripMenuItem.Text = "&Add test results";
             this.editAddTestResultsToolStripMenuItem.ToolTipText = "Click here to add boxes for the answers to the testing questions and the retellin" +
                 "g back translation";
@@ -830,6 +832,15 @@ namespace OneStoryProjectEditor
             this.statusLabel.Spring = true;
             this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // projectFromTheInternetToolStripMenuItem
+            // 
+            this.projectFromTheInternetToolStripMenuItem.Name = "projectFromTheInternetToolStripMenuItem";
+            this.projectFromTheInternetToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.projectFromTheInternetToolStripMenuItem.Text = "&From the Internet";
+            this.projectFromTheInternetToolStripMenuItem.ToolTipText = "Click here to enter an Internet address to get a project from (e.g. if your team " +
+                "mates have already uploaded it to the internet repository)";
+            this.projectFromTheInternetToolStripMenuItem.Click += new System.EventHandler(this.projectFromTheInternetToolStripMenuItem_Click);
+            // 
             // StoryEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -937,6 +948,7 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem panoramaToolStripMenuItem;
         private ToolStripMenuItem editAddTestResultsToolStripMenuItem;
         private ToolStripMenuItem editCopySelectionToolStripMenuItem;
+        private ToolStripMenuItem projectFromTheInternetToolStripMenuItem;
     }
 
     public class ConNoteFlowLayoutPanel : FlowLayoutPanel

@@ -125,6 +125,7 @@
 																						</xs:element>
 																					</xs:sequence>
 																					<xs:attribute name="visible" type="xs:boolean" />
+																					<xs:attribute name="guid" type="xs:string" use="required" />
 																				</xs:complexType>
 																			</xs:element>
 																		</xs:sequence>
@@ -154,6 +155,7 @@
 																						<xs:element name="ConsultantNote" minOccurs="1" maxOccurs="unbounded" type="Comment" />
 																					</xs:sequence>
 																					<xs:attribute name="round" type="xs:unsignedByte" use="required" />
+																					<xs:attribute name="guid" type="xs:string" use="required" />
 																					<xs:attribute name="visible" type="xs:boolean" />
 																				</xs:complexType>
 																			</xs:element>
@@ -169,6 +171,7 @@
 																						<xs:element name="CoachNote" minOccurs="1" maxOccurs="unbounded" type="Comment" />
 																					</xs:sequence>
 																					<xs:attribute name="round" type="xs:unsignedByte" use="required" />
+																					<xs:attribute name="guid" type="xs:string" use="required" />
 																					<xs:attribute name="visible" type="xs:boolean" />
 																				</xs:complexType>
 																			</xs:element>
@@ -197,7 +200,11 @@
 			<xs:attribute name="ProjectName" type="xs:string" use="required" />
 			<xs:attribute name="PanoramaFrontMatter" type="xs:string" />
 		</xs:complexType>
-		<xs:key name="MemberKey" msdata:PrimaryKey="true">
+		<xs:key name="MemberKey">
+			<xs:selector xpath=".//Member" />
+			<xs:field xpath="@name" />
+		</xs:key>
+		<xs:key name="MemberGuidKey" msdata:PrimaryKey="true">
 			<xs:selector xpath=".//Member" />
 			<xs:field xpath="@memberKey" />
 		</xs:key>
@@ -205,8 +212,48 @@
 			<xs:selector xpath=".//story" />
 			<xs:field xpath="@name" />
 		</xs:key>
+		<xs:key name="StoryGuidKey" msdata:PrimaryKey="true">
+			<xs:selector xpath=".//story" />
+			<xs:field xpath="@guid" />
+		</xs:key>
 		<xs:key name="VerseKey" msdata:PrimaryKey="true">
 			<xs:selector xpath=".//verse" />
+			<xs:field xpath="@guid" />
+		</xs:key>
+		<xs:key name="StoriesSetName" msdata:PrimaryKey="true">
+			<xs:selector xpath=".//stories" />
+			<xs:field xpath="@SetName" />
+		</xs:key>
+		<xs:key name="TestorMemberKey" msdata:PrimaryKey="true">
+			<xs:selector xpath=".//Test" />
+			<xs:field xpath="@memberID" />
+		</xs:key>
+		<xs:key name="AnchorKey" msdata:PrimaryKey="true">
+			<xs:selector xpath=".//anchor" />
+			<xs:field xpath="@jumpTarget" />
+		</xs:key>
+		<xs:key name="TestQuestionKey" msdata:PrimaryKey="true">
+			<xs:selector xpath=".//TestQuestion" />
+			<xs:field xpath="@guid" />
+		</xs:key>
+		<xs:key name="AnswerKey" msdata:PrimaryKey="true">
+			<xs:selector xpath=".//answer" />
+			<xs:field xpath="@memberID" />
+		</xs:key>
+		<xs:key name="ConsultantConversationKey" msdata:PrimaryKey="true">
+			<xs:selector xpath=".//ConsultantConversation" />
+			<xs:field xpath="@guid" />
+		</xs:key>
+		<xs:key name="CoachConversationKey" msdata:PrimaryKey="true">
+			<xs:selector xpath=".//CoachConversation" />
+			<xs:field xpath="@guid" />
+		</xs:key>
+		<xs:key name="ConsultantNoteKey" msdata:PrimaryKey="true">
+			<xs:selector xpath=".//ConsultantNote" />
+			<xs:field xpath="@guid" />
+		</xs:key>
+		<xs:key name="CoachNoteKey" msdata:PrimaryKey="true">
+			<xs:selector xpath=".//CoachNote" />
 			<xs:field xpath="@guid" />
 		</xs:key>
 	</xs:element>
@@ -237,23 +284,23 @@
 			<xs:enumeration value="ConsultantCheckStoryQuestions" />
 			<xs:enumeration value="CoachReviewRound1Notes" />
 			<xs:enumeration value="ConsultantReviseRound1Notes" />
-      <xs:enumeration value="BackTranslatorTranslateConNotes" />
+			<xs:enumeration value="BackTranslatorTranslateConNotes" />
 			<xs:enumeration value="ProjFacReviseBasedOnRound1Notes" />
 			<xs:enumeration value="ProjFacOnlineReview1WithConsultant" />
 			<xs:enumeration value="ProjFacReadyForTest1" />
 			<xs:enumeration value="ProjFacEnterAnswersToStoryQuestionsOfTest1" />
 			<xs:enumeration value="ProjFacEnterRetellingOfTest1" />
-      <xs:enumeration value="FirstPassMentorCheck2" />
+			<xs:enumeration value="FirstPassMentorCheck2" />
 			<xs:enumeration value="ConsultantCheck2" />
 			<xs:enumeration value="CoachReviewRound2Notes" />
 			<xs:enumeration value="ConsultantReviseRound2Notes" />
-      <xs:enumeration value="BackTranslatorTranslateConNotes2" />
+			<xs:enumeration value="BackTranslatorTranslateConNotes2" />
 			<xs:enumeration value="ProjFacReviseBasedOnRound2Notes" />
 			<xs:enumeration value="ProjFacOnlineReview2WithConsultant" />
 			<xs:enumeration value="ProjFacReadyForTest2" />
 			<xs:enumeration value="ProjFacEnterAnswersToStoryQuestionsOfTest2" />
 			<xs:enumeration value="ProjFacEnterRetellingOfTest2" />
-      <xs:enumeration value="FirstPassMentorReviewTest2" />
+			<xs:enumeration value="FirstPassMentorReviewTest2" />
 			<xs:enumeration value="ConsultantReviewTest2" />
 			<xs:enumeration value="CoachReviewTest2Notes" />
 			<xs:enumeration value="TeamComplete" />

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
-using System.Text;
 
 namespace OneStoryProjectEditor
 {
     public class TestQuestionData
     {
+        public string guid;
         public bool IsVisible = true;
         public StringTransfer QuestionVernacular = null;
         public StringTransfer QuestionNationalBT = null;
@@ -15,6 +15,7 @@ namespace OneStoryProjectEditor
 
         public TestQuestionData(NewDataSet.TestQuestionRow theTestQuestionRow, NewDataSet projFile)
         {
+            guid = theTestQuestionRow.guid;
             IsVisible = theTestQuestionRow.visible;
 
             QuestionVernacular = new StringTransfer((theTestQuestionRow.IsTQVernacularNull()) ? null : theTestQuestionRow.TQVernacular);
@@ -25,6 +26,7 @@ namespace OneStoryProjectEditor
 
         public TestQuestionData(TestQuestionData rhs)
         {
+            guid = rhs.guid;
             IsVisible = rhs.IsVisible;
             QuestionVernacular = new StringTransfer(rhs.QuestionVernacular.ToString());
             QuestionNationalBT = new StringTransfer(rhs.QuestionNationalBT.ToString());
@@ -34,6 +36,7 @@ namespace OneStoryProjectEditor
 
         public TestQuestionData()
         {
+            guid = Guid.NewGuid().ToString();
             QuestionVernacular = new StringTransfer(null);
             QuestionNationalBT = new StringTransfer(null);
             QuestionInternationalBT = new StringTransfer(null);
@@ -60,7 +63,9 @@ namespace OneStoryProjectEditor
                     || QuestionInternationalBT.HasData
                     || Answers.HasData, "you have an empty TestQuestionData");
 
-                XElement eleTQ = new XElement("TestQuestion", new XAttribute("visible", IsVisible));
+                XElement eleTQ = new XElement("TestQuestion", 
+                    new XAttribute("visible", IsVisible),
+                    new XAttribute("guid", guid));
                 
                 if (QuestionVernacular.HasData)
                     eleTQ.Add(new XElement("TQVernacular", QuestionVernacular));

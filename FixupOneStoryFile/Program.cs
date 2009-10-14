@@ -33,6 +33,7 @@ namespace FixupOneStoryFile
                 FixupCrafterToConNoteDirection(doc, ref bFound);
                 FixupProjectName(doc, ref bFound);
                 FixupEmbedStories(doc, ref bFound);
+                FixupGuidAdditions(doc, ref bFound);
 
                 if (bFound)
                     doc.Save(strFilename);
@@ -40,6 +41,27 @@ namespace FixupOneStoryFile
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+        }
+
+        static void FixupGuidAdditions(XDocument doc, ref bool bFound)
+        {
+            foreach (XElement elem in doc.XPathSelectElements("//ConsultantNotes/ConsultantConversation[not(@guid)]"))
+            {
+                elem.Add(new XAttribute("guid", Guid.NewGuid().ToString()));
+                bFound = true;
+            }
+
+            foreach (XElement elem in doc.XPathSelectElements("//CoachNotes/CoachConversation[not(@guid)]"))
+            {
+                elem.Add(new XAttribute("guid", Guid.NewGuid().ToString()));
+                bFound = true;
+            }
+
+            foreach (XElement elem in doc.XPathSelectElements("//TestQuestions/TestQuestion[not(@guid)]"))
+            {
+                elem.Add(new XAttribute("guid", Guid.NewGuid().ToString()));
+                bFound = true;
             }
         }
 

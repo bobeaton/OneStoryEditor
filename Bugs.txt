@@ -1,1 +1,5 @@
 clicking on insert answer for ... menu causes one of them to be selected when it should only bring up the drop down
+if the Get from internet fails, it will have created the folder, but nothing will be in it, but still it won't allow it again without first deleteing the folder
+I can't store the project name as part of the url in the app.config, because what if there are multiple projects
+if the font isn't present, it will overwrite the desired font with the font it finds. If the desired font isn't installed, then don't overwrite it (use the fallback, but don't clobber the desired font in the project file).
+

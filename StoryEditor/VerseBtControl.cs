@@ -240,6 +240,8 @@ namespace OneStoryProjectEditor
             */
             if (theSE.viewStoryTestingQuestionFieldMenuItem.Checked)
                 AddRemoveTestQuestionsAndAnswersSubmenus(_verseData.TestQuestions);
+
+            removeToolStripMenuItem.Enabled = (removeToolStripMenuItem.DropDown.Items.Count > 0);
         }
 
         protected void AddRemoveTestQuestionsAndAnswersSubmenus(TestQuestionsData theTQs)
