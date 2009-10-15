@@ -33,15 +33,20 @@
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.buttonOK = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
+            this.checkBoxNationalLangBT = new System.Windows.Forms.CheckBox();
+            this.checkBoxVernacular = new System.Windows.Forms.CheckBox();
+            this.buttonVernacularFont = new System.Windows.Forms.Button();
+            this.buttonNationalBTFont = new System.Windows.Forms.Button();
+            this.labelStoryLanguage = new System.Windows.Forms.Label();
+            this.labelNationalBTLanguage = new System.Windows.Forms.Label();
+            this.buttonInternationalBTFont = new System.Windows.Forms.Button();
             this.textBoxNationalBTLanguage = new System.Windows.Forms.TextBox();
             this.textBoxNationalBTEthCode = new System.Windows.Forms.TextBox();
             this.textBoxVernSentFullStop = new System.Windows.Forms.TextBox();
             this.textBoxNationalBTSentFullStop = new System.Windows.Forms.TextBox();
-            this.checkBoxNationalLangBT = new System.Windows.Forms.CheckBox();
             this.checkBoxEnglishBT = new System.Windows.Forms.CheckBox();
             this.checkBoxVernacularRTL = new System.Windows.Forms.CheckBox();
             this.checkBoxNationalRTL = new System.Windows.Forms.CheckBox();
-            this.checkBoxVernacular = new System.Windows.Forms.CheckBox();
             this.textBoxVernacular = new System.Windows.Forms.TextBox();
             this.textBoxVernacularEthCode = new System.Windows.Forms.TextBox();
             this.buttonAddNewMember = new System.Windows.Forms.Button();
@@ -49,8 +54,6 @@
             this.buttonDeleteMember = new System.Windows.Forms.Button();
             this.listBoxTeamMembers = new System.Windows.Forms.ListBox();
             this.listBoxMemberRoles = new System.Windows.Forms.ListBox();
-            this.buttonVernacularFont = new System.Windows.Forms.Button();
-            this.buttonNationalBTFont = new System.Windows.Forms.Button();
             this.tabControlProjectMetaData = new System.Windows.Forms.TabControl();
             this.tabPageMemberList = new System.Windows.Forms.TabPage();
             this.tableLayoutPanelTeamMembers = new System.Windows.Forms.TableLayoutPanel();
@@ -59,10 +62,7 @@
             this.tabPageLanguageInfo = new System.Windows.Forms.TabPage();
             this.tableLayoutPanelLanguageInformation = new System.Windows.Forms.TableLayoutPanel();
             this.labelLanguageName = new System.Windows.Forms.Label();
-            this.labelStoryLanguage = new System.Windows.Forms.Label();
-            this.labelNationalBTLanguage = new System.Windows.Forms.Label();
             this.labelEthnologueCode = new System.Windows.Forms.Label();
-            this.buttonInternationalBTFont = new System.Windows.Forms.Button();
             this.labelProjectName = new System.Windows.Forms.Label();
             this.textBoxProjectName = new System.Windows.Forms.TextBox();
             this.labelFont = new System.Windows.Forms.Label();
@@ -105,6 +105,117 @@
             this.toolTip.SetToolTip(this.buttonCancel, "Click to cancel this dialog");
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
+            // 
+            // checkBoxNationalLangBT
+            // 
+            this.checkBoxNationalLangBT.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.checkBoxNationalLangBT.AutoSize = true;
+            this.checkBoxNationalLangBT.Checked = true;
+            this.checkBoxNationalLangBT.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.checkBoxNationalLangBT, 2);
+            this.helpProvider.SetHelpString(this.checkBoxNationalLangBT, "Check this box to configure the project to use a national langauage (e.g. Hindi) " +
+                    "as the primary back-translation for checking");
+            this.checkBoxNationalLangBT.Location = new System.Drawing.Point(324, 74);
+            this.checkBoxNationalLangBT.Name = "checkBoxNationalLangBT";
+            this.helpProvider.SetShowHelp(this.checkBoxNationalLangBT, true);
+            this.checkBoxNationalLangBT.Size = new System.Drawing.Size(170, 17);
+            this.checkBoxNationalLangBT.TabIndex = 6;
+            this.checkBoxNationalLangBT.Text = "Project will use a National BT?";
+            this.toolTip.SetToolTip(this.checkBoxNationalLangBT, "Check this box to configure the project to use a national langauage (e.g. Hindi) " +
+                    "as the primary back-translation for checking");
+            this.checkBoxNationalLangBT.UseVisualStyleBackColor = true;
+            this.checkBoxNationalLangBT.CheckedChanged += new System.EventHandler(this.checkBoxNationalLangBT_CheckedChanged);
+            // 
+            // checkBoxVernacular
+            // 
+            this.checkBoxVernacular.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.checkBoxVernacular.AutoSize = true;
+            this.checkBoxVernacular.Checked = true;
+            this.checkBoxVernacular.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.checkBoxVernacular, 2);
+            this.helpProvider.SetHelpString(this.checkBoxVernacular, "Check this box to configure the project to store the story in the story language " +
+                    "(i.e. as opposed to only storing one or other of the back-translations)");
+            this.checkBoxVernacular.Location = new System.Drawing.Point(104, 74);
+            this.checkBoxVernacular.Name = "checkBoxVernacular";
+            this.helpProvider.SetShowHelp(this.checkBoxVernacular, true);
+            this.checkBoxVernacular.Size = new System.Drawing.Size(214, 17);
+            this.checkBoxVernacular.TabIndex = 21;
+            this.checkBoxVernacular.Text = "Project will display the Story language line?";
+            this.toolTip.SetToolTip(this.checkBoxVernacular, "Check this box to configure the project to store the story in the story language " +
+                    "(i.e. as opposed to only storing one or other of the back-translations)");
+            this.checkBoxVernacular.UseVisualStyleBackColor = true;
+            this.checkBoxVernacular.CheckedChanged += new System.EventHandler(this.checkBoxVernacular_CheckedChanged);
+            // 
+            // buttonVernacularFont
+            // 
+            this.buttonVernacularFont.Location = new System.Drawing.Point(104, 176);
+            this.buttonVernacularFont.Name = "buttonVernacularFont";
+            this.buttonVernacularFont.Size = new System.Drawing.Size(85, 23);
+            this.buttonVernacularFont.TabIndex = 3;
+            this.buttonVernacularFont.Text = "&Choose Font";
+            this.toolTip.SetToolTip(this.buttonVernacularFont, "Click this button to configure the font and color of font to use for this languag" +
+                    "e");
+            this.buttonVernacularFont.UseVisualStyleBackColor = true;
+            this.buttonVernacularFont.Click += new System.EventHandler(this.buttonVernacularFont_Click);
+            // 
+            // buttonNationalBTFont
+            // 
+            this.buttonNationalBTFont.Location = new System.Drawing.Point(324, 176);
+            this.buttonNationalBTFont.Name = "buttonNationalBTFont";
+            this.buttonNationalBTFont.Size = new System.Drawing.Size(85, 23);
+            this.buttonNationalBTFont.TabIndex = 10;
+            this.buttonNationalBTFont.Text = "Choose &Font";
+            this.toolTip.SetToolTip(this.buttonNationalBTFont, "Click this button to configure the font and color of font to use for this languag" +
+                    "e");
+            this.buttonNationalBTFont.UseVisualStyleBackColor = true;
+            this.buttonNationalBTFont.Click += new System.EventHandler(this.buttonNationalBTFont_Click);
+            // 
+            // labelStoryLanguage
+            // 
+            this.labelStoryLanguage.AutoSize = true;
+            this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.labelStoryLanguage, 2);
+            this.labelStoryLanguage.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.labelStoryLanguage.Font = new System.Drawing.Font("Segoe UI", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.helpProvider.SetHelpString(this.labelStoryLanguage, "This area is for configuring the language to use for the story lines (i.e. the la" +
+                    "nguage that the story is spoken in)");
+            this.labelStoryLanguage.Location = new System.Drawing.Point(104, 50);
+            this.labelStoryLanguage.Name = "labelStoryLanguage";
+            this.helpProvider.SetShowHelp(this.labelStoryLanguage, true);
+            this.labelStoryLanguage.Size = new System.Drawing.Size(214, 21);
+            this.labelStoryLanguage.TabIndex = 2;
+            this.labelStoryLanguage.Text = "Story Language";
+            this.labelStoryLanguage.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.toolTip.SetToolTip(this.labelStoryLanguage, "Language of the stories");
+            // 
+            // labelNationalBTLanguage
+            // 
+            this.labelNationalBTLanguage.AutoSize = true;
+            this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.labelNationalBTLanguage, 2);
+            this.labelNationalBTLanguage.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.labelNationalBTLanguage.Font = new System.Drawing.Font("Segoe UI", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.helpProvider.SetHelpString(this.labelNationalBTLanguage, "This area is for configuring the national or regional language to use for a back-" +
+                    "translation");
+            this.labelNationalBTLanguage.Location = new System.Drawing.Point(324, 50);
+            this.labelNationalBTLanguage.Name = "labelNationalBTLanguage";
+            this.helpProvider.SetShowHelp(this.labelNationalBTLanguage, true);
+            this.labelNationalBTLanguage.Size = new System.Drawing.Size(215, 21);
+            this.labelNationalBTLanguage.TabIndex = 6;
+            this.labelNationalBTLanguage.Text = "National BT Language";
+            this.labelNationalBTLanguage.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.toolTip.SetToolTip(this.labelNationalBTLanguage, "National or Regional back-translation language");
+            // 
+            // buttonInternationalBTFont
+            // 
+            this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.buttonInternationalBTFont, 2);
+            this.buttonInternationalBTFont.Location = new System.Drawing.Point(324, 276);
+            this.buttonInternationalBTFont.Name = "buttonInternationalBTFont";
+            this.buttonInternationalBTFont.Size = new System.Drawing.Size(108, 23);
+            this.buttonInternationalBTFont.TabIndex = 14;
+            this.buttonInternationalBTFont.Text = "&English BT Font";
+            this.toolTip.SetToolTip(this.buttonInternationalBTFont, "Click this button to configure the font and color of font to use for this languag" +
+                    "e");
+            this.buttonInternationalBTFont.UseVisualStyleBackColor = true;
+            this.buttonInternationalBTFont.Click += new System.EventHandler(this.buttonInternationalBTFont_Click);
             // 
             // textBoxNationalBTLanguage
             // 
@@ -160,26 +271,6 @@
             this.textBoxNationalBTSentFullStop.Leave += new System.EventHandler(this.textBoxSentFullStop_Leave);
             this.textBoxNationalBTSentFullStop.Enter += new System.EventHandler(this.textBoxNationalBTSentFullStop_Enter);
             // 
-            // checkBoxNationalLangBT
-            // 
-            this.checkBoxNationalLangBT.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.checkBoxNationalLangBT.AutoSize = true;
-            this.checkBoxNationalLangBT.Checked = true;
-            this.checkBoxNationalLangBT.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.checkBoxNationalLangBT, 2);
-            this.helpProvider.SetHelpString(this.checkBoxNationalLangBT, "Check this box to configure the project to use a national langauage (e.g. Hindi) " +
-                    "as the primary back-translation for checking");
-            this.checkBoxNationalLangBT.Location = new System.Drawing.Point(324, 74);
-            this.checkBoxNationalLangBT.Name = "checkBoxNationalLangBT";
-            this.helpProvider.SetShowHelp(this.checkBoxNationalLangBT, true);
-            this.checkBoxNationalLangBT.Size = new System.Drawing.Size(170, 17);
-            this.checkBoxNationalLangBT.TabIndex = 6;
-            this.checkBoxNationalLangBT.Text = "Project will use a National BT?";
-            this.toolTip.SetToolTip(this.checkBoxNationalLangBT, "Check this box to configure the project to use a national langauage (e.g. Hindi) " +
-                    "as the primary back-translation for checking");
-            this.checkBoxNationalLangBT.UseVisualStyleBackColor = true;
-            this.checkBoxNationalLangBT.CheckedChanged += new System.EventHandler(this.checkBoxNationalLangBT_CheckedChanged);
-            // 
             // checkBoxEnglishBT
             // 
             this.checkBoxEnglishBT.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -223,26 +314,6 @@
             this.checkBoxNationalRTL.TabIndex = 11;
             this.checkBoxNationalRTL.Text = "Right to left";
             this.checkBoxNationalRTL.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxVernacular
-            // 
-            this.checkBoxVernacular.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.checkBoxVernacular.AutoSize = true;
-            this.checkBoxVernacular.Checked = true;
-            this.checkBoxVernacular.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.checkBoxVernacular, 2);
-            this.helpProvider.SetHelpString(this.checkBoxVernacular, "Check this box to configure the project to store the story in the story language " +
-                    "(i.e. as opposed to only storing one or other of the back-translations)");
-            this.checkBoxVernacular.Location = new System.Drawing.Point(104, 74);
-            this.checkBoxVernacular.Name = "checkBoxVernacular";
-            this.helpProvider.SetShowHelp(this.checkBoxVernacular, true);
-            this.checkBoxVernacular.Size = new System.Drawing.Size(214, 17);
-            this.checkBoxVernacular.TabIndex = 21;
-            this.checkBoxVernacular.Text = "Project will display the Story language line?";
-            this.toolTip.SetToolTip(this.checkBoxVernacular, "Check this box to configure the project to store the story in the story language " +
-                    "(i.e. as opposed to only storing one or other of the back-translations)");
-            this.checkBoxVernacular.UseVisualStyleBackColor = true;
-            this.checkBoxVernacular.CheckedChanged += new System.EventHandler(this.checkBoxVernacular_CheckedChanged);
             // 
             // textBoxVernacular
             // 
@@ -340,30 +411,6 @@
             this.listBoxMemberRoles.Size = new System.Drawing.Size(206, 355);
             this.listBoxMemberRoles.TabIndex = 7;
             this.listBoxMemberRoles.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBoxMemberRoles_MouseDoubleClick);
-            // 
-            // buttonVernacularFont
-            // 
-            this.buttonVernacularFont.Location = new System.Drawing.Point(104, 176);
-            this.buttonVernacularFont.Name = "buttonVernacularFont";
-            this.buttonVernacularFont.Size = new System.Drawing.Size(85, 23);
-            this.buttonVernacularFont.TabIndex = 3;
-            this.buttonVernacularFont.Text = "&Choose Font";
-            this.toolTip.SetToolTip(this.buttonVernacularFont, "Click this button to configure the font and color of font to use for this languag" +
-                    "e");
-            this.buttonVernacularFont.UseVisualStyleBackColor = true;
-            this.buttonVernacularFont.Click += new System.EventHandler(this.buttonVernacularFont_Click);
-            // 
-            // buttonNationalBTFont
-            // 
-            this.buttonNationalBTFont.Location = new System.Drawing.Point(324, 176);
-            this.buttonNationalBTFont.Name = "buttonNationalBTFont";
-            this.buttonNationalBTFont.Size = new System.Drawing.Size(85, 23);
-            this.buttonNationalBTFont.TabIndex = 10;
-            this.buttonNationalBTFont.Text = "Choose &Font";
-            this.toolTip.SetToolTip(this.buttonNationalBTFont, "Click this button to configure the font and color of font to use for this languag" +
-                    "e");
-            this.buttonNationalBTFont.UseVisualStyleBackColor = true;
-            this.buttonNationalBTFont.Click += new System.EventHandler(this.buttonNationalBTFont_Click);
             // 
             // tabControlProjectMetaData
             // 
@@ -514,40 +561,6 @@
             this.labelLanguageName.TabIndex = 3;
             this.labelLanguageName.Text = "&Name:";
             // 
-            // labelStoryLanguage
-            // 
-            this.labelStoryLanguage.AutoSize = true;
-            this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.labelStoryLanguage, 2);
-            this.labelStoryLanguage.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.labelStoryLanguage.Font = new System.Drawing.Font("Segoe UI", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.helpProvider.SetHelpString(this.labelStoryLanguage, "This area is for configuring the language to use for the story lines (i.e. the la" +
-                    "nguage that the story is spoken in)");
-            this.labelStoryLanguage.Location = new System.Drawing.Point(104, 50);
-            this.labelStoryLanguage.Name = "labelStoryLanguage";
-            this.helpProvider.SetShowHelp(this.labelStoryLanguage, true);
-            this.labelStoryLanguage.Size = new System.Drawing.Size(214, 21);
-            this.labelStoryLanguage.TabIndex = 2;
-            this.labelStoryLanguage.Text = "Story Language";
-            this.labelStoryLanguage.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.toolTip.SetToolTip(this.labelStoryLanguage, "Language of the stories");
-            // 
-            // labelNationalBTLanguage
-            // 
-            this.labelNationalBTLanguage.AutoSize = true;
-            this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.labelNationalBTLanguage, 2);
-            this.labelNationalBTLanguage.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.labelNationalBTLanguage.Font = new System.Drawing.Font("Segoe UI", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.helpProvider.SetHelpString(this.labelNationalBTLanguage, "This area is for configuring the national or regional language to use for a back-" +
-                    "translation");
-            this.labelNationalBTLanguage.Location = new System.Drawing.Point(324, 50);
-            this.labelNationalBTLanguage.Name = "labelNationalBTLanguage";
-            this.helpProvider.SetShowHelp(this.labelNationalBTLanguage, true);
-            this.labelNationalBTLanguage.Size = new System.Drawing.Size(215, 21);
-            this.labelNationalBTLanguage.TabIndex = 6;
-            this.labelNationalBTLanguage.Text = "National BT Language";
-            this.labelNationalBTLanguage.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.toolTip.SetToolTip(this.labelNationalBTLanguage, "National or Regional back-translation language");
-            // 
             // labelEthnologueCode
             // 
             this.labelEthnologueCode.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -557,19 +570,6 @@
             this.labelEthnologueCode.Size = new System.Drawing.Size(62, 13);
             this.labelEthnologueCode.TabIndex = 5;
             this.labelEthnologueCode.Text = "&Ethn. code:";
-            // 
-            // buttonInternationalBTFont
-            // 
-            this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.buttonInternationalBTFont, 2);
-            this.buttonInternationalBTFont.Location = new System.Drawing.Point(324, 276);
-            this.buttonInternationalBTFont.Name = "buttonInternationalBTFont";
-            this.buttonInternationalBTFont.Size = new System.Drawing.Size(108, 23);
-            this.buttonInternationalBTFont.TabIndex = 14;
-            this.buttonInternationalBTFont.Text = "&English BT Font";
-            this.toolTip.SetToolTip(this.buttonInternationalBTFont, "Click this button to configure the font and color of font to use for this languag" +
-                    "e");
-            this.buttonInternationalBTFont.UseVisualStyleBackColor = true;
-            this.buttonInternationalBTFont.Click += new System.EventHandler(this.buttonInternationalBTFont_Click);
             // 
             // labelProjectName
             // 

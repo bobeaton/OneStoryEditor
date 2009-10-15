@@ -49,8 +49,8 @@ namespace OneStoryProjectEditor
                     || (aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT));
 
                 InitTextBox(CstrFieldNameVernacular, _aVerseData.VernacularText, 
-                    aSE.StoryProject.ProjSettings.Vernacular, bDisableTabStopVernacular,
-                    nNumColumns);
+                    aSE.StoryProject.ProjSettings.Vernacular, aSE.LoggedOnMember.OverrideVernacularKeyboard,
+                    bDisableTabStopVernacular, nNumColumns);
                 nNumColumns++;
             }
 
@@ -66,9 +66,8 @@ namespace OneStoryProjectEditor
                     || (aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT));
 
                 InitTextBox(CstrFieldNameNationalBt, _aVerseData.NationalBTText, 
-                    aSE.StoryProject.ProjSettings.NationalBT, 
-                    bDisableTabStopNationalBT,
-                    nNumColumns);
+                    aSE.StoryProject.ProjSettings.NationalBT, aSE.LoggedOnMember.OverrideNationalBTKeyboard,
+                    bDisableTabStopNationalBT, nNumColumns);
 
                 nNumColumns++;
             }
@@ -79,7 +78,7 @@ namespace OneStoryProjectEditor
                 InitLabel(aSE.StoryProject.ProjSettings.InternationalBT.LangName, nNumColumns);
 
                 InitTextBox(CstrFieldNameInternationalBt, _aVerseData.InternationalBTText, 
-                    aSE.StoryProject.ProjSettings.InternationalBT, false, nNumColumns);
+                    aSE.StoryProject.ProjSettings.InternationalBT, null, false, nNumColumns);
                 nNumColumns++;
             }
 
@@ -127,10 +126,10 @@ namespace OneStoryProjectEditor
         }
 
         protected void InitTextBox(string strTbName, StringTransfer strTbText, 
-            ProjectSettings.LanguageInfo li, bool bDisableTabStop, int nLayoutColumn)
+            ProjectSettings.LanguageInfo li, string strOverrideKeyboard, bool bDisableTabStop, int nLayoutColumn)
         {
             System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(strTbName + CstrSuffixTextBox), "otherwise, fix wrong assumption");
-            CtrlTextBox tb = new CtrlTextBox(strTbName + CstrSuffixTextBox, this, strTbText, li);
+            CtrlTextBox tb = new CtrlTextBox(strTbName + CstrSuffixTextBox, this, strTbText, li, strOverrideKeyboard);
             tb.TabStop = !bDisableTabStop;
             tableLayoutPanel.Controls.Add(tb, nLayoutColumn, 1);
         }

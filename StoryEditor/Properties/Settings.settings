@@ -20,18 +20,6 @@
     <Setting Name="LastProject" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="LastResourcesUsed" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Jubilee Hindi Bible, Fish Bible, New Living Translation, Genesis Film</Value>
-    </Setting>
-    <Setting Name="RemoteUrl" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">ftp://ftp.seedconnect.org/HgRep/</Value>
-    </Setting>
-    <Setting Name="RemoteUrlUsername" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Bob_Eaton</Value>
-    </Setting>
-    <Setting Name="RemoteUrlPassword" Type="System.String" Scope="User">
-      <Value Profile="(Default)">tsc2009</Value>
-    </Setting>
     <Setting Name="DefMyDocsSubfolder" Type="System.String" Scope="Application">
       <Value Profile="(Default)">OneStory</Value>
     </Setting>
@@ -163,13 +151,10 @@ DoAdaptingBeforeGlossing_InVerticalEdit	1</Value>
     <Setting Name="LastPanoramaViewTabIndex" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="HgRepoUsername" Type="System.String" Scope="User">
+    <Setting Name="ProjectNameToHgUrl" Type="System.Collections.Specialized.StringCollection" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="HgRepoPassword" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="HgRepoUrl" Type="System.String" Scope="User">
+    <Setting Name="ProjectNameToHgUsername" Type="System.Collections.Specialized.StringCollection" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>

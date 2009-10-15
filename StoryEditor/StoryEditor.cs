@@ -145,11 +145,27 @@ namespace OneStoryProjectEditor
                 if (DialogResult.Cancel == dlg.ShowDialog())
                     return;
 
-                string strProjectDir = dlg.PathToNewProject;
                 string strProjectName = Path.GetFileNameWithoutExtension(dlg.PathToNewProject);
-                ProjectSettings projSettings = new ProjectSettings(strProjectDir, strProjectName);
+
+                // we can save this information so we can use it automatically during the next restart
+                string strUsername = ExtractUsernameFromUrl(dlg.URL);
+                Program.SetHgParameters(strProjectName, dlg.URL, strUsername);
+                ProjectSettings projSettings = new ProjectSettings(dlg.PathToNewProject, strProjectName);
                 OpenProject(projSettings);
             }
+        }
+
+        private static string ExtractUsernameFromUrl(string url)
+        {
+            // e.g. http://bobeaton:helpmepld@hg-private.languagedepot.org/
+            int nIndex = url.IndexOf("//") + 2;
+            if (nIndex != -1)
+            {
+                int nIndexEnd = url.IndexOf(':', nIndex);
+                if (nIndexEnd != -1)
+                    return url.Substring(nIndex, nIndexEnd - nIndex);
+            }
+            return null;
         }
 
         protected void CloseProjectFile()

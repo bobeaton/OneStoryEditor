@@ -94,51 +94,6 @@ namespace OneStoryProjectEditor.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Jubilee Hindi Bible, Fish Bible, New Living Translation, Genesis Film")]
-        public string LastResourcesUsed {
-            get {
-                return ((string)(this["LastResourcesUsed"]));
-            }
-            set {
-                this["LastResourcesUsed"] = value;
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("ftp://ftp.seedconnect.org/HgRep/")]
-        public string RemoteUrl {
-            get {
-                return ((string)(this["RemoteUrl"]));
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Bob_Eaton")]
-        public string RemoteUrlUsername {
-            get {
-                return ((string)(this["RemoteUrlUsername"]));
-            }
-            set {
-                this["RemoteUrlUsername"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("tsc2009")]
-        public string RemoteUrlPassword {
-            get {
-                return ((string)(this["RemoteUrlPassword"]));
-            }
-            set {
-                this["RemoteUrlPassword"] = value;
-            }
-        }
-        
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("OneStory")]
@@ -276,37 +231,23 @@ namespace OneStoryProjectEditor.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string HgRepoUsername {
+        public global::System.Collections.Specialized.StringCollection ProjectNameToHgUrl {
             get {
-                return ((string)(this["HgRepoUsername"]));
+                return ((global::System.Collections.Specialized.StringCollection)(this["ProjectNameToHgUrl"]));
             }
             set {
-                this["HgRepoUsername"] = value;
+                this["ProjectNameToHgUrl"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string HgRepoPassword {
+        public global::System.Collections.Specialized.StringCollection ProjectNameToHgUsername {
             get {
-                return ((string)(this["HgRepoPassword"]));
+                return ((global::System.Collections.Specialized.StringCollection)(this["ProjectNameToHgUsername"]));
             }
             set {
-                this["HgRepoPassword"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string HgRepoUrl {
-            get {
-                return ((string)(this["HgRepoUrl"]));
-            }
-            set {
-                this["HgRepoUrl"] = value;
+                this["ProjectNameToHgUsername"] = value;
             }
         }
     }

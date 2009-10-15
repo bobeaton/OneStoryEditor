@@ -95,20 +95,6 @@ namespace OneStoryProjectEditor.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap GoLtrHS {
-            get {
-                object obj = ResourceManager.GetObject("GoLtrHS", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap GoRtlHS {
-            get {
-                object obj = ResourceManager.GetObject("GoRtlHS", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap Hyperlink {
             get {
                 object obj = ResourceManager.GetObject("Hyperlink", resourceCulture);
@@ -167,6 +153,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_ChooseTheStoryCrafter {
             get {
                 return ResourceManager.GetString("IDS_ChooseTheStoryCrafter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Click &apos;Yes&apos; to override the &apos;{0}&apos; keyboard for yourself (&apos;{1}&apos;) only. Click &apos;No&apos; to make this change apply to every member of the team (if you all are switching to a new keyboard)..
+        /// </summary>
+        internal static string IDS_ConfirmKeyboardOverride {
+            get {
+                return ResourceManager.GetString("IDS_ConfirmKeyboardOverride", resourceCulture);
             }
         }
         

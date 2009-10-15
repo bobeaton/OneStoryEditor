@@ -2225,6 +2225,8 @@ namespace OneStoryProjectEditor {
             
             private global::System.Data.DataColumn columnmemberType;
             
+            private global::System.Data.DataColumn columnmemberKey;
+            
             private global::System.Data.DataColumn columnemail;
             
             private global::System.Data.DataColumn columnaltPhone;
@@ -2237,7 +2239,9 @@ namespace OneStoryProjectEditor {
             
             private global::System.Data.DataColumn columnteamViewerID;
             
-            private global::System.Data.DataColumn columnmemberKey;
+            private global::System.Data.DataColumn columnOverrideVernacularKeyboard;
+            
+            private global::System.Data.DataColumn columnOverrideNationalBTKeyboard;
             
             private global::System.Data.DataColumn columnMembers_Id;
             
@@ -2286,6 +2290,13 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn memberKeyColumn {
+                get {
+                    return this.columnmemberKey;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public global::System.Data.DataColumn emailColumn {
                 get {
                     return this.columnemail;
@@ -2328,9 +2339,16 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn memberKeyColumn {
+            public global::System.Data.DataColumn OverrideVernacularKeyboardColumn {
                 get {
-                    return this.columnmemberKey;
+                    return this.columnOverrideVernacularKeyboard;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn OverrideNationalBTKeyboardColumn {
+                get {
+                    return this.columnOverrideNationalBTKeyboard;
                 }
             }
             
@@ -2370,21 +2388,23 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public MemberRow AddMemberRow(string name, string memberType, string email, string altPhone, string phone, string bioData, string skypeID, string teamViewerID, string memberKey, MembersRow parentMembersRowByMembers_Member) {
+            public MemberRow AddMemberRow(string name, string memberType, string memberKey, string email, string altPhone, string phone, string bioData, string skypeID, string teamViewerID, string OverrideVernacularKeyboard, string OverrideNationalBTKeyboard, MembersRow parentMembersRowByMembers_Member) {
                 MemberRow rowMemberRow = ((MemberRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         name,
                         memberType,
+                        memberKey,
                         email,
                         altPhone,
                         phone,
                         bioData,
                         skypeID,
                         teamViewerID,
-                        memberKey,
+                        OverrideVernacularKeyboard,
+                        OverrideNationalBTKeyboard,
                         null};
                 if ((parentMembersRowByMembers_Member != null)) {
-                    columnValuesArray[9] = parentMembersRowByMembers_Member[0];
+                    columnValuesArray[11] = parentMembersRowByMembers_Member[0];
                 }
                 rowMemberRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowMemberRow);
@@ -2407,13 +2427,15 @@ namespace OneStoryProjectEditor {
             internal void InitVars() {
                 this.columnname = base.Columns["name"];
                 this.columnmemberType = base.Columns["memberType"];
+                this.columnmemberKey = base.Columns["memberKey"];
                 this.columnemail = base.Columns["email"];
                 this.columnaltPhone = base.Columns["altPhone"];
                 this.columnphone = base.Columns["phone"];
                 this.columnbioData = base.Columns["bioData"];
                 this.columnskypeID = base.Columns["skypeID"];
                 this.columnteamViewerID = base.Columns["teamViewerID"];
-                this.columnmemberKey = base.Columns["memberKey"];
+                this.columnOverrideVernacularKeyboard = base.Columns["OverrideVernacularKeyboard"];
+                this.columnOverrideNationalBTKeyboard = base.Columns["OverrideNationalBTKeyboard"];
                 this.columnMembers_Id = base.Columns["Members_Id"];
             }
             
@@ -2423,6 +2445,8 @@ namespace OneStoryProjectEditor {
                 base.Columns.Add(this.columnname);
                 this.columnmemberType = new global::System.Data.DataColumn("memberType", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnmemberType);
+                this.columnmemberKey = new global::System.Data.DataColumn("memberKey", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnmemberKey);
                 this.columnemail = new global::System.Data.DataColumn("email", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnemail);
                 this.columnaltPhone = new global::System.Data.DataColumn("altPhone", typeof(string), null, global::System.Data.MappingType.Attribute);
@@ -2435,22 +2459,26 @@ namespace OneStoryProjectEditor {
                 base.Columns.Add(this.columnskypeID);
                 this.columnteamViewerID = new global::System.Data.DataColumn("teamViewerID", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnteamViewerID);
-                this.columnmemberKey = new global::System.Data.DataColumn("memberKey", typeof(string), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnmemberKey);
+                this.columnOverrideVernacularKeyboard = new global::System.Data.DataColumn("OverrideVernacularKeyboard", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnOverrideVernacularKeyboard);
+                this.columnOverrideNationalBTKeyboard = new global::System.Data.DataColumn("OverrideNationalBTKeyboard", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnOverrideNationalBTKeyboard);
                 this.columnMembers_Id = new global::System.Data.DataColumn("Members_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnMembers_Id);
                 this.columnname.AllowDBNull = false;
                 this.columnname.Namespace = "";
                 this.columnmemberType.AllowDBNull = false;
                 this.columnmemberType.Namespace = "";
+                this.columnmemberKey.AllowDBNull = false;
+                this.columnmemberKey.Namespace = "";
                 this.columnemail.Namespace = "";
                 this.columnaltPhone.Namespace = "";
                 this.columnphone.Namespace = "";
                 this.columnbioData.Namespace = "";
                 this.columnskypeID.Namespace = "";
                 this.columnteamViewerID.Namespace = "";
-                this.columnmemberKey.AllowDBNull = false;
-                this.columnmemberKey.Namespace = "";
+                this.columnOverrideVernacularKeyboard.Namespace = "";
+                this.columnOverrideNationalBTKeyboard.Namespace = "";
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -10558,6 +10586,16 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string memberKey {
+                get {
+                    return ((string)(this[this.tableMember.memberKeyColumn]));
+                }
+                set {
+                    this[this.tableMember.memberKeyColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public string email {
                 get {
                     try {
@@ -10648,12 +10686,32 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string memberKey {
+            public string OverrideVernacularKeyboard {
                 get {
-                    return ((string)(this[this.tableMember.memberKeyColumn]));
+                    try {
+                        return ((string)(this[this.tableMember.OverrideVernacularKeyboardColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'OverrideVernacularKeyboard\' in table \'Member\' is DBNull.", e);
+                    }
                 }
                 set {
-                    this[this.tableMember.memberKeyColumn] = value;
+                    this[this.tableMember.OverrideVernacularKeyboardColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string OverrideNationalBTKeyboard {
+                get {
+                    try {
+                        return ((string)(this[this.tableMember.OverrideNationalBTKeyboardColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'OverrideNationalBTKeyboard\' in table \'Member\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableMember.OverrideNationalBTKeyboardColumn] = value;
                 }
             }
             
@@ -10740,6 +10798,26 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public void SetteamViewerIDNull() {
                 this[this.tableMember.teamViewerIDColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsOverrideVernacularKeyboardNull() {
+                return this.IsNull(this.tableMember.OverrideVernacularKeyboardColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetOverrideVernacularKeyboardNull() {
+                this[this.tableMember.OverrideVernacularKeyboardColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsOverrideNationalBTKeyboardNull() {
+                return this.IsNull(this.tableMember.OverrideNationalBTKeyboardColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetOverrideNationalBTKeyboardNull() {
+                this[this.tableMember.OverrideNationalBTKeyboardColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

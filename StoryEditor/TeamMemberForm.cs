@@ -9,15 +9,16 @@ namespace OneStoryProjectEditor
     public partial class TeamMemberForm : Form
     {
         protected const string CstrDefaultFontTooltipVernacular =
-            "Click here to choose the font, size, and color of the Story language text{0}Currently, Font: {1}, Color: {2}, Keyboard: {3}, RTL: {4}";
+            "Click here to choose the font, size, and color of the Story language text{0}Currently, Font: {1}, Color: {2}, RTL: {3}";
         protected const string CstrDefaultFontTooltipNationalBT =
-            "Click here to choose the font, size, and color of the National language back-translation text{0}Currently, Font: {1}, Color: {2}, Keyboard: {3}, RTL: {4}";
+            "Click here to choose the font, size, and color of the National language back-translation text{0}Currently, Font: {1}, Color: {2}, RTL: {3}";
         protected const string CstrDefaultFontTooltipInternationalBT =
-            "Click here to choose the font, size, and color of the English language back-translation text{0}Currently, Font: {1}, Color: {2}, Keyboard: {3}, RTL: {4}";
+            "Click here to choose the font, size, and color of the English language back-translation text{0}Currently, Font: {1}, Color: {2}, RTL: {3}";
         internal const string CstrDefaultOKLabel = "&Login";
 
         protected ProjectSettings m_projSettings = null;
         protected TeamMembersData _dataTeamMembers = null;
+        protected TeamMemberData _tmdLastMember = null;
         protected string m_strSelectedMember = null;
 
         protected bool Modified = false;
@@ -38,7 +39,11 @@ namespace OneStoryProjectEditor
             }
 
             if ((listBoxTeamMembers.Items.Count > 0) && !String.IsNullOrEmpty(Properties.Settings.Default.LastMemberLogin))
+            {
                 listBoxTeamMembers.SelectedItem = Properties.Settings.Default.LastMemberLogin;
+                if (dataTeamMembers.ContainsKey(Properties.Settings.Default.LastMemberLogin))
+                    _tmdLastMember = dataTeamMembers[Properties.Settings.Default.LastMemberLogin];
+            }
 
             // initialize the keyboard combo list
             foreach (KeyboardController.KeyboardDescriptor keyboard in
@@ -53,8 +58,22 @@ namespace OneStoryProjectEditor
             {
                 textBoxVernacular.Text = ((String.IsNullOrEmpty(projSettings.Vernacular.LangName)) ? projSettings.ProjectName : projSettings.Vernacular.LangName);
                 textBoxVernacularEthCode.Text = projSettings.Vernacular.LangCode;
-                if (!String.IsNullOrEmpty(projSettings.Vernacular.Keyboard) && comboBoxKeyboardVernacular.Items.Contains(projSettings.Vernacular.Keyboard))
-                    comboBoxKeyboardVernacular.SelectedItem = projSettings.Vernacular.Keyboard;
+                
+                // select the configured keyboard in the combo box (this is made complicated by the fact
+                //  that members may have overridden the default keyboard for their own system)
+                // First check if the logged in member (which is approximated by being the 'last member')
+                //  has an override for the keyboard
+                if ((_tmdLastMember != null)
+                    && !String.IsNullOrEmpty(_tmdLastMember.OverrideVernacularKeyboard)
+                    && comboBoxKeyboardVernacular.Items.Contains(_tmdLastMember.OverrideVernacularKeyboard))
+                {
+                    comboBoxKeyboardVernacular.SelectedItem = _tmdLastMember.OverrideVernacularKeyboard;
+                }
+                else if (!String.IsNullOrEmpty(projSettings.Vernacular.DefaultKeyboard)
+                    && comboBoxKeyboardVernacular.Items.Contains(projSettings.Vernacular.DefaultKeyboard))
+                {
+                    comboBoxKeyboardVernacular.SelectedItem = projSettings.Vernacular.DefaultKeyboard;
+                }
                 checkBoxVernacularRTL.Checked = projSettings.Vernacular.IsRTL;
                 checkBoxVernacular.Checked = true;
             }
@@ -68,7 +87,6 @@ namespace OneStoryProjectEditor
             toolTip.SetToolTip(buttonVernacularFont, String.Format(CstrDefaultFontTooltipVernacular,
                                                                    Environment.NewLine, projSettings.Vernacular.LangFont,
                                                                    projSettings.Vernacular.FontColor,
-                                                                   projSettings.Vernacular.Keyboard,
                                                                    projSettings.Vernacular.IsRTL));
 
             // if there is a national language configured, then initialize those as well.
@@ -76,8 +94,23 @@ namespace OneStoryProjectEditor
             {
                 textBoxNationalBTLanguage.Text = projSettings.NationalBT.LangName;
                 textBoxNationalBTEthCode.Text = projSettings.NationalBT.LangCode;
-                if (!String.IsNullOrEmpty(projSettings.NationalBT.Keyboard) && comboBoxKeyboardNationalBT.Items.Contains(projSettings.NationalBT.Keyboard))
-                    comboBoxKeyboardNationalBT.SelectedItem = projSettings.NationalBT.Keyboard;
+
+                // select the configured keyboard in the combo box (this is made complicated by the fact
+                //  that members may have overridden the default keyboard for their own system)
+                // First check if the logged in member (which is approximated by being the 'last member')
+                //  has an override for the keyboard
+                if ((_tmdLastMember != null)
+                    && !String.IsNullOrEmpty(_tmdLastMember.OverrideNationalBTKeyboard)
+                    && comboBoxKeyboardNationalBT.Items.Contains(_tmdLastMember.OverrideNationalBTKeyboard))
+                {
+                    comboBoxKeyboardNationalBT.SelectedItem = _tmdLastMember.OverrideNationalBTKeyboard;
+                }
+                else if (!String.IsNullOrEmpty(projSettings.NationalBT.DefaultKeyboard)
+                    && comboBoxKeyboardNationalBT.Items.Contains(projSettings.NationalBT.DefaultKeyboard))
+                {
+                    comboBoxKeyboardNationalBT.SelectedItem = projSettings.NationalBT.DefaultKeyboard;
+                }
+
                 checkBoxNationalRTL.Checked = projSettings.NationalBT.IsRTL;
                 checkBoxNationalLangBT.Checked = true;
             }
@@ -91,14 +124,12 @@ namespace OneStoryProjectEditor
             toolTip.SetToolTip(buttonNationalBTFont, String.Format(CstrDefaultFontTooltipNationalBT,
                                                                    Environment.NewLine, projSettings.NationalBT.LangFont,
                                                                    projSettings.NationalBT.FontColor,
-                                                                   projSettings.NationalBT.Keyboard,
                                                                    projSettings.NationalBT.IsRTL));
 
             // even if there's no English BT, these should still be set (in case they check the box for English BT)
             toolTip.SetToolTip(buttonInternationalBTFont, String.Format(CstrDefaultFontTooltipInternationalBT,
                                                                    Environment.NewLine, projSettings.InternationalBT.LangFont,
                                                                    projSettings.InternationalBT.FontColor,
-                                                                   projSettings.InternationalBT.Keyboard,
                                                                    projSettings.InternationalBT.IsRTL));
 
 
@@ -157,12 +188,40 @@ namespace OneStoryProjectEditor
             // update the language information as well (in case that was changed also)
             if (checkBoxVernacular.Checked)
             {
+                // if there is a default keyboard (from before) and the user has chosen another one, then see if they mean to 
+                //  change it for everyone or just themselves (then we can make sure that they are who we think we are)
+                string strKeyboard = (string)comboBoxKeyboardVernacular.SelectedItem;
+                if (_tmdLastMember != null)
+                {
+                    if (!String.IsNullOrEmpty(m_projSettings.Vernacular.DefaultKeyboard)
+                        && (strKeyboard != m_projSettings.Vernacular.DefaultKeyboard))
+                    {
+                        DialogResult res = MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmKeyboardOverride,
+                            m_projSettings.Vernacular.LangName, _tmdLastMember.Name), Properties.Resources.IDS_Caption,
+                            MessageBoxButtons.YesNoCancel);
+
+                        if (res == DialogResult.Yes)
+                            _tmdLastMember.OverrideVernacularKeyboard = strKeyboard;
+                        else if (res == DialogResult.No)
+                        {
+                            m_projSettings.Vernacular.DefaultKeyboard = strKeyboard;
+                            _tmdLastMember.OverrideVernacularKeyboard = null;   // if there was an override, it should go away
+                        }
+                        else
+                            return;
+                    }
+                    else
+                    {
+                        m_projSettings.Vernacular.DefaultKeyboard = strKeyboard;
+                        _tmdLastMember.OverrideVernacularKeyboard = null;   // if there was an override, it should go away
+                    }
+                }
+                else
+                    m_projSettings.Vernacular.DefaultKeyboard = strKeyboard;
+
                 m_projSettings.Vernacular.LangName = ThrowIfNullOrEmpty(textBoxVernacular.Text, "Story language name");
                 m_projSettings.Vernacular.LangCode = ThrowIfNullOrEmpty(textBoxVernacularEthCode.Text, "Story language Ethn. code");
                 m_projSettings.Vernacular.FullStop = ThrowIfNullOrEmpty(textBoxVernSentFullStop.Text, "Story language sentence final punctuation");
-                m_projSettings.Vernacular.LangFont = textBoxVernSentFullStop.Font;
-                m_projSettings.Vernacular.FontColor = textBoxVernSentFullStop.ForeColor;
-                m_projSettings.Vernacular.Keyboard = (string)comboBoxKeyboardVernacular.SelectedItem;
                 m_projSettings.Vernacular.IsRTL = checkBoxVernacularRTL.Checked;
             }
             else
@@ -170,12 +229,40 @@ namespace OneStoryProjectEditor
 
             if (checkBoxNationalLangBT.Checked)
             {
+                // if there is a default keyboard (from before) and the user has chosen another one, then see if they mean to 
+                //  change it for everyone or just themselves (then we can make sure that they are who we think we are)
+                string strKeyboard = (string)comboBoxKeyboardNationalBT.SelectedItem;
+                if (_tmdLastMember != null)
+                {
+                    if(!String.IsNullOrEmpty(m_projSettings.NationalBT.DefaultKeyboard)
+                        && (strKeyboard != m_projSettings.NationalBT.DefaultKeyboard))
+                    {
+                        DialogResult res = MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmKeyboardOverride,
+                            m_projSettings.Vernacular.LangName, _tmdLastMember.Name), Properties.Resources.IDS_Caption,
+                            MessageBoxButtons.YesNoCancel);
+
+                        if (res == DialogResult.Yes)
+                            _tmdLastMember.OverrideNationalBTKeyboard = strKeyboard;
+                        else if (res == DialogResult.No)
+                        {
+                            m_projSettings.NationalBT.DefaultKeyboard = strKeyboard;
+                            _tmdLastMember.OverrideNationalBTKeyboard = null;
+                        }
+                        else
+                            return;
+                    }
+                    else
+                    {
+                        m_projSettings.NationalBT.DefaultKeyboard = strKeyboard;
+                        _tmdLastMember.OverrideNationalBTKeyboard = null;
+                    }
+                }
+                else
+                    m_projSettings.NationalBT.DefaultKeyboard = strKeyboard;
+
                 m_projSettings.NationalBT.LangName = ThrowIfNullOrEmpty(textBoxNationalBTLanguage.Text, "National BT language name");
                 m_projSettings.NationalBT.LangCode = ThrowIfNullOrEmpty(textBoxNationalBTEthCode.Text, "National BT language Ethn. code");
                 m_projSettings.NationalBT.FullStop = ThrowIfNullOrEmpty(textBoxNationalBTSentFullStop.Text, "National BT language sentence final punctuation");
-                m_projSettings.NationalBT.LangFont = textBoxNationalBTSentFullStop.Font;
-                m_projSettings.NationalBT.FontColor = textBoxNationalBTSentFullStop.ForeColor;
-                m_projSettings.NationalBT.Keyboard = (string)comboBoxKeyboardNationalBT.SelectedItem;
                 m_projSettings.NationalBT.IsRTL = checkBoxNationalRTL.Checked;
             }
             else
@@ -186,13 +273,14 @@ namespace OneStoryProjectEditor
                 m_projSettings.InternationalBT.HasData = false; 
 
             // English was done by the font dialog handler
+
             Modified = false;
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
-            this.Close();
+            Close();
         }
 
         private void listBoxTeamMembers_SelectedIndexChanged(object sender, EventArgs e)
@@ -378,10 +466,13 @@ namespace OneStoryProjectEditor
         {
             try
             {
-                fontDialog.Font = textBoxVernSentFullStop.Font;
-                fontDialog.Color = textBoxVernSentFullStop.ForeColor;
+                fontDialog.Font = m_projSettings.Vernacular.LangFont;
+                fontDialog.Color = m_projSettings.Vernacular.FontColor;
                 if (fontDialog.ShowDialog() == DialogResult.OK)
                 {
+                    m_projSettings.Vernacular.LangFont = fontDialog.Font;
+                    m_projSettings.Vernacular.FontName = null;  // clear it out so we use the value in LangFont
+                    m_projSettings.Vernacular.FontColor = fontDialog.Color;
                     textBoxVernSentFullStop.Font = fontDialog.Font;
                     textBoxVernSentFullStop.ForeColor = fontDialog.Color;
                     Modified = true;
@@ -398,10 +489,13 @@ namespace OneStoryProjectEditor
         {
             try
             {
-                fontDialog.Font = textBoxNationalBTSentFullStop.Font;
-                fontDialog.Color = textBoxNationalBTSentFullStop.ForeColor;
+                fontDialog.Font = m_projSettings.NationalBT.LangFont;
+                fontDialog.Color = m_projSettings.NationalBT.FontColor;
                 if (fontDialog.ShowDialog() == DialogResult.OK)
                 {
+                    m_projSettings.NationalBT.LangFont = fontDialog.Font;
+                    m_projSettings.NationalBT.FontName = null;  // clear it out so we use the value in LangFont
+                    m_projSettings.NationalBT.FontColor = fontDialog.Color;
                     textBoxNationalBTSentFullStop.Font = fontDialog.Font;
                     textBoxNationalBTSentFullStop.ForeColor = fontDialog.Color;
                     Modified = true;
@@ -423,6 +517,7 @@ namespace OneStoryProjectEditor
                 if (fontDialog.ShowDialog() == DialogResult.OK)
                 {
                     m_projSettings.InternationalBT.LangFont = fontDialog.Font;
+                    m_projSettings.InternationalBT.FontName = null; // clear it out so we use the value in LangFont
                     m_projSettings.InternationalBT.FontColor = fontDialog.Color;
                     Modified = true;
                 }

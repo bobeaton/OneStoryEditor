@@ -130,12 +130,6 @@
   <data name="DragDropHandle" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DragDropHandle.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="GoLtrHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\GoLtrHS.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="GoRtlHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\GoRtlHS.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Hyperlink" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Hyperlink.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -1453,5 +1447,8 @@ eater Panorama
   </data>
   <data name="IDS_MainFrameTitleOldStories" xml:space="preserve">
     <value>OneStory Editor -- {0} Story Project -- Viewing Old Stories</value>
+  </data>
+  <data name="IDS_ConfirmKeyboardOverride" xml:space="preserve">
+    <value>Click 'Yes' to override the '{0}' keyboard for yourself ('{1}') only. Click 'No' to make this change apply to every member of the team (if you all are switching to a new keyboard).</value>
   </data>
 </root>

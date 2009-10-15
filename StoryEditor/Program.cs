@@ -23,6 +23,13 @@ namespace OneStoryProjectEditor
                 Properties.Settings.Default.RecentProjects = new System.Collections.Specialized.StringCollection();
             if (Properties.Settings.Default.RecentProjectPaths == null)
                 Properties.Settings.Default.RecentProjectPaths = new System.Collections.Specialized.StringCollection();
+            if (Properties.Settings.Default.ProjectNameToHgUrl == null)
+                Properties.Settings.Default.ProjectNameToHgUrl = new System.Collections.Specialized.StringCollection();
+            _mapProjectNameToHgUrl = ArrayToDictionary(Properties.Settings.Default.ProjectNameToHgUrl);
+
+            if (Properties.Settings.Default.ProjectNameToHgUsername == null)
+                Properties.Settings.Default.ProjectNameToHgUsername = new System.Collections.Specialized.StringCollection();
+            _mapProjectNameToHgUsername = ArrayToDictionary(Properties.Settings.Default.ProjectNameToHgUsername);
 
             bool bNeedToSave = false;
             System.Diagnostics.Debug.Assert(Properties.Settings.Default.RecentProjects.Count == Properties.Settings.Default.RecentProjectPaths.Count);
@@ -62,6 +69,18 @@ namespace OneStoryProjectEditor
         }
 
         static List<string> _astrProjectForSync = new List<string>();
+        static Dictionary<string, string> _mapProjectNameToHgUrl;
+        static Dictionary<string, string> _mapProjectNameToHgUsername;
+
+        public static void SetHgParameters(string strProjectName, string strUrl, string strUsername)
+        {
+            System.Diagnostics.Debug.Assert((_mapProjectNameToHgUrl != null) && (_mapProjectNameToHgUsername != null));
+            _mapProjectNameToHgUrl[strProjectName] = strUrl;
+            _mapProjectNameToHgUsername[strProjectName] = strUsername;
+            Properties.Settings.Default.ProjectNameToHgUrl = DictionaryToArray(_mapProjectNameToHgUrl);
+            Properties.Settings.Default.ProjectNameToHgUsername = DictionaryToArray(_mapProjectNameToHgUsername);
+            Properties.Settings.Default.Save();
+        }
 
         public static void SetProjectForSyncage(string strProjectFolder)
         {
@@ -69,16 +88,16 @@ namespace OneStoryProjectEditor
                 _astrProjectForSync.Add(strProjectFolder);
         }
 
-        // string strRepoPath = String.Format("http://bobeaton:helpmepld@hg-private.languagedepot.org/{0}", strProjectFolderName);
+        // e.g. http://bobeaton:helpmepld@hg-private.languagedepot.org/snwmtn-test
 
         public static void SyncWithRepository(string strProjectFolder, bool bIsOpening)
         {
             string strProjectName = Path.GetFileNameWithoutExtension(strProjectFolder);
-            string strRepoUrl;
-            if (!QueryHgRepoParameters(strProjectName, out strRepoUrl))
+            string strHgUsername, strRepoUrl;
+            if (!QueryHgRepoParameters(strProjectName, out strHgUsername, out strRepoUrl))
                 return;
 
-            using (var setup = new RepositorySetup(Properties.Settings.Default.HgRepoUsername))
+            using (var setup = new RepositorySetup(strHgUsername))
             {
                 setup.ProjectFolderConfig.FolderPath = strProjectFolder;
                 setup.ProjectFolderConfig.IncludePatterns.Add("*.onestory");
@@ -91,43 +110,83 @@ namespace OneStoryProjectEditor
                 });
 
                 setup.Repository.SetDefaultSyncRepositoryAliases(new[] { "language depot" });
-                using (var dlg = new SyncDialog(setup.ProjectFolderConfig,
-                    (bIsOpening) ? SyncUIDialogBehaviors.StartImmediatelyAndCloseWhenFinished : SyncUIDialogBehaviors.Lazy, 
-                    (bIsOpening) ? SyncUIFeatures.Minimal : SyncUIFeatures.NormalRecommended))
+
+                // for when we launch the program, just do a quick & dirty send/receive, but for
+                //  closing, we can be more informative
+                SyncUIDialogBehaviors suidb;
+                SyncUIFeatures suif;
+                if (bIsOpening)
+                {
+                    suidb = SyncUIDialogBehaviors.StartImmediatelyAndCloseWhenFinished;
+                    suif = SyncUIFeatures.Minimal;
+                }
+                else
+                {
+                    suidb = SyncUIDialogBehaviors.Lazy;
+                    suif = SyncUIFeatures.NormalRecommended;
+                }
+
+                using (var dlg = new SyncDialog(setup.ProjectFolderConfig, suidb, suif))
                 {
                     dlg.ShowDialog();
                 }
             }
         }
 
-        private static bool QueryHgRepoParameters(string strProjectName, out string strRepoUrl)
+        private static bool QueryHgRepoParameters(string strProjectName, out string strUsername, out string strRepoUrl)
         {
-            if (String.IsNullOrEmpty(Properties.Settings.Default.HgRepoUrl))
+            string strHgUrl = (_mapProjectNameToHgUrl.ContainsKey(strProjectName))
+                ? _mapProjectNameToHgUrl[strProjectName] : null;
+            string strHgUsername = (_mapProjectNameToHgUsername.ContainsKey(strProjectName))
+                ? _mapProjectNameToHgUsername[strProjectName] : null;
+            if (String.IsNullOrEmpty(strHgUrl))
             {
                 HgRepoForm dlg = new HgRepoForm
                                         {
                                             ProjectName = strProjectName,
                                             UrlBase = "http://hg-private.languagedepot.org",
-                                            Username = Properties.Settings.Default.HgRepoUsername,
-                                            Password = Properties.Settings.Default.HgRepoPassword
+                                            Username = strHgUsername
                                         };
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
-                    Properties.Settings.Default.HgRepoUrl = strRepoUrl = dlg.Url;
-                    Properties.Settings.Default.HgRepoUsername = dlg.Username;
-                    Properties.Settings.Default.HgRepoPassword = dlg.Password;
-                    Properties.Settings.Default.Save();
+                    strRepoUrl = dlg.Url;
+                    strUsername = dlg.Username;
+                    SetHgParameters(strProjectName, strRepoUrl, strUsername);
                     return true;
                 }
             }
             else
             {
-                strRepoUrl = Properties.Settings.Default.HgRepoUrl;
+                strRepoUrl = strHgUrl;
+                strUsername = strHgUsername;
                 return true;
             }
 
-            strRepoUrl = null;
+            strUsername = strRepoUrl = null;
             return false;
+        }
+
+        public static Dictionary<string, string> ArrayToDictionary(System.Collections.Specialized.StringCollection data)
+        { 
+            var map = new Dictionary<string, string>(); 
+            for (var i = 0; i < data.Count; i += 2)
+            {
+                map.Add(data[i], data[i + 1]);
+            }
+            
+            return map; 
+        }
+
+        public static System.Collections.Specialized.StringCollection DictionaryToArray(Dictionary<string, string> map)
+        {
+            var lst = new System.Collections.Specialized.StringCollection();
+            foreach (KeyValuePair<string,string> kvp in map)
+            {
+                lst.Add(kvp.Key);
+                lst.Add(kvp.Value);
+            }
+
+            return lst;
         }
     }
 }

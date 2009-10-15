@@ -55,7 +55,7 @@ namespace OneStoryProjectEditor
                 InsertColumn(nNumColumns);
                 InitColumnLabel(theSE.StoryProject.ProjSettings.Vernacular.LangName, nNumColumns);
                 InitTextBox(CstrFieldNameVernacular, _aTQData.QuestionVernacular, 
-                    theSE.StoryProject.ProjSettings.Vernacular, nNumColumns);
+                    theSE.StoryProject.ProjSettings.Vernacular, theSE.LoggedOnMember.OverrideVernacularKeyboard, nNumColumns);
                 nNumColumns++;
             }
 
@@ -67,8 +67,8 @@ namespace OneStoryProjectEditor
             {
                 InsertColumn(nNumColumns);
                 InitColumnLabel(theSE.StoryProject.ProjSettings.NationalBT.LangName, nNumColumns);
-                InitTextBox(CstrFieldNameNationalBt, _aTQData.QuestionNationalBT, 
-                    theSE.StoryProject.ProjSettings.NationalBT, nNumColumns);
+                InitTextBox(CstrFieldNameNationalBt, _aTQData.QuestionNationalBT,
+                    theSE.StoryProject.ProjSettings.NationalBT, theSE.LoggedOnMember.OverrideNationalBTKeyboard, nNumColumns);
                 nNumColumns++;
             }
 
@@ -80,7 +80,7 @@ namespace OneStoryProjectEditor
                 InsertColumn(nNumColumns);
                 InitColumnLabel(theSE.StoryProject.ProjSettings.InternationalBT.LangName, nNumColumns);
                 InitTextBox(CstrFieldNameVernacular, _aTQData.QuestionInternationalBT, 
-                    theSE.StoryProject.ProjSettings.InternationalBT, nNumColumns);
+                    theSE.StoryProject.ProjSettings.InternationalBT, null, nNumColumns);
                 nNumColumns++;
             }
 
@@ -116,9 +116,10 @@ namespace OneStoryProjectEditor
             tableLayoutPanel.Controls.Add(lbl, nLayoutColumn, 0);
         }
 
-        protected void InitTextBox(string strTbName, StringTransfer strTbText, ProjectSettings.LanguageInfo li, int nLayoutColumn)
+        protected void InitTextBox(string strTbName, StringTransfer strTbText, ProjectSettings.LanguageInfo li, 
+            string strOverrideKeyboard, int nLayoutColumn)
         {
-            CtrlTextBox tb = new CtrlTextBox(strTbName + CstrSuffixTextBox, this, strTbText, li);
+            CtrlTextBox tb = new CtrlTextBox(strTbName + CstrSuffixTextBox, this, strTbText, li, strOverrideKeyboard);
             tableLayoutPanel.Controls.Add(tb, nLayoutColumn, 1);
         }
     }

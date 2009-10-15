@@ -412,8 +412,6 @@
     <None Include="Resources\BuilderDialog_moveup.png" />
     <None Include="Resources\BuilderDialog_movedown.PNG" />
     <None Include="Resources\CopyHS.png" />
-    <None Include="Resources\GoLtrHS.bmp" />
-    <None Include="Resources\GoRtlHS.bmp" />
     <None Include="Resources\Hyperlink.bmp" />
     <Content Include="StageTransitions.xml" />
     <None Include="Properties\app.manifest" />
@@ -543,26 +541,6 @@
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="OneStory.ico">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Exclude</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>File</FileType>
-    </PublishFile>
-    <PublishFile Include="Resources\GoLtrHS.bmp">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Exclude</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>File</FileType>
-    </PublishFile>
-    <PublishFile Include="Resources\GoRtlHS.bmp">
       <Visible>False</Visible>
       <Group>
       </Group>
@@ -942,6 +920,9 @@
       <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

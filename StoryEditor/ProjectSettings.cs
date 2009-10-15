@@ -47,10 +47,15 @@ namespace OneStoryProjectEditor
                 Vernacular.LangName = theVernRow.name;
                 Vernacular.LangCode = theVernRow.code;
                 Vernacular.LangFont = new Font(theVernRow.FontName, theVernRow.FontSize);
+                
+                // save what was in the actual file so we don't overwrite when the font isn't present
+                if (Vernacular.LangFont.Name != theVernRow.FontName)
+                    Vernacular.FontName = theVernRow.FontName;
+
                 Vernacular.FontColor = Color.FromName(theVernRow.FontColor);
                 Vernacular.FullStop = theVernRow.SentenceFinalPunct;
                 Vernacular.IsRTL = (!theVernRow.IsRTLNull() && theVernRow.RTL);
-                Vernacular.Keyboard = (!theVernRow.IsKeyboardNull() && !String.IsNullOrEmpty(theVernRow.Keyboard))
+                Vernacular.DefaultKeyboard = (!theVernRow.IsKeyboardNull() && !String.IsNullOrEmpty(theVernRow.Keyboard))
                     ? theVernRow.Keyboard : null;
             }
 
@@ -63,10 +68,15 @@ namespace OneStoryProjectEditor
                 NationalBT.LangName = rowNatlRow.name;
                 NationalBT.LangCode = rowNatlRow.code;
                 NationalBT.LangFont = new Font(rowNatlRow.FontName, rowNatlRow.FontSize);
+
+                // save what was in the actual file so we don't overwrite when the font isn't present
+                if (NationalBT.LangFont.Name != rowNatlRow.FontName)
+                    NationalBT.FontName = rowNatlRow.FontName;
+
                 NationalBT.FontColor = Color.FromName(rowNatlRow.FontColor);
                 NationalBT.FullStop = rowNatlRow.SentenceFinalPunct;
                 NationalBT.IsRTL = (!rowNatlRow.IsRTLNull() && rowNatlRow.RTL);
-                NationalBT.Keyboard = (!rowNatlRow.IsKeyboardNull() && !String.IsNullOrEmpty(rowNatlRow.Keyboard))
+                NationalBT.DefaultKeyboard = (!rowNatlRow.IsKeyboardNull() && !String.IsNullOrEmpty(rowNatlRow.Keyboard))
                     ? rowNatlRow.Keyboard : null;
             }
 
@@ -80,10 +90,15 @@ namespace OneStoryProjectEditor
                 InternationalBT.LangName = rowEngRow.name;
                 InternationalBT.LangCode = rowEngRow.code;
                 InternationalBT.LangFont = new Font(rowEngRow.FontName, rowEngRow.FontSize);
+
+                // save what was in the actual file so we don't overwrite when the font isn't present
+                if (InternationalBT.LangFont.Name != rowEngRow.FontName)
+                    InternationalBT.FontName = rowEngRow.FontName;
+
                 InternationalBT.FontColor = Color.FromName(rowEngRow.FontColor);
                 InternationalBT.FullStop = rowEngRow.SentenceFinalPunct;
                 InternationalBT.IsRTL = (!rowEngRow.IsRTLNull() && rowEngRow.RTL);
-                InternationalBT.Keyboard = (!rowEngRow.IsKeyboardNull() && !String.IsNullOrEmpty(rowEngRow.Keyboard))
+                InternationalBT.DefaultKeyboard = (!rowEngRow.IsKeyboardNull() && !String.IsNullOrEmpty(rowEngRow.Keyboard))
                     ? rowEngRow.Keyboard : null;
             }
 
@@ -97,10 +112,11 @@ namespace OneStoryProjectEditor
 
             public string LangName = null;
             public string LangCode = null;
+            public string FontName = null;
             public Font LangFont;
             public Color FontColor;
             public string FullStop = CstrSentenceFinalPunctuation;
-            public string Keyboard = null;
+            public string DefaultKeyboard = null;
             public bool IsRTL = false;
 
             public LanguageInfo(Font font, Color fontColor)
@@ -131,11 +147,14 @@ namespace OneStoryProjectEditor
 
             public XElement GetXml(string strLangType)
             {
+                // if the font wasn't present (as evidenced by a non-null value for FontName), then
+                //  don't overwrite the xml file's value
+                string strFontName = (String.IsNullOrEmpty(FontName)) ? LangFont.Name : FontName;
                 XElement elemLang =
                     new XElement(strLangType,
                         new XAttribute("name", LangName),
                         new XAttribute("code", LangCode),
-                        new XAttribute("FontName", LangFont.Name),
+                        new XAttribute("FontName", strFontName),
                         new XAttribute("FontSize", LangFont.Size),
                         new XAttribute("FontColor", FontColor.Name));
 
@@ -145,8 +164,8 @@ namespace OneStoryProjectEditor
                 if (IsRTL)
                     elemLang.Add(new XAttribute("RTL", IsRTL));
 
-                if (!String.IsNullOrEmpty(Keyboard))
-                    elemLang.Add(new XAttribute("Keyboard", Keyboard));
+                if (!String.IsNullOrEmpty(DefaultKeyboard))
+                    elemLang.Add(new XAttribute("Keyboard", DefaultKeyboard));
 
                 return elemLang;
             }

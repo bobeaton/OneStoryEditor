@@ -46,7 +46,7 @@ namespace OneStoryProjectEditor
         }
 
         public CtrlTextBox(string strName, ResizableControl ctrlParent, StringTransfer stData,
-            ProjectSettings.LanguageInfo li)
+            ProjectSettings.LanguageInfo li, string strOverrideKeyboard)
         {
             Name = strName;
             Multiline = true;
@@ -60,7 +60,7 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert(ctrlParent.StageLogic != null);
             _stageLogic = ctrlParent.StageLogic;
             _ctrlParent = ctrlParent;
-            _strKeyboardName = li.Keyboard;
+            _strKeyboardName = (String.IsNullOrEmpty(strOverrideKeyboard)) ? li.DefaultKeyboard : strOverrideKeyboard;
         }
 
         public new bool Focus()
@@ -159,12 +159,15 @@ namespace OneStoryProjectEditor
 
             if (keyData == (Keys.Control | Keys.A))
             {
-                this.SelectAll();
+                SelectAll();
                 e.Handled = true;
                 return true;
             }
 
             if (keyData == (Keys.Control | Keys.C))
+                return true;
+
+            if (keyData == Keys.F1)
                 return true;
 
             switch (keyCode)

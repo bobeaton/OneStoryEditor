@@ -11,13 +11,15 @@
 								<xs:complexType>
 									<xs:attribute name="name" type="xs:string" use="required" />
 									<xs:attribute name="memberType" type="MemberType" use="required" />
+									<xs:attribute name="memberKey" type="xs:ID" use="required" />
 									<xs:attribute name="email" type="xs:string" use="optional" />
 									<xs:attribute name="altPhone" type="xs:string" use="optional" />
 									<xs:attribute name="phone" type="xs:string" use="optional" />
 									<xs:attribute name="bioData" type="xs:string" use="optional" />
 									<xs:attribute name="skypeID" type="xs:string" use="optional" />
 									<xs:attribute name="teamViewerID" type="xs:string" use="optional" />
-									<xs:attribute name="memberKey" type="xs:ID" use="required" />
+									<xs:attribute name="OverrideVernacularKeyboard" type="xs:string" use="optional" />
+									<xs:attribute name="OverrideNationalBTKeyboard" type="xs:string" use="optional" />
 								</xs:complexType>
 							</xs:element>
 						</xs:choice>
