@@ -7,7 +7,7 @@
       <Id>γῆ</Id>
       <Status>SomeMissing</Status>
       <Guess>false</Guess>
-      <Renderings />
+      <Renderings>धरती</Renderings>
       <Notes />
       <Denials />
       <Tag />
@@ -43,7 +43,7 @@
       <Id>οὐρανός</Id>
       <Status>SomeMissing</Status>
       <Guess>false</Guess>
-      <Renderings />
+      <Renderings>सुअर्ग</Renderings>
       <Notes />
       <Denials />
       <Tag />
@@ -74,12 +74,50 @@
       <Tag />
     </TermRendering>
     <TermRendering>
+      <Id>ברך</Id>
+      <Status>SomeMissing</Status>
+      <Guess>false</Guess>
+      <Renderings>जै-जैकार</Renderings>
+      <Notes />
+      <Denials />
+      <Tag />
+    </TermRendering>
+    <TermRendering>
       <Id>יהוה</Id>
+      <Status>SomeMissing</Status>
+      <Guess>false</Guess>
+      <Renderings>परमेसरैं</Renderings>
+      <Notes />
+      <Denials />
+      <Tag />
+    </TermRendering>
+    <TermRendering>
+      <Id>כֹּחַ-2</Id>
       <Status>SomeMissing</Status>
       <Guess>false</Guess>
       <Renderings />
       <Notes />
       <Denials />
+      <Tag />
+    </TermRendering>
+    <TermRendering>
+      <Id>מעל</Id>
+      <Status>SomeMissing</Status>
+      <Guess>false</Guess>
+      <Renderings />
+      <Notes />
+      <Denials />
+      <Tag />
+    </TermRendering>
+    <TermRendering>
+      <Id>שָׂרָף-2</Id>
+      <Status>AllFoundOrDenied</Status>
+      <Guess>false</Guess>
+      <Renderings>सुअर्गदूत</Renderings>
+      <Notes />
+      <Denials>
+        <string>Story: 'Spiritual World' line: 5 anchor: isa 06:02</string>
+      </Denials>
       <Tag />
     </TermRendering>
   </Renderings>
