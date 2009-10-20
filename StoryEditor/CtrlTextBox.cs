@@ -11,14 +11,14 @@ namespace OneStoryProjectEditor
     public class CtrlTextBox : TextBox
     {
         protected StoryStageLogic _stageLogic = null;
-        protected ResizableControl _ctrlParent = null;
+        protected VerseControl _ctrlParent = null;
         protected string _strKeyboardName = null;
 
         public delegate void ThrowIfNotCorrectEditor(TeamMemberData.UserTypes eLoggedInMember, TeamMemberData.UserTypes eRequiredEditor);
         protected ThrowIfNotCorrectEditor _delegateRequiredEditorCheck;
         protected TeamMemberData.UserTypes _eRequiredEditor = TeamMemberData.UserTypes.eUndefined;
 
-        public CtrlTextBox(string strName, ResizableControl ctrlParent, StringTransfer stData)
+        public CtrlTextBox(string strName, VerseControl ctrlParent, StringTransfer stData)
         {
             Name = strName;
             Multiline = true;
@@ -30,7 +30,7 @@ namespace OneStoryProjectEditor
             _ctrlParent = ctrlParent;
         }
 
-        public CtrlTextBox(string strName, ResizableControl ctrlParent, StringTransfer stData,
+        public CtrlTextBox(string strName, VerseControl ctrlParent, StringTransfer stData,
             ThrowIfNotCorrectEditor delegateRequiredEditorCheck, TeamMemberData.UserTypes eRequiredEditor)
         {
             Name = strName;
@@ -45,7 +45,7 @@ namespace OneStoryProjectEditor
             _eRequiredEditor = eRequiredEditor;
         }
 
-        public CtrlTextBox(string strName, ResizableControl ctrlParent, StringTransfer stData,
+        public CtrlTextBox(string strName, VerseControl ctrlParent, StringTransfer stData,
             ProjectSettings.LanguageInfo li, string strOverrideKeyboard)
         {
             Name = strName;
@@ -65,7 +65,6 @@ namespace OneStoryProjectEditor
 
         public new bool Focus()
         {
-            StoryEditor theSE = (StoryEditor)_ctrlParent.FindForm();
             _ctrlParent.Focus();
             base.Focus();
             Visible = true;
@@ -126,12 +125,23 @@ namespace OneStoryProjectEditor
         }
 
         internal static CtrlTextBox _inTextBox = null;
+        protected static int _nLastVerse = -1;
 
         protected override void OnEnter(EventArgs e)
         {
             _inTextBox = this;
             if (!String.IsNullOrEmpty(_strKeyboardName))
                 KeyboardController.ActivateKeyboard(_strKeyboardName);
+
+            if (_nLastVerse != _ctrlParent.VerseNumber)
+            {
+                _nLastVerse = _ctrlParent.VerseNumber;
+
+                // start a timer that will wake up shortly and set the focus to the other panes as well.
+                StoryEditor theSE = (StoryEditor)_ctrlParent.FindForm();
+                theSE.myFocusTimer.Tag = _ctrlParent;
+                theSE.myFocusTimer.Start();
+            }
 
             base.OnEnter(e);
         }

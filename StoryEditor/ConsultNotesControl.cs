@@ -3,24 +3,22 @@ using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
 {
-    public partial class ConsultNotesControl : OneStoryProjectEditor.ResizableControl
+    public partial class ConsultNotesControl : VerseControl
     {
         protected const string CstrFieldNameConsultantNote = "ConsultantNoteControl";
 
-        internal int VerseNumber = -1;
         internal ConsultNotesDataConverter _theCNsDC = null;
         public ConsultNotesControl(StoryStageLogic storyStageLogic, ConsultNotesDataConverter aCNsDC, 
             int nVerseNumber, TeamMemberData.UserTypes eLoggedOnMemberType)
-            : base(storyStageLogic)
+            : base(storyStageLogic, nVerseNumber)
         {
             _theCNsDC = aCNsDC;
-            VerseNumber = nVerseNumber;
             InitializeComponent();
 
             tableLayoutPanel.SuspendLayout();
             SuspendLayout();
 
-            labelReference.Text = VerseBtControl.CstrVerseName + nVerseNumber.ToString();
+            labelReference.Text = CstrVerseName + VerseNumber;
             tableLayoutPanel.Controls.Add(labelReference, 0, 0);
             tableLayoutPanel.Controls.Add(buttonDragDropHandle, 1, 0);
 
@@ -31,7 +29,7 @@ namespace OneStoryProjectEditor
                 {
                     if (aCNDC.Visible)
                     {
-                        ConsultNoteControl aCNCtrl = new ConsultNoteControl(storyStageLogic, aCNsDC, aCNDC, eLoggedOnMemberType);
+                        ConsultNoteControl aCNCtrl = new ConsultNoteControl(this, storyStageLogic, aCNsDC, aCNDC, eLoggedOnMemberType);
                         aCNCtrl.Name = CstrFieldNameConsultantNote + nRowIndex;
                         aCNCtrl.ParentControl = this;
 

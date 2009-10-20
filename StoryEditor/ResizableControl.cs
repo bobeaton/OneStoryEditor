@@ -17,7 +17,7 @@ namespace OneStoryProjectEditor
 
         protected delegate void ReheightAllControlsDelegate();
 
-        private ResizableControl()
+        protected ResizableControl()
         {
         }
 
@@ -185,6 +185,22 @@ namespace OneStoryProjectEditor
             }
 
             return true;
+        }
+    }
+
+    public class VerseControl : ResizableControl
+    {
+        protected const string CstrVerseName = "ln: ";
+        internal int VerseNumber = -1;
+
+        private VerseControl()
+        {
+        }
+
+        public VerseControl(StoryStageLogic storyStageLogic, int nVerseNumber)
+            : base(storyStageLogic)
+        {
+            VerseNumber = nVerseNumber;
         }
     }
 }

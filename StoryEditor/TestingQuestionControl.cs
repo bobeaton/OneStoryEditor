@@ -16,7 +16,7 @@ namespace OneStoryProjectEditor
         protected TestQuestionData _aTQData = null;
         protected int _nNumAnswerRows = 0;
 
-        public TestingQuestionControl(StoryEditor theSE, TestQuestionData aTQData)
+        public TestingQuestionControl(StoryEditor theSE, VerseControl ctrlVerse, TestQuestionData aTQData)
             : base(theSE.theCurrentStory.ProjStage)
         {
             _aTQData = aTQData;
@@ -54,7 +54,7 @@ namespace OneStoryProjectEditor
             {
                 InsertColumn(nNumColumns);
                 InitColumnLabel(theSE.StoryProject.ProjSettings.Vernacular.LangName, nNumColumns);
-                InitTextBox(CstrFieldNameVernacular, _aTQData.QuestionVernacular, 
+                InitTextBox(ctrlVerse, CstrFieldNameVernacular, _aTQData.QuestionVernacular, 
                     theSE.StoryProject.ProjSettings.Vernacular, theSE.LoggedOnMember.OverrideVernacularKeyboard, nNumColumns);
                 nNumColumns++;
             }
@@ -67,7 +67,7 @@ namespace OneStoryProjectEditor
             {
                 InsertColumn(nNumColumns);
                 InitColumnLabel(theSE.StoryProject.ProjSettings.NationalBT.LangName, nNumColumns);
-                InitTextBox(CstrFieldNameNationalBt, _aTQData.QuestionNationalBT,
+                InitTextBox(ctrlVerse, CstrFieldNameNationalBt, _aTQData.QuestionNationalBT,
                     theSE.StoryProject.ProjSettings.NationalBT, theSE.LoggedOnMember.OverrideNationalBTKeyboard, nNumColumns);
                 nNumColumns++;
             }
@@ -79,7 +79,7 @@ namespace OneStoryProjectEditor
             {
                 InsertColumn(nNumColumns);
                 InitColumnLabel(theSE.StoryProject.ProjSettings.InternationalBT.LangName, nNumColumns);
-                InitTextBox(CstrFieldNameVernacular, _aTQData.QuestionInternationalBT, 
+                InitTextBox(ctrlVerse, CstrFieldNameVernacular, _aTQData.QuestionInternationalBT, 
                     theSE.StoryProject.ProjSettings.InternationalBT, null, nNumColumns);
                 nNumColumns++;
             }
@@ -88,7 +88,7 @@ namespace OneStoryProjectEditor
             if ((_aTQData.Answers != null) && (_aTQData.Answers.Count > 0))
             {
                 System.Diagnostics.Debug.Assert(theSE.theCurrentStory.CraftingInfo.Testors.Count >= _aTQData.Answers.Count);
-                MultiLineControl aAnswersCtrl = new MultiLineControl(StageLogic, _aTQData.Answers, theSE.theCurrentStory.CraftingInfo.Testors);
+                MultiLineControl aAnswersCtrl = new MultiLineControl(ctrlVerse, StageLogic, _aTQData.Answers, theSE.theCurrentStory.CraftingInfo.Testors);
                 aAnswersCtrl.Name = CstrFieldNameAnswers;
                 aAnswersCtrl.ParentControl = this;
 
@@ -116,10 +116,10 @@ namespace OneStoryProjectEditor
             tableLayoutPanel.Controls.Add(lbl, nLayoutColumn, 0);
         }
 
-        protected void InitTextBox(string strTbName, StringTransfer strTbText, ProjectSettings.LanguageInfo li, 
+        protected void InitTextBox(VerseControl ctrlVerse, string strTbName, StringTransfer strTbText, ProjectSettings.LanguageInfo li, 
             string strOverrideKeyboard, int nLayoutColumn)
         {
-            CtrlTextBox tb = new CtrlTextBox(strTbName + CstrSuffixTextBox, this, strTbText, li, strOverrideKeyboard);
+            CtrlTextBox tb = new CtrlTextBox(strTbName + CstrSuffixTextBox, ctrlVerse, strTbText, li, strOverrideKeyboard);
             tableLayoutPanel.Controls.Add(tb, nLayoutColumn, 1);
         }
     }

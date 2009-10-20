@@ -15,12 +15,14 @@ namespace OneStoryProjectEditor
         protected const string CstrFieldNameExegeticalHelp = "ExegeticalHelp";
         protected const string CstrFieldNameExegeticalHelpLabel = "ExegeticalHelpLabel";
         protected int m_nNumRows = 1;
+        protected VerseControl _ctrlVerse = null;
         protected AnchorsData _myAnchorsData = null;
         protected Dictionary<ToolStripButton, List<TextBox>> _mapAnchorsToTextBoxes = new Dictionary<ToolStripButton, List<TextBox>>();
 
-        public AnchorControl(StoryStageLogic storyStageLogic, AnchorsData anAnchorsData)
+        public AnchorControl(VerseControl ctrlVerse, StoryStageLogic storyStageLogic, AnchorsData anAnchorsData)
             : base(storyStageLogic)
         {
+            _ctrlVerse = ctrlVerse;
             _myAnchorsData = anAnchorsData;
             InitializeComponent();
 
@@ -37,7 +39,7 @@ namespace OneStoryProjectEditor
                 ToolStripButton theAnchorButton = InitAnchorButton(toolStripAnchors, anAnchorData);
 
                 if (anAnchorData.ExegeticalHelpNotes.Count > 0)
-                    InitExegeticalHelpsRow(theAnchorButton, anAnchorData.ExegeticalHelpNotes, ref m_nNumRows);
+                    InitExegeticalHelpsRow(ctrlVerse, theAnchorButton, anAnchorData.ExegeticalHelpNotes, ref m_nNumRows);
             }
 
             tableLayoutPanel.ResumeLayout(false);
@@ -79,7 +81,7 @@ namespace OneStoryProjectEditor
             }
         }
 
-        protected void SetExegeticalHelpControls(ToolStripButton theAnchorButton, StringTransfer strQuote, ref int nNumRows)
+        protected void SetExegeticalHelpControls(VerseControl ctrlVerse, ToolStripButton theAnchorButton, StringTransfer strQuote, ref int nNumRows)
         {
             int nLayoutRow = nNumRows++;
 
@@ -90,7 +92,7 @@ namespace OneStoryProjectEditor
             labelExegeticalHelp.Text = "cn:";
 
             CtrlTextBox tb = new CtrlTextBox(
-                CstrFieldNameExegeticalHelp + nLayoutRow, this, strQuote);
+                CstrFieldNameExegeticalHelp + nLayoutRow, ctrlVerse, strQuote);
 
             // add the label and tool strip as a new row to the table layout panel
             InsertRow(nLayoutRow);
@@ -109,10 +111,10 @@ namespace OneStoryProjectEditor
             lstTBs.Add(tb);
         }
 
-        protected void InitExegeticalHelpsRow(ToolStripButton theAnchorButton, ExegeticalHelpNotesData anExHelpsNoteData, ref int nNumRows)
+        protected void InitExegeticalHelpsRow(VerseControl ctrlVerse, ToolStripButton theAnchorButton, ExegeticalHelpNotesData anExHelpsNoteData, ref int nNumRows)
         {
             foreach (ExegeticalHelpNoteData anExHelpNoteData in anExHelpsNoteData)
-                SetExegeticalHelpControls(theAnchorButton, anExHelpNoteData.ExegeticalHelpNote, ref nNumRows);
+                SetExegeticalHelpControls(ctrlVerse, theAnchorButton, anExHelpNoteData.ExegeticalHelpNote, ref nNumRows);
         }
 
         private void toolStripAnchors_DragEnter(object sender, DragEventArgs e)
@@ -218,7 +220,7 @@ namespace OneStoryProjectEditor
                 System.Diagnostics.Debug.Assert(m_theLastButtonClicked.Tag is AnchorData);
                 AnchorData theAnchorData = (AnchorData)m_theLastButtonClicked.Tag;
                 ExegeticalHelpNoteData anEHN = theAnchorData.ExegeticalHelpNotes.AddExegeticalHelpNote("Re: " + m_theLastButtonClicked.Text);
-                SetExegeticalHelpControls(m_theLastButtonClicked, anEHN.ExegeticalHelpNote, ref m_nNumRows);
+                SetExegeticalHelpControls(_ctrlVerse, m_theLastButtonClicked, anEHN.ExegeticalHelpNote, ref m_nNumRows);
                 AdjustHeightWithSuspendLayout(null);
             }
             else

@@ -5,30 +5,26 @@ using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
 {
-    public partial class VerseBtControl : ResizableControl
+    public partial class VerseBtControl : VerseControl
     {
-        internal const string CstrVerseName = "line: ";
         protected const string CstrFieldNameStoryLine = "StoryLine";
         protected const string CstrFieldNameAnchors = "Anchors";
         protected const string CstrFieldNameRetellings = "Retellings";
         protected const string CstrFieldNameTestQuestions = "TestQuestions";
 
         internal VerseData _verseData = null;
-        protected int _VerseNumber = -1;
-
         public string Guid = null;
 
         public VerseBtControl(StoryEditor theSE, VerseData dataVerse, int nVerseNumber)
-            : base(theSE.theCurrentStory.ProjStage)
+            : base(theSE.theCurrentStory.ProjStage, nVerseNumber)
         {
             _verseData = dataVerse;
             Guid = _verseData.guid;
             InitializeComponent();
 
-            VerseNumber = nVerseNumber;
-
             tableLayoutPanel.Controls.Add(labelReference, 0, 0);
             tableLayoutPanel.Controls.Add(buttonDragDropHandle, 1, 0);
+            labelReference.Text = CstrVerseName + VerseNumber;
 
             InitControls(theSE);
         }
@@ -85,16 +81,6 @@ namespace OneStoryProjectEditor
                 RemoveRow(tableLayoutPanel.RowCount - 1);
         }
 
-        internal int VerseNumber
-        {
-            get { return _VerseNumber; }
-            set
-            {
-                _VerseNumber = value;
-                labelReference.Text = CstrVerseName + _VerseNumber;
-            }
-        }
-
         public bool Focus(StoryEditor theSE)
         {
             System.Diagnostics.Debug.Assert(tableLayoutPanel.Controls.ContainsKey(CstrFieldNameStoryLine));
@@ -107,7 +93,7 @@ namespace OneStoryProjectEditor
         protected void InitStoryLine(StoryEditor theSE, VerseData aVerseData, int nLayoutRow)
         {
             System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(CstrFieldNameStoryLine));
-            StoryLineControl aStoryLineCtrl = new StoryLineControl(theSE, aVerseData);
+            StoryLineControl aStoryLineCtrl = new StoryLineControl(theSE, this, aVerseData);
             aStoryLineCtrl.Name = CstrFieldNameStoryLine;
             aStoryLineCtrl.ParentControl = this;
 
@@ -119,7 +105,7 @@ namespace OneStoryProjectEditor
         protected void InitAnchors(AnchorsData anAnchorsData, int nLayoutRow)
         {
             System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(CstrFieldNameAnchors));
-            AnchorControl anAnchorCtrl = new AnchorControl(StageLogic, anAnchorsData);
+            AnchorControl anAnchorCtrl = new AnchorControl(this, StageLogic, anAnchorsData);
             anAnchorCtrl.Name = CstrFieldNameAnchors;
             anAnchorCtrl.ParentControl = this;
             
@@ -131,7 +117,7 @@ namespace OneStoryProjectEditor
         protected void InitRetellings(RetellingsData aRetellingsData, int nLayoutRow, List<string> astrTestors)
         {
             System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(CstrFieldNameRetellings));
-            MultiLineControl aRetellingsCtrl = new MultiLineControl(StageLogic, aRetellingsData, astrTestors);
+            MultiLineControl aRetellingsCtrl = new MultiLineControl(this, StageLogic, aRetellingsData, astrTestors);
             aRetellingsCtrl.Name = CstrFieldNameRetellings;
             aRetellingsCtrl.ParentControl = this;
 
@@ -149,7 +135,7 @@ namespace OneStoryProjectEditor
         protected void InitTestQuestion(StoryEditor theSE, int i, TestQuestionData aTQData, int nLayoutRow)
         {
             int nTQNumber = i + 1;
-            TestingQuestionControl aTestingQuestionCtrl = new TestingQuestionControl(theSE, aTQData);
+            TestingQuestionControl aTestingQuestionCtrl = new TestingQuestionControl(theSE, this, aTQData);
             aTestingQuestionCtrl.ParentControl = this;
             aTestingQuestionCtrl.Name = CstrFieldNameTestQuestions + nLayoutRow.ToString();
 

@@ -8,9 +8,9 @@ using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
 {
-    public partial class MultiLineControl : OneStoryProjectEditor.ResizableControl
+    public partial class MultiLineControl : ResizableControl
     {
-        public MultiLineControl(StoryStageLogic storyStageLogic, MultipleLineDataConverter aMLDC, List<string> astrTestors)
+        public MultiLineControl(VerseControl ctrlVerse, StoryStageLogic storyStageLogic, MultipleLineDataConverter aMLDC, List<string> astrTestors)
             : base(storyStageLogic)
         {
             InitializeComponent();
@@ -30,14 +30,14 @@ namespace OneStoryProjectEditor
                 string strUnsGui = aMLDC.MemberIDs[i];
                 System.Diagnostics.Debug.Assert(astrTestors.Contains(strUnsGui));
                 int nTest = astrTestors.IndexOf(strUnsGui) + 1;
-                InitRow(aMLDC.LabelTextFormat, strRowData, nTest, ref nNumRows);
+                InitRow(ctrlVerse, aMLDC.LabelTextFormat, strRowData, nTest, ref nNumRows);
             }
 
             tableLayoutPanel.ResumeLayout(false);
             ResumeLayout(false);
         }
 
-        protected void InitRow(string strLabelTextFormat, StringTransfer strRowData, int nTest, ref int nNumRows)
+        protected void InitRow(VerseControl ctrlVerse, string strLabelTextFormat, StringTransfer strRowData, int nTest, ref int nNumRows)
         {
             Label label = new Label
                               {
@@ -48,7 +48,7 @@ namespace OneStoryProjectEditor
                               };
 
             CtrlTextBox tb = new CtrlTextBox(
-                strLabelTextFormat + CstrSuffixTextBox + nTest, this, strRowData);
+                strLabelTextFormat + CstrSuffixTextBox + nTest, ctrlVerse, strRowData);
 
             // add the label and tool strip as a new row to the table layout panel
             int nLayoutRow = nNumRows++;

@@ -24,9 +24,14 @@ namespace OneStoryProjectEditor
         // we keep a copy of this, because it ought to persist across multiple files
         internal TeamMemberData LoggedOnMember;
         internal bool Modified;
+        internal Timer myFocusTimer = new Timer();
+
 
         public StoryEditor(string strStoriesSet)
         {
+            myFocusTimer.Tick += TimeToSetFocus;
+            myFocusTimer.Interval = 200;
+
             _strStoriesSet = strStoriesSet;
 
             InitializeComponent();
@@ -743,10 +748,18 @@ namespace OneStoryProjectEditor
             theCurrentStory.Verses.InsertRange(nInsertionIndex, lstNewVerses);
             InitAllPanes();
             Debug.Assert(lstNewVerses.Count > 0);
-            FocusOnVerse(nInsertionIndex);
+            FocusOnVerse(nInsertionIndex, null);
         }
 
-        public void FocusOnVerse(int nVerseIndex)
+        private void TimeToSetFocus(object sender, EventArgs e)
+        {
+            Debug.Assert((sender != null) && (sender is Timer) && ((sender as Timer).Tag is VerseControl));
+            (sender as Timer).Stop();
+            VerseControl ctrl = ((sender as Timer).Tag as VerseControl);
+            FocusOnVerse(ctrl.VerseNumber - 1, ctrl);
+        }
+
+        public void FocusOnVerse(int nVerseIndex, VerseControl ctrlThis)
         {
             // light up whichever text box is visible
             // from the verses pane...
@@ -754,7 +767,8 @@ namespace OneStoryProjectEditor
             Control ctrl = flowLayoutPanelVerses.Controls[(nVerseIndex * 2) + 1];
             Debug.Assert(ctrl is VerseBtControl);
             VerseBtControl theVerse = ctrl as VerseBtControl;
-            theVerse.Focus(this);
+            if (ctrlThis != theVerse)
+                theVerse.Focus(this);
 
             if (viewConsultantNoteFieldMenuItem.Checked)
             {
@@ -762,7 +776,8 @@ namespace OneStoryProjectEditor
                 ctrl = flowLayoutPanelConsultantNotes.Controls[nVerseIndex];
                 Debug.Assert(ctrl is ConsultNotesControl);
                 ConsultNotesControl theConsultantNotes = ctrl as ConsultNotesControl;
-                theConsultantNotes.Focus();
+                if (ctrlThis != theConsultantNotes)
+                    theConsultantNotes.Focus();
             }
 
             if (viewCoachNotesFieldMenuItem.Checked)
@@ -771,7 +786,8 @@ namespace OneStoryProjectEditor
                 ctrl = flowLayoutPanelCoachNotes.Controls[nVerseIndex];
                 Debug.Assert(ctrl is ConsultNotesControl);
                 ConsultNotesControl theCoachNotes = ctrl as ConsultNotesControl;
-                theCoachNotes.Focus();
+                if (ctrlThis != theCoachNotes)
+                    theCoachNotes.Focus();
             }
         }
 
@@ -2204,7 +2220,7 @@ namespace OneStoryProjectEditor
             comboBoxStorySelector.SelectedItem = strStoryName;
             SetNetBibleVerse(strAnchor);
             Debug.Assert(theCurrentStory.Verses.Count > nLineIndex);
-            FocusOnVerse(nLineIndex);
+            FocusOnVerse(nLineIndex, null);
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)

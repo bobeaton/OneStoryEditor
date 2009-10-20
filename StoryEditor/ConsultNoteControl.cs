@@ -15,7 +15,7 @@ namespace OneStoryProjectEditor
         internal ConsultNoteDataConverter _myCNDC = null;
         internal ConsultNotesDataConverter _myCollection = null;
 
-        public ConsultNoteControl(StoryStageLogic storyStageLogic, ConsultNotesDataConverter theCollection,
+        public ConsultNoteControl(VerseControl ctrlVerse, StoryStageLogic storyStageLogic, ConsultNotesDataConverter theCollection,
             ConsultNoteDataConverter aCNDC, TeamMemberData.UserTypes eLoggedOnMemberType)
             : base(storyStageLogic)
         {
@@ -43,30 +43,30 @@ namespace OneStoryProjectEditor
             foreach (CommInstance aCI in aCNDC)
                 if ((aCI.Direction == ConsultNoteDataConverter.CommunicationDirections.eConsultantToProjFac)
                     || (aCI.Direction == ConsultNoteDataConverter.CommunicationDirections.eCoachToConsultant))
-                    InitRow(aCNDC.MentorLabel, aCI, aCNDC.CommentColor, aCNDC.ThrowIfWrongEditor,
+                    InitRow(ctrlVerse, aCNDC.MentorLabel, aCI, aCNDC.CommentColor, aCNDC.ThrowIfWrongEditor,
                         aCNDC.MentorRequiredEditor, ref nNumRows);
                 else
-                    InitRow(aCNDC.MenteeLabel, aCI, aCNDC.ResponseColor, aCNDC.ThrowIfWrongEditor, 
+                    InitRow(ctrlVerse, aCNDC.MenteeLabel, aCI, aCNDC.ResponseColor, aCNDC.ThrowIfWrongEditor, 
                         aCNDC.MenteeRequiredEditor, ref nNumRows);
 
             tableLayoutPanel.ResumeLayout(false);
             ResumeLayout(false);
         }
 
-        protected void InitRow(string strRowLabel, StringTransfer strRowData, Color clrText,
+        protected void InitRow(VerseControl ctrlVerse, string strRowLabel, StringTransfer strRowData, Color clrText,
             CtrlTextBox.ThrowIfNotCorrectEditor delegateCheckEditor, TeamMemberData.UserTypes eReqEditor, ref int nNumRows)
         {
             int nLayoutRow = nNumRows++;
 
             Label label = new Label();
-            label.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            label.Anchor = AnchorStyles.Left;
             label.AutoSize = true;
-            label.Name = strRowLabel + nNumRows.ToString();
+            label.Name = strRowLabel + nNumRows;
             label.Text = strRowLabel;
 
             CtrlTextBox tb = new CtrlTextBox(
-                strRowLabel + CstrSuffixTextBox + nNumRows.ToString(),
-                this, strRowData, delegateCheckEditor, eReqEditor);
+                strRowLabel + CstrSuffixTextBox + nNumRows,
+                ctrlVerse, strRowData, delegateCheckEditor, eReqEditor);
             tb.ForeColor = clrText;
 
             // add the label and tool strip as a new row to the table layout panel

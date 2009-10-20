@@ -16,7 +16,7 @@ namespace OneStoryProjectEditor
 
         protected VerseData _aVerseData = null;
 
-        public StoryLineControl(StoryEditor aSE, VerseData aVerseData)
+        public StoryLineControl(StoryEditor aSE, VerseControl ctrlVerse, VerseData aVerseData)
             : base(aSE.theCurrentStory.ProjStage)
         {
             InitializeComponent();
@@ -48,7 +48,7 @@ namespace OneStoryProjectEditor
                     || (aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT)
                     || (aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT));
 
-                InitTextBox(CstrFieldNameVernacular, _aVerseData.VernacularText, 
+                InitTextBox(ctrlVerse, CstrFieldNameVernacular, _aVerseData.VernacularText, 
                     aSE.StoryProject.ProjSettings.Vernacular, aSE.LoggedOnMember.OverrideVernacularKeyboard,
                     bDisableTabStopVernacular, nNumColumns);
                 nNumColumns++;
@@ -65,7 +65,7 @@ namespace OneStoryProjectEditor
                     ((aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT)
                     || (aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT));
 
-                InitTextBox(CstrFieldNameNationalBt, _aVerseData.NationalBTText, 
+                InitTextBox(ctrlVerse, CstrFieldNameNationalBt, _aVerseData.NationalBTText, 
                     aSE.StoryProject.ProjSettings.NationalBT, aSE.LoggedOnMember.OverrideNationalBTKeyboard,
                     bDisableTabStopNationalBT, nNumColumns);
 
@@ -77,7 +77,7 @@ namespace OneStoryProjectEditor
                 InsertColumn(nNumColumns);
                 InitLabel(aSE.StoryProject.ProjSettings.InternationalBT.LangName, nNumColumns);
 
-                InitTextBox(CstrFieldNameInternationalBt, _aVerseData.InternationalBTText, 
+                InitTextBox(ctrlVerse, CstrFieldNameInternationalBt, _aVerseData.InternationalBTText, 
                     aSE.StoryProject.ProjSettings.InternationalBT, null, false, nNumColumns);
                 nNumColumns++;
             }
@@ -125,11 +125,11 @@ namespace OneStoryProjectEditor
             tableLayoutPanel.Controls.Add(lbl, nLayoutColumn, 0);
         }
 
-        protected void InitTextBox(string strTbName, StringTransfer strTbText, 
+        protected void InitTextBox(VerseControl ctrlVerse, string strTbName, StringTransfer strTbText, 
             ProjectSettings.LanguageInfo li, string strOverrideKeyboard, bool bDisableTabStop, int nLayoutColumn)
         {
             System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(strTbName + CstrSuffixTextBox), "otherwise, fix wrong assumption");
-            CtrlTextBox tb = new CtrlTextBox(strTbName + CstrSuffixTextBox, this, strTbText, li, strOverrideKeyboard);
+            CtrlTextBox tb = new CtrlTextBox(strTbName + CstrSuffixTextBox, ctrlVerse, strTbText, li, strOverrideKeyboard);
             tb.TabStop = !bDisableTabStop;
             tableLayoutPanel.Controls.Add(tb, nLayoutColumn, 1);
         }
