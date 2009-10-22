@@ -64,7 +64,29 @@ namespace OneStoryProjectEditor
                     Application.Run(new StoryEditor(Properties.Resources.IDS_MainStoriesSet));
 
                 foreach (string strProjectFolder in _astrProjectForSync)
-                    SyncWithRepository(strProjectFolder, bPretendOpening);
+                {
+                    string strOneStoryFileSpec = String.Format(@"{0}\{1}.onestory",
+                        strProjectFolder, Path.GetFileNameWithoutExtension(strProjectFolder));
+                    try
+                    {
+                        System.Diagnostics.Debug.Assert(File.Exists(strOneStoryFileSpec));
+
+                        // try to load the xml file. it'll throw if it's malformed (so we won't want to put it into the repo)
+                        NewDataSet projFile = new NewDataSet();
+                        projFile.ReadXml(strOneStoryFileSpec);
+
+                        SyncWithRepository(strProjectFolder, bPretendOpening);
+                    }
+                    catch (Exception ex)
+                    {
+                        string strMessage = String.Format("Error occurred trying to Send/Receive to the Internet:{0}{0}{1}", Environment.NewLine, ex.Message);
+                        if (ex.InnerException != null)
+                            strMessage += String.Format("{0}{1}", Environment.NewLine, ex.InnerException.Message);
+                        strMessage += String.Format("{0}Please send the file '{1}' to bob_eaton@sall.com", 
+                            Environment.NewLine, strOneStoryFileSpec);
+                        MessageBox.Show(strMessage, Properties.Resources.IDS_Caption);
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -89,10 +111,21 @@ namespace OneStoryProjectEditor
             Properties.Settings.Default.Save();
         }
 
+        public static bool ShouldTrySync(string strProjectFolder)
+        {
+            return ((strProjectFolder.Length > ProjectSettings.OneStoryProjectFolderRoot.Length)
+                    && (strProjectFolder.Substring(0, ProjectSettings.OneStoryProjectFolderRoot.Length) ==
+                     ProjectSettings.OneStoryProjectFolderRoot));
+        }
+
         public static void SetProjectForSyncage(string strProjectFolder)
         {
-            if (!_astrProjectForSync.Contains(strProjectFolder))
+            // add it to the list to be sync'd, but only if it is in the OneStory data folder
+            if (!_astrProjectForSync.Contains(strProjectFolder)
+                && ShouldTrySync(strProjectFolder))
+            {
                 _astrProjectForSync.Add(strProjectFolder);
+            }
         }
 
         // e.g. http://bobeaton:helpmepld@hg-private.languagedepot.org/snwmtn-test
@@ -146,56 +179,6 @@ namespace OneStoryProjectEditor
                     dlg.ShowDialog();
                 }
             }
-            /* 
-            if (!Directory.Exists(strProjectFolder + @"\.hg"))
-            {
-                // there's probably 
-                using (var setup = new RepositorySetup(strHgUsername))
-                {
-                    setup.Repository.SetKnownRepositoryAddresses(new[]
-                                                                     {
-                                                                         RepositoryAddress.Create("language depot",
-                                                                                                  strRepoUrl),
-                                                                     });
-
-                    setup.Repository.SetDefaultSyncRepositoryAliases(new[] {"language depot"});
-                }
-            }
-            using (var setup = new RepositorySetup(strHgUsername))
-            {
-                setup.ProjectFolderConfig.FolderPath = strProjectFolder;
-                setup.ProjectFolderConfig.IncludePatterns.Add("*.onestory");
-                setup.ProjectFolderConfig.IncludePatterns.Add("*.xml"); // the P7 key terms list
-                Application.EnableVisualStyles();
-                
-                setup.Repository.SetKnownRepositoryAddresses(new []
-                {
-                    RepositoryAddress.Create("language depot", strRepoUrl),
-                });
-
-                setup.Repository.SetDefaultSyncRepositoryAliases(new[] { "language depot" });
-
-                // for when we launch the program, just do a quick & dirty send/receive, but for
-                //  closing, we can be more informative
-                SyncUIDialogBehaviors suidb;
-                SyncUIFeatures suif;
-                if (bIsOpening)
-                {
-                    suidb = SyncUIDialogBehaviors.StartImmediatelyAndCloseWhenFinished;
-                    suif = SyncUIFeatures.Minimal;
-                }
-                else
-                {
-                    suidb = SyncUIDialogBehaviors.Lazy;
-                    suif = SyncUIFeatures.NormalRecommended;
-                }
-
-                using (var dlg = new SyncDialog(setup.ProjectFolderConfig, suidb, suif))
-                {
-                    dlg.ShowDialog();
-                }
-            }            */
-
         }
 
         private static bool QueryHgRepoParameters(string strProjectName, out string strUsername, out string strRepoUrl)

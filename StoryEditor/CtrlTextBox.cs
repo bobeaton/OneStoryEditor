@@ -200,13 +200,22 @@ namespace OneStoryProjectEditor
 
         protected static ContextMenuStrip _ctxMenu = null;
         protected const string CstrAddNoteOnSelected = "&Add Note on Selected Text";
+        protected const string CstrCutSelected = "C&ut";
+        protected const string CstrCopySelected = "&Copy";
+        protected const string CstrPasteSelected = "&Paste";
+        protected const string CstrUndo = "U&ndo";
 
         protected void InitComponent()
         {
             if (_ctxMenu == null)
             {
                 _ctxMenu = new ContextMenuStrip();
-                _ctxMenu.Items.Add(CstrAddNoteOnSelected, null, onClickPopupItem);
+                _ctxMenu.Items.Add(CstrAddNoteOnSelected, null, onAddNewNote);
+                _ctxMenu.Items.Add(new ToolStripSeparator());
+                _ctxMenu.Items.Add(CstrCutSelected, null, onCutSelectedText);
+                _ctxMenu.Items.Add(CstrCopySelected, null, onCopySelectedText);
+                _ctxMenu.Items.Add(CstrPasteSelected, null, onPasteSelectedText);
+                _ctxMenu.Items.Add(CstrUndo, null, onUndo);
             }
 
             ContextMenuStrip = _ctxMenu;
@@ -215,12 +224,31 @@ namespace OneStoryProjectEditor
             HideSelection = false;
         }
 
-        private void onClickPopupItem(object sender, EventArgs e)
+        private void onAddNewNote(object sender, EventArgs e)
         {
             System.Diagnostics.Debug.Assert(sender is ToolStripMenuItem);
             ToolStripMenuItem tsm = sender as ToolStripMenuItem;
-            if (CstrAddNoteOnSelected == tsm.Text)
-                _ctrlVerseParent.TheSE.AddNoteAbout(_ctrlVerseParent);
+            _ctrlVerseParent.TheSE.AddNoteAbout(_ctrlVerseParent);
+        }
+
+        private static void onCutSelectedText(object sender, EventArgs e)
+        {
+            _inTextBox.Cut();
+        }
+
+        private static void onCopySelectedText(object sender, EventArgs e)
+        {
+            _inTextBox.Copy();
+        }
+
+        private static void onPasteSelectedText(object sender, EventArgs e)
+        {
+            _inTextBox.Paste();
+        }
+
+        private static void onUndo(object sender, EventArgs e)
+        {
+            _inTextBox.Undo();
         }
     }
 }

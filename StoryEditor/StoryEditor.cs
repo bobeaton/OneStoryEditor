@@ -302,7 +302,7 @@ namespace OneStoryProjectEditor
 
             // see if we can update from a repository first before opening.
             string strDotHgFolder = projSettings.ProjectFolder + @"\.hg";
-            if (Directory.Exists(strDotHgFolder))
+            if (Program.ShouldTrySync(strProjectFolder) && Directory.Exists(strDotHgFolder))
             {
                 Program.SyncWithRepository(projSettings.ProjectFolder, true);
             }
@@ -2297,14 +2297,6 @@ namespace OneStoryProjectEditor
             Modified = true;
             InitAllPanes();
         }
-
-        /*
-            Repository repo = new Repository(this, true);
-            if (!repo.Exists)
-                repo.Create();
-
-            repo.SynchronizeWithRemote();
-        */
 
         public void NavigateTo(string strStoryName, int nLineIndex, string strAnchor)
         {
