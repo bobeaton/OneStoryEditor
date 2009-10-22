@@ -48,7 +48,8 @@ namespace OneStoryProjectEditor
                               };
 
             CtrlTextBox tb = new CtrlTextBox(
-                strLabelTextFormat + CstrSuffixTextBox + nTest, ctrlVerse, strRowData);
+                strLabelTextFormat + CstrSuffixTextBox + nTest, ctrlVerse, this, strRowData, 
+                label.Text);
 
             // add the label and tool strip as a new row to the table layout panel
             int nLayoutRow = nNumRows++;

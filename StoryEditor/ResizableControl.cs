@@ -34,19 +34,19 @@ namespace OneStoryProjectEditor
         /// <param name="nWidth">This parameter is used to fix the width of the control (the parent knows what the width is)</param>
         public void UpdateHeight(int nWidth)
         {
-            if (this.Width != nWidth)
+            if (Width != nWidth)
             {
-                this.tableLayoutPanel.SuspendLayout();
-                this.SuspendLayout();
+                tableLayoutPanel.SuspendLayout();
+                SuspendLayout();
 
-                this.Width = nWidth;
+                Width = nWidth;
 
                 // first resume and perform the layout. This causes all, for example, Dock=Fill TextBox's 
                 // to have their width's set
-                this.tableLayoutPanel.ResumeLayout(false);
-                this.tableLayoutPanel.PerformLayout();
-                this.ResumeLayout(false);
-                this.PerformLayout();
+                tableLayoutPanel.ResumeLayout(false);
+                tableLayoutPanel.PerformLayout();
+                ResumeLayout(false);
+                PerformLayout();
             }
 
             // now reheight all the controls
@@ -102,7 +102,7 @@ namespace OneStoryProjectEditor
                 Type type = aCtrl.GetType();
                 if (type == typeof(CtrlTextBox))
                     ResizeTextBoxToFitText((CtrlTextBox)aCtrl);
-                else if (aCtrl is ResizableControl)
+                else if ((aCtrl is ResizableControl) || (aCtrl is VerseControl))
                     ((ResizableControl)aCtrl).UpdateHeight(tableLayoutPanel.Width - tableLayoutPanel.Margin.Horizontal);
             }
         }
@@ -121,8 +121,8 @@ namespace OneStoryProjectEditor
         /// <param name="myDelegate"></param>
         protected void AdjustHeightWithSuspendLayout(ReheightAllControlsDelegate myDelegate)
         {
-            this.SuspendLayout();
-            this.tableLayoutPanel.SuspendLayout();
+            SuspendLayout();
+            tableLayoutPanel.SuspendLayout();
 
             bool bBeingCalledFromUpdateHeight = (myDelegate != null);
             if (bBeingCalledFromUpdateHeight)
@@ -130,10 +130,10 @@ namespace OneStoryProjectEditor
 
             AdjustHeight();
 
-            this.tableLayoutPanel.ResumeLayout(false);
-            this.tableLayoutPanel.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            tableLayoutPanel.ResumeLayout(false);
+            tableLayoutPanel.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
 
             // if we have a parent (e.g. the sub-controls like AnchorControl do) AND
             //  we aren't being called from UpdateView above (where the Parent will 
@@ -150,7 +150,7 @@ namespace OneStoryProjectEditor
             // do a similar thing with the layout panel (i.e. give it the same width and infinite height.
             // for some reason GetPreferredSize doesn't give the actual right size... so I'll write my own
             int nTableLayoutPanel = tableLayoutPanel.GetPreferredHeight();
-            this.Height = nTableLayoutPanel;
+            Height = nTableLayoutPanel;
         }
 
         protected static bool ResizeTextBoxToFitText(CtrlTextBox tb)
@@ -164,7 +164,10 @@ namespace OneStoryProjectEditor
 
         protected bool CheckForProperEditToken(out StoryEditor theSE)
         {
-            theSE = (StoryEditor)FindForm();
+            if (this is VerseControl)
+                theSE = (this as VerseControl).TheSE;
+            else
+                theSE = (StoryEditor)FindForm();
             try
             {
                 if (theSE == null)
@@ -192,15 +195,17 @@ namespace OneStoryProjectEditor
     {
         protected const string CstrVerseName = "ln: ";
         internal int VerseNumber = -1;
+        internal StoryEditor TheSE = null;
 
         private VerseControl()
         {
         }
 
-        public VerseControl(StoryStageLogic storyStageLogic, int nVerseNumber)
+        public VerseControl(StoryStageLogic storyStageLogic, int nVerseNumber, StoryEditor theSE)
             : base(storyStageLogic)
         {
             VerseNumber = nVerseNumber;
+            TheSE = theSE;
         }
     }
 }

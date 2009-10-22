@@ -11,61 +11,62 @@ namespace OneStoryProjectEditor
     public class CtrlTextBox : TextBox
     {
         protected StoryStageLogic _stageLogic = null;
-        protected VerseControl _ctrlParent = null;
+        protected VerseControl _ctrlVerseParent = null;
         protected string _strKeyboardName = null;
+        internal string _strLabel = null;
 
         public delegate void ThrowIfNotCorrectEditor(TeamMemberData.UserTypes eLoggedInMember, TeamMemberData.UserTypes eRequiredEditor);
         protected ThrowIfNotCorrectEditor _delegateRequiredEditorCheck;
         protected TeamMemberData.UserTypes _eRequiredEditor = TeamMemberData.UserTypes.eUndefined;
 
-        public CtrlTextBox(string strName, VerseControl ctrlParent, StringTransfer stData)
+        public CtrlTextBox(string strName, VerseControl ctrlVerseParent, 
+            ResizableControl ctrlParent, StringTransfer stData, string strLabel)
         {
+            InitComponent();
             Name = strName;
-            Multiline = true;
-            Dock = DockStyle.Fill;
+            _strLabel = strLabel;
             stData.SetAssociation(this);
             TextChanged += new EventHandler(ctrlParent.textBox_TextChanged);
             System.Diagnostics.Debug.Assert(ctrlParent.StageLogic != null);
             _stageLogic = ctrlParent.StageLogic;
-            _ctrlParent = ctrlParent;
+            _ctrlVerseParent = ctrlVerseParent;
         }
 
-        public CtrlTextBox(string strName, VerseControl ctrlParent, StringTransfer stData,
+        public CtrlTextBox(string strName, VerseControl ctrlVerseParent, ResizableControl ctrlParent, StringTransfer stData,
             ThrowIfNotCorrectEditor delegateRequiredEditorCheck, TeamMemberData.UserTypes eRequiredEditor)
         {
+            InitComponent();
             Name = strName;
-            Multiline = true;
-            Dock = DockStyle.Fill;
             stData.SetAssociation(this);
             TextChanged += new EventHandler(ctrlParent.textBox_TextChanged);
             System.Diagnostics.Debug.Assert(ctrlParent.StageLogic != null);
             _stageLogic = ctrlParent.StageLogic;
-            _ctrlParent = ctrlParent;
+            _ctrlVerseParent = ctrlVerseParent;
             _delegateRequiredEditorCheck = delegateRequiredEditorCheck; // call to check if the proper member is logged in!
             _eRequiredEditor = eRequiredEditor;
         }
 
-        public CtrlTextBox(string strName, VerseControl ctrlParent, StringTransfer stData,
-            ProjectSettings.LanguageInfo li, string strOverrideKeyboard)
+        public CtrlTextBox(string strName, VerseControl ctrlVerseParent, ResizableControl ctrlParent, StringTransfer stData,
+            ProjectSettings.LanguageInfo li, string strOverrideKeyboard, string strLabel)
         {
+            InitComponent();
             Name = strName;
-            Multiline = true;
-            Dock = DockStyle.Fill;
+            _strLabel = strLabel;
             Font = li.LangFont;
             ForeColor = li.FontColor;
             if (li.IsRTL)
                 RightToLeft = RightToLeft.Yes;
             stData.SetAssociation(this);
-            TextChanged += ctrlParent.textBox_TextChanged;
+            TextChanged += new EventHandler(ctrlParent.textBox_TextChanged);
             System.Diagnostics.Debug.Assert(ctrlParent.StageLogic != null);
             _stageLogic = ctrlParent.StageLogic;
-            _ctrlParent = ctrlParent;
+            _ctrlVerseParent = ctrlVerseParent;
             _strKeyboardName = (String.IsNullOrEmpty(strOverrideKeyboard)) ? li.DefaultKeyboard : strOverrideKeyboard;
         }
 
         public new bool Focus()
         {
-            _ctrlParent.Focus();
+            _ctrlVerseParent.Focus();
             base.Focus();
             Visible = true;
             return true;
@@ -78,7 +79,7 @@ namespace OneStoryProjectEditor
                 e.KeyData,
                 e.KeyValue));
 
-            StoryEditor theSE = (StoryEditor)_ctrlParent.FindForm();
+            StoryEditor theSE = (StoryEditor)_ctrlVerseParent.FindForm();
             try
             {
                 if (theSE == null)
@@ -133,14 +134,13 @@ namespace OneStoryProjectEditor
             if (!String.IsNullOrEmpty(_strKeyboardName))
                 KeyboardController.ActivateKeyboard(_strKeyboardName);
 
-            if (_nLastVerse != _ctrlParent.VerseNumber)
+            if (_nLastVerse != _ctrlVerseParent.VerseNumber)
             {
-                _nLastVerse = _ctrlParent.VerseNumber;
+                _nLastVerse = _ctrlVerseParent.VerseNumber;
 
                 // start a timer that will wake up shortly and set the focus to the other panes as well.
-                StoryEditor theSE = (StoryEditor)_ctrlParent.FindForm();
-                theSE.myFocusTimer.Tag = _ctrlParent;
-                theSE.myFocusTimer.Start();
+                _ctrlVerseParent.TheSE.myFocusTimer.Tag = _ctrlVerseParent;
+                _ctrlVerseParent.TheSE.myFocusTimer.Start();
             }
 
             base.OnEnter(e);
@@ -196,6 +196,31 @@ namespace OneStoryProjectEditor
                     return true;
             }
             return false;
+        }
+
+        protected static ContextMenuStrip _ctxMenu = null;
+        protected const string CstrAddNoteOnSelected = "&Add Note on Selected Text";
+
+        protected void InitComponent()
+        {
+            if (_ctxMenu == null)
+            {
+                _ctxMenu = new ContextMenuStrip();
+                _ctxMenu.Items.Add(CstrAddNoteOnSelected, null, onClickPopupItem);
+            }
+
+            ContextMenuStrip = _ctxMenu;
+            Multiline = true;
+            Dock = DockStyle.Fill;
+            HideSelection = false;
+        }
+
+        private void onClickPopupItem(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.Assert(sender is ToolStripMenuItem);
+            ToolStripMenuItem tsm = sender as ToolStripMenuItem;
+            if (CstrAddNoteOnSelected == tsm.Text)
+                _ctrlVerseParent.TheSE.AddNoteAbout(_ctrlVerseParent);
         }
     }
 }

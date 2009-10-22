@@ -8,9 +8,10 @@ namespace OneStoryProjectEditor
         protected const string CstrFieldNameConsultantNote = "ConsultantNoteControl";
 
         internal ConsultNotesDataConverter _theCNsDC = null;
-        public ConsultNotesControl(StoryStageLogic storyStageLogic, ConsultNotesDataConverter aCNsDC, 
-            int nVerseNumber, TeamMemberData.UserTypes eLoggedOnMemberType)
-            : base(storyStageLogic, nVerseNumber)
+        public ConsultNotesControl(StoryEditor theSE, StoryStageLogic storyStageLogic, 
+            ConsultNotesDataConverter aCNsDC, int nVerseNumber, 
+            TeamMemberData.UserTypes eLoggedOnMemberType)
+            : base(storyStageLogic, nVerseNumber, theSE)
         {
             _theCNsDC = aCNsDC;
             InitializeComponent();
@@ -55,15 +56,15 @@ namespace OneStoryProjectEditor
         {
             if (e.Button == MouseButtons.Right)
                 return;
-            DoAddNote();
+            DoAddNote(null);
         }
 
         private void addNoteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DoAddNote();
+            DoAddNote(null);
         }
 
-        protected void DoAddNote()
+        public void DoAddNote(string strNote)
         {
             // the only function of the button here is to add a slot to type a con note
             StoryEditor theSE;
@@ -86,7 +87,7 @@ namespace OneStoryProjectEditor
             }
 
             // always add at the front (so they're stay close to the verse number label)
-            _theCNsDC.InsertEmpty(0, round, theSE.LoggedOnMember.MemberType);
+            _theCNsDC.InsertEmpty(0, round, theSE.LoggedOnMember.MemberType, strNote);
             theSE.ReInitConsultNotesPane(_theCNsDC);
         }
 

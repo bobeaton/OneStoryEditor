@@ -654,7 +654,7 @@ namespace OneStoryProjectEditor
 
         protected void InitConsultNotesPane(ConNoteFlowLayoutPanel theFLP, ConsultNotesDataConverter aCNsDC, int nVerseIndex)
         {
-            ConsultNotesControl aConsultNotesCtrl = new ConsultNotesControl(theCurrentStory.ProjStage, aCNsDC, nVerseIndex, LoggedOnMember.MemberType);
+            ConsultNotesControl aConsultNotesCtrl = new ConsultNotesControl(this, theCurrentStory.ProjStage, aCNsDC, nVerseIndex, LoggedOnMember.MemberType);
             aConsultNotesCtrl.UpdateHeight(Panel2_Width);
             theFLP.AddCtrl(aConsultNotesCtrl);
         }
@@ -765,6 +765,11 @@ namespace OneStoryProjectEditor
             // from the verses pane...
             Debug.Assert(((nVerseIndex * 2) + 1) < flowLayoutPanelVerses.Controls.Count);
             Control ctrl = flowLayoutPanelVerses.Controls[(nVerseIndex * 2) + 1];
+
+            // keep track of the CtrlTextBox that started this all (because leave
+            //  will clear it out and we won't be able to set the focus at the end
+            CtrlTextBox tb = CtrlTextBox._inTextBox;
+
             Debug.Assert(ctrl is VerseBtControl);
             VerseBtControl theVerse = ctrl as VerseBtControl;
             if (ctrlThis != theVerse)
@@ -788,6 +793,93 @@ namespace OneStoryProjectEditor
                 ConsultNotesControl theCoachNotes = ctrl as ConsultNotesControl;
                 if (ctrlThis != theCoachNotes)
                     theCoachNotes.Focus();
+            }
+
+            // if we told the 'other' controls to 'Focus', then we need to go back to the
+            //  one that was actually clicked in (e.g. I click in a new version in the BT
+            //  file, this gets called to sync the ConNotes and CoachNotes panes to the 
+            //  same verse... but now, I have to go *back* to the BT pane
+            if (tb != null)
+                tb.Focus();
+        }
+
+        public void AddNoteAbout(VerseControl ctrlParent)
+        {
+            Debug.Assert(LoggedOnMember != null);
+            string strNote = "Re: ";
+            if (ctrlParent is VerseBtControl)
+            {
+                VerseBtControl ctrl = ctrlParent as VerseBtControl;
+                // if the control that was right-clicked on that led us here was one
+                //  of the story lines, then take the selected portion of all story line
+                //  controls and add it.
+                if ((CtrlTextBox._inTextBox == ctrl._verseData.VernacularText.TextBox)
+                    || (CtrlTextBox._inTextBox == ctrl._verseData.NationalBTText.TextBox)
+                    || (CtrlTextBox._inTextBox == ctrl._verseData.InternationalBTText.TextBox))
+                {
+                    // get selected text from all visible Story line controls
+                    if (viewVernacularLangFieldMenuItem.Checked)
+                    {
+                        string str = ctrl._verseData.VernacularText.TextBox.SelectedText.Trim();
+                        if (!String.IsNullOrEmpty(str))
+                            strNote += String.Format("{0}:/{1}/ ",
+                                                     StoryProject.ProjSettings.Vernacular.LangCode, str);
+                    }
+                    if (viewNationalLangFieldMenuItem.Checked)
+                    {
+                        string str = ctrl._verseData.NationalBTText.TextBox.SelectedText.Trim();
+                        if (!String.IsNullOrEmpty(str))
+                            strNote += String.Format("{0}:/{1}/ ",
+                                                     StoryProject.ProjSettings.NationalBT.LangCode, str);
+                    }
+                    if (viewEnglishBTFieldMenuItem.Checked)
+                    {
+                        string str = ctrl._verseData.InternationalBTText.TextBox.SelectedText.Trim();
+                        if (!String.IsNullOrEmpty(str))
+                            strNote += String.Format("{0}:/{1}/ ",
+                                                     StoryProject.ProjSettings.InternationalBT.LangCode, str);
+                    }
+                }
+                else
+                {
+                    // otherwise, it might have been a retelling or some other control
+                    if (!String.IsNullOrEmpty(CtrlTextBox._inTextBox._strLabel))
+                        strNote += CtrlTextBox._inTextBox._strLabel + ":";
+
+                    string str = CtrlTextBox._inTextBox.SelectedText.Trim();
+                    if (!String.IsNullOrEmpty(str))
+                        strNote += String.Format("/{0}/ ", str);
+                }
+            }
+            else // otherwise, just get the selected text out of the one box that was 
+                //  right-clicked in.
+            {
+                if (viewCoachNotesFieldMenuItem.Checked)
+                {
+                    if (!String.IsNullOrEmpty(CtrlTextBox._inTextBox._strLabel))
+                        strNote += CtrlTextBox._inTextBox._strLabel + ":";
+
+                    string str = CtrlTextBox._inTextBox.SelectedText.Trim();
+                    if (!String.IsNullOrEmpty(str))
+                        strNote += String.Format("/{0}/ ", str);
+                }
+            }
+            int nVerseIndex = ctrlParent.VerseNumber - 1;
+            if (LoggedOnMember.MemberType == TeamMemberData.UserTypes.eCoach)
+            {
+                Debug.Assert(nVerseIndex < flowLayoutPanelCoachNotes.Controls.Count);
+                Control ctrl = flowLayoutPanelCoachNotes.Controls[nVerseIndex];
+                Debug.Assert(ctrl is ConsultNotesControl);
+                ConsultNotesControl theCoachNotes = ctrl as ConsultNotesControl;
+                theCoachNotes.DoAddNote(strNote);
+            }
+            else
+            {
+                Debug.Assert(nVerseIndex < flowLayoutPanelConsultantNotes.Controls.Count);
+                Control ctrl = flowLayoutPanelConsultantNotes.Controls[nVerseIndex];
+                Debug.Assert(ctrl is ConsultNotesControl);
+                ConsultNotesControl theConsultantNotes = ctrl as ConsultNotesControl;
+                theConsultantNotes.DoAddNote(strNote);
             }
         }
 
@@ -2080,7 +2172,7 @@ namespace OneStoryProjectEditor
                 viewEnglishBTFieldMenuItem.Visible = (StoryProject.ProjSettings.InternationalBT.HasData);
             }
 
-            if (IsInStoriesSet)
+            if (IsInStoriesSet && (StoryProject != null))
             {
                 if (StoryProject[Properties.Resources.IDS_ObsoleteStoriesSet] != null)
                 {

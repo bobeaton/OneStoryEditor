@@ -66,7 +66,7 @@ namespace OneStoryProjectEditor
 
             CtrlTextBox tb = new CtrlTextBox(
                 strRowLabel + CstrSuffixTextBox + nNumRows,
-                ctrlVerse, strRowData, delegateCheckEditor, eReqEditor);
+                ctrlVerse, this, strRowData, delegateCheckEditor, eReqEditor);
             tb.ForeColor = clrText;
 
             // add the label and tool strip as a new row to the table layout panel

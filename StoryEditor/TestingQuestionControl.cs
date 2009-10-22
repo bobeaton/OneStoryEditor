@@ -109,7 +109,7 @@ namespace OneStoryProjectEditor
             Label lbl = new Label
                             {
                                 Name = strTestQuestionLangLableName + CstrSuffixLabel,
-                                Anchor = System.Windows.Forms.AnchorStyles.Top,
+                                Anchor = AnchorStyles.Top,
                                 AutoSize = true,
                                 Text = strTestQuestionLangLableName
                             };
@@ -119,7 +119,8 @@ namespace OneStoryProjectEditor
         protected void InitTextBox(VerseControl ctrlVerse, string strTbName, StringTransfer strTbText, ProjectSettings.LanguageInfo li, 
             string strOverrideKeyboard, int nLayoutColumn)
         {
-            CtrlTextBox tb = new CtrlTextBox(strTbName + CstrSuffixTextBox, ctrlVerse, strTbText, li, strOverrideKeyboard);
+            CtrlTextBox tb = new CtrlTextBox(strTbName + CstrSuffixTextBox, ctrlVerse, this,
+                strTbText, li, strOverrideKeyboard, CstrTestQuestionsLabelFormat);
             tableLayoutPanel.Controls.Add(tb, nLayoutColumn, 1);
         }
     }

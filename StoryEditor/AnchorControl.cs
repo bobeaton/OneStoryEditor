@@ -85,14 +85,17 @@ namespace OneStoryProjectEditor
         {
             int nLayoutRow = nNumRows++;
 
-            Label labelExegeticalHelp = new Label();
-            labelExegeticalHelp.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            labelExegeticalHelp.AutoSize = true;
-            labelExegeticalHelp.Name = CstrFieldNameExegeticalHelpLabel + nLayoutRow.ToString();
-            labelExegeticalHelp.Text = "cn:";
+            Label labelExegeticalHelp = new Label
+                                            {
+                                                Anchor = AnchorStyles.Left,
+                                                AutoSize = true,
+                                                Name = CstrFieldNameExegeticalHelpLabel + nLayoutRow.ToString(),
+                                                Text = "cn:"
+                                            };
 
             CtrlTextBox tb = new CtrlTextBox(
-                CstrFieldNameExegeticalHelp + nLayoutRow, ctrlVerse, strQuote);
+                CstrFieldNameExegeticalHelp + nLayoutRow, ctrlVerse, this, strQuote,
+                labelExegeticalHelp.Text);
 
             // add the label and tool strip as a new row to the table layout panel
             InsertRow(nLayoutRow);

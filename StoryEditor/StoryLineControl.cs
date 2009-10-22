@@ -129,7 +129,8 @@ namespace OneStoryProjectEditor
             ProjectSettings.LanguageInfo li, string strOverrideKeyboard, bool bDisableTabStop, int nLayoutColumn)
         {
             System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(strTbName + CstrSuffixTextBox), "otherwise, fix wrong assumption");
-            CtrlTextBox tb = new CtrlTextBox(strTbName + CstrSuffixTextBox, ctrlVerse, strTbText, li, strOverrideKeyboard);
+            CtrlTextBox tb = new CtrlTextBox(strTbName + CstrSuffixTextBox, ctrlVerse, this, 
+                strTbText, li, strOverrideKeyboard, li.LangCode);
             tb.TabStop = !bDisableTabStop;
             tableLayoutPanel.Controls.Add(tb, nLayoutColumn, 1);
         }

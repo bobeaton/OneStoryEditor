@@ -73,9 +73,8 @@
     </Reference>
     <Reference Include="LibChorus, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\chorus\output\Debug\LibChorus.dll</HintPath>
+      <HintPath>..\..\chorus\output\Release\LibChorus.dll</HintPath>
     </Reference>
-    <Reference Include="LibChorus.Tests, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="NetLoc, Version=7.0.100.5029, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
