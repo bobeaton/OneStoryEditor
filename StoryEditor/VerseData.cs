@@ -57,6 +57,28 @@ namespace OneStoryProjectEditor
             CoachNotes = new CoachNotesData(rhs.CoachNotes);
         }
 
+        public void IndexSearch(int nVerseNum, SearchForm.SearchLookInProperties findProperties,
+            ref SearchForm.StringTransferSearchIndex lstBoxesToSearch)
+        {
+            if (VernacularText.HasData && findProperties.StoryLanguage)
+                lstBoxesToSearch.AddNewVerseString(nVerseNum, VernacularText,
+                    ViewItemToInsureOn.eVernacularLangField);
+            if (NationalBTText.HasData && findProperties.NationalBT)
+                lstBoxesToSearch.AddNewVerseString(nVerseNum, NationalBTText,
+                    ViewItemToInsureOn.eNationalLangField);
+            if (InternationalBTText.HasData && findProperties.EnglishBT)
+                lstBoxesToSearch.AddNewVerseString(nVerseNum, InternationalBTText,
+                    ViewItemToInsureOn.eEnglishBTField);
+            if (TestQuestions.HasData && findProperties.TestQnA)
+                TestQuestions.IndexSearch(nVerseNum, findProperties, ref lstBoxesToSearch);
+            if (Retellings.HasData && findProperties.Retellings)
+                Retellings.IndexSearch(nVerseNum, findProperties, ref lstBoxesToSearch);
+            if (ConsultantNotes.HasData && findProperties.ConsultantNotes)
+                ConsultantNotes.IndexSearch(nVerseNum, findProperties, ref lstBoxesToSearch);
+            if (CoachNotes.HasData && findProperties.CoachNotes)
+                CoachNotes.IndexSearch(nVerseNum, findProperties, ref lstBoxesToSearch);
+        }
+
         public bool HasData
         {
             get
@@ -91,6 +113,18 @@ namespace OneStoryProjectEditor
 
                 return elemVerse;
             }
+        }
+
+        public enum ViewItemToInsureOn
+        {
+            eVernacularLangField,
+            eNationalLangField,
+            eEnglishBTField,
+            eAnchorFields,
+            eStoryTestingQuestionFields,
+            eRetellingFields,
+            eConsultantNoteFields,
+            eCoachNotesFields
         }
     }
 
@@ -145,6 +179,16 @@ namespace OneStoryProjectEditor
                 foreach (VerseData aVerseData in this)
                     elemVerses.Add(aVerseData.GetXml);
                 return elemVerses;
+            }
+        }
+
+        public void IndexSearch(SearchForm.SearchLookInProperties findProperties,
+            ref SearchForm.StringTransferSearchIndex lstBoxesToSearch)
+        {
+            for (int nVerseNum = 0; nVerseNum < Count; nVerseNum++)
+            {
+                VerseData aVerseData = this[nVerseNum];
+                aVerseData.IndexSearch(nVerseNum, findProperties, ref lstBoxesToSearch);
             }
         }
     }

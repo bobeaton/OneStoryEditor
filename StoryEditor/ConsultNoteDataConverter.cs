@@ -10,12 +10,16 @@ namespace OneStoryProjectEditor
     {
         public ConsultNoteDataConverter.CommunicationDirections Direction;
         public string Guid;
+        public DateTime TimeStamp;
 
-        public CommInstance(string strValue, ConsultNoteDataConverter.CommunicationDirections direction, string strGuid)
+        public CommInstance(string strValue, 
+            ConsultNoteDataConverter.CommunicationDirections direction, 
+            string strGuid, DateTime timeStamp)
             : base(strValue)
         {
             Direction = direction;
             Guid = strGuid ?? System.Guid.NewGuid().ToString();
+            TimeStamp = timeStamp;
         }
 
         public CommInstance(CommInstance rhs)
@@ -23,6 +27,7 @@ namespace OneStoryProjectEditor
         {
             Direction = rhs.Direction;
             Guid = rhs.Guid;
+            TimeStamp = rhs.TimeStamp;
         }
     }
 
@@ -93,9 +98,9 @@ namespace OneStoryProjectEditor
                     RemoveAt(Count - 1);
 
             if ((eLoggedOnMember == eMentorType) && ((Count == 0) || (this[Count - 1].Direction == MenteeDirection)))
-                Add(new CommInstance(strValue, MentorDirection, null));
+                Add(new CommInstance(strValue, MentorDirection, null, DateTime.Now));
             else if ((eLoggedOnMember == eMenteeType) && ((Count == 0) || (this[Count - 1].Direction == MentorDirection)))
-                Add(new CommInstance(strValue, MenteeDirection, null));
+                Add(new CommInstance(strValue, MenteeDirection, null, DateTime.Now));
         }
 
         // do this here, because we need to sub-class it to allow for FirstPassMentor working as well in addition to CIT
@@ -148,6 +153,8 @@ namespace OneStoryProjectEditor
             get;
         }
 
+        protected abstract VerseData.ViewItemToInsureOn AssociatedPane { get; }
+
         public bool HasData
         {
             get
@@ -171,13 +178,20 @@ namespace OneStoryProjectEditor
 
                 foreach (CommInstance aCI in this)
                     if (aCI.HasData)
-                        eleNote.Add(new XElement(SubElementName, 
+                        eleNote.Add(new XElement(SubElementName,
                             new XAttribute("Direction", GetDirectionString(aCI.Direction)),
                             new XAttribute("guid", aCI.Guid),
+                            new XAttribute("timeStamp", aCI.TimeStamp),
                             aCI.ToString()));
 
                 return eleNote;
             }
+        }
+
+        public void IndexSearch(int nVerseNum, SearchForm.SearchLookInProperties findProperties, SearchForm.StringTransferSearchIndex lstBoxesToSearch)
+        {
+            foreach (CommInstance aCI in this)
+                lstBoxesToSearch.AddNewVerseString(nVerseNum, aCI, AssociatedPane);
         }
     }
 
@@ -188,7 +202,10 @@ namespace OneStoryProjectEditor
         {
             NewDataSet.ConsultantNoteRow[] theNoteRows = aConRow.GetConsultantNoteRows();
             foreach (NewDataSet.ConsultantNoteRow aNoteRow in theNoteRows)
-                Add(new CommInstance(aNoteRow.ConsultantNote_text, GetDirectionFromString(aNoteRow.Direction), aNoteRow.guid));
+                Add(new CommInstance(aNoteRow.ConsultantNote_text, 
+                    GetDirectionFromString(aNoteRow.Direction),
+                    aNoteRow.guid, (aNoteRow.IstimeStampNull()) ? 
+                        DateTime.Now : aNoteRow.timeStamp));
 
             // make sure that there are at least two (we can't save them if they're empty)
             System.Diagnostics.Debug.Assert(Count != 0);
@@ -264,6 +281,11 @@ namespace OneStoryProjectEditor
         {
             get { return TeamMemberData.UserTypes.eProjectFacilitator; }
         }
+
+        protected override VerseData.ViewItemToInsureOn AssociatedPane
+        {
+            get { return VerseData.ViewItemToInsureOn.eConsultantNoteFields; }
+        }
     }
 
     public class CoachNoteData : ConsultNoteDataConverter
@@ -273,7 +295,11 @@ namespace OneStoryProjectEditor
         {
             NewDataSet.CoachNoteRow[] theNoteRows = aCoaCRow.GetCoachNoteRows();
             foreach (NewDataSet.CoachNoteRow aNoteRow in theNoteRows)
-                Add(new CommInstance(aNoteRow.CoachNote_text, GetDirectionFromString(aNoteRow.Direction), aNoteRow.guid));
+                Add(new CommInstance(aNoteRow.CoachNote_text, 
+                    GetDirectionFromString(aNoteRow.Direction), 
+                    aNoteRow.guid,
+                    (aNoteRow.IstimeStampNull()) ? DateTime.Now :
+                    aNoteRow.timeStamp));
         }
 
         public CoachNoteData(int nRound, TeamMemberData.UserTypes eLoggedOnMember,
@@ -328,6 +354,11 @@ namespace OneStoryProjectEditor
         {
             get { return TeamMemberData.UserTypes.eConsultantInTraining; }
         }
+
+        protected override VerseData.ViewItemToInsureOn AssociatedPane
+        {
+            get { return VerseData.ViewItemToInsureOn.eCoachNotesFields; }
+        }
     }
 
     public abstract class ConsultNotesDataConverter : List<ConsultNoteDataConverter>
@@ -380,6 +411,13 @@ namespace OneStoryProjectEditor
                         elemCNDC.Add(aCNDC.GetXml);
                 return elemCNDC;
             }
+        }
+
+        public void IndexSearch(int nVerseNum, SearchForm.SearchLookInProperties findProperties,
+            ref SearchForm.StringTransferSearchIndex lstBoxesToSearch)
+        {
+            foreach (ConsultNoteDataConverter aCNDC in this)
+                aCNDC.IndexSearch(nVerseNum, findProperties, lstBoxesToSearch);
         }
     }
 

@@ -806,7 +806,7 @@ namespace OneStoryProjectEditor
         public void AddNoteAbout(VerseControl ctrlParent)
         {
             Debug.Assert(LoggedOnMember != null);
-            string strNote = "Re: ";
+            string strNote = GetInitials(LoggedOnMember.Name) + ": Re: ";
             if (ctrlParent is VerseBtControl)
             {
                 VerseBtControl ctrl = ctrlParent as VerseBtControl;
@@ -881,6 +881,17 @@ namespace OneStoryProjectEditor
                 ConsultNotesControl theConsultantNotes = ctrl as ConsultNotesControl;
                 theConsultantNotes.DoAddNote(strNote);
             }
+        }
+
+        private static string GetInitials(string name)
+        {
+            string[] astrNames = name.Split(new [] {' '}, StringSplitOptions.RemoveEmptyEntries);
+            string strInitials = null;
+            foreach (string s in astrNames)
+            {
+                strInitials += s[0];
+            }
+            return strInitials;
         }
 
         internal void AddNewVerse(int nInsertionIndex, string strVernacular, string strNationalBT, string strInternationalBT)
@@ -1597,11 +1608,14 @@ namespace OneStoryProjectEditor
 
                 SaveClicked();
             }
+
+            m_frmFind = null;
         }
 
         private void editToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
-            copyToolStripMenuItem.Enabled =
+            editFindToolStripMenuItem.Enabled = 
+                copyToolStripMenuItem.Enabled =
                 copyNationalBackTranslationToolStripMenuItem.Enabled =
                 copyEnglishBackTranslationToolStripMenuItem.Enabled =
                 ((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
@@ -1613,6 +1627,7 @@ namespace OneStoryProjectEditor
                 (IsInStoriesSet && (theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
 
             pasteToolStripMenuItem.Enabled = (CtrlTextBox._inTextBox != null);
+
             editCopySelectionToolStripMenuItem.Enabled = ((CtrlTextBox._inTextBox != null) && (!String.IsNullOrEmpty(CtrlTextBox._inTextBox.SelectedText)));
 
             if ((StoryProject != null) && (StoryProject.ProjSettings != null) && (theCurrentStory != null) && (theCurrentStory.Verses.Count > 0))
@@ -2023,7 +2038,9 @@ namespace OneStoryProjectEditor
                 string strAdaptIt = String.Format(@"{0}\Adapt It WX Unicode\Adapt_It_Unicode.exe",
                     Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles));
 
-                LaunchProgram(strAdaptIt, null);
+                LaunchProgram(strAdaptIt, 
+                    (eGlossType == AdaptItGlossing.GlossType.eNationalToEnglish) ? 
+                    null : "-frm");
 
                 string strTargetLangName = strProjectName.Split(" ".ToCharArray())[2];
                 string strMessage = String.Format(Properties.Resources.IDS_AdaptationInstructions,
@@ -2307,6 +2324,54 @@ namespace OneStoryProjectEditor
             FocusOnVerse(nLineIndex, null);
         }
 
+        public void NavigateTo(string strStoryName, int nLineIndex,
+            VerseData.ViewItemToInsureOn viewItemToInsureOn, StringTransfer stToFocus)
+        {
+            Debug.Assert(comboBoxStorySelector.Items.Contains(strStoryName));
+            if (strStoryName != theCurrentStory.Name)
+                comboBoxStorySelector.SelectedItem = strStoryName;
+
+            Debug.Assert(theCurrentStory.Verses.Count > nLineIndex);
+
+            ToolStripMenuItem tsmi = null;
+            switch(viewItemToInsureOn)
+            {
+                case VerseData.ViewItemToInsureOn.eVernacularLangField:
+                    tsmi = viewVernacularLangFieldMenuItem;
+                    break;
+                case VerseData.ViewItemToInsureOn.eNationalLangField:
+                    tsmi = viewNationalLangFieldMenuItem;
+                    break;
+                case VerseData.ViewItemToInsureOn.eEnglishBTField:
+                    tsmi = viewEnglishBTFieldMenuItem;
+                    break;
+                case VerseData.ViewItemToInsureOn.eAnchorFields:
+                    tsmi = viewAnchorFieldMenuItem;
+                    break;
+                case VerseData.ViewItemToInsureOn.eStoryTestingQuestionFields:
+                    tsmi = viewStoryTestingQuestionFieldMenuItem;
+                    break;
+                case VerseData.ViewItemToInsureOn.eRetellingFields:
+                    tsmi = viewRetellingFieldMenuItem;
+                    break;
+                case VerseData.ViewItemToInsureOn.eConsultantNoteFields:
+                    tsmi = viewConsultantNoteFieldMenuItem;
+                    break;
+                case VerseData.ViewItemToInsureOn.eCoachNotesFields:
+                    tsmi = viewCoachNotesFieldMenuItem;
+                    break;
+                default:
+                    Debug.Assert(false);
+                    break;
+            }
+
+            if ((tsmi != null) && !tsmi.Checked)
+                tsmi.Checked = true;
+
+            Debug.Assert(stToFocus.TextBox != null);
+            stToFocus.TextBox.Focus();
+        }
+
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             HtmlForm dlg = new HtmlForm
@@ -2316,6 +2381,15 @@ namespace OneStoryProjectEditor
                                };
 
             dlg.ShowDialog();
+        }
+
+        protected SearchForm m_frmFind = null;
+        private void findToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (m_frmFind == null)
+                m_frmFind = new SearchForm();
+
+            m_frmFind.Show(this);
         }
     }
 }

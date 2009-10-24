@@ -11,6 +11,7 @@ namespace OneStoryProjectEditor
         protected abstract string CollectionElementName { get; }
         protected abstract string InstanceElementName { get; }
         public abstract string LabelTextFormat { get; }
+        protected abstract VerseData.ViewItemToInsureOn AssociatedViewMenu { get; }
 
         protected MultipleLineDataConverter(MultipleLineDataConverter rhs)
         {
@@ -70,6 +71,13 @@ namespace OneStoryProjectEditor
                 return elem;
             }
         }
+
+        public void IndexSearch(int nVerseNum, SearchForm.SearchLookInProperties findProperties,
+            ref SearchForm.StringTransferSearchIndex lstBoxesToSearch)
+        {
+            foreach (StringTransfer line in this)
+                lstBoxesToSearch.AddNewVerseString(nVerseNum, line, AssociatedViewMenu);
+        }
     }
 
     public class RetellingsData : MultipleLineDataConverter
@@ -113,6 +121,11 @@ namespace OneStoryProjectEditor
         {
             get { return "ret {0}:"; }
         }
+
+        protected override VerseData.ViewItemToInsureOn AssociatedViewMenu
+        {
+            get { return VerseData.ViewItemToInsureOn.eRetellingFields; }
+        }
     }
 
     public class AnswersData : MultipleLineDataConverter
@@ -155,6 +168,11 @@ namespace OneStoryProjectEditor
         public override string LabelTextFormat
         {
             get { return "ans {0}:"; }
+        }
+
+        protected override VerseData.ViewItemToInsureOn AssociatedViewMenu
+        {
+            get { return VerseData.ViewItemToInsureOn.eStoryTestingQuestionFields; }
         }
     }
 }

@@ -67,6 +67,12 @@ namespace OneStoryProjectEditor
                 return elemStory;
             }
         }
+
+        public void IndexSearch(SearchForm.SearchLookInProperties findProperties, 
+            ref SearchForm.StringTransferSearchIndex lstBoxesToSearch)
+        {
+            Verses.IndexSearch(findProperties, ref lstBoxesToSearch);
+        }
     }
 
     public class CraftingInfoData
@@ -197,6 +203,16 @@ namespace OneStoryProjectEditor
                     elemStories.Add(aSD.GetXml);
 
                 return elemStories;
+            }
+        }
+
+        public void IndexSearch(SearchForm.SearchLookInProperties findProperties,
+            ref SearchForm.StorySearchIndex alstBoxesToSearch)
+        {
+            foreach (StoryData aSD in this)
+            {
+                SearchForm.StringTransferSearchIndex ssi = alstBoxesToSearch.GetNewStorySearchIndex(aSD.Name);
+                aSD.IndexSearch(findProperties, ref ssi);
             }
         }
     }

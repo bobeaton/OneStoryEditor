@@ -79,6 +79,21 @@ namespace OneStoryProjectEditor
                 return eleTQ;
             }
         }
+
+        public void IndexSearch(int nVerseNum, SearchForm.SearchLookInProperties findProperties, 
+            SearchForm.StringTransferSearchIndex lstBoxesToSearch)
+        {
+            if (QuestionVernacular.HasData && findProperties.StoryLanguage)
+                lstBoxesToSearch.AddNewVerseString(nVerseNum, QuestionVernacular,
+                    VerseData.ViewItemToInsureOn.eStoryTestingQuestionFields);
+            if (QuestionNationalBT.HasData && findProperties.NationalBT)
+                lstBoxesToSearch.AddNewVerseString(nVerseNum, QuestionNationalBT,
+                    VerseData.ViewItemToInsureOn.eStoryTestingQuestionFields);
+            if (QuestionInternationalBT.HasData && findProperties.EnglishBT)
+                lstBoxesToSearch.AddNewVerseString(nVerseNum, QuestionInternationalBT,
+                    VerseData.ViewItemToInsureOn.eStoryTestingQuestionFields);
+            Answers.IndexSearch(nVerseNum, findProperties, ref lstBoxesToSearch);
+        }
     }
 
     public class TestQuestionsData : List<TestQuestionData>
@@ -129,6 +144,13 @@ namespace OneStoryProjectEditor
                         elemTestQuestions.Add(aTestQuestionData.GetXml);
                 return elemTestQuestions;
             }
+        }
+
+        public void IndexSearch(int nVerseNum, SearchForm.SearchLookInProperties findProperties,
+            ref SearchForm.StringTransferSearchIndex lstBoxesToSearch)
+        {
+            foreach (TestQuestionData testQuestionData in this)
+                testQuestionData.IndexSearch(nVerseNum, findProperties, lstBoxesToSearch);
         }
     }
 }
