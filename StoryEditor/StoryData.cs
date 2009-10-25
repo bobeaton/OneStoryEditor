@@ -215,6 +215,14 @@ namespace OneStoryProjectEditor
                 aSD.IndexSearch(findProperties, ref ssi);
             }
         }
+
+        public StoryData GetStoryFromName(string strStoryName)
+        {
+            foreach (StoryData aSD in this)
+                if (strStoryName == aSD.Name)
+                    return aSD;
+            return null;
+        }
     }
 
     public class StoryProjectData : Dictionary<string, StoriesData>

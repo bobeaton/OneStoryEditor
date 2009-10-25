@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text.RegularExpressions;
@@ -195,34 +196,10 @@ namespace OneStoryProjectEditor
                 string thisRef = link.Substring(19).Replace('_', ' ');
                 string strStoryName, strAnchor;
                 int nLineNumber;
-                ParseReference(thisRef, out strStoryName, out nLineNumber, out strAnchor);
+                BiblicalTermsHTMLBuilder.ParseReference(thisRef, out strStoryName, out nLineNumber, out strAnchor);
                 _theSE.NavigateTo(strStoryName, nLineNumber, strAnchor);
                 e.Cancel = true;
             }
-        }
-
-        protected void ParseReference(string strReference, out string strStoryName, out int nLineNumber, out string strAnchor)
-        {
-            // format for reference is: "Story: '{0}' line: {1} anchor: {2}"
-            const string CstrStoryPortion = "Story: '";
-            const string CstrLinePortion = "' line: ";
-            const string CstrAnchorPortion = " anchor: ";
-
-            System.Diagnostics.Debug.Assert(strReference.IndexOf(CstrStoryPortion) == 0);
-            int nIndexStoryName = CstrStoryPortion.Length;
-            int nIndexLineNumber = strReference.IndexOf(CstrLinePortion, nIndexStoryName) + CstrLinePortion.Length;
-            int nIndexAnchor = strReference.IndexOf(CstrAnchorPortion, nIndexLineNumber) + CstrAnchorPortion.Length;
-
-            strStoryName = strReference.Substring(nIndexStoryName, nIndexLineNumber - nIndexStoryName - CstrLinePortion.Length);
-            string strLineNumber = strReference.Substring(nIndexLineNumber, nIndexAnchor - nIndexLineNumber - CstrAnchorPortion.Length);
-            nLineNumber = 0;
-            try
-            {
-                nLineNumber = Convert.ToInt32(strLineNumber) - 1;
-            }
-            catch { }
-
-            strAnchor = strReference.Substring(nIndexAnchor);
         }
 
         private void DenyReference(string reference, bool doDeny)
@@ -233,19 +210,20 @@ namespace OneStoryProjectEditor
             reference = reference.Replace("%20", " ");
             TermRendering termRendering = renderings.GetRendering(SelectedTerm.Id);
 
+            string strOneStoryDenialUrl = BiblicalTermsHTMLBuilder.ConstructUrlFromReference(_theSE, reference);
             if (doDeny)
             {
-                if (!termRendering.Denials.Contains(reference))
+                if (!termRendering.Denials.Contains(strOneStoryDenialUrl))
                 {
                     termRendering.Status = BiblicalTermStatus.AllFoundOrDenied;
-                    termRendering.Denials.Add(reference);
+                    termRendering.Denials.Add(strOneStoryDenialUrl);
                 }
             }
             else  // remove denial
             {
                 termRendering.Status = BiblicalTermStatus.SomeMissing;
-                while (termRendering.Denials.Contains(reference))
-                    termRendering.Denials.Remove(reference);
+                while (termRendering.Denials.Contains(strOneStoryDenialUrl))
+                    termRendering.Denials.Remove(strOneStoryDenialUrl);
             }
 
             LoadReferencesDisplay(false);
@@ -265,8 +243,9 @@ namespace OneStoryProjectEditor
                 webBrowser.Copy();
             }
 
+            System.Diagnostics.Debug.WriteLine(String.Format("e.KeyValue = {0}", e.KeyValue));
             // the "+" key will add the rendering
-            if (e.KeyValue == 107)
+            if ((e.KeyValue == 107) || (e.KeyValue == 187))
             {
                 AddRendering(SelectedText, SelectedTermIndex);
             }
@@ -551,18 +530,16 @@ namespace OneStoryProjectEditor
             progressBarLoadingKeyTerms.Visible = true;
             Term myTerm = visibleTerms[myTermIndex];
 
-            List<VerseRef> vrefs = new List<VerseRef>(myTerm.VerseRefs());
-
             if (_lastTerm != myTerm)
             {
-                htmlBuilder.ReadVerseText(myTerm, vrefs, _theSE.StoryProject, progressBarLoadingKeyTerms);
+                htmlBuilder.ReadVerseText(myTerm, _theSE.StoryProject, progressBarLoadingKeyTerms);
                 _lastTerm = myTerm;
             }
 
             BiblicalTermStatus status;
 
             // Build HTML text for references display.
-            refererencesHtml = htmlBuilder.Build(vrefs, myTerm.Id,
+            refererencesHtml = htmlBuilder.Build(_theSE, myTerm.Id,
                 _projSettings.ProjectFolder, progressBarLoadingKeyTerms, out status);
 
             TermRendering termRendering = renderings.GetRendering(myTerm.Id);
@@ -591,7 +568,8 @@ namespace OneStoryProjectEditor
 
         public void DoClosingTasks()
         {
-            renderings.PromptForSave(_projSettings.ProjectFolder);
+            if (renderings != null)
+                renderings.PromptForSave(_projSettings.ProjectFolder);
         }
     }
 }

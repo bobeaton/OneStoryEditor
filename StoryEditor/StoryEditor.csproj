@@ -115,6 +115,7 @@
     <Reference Include="System.Deployment" />
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq">
@@ -208,6 +209,7 @@
     <Compile Include="NetBibleViewer.Designer.cs">
       <DependentUpon>NetBibleViewer.cs</DependentUpon>
     </Compile>
+    <Compile Include="OneStoryUrlBuilder.cs" />
     <Compile Include="PanoramaView.cs">
       <SubType>Form</SubType>
     </Compile>

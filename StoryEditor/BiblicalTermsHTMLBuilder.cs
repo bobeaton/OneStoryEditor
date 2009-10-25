@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Paratext;
@@ -204,7 +205,7 @@ namespace OneStoryProjectEditor
 		/// <summary>
 		/// Setup the template variables related to a single verse of a single project
 		/// </summary>
-        private void setupReferenceVars(int projectNum, string strVerseReference,
+        private void setupReferenceVars(StoryEditor theSE, int projectNum, string strVerseReference,
 			out bool renderingFound, out bool renderingDenied)
 		{
 			referenceVariables = new Dictionary<string, string>();
@@ -219,8 +220,10 @@ namespace OneStoryProjectEditor
 
             TermRendering termRendering = termRenderingsList[0];
             if (!renderingFound)
-                renderingDenied = termRendering.Denials.Contains(strVerseReference);
-
+            {
+                string strOneStoryUrl = ConstructUrlFromReference(theSE, strVerseReference);
+                renderingDenied = termRendering.Denials.Contains(strOneStoryUrl);
+            }
             referenceVariables["Text"] = text;
 
             if (projectNum == 0)
@@ -229,7 +232,46 @@ namespace OneStoryProjectEditor
                 referenceVariables["StatusBMP"] = "";
         }
 
-		private static string RenderingStatus(bool renderingFound, bool renderingDenied, string reference)
+        internal static string ConstructUrlFromReference(StoryEditor theSE, string reference)
+        {
+            string strStoryName, strAnchor;
+            int nLineNum;
+            ParseReference(reference, out strStoryName, out nLineNum, out strAnchor);
+
+            StoryData theStory = theSE.TheCurrentStoriesSet.GetStoryFromName(strStoryName);
+            System.Diagnostics.Debug.Assert(theStory != null);
+            return OneStoryUrlBuilder.Url(
+                                   theSE.StoryProject.ProjSettings.ProjectName,
+                                   theStory.guid,
+                                   theStory.Verses[nLineNum].guid,
+                                   OneStoryUrlBuilder.FieldType.eAnchorFields, strAnchor, strAnchor);
+        }
+
+        internal static void ParseReference(string strReference, out string strStoryName, out int nLineNumber, out string strAnchor)
+        {
+            // format for reference is: "Story: '{0}' line: {1} anchor: {2}"
+            const string CstrStoryPortion = "Story: '";
+            const string CstrLinePortion = "' line: ";
+            const string CstrAnchorPortion = " anchor: ";
+
+            System.Diagnostics.Debug.Assert(strReference.IndexOf(CstrStoryPortion) == 0);
+            int nIndexStoryName = CstrStoryPortion.Length;
+            int nIndexLineNumber = strReference.IndexOf(CstrLinePortion, nIndexStoryName) + CstrLinePortion.Length;
+            int nIndexAnchor = strReference.IndexOf(CstrAnchorPortion, nIndexLineNumber) + CstrAnchorPortion.Length;
+
+            strStoryName = strReference.Substring(nIndexStoryName, nIndexLineNumber - nIndexStoryName - CstrLinePortion.Length);
+            string strLineNumber = strReference.Substring(nIndexLineNumber, nIndexAnchor - nIndexLineNumber - CstrAnchorPortion.Length);
+            nLineNumber = 0;
+            try
+            {
+                nLineNumber = Convert.ToInt32(strLineNumber) - 1;
+            }
+            catch { }
+
+            strAnchor = strReference.Substring(nIndexAnchor);
+        }
+
+        private static string RenderingStatus(bool renderingFound, bool renderingDenied, string reference)
 		{
 			if (renderingFound) 
 				return " \u2713";   // check mark
@@ -265,9 +307,15 @@ namespace OneStoryProjectEditor
 		/// <summary>
 		/// Build by project by reference array of verse text for this term
 		/// </summary>
-        internal void ReadVerseText(Term myTerm, List<VerseRef> references, StoryProjectData theSPD, ProgressBar progressBarLoadingKeyTerms)
+        internal void ReadVerseText(Term myTerm, StoryProjectData theSPD, ProgressBar progressBarLoadingKeyTerms)
         {
             mapReferenceToVerseTextList = new Dictionary<string, List<string>>();
+
+            ArrayList vrefs = new ArrayList();
+		    foreach (var vref in myTerm.VerseRefs())
+                vrefs.Add(vref.BBBCCCVVVS());
+
+            // List<VerseRef> vrefs = new List<VerseRef>(myTerm.VerseRefs());
 
             // get the current stories only (not the obsolete ones)
             StoriesData theStories = theSPD[Properties.Resources.IDS_MainStoriesSet];
@@ -284,30 +332,29 @@ namespace OneStoryProjectEditor
                     {
                         AnchorData anAnchor = aVerse.Anchors[nAnchorNumber];
                         VerseRef theVerseRef = new VerseRef(anAnchor.AnchorAsVerseRef);
-                        foreach (VerseRef aVerseRef in references)
-                            if (theVerseRef.BBBCCCVVVS() == aVerseRef.BBBCCCVVVS())
-                            {
-                                string strVerseReference = String.Format("Story: '{0}' line: {1} anchor: {2}",
-                                    aStory.Name, nVerseNumber + 1, anAnchor.JumpTarget);
-                                
-                                List<string> astrVerseText = new List<string>(projectVariablesList.Count);
-                                if (theSPD.ProjSettings.Vernacular.HasData)
-                                    astrVerseText.Add(aVerse.VernacularText.ToString());
-                                if (theSPD.ProjSettings.NationalBT.HasData)
-                                    astrVerseText.Add(aVerse.NationalBTText.ToString());
-                                if (theSPD.ProjSettings.InternationalBT.HasData)
-                                    astrVerseText.Add(aVerse.InternationalBTText.ToString());
+                        int nIndex = vrefs.BinarySearch(theVerseRef.BBBCCCVVVS());
+                        if (nIndex < 0) continue;
 
-                                // keep track of this verse and it's reference
-                                if (!mapReferenceToVerseTextList.ContainsKey(strVerseReference))
-                                    mapReferenceToVerseTextList.Add(strVerseReference, astrVerseText);
+                        string strVerseReference = String.Format("Story: '{0}' line: {1} anchor: {2}",
+                                                                 aStory.Name, nVerseNumber + 1, anAnchor.JumpTarget);
+                            
+                        List<string> astrVerseText = new List<string>(projectVariablesList.Count);
+                        if (theSPD.ProjSettings.Vernacular.HasData)
+                            astrVerseText.Add(aVerse.VernacularText.ToString());
+                        if (theSPD.ProjSettings.NationalBT.HasData)
+                            astrVerseText.Add(aVerse.NationalBTText.ToString());
+                        if (theSPD.ProjSettings.InternationalBT.HasData)
+                            astrVerseText.Add(aVerse.InternationalBTText.ToString());
 
-                                // we don't need to do any more anchors with this same line of the same story
-                                //  so set the anchor # to the number of anchors so the next outer for loop
-                                //  will think it's finished
-                                nAnchorNumber = aVerse.Anchors.Count;
-                                break;
-                            }
+                        // keep track of this verse and it's reference
+                        if (!mapReferenceToVerseTextList.ContainsKey(strVerseReference))
+                            mapReferenceToVerseTextList.Add(strVerseReference, astrVerseText);
+
+                        // we don't need to do any more anchors with this same line of the same story
+                        //  so set the anchor # to the number of anchors so the next outer for loop
+                        //  will think it's finished
+                        nAnchorNumber = aVerse.Anchors.Count;
+                        break;
                     }
                 }
                 progressBarLoadingKeyTerms.Value++;
@@ -372,13 +419,12 @@ namespace OneStoryProjectEditor
 		/// <param name="status">summary status over all references</param>
 		/// <returns>html for references</returns>
 		public string Build(
-			List<VerseRef> references, 
+            StoryEditor theSE,
 			string termId,
             string strProjectFolder, 
             ProgressBar progressBarLoadingKeyTerms,
 			out BiblicalTermStatus status)
 		{
-			//BuildVerseText(references);
             BuildRenderings(strProjectFolder, termId);
 
 			builder.Clear();
@@ -417,7 +463,7 @@ namespace OneStoryProjectEditor
 
 				    bool renderingFound;
 				    bool renderingDenied;
-                    setupReferenceVars(projectNum, strVerseReference, 
+                    setupReferenceVars(theSE, projectNum, strVerseReference, 
                         out renderingFound, out renderingDenied);
 				    builder.SetDictionary(referenceVariables);
 
