@@ -58,7 +58,7 @@ namespace OneStoryProjectEditor
                 {
                     foreach (string strProjectName in _mapProjectNameToHgUrl.Keys)
                     {
-                        string strProjectPath = String.Format(@"{0}\{1}",
+                        string strProjectPath = Path.Combine(
                             ProjectSettings.OneStoryProjectFolderRoot, 
                             strProjectName);
                         _astrProjectForSync.Add(strProjectPath);
@@ -82,7 +82,7 @@ namespace OneStoryProjectEditor
                         string strMessage = String.Format("Error occurred trying to Send/Receive to the Internet:{0}{0}{1}", Environment.NewLine, ex.Message);
                         if (ex.InnerException != null)
                             strMessage += String.Format("{0}{1}", Environment.NewLine, ex.InnerException.Message);
-                        strMessage += String.Format("{0}Please send the file '{1}' to bob_eaton@sall.com", 
+                        strMessage += String.Format("{0}Please click the 'Send Email' button to get support help", 
                             Environment.NewLine, strOneStoryFileSpec);
                         ErrorReport.ReportNonFatalException(new Exception(strMessage));
                     }
@@ -173,8 +173,9 @@ namespace OneStoryProjectEditor
                     suidb = SyncUIDialogBehaviors.StartImmediatelyAndCloseWhenFinished;
                     suif = SyncUIFeatures.Minimal;
 
-                    var repo = new HgRepository(strProjectFolder, new NullProgress());
-                    if (!repo.GetCanConnectToRemote(strRepoUrl, new NullProgress()))
+                    var nullProgress = new NullProgress();
+                    var repo = new HgRepository(strProjectFolder, nullProgress);
+                    if (!repo.GetCanConnectToRemote(strRepoUrl, nullProgress))
                         if (MessageBox.Show(Properties.Resources.IDS_ConnectToInternet, 
                             Properties.Resources.IDS_Caption, MessageBoxButtons.OKCancel) == 
                             DialogResult.Cancel)

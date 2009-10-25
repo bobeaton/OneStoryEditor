@@ -73,7 +73,7 @@ namespace OneStoryProjectEditor
                 string[] astrTypeIds = parse.GetValues(CstrTypeId);
                 string[] astrTypeVals = parse.GetValues(CstrTypeValue);
 
-                System.Diagnostics.Debug.Assert((astrTypes.Length == astrTypeIds.Length)
+                Debug.Assert((astrTypes.Length == astrTypeIds.Length)
                     && (astrTypeIds.Length == astrTypeVals.Length));
 
                 lstFields = new List<FieldInfo>(astrTypes.Length);
