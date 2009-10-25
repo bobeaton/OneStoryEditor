@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using Chorus.UI.Sync;
+using Chorus.Utilities;
+using Chorus.VcsDrivers;
+using Chorus.VcsDrivers.Mercurial;
+using Palaso.Reporting;
 
 namespace OneStoryProjectEditor
 {
@@ -14,6 +18,7 @@ namespace OneStoryProjectEditor
         [STAThread]
         static void Main(string[] args)
         {
+            SetupErrorHandling();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
@@ -70,11 +75,6 @@ namespace OneStoryProjectEditor
                     try
                     {
                         System.Diagnostics.Debug.Assert(File.Exists(strOneStoryFileSpec));
-
-                        // try to load the xml file. it'll throw if it's malformed (so we won't want to put it into the repo)
-                        NewDataSet projFile = new NewDataSet();
-                        projFile.ReadXml(strOneStoryFileSpec);
-
                         SyncWithRepository(strProjectFolder, bPretendOpening);
                     }
                     catch (Exception ex)
@@ -84,7 +84,7 @@ namespace OneStoryProjectEditor
                             strMessage += String.Format("{0}{1}", Environment.NewLine, ex.InnerException.Message);
                         strMessage += String.Format("{0}Please send the file '{1}' to bob_eaton@sall.com", 
                             Environment.NewLine, strOneStoryFileSpec);
-                        MessageBox.Show(strMessage, Properties.Resources.IDS_Caption);
+                        ErrorReport.ReportNonFatalException(new Exception(strMessage));
                     }
                 }
             }
@@ -97,11 +97,19 @@ namespace OneStoryProjectEditor
             }
         }
 
+        private static void SetupErrorHandling()
+        {
+            Logger.Init();
+            ErrorReport.EmailAddress = "bob_eaton@sall.com";//TODO Change this address
+            ErrorReport.AddStandardProperties();
+            ExceptionHandler.Init();
+        }
+
         static List<string> _astrProjectForSync = new List<string>();
         static Dictionary<string, string> _mapProjectNameToHgUrl;
         static Dictionary<string, string> _mapProjectNameToHgUsername;
 
-        public static void SetHgParameters(string strProjectName, string strUrl, string strUsername)
+        public static void SetHgParameters(string strProjectFolder, string strProjectName, string strUrl, string strUsername)
         {
             System.Diagnostics.Debug.Assert((_mapProjectNameToHgUrl != null) && (_mapProjectNameToHgUsername != null));
             _mapProjectNameToHgUrl[strProjectName] = strUrl;
@@ -109,6 +117,18 @@ namespace OneStoryProjectEditor
             Properties.Settings.Default.ProjectNameToHgUrl = DictionaryToArray(_mapProjectNameToHgUrl);
             Properties.Settings.Default.ProjectNameToHgUsername = DictionaryToArray(_mapProjectNameToHgUsername);
             Properties.Settings.Default.Save();
+
+            var repo = new HgRepository(strProjectFolder, new NullProgress());
+
+            var address = RepositoryAddress.Create("Internet", strUrl);
+            var addresses = repo.GetRepositoryPathsInHgrc();
+            foreach (var addr in addresses)
+                if (addr.URI == address.URI)
+                    return;
+
+            var lstAddrs = new List<RepositoryAddress>(addresses);
+            lstAddrs.Add(address);
+            repo.SetKnownRepositoryAddresses(lstAddrs);
         }
 
         public static bool ShouldTrySync(string strProjectFolder)
@@ -139,9 +159,10 @@ namespace OneStoryProjectEditor
             var projectConfig = new Chorus.sync.ProjectFolderConfiguration(strProjectFolder);
             projectConfig.IncludePatterns.Add("*.onestory");
             projectConfig.IncludePatterns.Add("*.xml"); // the P7 key terms list
+            projectConfig.IncludePatterns.Add("*.bad"); // if we write a bad file, commit that as well
 
             string strHgUsername, strRepoUrl;
-            if (QueryHgRepoParameters(strProjectName, out strHgUsername, out strRepoUrl))
+            if (QueryHgRepoParameters(strProjectFolder, strProjectName, out strHgUsername, out strRepoUrl))
             {
                 // for when we launch the program, just do a quick & dirty send/receive, but for
                 //  closing, we can be more informative
@@ -151,6 +172,13 @@ namespace OneStoryProjectEditor
                 {
                     suidb = SyncUIDialogBehaviors.StartImmediatelyAndCloseWhenFinished;
                     suif = SyncUIFeatures.Minimal;
+
+                    var repo = new HgRepository(strProjectFolder, new NullProgress());
+                    if (!repo.GetCanConnectToRemote(strRepoUrl, new NullProgress()))
+                        if (MessageBox.Show(Properties.Resources.IDS_ConnectToInternet, 
+                            Properties.Resources.IDS_Caption, MessageBoxButtons.OKCancel) == 
+                            DialogResult.Cancel)
+                            return;
                 }
                 else
                 {
@@ -160,6 +188,12 @@ namespace OneStoryProjectEditor
 
                 using (var dlg = new SyncDialog(projectConfig, suidb, suif))
                 {
+                    dlg.SyncOptions.DoSendToOthers = true;
+                    dlg.SyncOptions.DoPullFromOthers = true;
+                    dlg.SyncOptions.DoMergeWithOthers = true;
+                    dlg.UseTargetsAsSpecifiedInSyncOptions = true;
+
+                    dlg.SyncOptions.RepositorySourcesToTry.Add(RepositoryAddress.Create("Internet",strRepoUrl));
                     dlg.Text = "Synchronizing OneStory Project: " + strProjectName;
                     dlg.ShowDialog();
                 }
@@ -181,7 +215,7 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private static bool QueryHgRepoParameters(string strProjectName, out string strUsername, out string strRepoUrl)
+        private static bool QueryHgRepoParameters(string strProjectFolder, string strProjectName, out string strUsername, out string strRepoUrl)
         {
             string strHgUrl = (_mapProjectNameToHgUrl.ContainsKey(strProjectName))
                 ? _mapProjectNameToHgUrl[strProjectName] : null;
@@ -199,7 +233,7 @@ namespace OneStoryProjectEditor
                 {
                     strRepoUrl = dlg.Url;
                     strUsername = dlg.Username;
-                    SetHgParameters(strProjectName, strRepoUrl, strUsername);
+                    SetHgParameters(strProjectFolder, strProjectName, strRepoUrl, strUsername);
                     return true;
                 }
             }

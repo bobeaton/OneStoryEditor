@@ -166,6 +166,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You should connect to the internet now so we can download the latest version of the file (in case some of your team made changes).
+        /// </summary>
+        internal static string IDS_ConnectToInternet {
+            get {
+                return ResourceManager.GetString("IDS_ConnectToInternet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;head&gt;
         ///&lt;meta http-equiv=Content-Type content=&quot;text/html; charset=windows-1252&quot;&gt;
         ///&lt;meta name=ProgId content=Word.Document&gt;

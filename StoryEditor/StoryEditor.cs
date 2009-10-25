@@ -8,6 +8,7 @@ using System.IO;
 using System.Xml.XPath;                 // for XPathNavigator
 using SilEncConverters31;
 using System.Diagnostics;               // Process
+using Palaso.Reporting;
 
 namespace OneStoryProjectEditor
 {
@@ -154,7 +155,7 @@ namespace OneStoryProjectEditor
 
                 // we can save this information so we can use it automatically during the next restart
                 string strUsername = ExtractUsernameFromUrl(dlg.URL);
-                Program.SetHgParameters(strProjectName, dlg.URL, strUsername);
+                Program.SetHgParameters(dlg.PathToNewProject, strProjectName, dlg.URL, strUsername);
                 ProjectSettings projSettings = new ProjectSettings(dlg.PathToNewProject, strProjectName);
                 OpenProject(projSettings);
             }
@@ -1081,7 +1082,13 @@ namespace OneStoryProjectEditor
                 Directory.CreateDirectory(Path.GetDirectoryName(strFilename));
 
             // save it with an extra extn.
-            doc.Save(strFilename + CstrExtraExtnToAvoidClobberingFilesWithFailedSaves);
+            string strTempFilename = strFilename + CstrExtraExtnToAvoidClobberingFilesWithFailedSaves;
+            doc.Save(strTempFilename);
+
+            // now try to load the xml file. it'll throw if it's malformed 
+            //  (so we won't want to put it into the repo)
+            var projFile = new NewDataSet();
+            projFile.ReadXml(strTempFilename);
 
             // backup the last version to appdata
             // Note: doing File.Move leaves the old file security settings rather than replacing them
@@ -1090,11 +1097,11 @@ namespace OneStoryProjectEditor
             if (File.Exists(strFilename))
                 File.Copy(strFilename, GetBackupFilename(strFilename), true);
             File.Delete(strFilename);
-            File.Copy(strFilename + CstrExtraExtnToAvoidClobberingFilesWithFailedSaves, strFilename, true);
-            File.Delete(strFilename + CstrExtraExtnToAvoidClobberingFilesWithFailedSaves);
+            File.Copy(strTempFilename, strFilename, true);
+            File.Delete(strTempFilename);
         }
 
-        protected const string CstrExtraExtnToAvoidClobberingFilesWithFailedSaves = ".out";
+        protected const string CstrExtraExtnToAvoidClobberingFilesWithFailedSaves = ".bad";
 
         internal void QueryStoryPurpose()
         {
@@ -1126,7 +1133,7 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(String.Format(Properties.Resources.IDS_UnableToSave, Environment.NewLine, strFilename, ex.Message),  Properties.Resources.IDS_Caption);
+                ErrorReport.ReportNonFatalException(new Exception(ex.Message));
                 return;
             }
 
