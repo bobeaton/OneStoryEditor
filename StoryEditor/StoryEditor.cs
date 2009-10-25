@@ -2045,9 +2045,15 @@ namespace OneStoryProjectEditor
                 string strAdaptIt = String.Format(@"{0}\Adapt It WX Unicode\Adapt_It_Unicode.exe",
                     Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles));
 
+                // if AdaptIt is currently running, then close it first (so we can start
+                //  it in "force review mode"
+                foreach (Process aProcess in Process.GetProcesses())
+                    if (aProcess.ProcessName == "Adapt_It_Unicode")
+                        aProcess.Close();
+
                 LaunchProgram(strAdaptIt, 
                     (eGlossType == AdaptItGlossing.GlossType.eNationalToEnglish) ? 
-                    null : "-frm");
+                    null : "/frm");
 
                 string strTargetLangName = strProjectName.Split(" ".ToCharArray())[2];
                 string strMessage = String.Format(Properties.Resources.IDS_AdaptationInstructions,
@@ -2135,14 +2141,10 @@ namespace OneStoryProjectEditor
             }
         }
 
-        static protected void LaunchProgram(string strProgram, string strArguments)
+        internal static void LaunchProgram(string strProgram, string strArguments)
         {
             try
             {
-                foreach (Process aProcess in Process.GetProcesses())
-                    if (aProcess.ProcessName == "Adapt_It_Unicode")
-                        return;
-
                 Process myProcess = new Process();
                 myProcess.StartInfo.FileName = strProgram;
                 myProcess.StartInfo.Arguments = strArguments;
