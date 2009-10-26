@@ -364,7 +364,7 @@ namespace OneStoryProjectEditor
             get
             {
 #if DEBUG
-                return @"C:\code\StoryEditor\StoryEditor\BiblicalTerms";
+                return @"C:\src\StoryEditor\StoryEditor\BiblicalTerms";
 #else
                 return StoryProjectData.GetRunningFolder + @"\BiblicalTerms";
 #endif

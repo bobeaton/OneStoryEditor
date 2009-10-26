@@ -184,7 +184,7 @@ namespace OneStoryProjectEditor
 #if DEBUG
                     if (!File.Exists(strFileToCheck))
                         // on dev machines, this file is in the "..\..\src\EC\TECkit Mapping Editor" folder
-                        strFileToCheck = @"C:\code\StoryEditor\StoryEditor\" + CstrStateTransitionsXmlFilename;
+                        strFileToCheck = @"C:\src\StoryEditor\StoryEditor\" + CstrStateTransitionsXmlFilename;
 #endif
                     System.Diagnostics.Debug.Assert(File.Exists(strFileToCheck), String.Format("Can't find: {0}! You'll need to re-install or contact bob_eaton@sall.com", strFileToCheck));
 

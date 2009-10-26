@@ -410,7 +410,7 @@ namespace OneStoryProjectEditor
                 lst.Add(strSwordProjectPath);
 
 #if DEBUG
-            string strWorkingFolder = @"C:\Code\StoryEditor\StoryEditor";
+            string strWorkingFolder = @"C:\src\StoryEditor\StoryEditor";
 #else
             string strWorkingFolder = StoryProjectData.GetRunningFolder;
 #endif
