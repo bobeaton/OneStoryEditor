@@ -17,10 +17,15 @@
     <TargetZone>Custom</TargetZone>
     <GenerateManifests>true</GenerateManifests>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>ftp://ftp.seedconnect.org/OneStoryEditor/</PublishUrl>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <SignManifests>false</SignManifests>
+    <ManifestCertificateThumbprint>0AC50EC9A7431D20DF6CFEF4BBB333F11494C65D</ManifestCertificateThumbprint>
+    <ManifestKeyFile>StoryEditor_TemporaryKey.pfx</ManifestKeyFile>
+    <SignAssembly>false</SignAssembly>
+    <AssemblyOriginatorKeyFile>StoryEditor_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
+    <PublishUrl>C:\Media\New\Jaars\OneStory Releases\OneClick\</PublishUrl>
     <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
+    <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateMode>Foreground</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
@@ -28,11 +33,14 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
+    <InstallUrl>http://palaso.org/install/onestory/</InstallUrl>
+    <SupportUrl>http://projects.palaso.org/projects/show/onestory</SupportUrl>
+    <ErrorReportUrl>http://projects.palaso.org/projects/show/onestory</ErrorReportUrl>
     <TargetCulture>en</TargetCulture>
     <ProductName>OneStory Editor</ProductName>
     <PublisherName>SIL</PublisherName>
     <SuiteName>OneStory</SuiteName>
-    <ApplicationRevision>3</ApplicationRevision>
+    <ApplicationRevision>5</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -434,6 +442,7 @@
     <Content Include="StageTransitions.xml" />
     <None Include="Properties\app.manifest" />
     <None Include="Resources\DragDropHandle.bmp" />
+    <None Include="StoryEditor_TemporaryKey.pfx" />
     <None Include="StoryProject.onestory" />
     <None Include="StoryProject.xsd">
       <Generator>MSDataSetGenerator</Generator>
