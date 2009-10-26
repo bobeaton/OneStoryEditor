@@ -358,5 +358,51 @@ namespace OneStoryProjectEditor.Properties {
                 this["UseRegEx"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool EnableFind {
+            get {
+                return ((bool)(this["EnableFind"]));
+            }
+            set {
+                this["EnableFind"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool LookInExpander {
+            get {
+                return ((bool)(this["LookInExpander"]));
+            }
+            set {
+                this["LookInExpander"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection RecentFindWhat {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["RecentFindWhat"]));
+            }
+            set {
+                this["RecentFindWhat"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection RecentReplaceWith {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["RecentReplaceWith"]));
+            }
+            set {
+                this["RecentReplaceWith"] = value;
+            }
+        }
     }
 }

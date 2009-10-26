@@ -58,6 +58,7 @@ namespace OneStoryProjectEditor
             this.deleteTestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.editFindToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.findNextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.editAddTestResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -104,6 +105,7 @@ namespace OneStoryProjectEditor
             this.buttonsStoryStage = new System.Windows.Forms.ToolStripSplitButton();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.helpProvider = new System.Windows.Forms.HelpProvider();
+            this.replaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.netBibleViewer = new OneStoryProjectEditor.NetBibleViewer();
             this.flowLayoutPanelConsultantNotes = new OneStoryProjectEditor.ConNoteFlowLayoutPanel();
             this.flowLayoutPanelCoachNotes = new OneStoryProjectEditor.ConNoteFlowLayoutPanel();
@@ -241,6 +243,8 @@ namespace OneStoryProjectEditor
             this.deleteBackTranslationToolStripMenuItem,
             this.toolStripSeparator9,
             this.editFindToolStripMenuItem,
+            this.findNextToolStripMenuItem,
+            this.replaceToolStripMenuItem,
             this.toolStripSeparator10,
             this.editAddTestResultsToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
@@ -256,7 +260,7 @@ namespace OneStoryProjectEditor
             this.copyNationalBackTranslationToolStripMenuItem,
             this.copyEnglishBackTranslationToolStripMenuItem});
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.copyToolStripMenuItem.Text = "&Copy";
             // 
             // editCopySelectionToolStripMenuItem
@@ -297,7 +301,7 @@ namespace OneStoryProjectEditor
             // pasteToolStripMenuItem
             // 
             this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.pasteToolStripMenuItem.Text = "&Paste";
             this.pasteToolStripMenuItem.ToolTipText = "Paste the contents of the clipboard into the currently selected text box";
             this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
@@ -310,7 +314,7 @@ namespace OneStoryProjectEditor
             this.deleteEnglishBacktranslationToolStripMenuItem,
             this.deleteTestToolStripMenuItem});
             this.deleteBackTranslationToolStripMenuItem.Name = "deleteBackTranslationToolStripMenuItem";
-            this.deleteBackTranslationToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.deleteBackTranslationToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.deleteBackTranslationToolStripMenuItem.Text = "&Delete";
             // 
             // deleteStoryVersesToolStripMenuItem
@@ -351,25 +355,33 @@ namespace OneStoryProjectEditor
             // toolStripSeparator9
             // 
             this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(152, 6);
+            this.toolStripSeparator9.Size = new System.Drawing.Size(155, 6);
             // 
             // editFindToolStripMenuItem
             // 
             this.editFindToolStripMenuItem.Name = "editFindToolStripMenuItem";
             this.editFindToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.editFindToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.editFindToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.editFindToolStripMenuItem.Text = "&Find";
             this.editFindToolStripMenuItem.Click += new System.EventHandler(this.findToolStripMenuItem_Click);
+            // 
+            // findNextToolStripMenuItem
+            // 
+            this.findNextToolStripMenuItem.Name = "findNextToolStripMenuItem";
+            this.findNextToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3;
+            this.findNextToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.findNextToolStripMenuItem.Text = "Find &Next";
+            this.findNextToolStripMenuItem.Click += new System.EventHandler(this.findNextToolStripMenuItem_Click);
             // 
             // toolStripSeparator10
             // 
             this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(152, 6);
+            this.toolStripSeparator10.Size = new System.Drawing.Size(155, 6);
             // 
             // editAddTestResultsToolStripMenuItem
             // 
             this.editAddTestResultsToolStripMenuItem.Name = "editAddTestResultsToolStripMenuItem";
-            this.editAddTestResultsToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.editAddTestResultsToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.editAddTestResultsToolStripMenuItem.Text = "&Add test results";
             this.editAddTestResultsToolStripMenuItem.ToolTipText = "Click here to add boxes for the answers to the testing questions and the retellin" +
                 "g back translation";
@@ -830,6 +842,14 @@ namespace OneStoryProjectEditor
             this.statusLabel.Spring = true;
             this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // replaceToolStripMenuItem
+            // 
+            this.replaceToolStripMenuItem.Name = "replaceToolStripMenuItem";
+            this.replaceToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
+            this.replaceToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.replaceToolStripMenuItem.Text = "&Replace";
+            this.replaceToolStripMenuItem.Click += new System.EventHandler(this.replaceToolStripMenuItem_Click);
+            // 
             // netBibleViewer
             // 
             this.netBibleViewer.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
@@ -978,6 +998,8 @@ namespace OneStoryProjectEditor
         private ToolStripSeparator toolStripSeparator9;
         private ToolStripSeparator toolStripSeparator10;
         private ToolStripMenuItem editFindToolStripMenuItem;
+        private ToolStripMenuItem findNextToolStripMenuItem;
+        private ToolStripMenuItem replaceToolStripMenuItem;
     }
 
     public class ConNoteFlowLayoutPanel : FlowLayoutPanel

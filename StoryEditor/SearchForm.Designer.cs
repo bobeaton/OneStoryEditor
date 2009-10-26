@@ -30,8 +30,12 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SearchForm));
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.buttonRegExHelper = new System.Windows.Forms.Button();
+            this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.checkBoxEnableFind = new System.Windows.Forms.CheckBox();
+            this.checkBoxEnableReplace = new System.Windows.Forms.CheckBox();
+            this.labelFindWhat = new System.Windows.Forms.Label();
+            this.comboBoxFindWhat = new System.Windows.Forms.ComboBox();
+            this.buttonFindRegExHelper = new System.Windows.Forms.Button();
             this.contextMenuStripExprBuilder = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.MatchAnyCharacterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.match0OrMoreTimesAsManyAsPossibleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -57,11 +61,16 @@
             this.uhhhhMatchTheCharacterWithTheHexValueHhhhToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.regularExpressionHelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.comboBoxFindWhat = new System.Windows.Forms.ComboBox();
-            this.buttonLookInExpander = new System.Windows.Forms.Button();
-            this.buttonFindNext = new System.Windows.Forms.Button();
+            this.labelReplaceWith = new System.Windows.Forms.Label();
+            this.comboBoxReplaceWith = new System.Windows.Forms.ComboBox();
+            this.buttonReplaceRegExHelper = new System.Windows.Forms.Button();
+            this.contextMenuStripReplaceWithExprBuilder = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.findWhatTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.taggedExpression1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.taggedExpression2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.taggedExpression3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkBoxLookInExpander = new System.Windows.Forms.CheckBox();
+            this.labelLookIn = new System.Windows.Forms.Label();
             this.flowLayoutPanelLookIn = new System.Windows.Forms.FlowLayoutPanel();
             this.checkBoxLookInStoryLanguage = new System.Windows.Forms.CheckBox();
             this.checkBoxLookInNationalBT = new System.Windows.Forms.CheckBox();
@@ -72,53 +81,116 @@
             this.checkBoxLookInRetellings = new System.Windows.Forms.CheckBox();
             this.checkBoxAllStories = new System.Windows.Forms.CheckBox();
             this.checkBoxUseRegex = new System.Windows.Forms.CheckBox();
-            this.labelStatus = new System.Windows.Forms.Label();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.buttonFindNext = new System.Windows.Forms.Button();
+            this.buttonReplace = new System.Windows.Forms.Button();
+            this.tableLayoutPanel.SuspendLayout();
             this.contextMenuStripExprBuilder.SuspendLayout();
+            this.contextMenuStripReplaceWithExprBuilder.SuspendLayout();
             this.flowLayoutPanelLookIn.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tableLayoutPanel1
+            // tableLayoutPanel
             // 
-            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.tableLayoutPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Controls.Add(this.buttonRegExHelper, 2, 1);
-            this.tableLayoutPanel1.Controls.Add(this.label2, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.comboBoxFindWhat, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.buttonLookInExpander, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.buttonFindNext, 1, 4);
-            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanelLookIn, 1, 3);
-            this.tableLayoutPanel1.Controls.Add(this.labelStatus, 0, 6);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 12);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 7;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(242, 366);
-            this.tableLayoutPanel1.TabIndex = 0;
+            this.tableLayoutPanel.ColumnCount = 4;
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel.Controls.Add(this.checkBoxEnableFind, 0, 0);
+            this.tableLayoutPanel.Controls.Add(this.checkBoxEnableReplace, 2, 0);
+            this.tableLayoutPanel.Controls.Add(this.labelFindWhat, 0, 1);
+            this.tableLayoutPanel.Controls.Add(this.comboBoxFindWhat, 0, 2);
+            this.tableLayoutPanel.Controls.Add(this.buttonFindRegExHelper, 3, 2);
+            this.tableLayoutPanel.Controls.Add(this.labelReplaceWith, 0, 3);
+            this.tableLayoutPanel.Controls.Add(this.comboBoxReplaceWith, 0, 4);
+            this.tableLayoutPanel.Controls.Add(this.buttonReplaceRegExHelper, 3, 4);
+            this.tableLayoutPanel.Controls.Add(this.checkBoxLookInExpander, 0, 5);
+            this.tableLayoutPanel.Controls.Add(this.labelLookIn, 1, 5);
+            this.tableLayoutPanel.Controls.Add(this.flowLayoutPanelLookIn, 1, 6);
+            this.tableLayoutPanel.Controls.Add(this.buttonFindNext, 1, 7);
+            this.tableLayoutPanel.Controls.Add(this.buttonReplace, 2, 7);
+            this.tableLayoutPanel.Location = new System.Drawing.Point(12, 12);
+            this.tableLayoutPanel.Name = "tableLayoutPanel";
+            this.tableLayoutPanel.RowCount = 8;
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel.Size = new System.Drawing.Size(272, 399);
+            this.tableLayoutPanel.TabIndex = 0;
             // 
-            // buttonRegExHelper
+            // checkBoxEnableFind
             // 
-            this.buttonRegExHelper.ContextMenuStrip = this.contextMenuStripExprBuilder;
-            this.buttonRegExHelper.Enabled = false;
-            this.buttonRegExHelper.Location = new System.Drawing.Point(216, 16);
-            this.buttonRegExHelper.Name = "buttonRegExHelper";
-            this.buttonRegExHelper.Size = new System.Drawing.Size(23, 21);
-            this.buttonRegExHelper.TabIndex = 2;
-            this.buttonRegExHelper.Text = ">";
-            this.buttonRegExHelper.UseVisualStyleBackColor = true;
-            this.buttonRegExHelper.Click += new System.EventHandler(this.buttonRegExHelper_Click);
+            this.checkBoxEnableFind.Appearance = System.Windows.Forms.Appearance.Button;
+            this.checkBoxEnableFind.AutoSize = true;
+            this.checkBoxEnableFind.Checked = true;
+            this.checkBoxEnableFind.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.tableLayoutPanel.SetColumnSpan(this.checkBoxEnableFind, 2);
+            this.checkBoxEnableFind.Dock = System.Windows.Forms.DockStyle.Top;
+            this.checkBoxEnableFind.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.checkBoxEnableFind.Location = new System.Drawing.Point(3, 3);
+            this.checkBoxEnableFind.Name = "checkBoxEnableFind";
+            this.checkBoxEnableFind.Size = new System.Drawing.Size(132, 23);
+            this.checkBoxEnableFind.TabIndex = 12;
+            this.checkBoxEnableFind.Text = "Find";
+            this.checkBoxEnableFind.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBoxEnableFind.UseVisualStyleBackColor = false;
+            this.checkBoxEnableFind.Click += new System.EventHandler(this.checkBoxEnableFind_Click);
+            // 
+            // checkBoxEnableReplace
+            // 
+            this.checkBoxEnableReplace.Appearance = System.Windows.Forms.Appearance.Button;
+            this.checkBoxEnableReplace.AutoSize = true;
+            this.tableLayoutPanel.SetColumnSpan(this.checkBoxEnableReplace, 2);
+            this.checkBoxEnableReplace.Dock = System.Windows.Forms.DockStyle.Top;
+            this.checkBoxEnableReplace.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.checkBoxEnableReplace.Location = new System.Drawing.Point(141, 3);
+            this.checkBoxEnableReplace.Name = "checkBoxEnableReplace";
+            this.checkBoxEnableReplace.Size = new System.Drawing.Size(128, 23);
+            this.checkBoxEnableReplace.TabIndex = 13;
+            this.checkBoxEnableReplace.Text = "Replace";
+            this.checkBoxEnableReplace.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBoxEnableReplace.UseVisualStyleBackColor = false;
+            this.checkBoxEnableReplace.Click += new System.EventHandler(this.checkBoxEnableReplace_Click);
+            // 
+            // labelFindWhat
+            // 
+            this.labelFindWhat.AutoSize = true;
+            this.tableLayoutPanel.SetColumnSpan(this.labelFindWhat, 2);
+            this.labelFindWhat.Location = new System.Drawing.Point(3, 29);
+            this.labelFindWhat.Name = "labelFindWhat";
+            this.labelFindWhat.Size = new System.Drawing.Size(56, 13);
+            this.labelFindWhat.TabIndex = 0;
+            this.labelFindWhat.Text = "Find what:";
+            // 
+            // comboBoxFindWhat
+            // 
+            this.tableLayoutPanel.SetColumnSpan(this.comboBoxFindWhat, 3);
+            this.comboBoxFindWhat.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.comboBoxFindWhat.FormattingEnabled = true;
+            this.comboBoxFindWhat.Location = new System.Drawing.Point(3, 45);
+            this.comboBoxFindWhat.Name = "comboBoxFindWhat";
+            this.comboBoxFindWhat.Size = new System.Drawing.Size(238, 21);
+            this.comboBoxFindWhat.TabIndex = 1;
+            // 
+            // buttonFindRegExHelper
+            // 
+            this.buttonFindRegExHelper.ContextMenuStrip = this.contextMenuStripExprBuilder;
+            this.buttonFindRegExHelper.Location = new System.Drawing.Point(247, 45);
+            this.buttonFindRegExHelper.Name = "buttonFindRegExHelper";
+            this.buttonFindRegExHelper.Size = new System.Drawing.Size(22, 22);
+            this.buttonFindRegExHelper.TabIndex = 2;
+            this.buttonFindRegExHelper.Text = ">";
+            this.buttonFindRegExHelper.UseVisualStyleBackColor = true;
+            this.buttonFindRegExHelper.Visible = false;
+            this.buttonFindRegExHelper.Click += new System.EventHandler(this.buttonRegExHelper_Click);
             // 
             // contextMenuStripExprBuilder
             // 
@@ -293,58 +365,103 @@
             this.regularExpressionHelpToolStripMenuItem.Text = "Regular Expression &Help";
             this.regularExpressionHelpToolStripMenuItem.Click += new System.EventHandler(this.regularExpressionHelpToolStripMenuItem_Click);
             // 
-            // label2
+            // labelReplaceWith
             // 
-            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(32, 61);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(45, 13);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Look in:";
+            this.labelReplaceWith.AutoSize = true;
+            this.tableLayoutPanel.SetColumnSpan(this.labelReplaceWith, 2);
+            this.labelReplaceWith.Location = new System.Drawing.Point(3, 76);
+            this.labelReplaceWith.Name = "labelReplaceWith";
+            this.labelReplaceWith.Size = new System.Drawing.Size(72, 13);
+            this.labelReplaceWith.TabIndex = 9;
+            this.labelReplaceWith.Text = "Replace with:";
+            this.labelReplaceWith.Visible = false;
             // 
-            // label1
+            // comboBoxReplaceWith
             // 
-            this.label1.AutoSize = true;
-            this.tableLayoutPanel1.SetColumnSpan(this.label1, 2);
-            this.label1.Location = new System.Drawing.Point(3, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(56, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Find what:";
+            this.tableLayoutPanel.SetColumnSpan(this.comboBoxReplaceWith, 3);
+            this.comboBoxReplaceWith.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.comboBoxReplaceWith.FormattingEnabled = true;
+            this.comboBoxReplaceWith.Location = new System.Drawing.Point(3, 92);
+            this.comboBoxReplaceWith.Name = "comboBoxReplaceWith";
+            this.comboBoxReplaceWith.Size = new System.Drawing.Size(238, 21);
+            this.comboBoxReplaceWith.TabIndex = 1;
+            this.comboBoxReplaceWith.Visible = false;
             // 
-            // comboBoxFindWhat
+            // buttonReplaceRegExHelper
             // 
-            this.tableLayoutPanel1.SetColumnSpan(this.comboBoxFindWhat, 2);
-            this.comboBoxFindWhat.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.comboBoxFindWhat.FormattingEnabled = true;
-            this.comboBoxFindWhat.Location = new System.Drawing.Point(3, 16);
-            this.comboBoxFindWhat.Name = "comboBoxFindWhat";
-            this.comboBoxFindWhat.Size = new System.Drawing.Size(207, 21);
-            this.comboBoxFindWhat.TabIndex = 1;
+            this.buttonReplaceRegExHelper.ContextMenuStrip = this.contextMenuStripReplaceWithExprBuilder;
+            this.buttonReplaceRegExHelper.Location = new System.Drawing.Point(247, 92);
+            this.buttonReplaceRegExHelper.Name = "buttonReplaceRegExHelper";
+            this.buttonReplaceRegExHelper.Size = new System.Drawing.Size(22, 22);
+            this.buttonReplaceRegExHelper.TabIndex = 15;
+            this.buttonReplaceRegExHelper.Text = ">";
+            this.buttonReplaceRegExHelper.UseVisualStyleBackColor = true;
+            this.buttonReplaceRegExHelper.Visible = false;
+            this.buttonReplaceRegExHelper.Click += new System.EventHandler(this.buttonReplaceRegExHelper_Click);
             // 
-            // buttonLookInExpander
+            // contextMenuStripReplaceWithExprBuilder
             // 
-            this.buttonLookInExpander.Location = new System.Drawing.Point(3, 56);
-            this.buttonLookInExpander.Name = "buttonLookInExpander";
-            this.buttonLookInExpander.Size = new System.Drawing.Size(23, 23);
-            this.buttonLookInExpander.TabIndex = 4;
-            this.buttonLookInExpander.Text = "+";
-            this.buttonLookInExpander.UseVisualStyleBackColor = true;
+            this.contextMenuStripReplaceWithExprBuilder.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.findWhatTextToolStripMenuItem,
+            this.taggedExpression1ToolStripMenuItem,
+            this.taggedExpression2ToolStripMenuItem,
+            this.taggedExpression3ToolStripMenuItem});
+            this.contextMenuStripReplaceWithExprBuilder.Name = "contextMenuStripReplaceWithExprBuilder";
+            this.contextMenuStripReplaceWithExprBuilder.Size = new System.Drawing.Size(182, 92);
+            this.contextMenuStripReplaceWithExprBuilder.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.contextMenuStripReplaceWithExprBuilder_ItemClicked);
             // 
-            // buttonFindNext
+            // findWhatTextToolStripMenuItem
             // 
-            this.buttonFindNext.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.buttonFindNext.Location = new System.Drawing.Point(74, 325);
-            this.buttonFindNext.Name = "buttonFindNext";
-            this.buttonFindNext.Size = new System.Drawing.Size(94, 23);
-            this.buttonFindNext.TabIndex = 6;
-            this.buttonFindNext.Text = "&Find Next";
-            this.buttonFindNext.UseVisualStyleBackColor = true;
-            this.buttonFindNext.Click += new System.EventHandler(this.buttonFindNext_Click);
+            this.findWhatTextToolStripMenuItem.Name = "findWhatTextToolStripMenuItem";
+            this.findWhatTextToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.findWhatTextToolStripMenuItem.Text = "\'&Find What\' Text";
+            // 
+            // taggedExpression1ToolStripMenuItem
+            // 
+            this.taggedExpression1ToolStripMenuItem.Name = "taggedExpression1ToolStripMenuItem";
+            this.taggedExpression1ToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.taggedExpression1ToolStripMenuItem.Text = "Tagged Expression &1";
+            // 
+            // taggedExpression2ToolStripMenuItem
+            // 
+            this.taggedExpression2ToolStripMenuItem.Name = "taggedExpression2ToolStripMenuItem";
+            this.taggedExpression2ToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.taggedExpression2ToolStripMenuItem.Text = "Tagged Expression &2";
+            // 
+            // taggedExpression3ToolStripMenuItem
+            // 
+            this.taggedExpression3ToolStripMenuItem.Name = "taggedExpression3ToolStripMenuItem";
+            this.taggedExpression3ToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.taggedExpression3ToolStripMenuItem.Text = "Tagged Expression &3";
+            // 
+            // checkBoxLookInExpander
+            // 
+            this.checkBoxLookInExpander.Appearance = System.Windows.Forms.Appearance.Button;
+            this.checkBoxLookInExpander.AutoSize = true;
+            this.checkBoxLookInExpander.Checked = true;
+            this.checkBoxLookInExpander.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxLookInExpander.Location = new System.Drawing.Point(3, 120);
+            this.checkBoxLookInExpander.Name = "checkBoxLookInExpander";
+            this.checkBoxLookInExpander.Size = new System.Drawing.Size(26, 23);
+            this.checkBoxLookInExpander.TabIndex = 14;
+            this.checkBoxLookInExpander.Text = " +";
+            this.checkBoxLookInExpander.UseMnemonic = false;
+            this.checkBoxLookInExpander.UseVisualStyleBackColor = false;
+            this.checkBoxLookInExpander.CheckedChanged += new System.EventHandler(this.checkBoxLookInExpander_CheckedChanged);
+            // 
+            // labelLookIn
+            // 
+            this.labelLookIn.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.labelLookIn.AutoSize = true;
+            this.labelLookIn.Location = new System.Drawing.Point(35, 125);
+            this.labelLookIn.Name = "labelLookIn";
+            this.labelLookIn.Size = new System.Drawing.Size(45, 13);
+            this.labelLookIn.TabIndex = 3;
+            this.labelLookIn.Text = "Look in:";
             // 
             // flowLayoutPanelLookIn
             // 
+            this.tableLayoutPanel.SetColumnSpan(this.flowLayoutPanelLookIn, 2);
             this.flowLayoutPanelLookIn.Controls.Add(this.checkBoxLookInStoryLanguage);
             this.flowLayoutPanelLookIn.Controls.Add(this.checkBoxLookInNationalBT);
             this.flowLayoutPanelLookIn.Controls.Add(this.checkBoxLookInEnglishBT);
@@ -356,9 +473,9 @@
             this.flowLayoutPanelLookIn.Controls.Add(this.checkBoxUseRegex);
             this.flowLayoutPanelLookIn.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanelLookIn.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanelLookIn.Location = new System.Drawing.Point(32, 85);
+            this.flowLayoutPanelLookIn.Location = new System.Drawing.Point(35, 149);
             this.flowLayoutPanelLookIn.Name = "flowLayoutPanelLookIn";
-            this.flowLayoutPanelLookIn.Size = new System.Drawing.Size(178, 234);
+            this.flowLayoutPanelLookIn.Size = new System.Drawing.Size(206, 218);
             this.flowLayoutPanelLookIn.TabIndex = 7;
             // 
             // checkBoxLookInStoryLanguage
@@ -460,34 +577,47 @@
             this.checkBoxUseRegex.UseVisualStyleBackColor = true;
             this.checkBoxUseRegex.CheckedChanged += new System.EventHandler(this.checkBoxUseRegex_CheckedChanged);
             // 
-            // labelStatus
+            // buttonFindNext
             // 
-            this.labelStatus.AutoSize = true;
-            this.labelStatus.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.tableLayoutPanel1.SetColumnSpan(this.labelStatus, 3);
-            this.labelStatus.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelStatus.Location = new System.Drawing.Point(3, 351);
-            this.labelStatus.Name = "labelStatus";
-            this.labelStatus.Size = new System.Drawing.Size(236, 15);
-            this.labelStatus.TabIndex = 8;
-            this.labelStatus.Text = "Click Find";
+            this.buttonFindNext.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonFindNext.Location = new System.Drawing.Point(35, 373);
+            this.buttonFindNext.Name = "buttonFindNext";
+            this.buttonFindNext.Size = new System.Drawing.Size(100, 23);
+            this.buttonFindNext.TabIndex = 6;
+            this.buttonFindNext.Text = "&Find Next";
+            this.buttonFindNext.UseVisualStyleBackColor = true;
+            this.buttonFindNext.Click += new System.EventHandler(this.buttonFindNext_Click);
+            // 
+            // buttonReplace
+            // 
+            this.buttonReplace.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonReplace.Enabled = false;
+            this.buttonReplace.Location = new System.Drawing.Point(141, 373);
+            this.buttonReplace.Name = "buttonReplace";
+            this.buttonReplace.Size = new System.Drawing.Size(100, 23);
+            this.buttonReplace.TabIndex = 16;
+            this.buttonReplace.Text = "&Replace";
+            this.buttonReplace.UseVisualStyleBackColor = true;
+            this.buttonReplace.Visible = false;
+            this.buttonReplace.Click += new System.EventHandler(this.buttonReplace_Click);
             // 
             // SearchForm
             // 
             this.AcceptButton = this.buttonFindNext;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(266, 390);
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.ClientSize = new System.Drawing.Size(296, 423);
+            this.Controls.Add(this.tableLayoutPanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SearchForm";
             this.Text = "Find";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SearchForm_FormClosing);
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
+            this.tableLayoutPanel.ResumeLayout(false);
+            this.tableLayoutPanel.PerformLayout();
             this.contextMenuStripExprBuilder.ResumeLayout(false);
+            this.contextMenuStripReplaceWithExprBuilder.ResumeLayout(false);
             this.flowLayoutPanelLookIn.ResumeLayout(false);
             this.flowLayoutPanelLookIn.PerformLayout();
             this.ResumeLayout(false);
@@ -496,12 +626,11 @@
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
+        private System.Windows.Forms.Label labelFindWhat;
         private System.Windows.Forms.ComboBox comboBoxFindWhat;
-        private System.Windows.Forms.Button buttonRegExHelper;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button buttonLookInExpander;
+        private System.Windows.Forms.Button buttonFindRegExHelper;
+        private System.Windows.Forms.Label labelLookIn;
         private System.Windows.Forms.Button buttonFindNext;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelLookIn;
         internal System.Windows.Forms.CheckBox checkBoxLookInTestQnA;
@@ -512,7 +641,6 @@
         internal System.Windows.Forms.CheckBox checkBoxLookInNationalBT;
         internal System.Windows.Forms.CheckBox checkBoxLookInStoryLanguage;
         internal System.Windows.Forms.CheckBox checkBoxAllStories;
-        private System.Windows.Forms.Label labelStatus;
         private System.Windows.Forms.CheckBox checkBoxUseRegex;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripExprBuilder;
         private System.Windows.Forms.ToolStripMenuItem MatchAnyCharacterToolStripMenuItem;
@@ -539,5 +667,17 @@
         private System.Windows.Forms.ToolStripMenuItem uhhhhMatchTheCharacterWithTheHexValueHhhhToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem regularExpressionHelpToolStripMenuItem;
+        private System.Windows.Forms.Label labelReplaceWith;
+        private System.Windows.Forms.ComboBox comboBoxReplaceWith;
+        private System.Windows.Forms.CheckBox checkBoxEnableFind;
+        private System.Windows.Forms.CheckBox checkBoxEnableReplace;
+        private System.Windows.Forms.CheckBox checkBoxLookInExpander;
+        private System.Windows.Forms.Button buttonReplaceRegExHelper;
+        private System.Windows.Forms.Button buttonReplace;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripReplaceWithExprBuilder;
+        private System.Windows.Forms.ToolStripMenuItem findWhatTextToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem taggedExpression1ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem taggedExpression2ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem taggedExpression3ToolStripMenuItem;
     }
 }

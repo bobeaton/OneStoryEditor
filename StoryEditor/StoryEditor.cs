@@ -2395,10 +2395,27 @@ namespace OneStoryProjectEditor
         internal SearchForm m_frmFind = null;
         private void findToolStripMenuItem_Click(object sender, EventArgs e)
         {
+#if DEBUG
+            m_frmFind = null;
+#endif
             if (m_frmFind == null)
                 m_frmFind = new SearchForm();
 
-            m_frmFind.Show(this);
+            m_frmFind.Show(this, true);
+        }
+
+        private void findNextToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+#if DEBUG
+            m_frmFind = null;
+#endif
+            if (m_frmFind == null)
+            {
+                m_frmFind = new SearchForm();
+                m_frmFind.Show(this, true);
+            }
+            else
+                m_frmFind.DoFindNext();
         }
 
         private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2406,6 +2423,17 @@ namespace OneStoryProjectEditor
             InitAllPanes();
             if (m_frmFind != null)
                 m_frmFind.ResetSearchParameters();
+        }
+
+        private void replaceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+#if DEBUG
+            m_frmFind = null;
+#endif
+            if (m_frmFind == null)
+                m_frmFind = new SearchForm();
+
+            m_frmFind.Show(this, false);
         }
     }
 }
