@@ -16,7 +16,8 @@ namespace OneStoryProjectEditor
         protected TestQuestionData _aTQData = null;
         protected int _nNumAnswerRows = 0;
 
-        public TestingQuestionControl(StoryEditor theSE, VerseControl ctrlVerse, TestQuestionData aTQData)
+        public TestingQuestionControl(StoryEditor theSE, VerseControl ctrlVerse, 
+            TestQuestionData aTQData, bool bShowHeader)
             : base(theSE.theCurrentStory.ProjStage)
         {
             _aTQData = aTQData;
@@ -35,8 +36,6 @@ namespace OneStoryProjectEditor
             while (tableLayoutPanel.ColumnCount > 1)
                 RemoveColumn(tableLayoutPanel.ColumnCount - 1);
 
-            tableLayoutPanel.DumpTable();
-
             // show the row label
             Label label = new Label
             {
@@ -53,7 +52,8 @@ namespace OneStoryProjectEditor
             if (theSE.viewVernacularLangFieldMenuItem.Checked)
             {
                 InsertColumn(nNumColumns);
-                InitColumnLabel(theSE.StoryProject.ProjSettings.Vernacular.LangName, nNumColumns);
+                if (bShowHeader)
+                    InitColumnLabel(theSE.StoryProject.ProjSettings.Vernacular.LangName, nNumColumns);
                 InitTextBox(ctrlVerse, CstrFieldNameVernacular, _aTQData.QuestionVernacular, 
                     theSE.StoryProject.ProjSettings.Vernacular, theSE.LoggedOnMember.OverrideVernacularKeyboard, nNumColumns);
                 nNumColumns++;
@@ -66,7 +66,8 @@ namespace OneStoryProjectEditor
                 ||  (theSE.viewNationalLangFieldMenuItem.Checked && !theSE.StoryProject.ProjSettings.Vernacular.HasData)))
             {
                 InsertColumn(nNumColumns);
-                InitColumnLabel(theSE.StoryProject.ProjSettings.NationalBT.LangName, nNumColumns);
+                if (bShowHeader)
+                    InitColumnLabel(theSE.StoryProject.ProjSettings.NationalBT.LangName, nNumColumns);
                 InitTextBox(ctrlVerse, CstrFieldNameNationalBt, _aTQData.QuestionNationalBT,
                     theSE.StoryProject.ProjSettings.NationalBT, theSE.LoggedOnMember.OverrideNationalBTKeyboard, nNumColumns);
                 nNumColumns++;
@@ -78,7 +79,8 @@ namespace OneStoryProjectEditor
                             TeamMemberData.UserTypes.eProjectFacilitator)))
             {
                 InsertColumn(nNumColumns);
-                InitColumnLabel(theSE.StoryProject.ProjSettings.InternationalBT.LangName, nNumColumns);
+                if (bShowHeader)
+                    InitColumnLabel(theSE.StoryProject.ProjSettings.InternationalBT.LangName, nNumColumns);
                 InitTextBox(ctrlVerse, CstrFieldNameVernacular, _aTQData.QuestionInternationalBT, 
                     theSE.StoryProject.ProjSettings.InternationalBT, null, nNumColumns);
                 nNumColumns++;

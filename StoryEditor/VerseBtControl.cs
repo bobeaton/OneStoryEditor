@@ -129,13 +129,12 @@ namespace OneStoryProjectEditor
         protected void InitTestingQuestions(StoryEditor theSE, TestQuestionsData aTQsData, int nLayoutRow)
         {
             for (int i = 0; i < aTQsData.Count; i++)
-                InitTestQuestion(theSE, i, aTQsData[i], nLayoutRow);
+                InitTestQuestion(theSE, i, aTQsData[i], nLayoutRow, (i==0));
         }
 
-        protected void InitTestQuestion(StoryEditor theSE, int i, TestQuestionData aTQData, int nLayoutRow)
+        protected void InitTestQuestion(StoryEditor theSE, int i, TestQuestionData aTQData, int nLayoutRow, bool bShowHeader)
         {
-            int nTQNumber = i + 1;
-            TestingQuestionControl aTestingQuestionCtrl = new TestingQuestionControl(theSE, this, aTQData);
+            TestingQuestionControl aTestingQuestionCtrl = new TestingQuestionControl(theSE, this, aTQData, bShowHeader);
             aTestingQuestionCtrl.ParentControl = this;
             aTestingQuestionCtrl.Name = CstrFieldNameTestQuestions + nLayoutRow.ToString();
 

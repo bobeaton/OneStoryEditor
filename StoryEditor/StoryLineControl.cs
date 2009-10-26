@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
+﻿#define TurnOffLabels
 using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
@@ -39,7 +34,8 @@ namespace OneStoryProjectEditor
             if (aSE.viewVernacularLangFieldMenuItem.Checked)
             {
                 InsertColumn(nNumColumns);
-                InitLabel(aSE.StoryProject.ProjSettings.Vernacular.LangName, nNumColumns);
+                if (ctrlVerse.VerseNumber == 1)
+                    InitLabel(aSE.StoryProject.ProjSettings.Vernacular.LangName, nNumColumns);
 
                 // if we're in the one of the states where the user is entering in the 
                 //  national or international BT, then disable the Vernacular as a tab stop.
@@ -57,7 +53,8 @@ namespace OneStoryProjectEditor
             if (aSE.viewNationalLangFieldMenuItem.Checked)
             {
                 InsertColumn(nNumColumns);
-                InitLabel(aSE.StoryProject.ProjSettings.NationalBT.LangName, nNumColumns);
+                if (ctrlVerse.VerseNumber == 1)
+                    InitLabel(aSE.StoryProject.ProjSettings.NationalBT.LangName, nNumColumns);
 
                 // if we're in the one of the states where the user is entering in the 
                 //  international BT, then disable the National BT as a tab stop.
@@ -75,7 +72,8 @@ namespace OneStoryProjectEditor
             if (aSE.viewEnglishBTFieldMenuItem.Checked)
             {
                 InsertColumn(nNumColumns);
-                InitLabel(aSE.StoryProject.ProjSettings.InternationalBT.LangName, nNumColumns);
+                if (ctrlVerse.VerseNumber == 1)
+                    InitLabel(aSE.StoryProject.ProjSettings.InternationalBT.LangName, nNumColumns);
 
                 InitTextBox(ctrlVerse, CstrFieldNameInternationalBt, _aVerseData.InternationalBTText, 
                     aSE.StoryProject.ProjSettings.InternationalBT, null, false, nNumColumns);
