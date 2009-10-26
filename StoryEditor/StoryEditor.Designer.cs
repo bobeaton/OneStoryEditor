@@ -56,6 +56,9 @@ namespace OneStoryProjectEditor
             this.deleteStoryNationalBackTranslationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteEnglishBacktranslationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteTestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
+            this.editFindToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.editAddTestResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewVernacularLangFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -101,9 +104,6 @@ namespace OneStoryProjectEditor
             this.buttonsStoryStage = new System.Windows.Forms.ToolStripSplitButton();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.helpProvider = new System.Windows.Forms.HelpProvider();
-            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
-            this.editFindToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.netBibleViewer = new OneStoryProjectEditor.NetBibleViewer();
             this.flowLayoutPanelConsultantNotes = new OneStoryProjectEditor.ConNoteFlowLayoutPanel();
             this.flowLayoutPanelCoachNotes = new OneStoryProjectEditor.ConNoteFlowLayoutPanel();
@@ -348,6 +348,24 @@ namespace OneStoryProjectEditor
             this.deleteTestToolStripMenuItem.ToolTipText = "Delete the answers to the testing questions and the retellings associated with a " +
                 "particular testing helper (UNS). The text boxes will be deleted completely";
             // 
+            // toolStripSeparator9
+            // 
+            this.toolStripSeparator9.Name = "toolStripSeparator9";
+            this.toolStripSeparator9.Size = new System.Drawing.Size(152, 6);
+            // 
+            // editFindToolStripMenuItem
+            // 
+            this.editFindToolStripMenuItem.Name = "editFindToolStripMenuItem";
+            this.editFindToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
+            this.editFindToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.editFindToolStripMenuItem.Text = "&Find";
+            this.editFindToolStripMenuItem.Click += new System.EventHandler(this.findToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator10
+            // 
+            this.toolStripSeparator10.Name = "toolStripSeparator10";
+            this.toolStripSeparator10.Size = new System.Drawing.Size(152, 6);
+            // 
             // editAddTestResultsToolStripMenuItem
             // 
             this.editAddTestResultsToolStripMenuItem.Name = "editAddTestResultsToolStripMenuItem";
@@ -505,9 +523,11 @@ namespace OneStoryProjectEditor
             // refreshToolStripMenuItem
             // 
             this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
+            this.refreshToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
             this.refreshToolStripMenuItem.Size = new System.Drawing.Size(284, 22);
             this.refreshToolStripMenuItem.Text = "Re&fresh";
             this.refreshToolStripMenuItem.ToolTipText = "Refresh the screen (if it doesn\'t look like it updated something properly)";
+            this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
             // 
             // toolStripSeparator8
             // 
@@ -809,24 +829,6 @@ namespace OneStoryProjectEditor
             this.statusLabel.Size = new System.Drawing.Size(804, 17);
             this.statusLabel.Spring = true;
             this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // toolStripSeparator9
-            // 
-            this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(152, 6);
-            // 
-            // toolStripSeparator10
-            // 
-            this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(152, 6);
-            // 
-            // editFindToolStripMenuItem
-            // 
-            this.editFindToolStripMenuItem.Name = "editFindToolStripMenuItem";
-            this.editFindToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.editFindToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-            this.editFindToolStripMenuItem.Text = "&Find";
-            this.editFindToolStripMenuItem.Click += new System.EventHandler(this.findToolStripMenuItem_Click);
             // 
             // netBibleViewer
             // 
