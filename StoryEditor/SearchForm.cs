@@ -62,6 +62,7 @@ namespace OneStoryProjectEditor
         public void ResetSearchStartParameters()
         {
             LastStoryIndex = LastCtxBoxIndex = LastCharIndex = -1;
+            buttonReplace.Enabled = false;
         }
 
         public static StorySearchIndex BoxesToSearch = new StorySearchIndex();
@@ -128,21 +129,30 @@ namespace OneStoryProjectEditor
                    ctb.SelectionLength;
         }
 
+        protected static string UpdateComboBox(ComboBox cb)
+        {
+            string str = cb.Text;
+            if (!String.IsNullOrEmpty(str)
+                && ((cb.Items.Count == 0)
+                    || (str != (string)cb.Items[0])))
+                cb.Items.Insert(0, str);
+            return str;
+        }
+
+        protected Regex GetRegex(string strSearchString)
+        {
+            if ((regex == null) || (regex.ToString() != strSearchString))
+                return new Regex(strSearchString);
+            return regex;
+        }
+
         Regex regex = null;
 
         public void DoFindNext()
         {
-            string strToSearchFor = comboBoxFindWhat.Text;
-            if (!String.IsNullOrEmpty(strToSearchFor) 
-                && ((comboBoxFindWhat.Items.Count == 0) 
-                    || (strToSearchFor != (string)comboBoxFindWhat.Items[0])))
-                comboBoxFindWhat.Items.Insert(0, strToSearchFor);
-
+            string strToSearchFor = UpdateComboBox(comboBoxFindWhat);
             if (FindProperties.UseRegex)
-            {
-                if ((regex == null) || (regex.ToString() != strToSearchFor))
-                    regex = new Regex(strToSearchFor);
-            }
+                regex = GetRegex(strToSearchFor);
             else
                 regex = null;
 
@@ -225,7 +235,7 @@ namespace OneStoryProjectEditor
                         LastStoryIndex = nStoryIndex;
                         LastCtxBoxIndex = nCtxBoxIndex;
                         LastCharIndex = CaptureNextStartingCharIndex(stringTransfer.TextBox);
-                        buttonReplace.Enabled = buttonReplaceAll.Enabled = true;
+                        buttonReplace.Enabled = true;
                         return;
                     }
                 }
@@ -326,10 +336,13 @@ namespace OneStoryProjectEditor
                 Properties.Settings.Default.UseRegEx = form.checkBoxUseRegex.Checked;
                 
                 // keep the 15 most recent find whats and replace withs
-                for (int i = 0; i < Math.Min(15, form.comboBoxReplaceWith.Items.Count); i++)
-                    Properties.Settings.Default.RecentReplaceWith.Add((string)form.comboBoxReplaceWith.Items[i]);
+                Properties.Settings.Default.RecentFindWhat.Clear();
                 for (int i = 0; i < Math.Min(15, form.comboBoxFindWhat.Items.Count); i++)
                     Properties.Settings.Default.RecentFindWhat.Add((string)form.comboBoxFindWhat.Items[i]);
+
+                Properties.Settings.Default.RecentReplaceWith.Clear();
+                for (int i = 0; i < Math.Min(15, form.comboBoxReplaceWith.Items.Count); i++)
+                    Properties.Settings.Default.RecentReplaceWith.Add((string)form.comboBoxReplaceWith.Items[i]);
                     
                 Properties.Settings.Default.Save();
             }
@@ -392,8 +405,9 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private static bool ChangeCheckedState(CheckBox checkBox)
+        private bool ChangeCheckedState(CheckBox checkBox)
         {
+            ResetSearchParameters();
             return checkBox.Checked;
         }
 
@@ -478,7 +492,8 @@ namespace OneStoryProjectEditor
             if (strItem != regularExpressionHelpToolStripMenuItem.Text)
             {
                 int nIndex = strItem.IndexOf(' ');
-                comboBoxFindWhat.SelectedText = strItem.Substring(0, nIndex);
+                comboBoxFindWhat.Text += strItem.Substring(0, nIndex);
+                comboBoxFindWhat.Focus();
             }
         }
 
@@ -492,7 +507,7 @@ namespace OneStoryProjectEditor
         protected void UpdateReplaceControls(bool bShowReplace)
         {
             comboBoxReplaceWith.Visible = labelReplaceWith.Visible =
-                buttonReplaceAll.Visible = buttonReplace.Visible = bShowReplace;
+                buttonReplace.Visible = bShowReplace;
             buttonReplaceRegExHelper.Visible = FindProperties.UseRegex && bShowReplace;
 
             if (bShowReplace)
@@ -507,12 +522,12 @@ namespace OneStoryProjectEditor
 
         protected void AddReplaceControlsHeight()
         {
-            Height += (comboBoxReplaceWith.Height + labelReplaceWith.Height + buttonReplaceAll.Height);
+            Height += (comboBoxReplaceWith.Height + labelReplaceWith.Height);
         }
 
         protected  void RemReplaceControlsHeight()
         {
-            Height -= (comboBoxReplaceWith.Height + labelReplaceWith.Height + buttonReplaceAll.Height);
+            Height -= (comboBoxReplaceWith.Height + labelReplaceWith.Height);
         }
 
         private void checkBoxEnableFind_Click(object sender, EventArgs e)
@@ -552,8 +567,9 @@ namespace OneStoryProjectEditor
             string strItem = e.ClickedItem.Text;
             if (strItem != findWhatTextToolStripMenuItem.Text)
             {
-                int nIndex = strItem.IndexOf(' ');
-                comboBoxReplaceWith.SelectedText = strItem.Substring(strItem.Length - 1);
+                System.Diagnostics.Debug.Assert(strItem.Length > 0);
+                comboBoxReplaceWith.Text += @"$" + strItem.Substring(strItem.Length - 1);
+                comboBoxReplaceWith.Focus();
             }
         }
 
@@ -561,16 +577,50 @@ namespace OneStoryProjectEditor
         {
             // a replace is just a replace currently selected text in current textbox
             //  followed by a find next.
-            string strFindWhat = comboBoxFindWhat.Text;
-            if ((CtrlTextBox._inTextBox != null)
-                && (CtrlTextBox._inTextBox.SelectedText == strFindWhat))
+            string strFindWhat = UpdateComboBox(comboBoxFindWhat);
+            string strReplaceWith = UpdateComboBox(comboBoxReplaceWith);
+            if (CtrlTextBox._inTextBox != null)
             {
-                CtrlTextBox._inTextBox.SelectedText = comboBoxReplaceWith.Text;
-
-                LastCharIndex = CaptureNextStartingCharIndex(CtrlTextBox._inTextBox);
+                if (regex == null)
+                {
+                    if (CtrlTextBox._inTextBox.SelectedText == strFindWhat)
+                    {
+                        CtrlTextBox._inTextBox.SelectedText = strReplaceWith;
+                        LastCharIndex = CaptureNextStartingCharIndex(CtrlTextBox._inTextBox);
+                    }
+                }
+                else
+                {
+                    Match match = regex.Match(CtrlTextBox._inTextBox.SelectedText);
+                    if (match.Success)
+                    {
+                        string strReplacedText =
+                            regex.Replace(CtrlTextBox._inTextBox.SelectedText, strReplaceWith);
+                        CtrlTextBox._inTextBox.SelectedText = strReplacedText;
+                        LastCharIndex = CaptureNextStartingCharIndex(CtrlTextBox._inTextBox);
+                    }
+                }
             }
 
             DoFindNext();
+        }
+
+        private void comboBoxFindWhat_TextChanged(object sender, EventArgs e)
+        {
+            string strFindWhat = UpdateComboBox(comboBoxFindWhat);
+            if (CtrlTextBox._inTextBox != null)
+            {
+                if (FindProperties.UseRegex)
+                {
+                    regex = GetRegex(strFindWhat);
+                    Match match = regex.Match(CtrlTextBox._inTextBox.SelectedText);
+                    buttonReplace.Enabled = match.Success;
+                }
+                else
+                {
+                    buttonReplace.Enabled = (CtrlTextBox._inTextBox.SelectedText == strFindWhat);
+                }
+            }
         }
     }
 }

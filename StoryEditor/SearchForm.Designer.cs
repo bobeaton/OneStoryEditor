@@ -57,6 +57,7 @@
             this.sMatchANonwhiteSpaceCharacterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.patternMatchAnyOneCharacterFromTheSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.findWhatGroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aBMatchesEitherAOrBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uhhhhMatchTheCharacterWithTheHexValueHhhhToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
@@ -179,6 +180,7 @@
             this.comboBoxFindWhat.Name = "comboBoxFindWhat";
             this.comboBoxFindWhat.Size = new System.Drawing.Size(238, 21);
             this.comboBoxFindWhat.TabIndex = 1;
+            this.comboBoxFindWhat.TextChanged += new System.EventHandler(this.comboBoxFindWhat_TextChanged);
             // 
             // buttonFindRegExHelper
             // 
@@ -215,12 +217,13 @@
             this.sMatchANonwhiteSpaceCharacterToolStripMenuItem,
             this.toolStripSeparator2,
             this.patternMatchAnyOneCharacterFromTheSetToolStripMenuItem,
+            this.findWhatGroupToolStripMenuItem,
             this.aBMatchesEitherAOrBToolStripMenuItem,
             this.uhhhhMatchTheCharacterWithTheHexValueHhhhToolStripMenuItem,
             this.toolStripSeparator3,
             this.regularExpressionHelpToolStripMenuItem});
             this.contextMenuStripExprBuilder.Name = "contextMenuStripExprBuilder";
-            this.contextMenuStripExprBuilder.Size = new System.Drawing.Size(378, 484);
+            this.contextMenuStripExprBuilder.Size = new System.Drawing.Size(378, 506);
             this.contextMenuStripExprBuilder.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.contextMenuStripExprBuilder_ItemClicked);
             // 
             // MatchAnyCharacterToolStripMenuItem
@@ -341,6 +344,12 @@
             this.patternMatchAnyOneCharacterFromTheSetToolStripMenuItem.Size = new System.Drawing.Size(377, 22);
             this.patternMatchAnyOneCharacterFromTheSetToolStripMenuItem.Text = "[pattern] Match any one character from the set";
             // 
+            // findWhatGroupToolStripMenuItem
+            // 
+            this.findWhatGroupToolStripMenuItem.Name = "findWhatGroupToolStripMenuItem";
+            this.findWhatGroupToolStripMenuItem.Size = new System.Drawing.Size(377, 22);
+            this.findWhatGroupToolStripMenuItem.Text = "() Match groups";
+            // 
             // aBMatchesEitherAOrBToolStripMenuItem
             // 
             this.aBMatchesEitherAOrBToolStripMenuItem.Name = "aBMatchesEitherAOrBToolStripMenuItem";
@@ -407,32 +416,32 @@
             this.taggedExpression2ToolStripMenuItem,
             this.taggedExpression3ToolStripMenuItem});
             this.contextMenuStripReplaceWithExprBuilder.Name = "contextMenuStripReplaceWithExprBuilder";
-            this.contextMenuStripReplaceWithExprBuilder.Size = new System.Drawing.Size(182, 92);
+            this.contextMenuStripReplaceWithExprBuilder.Size = new System.Drawing.Size(160, 92);
             this.contextMenuStripReplaceWithExprBuilder.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.contextMenuStripReplaceWithExprBuilder_ItemClicked);
             // 
             // findWhatTextToolStripMenuItem
             // 
             this.findWhatTextToolStripMenuItem.Name = "findWhatTextToolStripMenuItem";
-            this.findWhatTextToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.findWhatTextToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.findWhatTextToolStripMenuItem.Text = "\'&Find What\' Text";
             // 
             // taggedExpression1ToolStripMenuItem
             // 
             this.taggedExpression1ToolStripMenuItem.Name = "taggedExpression1ToolStripMenuItem";
-            this.taggedExpression1ToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-            this.taggedExpression1ToolStripMenuItem.Text = "Tagged Expression &1";
+            this.taggedExpression1ToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.taggedExpression1ToolStripMenuItem.Text = "Match Group &1";
             // 
             // taggedExpression2ToolStripMenuItem
             // 
             this.taggedExpression2ToolStripMenuItem.Name = "taggedExpression2ToolStripMenuItem";
-            this.taggedExpression2ToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-            this.taggedExpression2ToolStripMenuItem.Text = "Tagged Expression &2";
+            this.taggedExpression2ToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.taggedExpression2ToolStripMenuItem.Text = "Match Group &2";
             // 
             // taggedExpression3ToolStripMenuItem
             // 
             this.taggedExpression3ToolStripMenuItem.Name = "taggedExpression3ToolStripMenuItem";
-            this.taggedExpression3ToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-            this.taggedExpression3ToolStripMenuItem.Text = "Tagged Expression &3";
+            this.taggedExpression3ToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.taggedExpression3ToolStripMenuItem.Text = "Match Group &3";
             // 
             // checkBoxLookInExpander
             // 
@@ -679,5 +688,6 @@
         private System.Windows.Forms.ToolStripMenuItem taggedExpression1ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem taggedExpression2ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem taggedExpression3ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem findWhatGroupToolStripMenuItem;
     }
 }

@@ -2406,9 +2406,6 @@ namespace OneStoryProjectEditor
 
         private void findNextToolStripMenuItem_Click(object sender, EventArgs e)
         {
-#if DEBUG
-            m_frmFind = null;
-#endif
             if (m_frmFind == null)
             {
                 m_frmFind = new SearchForm();
