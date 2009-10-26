@@ -181,5 +181,8 @@ DoAdaptingBeforeGlossing_InVerticalEdit	1</Value>
     <Setting Name="LookInAllStories" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="UseRegEx" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

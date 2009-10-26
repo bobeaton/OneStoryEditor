@@ -574,5 +574,14 @@ namespace OneStoryProjectEditor.Properties {
                 return ResourceManager.GetString("IDS_UnableToSave", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to http://msdn2.microsoft.com/en-us/library/az24scfc.aspx.
+        /// </summary>
+        internal static string RegexHelpProgram {
+            get {
+                return ResourceManager.GetString("RegexHelpProgram", resourceCulture);
+            }
+        }
     }
 }

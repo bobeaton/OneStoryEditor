@@ -346,5 +346,17 @@ namespace OneStoryProjectEditor.Properties {
                 this["LookInAllStories"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UseRegEx {
+            get {
+                return ((bool)(this["UseRegEx"]));
+            }
+            set {
+                this["UseRegEx"] = value;
+            }
+        }
     }
 }
