@@ -125,6 +125,16 @@ namespace OneStoryProjectEditor
             }
         }
 
+        // if we've click (or tabbed) into another edit box, then the 'last place we were
+        //  searching from' indices are no longer valid.
+        protected void ClearSearchIndices()
+        {
+            StoryEditor theSE = (StoryEditor)_ctrlVerseParent.FindForm();
+            if (theSE.m_frmFind != null)
+                theSE.m_frmFind.ResetSearchStartParameters();
+
+        }
+
         internal static CtrlTextBox _inTextBox = null;
         protected static int _nLastVerse = -1;
 
@@ -222,6 +232,12 @@ namespace OneStoryProjectEditor
             Multiline = true;
             Dock = DockStyle.Fill;
             HideSelection = false;
+            MouseUp += new MouseEventHandler(CtrlTextBox_MouseUp);
+        }
+
+        void CtrlTextBox_MouseUp(object sender, MouseEventArgs e)
+        {
+            ClearSearchIndices();
         }
 
         private void onAddNewNote(object sender, EventArgs e)

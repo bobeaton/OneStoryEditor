@@ -2392,13 +2392,20 @@ namespace OneStoryProjectEditor
             dlg.ShowDialog();
         }
 
-        protected SearchForm m_frmFind = null;
+        internal SearchForm m_frmFind = null;
         private void findToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (m_frmFind == null)
                 m_frmFind = new SearchForm();
 
             m_frmFind.Show(this);
+        }
+
+        private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            InitAllPanes();
+            if (m_frmFind != null)
+                m_frmFind.ResetSearchParameters();
         }
     }
 }
