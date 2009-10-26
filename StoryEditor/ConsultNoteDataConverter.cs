@@ -395,7 +395,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public abstract ConsultNoteDataConverter InsertEmpty(int nIndex, int nRound,
+        public abstract ConsultNoteDataConverter Add(int nRound,
             TeamMemberData.UserTypes eLoggedOnMember, string strValue);
         protected abstract TeamMemberData.UserTypes MentorType { get; }
         protected abstract TeamMemberData.UserTypes MenteeType { get; }
@@ -451,7 +451,7 @@ namespace OneStoryProjectEditor
         {
         }
 
-        public override ConsultNoteDataConverter InsertEmpty(int nIndex, int nRound,
+        public override ConsultNoteDataConverter Add(int nRound,
             TeamMemberData.UserTypes eLoggedOnMember, string strValue)
         {
             TeamMemberData.UserTypes eMentorType = MentorType;
@@ -460,7 +460,7 @@ namespace OneStoryProjectEditor
 
             ConsultNoteDataConverter theNewCN = new ConsultantNoteData(
                 nRound, eLoggedOnMember, eMentorType, MenteeType, strValue);
-            Insert(nIndex, theNewCN);
+            Add(theNewCN);
             return theNewCN;
         }
 
@@ -523,13 +523,13 @@ namespace OneStoryProjectEditor
         {
         }
 
-        public override ConsultNoteDataConverter InsertEmpty(int nIndex, int nRound,
+        public override ConsultNoteDataConverter Add(int nRound,
             TeamMemberData.UserTypes eLoggedOnMember, string strValue)
         {
             // always add closest to the verse label
             ConsultNoteDataConverter theNewCN = new CoachNoteData(
                 nRound, eLoggedOnMember, MentorType, MenteeType, strValue);
-            Insert(0, theNewCN);
+            Add(theNewCN);
             return theNewCN;
         }
 

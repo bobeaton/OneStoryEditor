@@ -87,7 +87,7 @@ namespace OneStoryProjectEditor
             }
 
             // always add at the front (so they're stay close to the verse number label)
-            _theCNsDC.InsertEmpty(0, round, theSE.LoggedOnMember.MemberType, strNote);
+            _theCNsDC.Add(round, theSE.LoggedOnMember.MemberType, strNote);
             theSE.ReInitConsultNotesPane(_theCNsDC);
         }
 
