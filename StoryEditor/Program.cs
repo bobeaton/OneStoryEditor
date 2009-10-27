@@ -160,6 +160,7 @@ namespace OneStoryProjectEditor
             projectConfig.IncludePatterns.Add("*.onestory");
             projectConfig.IncludePatterns.Add("*.xml"); // the P7 key terms list
             projectConfig.IncludePatterns.Add("*.bad"); // if we write a bad file, commit that as well
+            projectConfig.IncludePatterns.Add("*.conflict"); // include the conflicts file as well so we can fix them
 
             string strHgUsername, strRepoUrl;
             if (QueryHgRepoParameters(strProjectFolder, strProjectName, out strHgUsername, out strRepoUrl))
@@ -199,10 +200,10 @@ namespace OneStoryProjectEditor
                     dlg.ShowDialog();
                 }
             }
-            else
+            else if (!bIsOpening)
             {
                 // even if the user doesn't want to go to the internet, we
-                //  at least want to back up locally
+                //  at least want to back up locally (when the user closes)
                 using (var dlg = new SyncDialog(projectConfig,
                     SyncUIDialogBehaviors.StartImmediatelyAndCloseWhenFinished,
                     SyncUIFeatures.Minimal))
