@@ -71,6 +71,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Code\chorus\output\Release\Chorus.exe</HintPath>
     </Reference>
+    <Reference Include="ChorusMerge, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Code\chorus\output\Release\ChorusMerge.exe</HintPath>
+    </Reference>
     <Reference Include="ECInterfaces, Version=3.0.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\src\FW_6.0\Lib\release\ECInterfaces.dll</HintPath>
