@@ -174,10 +174,10 @@ namespace OneStoryProjectEditor
 
             CtrlTextBox ctbStopWhereWeStarted = null;
             int nStoryIndex = nLastStoryIndex;
+            int nCtxBoxIndex = nLastCtxBoxIndex;
             while (nStoryIndex < BoxesToSearch.Count)
             {
                 StringTransferSearchIndex stsi = BoxesToSearch[nStoryIndex];
-                int nCtxBoxIndex = nLastCtxBoxIndex;
                 for (; nCtxBoxIndex < stsi.Count;  nCtxBoxIndex++)
                 {
                     StringTransfer stringTransfer = stsi[nCtxBoxIndex].StringTransfer;
@@ -272,7 +272,7 @@ namespace OneStoryProjectEditor
                     if (MessageBox.Show(Properties.Resources.IDS_StartFromBeginning, 
                         Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
                     {
-                        nLastCtxBoxIndex = 0;
+                        nCtxBoxIndex = 0;
 
                         // have it stop where we started
                         ctbStopWhereWeStarted = CtrlTextBox._inTextBox ?? stsi[0].StringTransfer.TextBox;
@@ -284,14 +284,28 @@ namespace OneStoryProjectEditor
                 // otherwise, we're supposed to search the next story as well.
                 else
                 {
-                    nLastStoryIndex++;
-                    nLastCtxBoxIndex = 0;
+                    nStoryIndex++;
+                    nCtxBoxIndex = 0;
                 }
             }
 
             // if we reach here, it's because we were searching all the stories
             //  and we reached the end and couldn't find it
-            ShowNotFound();
+            // if we were already searching from the beginning...
+            if ((nLastStoryIndex == 0) && (nLastCtxBoxIndex == 0))
+            {
+                // ... then we couldn't find it
+                ShowNotFound();
+                return;
+            }
+
+            // otherwise, see if the user wants to start over from 0.0
+            if (MessageBox.Show(Properties.Resources.IDS_StartFromBeginning,
+                Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+            {
+                LastStoryIndex = LastCtxBoxIndex = LastCharIndex = 0;
+                DoFindNext();
+            }
         }
 
         protected void ShowNotFound()
