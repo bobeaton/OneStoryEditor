@@ -115,16 +115,22 @@ namespace OneStoryProjectEditor
             }
         }
 
+        public static bool IsViewItemOn(ViewItemToInsureOn eValue, ViewItemToInsureOn eFlag)
+        {
+            return ((eValue & eFlag) == eFlag);
+        }
+
+        [Flags]
         public enum ViewItemToInsureOn
         {
-            eVernacularLangField,
-            eNationalLangField,
-            eEnglishBTField,
-            eAnchorFields,
-            eStoryTestingQuestionFields,
-            eRetellingFields,
-            eConsultantNoteFields,
-            eCoachNotesFields
+            eVernacularLangField = 1,
+            eNationalLangField = 2,
+            eEnglishBTField = 4,
+            eAnchorFields = 8,
+            eStoryTestingQuestionFields = 16,
+            eRetellingFields = 32,
+            eConsultantNoteFields = 64,
+            eCoachNotesFields = 128
         }
     }
 

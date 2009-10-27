@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
+using System.Threading;
 using System.Xml;
 using System.Xml.Linq;
 using System.Windows.Forms;
@@ -9,6 +11,7 @@ using System.Xml.XPath;                 // for XPathNavigator
 using SilEncConverters31;
 using System.Diagnostics;               // Process
 using Palaso.Reporting;
+using Timer=System.Windows.Forms.Timer;
 
 namespace OneStoryProjectEditor
 {
@@ -210,6 +213,7 @@ namespace OneStoryProjectEditor
                 UpdateRecentlyUsedLists(StoryProject.ProjSettings);
 
             buttonsStoryStage.Enabled = true;
+            UpdateUIMenusWithShortCuts();
         }
 
         // routines can use this exception to back out of creating a new project without UI 
@@ -349,6 +353,8 @@ namespace OneStoryProjectEditor
 
                 if (!String.IsNullOrEmpty(strStoryToLoad) && comboBoxStorySelector.Items.Contains(strStoryToLoad))
                     comboBoxStorySelector.SelectedItem = strStoryToLoad;
+
+                UpdateUIMenusWithShortCuts();
             }
             catch (BackOutWithNoUIException)
             {
@@ -767,14 +773,10 @@ namespace OneStoryProjectEditor
             Debug.Assert(((nVerseIndex * 2) + 1) < flowLayoutPanelVerses.Controls.Count);
             Control ctrl = flowLayoutPanelVerses.Controls[(nVerseIndex * 2) + 1];
 
-            // keep track of the CtrlTextBox that started this all (because leave
-            //  will clear it out and we won't be able to set the focus at the end
-            CtrlTextBox tb = CtrlTextBox._inTextBox;
-
             Debug.Assert(ctrl is VerseBtControl);
             VerseBtControl theVerse = ctrl as VerseBtControl;
             if (ctrlThis != theVerse)
-                theVerse.Focus(this);
+                flowLayoutPanelVerses.ScrollControlIntoView(theVerse);
 
             if (viewConsultantNoteFieldMenuItem.Checked)
             {
@@ -783,7 +785,7 @@ namespace OneStoryProjectEditor
                 Debug.Assert(ctrl is ConsultNotesControl);
                 ConsultNotesControl theConsultantNotes = ctrl as ConsultNotesControl;
                 if (ctrlThis != theConsultantNotes)
-                    theConsultantNotes.Focus();
+                    flowLayoutPanelConsultantNotes.ScrollControlIntoView(theConsultantNotes);
             }
 
             if (viewCoachNotesFieldMenuItem.Checked)
@@ -793,15 +795,8 @@ namespace OneStoryProjectEditor
                 Debug.Assert(ctrl is ConsultNotesControl);
                 ConsultNotesControl theCoachNotes = ctrl as ConsultNotesControl;
                 if (ctrlThis != theCoachNotes)
-                    theCoachNotes.Focus();
+                    flowLayoutPanelCoachNotes.ScrollControlIntoView(theCoachNotes);
             }
-
-            // if we told the 'other' controls to 'Focus', then we need to go back to the
-            //  one that was actually clicked in (e.g. I click in a new version in the BT
-            //  file, this gets called to sync the ConNotes and CoachNotes panes to the 
-            //  same verse... but now, I have to go *back* to the BT pane
-            if (tb != null)
-                tb.Focus();
         }
 
         public void AddNoteAbout(VerseControl ctrlParent)
@@ -994,9 +989,11 @@ namespace OneStoryProjectEditor
 
         internal void DimDropTargetButtons()
         {
-            foreach (Control ctrl in flowLayoutPanelVerses.Controls)
-                if (ctrl is Button)
-                    ctrl.Visible = false;
+            var buttons = from Control ctrl in flowLayoutPanelVerses.Controls
+                          where (ctrl is Button)
+                          select ctrl;
+            foreach (Button button in buttons)
+                button.Visible = false;
         }
 
         protected void InitializeNetBibleViewer()
@@ -1674,6 +1671,8 @@ namespace OneStoryProjectEditor
                 else
                     deleteTestToolStripMenuItem.Visible = false;
             }
+
+            UpdateUIMenusWithShortCuts();
         }
 
         private void editAddTestResultsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2049,8 +2048,8 @@ namespace OneStoryProjectEditor
                 //  it in "force review mode"
                 foreach (Process aProcess in Process.GetProcesses())
                     if (aProcess.ProcessName == "Adapt_It_Unicode")
-                        aProcess.Close();
-
+                        ReleaseProcess(aProcess);
+                    
                 LaunchProgram(strAdaptIt, 
                     (eGlossType == AdaptItGlossing.GlossType.eNationalToEnglish) ? 
                     null : "/frm");
@@ -2141,16 +2140,32 @@ namespace OneStoryProjectEditor
             }
         }
 
+        private static void ReleaseProcess(Process aProcess)
+        {
+            aProcess.CloseMainWindow();
+            aProcess.Close();
+            int nloop = 0;
+            while (!aProcess.HasExited && (nloop++ < 5))
+            {
+                Thread.Sleep(2000);
+            }
+        }
+
         internal static void LaunchProgram(string strProgram, string strArguments)
         {
             try
             {
-                Process myProcess = new Process();
-                myProcess.StartInfo.FileName = strProgram;
-                myProcess.StartInfo.Arguments = strArguments;
-                myProcess.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
+                Process myProcess = new Process
+                                        {
+                                            StartInfo =
+                                                {
+                                                    FileName = strProgram,
+                                                    Arguments = strArguments,
+                                                    WindowStyle = ProcessWindowStyle.Minimized
+                                                }
+                                        };
                 myProcess.Start();
-                System.Threading.Thread.Sleep(2000);
+                Thread.Sleep(2000);
             }
             catch { }    // we tried...
         }
@@ -2181,8 +2196,23 @@ namespace OneStoryProjectEditor
                 strStoryName);
         }
 
+        protected void UpdateUIMenusWithShortCuts()
+        {
+            refreshToolStripMenuItem.Enabled = (theCurrentStory != null);
+
+            editFindToolStripMenuItem.Enabled = 
+                findNextToolStripMenuItem.Enabled =
+                replaceToolStripMenuItem.Enabled =
+                    ((StoryProject != null) 
+                    && (StoryProject.ProjSettings != null)
+                    && (theCurrentStory != null) 
+                    && (theCurrentStory.Verses.Count > 0));
+        }
+
         private void viewToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
+            UpdateUIMenusWithShortCuts();
+
             if ((StoryProject != null) && (StoryProject.ProjSettings != null))
             {
                 if (StoryProject.ProjSettings.Vernacular.HasData)
@@ -2247,7 +2277,6 @@ namespace OneStoryProjectEditor
                 {
                     string strText = (string)iData.GetData(DataFormats.UnicodeText);
                     CtrlTextBox._inTextBox.SelectedText = strText;
-                    // CtrlTextBox._inTextBox.Select(CtrlTextBox._inTextBox.Text.Length, 0);
                 }
             }
         }
@@ -2342,43 +2371,32 @@ namespace OneStoryProjectEditor
 
             Debug.Assert(theCurrentStory.Verses.Count > nLineIndex);
 
-            ToolStripMenuItem tsmi = null;
-            switch(viewItemToInsureOn)
-            {
-                case VerseData.ViewItemToInsureOn.eVernacularLangField:
-                    tsmi = viewVernacularLangFieldMenuItem;
-                    break;
-                case VerseData.ViewItemToInsureOn.eNationalLangField:
-                    tsmi = viewNationalLangFieldMenuItem;
-                    break;
-                case VerseData.ViewItemToInsureOn.eEnglishBTField:
-                    tsmi = viewEnglishBTFieldMenuItem;
-                    break;
-                case VerseData.ViewItemToInsureOn.eAnchorFields:
-                    tsmi = viewAnchorFieldMenuItem;
-                    break;
-                case VerseData.ViewItemToInsureOn.eStoryTestingQuestionFields:
-                    tsmi = viewStoryTestingQuestionFieldMenuItem;
-                    break;
-                case VerseData.ViewItemToInsureOn.eRetellingFields:
-                    tsmi = viewRetellingFieldMenuItem;
-                    break;
-                case VerseData.ViewItemToInsureOn.eConsultantNoteFields:
-                    tsmi = viewConsultantNoteFieldMenuItem;
-                    break;
-                case VerseData.ViewItemToInsureOn.eCoachNotesFields:
-                    tsmi = viewCoachNotesFieldMenuItem;
-                    break;
-                default:
-                    Debug.Assert(false);
-                    break;
-            }
-
-            if ((tsmi != null) && !tsmi.Checked)
-                tsmi.Checked = true;
+            if (VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eVernacularLangField))
+                InsureVisible(viewVernacularLangFieldMenuItem);
+            if (VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eNationalLangField))
+                InsureVisible(viewNationalLangFieldMenuItem);
+            if (VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eEnglishBTField))
+                InsureVisible(viewEnglishBTFieldMenuItem);
+            if (VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eAnchorFields))
+                InsureVisible(viewAnchorFieldMenuItem);
+            if (VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eStoryTestingQuestionFields))
+                InsureVisible(viewStoryTestingQuestionFieldMenuItem);
+            if (VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eRetellingFields))
+                InsureVisible(viewRetellingFieldMenuItem);
+            if (VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eConsultantNoteFields))
+                InsureVisible(viewConsultantNoteFieldMenuItem);
+            if (VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eCoachNotesFields))
+                InsureVisible(viewCoachNotesFieldMenuItem);
 
             Debug.Assert(stToFocus.TextBox != null);
-            stToFocus.TextBox.Focus();
+            if (stToFocus.TextBox != null)
+                stToFocus.TextBox.Focus();
+        }
+
+        protected void InsureVisible(ToolStripMenuItem tsmi)
+        {
+            if ((tsmi != null) && !tsmi.Checked)
+                tsmi.Checked = true;
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2393,18 +2411,15 @@ namespace OneStoryProjectEditor
         }
 
         internal SearchForm m_frmFind = null;
-        private void findToolStripMenuItem_Click(object sender, EventArgs e)
+        private void editFindToolStripMenuItem_Click(object sender, EventArgs e)
         {
-#if DEBUG
-            m_frmFind = null;
-#endif
             if (m_frmFind == null)
                 m_frmFind = new SearchForm();
 
             m_frmFind.Show(this, true);
         }
 
-        private void findNextToolStripMenuItem_Click(object sender, EventArgs e)
+        internal void findNextToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (m_frmFind == null)
             {
@@ -2422,11 +2437,8 @@ namespace OneStoryProjectEditor
                 m_frmFind.ResetSearchParameters();
         }
 
-        private void replaceToolStripMenuItem_Click(object sender, EventArgs e)
+        internal void replaceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-#if DEBUG
-            m_frmFind = null;
-#endif
             if (m_frmFind == null)
                 m_frmFind = new SearchForm();
 

@@ -33,24 +33,31 @@ namespace OneStoryProjectEditor
             TheSE = theSE;
             checkBoxLookInStoryLanguage.Visible = 
                 TheSE.StoryProject.ProjSettings.Vernacular.HasData;
+            
             checkBoxLookInNationalBT.Visible = 
                 TheSE.StoryProject.ProjSettings.NationalBT.HasData;
+            if (TheSE.StoryProject.ProjSettings.NationalBT.HasData)
+                checkBoxLookInNationalBT.Text = TheSE.StoryProject.ProjSettings.NationalBT.LangName;
+
             checkBoxLookInEnglishBT.Visible =
                 TheSE.StoryProject.ProjSettings.InternationalBT.HasData;
 
             checkBoxEnableFind.Checked = bShowFind;
             checkBoxEnableReplace.Checked = !bShowFind;
 
-            if (!bShowFind)
-                RemReplaceControlsHeight();
-
-            UpdateReplaceControls(!bShowFind);
             Show();
         }
 
         private void buttonFindNext_Click(object sender, EventArgs e)
         {
-            DoFindNext();
+            try
+            {
+                DoFindNext();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, Properties.Resources.IDS_Caption);
+            }
         }
 
         public void ResetSearchParameters()
@@ -151,6 +158,12 @@ namespace OneStoryProjectEditor
         public void DoFindNext()
         {
             string strToSearchFor = UpdateComboBox(comboBoxFindWhat);
+            if (String.IsNullOrEmpty(strToSearchFor))
+            {
+                MessageBox.Show(Properties.Resources.IDS_NoSearchString, Properties.Resources.IDS_Caption); 
+                return;
+            }
+
             if (FindProperties.UseRegex)
                 regex = GetRegex(strToSearchFor);
             else
@@ -231,11 +244,15 @@ namespace OneStoryProjectEditor
                         
                         // The navigation process should make it visible as well.
                         System.Diagnostics.Debug.Assert(stringTransfer.TextBox != null);
-                        stringTransfer.TextBox.Select(nFoundIndex, nLengthToSelect);
-                        LastStoryIndex = nStoryIndex;
-                        LastCtxBoxIndex = nCtxBoxIndex;
-                        LastCharIndex = CaptureNextStartingCharIndex(stringTransfer.TextBox);
-                        buttonReplace.Enabled = true;
+                        if (stringTransfer.TextBox != null)
+                        {
+                            stringTransfer.TextBox.Select(nFoundIndex, nLengthToSelect);
+                            LastStoryIndex = nStoryIndex;
+                            LastCtxBoxIndex = nCtxBoxIndex;
+                            LastCharIndex = CaptureNextStartingCharIndex(stringTransfer.TextBox);
+                            buttonReplace.Enabled = true;
+                        }
+
                         return;
                     }
                 }
@@ -248,10 +265,11 @@ namespace OneStoryProjectEditor
                     {
                         // ... then we couldn't find it
                         ShowNotFound();
+                        return;
                     }
 
                     // otherwise, see if the user wants to start over from 0
-                    else if (MessageBox.Show(Properties.Resources.IDS_StartFromBeginning, 
+                    if (MessageBox.Show(Properties.Resources.IDS_StartFromBeginning, 
                         Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
                     {
                         nLastCtxBoxIndex = 0;
@@ -278,6 +296,8 @@ namespace OneStoryProjectEditor
 
         protected void ShowNotFound()
         {
+            MessageBox.Show(Properties.Resources.IDS_FindStringNotFound,
+                            Properties.Resources.IDS_Caption);
             Console.Beep();
             if (!Visible)
                 Show(TheSE);
@@ -575,9 +595,27 @@ namespace OneStoryProjectEditor
 
         private void buttonReplace_Click(object sender, EventArgs e)
         {
+            try
+            {
+                ProcessReplaceClick();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, Properties.Resources.IDS_Caption);
+            }
+        }
+
+        private void ProcessReplaceClick()
+        {
             // a replace is just a replace currently selected text in current textbox
             //  followed by a find next.
             string strFindWhat = UpdateComboBox(comboBoxFindWhat);
+            if (String.IsNullOrEmpty(strFindWhat))
+            {
+                MessageBox.Show(Properties.Resources.IDS_NoSearchString, Properties.Resources.IDS_Caption);
+                return;
+            }
+
             string strReplaceWith = UpdateComboBox(comboBoxReplaceWith);
             if (CtrlTextBox._inTextBox != null)
             {
@@ -607,8 +645,20 @@ namespace OneStoryProjectEditor
 
         private void comboBoxFindWhat_TextChanged(object sender, EventArgs e)
         {
+            try
+            {
+                UpdateEnableReplaceButton();
+            }
+            catch (Exception)
+            {
+                // don't care since editing the replacement might throw a 'bad regex' error
+            }
+        }
+
+        protected void UpdateEnableReplaceButton()
+        {
             string strFindWhat = UpdateComboBox(comboBoxFindWhat);
-            if (CtrlTextBox._inTextBox != null)
+            if (!String.IsNullOrEmpty(strFindWhat) && (CtrlTextBox._inTextBox != null))
             {
                 if (FindProperties.UseRegex)
                 {

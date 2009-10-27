@@ -250,6 +250,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to String not found!.
+        /// </summary>
+        internal static string IDS_FindStringNotFound {
+            get {
+                return ResourceManager.GetString("IDS_FindStringNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &amp;From {0}.
         /// </summary>
         internal static string IDS_FromNatlLanguage {
@@ -383,6 +392,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_NetBibleDonateMessage {
             get {
                 return ResourceManager.GetString("IDS_NetBibleDonateMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nothing to search for!.
+        /// </summary>
+        internal static string IDS_NoSearchString {
+            get {
+                return ResourceManager.GetString("IDS_NoSearchString", resourceCulture);
             }
         }
         

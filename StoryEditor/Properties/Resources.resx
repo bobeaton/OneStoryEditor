@@ -1460,4 +1460,10 @@ eater Panorama
   <data name="RegexHelpProgram" xml:space="preserve">
     <value>http://msdn2.microsoft.com/en-us/library/az24scfc.aspx</value>
   </data>
+  <data name="IDS_FindStringNotFound" xml:space="preserve">
+    <value>String not found!</value>
+  </data>
+  <data name="IDS_NoSearchString" xml:space="preserve">
+    <value>Nothing to search for!</value>
+  </data>
 </root>

@@ -85,13 +85,16 @@ namespace OneStoryProjectEditor
         {
             if (QuestionVernacular.HasData && findProperties.StoryLanguage)
                 lstBoxesToSearch.AddNewVerseString(nVerseNum, QuestionVernacular,
-                    VerseData.ViewItemToInsureOn.eStoryTestingQuestionFields);
+                    VerseData.ViewItemToInsureOn.eStoryTestingQuestionFields |
+                    VerseData.ViewItemToInsureOn.eVernacularLangField);
             if (QuestionNationalBT.HasData && findProperties.NationalBT)
                 lstBoxesToSearch.AddNewVerseString(nVerseNum, QuestionNationalBT,
-                    VerseData.ViewItemToInsureOn.eStoryTestingQuestionFields);
+                    VerseData.ViewItemToInsureOn.eStoryTestingQuestionFields | 
+                    VerseData.ViewItemToInsureOn.eNationalLangField);
             if (QuestionInternationalBT.HasData && findProperties.EnglishBT)
                 lstBoxesToSearch.AddNewVerseString(nVerseNum, QuestionInternationalBT,
-                    VerseData.ViewItemToInsureOn.eStoryTestingQuestionFields);
+                    VerseData.ViewItemToInsureOn.eStoryTestingQuestionFields |
+                    VerseData.ViewItemToInsureOn.eEnglishBTField);
             Answers.IndexSearch(nVerseNum, findProperties, ref lstBoxesToSearch);
         }
     }

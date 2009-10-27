@@ -120,8 +120,8 @@ namespace OneStoryProjectEditor
                 Console.Beep();
                 if (theSE != null)
                     theSE.SetStatusBar(String.Format("Error: {0}", ex.Message));
-                e.Handled = true;
-                e.SuppressKeyPress = true;
+                // e.Handled = true;
+                // e.SuppressKeyPress = true;
             }
         }
 
@@ -184,9 +184,25 @@ namespace OneStoryProjectEditor
                 return true;
             }
 
-            if (keyData == (Keys.Control | Keys.C))
+            if ((keyData == (Keys.Control | Keys.C))    // copy
+                || (keyData == (Keys.Control | Keys.ControlKey)) // Control
+                )// Replace
                 return true;
 
+            if (keyData == (Keys.Control | Keys.F)) // Find
+            {
+                theSE.findNextToolStripMenuItem_Click(null, null);
+                e.Handled = true;
+                return true;
+            }
+            
+            if (keyData == (Keys.Control | Keys.H)) // Replace
+            {
+                theSE.replaceToolStripMenuItem_Click(null, null);
+                e.Handled = true;
+                return true;
+            }
+            
             if (keyData == Keys.F1)
                 return true;
 

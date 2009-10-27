@@ -22,7 +22,6 @@ namespace OneStoryProjectEditor
 
         private void RunFixupProgram()
         {
-            System.Windows.Forms.MessageBox.Show("Testing 1, 2, 3...");
             string strRunPath = Path.Combine(StoryProjectData.GetRunningFolder, "FixupOneStoryFile.exe");
             if (File.Exists(strRunPath))
                 StoryEditor.LaunchProgram(strRunPath, null);
