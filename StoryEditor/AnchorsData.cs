@@ -40,17 +40,83 @@ namespace OneStoryProjectEditor
                 keyTerms.Add(str);
         }
 
-        // match for things like "2Cor" and turn it into "2Co"
-        protected Regex regexParsingAnchor = new Regex(@"^(.{3})[^ ]", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
-                
+        internal static readonly Dictionary<string, string> mapSwordToParatextBookCodes = new Dictionary<string, string>()
+                                                                     {
+{ "Gen", "Gen" },
+{ "Exod", "Exo" },
+{ "Lev", "Lev" },
+{ "Num", "Num" },
+{ "Deut", "Deu" },
+{ "Josh", "Jos" },
+{ "Judg", "Jdg" },
+{ "Ruth", "Rut" },
+{ "1Sam", "1Sa" },
+{ "2Sam", "2Sa" },
+{ "1Kgs", "1Ki" },
+{ "2Kgs", "2Ki" },
+{ "1Chr", "1Ch" },
+{ "2Chr", "2Ch" },
+{ "Ezra", "Ezr" },
+{ "Neh", "Neh" },
+{ "Esth", "Est" },
+{ "Job", "Job" },
+{ "Ps", "Psa" },
+{ "Prov", "Pro" },
+{ "Eccl", "Ecc" },
+{ "Song", "Sng" },
+{ "Isa", "Isa" },
+{ "Jer", "Jer" },
+{ "Lam", "Lam" },
+{ "Ezek", "Ezk" },
+{ "Dan", "Dan" },
+{ "Hos", "Hos" },
+{ "Joel", "Jol" },
+{ "Amos", "Amo" },
+{ "Obad", "Oba" },
+{ "Jonah", "Jon" },
+{ "Mic", "Mic" },
+{ "Nah", "Nam" },
+{ "Hab", "Hab" },
+{ "Zeph", "Zep" },
+{ "Hag", "Hag" },
+{ "Zech", "Zec" },
+{ "Mal", "Mal" },
+{ "Matt", "Mat" },
+{ "Mark", "Mrk" },
+{ "Luke", "Luk" },
+{ "John", "Jhn" },
+{ "Acts", "Act" },
+{ "Rom", "Rom" },
+{ "1Cor", "1Co" },
+{ "2Cor", "2Co" },
+{ "Gal", "Gal" },
+{ "Eph", "Eph" },
+{ "Phil", "Php" },
+{ "Col", "Col" },
+{ "1Thess", "1Th" },
+{ "2Thess", "2Th" },
+{ "1Tim", "1Ti" },
+{ "2Tim", "2Ti" },
+{ "Titus", "Tit" },
+{ "Phlm", "Phm" },
+{ "Heb", "Heb" },
+{ "Jas", "Jas" },
+{ "1Pet", "1Pe" },
+{ "2Pet", "2Pe" },
+{ "1John", "1Jn" },
+{ "2John", "2Jn" },
+{ "3John", "3Jn" },
+{ "Jude", "Jud" },
+{ "Rev",  "Rev" }
+                                                                     };
         public string AnchorAsVerseRef
         {
             get
             {
-                // some things which work as anchors for Sword don't work for the Paratext
-                //  key terms stuff as "VerseRef" objects
-                string strVerseRef = regexParsingAnchor.Replace(JumpTarget, "$1");
-                return strVerseRef;
+                int nIndexSpace = JumpTarget.IndexOf(' ');
+                string strBookCode = JumpTarget.Substring(0, nIndexSpace);
+                strBookCode = mapSwordToParatextBookCodes[strBookCode];
+                return strBookCode + JumpTarget.Substring(nIndexSpace);
             }
         }
 

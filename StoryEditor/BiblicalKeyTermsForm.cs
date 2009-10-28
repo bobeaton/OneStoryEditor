@@ -46,6 +46,20 @@ namespace OneStoryProjectEditor
 
             try
             {
+#if DEBUG
+                // Test the Sword names vs. the names used by Paratext
+                foreach (string str in AnchorData.mapSwordToParatextBookCodes.Values)
+                {
+                    VerseRef verser = new VerseRef(str + " 1:1");
+                }
+                foreach (string str in AnchorData.mapSwordToParatextBookCodes.Keys)
+                {
+                    string strAnchor = str + " 1:1";
+                    AnchorData anchorData = new AnchorData(strAnchor, strAnchor);
+                    VerseRef verser = new VerseRef(anchorData.AnchorAsVerseRef);
+                }
+#endif
+
                 List<string> lstRefs = new List<string>();
                 foreach (AnchorData anAnchor in theAnchors)
                 {
