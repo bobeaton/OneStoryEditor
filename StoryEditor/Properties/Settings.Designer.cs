@@ -96,7 +96,7 @@ namespace OneStoryProjectEditor.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("OneStory")]
+        [global::System.Configuration.DefaultSettingValueAttribute("OneStory Editor Projects")]
         public string DefMyDocsSubfolder {
             get {
                 return ((string)(this["DefMyDocsSubfolder"]));

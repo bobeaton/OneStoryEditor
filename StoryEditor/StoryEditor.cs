@@ -101,7 +101,7 @@ namespace OneStoryProjectEditor
                     //  the default location, then just go ahead and open it directly and forget
                     //  about querying the user for the Project Name (i.e. don't do what's in this
                     //  if statement)
-                    if (openFileDialog.FileName != ProjectSettings.GetDefaultProjectFileName(strProjectName))
+                    if (openFileDialog.FileName != ProjectSettings.GetDefaultProjectFilePath(strProjectName))
                     {
                         // this means that the file is not in the default location... But before we can go ahead, we need to 
                         //  check to see if a project already exists with this name in the default location on the disk.
@@ -112,7 +112,7 @@ namespace OneStoryProjectEditor
                         //  the existing one. So if the user cares anything about the existing one at all, they aren't going to 
                         //  want to do that... So let's be draconian and actually overwrite the file if they say 'yes'. This way, 
                         //  if they care, they'll say 'no' instead and give it a different name.
-                        string strFilename = ProjectSettings.GetDefaultProjectFileName(strProjectName);
+                        string strFilename = ProjectSettings.GetDefaultProjectFilePath(strProjectName);
                         if (File.Exists(strFilename))
                         {
                             DialogResult res = MessageBox.Show(String.Format(Properties.Resources.IDS_OverwriteProject, strProjectName), Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
@@ -332,7 +332,7 @@ namespace OneStoryProjectEditor
 
                 // serialize in the file
                 NewDataSet projFile = new NewDataSet();
-                projFile.ReadXml(projSettings.ProjectFileName);
+                projFile.ReadXml(projSettings.ProjectFilePath);
 
                 // get the data into another structure that we use internally (more flexible)
                 StoryProject = GetOldStoryProjectData(projFile, projSettings);
@@ -1064,7 +1064,7 @@ namespace OneStoryProjectEditor
             if (!IsInStoriesSet || !Modified || (StoryProject == null) || (StoryProject.ProjSettings == null))
                 return;
 
-            string strFilename = StoryProject.ProjSettings.ProjectFileName;
+            string strFilename = StoryProject.ProjSettings.ProjectFilePath;
             SaveFile(strFilename);
         }
 
@@ -2041,8 +2041,8 @@ namespace OneStoryProjectEditor
 
                 doc.Save(strAdaptationFilespec);
 
-                string strAdaptIt = String.Format(@"{0}\Adapt It WX Unicode\Adapt_It_Unicode.exe",
-                    Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles));
+                string strAdaptIt = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
+                    Path.Combine("Adapt It WX Unicode", "Adapt_It_Unicode.exe"));
 
                 // if AdaptIt is currently running, then close it first (so we can start
                 //  it in "force review mode"
@@ -2191,9 +2191,8 @@ namespace OneStoryProjectEditor
 
         protected string AdaptationFilespec(string strConverterFilespec, string strStoryName)
         {
-            return String.Format(@"{0}\Adaptations\{1}.xml",
-                Path.GetDirectoryName(strConverterFilespec),
-                strStoryName);
+            return Path.Combine(Path.GetDirectoryName(strConverterFilespec),
+                Path.Combine("Adaptations", String.Format(@"{0}.xml", strStoryName)));
         }
 
         protected void UpdateUIMenusWithShortCuts()
@@ -2443,6 +2442,44 @@ namespace OneStoryProjectEditor
                 m_frmFind = new SearchForm();
 
             m_frmFind.Show(this, false);
+        }
+
+        private void changeProjectFolderRootToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog dlg = new FolderBrowserDialog
+                          {
+                              Description =
+                                  String.Format("Browse to the folder where you want the program to create the '{0}' folder",
+                                                Properties.Settings.Default.DefMyDocsSubfolder)
+                          };
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                ProjectSettings.OneStoryProjectFolderRoot = dlg.SelectedPath;
+                ProjectSettings.InsureOneStoryProjectFolderRootExists();
+
+                string strOldProjectPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                if (Properties.Settings.Default.RecentProjectPaths.Count > 0)
+                {
+                    foreach (string projectPath in Properties.Settings.Default.RecentProjectPaths)
+                    {
+                        if (projectPath.IndexOf(strOldProjectPath) == 0)
+                            strOldProjectPath = projectPath;
+                    }
+                    strOldProjectPath = Properties.Settings.Default.RecentProjectPaths[0];
+                }
+                else
+                    strOldProjectPath = Path.Combine(strOldProjectPath, "OneStory");
+
+                // clobber any recollection we had of existing projects, since they'll
+                //  now need to be "browsed" for.
+                Properties.Settings.Default.RecentProjects.Clear();
+                Properties.Settings.Default.RecentProjectPaths.Clear();
+                Properties.Settings.Default.Save();
+
+                string strMessage = String.Format(Properties.Resources.IDS_MoveProjectsToNewProjectFolder,
+                                                  ProjectSettings.OneStoryProjectFolderRoot, strOldProjectPath);
+                MessageBox.Show(strMessage, Properties.Resources.IDS_Caption);
+            }
         }
     }
 }

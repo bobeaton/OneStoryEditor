@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using Microsoft.Win32;
 
 namespace FixupOneStoryFile
 {
@@ -163,6 +164,32 @@ namespace FixupOneStoryFile
                 string value = elem.Attribute("address").Value;
                 elem.Attribute("address").Remove();
                 elem.SetAttributeValue("bioData", value);
+            }
+        }
+
+        protected const string OneStoryHiveRoot = @"Software\SIL\OneStory";
+        protected const string CstrRootDirKey = "RootDir";
+
+        public static string OneStoryProjectFolderRoot
+        {
+            get
+            {
+                string strProjectFolderName = "OneStory";
+                string strDefaultProjectFolderRoot = null;
+                RegistryKey keyOneStoryHiveRoot = Registry.CurrentUser.OpenSubKey(OneStoryHiveRoot);
+                if (keyOneStoryHiveRoot != null)
+                {
+                    strProjectFolderName = "OneStory Editor Projects";
+                    strDefaultProjectFolderRoot = (string) keyOneStoryHiveRoot.GetValue(CstrRootDirKey);
+                }
+
+                if (String.IsNullOrEmpty(strDefaultProjectFolderRoot))
+                    strDefaultProjectFolderRoot = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+                string strPath = Path.Combine(strDefaultProjectFolderRoot,
+                    strProjectFolderName);
+
+                return strPath;
             }
         }
 

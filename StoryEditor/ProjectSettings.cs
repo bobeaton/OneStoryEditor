@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Windows.Forms;
 using System.Xml.Linq;
-using System.Text;
+using Microsoft.Win32;                  // for RegistryKey
 
 namespace OneStoryProjectEditor
 {
@@ -24,7 +24,7 @@ namespace OneStoryProjectEditor
         {
             ProjectName = strProjectName;
             if (String.IsNullOrEmpty(strProjectFolderDefaultIfNull))
-                _strProjectFolder = String.Format(@"{0}\{1}", OneStoryProjectFolderRoot, ProjectName);
+                _strProjectFolder = Path.Combine(OneStoryProjectFolderRoot, ProjectName);
             else
             {
                 System.Diagnostics.Debug.Assert(strProjectFolderDefaultIfNull[strProjectFolderDefaultIfNull.Length-1] != '\\');
@@ -181,18 +181,24 @@ namespace OneStoryProjectEditor
 
         public void ThrowIfProjectFileDoesntExists()
         {
-            if (!File.Exists(ProjectFileName))
-                throw new ProjectFileNotFoundException(String.Format("Unable to find the file: '{0}'", ProjectFileName));
+            if (!File.Exists(ProjectFilePath))
+                throw new ProjectFileNotFoundException(String.Format("Unable to find the file: '{0}'", ProjectFilePath));
         }
 
-        public string ProjectFileName
+        public static string OneStoryFileName(string strProjectName)
         {
-            get { return String.Format(@"{0}\{1}.onestory", ProjectFolder, ProjectName); }
+            return String.Format(@"{0}.onestory", strProjectName);
         }
 
-        public static string GetDefaultProjectFileName(string strProjectName)
+        public string ProjectFilePath
         {
-            return String.Format(@"{0}\{1}\{1}.onestory", OneStoryProjectFolderRoot, strProjectName);
+            get { return Path.Combine(ProjectFolder, OneStoryFileName(ProjectName)); }
+        }
+
+        public static string GetDefaultProjectFilePath(string strProjectName)
+        {
+            return Path.Combine(OneStoryProjectFolderRoot, 
+                Path.Combine(strProjectName, OneStoryFileName(strProjectName)));
         }
 
         public string ProjectFolder
@@ -200,17 +206,42 @@ namespace OneStoryProjectEditor
             get { return _strProjectFolder; }
         }
 
+        public static void InsureOneStoryProjectFolderRootExists()
+        {
+            // one of the first things this might do is try to get a project from the internet, in which case
+            //  the OneStory folder should exist
+            if (!Directory.Exists(OneStoryProjectFolderRoot))
+                Directory.CreateDirectory(OneStoryProjectFolderRoot);
+        }
+
+        // if any of this changes, update FixupOneStoryFile::Program.cs
+        protected const string OneStoryHiveRoot = @"Software\SIL\OneStory";
+        protected const string CstrRootDirKey = "RootDir";
+
         public static string OneStoryProjectFolderRoot
         {
             get
             {
-                return String.Format(@"{0}\{1}",
-                    Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-#if !DataDllBuild
+                string strDefaultProjectFolderRoot = null;
+                RegistryKey keyOneStoryHiveRoot = Registry.CurrentUser.OpenSubKey(OneStoryHiveRoot);
+                if (keyOneStoryHiveRoot != null)
+                    strDefaultProjectFolderRoot = (string)keyOneStoryHiveRoot.GetValue(CstrRootDirKey);
+
+                if (String.IsNullOrEmpty(strDefaultProjectFolderRoot))
+                    strDefaultProjectFolderRoot = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+                string strPath = Path.Combine(strDefaultProjectFolderRoot,
                     Properties.Settings.Default.DefMyDocsSubfolder);
-#else
-                    "OneStory");
-#endif
+
+                return strPath;
+            }
+            set
+            {
+                RegistryKey keyOneStoryHiveRoot = Registry.CurrentUser.OpenSubKey(OneStoryHiveRoot, true);
+                if (keyOneStoryHiveRoot == null)
+                    keyOneStoryHiveRoot = Registry.CurrentUser.CreateSubKey(OneStoryHiveRoot);
+                if (keyOneStoryHiveRoot != null)
+                    keyOneStoryHiveRoot.SetValue(CstrRootDirKey, value);
             }
         }
 

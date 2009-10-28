@@ -416,7 +416,7 @@ namespace OneStoryProjectEditor
 #endif
 
             // finally, we put at least the NetBible below our working dir.
-            strSwordProjectPath = String.Format(@"{0}\SWORD", strWorkingFolder);
+            strSwordProjectPath = Path.Combine(strWorkingFolder, "SWORD");
             System.Diagnostics.Debug.Assert(Directory.Exists(strSwordProjectPath));
             lst.Add(strSwordProjectPath);
 

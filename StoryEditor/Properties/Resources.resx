@@ -1466,4 +1466,7 @@ eater Panorama
   <data name="IDS_NoSearchString" xml:space="preserve">
     <value>Nothing to search for!</value>
   </data>
+  <data name="IDS_MoveProjectsToNewProjectFolder" xml:space="preserve">
+    <value>The '{0}' folder is now the root folder for OneStory Editor projects. You can use Windows Explorer to move the projects (sub-folders) in '{1}' to '{0}'. Then click the "Project" menu and choose the "Browse for project file" command to re-load your projects from the new location.</value>
+  </data>
 </root>

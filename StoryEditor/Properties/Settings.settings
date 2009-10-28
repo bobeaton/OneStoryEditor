@@ -21,7 +21,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="DefMyDocsSubfolder" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">OneStory</Value>
+      <Value Profile="(Default)">OneStory Editor Projects</Value>
     </Setting>
     <Setting Name="RecentProjectPaths" Type="System.Collections.Specialized.StringCollection" Scope="User">
       <Value Profile="(Default)" />

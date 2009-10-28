@@ -48,10 +48,7 @@ namespace OneStoryProjectEditor
 
             try
             {
-                // one of the first things this might do is try to get a project from the internet, in which case
-                //  the OneStory folder should exist
-                if (!Directory.Exists(ProjectSettings.OneStoryProjectFolderRoot))
-                    Directory.CreateDirectory(ProjectSettings.OneStoryProjectFolderRoot);
+                ProjectSettings.InsureOneStoryProjectFolderRootExists();
 
                 bool bPretendOpening = false;
                 if ((args.Length > 0) && (args[0] == "/sync_all"))
@@ -70,8 +67,9 @@ namespace OneStoryProjectEditor
 
                 foreach (string strProjectFolder in _astrProjectForSync)
                 {
-                    string strOneStoryFileSpec = String.Format(@"{0}\{1}.onestory",
-                        strProjectFolder, Path.GetFileNameWithoutExtension(strProjectFolder));
+                    string strOneStoryFileSpec = Path.Combine(strProjectFolder, 
+                        ProjectSettings.OneStoryFileName(Path.GetFileNameWithoutExtension(strProjectFolder)));
+
                     try
                     {
                         System.Diagnostics.Debug.Assert(File.Exists(strOneStoryFileSpec));
@@ -134,8 +132,8 @@ namespace OneStoryProjectEditor
         public static bool ShouldTrySync(string strProjectFolder)
         {
             return ((strProjectFolder.Length > ProjectSettings.OneStoryProjectFolderRoot.Length)
-                    && (strProjectFolder.Substring(0, ProjectSettings.OneStoryProjectFolderRoot.Length) ==
-                     ProjectSettings.OneStoryProjectFolderRoot));
+                    && (strProjectFolder.Substring(0, ProjectSettings.OneStoryProjectFolderRoot.Length) 
+                        == ProjectSettings.OneStoryProjectFolderRoot));
         }
 
         public static void SetProjectForSyncage(string strProjectFolder)

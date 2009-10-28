@@ -358,6 +358,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The &apos;{0}&apos; folder is now the root folder for OneStory Editor projects. You can use Windows Explorer to move the projects (sub-folders) in &apos;{1}&apos; to &apos;{0}&apos;. Then click the &quot;Project&quot; menu and choose the &quot;Browse for project file&quot; command to re-load your projects from the new location..
+        /// </summary>
+        internal static string IDS_MoveProjectsToNewProjectFolder {
+            get {
+                return ResourceManager.GetString("IDS_MoveProjectsToNewProjectFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} back-translation of the story.
         /// </summary>
         internal static string IDS_NationalBtOfStory {

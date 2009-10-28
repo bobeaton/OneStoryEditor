@@ -17,41 +17,45 @@ namespace OneStoryProjectEditor
 
         protected static string AdaptItGlossingLookupFileSpec(string strSourceLangName, string strTargetLangName)
         {
-            return String.Format(@"{0}\Glossing.xml",
-                AdaptItProjectFolder(strSourceLangName, strTargetLangName));
+            return Path.Combine(AdaptItProjectFolder(strSourceLangName, strTargetLangName),
+                "Glossing.xml");
+        }
+
+        protected static string AdaptationFileName(string strSourceLangName, string strTargetLangName)
+        {
+            return String.Format(@"{0} to {1} adaptations.xml", strSourceLangName, strTargetLangName);
         }
 
         protected static string AdaptItLookupFileSpec(string strSourceLangName, string strTargetLangName)
         {
-            return String.Format(@"{0}\{1} to {2} adaptations.xml",
-                AdaptItProjectFolder(strSourceLangName, strTargetLangName), strSourceLangName, strTargetLangName);
+            return Path.Combine(AdaptItProjectFolder(strSourceLangName, strTargetLangName),
+                AdaptationFileName(strSourceLangName, strTargetLangName));
         }
 
         protected static string AdaptItProjectFileSpec(string strSourceLangName, string strTargetLangName)
         {
-            return String.Format(@"{0}\AI-ProjectConfiguration.aic",
-                AdaptItProjectFolder(strSourceLangName, strTargetLangName));
+            return Path.Combine(AdaptItProjectFolder(strSourceLangName, strTargetLangName),
+                "AI-ProjectConfiguration.aic");
         }
 
         protected static string AdaptItWorkFolder
         {
             get
             {
-                return String.Format(@"{0}\Adapt It Unicode Work",
-                    Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+                return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                    "Adapt It Unicode Work");
             }
         }
 
         protected static string AdaptItProjectFolder(string strSourceLangName, string strTargetLangName)
         {
-            return String.Format(@"{0}\{1} to {2} adaptations",
-                AdaptItWorkFolder, strSourceLangName, strTargetLangName);
+            return Path.Combine(AdaptItWorkFolder, AdaptationFileName(strSourceLangName, strTargetLangName));
         }
 
         protected static string AdaptItProjectAdaptationsFolder(string strSourceLangName, string strTargetLangName)
         {
-            return String.Format(@"{0}\Adaptations",
-                AdaptItProjectFolder(strSourceLangName, strTargetLangName));
+            return Path.Combine(AdaptItProjectFolder(strSourceLangName, strTargetLangName),
+                "Adaptations");
         }
 
         protected static string AdaptItLookupConverterName(string strSourceLangName, string strTargetLangName)
