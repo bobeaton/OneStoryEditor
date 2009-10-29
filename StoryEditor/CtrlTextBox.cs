@@ -265,22 +265,22 @@ namespace OneStoryProjectEditor
 
         private static void onCutSelectedText(object sender, EventArgs e)
         {
-            _inTextBox.Cut();
+            if (_inTextBox != null) _inTextBox.Cut();
         }
 
         private static void onCopySelectedText(object sender, EventArgs e)
         {
-            _inTextBox.Copy();
+            if (_inTextBox != null) _inTextBox.Copy();
         }
 
         private static void onPasteSelectedText(object sender, EventArgs e)
         {
-            _inTextBox.Paste();
+            if (_inTextBox != null) _inTextBox.Paste();
         }
 
         private static void onUndo(object sender, EventArgs e)
         {
-            _inTextBox.Undo();
+            if (_inTextBox != null) _inTextBox.Undo();
         }
     }
 }
