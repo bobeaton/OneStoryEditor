@@ -139,7 +139,7 @@ namespace OneStoryProjectEditor
         protected void AddOrInsertTestor(TextBox tb, int nIndex)
         {
             TeamMemberData theUns = (TeamMemberData)tb.Tag;
-            if (_theCurrentStory.CraftingInfo.Testors.Count < nIndex)
+            if (_theCurrentStory.CraftingInfo.Testors.Count <= nIndex)
                 _theCurrentStory.CraftingInfo.Testors.Add(theUns.MemberGuid);
             else
                 _theCurrentStory.CraftingInfo.Testors[nIndex] = theUns.MemberGuid;
