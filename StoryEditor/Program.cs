@@ -28,12 +28,16 @@ namespace OneStoryProjectEditor
                 Properties.Settings.Default.RecentProjectPaths = new System.Collections.Specialized.StringCollection();
             if (Properties.Settings.Default.ProjectNameToHgUrl == null)
                 Properties.Settings.Default.ProjectNameToHgUrl = new System.Collections.Specialized.StringCollection();
-            _mapProjectNameToHgUrl = ArrayToDictionary(Properties.Settings.Default.ProjectNameToHgUrl);
+            _mapProjectNameToHgHttpUrl = ArrayToDictionary(Properties.Settings.Default.ProjectNameToHgUrl);
 
             if (Properties.Settings.Default.ProjectNameToHgUsername == null)
                 Properties.Settings.Default.ProjectNameToHgUsername = new System.Collections.Specialized.StringCollection();
             _mapProjectNameToHgUsername = ArrayToDictionary(Properties.Settings.Default.ProjectNameToHgUsername);
 
+            if (Properties.Settings.Default.ProjectNameToHgUsername == null)
+                Properties.Settings.Default.ProjectNameToHgUsername = new System.Collections.Specialized.StringCollection();
+            _mapProjectNameToHgNetworkUrl = ArrayToDictionary(Properties.Settings.Default.ProjectNameToHgNetworkUrl);
+            
             bool bNeedToSave = false;
             System.Diagnostics.Debug.Assert(Properties.Settings.Default.RecentProjects.Count == Properties.Settings.Default.RecentProjectPaths.Count);
             if (Properties.Settings.Default.RecentProjects.Count != Properties.Settings.Default.RecentProjectPaths.Count)
@@ -53,7 +57,7 @@ namespace OneStoryProjectEditor
                 bool bPretendOpening = false;
                 if ((args.Length > 0) && (args[0] == "/sync_all"))
                 {
-                    foreach (string strProjectName in _mapProjectNameToHgUrl.Keys)
+                    foreach (string strProjectName in _mapProjectNameToHgHttpUrl.Keys)
                     {
                         string strProjectPath = Path.Combine(
                             ProjectSettings.OneStoryProjectFolderRoot, 
@@ -104,21 +108,42 @@ namespace OneStoryProjectEditor
         }
 
         static List<string> _astrProjectForSync = new List<string>();
-        static Dictionary<string, string> _mapProjectNameToHgUrl;
+        static Dictionary<string, string> _mapProjectNameToHgHttpUrl;
         static Dictionary<string, string> _mapProjectNameToHgUsername;
+        static Dictionary<string, string> _mapProjectNameToHgNetworkUrl;
 
         public static void SetHgParameters(string strProjectFolder, string strProjectName, string strUrl, string strUsername)
         {
-            System.Diagnostics.Debug.Assert((_mapProjectNameToHgUrl != null) && (_mapProjectNameToHgUsername != null));
-            _mapProjectNameToHgUrl[strProjectName] = strUrl;
+            System.Diagnostics.Debug.Assert((_mapProjectNameToHgHttpUrl != null) && (_mapProjectNameToHgUsername != null));
+            _mapProjectNameToHgHttpUrl[strProjectName] = strUrl;
             _mapProjectNameToHgUsername[strProjectName] = strUsername;
-            Properties.Settings.Default.ProjectNameToHgUrl = DictionaryToArray(_mapProjectNameToHgUrl);
+            Properties.Settings.Default.ProjectNameToHgUrl = DictionaryToArray(_mapProjectNameToHgHttpUrl);
             Properties.Settings.Default.ProjectNameToHgUsername = DictionaryToArray(_mapProjectNameToHgUsername);
             Properties.Settings.Default.Save();
 
             var repo = new HgRepository(strProjectFolder, new NullProgress());
 
             var address = RepositoryAddress.Create("Internet", strUrl);
+            var addresses = repo.GetRepositoryPathsInHgrc();
+            foreach (var addr in addresses)
+                if (addr.URI == address.URI)
+                    return;
+
+            var lstAddrs = new List<RepositoryAddress>(addresses);
+            lstAddrs.Add(address);
+            repo.SetKnownRepositoryAddresses(lstAddrs);
+        }
+
+        public static void SetHgParametersNetworkDrive(string strProjectFolder, string strProjectName, string strUrl)
+        {
+            System.Diagnostics.Debug.Assert(_mapProjectNameToHgNetworkUrl != null);
+            _mapProjectNameToHgNetworkUrl[strProjectName] = strUrl;
+            Properties.Settings.Default.ProjectNameToHgNetworkUrl = DictionaryToArray(_mapProjectNameToHgNetworkUrl);
+            Properties.Settings.Default.Save();
+
+            var repo = new HgRepository(strProjectFolder, new NullProgress());
+
+            var address = RepositoryAddress.Create("Network Drive", strUrl);
             var addresses = repo.GetRepositoryPathsInHgrc();
             foreach (var addr in addresses)
                 if (addr.URI == address.URI)
@@ -217,10 +242,13 @@ namespace OneStoryProjectEditor
 
         private static bool QueryHgRepoParameters(string strProjectFolder, string strProjectName, out string strUsername, out string strRepoUrl)
         {
-            string strHgUrl = (_mapProjectNameToHgUrl.ContainsKey(strProjectName))
-                ? _mapProjectNameToHgUrl[strProjectName] : null;
+            string strHgUrl = (_mapProjectNameToHgHttpUrl.ContainsKey(strProjectName))
+                ? _mapProjectNameToHgHttpUrl[strProjectName] : null;
             string strHgUsername = (_mapProjectNameToHgUsername.ContainsKey(strProjectName))
                 ? _mapProjectNameToHgUsername[strProjectName] : null;
+            if (String.IsNullOrEmpty(strHgUrl) && _mapProjectNameToHgNetworkUrl.ContainsKey(strProjectName))
+                strHgUrl = _mapProjectNameToHgNetworkUrl[strProjectName];
+
             if (String.IsNullOrEmpty(strHgUrl))
             {
                 HgRepoForm dlg = new HgRepoForm

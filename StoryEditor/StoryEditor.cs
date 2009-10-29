@@ -164,6 +164,30 @@ namespace OneStoryProjectEditor
             }
         }
 
+        private void projectFromASharedNetworkDriveToolStripMenu_Click(object sender, EventArgs e)
+        {
+            // has to be a "same-named" project open currently that we're just going to push
+            //  to the network drive
+            Debug.Assert((StoryProject != null) && (StoryProject.ProjSettings != null));
+            openFileDialog.FileName = ProjectSettings.OneStoryFileName(StoryProject.ProjSettings.ProjectName);
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                // can't be the same as the current project!
+                if (openFileDialog.FileName != StoryProject.ProjSettings.ProjectFilePath)
+                {
+                    string strNetworkDriveFolder = Path.GetDirectoryName(openFileDialog.FileName);
+                    Program.SetHgParametersNetworkDrive(StoryProject.ProjSettings.ProjectFolder, 
+                        StoryProject.ProjSettings.ProjectName,
+                        strNetworkDriveFolder);
+                }
+                else
+                {
+                    MessageBox.Show(Properties.Resources.IDS_CantPushToTheLocalRepo,
+                                    Properties.Resources.IDS_Caption);
+                }
+            }
+        }
+
         private static string ExtractUsernameFromUrl(string url)
         {
             // e.g. http://bobeaton:helpmepld@hg-private.languagedepot.org/

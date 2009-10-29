@@ -404,5 +404,16 @@ namespace OneStoryProjectEditor.Properties {
                 this["RecentReplaceWith"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection ProjectNameToHgNetworkUrl {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["ProjectNameToHgNetworkUrl"]));
+            }
+            set {
+                this["ProjectNameToHgNetworkUrl"] = value;
+            }
+        }
     }
 }

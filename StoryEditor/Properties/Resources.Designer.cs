@@ -139,6 +139,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You chose the local project folder. You have to browse for the network drive on which the associated project is present..
+        /// </summary>
+        internal static string IDS_CantPushToTheLocalRepo {
+            get {
+                return ResourceManager.GetString("IDS_CantPushToTheLocalRepo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OneStory Project Editor.
         /// </summary>
         internal static string IDS_Caption {

@@ -196,5 +196,8 @@ DoAdaptingBeforeGlossing_InVerticalEdit	1</Value>
     <Setting Name="RecentReplaceWith" Type="System.Collections.Specialized.StringCollection" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="ProjectNameToHgNetworkUrl" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

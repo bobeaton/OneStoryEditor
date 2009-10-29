@@ -92,6 +92,8 @@ namespace OneStoryProjectEditor
             this.insertNewStoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addNewStoryAfterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemShowPanorama = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.changeProjectFolderRootToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.flowLayoutPanelVerses = new System.Windows.Forms.FlowLayoutPanel();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
@@ -109,8 +111,7 @@ namespace OneStoryProjectEditor
             this.buttonsStoryStage = new System.Windows.Forms.ToolStripSplitButton();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.helpProvider = new System.Windows.Forms.HelpProvider();
-            this.advancedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.changeProjectFolderRootToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.projectFromASharedNetworkDriveToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
             this.splitContainerLeftRight.Panel2.SuspendLayout();
@@ -151,6 +152,7 @@ namespace OneStoryProjectEditor
             this.toolStripSeparator1,
             this.browseForProjectToolStripMenuItem,
             this.projectFromTheInternetToolStripMenuItem,
+            this.projectFromASharedNetworkDriveToolStripMenu,
             this.toolStripSeparator4,
             this.teamMembersToolStripMenuItem,
             this.toolStripSeparator2,
@@ -163,7 +165,7 @@ namespace OneStoryProjectEditor
             // recentProjectsToolStripMenuItem
             // 
             this.recentProjectsToolStripMenuItem.Name = "recentProjectsToolStripMenuItem";
-            this.recentProjectsToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.recentProjectsToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
             this.recentProjectsToolStripMenuItem.Text = "&Recent projects";
             this.recentProjectsToolStripMenuItem.ToolTipText = "This shows the projects that have at one time or other been opened on this machin" +
                 "e";
@@ -172,7 +174,7 @@ namespace OneStoryProjectEditor
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.ShowShortcutKeys = false;
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
             this.newToolStripMenuItem.Text = "&New";
             this.newToolStripMenuItem.ToolTipText = "Click to create a new OneStory project";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
@@ -181,7 +183,7 @@ namespace OneStoryProjectEditor
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
             this.saveToolStripMenuItem.Text = "&Save";
             this.saveToolStripMenuItem.ToolTipText = "Click to save the OneStory project";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
@@ -189,12 +191,12 @@ namespace OneStoryProjectEditor
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(186, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(221, 6);
             // 
             // browseForProjectToolStripMenuItem
             // 
             this.browseForProjectToolStripMenuItem.Name = "browseForProjectToolStripMenuItem";
-            this.browseForProjectToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.browseForProjectToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
             this.browseForProjectToolStripMenuItem.Text = "&Browse for project file";
             this.browseForProjectToolStripMenuItem.ToolTipText = "Click this option to open an existing OneStory project that is not in the default" +
                 " project directory.";
@@ -203,7 +205,7 @@ namespace OneStoryProjectEditor
             // projectFromTheInternetToolStripMenuItem
             // 
             this.projectFromTheInternetToolStripMenuItem.Name = "projectFromTheInternetToolStripMenuItem";
-            this.projectFromTheInternetToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.projectFromTheInternetToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
             this.projectFromTheInternetToolStripMenuItem.Text = "&From the Internet";
             this.projectFromTheInternetToolStripMenuItem.ToolTipText = "Click here to enter an Internet address to get a project from (e.g. if your team " +
                 "mates have already uploaded it to the internet repository)";
@@ -212,12 +214,12 @@ namespace OneStoryProjectEditor
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(186, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(221, 6);
             // 
             // teamMembersToolStripMenuItem
             // 
             this.teamMembersToolStripMenuItem.Name = "teamMembersToolStripMenuItem";
-            this.teamMembersToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.teamMembersToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
             this.teamMembersToolStripMenuItem.Text = "Se&ttings";
             this.teamMembersToolStripMenuItem.ToolTipText = "Click this option to go to the Project Settings dialog in order to either log in " +
                 "as a team member, add a new team member, or edit the language properties (fonts," +
@@ -227,13 +229,13 @@ namespace OneStoryProjectEditor
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(186, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(221, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
             this.exitToolStripMenuItem.Text = "&Exit";
             this.exitToolStripMenuItem.ToolTipText = "Click to exit the program and synchronize with the internet repository";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
@@ -690,6 +692,21 @@ namespace OneStoryProjectEditor
                 " state";
             this.toolStripMenuItemShowPanorama.Click += new System.EventHandler(this.toolStripMenuItemShowPanorama_Click);
             // 
+            // advancedToolStripMenuItem
+            // 
+            this.advancedToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.changeProjectFolderRootToolStripMenuItem});
+            this.advancedToolStripMenuItem.Name = "advancedToolStripMenuItem";
+            this.advancedToolStripMenuItem.Size = new System.Drawing.Size(72, 23);
+            this.advancedToolStripMenuItem.Text = "A&dvanced";
+            // 
+            // changeProjectFolderRootToolStripMenuItem
+            // 
+            this.changeProjectFolderRootToolStripMenuItem.Name = "changeProjectFolderRootToolStripMenuItem";
+            this.changeProjectFolderRootToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+            this.changeProjectFolderRootToolStripMenuItem.Text = "Change &Project Folder Root";
+            this.changeProjectFolderRootToolStripMenuItem.Click += new System.EventHandler(this.changeProjectFolderRootToolStripMenuItem_Click);
+            // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
@@ -894,20 +911,12 @@ namespace OneStoryProjectEditor
             this.statusLabel.Spring = true;
             this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // advancedToolStripMenuItem
+            // projectFromASharedNetworkDriveToolStripMenu
             // 
-            this.advancedToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.changeProjectFolderRootToolStripMenuItem});
-            this.advancedToolStripMenuItem.Name = "advancedToolStripMenuItem";
-            this.advancedToolStripMenuItem.Size = new System.Drawing.Size(72, 23);
-            this.advancedToolStripMenuItem.Text = "A&dvanced";
-            // 
-            // changeProjectFolderRootToolStripMenuItem
-            // 
-            this.changeProjectFolderRootToolStripMenuItem.Name = "changeProjectFolderRootToolStripMenuItem";
-            this.changeProjectFolderRootToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
-            this.changeProjectFolderRootToolStripMenuItem.Text = "Change &Project Folder Root";
-            this.changeProjectFolderRootToolStripMenuItem.Click += new System.EventHandler(this.changeProjectFolderRootToolStripMenuItem_Click);
+            this.projectFromASharedNetworkDriveToolStripMenu.Name = "projectFromASharedNetworkDriveToolStripMenu";
+            this.projectFromASharedNetworkDriveToolStripMenu.Size = new System.Drawing.Size(277, 22);
+            this.projectFromASharedNetworkDriveToolStripMenu.Text = "&Associate with a shared network folder";
+            this.projectFromASharedNetworkDriveToolStripMenu.Click += new System.EventHandler(this.projectFromASharedNetworkDriveToolStripMenu_Click);
             // 
             // StoryEditor
             // 
@@ -1024,6 +1033,7 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem replaceToolStripMenuItem;
         private ToolStripMenuItem advancedToolStripMenuItem;
         private ToolStripMenuItem changeProjectFolderRootToolStripMenuItem;
+        private ToolStripMenuItem projectFromASharedNetworkDriveToolStripMenu;
     }
 
     public class ConNoteFlowLayoutPanel : FlowLayoutPanel
