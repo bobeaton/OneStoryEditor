@@ -178,7 +178,10 @@ namespace OneStoryProjectEditor
                 return;
 
             _verseData.TestQuestions.AddTestQuestion();
-            UpdateViewOfThisVerse(theSE);
+            if (!theSE.viewStoryTestingQuestionFieldMenuItem.Checked)
+                theSE.viewStoryTestingQuestionFieldMenuItem.Checked = true;
+            else
+                UpdateViewOfThisVerse(theSE);
         }
 
         private void contextMenuStrip_Opening(object sender, CancelEventArgs e)
