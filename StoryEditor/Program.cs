@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Windows.Forms;
 using Chorus.UI.Sync;
@@ -23,19 +24,19 @@ namespace OneStoryProjectEditor
             Application.SetCompatibleTextRenderingDefault(false);
 
             if (Properties.Settings.Default.RecentProjects == null)
-                Properties.Settings.Default.RecentProjects = new System.Collections.Specialized.StringCollection();
+                Properties.Settings.Default.RecentProjects = new StringCollection();
             if (Properties.Settings.Default.RecentProjectPaths == null)
-                Properties.Settings.Default.RecentProjectPaths = new System.Collections.Specialized.StringCollection();
+                Properties.Settings.Default.RecentProjectPaths = new StringCollection();
             if (Properties.Settings.Default.ProjectNameToHgUrl == null)
-                Properties.Settings.Default.ProjectNameToHgUrl = new System.Collections.Specialized.StringCollection();
+                Properties.Settings.Default.ProjectNameToHgUrl = new StringCollection();
             _mapProjectNameToHgHttpUrl = ArrayToDictionary(Properties.Settings.Default.ProjectNameToHgUrl);
 
             if (Properties.Settings.Default.ProjectNameToHgUsername == null)
-                Properties.Settings.Default.ProjectNameToHgUsername = new System.Collections.Specialized.StringCollection();
+                Properties.Settings.Default.ProjectNameToHgUsername = new StringCollection();
             _mapProjectNameToHgUsername = ArrayToDictionary(Properties.Settings.Default.ProjectNameToHgUsername);
 
-            if (Properties.Settings.Default.ProjectNameToHgUsername == null)
-                Properties.Settings.Default.ProjectNameToHgUsername = new System.Collections.Specialized.StringCollection();
+            if (Properties.Settings.Default.ProjectNameToHgNetworkUrl == null)
+                Properties.Settings.Default.ProjectNameToHgNetworkUrl = new StringCollection();
             _mapProjectNameToHgNetworkUrl = ArrayToDictionary(Properties.Settings.Default.ProjectNameToHgNetworkUrl);
             
             bool bNeedToSave = false;
@@ -112,6 +113,9 @@ namespace OneStoryProjectEditor
         static Dictionary<string, string> _mapProjectNameToHgUsername;
         static Dictionary<string, string> _mapProjectNameToHgNetworkUrl;
 
+        private const string CstrInternetName = "Internet";
+        private const string CstrNetworkDriveName = "Network Drive";
+
         public static void SetHgParameters(string strProjectFolder, string strProjectName, string strUrl, string strUsername)
         {
             System.Diagnostics.Debug.Assert((_mapProjectNameToHgHttpUrl != null) && (_mapProjectNameToHgUsername != null));
@@ -123,7 +127,7 @@ namespace OneStoryProjectEditor
 
             var repo = new HgRepository(strProjectFolder, new NullProgress());
 
-            var address = RepositoryAddress.Create("Internet", strUrl);
+            var address = RepositoryAddress.Create(CstrInternetName, strUrl);
             var addresses = repo.GetRepositoryPathsInHgrc();
             foreach (var addr in addresses)
                 if (addr.URI == address.URI)
@@ -143,7 +147,7 @@ namespace OneStoryProjectEditor
 
             var repo = new HgRepository(strProjectFolder, new NullProgress());
 
-            var address = RepositoryAddress.Create("Network Drive", strUrl);
+            var address = RepositoryAddress.Create(CstrNetworkDriveName, strUrl);
             var addresses = repo.GetRepositoryPathsInHgrc();
             foreach (var addr in addresses)
                 if (addr.URI == address.URI)
@@ -172,7 +176,7 @@ namespace OneStoryProjectEditor
         }
 
         // e.g. http://bobeaton:helpmepld@hg-private.languagedepot.org/snwmtn-test
-
+        // or \\Bob-StudioXPS\Backup\Storying\snwmtn-test
         public static void SyncWithRepository(string strProjectFolder, bool bIsOpening)
         {
             string strProjectName = Path.GetFileNameWithoutExtension(strProjectFolder);
@@ -185,25 +189,35 @@ namespace OneStoryProjectEditor
             projectConfig.IncludePatterns.Add("*.bad"); // if we write a bad file, commit that as well
             projectConfig.IncludePatterns.Add("*.conflict"); // include the conflicts file as well so we can fix them
 
-            string strHgUsername, strRepoUrl;
-            if (QueryHgRepoParameters(strProjectFolder, strProjectName, out strHgUsername, out strRepoUrl))
+            string strHgUsername, strRepoUrl, strSharedNetworkUrl;
+            if (QueryHgRepoParameters(strProjectFolder, strProjectName, out strHgUsername,
+                out strRepoUrl, out strSharedNetworkUrl))
             {
-                // for when we launch the program, just do a quick & dirty send/receive, but for
-                //  closing, we can be more informative
-                SyncUIDialogBehaviors suidb;
-                SyncUIFeatures suif;
-                if (bIsOpening)
+                if (!String.IsNullOrEmpty(strRepoUrl))
                 {
-                    suidb = SyncUIDialogBehaviors.StartImmediatelyAndCloseWhenFinished;
-                    suif = SyncUIFeatures.Minimal;
-
                     var nullProgress = new NullProgress();
                     var repo = new HgRepository(strProjectFolder, nullProgress);
                     if (!repo.GetCanConnectToRemote(strRepoUrl, nullProgress))
-                        if (MessageBox.Show(Properties.Resources.IDS_ConnectToInternet, 
-                            Properties.Resources.IDS_Caption, MessageBoxButtons.OKCancel) == 
-                            DialogResult.Cancel)
-                            return;
+                        if (MessageBox.Show(Properties.Resources.IDS_ConnectToInternet,
+                                             Properties.Resources.IDS_Caption,
+                                             MessageBoxButtons.OKCancel) ==
+                             DialogResult.Cancel)
+                        {
+                            strRepoUrl = null;
+                            if (String.IsNullOrEmpty(strSharedNetworkUrl))
+                                return;
+                        }
+                }
+
+                // for when we launch the program, just do a quick & dirty send/receive, 
+                //  but for closing (or if we have a network drive also), then we want to 
+                //  be more informative
+                SyncUIDialogBehaviors suidb;
+                SyncUIFeatures suif;
+                if (bIsOpening && String.IsNullOrEmpty(strSharedNetworkUrl))
+                {
+                    suidb = SyncUIDialogBehaviors.StartImmediatelyAndCloseWhenFinished;
+                    suif = SyncUIFeatures.Minimal;
                 }
                 else
                 {
@@ -213,12 +227,12 @@ namespace OneStoryProjectEditor
 
                 using (var dlg = new SyncDialog(projectConfig, suidb, suif))
                 {
-                    dlg.SyncOptions.DoSendToOthers = true;
-                    dlg.SyncOptions.DoPullFromOthers = true;
-                    dlg.SyncOptions.DoMergeWithOthers = true;
                     dlg.UseTargetsAsSpecifiedInSyncOptions = true;
+                    if (!String.IsNullOrEmpty(strRepoUrl))
+                        dlg.SyncOptions.RepositorySourcesToTry.Add(RepositoryAddress.Create(CstrInternetName, strRepoUrl));
+                    if (!String.IsNullOrEmpty(strSharedNetworkUrl))
+                        dlg.SyncOptions.RepositorySourcesToTry.Add(RepositoryAddress.Create(CstrNetworkDriveName, strSharedNetworkUrl));
 
-                    dlg.SyncOptions.RepositorySourcesToTry.Add(RepositoryAddress.Create("Internet",strRepoUrl));
                     dlg.Text = "Synchronizing OneStory Project: " + strProjectName;
                     dlg.ShowDialog();
                 }
@@ -240,14 +254,18 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private static bool QueryHgRepoParameters(string strProjectFolder, string strProjectName, out string strUsername, out string strRepoUrl)
+        private static bool QueryHgRepoParameters(string strProjectFolder, string strProjectName, 
+            out string strUsername, out string strRepoUrl, out string strSharedNetworkUrl)
         {
             string strHgUrl = (_mapProjectNameToHgHttpUrl.ContainsKey(strProjectName))
                 ? _mapProjectNameToHgHttpUrl[strProjectName] : null;
             string strHgUsername = (_mapProjectNameToHgUsername.ContainsKey(strProjectName))
                 ? _mapProjectNameToHgUsername[strProjectName] : null;
-            if (String.IsNullOrEmpty(strHgUrl) && _mapProjectNameToHgNetworkUrl.ContainsKey(strProjectName))
-                strHgUrl = _mapProjectNameToHgNetworkUrl[strProjectName];
+
+            if (_mapProjectNameToHgNetworkUrl.ContainsKey(strProjectName))
+                strSharedNetworkUrl = _mapProjectNameToHgNetworkUrl[strProjectName];
+            else
+                strSharedNetworkUrl = null;
 
             if (String.IsNullOrEmpty(strHgUrl))
             {
@@ -276,7 +294,7 @@ namespace OneStoryProjectEditor
             return false;
         }
 
-        public static Dictionary<string, string> ArrayToDictionary(System.Collections.Specialized.StringCollection data)
+        public static Dictionary<string, string> ArrayToDictionary(StringCollection data)
         { 
             var map = new Dictionary<string, string>(); 
             for (var i = 0; i < data.Count; i += 2)
@@ -287,9 +305,9 @@ namespace OneStoryProjectEditor
             return map; 
         }
 
-        public static System.Collections.Specialized.StringCollection DictionaryToArray(Dictionary<string, string> map)
+        public static StringCollection DictionaryToArray(Dictionary<string, string> map)
         {
-            var lst = new System.Collections.Specialized.StringCollection();
+            var lst = new StringCollection();
             foreach (KeyValuePair<string,string> kvp in map)
             {
                 lst.Add(kvp.Key);

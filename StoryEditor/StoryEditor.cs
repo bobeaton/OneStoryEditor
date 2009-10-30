@@ -175,10 +175,18 @@ namespace OneStoryProjectEditor
                 // can't be the same as the current project!
                 if (openFileDialog.FileName != StoryProject.ProjSettings.ProjectFilePath)
                 {
-                    string strNetworkDriveFolder = Path.GetDirectoryName(openFileDialog.FileName);
-                    Program.SetHgParametersNetworkDrive(StoryProject.ProjSettings.ProjectFolder, 
-                        StoryProject.ProjSettings.ProjectName,
-                        strNetworkDriveFolder);
+                    if (Path.GetFileNameWithoutExtension(openFileDialog.FileName) == StoryProject.ProjSettings.ProjectName)
+                    {
+                        string strNetworkDriveFolder = Path.GetDirectoryName(openFileDialog.FileName);
+                        Program.SetHgParametersNetworkDrive(StoryProject.ProjSettings.ProjectFolder,
+                                                            StoryProject.ProjSettings.ProjectName,
+                                                            strNetworkDriveFolder);
+                    }
+                    else
+                    {
+                        MessageBox.Show(Properties.Resources.IDS_MustBeCloneRepo,
+                                        Properties.Resources.IDS_Caption);
+                    }
                 }
                 else
                 {
@@ -481,7 +489,8 @@ namespace OneStoryProjectEditor
             if (AddNewStoryGetIndex(ref nIndexOfCurrentStory, out strStoryName))
             {
                 Debug.Assert(nIndexOfCurrentStory != -1);
-                InsertNewStory(strStoryName, nIndexOfCurrentStory + 1);
+                nIndexOfCurrentStory = Math.Min(nIndexOfCurrentStory + 1, TheCurrentStoriesSet.Count);
+                InsertNewStory(strStoryName, nIndexOfCurrentStory);
                 Modified = true;
             }
         }
@@ -1058,7 +1067,10 @@ namespace OneStoryProjectEditor
         private void CheckForSaveDirtyFile()
         {
             if (!IsInStoriesSet)
+            {
+                Modified = false;   // just in case
                 return;
+            }
 
             if (Modified)
             {
@@ -1319,14 +1331,18 @@ namespace OneStoryProjectEditor
                 }
 
                 recentProjectsToolStripMenuItem.Enabled = (recentProjectsToolStripMenuItem.DropDownItems.Count > 0);
+
+                projectFromASharedNetworkDriveToolStripMenu.Enabled =
+                    ((StoryProject != null) && (StoryProject.ProjSettings != null));
             }
             else
             {
-                recentProjectsToolStripMenuItem.Enabled = false;
-                newToolStripMenuItem.Enabled = false;
-                saveToolStripMenuItem.Enabled = false;
-                browseForProjectToolStripMenuItem.Enabled = false;
-                teamMembersToolStripMenuItem.Enabled = false;
+                projectFromASharedNetworkDriveToolStripMenu.Enabled = 
+                    recentProjectsToolStripMenuItem.Enabled = 
+                    newToolStripMenuItem.Enabled = 
+                    saveToolStripMenuItem.Enabled = 
+                    browseForProjectToolStripMenuItem.Enabled = 
+                    teamMembersToolStripMenuItem.Enabled = false;
             }
         }
 
@@ -1409,7 +1425,7 @@ namespace OneStoryProjectEditor
                     && (!aps.RequiresFirstPassMentor || StoryProject.TeamMembers.IsThereAFirstPassMentor)
                     && (!aps.HasUsingOtherEnglishBTer
                         || (aps.RequiresUsingOtherEnglishBTer == 
-                            StoryProject.TeamMembers.IsThereASeparateEnglishBackTranslator))
+                            StoryProject.IsThereASeparateEnglishBackTranslator))
                     )
                 {
                     StoryStageLogic.StateTransition aST = StoryStageLogic.stateTransitions[aps.ProjectStage];
@@ -1522,7 +1538,9 @@ namespace OneStoryProjectEditor
         {
             enterTheReasonThisStoryIsInTheSetToolStripMenuItem.Enabled = ((theCurrentStory != null) &&
                                                                           (theCurrentStory.CraftingInfo != null));
-            deleteStoryToolStripMenuItem.Enabled = (IsInStoriesSet && (theCurrentStory != null));
+            
+            deleteStoryToolStripMenuItem.Enabled = (theCurrentStory != null);
+
             insertNewStoryToolStripMenuItem.Enabled = addNewStoryAfterToolStripMenuItem.Enabled =
                 (IsInStoriesSet && (StoryProject != null) && (LoggedOnMember != null));
 
@@ -1596,12 +1614,16 @@ namespace OneStoryProjectEditor
         private void deleteStoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Debug.Assert(theCurrentStory != null);
-            if (theCurrentStory == null)
-                return;
 
             int nIndex = TheCurrentStoriesSet.IndexOf(theCurrentStory);
             Debug.Assert(nIndex != -1);
             if (nIndex == -1)
+                return;
+
+            // make sure the user really wants to do this
+            if (MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmDeleteStory, 
+                theCurrentStory.Name), Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) 
+                != DialogResult.Yes)
                 return;
 
             TheCurrentStoriesSet.RemoveAt(nIndex);
@@ -1611,7 +1633,10 @@ namespace OneStoryProjectEditor
             if (nIndex > 0)
                 nIndex--;
             if (nIndex < TheCurrentStoriesSet.Count)
-                comboBoxStorySelector.SelectedItem = TheCurrentStoriesSet[nIndex].Name;
+            {
+                comboBoxStorySelector.SelectedItem = comboBoxStorySelector.Text = 
+                    TheCurrentStoriesSet[nIndex].Name;
+            }
             else
                 ClearState();
             Modified = true;
