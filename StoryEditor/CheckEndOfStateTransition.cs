@@ -19,7 +19,14 @@ namespace OneStoryProjectEditor
         {
             System.Diagnostics.Debug.Assert(theStoryProjectData.ProjSettings.Vernacular.HasData);
             Console.WriteLine(String.Format("Checking if stage 'ProjFacTypeVernacular' work is finished: Name: {0}", theCurrentStory.Name));
-            
+
+            // if there are no verses, then just quit (before we get into an infinite loop)
+            if (theCurrentStory.Verses.Count == 0)
+            {
+                ShowError(theSE, "Error: No verses in the story!");
+                return false;
+            }
+
             // make sure that each verse has only one sentence
             bool bRepeatAfterMe = false;
             do
@@ -86,12 +93,12 @@ namespace OneStoryProjectEditor
                 //  those afterwards as well).
                 else if (theCurrentStory.CraftingInfo.IsBiblicalStory)
                 {
-                    eProposedNextState = (theStoryProjectData.TeamMembers.IsThereASeparateEnglishBackTranslator) 
+                    eProposedNextState = (theStoryProjectData.IsThereASeparateEnglishBackTranslator) 
                         ? StoryStageLogic.ProjectStages.eProjFacAddAnchors : StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT;
                 }
                 else
                 {
-                    eProposedNextState = theStoryProjectData.TeamMembers.IsThereASeparateEnglishBackTranslator 
+                    eProposedNextState = theStoryProjectData.IsThereASeparateEnglishBackTranslator 
                         ? StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT : StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT;
                 }
             }
@@ -103,7 +110,14 @@ namespace OneStoryProjectEditor
         {
             System.Diagnostics.Debug.Assert(theStoryProjectData.ProjSettings.NationalBT.HasData);
             Console.WriteLine(String.Format("Checking if stage 'ProjFacTypeNationalBT' work is finished: Name: {0}", theCurrentStory.Name));
-            
+
+            // if there are no verses, then just quit (before we get into an infinite loop)
+            if (theCurrentStory.Verses.Count == 0)
+            {
+                ShowError(theSE, "Error: No verses in the story!");
+                return false;
+            }
+
             // make sure that each verse has only one sentence
             bool bRepeatAfterMe = false;
             do
@@ -131,8 +145,18 @@ namespace OneStoryProjectEditor
                     
                     else if (lstSentences.Count > 1)
                     {
-                        if (MessageBox.Show(String.Format("Verse number '{0}' has multiple sentences. Click Yes to have them separated into their own verses.", nVerseNumber),  Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
+                        if (MessageBox.Show(String.Format("Verse number '{0}' has multiple sentences. Click Yes to have them separated into their own verses.", nVerseNumber), Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
+                        {
+                            if (theStoryProjectData.ProjSettings.Vernacular.HasData)
+                            {
+                                ShowErrorFocus(theSE, aVerseData.InternationalBTText.TextBox,
+                                               String.Format(
+                                                   "Error: Verse '{0}' has multiple sentences in it. Adjust it to match the story languages",
+                                                   nVerseNumber));
+                            }
+
                             return false;
+                        }
 
                         int nNewVerses = lstSentences.Count;
                         while (nNewVerses-- > 1)
@@ -157,7 +181,7 @@ namespace OneStoryProjectEditor
             if (theCurrentStory.CraftingInfo.IsBiblicalStory)
             {
                 if (theStoryProjectData.ProjSettings.InternationalBT.HasData
-                    && !theStoryProjectData.TeamMembers.IsThereASeparateEnglishBackTranslator)
+                    && !theStoryProjectData.IsThereASeparateEnglishBackTranslator)
                     System.Diagnostics.Debug.Assert(eProposedNextState == 
                         StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT);
                 else
@@ -168,7 +192,7 @@ namespace OneStoryProjectEditor
                 // normally, we'd go to doing anchors next, but if this isn't a biblical story, then
                 //  no anchors and we skip right ot the English BT
                 // but only if there is an English BT... if not, then we're done
-                if (theStoryProjectData.TeamMembers.IsThereASeparateEnglishBackTranslator)
+                if (theStoryProjectData.IsThereASeparateEnglishBackTranslator)
                     eProposedNextState = StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT;
                 else if (!theStoryProjectData.ProjSettings.InternationalBT.HasData)
                     eProposedNextState = StoryStageLogic.ProjectStages.eConsultantCheckNonBiblicalStory;
@@ -185,33 +209,70 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert(theStoryProjectData.ProjSettings.InternationalBT.HasData);
             Console.WriteLine(String.Format("Checking if stage 'ProjFacTypeInternationalBT' work is finished: Name: {0}", theCurrentStory.Name));
 
-            // now go thru the English BT parts and make sure that there's only one sentence/verse.
-            // make sure that each verse has only one sentence
-            int nVerseNumber = 1;
-            foreach (VerseData aVerseData in theCurrentStory.Verses)
+            // if there are no verses, then just quit (before we get into an infinite loop)
+            if (theCurrentStory.Verses.Count == 0)
             {
-                string strSentenceFinalPunct = theStoryProjectData.ProjSettings.InternationalBT.FullStop;
-                List<string> lstSentences;
-                if ((!GetListOfSentences(aVerseData.InternationalBTText, strSentenceFinalPunct, out lstSentences))
-                    || (lstSentences.Count == 0))
-                {
-                    // light it up and let the user know they need to do something!
-                    ShowErrorFocus(theSE, aVerseData.InternationalBTText.TextBox,
-                        String.Format("Error: Verse {0} doesn't have any English back-translation in it. Did you forget it?", nVerseNumber));
-                    return false;
-                }
-
-                if (lstSentences.Count > 1)
-                {
-                    // light it up and let the user know they need to do something!
-                    aVerseData.InternationalBTText.TextBox.Focus();
-                    Console.Beep();
-                    theSE.SetStatusBar(String.Format("Error: Verse {0} has multiple sentences in English, but only 1 in {1}. Adjust the English to match the {1}", nVerseNumber, theStoryProjectData.ProjSettings.NationalBT.LangName));
-                    return false;
-                }
-
-                nVerseNumber++;
+                ShowError(theSE, "Error: No verses in the story!");
+                return false;
             }
+
+            // make sure that each verse has only one sentence
+            bool bRepeatAfterMe = false;
+            do
+            {
+                // now go thru the English BT parts and make sure that there's only one sentence/verse.
+                // make sure that each verse has only one sentence
+                int nVerseNumber = 1;
+                foreach (VerseData aVerseData in theCurrentStory.Verses)
+                {
+                    string strSentenceFinalPunct = theStoryProjectData.ProjSettings.InternationalBT.FullStop;
+                    List<string> lstSentences;
+                    if ((!GetListOfSentences(aVerseData.InternationalBTText, strSentenceFinalPunct, out lstSentences))
+                        || (lstSentences.Count == 0))
+                    {
+                        // light it up and let the user know they need to do something!
+                        ShowErrorFocus(theSE, aVerseData.InternationalBTText.TextBox,
+                                       String.Format(
+                                           "Error: Verse {0} doesn't have any English back-translation in it. Did you forget it?",
+                                           nVerseNumber));
+                        return false;
+                    }
+
+                    if (lstSentences.Count > 1)
+                    {
+                        // the see if they want to fix it.
+                        if (MessageBox.Show(String.Format("Verse number '{0}' has multiple sentences. Click Yes to have them separated into their own verses.", nVerseNumber), Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
+                        {
+                            if (theStoryProjectData.ProjSettings.Vernacular.HasData
+                                || theStoryProjectData.ProjSettings.NationalBT.HasData)
+                            {
+                                ShowErrorFocus(theSE, aVerseData.InternationalBTText.TextBox,
+                                               String.Format(
+                                                   "Error: Verse '{0}' has multiple sentences in it. Adjust it to match the other language(s)",
+                                                   nVerseNumber));
+                            }
+
+                            return false;
+                        }
+
+                        // the English BT is all there is.
+                        // split and insert
+                        int nNewVerses = lstSentences.Count;
+                        while (nNewVerses-- > 1)
+                        {
+                            string strSentence = lstSentences[nNewVerses];
+                            theCurrentStory.Verses.InsertVerse(nVerseNumber, null, null, strSentence);
+                        }
+
+                        aVerseData.InternationalBTText.SetValue(lstSentences[nNewVerses]);
+                        bRepeatAfterMe = true;
+                        break; // we have to exit the loop since we've modified the collection
+                    }
+
+                    nVerseNumber++;
+                    bRepeatAfterMe = false; // if we get this far without a problem, then we haven't changed anything
+                }
+            } while (bRepeatAfterMe);
 
             // if there's only an English BT, then we need to know who (which UNS) did the BT.
             if (!theStoryProjectData.ProjSettings.NationalBT.HasData)
@@ -340,7 +401,7 @@ namespace OneStoryProjectEditor
                 return false;
             }
 
-            if (theStoryProjectData.TeamMembers.IsThereASeparateEnglishBackTranslator)
+            if (theStoryProjectData.IsThereASeparateEnglishBackTranslator)
                 eProposedNextState = StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT;
             else if (!theStoryProjectData.TeamMembers.IsThereAFirstPassMentor)
                 eProposedNextState = StoryStageLogic.ProjectStages.eConsultantCheckStoryInfo;
@@ -355,6 +416,13 @@ namespace OneStoryProjectEditor
         {
             System.Diagnostics.Debug.Assert(theStoryProjectData.ProjSettings.InternationalBT.HasData);
             Console.WriteLine(String.Format("Checking if stage 'BackTranslatorTypeInternationalBT' work is finished: Name: {0}", theCurrentStory.Name));
+
+            // if there are no verses, then just quit (before we get into an infinite loop)
+            if (theCurrentStory.Verses.Count == 0)
+            {
+                ShowError(theSE, "Error: No verses in the story!");
+                return false;
+            }
 
             // now go thru the English BT parts and make sure that there's only one sentence/verse.
             // make sure that each verse has only one sentence
@@ -384,7 +452,9 @@ namespace OneStoryProjectEditor
                 nVerseNumber++;
             }
 
-            // if there's only an English BT, then we need to know who (which UNS) did the BT.
+            // if there's only an English BT (this really can't happen... the only reason you'd
+            //  have a separate English BTer is if there's a national BT), then we need to 
+            //  know who (which UNS) did the BT.
             if (!theStoryProjectData.ProjSettings.NationalBT.HasData)
                 QueryForUnsBackTranslator(theSE, theStoryProjectData, theCurrentStory);
 
@@ -570,7 +640,7 @@ namespace OneStoryProjectEditor
             if (!CheckThatCITAnsweredPFsQuestions(theSE, theCurrentStory))
                 return false;
 
-            if (!theStoryProjectData.TeamMembers.IsThereASeparateEnglishBackTranslator)
+            if (!theStoryProjectData.IsThereASeparateEnglishBackTranslator)
                 eProposedNextState = StoryStageLogic.ProjectStages.eProjFacReviseBasedOnRound1Notes;
             else
                 System.Diagnostics.Debug.Assert(eProposedNextState ==
@@ -734,7 +804,7 @@ namespace OneStoryProjectEditor
             if (!CheckThatCITAnsweredPFsQuestions(theSE, theCurrentStory))
                 return false;
 
-            if (!theStoryProjectData.TeamMembers.IsThereASeparateEnglishBackTranslator)
+            if (!theStoryProjectData.IsThereASeparateEnglishBackTranslator)
                 eProposedNextState = StoryStageLogic.ProjectStages.eProjFacReviseBasedOnRound2Notes;
             else
                 System.Diagnostics.Debug.Assert(eProposedNextState ==
