@@ -120,8 +120,8 @@ namespace OneStoryProjectEditor
                 Console.Beep();
                 if (theSE != null)
                     theSE.SetStatusBar(String.Format("Error: {0}", ex.Message));
-                // e.Handled = true;
-                // e.SuppressKeyPress = true;
+                e.Handled = true;
+                e.SuppressKeyPress = true;
             }
         }
 
