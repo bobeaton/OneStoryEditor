@@ -212,39 +212,6 @@ namespace OneStoryProjectEditor
                 Add(aMemberRow.name, new TeamMemberData(aMemberRow));
         }
 
-        // this can be used to determine whether a given member name and type are one
-        //  of the ones in this project (for auto-login)
-        public bool CanLoginMember(string strMemberName, string strMemberType)
-        {
-            if (ContainsKey(strMemberName))
-            {
-                TeamMemberData aTMD = this[strMemberName];
-                if (aTMD.MemberTypeAsString == strMemberType)
-                {
-                    // kind of a kludge, but necessary for the state logic
-                    //  If we're going to return true (meaning that we can auto-log this person in), then
-                    //  if we have an English Back-translator person in the team, then we have to set the 
-                    //  member with the edit token when we get to the EnglishBT state as that person
-                    //  otherwise, it's a crafter
-                    StoryStageLogic.stateTransitions[StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT].MemberTypeWithEditToken =
-                        (IsThereASeparateEnglishBackTranslator) ? TeamMemberData.UserTypes.eEnglishBacktranslator : TeamMemberData.UserTypes.eProjectFacilitator;
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public bool IsThereASeparateEnglishBackTranslator
-        {
-            get
-            {
-                foreach (TeamMemberData aTM in Values)
-                    if (aTM.MemberType == TeamMemberData.UserTypes.eEnglishBacktranslator)
-                        return true;
-                return false;
-            }
-        }
-
         public bool IsThereACoach
         {
             get

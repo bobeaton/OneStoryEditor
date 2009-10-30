@@ -329,13 +329,35 @@ namespace OneStoryProjectEditor
             {
                 strMemberName = Properties.Settings.Default.LastMemberLogin;
                 string strMemberTypeString = Properties.Settings.Default.LastUserType;
-                if (TeamMembers.CanLoginMember(strMemberName, strMemberTypeString))
+                if (CanLoginMember(strMemberName, strMemberTypeString))
                     return TeamMembers[strMemberName];
             }
 
             // otherwise, fall thru and make them pick it.
             bModified = true;
             return EditTeamMembers(strMemberName, TeamMemberForm.CstrDefaultOKLabel);
+        }
+
+        // this can be used to determine whether a given member name and type are one
+        //  of the ones in this project (for auto-login)
+        public bool CanLoginMember(string strMemberName, string strMemberType)
+        {
+            if (TeamMembers.ContainsKey(strMemberName))
+            {
+                TeamMemberData aTMD = TeamMembers[strMemberName];
+                if (aTMD.MemberTypeAsString == strMemberType)
+                {
+                    // kind of a kludge, but necessary for the state logic
+                    //  If we're going to return true (meaning that we can auto-log this person in), then
+                    //  if we have an English Back-translator person in the team, then we have to set the 
+                    //  member with the edit token when we get to the EnglishBT state as that person
+                    //  otherwise, it's a crafter
+                    StoryStageLogic.stateTransitions[StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT].MemberTypeWithEditToken =
+                        (IsThereASeparateEnglishBackTranslator) ? TeamMemberData.UserTypes.eEnglishBacktranslator : TeamMemberData.UserTypes.eProjectFacilitator;
+                    return true;
+                }
+            }
+            return false;
         }
 
         // returns the logged in member
@@ -364,11 +386,27 @@ namespace OneStoryProjectEditor
             //  member with the edit token when we get to the EnglishBT state as that person
             //  otherwise, it's a crafter
             StoryStageLogic.stateTransitions[StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT].MemberTypeWithEditToken =
-                (TeamMembers.IsThereASeparateEnglishBackTranslator) ? TeamMemberData.UserTypes.eEnglishBacktranslator : TeamMemberData.UserTypes.eCrafter;
+                (IsThereASeparateEnglishBackTranslator) ? TeamMemberData.UserTypes.eEnglishBacktranslator : TeamMemberData.UserTypes.eCrafter;
 
             return TeamMembers[dlg.SelectedMember];
         }
 #endif
+
+        public bool IsThereASeparateEnglishBackTranslator
+        {
+            get
+            {
+                System.Diagnostics.Debug.Assert(TeamMembers != null);
+
+                // the role "English Back-translator" only has meaning if there's another
+                //  language involved.
+                if (ProjSettings.Vernacular.HasData || ProjSettings.NationalBT.HasData)
+                    foreach (TeamMemberData aTM in TeamMembers.Values)
+                        if (aTM.MemberType == TeamMemberData.UserTypes.eEnglishBacktranslator)
+                            return true;
+                return false;
+            }
+        }
 
         public static string GetRunningFolder
         {

@@ -389,7 +389,11 @@ namespace OneStoryProjectEditor
             {
                 theSE.viewVernacularLangFieldMenuItem.Checked = _abViewSettings[0] && theSE.StoryProject.ProjSettings.Vernacular.HasData;
                 theSE.viewNationalLangFieldMenuItem.Checked = (_abViewSettings[1] && theSE.StoryProject.ProjSettings.NationalBT.HasData);
-                theSE.viewEnglishBTFieldMenuItem.Checked = (_abViewSettings[2] && theSE.StoryProject.ProjSettings.InternationalBT.HasData);
+
+                // gotta show the English if user is *only* using an English BT
+                theSE.viewEnglishBTFieldMenuItem.Checked = 
+                    ((_abViewSettings[2] && theSE.StoryProject.ProjSettings.InternationalBT.HasData)
+                    || (!theSE.StoryProject.ProjSettings.Vernacular.HasData && !theSE.StoryProject.ProjSettings.NationalBT.HasData));
                 theSE.viewAnchorFieldMenuItem.Checked = _abViewSettings[3];
                 theSE.viewStoryTestingQuestionFieldMenuItem.Checked = _abViewSettings[4];
                 theSE.viewRetellingFieldMenuItem.Checked = _abViewSettings[5];

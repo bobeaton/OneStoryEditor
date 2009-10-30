@@ -37,6 +37,7 @@
             this.radioButtonJustViewing = new System.Windows.Forms.RadioButton();
             this.radioButtonCoach = new System.Windows.Forms.RadioButton();
             this.radioButtonProjectFacilitator = new System.Windows.Forms.RadioButton();
+            this.radioButtonConsultantInTraining = new System.Windows.Forms.RadioButton();
             this.radioButtonFirstPassMentor = new System.Windows.Forms.RadioButton();
             this.radioButtonUNS = new System.Windows.Forms.RadioButton();
             this.radioButtonStoryCrafter = new System.Windows.Forms.RadioButton();
@@ -54,7 +55,7 @@
             this.textBoxBioData = new System.Windows.Forms.TextBox();
             this.buttonOK = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
-            this.radioButtonConsultantInTraining = new System.Windows.Forms.RadioButton();
+            this.helpProvider = new System.Windows.Forms.HelpProvider();
             this.tableLayoutPanelMemberInformation.SuspendLayout();
             this.groupBoxRole.SuspendLayout();
             this.SuspendLayout();
@@ -109,8 +110,11 @@
             // textBoxName
             // 
             this.textBoxName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.helpProvider.SetHelpString(this.textBoxName, "The name of the member. Must be unique. If you are fulfilling multiple roles, you" +
+                    " can make a name like \"John as consultant-in-training\"");
             this.textBoxName.Location = new System.Drawing.Point(92, 3);
             this.textBoxName.Name = "textBoxName";
+            this.helpProvider.SetShowHelp(this.textBoxName, true);
             this.textBoxName.Size = new System.Drawing.Size(352, 20);
             this.textBoxName.TabIndex = 0;
             // 
@@ -137,8 +141,10 @@
             // radioButtonEnglishBackTranslator
             // 
             this.radioButtonEnglishBackTranslator.AutoSize = true;
+            this.helpProvider.SetHelpString(this.radioButtonEnglishBackTranslator, resources.GetString("radioButtonEnglishBackTranslator.HelpString"));
             this.radioButtonEnglishBackTranslator.Location = new System.Drawing.Point(30, 66);
             this.radioButtonEnglishBackTranslator.Name = "radioButtonEnglishBackTranslator";
+            this.helpProvider.SetShowHelp(this.radioButtonEnglishBackTranslator, true);
             this.radioButtonEnglishBackTranslator.Size = new System.Drawing.Size(132, 17);
             this.radioButtonEnglishBackTranslator.TabIndex = 2;
             this.radioButtonEnglishBackTranslator.TabStop = true;
@@ -148,8 +154,12 @@
             // radioButtonJustViewing
             // 
             this.radioButtonJustViewing.AutoSize = true;
+            this.helpProvider.SetHelpString(this.radioButtonJustViewing, "A \"just looking\" member can view the stories in the file, but may not make editin" +
+                    "g changes. This is useful if you want to browse the stories but not accidentally" +
+                    " change something.");
             this.radioButtonJustViewing.Location = new System.Drawing.Point(195, 88);
             this.radioButtonJustViewing.Name = "radioButtonJustViewing";
+            this.helpProvider.SetShowHelp(this.radioButtonJustViewing, true);
             this.radioButtonJustViewing.Size = new System.Drawing.Size(85, 17);
             this.radioButtonJustViewing.TabIndex = 7;
             this.radioButtonJustViewing.TabStop = true;
@@ -159,8 +169,11 @@
             // radioButtonCoach
             // 
             this.radioButtonCoach.AutoSize = true;
+            this.helpProvider.SetHelpString(this.radioButtonCoach, "The member (usually only one/team) that coaches (mentors) a consultant-in-trainin" +
+                    "g.");
             this.radioButtonCoach.Location = new System.Drawing.Point(195, 65);
             this.radioButtonCoach.Name = "radioButtonCoach";
+            this.helpProvider.SetShowHelp(this.radioButtonCoach, true);
             this.radioButtonCoach.Size = new System.Drawing.Size(56, 17);
             this.radioButtonCoach.TabIndex = 6;
             this.radioButtonCoach.TabStop = true;
@@ -170,19 +183,36 @@
             // radioButtonProjectFacilitator
             // 
             this.radioButtonProjectFacilitator.AutoSize = true;
+            this.helpProvider.SetHelpString(this.radioButtonProjectFacilitator, resources.GetString("radioButtonProjectFacilitator.HelpString"));
             this.radioButtonProjectFacilitator.Location = new System.Drawing.Point(30, 89);
             this.radioButtonProjectFacilitator.Name = "radioButtonProjectFacilitator";
+            this.helpProvider.SetShowHelp(this.radioButtonProjectFacilitator, true);
             this.radioButtonProjectFacilitator.Size = new System.Drawing.Size(106, 17);
             this.radioButtonProjectFacilitator.TabIndex = 4;
             this.radioButtonProjectFacilitator.TabStop = true;
             this.radioButtonProjectFacilitator.Text = "&Project Facilitator";
             this.radioButtonProjectFacilitator.UseVisualStyleBackColor = true;
             // 
+            // radioButtonConsultantInTraining
+            // 
+            this.radioButtonConsultantInTraining.AutoSize = true;
+            this.helpProvider.SetHelpString(this.radioButtonConsultantInTraining, resources.GetString("radioButtonConsultantInTraining.HelpString"));
+            this.radioButtonConsultantInTraining.Location = new System.Drawing.Point(195, 42);
+            this.radioButtonConsultantInTraining.Name = "radioButtonConsultantInTraining";
+            this.helpProvider.SetShowHelp(this.radioButtonConsultantInTraining, true);
+            this.radioButtonConsultantInTraining.Size = new System.Drawing.Size(127, 17);
+            this.radioButtonConsultantInTraining.TabIndex = 5;
+            this.radioButtonConsultantInTraining.TabStop = true;
+            this.radioButtonConsultantInTraining.Text = "&Consultant in Training";
+            this.radioButtonConsultantInTraining.UseVisualStyleBackColor = true;
+            // 
             // radioButtonFirstPassMentor
             // 
             this.radioButtonFirstPassMentor.AutoSize = true;
+            this.helpProvider.SetHelpString(this.radioButtonFirstPassMentor, resources.GetString("radioButtonFirstPassMentor.HelpString"));
             this.radioButtonFirstPassMentor.Location = new System.Drawing.Point(195, 19);
             this.radioButtonFirstPassMentor.Name = "radioButtonFirstPassMentor";
+            this.helpProvider.SetShowHelp(this.radioButtonFirstPassMentor, true);
             this.radioButtonFirstPassMentor.Size = new System.Drawing.Size(106, 17);
             this.radioButtonFirstPassMentor.TabIndex = 5;
             this.radioButtonFirstPassMentor.TabStop = true;
@@ -192,8 +222,10 @@
             // radioButtonUNS
             // 
             this.radioButtonUNS.AutoSize = true;
+            this.helpProvider.SetHelpString(this.radioButtonUNS, resources.GetString("radioButtonUNS.HelpString"));
             this.radioButtonUNS.Location = new System.Drawing.Point(30, 43);
             this.radioButtonUNS.Name = "radioButtonUNS";
+            this.helpProvider.SetShowHelp(this.radioButtonUNS, true);
             this.radioButtonUNS.Size = new System.Drawing.Size(126, 17);
             this.radioButtonUNS.TabIndex = 3;
             this.radioButtonUNS.Text = "&Testing Helper (UNS)";
@@ -203,8 +235,10 @@
             // 
             this.radioButtonStoryCrafter.AutoSize = true;
             this.radioButtonStoryCrafter.Checked = true;
+            this.helpProvider.SetHelpString(this.radioButtonStoryCrafter, "A member who crafts stories");
             this.radioButtonStoryCrafter.Location = new System.Drawing.Point(30, 19);
             this.radioButtonStoryCrafter.Name = "radioButtonStoryCrafter";
+            this.helpProvider.SetShowHelp(this.radioButtonStoryCrafter, true);
             this.radioButtonStoryCrafter.Size = new System.Drawing.Size(83, 17);
             this.radioButtonStoryCrafter.TabIndex = 1;
             this.radioButtonStoryCrafter.TabStop = true;
@@ -224,8 +258,10 @@
             // textBoxEmail
             // 
             this.textBoxEmail.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.helpProvider.SetHelpString(this.textBoxEmail, "Email address by which you can be contacted.");
             this.textBoxEmail.Location = new System.Drawing.Point(92, 157);
             this.textBoxEmail.Name = "textBoxEmail";
+            this.helpProvider.SetShowHelp(this.textBoxEmail, true);
             this.textBoxEmail.Size = new System.Drawing.Size(352, 20);
             this.textBoxEmail.TabIndex = 8;
             // 
@@ -242,8 +278,10 @@
             // textBoxPhoneNumber
             // 
             this.textBoxPhoneNumber.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.helpProvider.SetHelpString(this.textBoxPhoneNumber, "Phone number by which you can be contacted.");
             this.textBoxPhoneNumber.Location = new System.Drawing.Point(92, 183);
             this.textBoxPhoneNumber.Name = "textBoxPhoneNumber";
+            this.helpProvider.SetShowHelp(this.textBoxPhoneNumber, true);
             this.textBoxPhoneNumber.Size = new System.Drawing.Size(352, 20);
             this.textBoxPhoneNumber.TabIndex = 9;
             // 
@@ -260,8 +298,10 @@
             // textBoxAltPhone
             // 
             this.textBoxAltPhone.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.helpProvider.SetHelpString(this.textBoxAltPhone, "Alternate phone number by which you can be contacted.");
             this.textBoxAltPhone.Location = new System.Drawing.Point(92, 209);
             this.textBoxAltPhone.Name = "textBoxAltPhone";
+            this.helpProvider.SetShowHelp(this.textBoxAltPhone, true);
             this.textBoxAltPhone.Size = new System.Drawing.Size(352, 20);
             this.textBoxAltPhone.TabIndex = 10;
             // 
@@ -278,8 +318,10 @@
             // textBoxSkypeID
             // 
             this.textBoxSkypeID.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.helpProvider.SetHelpString(this.textBoxSkypeID, "Skype ID by which you can be contacted.");
             this.textBoxSkypeID.Location = new System.Drawing.Point(92, 235);
             this.textBoxSkypeID.Name = "textBoxSkypeID";
+            this.helpProvider.SetShowHelp(this.textBoxSkypeID, true);
             this.textBoxSkypeID.Size = new System.Drawing.Size(352, 20);
             this.textBoxSkypeID.TabIndex = 11;
             // 
@@ -296,8 +338,10 @@
             // textBoxTeamViewer
             // 
             this.textBoxTeamViewer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.helpProvider.SetHelpString(this.textBoxTeamViewer, "Team Viewer ID by which you can be contacted.");
             this.textBoxTeamViewer.Location = new System.Drawing.Point(92, 261);
             this.textBoxTeamViewer.Name = "textBoxTeamViewer";
+            this.helpProvider.SetShowHelp(this.textBoxTeamViewer, true);
             this.textBoxTeamViewer.Size = new System.Drawing.Size(352, 20);
             this.textBoxTeamViewer.TabIndex = 12;
             // 
@@ -314,9 +358,12 @@
             // textBoxBioData
             // 
             this.textBoxBioData.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.helpProvider.SetHelpString(this.textBoxBioData, "Biographical Data about the member (e.g. age, back-ground, education level, quali" +
+                    "fications, address, etc)");
             this.textBoxBioData.Location = new System.Drawing.Point(92, 287);
             this.textBoxBioData.Multiline = true;
             this.textBoxBioData.Name = "textBoxBioData";
+            this.helpProvider.SetShowHelp(this.textBoxBioData, true);
             this.textBoxBioData.Size = new System.Drawing.Size(352, 160);
             this.textBoxBioData.TabIndex = 13;
             // 
@@ -342,17 +389,6 @@
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
             // 
-            // radioButtonConsultantInTraining
-            // 
-            this.radioButtonConsultantInTraining.AutoSize = true;
-            this.radioButtonConsultantInTraining.Location = new System.Drawing.Point(195, 42);
-            this.radioButtonConsultantInTraining.Name = "radioButtonConsultantInTraining";
-            this.radioButtonConsultantInTraining.Size = new System.Drawing.Size(127, 17);
-            this.radioButtonConsultantInTraining.TabIndex = 5;
-            this.radioButtonConsultantInTraining.TabStop = true;
-            this.radioButtonConsultantInTraining.Text = "&Consultant in Training";
-            this.radioButtonConsultantInTraining.UseVisualStyleBackColor = true;
-            // 
             // EditMemberForm
             // 
             this.AcceptButton = this.buttonOK;
@@ -363,7 +399,10 @@
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOK);
             this.Controls.Add(this.tableLayoutPanelMemberInformation);
+            this.HelpButton = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "EditMemberForm";
             this.Text = "Edit Member Information";
             this.tableLayoutPanelMemberInformation.ResumeLayout(false);
@@ -402,5 +441,6 @@
         private System.Windows.Forms.RadioButton radioButtonEnglishBackTranslator;
         private System.Windows.Forms.RadioButton radioButtonProjectFacilitator;
         private System.Windows.Forms.RadioButton radioButtonConsultantInTraining;
+        private System.Windows.Forms.HelpProvider helpProvider;
     }
 }
