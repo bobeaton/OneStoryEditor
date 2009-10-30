@@ -166,6 +166,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete the &apos;{0}&apos; story?.
+        /// </summary>
+        internal static string IDS_ConfirmDeleteStory {
+            get {
+                return ResourceManager.GetString("IDS_ConfirmDeleteStory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Click &apos;Yes&apos; to override the &apos;{0}&apos; keyboard for yourself (&apos;{1}&apos;) only. Click &apos;No&apos; to make this change apply to every member of the team (if you all are switching to a new keyboard)..
         /// </summary>
         internal static string IDS_ConfirmKeyboardOverride {
@@ -372,6 +381,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_MoveProjectsToNewProjectFolder {
             get {
                 return ResourceManager.GetString("IDS_MoveProjectsToNewProjectFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The network repository must be identical (a &quot;clone&quot;) of the repository in the local machine. Contact your workshop advisor..
+        /// </summary>
+        internal static string IDS_MustBeCloneRepo {
+            get {
+                return ResourceManager.GetString("IDS_MustBeCloneRepo", resourceCulture);
             }
         }
         

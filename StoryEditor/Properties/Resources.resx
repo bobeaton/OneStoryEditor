@@ -1472,4 +1472,10 @@ eater Panorama
   <data name="IDS_CantPushToTheLocalRepo" xml:space="preserve">
     <value>You chose the local project folder. You have to browse for the network drive on which the associated project is present.</value>
   </data>
+  <data name="IDS_MustBeCloneRepo" xml:space="preserve">
+    <value>The network repository must be identical (a "clone") of the repository in the local machine. Contact your workshop advisor.</value>
+  </data>
+  <data name="IDS_ConfirmDeleteStory" xml:space="preserve">
+    <value>Are you sure you want to delete the '{0}' story?</value>
+  </data>
 </root>
