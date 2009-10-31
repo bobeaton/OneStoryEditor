@@ -49,7 +49,13 @@ namespace OneStoryProjectEditor
 
         private void textBox_TextChanged(object sender, EventArgs e)
         {
-            UpdateUrlTextBox();
+            try
+            {
+                UpdateUrlTextBox();
+            }
+            catch
+            {
+            }
         }
 
         protected void UpdateUrlTextBox()
