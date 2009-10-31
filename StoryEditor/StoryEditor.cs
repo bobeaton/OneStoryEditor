@@ -851,22 +851,19 @@ namespace OneStoryProjectEditor
                     {
                         string str = ctrl._verseData.VernacularText.TextBox.SelectedText.Trim();
                         if (!String.IsNullOrEmpty(str))
-                            strNote += String.Format("{0}:/{1}/ ",
-                                                     StoryProject.ProjSettings.Vernacular.LangCode, str);
+                            strNote += String.Format("/{0}/ ", str);
                     }
                     if (viewNationalLangFieldMenuItem.Checked)
                     {
                         string str = ctrl._verseData.NationalBTText.TextBox.SelectedText.Trim();
                         if (!String.IsNullOrEmpty(str))
-                            strNote += String.Format("{0}:/{1}/ ",
-                                                     StoryProject.ProjSettings.NationalBT.LangCode, str);
+                            strNote += String.Format("/{0}/ ", str);
                     }
                     if (viewEnglishBTFieldMenuItem.Checked)
                     {
                         string str = ctrl._verseData.InternationalBTText.TextBox.SelectedText.Trim();
                         if (!String.IsNullOrEmpty(str))
-                            strNote += String.Format("{0}:/{1}/ ",
-                                                     StoryProject.ProjSettings.InternationalBT.LangCode, str);
+                            strNote += String.Format("'{0}' ", str);
                     }
                 }
                 else
@@ -920,6 +917,9 @@ namespace OneStoryProjectEditor
             {
                 strInitials += s[0];
             }
+
+            if (strInitials.Length == 1)
+                strInitials += astrNames[0][1];
             return strInitials;
         }
 
