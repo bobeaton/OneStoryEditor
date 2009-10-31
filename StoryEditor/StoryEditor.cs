@@ -1419,7 +1419,8 @@ namespace OneStoryProjectEditor
             foreach (StoryStageLogic.AllowablePreviousStateWithConditions aps in allowableTransitions)
             {
                 // put the allowable transitions into the DropDown list
-                if ((!aps.RequiresUsingNationalBT || StoryProject.ProjSettings.NationalBT.HasData)
+                if ((!aps.RequiresUsingVernacular || StoryProject.ProjSettings.Vernacular.HasData)
+                    && (!aps.RequiresUsingNationalBT || StoryProject.ProjSettings.NationalBT.HasData)
                     && (!aps.RequiresUsingEnglishBT || StoryProject.ProjSettings.InternationalBT.HasData)
                     && (!aps.RequiresBiblicalStory || theCurrentStory.CraftingInfo.IsBiblicalStory)
                     && (!aps.RequiresFirstPassMentor || StoryProject.TeamMembers.IsThereAFirstPassMentor)

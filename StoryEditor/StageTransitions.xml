@@ -55,7 +55,7 @@ be for you, the Project Facilitator, to enter the biblical references, "anchors"
 Otherwise, the next state is for you to enter the English back-translation.
     </StageInstructions>
     <AllowableBackwardsTransitions>
-      <AllowableBackwardsTransition>eProjFacTypeVernacular</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingVernacular="true">eProjFacTypeVernacular</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
@@ -98,7 +98,7 @@ When you are finished entering the English back translation, then click the 'Nex
 left-hand side of the status bar to go to the next stage in the process.
     </StageInstructions>
     <AllowableBackwardsTransitions>
-      <AllowableBackwardsTransition>eProjFacTypeVernacular</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingVernacular="true">eProjFacTypeVernacular</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresUsingNationalBT="true">eProjFacTypeNationalBT</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
@@ -168,7 +168,7 @@ When you are finished adding one or more anchors for each verse, then click the 
 the status bar to go to the next stage in the process.
     </StageInstructions>
     <AllowableBackwardsTransitions>
-      <AllowableBackwardsTransition>eProjFacTypeVernacular</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingVernacular="true">eProjFacTypeVernacular</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresUsingNationalBT="true">eProjFacTypeNationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="false">eProjFacTypeInternationalBT</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
@@ -222,7 +222,7 @@ When you are finished adding these testing questions, then click the 'Next Stage
 status bar to go to the next stage in the process.
     </StageInstructions>
     <AllowableBackwardsTransitions>
-      <AllowableBackwardsTransition>eProjFacTypeVernacular</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingVernacular="true">eProjFacTypeVernacular</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresUsingNationalBT="true">eProjFacTypeNationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="false">eProjFacTypeInternationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresBiblicalStory="true">eProjFacAddAnchors</AllowableBackwardsTransition>
@@ -261,7 +261,7 @@ When you are finished entering the English back translation, then click the 'Nex
 left-hand side of the status bar to go to the next stage in the process.
     </StageInstructions>
     <AllowableBackwardsTransitions>
-      <AllowableBackwardsTransition>eProjFacTypeVernacular</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingVernacular="true">eProjFacTypeVernacular</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresUsingNationalBT="true">eProjFacTypeNationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="false">eProjFacTypeInternationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresBiblicalStory="true">eProjFacAddAnchors</AllowableBackwardsTransition>
@@ -290,7 +290,7 @@ Discourse Chart Helper' program for details.
 This is the final stage of the process for this non-biblical story.
     </StageInstructions>
     <AllowableBackwardsTransitions>
-      <AllowableBackwardsTransition>eProjFacTypeVernacular</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingVernacular="true">eProjFacTypeVernacular</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresUsingNationalBT="true">eProjFacTypeNationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="false">eProjFacTypeInternationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTypeInternationalBT</AllowableBackwardsTransition>
@@ -346,7 +346,7 @@ the 'Consultant Notes' pane, then click the 'Next Stage' button in the left-hand
 bar to go to the next stage in the process.
     </StageInstructions>
     <AllowableBackwardsTransitions>
-      <AllowableBackwardsTransition>eProjFacTypeVernacular</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingVernacular="true">eProjFacTypeVernacular</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresUsingNationalBT="true">eProjFacTypeNationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="false">eProjFacTypeInternationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresBiblicalStory="true">eProjFacAddAnchors</AllowableBackwardsTransition>
@@ -382,7 +382,7 @@ Otherwise, when you are finished reviewing the Story Information, then click the
 button in the left-hand side of the status bar to go to the next stage in the process.
     </StageInstructions>
     <AllowableBackwardsTransitions>
-      <AllowableBackwardsTransition>eProjFacTypeVernacular</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingVernacular="true">eProjFacTypeVernacular</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresUsingNationalBT="true">eProjFacTypeNationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="false">eProjFacTypeInternationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresBiblicalStory="true">eProjFacAddAnchors</AllowableBackwardsTransition>
@@ -417,7 +417,7 @@ When you are finished checking all the anchors, then click the 'Next Stage' butt
 status bar to go to the next stage in the process.
     </StageInstructions>
     <AllowableBackwardsTransitions>
-      <AllowableBackwardsTransition>eProjFacTypeVernacular</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingVernacular="true">eProjFacTypeVernacular</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresUsingNationalBT="true">eProjFacTypeNationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="false">eProjFacTypeInternationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresBiblicalStory="true">eProjFacAddAnchors</AllowableBackwardsTransition>
@@ -478,7 +478,7 @@ command) by right-clicking on the small button to the right-hand side of the app
 choose "Add Note".
     </StageInstructions>
     <AllowableBackwardsTransitions>
-      <AllowableBackwardsTransition>eProjFacTypeVernacular</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingVernacular="true">eProjFacTypeVernacular</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresUsingNationalBT="true">eProjFacTypeNationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="false">eProjFacTypeInternationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresBiblicalStory="true">eProjFacAddAnchors</AllowableBackwardsTransition>

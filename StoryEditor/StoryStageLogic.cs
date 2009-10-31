@@ -264,6 +264,7 @@ namespace OneStoryProjectEditor
                             AllowablePreviousStateWithConditions aps = new AllowablePreviousStateWithConditions
                             {
                                 ProjectStage = (ProjectStages)Enum.Parse(typeof(ProjectStages), xpNextElement.Current.Value),
+                                RequiresUsingVernacular = (xpNextElement.Current.GetAttribute("RequiresUsingVernacular", navigator.NamespaceURI) == "true"),
                                 RequiresUsingNationalBT = (xpNextElement.Current.GetAttribute("RequiresUsingNationalBT", navigator.NamespaceURI) == "true"),
                                 RequiresUsingEnglishBT = (xpNextElement.Current.GetAttribute("RequiresUsingEnglishBT", navigator.NamespaceURI) == "true"),
                                 UsingOtherEnglishBTer = xpNextElement.Current.GetAttribute("RequiresUsingOtherEnglishBTer", navigator.NamespaceURI),
@@ -305,6 +306,7 @@ namespace OneStoryProjectEditor
         public class AllowablePreviousStateWithConditions
         {
             public ProjectStages ProjectStage { get; set; }
+            public bool RequiresUsingVernacular { get; set; }
             public bool RequiresUsingNationalBT { get; set; }
             public bool RequiresUsingEnglishBT { get; set; }
             public bool HasUsingOtherEnglishBTer { get; set; }
@@ -411,6 +413,8 @@ namespace OneStoryProjectEditor
                     foreach (AllowablePreviousStateWithConditions ps in AllowableBackwardsTransitions)
                     {
                         XElement elemAPS = new XElement("AllowableBackwardsTransition");
+                        if (ps.RequiresUsingVernacular)
+                            elemAPS.Add(new XAttribute("RequiresUsingVernacular", true));
                         if (ps.RequiresBiblicalStory)
                             elemAPS.Add(new XAttribute("RequiresBiblicalStory", true));
                         if (ps.RequiresUsingEnglishBT)
