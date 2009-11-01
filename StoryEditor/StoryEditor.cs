@@ -866,7 +866,7 @@ namespace OneStoryProjectEditor
                             strNote += String.Format("'{0}' ", str);
                     }
                 }
-                else
+                else if (CtrlTextBox._inTextBox != null)
                 {
                     // otherwise, it might have been a retelling or some other control
                     if (!String.IsNullOrEmpty(CtrlTextBox._inTextBox._strLabel))
@@ -877,7 +877,8 @@ namespace OneStoryProjectEditor
                         strNote += String.Format("/{0}/ ", str);
                 }
             }
-            else // otherwise, just get the selected text out of the one box that was 
+            else if (CtrlTextBox._inTextBox != null)
+                // otherwise, just get the selected text out of the one box that was 
                 //  right-clicked in.
             {
                 if (viewCoachNotesFieldMenuItem.Checked)

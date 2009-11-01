@@ -14,6 +14,7 @@ namespace OneStoryProjectEditor
         protected VerseControl _ctrlVerseParent = null;
         protected string _strKeyboardName = null;
         internal string _strLabel = null;
+        protected ContextMenuStrip _ctxMenu = null;
 
         public delegate void ThrowIfNotCorrectEditor(TeamMemberData.UserTypes eLoggedInMember, TeamMemberData.UserTypes eRequiredEditor);
         protected ThrowIfNotCorrectEditor _delegateRequiredEditorCheck;
@@ -224,7 +225,6 @@ namespace OneStoryProjectEditor
             return false;
         }
 
-        protected static ContextMenuStrip _ctxMenu = null;
         protected const string CstrAddNoteOnSelected = "&Add Note on Selected Text";
         protected const string CstrCutSelected = "C&ut";
         protected const string CstrCopySelected = "&Copy";
@@ -233,16 +233,13 @@ namespace OneStoryProjectEditor
 
         protected void InitComponent()
         {
-            if (_ctxMenu == null)
-            {
-                _ctxMenu = new ContextMenuStrip();
-                _ctxMenu.Items.Add(CstrAddNoteOnSelected, null, onAddNewNote);
-                _ctxMenu.Items.Add(new ToolStripSeparator());
-                _ctxMenu.Items.Add(CstrCutSelected, null, onCutSelectedText);
-                _ctxMenu.Items.Add(CstrCopySelected, null, onCopySelectedText);
-                _ctxMenu.Items.Add(CstrPasteSelected, null, onPasteSelectedText);
-                _ctxMenu.Items.Add(CstrUndo, null, onUndo);
-            }
+            _ctxMenu = new ContextMenuStrip();
+            _ctxMenu.Items.Add(CstrAddNoteOnSelected, null, onAddNewNote);
+            _ctxMenu.Items.Add(new ToolStripSeparator());
+            _ctxMenu.Items.Add(CstrCutSelected, null, onCutSelectedText);
+            _ctxMenu.Items.Add(CstrCopySelected, null, onCopySelectedText);
+            _ctxMenu.Items.Add(CstrPasteSelected, null, onPasteSelectedText);
+            _ctxMenu.Items.Add(CstrUndo, null, onUndo);
 
             ContextMenuStrip = _ctxMenu;
             Multiline = true;
