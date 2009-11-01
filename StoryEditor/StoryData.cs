@@ -230,6 +230,7 @@ namespace OneStoryProjectEditor
         public TeamMembersData TeamMembers = null;
         public ProjectSettings ProjSettings = null;
         public string PanoramaFrontMatter = null;
+        public string XmlDataVersion = "1.0";
 
         public StoryProjectData()
         {
@@ -253,9 +254,13 @@ namespace OneStoryProjectEditor
 
             // if the project file we opened doesn't have anything yet.. (shouldn't really happen)
             if (projFile.StoryProject.Count == 0)
-                projFile.StoryProject.AddStoryProjectRow(ProjSettings.ProjectName, Properties.Resources.IDS_DefaultPanoramaFrontMatter);
+                projFile.StoryProject.AddStoryProjectRow(XmlDataVersion, ProjSettings.ProjectName, Properties.Resources.IDS_DefaultPanoramaFrontMatter);
             else
+            {
                 projFile.StoryProject[0].ProjectName = ProjSettings.ProjectName; // in case the user changed it.
+                if (projFile.StoryProject[0].version != XmlDataVersion)
+                    throw new ApplicationException(Properties.Resources.IDS_GetNewVersion);
+            }
 
             PanoramaFrontMatter = projFile.StoryProject[0].PanoramaFrontMatter;
             if (String.IsNullOrEmpty(PanoramaFrontMatter))
@@ -422,7 +427,8 @@ namespace OneStoryProjectEditor
             get
             {
                 XElement elemStoryProject =
-                    new XElement("StoryProject", 
+                    new XElement("StoryProject",
+                        new XAttribute("version", XmlDataVersion),
                         new XAttribute("ProjectName", ProjSettings.ProjectName),
                         new XAttribute("PanoramaFrontMatter", PanoramaFrontMatter),
                         TeamMembers.GetXml,

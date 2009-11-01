@@ -199,7 +199,8 @@
 					</xs:complexType>
 				</xs:element>
 			</xs:sequence>
-			<xs:attribute name="ProjectName" type="xs:string" use="required" />
+      <xs:attribute name="version" type="xs:string" use="required" />
+      <xs:attribute name="ProjectName" type="xs:string" use="required" />
 			<xs:attribute name="PanoramaFrontMatter" type="xs:string" />
 		</xs:complexType>
 		<xs:key name="MemberKey">

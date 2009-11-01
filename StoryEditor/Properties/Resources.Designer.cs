@@ -157,6 +157,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are there any key terms in this story that you should check? To check key terms, right-click on an anchor button and choose the &apos;Edit Key Terms&apos; command. Click the &quot;Retry&quot; button to continue on to the next state. Click the &apos;Cancel&apos; button to stay in this state to look for key terms to check..
+        /// </summary>
+        internal static string IDS_CheckOnKeyTerms {
+            get {
+                return ResourceManager.GetString("IDS_CheckOnKeyTerms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Choose the Story Crafter.
         /// </summary>
         internal static string IDS_ChooseTheStoryCrafter {
@@ -291,6 +300,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_FromStoryForDiscourseCharting {
             get {
                 return ResourceManager.GetString("IDS_FromStoryForDiscourseCharting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to One of the team members has used a newer version of this program to edit the file, which is not compatible with the version you are using. You will have to go to the http://palaso.org/install/onestory website and download and install the new version of the program in the &quot;Setup OneStory Editor.zip&quot; file..
+        /// </summary>
+        internal static string IDS_GetNewVersion {
+            get {
+                return ResourceManager.GetString("IDS_GetNewVersion", resourceCulture);
             }
         }
         

@@ -1478,4 +1478,10 @@ eater Panorama
   <data name="IDS_ConfirmDeleteStory" xml:space="preserve">
     <value>Are you sure you want to delete the '{0}' story?</value>
   </data>
+  <data name="IDS_CheckOnKeyTerms" xml:space="preserve">
+    <value>Are there any key terms in this story that you should check? To check key terms, right-click on an anchor button and choose the 'Edit Key Terms' command. Click the "Retry" button to continue on to the next state. Click the 'Cancel' button to stay in this state to look for key terms to check.</value>
+  </data>
+  <data name="IDS_GetNewVersion" xml:space="preserve">
+    <value>One of the team members has used a newer version of this program to edit the file, which is not compatible with the version you are using. You will have to go to the http://palaso.org/install/onestory website and download and install the new version of the program in the "Setup OneStory Editor.zip" file.</value>
+  </data>
 </root>
