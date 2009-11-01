@@ -80,8 +80,11 @@ namespace OneStoryProjectEditor
                     case TeamMemberData.UserTypes.eProjectFacilitator:
                         radioButtonProjectFacilitator.Checked = true;
                         break;
-                    case TeamMemberData.UserTypes.eConsultantInTraining:
+                    case TeamMemberData.UserTypes.eFirstPassMentor:
                         radioButtonFirstPassMentor.Checked = true;
+                        break;
+                    case TeamMemberData.UserTypes.eConsultantInTraining:
+                        radioButtonConsultantInTraining.Checked = true;
                         break;
                     case TeamMemberData.UserTypes.eCoach:
                         radioButtonCoach.Checked = true;
