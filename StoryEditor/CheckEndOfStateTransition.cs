@@ -365,6 +365,7 @@ namespace OneStoryProjectEditor
             Console.WriteLine(String.Format("Checking if stage 'ProjFacAddAnchors' work is finished: Name: {0}", theCurrentStory.Name));
 
             // for each verse, make sure that there is at least one anchor.
+            bool bHasAnyKeyTermBeenChecked = false;
             int nVerseNumber = 1;
             foreach (VerseData aVerseData in theCurrentStory.Verses)
             {
@@ -374,7 +375,20 @@ namespace OneStoryProjectEditor
                     theSE.FocusOnVerse(nVerseNumber - 1, null);
                     return false;
                 }
+                
+                if (aVerseData.Anchors.IsKeyTermChecked)
+                    bHasAnyKeyTermBeenChecked = true;
+
                 nVerseNumber++;
+            }
+
+            if (!bHasAnyKeyTermBeenChecked)
+            {
+                DialogResult res = MessageBox.Show(Properties.Resources.IDS_CheckOnKeyTerms,
+                                               Properties.Resources.IDS_Caption, 
+                                               MessageBoxButtons.RetryCancel);
+                if (res == DialogResult.Cancel)
+                    return false;
             }
 
             System.Diagnostics.Debug.Assert(eProposedNextState ==

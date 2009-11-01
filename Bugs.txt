@@ -1,1 +1,3 @@
+it seems that with Hindi as Vern and only English BT, the PF wasn't asked for the UNS Backtranslator
+same situation, but entering new testing question seems to not show English (but only on Karan's machine)
 
