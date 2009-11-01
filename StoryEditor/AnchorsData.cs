@@ -132,6 +132,7 @@ namespace OneStoryProjectEditor
                 if (ExegeticalHelpNotes.HasData)
                     elemAnchor.Add(ExegeticalHelpNotes.GetXml);
 
+                /* not using anymore
                 if (keyTerms.Count > 0)
                 {
                     XElement elemKeyTerms = new XElement("keyTerms");
@@ -139,7 +140,8 @@ namespace OneStoryProjectEditor
                         elemKeyTerms.Add(new XElement("keyTerm", strKeyTerm));
                     elemAnchor.Add(elemKeyTerms);
                 }
-                
+                */
+
                 return elemAnchor;
             }
         }
