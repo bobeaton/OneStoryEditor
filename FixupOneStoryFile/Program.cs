@@ -26,18 +26,34 @@ namespace FixupOneStoryFile
         {
             try
             {
-                XDocument doc = XDocument.Load(strFilename);
-                bool bFound = false;
+                // first see if the ultimate name of the target file exists...
+                string strNewFileFolder = Path.Combine(
+                    Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                                 "OneStory Editor Projects"),
+                    Path.GetFileNameWithoutExtension(strFilename));
 
-                FixupAddressToBioData(doc, ref bFound);
-                FixupCrafterToProjFac(doc, ref bFound);
-                FixupCrafterToConNoteDirection(doc, ref bFound);
-                FixupProjectName(doc, ref bFound);
-                FixupEmbedStories(doc, ref bFound);
-                FixupGuidAdditions(doc, ref bFound);
+                if (!Directory.Exists(strNewFileFolder))
+                    Directory.CreateDirectory(strNewFileFolder);
 
-                if (bFound)
-                    doc.Save(strFilename);
+                string strNewFilename = Path.Combine(strNewFileFolder, 
+                    Path.GetFileName(strFilename));
+
+                // if it doesn't, then we can go ahead and fix this one up
+                if (!File.Exists(strNewFilename))
+                {
+                    XDocument doc = XDocument.Load(strFilename);
+                    bool bFound = false;
+
+                    FixupAddressToBioData(doc, ref bFound);
+                    FixupCrafterToProjFac(doc, ref bFound);
+                    FixupCrafterToConNoteDirection(doc, ref bFound);
+                    FixupProjectName(doc, ref bFound);
+                    FixupEmbedStories(doc, ref bFound);
+                    FixupGuidAdditions(doc, ref bFound);
+
+                    if (bFound)
+                        doc.Save(strNewFilename);
+                }
             }
             catch (Exception ex)
             {
