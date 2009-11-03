@@ -469,8 +469,17 @@ namespace OneStoryProjectEditor
             if (_theFootnoteForm == null)
                 _theFootnoteForm = new NetBibleFootnoteTooltip(manager);
 
+            // locate the window near the cursor...
             Point ptTooltip = Cursor.Position;
-            ptTooltip.Offset(-ClientRectangle.Location.X + 30, -ClientRectangle.Location.Y - 30);
+
+            // but make sure it doesn't go off the edge
+            Rectangle rectScreen = Screen.GetBounds(ptTooltip);
+            int dx = (ptTooltip.X + _theFootnoteForm.Size.Width) - rectScreen.Width;
+            int dy = (ptTooltip.Y + _theFootnoteForm.Size.Height) - rectScreen.Height;
+
+            ptTooltip.Offset(-Math.Max(ClientRectangle.Location.X, dx), 
+                -Math.Max(ClientRectangle.Location.Y, dy));
+
             _theFootnoteForm.ShowFootnote(s, ptTooltip);
             System.Diagnostics.Debug.WriteLine("ShowHoverOver");
         }
