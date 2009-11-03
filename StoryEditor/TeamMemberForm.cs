@@ -347,7 +347,8 @@ namespace OneStoryProjectEditor
             //  tabControlProjectMetaData_Selected for what happens)
             listBoxTeamMembers.SelectedIndex = -1;
 
-            EditMemberForm dlg = new EditMemberForm(null);
+            System.Diagnostics.Debug.Assert(m_projSettings != null);
+            EditMemberForm dlg = new EditMemberForm(null, m_projSettings);
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 if (listBoxTeamMembers.Items.Contains(dlg.MemberName))
@@ -399,13 +400,14 @@ namespace OneStoryProjectEditor
         private void buttonEditMember_Click(object sender, EventArgs e)
         {
             // this button should only be enabled if a team member is selected
-            System.Diagnostics.Debug.Assert(listBoxTeamMembers.SelectedIndex != -1);
+            System.Diagnostics.Debug.Assert((listBoxTeamMembers.SelectedIndex != -1)
+                && (m_projSettings != null));
             int nIndex = listBoxTeamMembers.SelectedIndex;
 
             m_strSelectedMember = (string)listBoxTeamMembers.SelectedItem;
             System.Diagnostics.Debug.Assert(_dataTeamMembers.ContainsKey(m_strSelectedMember));
             TeamMemberData theMemberData = _dataTeamMembers[m_strSelectedMember];
-            EditMemberForm dlg = new EditMemberForm(theMemberData);
+            EditMemberForm dlg = new EditMemberForm(theMemberData, m_projSettings);
             if (dlg.ShowDialog() != DialogResult.OK) 
                 return;
 

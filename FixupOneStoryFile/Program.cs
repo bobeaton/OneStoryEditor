@@ -111,6 +111,12 @@ namespace FixupOneStoryFile
                     elem.SetAttributeValue("ProjectName", strProjectName);
             }
 
+            if (elem.Attribute("version") == null)
+            {
+                bFound = true;
+                elem.SetAttributeValue("version", "1.0");
+            }
+
             if (elem.Attribute("PanoramaFrontMatter") == null)
             {
                 bFound = true;

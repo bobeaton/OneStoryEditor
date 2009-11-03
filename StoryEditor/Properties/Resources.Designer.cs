@@ -139,6 +139,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Talk with your project consultant before creating an &apos;Outside English back-translator&apos; member on your team. The role of &apos;Outside English back-translator&apos; is only used when the team doesn&apos;t have anyone to do an English back-translation and they arrange with some other team to do their English BT for them. If your team is doing its own English back-translations, then don&apos;t create an &apos;Outside English back-translator&apos; member (you would do it as the Project Facilitator). .
+        /// </summary>
+        internal static string IDS_AreYouSureYouWantToHaveAnEnglishBter {
+            get {
+                return ResourceManager.GetString("IDS_AreYouSureYouWantToHaveAnEnglishBter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You chose the local project folder. You have to browse for the network drive on which the associated project is present..
         /// </summary>
         internal static string IDS_CantPushToTheLocalRepo {

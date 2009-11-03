@@ -142,14 +142,15 @@
             // 
             this.radioButtonEnglishBackTranslator.AutoSize = true;
             this.helpProvider.SetHelpString(this.radioButtonEnglishBackTranslator, resources.GetString("radioButtonEnglishBackTranslator.HelpString"));
-            this.radioButtonEnglishBackTranslator.Location = new System.Drawing.Point(30, 66);
+            this.radioButtonEnglishBackTranslator.Location = new System.Drawing.Point(18, 66);
             this.radioButtonEnglishBackTranslator.Name = "radioButtonEnglishBackTranslator";
             this.helpProvider.SetShowHelp(this.radioButtonEnglishBackTranslator, true);
-            this.radioButtonEnglishBackTranslator.Size = new System.Drawing.Size(132, 17);
+            this.radioButtonEnglishBackTranslator.Size = new System.Drawing.Size(171, 17);
             this.radioButtonEnglishBackTranslator.TabIndex = 2;
             this.radioButtonEnglishBackTranslator.TabStop = true;
-            this.radioButtonEnglishBackTranslator.Text = "&English back-translator";
+            this.radioButtonEnglishBackTranslator.Text = "&Outside English back-translator";
             this.radioButtonEnglishBackTranslator.UseVisualStyleBackColor = true;
+            this.radioButtonEnglishBackTranslator.Click += new System.EventHandler(this.radioButtonEnglishBackTranslator_Click);
             // 
             // radioButtonJustViewing
             // 
@@ -157,7 +158,7 @@
             this.helpProvider.SetHelpString(this.radioButtonJustViewing, "A \"just looking\" member can view the stories in the file, but may not make editin" +
                     "g changes. This is useful if you want to browse the stories but not accidentally" +
                     " change something.");
-            this.radioButtonJustViewing.Location = new System.Drawing.Point(195, 88);
+            this.radioButtonJustViewing.Location = new System.Drawing.Point(207, 88);
             this.radioButtonJustViewing.Name = "radioButtonJustViewing";
             this.helpProvider.SetShowHelp(this.radioButtonJustViewing, true);
             this.radioButtonJustViewing.Size = new System.Drawing.Size(85, 17);
@@ -171,7 +172,7 @@
             this.radioButtonCoach.AutoSize = true;
             this.helpProvider.SetHelpString(this.radioButtonCoach, "The member (usually only one/team) that coaches (mentors) a consultant-in-trainin" +
                     "g.");
-            this.radioButtonCoach.Location = new System.Drawing.Point(195, 65);
+            this.radioButtonCoach.Location = new System.Drawing.Point(207, 65);
             this.radioButtonCoach.Name = "radioButtonCoach";
             this.helpProvider.SetShowHelp(this.radioButtonCoach, true);
             this.radioButtonCoach.Size = new System.Drawing.Size(56, 17);
@@ -184,7 +185,7 @@
             // 
             this.radioButtonProjectFacilitator.AutoSize = true;
             this.helpProvider.SetHelpString(this.radioButtonProjectFacilitator, resources.GetString("radioButtonProjectFacilitator.HelpString"));
-            this.radioButtonProjectFacilitator.Location = new System.Drawing.Point(30, 89);
+            this.radioButtonProjectFacilitator.Location = new System.Drawing.Point(18, 89);
             this.radioButtonProjectFacilitator.Name = "radioButtonProjectFacilitator";
             this.helpProvider.SetShowHelp(this.radioButtonProjectFacilitator, true);
             this.radioButtonProjectFacilitator.Size = new System.Drawing.Size(106, 17);
@@ -197,7 +198,7 @@
             // 
             this.radioButtonConsultantInTraining.AutoSize = true;
             this.helpProvider.SetHelpString(this.radioButtonConsultantInTraining, resources.GetString("radioButtonConsultantInTraining.HelpString"));
-            this.radioButtonConsultantInTraining.Location = new System.Drawing.Point(195, 42);
+            this.radioButtonConsultantInTraining.Location = new System.Drawing.Point(207, 42);
             this.radioButtonConsultantInTraining.Name = "radioButtonConsultantInTraining";
             this.helpProvider.SetShowHelp(this.radioButtonConsultantInTraining, true);
             this.radioButtonConsultantInTraining.Size = new System.Drawing.Size(127, 17);
@@ -210,7 +211,7 @@
             // 
             this.radioButtonFirstPassMentor.AutoSize = true;
             this.helpProvider.SetHelpString(this.radioButtonFirstPassMentor, resources.GetString("radioButtonFirstPassMentor.HelpString"));
-            this.radioButtonFirstPassMentor.Location = new System.Drawing.Point(195, 19);
+            this.radioButtonFirstPassMentor.Location = new System.Drawing.Point(207, 19);
             this.radioButtonFirstPassMentor.Name = "radioButtonFirstPassMentor";
             this.helpProvider.SetShowHelp(this.radioButtonFirstPassMentor, true);
             this.radioButtonFirstPassMentor.Size = new System.Drawing.Size(106, 17);
@@ -223,7 +224,7 @@
             // 
             this.radioButtonUNS.AutoSize = true;
             this.helpProvider.SetHelpString(this.radioButtonUNS, resources.GetString("radioButtonUNS.HelpString"));
-            this.radioButtonUNS.Location = new System.Drawing.Point(30, 43);
+            this.radioButtonUNS.Location = new System.Drawing.Point(18, 43);
             this.radioButtonUNS.Name = "radioButtonUNS";
             this.helpProvider.SetShowHelp(this.radioButtonUNS, true);
             this.radioButtonUNS.Size = new System.Drawing.Size(126, 17);
@@ -236,7 +237,7 @@
             this.radioButtonStoryCrafter.AutoSize = true;
             this.radioButtonStoryCrafter.Checked = true;
             this.helpProvider.SetHelpString(this.radioButtonStoryCrafter, "A member who crafts stories");
-            this.radioButtonStoryCrafter.Location = new System.Drawing.Point(30, 19);
+            this.radioButtonStoryCrafter.Location = new System.Drawing.Point(18, 19);
             this.radioButtonStoryCrafter.Name = "radioButtonStoryCrafter";
             this.helpProvider.SetShowHelp(this.radioButtonStoryCrafter, true);
             this.radioButtonStoryCrafter.Size = new System.Drawing.Size(83, 17);

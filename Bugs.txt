@@ -1,3 +1,5 @@
 it seems that with Hindi as Vern and only English BT, the PF wasn't asked for the UNS Backtranslator
 same situation, but entering new testing question seems to not show English (but only on Karan's machine)
+removing an empty testing question boxes doesn't seem to work
+The program shouldn't allow an English BTer role if there's no national language (but it is for Karan)
 

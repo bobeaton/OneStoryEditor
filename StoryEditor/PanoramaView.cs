@@ -141,7 +141,7 @@ namespace OneStoryProjectEditor
                 return;
 
             int nSelectedRowIndex = dataGridViewPanorama.SelectedCells[0].RowIndex;
-            if (nSelectedRowIndex < dataGridViewPanorama.Rows.Count - 1)
+            if (nSelectedRowIndex <= dataGridViewPanorama.Rows.Count - 1)
             {
                 StoryData theSD = new StoryData(_stories[nSelectedRowIndex]);
                 int n = 1;

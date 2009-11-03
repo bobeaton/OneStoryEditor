@@ -5,9 +5,11 @@ namespace OneStoryProjectEditor
 {
     public partial class EditMemberForm : Form
     {
-        public EditMemberForm(TeamMemberData theMemberData)
+        public EditMemberForm(TeamMemberData theMemberData, ProjectSettings projectSettings)
         {
             InitializeComponent();
+
+            radioButtonEnglishBackTranslator.Visible = (projectSettings.NationalBT.HasData);
 
             if (theMemberData == null) 
                 return;
@@ -133,6 +135,11 @@ namespace OneStoryProjectEditor
         {
             get { return (String.IsNullOrEmpty(textBoxBioData.Text) ? null : textBoxBioData.Text); }
             set { textBoxBioData.Text = value; }
+        }
+
+        private void radioButtonEnglishBackTranslator_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(Properties.Resources.IDS_AreYouSureYouWantToHaveAnEnglishBter, Properties.Resources.IDS_Caption);
         }
     }
 }
