@@ -679,6 +679,10 @@ namespace OneStoryProjectEditor
         // this is for use by the consultant panes if we add or remove or hide a note
         internal void ReInitVerseControls()
         {
+            // this sometimes gets called in bad times
+            if ((theCurrentStory == null) || (theCurrentStory.Verses.Count == 0))
+                return;
+
             int nVerseIndex = 0;
             flowLayoutPanelVerses.Controls.Clear();
             flowLayoutPanelVerses.SuspendLayout();
