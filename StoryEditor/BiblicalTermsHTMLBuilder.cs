@@ -177,10 +177,18 @@ namespace OneStoryProjectEditor
                 // So... for each *, insert ".*"
                 char chFirst = strRendering[0];
                 char chLast = strRendering[strRendering.Length - 1];
-                string strSearch = String.Format("{0}{1}{2}",
-                    (chFirst == '*') ? @"\b.*?" : chFirst.ToString(),
-                    strRendering.Substring(1, strRendering.Length - 2),
-                    (chLast == '*') ? @".*?\b" : chLast.ToString());
+                
+                // replace an initial "*" with the proper RegEx for anything at the 
+                //  beginning of a word
+                string strSearch = String.Format(@"\b{0}{1}",
+                    (chFirst == '*') ? ".*?" : chFirst.ToString(),
+                    strRendering.Substring(1, strRendering.Length - 1));
+
+                // replace a final "*" with the proper RegEx for anything at the end
+                //  of a word
+                strSearch = String.Format(@"{0}{1}\b",
+                                          strSearch.Substring(0, strSearch.Length - 1),
+                                          (chLast == '*') ? @".*?" : chLast.ToString());
 
                 Regex regexRendering = new Regex(strSearch, RegexOptions.CultureInvariant | RegexOptions.Singleline);
                 string strBoldedText = regexRendering.Replace(text, SearchForRendering);
