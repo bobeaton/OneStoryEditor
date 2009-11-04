@@ -146,7 +146,7 @@
             this.radioButtonEnglishBackTranslator.Name = "radioButtonEnglishBackTranslator";
             this.helpProvider.SetShowHelp(this.radioButtonEnglishBackTranslator, true);
             this.radioButtonEnglishBackTranslator.Size = new System.Drawing.Size(171, 17);
-            this.radioButtonEnglishBackTranslator.TabIndex = 2;
+            this.radioButtonEnglishBackTranslator.TabIndex = 3;
             this.radioButtonEnglishBackTranslator.TabStop = true;
             this.radioButtonEnglishBackTranslator.Text = "&Outside English back-translator";
             this.radioButtonEnglishBackTranslator.UseVisualStyleBackColor = true;
@@ -162,7 +162,7 @@
             this.radioButtonJustViewing.Name = "radioButtonJustViewing";
             this.helpProvider.SetShowHelp(this.radioButtonJustViewing, true);
             this.radioButtonJustViewing.Size = new System.Drawing.Size(85, 17);
-            this.radioButtonJustViewing.TabIndex = 7;
+            this.radioButtonJustViewing.TabIndex = 8;
             this.radioButtonJustViewing.TabStop = true;
             this.radioButtonJustViewing.Text = "&Just Looking";
             this.radioButtonJustViewing.UseVisualStyleBackColor = true;
@@ -176,7 +176,7 @@
             this.radioButtonCoach.Name = "radioButtonCoach";
             this.helpProvider.SetShowHelp(this.radioButtonCoach, true);
             this.radioButtonCoach.Size = new System.Drawing.Size(56, 17);
-            this.radioButtonCoach.TabIndex = 6;
+            this.radioButtonCoach.TabIndex = 7;
             this.radioButtonCoach.TabStop = true;
             this.radioButtonCoach.Text = "Coac&h";
             this.radioButtonCoach.UseVisualStyleBackColor = true;
@@ -202,7 +202,7 @@
             this.radioButtonConsultantInTraining.Name = "radioButtonConsultantInTraining";
             this.helpProvider.SetShowHelp(this.radioButtonConsultantInTraining, true);
             this.radioButtonConsultantInTraining.Size = new System.Drawing.Size(127, 17);
-            this.radioButtonConsultantInTraining.TabIndex = 5;
+            this.radioButtonConsultantInTraining.TabIndex = 6;
             this.radioButtonConsultantInTraining.TabStop = true;
             this.radioButtonConsultantInTraining.Text = "&Consultant in Training";
             this.radioButtonConsultantInTraining.UseVisualStyleBackColor = true;
@@ -228,7 +228,7 @@
             this.radioButtonUNS.Name = "radioButtonUNS";
             this.helpProvider.SetShowHelp(this.radioButtonUNS, true);
             this.radioButtonUNS.Size = new System.Drawing.Size(126, 17);
-            this.radioButtonUNS.TabIndex = 3;
+            this.radioButtonUNS.TabIndex = 2;
             this.radioButtonUNS.Text = "&Testing Helper (UNS)";
             this.radioButtonUNS.UseVisualStyleBackColor = true;
             // 
@@ -264,7 +264,7 @@
             this.textBoxEmail.Name = "textBoxEmail";
             this.helpProvider.SetShowHelp(this.textBoxEmail, true);
             this.textBoxEmail.Size = new System.Drawing.Size(352, 20);
-            this.textBoxEmail.TabIndex = 8;
+            this.textBoxEmail.TabIndex = 5;
             // 
             // labelPhoneNumber
             // 
@@ -284,7 +284,7 @@
             this.textBoxPhoneNumber.Name = "textBoxPhoneNumber";
             this.helpProvider.SetShowHelp(this.textBoxPhoneNumber, true);
             this.textBoxPhoneNumber.Size = new System.Drawing.Size(352, 20);
-            this.textBoxPhoneNumber.TabIndex = 9;
+            this.textBoxPhoneNumber.TabIndex = 7;
             // 
             // labelAltPhone
             // 
@@ -304,7 +304,7 @@
             this.textBoxAltPhone.Name = "textBoxAltPhone";
             this.helpProvider.SetShowHelp(this.textBoxAltPhone, true);
             this.textBoxAltPhone.Size = new System.Drawing.Size(352, 20);
-            this.textBoxAltPhone.TabIndex = 10;
+            this.textBoxAltPhone.TabIndex = 9;
             // 
             // labelSkype
             // 
@@ -344,7 +344,7 @@
             this.textBoxTeamViewer.Name = "textBoxTeamViewer";
             this.helpProvider.SetShowHelp(this.textBoxTeamViewer, true);
             this.textBoxTeamViewer.Size = new System.Drawing.Size(352, 20);
-            this.textBoxTeamViewer.TabIndex = 12;
+            this.textBoxTeamViewer.TabIndex = 13;
             // 
             // labelBioData
             // 
@@ -366,7 +366,7 @@
             this.textBoxBioData.Name = "textBoxBioData";
             this.helpProvider.SetShowHelp(this.textBoxBioData, true);
             this.textBoxBioData.Size = new System.Drawing.Size(352, 160);
-            this.textBoxBioData.TabIndex = 13;
+            this.textBoxBioData.TabIndex = 15;
             // 
             // buttonOK
             // 
