@@ -671,7 +671,7 @@ namespace OneStoryProjectEditor
 
         protected void UpdateEnableReplaceButton()
         {
-            string strFindWhat = UpdateComboBox(comboBoxFindWhat);
+            string strFindWhat = comboBoxFindWhat.Text;
             if (!String.IsNullOrEmpty(strFindWhat) && (CtrlTextBox._inTextBox != null))
             {
                 if (FindProperties.UseRegex)
