@@ -179,6 +179,10 @@ namespace OneStoryProjectEditor
         // or \\Bob-StudioXPS\Backup\Storying\snwmtn-test
         public static void SyncWithRepository(string strProjectFolder, bool bIsOpening)
         {
+            // the project folder name has come here bogus at times...
+            if (!Directory.Exists(strProjectFolder))
+                return;
+
             string strProjectName = Path.GetFileNameWithoutExtension(strProjectFolder);
 
             // if there's no repo yet, then create one (even if we aren't going
