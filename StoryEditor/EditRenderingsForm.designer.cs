@@ -89,7 +89,7 @@ namespace OneStoryProjectEditor
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox1.Size = new System.Drawing.Size(782, 167);
-            this.groupBox1.TabIndex = 21;
+            this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Notes";
             // 
@@ -165,7 +165,8 @@ namespace OneStoryProjectEditor
             this.txtTermDefinition.Name = "txtTermDefinition";
             this.txtTermDefinition.ReadOnly = true;
             this.txtTermDefinition.Size = new System.Drawing.Size(768, 60);
-            this.txtTermDefinition.TabIndex = 1;
+            this.txtTermDefinition.TabIndex = 24;
+            this.txtTermDefinition.TabStop = false;
             // 
             // groupBox2
             // 
@@ -222,6 +223,7 @@ namespace OneStoryProjectEditor
             this.textTag.Name = "textTag";
             this.textTag.Size = new System.Drawing.Size(768, 20);
             this.textTag.TabIndex = 0;
+            this.textTag.TabStop = false;
             // 
             // labelInstructions
             // 

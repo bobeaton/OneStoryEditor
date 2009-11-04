@@ -38,6 +38,7 @@
             this.progressBarLoadingKeyTerms = new System.Windows.Forms.ProgressBar();
             this.webBrowser = new onlyconnect.HtmlEditor();
             this.helpProvider = new System.Windows.Forms.HelpProvider();
+            this.textBoxInstructions = new System.Windows.Forms.TextBox();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -46,7 +47,6 @@
             // 
             // splitContainer1
             // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -59,8 +59,8 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.progressBarLoadingKeyTerms);
             this.splitContainer1.Panel2.Controls.Add(this.webBrowser);
-            this.splitContainer1.Size = new System.Drawing.Size(602, 408);
-            this.splitContainer1.SplitterDistance = 204;
+            this.splitContainer1.Size = new System.Drawing.Size(602, 327);
+            this.splitContainer1.SplitterDistance = 163;
             this.splitContainer1.TabIndex = 1;
             // 
             // dataGridViewKeyTerms
@@ -86,7 +86,7 @@
             this.dataGridViewKeyTerms.RowHeadersVisible = false;
             this.dataGridViewKeyTerms.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.helpProvider.SetShowHelp(this.dataGridViewKeyTerms, true);
-            this.dataGridViewKeyTerms.Size = new System.Drawing.Size(602, 204);
+            this.dataGridViewKeyTerms.Size = new System.Drawing.Size(602, 163);
             this.dataGridViewKeyTerms.TabIndex = 0;
             this.dataGridViewKeyTerms.VirtualMode = true;
             this.dataGridViewKeyTerms.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewKeyTerms_CellDoubleClick);
@@ -123,7 +123,7 @@
             // progressBarLoadingKeyTerms
             // 
             this.progressBarLoadingKeyTerms.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.progressBarLoadingKeyTerms.Location = new System.Drawing.Point(0, 177);
+            this.progressBarLoadingKeyTerms.Location = new System.Drawing.Point(0, 137);
             this.progressBarLoadingKeyTerms.Name = "progressBarLoadingKeyTerms";
             this.progressBarLoadingKeyTerms.Size = new System.Drawing.Size(602, 23);
             this.progressBarLoadingKeyTerms.TabIndex = 1;
@@ -148,18 +148,29 @@
             this.webBrowser.SelectionForeColor = System.Drawing.Color.Empty;
             this.webBrowser.SelectionNumbering = false;
             this.helpProvider.SetShowHelp(this.webBrowser, true);
-            this.webBrowser.Size = new System.Drawing.Size(602, 200);
+            this.webBrowser.Size = new System.Drawing.Size(602, 160);
             this.webBrowser.TabIndex = 0;
             this.webBrowser.BeforeNavigate += new onlyconnect.BeforeNavigateEventHandler(this.webBrowser_BeforeNavigate);
             this.webBrowser.MouseMove += new System.Windows.Forms.MouseEventHandler(this.webBrowser_MouseMove);
             this.webBrowser.KeyDown += new System.Windows.Forms.KeyEventHandler(this.webBrowser_KeyDown);
             this.webBrowser.ReadyStateChanged += new onlyconnect.ReadyStateChangedHandler(this.webBrowser_ReadyStateChanged);
             // 
+            // textBoxInstructions
+            // 
+            this.textBoxInstructions.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.textBoxInstructions.Location = new System.Drawing.Point(0, 333);
+            this.textBoxInstructions.Multiline = true;
+            this.textBoxInstructions.Name = "textBoxInstructions";
+            this.textBoxInstructions.Size = new System.Drawing.Size(602, 75);
+            this.textBoxInstructions.TabIndex = 2;
+            this.textBoxInstructions.Text = resources.GetString("textBoxInstructions.Text");
+            // 
             // BiblicalKeyTermsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(602, 408);
+            this.Controls.Add(this.textBoxInstructions);
             this.Controls.Add(this.splitContainer1);
             this.HelpButton = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -173,6 +184,7 @@
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewKeyTerms)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -187,6 +199,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnGlossEnglish;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnRenderings;
         private System.Windows.Forms.HelpProvider helpProvider;
+        private System.Windows.Forms.TextBox textBoxInstructions;
 
     }
 }
