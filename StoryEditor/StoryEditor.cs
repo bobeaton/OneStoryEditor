@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Xml;
@@ -141,8 +142,10 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(String.Format(Properties.Resources.IDS_UnableToImportProject,
-                    Environment.NewLine, strProjectName, ex.Message),  Properties.Resources.IDS_Caption);
+                string strErrorMsg = String.Format(Properties.Resources.IDS_UnableToOpenProjectFile,
+                    Environment.NewLine, strProjectName,
+                    ((ex.InnerException != null) ? ex.InnerException.Message : ""), ex.Message);
+                MessageBox.Show(strErrorMsg, Properties.Resources.IDS_Caption);
                 return;
             }
         }
@@ -2535,6 +2538,12 @@ namespace OneStoryProjectEditor
                                                   ProjectSettings.OneStoryProjectFolderRoot, strOldProjectPath);
                 MessageBox.Show(strMessage, Properties.Resources.IDS_Caption);
             }
+        }
+
+        private void hindiToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            Thread.CurrentThread.CurrentUICulture = 
+                Properties.Resources.Culture = new CultureInfo("hi");
         }
     }
 }

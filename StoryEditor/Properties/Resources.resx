@@ -230,9 +230,6 @@
     <value>Unable to find the story '{0}'. Would you like to add a new story with that name?</value>
     <comment>'{0}' नामक कहानी नहीं है। क्‍या उस नाम की नई कहानी जोड़ दिया जाए?</comment>
   </data>
-  <data name="IDS_UnableToImportProject" xml:space="preserve">
-    <value>Unable to import the project '{1}'{0}{0}{2}{0}{0}Contact bob_eaton@sall.com for help</value>
-  </data>
   <data name="IDS_UnableToOpenMemberList" xml:space="preserve">
     <value>Unable to open the member list{0}{0}{1}{0}{0}Contact bob_eaton@sall.com for help</value>
   </data>

@@ -621,15 +621,6 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to import the project &apos;{1}&apos;{0}{0}{2}{0}{0}Contact bob_eaton@sall.com for help.
-        /// </summary>
-        internal static string IDS_UnableToImportProject {
-            get {
-                return ResourceManager.GetString("IDS_UnableToImportProject", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Unable to open the member list{0}{0}{1}{0}{0}Contact bob_eaton@sall.com for help.
         /// </summary>
         internal static string IDS_UnableToOpenMemberList {

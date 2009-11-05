@@ -112,6 +112,8 @@ namespace OneStoryProjectEditor
             this.buttonsStoryStage = new System.Windows.Forms.ToolStripSplitButton();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.helpProvider = new System.Windows.Forms.HelpProvider();
+            this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
+            this.hindiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
             this.splitContainerLeftRight.Panel2.SuspendLayout();
@@ -429,7 +431,9 @@ namespace OneStoryProjectEditor
             this.toolStripSeparator7,
             this.refreshToolStripMenuItem,
             this.toolStripSeparator8,
-            this.viewOldStoriesToolStripMenuItem});
+            this.viewOldStoriesToolStripMenuItem,
+            this.toolStripSeparator11,
+            this.hindiToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 23);
             this.viewToolStripMenuItem.Text = "&View";
@@ -919,6 +923,21 @@ namespace OneStoryProjectEditor
             this.statusLabel.Spring = true;
             this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // toolStripSeparator11
+            // 
+            this.toolStripSeparator11.Name = "toolStripSeparator11";
+            this.toolStripSeparator11.Size = new System.Drawing.Size(281, 6);
+            // 
+            // hindiToolStripMenuItem
+            // 
+            this.hindiToolStripMenuItem.Checked = true;
+            this.hindiToolStripMenuItem.CheckOnClick = true;
+            this.hindiToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.hindiToolStripMenuItem.Name = "hindiToolStripMenuItem";
+            this.hindiToolStripMenuItem.Size = new System.Drawing.Size(284, 22);
+            this.hindiToolStripMenuItem.Text = "&Hindi";
+            this.hindiToolStripMenuItem.CheckedChanged += new System.EventHandler(this.hindiToolStripMenuItem_CheckedChanged);
+            // 
             // StoryEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1035,6 +1054,8 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem advancedToolStripMenuItem;
         private ToolStripMenuItem changeProjectFolderRootToolStripMenuItem;
         private ToolStripMenuItem projectFromASharedNetworkDriveToolStripMenu;
+        private ToolStripSeparator toolStripSeparator11;
+        private ToolStripMenuItem hindiToolStripMenuItem;
     }
 
     public class ConNoteFlowLayoutPanel : FlowLayoutPanel
