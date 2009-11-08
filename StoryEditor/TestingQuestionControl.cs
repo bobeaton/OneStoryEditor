@@ -90,7 +90,9 @@ namespace OneStoryProjectEditor
             if ((_aTQData.Answers != null) && (_aTQData.Answers.Count > 0))
             {
                 System.Diagnostics.Debug.Assert(theSE.theCurrentStory.CraftingInfo.Testors.Count >= _aTQData.Answers.Count);
-                MultiLineControl aAnswersCtrl = new MultiLineControl(ctrlVerse, StageLogic, _aTQData.Answers, theSE.theCurrentStory.CraftingInfo.Testors);
+                MultiLineControl aAnswersCtrl = new MultiLineControl(ctrlVerse, StageLogic, 
+                    _aTQData.Answers, theSE.StoryProject.ProjSettings.InternationalBT.LangFont,
+                    theSE.theCurrentStory.CraftingInfo.Testors);
                 aAnswersCtrl.Name = CstrFieldNameAnswers;
                 aAnswersCtrl.ParentControl = this;
 

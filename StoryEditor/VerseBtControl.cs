@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
@@ -48,7 +49,7 @@ namespace OneStoryProjectEditor
                 AnchorsData anAnchorsData = _verseData.Anchors;
                 if (anAnchorsData != null)
                 {
-                    InitAnchors(anAnchorsData, nNumRows);
+                    InitAnchors(anAnchorsData, nNumRows, TheSE.StoryProject.ProjSettings.InternationalBT.LangFont);
                     nNumRows++;
                 }
             }
@@ -57,7 +58,8 @@ namespace OneStoryProjectEditor
             {
                 if (_verseData.Retellings.Count > 0)
                 {
-                    InitRetellings(_verseData.Retellings, nNumRows, theSE.theCurrentStory.CraftingInfo.Testors);
+                    InitRetellings(_verseData.Retellings, nNumRows, theSE.theCurrentStory.CraftingInfo.Testors, 
+                        TheSE.StoryProject.ProjSettings.InternationalBT.LangFont);
                     nNumRows++;
                 }
             }
@@ -93,10 +95,10 @@ namespace OneStoryProjectEditor
             tableLayoutPanel.Controls.Add(aStoryLineCtrl, 0, nLayoutRow);
         }
 
-        protected void InitAnchors(AnchorsData anAnchorsData, int nLayoutRow)
+        protected void InitAnchors(AnchorsData anAnchorsData, int nLayoutRow, Font font)
         {
             System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(CstrFieldNameAnchors));
-            AnchorControl anAnchorCtrl = new AnchorControl(this, StageLogic, anAnchorsData);
+            AnchorControl anAnchorCtrl = new AnchorControl(this, StageLogic, anAnchorsData, font);
             anAnchorCtrl.Name = CstrFieldNameAnchors;
             anAnchorCtrl.ParentControl = this;
             
@@ -105,10 +107,12 @@ namespace OneStoryProjectEditor
             tableLayoutPanel.Controls.Add(anAnchorCtrl, 0, nLayoutRow);
         }
 
-        protected void InitRetellings(RetellingsData aRetellingsData, int nLayoutRow, List<string> astrTestors)
+        protected void InitRetellings(RetellingsData aRetellingsData, int nLayoutRow,
+            List<string> astrTestors, Font font)
         {
             System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(CstrFieldNameRetellings));
-            MultiLineControl aRetellingsCtrl = new MultiLineControl(this, StageLogic, aRetellingsData, astrTestors);
+            MultiLineControl aRetellingsCtrl = new MultiLineControl(this, StageLogic, 
+                aRetellingsData, font, astrTestors);
             aRetellingsCtrl.Name = CstrFieldNameRetellings;
             aRetellingsCtrl.ParentControl = this;
 

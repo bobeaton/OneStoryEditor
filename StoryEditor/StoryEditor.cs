@@ -214,7 +214,6 @@ namespace OneStoryProjectEditor
 
         protected void CloseProjectFile()
         {
-            Debug.Assert(!Modified);
             StoryProject = null;
             ClearState();
         }

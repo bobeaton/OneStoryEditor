@@ -20,11 +20,12 @@ namespace OneStoryProjectEditor
         protected ThrowIfNotCorrectEditor _delegateRequiredEditorCheck;
         protected TeamMemberData.UserTypes _eRequiredEditor = TeamMemberData.UserTypes.eUndefined;
 
-        public CtrlTextBox(string strName, VerseControl ctrlVerseParent, 
+        public CtrlTextBox(string strName, VerseControl ctrlVerseParent, Font font,
             ResizableControl ctrlParent, StringTransfer stData, string strLabel)
         {
             InitComponent();
             Name = strName;
+            Font = font;
             _strLabel = strLabel;
             stData.SetAssociation(this);
             TextChanged += new EventHandler(ctrlParent.textBox_TextChanged);
