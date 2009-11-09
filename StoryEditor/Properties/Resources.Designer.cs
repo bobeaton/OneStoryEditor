@@ -657,11 +657,29 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Verse number &apos;{0}&apos; has multiple sentences in the {1} column. Use the &quot;Story&quot; menu, &quot;Collapse into 1 line&quot; command in combination with the &quot;Story&quot; menu, &quot;Split into Lines&quot; command to correctly break the story and back-translations into lines.
+        /// </summary>
+        internal static string IDS_UseStoryCollapse {
+            get {
+                return ResourceManager.GetString("IDS_UseStoryCollapse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to http://msdn2.microsoft.com/en-us/library/az24scfc.aspx.
         /// </summary>
         internal static string RegexHelpProgram {
             get {
                 return ResourceManager.GetString("RegexHelpProgram", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  .
+        /// </summary>
+        internal static string String1 {
+            get {
+                return ResourceManager.GetString("String1", resourceCulture);
             }
         }
     }

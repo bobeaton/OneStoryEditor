@@ -1487,4 +1487,10 @@ eater Panorama
   <data name="IDS_ConfirmDeleteAllVerseLines" xml:space="preserve">
     <value>Are you sure you want to delete the {0}?</value>
   </data>
+  <data name="IDS_UseStoryCollapse" xml:space="preserve">
+    <value>Verse number '{0}' has multiple sentences in the {1} column. Use the "Story" menu, "Collapse into 1 line" command in combination with the "Story" menu, "Split into Lines" command to correctly break the story and back-translations into lines</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value> </value>
+  </data>
 </root>

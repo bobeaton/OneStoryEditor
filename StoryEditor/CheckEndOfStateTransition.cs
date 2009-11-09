@@ -145,6 +145,12 @@ namespace OneStoryProjectEditor
                     
                     else if (lstSentences.Count > 1)
                     {
+                        MessageBox.Show(String.Format(Properties.Resources.IDS_UseStoryCollapse,
+                            nVerseNumber, theStoryProjectData.ProjSettings.NationalBT.LangName),
+                                        Properties.Resources.IDS_Caption);
+                        return false;
+                        // this is too dangerous
+                        /*
                         if (MessageBox.Show(String.Format("Verse number '{0}' has multiple sentences. Click Yes to have them separated into their own verses.", nVerseNumber), Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
                         {
                             if (theStoryProjectData.ProjSettings.Vernacular.HasData)
@@ -168,6 +174,7 @@ namespace OneStoryProjectEditor
                         aVerseData.NationalBTText.SetValue(lstSentences[nNewVerses]);
                         bRepeatAfterMe = true;
                         break;  // we have to exit the loop since we've modified the collection
+                        */
                     }
 
                     nVerseNumber++;
@@ -240,7 +247,14 @@ namespace OneStoryProjectEditor
 
                     if (lstSentences.Count > 1)
                     {
+                        MessageBox.Show(String.Format(Properties.Resources.IDS_UseStoryCollapse,
+                            nVerseNumber, theStoryProjectData.ProjSettings.InternationalBT.LangName),
+                                        Properties.Resources.IDS_Caption);
+                        return false;
+
+                        // this is too dangerous
                         // the see if they want to fix it.
+                        /*
                         if (MessageBox.Show(String.Format("Verse number '{0}' has multiple sentences. Click Yes to have them separated into their own verses.", nVerseNumber), Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
                         {
                             if (theStoryProjectData.ProjSettings.Vernacular.HasData
@@ -267,6 +281,7 @@ namespace OneStoryProjectEditor
                         aVerseData.InternationalBTText.SetValue(lstSentences[nNewVerses]);
                         bRepeatAfterMe = true;
                         break; // we have to exit the loop since we've modified the collection
+                        */
                     }
 
                     nVerseNumber++;
