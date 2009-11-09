@@ -1484,4 +1484,7 @@ eater Panorama
   <data name="IDS_AreYouSureYouWantToHaveAnEnglishBter" xml:space="preserve">
     <value>Talk with your project consultant before creating an 'Outside English back-translator' member on your team. The role of 'Outside English back-translator' is only used when the team doesn't have anyone to do an English back-translation and they arrange with some other team to do their English BT for them. If your team is doing its own English back-translations, then don't create an 'Outside English back-translator' member (you would do it as the Project Facilitator). </value>
   </data>
+  <data name="IDS_ConfirmDeleteAllVerseLines" xml:space="preserve">
+    <value>Are you sure you want to delete the {0}?</value>
+  </data>
 </root>

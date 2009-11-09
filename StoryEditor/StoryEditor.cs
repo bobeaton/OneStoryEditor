@@ -623,13 +623,18 @@ namespace OneStoryProjectEditor
 
             // get the focus off the combo box, so mouse scroll doesn't rip thru the stories!
             flowLayoutPanelVerses.Focus();
+
+            // if the user switches stories, then we need to reindex the search
+            if (m_frmFind != null)
+                m_frmFind.ResetSearchParameters();
         }
 
         private void CheckForProperMemberType()
         {
             // inform the user that they won't be able to edit this if they aren't the proper member type
             Debug.Assert((theCurrentStory != null) && (LoggedOnMember != null));
-            if (LoggedOnMember.MemberType != theCurrentStory.ProjStage.MemberTypeWithEditToken)
+            if ((LoggedOnMember.MemberType != TeamMemberData.UserTypes.eJustLooking)
+                &&  (LoggedOnMember.MemberType != theCurrentStory.ProjStage.MemberTypeWithEditToken))
                 try
                 {
                     throw theCurrentStory.ProjStage.WrongMemberTypeEx;
@@ -1958,29 +1963,49 @@ namespace OneStoryProjectEditor
 
         private void deleteStoryVersesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Debug.Assert(theCurrentStory != null);
-            foreach (VerseData aVerse in theCurrentStory.Verses)
-                aVerse.VernacularText.SetValue(null);
-            ReInitVerseControls();
-            Modified = true;
+            Debug.Assert((theCurrentStory != null) && (sender is ToolStripItem));
+
+            ToolStripItem tsi = sender as ToolStripItem;
+            if (MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmDeleteAllVerseLines,
+                tsi.Text.Replace("&", null)), Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+            {
+                foreach (VerseData aVerse in theCurrentStory.Verses)
+                    aVerse.VernacularText.SetValue(null);
+                ReInitVerseControls();
+                Modified = true;
+            }
         }
 
         private void deleteStoryNationalBackTranslationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Debug.Assert(theCurrentStory != null);
-            foreach (VerseData aVerse in theCurrentStory.Verses)
-                aVerse.NationalBTText.SetValue(null);
-            ReInitVerseControls();
-            Modified = true;
+            Debug.Assert((theCurrentStory != null) && (sender is ToolStripItem));
+
+            ToolStripItem tsi = sender as ToolStripItem;
+            if (MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmDeleteAllVerseLines,
+                                              tsi.Text.Replace("&", null)), Properties.Resources.IDS_Caption,
+                                MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+            {
+                foreach (VerseData aVerse in theCurrentStory.Verses)
+                    aVerse.NationalBTText.SetValue(null);
+                ReInitVerseControls();
+                Modified = true;
+            }
         }
 
         private void deleteEnglishBacktranslationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Debug.Assert(theCurrentStory != null);
-            foreach (VerseData aVerse in theCurrentStory.Verses)
-                aVerse.InternationalBTText.SetValue(null);
-            ReInitVerseControls();
-            Modified = true;
+            Debug.Assert((theCurrentStory != null) && (sender is ToolStripItem));
+
+            ToolStripItem tsi = sender as ToolStripItem;
+            if (MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmDeleteAllVerseLines,
+                                              tsi.Text.Replace("&", null)), Properties.Resources.IDS_Caption,
+                                MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+            {
+                foreach (VerseData aVerse in theCurrentStory.Verses)
+                    aVerse.InternationalBTText.SetValue(null);
+                ReInitVerseControls();
+                Modified = true;
+            }
         }
 
         private void exportNationalBacktranslationToolStripMenuItem_Click(object sender, EventArgs e)

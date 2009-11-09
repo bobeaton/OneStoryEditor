@@ -184,6 +184,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete the {0}?.
+        /// </summary>
+        internal static string IDS_ConfirmDeleteAllVerseLines {
+            get {
+                return ResourceManager.GetString("IDS_ConfirmDeleteAllVerseLines", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to delete the &apos;{0}&apos; story?.
         /// </summary>
         internal static string IDS_ConfirmDeleteStory {
