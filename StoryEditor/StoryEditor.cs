@@ -389,6 +389,15 @@ namespace OneStoryProjectEditor
                     comboBoxStorySelector.SelectedItem = strStoryToLoad;
 
                 UpdateUIMenusWithShortCuts();
+
+                if (IsInStoriesSet)
+                {
+                    Text = String.Format(Properties.Resources.IDS_MainFrameTitle, StoryProject.ProjSettings.ProjectName);
+                }
+                else
+                {
+                    Text = String.Format(Properties.Resources.IDS_MainFrameTitleOldStories, StoryProject.ProjSettings.ProjectName);
+                }
             }
             catch (BackOutWithNoUIException)
             {
@@ -599,12 +608,6 @@ namespace OneStoryProjectEditor
             {
                 Properties.Settings.Default.LastStoryWorkedOn = theCurrentStory.Name;
                 Properties.Settings.Default.Save();
-
-                Text = String.Format(Properties.Resources.IDS_MainFrameTitle, StoryProject.ProjSettings.ProjectName);
-            }
-            else
-            {
-                Text = String.Format(Properties.Resources.IDS_MainFrameTitleOldStories, StoryProject.ProjSettings.ProjectName);
             }
 
             // initialize the text box showing the storying they're editing
