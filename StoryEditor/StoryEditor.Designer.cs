@@ -40,6 +40,7 @@ namespace OneStoryProjectEditor
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.browseForProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.projectFromTheInternetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toTheInternetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.projectFromASharedNetworkDriveToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.teamMembersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -80,8 +81,6 @@ namespace OneStoryProjectEditor
             this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.viewOldStoriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
-            this.hindiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.comboBoxStorySelector = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripTextBoxChooseStory = new System.Windows.Forms.ToolStripTextBox();
             this.storyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -91,6 +90,7 @@ namespace OneStoryProjectEditor
             this.exportStoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportNationalBacktranslationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitIntoLinesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.realignStoryVersesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panoramaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insertNewStoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addNewStoryAfterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -154,6 +154,7 @@ namespace OneStoryProjectEditor
             this.toolStripSeparator1,
             this.browseForProjectToolStripMenuItem,
             this.projectFromTheInternetToolStripMenuItem,
+            this.toTheInternetToolStripMenuItem,
             this.projectFromASharedNetworkDriveToolStripMenu,
             this.toolStripSeparator4,
             this.teamMembersToolStripMenuItem,
@@ -212,6 +213,15 @@ namespace OneStoryProjectEditor
             this.projectFromTheInternetToolStripMenuItem.ToolTipText = "Click here to enter an Internet address to get a project from (e.g. if your team " +
                 "mates have already uploaded it to the internet repository)";
             this.projectFromTheInternetToolStripMenuItem.Click += new System.EventHandler(this.projectFromTheInternetToolStripMenuItem_Click);
+            // 
+            // toTheInternetToolStripMenuItem
+            // 
+            this.toTheInternetToolStripMenuItem.Name = "toTheInternetToolStripMenuItem";
+            this.toTheInternetToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
+            this.toTheInternetToolStripMenuItem.Text = "&To the Internet";
+            this.toTheInternetToolStripMenuItem.ToolTipText = "Click here to enter the Internet address of the repository to send this project t" +
+                "o (e.g. if someone has created a repository for this project)";
+            this.toTheInternetToolStripMenuItem.Click += new System.EventHandler(this.toTheInternetToolStripMenuItem_Click);
             // 
             // projectFromASharedNetworkDriveToolStripMenu
             // 
@@ -431,9 +441,7 @@ namespace OneStoryProjectEditor
             this.toolStripSeparator7,
             this.refreshToolStripMenuItem,
             this.toolStripSeparator8,
-            this.viewOldStoriesToolStripMenuItem,
-            this.toolStripSeparator11,
-            this.hindiToolStripMenuItem});
+            this.viewOldStoriesToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 23);
             this.viewToolStripMenuItem.Text = "&View";
@@ -584,21 +592,6 @@ namespace OneStoryProjectEditor
                 "ld Stories\' list from the \'Panorama View\' window--see \'Panorama\' menu, \'Show\' co" +
                 "mmand)";
             // 
-            // toolStripSeparator11
-            // 
-            this.toolStripSeparator11.Name = "toolStripSeparator11";
-            this.toolStripSeparator11.Size = new System.Drawing.Size(281, 6);
-            // 
-            // hindiToolStripMenuItem
-            // 
-            this.hindiToolStripMenuItem.Checked = true;
-            this.hindiToolStripMenuItem.CheckOnClick = true;
-            this.hindiToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.hindiToolStripMenuItem.Name = "hindiToolStripMenuItem";
-            this.hindiToolStripMenuItem.Size = new System.Drawing.Size(284, 22);
-            this.hindiToolStripMenuItem.Text = "&Hindi";
-            this.hindiToolStripMenuItem.CheckedChanged += new System.EventHandler(this.hindiToolStripMenuItem_CheckedChanged);
-            // 
             // comboBoxStorySelector
             // 
             this.comboBoxStorySelector.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -625,7 +618,8 @@ namespace OneStoryProjectEditor
             this.enterTheReasonThisStoryIsInTheSetToolStripMenuItem,
             this.deleteStoryToolStripMenuItem,
             this.exportToAdaptItToolStripMenuItem,
-            this.splitIntoLinesToolStripMenuItem});
+            this.splitIntoLinesToolStripMenuItem,
+            this.realignStoryVersesToolStripMenuItem});
             this.storyToolStripMenuItem.Name = "storyToolStripMenuItem";
             this.storyToolStripMenuItem.Size = new System.Drawing.Size(46, 23);
             this.storyToolStripMenuItem.Text = "&Story";
@@ -682,6 +676,14 @@ namespace OneStoryProjectEditor
             this.splitIntoLinesToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.splitIntoLinesToolStripMenuItem.Text = "S&plit into Lines";
             this.splitIntoLinesToolStripMenuItem.Click += new System.EventHandler(this.splitIntoLinesToolStripMenuItem_Click);
+            // 
+            // realignStoryVersesToolStripMenuItem
+            // 
+            this.realignStoryVersesToolStripMenuItem.Name = "realignStoryVersesToolStripMenuItem";
+            this.realignStoryVersesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F5)));
+            this.realignStoryVersesToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.realignStoryVersesToolStripMenuItem.Text = "&Re-align story verses";
+            this.realignStoryVersesToolStripMenuItem.Click += new System.EventHandler(this.realignStoryVersesToolStripMenuItem_Click);
             // 
             // panoramaToolStripMenuItem
             // 
@@ -1054,8 +1056,8 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem advancedToolStripMenuItem;
         private ToolStripMenuItem changeProjectFolderRootToolStripMenuItem;
         private ToolStripMenuItem projectFromASharedNetworkDriveToolStripMenu;
-        private ToolStripSeparator toolStripSeparator11;
-        private ToolStripMenuItem hindiToolStripMenuItem;
+        private ToolStripMenuItem realignStoryVersesToolStripMenuItem;
+        private ToolStripMenuItem toTheInternetToolStripMenuItem;
     }
 
     public class ConNoteFlowLayoutPanel : FlowLayoutPanel

@@ -9,6 +9,7 @@ using System.Xml.Linq;
 using System.Windows.Forms;
 using System.IO;
 using System.Xml.XPath;                 // for XPathNavigator
+using Palaso.UI.WindowsForms.Keyboarding;
 using SilEncConverters31;
 using System.Diagnostics;               // Process
 using Palaso.Reporting;
@@ -163,7 +164,16 @@ namespace OneStoryProjectEditor
                 string strUsername = ExtractUsernameFromUrl(dlg.URL);
                 Program.SetHgParameters(dlg.PathToNewProject, strProjectName, dlg.URL, strUsername);
                 ProjectSettings projSettings = new ProjectSettings(dlg.PathToNewProject, strProjectName);
-                OpenProject(projSettings);
+                try
+                {
+                    OpenProject(projSettings);
+                }
+                catch (Exception)
+                {
+                    string strErrorMsg = String.Format(Properties.Resources.IDS_NoProjectFromInternet,
+                                                       Environment.NewLine, dlg.URL);
+                    MessageBox.Show(strErrorMsg, Properties.Resources.IDS_Caption);
+                }
             }
         }
 
@@ -1089,6 +1099,9 @@ namespace OneStoryProjectEditor
 
             if (Modified)
             {
+                // it's annoying that the keyboard doesn't deactivate so I can just type 'y' for "Yes"
+                KeyboardController.DeactivateKeyboard();    // ... do it manually
+
                 DialogResult res = MessageBox.Show(Properties.Resources.IDS_SaveChanges, Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
                 if (res != DialogResult.Yes)
                 {
@@ -1347,12 +1360,16 @@ namespace OneStoryProjectEditor
 
                 recentProjectsToolStripMenuItem.Enabled = (recentProjectsToolStripMenuItem.DropDownItems.Count > 0);
 
-                projectFromASharedNetworkDriveToolStripMenu.Enabled =
-                    ((StoryProject != null) && (StoryProject.ProjSettings != null));
+                toTheInternetToolStripMenuItem.Enabled = 
+                    projectFromASharedNetworkDriveToolStripMenu.Enabled =
+                        ((StoryProject != null) && (StoryProject.ProjSettings != null));
+
+                saveToolStripMenuItem.Enabled = Modified;
             }
             else
             {
-                projectFromASharedNetworkDriveToolStripMenu.Enabled = 
+                toTheInternetToolStripMenuItem.Enabled = 
+                    projectFromASharedNetworkDriveToolStripMenu.Enabled = 
                     recentProjectsToolStripMenuItem.Enabled = 
                     newToolStripMenuItem.Enabled = 
                     saveToolStripMenuItem.Enabled = 
@@ -1563,19 +1580,24 @@ namespace OneStoryProjectEditor
             // if there's a story that has more than no verses, AND if it's a bible
             //  story and before the add anchors stage or a non-biblical story and
             //  before the consultant check stage...
-            if ((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0)
-                && ((theCurrentStory.CraftingInfo.IsBiblicalStory && (theCurrentStory.ProjStage.ProjectStage < StoryStageLogic.ProjectStages.eProjFacAddAnchors))
-                    || ((!theCurrentStory.CraftingInfo.IsBiblicalStory && (theCurrentStory.ProjStage.ProjectStage < StoryStageLogic.ProjectStages.eConsultantCheckNonBiblicalStory)))))            
+            if (   (theCurrentStory != null) 
+                && (theCurrentStory.Verses.Count > 0)
+                && (theCurrentStory.CraftingInfo != null)
+                && (    (theCurrentStory.CraftingInfo.IsBiblicalStory && !WillBeLossInVerse(theCurrentStory.Verses))
+                    ||  (!theCurrentStory.CraftingInfo.IsBiblicalStory && (theCurrentStory.ProjStage.ProjectStage < StoryStageLogic.ProjectStages.eConsultantCheckNonBiblicalStory))))
             {
                 // then we can do splitting and collapsing of the story
-                splitIntoLinesToolStripMenuItem.Enabled = true;
+                splitIntoLinesToolStripMenuItem.Enabled =
+                    realignStoryVersesToolStripMenuItem.Enabled = true;
+
                 if (theCurrentStory.Verses.Count == 1)
                     splitIntoLinesToolStripMenuItem.Text = "S&plit into Lines";
                 else
                     splitIntoLinesToolStripMenuItem.Text = "&Collapse into 1 line";
             }
             else
-                splitIntoLinesToolStripMenuItem.Enabled = false;
+                splitIntoLinesToolStripMenuItem.Enabled =
+                    realignStoryVersesToolStripMenuItem.Enabled = false;
 
             if ((StoryProject != null) && (StoryProject.ProjSettings != null))
             {
@@ -2305,11 +2327,31 @@ namespace OneStoryProjectEditor
                     viewVernacularLangFieldMenuItem.Visible = false;
 
                 if (StoryProject.ProjSettings.NationalBT.HasData)
-                    viewNationalLangFieldMenuItem.Text = String.Format(Properties.Resources.IDS_StoryLanguageField, StoryProject.ProjSettings.NationalBT.LangName);
+                {
+                    viewNationalLangFieldMenuItem.Text = String.Format(Properties.Resources.IDS_StoryLanguageField,
+                                                                       StoryProject.ProjSettings.NationalBT.LangName);
+
+                    viewNationalLangFieldMenuItem.Enabled = ((theCurrentStory != null)
+                                                             && (((int)theCurrentStory.ProjStage.ProjectStage)
+                                                                 >= (int)StoryStageLogic.ProjectStages.eProjFacTypeNationalBT));
+                }
                 else
                     viewNationalLangFieldMenuItem.Visible = false;
 
                 viewEnglishBTFieldMenuItem.Visible = (StoryProject.ProjSettings.InternationalBT.HasData);
+                viewEnglishBTFieldMenuItem.Enabled = ((theCurrentStory != null)
+                                                             && (((int)theCurrentStory.ProjStage.ProjectStage)
+                                                                 >= (int)StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT));
+
+                viewAnchorFieldMenuItem.Enabled = ((theCurrentStory != null)
+                                                             && (((int)theCurrentStory.ProjStage.ProjectStage)
+                                                                 >= (int)StoryStageLogic.ProjectStages.eProjFacAddAnchors));
+
+                viewStoryTestingQuestionFieldMenuItem.Enabled = 
+                    viewConsultantNoteFieldMenuItem.Enabled = 
+                    viewCoachNotesFieldMenuItem.Enabled = ((theCurrentStory != null)
+                                                             && (((int)theCurrentStory.ProjStage.ProjectStage)
+                                                                 > (int)StoryStageLogic.ProjectStages.eProjFacAddStoryQuestions));
             }
 
             if (IsInStoriesSet && (StoryProject != null))
@@ -2396,9 +2438,53 @@ namespace OneStoryProjectEditor
             return null;
         }
 
-        private void splitIntoLinesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void realignStoryVersesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Debug.Assert((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
+
+            if (WillBeLossInVerse(theCurrentStory.Verses))
+                return;
+
+            CheckForSaveDirtyFile();    // ought to do a save before this so we don't cause them to lose anything.
+
+            // first 'collapse into 1 line'
+            string strVernacular = GetFullStoryContentsVernacular;
+            string strNationalBT = GetFullStoryContentsNationalBTText;
+            string strEnglishBT = GetFullStoryContentsInternationalBTText;
+
+            theCurrentStory.Verses.RemoveRange(0, theCurrentStory.Verses.Count);
+            theCurrentStory.Verses.InsertVerse(0, strVernacular, strNationalBT,
+                strEnglishBT);
+
+            // then split into lines
+            VerseData aVerseData = theCurrentStory.Verses[0];
+            List<string> lstSentencesVernacular = GetSentencesVernacular(aVerseData);
+            List<string> lstSentencesNationalBT = GetSentencesNationalBT(aVerseData);
+            List<string> lstSentencesEnglishBT = GetSentencesEnglishBT(aVerseData);
+            int nNumVerses = Math.Max(lstSentencesVernacular.Count,
+                Math.Max(lstSentencesNationalBT.Count, lstSentencesEnglishBT.Count));
+
+            // remove what's there so we can add the new ones from scratch
+            theCurrentStory.Verses.Remove(aVerseData);
+
+            for (int i = 0; i < nNumVerses; i++)
+            {
+                theCurrentStory.Verses.InsertVerse(i,
+                    GetSentence(i, lstSentencesVernacular),
+                    GetSentence(i, lstSentencesNationalBT),
+                    GetSentence(i, lstSentencesEnglishBT));
+            }
+
+            Modified = true;
+            InitAllPanes();
+        }
+
+        private void splitIntoLinesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Debug.Assert((theCurrentStory != null) 
+                && (theCurrentStory.Verses.Count > 0)
+                && !WillBeLossInVerse(theCurrentStory.Verses));
+
             CheckForSaveDirtyFile();    // ought to do a save before this so we don't cause them to lose anything.
             if (theCurrentStory.Verses.Count == 1)
             {
@@ -2435,6 +2521,23 @@ namespace OneStoryProjectEditor
 
             Modified = true;
             InitAllPanes();
+        }
+
+        private bool WillBeLossInVerse(VersesData theVerses)
+        {
+            foreach (VerseData aVerse in theVerses)
+            {
+                if (aVerse.Anchors.HasData
+                    || aVerse.Retellings.HasData
+                    || aVerse.ConsultantNotes.HasData
+                    || aVerse.CoachNotes.HasData
+                    || aVerse.TestQuestions.HasData)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public void NavigateTo(string strStoryName, int nLineIndex, string strAnchor)
@@ -2571,6 +2674,13 @@ namespace OneStoryProjectEditor
         {
             Thread.CurrentThread.CurrentUICulture = 
                 Properties.Resources.Culture = new CultureInfo("hi");
+        }
+
+        private void toTheInternetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Debug.Assert(StoryProject.ProjSettings != null);
+            Program.QueryHgRepoParameters(StoryProject.ProjSettings.ProjectFolder,
+                                          StoryProject.ProjSettings.ProjectName);
         }
     }
 }
