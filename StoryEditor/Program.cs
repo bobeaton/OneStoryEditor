@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 using Chorus.UI.Sync;
@@ -194,7 +195,7 @@ namespace OneStoryProjectEditor
             projectConfig.IncludePatterns.Add("*.conflict"); // include the conflicts file as well so we can fix them
 
             string strHgUsername, strRepoUrl, strSharedNetworkUrl;
-            if (QueryHgRepoParameters(strProjectFolder, strProjectName, out strHgUsername,
+            if (GetHgRepoParameters(strProjectFolder, strProjectName, out strHgUsername,
                 out strRepoUrl, out strSharedNetworkUrl))
             {
                 if (!String.IsNullOrEmpty(strRepoUrl))
@@ -258,7 +259,23 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private static bool QueryHgRepoParameters(string strProjectFolder, string strProjectName, 
+        public static bool QueryHgRepoParameters(string strProjectFolder, string strProjectName)
+        {
+            HgRepoForm dlg = new HgRepoForm
+            {
+                ProjectName = strProjectName,
+                UrlBase = "http://hg-private.languagedepot.org",
+            };
+
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                SetHgParameters(strProjectFolder, strProjectName, dlg.Url, dlg.Username);
+                return true;
+            }
+            return false;
+        }
+
+        private static bool GetHgRepoParameters(string strProjectFolder, string strProjectName, 
             out string strUsername, out string strRepoUrl, out string strSharedNetworkUrl)
         {
             string strHgUrl = (_mapProjectNameToHgHttpUrl.ContainsKey(strProjectName))
@@ -271,23 +288,7 @@ namespace OneStoryProjectEditor
             else
                 strSharedNetworkUrl = null;
 
-            if (String.IsNullOrEmpty(strHgUrl))
-            {
-                HgRepoForm dlg = new HgRepoForm
-                                        {
-                                            ProjectName = strProjectName,
-                                            UrlBase = "http://hg-private.languagedepot.org",
-                                            Username = strHgUsername
-                                        };
-                if (dlg.ShowDialog() == DialogResult.OK)
-                {
-                    strRepoUrl = dlg.Url;
-                    strUsername = dlg.Username;
-                    SetHgParameters(strProjectFolder, strProjectName, strRepoUrl, strUsername);
-                    return true;
-                }
-            }
-            else
+            if (!String.IsNullOrEmpty(strHgUrl))
             {
                 strRepoUrl = strHgUrl;
                 strUsername = strHgUsername;
