@@ -468,6 +468,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No project file was found at the internet repository: {0}{0}{1}{0}{0}Are you sure it there is one in the repository yet?.
+        /// </summary>
+        internal static string IDS_NoProjectFromInternet {
+            get {
+                return ResourceManager.GetString("IDS_NoProjectFromInternet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Nothing to search for!.
         /// </summary>
         internal static string IDS_NoSearchString {
@@ -671,15 +680,6 @@ namespace OneStoryProjectEditor.Properties {
         internal static string RegexHelpProgram {
             get {
                 return ResourceManager.GetString("RegexHelpProgram", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to  .
-        /// </summary>
-        internal static string String1 {
-            get {
-                return ResourceManager.GetString("String1", resourceCulture);
             }
         }
     }

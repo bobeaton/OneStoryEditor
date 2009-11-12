@@ -1490,7 +1490,7 @@ eater Panorama
   <data name="IDS_UseStoryCollapse" xml:space="preserve">
     <value>Verse number '{0}' has multiple sentences in the {1} column. Use the "Story" menu, "Collapse into 1 line" command in combination with the "Story" menu, "Split into Lines" command to correctly break the story and back-translations into lines</value>
   </data>
-  <data name="String1" xml:space="preserve">
-    <value> </value>
+  <data name="IDS_NoProjectFromInternet" xml:space="preserve">
+    <value>No project file was found at the internet repository: {0}{0}{1}{0}{0}Are you sure it there is one in the repository yet?</value>
   </data>
 </root>
