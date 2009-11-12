@@ -371,6 +371,7 @@ namespace OneStoryProjectEditor
         protected static void ShowError(StoryEditor theSE, string strStatusMessage)
         {
             theSE.SetStatusBar(strStatusMessage);
+            MessageBox.Show(strStatusMessage, Properties.Resources.IDS_Caption);
             Console.Beep();
         }
 
