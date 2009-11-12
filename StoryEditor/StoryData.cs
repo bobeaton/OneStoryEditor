@@ -391,7 +391,7 @@ namespace OneStoryProjectEditor
             //  member with the edit token when we get to the EnglishBT state as that person
             //  otherwise, it's a crafter
             StoryStageLogic.stateTransitions[StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT].MemberTypeWithEditToken =
-                (IsThereASeparateEnglishBackTranslator) ? TeamMemberData.UserTypes.eEnglishBacktranslator : TeamMemberData.UserTypes.eCrafter;
+                (IsThereASeparateEnglishBackTranslator) ? TeamMemberData.UserTypes.eEnglishBacktranslator : TeamMemberData.UserTypes.eProjectFacilitator;
 
             return TeamMembers[dlg.SelectedMember];
         }
