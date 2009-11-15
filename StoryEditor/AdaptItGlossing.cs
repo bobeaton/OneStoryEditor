@@ -21,9 +21,14 @@ namespace OneStoryProjectEditor
                 "Glossing.xml");
         }
 
+        protected static string AdaptItProjectFolderName(string strSourceLangName, string strTargetLangName)
+        {
+            return String.Format(@"{0} to {1} adaptations", strSourceLangName, strTargetLangName);
+        }
+
         protected static string AdaptationFileName(string strSourceLangName, string strTargetLangName)
         {
-            return String.Format(@"{0} to {1} adaptations.xml", strSourceLangName, strTargetLangName);
+            return String.Format(@"{0}.xml", AdaptItProjectFolderName(strSourceLangName, strTargetLangName));
         }
 
         protected static string AdaptItLookupFileSpec(string strSourceLangName, string strTargetLangName)
@@ -49,7 +54,7 @@ namespace OneStoryProjectEditor
 
         protected static string AdaptItProjectFolder(string strSourceLangName, string strTargetLangName)
         {
-            return Path.Combine(AdaptItWorkFolder, AdaptationFileName(strSourceLangName, strTargetLangName));
+            return Path.Combine(AdaptItWorkFolder, AdaptItProjectFolderName(strSourceLangName, strTargetLangName));
         }
 
         protected static string AdaptItProjectAdaptationsFolder(string strSourceLangName, string strTargetLangName)
