@@ -178,7 +178,9 @@ namespace OneStoryProjectEditor
                 if (nSelectedRowIndex >= dataGridViewPanorama.Rows.Count)
                     nSelectedRowIndex--;
 
-                dataGridViewPanorama.Rows[nSelectedRowIndex].Selected = true;
+                if ((nSelectedRowIndex >= 0) && (nSelectedRowIndex < dataGridViewPanorama.Rows.Count))
+                    dataGridViewPanorama.Rows[nSelectedRowIndex].Selected = true;
+
                 Modified = true;
             }
         }

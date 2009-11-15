@@ -226,19 +226,6 @@ namespace OneStoryProjectEditor
         {
             StoryProject = null;
             ClearState();
-        }
-
-        protected void ClearState()
-        {
-            ClearFlowControls();
-            CtrlTextBox._inTextBox = null;
-            theCurrentStory = null;
-            comboBoxStorySelector.Items.Clear();
-            comboBoxStorySelector.Text = Properties.Resources.IDS_EnterStoryName;
-            textBoxStoryVerse.Text = Properties.Resources.IDS_Story;
-            viewConsultantNoteFieldMenuItem.Checked = false;
-            viewCoachNotesFieldMenuItem.Checked = false;
-            viewNetBibleMenuItem.Checked = false;
 
             // some that might have been made invisible need to be given a fair chance for next time
             exportStoryToolStripMenuItem.Visible =
@@ -254,6 +241,19 @@ namespace OneStoryProjectEditor
                 viewVernacularLangFieldMenuItem.Visible =
                 viewNationalLangFieldMenuItem.Visible =
                 viewEnglishBTFieldMenuItem.Visible = true;
+        }
+
+        protected void ClearState()
+        {
+            ClearFlowControls();
+            CtrlTextBox._inTextBox = null;
+            theCurrentStory = null;
+            comboBoxStorySelector.Items.Clear();
+            comboBoxStorySelector.Text = Properties.Resources.IDS_EnterStoryName;
+            textBoxStoryVerse.Text = Properties.Resources.IDS_Story;
+            viewConsultantNoteFieldMenuItem.Checked = false;
+            viewCoachNotesFieldMenuItem.Checked = false;
+            viewNetBibleMenuItem.Checked = false;
         }
 
         protected void NewProjectFile()
@@ -1683,7 +1683,12 @@ namespace OneStoryProjectEditor
                     nIndex--;
 
                 // if we get here, it's because we deleted the current story
-                if ((nIndex >= 0) && (nIndex < TheCurrentStoriesSet.Count))
+                if (TheCurrentStoriesSet.Count == 0)
+                {
+                    // if they deleted them all, then just close the project
+                    ClearState();
+                }
+                else if ((nIndex >= 0) && (nIndex < TheCurrentStoriesSet.Count))
                     comboBoxStorySelector.SelectedItem = comboBoxStorySelector.Text =
                         TheCurrentStoriesSet[nIndex].Name;
 

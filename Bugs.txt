@@ -2,13 +2,7 @@ Can't seem to "Remove" a cultural note
 
 Make the testing question a different color
 
-Loading a new project doesn't seem to update the window frame (perhaps in a project which has no stories)
-
-Remove double spaces within sentences as well.
-
 When you add a view (e.g. adding the Hindi when it's not normally shown), it would be nice to go back to where you were.
-
-if PF tries to type in Hindi while still in PF types Story language), then encourage them to "Next State" (for all the initial states)
 
 Changing the name of a story in the Panorama view, doesn't change the combo box *Text* field (but it does update the combo box). Does this or anything affect the "Time in state" (seems to be shorter than it should)
 
