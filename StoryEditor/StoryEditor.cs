@@ -1506,6 +1506,7 @@ namespace OneStoryProjectEditor
 
                     theCurrentStory.ProjStage.ProjectStage = theNewST.CurrentStage;
                     SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage);
+                    Modified = true;
                     break;
                 }
                 else if (theCurrentST.CurrentStage != theNewST.CurrentStage)
@@ -1531,6 +1532,7 @@ namespace OneStoryProjectEditor
                 SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage);
                 if (bDoUpdateCtrls)
                     InitAllPanes();    // just in case there were changes
+                Modified = true;
                 return true;
             }
             return false;
@@ -1635,6 +1637,9 @@ namespace OneStoryProjectEditor
             if (StoryProject == null)
                 return;
 
+            // keep track of the index of the current story (in case it gets deleted)
+            int nIndex = (theCurrentStory != null) ? TheCurrentStoriesSet.IndexOf(theCurrentStory) : -1;
+
             PanoramaView dlg = new PanoramaView(StoryProject);
             dlg.ShowDialog();
 
@@ -1644,6 +1649,22 @@ namespace OneStoryProjectEditor
                 comboBoxStorySelector.Items.Clear();
                 foreach (StoryData aStory in TheCurrentStoriesSet)
                     comboBoxStorySelector.Items.Add(aStory.Name);
+
+                // if the current story has been deleted, then choose another
+                if (theCurrentStory != null)
+                {
+                    int nNewIndex = TheCurrentStoriesSet.IndexOf(theCurrentStory);
+                    if (nNewIndex != -1)
+                        nIndex = -1;
+                }
+
+                if (nIndex > 0)
+                    nIndex--;
+
+                // if we get here, it's because we deleted the current story
+                if ((nIndex >= 0) && (nIndex < TheCurrentStoriesSet.Count))
+                    comboBoxStorySelector.SelectedItem = comboBoxStorySelector.Text =
+                        TheCurrentStoriesSet[nIndex].Name;
 
                 Modified = true;
             }

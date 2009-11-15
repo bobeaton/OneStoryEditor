@@ -164,7 +164,7 @@ namespace OneStoryProjectEditor
                 return;
 
             int nSelectedRowIndex = dataGridViewPanorama.SelectedCells[0].RowIndex;
-            if (nSelectedRowIndex < dataGridViewPanorama.Rows.Count - 1)
+            if (nSelectedRowIndex <= dataGridViewPanorama.Rows.Count - 1)
             {
                 // make sure the user really wants to do this
                 if (MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmDeleteStory,
