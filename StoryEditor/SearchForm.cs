@@ -310,9 +310,14 @@ namespace OneStoryProjectEditor
 
         protected void ShowNotFound()
         {
+            Console.Beep();
             MessageBox.Show(Properties.Resources.IDS_FindStringNotFound,
                             Properties.Resources.IDS_Caption);
-            Console.Beep();
+
+            // but if we find nothing once, then just start over wherever it makes sense 
+            //  next time
+            ResetSearchStartParameters();
+
             if (!Visible)
                 Show(TheSE);
         }
