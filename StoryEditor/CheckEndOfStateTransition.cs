@@ -371,8 +371,8 @@ namespace OneStoryProjectEditor
         protected static void ShowError(StoryEditor theSE, string strStatusMessage)
         {
             theSE.SetStatusBar(strStatusMessage);
-            MessageBox.Show(strStatusMessage, Properties.Resources.IDS_Caption);
             Console.Beep();
+            MessageBox.Show(strStatusMessage, Properties.Resources.IDS_Caption);
         }
 
         public static bool ProjFacAddAnchors(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
@@ -473,9 +473,10 @@ namespace OneStoryProjectEditor
                 if (lstSentences.Count > 1)
                 {
                     // light it up and let the user know they need to do something!
-                    aVerseData.InternationalBTText.TextBox.Focus();
-                    Console.Beep();
-                    theSE.SetStatusBar(String.Format("Error: Verse {0} has multiple sentences in English, but only 1 in {1}. Adjust the English to match the {1}", nVerseNumber, theStoryProjectData.ProjSettings.NationalBT.LangName));
+                    ShowErrorFocus(theSE, aVerseData.InternationalBTText.TextBox,
+                                   String.Format(
+                                       "Error: Verse {0} has multiple sentences in English, but only 1 in {1}. Adjust the English to match the {1}",
+                                       nVerseNumber, theStoryProjectData.ProjSettings.NationalBT.LangName));
                     return false;
                 }
 
