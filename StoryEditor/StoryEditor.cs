@@ -239,6 +239,21 @@ namespace OneStoryProjectEditor
             viewConsultantNoteFieldMenuItem.Checked = false;
             viewCoachNotesFieldMenuItem.Checked = false;
             viewNetBibleMenuItem.Checked = false;
+
+            // some that might have been made invisible need to be given a fair chance for next time
+            exportStoryToolStripMenuItem.Visible =
+                exportNationalBacktranslationToolStripMenuItem.Visible =
+                exportToAdaptItToolStripMenuItem.Visible =
+                copyStoryToolStripMenuItem.Visible =
+                deleteStoryVersesToolStripMenuItem.Visible =
+                deleteStoryNationalBackTranslationToolStripMenuItem.Visible =
+                copyNationalBackTranslationToolStripMenuItem.Visible =
+                deleteEnglishBacktranslationToolStripMenuItem.Visible =
+                copyEnglishBackTranslationToolStripMenuItem.Visible =
+                deleteTestToolStripMenuItem.Visible =
+                viewVernacularLangFieldMenuItem.Visible =
+                viewNationalLangFieldMenuItem.Visible =
+                viewEnglishBTFieldMenuItem.Visible = true;
         }
 
         protected void NewProjectFile()
@@ -1754,8 +1769,8 @@ namespace OneStoryProjectEditor
                     copyStoryToolStripMenuItem.Text = String.Format(Properties.Resources.IDS_StoryText, StoryProject.ProjSettings.Vernacular.LangName);
                 else
                 {
-                    copyStoryToolStripMenuItem.Visible = false;
-                    deleteStoryVersesToolStripMenuItem.Visible = false;
+                    copyStoryToolStripMenuItem.Visible = 
+                        deleteStoryVersesToolStripMenuItem.Visible = false;
                 }
 
                 if (StoryProject.ProjSettings.NationalBT.HasData)

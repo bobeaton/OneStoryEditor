@@ -2,8 +2,6 @@ Can't seem to "Remove" a cultural note
 
 Make the testing question a different color
 
-If I open a project with only English and then a project with all three languages, it doesn't show the other two in the view menu?!
-
 Loading a new project doesn't seem to update the window frame (perhaps in a project which has no stories)
 
 Remove double spaces within sentences as well.
