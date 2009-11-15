@@ -1676,7 +1676,13 @@ namespace OneStoryProjectEditor
                 {
                     int nNewIndex = TheCurrentStoriesSet.IndexOf(theCurrentStory);
                     if (nNewIndex != -1)
+                    {
                         nIndex = -1;
+
+                        // also check to see if its name has been changed
+                        if (theCurrentStory.Name != comboBoxStorySelector.Text)
+                            comboBoxStorySelector.Text = theCurrentStory.Name;
+                    }
                 }
 
                 if (nIndex > 0)
