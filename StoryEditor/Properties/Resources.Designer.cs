@@ -430,7 +430,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} back-translation of the story.
+        ///   Looks up a localized string similar to {0} back-translation of the story to the clipboard.
         /// </summary>
         internal static string IDS_NationalBtOfStory {
             get {
@@ -585,7 +585,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} story text.
+        ///   Looks up a localized string similar to {0} story lines to the clipboard.
         /// </summary>
         internal static string IDS_StoryText {
             get {

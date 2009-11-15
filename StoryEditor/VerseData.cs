@@ -46,7 +46,9 @@ namespace OneStoryProjectEditor
 
         public VerseData(VerseData rhs)
         {
-            guid = rhs.guid;
+            // the guid shouldn't be replicated
+            guid = Guid.NewGuid().ToString();   // rhs.guid;
+
             VernacularText = new StringTransfer(rhs.VernacularText.ToString());
             NationalBTText = new StringTransfer(rhs.NationalBTText.ToString());
             InternationalBTText = new StringTransfer(rhs.InternationalBTText.ToString());

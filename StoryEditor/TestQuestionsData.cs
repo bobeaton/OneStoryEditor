@@ -26,7 +26,9 @@ namespace OneStoryProjectEditor
 
         public TestQuestionData(TestQuestionData rhs)
         {
-            guid = rhs.guid;
+            // the guid shouldn't be replicated
+            guid = Guid.NewGuid().ToString();   // rhs.guid;
+
             IsVisible = rhs.IsVisible;
             QuestionVernacular = new StringTransfer(rhs.QuestionVernacular.ToString());
             QuestionNationalBT = new StringTransfer(rhs.QuestionNationalBT.ToString());

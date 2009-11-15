@@ -450,7 +450,6 @@ namespace OneStoryProjectEditor
             {
                 Debug.Assert(nIndexOfCurrentStory != -1);
                 InsertNewStory(strStoryName, nIndexOfCurrentStory);
-                Modified = true;
             }
         }
 
@@ -512,7 +511,6 @@ namespace OneStoryProjectEditor
                 Debug.Assert(nIndexOfCurrentStory != -1);
                 nIndexOfCurrentStory = Math.Min(nIndexOfCurrentStory + 1, TheCurrentStoriesSet.Count);
                 InsertNewStory(strStoryName, nIndexOfCurrentStory);
-                Modified = true;
             }
         }
 
@@ -585,10 +583,17 @@ namespace OneStoryProjectEditor
             if (res == DialogResult.Cancel)
                 return;
 
-            comboBoxStorySelector.Items.Insert(nIndexToInsert, strStoryName);
-            theCurrentStory = new StoryData(strStoryName, strCrafterGuid, (res == DialogResult.Yes), StoryProject.ProjSettings);
+            StoryData theNewStory = new StoryData(strStoryName, strCrafterGuid, (res == DialogResult.Yes), StoryProject.ProjSettings);
+            InsertNewStoryAdjustComboBox(theNewStory, nIndexToInsert);
+        }
+
+        protected void InsertNewStoryAdjustComboBox(StoryData theNewStory, int nIndexToInsert)
+        {
+            theCurrentStory = theNewStory;
+            comboBoxStorySelector.Items.Insert(nIndexToInsert, theNewStory.Name);
             TheCurrentStoriesSet.Insert(nIndexToInsert, theCurrentStory);
-            comboBoxStorySelector.SelectedItem = strStoryName;
+            comboBoxStorySelector.SelectedItem = theNewStory.Name;
+            Modified = true;
         }
 
         private void comboBoxStorySelector_SelectedIndexChanged(object sender, EventArgs e)
@@ -1574,7 +1579,8 @@ namespace OneStoryProjectEditor
             enterTheReasonThisStoryIsInTheSetToolStripMenuItem.Enabled = ((theCurrentStory != null) &&
                                                                           (theCurrentStory.CraftingInfo != null));
             
-            deleteStoryToolStripMenuItem.Enabled = (theCurrentStory != null);
+            deleteStoryToolStripMenuItem.Enabled =
+                storyCopyWithNewNameToolStripMenuItem.Enabled = (theCurrentStory != null);
 
             insertNewStoryToolStripMenuItem.Enabled = addNewStoryAfterToolStripMenuItem.Enabled =
                 (IsInStoriesSet && (StoryProject != null) && (LoggedOnMember != null));
@@ -2702,6 +2708,22 @@ namespace OneStoryProjectEditor
             Debug.Assert(StoryProject.ProjSettings != null);
             Program.QueryHgRepoParameters(StoryProject.ProjSettings.ProjectFolder,
                                           StoryProject.ProjSettings.ProjectName);
+        }
+
+        private void storyCopyWithNewNameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Debug.Assert(theCurrentStory != null);
+            
+            string strStoryName;
+            int nIndexOfCurrentStory = -1;
+            if (AddNewStoryGetIndex(ref nIndexOfCurrentStory, out strStoryName))
+            {
+                Debug.Assert(nIndexOfCurrentStory != -1);
+                nIndexOfCurrentStory = Math.Min(nIndexOfCurrentStory + 1, TheCurrentStoriesSet.Count);
+                StoryData theNewStory = new StoryData(theCurrentStory);
+                theNewStory.Name = strStoryName;
+                InsertNewStoryAdjustComboBox(theNewStory, nIndexOfCurrentStory);
+            }
         }
     }
 }

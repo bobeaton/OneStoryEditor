@@ -14,13 +14,11 @@ namespace OneStoryProjectEditor
         protected const string CstrFieldNameTestQuestions = "TestQuestions";
 
         internal VerseData _verseData = null;
-        public string Guid = null;
 
         public VerseBtControl(StoryEditor theSE, VerseData dataVerse, int nVerseNumber)
             : base(theSE.theCurrentStory.ProjStage, nVerseNumber, theSE)
         {
             _verseData = dataVerse;
-            Guid = _verseData.guid;
             InitializeComponent();
 
             tableLayoutPanel.Controls.Add(labelReference, 0, 0);

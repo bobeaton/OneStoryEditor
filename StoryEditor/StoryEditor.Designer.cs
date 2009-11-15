@@ -114,6 +114,7 @@ namespace OneStoryProjectEditor
             this.buttonsStoryStage = new System.Windows.Forms.ToolStripSplitButton();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.helpProvider = new System.Windows.Forms.HelpProvider();
+            this.storyCopyWithNewNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
             this.splitContainerLeftRight.Panel2.SuspendLayout();
@@ -291,7 +292,7 @@ namespace OneStoryProjectEditor
             // editCopySelectionToolStripMenuItem
             // 
             this.editCopySelectionToolStripMenuItem.Name = "editCopySelectionToolStripMenuItem";
-            this.editCopySelectionToolStripMenuItem.Size = new System.Drawing.Size(264, 22);
+            this.editCopySelectionToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
             this.editCopySelectionToolStripMenuItem.Text = "Sele&ction";
             this.editCopySelectionToolStripMenuItem.ToolTipText = "Copy the selected text from the active text box to the clipboard";
             this.editCopySelectionToolStripMenuItem.Click += new System.EventHandler(this.editCopySelectionToolStripMenuItem_Click);
@@ -299,7 +300,7 @@ namespace OneStoryProjectEditor
             // copyStoryToolStripMenuItem
             // 
             this.copyStoryToolStripMenuItem.Name = "copyStoryToolStripMenuItem";
-            this.copyStoryToolStripMenuItem.Size = new System.Drawing.Size(264, 22);
+            this.copyStoryToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
             this.copyStoryToolStripMenuItem.Text = "&Story";
             this.copyStoryToolStripMenuItem.ToolTipText = "Copy all of the lines of text in the story language into one big paragraph of tex" +
                 "t";
@@ -308,7 +309,7 @@ namespace OneStoryProjectEditor
             // copyNationalBackTranslationToolStripMenuItem
             // 
             this.copyNationalBackTranslationToolStripMenuItem.Name = "copyNationalBackTranslationToolStripMenuItem";
-            this.copyNationalBackTranslationToolStripMenuItem.Size = new System.Drawing.Size(264, 22);
+            this.copyNationalBackTranslationToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
             this.copyNationalBackTranslationToolStripMenuItem.Text = "&National back-translation";
             this.copyNationalBackTranslationToolStripMenuItem.ToolTipText = "Copy all of the lines of text in the National back-translation language into one " +
                 "big paragraph of text";
@@ -317,8 +318,8 @@ namespace OneStoryProjectEditor
             // copyEnglishBackTranslationToolStripMenuItem
             // 
             this.copyEnglishBackTranslationToolStripMenuItem.Name = "copyEnglishBackTranslationToolStripMenuItem";
-            this.copyEnglishBackTranslationToolStripMenuItem.Size = new System.Drawing.Size(264, 22);
-            this.copyEnglishBackTranslationToolStripMenuItem.Text = "&English back-translation of the story";
+            this.copyEnglishBackTranslationToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
+            this.copyEnglishBackTranslationToolStripMenuItem.Text = "&English back-translation of the story to the clipboard";
             this.copyEnglishBackTranslationToolStripMenuItem.ToolTipText = "Copy all of the lines of text in the English back-translation into one big paragr" +
                 "aph of text";
             this.copyEnglishBackTranslationToolStripMenuItem.Click += new System.EventHandler(this.copyEnglishBackTranslationToolStripMenuItem_Click);
@@ -617,6 +618,7 @@ namespace OneStoryProjectEditor
             this.storyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.enterTheReasonThisStoryIsInTheSetToolStripMenuItem,
             this.deleteStoryToolStripMenuItem,
+            this.storyCopyWithNewNameToolStripMenuItem,
             this.exportToAdaptItToolStripMenuItem,
             this.splitIntoLinesToolStripMenuItem,
             this.realignStoryVersesToolStripMenuItem});
@@ -940,6 +942,14 @@ namespace OneStoryProjectEditor
             this.statusLabel.Spring = true;
             this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // storyCopyWithNewNameToolStripMenuItem
+            // 
+            this.storyCopyWithNewNameToolStripMenuItem.Name = "storyCopyWithNewNameToolStripMenuItem";
+            this.storyCopyWithNewNameToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.storyCopyWithNewNameToolStripMenuItem.Text = "&Copy with new name";
+            this.storyCopyWithNewNameToolStripMenuItem.ToolTipText = "Click to make a duplicate copy of the current story with a new name";
+            this.storyCopyWithNewNameToolStripMenuItem.Click += new System.EventHandler(this.storyCopyWithNewNameToolStripMenuItem_Click);
+            // 
             // StoryEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1058,6 +1068,7 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem projectFromASharedNetworkDriveToolStripMenu;
         private ToolStripMenuItem realignStoryVersesToolStripMenuItem;
         private ToolStripMenuItem toTheInternetToolStripMenuItem;
+        private ToolStripMenuItem storyCopyWithNewNameToolStripMenuItem;
     }
 
     public class ConNoteFlowLayoutPanel : FlowLayoutPanel

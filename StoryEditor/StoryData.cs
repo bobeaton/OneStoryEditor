@@ -39,7 +39,10 @@ namespace OneStoryProjectEditor
         public StoryData(StoryData rhs)
         {
             Name = rhs.Name;
-            guid = rhs.guid;
+
+            // the guid shouldn't be replicated
+            guid = Guid.NewGuid().ToString();  // rhs.guid;
+
             StageTimeStamp = rhs.StageTimeStamp;
             ProjStage = new StoryStageLogic(rhs.ProjStage);
             CraftingInfo = new CraftingInfoData(rhs.CraftingInfo);

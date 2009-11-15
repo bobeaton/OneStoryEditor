@@ -1,15 +1,3 @@
-it seems that with Hindi as Vern and only English BT, the PF wasn't asked for the UNS Backtranslator
-same situation, but entering new testing question seems to not show English (but only on Karan's machine)
-removing an empty testing question boxes doesn't seem to work
-
-the radio buttons on Edit Member Info dialog are not in tab order.
-
-deleted one story, and renamed another story with the name of the first story (in Panorama view) and it seemed to show the deleted one until I rebooted
-
-Having a search string and deleteing a portion of it will save each instance of it (less one character) in the recent list...
-
-If I have split lines of vern and 1 line of two sentences of Hindi and I say "Next State", it'll split it, but then fail to transition because of the empty BT space... But it'll still ahve duplicated the split line, but not shown it.
-
 Can't seem to "Remove" a cultural note
 
 Make the testing question a different color
@@ -21,8 +9,6 @@ Loading a new project doesn't seem to update the window frame (perhaps in a proj
 Remove double spaces within sentences as well.
 
 When you add a view (e.g. adding the Hindi when it's not normally shown), it would be nice to go back to where you were.
-
-Add the ability to copy a story to a new name. 
 
 if PF tries to type in Hindi while still in PF types Story language), then encourage them to "Next State" (for all the initial states)
 

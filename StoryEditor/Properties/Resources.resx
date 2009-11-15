@@ -190,7 +190,7 @@
     <value>OneStory Editor -- {0} Story Project</value>
   </data>
   <data name="IDS_NationalBtOfStory" xml:space="preserve">
-    <value>{0} back-translation of the story</value>
+    <value>{0} back-translation of the story to the clipboard</value>
   </data>
   <data name="IDS_NeedToReboot" xml:space="preserve">
     <value>Problem initializing Sword (the Net Bible viewer):{0}{0}{1}</value>
@@ -218,7 +218,7 @@
     <value>&amp;{0} back-translation field</value>
   </data>
   <data name="IDS_StoryText" xml:space="preserve">
-    <value>{0} story text</value>
+    <value>{0} story lines to the clipboard</value>
   </data>
   <data name="IDS_UnableToContinue" xml:space="preserve">
     <value>Unable to continue! Cause: {0}</value>

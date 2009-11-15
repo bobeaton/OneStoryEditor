@@ -26,7 +26,9 @@ namespace OneStoryProjectEditor
             : base(rhs.ToString())
         {
             Direction = rhs.Direction;
-            Guid = rhs.Guid;
+
+            // the guid shouldn't be replicated
+            Guid = System.Guid.NewGuid().ToString();  // rhs.Guid;
             TimeStamp = rhs.TimeStamp;
         }
     }
@@ -61,7 +63,9 @@ namespace OneStoryProjectEditor
         protected ConsultNoteDataConverter(ConsultNoteDataConverter rhs)
         {
             RoundNum = rhs.RoundNum;
-            guid = rhs.guid;
+
+            // the guid shouldn't be replicated
+            guid = Guid.NewGuid().ToString();   // rhs.guid;
             Visible = rhs.Visible;
 
             foreach (CommInstance aCI in rhs)
