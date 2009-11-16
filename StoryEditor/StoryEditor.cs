@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Xml;
@@ -838,9 +837,10 @@ namespace OneStoryProjectEditor
         private void TimeToSetFocus(object sender, EventArgs e)
         {
             Debug.Assert((sender != null) && (sender is Timer) && ((sender as Timer).Tag is VerseControl));
-            (sender as Timer).Stop();
-            VerseControl ctrl = ((sender as Timer).Tag as VerseControl);
-            FocusOnVerse(ctrl.VerseNumber - 1, ctrl);
+            ((Timer) sender).Stop();
+            VerseControl ctrl = (((Timer) sender).Tag as VerseControl);
+            if (ctrl != null)
+                FocusOnVerse(ctrl.VerseNumber - 1, ctrl);
         }
 
         public void FocusOnVerse(int nVerseIndex, VerseControl ctrlThis)
@@ -963,7 +963,7 @@ namespace OneStoryProjectEditor
                 strInitials += s[0];
             }
 
-            if (strInitials.Length == 1)
+            if ((strInitials != null) && (strInitials.Length == 1))
                 strInitials += astrNames[0][1];
             return strInitials;
         }
@@ -1085,7 +1085,7 @@ namespace OneStoryProjectEditor
 
         internal void SetNetBibleVerse(string strScriptureReference)
         {
-            if (splitContainerUpDown.Panel2Collapsed == true)
+            if (splitContainerUpDown.Panel2Collapsed)
                 viewNetBibleMenuItem.Checked = true;
 
             netBibleViewer.DisplayVerses(strScriptureReference);
@@ -1231,26 +1231,6 @@ namespace OneStoryProjectEditor
         {
             SaveClicked();
         }
-
-        protected void SetupTitleBar(string strProjectName, string strStoryName)
-        {
-            String str = String.Format("{0} -- {1} -- {2}",  Properties.Resources.IDS_Caption, strProjectName, strStoryName);
-        }
-        
-        /*
-        protected void UpdateVersePanel()
-        {
-            foreach (Control ctrl in flowLayoutPanelVerses.Controls)
-            {
-                if (ctrl is VerseBtControl)
-                {
-                    VerseBtControl aVerseCtrl = (VerseBtControl)ctrl;
-                    aVerseCtrl.UpdateView(this);
-                    aVerseCtrl.UpdateHeight(Panel1_Width);
-                }
-            }
-        }
-        */
 
         private void viewFieldMenuItem_CheckedChanged(object sender, EventArgs e)
         {
@@ -1529,7 +1509,8 @@ namespace OneStoryProjectEditor
                     Modified = true;
                     break;
                 }
-                else if (theCurrentST.CurrentStage != theNewST.CurrentStage)
+                
+                if (theCurrentST.CurrentStage != theNewST.CurrentStage)
                     if (!DoNextState(false))
                         break;
             }
@@ -1992,12 +1973,13 @@ namespace OneStoryProjectEditor
             {
                 // seems to fail sometimes on Windows7. If it actually worked, then just ignore the exception
                 IDataObject iData = Clipboard.GetDataObject();
-                if( iData.GetDataPresent(DataFormats.UnicodeText) )
-                {
-                    string strInput = (string)iData.GetData(DataFormats.UnicodeText);
-                    if (strInput == strText)
-                        return;
-                }
+                if (iData != null)
+                    if( iData.GetDataPresent(DataFormats.UnicodeText) )
+                    {
+                        string strInput = (string)iData.GetData(DataFormats.UnicodeText);
+                        if (strInput == strText)
+                            return;
+                    }
 
                 string strErrorMsg = String.Format(Properties.Resources.IDS_UnableToCopyText,
                     Environment.NewLine, ex.Message,
@@ -2044,14 +2026,15 @@ namespace OneStoryProjectEditor
             Debug.Assert((theCurrentStory != null) && (sender is ToolStripItem));
 
             ToolStripItem tsi = sender as ToolStripItem;
-            if (MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmDeleteAllVerseLines,
-                tsi.Text.Replace("&", null)), Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
-            {
-                foreach (VerseData aVerse in theCurrentStory.Verses)
-                    aVerse.VernacularText.SetValue(null);
-                ReInitVerseControls();
-                Modified = true;
-            }
+            if (tsi != null)
+                if (MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmDeleteAllVerseLines,
+                                                  tsi.Text.Replace("&", null)), Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+                {
+                    foreach (VerseData aVerse in theCurrentStory.Verses)
+                        aVerse.VernacularText.SetValue(null);
+                    ReInitVerseControls();
+                    Modified = true;
+                }
         }
 
         private void deleteStoryNationalBackTranslationToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2059,15 +2042,16 @@ namespace OneStoryProjectEditor
             Debug.Assert((theCurrentStory != null) && (sender is ToolStripItem));
 
             ToolStripItem tsi = sender as ToolStripItem;
-            if (MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmDeleteAllVerseLines,
-                                              tsi.Text.Replace("&", null)), Properties.Resources.IDS_Caption,
-                                MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
-            {
-                foreach (VerseData aVerse in theCurrentStory.Verses)
-                    aVerse.NationalBTText.SetValue(null);
-                ReInitVerseControls();
-                Modified = true;
-            }
+            if (tsi != null)
+                if (MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmDeleteAllVerseLines,
+                                                  tsi.Text.Replace("&", null)), Properties.Resources.IDS_Caption,
+                                    MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+                {
+                    foreach (VerseData aVerse in theCurrentStory.Verses)
+                        aVerse.NationalBTText.SetValue(null);
+                    ReInitVerseControls();
+                    Modified = true;
+                }
         }
 
         private void deleteEnglishBacktranslationToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2075,15 +2059,16 @@ namespace OneStoryProjectEditor
             Debug.Assert((theCurrentStory != null) && (sender is ToolStripItem));
 
             ToolStripItem tsi = sender as ToolStripItem;
-            if (MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmDeleteAllVerseLines,
-                                              tsi.Text.Replace("&", null)), Properties.Resources.IDS_Caption,
-                                MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
-            {
-                foreach (VerseData aVerse in theCurrentStory.Verses)
-                    aVerse.InternationalBTText.SetValue(null);
-                ReInitVerseControls();
-                Modified = true;
-            }
+            if (tsi != null)
+                if (MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmDeleteAllVerseLines,
+                                                  tsi.Text.Replace("&", null)), Properties.Resources.IDS_Caption,
+                                    MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+                {
+                    foreach (VerseData aVerse in theCurrentStory.Verses)
+                        aVerse.InternationalBTText.SetValue(null);
+                    ReInitVerseControls();
+                    Modified = true;
+                }
         }
 
         private void exportNationalBacktranslationToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2214,7 +2199,6 @@ namespace OneStoryProjectEditor
                     (eGlossType == AdaptItGlossing.GlossType.eNationalToEnglish) ? 
                     null : "/frm");
 
-                string strTargetLangName = strProjectName.Split(" ".ToCharArray())[2];
                 string strMessage = String.Format(Properties.Resources.IDS_AdaptationInstructions,
                         Environment.NewLine, strProjectName, theCurrentStory.Name);
                 MessageBoxButtons mbb = MessageBoxButtons.OK;
@@ -2284,7 +2268,8 @@ namespace OneStoryProjectEditor
                         }
                     }
 
-                    strEnglishBT = strEnglishBT.Remove(strEnglishBT.Length - 1);
+                    if (strEnglishBT != null)
+                        strEnglishBT = strEnglishBT.Remove(strEnglishBT.Length - 1);
                     aVerse.InternationalBTText.SetValue(strEnglishBT);
                 }
 
@@ -2452,11 +2437,12 @@ namespace OneStoryProjectEditor
             if (CtrlTextBox._inTextBox != null)
             {
                 IDataObject iData = Clipboard.GetDataObject();
-                if (iData.GetDataPresent(DataFormats.UnicodeText))
-                {
-                    string strText = (string)iData.GetData(DataFormats.UnicodeText);
-                    CtrlTextBox._inTextBox.SelectedText = strText;
-                }
+                if (iData != null)
+                    if (iData.GetDataPresent(DataFormats.UnicodeText))
+                    {
+                        string strText = (string)iData.GetData(DataFormats.UnicodeText);
+                        CtrlTextBox._inTextBox.SelectedText = strText;
+                    }
             }
         }
 
@@ -2721,12 +2707,6 @@ namespace OneStoryProjectEditor
                                                   ProjectSettings.OneStoryProjectFolderRoot, strOldProjectPath);
                 MessageBox.Show(strMessage, Properties.Resources.IDS_Caption);
             }
-        }
-
-        private void hindiToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
-        {
-            Thread.CurrentThread.CurrentUICulture = 
-                Properties.Resources.Culture = new CultureInfo("hi");
         }
 
         private void toTheInternetToolStripMenuItem_Click(object sender, EventArgs e)
