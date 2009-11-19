@@ -597,7 +597,8 @@ namespace OneStoryProjectEditor
             if (res == DialogResult.Cancel)
                 return;
 
-            StoryData theNewStory = new StoryData(strStoryName, strCrafterGuid, (res == DialogResult.Yes), StoryProject.ProjSettings);
+            Debug.Assert(LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator);
+            StoryData theNewStory = new StoryData(strStoryName, strCrafterGuid, LoggedOnMember.MemberGuid, (res == DialogResult.Yes), StoryProject.ProjSettings);
             InsertNewStoryAdjustComboBox(theNewStory, nIndexToInsert);
         }
 
@@ -639,6 +640,9 @@ namespace OneStoryProjectEditor
                 Properties.Settings.Default.Save();
             }
 
+            // see if this PF is the one who's editing the story
+            theCurrentStory.CheckForProjectFacilitator(StoryProject, LoggedOnMember);
+
             // initialize the text box showing the storying they're editing
             textBoxStoryVerse.Text = Properties.Resources.IDS_StoryColon + theCurrentStory.Name;
 
@@ -665,16 +669,26 @@ namespace OneStoryProjectEditor
         {
             // inform the user that they won't be able to edit this if they aren't the proper member type
             Debug.Assert((theCurrentStory != null) && (LoggedOnMember != null));
-            if ((LoggedOnMember.MemberType != TeamMemberData.UserTypes.eJustLooking)
-                &&  (LoggedOnMember.MemberType != theCurrentStory.ProjStage.MemberTypeWithEditToken))
-                try
+            if (LoggedOnMember.MemberType != TeamMemberData.UserTypes.eJustLooking)
+            {
+                if (LoggedOnMember.MemberType != theCurrentStory.ProjStage.MemberTypeWithEditToken)
                 {
-                    throw theCurrentStory.ProjStage.WrongMemberTypeEx;
+                    try
+                    {
+                        throw theCurrentStory.ProjStage.WrongMemberTypeEx;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, Properties.Resources.IDS_Caption);
+                    }
                 }
-                catch (Exception ex)
+                else if((LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
+                    && (LoggedOnMember.MemberGuid != theCurrentStory.CraftingInfo.ProjectFacilitatorMemberID))
                 {
-                    MessageBox.Show(ex.Message, Properties.Resources.IDS_Caption);
+                    MessageBox.Show(Properties.Resources.IDS_NotTheRightProjFac,
+                                    Properties.Resources.IDS_Caption);
                 }
+            }
         }
 
         protected void InitAllPanes(VersesData theVerses)

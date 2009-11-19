@@ -1493,4 +1493,7 @@ eater Panorama
   <data name="IDS_NoProjectFromInternet" xml:space="preserve">
     <value>No project file was found at the internet repository: {0}{0}{1}{0}{0}Are you sure it there is one in the repository yet?</value>
   </data>
+  <data name="IDS_NotTheRightProjFac" xml:space="preserve">
+    <value>WARNING: You are not the Project Facilitator that originally entered this story. If you make any changes, it is very likely that they will conflict with any changes done by the other Project Facilitator. Proceed with caution (e.g. say "No" if you are asked if you want to Save Changes while on this story)</value>
+  </data>
 </root>

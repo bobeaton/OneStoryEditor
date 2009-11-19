@@ -40,14 +40,15 @@
             this.listBoxUNSs.FormattingEnabled = true;
             this.listBoxUNSs.Location = new System.Drawing.Point(12, 12);
             this.listBoxUNSs.Name = "listBoxUNSs";
-            this.listBoxUNSs.Size = new System.Drawing.Size(217, 342);
+            this.listBoxUNSs.Size = new System.Drawing.Size(254, 342);
             this.listBoxUNSs.TabIndex = 0;
             this.listBoxUNSs.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBoxUNSs_MouseDoubleClick);
             this.listBoxUNSs.SelectedIndexChanged += new System.EventHandler(this.listBoxUNSs_SelectedIndexChanged);
             // 
             // buttonAddNewMember
             // 
-            this.buttonAddNewMember.Location = new System.Drawing.Point(242, 331);
+            this.buttonAddNewMember.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.buttonAddNewMember.Location = new System.Drawing.Point(272, 331);
             this.buttonAddNewMember.Name = "buttonAddNewMember";
             this.buttonAddNewMember.Size = new System.Drawing.Size(131, 23);
             this.buttonAddNewMember.TabIndex = 1;
@@ -57,9 +58,9 @@
             // 
             // buttonOK
             // 
-            this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonOK.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.buttonOK.Enabled = false;
-            this.buttonOK.Location = new System.Drawing.Point(114, 400);
+            this.buttonOK.Location = new System.Drawing.Point(129, 400);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(75, 23);
             this.buttonOK.TabIndex = 2;
@@ -69,9 +70,9 @@
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(195, 400);
+            this.buttonCancel.Location = new System.Drawing.Point(210, 400);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 3;
@@ -84,7 +85,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(385, 435);
+            this.ClientSize = new System.Drawing.Size(415, 435);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonAddNewMember);
             this.Controls.Add(this.listBoxUNSs);

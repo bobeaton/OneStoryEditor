@@ -48,7 +48,12 @@
 															<xs:attribute name="memberID" type="xs:IDREF" use="optional" />
 														</xs:complexType>
 													</xs:element>
-													<xs:element name="StoryPurpose" minOccurs="0" maxOccurs="1" type="xs:string" />
+                          <xs:element name="ProjectFacilitator" maxOccurs="1" minOccurs="0">
+                            <xs:complexType>
+                              <xs:attribute name="memberID" type="xs:IDREF" use="optional" />
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="StoryPurpose" minOccurs="0" maxOccurs="1" type="xs:string" />
 													<xs:element name="ResourcesUsed" minOccurs="0" maxOccurs="1" type="xs:string" />
 													<xs:element name="BackTranslator" minOccurs="1" maxOccurs="1">
 														<xs:complexType>

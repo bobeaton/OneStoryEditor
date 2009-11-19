@@ -34,17 +34,17 @@ namespace OneStoryProjectEditor
         protected const string CstrConsultantInTrainingDisplay = "Consultant in Training";
         protected const string CstrProjectFacilitatorDisplay = "Project Facilitator";
         
-        public string Name = null;
+        public string Name;
         public UserTypes MemberType = UserTypes.eUndefined;
-        public string MemberGuid = null;
-        public string Email = null;
-        public string SkypeID = null;
-        public string TeamViewerID = null;
-        public string Phone = null;
-        public string AltPhone = null;
-        public string BioData = null;
-        public string OverrideVernacularKeyboard = null;
-        public string OverrideNationalBTKeyboard = null;
+        public string MemberGuid;
+        public string Email;
+        public string SkypeID;
+        public string TeamViewerID;
+        public string Phone;
+        public string AltPhone;
+        public string BioData;
+        public string OverrideVernacularKeyboard;
+        public string OverrideNationalBTKeyboard;
 
         public TeamMemberData(string strName, UserTypes eMemberType, string strMemberGuid, string strEmail, string strSkypeID, string strTeamViewerID, string strPhone, string strAltPhone, string strBioData)
         {
@@ -193,7 +193,7 @@ namespace OneStoryProjectEditor
         public TeamMembersData()
         {
             TeamMemberData aTMD = new TeamMemberData(CstrBrowserMemberName, TeamMemberData.UserTypes.eJustLooking,
-                Guid.NewGuid().ToString(), null, null, null, null, null, null);
+                "mem-" + Guid.NewGuid(), null, null, null, null, null, null);
             Add(CstrBrowserMemberName, aTMD);
         }
 
@@ -231,6 +231,18 @@ namespace OneStoryProjectEditor
                     if (aTM.MemberType == TeamMemberData.UserTypes.eFirstPassMentor)
                         return true;
                 return false;
+            }
+        }
+
+        public int CountOfProjectFacilitator
+        {
+            get
+            {
+                int nCount = 0;
+                foreach (TeamMemberData aTM in Values)
+                    if (aTM.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
+                        nCount++;
+                return nCount;
             }
         }
 

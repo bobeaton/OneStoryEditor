@@ -9,20 +9,20 @@ namespace OneStoryProjectEditor
 {
     public class StoryData
     {
-        public string Name = null;
-        public string guid = null;
+        public string Name;
+        public string guid;
         public DateTime StageTimeStamp;
-        public StoryStageLogic ProjStage = null;
-        public CraftingInfoData CraftingInfo = null;
-        public VersesData Verses = null;
+        public StoryStageLogic ProjStage;
+        public CraftingInfoData CraftingInfo;
+        public VersesData Verses;
 
-        public StoryData(string strStoryName, string strLoggedOnMemberGuid, bool bIsBiblicalStory, ProjectSettings projSettings)
+        public StoryData(string strStoryName, string strCrafterMemberGuid, string strLoggedOnMemberGuid, bool bIsBiblicalStory, ProjectSettings projSettings)
         {
             Name = strStoryName;
             guid = Guid.NewGuid().ToString();
             StageTimeStamp = DateTime.Now;
             ProjStage = new StoryStageLogic(projSettings);
-            CraftingInfo = new CraftingInfoData(strLoggedOnMemberGuid, bIsBiblicalStory);
+            CraftingInfo = new CraftingInfoData(strCrafterMemberGuid, strLoggedOnMemberGuid, bIsBiblicalStory);
             Verses = new VersesData();
         }
 
@@ -32,7 +32,7 @@ namespace OneStoryProjectEditor
             guid = theStoryRow.guid;
             StageTimeStamp = (theStoryRow.IsstageDateTimeStampNull()) ? DateTime.Now : theStoryRow.stageDateTimeStamp;
             ProjStage = new StoryStageLogic(theStoryRow.stage);
-            CraftingInfo = new CraftingInfoData(theStoryRow, projFile);
+            CraftingInfo = new CraftingInfoData(theStoryRow);
             Verses = new VersesData(theStoryRow, projFile);
         }
 
@@ -76,24 +76,53 @@ namespace OneStoryProjectEditor
         {
             Verses.IndexSearch(findProperties, ref lstBoxesToSearch);
         }
+
+        public void CheckForProjectFacilitator(StoryProjectData storyProjectData, TeamMemberData loggedOnMember)
+        {
+            if (CraftingInfo.ProjectFacilitatorMemberID == null)
+            {
+                // this means that we've opened a file which didn't have the proj fac listed
+                // if there's only one PF, then just put that one in. If there are multiple,
+                //  then ask which one to use
+                if ((storyProjectData.TeamMembers.CountOfProjectFacilitator == 1)
+                    && (loggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator))
+                {
+                    CraftingInfo.ProjectFacilitatorMemberID = loggedOnMember.MemberGuid;
+                    return;
+                }
+
+                // fall thru means either the logged in person isn't a PF or there are multiple,
+                //  so, ask the user to tell which PF added this story
+                var dlg = new MemberPicker(storyProjectData, TeamMemberData.UserTypes.eProjectFacilitator)
+                                       {
+                                           Text = "Choose the Project Facilitator that entered this story"
+                                       };
+                if (dlg.ShowDialog() != DialogResult.OK)
+                    return;
+
+                CraftingInfo.ProjectFacilitatorMemberID = dlg.SelectedMember.MemberGuid;
+            }
+        }
     }
 
     public class CraftingInfoData
     {
-        public string StoryCrafterMemberID = null;
-        public string StoryPurpose = null;
-        public string ResourcesUsed = null;
-        public string BackTranslatorMemberID = null;
+        public string StoryCrafterMemberID;
+        public string ProjectFacilitatorMemberID;
+        public string StoryPurpose;
+        public string ResourcesUsed;
+        public string BackTranslatorMemberID;
         public List<string> Testors = new List<string>();
         public bool IsBiblicalStory = true;
 
-        public CraftingInfoData(string strLoggedOnMemberGuid, bool bIsBiblicalStory)
+        public CraftingInfoData(string strCrafterMemberGuid, string strLoggedOnMemberGuid, bool bIsBiblicalStory)
         {
-            StoryCrafterMemberID = strLoggedOnMemberGuid;
+            StoryCrafterMemberID = strCrafterMemberGuid;
+            ProjectFacilitatorMemberID = strLoggedOnMemberGuid;
             IsBiblicalStory = bIsBiblicalStory;
         }
 
-        public CraftingInfoData(NewDataSet.storyRow theStoryRow, NewDataSet projFile)
+        public CraftingInfoData(NewDataSet.storyRow theStoryRow)
         {
             NewDataSet.CraftingInfoRow[] aCIRs = theStoryRow.GetCraftingInfoRows();
             if (aCIRs.Length == 1)
@@ -107,6 +136,10 @@ namespace OneStoryProjectEditor
                     StoryCrafterMemberID = aSCRs[0].memberID;
                 else
                     throw new ApplicationException(Properties.Resources.IDS_ProjectFileCorrupted);
+
+                NewDataSet.ProjectFacilitatorRow[] aPFRs = theCIR.GetProjectFacilitatorRows();
+                if (aPFRs.Length == 1)
+                    ProjectFacilitatorMemberID = aPFRs[0].memberID;
 
                 if (!theCIR.IsStoryPurposeNull())
                     StoryPurpose = theCIR.StoryPurpose;
@@ -132,6 +165,7 @@ namespace OneStoryProjectEditor
         public CraftingInfoData(CraftingInfoData rhs)
         {
             StoryCrafterMemberID = rhs.StoryCrafterMemberID;
+            ProjectFacilitatorMemberID = rhs.ProjectFacilitatorMemberID;
             StoryPurpose = rhs.StoryPurpose;
             ResourcesUsed = rhs.ResourcesUsed;
             BackTranslatorMemberID = rhs.BackTranslatorMemberID;
@@ -144,9 +178,13 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                XElement elemCraftingInfo = new XElement("CraftingInfo",
-                    new XAttribute("NonBiblicalStory", !IsBiblicalStory),
-                    new XElement("StoryCrafter", new XAttribute("memberID", StoryCrafterMemberID)));
+                var elemCraftingInfo = new XElement("CraftingInfo",
+                                                         new XAttribute("NonBiblicalStory", !IsBiblicalStory),
+                                                         new XElement("StoryCrafter",
+                                                                      new XAttribute("memberID", StoryCrafterMemberID)));
+
+                if (ProjectFacilitatorMemberID != null)
+                    elemCraftingInfo.Add(new XElement("ProjectFacilitator", new XAttribute("memberID", ProjectFacilitatorMemberID)));
 
                 if (!String.IsNullOrEmpty(StoryPurpose))
                     elemCraftingInfo.Add(new XElement("StoryPurpose", StoryPurpose));
@@ -230,9 +268,9 @@ namespace OneStoryProjectEditor
 
     public class StoryProjectData : Dictionary<string, StoriesData>
     {
-        public TeamMembersData TeamMembers = null;
-        public ProjectSettings ProjSettings = null;
-        public string PanoramaFrontMatter = null;
+        public TeamMembersData TeamMembers;
+        public ProjectSettings ProjSettings;
+        public string PanoramaFrontMatter;
         public string XmlDataVersion = "1.0";
 
         public StoryProjectData()
