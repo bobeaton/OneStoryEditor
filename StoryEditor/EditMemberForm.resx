@@ -120,9 +120,6 @@
   <metadata name="helpProvider.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <metadata name="helpProvider.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
   <data name="radioButtonEnglishBackTranslator.HelpString" xml:space="preserve">
     <value>This member (someone outside the crafting team) helps the team by making an English back-translation of the project documentation *after* the project facilitator has entered the UNS’s back-translation, etc., in the national language. The English back-translator will translate the story lines (i.e. the national language back-translation of the story), the testing questions, answers, and retellings from the national language into English for the sake of the consultants. They do this during a special intermediate state after the project facilitator has finished with his or her tasks and before the story goes to the consultant. Later when the editing responsibility goes back from the consultant(s) to the team, the English back-translator will once again have a special intermediate state to translate the consultant's responses into a language that the crafting team knows. NOTE: if your project only uses an English back-translation (i.e. it is not configured to show the story language or a national back-translation), then you don’t want an English back-translator member. The person creating the English back-translation would simply be a UNS.</value>
   </data>

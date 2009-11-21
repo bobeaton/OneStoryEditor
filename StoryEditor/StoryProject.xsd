@@ -273,7 +273,8 @@
 			<xs:enumeration value="ProjectFacilitator" />
 			<xs:enumeration value="FirstPassMentor" />
 			<xs:enumeration value="ConsultantInTraining" />
-			<xs:enumeration value="Coach" />
+      <xs:enumeration value="IndependentConsultant" />
+      <xs:enumeration value="Coach" />
 			<xs:enumeration value="JustLooking" />
 		</xs:restriction>
 	</xs:simpleType>

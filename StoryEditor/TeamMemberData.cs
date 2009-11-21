@@ -16,6 +16,7 @@ namespace OneStoryProjectEditor
             eProjectFacilitator,
             eFirstPassMentor,
             eConsultantInTraining,
+            eIndependentConsultant,
             eCoach,
             eJustLooking
         }
@@ -26,12 +27,14 @@ namespace OneStoryProjectEditor
         internal const string CstrProjectFacilitator = "ProjectFacilitator";
         internal const string CstrFirstPassMentor = "FirstPassMentor";
         internal const string CstrConsultantInTraining = "ConsultantInTraining";
+        internal const string CstrIndependentConsultant = "IndependentConsultant";
         internal const string CstrCoach = "Coach";
         internal const string CstrJustLooking = "JustLooking"; // gives full access, but no change privileges
 
         protected const string CstrEnglishBackTranslatorDisplay = "English Back Translator";
         protected const string CstrFirstPassMentorDisplay = "First Pass Mentor";
-        protected const string CstrConsultantInTrainingDisplay = "Consultant in Training";
+        internal const string CstrConsultantInTrainingDisplay = "Consultant in Training";
+        internal const string CstrIndependentConsultantDisplay = "Independent Consultant";
         protected const string CstrProjectFacilitatorDisplay = "Project Facilitator";
         
         public string Name;
@@ -105,6 +108,8 @@ namespace OneStoryProjectEditor
                 return UserTypes.eFirstPassMentor;
             if (strMemberTypeString == CstrConsultantInTraining)
                 return UserTypes.eConsultantInTraining;
+            if (strMemberTypeString == CstrIndependentConsultant)
+                return UserTypes.eIndependentConsultant;
             if (strMemberTypeString == CstrCoach)
                 return UserTypes.eCoach;
             if (strMemberTypeString == CstrJustLooking)
@@ -121,6 +126,8 @@ namespace OneStoryProjectEditor
         {
             if (eMemberType == UserTypes.eConsultantInTraining)
                 return CstrConsultantInTrainingDisplay;
+            if (eMemberType == UserTypes.eIndependentConsultant)
+                return CstrIndependentConsultantDisplay;
             if (eMemberType == UserTypes.eEnglishBacktranslator)
                 return CstrEnglishBackTranslatorDisplay;
             if (eMemberType == UserTypes.eProjectFacilitator)
@@ -146,6 +153,8 @@ namespace OneStoryProjectEditor
                     return CstrFirstPassMentor;
                 case UserTypes.eConsultantInTraining:
                     return CstrConsultantInTraining;
+                case UserTypes.eIndependentConsultant:
+                    return CstrIndependentConsultant;
                 case UserTypes.eCoach:
                     return CstrCoach;
                 case UserTypes.eJustLooking:
@@ -229,6 +238,17 @@ namespace OneStoryProjectEditor
             {
                 foreach (TeamMemberData aTM in Values)
                     if (aTM.MemberType == TeamMemberData.UserTypes.eFirstPassMentor)
+                        return true;
+                return false;
+            }
+        }
+
+        public bool IsThereAnIndependentConsultant
+        {
+            get
+            {
+                foreach (TeamMemberData aTM in Values)
+                    if (aTM.MemberType == TeamMemberData.UserTypes.eIndependentConsultant)
                         return true;
                 return false;
             }

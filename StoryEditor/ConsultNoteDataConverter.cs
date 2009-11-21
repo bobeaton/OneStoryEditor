@@ -259,18 +259,28 @@ namespace OneStoryProjectEditor
         }
 
         // override to allow for FirstPassMentor working as well in addition to CIT
+        //  (or an independent consultant)
         public override void ThrowIfWrongEditor(TeamMemberData.UserTypes eLoggedOnMember, TeamMemberData.UserTypes eRequiredEditor)
         {
             // if it's the *mentor* that we're supposed to be checking for... (this will get called for the mentee check
             //  as well, but the special case is only for FirstPassMentor; not ProjFac)
             if (eRequiredEditor == MentorRequiredEditor)
             {
-                // ... and if the logged in member isn't that mentor, nor the First Pass Mentor...
-                if ((eLoggedOnMember != eRequiredEditor) && (eLoggedOnMember != TeamMemberData.UserTypes.eFirstPassMentor))
+                // ... and if the logged in member isn't that mentor, nor the First Pass 
+                //  Mentor, nor an independent consultant...
+                if ((eLoggedOnMember != eRequiredEditor)
+                    && (eLoggedOnMember != TeamMemberData.UserTypes.eFirstPassMentor)
+                    && (eLoggedOnMember != TeamMemberData.UserTypes.eIndependentConsultant))
+                {
                     // then throw that it's the wrong editor
-                    throw new ApplicationException(String.Format("Only a '{0}' or a '{1}' can edit this field", 
-                        TeamMemberData.GetMemberTypeAsDisplayString(eRequiredEditor),
-                        TeamMemberData.GetMemberTypeAsDisplayString(TeamMemberData.UserTypes.eFirstPassMentor)));
+                    throw new ApplicationException(String.Format("Only a '{0}', '{1}', or a '{2}' can edit this field",
+                                                                 TeamMemberData.GetMemberTypeAsDisplayString(
+                                                                     eRequiredEditor),
+                                                                 TeamMemberData.GetMemberTypeAsDisplayString(
+                                                                     TeamMemberData.UserTypes.eFirstPassMentor),
+                                                                 TeamMemberData.GetMemberTypeAsDisplayString(
+                                                                     TeamMemberData.UserTypes.eIndependentConsultant)));
+                }
             }
             else // otherwise, let the base class handle it
                 base.ThrowIfWrongEditor(eLoggedOnMember, eRequiredEditor);
@@ -461,6 +471,8 @@ namespace OneStoryProjectEditor
             TeamMemberData.UserTypes eMentorType = MentorType;
             if (eLoggedOnMember == TeamMemberData.UserTypes.eFirstPassMentor)
                 eMentorType = TeamMemberData.UserTypes.eFirstPassMentor;
+            else if (eLoggedOnMember == TeamMemberData.UserTypes.eIndependentConsultant)
+                eMentorType = TeamMemberData.UserTypes.eIndependentConsultant;
 
             ConsultNoteDataConverter theNewCN = new ConsultantNoteData(
                 nRound, eLoggedOnMember, eMentorType, MenteeType, strValue);
@@ -475,11 +487,15 @@ namespace OneStoryProjectEditor
         //  also a valid note adder
         public override bool CheckAddNotePrivilege(StoryEditor theSE, TeamMemberData.UserTypes eLoggedOnMember)
         {
-            if ((eLoggedOnMember != MentorType) && (eLoggedOnMember != TeamMemberData.UserTypes.eFirstPassMentor) && (eLoggedOnMember != MenteeType))
+            if ((eLoggedOnMember != MentorType) 
+                && (eLoggedOnMember != TeamMemberData.UserTypes.eFirstPassMentor)
+                && (eLoggedOnMember != TeamMemberData.UserTypes.eIndependentConsultant)
+                && (eLoggedOnMember != MenteeType))
             {
-                theSE.SetStatusBar("Error: " + String.Format("You must be logged in as a '{0}', a '{1}', or a '{2}' to add a note here",
+                theSE.SetStatusBar("Error: " + String.Format("You must be logged in as a '{0}', a '{1}', a '{2}', or a '{3}' to add a note here",
                     TeamMemberData.GetMemberTypeAsDisplayString(MentorType),
                     TeamMemberData.GetMemberTypeAsDisplayString(TeamMemberData.UserTypes.eFirstPassMentor),
+                    TeamMemberData.GetMemberTypeAsDisplayString(TeamMemberData.UserTypes.eIndependentConsultant),
                     TeamMemberData.GetMemberTypeAsDisplayString(MenteeType)));
                 return false;
             }

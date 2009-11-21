@@ -40,6 +40,7 @@
             this.labelStoryLanguage = new System.Windows.Forms.Label();
             this.labelNationalBTLanguage = new System.Windows.Forms.Label();
             this.buttonInternationalBTFont = new System.Windows.Forms.Button();
+            this.buttonStateConfig = new System.Windows.Forms.Button();
             this.textBoxNationalBTLanguage = new System.Windows.Forms.TextBox();
             this.textBoxNationalBTEthCode = new System.Windows.Forms.TextBox();
             this.textBoxVernSentFullStop = new System.Windows.Forms.TextBox();
@@ -216,6 +217,18 @@
                     "e");
             this.buttonInternationalBTFont.UseVisualStyleBackColor = true;
             this.buttonInternationalBTFont.Click += new System.EventHandler(this.buttonInternationalBTFont_Click);
+            // 
+            // buttonStateConfig
+            // 
+            this.tableLayoutPanelLanguageInformation.SetColumnSpan(this.buttonStateConfig, 2);
+            this.buttonStateConfig.Location = new System.Drawing.Point(104, 276);
+            this.buttonStateConfig.Name = "buttonStateConfig";
+            this.buttonStateConfig.Size = new System.Drawing.Size(114, 23);
+            this.buttonStateConfig.TabIndex = 22;
+            this.buttonStateConfig.Text = "Configure &States";
+            this.toolTip.SetToolTip(this.buttonStateConfig, "Click this button to configure advanced process state information");
+            this.buttonStateConfig.UseVisualStyleBackColor = true;
+            this.buttonStateConfig.Click += new System.EventHandler(this.buttonStateConfig_Click);
             // 
             // textBoxNationalBTLanguage
             // 
@@ -533,6 +546,7 @@
             this.tableLayoutPanelLanguageInformation.Controls.Add(this.checkBoxEnglishBT, 3, 8);
             this.tableLayoutPanelLanguageInformation.Controls.Add(this.checkBoxVernacular, 1, 2);
             this.tableLayoutPanelLanguageInformation.Controls.Add(this.labelReturnToTeamMemberTabInstructions, 0, 10);
+            this.tableLayoutPanelLanguageInformation.Controls.Add(this.buttonStateConfig, 1, 9);
             this.tableLayoutPanelLanguageInformation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelLanguageInformation.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanelLanguageInformation.Name = "tableLayoutPanelLanguageInformation";
@@ -743,5 +757,6 @@
         private System.Windows.Forms.CheckBox checkBoxEnglishBT;
         private System.Windows.Forms.CheckBox checkBoxVernacular;
         private System.Windows.Forms.HelpProvider helpProvider;
+        private System.Windows.Forms.Button buttonStateConfig;
     }
 }

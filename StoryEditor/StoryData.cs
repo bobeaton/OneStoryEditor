@@ -409,7 +409,7 @@ namespace OneStoryProjectEditor
         // returns the logged in member
         internal TeamMemberData EditTeamMembers(string strMemberName, string strOKLabel)
         {
-            TeamMemberForm dlg = new TeamMemberForm(TeamMembers, ProjSettings, strOKLabel);
+            TeamMemberForm dlg = new TeamMemberForm(this, strOKLabel);
             if (!String.IsNullOrEmpty(strMemberName))
             {
                 try
