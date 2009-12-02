@@ -3,3 +3,21 @@ Can't seem to "Remove" a cultural note
 Make the testing question a different color
 
 When you add a view (e.g. adding the Hindi when it's not normally shown), it would be nice to go back to where you were.
+
+When logged in as "Just Browsing", then disable Modified so we don't offer to save just by setting the logged in member.
+
+Can't go backwards from Coach to CIT state...
+
+Coach notes state isn't getting initials (when you right-click and choose "Add Note" on the ConNOte pane
+
+ clicking 'Crafter' button in Story Information dialog should update the title of the dialog.
+
+Round number should be 1 until after the online review...
+
+Ask which UNS at the beginning rather than at hte end (if you're adding UNS #2 answers and you do 'Add New test results" before the question is asked, it'll think somethign else..dummty.
+
+When viewing "Old Stories", don't do Internet sync
+
+Resize on Biblical Terms dialog isn't working
+
+Ask Karan what his role is going to be on the Kinnauri project (does he need to do their English BTs?)
