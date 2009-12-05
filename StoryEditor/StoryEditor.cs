@@ -2426,7 +2426,7 @@ namespace OneStoryProjectEditor
             StoryEditor theOldStoryEditor = new StoryEditor(Properties.Resources.IDS_ObsoleteStoriesSet);
             theOldStoryEditor.StoryProject = StoryProject;
             theOldStoryEditor.LoggedOnMember = LoggedOnMember;
-            theOldStoryEditor.Show(this);
+            theOldStoryEditor.Show();
             theOldStoryEditor.LoadComboBox();
             theOldStoryEditor.comboBoxStorySelector.SelectedItem = tsi.Text;
         }

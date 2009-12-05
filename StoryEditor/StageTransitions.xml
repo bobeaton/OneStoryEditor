@@ -500,6 +500,11 @@ appropriate line number and choose "Add Note" to enter the comment you have in t
 When you are finished, then click the 'Next Stage' button in the left-hand side of the status bar to go 
 to the next stage in the process.
     </StageInstructions>
+    <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eConsultantCheckStoryInfo</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eConsultantCheckAnchors</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eConsultantCheckStoryQuestions</AllowableBackwardsTransition>
+    </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="false" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eConsultantReviseRound1Notes" MemberTypeWithEditToken="eConsultantInTraining" NextState="eBackTranslatorTranslateConNotes">
@@ -596,6 +601,8 @@ Once all of the issues and their resolutions are discussed, you can transition t
 which you will do your first (formal) UNS test. 
     </StageInstructions>
     <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eConsultantReviseRound1Notes</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotes</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eProjFacReviseBasedOnRound1Notes</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
