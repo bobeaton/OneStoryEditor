@@ -1125,7 +1125,10 @@ namespace OneStoryProjectEditor
 
         private void CheckForSaveDirtyFile()
         {
-            if (!IsInStoriesSet)
+            // if we're in the 'old stories' window OR if it's a Just looking user, then
+            //  ignore the modified flag and return
+            if (!IsInStoriesSet || 
+                ((LoggedOnMember != null) && (LoggedOnMember.MemberType == TeamMemberData.UserTypes.eJustLooking)))
             {
                 Modified = false;   // just in case
                 return;

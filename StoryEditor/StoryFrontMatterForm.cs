@@ -16,7 +16,9 @@ namespace OneStoryProjectEditor
             _theCurrentStory = theCurrentStory;
 
             InitializeComponent();
-            
+
+            textBoxProjectFacilitator.Text =
+                theStoryProjectData.GetMemberNameFromMemberGuid(theCurrentStory.CraftingInfo.ProjectFacilitatorMemberID);
             textBoxStoryCrafter.Text =
                 theStoryProjectData.GetMemberNameFromMemberGuid(theCurrentStory.CraftingInfo.StoryCrafterMemberID);
             textBoxStoryPurpose.Text = theCurrentStory.CraftingInfo.StoryPurpose;
@@ -43,6 +45,16 @@ namespace OneStoryProjectEditor
                 textBoxUnsTest3.Text = theStoryProjectData.GetMemberNameFromMemberGuid(theCurrentStory.CraftingInfo.Testors[2]);
 
             Text = String.Format("Story Information for '{0}'", theCurrentStory.Name);
+        }
+
+        private void buttonBrowserForProjectFacilitator_Click(object sender, EventArgs e)
+        {
+            MemberPicker dlg = new MemberPicker(_theStoryProjectData, TeamMemberData.UserTypes.eProjectFacilitator);
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                textBoxProjectFacilitator.Tag = dlg.SelectedMember;
+                textBoxProjectFacilitator.Text = dlg.SelectedMember.Name;
+            }
         }
 
         private void buttonBrowseForStoryCrafter_Click(object sender, EventArgs e)
@@ -97,6 +109,13 @@ namespace OneStoryProjectEditor
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
+            if (textBoxProjectFacilitator.Tag != null)
+            {
+                TeamMemberData thePF = (TeamMemberData)textBoxProjectFacilitator.Tag;
+                _theCurrentStory.CraftingInfo.ProjectFacilitatorMemberID = thePF.MemberGuid;
+                _theSE.Modified = true;
+            }
+
             if (textBoxStoryCrafter.Tag != null)
             {
                 TeamMemberData theSC = (TeamMemberData) textBoxStoryCrafter.Tag;

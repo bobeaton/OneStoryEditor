@@ -348,26 +348,31 @@ namespace OneStoryProjectEditor
                             
                         List<string> astrVerseText = new List<string>(projectVariablesList.Count);
                         if (theSPD.ProjSettings.Vernacular.HasData)
-                            astrVerseText.Add(aVerse.VernacularText.ToString());
+                            AddIfNotNull(aVerse.VernacularText, astrVerseText);
                         if (theSPD.ProjSettings.NationalBT.HasData)
-                            astrVerseText.Add(aVerse.NationalBTText.ToString());
+                            AddIfNotNull(aVerse.NationalBTText, astrVerseText);
                         if (theSPD.ProjSettings.InternationalBT.HasData)
-                            astrVerseText.Add(aVerse.InternationalBTText.ToString());
+                            AddIfNotNull(aVerse.InternationalBTText, astrVerseText);
 
                         // keep track of this verse and it's reference
-                        if (!mapReferenceToVerseTextList.ContainsKey(strVerseReference))
+                        if ((astrVerseText.Count > 0) && 
+                            !mapReferenceToVerseTextList.ContainsKey(strVerseReference))
+                        {
                             mapReferenceToVerseTextList.Add(strVerseReference, astrVerseText);
-
-                        // we don't need to do any more anchors with this same line of the same story
-                        //  so set the anchor # to the number of anchors so the next outer for loop
-                        //  will think it's finished
-                        nAnchorNumber = aVerse.Anchors.Count;
-                        break;
+                            break;
+                        }
                     }
                 }
                 progressBarLoadingKeyTerms.Value++;
             }
 		}
+
+        protected static void AddIfNotNull(StringTransfer st, List<string> astrVerseText)
+        {
+            string str = st.ToString();
+            if (!String.IsNullOrEmpty(str))
+                astrVerseText.Add(str);
+        }
 
 		public static string FormattedNotes(TermRendering termRendering)
 		{
