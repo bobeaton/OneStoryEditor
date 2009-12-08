@@ -419,7 +419,18 @@ namespace OneStoryProjectEditor
             if (!CheckForProperEditToken(out theSE))
                 return;
 
-            theSE.AddNewVerse(this, nNumNewVerses, true);
+            // if the user has selected some text from *this* control, then move those
+            //  data to the newly added row
+            if ((nNumNewVerses == 1) 
+                && tableLayoutPanel.Controls.ContainsKey(CstrFieldNameStoryLine))
+            {
+                StoryLineControl slc = tableLayoutPanel.Controls[CstrFieldNameStoryLine] as StoryLineControl;
+                string strVernacular, strNationalBT, strEnglishBT;
+                slc.GetTextBoxValues(out strVernacular, out strNationalBT, out strEnglishBT);
+                theSE.AddNewVerse(VerseNumber, strVernacular, strNationalBT, strEnglishBT);
+            }
+            else
+                theSE.AddNewVerse(this, nNumNewVerses, true);
         }
 
         private void addNewVersesBeforeMenuItem_Click(object sender, EventArgs e)

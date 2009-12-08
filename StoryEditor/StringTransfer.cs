@@ -54,5 +54,17 @@ namespace OneStoryProjectEditor
         {
             get { return !String.IsNullOrEmpty(Value); }
         }
+
+        public void ExtractSelectedText(out string strSelectedText)
+        {
+            if (_tb != null)
+            {
+                strSelectedText = _tb.SelectedText;
+                if (!String.IsNullOrEmpty(strSelectedText))
+                    _tb.SelectedText = null;
+            }
+            else
+                strSelectedText = null;
+        }
     }
 }

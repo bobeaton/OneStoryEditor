@@ -108,6 +108,14 @@ namespace OneStoryProjectEditor
             return true;
         }
 
+        public void GetTextBoxValues(out string strVernacular, out string strNationalBT,
+            out string strEnglishBT)
+        {
+            _aVerseData.VernacularText.ExtractSelectedText(out strVernacular);
+            _aVerseData.NationalBTText.ExtractSelectedText(out strNationalBT);
+            _aVerseData.InternationalBTText.ExtractSelectedText(out strEnglishBT);
+        }
+
         protected void InitLabel(string strStoryLineLableName, int nLayoutColumn)
         {
             // add the row0 column label
