@@ -129,6 +129,7 @@ namespace OneStoryProjectEditor
                     List<string> lstSentences;
                     if (!GetListOfSentences(aVerseData.NationalBTText, strSentenceFinalPunct, out lstSentences))
                     {
+                        // if there's nothing in this verse, then just get rid of it.
                         if (!aVerseData.HasData)
                         {
                             theCurrentStory.Verses.Remove(aVerseData);
@@ -138,7 +139,8 @@ namespace OneStoryProjectEditor
                         
                         if (aVerseData.VernacularText.HasData)
                         {
-                            ShowErrorFocus(theSE, aVerseData.NationalBTText.TextBox, String.Format("Error: Verse {0} is missing a back-translation. Did you forget it?", nVerseNumber));
+                            ShowErrorFocus(theSE, aVerseData.NationalBTText.TextBox, 
+                                String.Format("Error: Verse {0} is missing a back-translation. Did you forget it?", nVerseNumber));
                             return false;
                         }
                     }
@@ -237,11 +239,26 @@ namespace OneStoryProjectEditor
                     if ((!GetListOfSentences(aVerseData.InternationalBTText, strSentenceFinalPunct, out lstSentences))
                         || (lstSentences.Count == 0))
                     {
-                        // light it up and let the user know they need to do something!
-                        ShowErrorFocus(theSE, aVerseData.InternationalBTText.TextBox,
-                                       String.Format(
-                                           "Error: Verse {0} doesn't have any English back-translation in it. Did you forget it?",
-                                           nVerseNumber));
+                        // if there's nothing in this verse, then just get rid of it.
+                        if (!aVerseData.HasData)
+                        {
+                            theCurrentStory.Verses.Remove(aVerseData);
+                            bRepeatAfterMe = true;
+                            break;  // we have to exit the loop since we've modified the collection
+                        }
+
+
+                        // if there's data in either the story box or the natl bt box...
+                        if (aVerseData.VernacularText.HasData || aVerseData.NationalBTText.HasData)
+                        {
+                            // then there ought to be some in the English BT box as well.
+                            // light it up and let the user know they need to do something!
+                            ShowErrorFocus(theSE, aVerseData.InternationalBTText.TextBox,
+                                           String.Format(
+                                               "Error: Verse {0} doesn't have any English back-translation in it. Did you forget it?",
+                                               nVerseNumber));
+                            return false;
+                        }
                         return false;
                     }
 
