@@ -164,6 +164,9 @@ namespace OneStoryProjectEditor
 		{
 			renderingFound = false;
 
+            if (String.IsNullOrEmpty(text))
+                return text;
+
             TermRendering termRendering = termRenderingsList[projectNum];
 
             foreach (string strRendering in termRendering.RenderingsList)
@@ -348,31 +351,26 @@ namespace OneStoryProjectEditor
                             
                         List<string> astrVerseText = new List<string>(projectVariablesList.Count);
                         if (theSPD.ProjSettings.Vernacular.HasData)
-                            AddIfNotNull(aVerse.VernacularText, astrVerseText);
+                            astrVerseText.Add(aVerse.VernacularText.ToString());
                         if (theSPD.ProjSettings.NationalBT.HasData)
-                            AddIfNotNull(aVerse.NationalBTText, astrVerseText);
+                            astrVerseText.Add(aVerse.NationalBTText.ToString());
                         if (theSPD.ProjSettings.InternationalBT.HasData)
-                            AddIfNotNull(aVerse.InternationalBTText, astrVerseText);
+                            astrVerseText.Add(aVerse.InternationalBTText.ToString());
 
                         // keep track of this verse and it's reference
-                        if ((astrVerseText.Count > 0) && 
-                            !mapReferenceToVerseTextList.ContainsKey(strVerseReference))
-                        {
+                        if (!mapReferenceToVerseTextList.ContainsKey(strVerseReference))
                             mapReferenceToVerseTextList.Add(strVerseReference, astrVerseText);
-                            break;
-                        }
+
+                        // we don't need to do any more anchors with this same line of the same story
+                        //  so set the anchor # to the number of anchors so the next outer for loop
+                        //  will think it's finished
+                        nAnchorNumber = aVerse.Anchors.Count;
+                        break;
                     }
                 }
                 progressBarLoadingKeyTerms.Value++;
             }
 		}
-
-        protected static void AddIfNotNull(StringTransfer st, List<string> astrVerseText)
-        {
-            string str = st.ToString();
-            if (!String.IsNullOrEmpty(str))
-                astrVerseText.Add(str);
-        }
 
 		public static string FormattedNotes(TermRendering termRendering)
 		{
