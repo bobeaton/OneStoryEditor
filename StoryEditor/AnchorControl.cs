@@ -130,6 +130,11 @@ namespace OneStoryProjectEditor
         {
             if (e.Data.GetDataPresent(typeof(NetBibleViewer)))
             {
+                // the only function of the button here is to add a slot to type a con note
+                StoryEditor theSE;
+                if (!CheckForProperEditToken(out theSE))
+                    return;
+
                 NetBibleViewer theNetBibleViewer = (NetBibleViewer)e.Data.GetData(typeof(NetBibleViewer));
                 foreach (ToolStripButton btn in toolStripAnchors.Items)
                     if (btn.Text == theNetBibleViewer.ScriptureReference)
