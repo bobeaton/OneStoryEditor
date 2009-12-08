@@ -193,6 +193,7 @@ namespace OneStoryProjectEditor
             projectConfig.IncludePatterns.Add("*.xml"); // the P7 key terms list
             projectConfig.IncludePatterns.Add("*.bad"); // if we write a bad file, commit that as well
             projectConfig.IncludePatterns.Add("*.conflict"); // include the conflicts file as well so we can fix them
+            projectConfig.IncludePatterns.Add("*.ChorusNotes"); // the new conflict file
 
             string strHgUsername, strRepoUrl, strSharedNetworkUrl;
             if (GetHgRepoParameters(strProjectFolder, strProjectName, out strHgUsername,
