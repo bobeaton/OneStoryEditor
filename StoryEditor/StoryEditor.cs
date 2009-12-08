@@ -365,7 +365,9 @@ namespace OneStoryProjectEditor
 
             // see if we can update from a repository first before opening.
             string strDotHgFolder = projSettings.ProjectFolder + @"\.hg";
-            if (Program.ShouldTrySync(strProjectFolder) && Directory.Exists(strDotHgFolder))
+            if (IsInStoriesSet 
+                && Program.ShouldTrySync(strProjectFolder) 
+                && Directory.Exists(strDotHgFolder))
             {
                 Program.SyncWithRepository(projSettings.ProjectFolder, true);
             }
@@ -638,10 +640,10 @@ namespace OneStoryProjectEditor
             {
                 Properties.Settings.Default.LastStoryWorkedOn = theCurrentStory.Name;
                 Properties.Settings.Default.Save();
-            }
 
-            // see if this PF is the one who's editing the story
-            theCurrentStory.CheckForProjectFacilitator(StoryProject, LoggedOnMember);
+                // see if this PF is the one who's editing the story
+                theCurrentStory.CheckForProjectFacilitator(StoryProject, LoggedOnMember);
+            }
 
             // initialize the text box showing the storying they're editing
             textBoxStoryVerse.Text = Properties.Resources.IDS_StoryColon + theCurrentStory.Name;
