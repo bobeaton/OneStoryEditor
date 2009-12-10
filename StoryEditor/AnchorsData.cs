@@ -115,7 +115,16 @@ namespace OneStoryProjectEditor
             {
                 int nIndexSpace = JumpTarget.IndexOf(' ');
                 string strBookCode = JumpTarget.Substring(0, nIndexSpace);
-                strBookCode = mapSwordToParatextBookCodes[strBookCode];
+                try
+                {
+                    strBookCode = mapSwordToParatextBookCodes[strBookCode];
+                }
+                catch (Exception)
+                {
+                    throw new ApplicationException(
+                        String.Format(Properties.Resources.IDS_IllFormedJumpTarget, strBookCode));
+                }
+                
                 return strBookCode + JumpTarget.Substring(nIndexSpace);
             }
         }
