@@ -212,7 +212,7 @@ namespace OneStoryProjectEditor
                         DateTime.Now : aNoteRow.timeStamp));
 
             // make sure that there are at least two (we can't save them if they're empty)
-            System.Diagnostics.Debug.Assert(Count != 0);
+            System.Diagnostics.Debug.Assert(Count != 0, "It looks like you have an empty Consultant Note field that shouldn't be there. For now, you can just 'Ignore' this error (but perhaps let bob_eaton@sall.com know)");
         }
 
         public ConsultantNoteData(int nRound, TeamMemberData.UserTypes eLoggedOnMember,
