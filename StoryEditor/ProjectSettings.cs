@@ -101,6 +101,13 @@ namespace OneStoryProjectEditor
                 InternationalBT.DefaultKeyboard = (!rowEngRow.IsKeyboardNull() && !String.IsNullOrEmpty(rowEngRow.Keyboard))
                     ? rowEngRow.Keyboard : null;
             }
+            else
+            {
+                // the "international language" will appear to "have data" even when it shouldn't
+                //  so clear out the default language name in this case:
+                InternationalBT.LangName = null;
+                System.Diagnostics.Debug.Assert(!InternationalBT.HasData);
+            }
 
             // if we're setting this up from the file, then we're "configured"
             IsConfigured = true;
