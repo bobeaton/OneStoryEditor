@@ -386,13 +386,27 @@ namespace OneStoryProjectEditor
 #if !DataDllBuild
             public void SetView(StoryEditor theSE)
             {
-                theSE.viewVernacularLangFieldMenuItem.Checked = IsVernacularVisible && theSE.StoryProject.ProjSettings.Vernacular.HasData;
-                theSE.viewNationalLangFieldMenuItem.Checked = (IsNationalBTVisible && theSE.StoryProject.ProjSettings.NationalBT.HasData);
+                // the vern should be visible if it is configured and either it's supposed to be visible (based on the
+                //  state information) OR it's the only one in existance--i.e. an English story project)
+                theSE.viewVernacularLangFieldMenuItem.Checked = (theSE.StoryProject.ProjSettings.Vernacular.HasData
+                    && (IsVernacularVisible 
+                        || (!theSE.StoryProject.ProjSettings.NationalBT.HasData 
+                        && !theSE.StoryProject.ProjSettings.InternationalBT.HasData)));
 
-                // gotta show the English if user is *only* using an English BT
-                theSE.viewEnglishBTFieldMenuItem.Checked = 
-                    ((IsEnglishBTVisible && theSE.StoryProject.ProjSettings.InternationalBT.HasData)
-                    || (!theSE.StoryProject.ProjSettings.Vernacular.HasData && !theSE.StoryProject.ProjSettings.NationalBT.HasData));
+                // the National BT should be visible if it is configured and either it's supposed to be visible (based on the
+                //  state information) OR it's the only one in existance--i.e. an EnglishBT-only project)
+                theSE.viewNationalLangFieldMenuItem.Checked = (theSE.StoryProject.ProjSettings.NationalBT.HasData
+                    && (IsNationalBTVisible
+                        || (!theSE.StoryProject.ProjSettings.Vernacular.HasData
+                        && !theSE.StoryProject.ProjSettings.InternationalBT.HasData)));
+
+                // the English BT should be visible if it is configured and either it's supposed to be visible (based on the
+                //  state information) OR it's the only one in existance--i.e. an EnglishBT-only project)
+                theSE.viewEnglishBTFieldMenuItem.Checked = (theSE.StoryProject.ProjSettings.InternationalBT.HasData
+                    &&  (IsEnglishBTVisible 
+                        || (!theSE.StoryProject.ProjSettings.Vernacular.HasData 
+                        && !theSE.StoryProject.ProjSettings.NationalBT.HasData)));
+
                 theSE.viewAnchorFieldMenuItem.Checked = IsAnchorVisible;
                 theSE.viewStoryTestingQuestionFieldMenuItem.Checked = IsStoryTestingQuestion;
                 theSE.viewRetellingFieldMenuItem.Checked = IsRetellingVisible;
