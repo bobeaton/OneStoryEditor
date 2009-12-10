@@ -19,12 +19,14 @@ namespace OneStoryProjectEditor
 
         protected StoryProjectData _storyProject;
         protected StoriesData _stories;
+        protected bool _bInCtor = true;
 
         public PanoramaView(StoryProjectData storyProject)
         {
             _storyProject = storyProject;
             InitializeComponent();
             richTextBoxPanoramaFrontMatter.Rtf = storyProject.PanoramaFrontMatter;
+            _bInCtor = false;   // prevent the _TextChanged during ctor
         }
 
         public bool Modified = false;
@@ -210,8 +212,14 @@ namespace OneStoryProjectEditor
 
         private void richTextBoxPanoramaFrontMatter_TextChanged(object sender, EventArgs e)
         {
-            Modified = true;
-            _storyProject.PanoramaFrontMatter = richTextBoxPanoramaFrontMatter.Rtf;
+            // skip this supposed change unless we're not in the ctor (the setting of 
+            //  the Rtf value in the ctor is falsely triggering this call, but that's not
+            //  a legitimate change)
+            if (!_bInCtor)
+            {
+                _storyProject.PanoramaFrontMatter = richTextBoxPanoramaFrontMatter.Rtf;
+                Modified = true;
+            }
         }
 
         #region obsolete code
