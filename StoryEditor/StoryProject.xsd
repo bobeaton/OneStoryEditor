@@ -20,7 +20,8 @@
 									<xs:attribute name="teamViewerID" type="xs:string" use="optional" />
 									<xs:attribute name="OverrideVernacularKeyboard" type="xs:string" use="optional" />
 									<xs:attribute name="OverrideNationalBTKeyboard" type="xs:string" use="optional" />
-								</xs:complexType>
+                  <xs:attribute name="OverrideInternationalBTKeyboard" type="xs:string" use="optional" />
+                </xs:complexType>
 							</xs:element>
 						</xs:choice>
 					</xs:complexType>

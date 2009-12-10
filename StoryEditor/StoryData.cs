@@ -277,6 +277,10 @@ namespace OneStoryProjectEditor
         {
             // if this is "new", then we won't have a project name yet, so query the user for it
 #if !DataDllBuild
+            NewProjectWizard dlg = new NewProjectWizard();
+            if (dlg.ShowDialog() != DialogResult.OK)
+                throw StoryEditor.BackOutWithNoUI;
+
             string strProjectName = QueryProjectName();
             ProjSettings = new ProjectSettings(null, strProjectName);
 #endif

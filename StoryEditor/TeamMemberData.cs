@@ -48,6 +48,7 @@ namespace OneStoryProjectEditor
         public string BioData;
         public string OverrideVernacularKeyboard;
         public string OverrideNationalBTKeyboard;
+        public string OverrideInternationalBTKeyboard;
 
         public TeamMemberData(string strName, UserTypes eMemberType, string strMemberGuid, string strEmail, string strSkypeID, string strTeamViewerID, string strPhone, string strAltPhone, string strBioData)
         {
@@ -92,6 +93,9 @@ namespace OneStoryProjectEditor
 
             if (!theMemberRow.IsOverrideNationalBTKeyboardNull())
                 OverrideNationalBTKeyboard = theMemberRow.OverrideNationalBTKeyboard;
+
+            if (!theMemberRow.IsOverrideInternationalBTKeyboardNull())
+                OverrideInternationalBTKeyboard = theMemberRow.OverrideInternationalBTKeyboard;
         }
 
         public static UserTypes GetMemberType(string strMemberTypeString)
@@ -188,6 +192,8 @@ namespace OneStoryProjectEditor
                         eleMember.Add(new XAttribute("OverrideVernacularKeyboard", OverrideVernacularKeyboard));
                     if (!String.IsNullOrEmpty(OverrideNationalBTKeyboard))
                         eleMember.Add(new XAttribute("OverrideNationalBTKeyboard", OverrideNationalBTKeyboard));
+                    if (!String.IsNullOrEmpty(OverrideInternationalBTKeyboard))
+                        eleMember.Add(new XAttribute("OverrideInternationalBTKeyboard", OverrideInternationalBTKeyboard));
                     eleMember.Add(new XAttribute("memberKey", MemberGuid));
 
                 return eleMember;

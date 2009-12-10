@@ -1496,4 +1496,10 @@ eater Panorama
   <data name="IDS_NotTheRightProjFac" xml:space="preserve">
     <value>WARNING: You are not the Project Facilitator that originally entered this story. If you make any changes, it is very likely that they will conflict with any changes done by the other Project Facilitator. Proceed with caution (e.g. say "No" if you are asked if you want to Save Changes while on this story)</value>
   </data>
+  <data name="IDS_DefaultRepoBasePath" xml:space="preserve">
+    <value>http://hg-private.languagedepot.org</value>
+  </data>
+  <data name="IDS_MustHaveAtLeastOneLanguage" xml:space="preserve">
+    <value>A project must have at least one language selected</value>
+  </data>
 </root>
