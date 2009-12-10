@@ -988,6 +988,7 @@ namespace OneStoryProjectEditor
         {
             Debug.Assert((theCurrentStory != null) && (theCurrentStory.Verses != null));
             theCurrentStory.Verses.InsertVerse(nInsertionIndex, strVernacular, strNationalBT, strInternationalBT);
+            InitAllPanes();
         }
 
         internal void InitAllPanes()
