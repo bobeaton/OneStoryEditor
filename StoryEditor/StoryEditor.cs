@@ -951,22 +951,31 @@ namespace OneStoryProjectEditor
                         strNote += String.Format("/{0}/ ", str);
                 }
             }
+
             int nVerseIndex = ctrlParent.VerseNumber - 1;
             if (LoggedOnMember.MemberType == TeamMemberData.UserTypes.eCoach)
             {
+                if (!viewCoachNotesFieldMenuItem.Checked)
+                    viewCoachNotesFieldMenuItem.Checked = true;
+
                 Debug.Assert(nVerseIndex < flowLayoutPanelCoachNotes.Controls.Count);
                 Control ctrl = flowLayoutPanelCoachNotes.Controls[nVerseIndex];
                 Debug.Assert(ctrl is ConsultNotesControl);
                 ConsultNotesControl theCoachNotes = ctrl as ConsultNotesControl;
                 theCoachNotes.DoAddNote(strNote);
+                flowLayoutPanelCoachNotes.VisiblizeLast();
             }
             else
             {
+                if (!viewConsultantNoteFieldMenuItem.Checked)
+                    viewConsultantNoteFieldMenuItem.Checked = true;
+
                 Debug.Assert(nVerseIndex < flowLayoutPanelConsultantNotes.Controls.Count);
                 Control ctrl = flowLayoutPanelConsultantNotes.Controls[nVerseIndex];
                 Debug.Assert(ctrl is ConsultNotesControl);
                 ConsultNotesControl theConsultantNotes = ctrl as ConsultNotesControl;
                 theConsultantNotes.DoAddNote(strNote);
+                flowLayoutPanelConsultantNotes.VisiblizeLast();
             }
         }
 
@@ -2405,11 +2414,12 @@ namespace OneStoryProjectEditor
                                                              && (((int)theCurrentStory.ProjStage.ProjectStage)
                                                                  >= (int)StoryStageLogic.ProjectStages.eProjFacAddAnchors));
 
-                viewStoryTestingQuestionFieldMenuItem.Enabled = 
-                    viewConsultantNoteFieldMenuItem.Enabled = 
-                    viewCoachNotesFieldMenuItem.Enabled = ((theCurrentStory != null)
+                viewStoryTestingQuestionFieldMenuItem.Enabled = ((theCurrentStory != null)
                                                              && (((int)theCurrentStory.ProjStage.ProjectStage)
                                                                  > (int)StoryStageLogic.ProjectStages.eProjFacAddStoryQuestions));
+
+                viewConsultantNoteFieldMenuItem.Enabled =
+                    viewCoachNotesFieldMenuItem.Enabled = (theCurrentStory != null);
             }
 
             if (IsInStoriesSet && (StoryProject != null))

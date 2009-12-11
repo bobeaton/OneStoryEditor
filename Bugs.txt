@@ -1,3 +1,9 @@
+make the font for consultant notes modifiable
+
+Line 0 for each story for global con-notes
+
+Adjust the Instructions to fit a smaller screen better
+
 Can't seem to "Remove" a cultural note
 
 Make the testing question a different color
