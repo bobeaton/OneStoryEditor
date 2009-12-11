@@ -38,6 +38,7 @@ namespace OneStoryProjectEditor
             ThrowIfNotCorrectEditor delegateRequiredEditorCheck, TeamMemberData.UserTypes eRequiredEditor)
         {
             InitComponent();
+            Font = new Font("Arial Unicode MS", 12);
             Name = strName;
             stData.SetAssociation(this);
             TextChanged += new EventHandler(ctrlParent.textBox_TextChanged);
