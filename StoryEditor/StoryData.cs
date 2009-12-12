@@ -272,7 +272,7 @@ namespace OneStoryProjectEditor
         public TeamMembersData TeamMembers;
         public ProjectSettings ProjSettings;
         public string PanoramaFrontMatter;
-        public string XmlDataVersion = "1.0";
+        public string XmlDataVersion = "1.1";
 
         public StoryProjectData()
         {
@@ -300,7 +300,7 @@ namespace OneStoryProjectEditor
             else
             {
                 projFile.StoryProject[0].ProjectName = ProjSettings.ProjectName; // in case the user changed it.
-                if (projFile.StoryProject[0].version != XmlDataVersion)
+                if (projFile.StoryProject[0].version.CompareTo(XmlDataVersion) > 0)
                     throw new ApplicationException(Properties.Resources.IDS_GetNewVersion);
             }
 
