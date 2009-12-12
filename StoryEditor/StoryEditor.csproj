@@ -229,6 +229,12 @@
     <Compile Include="NetBibleViewer.Designer.cs">
       <DependentUpon>NetBibleViewer.cs</DependentUpon>
     </Compile>
+    <Compile Include="NewProjectWizard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewProjectWizard.Designer.cs">
+      <DependentUpon>NewProjectWizard.cs</DependentUpon>
+    </Compile>
     <Compile Include="OneStoryUrlBuilder.cs" />
     <Compile Include="PanoramaView.cs">
       <SubType>Form</SubType>
@@ -243,6 +249,18 @@
     </Compile>
     <Compile Include="SearchForm.Designer.cs">
       <DependentUpon>SearchForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StageEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StageEditorForm.Designer.cs">
+      <DependentUpon>StageEditorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StateEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StateEditorForm.Designer.cs">
+      <DependentUpon>StateEditorForm.cs</DependentUpon>
     </Compile>
     <Compile Include="StoryData.cs" />
     <Compile Include="StoryFrontMatterForm.cs">
@@ -320,6 +338,9 @@
       <DependentUpon>NetBibleViewer.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="NewProjectWizard.resx">
+      <DependentUpon>NewProjectWizard.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PanoramaView.resx">
       <DependentUpon>PanoramaView.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -330,6 +351,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SearchForm.resx">
       <DependentUpon>SearchForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StageEditorForm.resx">
+      <DependentUpon>StageEditorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StateEditorForm.resx">
+      <DependentUpon>StateEditorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="StoryEditor.resx">
       <DependentUpon>StoryEditor.cs</DependentUpon>

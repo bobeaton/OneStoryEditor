@@ -274,13 +274,11 @@ namespace OneStoryProjectEditor
         public string PanoramaFrontMatter;
         public string XmlDataVersion = "1.1";
 
+        /// <summary>
+        /// This version of the constructor should *always* be followed by a call to InitializeProjectSettings()
+        /// </summary>
         public StoryProjectData()
         {
-            // if this is "new", then we won't have a project name yet, so query the user for it
-#if !DataDllBuild
-            string strProjectName = QueryProjectName();
-            ProjSettings = new ProjectSettings(null, strProjectName);
-#endif
             TeamMembers = new TeamMembersData();
             PanoramaFrontMatter = Properties.Resources.IDS_DefaultPanoramaFrontMatter;
 
@@ -320,6 +318,14 @@ namespace OneStoryProjectEditor
             // finally, if it's not new, then it might (should) have stories as well
             foreach (NewDataSet.storiesRow aStoriesRow in projFile.StoryProject[0].GetstoriesRows())
                 Add(aStoriesRow.SetName, new StoriesData(aStoriesRow, projFile));
+        }
+
+        // if this is "new", then we won't have a project name yet, so query the user for it
+        public void InitializeProjectSettings()
+        {
+            NewProjectWizard dlg = new NewProjectWizard(this);
+            if (dlg.ShowDialog() != DialogResult.OK)
+                throw StoryEditor.BackOutWithNoUI;
         }
 
         internal string GetMemberNameFromMemberGuid(string strMemberGuid)
@@ -410,7 +416,7 @@ namespace OneStoryProjectEditor
         // returns the logged in member
         internal TeamMemberData EditTeamMembers(string strMemberName, string strOKLabel)
         {
-            TeamMemberForm dlg = new TeamMemberForm(TeamMembers, ProjSettings, strOKLabel);
+            TeamMemberForm dlg = new TeamMemberForm(this, strOKLabel);
             if (!String.IsNullOrEmpty(strMemberName))
             {
                 try

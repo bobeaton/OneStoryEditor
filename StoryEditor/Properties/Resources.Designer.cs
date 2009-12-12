@@ -250,6 +250,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to http://hg-private.languagedepot.org.
+        /// </summary>
+        internal static string IDS_DefaultRepoBasePath {
+            get {
+                return ResourceManager.GetString("IDS_DefaultRepoBasePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter the name you want to give this project (e.g. the language name)..
         /// </summary>
         internal static string IDS_EnterProjectName {
@@ -435,6 +444,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_MustBeCloneRepo {
             get {
                 return ResourceManager.GetString("IDS_MustBeCloneRepo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A project must have at least one language selected.
+        /// </summary>
+        internal static string IDS_MustHaveAtLeastOneLanguage {
+            get {
+                return ResourceManager.GetString("IDS_MustHaveAtLeastOneLanguage", resourceCulture);
             }
         }
         

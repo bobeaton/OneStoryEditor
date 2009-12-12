@@ -274,24 +274,23 @@ namespace OneStoryProjectEditor
                             lstAllowableBackwardsStages.Add(aps);
                         }
 
+                        StateTransition st = new StateTransition(eThisStage, eNextStage, eMemberType,
+                            strStageDisplayString, strStageInstructions,
+                            lstAllowableBackwardsStages);
+
                         xpNextElement = xpStageTransition.Current.Select("ViewSettings");
-                        List<bool> lstViewStates = new List<bool>();
                         if (xpNextElement.MoveNext())
                         {
-                            lstViewStates.Add(xpNextElement.Current.GetAttribute("viewVernacularLangField", navigator.NamespaceURI) == "true");
-                            lstViewStates.Add(xpNextElement.Current.GetAttribute("viewNationalLangField", navigator.NamespaceURI) == "true");
-                            lstViewStates.Add(xpNextElement.Current.GetAttribute("viewEnglishBTField", navigator.NamespaceURI) == "true");
-                            lstViewStates.Add(xpNextElement.Current.GetAttribute("viewAnchorField", navigator.NamespaceURI) == "true");
-                            lstViewStates.Add(xpNextElement.Current.GetAttribute("viewStoryTestingQuestionField", navigator.NamespaceURI) == "true");
-                            lstViewStates.Add(xpNextElement.Current.GetAttribute("viewRetellingField", navigator.NamespaceURI) == "true");
-                            lstViewStates.Add(xpNextElement.Current.GetAttribute("viewConsultantNoteField", navigator.NamespaceURI) == "true");
-                            lstViewStates.Add(xpNextElement.Current.GetAttribute("viewCoachNotesField", navigator.NamespaceURI) == "true");
-                            lstViewStates.Add(xpNextElement.Current.GetAttribute("viewNetBible", navigator.NamespaceURI) == "true");
+                            st.IsVernacularVisible = (xpNextElement.Current.GetAttribute("viewVernacularLangField", navigator.NamespaceURI) == "true");
+                            st.IsNationalBTVisible = (xpNextElement.Current.GetAttribute("viewNationalLangField", navigator.NamespaceURI) == "true");
+                            st.IsEnglishBTVisible = (xpNextElement.Current.GetAttribute("viewEnglishBTField", navigator.NamespaceURI) == "true");
+                            st.IsAnchorVisible = (xpNextElement.Current.GetAttribute("viewAnchorField", navigator.NamespaceURI) == "true");
+                            st.IsStoryTestingQuestion = (xpNextElement.Current.GetAttribute("viewStoryTestingQuestionField", navigator.NamespaceURI) == "true");
+                            st.IsRetellingVisible = (xpNextElement.Current.GetAttribute("viewRetellingField", navigator.NamespaceURI) == "true");
+                            st.IsConsultantNotesVisible = (xpNextElement.Current.GetAttribute("viewConsultantNoteField", navigator.NamespaceURI) == "true");
+                            st.IsCoachNotesVisible = (xpNextElement.Current.GetAttribute("viewCoachNotesField", navigator.NamespaceURI) == "true");
+                            st.IsNetBibleVisible = (xpNextElement.Current.GetAttribute("viewNetBible", navigator.NamespaceURI) == "true");
                         }
-
-                        StateTransition st = new StateTransition(eThisStage, eNextStage, eMemberType, 
-                            strStageDisplayString, strStageInstructions,
-                            lstAllowableBackwardsStages, lstViewStates);
 
                         Add(eThisStage, st);
                     }
@@ -335,21 +334,31 @@ namespace OneStoryProjectEditor
             internal ProjectStages NextState = ProjectStages.eUndefined;
             internal List<AllowablePreviousStateWithConditions> AllowableBackwardsTransitions = new List<AllowablePreviousStateWithConditions>();
             internal TeamMemberData.UserTypes MemberTypeWithEditToken = TeamMemberData.UserTypes.eUndefined;
-            protected List<bool> _abViewSettings = null;
-            internal string StageDisplayString = null;
-            internal string StageInstructions = null;
+            internal string StageDisplayString;
+            internal string StageInstructions;
 #if !DataDllBuild
-            public CheckEndOfStateTransition.CheckForValidEndOfState IsReadyForTransition = null;
+            public CheckEndOfStateTransition.CheckForValidEndOfState IsReadyForTransition;
 #endif
 
-            public StateTransition(
-                ProjectStages thisStage,
-                ProjectStages theNextStage,
-                TeamMemberData.UserTypes eMemberTypeWithEditToken,
-                string strDisplayString,
-                string strInstructions,
-                List<AllowablePreviousStateWithConditions> lstAllowableBackwardsStages,
-                List<bool> abViewSettings)
+            internal bool IsVernacularVisible { get; set; }
+            internal bool IsNationalBTVisible { get; set; }
+            internal bool IsEnglishBTVisible { get; set; }
+            internal bool IsAnchorVisible { get; set; }
+            internal bool IsStoryTestingQuestion { get; set; }
+            internal bool IsRetellingVisible { get; set; }
+            internal bool IsConsultantNotesVisible { get; set; }
+            internal bool IsCoachNotesVisible { get; set; }
+            internal bool IsNetBibleVisible { get; set; }
+
+            public StateTransition
+                (
+                    ProjectStages thisStage,
+                    ProjectStages theNextStage,
+                    TeamMemberData.UserTypes eMemberTypeWithEditToken,
+                    string strDisplayString,
+                    string strInstructions,
+                    List<AllowablePreviousStateWithConditions> lstAllowableBackwardsStages
+                )
             {
                 CurrentStage = thisStage;
                 NextState = theNextStage;
@@ -357,7 +366,6 @@ namespace OneStoryProjectEditor
                 StageDisplayString = strDisplayString;
                 StageInstructions = strInstructions;
                 AllowableBackwardsTransitions.AddRange(lstAllowableBackwardsStages);
-                _abViewSettings = abViewSettings;
                 string strMethodName = thisStage.ToString().Substring(1);
 
 #if !DataDllBuild
@@ -366,17 +374,6 @@ namespace OneStoryProjectEditor
                     typeof(CheckEndOfStateTransition), strMethodName);
 #endif
             }
-
-            /*
-            public bool IsTerminalTransition(ProjectStages eToStage)
-            {
-
-                if ((int)eToStage < (int)CurrentStage)
-                    return (AllowableBackwardsTransitions[0].ProjectStage == eToStage);
-
-                return false;
-            }
-            */
 
             public bool IsTransitionValid(ProjectStages eToStage)
             {
@@ -389,19 +386,33 @@ namespace OneStoryProjectEditor
 #if !DataDllBuild
             public void SetView(StoryEditor theSE)
             {
-                theSE.viewVernacularLangFieldMenuItem.Checked = _abViewSettings[0] && theSE.StoryProject.ProjSettings.Vernacular.HasData;
-                theSE.viewNationalLangFieldMenuItem.Checked = (_abViewSettings[1] && theSE.StoryProject.ProjSettings.NationalBT.HasData);
+                // the vern should be visible if it is configured and either it's supposed to be visible (based on the
+                //  state information) OR it's the only one in existance--i.e. an English story project)
+                theSE.viewVernacularLangFieldMenuItem.Checked = (theSE.StoryProject.ProjSettings.Vernacular.HasData
+                    && (IsVernacularVisible 
+                        || (!theSE.StoryProject.ProjSettings.NationalBT.HasData 
+                        && !theSE.StoryProject.ProjSettings.InternationalBT.HasData)));
 
-                // gotta show the English if user is *only* using an English BT
-                theSE.viewEnglishBTFieldMenuItem.Checked = 
-                    ((_abViewSettings[2] && theSE.StoryProject.ProjSettings.InternationalBT.HasData)
-                    || (!theSE.StoryProject.ProjSettings.Vernacular.HasData && !theSE.StoryProject.ProjSettings.NationalBT.HasData));
-                theSE.viewAnchorFieldMenuItem.Checked = _abViewSettings[3];
-                theSE.viewStoryTestingQuestionFieldMenuItem.Checked = _abViewSettings[4];
-                theSE.viewRetellingFieldMenuItem.Checked = _abViewSettings[5];
-                theSE.viewConsultantNoteFieldMenuItem.Checked = _abViewSettings[6];
-                theSE.viewCoachNotesFieldMenuItem.Checked = _abViewSettings[7];
-                theSE.viewNetBibleMenuItem.Checked = _abViewSettings[8];
+                // the National BT should be visible if it is configured and either it's supposed to be visible (based on the
+                //  state information) OR it's the only one in existance--i.e. an EnglishBT-only project)
+                theSE.viewNationalLangFieldMenuItem.Checked = (theSE.StoryProject.ProjSettings.NationalBT.HasData
+                    && (IsNationalBTVisible
+                        || (!theSE.StoryProject.ProjSettings.Vernacular.HasData
+                        && !theSE.StoryProject.ProjSettings.InternationalBT.HasData)));
+
+                // the English BT should be visible if it is configured and either it's supposed to be visible (based on the
+                //  state information) OR it's the only one in existance--i.e. an EnglishBT-only project)
+                theSE.viewEnglishBTFieldMenuItem.Checked = (theSE.StoryProject.ProjSettings.InternationalBT.HasData
+                    &&  (IsEnglishBTVisible 
+                        || (!theSE.StoryProject.ProjSettings.Vernacular.HasData 
+                        && !theSE.StoryProject.ProjSettings.NationalBT.HasData)));
+
+                theSE.viewAnchorFieldMenuItem.Checked = IsAnchorVisible;
+                theSE.viewStoryTestingQuestionFieldMenuItem.Checked = IsStoryTestingQuestion;
+                theSE.viewRetellingFieldMenuItem.Checked = IsRetellingVisible;
+                theSE.viewConsultantNoteFieldMenuItem.Checked = IsConsultantNotesVisible;
+                theSE.viewCoachNotesFieldMenuItem.Checked = IsCoachNotesVisible;
+                theSE.viewNetBibleMenuItem.Checked = IsNetBibleVisible;
             }
 #endif
 
@@ -435,15 +446,15 @@ namespace OneStoryProjectEditor
                         new XElement("StageInstructions", StageInstructions),
                         elemAllowableBackwardsTransition,
                         new XElement("ViewSettings",
-                            new XAttribute("viewVernacularLangFieldMenuItem", _abViewSettings[0]),
-                            new XAttribute("viewNationalLangFieldMenuItem", _abViewSettings[1]),
-                            new XAttribute("viewEnglishBTFieldMenuItem", _abViewSettings[2]),
-                            new XAttribute("viewAnchorFieldMenuItem", _abViewSettings[3]),
-                            new XAttribute("viewStoryTestingQuestionFieldMenuItem", _abViewSettings[4]),
-                            new XAttribute("viewRetellingFieldMenuItem", _abViewSettings[5]),
-                            new XAttribute("viewConsultantNoteFieldMenuItem", _abViewSettings[6]),
-                            new XAttribute("viewCoachNotesFieldMenuItem", _abViewSettings[7]),
-                            new XAttribute("viewNetBibleMenuItem", _abViewSettings[8])));
+                            new XAttribute("viewVernacularLangFieldMenuItem", IsVernacularVisible),
+                            new XAttribute("viewNationalLangFieldMenuItem", IsNationalBTVisible),
+                            new XAttribute("viewEnglishBTFieldMenuItem", IsEnglishBTVisible),
+                            new XAttribute("viewAnchorFieldMenuItem", IsAnchorVisible),
+                            new XAttribute("viewStoryTestingQuestionFieldMenuItem", IsStoryTestingQuestion),
+                            new XAttribute("viewRetellingFieldMenuItem", IsRetellingVisible),
+                            new XAttribute("viewConsultantNoteFieldMenuItem", IsConsultantNotesVisible),
+                            new XAttribute("viewCoachNotesFieldMenuItem", IsCoachNotesVisible),
+                            new XAttribute("viewNetBibleMenuItem", IsNetBibleVisible)));
 
                     return elem;
                 }

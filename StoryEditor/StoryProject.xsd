@@ -20,6 +20,7 @@
 									<xs:attribute name="teamViewerID" type="xs:string" use="optional" />
 									<xs:attribute name="OverrideVernacularKeyboard" type="xs:string" use="optional" />
 									<xs:attribute name="OverrideNationalBTKeyboard" type="xs:string" use="optional" />
+                  <xs:attribute name="OverrideInternationalBTKeyboard" type="xs:string" use="optional" />
                   <xs:attribute name="HgUsername" type="xs:string" use="optional" />
                   <xs:attribute name="HgPassword" type="xs:string" use="optional" />
                 </xs:complexType>
@@ -276,7 +277,8 @@
 			<xs:enumeration value="ProjectFacilitator" />
 			<xs:enumeration value="FirstPassMentor" />
 			<xs:enumeration value="ConsultantInTraining" />
-			<xs:enumeration value="Coach" />
+      <xs:enumeration value="IndependentConsultant" />
+      <xs:enumeration value="Coach" />
 			<xs:enumeration value="JustLooking" />
 		</xs:restriction>
 	</xs:simpleType>
