@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Xml.Linq;
 using System.Text;
 
@@ -45,6 +46,8 @@ namespace OneStoryProjectEditor
         public string BioData;
         public string OverrideVernacularKeyboard;
         public string OverrideNationalBTKeyboard;
+        public string HgUsername;
+        public string HgPassword;
 
         public TeamMemberData(string strName, UserTypes eMemberType, string strMemberGuid, string strEmail, string strSkypeID, string strTeamViewerID, string strPhone, string strAltPhone, string strBioData)
         {
@@ -89,6 +92,15 @@ namespace OneStoryProjectEditor
 
             if (!theMemberRow.IsOverrideNationalBTKeyboardNull())
                 OverrideNationalBTKeyboard = theMemberRow.OverrideNationalBTKeyboard;
+
+            if (!theMemberRow.IsHgUsernameNull())
+                HgUsername = theMemberRow.HgUsername;
+
+            if (!theMemberRow.IsHgPasswordNull())
+            {
+                string strEncryptedHgPassword = theMemberRow.HgPassword;
+                HgPassword = RsaEncryptionClass.RSADecrypt(strEncryptedHgPassword);
+            }
         }
 
         public static UserTypes GetMemberType(string strMemberTypeString)
@@ -163,23 +175,31 @@ namespace OneStoryProjectEditor
                 XElement eleMember = new XElement("Member",
                     new XAttribute("name", Name),
                     new XAttribute("memberType", MemberTypeAsString));
-                    if (!String.IsNullOrEmpty(Email))
-                        eleMember.Add(new XAttribute("email", Email));
-                    if (!String.IsNullOrEmpty(AltPhone))
-                        eleMember.Add(new XAttribute("altPhone", AltPhone));
-                    if (!String.IsNullOrEmpty(Phone))
-                        eleMember.Add(new XAttribute("phone", Phone));
-                    if (!String.IsNullOrEmpty(BioData))
-                        eleMember.Add(new XAttribute("bioData", BioData));
-                    if (!String.IsNullOrEmpty(SkypeID))
-                        eleMember.Add(new XAttribute("skypeID", SkypeID));
-                    if (!String.IsNullOrEmpty(TeamViewerID))
-                        eleMember.Add(new XAttribute("teamViewerID", TeamViewerID));
-                    if (!String.IsNullOrEmpty(OverrideVernacularKeyboard))
-                        eleMember.Add(new XAttribute("OverrideVernacularKeyboard", OverrideVernacularKeyboard));
-                    if (!String.IsNullOrEmpty(OverrideNationalBTKeyboard))
-                        eleMember.Add(new XAttribute("OverrideNationalBTKeyboard", OverrideNationalBTKeyboard));
-                    eleMember.Add(new XAttribute("memberKey", MemberGuid));
+                if (!String.IsNullOrEmpty(Email))
+                    eleMember.Add(new XAttribute("email", Email));
+                if (!String.IsNullOrEmpty(AltPhone))
+                    eleMember.Add(new XAttribute("altPhone", AltPhone));
+                if (!String.IsNullOrEmpty(Phone))
+                    eleMember.Add(new XAttribute("phone", Phone));
+                if (!String.IsNullOrEmpty(BioData))
+                    eleMember.Add(new XAttribute("bioData", BioData));
+                if (!String.IsNullOrEmpty(SkypeID))
+                    eleMember.Add(new XAttribute("skypeID", SkypeID));
+                if (!String.IsNullOrEmpty(TeamViewerID))
+                    eleMember.Add(new XAttribute("teamViewerID", TeamViewerID));
+                if (!String.IsNullOrEmpty(OverrideVernacularKeyboard))
+                    eleMember.Add(new XAttribute("OverrideVernacularKeyboard", OverrideVernacularKeyboard));
+                if (!String.IsNullOrEmpty(OverrideNationalBTKeyboard))
+                    eleMember.Add(new XAttribute("OverrideNationalBTKeyboard", OverrideNationalBTKeyboard));
+                if (!String.IsNullOrEmpty(HgUsername))
+                    eleMember.Add(new XAttribute("HgUsername", HgUsername));
+                if (!String.IsNullOrEmpty(HgPassword))
+                {
+                    string strEncryptedHgPassword = RsaEncryptionClass.RSAEncrypt(HgPassword);
+                    eleMember.Add(new XAttribute("HgPassword", strEncryptedHgPassword));
+                }
+
+                eleMember.Add(new XAttribute("memberKey", MemberGuid));
 
                 return eleMember;
             }
