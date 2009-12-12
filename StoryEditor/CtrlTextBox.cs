@@ -143,6 +143,18 @@ namespace OneStoryProjectEditor
 
         protected override void OnEnter(EventArgs e)
         {
+            KeepTrackOfLastTextBoxSelected();
+            base.OnEnter(e);
+        }
+
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            KeepTrackOfLastTextBoxSelected();
+            base.OnMouseDown(e);
+        }
+
+        protected void KeepTrackOfLastTextBoxSelected()
+        {
             _inTextBox = this;
             if (!String.IsNullOrEmpty(_strKeyboardName))
                 KeyboardController.ActivateKeyboard(_strKeyboardName);
@@ -155,10 +167,7 @@ namespace OneStoryProjectEditor
                 _ctrlVerseParent.TheSE.myFocusTimer.Tag = _ctrlVerseParent;
                 _ctrlVerseParent.TheSE.myFocusTimer.Start();
             }
-
-            base.OnEnter(e);
         }
-
         protected override void OnLeave(EventArgs e)
         {
             _inTextBox = null;
