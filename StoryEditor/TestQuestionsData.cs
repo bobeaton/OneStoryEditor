@@ -82,22 +82,22 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public void IndexSearch(int nVerseNum, SearchForm.SearchLookInProperties findProperties, 
+        public void IndexSearch(SearchForm.SearchLookInProperties findProperties, 
             SearchForm.StringTransferSearchIndex lstBoxesToSearch)
         {
             if (QuestionVernacular.HasData && findProperties.StoryLanguage)
-                lstBoxesToSearch.AddNewVerseString(nVerseNum, QuestionVernacular,
+                lstBoxesToSearch.AddNewVerseString(QuestionVernacular,
                     VerseData.ViewItemToInsureOn.eStoryTestingQuestionFields |
                     VerseData.ViewItemToInsureOn.eVernacularLangField);
             if (QuestionNationalBT.HasData && findProperties.NationalBT)
-                lstBoxesToSearch.AddNewVerseString(nVerseNum, QuestionNationalBT,
+                lstBoxesToSearch.AddNewVerseString(QuestionNationalBT,
                     VerseData.ViewItemToInsureOn.eStoryTestingQuestionFields | 
                     VerseData.ViewItemToInsureOn.eNationalLangField);
             if (QuestionInternationalBT.HasData && findProperties.EnglishBT)
-                lstBoxesToSearch.AddNewVerseString(nVerseNum, QuestionInternationalBT,
+                lstBoxesToSearch.AddNewVerseString(QuestionInternationalBT,
                     VerseData.ViewItemToInsureOn.eStoryTestingQuestionFields |
                     VerseData.ViewItemToInsureOn.eEnglishBTField);
-            Answers.IndexSearch(nVerseNum, findProperties, ref lstBoxesToSearch);
+            Answers.IndexSearch(findProperties, ref lstBoxesToSearch);
         }
     }
 
@@ -151,11 +151,11 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public void IndexSearch(int nVerseNum, SearchForm.SearchLookInProperties findProperties,
+        public void IndexSearch(SearchForm.SearchLookInProperties findProperties,
             ref SearchForm.StringTransferSearchIndex lstBoxesToSearch)
         {
             foreach (TestQuestionData testQuestionData in this)
-                testQuestionData.IndexSearch(nVerseNum, findProperties, lstBoxesToSearch);
+                testQuestionData.IndexSearch(findProperties, lstBoxesToSearch);
         }
     }
 }

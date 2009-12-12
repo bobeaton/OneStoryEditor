@@ -192,10 +192,11 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public void IndexSearch(int nVerseNum, SearchForm.SearchLookInProperties findProperties, SearchForm.StringTransferSearchIndex lstBoxesToSearch)
+        public void IndexSearch(SearchForm.SearchLookInProperties findProperties, 
+            SearchForm.StringTransferSearchIndex lstBoxesToSearch)
         {
             foreach (CommInstance aCI in this)
-                lstBoxesToSearch.AddNewVerseString(nVerseNum, aCI, AssociatedPane);
+                lstBoxesToSearch.AddNewVerseString(aCI, AssociatedPane);
         }
     }
 
@@ -417,11 +418,11 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public void IndexSearch(int nVerseNum, SearchForm.SearchLookInProperties findProperties,
+        public void IndexSearch(SearchForm.SearchLookInProperties findProperties,
             ref SearchForm.StringTransferSearchIndex lstBoxesToSearch)
         {
             foreach (ConsultNoteDataConverter aCNDC in this)
-                aCNDC.IndexSearch(nVerseNum, findProperties, lstBoxesToSearch);
+                aCNDC.IndexSearch(findProperties, lstBoxesToSearch);
         }
     }
 

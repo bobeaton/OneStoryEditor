@@ -6,6 +6,7 @@ namespace OneStoryProjectEditor
     public partial class ConsultNotesControl : VerseControl
     {
         protected const string CstrFieldNameConsultantNote = "ConsultantNoteControl";
+        protected const string CstrZerothVerseName = "Story:";
 
         internal ConsultNotesDataConverter _theCNsDC = null;
         public ConsultNotesControl(StoryEditor theSE, StoryStageLogic storyStageLogic, 
@@ -19,7 +20,7 @@ namespace OneStoryProjectEditor
             tableLayoutPanel.SuspendLayout();
             SuspendLayout();
 
-            labelReference.Text = CstrVerseName + VerseNumber;
+            labelReference.Text = (VerseNumber == 0) ? CstrZerothVerseName : CstrVerseName + VerseNumber;
             tableLayoutPanel.Controls.Add(labelReference, 0, 0);
             tableLayoutPanel.Controls.Add(buttonDragDropHandle, 1, 0);
 
@@ -70,6 +71,11 @@ namespace OneStoryProjectEditor
             StoryEditor theSE;
             if (!CheckForProperEditToken(out theSE))
                 return;
+
+            // if we're not given anything to put in the box, at least put in the logged
+            //  in member's initials and re
+            if (String.IsNullOrEmpty(strNote) && (theSE.LoggedOnMember != null))
+                strNote = StoryEditor.GetInitials(theSE.LoggedOnMember.Name) + ": Re: ";
 
             // if the coach tries to add a note in the consultant's pane, that should fail.
             // (but it's okay for a project facilitator to add one if they have a question

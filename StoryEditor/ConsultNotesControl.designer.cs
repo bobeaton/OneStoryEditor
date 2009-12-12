@@ -44,6 +44,7 @@
             this.labelReference.Size = new System.Drawing.Size(79, 13);
             this.labelReference.TabIndex = 0;
             this.labelReference.Text = "labelReference";
+            this.labelReference.ForeColor = System.Drawing.SystemColors.ActiveCaption;
             // 
             // buttonDragDropHandle
             // 

@@ -238,7 +238,6 @@ namespace OneStoryProjectEditor
                         VerseString vs = stsi[nCtxBoxIndex];
                         System.Diagnostics.Debug.Assert(vs.StringTransfer == stringTransfer);
                         TheSE.NavigateTo(stsi.StoryName,
-                                         vs.VerseNumber,
                                          vs.ViewToInsureIsOn,
                                          stringTransfer);
                         
@@ -390,14 +389,12 @@ namespace OneStoryProjectEditor
         public class VerseString
         {
             public StringTransfer StringTransfer { get; set; }
-            public int VerseNumber { get; set; }
             public VerseData.ViewItemToInsureOn ViewToInsureIsOn { get; set; }
 
-            public VerseString(int nVerseNum, StringTransfer strStringTransfer,
+            public VerseString(StringTransfer strStringTransfer,
                 VerseData.ViewItemToInsureOn viewItemToInsureOn)
             {
                 StringTransfer = strStringTransfer;
-                VerseNumber = nVerseNum;
                 ViewToInsureIsOn = viewItemToInsureOn;
             }
         }
@@ -411,11 +408,10 @@ namespace OneStoryProjectEditor
                 StoryName = strStoryName;
             }
 
-            public VerseString AddNewVerseString(int nVerseNum,
-                StringTransfer strStringTransfer, 
+            public VerseString AddNewVerseString(StringTransfer strStringTransfer, 
                 VerseData.ViewItemToInsureOn viewItemToInsureOn)
             {
-                var vs = new VerseString(nVerseNum, strStringTransfer, viewItemToInsureOn);
+                var vs = new VerseString(strStringTransfer, viewItemToInsureOn);
                 Add(vs);
                 return vs;
             }

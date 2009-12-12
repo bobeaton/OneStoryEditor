@@ -642,7 +642,8 @@ namespace OneStoryProjectEditor
                 Properties.Settings.Default.Save();
 
                 // see if this PF is the one who's editing the story
-                theCurrentStory.CheckForProjectFacilitator(StoryProject, LoggedOnMember);
+                if (LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
+                    theCurrentStory.CheckForProjectFacilitator(StoryProject, LoggedOnMember);
             }
 
             // initialize the text box showing the storying they're editing
@@ -695,6 +696,9 @@ namespace OneStoryProjectEditor
 
         protected void InitAllPanes(VersesData theVerses)
         {
+            // the first verse (for global ConNotes) should have been initialized by now
+            Debug.Assert(theVerses.FirstVerse != null);
+
             ClearFlowControls();
             int nVerseIndex = 0;
             if (theVerses.Count == 0)
@@ -704,6 +708,10 @@ namespace OneStoryProjectEditor
             flowLayoutPanelConsultantNotes.SuspendLayout();
             flowLayoutPanelCoachNotes.SuspendLayout();
             SuspendLayout();
+
+            // for ConNotes, there's a zeroth verse that's for global story comments
+            InitConsultNotesPane(flowLayoutPanelConsultantNotes, theVerses.FirstVerse.ConsultantNotes, nVerseIndex);
+            InitConsultNotesPane(flowLayoutPanelCoachNotes, theVerses.FirstVerse.CoachNotes, nVerseIndex);
 
             AddDropTargetToFlowLayout(nVerseIndex++);
             foreach (VerseData aVerse in theVerses)
@@ -768,8 +776,13 @@ namespace OneStoryProjectEditor
                 flowLayoutPanelConsultantNotes.SuspendLayout();
                 SuspendLayout();
 
+                // display the zeroth note (which is only for ConNotes
+                InitConsultNotesPane(flowLayoutPanelConsultantNotes,
+                    theCurrentStory.Verses.FirstVerse.ConsultantNotes, nVerseIndex);
+
                 foreach (VerseData aVerse in theCurrentStory.Verses)
-                    InitConsultNotesPane(flowLayoutPanelConsultantNotes, aVerse.ConsultantNotes, ++nVerseIndex);
+                    InitConsultNotesPane(flowLayoutPanelConsultantNotes, 
+                        aVerse.ConsultantNotes, ++nVerseIndex);
 
                 flowLayoutPanelConsultantNotes.ResumeLayout(true);
                 ResumeLayout(true);
@@ -780,6 +793,10 @@ namespace OneStoryProjectEditor
                 flowLayoutPanelCoachNotes.Clear();
                 flowLayoutPanelCoachNotes.SuspendLayout();
                 SuspendLayout();
+
+                // display the zeroth note (which is only for ConNotes
+                InitConsultNotesPane(flowLayoutPanelCoachNotes, 
+                    theCurrentStory.Verses.FirstVerse.CoachNotes, nVerseIndex);
 
                 foreach (VerseData aVerse in theCurrentStory.Verses)
                     InitConsultNotesPane(flowLayoutPanelCoachNotes, aVerse.CoachNotes, ++nVerseIndex);
@@ -861,6 +878,10 @@ namespace OneStoryProjectEditor
 
         public void FocusOnVerse(int nVerseIndex, VerseControl ctrlThis)
         {
+            // if the user is in one of the zeroth ConNote boxes...
+            if (nVerseIndex < 0)
+                nVerseIndex++;  // then treat it as the 1st.
+
             // light up whichever text box is visible
             // from the verses pane...
             Debug.Assert(((nVerseIndex * 2) + 1) < flowLayoutPanelVerses.Controls.Count);
@@ -952,7 +973,7 @@ namespace OneStoryProjectEditor
                 }
             }
 
-            int nVerseIndex = ctrlParent.VerseNumber - 1;
+            int nVerseIndex = ctrlParent.VerseNumber;
             if (LoggedOnMember.MemberType == TeamMemberData.UserTypes.eCoach)
             {
                 if (!viewCoachNotesFieldMenuItem.Checked)
@@ -979,7 +1000,7 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private static string GetInitials(string name)
+        internal static string GetInitials(string name)
         {
             string[] astrNames = name.Split(new [] {' '}, StringSplitOptions.RemoveEmptyEntries);
             string strInitials = null;
@@ -2618,14 +2639,12 @@ namespace OneStoryProjectEditor
             FocusOnVerse(nLineIndex, null);
         }
 
-        public void NavigateTo(string strStoryName, int nLineIndex,
+        public void NavigateTo(string strStoryName, 
             VerseData.ViewItemToInsureOn viewItemToInsureOn, StringTransfer stToFocus)
         {
             Debug.Assert(comboBoxStorySelector.Items.Contains(strStoryName));
             if (strStoryName != theCurrentStory.Name)
                 comboBoxStorySelector.SelectedItem = strStoryName;
-
-            Debug.Assert(theCurrentStory.Verses.Count > nLineIndex);
 
             if (VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eVernacularLangField))
                 InsureVisible(viewVernacularLangFieldMenuItem);

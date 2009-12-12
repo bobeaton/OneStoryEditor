@@ -237,6 +237,7 @@
       <DependentUpon>PanoramaView.cs</DependentUpon>
     </Compile>
     <Compile Include="ProjectSettings.cs" />
+    <Compile Include="RsaEncryptionClass.cs" />
     <Compile Include="SearchForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -251,9 +252,9 @@
       <DependentUpon>StoryFrontMatterForm.cs</DependentUpon>
     </Compile>
     <Compile Include="StoryProject.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
       <DependentUpon>StoryProject.xsd</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="StoryStageLogic.cs" />
     <Compile Include="ResizableControl.cs">

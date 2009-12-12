@@ -8,6 +8,7 @@ namespace OneStoryProjectEditor
     public class VerseData
     {
         public string guid;
+        public bool IsFirstVerse;
         public StringTransfer VernacularText = null;
         public StringTransfer NationalBTText = null;
         public StringTransfer InternationalBTText = null;
@@ -20,6 +21,10 @@ namespace OneStoryProjectEditor
         public VerseData(NewDataSet.verseRow theVerseRow, NewDataSet projFile)
         {
             guid = theVerseRow.guid;
+
+            if (!theVerseRow.IsfirstNull())
+                IsFirstVerse = theVerseRow.first;
+
             VernacularText = new StringTransfer((!theVerseRow.IsVernacularNull()) ? theVerseRow.Vernacular : null);
             NationalBTText = new StringTransfer((!theVerseRow.IsNationalBTNull()) ? theVerseRow.NationalBT : null);
             InternationalBTText = new StringTransfer((!theVerseRow.IsInternationalBTNull()) ? theVerseRow.InternationalBT : null);
@@ -48,6 +53,7 @@ namespace OneStoryProjectEditor
         {
             // the guid shouldn't be replicated
             guid = Guid.NewGuid().ToString();   // rhs.guid;
+            IsFirstVerse = rhs.IsFirstVerse;
 
             VernacularText = new StringTransfer(rhs.VernacularText.ToString());
             NationalBTText = new StringTransfer(rhs.NationalBTText.ToString());
@@ -59,26 +65,26 @@ namespace OneStoryProjectEditor
             CoachNotes = new CoachNotesData(rhs.CoachNotes);
         }
 
-        public void IndexSearch(int nVerseNum, SearchForm.SearchLookInProperties findProperties,
+        public void IndexSearch(SearchForm.SearchLookInProperties findProperties,
             ref SearchForm.StringTransferSearchIndex lstBoxesToSearch)
         {
             if (VernacularText.HasData && findProperties.StoryLanguage)
-                lstBoxesToSearch.AddNewVerseString(nVerseNum, VernacularText,
+                lstBoxesToSearch.AddNewVerseString(VernacularText,
                     ViewItemToInsureOn.eVernacularLangField);
             if (NationalBTText.HasData && findProperties.NationalBT)
-                lstBoxesToSearch.AddNewVerseString(nVerseNum, NationalBTText,
+                lstBoxesToSearch.AddNewVerseString(NationalBTText,
                     ViewItemToInsureOn.eNationalLangField);
             if (InternationalBTText.HasData && findProperties.EnglishBT)
-                lstBoxesToSearch.AddNewVerseString(nVerseNum, InternationalBTText,
+                lstBoxesToSearch.AddNewVerseString(InternationalBTText,
                     ViewItemToInsureOn.eEnglishBTField);
             if (TestQuestions.HasData && findProperties.TestQnA)
-                TestQuestions.IndexSearch(nVerseNum, findProperties, ref lstBoxesToSearch);
+                TestQuestions.IndexSearch(findProperties, ref lstBoxesToSearch);
             if (Retellings.HasData && findProperties.Retellings)
-                Retellings.IndexSearch(nVerseNum, findProperties, ref lstBoxesToSearch);
+                Retellings.IndexSearch(findProperties, ref lstBoxesToSearch);
             if (ConsultantNotes.HasData && findProperties.ConsultantNotes)
-                ConsultantNotes.IndexSearch(nVerseNum, findProperties, ref lstBoxesToSearch);
+                ConsultantNotes.IndexSearch(findProperties, ref lstBoxesToSearch);
             if (CoachNotes.HasData && findProperties.CoachNotes)
-                CoachNotes.IndexSearch(nVerseNum, findProperties, ref lstBoxesToSearch);
+                CoachNotes.IndexSearch(findProperties, ref lstBoxesToSearch);
         }
 
         public bool HasData
@@ -95,7 +101,13 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                XElement elemVerse = new XElement("verse", new XAttribute("guid", guid));
+                XElement elemVerse = new XElement("verse", 
+                    new XAttribute("guid", guid));
+                
+                // only need to write out the 'first' attribute if it's true
+                if (IsFirstVerse)
+                    elemVerse.Add(new XAttribute("first", IsFirstVerse));
+                
                 if (VernacularText.HasData)
                     elemVerse.Add(new XElement("Vernacular", VernacularText));
                 if (NationalBTText.HasData)
@@ -138,6 +150,8 @@ namespace OneStoryProjectEditor
 
     public class VersesData : List<VerseData>
     {
+        public VerseData FirstVerse;
+
         public VersesData(NewDataSet.storyRow theStoryRow, NewDataSet projFile)
         {
             NewDataSet.versesRow[] theVersesRows = theStoryRow.GetversesRows();
@@ -149,10 +163,20 @@ namespace OneStoryProjectEditor
 
             foreach (NewDataSet.verseRow aVerseRow in theVersesRow.GetverseRows())
                 Add(new VerseData(aVerseRow, projFile));
+
+            // the zeroth verse is special for global connotes
+            if ((Count > 0) && this[0].IsFirstVerse)
+            {
+                FirstVerse = this[0];
+                RemoveAt(0);
+            }
+            else
+                InsureFirstVerse();
         }
 
         public VersesData(VersesData rhs)
         {
+            FirstVerse = new VerseData(rhs.FirstVerse);
             foreach (VerseData aVerse in rhs)
                 Add(new VerseData(aVerse));
         }
@@ -161,9 +185,14 @@ namespace OneStoryProjectEditor
         {
         }
 
+        public void InsureFirstVerse()
+        {
+            FirstVerse = new VerseData { IsFirstVerse = true };
+        }
+
         public VerseData InsertVerse(int nIndex, string strVernacular, string strNationalBT, string strInternationalBT)
         {
-            VerseData dataVerse = new VerseData
+            var dataVerse = new VerseData
                                         {
                                             VernacularText = new StringTransfer(strVernacular),
                                             NationalBTText = new StringTransfer(strNationalBT),
@@ -175,7 +204,7 @@ namespace OneStoryProjectEditor
 
         public bool HasData
         {
-            get { return (this.Count > 0); }
+            get { return (Count > 0) || ((FirstVerse != null) && (FirstVerse.HasData)); }
         }
 
         public XElement GetXml
@@ -184,8 +213,14 @@ namespace OneStoryProjectEditor
             {
                 System.Diagnostics.Debug.Assert(HasData);
                 XElement elemVerses = new XElement("verses");
+                
+                // write out the zeroth verse first
+                elemVerses.Add(FirstVerse.GetXml);
+
+                // then write out the rest
                 foreach (VerseData aVerseData in this)
                     elemVerses.Add(aVerseData.GetXml);
+
                 return elemVerses;
             }
         }
@@ -193,10 +228,13 @@ namespace OneStoryProjectEditor
         public void IndexSearch(SearchForm.SearchLookInProperties findProperties,
             ref SearchForm.StringTransferSearchIndex lstBoxesToSearch)
         {
+            // put the zeroth ConNotes box in the search queue
+            FirstVerse.IndexSearch(findProperties, ref lstBoxesToSearch);
+
             for (int nVerseNum = 0; nVerseNum < Count; nVerseNum++)
             {
                 VerseData aVerseData = this[nVerseNum];
-                aVerseData.IndexSearch(nVerseNum, findProperties, ref lstBoxesToSearch);
+                aVerseData.IndexSearch(findProperties, ref lstBoxesToSearch);
             }
         }
     }

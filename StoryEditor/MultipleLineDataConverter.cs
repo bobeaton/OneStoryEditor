@@ -72,11 +72,11 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public void IndexSearch(int nVerseNum, SearchForm.SearchLookInProperties findProperties,
+        public void IndexSearch(SearchForm.SearchLookInProperties findProperties,
             ref SearchForm.StringTransferSearchIndex lstBoxesToSearch)
         {
             foreach (StringTransfer line in this)
-                lstBoxesToSearch.AddNewVerseString(nVerseNum, line, AssociatedViewMenu);
+                lstBoxesToSearch.AddNewVerseString(line, AssociatedViewMenu);
         }
     }
 
