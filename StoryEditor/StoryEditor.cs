@@ -286,13 +286,14 @@ namespace OneStoryProjectEditor
             get { return new BackOutWithNoUIException(); }
         }
 
-        protected bool InitStoryProjectObject()
+        protected bool InitNewStoryProjectObject()
         {
             Debug.Assert(StoryProject == null);
 
             try
             {
                 StoryProject = new StoryProjectData();    // null causes us to query for the project name
+                StoryProject.InitializeProjectSettings();
                 CheckForLogon(StoryProject);
 
                 if (Modified)
@@ -318,7 +319,7 @@ namespace OneStoryProjectEditor
         {
             if (StoryProject == null)
             {
-                InitStoryProjectObject();
+                InitNewStoryProjectObject();
             }
             else
             {
@@ -539,7 +540,7 @@ namespace OneStoryProjectEditor
                     return;
 
                 if (StoryProject == null)
-                    if (!InitStoryProjectObject())
+                    if (!InitNewStoryProjectObject())
                     {
                         comboBoxStorySelector.Text = Properties.Resources.IDS_EnterStoryName;
                         return;
@@ -623,7 +624,7 @@ namespace OneStoryProjectEditor
 
             // we might could come thru here without having opened any file (e.g. after New)
             if (StoryProject == null)
-                if (!InitStoryProjectObject())
+                if (!InitNewStoryProjectObject())
                     return;
 
             // find the story they've chosen (this shouldn't be possible to fail)

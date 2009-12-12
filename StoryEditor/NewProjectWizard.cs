@@ -15,10 +15,10 @@ namespace OneStoryProjectEditor
         protected StoryProjectData _storyProjectData;
         protected TeamMemberData LoggedInMember;
 
-        public NewProjectWizard()
+        public NewProjectWizard(StoryProjectData storyProjectData)
         {
             InitializeComponent();
-
+            _storyProjectData = storyProjectData;
             tabControl.TabPages.Remove(tabPageInternetRepository);
             tabControl.TabPages.Remove(tabPageLanguageVernacular);
             tabControl.TabPages.Remove(tabPageLanguageNationalBT);
@@ -187,10 +187,10 @@ namespace OneStoryProjectEditor
                         ? ProjectName
                         : ProjSettings.Vernacular.LangName;
 
-                if (checkBoxStoryLanguage.Checked && String.IsNullOrEmpty(textBoxLanguageNameVernacular.Text))
-                    textBoxLanguageNameVernacular.Text = (String.IsNullOrEmpty(ProjSettings.Vernacular.LangName))
-                        ? ProjectName
-                        : ProjSettings.Vernacular.LangName;
+                if (checkBoxEnglishBT.Checked 
+                    && String.IsNullOrEmpty(textBoxLanguageNameEnglishBT.Text)
+                    && !String.IsNullOrEmpty(ProjSettings.InternationalBT.LangName))
+                    textBoxLanguageNameEnglishBT.Text = ProjSettings.InternationalBT.LangName;
 
                 tabControl.SelectedIndex++;
             }
