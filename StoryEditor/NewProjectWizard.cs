@@ -20,24 +20,37 @@ namespace OneStoryProjectEditor
             InitializeComponent();
             _storyProjectData = storyProjectData;
 
-            if (_storyProjectData.ProjSettings.IsConfigured)
+            if ((_storyProjectData.ProjSettings != null) && 
+                _storyProjectData.ProjSettings.IsConfigured)
             {
-                ProjectName = _storyProjectData.ProjSettings.ProjectName;
+                ProjSettings = _storyProjectData.ProjSettings;
+                ProjectName = ProjSettings.ProjectName;
                 string strDummy;
                 if (Program.GetHgRepoParameters(ProjectName, out strDummy, out strDummy, out strDummy))
                     checkBoxUseInternetRepo.Checked = true;
             }
+            
+            if (!checkBoxUseInternetRepo.Checked)
+                tabControl.TabPages.Remove(tabPageInternetRepository);
 
-            tabControl.TabPages.Remove(tabPageInternetRepository);
-
-            if (!_storyProjectData.ProjSettings.Vernacular.HasData)
+            if ((_storyProjectData.ProjSettings == null) 
+                || !_storyProjectData.ProjSettings.Vernacular.HasData)
                 tabControl.TabPages.Remove(tabPageLanguageVernacular);
+            else
+                checkBoxStoryLanguage.Checked = true;
 
-            if (!_storyProjectData.ProjSettings.NationalBT.HasData)
+            if ((_storyProjectData.ProjSettings == null)
+                || !_storyProjectData.ProjSettings.NationalBT.HasData)
                 tabControl.TabPages.Remove(tabPageLanguageNationalBT);
+            else
+                checkBoxNationalBT.Checked = true;
 
-            if (!_storyProjectData.ProjSettings.InternationalBT.HasData)
+            if ((_storyProjectData.ProjSettings != null)
+                && !_storyProjectData.ProjSettings.InternationalBT.HasData)
+            {
+                checkBoxEnglishBT.Checked = false;
                 tabControl.TabPages.Remove(tabPageLanguageEnglishBT);
+            }
         }
 
         private void ProcessNext()
@@ -59,14 +72,14 @@ namespace OneStoryProjectEditor
                     if (!String.IsNullOrEmpty(strRepoUrl))
                     {
                         var uri = new Uri(strRepoUrl);
-                        if (!String.IsNullOrEmpty(uri.UserInfo) & (uri.UserInfo.IndexOf(':') != -1))
+                        if (!String.IsNullOrEmpty(uri.UserInfo) && (uri.UserInfo.IndexOf(':') != -1))
                         {
                             string[] astrUserInfo = uri.UserInfo.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
                             System.Diagnostics.Debug.Assert((astrUserInfo.Length == 2) && (astrUserInfo[0] == strUsername));
                             Username = astrUserInfo[0];
                             Password = astrUserInfo[1];
                         }
-                        UrlBase = uri.Scheme + "//" + uri.Host;
+                        UrlBase = uri.Scheme + "://" + uri.Host;
                     }
                 }
                 
@@ -74,8 +87,16 @@ namespace OneStoryProjectEditor
                     UrlBase = Properties.Resources.IDS_DefaultRepoBasePath;
 
                 InitLanguageControls(tabPageLanguageVernacular, ProjSettings.Vernacular);
+                if ((LoggedInMember != null) && (!String.IsNullOrEmpty(LoggedInMember.OverrideVernacularKeyboard)))
+                    comboBoxKeyboardVernacular.SelectedItem = LoggedInMember.OverrideVernacularKeyboard;
+
                 InitLanguageControls(tabPageLanguageNationalBT, ProjSettings.NationalBT);
+                if ((LoggedInMember != null) && (!String.IsNullOrEmpty(LoggedInMember.OverrideNationalBTKeyboard)))
+                    comboBoxKeyboardVernacular.SelectedItem = LoggedInMember.OverrideNationalBTKeyboard;
+
                 InitLanguageControls(tabPageLanguageEnglishBT, ProjSettings.InternationalBT);
+                if ((LoggedInMember != null) && (!String.IsNullOrEmpty(LoggedInMember.OverrideInternationalBTKeyboard)))
+                    comboBoxKeyboardVernacular.SelectedItem = LoggedInMember.OverrideInternationalBTKeyboard;
 
                 tabControl.SelectedIndex++;
             }
@@ -143,12 +164,12 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert(tabPage.Controls[0] is TableLayoutPanel);
             TableLayoutPanel tlp = tabPage.Controls[0] as TableLayoutPanel;
             System.Diagnostics.Debug.Assert(tlp.GetControlFromPosition(1, 2) is ComboBox);
-            ComboBox cb = tlp.GetControlFromPosition(1, 2) as ComboBox;
+            ComboBox comboBoxKeyboard = tlp.GetControlFromPosition(1, 2) as ComboBox;
 
             // initialize the keyboard combo list
             foreach (KeyboardController.KeyboardDescriptor keyboard in
                 KeyboardController.GetAvailableKeyboards(KeyboardController.Engines.All))
-                cb.Items.Add(keyboard.Name);
+                comboBoxKeyboard.Items.Add(keyboard.Name);
 
             System.Diagnostics.Debug.Assert(tlp.GetControlFromPosition(1, 4) is TextBox);
             TextBox tbSentFullStop = tlp.GetControlFromPosition(1, 4) as TextBox;
@@ -163,6 +184,23 @@ namespace OneStoryProjectEditor
             toolTip.SetToolTip(btnFont, String.Format(CstrDefaultFontTooltip,
                                                        Environment.NewLine, languageInfo.LangFont,
                                                        languageInfo.FontColor));
+
+            if (languageInfo.HasData)
+            {
+                System.Diagnostics.Debug.Assert(tlp.GetControlFromPosition(1, 0) is TextBox);
+                TextBox textBoxLanguageName = tlp.GetControlFromPosition(1, 0) as TextBox;
+                textBoxLanguageName.Text = languageInfo.LangName;
+
+                System.Diagnostics.Debug.Assert(tlp.GetControlFromPosition(1, 1) is TextBox);
+                TextBox textBoxEthCode = tlp.GetControlFromPosition(1, 1) as TextBox;
+                textBoxEthCode.Text = languageInfo.LangCode;
+
+                comboBoxKeyboard.SelectedItem = languageInfo.DefaultKeyboard;
+
+                System.Diagnostics.Debug.Assert(tlp.GetControlFromPosition(2, 3) is CheckBox);
+                CheckBox checkBoxIsRTL = tlp.GetControlFromPosition(2, 3) as CheckBox;
+                checkBoxIsRTL.Checked = languageInfo.IsRTL;
+            }
         }
 
         public string ProjectName
@@ -415,7 +453,8 @@ namespace OneStoryProjectEditor
 
         protected void UpdateUrlTextBox()
         {
-            var uri = new Uri(UrlBase);
+            string strUrlBase = UrlBase;
+            var uri = new Uri(strUrlBase);
             if (!String.IsNullOrEmpty(textBoxUsername.Text))
             {
                 textBoxPassword.Enabled = true;
