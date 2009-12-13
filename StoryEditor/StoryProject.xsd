@@ -20,12 +20,13 @@
 									<xs:attribute name="teamViewerID" type="xs:string" use="optional" />
 									<xs:attribute name="OverrideVernacularKeyboard" type="xs:string" use="optional" />
 									<xs:attribute name="OverrideNationalBTKeyboard" type="xs:string" use="optional" />
-                  <xs:attribute name="OverrideInternationalBTKeyboard" type="xs:string" use="optional" />
-                  <xs:attribute name="HgUsername" type="xs:string" use="optional" />
-                  <xs:attribute name="HgPassword" type="xs:string" use="optional" />
-                </xs:complexType>
+									<xs:attribute name="OverrideInternationalBTKeyboard" type="xs:string" use="optional" />
+									<xs:attribute name="HgUsername" type="xs:string" use="optional" />
+									<xs:attribute name="HgPassword" type="xs:string" use="optional" />
+								</xs:complexType>
 							</xs:element>
 						</xs:choice>
+						<xs:attribute name="attribute1" type="xs:string" />
 					</xs:complexType>
 				</xs:element>
 				<xs:element name="Languages" minOccurs="0" maxOccurs="1">
@@ -51,12 +52,12 @@
 															<xs:attribute name="memberID" type="xs:IDREF" use="optional" />
 														</xs:complexType>
 													</xs:element>
-                          <xs:element name="ProjectFacilitator" maxOccurs="1" minOccurs="0">
-                            <xs:complexType>
-                              <xs:attribute name="memberID" type="xs:IDREF" use="optional" />
-                            </xs:complexType>
-                          </xs:element>
-                          <xs:element name="StoryPurpose" minOccurs="0" maxOccurs="1" type="xs:string" />
+													<xs:element name="ProjectFacilitator" maxOccurs="1" minOccurs="0">
+														<xs:complexType>
+															<xs:attribute name="memberID" type="xs:IDREF" use="optional" />
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="StoryPurpose" minOccurs="0" maxOccurs="1" type="xs:string" />
 													<xs:element name="ResourcesUsed" minOccurs="0" maxOccurs="1" type="xs:string" />
 													<xs:element name="BackTranslator" minOccurs="1" maxOccurs="1">
 														<xs:complexType>
@@ -190,8 +191,8 @@
 																</xs:element>
 															</xs:sequence>
 															<xs:attribute name="guid" type="xs:string" use="required" />
-                              <xs:attribute name="first" type="xs:boolean" use="optional" default="false" />
-                            </xs:complexType>
+															<xs:attribute name="first" type="xs:boolean" use="optional" default="false" />
+														</xs:complexType>
 													</xs:element>
 												</xs:sequence>
 											</xs:complexType>
@@ -208,8 +209,8 @@
 					</xs:complexType>
 				</xs:element>
 			</xs:sequence>
-      <xs:attribute name="version" type="xs:string" use="required" />
-      <xs:attribute name="ProjectName" type="xs:string" use="required" />
+			<xs:attribute name="version" type="xs:string" use="required" />
+			<xs:attribute name="ProjectName" type="xs:string" use="required" />
 			<xs:attribute name="PanoramaFrontMatter" type="xs:string" />
 		</xs:complexType>
 		<xs:key name="MemberKey">
@@ -277,8 +278,8 @@
 			<xs:enumeration value="ProjectFacilitator" />
 			<xs:enumeration value="FirstPassMentor" />
 			<xs:enumeration value="ConsultantInTraining" />
-      <xs:enumeration value="IndependentConsultant" />
-      <xs:enumeration value="Coach" />
+			<xs:enumeration value="IndependentConsultant" />
+			<xs:enumeration value="Coach" />
 			<xs:enumeration value="JustLooking" />
 		</xs:restriction>
 	</xs:simpleType>
@@ -343,7 +344,7 @@
 			<xs:extension base="xs:string">
 				<xs:attribute name="Direction" type="FromTo" use="required" />
 				<xs:attribute name="guid" type="xs:string" use="required" />
-        <xs:attribute name="timeStamp" type="xs:dateTime" />
+				<xs:attribute name="timeStamp" type="xs:dateTime" />
 			</xs:extension>
 		</xs:simpleContent>
 	</xs:complexType>
