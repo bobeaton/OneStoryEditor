@@ -321,9 +321,13 @@ namespace OneStoryProjectEditor
         }
 
         // if this is "new", then we won't have a project name yet, so query the user for it
-        public void InitializeProjectSettings()
+        public void InitializeProjectSettings(TeamMemberData loggedOnMember)
         {
-            NewProjectWizard dlg = new NewProjectWizard(this);
+            NewProjectWizard dlg = new NewProjectWizard(this) 
+            { 
+                LoggedInMember = loggedOnMember,
+                Text = "Edit Project Settings"
+            };
             if (dlg.ShowDialog() != DialogResult.OK)
                 throw StoryEditor.BackOutWithNoUI;
         }
@@ -343,6 +347,7 @@ namespace OneStoryProjectEditor
         }
 
 #if !DataDllBuild
+        /*
         internal static string QueryProjectName()
         {
             bool bDoItAgain;
@@ -372,6 +377,7 @@ namespace OneStoryProjectEditor
             } while (bDoItAgain);
             return strProjectName;
         }
+        */
 
         internal TeamMemberData GetLogin(ref bool bModified)
         {
@@ -416,7 +422,7 @@ namespace OneStoryProjectEditor
         // returns the logged in member
         internal TeamMemberData EditTeamMembers(string strMemberName, string strOKLabel)
         {
-            TeamMemberForm dlg = new TeamMemberForm(this, strOKLabel);
+            TeamMemberForm dlg = new TeamMemberForm(TeamMembers, strOKLabel);
             if (!String.IsNullOrEmpty(strMemberName))
             {
                 try

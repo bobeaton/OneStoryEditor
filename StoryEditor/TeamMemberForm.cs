@@ -8,30 +8,24 @@ namespace OneStoryProjectEditor
 {
     public partial class TeamMemberForm : Form
     {
+        /*
         protected const string CstrDefaultFontTooltipVernacular =
             "Click here to choose the font, size, and color of the Story language text{0}Currently, Font: {1}, Color: {2}, RTL: {3}";
         protected const string CstrDefaultFontTooltipNationalBT =
             "Click here to choose the font, size, and color of the National language back-translation text{0}Currently, Font: {1}, Color: {2}, RTL: {3}";
         protected const string CstrDefaultFontTooltipInternationalBT =
             "Click here to choose the font, size, and color of the English language back-translation text{0}Currently, Font: {1}, Color: {2}, RTL: {3}";
+        */
         internal const string CstrDefaultOKLabel = "&Login";
 
-        protected StoryProjectData _storyProjectData;
-        protected ProjectSettings _projSettings;
         protected TeamMembersData _dataTeamMembers;
-        protected TeamMemberData _tmdLastMember;
         protected string m_strSelectedMember;
-
-        protected bool Modified = false;
 
         Dictionary<string, TeamMemberData> m_mapNewMembersThisSession = new Dictionary<string, TeamMemberData>();
 
-        public TeamMemberForm(StoryProjectData storyProjectData, string strOKLabel)
+        public TeamMemberForm(TeamMembersData dataTeamMembers, string strOKLabel)
         {
-            _storyProjectData = storyProjectData;
-            _dataTeamMembers = storyProjectData.TeamMembers;
-            _projSettings = storyProjectData.ProjSettings;
-
+            _dataTeamMembers = dataTeamMembers;
             InitializeComponent();
 
             foreach (TeamMemberData aMember in _dataTeamMembers.Values)
@@ -41,12 +35,9 @@ namespace OneStoryProjectEditor
             }
 
             if ((listBoxTeamMembers.Items.Count > 0) && !String.IsNullOrEmpty(Properties.Settings.Default.LastMemberLogin))
-            {
                 listBoxTeamMembers.SelectedItem = Properties.Settings.Default.LastMemberLogin;
-                if (_dataTeamMembers.ContainsKey(Properties.Settings.Default.LastMemberLogin))
-                    _tmdLastMember = _dataTeamMembers[Properties.Settings.Default.LastMemberLogin];
-            }
 
+            /*
             // initialize the keyboard combo list
             foreach (KeyboardController.KeyboardDescriptor keyboard in
                 KeyboardController.GetAvailableKeyboards(KeyboardController.Engines.All))
@@ -136,16 +127,17 @@ namespace OneStoryProjectEditor
 
 
             textBoxProjectName.Text = _projSettings.ProjectName;
-
+            */
             if (!String.IsNullOrEmpty(strOKLabel))
                 buttonOK.Text = strOKLabel;
-
+            /*
             // if the user hasn't configured the language information, send them there first
             if (!_projSettings.IsConfigured)
                 tabControlProjectMetaData.SelectedTab = tabPageLanguageInfo;
 
             if (_projSettings.Vernacular.HasData && !String.IsNullOrEmpty(textBoxVernacular.Text) && String.IsNullOrEmpty(textBoxVernacularEthCode.Text))
                 ProposeEthnologueCode(textBoxVernacular.Text, textBoxVernacularEthCode);
+            */
         }
 
         public string SelectedMember
@@ -158,7 +150,7 @@ namespace OneStoryProjectEditor
                 listBoxTeamMembers.SelectedItem = m_strSelectedMember = value;
             }
         }
-
+        /*
         private bool DoAccept()
         {
             try
@@ -278,7 +270,7 @@ namespace OneStoryProjectEditor
 
             Modified = false;
         }
-
+        */
         private void buttonCancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
@@ -305,7 +297,7 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert(listBoxTeamMembers.SelectedIndex != -1);
             if (listBoxTeamMembers.SelectedIndex == -1)
                 return;
-
+            /*
             // first see if the project information has been configured
             if (String.IsNullOrEmpty(textBoxProjectName.Text)
                 || (checkBoxVernacular.Checked
@@ -321,7 +313,7 @@ namespace OneStoryProjectEditor
                 MessageBox.Show("Configure the Project and Language Name information as well.",  Properties.Resources.IDS_Caption);
                 return;
             }
-
+            */
             // if the selected user is a UNS, this is probably a mistake.
             TeamMemberData theMember = _dataTeamMembers[SelectedMember];
             if ((theMember.MemberType == TeamMemberData.UserTypes.eUNS) && (buttonOK.Text == CstrDefaultOKLabel))
@@ -338,9 +330,9 @@ namespace OneStoryProjectEditor
                 Properties.Settings.Default.Save();
             }
 
-            _projSettings.IsConfigured = true;
+            // _projSettings.IsConfigured = true;
             DialogResult = DialogResult.OK;
-            this.Close();
+            Close();
         }
 
         private void buttonAddNewMember_Click(object sender, EventArgs e)
@@ -349,8 +341,7 @@ namespace OneStoryProjectEditor
             //  tabControlProjectMetaData_Selected for what happens)
             listBoxTeamMembers.SelectedIndex = -1;
 
-            System.Diagnostics.Debug.Assert(_projSettings != null);
-            EditMemberForm dlg = new EditMemberForm(null, _projSettings);
+            EditMemberForm dlg = new EditMemberForm(null);
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 if (listBoxTeamMembers.Items.Contains(dlg.MemberName))
@@ -402,14 +393,13 @@ namespace OneStoryProjectEditor
         private void buttonEditMember_Click(object sender, EventArgs e)
         {
             // this button should only be enabled if a team member is selected
-            System.Diagnostics.Debug.Assert((listBoxTeamMembers.SelectedIndex != -1)
-                && (_projSettings != null));
+            System.Diagnostics.Debug.Assert(listBoxTeamMembers.SelectedIndex != -1);
             int nIndex = listBoxTeamMembers.SelectedIndex;
 
             m_strSelectedMember = (string)listBoxTeamMembers.SelectedItem;
             System.Diagnostics.Debug.Assert(_dataTeamMembers.ContainsKey(m_strSelectedMember));
             TeamMemberData theMemberData = _dataTeamMembers[m_strSelectedMember];
-            EditMemberForm dlg = new EditMemberForm(theMemberData, _projSettings);
+            EditMemberForm dlg = new EditMemberForm(theMemberData);
             if (dlg.ShowDialog() != DialogResult.OK) 
                 return;
 
@@ -446,7 +436,7 @@ namespace OneStoryProjectEditor
             _dataTeamMembers.Remove(SelectedMember);
             m_mapNewMembersThisSession.Remove(SelectedMember);
         }
-
+        /*
         private void tabControlProjectMetaData_Selected(object sender, TabControlEventArgs e)
         {
             if (e.TabPage == tabPageMemberList)
@@ -532,7 +522,7 @@ namespace OneStoryProjectEditor
                     MessageBox.Show("Since you just added this font, you have to restart the program for it to work", Properties.Resources.IDS_Caption);
             }
         }
-
+        */
         private void listBoxTeamMembers_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             buttonOK_Click(sender, e);
@@ -542,7 +532,7 @@ namespace OneStoryProjectEditor
         {
             buttonOK_Click(sender, e);
         }
-
+        /*
         private void textBoxVernacular_Leave(object sender, EventArgs e)
         {
             ProposeEthnologueCode(textBoxVernacular.Text, textBoxVernacularEthCode);
@@ -568,7 +558,8 @@ namespace OneStoryProjectEditor
             if (nIndex >= CnOffset)
             {
                 nIndex -= CnOffset;    // back up to the beginning of the line;
-                int nLength = 1 /* for the tab */ + strLanguageName.Length + CnOffset;
+                int nLength = 1 // for the tab
+                    + strLanguageName.Length + CnOffset;
                 string strEntry = _strLangCodesFile.Substring(nIndex, nLength);
                 
                 // now, grab off just the code, which goes from the beginning of the line to the first tab.
@@ -682,5 +673,6 @@ namespace OneStoryProjectEditor
             var dlg = new StageEditorForm(_storyProjectData);
             dlg.ShowDialog();
         }
+        */
     }
 }

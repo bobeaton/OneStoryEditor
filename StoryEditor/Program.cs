@@ -196,8 +196,7 @@ namespace OneStoryProjectEditor
             projectConfig.IncludePatterns.Add("*.ChorusNotes"); // the new conflict file
 
             string strHgUsername, strRepoUrl, strSharedNetworkUrl;
-            if (GetHgRepoParameters(strProjectFolder, strProjectName, out strHgUsername,
-                out strRepoUrl, out strSharedNetworkUrl))
+            if (GetHgRepoParameters(strProjectName, out strHgUsername, out strRepoUrl, out strSharedNetworkUrl))
             {
                 if (!String.IsNullOrEmpty(strRepoUrl))
                 {
@@ -276,7 +275,7 @@ namespace OneStoryProjectEditor
             return false;
         }
 
-        private static bool GetHgRepoParameters(string strProjectFolder, string strProjectName, 
+        public static bool GetHgRepoParameters(string strProjectName, 
             out string strUsername, out string strRepoUrl, out string strSharedNetworkUrl)
         {
             string strHgUrl = (_mapProjectNameToHgHttpUrl.ContainsKey(strProjectName))

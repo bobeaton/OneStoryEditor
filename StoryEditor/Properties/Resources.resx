@@ -244,8 +244,8 @@
     <comment>'{1}' नाम का एक प्रजैक्ट दूसरे फ़ोल्‍डर में हो चुका है। अगर यह नया प्रोजैक्ट इसी नाम के साथ बनता है, तब दूसरा प्रोजैक्‍ट नहीं खोल पाएगा, जो '{2}' फ़ोल्‍डर में है।{0}{0}क्‍या आप नया प्रोजैक्ट फिर भी बनाना चाहते हैं?</comment>
   </data>
   <data name="IDS_HaveToLogInToContinue" xml:space="preserve">
-    <value>You have to log in to continue. Click 'Project', 'Settings' and choose or add your name.</value>
-    <comment>काम करने के लिए आपको लॉग-इन करना है। 'Project' मेनू, 'Settings' पर क्‍लिक करो और अपना नाम चुनकर 'लॉग-इन' बटन दबाओ।</comment>
+    <value>You have to log in to continue. Click 'Project', 'Login' and choose or add your name.</value>
+    <comment>काम करने के लिए आपको लॉग-इन करना है। 'Project' मेनू, 'Login' पर क्‍लिक करो और अपना नाम चुनकर 'लॉग-इन' बटन दबाओ।</comment>
   </data>
   <data name="IDS_ProjectFileCorrupted" xml:space="preserve">
     <value>The project file is corrupted. No 'StoryCrafterMemberID' record found. Send to bob_eaton@sall.com for help.</value>

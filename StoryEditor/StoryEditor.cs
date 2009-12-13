@@ -265,13 +265,14 @@ namespace OneStoryProjectEditor
             //  time editing the new project and we need to add at least the current user)
             LoggedOnMember = null;
             Debug.Assert(StoryProject == null);
-            teamMembersToolStripMenuItem_Click(null, null);
+            projectLoginToolStripMenuItem_Click(null, null);
 
             if (StoryProject != null)
+            {
                 UpdateRecentlyUsedLists(StoryProject.ProjSettings);
-
-            buttonsStoryStage.Enabled = true;
-            UpdateUIMenusWithShortCuts();
+                buttonsStoryStage.Enabled = true;
+                UpdateUIMenusWithShortCuts();
+            }
         }
 
         // routines can use this exception to back out of creating a new project without UI 
@@ -293,8 +294,9 @@ namespace OneStoryProjectEditor
             try
             {
                 StoryProject = new StoryProjectData();    // null causes us to query for the project name
-                StoryProject.InitializeProjectSettings();
+                StoryProject.InitializeProjectSettings(LoggedOnMember);
                 CheckForLogon(StoryProject);
+                Debug.Assert(LoggedOnMember != null);
 
                 if (Modified)
                     SaveClicked();
@@ -305,6 +307,7 @@ namespace OneStoryProjectEditor
             catch (BackOutWithNoUIException)
             {
                 // sub-routine has taken care of the UI, just exit without doing anything
+                StoryProject = null;
             }
             catch (Exception ex)
             {
@@ -315,15 +318,33 @@ namespace OneStoryProjectEditor
             return false;
         }
 
-        private void teamMembersToolStripMenuItem_Click(object sender, EventArgs e)
+        private void projectSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (StoryProject == null)
+            Debug.Assert((StoryProject != null) && (StoryProject.ProjSettings != null) && (LoggedOnMember != null));
+
+            try
             {
-                InitNewStoryProjectObject();
+                StoryProject.InitializeProjectSettings(LoggedOnMember);
+
+                if (Modified)
+                    SaveClicked();
+
+                buttonsStoryStage.Enabled = true;
             }
-            else
+            catch (BackOutWithNoUIException)
             {
-                try
+            }
+        }
+
+        private void projectLoginToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (StoryProject == null)
+                {
+                    InitNewStoryProjectObject();
+                }
+                else
                 {
                     // detect if the logged on member type changed, and if so, redo the Consult Notes panes
                     string strMemberName = null;
@@ -338,8 +359,8 @@ namespace OneStoryProjectEditor
                         CheckForProperMemberType();
                     }
                 }
-                catch { }   // this might throw if the user cancels, but we don't care
             }
+            catch { }   // this might throw if the user cancels, but we don't care
         }
 
         protected void UpdateRecentlyUsedLists(ProjectSettings projSettings)
@@ -1416,6 +1437,12 @@ namespace OneStoryProjectEditor
                         ((StoryProject != null) && (StoryProject.ProjSettings != null));
 
                 saveToolStripMenuItem.Enabled = Modified;
+
+                projectSettingsToolStripMenuItem.Enabled = ((StoryProject != null) 
+                    && (StoryProject.ProjSettings != null)
+                    && (LoggedOnMember != null));
+
+                projectLoginToolStripMenuItem.Enabled = (StoryProject != null);
             }
             else
             {
@@ -1425,7 +1452,8 @@ namespace OneStoryProjectEditor
                     newToolStripMenuItem.Enabled = 
                     saveToolStripMenuItem.Enabled = 
                     browseForProjectToolStripMenuItem.Enabled = 
-                    teamMembersToolStripMenuItem.Enabled = false;
+                    projectSettingsToolStripMenuItem.Enabled =
+                    projectLoginToolStripMenuItem.Enabled = false;
             }
         }
 

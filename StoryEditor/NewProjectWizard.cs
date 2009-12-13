@@ -13,15 +13,129 @@ namespace OneStoryProjectEditor
         protected const string CstrFinishButtonText = "&Finish";
 
         protected StoryProjectData _storyProjectData;
-        protected TeamMemberData LoggedInMember;
+        public TeamMemberData LoggedInMember;
 
         public NewProjectWizard(StoryProjectData storyProjectData)
         {
             InitializeComponent();
             _storyProjectData = storyProjectData;
+
+            if (_storyProjectData.ProjSettings.IsConfigured)
+            {
+                ProjectName = _storyProjectData.ProjSettings.ProjectName;
+                string strDummy;
+                if (Program.GetHgRepoParameters(ProjectName, out strDummy, out strDummy, out strDummy))
+                    checkBoxUseInternetRepo.Checked = true;
+            }
+
             tabControl.TabPages.Remove(tabPageInternetRepository);
-            tabControl.TabPages.Remove(tabPageLanguageVernacular);
-            tabControl.TabPages.Remove(tabPageLanguageNationalBT);
+
+            if (!_storyProjectData.ProjSettings.Vernacular.HasData)
+                tabControl.TabPages.Remove(tabPageLanguageVernacular);
+
+            if (!_storyProjectData.ProjSettings.NationalBT.HasData)
+                tabControl.TabPages.Remove(tabPageLanguageNationalBT);
+
+            if (!_storyProjectData.ProjSettings.InternationalBT.HasData)
+                tabControl.TabPages.Remove(tabPageLanguageEnglishBT);
+        }
+
+        private void ProcessNext()
+        {
+            if (tabControl.SelectedTab == tabPageProjectName)
+            {
+                if (String.IsNullOrEmpty(ProjectName))
+                    throw new UserException(Properties.Resources.IDS_UnableToCreateProjectWithoutName,
+                        textBoxProjectName, tabPageProjectName);
+
+                if (ProjSettings == null)
+                    ProjSettings = new ProjectSettings(null, ProjectName);
+                else
+                    ProjSettings.ProjectName = ProjectName;
+
+                string strUsername, strRepoUrl, strSharedNetworkUrl;
+                if (Program.GetHgRepoParameters(ProjectName, out strUsername, out strRepoUrl, out strSharedNetworkUrl))
+                {
+                    if (!String.IsNullOrEmpty(strRepoUrl))
+                    {
+                        var uri = new Uri(strRepoUrl);
+                        if (!String.IsNullOrEmpty(uri.UserInfo) & (uri.UserInfo.IndexOf(':') != -1))
+                        {
+                            string[] astrUserInfo = uri.UserInfo.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+                            System.Diagnostics.Debug.Assert((astrUserInfo.Length == 2) && (astrUserInfo[0] == strUsername));
+                            Username = astrUserInfo[0];
+                            Password = astrUserInfo[1];
+                        }
+                        UrlBase = uri.Scheme + "//" + uri.Host;
+                    }
+                }
+                
+                if (String.IsNullOrEmpty(UrlBase))
+                    UrlBase = Properties.Resources.IDS_DefaultRepoBasePath;
+
+                InitLanguageControls(tabPageLanguageVernacular, ProjSettings.Vernacular);
+                InitLanguageControls(tabPageLanguageNationalBT, ProjSettings.NationalBT);
+                InitLanguageControls(tabPageLanguageEnglishBT, ProjSettings.InternationalBT);
+
+                tabControl.SelectedIndex++;
+            }
+            else if (tabControl.SelectedTab == tabPageInternetRepository)
+            {
+                // do we need to check whether it's available?
+                tabControl.SelectedIndex++;
+            }
+            else if (tabControl.SelectedTab == tabPageLanguages)
+            {
+                if (!checkBoxStoryLanguage.Checked
+                    && !checkBoxNationalBT.Checked
+                    && !checkBoxEnglishBT.Checked)
+                {
+                    throw new UserException(Properties.Resources.IDS_MustHaveAtLeastOneLanguage,
+                        checkBoxEnglishBT, tabPageLanguages);
+                }
+
+                if (checkBoxStoryLanguage.Checked && String.IsNullOrEmpty(textBoxLanguageNameVernacular.Text))
+                    textBoxLanguageNameVernacular.Text = (String.IsNullOrEmpty(ProjSettings.Vernacular.LangName))
+                        ? ProjectName
+                        : ProjSettings.Vernacular.LangName;
+
+                if (checkBoxEnglishBT.Checked
+                    && String.IsNullOrEmpty(textBoxLanguageNameEnglishBT.Text)
+                    && !String.IsNullOrEmpty(ProjSettings.InternationalBT.LangName))
+                    textBoxLanguageNameEnglishBT.Text = ProjSettings.InternationalBT.LangName;
+
+                tabControl.SelectedIndex++;
+            }
+            else if (tabControl.SelectedTab == tabPageLanguageVernacular)
+            {
+                string strKeyboardOverride = null;
+                ProcessLanguageTab(comboBoxKeyboardVernacular, ProjSettings.Vernacular, checkBoxIsRTLVernacular,
+                    textBoxLanguageNameVernacular, textBoxEthCodeVernacular, textBoxSentFullStopVernacular,
+                    ref strKeyboardOverride);
+                if (LoggedInMember != null)
+                    LoggedInMember.OverrideVernacularKeyboard = strKeyboardOverride;
+            }
+            else if (tabControl.SelectedTab == tabPageLanguageNationalBT)
+            {
+                string strKeyboardOverride = null;
+                ProcessLanguageTab(comboBoxKeyboardNationalBT, ProjSettings.NationalBT, checkBoxIsRTLNationalBT,
+                    textBoxLanguageNameNationalBT, textBoxEthCodeNationalBT, textBoxSentFullStopNationalBT,
+                    ref strKeyboardOverride);
+                if (LoggedInMember != null)
+                    LoggedInMember.OverrideNationalBTKeyboard = strKeyboardOverride;
+            }
+            else if (tabControl.SelectedTab == tabPageLanguageEnglishBT)
+            {
+                string strKeyboardOverride = null;
+                ProcessLanguageTab(comboBoxKeyboardEnglishBT, ProjSettings.InternationalBT, checkBoxIsRTLEnglishBT,
+                    textBoxLanguageNameEnglishBT, textBoxEthCodeEnglishBT, textBoxSentFullStopEnglishBT,
+                    ref strKeyboardOverride);
+                if (LoggedInMember != null)
+                    LoggedInMember.OverrideInternationalBTKeyboard = strKeyboardOverride;
+            }
+            else if (tabControl.SelectedTab == tabPageMemberRoles)
+            {
+            }
         }
 
         private void InitLanguageControls(Control tabPage, ProjectSettings.LanguageInfo languageInfo)
@@ -147,84 +261,7 @@ namespace OneStoryProjectEditor
             throw new NotImplementedException();
         }
 
-        protected bool _bEnableTabSelection = false;
-
-        private void ProcessNext()
-        {
-            if (tabControl.SelectedTab == tabPageProjectName)
-            {
-                if (String.IsNullOrEmpty(ProjectName))
-                    throw new UserException(Properties.Resources.IDS_UnableToCreateProjectWithoutName, 
-                        textBoxProjectName, tabPageProjectName);
-                
-                ProjSettings = new ProjectSettings(null, ProjectName);
-
-                InitLanguageControls(tabPageLanguageVernacular, ProjSettings.Vernacular);
-                InitLanguageControls(tabPageLanguageNationalBT, ProjSettings.NationalBT);
-                InitLanguageControls(tabPageLanguageEnglishBT, ProjSettings.InternationalBT);
-
-                UrlBase = Properties.Resources.IDS_DefaultRepoBasePath;
-            
-                tabControl.SelectedIndex++;
-            }
-            else if (tabControl.SelectedTab == tabPageInternetRepository)
-            {
-                // do we need to check whether it's available?
-                tabControl.SelectedIndex++;
-            }
-            else if (tabControl.SelectedTab == tabPageLanguages)
-            {
-                if (!checkBoxStoryLanguage.Checked
-                    && !checkBoxNationalBT.Checked
-                    && !checkBoxEnglishBT.Checked)
-                {
-                    throw new UserException(Properties.Resources.IDS_MustHaveAtLeastOneLanguage,
-                        checkBoxEnglishBT, tabPageLanguages);
-                }
-
-                if (checkBoxStoryLanguage.Checked && String.IsNullOrEmpty(textBoxLanguageNameVernacular.Text))
-                    textBoxLanguageNameVernacular.Text = (String.IsNullOrEmpty(ProjSettings.Vernacular.LangName))
-                        ? ProjectName
-                        : ProjSettings.Vernacular.LangName;
-
-                if (checkBoxEnglishBT.Checked 
-                    && String.IsNullOrEmpty(textBoxLanguageNameEnglishBT.Text)
-                    && !String.IsNullOrEmpty(ProjSettings.InternationalBT.LangName))
-                    textBoxLanguageNameEnglishBT.Text = ProjSettings.InternationalBT.LangName;
-
-                tabControl.SelectedIndex++;
-            }
-            else if (tabControl.SelectedTab == tabPageLanguageVernacular)
-            {
-                string strKeyboardOverride = null;
-                ProcessLanguageTab(comboBoxKeyboardVernacular, ProjSettings.Vernacular, checkBoxIsRTLVernacular,
-                    textBoxLanguageNameVernacular, textBoxEthCodeVernacular, textBoxSentFullStopVernacular,
-                    ref strKeyboardOverride);
-                if (LoggedInMember != null)
-                    LoggedInMember.OverrideVernacularKeyboard = strKeyboardOverride;
-            }
-            else if (tabControl.SelectedTab == tabPageLanguageNationalBT)
-            {
-                string strKeyboardOverride = null;
-                ProcessLanguageTab(comboBoxKeyboardNationalBT, ProjSettings.NationalBT, checkBoxIsRTLNationalBT,
-                    textBoxLanguageNameNationalBT, textBoxEthCodeNationalBT, textBoxSentFullStopNationalBT,
-                    ref strKeyboardOverride);
-                if (LoggedInMember != null)
-                    LoggedInMember.OverrideNationalBTKeyboard = strKeyboardOverride;
-            }
-            else if (tabControl.SelectedTab == tabPageLanguageEnglishBT)
-            {
-                string strKeyboardOverride = null;
-                ProcessLanguageTab(comboBoxKeyboardEnglishBT, ProjSettings.InternationalBT, checkBoxIsRTLEnglishBT,
-                    textBoxLanguageNameEnglishBT, textBoxEthCodeEnglishBT, textBoxSentFullStopEnglishBT,
-                    ref strKeyboardOverride);
-                if (LoggedInMember != null)
-                    LoggedInMember.OverrideInternationalBTKeyboard = strKeyboardOverride;
-            }
-            else if (tabControl.SelectedTab == tabPageMemberRoles)
-            {
-            }
-        }
+        protected bool _bEnableTabSelection;
 
         protected void ProcessLanguageTab(ComboBox cb, ProjectSettings.LanguageInfo li, CheckBox cbRtl,
             TextBox textBoxLanguageName, TextBox textBoxEthCode, TextBox textBoxSentFullStop, ref string strKeyboardOverride)

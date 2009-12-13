@@ -5,11 +5,9 @@ namespace OneStoryProjectEditor
 {
     public partial class EditMemberForm : Form
     {
-        public EditMemberForm(TeamMemberData theMemberData, ProjectSettings projectSettings)
+        public EditMemberForm(TeamMemberData theMemberData)
         {
             InitializeComponent();
-
-            radioButtonEnglishBackTranslator.Visible = (projectSettings.NationalBT.HasData);
 
             if (theMemberData == null) 
                 return;
