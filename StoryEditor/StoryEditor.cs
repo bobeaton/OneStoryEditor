@@ -930,6 +930,8 @@ namespace OneStoryProjectEditor
             if (ctrlThis != theVerse)
                 flowLayoutPanelVerses.ScrollControlIntoView(theVerse);
 
+            // the ConNote controls have a zeroth line, so the index is one greater
+            nVerseIndex++;
             if (viewConsultantNoteFieldMenuItem.Checked)
             {
                 Debug.Assert(nVerseIndex < flowLayoutPanelConsultantNotes.Controls.Count);
@@ -1022,7 +1024,11 @@ namespace OneStoryProjectEditor
                 Debug.Assert(ctrl is ConsultNotesControl);
                 ConsultNotesControl theCoachNotes = ctrl as ConsultNotesControl;
                 theCoachNotes.DoAddNote(strNote);
-                theCoachNotes.VisiblizeLast();
+
+                // after the add note, the control references are no longer valid, so requery
+                ctrl = flowLayoutPanelCoachNotes.Controls[nVerseIndex];
+                Debug.Assert(ctrl is ConsultNotesControl);
+                flowLayoutPanelCoachNotes.ScrollControlIntoView(ctrl);
             }
             else
             {
@@ -1034,7 +1040,11 @@ namespace OneStoryProjectEditor
                 Debug.Assert(ctrl is ConsultNotesControl);
                 ConsultNotesControl theConsultantNotes = ctrl as ConsultNotesControl;
                 theConsultantNotes.DoAddNote(strNote);
-                theConsultantNotes.VisiblizeLast();
+
+                // after the add note, the control references are no longer valid, so requery
+                ctrl = flowLayoutPanelConsultantNotes.Controls[nVerseIndex];
+                Debug.Assert(ctrl is ConsultNotesControl);
+                flowLayoutPanelConsultantNotes.ScrollControlIntoView(ctrl);
             }
         }
 
