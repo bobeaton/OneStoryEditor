@@ -226,6 +226,11 @@ namespace OneStoryProjectEditor
             StoryProject = null;
             ClearState();
 
+            ReInitMenuVisibility();
+        }
+
+        protected void ReInitMenuVisibility()
+        {
             // some that might have been made invisible need to be given a fair chance for next time
             exportStoryToolStripMenuItem.Visible =
                 exportNationalBacktranslationToolStripMenuItem.Visible =
@@ -294,7 +299,7 @@ namespace OneStoryProjectEditor
             try
             {
                 StoryProject = new StoryProjectData();    // null causes us to query for the project name
-                StoryProject.InitializeProjectSettings(LoggedOnMember);
+                Modified = StoryProject.InitializeProjectSettings(LoggedOnMember);
                 CheckForLogon(StoryProject);
                 Debug.Assert(LoggedOnMember != null);
 
@@ -324,10 +329,18 @@ namespace OneStoryProjectEditor
 
             try
             {
-                StoryProject.InitializeProjectSettings(LoggedOnMember);
+                Modified = StoryProject.InitializeProjectSettings(LoggedOnMember);
 
                 if (Modified)
+                {
                     SaveClicked();
+
+                    if (theCurrentStory != null)
+                    {
+                        ReInitMenuVisibility();
+                        SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage);
+                    }
+                }
 
                 buttonsStoryStage.Enabled = true;
             }
@@ -1006,7 +1019,7 @@ namespace OneStoryProjectEditor
                 Debug.Assert(ctrl is ConsultNotesControl);
                 ConsultNotesControl theCoachNotes = ctrl as ConsultNotesControl;
                 theCoachNotes.DoAddNote(strNote);
-                flowLayoutPanelCoachNotes.VisiblizeLast();
+                theCoachNotes.VisiblizeLast();
             }
             else
             {
@@ -1018,7 +1031,7 @@ namespace OneStoryProjectEditor
                 Debug.Assert(ctrl is ConsultNotesControl);
                 ConsultNotesControl theConsultantNotes = ctrl as ConsultNotesControl;
                 theConsultantNotes.DoAddNote(strNote);
-                flowLayoutPanelConsultantNotes.VisiblizeLast();
+                theConsultantNotes.VisiblizeLast();
             }
         }
 
@@ -1537,7 +1550,7 @@ namespace OneStoryProjectEditor
                     && (!aps.RequiresFirstPassMentor || StoryProject.TeamMembers.IsThereAFirstPassMentor)
                     && (!aps.HasUsingOtherEnglishBTer
                         || (aps.RequiresUsingOtherEnglishBTer == 
-                            StoryProject.IsThereASeparateEnglishBackTranslator))
+                            StoryProject.TeamMembers.HasOutsideEnglishBTer))
                     )
                 {
                     StoryStageLogic.StateTransition aST = StoryStageLogic.stateTransitions[aps.ProjectStage];

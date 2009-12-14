@@ -270,9 +270,9 @@
       <DependentUpon>StoryFrontMatterForm.cs</DependentUpon>
     </Compile>
     <Compile Include="StoryProject.Designer.cs">
-      <DependentUpon>StoryProject.xsd</DependentUpon>
-      <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StoryProject.xsd</DependentUpon>
     </Compile>
     <Compile Include="StoryStageLogic.cs" />
     <Compile Include="ResizableControl.cs">

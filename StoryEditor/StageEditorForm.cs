@@ -14,13 +14,13 @@ namespace OneStoryProjectEditor
             InitializeComponent();
             _storyProjectData = storyProjectData;
 
-            if (!storyProjectData.IsThereASeparateEnglishBackTranslator)
+            if (!storyProjectData.TeamMembers.HasOutsideEnglishBTer)
                 ColumnEnglishBackTranslator.Visible = false;
 
-            if (!storyProjectData.TeamMembers.IsThereAFirstPassMentor)
+            if (!storyProjectData.TeamMembers.HasFirstPassMentor)
                 ColumnFirstPassMentor.Visible = false;
 
-            if (storyProjectData.TeamMembers.IsThereAnIndependentConsultant)
+            if (storyProjectData.TeamMembers.HasIndependentConsultant)
             {
                 ColumnConsultantInTraining.HeaderText = TeamMemberData.CstrIndependentConsultantDisplay;
                 ColumnCoach.Visible = false;
@@ -89,7 +89,7 @@ namespace OneStoryProjectEditor
             ColumnEnglishBackTranslator.Visible = checkBoxOutsideEnglishBackTranslator.Checked;
 
             if (checkBoxOutsideEnglishBackTranslator.Checked 
-                && !_storyProjectData.IsThereASeparateEnglishBackTranslator)
+                && !_storyProjectData.IsASeparateEnglishBackTranslator)
             {
                 // if this user is saying that there's an external BTer, but there doesn't
                 //  appear to be one, then query for it.

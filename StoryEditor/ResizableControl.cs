@@ -189,6 +189,12 @@ namespace OneStoryProjectEditor
 
             return true;
         }
+
+        public void VisiblizeLast()
+        {
+            if (tableLayoutPanel.Controls.Count > 0)
+                ScrollControlIntoView(tableLayoutPanel.Controls[Controls.Count - 1]);
+        }
     }
 
     public class VerseControl : ResizableControl

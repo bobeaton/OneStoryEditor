@@ -117,6 +117,16 @@ namespace OneStoryProjectEditor
         private const string CstrInternetName = "Internet";
         private const string CstrNetworkDriveName = "Network Drive";
 
+        public static void ClearHgParameters(string strProjectName)
+        {
+            System.Diagnostics.Debug.Assert((_mapProjectNameToHgHttpUrl != null) && (_mapProjectNameToHgUsername != null));
+            _mapProjectNameToHgHttpUrl.Remove(strProjectName);
+            _mapProjectNameToHgUsername.Remove(strProjectName);
+            Properties.Settings.Default.ProjectNameToHgUrl = DictionaryToArray(_mapProjectNameToHgHttpUrl);
+            Properties.Settings.Default.ProjectNameToHgUsername = DictionaryToArray(_mapProjectNameToHgUsername);
+            Properties.Settings.Default.Save();
+        }
+
         public static void SetHgParameters(string strProjectFolder, string strProjectName, string strUrl, string strUsername)
         {
             System.Diagnostics.Debug.Assert((_mapProjectNameToHgHttpUrl != null) && (_mapProjectNameToHgUsername != null));

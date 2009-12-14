@@ -67,7 +67,6 @@
             this.comboBoxKeyboardVernacular = new System.Windows.Forms.ComboBox();
             this.tabPageLanguageNationalBT = new System.Windows.Forms.TabPage();
             this.tableLayoutPanelLanguageInformationNationalBT = new System.Windows.Forms.TableLayoutPanel();
-            this.textBoxLanguageTabInstructionsNationalBT = new System.Windows.Forms.TextBox();
             this.labelLanguageNameNationalBT = new System.Windows.Forms.Label();
             this.textBoxLanguageNameNationalBT = new System.Windows.Forms.TextBox();
             this.labelEthnologueCodeNationalBT = new System.Windows.Forms.Label();
@@ -79,6 +78,7 @@
             this.textBoxSentFullStopNationalBT = new System.Windows.Forms.TextBox();
             this.labelKeyboardNationalBT = new System.Windows.Forms.Label();
             this.comboBoxKeyboardNationalBT = new System.Windows.Forms.ComboBox();
+            this.textBoxLanguageTabInstructionsNationalBT = new System.Windows.Forms.TextBox();
             this.tabPageLanguageEnglishBT = new System.Windows.Forms.TabPage();
             this.tableLayoutPanelLanguageInformationEnglishBT = new System.Windows.Forms.TableLayoutPanel();
             this.textBoxLanguageTabInstructionsEnglishBT = new System.Windows.Forms.TextBox();
@@ -595,21 +595,6 @@
             this.tableLayoutPanelLanguageInformationNationalBT.Size = new System.Drawing.Size(521, 285);
             this.tableLayoutPanelLanguageInformationNationalBT.TabIndex = 0;
             // 
-            // textBoxLanguageTabInstructionsNationalBT
-            // 
-            this.textBoxLanguageTabInstructionsNationalBT.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanelLanguageInformationNationalBT.SetColumnSpan(this.textBoxLanguageTabInstructionsNationalBT, 3);
-            this.textBoxLanguageTabInstructionsNationalBT.Location = new System.Drawing.Point(3, 137);
-            this.textBoxLanguageTabInstructionsNationalBT.Multiline = true;
-            this.textBoxLanguageTabInstructionsNationalBT.Name = "textBoxLanguageTabInstructionsNationalBT";
-            this.textBoxLanguageTabInstructionsNationalBT.ReadOnly = true;
-            this.textBoxLanguageTabInstructionsNationalBT.Size = new System.Drawing.Size(515, 145);
-            this.textBoxLanguageTabInstructionsNationalBT.TabIndex = 1;
-            this.textBoxLanguageTabInstructionsNationalBT.TabStop = false;
-            this.textBoxLanguageTabInstructionsNationalBT.Text = resources.GetString("textBoxLanguageTabInstructionsNationalBT.Text");
-            // 
             // labelLanguageNameNationalBT
             // 
             this.labelLanguageNameNationalBT.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -722,6 +707,21 @@
             this.comboBoxKeyboardNationalBT.Name = "comboBoxKeyboardNationalBT";
             this.comboBoxKeyboardNationalBT.Size = new System.Drawing.Size(414, 21);
             this.comboBoxKeyboardNationalBT.TabIndex = 5;
+            // 
+            // textBoxLanguageTabInstructionsNationalBT
+            // 
+            this.textBoxLanguageTabInstructionsNationalBT.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanelLanguageInformationNationalBT.SetColumnSpan(this.textBoxLanguageTabInstructionsNationalBT, 3);
+            this.textBoxLanguageTabInstructionsNationalBT.Location = new System.Drawing.Point(3, 137);
+            this.textBoxLanguageTabInstructionsNationalBT.Multiline = true;
+            this.textBoxLanguageTabInstructionsNationalBT.Name = "textBoxLanguageTabInstructionsNationalBT";
+            this.textBoxLanguageTabInstructionsNationalBT.ReadOnly = true;
+            this.textBoxLanguageTabInstructionsNationalBT.Size = new System.Drawing.Size(515, 145);
+            this.textBoxLanguageTabInstructionsNationalBT.TabIndex = 1;
+            this.textBoxLanguageTabInstructionsNationalBT.TabStop = false;
+            this.textBoxLanguageTabInstructionsNationalBT.Text = resources.GetString("textBoxLanguageTabInstructionsNationalBT.Text");
             // 
             // tabPageLanguageEnglishBT
             // 
@@ -946,6 +946,7 @@
             this.radioButtonIndependentConsultant.TabIndex = 4;
             this.radioButtonIndependentConsultant.Text = "&Independent Consultant";
             this.radioButtonIndependentConsultant.UseVisualStyleBackColor = true;
+            this.radioButtonIndependentConsultant.CheckedChanged += new System.EventHandler(this.radioButtonIndependentConsultant_CheckedChanged);
             // 
             // checkBoxFirstPassMentor
             // 

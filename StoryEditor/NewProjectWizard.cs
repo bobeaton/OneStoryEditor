@@ -66,25 +66,16 @@ namespace OneStoryProjectEditor
                 else
                     ProjSettings.ProjectName = ProjectName;
 
-                string strUsername, strRepoUrl, strSharedNetworkUrl;
-                if (Program.GetHgRepoParameters(ProjectName, out strUsername, out strRepoUrl, out strSharedNetworkUrl))
-                {
-                    if (!String.IsNullOrEmpty(strRepoUrl))
-                    {
-                        var uri = new Uri(strRepoUrl);
-                        if (!String.IsNullOrEmpty(uri.UserInfo) && (uri.UserInfo.IndexOf(':') != -1))
-                        {
-                            string[] astrUserInfo = uri.UserInfo.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
-                            System.Diagnostics.Debug.Assert((astrUserInfo.Length == 2) && (astrUserInfo[0] == strUsername));
-                            Username = astrUserInfo[0];
-                            Password = astrUserInfo[1];
-                        }
-                        UrlBase = uri.Scheme + "://" + uri.Host;
-                    }
-                }
-                
-                if (String.IsNullOrEmpty(UrlBase))
+                string strUsername, strRepoUrl, strPassword;
+                if (_storyProjectData.GetHgRepoUsernamePassword(ProjectName, LoggedInMember,
+                    out strUsername, out strPassword, out strRepoUrl))
+                    UrlBase = strRepoUrl;
+                else
                     UrlBase = Properties.Resources.IDS_DefaultRepoBasePath;
+
+                // these *might* have been initialized even if the call to GetHg... fails
+                HgUsername = strUsername;
+                HgPassword = strPassword;
 
                 InitLanguageControls(tabPageLanguageVernacular, ProjSettings.Vernacular);
                 if ((LoggedInMember != null) && (!String.IsNullOrEmpty(LoggedInMember.OverrideVernacularKeyboard)))
@@ -103,6 +94,15 @@ namespace OneStoryProjectEditor
             else if (tabControl.SelectedTab == tabPageInternetRepository)
             {
                 // do we need to check whether it's available?
+                if (LoggedInMember != null)
+                {
+                    LoggedInMember.HgUsername = HgUsername;
+                    LoggedInMember.HgPassword = HgPassword;
+                }
+                
+                Program.SetHgParameters(ProjSettings.ProjectFolder,
+                    ProjSettings.ProjectName, Url, HgUsername);
+
                 tabControl.SelectedIndex++;
             }
             else if (tabControl.SelectedTab == tabPageLanguages)
@@ -115,15 +115,34 @@ namespace OneStoryProjectEditor
                         checkBoxEnglishBT, tabPageLanguages);
                 }
 
-                if (checkBoxStoryLanguage.Checked && String.IsNullOrEmpty(textBoxLanguageNameVernacular.Text))
-                    textBoxLanguageNameVernacular.Text = (String.IsNullOrEmpty(ProjSettings.Vernacular.LangName))
-                        ? ProjectName
-                        : ProjSettings.Vernacular.LangName;
+                if (checkBoxStoryLanguage.Checked)
+                {
+                    if (String.IsNullOrEmpty(textBoxLanguageNameVernacular.Text))
+                        textBoxLanguageNameVernacular.Text = (String.IsNullOrEmpty(ProjSettings.Vernacular.LangName))
+                                                                 ? ProjectName
+                                                                 : ProjSettings.Vernacular.LangName;
+                }
+                else
+                    ProjSettings.Vernacular.HasData = false;
 
-                if (checkBoxEnglishBT.Checked
-                    && String.IsNullOrEmpty(textBoxLanguageNameEnglishBT.Text)
-                    && !String.IsNullOrEmpty(ProjSettings.InternationalBT.LangName))
-                    textBoxLanguageNameEnglishBT.Text = ProjSettings.InternationalBT.LangName;
+                if (!checkBoxNationalBT.Checked)
+                    ProjSettings.NationalBT.HasData = false;
+
+                if (checkBoxEnglishBT.Checked)
+                {
+                    if (String.IsNullOrEmpty(textBoxLanguageNameEnglishBT.Text)
+                        && !ProjSettings.InternationalBT.HasData)
+                        textBoxLanguageNameEnglishBT.Text = "English";
+                }
+                else
+                    _storyProjectData.TeamMembers.HasOutsideEnglishBTer = 
+                        ProjSettings.InternationalBT.HasData = false;
+
+                // can't have an outside english bter, if we don't have an English BT
+                checkBoxOutsideEnglishBackTranslator.Enabled = checkBoxEnglishBT.Checked;
+                checkBoxOutsideEnglishBackTranslator.Checked = _storyProjectData.TeamMembers.HasOutsideEnglishBTer;
+                checkBoxFirstPassMentor.Checked = _storyProjectData.TeamMembers.HasFirstPassMentor;
+                radioButtonIndependentConsultant.Checked = _storyProjectData.TeamMembers.HasIndependentConsultant;
 
                 tabControl.SelectedIndex++;
             }
@@ -234,13 +253,13 @@ namespace OneStoryProjectEditor
             get { return textBoxHgRepoUrl.Text; }
         }
 
-        public string Username
+        public string HgUsername
         {
             get { return textBoxUsername.Text; }
             set { textBoxUsername.Text = value; }
         }
 
-        protected string Password
+        protected string HgPassword
         {
             get { return textBoxPassword.Text; }
             set { textBoxPassword.Text = value; }
@@ -296,16 +315,28 @@ namespace OneStoryProjectEditor
 
         private void FinishEdit()
         {
-            throw new NotImplementedException();
+            _storyProjectData.TeamMembers.HasOutsideEnglishBTer = checkBoxOutsideEnglishBackTranslator.Checked;
+            _storyProjectData.TeamMembers.HasFirstPassMentor = checkBoxFirstPassMentor.Checked;
+            _storyProjectData.TeamMembers.HasIndependentConsultant = radioButtonIndependentConsultant.Checked;
+
+            if (!checkBoxUseInternetRepo.Checked)
+                Program.ClearHgParameters(ProjectName);
+
+            DialogResult = DialogResult.OK;
+            Close();
         }
+
+        public bool Modified;
 
         protected bool _bEnableTabSelection;
 
-        protected void ProcessLanguageTab(ComboBox cb, ProjectSettings.LanguageInfo li, CheckBox cbRtl,
-            TextBox textBoxLanguageName, TextBox textBoxEthCode, TextBox textBoxSentFullStop, ref string strKeyboardOverride)
+        protected void ProcessLanguageTab(ComboBox cb, ProjectSettings.LanguageInfo li, 
+            CheckBox cbRtl, TextBox textBoxLanguageName, TextBox textBoxEthCode, 
+            TextBox textBoxSentFullStop, ref string strKeyboardOverride)
         {
-            // if there is a default keyboard (from before) and the user has chosen another one, then see if they mean to 
-            //  change it for everyone or just themselves (then we can make sure that they are who we think we are)
+            // if there is a default keyboard (from before) and the user has chosen another 
+            //  one, then see if they mean to change it for everyone or just themselves 
+            //  (then we can make sure that they are who we think we are)
             string strKeyboard = (string)cb.SelectedItem;
             if (LoggedInMember != null)
             {
@@ -369,6 +400,7 @@ namespace OneStoryProjectEditor
                 tabControl.TabPages.Insert(1, tabPageInternetRepository);
             else
                 tabControl.TabPages.Remove(tabPageInternetRepository);
+            Modified = true;
         }
 
         private void checkBoxStoryLanguage_CheckedChanged(object sender, EventArgs e)
@@ -381,6 +413,7 @@ namespace OneStoryProjectEditor
             }
             else
                 tabControl.TabPages.Remove(tabPageLanguageVernacular);
+            Modified = true;
         }
 
         private void checkBoxNationalBT_CheckedChanged(object sender, EventArgs e)
@@ -393,6 +426,7 @@ namespace OneStoryProjectEditor
             }
             else
                 tabControl.TabPages.Remove(tabPageLanguageNationalBT);
+            Modified = true;
         }
 
         private void checkBoxEnglishBT_CheckedChanged(object sender, EventArgs e)
@@ -405,11 +439,13 @@ namespace OneStoryProjectEditor
             }
             else
                 tabControl.TabPages.Remove(tabPageLanguageEnglishBT);
+            Modified = true;
         }
 
         private void checkBoxOutsideEnglishBackTranslator_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBoxOutsideEnglishBackTranslator.Checked)
+            if (checkBoxOutsideEnglishBackTranslator.Checked
+                && !_storyProjectData.IsASeparateEnglishBackTranslator)
             {
                 // if this user is saying that there's an external BTer, then query for it.
                 var dlg = new MemberPicker(_storyProjectData, TeamMemberData.UserTypes.eEnglishBacktranslator)
@@ -421,11 +457,13 @@ namespace OneStoryProjectEditor
 
                 checkBoxOutsideEnglishBackTranslator.Checked = false;
             }
+            Modified = true;
         }
 
         private void checkBoxFirstPassMentor_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBoxFirstPassMentor.Checked)
+            if (checkBoxFirstPassMentor.Checked 
+                && !_storyProjectData.TeamMembers.IsThereAFirstPassMentor)
             {
                 // if this user is saying that there's a first pass mentor, but there doesn't
                 //  appear to be one, then query for it.
@@ -438,6 +476,26 @@ namespace OneStoryProjectEditor
 
                 checkBoxFirstPassMentor.Checked = false;
             }
+            Modified = true;
+        }
+
+        private void radioButtonIndependentConsultant_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButtonIndependentConsultant.Checked
+                && !_storyProjectData.TeamMembers.IsThereAnIndependentConsultant)
+            {
+                // if this user is saying that there's a first pass mentor, but there doesn't
+                //  appear to be one, then query for it.
+                var dlg = new MemberPicker(_storyProjectData, TeamMemberData.UserTypes.eIndependentConsultant)
+                {
+                    Text = "Choose the member that is the independent consultant"
+                };
+                if (dlg.ShowDialog() == DialogResult.OK)
+                    return;
+
+                radioButtonIndependentConsultant.Checked = false;
+            }
+            Modified = true;
         }
 
         private void textBoxHgRepo_TextChanged(object sender, EventArgs e)
@@ -445,6 +503,7 @@ namespace OneStoryProjectEditor
             try
             {
                 UpdateUrlTextBox();
+                Modified = true;
             }
             catch
             {
@@ -459,8 +518,8 @@ namespace OneStoryProjectEditor
             {
                 textBoxPassword.Enabled = true;
                 textBoxHgRepoUrl.Text = String.Format("{0}://{1}{2}@{3}/{4}",
-                    uri.Scheme, Username, 
-                    (String.IsNullOrEmpty(Password)) ? null : ':' + Password, 
+                    uri.Scheme, HgUsername, 
+                    (String.IsNullOrEmpty(HgPassword)) ? null : ':' + HgPassword, 
                     uri.Host, ProjectName);
             }
             else
@@ -478,7 +537,7 @@ namespace OneStoryProjectEditor
             textBoxHgRepoUrl.Copy();
         }
 
-        string _strLangCodesFile = null;
+        string _strLangCodesFile;
 
         protected void ProposeEthnologueCode(string strLanguageName, TextBox tbLanguageCode)
         {
@@ -498,6 +557,7 @@ namespace OneStoryProjectEditor
                 string strCode = strEntry.Substring(0, nIndex);
                 tbLanguageCode.Text = strCode;
             }
+            Modified = true;
         }
 
         protected const string CstrLangCodesFilename = "LanguageCodes.tab";
@@ -577,6 +637,7 @@ namespace OneStoryProjectEditor
                     li.FontColor = fontDialog.Color;
                     tb.Font = fontDialog.Font;
                     tb.ForeColor = fontDialog.Color;
+                    Modified = true;
                 }
             }
             catch (Exception ex)

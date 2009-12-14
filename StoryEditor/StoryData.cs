@@ -321,7 +321,7 @@ namespace OneStoryProjectEditor
         }
 
         // if this is "new", then we won't have a project name yet, so query the user for it
-        public void InitializeProjectSettings(TeamMemberData loggedOnMember)
+        public bool InitializeProjectSettings(TeamMemberData loggedOnMember)
         {
             NewProjectWizard dlg = new NewProjectWizard(this) 
             { 
@@ -330,6 +330,10 @@ namespace OneStoryProjectEditor
             };
             if (dlg.ShowDialog() != DialogResult.OK)
                 throw StoryEditor.BackOutWithNoUI;
+
+            // otherwise, it has our new project settings
+            ProjSettings = dlg.ProjSettings;
+            return dlg.Modified;
         }
 
         internal string GetMemberNameFromMemberGuid(string strMemberGuid)
@@ -412,7 +416,7 @@ namespace OneStoryProjectEditor
                     //  member with the edit token when we get to the EnglishBT state as that person
                     //  otherwise, it's a crafter
                     StoryStageLogic.stateTransitions[StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT].MemberTypeWithEditToken =
-                        (IsThereASeparateEnglishBackTranslator) ? TeamMemberData.UserTypes.eEnglishBacktranslator : TeamMemberData.UserTypes.eProjectFacilitator;
+                        (TeamMembers.HasOutsideEnglishBTer) ? TeamMemberData.UserTypes.eEnglishBacktranslator : TeamMemberData.UserTypes.eProjectFacilitator;
                     return true;
                 }
             }
@@ -445,13 +449,49 @@ namespace OneStoryProjectEditor
             //  member with the edit token when we get to the EnglishBT state as that person
             //  otherwise, it's a crafter
             StoryStageLogic.stateTransitions[StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT].MemberTypeWithEditToken =
-                (IsThereASeparateEnglishBackTranslator) ? TeamMemberData.UserTypes.eEnglishBacktranslator : TeamMemberData.UserTypes.eProjectFacilitator;
+                (TeamMembers.HasOutsideEnglishBTer) ? TeamMemberData.UserTypes.eEnglishBacktranslator : TeamMemberData.UserTypes.eProjectFacilitator;
 
             return TeamMembers[dlg.SelectedMember];
         }
 #endif
 
-        public bool IsThereASeparateEnglishBackTranslator
+        // use of this version factors in both the settings in the project file
+        public bool GetHgRepoUsernamePassword(string strProjectName, TeamMemberData loggedOnMember, 
+            out string strUsername, out string strPassword, out string strHgUrlBase)
+        {
+            strPassword = strHgUrlBase = null;    // just in case we don't have anything for this.
+
+            string strRepoUrl, strDummy;
+            if (Program.GetHgRepoParameters(strProjectName, out strUsername, out strRepoUrl, 
+                out strDummy))
+            {
+                if (!String.IsNullOrEmpty(strRepoUrl))
+                {
+                    var uri = new Uri(strRepoUrl);
+                    if (!String.IsNullOrEmpty(uri.UserInfo) && (uri.UserInfo.IndexOf(':') != -1))
+                    {
+                        string[] astrUserInfo = uri.UserInfo.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+                        System.Diagnostics.Debug.Assert((astrUserInfo.Length == 2) && (astrUserInfo[0] == strUsername));
+                        strUsername = astrUserInfo[0];
+                        strPassword = astrUserInfo[1];
+                    }
+                    strHgUrlBase = uri.Scheme + "://" + uri.Host;
+                }
+            }
+
+            // okay, the above is what we saved in the user file, but it's possible that that
+            //  will be empty (e.g. if change the assembly number), so let's get it out of the
+            //  project file as well (which will supercede the above information)
+            if (loggedOnMember != null)
+            {
+                strUsername = loggedOnMember.HgUsername;
+                strPassword = loggedOnMember.HgPassword;
+            }
+
+            return !String.IsNullOrEmpty(strHgUrlBase);
+        }
+
+        public bool IsASeparateEnglishBackTranslator
         {
             get
             {
@@ -459,10 +499,9 @@ namespace OneStoryProjectEditor
 
                 // the role "English Back-translator" only has meaning if there's another
                 //  language involved.
-                if (ProjSettings.Vernacular.HasData || ProjSettings.NationalBT.HasData)
-                    foreach (TeamMemberData aTM in TeamMembers.Values)
-                        if (aTM.MemberType == TeamMemberData.UserTypes.eEnglishBacktranslator)
-                            return true;
+                foreach (TeamMemberData aTM in TeamMembers.Values)
+                    if (aTM.MemberType == TeamMemberData.UserTypes.eEnglishBacktranslator)
+                        return true;
                 return false;
             }
         }

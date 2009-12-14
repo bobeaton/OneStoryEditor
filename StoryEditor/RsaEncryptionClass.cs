@@ -1,70 +1,92 @@
 ﻿using System;
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
 namespace OneStoryProjectEditor
 {
-    class RsaEncryptionClass
+    class EncryptionClass
     {
         /*
-        static void Main()
-        {
-            try
-            {
-                //Create a UnicodeEncoder to convert between byte array and string.
-                UnicodeEncoding ByteConverter = new UnicodeEncoding();
+Imports System
+Imports System.IO
+Imports System.Xml
+Imports System.Text
+Imports System.Security.Cryptography
 
-                //Create byte arrays to hold original, encrypted, and decrypted data.
-                byte[] dataToEncrypt = ByteConverter.GetBytes("Data to Encrypt");
-                byte[] encryptedData;
-                byte[] decryptedData;
+' Namespace: YourCompany.Utils.Encryption
+' Uses DES private key and vector to provide HTTP / XMLDOM - safe base64 string encryption
+' Encrypted string such as account info, passwords, etc can be safely placed in XML element
+' for transmission over the wire without any illegal characters
+' Author: Peter Bromberg
+' Date:   3/12/02
+' Last Modified: 3/12/02
 
-                //Create a new instance of RSACryptoServiceProvider to generate
-                //public and private key data.
-                RSACryptoServiceProvider RSA = new RSACryptoServiceProvider();
+Public Class Encryption64
 
-                //Pass the data to ENCRYPT, the public key information 
-                //(using RSACryptoServiceProvider.ExportParameters(false),
-                //and a boolean flag specifying no OAEP padding.
-                encryptedData = RSAEncrypt(dataToEncrypt, RSA.ExportParameters(false), false);
+    ' Use DES CryptoService with Private key pair
+    Private key() As Byte = {} ' we are going to pass in the key portion in our method calls
+    Private IV() As Byte = {&H12, &H34, &H56, &H78, &H90, &HAB, &HCD, &HEF}
 
-                //Pass the data to DECRYPT, the private key information 
-                //(using RSACryptoServiceProvider.ExportParameters(true),
-                //and a boolean flag specifying no OAEP padding.
-                decryptedData = RSADecrypt(encryptedData, RSA.ExportParameters(true), false);
+    Public Function DecryptFromBase64String(ByVal stringToDecrypt As String, ByVal sEncryptionKey As String) As String
+        Dim inputByteArray(stringToDecrypt.Length) As Byte
+        ' Note: The DES CryptoService only accepts certain key byte lengths
+        ' We are going to make things easy by insisting on an 8 byte legal key length
 
-                //Display the decrypted plaintext to the console. 
-                Console.WriteLine("Decrypted plaintext: {0}", ByteConverter.GetString(decryptedData));
-            }
-            catch (ArgumentNullException)
-            {
-                //Catch this exception in case the encryption did
-                //not succeed.
-                Console.WriteLine("Encryption failed.");
+        Try
+            key = System.Text.Encoding.UTF8.GetBytes(Left(sEncryptionKey, 8))
+            Dim des As New DESCryptoServiceProvider()
+            ' we have a base 64 encoded string so first must decode to regular unencoded (encrypted) string
+            inputByteArray = Convert.FromBase64String(stringToDecrypt)
+            ' now decrypt the regular string
+            Dim ms As New MemoryStream()
+            Dim cs As New CryptoStream(ms, des.CreateDecryptor(key, IV), CryptoStreamMode.Write)
+            cs.Write(inputByteArray, 0, inputByteArray.Length)
+            cs.FlushFinalBlock()
+            Dim encoding As System.Text.Encoding = System.Text.Encoding.UTF8
+            Return encoding.GetString(ms.ToArray())
+        Catch e As Exception
+            Return e.Message
+        End Try
+    End Function
 
-            }
-        }
+    Public Function EncryptToBase64String(ByVal stringToEncrypt As String, ByVal SEncryptionKey As String) As String
+        Try
+            key = System.Text.Encoding.UTF8.GetBytes(Left(SEncryptionKey, 8))
+            Dim des As New DESCryptoServiceProvider()
+            ' convert our input string to a byte array
+            Dim inputByteArray() As Byte = Encoding.UTF8.GetBytes(stringToEncrypt)
+            'now encrypt the bytearray
+            Dim ms As New MemoryStream()
+            Dim cs As New CryptoStream(ms, des.CreateEncryptor(key, IV), CryptoStreamMode.Write)
+            cs.Write(inputByteArray, 0, inputByteArray.Length)
+            cs.FlushFinalBlock()
+            ' now return the byte array as a "safe for XMLDOM" Base64 String
+            Return Convert.ToBase64String(ms.ToArray())
+        Catch e As Exception
+            Return e.Message
+        End Try
+    End Function
+
+End Class
         */
-        static Encoding enc = Encoding.Unicode;
+        private static byte[] _key;
+        private static byte[] _IV = { 0xEB, 0xC9, 0xA3, 0x48, 0x3E, 0xE1, 0x4a, 0x75 };
+        private static string strEncryptionKey = "yeh to mai nahii.n huu.n";
 
-        static public string RSAEncrypt(string strDataToEncrypt)
+        static public string Encrypt(string stringToEncrypt)
         {
             try
             {
-                //Create byte arrays to hold original, encrypted, and decrypted data.
-                byte[] dataToEncrypt = enc.GetBytes(strDataToEncrypt);
-
-                //Create a new instance of RSACryptoServiceProvider.
-                var RSA = new RSACryptoServiceProvider();
-
-                //Import the RSA Key information. This only needs
-                //toinclude the public key information.
-                RSA.ImportParameters(RSA.ExportParameters(false));
-
-                //Encrypt the passed byte array and specify OAEP padding.  
-                //OAEP padding is only available on Microsoft Windows XP or
-                //later.  
-                return enc.GetString(RSA.Encrypt(dataToEncrypt, false));
+                _key = Encoding.UTF8.GetBytes(strEncryptionKey.Substring(0, 8));
+                var des = new DESCryptoServiceProvider();
+                byte[] inputByteArray = Encoding.UTF8.GetBytes(stringToEncrypt);
+                var ms = new MemoryStream();
+                var cs = new CryptoStream(ms, des.CreateEncryptor(_key, _IV), CryptoStreamMode.Write);
+                cs.Write(inputByteArray, 0, inputByteArray.Length);
+                cs.FlushFinalBlock();
+                // now return the byte array as a "safe for XMLDOM" Base64 String
+                return Convert.ToBase64String(ms.ToArray());
             }
             //Catch and display a CryptographicException  
             //to the console.
@@ -76,24 +98,22 @@ namespace OneStoryProjectEditor
             }
         }
 
-        static public string RSADecrypt(string strDataToDecrypt)
+        static public string Decrypt(string stringToDecrypt)
         {
             try
             {
-                //Create byte arrays to hold original, encrypted, and decrypted data.
-                byte[] dataToDecrypt = enc.GetBytes(strDataToDecrypt);
+                _key = Encoding.UTF8.GetBytes(strEncryptionKey.Substring(0, 8));
+                var des = new DESCryptoServiceProvider();
 
-                //Create a new instance of RSACryptoServiceProvider.
-                var RSA = new RSACryptoServiceProvider();
-
-                //Import the RSA Key information. This needs
-                //to include the private key information.
-                RSA.ImportParameters(RSA.ExportParameters(true));
-
-                //Decrypt the passed byte array and specify OAEP padding.  
-                //OAEP padding is only available on Microsoft Windows XP or
-                //later.  
-                return enc.GetString(RSA.Decrypt(dataToDecrypt, false));
+                // we have a base 64 encoded string so first must decode to regular unencoded (encrypted) string
+                byte[] inputByteArray = Convert.FromBase64String(stringToDecrypt);
+                
+                // now decrypt the regular string
+                var ms = new MemoryStream();
+                var cs = new CryptoStream(ms, des.CreateDecryptor(_key, _IV), CryptoStreamMode.Write);
+                cs.Write(inputByteArray, 0, inputByteArray.Length);
+                cs.FlushFinalBlock();
+                return Encoding.UTF8.GetString(ms.ToArray());
             }
             //Catch and display a CryptographicException  
             //to the console.

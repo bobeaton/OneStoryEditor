@@ -93,12 +93,12 @@ namespace OneStoryProjectEditor
                 //  those afterwards as well).
                 else if (theCurrentStory.CraftingInfo.IsBiblicalStory)
                 {
-                    eProposedNextState = (theStoryProjectData.IsThereASeparateEnglishBackTranslator) 
+                    eProposedNextState = (theStoryProjectData.TeamMembers.HasOutsideEnglishBTer)
                         ? StoryStageLogic.ProjectStages.eProjFacAddAnchors : StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT;
                 }
                 else
                 {
-                    eProposedNextState = theStoryProjectData.IsThereASeparateEnglishBackTranslator 
+                    eProposedNextState = theStoryProjectData.TeamMembers.HasOutsideEnglishBTer
                         ? StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT : StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT;
                 }
             }
@@ -190,7 +190,7 @@ namespace OneStoryProjectEditor
             if (theCurrentStory.CraftingInfo.IsBiblicalStory)
             {
                 if (theStoryProjectData.ProjSettings.InternationalBT.HasData
-                    && !theStoryProjectData.IsThereASeparateEnglishBackTranslator)
+                    && !theStoryProjectData.TeamMembers.HasOutsideEnglishBTer)
                     System.Diagnostics.Debug.Assert(eProposedNextState == 
                         StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT);
                 else
@@ -201,7 +201,7 @@ namespace OneStoryProjectEditor
                 // normally, we'd go to doing anchors next, but if this isn't a biblical story, then
                 //  no anchors and we skip right ot the English BT
                 // but only if there is an English BT... if not, then we're done
-                if (theStoryProjectData.IsThereASeparateEnglishBackTranslator)
+                if (theStoryProjectData.TeamMembers.HasOutsideEnglishBTer)
                     eProposedNextState = StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT;
                 else if (!theStoryProjectData.ProjSettings.InternationalBT.HasData)
                     eProposedNextState = StoryStageLogic.ProjectStages.eConsultantCheckNonBiblicalStory;
@@ -448,7 +448,7 @@ namespace OneStoryProjectEditor
                 return false;
             }
 
-            if (theStoryProjectData.IsThereASeparateEnglishBackTranslator)
+            if (theStoryProjectData.TeamMembers.HasOutsideEnglishBTer)
                 eProposedNextState = StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT;
             else if (!theStoryProjectData.TeamMembers.IsThereAFirstPassMentor)
                 eProposedNextState = StoryStageLogic.ProjectStages.eConsultantCheckStoryInfo;
@@ -688,7 +688,7 @@ namespace OneStoryProjectEditor
             if (!CheckThatCITAnsweredPFsQuestions(theSE, theCurrentStory))
                 return false;
 
-            if (!theStoryProjectData.IsThereASeparateEnglishBackTranslator)
+            if (!theStoryProjectData.TeamMembers.HasOutsideEnglishBTer)
                 eProposedNextState = StoryStageLogic.ProjectStages.eProjFacReviseBasedOnRound1Notes;
             else
                 System.Diagnostics.Debug.Assert(eProposedNextState ==
@@ -852,7 +852,7 @@ namespace OneStoryProjectEditor
             if (!CheckThatCITAnsweredPFsQuestions(theSE, theCurrentStory))
                 return false;
 
-            if (!theStoryProjectData.IsThereASeparateEnglishBackTranslator)
+            if (!theStoryProjectData.TeamMembers.HasOutsideEnglishBTer)
                 eProposedNextState = StoryStageLogic.ProjectStages.eProjFacReviseBasedOnRound2Notes;
             else
                 System.Diagnostics.Debug.Assert(eProposedNextState ==

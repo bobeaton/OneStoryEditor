@@ -62,7 +62,7 @@ namespace OneStoryProjectEditor
             // the only time we show the National BT is if there's an "other" English BTr (who will
             //  do the EnglishBT from the NationalBT) OR there's no vernacular
             if (theSE.StoryProject.ProjSettings.NationalBT.HasData && 
-                (theSE.StoryProject.IsThereASeparateEnglishBackTranslator 
+                (theSE.StoryProject.TeamMembers.HasOutsideEnglishBTer
                 ||  (theSE.viewNationalLangFieldMenuItem.Checked && !theSE.StoryProject.ProjSettings.Vernacular.HasData)))
             {
                 InsertColumn(nNumColumns);
@@ -74,7 +74,7 @@ namespace OneStoryProjectEditor
             }
 
             if (theSE.StoryProject.ProjSettings.InternationalBT.HasData
-                && (!theSE.StoryProject.IsThereASeparateEnglishBackTranslator
+                && (!theSE.StoryProject.TeamMembers.HasOutsideEnglishBTer
                     || (StageLogic.MemberTypeWithEditToken !=
                             TeamMemberData.UserTypes.eProjectFacilitator)))
             {

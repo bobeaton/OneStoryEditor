@@ -1102,12 +1102,6 @@ namespace OneStoryProjectEditor
         {
             return lstCNsD.Contains(aCNsD);
         }
-
-        public void VisiblizeLast()
-        {
-            if (Controls.Count > 0)
-                ScrollControlIntoView(Controls[Controls.Count - 1]);
-        }
     }
 }
 

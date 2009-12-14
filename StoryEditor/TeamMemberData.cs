@@ -105,7 +105,7 @@ namespace OneStoryProjectEditor
             if (!theMemberRow.IsHgPasswordNull())
             {
                 string strEncryptedHgPassword = theMemberRow.HgPassword;
-                HgPassword = RsaEncryptionClass.RSADecrypt(strEncryptedHgPassword);
+                HgPassword = EncryptionClass.Decrypt(strEncryptedHgPassword);
             }
         }
 
@@ -209,7 +209,8 @@ namespace OneStoryProjectEditor
                     eleMember.Add(new XAttribute("HgUsername", HgUsername));
                 if (!String.IsNullOrEmpty(HgPassword))
                 {
-                    string strEncryptedHgPassword = RsaEncryptionClass.RSAEncrypt(HgPassword);
+                    string strEncryptedHgPassword = EncryptionClass.Encrypt(HgPassword);
+                    System.Diagnostics.Debug.Assert(HgPassword == EncryptionClass.Decrypt(strEncryptedHgPassword));
                     eleMember.Add(new XAttribute("HgPassword", strEncryptedHgPassword));
                 }
 
@@ -224,9 +225,13 @@ namespace OneStoryProjectEditor
     {
         protected const string CstrBrowserMemberName = "Browser";
 
+        public bool HasOutsideEnglishBTer;
+        public bool HasFirstPassMentor;
+        public bool HasIndependentConsultant;
+
         public TeamMembersData()
         {
-            TeamMemberData aTMD = new TeamMemberData(CstrBrowserMemberName, TeamMemberData.UserTypes.eJustLooking,
+            var aTMD = new TeamMemberData(CstrBrowserMemberName, TeamMemberData.UserTypes.eJustLooking,
                 "mem-" + Guid.NewGuid(), null, null, null, null, null, null);
             Add(CstrBrowserMemberName, aTMD);
         }
@@ -238,12 +243,42 @@ namespace OneStoryProjectEditor
             NewDataSet.MembersRow[] aMembersRows = theStoryProjectRow.GetMembersRows();
             NewDataSet.MembersRow theMembersRow;
             if (aMembersRows.Length == 0)
-                theMembersRow = projFile.Members.AddMembersRow(theStoryProjectRow);
+                theMembersRow = projFile.Members.AddMembersRow(false, false, false, theStoryProjectRow);
             else
                 theMembersRow = aMembersRows[0];
 
             foreach (NewDataSet.MemberRow aMemberRow in theMembersRow.GetMemberRows())
                 Add(aMemberRow.name, new TeamMemberData(aMemberRow));
+
+            // if the 'Has...' attributes are new, then get these values from the old method
+            if (theMembersRow.IsHasOutsideEnglishBTerNull())
+            {
+                HasOutsideEnglishBTer = IsThereAnOutsideEnglishBTer;
+            }
+            else
+                HasOutsideEnglishBTer = theMembersRow.HasOutsideEnglishBTer;
+
+            if (theMembersRow.IsHasFirstPassMentorNull())
+                HasFirstPassMentor = IsThereAFirstPassMentor;
+            else
+                HasFirstPassMentor = theMembersRow.HasFirstPassMentor;
+
+            if (theMembersRow.IsHasIndependentConsultantNull())
+                HasIndependentConsultant = IsThereAnIndependentConsultant;
+            else
+                HasIndependentConsultant = theMembersRow.HasIndependentConsultant;
+        }
+
+        // should use the StoryProjectData version if outside user
+        protected bool IsThereAnOutsideEnglishBTer
+        {
+            get
+            {
+                foreach (TeamMemberData aTM in Values)
+                    if (aTM.MemberType == TeamMemberData.UserTypes.eEnglishBacktranslator)
+                        return true;
+                return false;
+            }
         }
 
         public bool IsThereACoach
@@ -295,9 +330,12 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                XElement eleMembers = new XElement("Members");
+                var eleMembers = new XElement("Members",
+                    new XAttribute("HasOutsideEnglishBTer", HasOutsideEnglishBTer),
+                    new XAttribute("HasFirstPassMentor", HasFirstPassMentor),
+                    new XAttribute("HasIndependentConsultant", HasIndependentConsultant));
 
-                foreach (TeamMemberData aMemberData in this.Values)
+                foreach (TeamMemberData aMemberData in Values)
                     eleMembers.Add(aMemberData.GetXml);
 
                 return eleMembers;
