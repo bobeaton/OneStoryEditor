@@ -184,7 +184,7 @@
     <comment>जो '{0}' फ़ोलडर में है</comment>
   </data>
   <data name="IDS_LogInAsProjFac" xml:space="preserve">
-    <value>You have to be logged in as a 'Project Facilitator' to add stories. To login, click 'Project', 'Settings'</value>
+    <value>You have to be logged in as a 'Project Facilitator' to add stories. To login, click 'Project', 'Login'</value>
   </data>
   <data name="IDS_MainFrameTitle" xml:space="preserve">
     <value>OneStory Editor -- {0} Story Project</value>

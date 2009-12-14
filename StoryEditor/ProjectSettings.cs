@@ -24,7 +24,7 @@ namespace OneStoryProjectEditor
         {
             ProjectName = strProjectName;
             if (String.IsNullOrEmpty(strProjectFolderDefaultIfNull))
-                _strProjectFolder = Path.Combine(OneStoryProjectFolderRoot, ProjectName);
+                _strProjectFolder = GetDefaultProjectPath(ProjectName);
             else
             {
                 System.Diagnostics.Debug.Assert(strProjectFolderDefaultIfNull[strProjectFolderDefaultIfNull.Length-1] != '\\');
@@ -202,10 +202,15 @@ namespace OneStoryProjectEditor
             get { return Path.Combine(ProjectFolder, OneStoryFileName(ProjectName)); }
         }
 
+        public static string GetDefaultProjectPath(string strProjectName)
+        {
+            return Path.Combine(OneStoryProjectFolderRoot, strProjectName);
+        }
+
         public static string GetDefaultProjectFilePath(string strProjectName)
         {
-            return Path.Combine(OneStoryProjectFolderRoot, 
-                Path.Combine(strProjectName, OneStoryFileName(strProjectName)));
+            return Path.Combine(GetDefaultProjectPath(strProjectName), 
+                OneStoryFileName(strProjectName));
         }
 
         public string ProjectFolder

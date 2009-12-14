@@ -62,7 +62,23 @@ namespace OneStoryProjectEditor
                         textBoxProjectName, tabPageProjectName);
 
                 if (ProjSettings == null)
+                {
+                    // this means that we are doing "new" (as opposed to "edit" settings)
+                    // first check if this means we have to overwrite a project
+                    string strFilename = ProjectSettings.GetDefaultProjectFilePath(ProjectName);
+                    if (File.Exists(strFilename))
+                    {
+                        DialogResult res =
+                            MessageBox.Show(String.Format(Properties.Resources.IDS_OverwriteProject, ProjectName),
+                                            Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+                        if (res != DialogResult.Yes)
+                            return;
+
+                        RemoveProject(strFilename, ProjectName);
+                    }
+
                     ProjSettings = new ProjectSettings(null, ProjectName);
+                }
                 else
                     ProjSettings.ProjectName = ProjectName;
 
@@ -176,6 +192,22 @@ namespace OneStoryProjectEditor
             else if (tabControl.SelectedTab == tabPageMemberRoles)
             {
             }
+        }
+
+        internal static void RemoveProject(string strProjectFilename, string strProjectName)
+        {
+            string strProjectFolder = Path.GetDirectoryName(strProjectFilename);
+            System.Diagnostics.Debug.Assert(strProjectFolder == ProjectSettings.GetDefaultProjectPath(strProjectName));
+
+            // they want to delete it (so remove all traces of it, so we don't leave around a file which 
+            //  is no longer being referenced, which they might one day mistake for the current version)
+            Directory.Delete(strProjectFolder, true);
+
+            // remove the existing references in the Recent lists too
+            int nIndex = Properties.Settings.Default.RecentProjects.IndexOf(strProjectName);
+            Properties.Settings.Default.RecentProjects.RemoveAt(nIndex);
+            Properties.Settings.Default.RecentProjectPaths.RemoveAt(nIndex);
+            Properties.Settings.Default.Save();
         }
 
         private void InitLanguageControls(Control tabPage, ProjectSettings.LanguageInfo languageInfo)
@@ -322,6 +354,8 @@ namespace OneStoryProjectEditor
             if (!checkBoxUseInternetRepo.Checked)
                 Program.ClearHgParameters(ProjectName);
 
+            // this is now configured!
+            _storyProjectData.ProjSettings.IsConfigured = true;
             DialogResult = DialogResult.OK;
             Close();
         }

@@ -120,15 +120,7 @@ namespace OneStoryProjectEditor
                             if (res != DialogResult.Yes)
                                 throw StoryEditor.BackOutWithNoUI;
 
-                            // they want to delete it (so remove all traces of it, so we don't leave around a file which 
-                            //  is no longer being referenced, which they might one day mistake for the current version)
-                            File.Delete(strFilename);   // TODO: probably ought to remove the folder as well and what about the .hg repository?
-
-                            // remove the existing references in the Recent lists too
-                            int nIndex = Properties.Settings.Default.RecentProjects.IndexOf(strProjectName);
-                            Properties.Settings.Default.RecentProjects.RemoveAt(nIndex);
-                            Properties.Settings.Default.RecentProjectPaths.RemoveAt(nIndex);
-                            Properties.Settings.Default.Save();
+                            NewProjectWizard.RemoveProject(strFilename, strProjectName);
                         }
                     }
 
