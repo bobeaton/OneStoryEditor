@@ -337,6 +337,9 @@ namespace OneStoryProjectEditor
 
                     if (theCurrentStory != null)
                     {
+                        // reload the state transitions so that we can possible support a new
+                        //  configuration (e.g. there might now be a FPM)
+                        StoryStageLogic.stateTransitions = new StoryStageLogic.StateTransitions();
                         ReInitMenuVisibility();
                         SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage);
                     }
