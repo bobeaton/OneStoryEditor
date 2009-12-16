@@ -82,9 +82,8 @@ namespace OneStoryProjectEditor
             AdjustTextBoxHeight(tb);
 
             // the 'Tag' of each text box contains a delegate to set the data item it is associated with
-            System.Diagnostics.Debug.Assert((tb.Tag != null) && (tb.Tag is StringTransfer.SetValueDelegate));
-            StringTransfer.SetValueDelegate SetAssocDataValue = (StringTransfer.SetValueDelegate)tb.Tag;
-            SetAssocDataValue(tb.Text);
+            var st = tb.MyStringTransfer;
+            st.SetValue(tb.Text);
         }
 
         protected void AdjustTextBoxHeight(CtrlTextBox tb)

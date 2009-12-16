@@ -10,9 +10,6 @@ namespace OneStoryProjectEditor
     //  controls they're associated with will be able to automatically update themselves
     public class StringTransfer
     {
-        public delegate void SetValueDelegate(string strValue);
-
-        protected SetValueDelegate theSetValueDelegate = null;
         protected string Value;
 #if !DataDllBuild
         protected CtrlTextBox _tb = null;
@@ -20,8 +17,7 @@ namespace OneStoryProjectEditor
 
         public StringTransfer(string strValue)
         {
-            Value = strValue;
-            theSetValueDelegate = new SetValueDelegate(SetValue);
+            SetValue(strValue);
         }
 
         public void SetValue(string strValue)
@@ -34,7 +30,7 @@ namespace OneStoryProjectEditor
         {
             _tb = tb;
             tb.Text = Value;
-            tb.Tag = theSetValueDelegate;
+            tb.Tag = this;
         }
 
         internal CtrlTextBox TextBox

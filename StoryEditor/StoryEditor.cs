@@ -730,6 +730,8 @@ namespace OneStoryProjectEditor
             Debug.Assert(theVerses.FirstVerse != null);
 
             int nLastVerseInFocus = CtrlTextBox._nLastVerse;
+            StringTransfer stLast = (CtrlTextBox._inTextBox != null)
+                ? CtrlTextBox._inTextBox.MyStringTransfer : null;
 
             ClearFlowControls();
             int nVerseIndex = 0;
@@ -763,6 +765,8 @@ namespace OneStoryProjectEditor
             ResumeLayout(true);
 
             FocusOnVerse(nLastVerseInFocus);
+            if ((stLast != null) && (stLast.TextBox != null))
+                stLast.TextBox.Focus();
         }
 
         protected void InitVerseControls(VerseData aVerse, int nVerseIndex)
@@ -781,6 +785,8 @@ namespace OneStoryProjectEditor
                 return;
 
             int nLastVerseInFocus = CtrlTextBox._nLastVerse;
+            StringTransfer stLast = (CtrlTextBox._inTextBox != null)
+                ? CtrlTextBox._inTextBox.MyStringTransfer : null;
 
             // get a new index
             int nVerseIndex = 0;
@@ -796,6 +802,8 @@ namespace OneStoryProjectEditor
             ResumeLayout(true);
 
             FocusOnVerse(nLastVerseInFocus);
+            if ((stLast != null) && (stLast.TextBox != null))
+                stLast.TextBox.Focus();
         }
 
         protected void InitConsultNotesPane(ConNoteFlowLayoutPanel theFLP, ConsultNotesDataConverter aCNsDC, int nVerseIndex)
@@ -809,6 +817,8 @@ namespace OneStoryProjectEditor
         internal void ReInitConsultNotesPane(ConsultNotesDataConverter aCNsD)
         {
             int nLastVerseInFocus = CtrlTextBox._nLastVerse;
+            StringTransfer stLast = (CtrlTextBox._inTextBox != null)
+                ? CtrlTextBox._inTextBox.MyStringTransfer : null;
 
             int nVerseIndex = 0;
             if (flowLayoutPanelConsultantNotes.Contains(aCNsD))
@@ -847,6 +857,8 @@ namespace OneStoryProjectEditor
             }
 
             FocusOnVerse(nLastVerseInFocus);
+            if ((stLast != null) && (stLast.TextBox != null))
+                stLast.TextBox.Focus();
 
             // if we do this, it's because something changed
             Modified = true;
@@ -907,7 +919,7 @@ namespace OneStoryProjectEditor
             theCurrentStory.Verses.InsertRange(nInsertionIndex, lstNewVerses);
             InitAllPanes();
             Debug.Assert(lstNewVerses.Count > 0);
-            FocusOnVerse(nInsertionIndex);
+            // shouldn't need to do this here (done in InitAllPanes): FocusOnVerse(nInsertionIndex);
         }
 
         private void TimeToSetFocus(object sender, EventArgs e)
@@ -915,28 +927,33 @@ namespace OneStoryProjectEditor
             Debug.Assert((sender != null) && (sender is Timer) && ((sender as Timer).Tag is int));
             ((Timer) sender).Stop();
             int nVerseIndex = (int)((Timer) sender).Tag;
-            FocusOnVerse(nVerseIndex - 1);
+            FocusOnVerse(nVerseIndex);
         }
 
+        /// <summary>
+        /// Scroll the controls in the flow layout controls to make sure nVerseIndex line is
+        /// visible.
+        /// </summary>
+        /// <param name="nVerseIndex">corresponds to the line number (e.g. ln: 1 == 1), but could be 0 for ConNote panes</param>
         public void FocusOnVerse(int nVerseIndex)
         {
-            // if the user is in one of the zeroth ConNote boxes...
+            // if no box was actually ever selected, then this might be -1
             if (nVerseIndex < 0)
-                nVerseIndex++;  // then treat it as the 1st.
-
-            // light up whichever text box is visible
-            // from the verses pane...
-            if (((nVerseIndex * 2) + 1) >= flowLayoutPanelVerses.Controls.Count)
                 return;
 
-            Control ctrl = flowLayoutPanelVerses.Controls[(nVerseIndex * 2) + 1];
+            // light up whichever text box is visible
+            // from the verses pane... (for verse controls, this is the line number, which
+            //  is one more than the index we're looking for.
+            if ((((nVerseIndex - 1) * 2) + 1) >= flowLayoutPanelVerses.Controls.Count)
+                return;
+
+            Control ctrl = flowLayoutPanelVerses.Controls[((nVerseIndex - 1) * 2) + 1];
 
             Debug.Assert(ctrl is VerseBtControl);
             VerseBtControl theVerse = ctrl as VerseBtControl;
             flowLayoutPanelVerses.ScrollControlIntoView(theVerse);
 
             // the ConNote controls have a zeroth line, so the index is one greater
-            nVerseIndex++;
             if (viewConsultantNoteFieldMenuItem.Checked 
                 && (nVerseIndex < flowLayoutPanelConsultantNotes.Controls.Count))
             {
@@ -2731,7 +2748,7 @@ namespace OneStoryProjectEditor
             Debug.Assert(comboBoxStorySelector.Items.Contains(strStoryName));
             comboBoxStorySelector.SelectedItem = strStoryName;
             SetNetBibleVerse(strAnchor);
-            Debug.Assert(theCurrentStory.Verses.Count > nLineIndex);
+            Debug.Assert(theCurrentStory.Verses.Count >= nLineIndex);
             FocusOnVerse(nLineIndex);
         }
 

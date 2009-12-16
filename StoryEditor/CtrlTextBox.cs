@@ -64,11 +64,33 @@ namespace OneStoryProjectEditor
             _strKeyboardName = (String.IsNullOrEmpty(strOverrideKeyboard)) ? li.DefaultKeyboard : strOverrideKeyboard;
         }
 
+        // get the string transfer associated with this box (we do this when we're about
+        //  to repaint the screen and afterwards do 'Focus'. So let's keep track of what's
+        //  selected so that when we eventually do Focus, we can set the selected text again.
+        protected static int _SelectionStart, _SelectionLength;
+
+        public StringTransfer MyStringTransfer
+        {
+            get
+            {
+                System.Diagnostics.Debug.Assert((Tag != null) && (Tag is StringTransfer));
+                _SelectionStart = SelectionStart;
+                _SelectionLength = SelectionLength;
+                return (StringTransfer) Tag;
+            }
+        }
+
         public new bool Focus()
         {
             _ctrlVerseParent.Focus();
             base.Focus();
             Visible = true;
+            if (_SelectionStart + _SelectionLength <= Text.Length)
+            {
+                SelectionStart = _SelectionStart;
+                SelectionLength = _SelectionLength;
+            }
+
             return true;
         }
 
