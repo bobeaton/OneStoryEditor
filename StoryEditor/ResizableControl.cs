@@ -162,7 +162,7 @@ namespace OneStoryProjectEditor
             return bHeightChanged;
         }
 
-        protected bool CheckForProperEditToken(out StoryEditor theSE)
+        internal bool CheckForProperEditToken(out StoryEditor theSE)
         {
             if (this is VerseControl)
                 theSE = (this as VerseControl).TheSE;

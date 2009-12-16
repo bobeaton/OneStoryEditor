@@ -440,7 +440,7 @@ namespace OneStoryProjectEditor
             if (m_bMouseDown)
             {
                 ScriptureReference = strScriptureReference;
-                webBrowserNetBible.DoDragDrop(this, DragDropEffects.Link);
+                webBrowserNetBible.DoDragDrop(this, DragDropEffects.Link | DragDropEffects.Copy);
             }
         }
 

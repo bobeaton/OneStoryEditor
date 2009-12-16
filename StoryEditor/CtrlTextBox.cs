@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 using Palaso.UI.WindowsForms.Keyboarding;
@@ -11,7 +8,7 @@ namespace OneStoryProjectEditor
     public class CtrlTextBox : TextBox
     {
         protected StoryStageLogic _stageLogic = null;
-        protected VerseControl _ctrlVerseParent = null;
+        internal VerseControl _ctrlVerseParent = null;
         protected string _strKeyboardName = null;
         internal string _strLabel = null;
         protected ContextMenuStrip _ctxMenu = null;
@@ -138,8 +135,58 @@ namespace OneStoryProjectEditor
 
         }
 
+        protected override void OnDragEnter(DragEventArgs drgevent)
+        {
+            if (drgevent.Data.GetDataPresent(typeof(NetBibleViewer)))
+            {
+                try
+                {
+                    // make sure the current user *can* edit this TB
+                    StoryEditor theSE;
+                    if (!_ctrlVerseParent.CheckForProperEditToken(out theSE))
+                        return;
+
+                    if (_delegateRequiredEditorCheck != null)    // ... i.e. a req. editor checking delegate is defined
+                    {
+                        // throws if failure
+                        _delegateRequiredEditorCheck(theSE.LoggedOnMember.MemberType, _eRequiredEditor);
+                    }
+
+                    // finally, the last possible blockage is if the currently logged on member isn't the 
+                    //  right editor for the state we are in (which has to do with who has the edit token)
+                    if (!_stageLogic.IsEditAllowed(theSE.LoggedOnMember))
+                        throw _stageLogic.WrongMemberTypeEx;
+
+                    drgevent.Effect = DragDropEffects.Copy;
+                }
+                catch { }   // noop
+            }
+        }
+
+        protected override void OnDragDrop(DragEventArgs drgevent)
+        {
+            if (drgevent.Data.GetDataPresent(typeof(NetBibleViewer)))
+            {
+                try
+                {
+                    // make sure the current user *can* edit this TB
+                    StoryEditor theSE;
+                    if (!_ctrlVerseParent.CheckForProperEditToken(out theSE))
+                        return;
+
+                    NetBibleViewer theNetBibleViewer = (NetBibleViewer)drgevent.Data.GetData(typeof(NetBibleViewer));
+                    SelectedText = theNetBibleViewer.ScriptureReference;
+
+                    // indicate that we've changed something so that we don't exit without offering
+                    //  to save.
+                    theSE.Modified = true;
+                }
+                catch { }   // noop
+            }
+        }
+
         internal static CtrlTextBox _inTextBox = null;
-        protected static int _nLastVerse = -1;
+        internal static int _nLastVerse = -1;
 
         protected override void OnEnter(EventArgs e)
         {
@@ -164,7 +211,7 @@ namespace OneStoryProjectEditor
                 _nLastVerse = _ctrlVerseParent.VerseNumber;
 
                 // start a timer that will wake up shortly and set the focus to the other panes as well.
-                _ctrlVerseParent.TheSE.myFocusTimer.Tag = _ctrlVerseParent;
+                _ctrlVerseParent.TheSE.myFocusTimer.Tag = _ctrlVerseParent.VerseNumber;
                 _ctrlVerseParent.TheSE.myFocusTimer.Start();
             }
         }
@@ -218,6 +265,15 @@ namespace OneStoryProjectEditor
             if (keyData == Keys.F1)
                 return true;
 
+            if (keyData == (Keys.Control | Keys.Down))
+            {
+                // start a timer that will wake up shortly and set the focus to the other panes as well.
+                _ctrlVerseParent.TheSE.myFocusTimer.Tag = _ctrlVerseParent.VerseNumber + 1;
+                _ctrlVerseParent.TheSE.myFocusTimer.Start();
+
+                return true;
+            }
+
             switch (keyCode)
             {
                 case Keys.Left:
@@ -256,6 +312,7 @@ namespace OneStoryProjectEditor
             Multiline = true;
             Dock = DockStyle.Fill;
             HideSelection = false;
+            AllowDrop = true;
             MouseUp += new MouseEventHandler(CtrlTextBox_MouseUp);
         }
 
