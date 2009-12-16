@@ -640,6 +640,7 @@ namespace OneStoryProjectEditor
                     {
                         CtrlTextBox._inTextBox.SelectedText = strReplaceWith;
                         LastCharIndex = CaptureNextStartingCharIndex(CtrlTextBox._inTextBox);
+                        TheSE.Modified = true;
                     }
                 }
                 else
@@ -651,6 +652,7 @@ namespace OneStoryProjectEditor
                             regex.Replace(CtrlTextBox._inTextBox.SelectedText, strReplaceWith);
                         CtrlTextBox._inTextBox.SelectedText = strReplacedText;
                         LastCharIndex = CaptureNextStartingCharIndex(CtrlTextBox._inTextBox);
+                        TheSE.Modified = true;
                     }
                 }
             }
