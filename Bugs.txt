@@ -1,3 +1,19 @@
+Add search to Bible pane as well
+
+Add Bible verse drag-drop support to the ConNotes panes as well (what about making it html jump linkable and/or RichText?)
+
+Add right-click on Anchors and "Add Note About" to insert a connote for an anchor
+
+Same with other kinds of "InitAllPanes" work (e.g. Deleting a verse, etc), adding panes, changing views... remember which control had the focus and make sure that control (in each pane) still has focus).
+
+When adding a note, that new textbox really needs to get the focus
+
+From the Story Information dialog, add 'View member info' button
+
+Don't continue to nag about no purpose/resources used for CITs
+
+add steps after the first CIT to go back to the PF for the back-and-forth
+
 make the font for consultant notes modifiable
 
 Line 0 for each story for global con-notes
@@ -27,3 +43,6 @@ When viewing "Old Stories", don't do Internet sync
 Resize on Biblical Terms dialog isn't working
 
 Ask Karan what his role is going to be on the Kinnauri project (does he need to do their English BTs?)
+
+Test whether two versions of the OSE can be run at the same time without problems. (at the very least, make sure it doesn't do sync and try to open the same project file, which it will by default).
+

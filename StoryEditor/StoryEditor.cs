@@ -729,6 +729,8 @@ namespace OneStoryProjectEditor
             // the first verse (for global ConNotes) should have been initialized by now
             Debug.Assert(theVerses.FirstVerse != null);
 
+            int nLastVerseInFocus = CtrlTextBox._nLastVerse;
+
             ClearFlowControls();
             int nVerseIndex = 0;
             if (theVerses.Count == 0)
@@ -759,6 +761,8 @@ namespace OneStoryProjectEditor
             flowLayoutPanelConsultantNotes.ResumeLayout(true);
             flowLayoutPanelCoachNotes.ResumeLayout(true);
             ResumeLayout(true);
+
+            FocusOnVerse(nLastVerseInFocus);
         }
 
         protected void InitVerseControls(VerseData aVerse, int nVerseIndex)
@@ -776,6 +780,9 @@ namespace OneStoryProjectEditor
             if ((theCurrentStory == null) || (theCurrentStory.Verses.Count == 0))
                 return;
 
+            int nLastVerseInFocus = CtrlTextBox._nLastVerse;
+
+            // get a new index
             int nVerseIndex = 0;
             flowLayoutPanelVerses.Controls.Clear();
             flowLayoutPanelVerses.SuspendLayout();
@@ -787,6 +794,8 @@ namespace OneStoryProjectEditor
 
             flowLayoutPanelVerses.ResumeLayout(true);
             ResumeLayout(true);
+
+            FocusOnVerse(nLastVerseInFocus);
         }
 
         protected void InitConsultNotesPane(ConNoteFlowLayoutPanel theFLP, ConsultNotesDataConverter aCNsDC, int nVerseIndex)
@@ -799,6 +808,8 @@ namespace OneStoryProjectEditor
         // this is for use by the consultant panes if we add or remove or hide a single note
         internal void ReInitConsultNotesPane(ConsultNotesDataConverter aCNsD)
         {
+            int nLastVerseInFocus = CtrlTextBox._nLastVerse;
+
             int nVerseIndex = 0;
             if (flowLayoutPanelConsultantNotes.Contains(aCNsD))
             {
@@ -834,6 +845,8 @@ namespace OneStoryProjectEditor
                 flowLayoutPanelCoachNotes.ResumeLayout(true);
                 ResumeLayout(true);
             }
+
+            FocusOnVerse(nLastVerseInFocus);
 
             // if we do this, it's because something changed
             Modified = true;
@@ -894,19 +907,18 @@ namespace OneStoryProjectEditor
             theCurrentStory.Verses.InsertRange(nInsertionIndex, lstNewVerses);
             InitAllPanes();
             Debug.Assert(lstNewVerses.Count > 0);
-            FocusOnVerse(nInsertionIndex, null);
+            FocusOnVerse(nInsertionIndex);
         }
 
         private void TimeToSetFocus(object sender, EventArgs e)
         {
-            Debug.Assert((sender != null) && (sender is Timer) && ((sender as Timer).Tag is VerseControl));
+            Debug.Assert((sender != null) && (sender is Timer) && ((sender as Timer).Tag is int));
             ((Timer) sender).Stop();
-            VerseControl ctrl = (((Timer) sender).Tag as VerseControl);
-            if (ctrl != null)
-                FocusOnVerse(ctrl.VerseNumber - 1, ctrl);
+            int nVerseIndex = (int)((Timer) sender).Tag;
+            FocusOnVerse(nVerseIndex - 1);
         }
 
-        public void FocusOnVerse(int nVerseIndex, VerseControl ctrlThis)
+        public void FocusOnVerse(int nVerseIndex)
         {
             // if the user is in one of the zeroth ConNote boxes...
             if (nVerseIndex < 0)
@@ -914,41 +926,40 @@ namespace OneStoryProjectEditor
 
             // light up whichever text box is visible
             // from the verses pane...
-            Debug.Assert(((nVerseIndex * 2) + 1) < flowLayoutPanelVerses.Controls.Count);
+            if (((nVerseIndex * 2) + 1) >= flowLayoutPanelVerses.Controls.Count)
+                return;
+
             Control ctrl = flowLayoutPanelVerses.Controls[(nVerseIndex * 2) + 1];
 
             Debug.Assert(ctrl is VerseBtControl);
             VerseBtControl theVerse = ctrl as VerseBtControl;
-            if (ctrlThis != theVerse)
-                flowLayoutPanelVerses.ScrollControlIntoView(theVerse);
+            flowLayoutPanelVerses.ScrollControlIntoView(theVerse);
 
             // the ConNote controls have a zeroth line, so the index is one greater
             nVerseIndex++;
-            if (viewConsultantNoteFieldMenuItem.Checked)
+            if (viewConsultantNoteFieldMenuItem.Checked 
+                && (nVerseIndex < flowLayoutPanelConsultantNotes.Controls.Count))
             {
-                Debug.Assert(nVerseIndex < flowLayoutPanelConsultantNotes.Controls.Count);
                 ctrl = flowLayoutPanelConsultantNotes.Controls[nVerseIndex];
                 Debug.Assert(ctrl is ConsultNotesControl);
                 ConsultNotesControl theConsultantNotes = ctrl as ConsultNotesControl;
-                if (ctrlThis != theConsultantNotes)
-                    flowLayoutPanelConsultantNotes.ScrollControlIntoView(theConsultantNotes);
+                flowLayoutPanelConsultantNotes.ScrollControlIntoView(theConsultantNotes);
             }
 
-            if (viewCoachNotesFieldMenuItem.Checked)
+            if (viewCoachNotesFieldMenuItem.Checked
+                && (nVerseIndex < flowLayoutPanelCoachNotes.Controls.Count))
             {
-                Debug.Assert(nVerseIndex < flowLayoutPanelCoachNotes.Controls.Count);
                 ctrl = flowLayoutPanelCoachNotes.Controls[nVerseIndex];
                 Debug.Assert(ctrl is ConsultNotesControl);
                 ConsultNotesControl theCoachNotes = ctrl as ConsultNotesControl;
-                if (ctrlThis != theCoachNotes)
-                    flowLayoutPanelCoachNotes.ScrollControlIntoView(theCoachNotes);
+                flowLayoutPanelCoachNotes.ScrollControlIntoView(theCoachNotes);
             }
         }
 
         public void AddNoteAbout(VerseControl ctrlParent)
         {
             Debug.Assert(LoggedOnMember != null);
-            string strNote = GetInitials(LoggedOnMember.Name) + ": Re: ";
+            string strNote = GetInitials(LoggedOnMember.Name) + ": Re:";
             if (ctrlParent is VerseBtControl)
             {
                 VerseBtControl ctrl = ctrlParent as VerseBtControl;
@@ -964,30 +975,30 @@ namespace OneStoryProjectEditor
                     {
                         string str = ctrl._verseData.VernacularText.TextBox.SelectedText.Trim();
                         if (!String.IsNullOrEmpty(str))
-                            strNote += String.Format("/{0}/ ", str);
+                            strNote += String.Format(" /{0}/", str);
                     }
                     if (viewNationalLangFieldMenuItem.Checked)
                     {
                         string str = ctrl._verseData.NationalBTText.TextBox.SelectedText.Trim();
                         if (!String.IsNullOrEmpty(str))
-                            strNote += String.Format("/{0}/ ", str);
+                            strNote += String.Format(" /{0}/", str);
                     }
                     if (viewEnglishBTFieldMenuItem.Checked)
                     {
                         string str = ctrl._verseData.InternationalBTText.TextBox.SelectedText.Trim();
                         if (!String.IsNullOrEmpty(str))
-                            strNote += String.Format("'{0}' ", str);
+                            strNote += String.Format(" '{0}'", str);
                     }
                 }
                 else if (CtrlTextBox._inTextBox != null)
                 {
                     // otherwise, it might have been a retelling or some other control
                     if (!String.IsNullOrEmpty(CtrlTextBox._inTextBox._strLabel))
-                        strNote += CtrlTextBox._inTextBox._strLabel + ":";
+                        strNote += CtrlTextBox._inTextBox._strLabel;
 
                     string str = CtrlTextBox._inTextBox.SelectedText.Trim();
                     if (!String.IsNullOrEmpty(str))
-                        strNote += String.Format("/{0}/ ", str);
+                        strNote += String.Format(" /{0}/", str);
                 }
             }
             else if (CtrlTextBox._inTextBox != null)
@@ -997,15 +1008,34 @@ namespace OneStoryProjectEditor
                 if (viewCoachNotesFieldMenuItem.Checked)
                 {
                     if (!String.IsNullOrEmpty(CtrlTextBox._inTextBox._strLabel))
-                        strNote += CtrlTextBox._inTextBox._strLabel + ":";
+                        strNote += CtrlTextBox._inTextBox._strLabel;
 
                     string str = CtrlTextBox._inTextBox.SelectedText.Trim();
                     if (!String.IsNullOrEmpty(str))
-                        strNote += String.Format("/{0}/ ", str);
+                        strNote += String.Format(" /{0}/", str);
                 }
             }
+            strNote += ". ";
 
-            int nVerseIndex = ctrlParent.VerseNumber;
+            SendNoteToCorrectPane(ctrlParent.VerseNumber, strNote);
+        }
+
+        internal static string GetInitials(string name)
+        {
+            string[] astrNames = name.Split(new [] {' '}, StringSplitOptions.RemoveEmptyEntries);
+            string strInitials = null;
+            foreach (string s in astrNames)
+            {
+                strInitials += s[0];
+            }
+
+            if ((strInitials != null) && (strInitials.Length == 1))
+                strInitials += astrNames[0][1];
+            return strInitials;
+        }
+
+        internal void SendNoteToCorrectPane(int nVerseIndex, string strNote)
+        {
             if (LoggedOnMember.MemberType == TeamMemberData.UserTypes.eCoach)
             {
                 if (!viewCoachNotesFieldMenuItem.Checked)
@@ -1017,7 +1047,20 @@ namespace OneStoryProjectEditor
                 ConsultNotesControl theCoachNotes = ctrl as ConsultNotesControl;
                 theCoachNotes.DoAddNote(strNote);
 
-                // after the add note, the control references are no longer valid, so requery
+                // after the note is added, the control references are no longer valid, but
+                //  we want to go back to where we were... so requery the controls
+                // Order: BT, then *other* connote pane and then *this* connote pane
+                ctrl = flowLayoutPanelVerses.Controls[((nVerseIndex-1) * 2) + 1];
+                Debug.Assert(ctrl is VerseBtControl);
+                flowLayoutPanelVerses.ScrollControlIntoView(ctrl);
+
+                if (viewConsultantNoteFieldMenuItem.Checked)
+                {
+                    ctrl = flowLayoutPanelConsultantNotes.Controls[nVerseIndex];
+                    Debug.Assert(ctrl is ConsultNotesControl);
+                    flowLayoutPanelConsultantNotes.ScrollControlIntoView(ctrl);
+                }
+
                 ctrl = flowLayoutPanelCoachNotes.Controls[nVerseIndex];
                 Debug.Assert(ctrl is ConsultNotesControl);
                 flowLayoutPanelCoachNotes.ScrollControlIntoView(ctrl);
@@ -1033,25 +1076,30 @@ namespace OneStoryProjectEditor
                 ConsultNotesControl theConsultantNotes = ctrl as ConsultNotesControl;
                 theConsultantNotes.DoAddNote(strNote);
 
-                // after the add note, the control references are no longer valid, so requery
+                // after the note is added, the control references are no longer valid, but
+                //  we want to go back to where we were... so requery the controls
+                // Order: BT, then *other* connote pane and then *this* connote pane
+                ctrl = flowLayoutPanelVerses.Controls[((nVerseIndex - 1) * 2) + 1];
+                Debug.Assert(ctrl is VerseBtControl);
+                flowLayoutPanelVerses.ScrollControlIntoView(ctrl);
+
+                if (viewCoachNotesFieldMenuItem.Checked)
+                {
+                    ctrl = flowLayoutPanelCoachNotes.Controls[nVerseIndex];
+                    Debug.Assert(ctrl is ConsultNotesControl);
+                    flowLayoutPanelCoachNotes.ScrollControlIntoView(ctrl);
+                }
+
                 ctrl = flowLayoutPanelConsultantNotes.Controls[nVerseIndex];
                 Debug.Assert(ctrl is ConsultNotesControl);
                 flowLayoutPanelConsultantNotes.ScrollControlIntoView(ctrl);
             }
-        }
 
-        internal static string GetInitials(string name)
-        {
-            string[] astrNames = name.Split(new [] {' '}, StringSplitOptions.RemoveEmptyEntries);
-            string strInitials = null;
-            foreach (string s in astrNames)
+            if (viewCoachNotesFieldMenuItem.Checked)
             {
-                strInitials += s[0];
+                
             }
 
-            if ((strInitials != null) && (strInitials.Length == 1))
-                strInitials += astrNames[0][1];
-            return strInitials;
         }
 
         internal void AddNewVerse(int nInsertionIndex, string strVernacular, string strNationalBT, string strInternationalBT)
@@ -1289,6 +1337,7 @@ namespace OneStoryProjectEditor
                 {
                     Debug.Assert(theCurrentStory.CraftingInfo != null);
                     if (theCurrentStory.CraftingInfo.IsBiblicalStory 
+                        &&  (LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
                         &&  (((int)theCurrentStory.ProjStage.ProjectStage) > (int)StoryStageLogic.ProjectStages.eProjFacTypeVernacular)
                         &&  (String.IsNullOrEmpty(theCurrentStory.CraftingInfo.StoryPurpose)
                         || String.IsNullOrEmpty(theCurrentStory.CraftingInfo.ResourcesUsed)))
@@ -2683,7 +2732,7 @@ namespace OneStoryProjectEditor
             comboBoxStorySelector.SelectedItem = strStoryName;
             SetNetBibleVerse(strAnchor);
             Debug.Assert(theCurrentStory.Verses.Count > nLineIndex);
-            FocusOnVerse(nLineIndex, null);
+            FocusOnVerse(nLineIndex);
         }
 
         public void NavigateTo(string strStoryName, 

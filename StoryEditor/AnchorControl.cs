@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
@@ -297,6 +294,30 @@ namespace OneStoryProjectEditor
                     liToUse = theSE.StoryProject.ProjSettings.InternationalBT;
                 return liToUse;
             }
+        }
+
+        private void addConsultantCoachNoteOnThisAnchorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // the only function of the button here is to add a slot to type a con note
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
+                return;
+
+            if (m_theLastButtonClicked != null)
+            {
+                Debug.Assert(theSE.LoggedOnMember != null);
+                string strNote = StoryEditor.GetInitials(theSE.LoggedOnMember.Name) + ": Re: anc: ";
+                strNote += m_theLastButtonClicked.Text;
+
+                if (m_theLastButtonClicked.ToolTipText != m_theLastButtonClicked.Text)
+                    strNote += String.Format(" ({0})", m_theLastButtonClicked.ToolTipText);
+
+                strNote += ". ";
+
+                theSE.SendNoteToCorrectPane(_ctrlVerse.VerseNumber, strNote);
+            }
+            else
+                MessageBox.Show("Right-click on one of the buttons to choose which one to add the comment to", Properties.Resources.IDS_Caption);
         }
     }
 }

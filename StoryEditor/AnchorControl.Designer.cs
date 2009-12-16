@@ -35,6 +35,7 @@
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addCommentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addExegeticalCulturalNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addConsultantCoachNoteOnThisAnchorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editKeyTermsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripAnchorOptions.SuspendLayout();
             this.SuspendLayout();
@@ -70,35 +71,43 @@
             this.deleteToolStripMenuItem,
             this.addCommentToolStripMenuItem,
             this.addExegeticalCulturalNoteToolStripMenuItem,
+            this.addConsultantCoachNoteOnThisAnchorToolStripMenuItem,
             this.editKeyTermsToolStripMenuItem});
             this.contextMenuStripAnchorOptions.Name = "contextMenuStripAnchorOptions";
-            this.contextMenuStripAnchorOptions.Size = new System.Drawing.Size(213, 114);
+            this.contextMenuStripAnchorOptions.Size = new System.Drawing.Size(307, 136);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.deleteToolStripMenuItem.Text = "&Delete";
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(306, 22);
+            this.deleteToolStripMenuItem.Text = "&Delete Anchor";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // addCommentToolStripMenuItem
             // 
             this.addCommentToolStripMenuItem.Name = "addCommentToolStripMenuItem";
-            this.addCommentToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.addCommentToolStripMenuItem.Text = "&Add Comment";
+            this.addCommentToolStripMenuItem.Size = new System.Drawing.Size(306, 22);
+            this.addCommentToolStripMenuItem.Text = "&Add Anchor Comment (becomes a tooltip)";
             this.addCommentToolStripMenuItem.Click += new System.EventHandler(this.addCommentToolStripMenuItem_Click);
             // 
             // addExegeticalCulturalNoteToolStripMenuItem
             // 
             this.addExegeticalCulturalNoteToolStripMenuItem.Name = "addExegeticalCulturalNoteToolStripMenuItem";
-            this.addExegeticalCulturalNoteToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.addExegeticalCulturalNoteToolStripMenuItem.Text = "Add &Exegetical/Cultural Note";
+            this.addExegeticalCulturalNoteToolStripMenuItem.Size = new System.Drawing.Size(306, 22);
+            this.addExegeticalCulturalNoteToolStripMenuItem.Text = "Add &Exegetical/Cultural Note below";
             this.addExegeticalCulturalNoteToolStripMenuItem.Click += new System.EventHandler(this.addExegeticalCulturalNoteToolStripMenuItem_Click);
+            // 
+            // addConsultantCoachNoteOnThisAnchorToolStripMenuItem
+            // 
+            this.addConsultantCoachNoteOnThisAnchorToolStripMenuItem.Name = "addConsultantCoachNoteOnThisAnchorToolStripMenuItem";
+            this.addConsultantCoachNoteOnThisAnchorToolStripMenuItem.Size = new System.Drawing.Size(306, 22);
+            this.addConsultantCoachNoteOnThisAnchorToolStripMenuItem.Text = "Add &Consultant/Coach Note on this Anchor";
+            this.addConsultantCoachNoteOnThisAnchorToolStripMenuItem.Click += new System.EventHandler(this.addConsultantCoachNoteOnThisAnchorToolStripMenuItem_Click);
             // 
             // editKeyTermsToolStripMenuItem
             // 
             this.editKeyTermsToolStripMenuItem.Name = "editKeyTermsToolStripMenuItem";
-            this.editKeyTermsToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.editKeyTermsToolStripMenuItem.Size = new System.Drawing.Size(306, 22);
             this.editKeyTermsToolStripMenuItem.Text = "Edit &Key Terms";
             this.editKeyTermsToolStripMenuItem.Click += new System.EventHandler(this.editKeyTermsToolStripMenuItem_Click);
             // 
@@ -122,5 +131,6 @@
         private System.Windows.Forms.ToolStripMenuItem addCommentToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addExegeticalCulturalNoteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editKeyTermsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addConsultantCoachNoteOnThisAnchorToolStripMenuItem;
     }
 }
