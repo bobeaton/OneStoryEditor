@@ -1045,7 +1045,7 @@ namespace OneStoryProjectEditor
                 Control ctrl = flowLayoutPanelCoachNotes.Controls[nVerseIndex];
                 Debug.Assert(ctrl is ConsultNotesControl);
                 ConsultNotesControl theCoachNotes = ctrl as ConsultNotesControl;
-                theCoachNotes.DoAddNote(strNote);
+                StringTransfer st = theCoachNotes.DoAddNote(strNote);
 
                 // after the note is added, the control references are no longer valid, but
                 //  we want to go back to where we were... so requery the controls
@@ -1064,6 +1064,9 @@ namespace OneStoryProjectEditor
                 ctrl = flowLayoutPanelCoachNotes.Controls[nVerseIndex];
                 Debug.Assert(ctrl is ConsultNotesControl);
                 flowLayoutPanelCoachNotes.ScrollControlIntoView(ctrl);
+
+                if ((st != null) && (st.TextBox != null))
+                    st.TextBox.Focus();
             }
             else
             {
@@ -1074,7 +1077,7 @@ namespace OneStoryProjectEditor
                 Control ctrl = flowLayoutPanelConsultantNotes.Controls[nVerseIndex];
                 Debug.Assert(ctrl is ConsultNotesControl);
                 ConsultNotesControl theConsultantNotes = ctrl as ConsultNotesControl;
-                theConsultantNotes.DoAddNote(strNote);
+                StringTransfer st = theConsultantNotes.DoAddNote(strNote);
 
                 // after the note is added, the control references are no longer valid, but
                 //  we want to go back to where we were... so requery the controls
@@ -1093,13 +1096,10 @@ namespace OneStoryProjectEditor
                 ctrl = flowLayoutPanelConsultantNotes.Controls[nVerseIndex];
                 Debug.Assert(ctrl is ConsultNotesControl);
                 flowLayoutPanelConsultantNotes.ScrollControlIntoView(ctrl);
-            }
 
-            if (viewCoachNotesFieldMenuItem.Checked)
-            {
-                
+                if ((st != null) && (st.TextBox != null))
+                    st.TextBox.Focus();
             }
-
         }
 
         internal void AddNewVerse(int nInsertionIndex, string strVernacular, string strNationalBT, string strInternationalBT)

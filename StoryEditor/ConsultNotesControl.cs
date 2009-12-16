@@ -57,20 +57,24 @@ namespace OneStoryProjectEditor
         {
             if (e.Button == MouseButtons.Right)
                 return;
-            DoAddNote(null);
+            StringTransfer st = DoAddNote(null);
+            if ((st != null) && (st.TextBox != null))
+                st.TextBox.Focus();
         }
 
         private void addNoteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DoAddNote(null);
+            StringTransfer st = DoAddNote(null);
+            if ((st != null) && (st.TextBox != null))
+                st.TextBox.Focus();
         }
 
-        public void DoAddNote(string strNote)
+        public StringTransfer DoAddNote(string strNote)
         {
             // the only function of the button here is to add a slot to type a con note
             StoryEditor theSE;
             if (!CheckForProperEditToken(out theSE))
-                return;
+                return null;
 
             // if we're not given anything to put in the box, at least put in the logged
             //  in member's initials and re
@@ -81,20 +85,25 @@ namespace OneStoryProjectEditor
             // (but it's okay for a project facilitator to add one if they have a question
             //  for the consultant)
             if (!_theCNsDC.CheckAddNotePrivilege(theSE, theSE.LoggedOnMember.MemberType))
-                return;
+                return null;
 
             StoryStageLogic.ProjectStages eCurState = theSE.theCurrentStory.ProjStage.ProjectStage;
             int round = 1;
-            if (eCurState > StoryStageLogic.ProjectStages.eConsultantReviseRound1Notes)
+            if (eCurState > StoryStageLogic.ProjectStages.eProjFacOnlineReview1WithConsultant)
             {
                 round = 2;
-                if (eCurState > StoryStageLogic.ProjectStages.eConsultantReviseRound2Notes)
+                if (eCurState > StoryStageLogic.ProjectStages.eProjFacOnlineReview2WithConsultant)
                     round = 3;
             }
 
-            // always add at the front (so they're stay close to the verse number label)
-            _theCNsDC.Add(round, theSE.LoggedOnMember.MemberType, strNote);
+            ConsultNoteDataConverter cndc = 
+                _theCNsDC.Add(round, theSE.LoggedOnMember.MemberType, strNote);
+            System.Diagnostics.Debug.Assert(cndc.Count == 1);
+
             theSE.ReInitConsultNotesPane(_theCNsDC);
+
+            // return the StringTransfer we just created
+            return cndc[0];
         }
 
         void buttonDragDropHandle_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
