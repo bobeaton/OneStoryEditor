@@ -405,7 +405,7 @@ namespace OneStoryProjectEditor
                 if (aVerseData.Anchors.Count == 0)
                 {
                     ShowError(theSE, String.Format("Error: Verse {0} doesn't have an anchor. Did you forget it?", nVerseNumber));
-                    theSE.FocusOnVerse(nVerseNumber - 1);
+                    theSE.FocusOnVerse(nVerseNumber);
                     return false;
                 }
                 

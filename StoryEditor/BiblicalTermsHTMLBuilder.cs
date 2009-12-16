@@ -250,11 +250,11 @@ namespace OneStoryProjectEditor
             ParseReference(reference, out strStoryName, out nLineNum, out strAnchor);
 
             StoryData theStory = theSE.TheCurrentStoriesSet.GetStoryFromName(strStoryName);
-            System.Diagnostics.Debug.Assert(theStory != null);
+            System.Diagnostics.Debug.Assert((theStory != null) && ((nLineNum - 1) < theStory.Verses.Count));
             return OneStoryUrlBuilder.Url(
                                    theSE.StoryProject.ProjSettings.ProjectName,
                                    theStory.guid,
-                                   theStory.Verses[nLineNum].guid,
+                                   theStory.Verses[nLineNum - 1].guid,
                                    OneStoryUrlBuilder.FieldType.eAnchorFields, strAnchor, strAnchor);
         }
 
@@ -272,10 +272,10 @@ namespace OneStoryProjectEditor
 
             strStoryName = strReference.Substring(nIndexStoryName, nIndexLineNumber - nIndexStoryName - CstrLinePortion.Length);
             string strLineNumber = strReference.Substring(nIndexLineNumber, nIndexAnchor - nIndexLineNumber - CstrAnchorPortion.Length);
-            nLineNumber = 0;
+            nLineNumber = 1;
             try
             {
-                nLineNumber = Convert.ToInt32(strLineNumber) - 1;
+                nLineNumber = Convert.ToInt32(strLineNumber);
             }
             catch { }
 
