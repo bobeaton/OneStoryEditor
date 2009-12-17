@@ -943,21 +943,25 @@ namespace OneStoryProjectEditor
 
             // light up whichever text box is visible
             // from the verses pane... (for verse controls, this is the line number, which
-            //  is one more than the index we're looking for.
-            if ((((nVerseIndex - 1) * 2) + 1) >= flowLayoutPanelVerses.Controls.Count)
-                return;
+            //  is one more than the index we're looking for. (if this is from the zeroth
+            //  line of the ConNotes, then just skip it)
+            if (nVerseIndex > 0)
+            {
+                if ((((nVerseIndex - 1) * 2) + 1) >= flowLayoutPanelVerses.Controls.Count)
+                    return;
 
-            Control ctrl = flowLayoutPanelVerses.Controls[((nVerseIndex - 1) * 2) + 1];
+                Control ctrl = flowLayoutPanelVerses.Controls[((nVerseIndex - 1)*2) + 1];
 
-            Debug.Assert(ctrl is VerseBtControl);
-            VerseBtControl theVerse = ctrl as VerseBtControl;
-            flowLayoutPanelVerses.ScrollControlIntoView(theVerse);
+                Debug.Assert(ctrl is VerseBtControl);
+                VerseBtControl theVerse = ctrl as VerseBtControl;
+                flowLayoutPanelVerses.ScrollControlIntoView(theVerse);
+            }
 
             // the ConNote controls have a zeroth line, so the index is one greater
             if (viewConsultantNoteFieldMenuItem.Checked 
                 && (nVerseIndex < flowLayoutPanelConsultantNotes.Controls.Count))
             {
-                ctrl = flowLayoutPanelConsultantNotes.Controls[nVerseIndex];
+                Control ctrl = flowLayoutPanelConsultantNotes.Controls[nVerseIndex];
                 Debug.Assert(ctrl is ConsultNotesControl);
                 ConsultNotesControl theConsultantNotes = ctrl as ConsultNotesControl;
                 flowLayoutPanelConsultantNotes.ScrollControlIntoView(theConsultantNotes);
@@ -966,7 +970,7 @@ namespace OneStoryProjectEditor
             if (viewCoachNotesFieldMenuItem.Checked
                 && (nVerseIndex < flowLayoutPanelCoachNotes.Controls.Count))
             {
-                ctrl = flowLayoutPanelCoachNotes.Controls[nVerseIndex];
+                Control ctrl = flowLayoutPanelCoachNotes.Controls[nVerseIndex];
                 Debug.Assert(ctrl is ConsultNotesControl);
                 ConsultNotesControl theCoachNotes = ctrl as ConsultNotesControl;
                 flowLayoutPanelCoachNotes.ScrollControlIntoView(theCoachNotes);
