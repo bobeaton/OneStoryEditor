@@ -1505,4 +1505,7 @@ eater Panorama
   <data name="IDS_MustHaveAtLeastOneLanguage" xml:space="preserve">
     <value>A project must have at least one language selected</value>
   </data>
+  <data name="IDS_WhichUserEdits" xml:space="preserve">
+    <value>Right now, only a '{0}' can change the state of this story. If you're a {0}, click 'Project', 'Login' to login. You can log in as a 'Just Looking' member to be able to transition to any state, but without edit privileges.</value>
+  </data>
 </root>

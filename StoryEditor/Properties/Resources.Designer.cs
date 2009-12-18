@@ -711,6 +711,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Right now, only a &apos;{0}&apos; can change the state of this story. If you&apos;re a {0}, click &apos;Project&apos;, &apos;Login&apos; to login. You can log in as a &apos;Just Looking&apos; member to be able to transition to any state, but without edit privileges..
+        /// </summary>
+        internal static string IDS_WhichUserEdits {
+            get {
+                return ResourceManager.GetString("IDS_WhichUserEdits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to http://msdn2.microsoft.com/en-us/library/az24scfc.aspx.
         /// </summary>
         internal static string RegexHelpProgram {

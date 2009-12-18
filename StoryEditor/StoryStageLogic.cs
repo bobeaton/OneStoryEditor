@@ -91,7 +91,10 @@ namespace OneStoryProjectEditor
                 || (loggedOnMember.MemberType == MemberTypeWithEditToken));
 
             if (!bRet)
-                MessageBox.Show(String.Format("Right now, only a '{0}' can change the state of this story. If you're a {0}, click 'Project', 'Settings' to login. You can log in as a 'Just Looking' member to be able to transition to any state, but without edit privileges.", TeamMemberData.GetMemberTypeAsDisplayString(MemberTypeWithEditToken)),  Properties.Resources.IDS_Caption);
+                MessageBox.Show(
+                    String.Format(Properties.Resources.IDS_WhichUserEdits,
+                                  TeamMemberData.GetMemberTypeAsDisplayString(MemberTypeWithEditToken)),
+                    Properties.Resources.IDS_Caption);
 
             return bRet;
         }
@@ -103,7 +106,11 @@ namespace OneStoryProjectEditor
 
         public ApplicationException WrongMemberTypeEx
         {
-            get { return new ApplicationException(String.Format("Right now, this story is in a state where only a '{0}' should be editing it. If you're a {0}, click 'Project', 'Settings' to login", TeamMemberData.GetMemberTypeAsDisplayString(MemberTypeWithEditToken))); }
+            get {
+                return
+                    new ApplicationException(String.Format(Properties.Resources.IDS_WhichUserEdits,
+                                                           TeamMemberData.GetMemberTypeAsDisplayString(
+                                                               MemberTypeWithEditToken))); }
         }
 
         // this isn't 100% effective. Sometimes a particular stage can have a single (but varied) editors
