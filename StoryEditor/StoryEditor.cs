@@ -1201,6 +1201,14 @@ namespace OneStoryProjectEditor
             
             theCurrentStory.Verses.Insert(nInsertionIndex, theVerseToMove);
             InitAllPanes();
+            Modified = true;
+        }
+
+        internal void DoPasteVerse(int nInsertionIndex, VerseData theVerseToPaste)
+        {
+            theCurrentStory.Verses.Insert(nInsertionIndex, theVerseToPaste);
+            InitAllPanes();
+            Modified = true;
         }
 
         void buttonDropTarget_DragEnter(object sender, DragEventArgs e)

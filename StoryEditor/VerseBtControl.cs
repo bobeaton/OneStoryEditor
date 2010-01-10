@@ -445,5 +445,61 @@ namespace OneStoryProjectEditor
 
             theSE.AddNewVerse(this, nNumNewVerses, false);
         }
+
+        // since you can't put something on the clipboard that isn't 'serializable', until I 
+        //  make that change, use an internal 'clipboard' to do copying
+        protected static VerseData _myClipboard = null;
+
+        private void copyVerseToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Copies the verse to the clipboard.
+                // Clipboard.SetDataObject(_verseData);
+                // make a copy so that if the user makes changes after the copy, we won't be
+                //  referring to the same object.
+                _myClipboard = new VerseData(_verseData);
+            }
+            catch   // ignore errors
+            {
+            }
+        }
+
+        protected void PasteVerseToIndex(int nInsertionIndex)
+        {
+            // the only function of the button here is to add a slot to type a con note
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
+                return;
+
+            if (_myClipboard != null)
+                // make another copy, so that the guid is changed
+                theSE.DoPasteVerse(nInsertionIndex, new VerseData(_myClipboard));
+
+            /*
+            IDataObject myRetrievedObject = Clipboard.GetDataObject();
+
+            // Converts the IDataObject type to VerseData type.
+            if (myRetrievedObject != null)
+            {
+                if (myRetrievedObject.GetDataPresent(typeof(VerseData)))
+                {
+                    VerseData verseData = (VerseData)myRetrievedObject.GetData(typeof(VerseData));
+
+                    if (verseData != null)
+                        theSE.DoPasteVerse(nInsertionIndex, verseData);
+                }
+            }
+            */
+        }
+        private void pasteVerseFromClipboardToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PasteVerseToIndex(VerseNumber - 1);
+        }
+
+        private void pasteVerseFromClipboardAfterThisOneToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PasteVerseToIndex(VerseNumber);
+        }
     }
 }

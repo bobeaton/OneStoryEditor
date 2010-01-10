@@ -48,9 +48,13 @@
             this.toolStripMenuItem13 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem14 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem15 = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuAddTestQuestion = new System.Windows.Forms.ToolStripMenuItem();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteTheWholeVerseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuAddTestQuestion = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.copyVerseToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -83,9 +87,13 @@
             this.addANewVerseToolStripMenuItem,
             this.addNewVersesAfterToolStripMenuItem,
             this.removeToolStripMenuItem,
-            this.deleteTheWholeVerseToolStripMenuItem});
+            this.deleteTheWholeVerseToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.copyVerseToClipboardToolStripMenuItem,
+            this.pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem,
+            this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(283, 180);
+            this.contextMenuStrip.Size = new System.Drawing.Size(359, 186);
             this.contextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Opening);
             // 
             // addANewVerseToolStripMenuItem
@@ -99,7 +107,7 @@
             this.toolStripMenuItem7,
             this.toolStripMenuItem8});
             this.addANewVerseToolStripMenuItem.Name = "addANewVerseToolStripMenuItem";
-            this.addANewVerseToolStripMenuItem.Size = new System.Drawing.Size(282, 22);
+            this.addANewVerseToolStripMenuItem.Size = new System.Drawing.Size(358, 22);
             this.addANewVerseToolStripMenuItem.Text = "Insert new &verse(s) before";
             this.addANewVerseToolStripMenuItem.ToolTipText = "This verse will move down and the new verse will be inserted before";
             this.addANewVerseToolStripMenuItem.Click += new System.EventHandler(this.addANewVerseToolStripMenuItem_Click);
@@ -107,49 +115,49 @@
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(86, 22);
             this.toolStripMenuItem2.Text = "1";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.addNewVersesBeforeMenuItem_Click);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(86, 22);
             this.toolStripMenuItem3.Text = "2";
             this.toolStripMenuItem3.Click += new System.EventHandler(this.addNewVersesBeforeMenuItem_Click);
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(86, 22);
             this.toolStripMenuItem4.Text = "3";
             this.toolStripMenuItem4.Click += new System.EventHandler(this.addNewVersesBeforeMenuItem_Click);
             // 
             // toolStripMenuItem5
             // 
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(86, 22);
             this.toolStripMenuItem5.Text = "5";
             this.toolStripMenuItem5.Click += new System.EventHandler(this.addNewVersesBeforeMenuItem_Click);
             // 
             // toolStripMenuItem6
             // 
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(86, 22);
             this.toolStripMenuItem6.Text = "10";
             this.toolStripMenuItem6.Click += new System.EventHandler(this.addNewVersesBeforeMenuItem_Click);
             // 
             // toolStripMenuItem7
             // 
             this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(86, 22);
             this.toolStripMenuItem7.Text = "20";
             this.toolStripMenuItem7.Click += new System.EventHandler(this.addNewVersesBeforeMenuItem_Click);
             // 
             // toolStripMenuItem8
             // 
             this.toolStripMenuItem8.Name = "toolStripMenuItem8";
-            this.toolStripMenuItem8.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem8.Size = new System.Drawing.Size(86, 22);
             this.toolStripMenuItem8.Text = "30";
             this.toolStripMenuItem8.Click += new System.EventHandler(this.addNewVersesBeforeMenuItem_Click);
             // 
@@ -164,7 +172,7 @@
             this.toolStripMenuItem14,
             this.toolStripMenuItem15});
             this.addNewVersesAfterToolStripMenuItem.Name = "addNewVersesAfterToolStripMenuItem";
-            this.addNewVersesAfterToolStripMenuItem.Size = new System.Drawing.Size(282, 22);
+            this.addNewVersesAfterToolStripMenuItem.Size = new System.Drawing.Size(358, 22);
             this.addNewVersesAfterToolStripMenuItem.Text = "&Add new verse(s) after";
             // 
             // toolStripMenuItem9
@@ -216,6 +224,19 @@
             this.toolStripMenuItem15.Text = "30";
             this.toolStripMenuItem15.Click += new System.EventHandler(this.addNewVersesAfterMenuItem_Click);
             // 
+            // removeToolStripMenuItem
+            // 
+            this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(358, 22);
+            this.removeToolStripMenuItem.Text = "&Remove";
+            // 
+            // deleteTheWholeVerseToolStripMenuItem
+            // 
+            this.deleteTheWholeVerseToolStripMenuItem.Name = "deleteTheWholeVerseToolStripMenuItem";
+            this.deleteTheWholeVerseToolStripMenuItem.Size = new System.Drawing.Size(358, 22);
+            this.deleteTheWholeVerseToolStripMenuItem.Text = "&Delete verse";
+            this.deleteTheWholeVerseToolStripMenuItem.Click += new System.EventHandler(this.deleteTheWholeVerseToolStripMenuItem_Click);
+            // 
             // menuAddTestQuestion
             // 
             this.menuAddTestQuestion.Name = "menuAddTestQuestion";
@@ -224,18 +245,31 @@
             this.menuAddTestQuestion.ToolTipText = "Click to add a Story Testing Question";
             this.menuAddTestQuestion.Click += new System.EventHandler(this.menuAddTestQuestion_Click);
             // 
-            // removeToolStripMenuItem
+            // toolStripSeparator1
             // 
-            this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(282, 22);
-            this.removeToolStripMenuItem.Text = "&Remove";
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(355, 6);
             // 
-            // deleteTheWholeVerseToolStripMenuItem
+            // copyVerseToClipboardToolStripMenuItem
             // 
-            this.deleteTheWholeVerseToolStripMenuItem.Name = "deleteTheWholeVerseToolStripMenuItem";
-            this.deleteTheWholeVerseToolStripMenuItem.Size = new System.Drawing.Size(282, 22);
-            this.deleteTheWholeVerseToolStripMenuItem.Text = "&Delete verse";
-            this.deleteTheWholeVerseToolStripMenuItem.Click += new System.EventHandler(this.deleteTheWholeVerseToolStripMenuItem_Click);
+            this.copyVerseToClipboardToolStripMenuItem.Name = "copyVerseToClipboardToolStripMenuItem";
+            this.copyVerseToClipboardToolStripMenuItem.Size = new System.Drawing.Size(358, 22);
+            this.copyVerseToClipboardToolStripMenuItem.Text = "&Copy verse to clipboard";
+            this.copyVerseToClipboardToolStripMenuItem.Click += new System.EventHandler(this.copyVerseToClipboardToolStripMenuItem_Click);
+            // 
+            // pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem
+            // 
+            this.pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem.Name = "pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem";
+            this.pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem.Size = new System.Drawing.Size(358, 22);
+            this.pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem.Text = "&Paste verse from clipboard and insert before this verse";
+            this.pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem.Click += new System.EventHandler(this.pasteVerseFromClipboardToolStripMenuItem_Click);
+            // 
+            // pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem
+            // 
+            this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem.Name = "pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem";
+            this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem.Size = new System.Drawing.Size(358, 22);
+            this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem.Text = "Paste verse from clipboard and insert af&ter this verse";
+            this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem.Click += new System.EventHandler(this.pasteVerseFromClipboardAfterThisOneToolStripMenuItem_Click);
             // 
             // VerseBtControl
             // 
@@ -273,5 +307,9 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem13;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem14;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem15;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem copyVerseToClipboardToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem;
     }
 }
