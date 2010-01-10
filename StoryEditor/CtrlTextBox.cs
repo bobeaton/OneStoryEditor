@@ -199,6 +199,8 @@ namespace OneStoryProjectEditor
                     NetBibleViewer theNetBibleViewer = (NetBibleViewer)drgevent.Data.GetData(typeof(NetBibleViewer));
                     SelectedText = theNetBibleViewer.ScriptureReference;
 
+                    Focus();
+
                     // indicate that we've changed something so that we don't exit without offering
                     //  to save.
                     theSE.Modified = true;
@@ -315,6 +317,7 @@ namespace OneStoryProjectEditor
         }
 
         protected const string CstrAddNoteOnSelected = "&Add Note on Selected Text";
+        protected const string CstrJumpToReference = "&Jump to Bible Reference";
         protected const string CstrCutSelected = "C&ut";
         protected const string CstrCopySelected = "&Copy";
         protected const string CstrPasteSelected = "&Paste";
@@ -324,6 +327,7 @@ namespace OneStoryProjectEditor
         {
             _ctxMenu = new ContextMenuStrip();
             _ctxMenu.Items.Add(CstrAddNoteOnSelected, null, onAddNewNote);
+            _ctxMenu.Items.Add(CstrJumpToReference, null, onJumpToBibleRef);
             _ctxMenu.Items.Add(new ToolStripSeparator());
             _ctxMenu.Items.Add(CstrCutSelected, null, onCutSelectedText);
             _ctxMenu.Items.Add(CstrCopySelected, null, onCopySelectedText);
@@ -336,6 +340,12 @@ namespace OneStoryProjectEditor
             HideSelection = false;
             AllowDrop = true;
             MouseUp += new MouseEventHandler(CtrlTextBox_MouseUp);
+        }
+
+        private void onJumpToBibleRef(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.Assert((_ctrlVerseParent != null) && (_ctrlVerseParent.TheSE != null));
+            _ctrlVerseParent.TheSE.SetNetBibleVerse(SelectedText);
         }
 
         void CtrlTextBox_MouseUp(object sender, MouseEventArgs e)
