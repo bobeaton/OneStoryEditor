@@ -403,7 +403,16 @@ namespace OneStoryProjectEditor
             if (dlg.ShowDialog() != DialogResult.OK) 
                 return;
 
-            theMemberData.Name = dlg.MemberName;
+            // if the name of the edited item has been changed and the new name is already 
+            //  in use, then don't change the name
+            if ((dlg.MemberName != m_strSelectedMember) 
+                && _dataTeamMembers.ContainsKey(dlg.MemberName))
+            {
+                MessageBox.Show(String.Format("Oops... you already have a member with the name, '{0}'. If you meant to edit that member, then select the name in the listbox and click the 'Edit Member' button.", dlg.MemberName));
+            }
+            else
+                theMemberData.Name = dlg.MemberName;
+
             theMemberData.MemberType = dlg.MemberType;
             theMemberData.Email = dlg.Email;
             theMemberData.AltPhone = dlg.AltPhone;
