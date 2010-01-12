@@ -98,9 +98,10 @@ namespace OneStoryProjectEditor
 
                 const int nLayoutRow = 2;
                 InsertRow(nLayoutRow);
-                if (nNumColumns > 1)
-                    tableLayoutPanel.SetColumnSpan(aAnswersCtrl, 2);
+                if (nNumColumns > 2)
+                    tableLayoutPanel.SetColumnSpan(aAnswersCtrl, nNumColumns - 1);
                 tableLayoutPanel.Controls.Add(aAnswersCtrl, 1, nLayoutRow);
+                tableLayoutPanel.DumpTable();
             }
 
             tableLayoutPanel.ResumeLayout(false);
