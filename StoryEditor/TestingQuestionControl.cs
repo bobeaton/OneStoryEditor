@@ -73,7 +73,7 @@ namespace OneStoryProjectEditor
                 nNumColumns++;
             }
 
-            if (theSE.StoryProject.ProjSettings.InternationalBT.HasData
+            if (theSE.viewEnglishBTFieldMenuItem.Checked
                 && (!theSE.StoryProject.TeamMembers.HasOutsideEnglishBTer
                     || (StageLogic.MemberTypeWithEditToken !=
                             TeamMemberData.UserTypes.eProjectFacilitator)))
