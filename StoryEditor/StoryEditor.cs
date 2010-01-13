@@ -716,7 +716,8 @@ namespace OneStoryProjectEditor
                     }
                 }
                 else if((LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
-                    && (LoggedOnMember.MemberGuid != theCurrentStory.CraftingInfo.ProjectFacilitatorMemberID))
+                    && (LoggedOnMember.MemberGuid != theCurrentStory.CraftingInfo.ProjectFacilitatorMemberID)
+                    && (!String.IsNullOrEmpty(theCurrentStory.CraftingInfo.ProjectFacilitatorMemberID)))
                 {
                     MessageBox.Show(Properties.Resources.IDS_NotTheRightProjFac,
                                     Properties.Resources.IDS_Caption);
