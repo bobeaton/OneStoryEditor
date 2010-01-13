@@ -99,6 +99,7 @@ namespace OneStoryProjectEditor
 
             if (!theMemberRow.IsOverrideInternationalBTKeyboardNull())
                 OverrideInternationalBTKeyboard = theMemberRow.OverrideInternationalBTKeyboard;
+            
             if (!theMemberRow.IsHgUsernameNull())
                 HgUsername = theMemberRow.HgUsername;
 

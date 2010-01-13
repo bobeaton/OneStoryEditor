@@ -184,7 +184,7 @@ namespace OneStoryProjectEditor
                                                          new XElement("StoryCrafter",
                                                                       new XAttribute("memberID", StoryCrafterMemberID)));
 
-                if (ProjectFacilitatorMemberID != null)
+                if (!String.IsNullOrEmpty(ProjectFacilitatorMemberID))
                     elemCraftingInfo.Add(new XElement("ProjectFacilitator", new XAttribute("memberID", ProjectFacilitatorMemberID)));
 
                 if (!String.IsNullOrEmpty(StoryPurpose))
@@ -482,7 +482,9 @@ namespace OneStoryProjectEditor
             // okay, the above is what we saved in the user file, but it's possible that that
             //  will be empty (e.g. if change the assembly number), so let's get it out of the
             //  project file as well (which will supercede the above information)
-            if (loggedOnMember != null)
+            if ((loggedOnMember != null)
+                && (!String.IsNullOrEmpty(loggedOnMember.HgUsername))
+                && (!String.IsNullOrEmpty(loggedOnMember.HgPassword)))
             {
                 strUsername = loggedOnMember.HgUsername;
                 strPassword = loggedOnMember.HgPassword;

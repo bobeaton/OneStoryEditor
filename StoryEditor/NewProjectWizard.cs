@@ -110,7 +110,9 @@ namespace OneStoryProjectEditor
             else if (tabControl.SelectedTab == tabPageInternetRepository)
             {
                 // do we need to check whether it's available?
-                if (LoggedInMember != null)
+                if ((LoggedInMember != null)
+                    && (!String.IsNullOrEmpty(HgUsername))
+                    && (!String.IsNullOrEmpty(HgPassword)))
                 {
                     LoggedInMember.HgUsername = HgUsername;
                     LoggedInMember.HgPassword = HgPassword;
