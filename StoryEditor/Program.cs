@@ -227,8 +227,10 @@ namespace OneStoryProjectEditor
                 // for when we launch the program, just do a quick & dirty send/receive, 
                 //  but for closing (or if we have a network drive also), then we want to 
                 //  be more informative
-                SyncUIDialogBehaviors suidb;
-                SyncUIFeatures suif;
+                SyncUIDialogBehaviors suidb = SyncUIDialogBehaviors.Lazy;
+                SyncUIFeatures suif = SyncUIFeatures.NormalRecommended;
+                
+                /*
                 if (bIsOpening && String.IsNullOrEmpty(strSharedNetworkUrl))
                 {
                     suidb = SyncUIDialogBehaviors.StartImmediatelyAndCloseWhenFinished;
@@ -239,6 +241,7 @@ namespace OneStoryProjectEditor
                     suidb = SyncUIDialogBehaviors.Lazy;
                     suif = SyncUIFeatures.NormalRecommended;
                 }
+                */
 
                 using (var dlg = new SyncDialog(projectConfig, suidb, suif))
                 {
