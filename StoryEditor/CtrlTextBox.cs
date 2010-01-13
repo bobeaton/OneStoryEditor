@@ -362,7 +362,14 @@ namespace OneStoryProjectEditor
 
         private static void onCutSelectedText(object sender, EventArgs e)
         {
-            if (_inTextBox != null) _inTextBox.Cut();
+            if (_inTextBox != null)
+            {
+                StoryEditor theSE;
+                if (!_inTextBox._ctrlVerseParent.CheckForProperEditToken(out theSE))
+                    return;
+                _inTextBox.Cut();
+                theSE.Modified = true;
+            }
         }
 
         private static void onCopySelectedText(object sender, EventArgs e)
@@ -372,12 +379,26 @@ namespace OneStoryProjectEditor
 
         private static void onPasteSelectedText(object sender, EventArgs e)
         {
-            if (_inTextBox != null) _inTextBox.Paste();
+            if (_inTextBox != null)
+            {
+                StoryEditor theSE;
+                if (!_inTextBox._ctrlVerseParent.CheckForProperEditToken(out theSE))
+                    return;
+                _inTextBox.Paste();
+                theSE.Modified = true;
+            }
         }
 
         private static void onUndo(object sender, EventArgs e)
         {
-            if (_inTextBox != null) _inTextBox.Undo();
+            if (_inTextBox != null)
+            {
+                StoryEditor theSE;
+                if (!_inTextBox._ctrlVerseParent.CheckForProperEditToken(out theSE))
+                    return;
+                _inTextBox.Undo();
+                theSE.Modified = true;
+            }
         }
     }
 }
