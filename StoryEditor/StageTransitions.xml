@@ -607,7 +607,7 @@ which you will do your first (formal) UNS test.
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
-  <StateTransition stage="eProjFacReadyForTest1" MemberTypeWithEditToken="eProjectFacilitator" NextState="eProjFacEnterAnswersToStoryQuestionsOfTest1">
+  <StateTransition stage="eProjFacReadyForTest1" MemberTypeWithEditToken="eProjectFacilitator" NextState="eProjFacEnterRetellingOfTest1">
     <StageDisplayString>Project Facilitator is ready for the 1st (formal) UNS test</StageDisplayString>
     <StageInstructions>
 In this stage, you (the Project Facilitator) will arrange for the first formal test with two different
@@ -625,7 +625,27 @@ to the next stage in the process.
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
-  <StateTransition stage="eProjFacEnterAnswersToStoryQuestionsOfTest1" MemberTypeWithEditToken="eProjectFacilitator" NextState="eProjFacEnterRetellingOfTest1">
+  <StateTransition stage="eProjFacEnterRetellingOfTest1" MemberTypeWithEditToken="eProjectFacilitator" NextState="eProjFacEnterAnswersToStoryQuestionsOfTest1">
+    <StageDisplayString>Project Facilitator enters retelling back-translation</StageDisplayString>
+    <StageInstructions>
+In this stage, you (the Project Facilitator) will enter the back-translation of the UNS's retelling 
+of the story.
+
+It is normally the case that you will run the test twice with two different UNSs, so you will have two 
+sets of responses to back-translate into English and enter. Entering this state will cause one set of 
+'retelling' boxes to appear below the story line boxes in which you can enter the retelling from the UNS.
+
+When you are finished entering the retelling, then click the 'Next Stage' button in the left-hand side 
+of the status bar and to go to the next stage in the process.
+    </StageInstructions>
+    <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eProjFacReviseBasedOnRound1Notes</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eProjFacOnlineReview1WithConsultant</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eProjFacReadyForTest1</AllowableBackwardsTransition>
+    </AllowableBackwardsTransitions>
+    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="true" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
+  </StateTransition>
+  <StateTransition stage="eProjFacEnterAnswersToStoryQuestionsOfTest1" MemberTypeWithEditToken="eProjectFacilitator" NextState="eFirstPassMentorCheck2">
     <StageDisplayString>Project Facilitator enters answers to the story questions from the UNS test</StageDisplayString>
     <StageInstructions>
 In this stage, you (the Project Facilitator) will enter the UNS's responses to the inference testing 
@@ -637,7 +657,7 @@ sets of responses to back-translate into English and enter. Entering this state 
 first UNS.
 
 You can click the 'Next State' button to go to the next state (where you can enter the retelling 
-responses from the first UNS). If you click the 'Next State' button again--and you've only entered in
+responses from the next UNS). If you click the 'Next State' button again--and you've only entered in
 one UNS's responses, this state will be repeated for you to enter the responses for the second UNS.
 
 Alternately, you can add the other test results even before leaving this state by clicking 'Edit' menu,
@@ -651,36 +671,9 @@ go to the next stage in the process.
       <AllowableBackwardsTransition>eProjFacReviseBasedOnRound1Notes</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eProjFacOnlineReview1WithConsultant</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eProjFacReadyForTest1</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eProjFacEnterRetellingOfTest1</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
-  </StateTransition>
-  <StateTransition stage="eProjFacEnterRetellingOfTest1" MemberTypeWithEditToken="eProjectFacilitator" NextState="eFirstPassMentorCheck2">
-    <StageDisplayString>Project Facilitator enters test 1 retelling back-translation</StageDisplayString>
-    <StageInstructions>
-In this stage, you (the Project Facilitator) will enter the back-translation of the UNS's retelling 
-of the story.
-
-It is normally the case that you will run the test twice with two different UNSs, so you will have two 
-sets of responses to back-translate into English and enter. Entering this state will cause one set of 
-'retelling' boxes to appear below the story line boxes in which you can enter the retelling from the 
-first UNS.
-
-If you haven't entered the answers to the testing questions and retellings for two different UNSs, then
-when you click the 'Next State' button, the program will ask you if you want to revert back to the the 
-'Project Facilitator enters answers to the story questions from the UNS test' state for you to add the 
-test results for another UNS. If your consultant is expecting two UNS tests, then you need to click 
-'Yes'.
-
-When you are finished entering both retellings, then click the 'Next Stage' button in the left-hand side 
-of the status bar and to go to the next stage in the process.
-    </StageInstructions>
-    <AllowableBackwardsTransitions>
-      <AllowableBackwardsTransition>eProjFacReviseBasedOnRound1Notes</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eProjFacOnlineReview1WithConsultant</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eProjFacReadyForTest1</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eProjFacEnterAnswersToStoryQuestionsOfTest1</AllowableBackwardsTransition>
-    </AllowableBackwardsTransitions>
-    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="true" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
   <StateTransition stage="eFirstPassMentorCheck2" MemberTypeWithEditToken="eFirstPassMentor" NextState="eConsultantCheck2">
     <StageDisplayString>First-pass mentor checks test 1 results</StageDisplayString>
@@ -726,8 +719,8 @@ bar to go to the next stage in the process.
       <AllowableBackwardsTransition>eProjFacReviseBasedOnRound1Notes</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eProjFacOnlineReview1WithConsultant</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eProjFacReadyForTest1</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eProjFacEnterAnswersToStoryQuestionsOfTest1</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eProjFacEnterRetellingOfTest1</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eProjFacEnterAnswersToStoryQuestionsOfTest1</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
@@ -891,7 +884,7 @@ which you will do your first (formal) UNS test.
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
-  <StateTransition stage="eProjFacReadyForTest2" MemberTypeWithEditToken="eProjectFacilitator" NextState="eProjFacEnterAnswersToStoryQuestionsOfTest2">
+  <StateTransition stage="eProjFacReadyForTest2" MemberTypeWithEditToken="eProjectFacilitator" NextState="eProjFacEnterRetellingOfTest2">
     <StageDisplayString>Project Facilitator is ready for the 2nd (formal) UNS test</StageDisplayString>
     <StageInstructions>
 In this stage, you (the Project Facilitator) will arrange for the second formal test with a third UNSs. 
@@ -909,8 +902,27 @@ to the next stage in the process.
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
-  <StateTransition stage="eProjFacEnterAnswersToStoryQuestionsOfTest2" MemberTypeWithEditToken="eProjectFacilitator" NextState="eProjFacEnterRetellingOfTest2">
-    <StageDisplayString>Project Facilitator enters test 2 answers to story testing questions</StageDisplayString>
+  <StateTransition stage="eProjFacEnterRetellingOfTest2" MemberTypeWithEditToken="eProjectFacilitator" NextState="eProjFacEnterAnswersToStoryQuestionsOfTest2">
+    <StageDisplayString>Project Facilitator enters round 3 UNS test retelling back-translation</StageDisplayString>
+    <StageInstructions>
+In this stage, you (the Project Facilitator) will enter the back-translation of the UNS's retelling 
+of the story from the round 3 UNS test.
+
+Entering this state will cause a new set of 'retelling' boxes to appear below the story line boxes in 
+which you can enter the retelling from the UNS.
+
+When you are finished entering both retellings, then click the 'Next Stage' button in the left-hand side 
+of the status bar and to go to the next stage in the process.
+    </StageInstructions>
+    <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eProjFacReviseBasedOnRound2Notes</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eProjFacOnlineReview2WithConsultant</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eProjFacReadyForTest2</AllowableBackwardsTransition>
+    </AllowableBackwardsTransitions>
+    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="true" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
+  </StateTransition>
+  <StateTransition stage="eProjFacEnterAnswersToStoryQuestionsOfTest2" MemberTypeWithEditToken="eProjectFacilitator" NextState="eFirstPassMentorReviewTest2">
+    <StageDisplayString>Project Facilitator enters round 3 answers to story testing questions</StageDisplayString>
     <StageInstructions>
 In this stage, you (the Project Facilitator) will enter the UNS's responses to the inference testing 
 questions from the second formal UNS test.
@@ -925,28 +937,9 @@ go to the next stage in the process.
       <AllowableBackwardsTransition>eProjFacReviseBasedOnRound2Notes</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eProjFacOnlineReview2WithConsultant</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eProjFacReadyForTest2</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eProjFacEnterRetellingOfTest2</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
-  </StateTransition>
-  <StateTransition stage="eProjFacEnterRetellingOfTest2" MemberTypeWithEditToken="eProjectFacilitator" NextState="eFirstPassMentorReviewTest2">
-    <StageDisplayString>Project Facilitator enters test 2 retelling back-translation</StageDisplayString>
-    <StageInstructions>
-In this stage, you (the Project Facilitator) will enter the back-translation of the UNS's retelling 
-of the story from the second formal UNS test.
-
-Entering this state will cause a new set of 'retelling' boxes to appear below the story line boxes in 
-which you can enter the retelling from the UNS.
-
-When you are finished entering both retellings, then click the 'Next Stage' button in the left-hand side 
-of the status bar and to go to the next stage in the process.
-    </StageInstructions>
-    <AllowableBackwardsTransitions>
-      <AllowableBackwardsTransition>eProjFacReviseBasedOnRound2Notes</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eProjFacOnlineReview2WithConsultant</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eProjFacReadyForTest2</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eProjFacEnterAnswersToStoryQuestionsOfTest2</AllowableBackwardsTransition>
-    </AllowableBackwardsTransitions>
-    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="true" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
   <StateTransition stage="eFirstPassMentorReviewTest2" MemberTypeWithEditToken="eFirstPassMentor" NextState="eConsultantReviewTest2">
     <StageDisplayString>First-pass mentor checks test 2 results</StageDisplayString>
@@ -992,8 +985,8 @@ bar to go to the next stage in the process.
       <AllowableBackwardsTransition>eProjFacReviseBasedOnRound2Notes</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eProjFacOnlineReview2WithConsultant</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eProjFacReadyForTest2</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eProjFacEnterAnswersToStoryQuestionsOfTest2</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eProjFacEnterRetellingOfTest2</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eProjFacEnterAnswersToStoryQuestionsOfTest2</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>

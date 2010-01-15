@@ -736,10 +736,15 @@ namespace OneStoryProjectEditor
             Console.WriteLine(String.Format("Checking if stage 'ProjFacReadyForTest1' work is finished: Name: {0}", theCurrentStory.Name));
 
             // add the story question answer lines and retelling lines to the verses for test n
-            theSE.AddTest();
+            DialogResult res = MessageBox.Show(Properties.Resources.IDS_AddTestQuery, Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+            if (res == DialogResult.Cancel)
+                return false;
+
+            if (res == DialogResult.Yes)
+                theSE.AddTest();
 
             System.Diagnostics.Debug.Assert(eProposedNextState == 
-                StoryStageLogic.ProjectStages.eProjFacEnterAnswersToStoryQuestionsOfTest1);
+                StoryStageLogic.ProjectStages.eProjFacEnterRetellingOfTest1);
 
             return true;
         }
@@ -762,6 +767,16 @@ namespace OneStoryProjectEditor
             return true;
         }
 
+        public static bool ProjFacEnterRetellingOfTest1(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
+        {
+            Console.WriteLine(String.Format("Checking if stage 'ProjFacEnterRetellingOfTest1' work is finished: Name: {0}", theCurrentStory.Name));
+
+            System.Diagnostics.Debug.Assert(eProposedNextState == 
+                StoryStageLogic.ProjectStages.eProjFacEnterAnswersToStoryQuestionsOfTest1);
+
+            return true;
+        }
+
         public static bool ProjFacEnterAnswersToStoryQuestionsOfTest1(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ProjFacEnterAnswersToStoryQuestionsOfTest1' work is finished: Name: {0}", theCurrentStory.Name));
@@ -770,16 +785,6 @@ namespace OneStoryProjectEditor
             if (!CheckAnswersAnswered(theSE, theCurrentStory))
                 return false;
 
-            System.Diagnostics.Debug.Assert(eProposedNextState == 
-                StoryStageLogic.ProjectStages.eProjFacEnterRetellingOfTest1);
-
-            return true;
-        }
-
-        public static bool ProjFacEnterRetellingOfTest1(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
-        {
-            Console.WriteLine(String.Format("Checking if stage 'ProjFacEnterRetellingOfTest1' work is finished: Name: {0}", theCurrentStory.Name));
-            
             // if they've only done one test, then ask them to do another (but don't force them)
             DialogResult res = DialogResult.No;
             if ((theCurrentStory.CraftingInfo.Testors.Count < 2)
@@ -788,10 +793,10 @@ namespace OneStoryProjectEditor
                 theSE.AddTest();
 
                 // this will go:
-                //  ProjFacEnterAnswersToStoryQuestionsOfTest1 (to get answer from UNS_1), then
-                //  ProjFacEnterRetellingOfTest1 (to get retelling from UNS_1), then (while Testor.Count < 2) back to:
-                //  ProjFacEnterAnswersToStoryQuestionsOfTest1, etc.
-                eProposedNextState = StoryStageLogic.ProjectStages.eProjFacEnterAnswersToStoryQuestionsOfTest1;
+                //  ProjFacEnterRetellingOfTest1 (to get answer from UNS_1), then
+                //  ProjFacEnterAnswersToStoryQuestionsOfTest1 (to get retelling from UNS_1), then (while Testor.Count < 2) back to:
+                //  ProjFacEnterRetellingOfTest1, etc.
+                eProposedNextState = StoryStageLogic.ProjectStages.eProjFacEnterRetellingOfTest1;
             }
             else if (res == DialogResult.Cancel)
                 return false;
@@ -900,7 +905,22 @@ namespace OneStoryProjectEditor
             Console.WriteLine(String.Format("Checking if stage 'ProjFacReadyForTest2' work is finished: Name: {0}", theCurrentStory.Name));
 
             // add the story question answer lines and retelling lines to the verses for test n
-            theSE.AddTest();
+            DialogResult res = MessageBox.Show(Properties.Resources.IDS_AddTestQuery, Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+            if (res == DialogResult.Cancel)
+                return false;
+
+            if (res == DialogResult.Yes)
+                theSE.AddTest();
+
+            System.Diagnostics.Debug.Assert(eProposedNextState ==
+                StoryStageLogic.ProjectStages.eProjFacEnterRetellingOfTest2);
+
+            return true;
+        }
+
+        public static bool ProjFacEnterRetellingOfTest2(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
+        {
+            Console.WriteLine(String.Format("Checking if stage 'ProjFacEnterRetellingOfTest2' work is finished: Name: {0}", theCurrentStory.Name));
 
             System.Diagnostics.Debug.Assert(eProposedNextState ==
                 StoryStageLogic.ProjectStages.eProjFacEnterAnswersToStoryQuestionsOfTest2);
@@ -916,16 +936,6 @@ namespace OneStoryProjectEditor
             if (!CheckAnswersAnswered(theSE, theCurrentStory))
                 return false;
 
-            System.Diagnostics.Debug.Assert(eProposedNextState ==
-                StoryStageLogic.ProjectStages.eProjFacEnterRetellingOfTest2);
-
-            return true;
-        }
-
-        public static bool ProjFacEnterRetellingOfTest2(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
-        {
-            Console.WriteLine(String.Format("Checking if stage 'ProjFacEnterRetellingOfTest2' work is finished: Name: {0}", theCurrentStory.Name));
-            
             if (!theStoryProjectData.TeamMembers.IsThereAFirstPassMentor)
                 eProposedNextState = StoryStageLogic.ProjectStages.eConsultantReviewTest2;
             else
