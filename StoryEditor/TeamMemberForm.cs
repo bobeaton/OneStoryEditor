@@ -23,6 +23,8 @@ namespace OneStoryProjectEditor
 
         Dictionary<string, TeamMemberData> m_mapNewMembersThisSession = new Dictionary<string, TeamMemberData>();
 
+        public bool Modified = false;
+
         public TeamMemberForm(TeamMembersData dataTeamMembers, string strOKLabel)
         {
             _dataTeamMembers = dataTeamMembers;
@@ -349,6 +351,8 @@ namespace OneStoryProjectEditor
                     MessageBox.Show(String.Format("Oops... you already have a member with the name, '{0}'. If you meant to edit that member, then select the name in the listbox and click the 'Edit Member' button", dlg.MemberName));
                     return;
                 }
+                
+                Modified = true;
 
                 TeamMemberData theNewMemberData;
                 if (m_mapNewMembersThisSession.TryGetValue(dlg.MemberName, out theNewMemberData))
@@ -402,6 +406,8 @@ namespace OneStoryProjectEditor
             EditMemberForm dlg = new EditMemberForm(theMemberData);
             if (dlg.ShowDialog() != DialogResult.OK) 
                 return;
+
+            Modified = true;
 
             // if the name of the edited item has been changed and the new name is already 
             //  in use, then don't change the name
