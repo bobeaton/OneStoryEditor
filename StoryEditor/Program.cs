@@ -169,21 +169,22 @@ namespace OneStoryProjectEditor
             repo.SetKnownRepositoryAddresses(lstAddrs);
         }
 
+        // this is too dangerous. if an MTT moves the file or accidentally sets the 
+        //  the root to something else, we stop backing up...
+        /*
         public static bool ShouldTrySync(string strProjectFolder)
         {
             return ((strProjectFolder.Length > ProjectSettings.OneStoryProjectFolderRoot.Length)
                     && (strProjectFolder.Substring(0, ProjectSettings.OneStoryProjectFolderRoot.Length) 
                         == ProjectSettings.OneStoryProjectFolderRoot));
         }
+        */
 
         public static void SetProjectForSyncage(string strProjectFolder)
         {
             // add it to the list to be sync'd, but only if it is in the OneStory data folder
-            if (!_astrProjectForSync.Contains(strProjectFolder)
-                && ShouldTrySync(strProjectFolder))
-            {
+            if (!_astrProjectForSync.Contains(strProjectFolder))
                 _astrProjectForSync.Add(strProjectFolder);
-            }
         }
 
         // e.g. http://bobeaton:helpmepld@hg-private.languagedepot.org/snwmtn-test

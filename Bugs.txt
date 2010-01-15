@@ -1,3 +1,9 @@
+offer to hide verses rather than deleting them
+
+Have hide/show round 1, etc, hidden, etc connotes.
+
+can we allow the retelling/answers/connotes be in some other lg?
+
 Add search to Bible pane as well
 
 Add Bible verse drag-drop support to the ConNotes panes as well (what about making it html jump linkable and/or RichText?)

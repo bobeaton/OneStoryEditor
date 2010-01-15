@@ -1508,4 +1508,7 @@ eater Panorama
   <data name="IDS_WhichUserEdits" xml:space="preserve">
     <value>Right now, only a '{0}' can change the state of this story. If you're a {0}, click 'Project', 'Login' to login. You can log in as a 'Just Looking' member to be able to transition to any state, but without edit privileges.</value>
   </data>
+  <data name="IDS_AddTestQuery" xml:space="preserve">
+    <value>Do you want to add boxes for the retelling and testing question answers?</value>
+  </data>
 </root>

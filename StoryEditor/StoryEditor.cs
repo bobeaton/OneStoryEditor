@@ -359,8 +359,8 @@ namespace OneStoryProjectEditor
                     if (LoggedOnMember != null)
                         strMemberName = LoggedOnMember.Name;
 
-                    LoggedOnMember = StoryProject.EditTeamMembers(strMemberName, TeamMemberForm.CstrDefaultOKLabel);
-                    Modified = true;
+                    LoggedOnMember = StoryProject.EditTeamMembers(strMemberName, TeamMemberForm.CstrDefaultOKLabel, ref Modified);
+                    
                     if (theCurrentStory != null)
                     {
                         InitAllPanes(theCurrentStory.Verses);
@@ -395,12 +395,15 @@ namespace OneStoryProjectEditor
 
             // see if we can update from a repository first before opening.
             string strDotHgFolder = projSettings.ProjectFolder + @"\.hg";
-            if (IsInStoriesSet 
-                && Program.ShouldTrySync(strProjectFolder) 
-                && Directory.Exists(strDotHgFolder))
+            if (IsInStoriesSet && Directory.Exists(strDotHgFolder))
             {
+                // clean up any existing open projects
+                CheckForSaveDirtyFile();
+                CloseProjectFile();
+
                 Program.SyncWithRepository(projSettings.ProjectFolder, true);
             }
+
             OpenProject(projSettings);
         }
 
@@ -2015,8 +2018,11 @@ namespace OneStoryProjectEditor
             {
                 MemberPicker dlg = new MemberPicker(theStoryProjectData, TeamMemberData.UserTypes.eUNS);
                 dlg.Text = "Choose the UNS that gave answers for this test";
-                if (dlg.ShowDialog() == DialogResult.OK)
+                DialogResult res = dlg.ShowDialog();
+                if (res == DialogResult.OK)
                     strUnsGuid = dlg.SelectedMember.MemberGuid;
+                else if (res == DialogResult.Cancel)
+                    break;
             }
             return strUnsGuid;
         }

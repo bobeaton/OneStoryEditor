@@ -272,7 +272,7 @@ namespace OneStoryProjectEditor
         public TeamMembersData TeamMembers;
         public ProjectSettings ProjSettings;
         public string PanoramaFrontMatter;
-        public string XmlDataVersion = "1.1";
+        public string XmlDataVersion = "1.2";
 
         /// <summary>
         /// This version of the constructor should *always* be followed by a call to InitializeProjectSettings()
@@ -299,7 +299,10 @@ namespace OneStoryProjectEditor
             {
                 projFile.StoryProject[0].ProjectName = ProjSettings.ProjectName; // in case the user changed it.
                 if (projFile.StoryProject[0].version.CompareTo(XmlDataVersion) > 0)
-                    throw new ApplicationException(Properties.Resources.IDS_GetNewVersion);
+                {
+                    MessageBox.Show(Properties.Resources.IDS_GetNewVersion, Properties.Resources.IDS_Caption);
+                    throw StoryEditor.BackOutWithNoUI;
+                }
             }
 
             PanoramaFrontMatter = projFile.StoryProject[0].PanoramaFrontMatter;
@@ -397,8 +400,8 @@ namespace OneStoryProjectEditor
             }
 
             // otherwise, fall thru and make them pick it.
-            bModified = true;
-            return EditTeamMembers(strMemberName, TeamMemberForm.CstrDefaultOKLabel);
+            return EditTeamMembers(strMemberName, TeamMemberForm.CstrDefaultOKLabel,
+                ref bModified);
         }
 
         // this can be used to determine whether a given member name and type are one
@@ -424,7 +427,8 @@ namespace OneStoryProjectEditor
         }
 
         // returns the logged in member
-        internal TeamMemberData EditTeamMembers(string strMemberName, string strOKLabel)
+        internal TeamMemberData EditTeamMembers(string strMemberName, string strOKLabel,
+            ref bool bModified)
         {
             TeamMemberForm dlg = new TeamMemberForm(TeamMembers, strOKLabel);
             if (!String.IsNullOrEmpty(strMemberName))
@@ -443,6 +447,10 @@ namespace OneStoryProjectEditor
                 MessageBox.Show(Properties.Resources.IDS_HaveToLogInToContinue, Properties.Resources.IDS_Caption);
                 throw StoryEditor.BackOutWithNoUI;
             }
+
+            // if the user added a new member, then the proj file is 'dirty'
+            if (dlg.Modified)
+                bModified = true;
 
             // kind of a kludge, but necessary for the state logic
             //  If we have an English Back-translator person in the team, then we have to set the 
