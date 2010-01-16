@@ -31,9 +31,10 @@
             this.components = new System.ComponentModel.Container();
             this.labelRound = new System.Windows.Forms.Label();
             this.buttonDragDropHandle = new System.Windows.Forms.Button();
+            this.contextMenuStripNoteOptions = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hideMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStripNoteOptions = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.endConversationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripNoteOptions.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -60,10 +61,20 @@
             this.buttonDragDropHandle.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.buttonDragDropHandle_QueryContinueDrag);
             this.buttonDragDropHandle.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonDragDropHandle_MouseDown);
             // 
+            // contextMenuStripNoteOptions
+            // 
+            this.contextMenuStripNoteOptions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteMenuItem,
+            this.hideMenuItem,
+            this.endConversationToolStripMenuItem});
+            this.contextMenuStripNoteOptions.Name = "contextMenuStripNoteOptions";
+            this.contextMenuStripNoteOptions.Size = new System.Drawing.Size(166, 92);
+            this.contextMenuStripNoteOptions.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripNoteOptions_Opening);
+            // 
             // deleteMenuItem
             // 
             this.deleteMenuItem.Name = "deleteMenuItem";
-            this.deleteMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.deleteMenuItem.Size = new System.Drawing.Size(165, 22);
             this.deleteMenuItem.Text = "&Delete";
             this.deleteMenuItem.ToolTipText = "Click to delete this note from the project";
             this.deleteMenuItem.Click += new System.EventHandler(this.deleteMenuItem_Click);
@@ -71,19 +82,17 @@
             // hideMenuItem
             // 
             this.hideMenuItem.Name = "hideMenuItem";
-            this.hideMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.hideMenuItem.Size = new System.Drawing.Size(165, 22);
             this.hideMenuItem.Text = "&Hide";
             this.hideMenuItem.ToolTipText = "Click to hide this note, but keep it in the project";
             this.hideMenuItem.Click += new System.EventHandler(this.hideMenuItem_Click);
             // 
-            // contextMenuStripNoteOptions
+            // endConversationToolStripMenuItem
             // 
-            this.contextMenuStripNoteOptions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.deleteMenuItem,
-            this.hideMenuItem});
-            this.contextMenuStripNoteOptions.Name = "contextMenuStripNoteOptions";
-            this.contextMenuStripNoteOptions.Size = new System.Drawing.Size(153, 70);
-            this.contextMenuStripNoteOptions.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripNoteOptions_Opening);
+            this.endConversationToolStripMenuItem.Name = "endConversationToolStripMenuItem";
+            this.endConversationToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.endConversationToolStripMenuItem.Text = "&End conversation";
+            this.endConversationToolStripMenuItem.Click += new System.EventHandler(this.endConversationToolStripMenuItem_Click);
             // 
             // ConsultNoteControl
             // 
@@ -104,5 +113,6 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStripNoteOptions;
         private System.Windows.Forms.ToolStripMenuItem deleteMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hideMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem endConversationToolStripMenuItem;
     }
 }

@@ -141,6 +141,31 @@ namespace OneStoryProjectEditor
                 hideMenuItem.Text = "&Hide";
             else
                 hideMenuItem.Text = "&Unhide";
+
+            if (_myCNDC.IsFinished)
+            {
+                endConversationToolStripMenuItem.Text = "&Reopen conversation";
+                endConversationToolStripMenuItem.ToolTipText = "Click to reopen the conversation";
+            }
+            else
+            {
+                endConversationToolStripMenuItem.Text = "&End conversation";
+                endConversationToolStripMenuItem.ToolTipText = "Click to end this conversation";
+            }
+        }
+
+        private void endConversationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
+                return;
+
+            if (_myCNDC.IsFinished)
+                _myCNDC.IsFinished = false;
+            else
+                _myCNDC.IsFinished = true;
+
+            theSE.ReInitConsultNotesPane(_myCollection);
         }
     }
 }

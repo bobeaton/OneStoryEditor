@@ -38,6 +38,7 @@ namespace OneStoryProjectEditor
         public int RoundNum;
         public string guid;
         public bool Visible = true;
+        public bool IsFinished;
 
         public enum CommunicationDirections
         {
@@ -53,11 +54,13 @@ namespace OneStoryProjectEditor
             guid = Guid.NewGuid().ToString();
         }
 
-        protected ConsultNoteDataConverter(int nRoundNum, string strGuid, bool bVisible)
+        protected ConsultNoteDataConverter(int nRoundNum, string strGuid, 
+            bool bVisible, bool bIsFinished)
         {
             RoundNum = nRoundNum;
             guid = strGuid;
             Visible = bVisible;
+            IsFinished = bIsFinished;
         }
 
         protected ConsultNoteDataConverter(ConsultNoteDataConverter rhs)
@@ -67,6 +70,7 @@ namespace OneStoryProjectEditor
             // the guid shouldn't be replicated
             guid = Guid.NewGuid().ToString();   // rhs.guid;
             Visible = rhs.Visible;
+            IsFinished = rhs.IsFinished;
 
             foreach (CommInstance aCI in rhs)
                 Add(new CommInstance(aCI));
@@ -100,6 +104,10 @@ namespace OneStoryProjectEditor
             if (Count > 1)
                 while (!this[Count - 1].HasData)
                     RemoveAt(Count - 1);
+
+            // don't bother, though, if the user has ended the conversation
+            if (IsFinished)
+                return;
 
             if ((eLoggedOnMember == eMentorType) && ((Count == 0) || (this[Count - 1].Direction == MenteeDirection)))
                 Add(new CommInstance(strValue, MentorDirection, null, DateTime.Now));
@@ -178,7 +186,10 @@ namespace OneStoryProjectEditor
                     new XAttribute("guid", guid));
 
                 if (!Visible)
-                    eleNote.Add(new XAttribute("visible", "false"));
+                    eleNote.Add(new XAttribute("visible", false));
+
+                if (IsFinished)
+                    eleNote.Add(new XAttribute("finished", true));
 
                 foreach (CommInstance aCI in this)
                     if (aCI.HasData)
@@ -203,7 +214,9 @@ namespace OneStoryProjectEditor
     public class ConsultantNoteData : ConsultNoteDataConverter
     {
         public ConsultantNoteData(NewDataSet.ConsultantConversationRow aConRow)
-            : base (aConRow.round, aConRow.guid, (aConRow.IsvisibleNull()) ? true : aConRow.visible)
+            : base (aConRow.round, aConRow.guid, 
+            (aConRow.IsvisibleNull()) ? true : aConRow.visible,
+            (aConRow.IsfinishedNull()) ? false : aConRow.finished)
         {
             NewDataSet.ConsultantNoteRow[] theNoteRows = aConRow.GetConsultantNoteRows();
             foreach (NewDataSet.ConsultantNoteRow aNoteRow in theNoteRows)
@@ -306,7 +319,9 @@ namespace OneStoryProjectEditor
     public class CoachNoteData : ConsultNoteDataConverter
     {
         public CoachNoteData(NewDataSet.CoachConversationRow aCoaCRow)
-            : base (aCoaCRow.round, aCoaCRow.guid, (aCoaCRow.IsvisibleNull()) ? true : aCoaCRow.visible)
+            : base (aCoaCRow.round, aCoaCRow.guid, 
+            (aCoaCRow.IsvisibleNull()) ? true : aCoaCRow.visible,
+            (aCoaCRow.IsfinishedNull()) ? false : aCoaCRow.finished)
         {
             NewDataSet.CoachNoteRow[] theNoteRows = aCoaCRow.GetCoachNoteRows();
             foreach (NewDataSet.CoachNoteRow aNoteRow in theNoteRows)
