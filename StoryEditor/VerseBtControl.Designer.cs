@@ -50,11 +50,12 @@
             this.toolStripMenuItem15 = new System.Windows.Forms.ToolStripMenuItem();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteTheWholeVerseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuAddTestQuestion = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.copyVerseToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hideVerseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuAddTestQuestion = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -88,12 +89,13 @@
             this.addNewVersesAfterToolStripMenuItem,
             this.removeToolStripMenuItem,
             this.deleteTheWholeVerseToolStripMenuItem,
+            this.hideVerseToolStripMenuItem,
             this.toolStripSeparator1,
             this.copyVerseToClipboardToolStripMenuItem,
             this.pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem,
             this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(359, 186);
+            this.contextMenuStrip.Size = new System.Drawing.Size(359, 208);
             this.contextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Opening);
             // 
             // addANewVerseToolStripMenuItem
@@ -237,14 +239,6 @@
             this.deleteTheWholeVerseToolStripMenuItem.Text = "&Delete verse";
             this.deleteTheWholeVerseToolStripMenuItem.Click += new System.EventHandler(this.deleteTheWholeVerseToolStripMenuItem_Click);
             // 
-            // menuAddTestQuestion
-            // 
-            this.menuAddTestQuestion.Name = "menuAddTestQuestion";
-            this.menuAddTestQuestion.Size = new System.Drawing.Size(282, 22);
-            this.menuAddTestQuestion.Text = "Add a story testing &question";
-            this.menuAddTestQuestion.ToolTipText = "Click to add a Story Testing Question";
-            this.menuAddTestQuestion.Click += new System.EventHandler(this.menuAddTestQuestion_Click);
-            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
@@ -270,6 +264,21 @@
             this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem.Size = new System.Drawing.Size(358, 22);
             this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem.Text = "Paste verse from clipboard and insert af&ter this verse";
             this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem.Click += new System.EventHandler(this.pasteVerseFromClipboardAfterThisOneToolStripMenuItem_Click);
+            // 
+            // hideVerseToolStripMenuItem
+            // 
+            this.hideVerseToolStripMenuItem.Name = "hideVerseToolStripMenuItem";
+            this.hideVerseToolStripMenuItem.Size = new System.Drawing.Size(358, 22);
+            this.hideVerseToolStripMenuItem.Text = "&Hide verse";
+            this.hideVerseToolStripMenuItem.Click += new System.EventHandler(this.hideVerseToolStripMenuItem_Click);
+            // 
+            // menuAddTestQuestion
+            // 
+            this.menuAddTestQuestion.Name = "menuAddTestQuestion";
+            this.menuAddTestQuestion.Size = new System.Drawing.Size(282, 22);
+            this.menuAddTestQuestion.Text = "Add a story testing &question";
+            this.menuAddTestQuestion.ToolTipText = "Click to add a Story Testing Question";
+            this.menuAddTestQuestion.Click += new System.EventHandler(this.menuAddTestQuestion_Click);
             // 
             // VerseBtControl
             // 
@@ -311,5 +320,6 @@
         private System.Windows.Forms.ToolStripMenuItem copyVerseToClipboardToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem hideVerseToolStripMenuItem;
     }
 }

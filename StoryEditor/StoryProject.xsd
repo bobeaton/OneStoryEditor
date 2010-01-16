@@ -194,7 +194,8 @@
 															</xs:sequence>
 															<xs:attribute name="guid" type="xs:string" use="required" />
 															<xs:attribute name="first" type="xs:boolean" use="optional" default="false" />
-														</xs:complexType>
+                              <xs:attribute name="visible" type="xs:boolean" use="optional" default="true" />
+                            </xs:complexType>
 													</xs:element>
 												</xs:sequence>
 											</xs:complexType>

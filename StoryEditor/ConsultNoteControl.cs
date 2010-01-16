@@ -83,7 +83,8 @@ namespace OneStoryProjectEditor
             if (!CheckForProperEditToken(out theSE))
                 return;
 
-            _myCNDC.Visible = false;
+            _myCNDC.Visible = (_myCNDC.Visible) ? false : true;
+
             theSE.ReInitConsultNotesPane(_myCollection);
         }
 
@@ -95,16 +96,24 @@ namespace OneStoryProjectEditor
                 return;
 
             if (_myCNDC.HasData)
-                if (MessageBox.Show("Are you sure you want to delete this note?",  Properties.Resources.IDS_Caption, MessageBoxButtons.YesNo) != DialogResult.Yes)
+            {
+                DialogResult res = MessageBox.Show(
+                    Properties.Resources.IDS_NoteNotEmptyHideQuery,
+                    Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+
+                if (res == DialogResult.Yes)
+                {
+                    _myCNDC.Visible = false;
+                    theSE.ReInitConsultNotesPane(_myCollection);
                     return;
+                }
+
+                if (res == DialogResult.Cancel)
+                    return;
+            }
 
             _myCollection.Remove(_myCNDC);
             theSE.ReInitConsultNotesPane(_myCollection);
-        }
-
-        private void addAnotherCommentToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
         }
 
         void buttonDragDropHandle_QueryContinueDrag(object sender, QueryContinueDragEventArgs e)
@@ -124,6 +133,14 @@ namespace OneStoryProjectEditor
 
                 buttonDragDropHandle.DoDragDrop(this, DragDropEffects.Move);
             }
+        }
+
+        private void contextMenuStripNoteOptions_Opening(object sender, CancelEventArgs e)
+        {
+            if (_myCNDC.Visible)
+                hideMenuItem.Text = "&Hide";
+            else
+                hideMenuItem.Text = "&Unhide";
         }
     }
 }

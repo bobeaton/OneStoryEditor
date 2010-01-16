@@ -1511,4 +1511,13 @@ eater Panorama
   <data name="IDS_AddTestQuery" xml:space="preserve">
     <value>Do you want to add boxes for the retelling and testing question answers?</value>
   </data>
+  <data name="IDS_VerseNotEmptyHideQuery" xml:space="preserve">
+    <value>This verse isn't empty! Instead of deleting it, it would be better to just hide it so it will be left around to know what it used to be. Would you like to hide it instead?</value>
+  </data>
+  <data name="IDS_DeleteVerseQuery" xml:space="preserve">
+    <value>Are you sure you want to delete this verse (and all associated consultant notes, etc)?</value>
+  </data>
+  <data name="IDS_NoteNotEmptyHideQuery" xml:space="preserve">
+    <value>This conversation isn't empty! Instead of deleting it, it would be better to just hide it so it will be left around for history. Would you like to hide it instead?</value>
+  </data>
 </root>

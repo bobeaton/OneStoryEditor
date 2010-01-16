@@ -82,6 +82,8 @@ namespace OneStoryProjectEditor
             this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.viewOldStoriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
+            this.hiddenVersesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.comboBoxStorySelector = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripTextBoxChooseStory = new System.Windows.Forms.ToolStripTextBox();
             this.storyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -451,7 +453,9 @@ namespace OneStoryProjectEditor
             this.toolStripSeparator7,
             this.refreshToolStripMenuItem,
             this.toolStripSeparator8,
-            this.viewOldStoriesToolStripMenuItem});
+            this.viewOldStoriesToolStripMenuItem,
+            this.toolStripSeparator11,
+            this.hiddenVersesToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 23);
             this.viewToolStripMenuItem.Text = "&View";
@@ -601,6 +605,19 @@ namespace OneStoryProjectEditor
             this.viewOldStoriesToolStripMenuItem.ToolTipText = "View older (obsolete) versions of the stories (that were earlier stored in the \'O" +
                 "ld Stories\' list from the \'Panorama View\' window--see \'Panorama\' menu, \'Show\' co" +
                 "mmand)";
+            // 
+            // toolStripSeparator11
+            // 
+            this.toolStripSeparator11.Name = "toolStripSeparator11";
+            this.toolStripSeparator11.Size = new System.Drawing.Size(281, 6);
+            // 
+            // hiddenVersesToolStripMenuItem
+            // 
+            this.hiddenVersesToolStripMenuItem.CheckOnClick = true;
+            this.hiddenVersesToolStripMenuItem.Name = "hiddenVersesToolStripMenuItem";
+            this.hiddenVersesToolStripMenuItem.Size = new System.Drawing.Size(284, 22);
+            this.hiddenVersesToolStripMenuItem.Text = "&Hidden verses";
+            this.hiddenVersesToolStripMenuItem.CheckStateChanged += new System.EventHandler(this.hiddenVersesToolStripMenuItem_CheckStateChanged);
             // 
             // comboBoxStorySelector
             // 
@@ -1079,6 +1096,8 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem toTheInternetToolStripMenuItem;
         private ToolStripMenuItem storyCopyWithNewNameToolStripMenuItem;
         private ToolStripMenuItem projectLoginToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator11;
+        internal ToolStripMenuItem hiddenVersesToolStripMenuItem;
     }
 
     public class ConNoteFlowLayoutPanel : FlowLayoutPanel

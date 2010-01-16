@@ -9,6 +9,7 @@ namespace OneStoryProjectEditor
     {
         public string guid;
         public bool IsFirstVerse;
+        public bool IsVisible = true;
         public StringTransfer VernacularText = null;
         public StringTransfer NationalBTText = null;
         public StringTransfer InternationalBTText = null;
@@ -24,6 +25,9 @@ namespace OneStoryProjectEditor
 
             if (!theVerseRow.IsfirstNull())
                 IsFirstVerse = theVerseRow.first;
+
+            if (!theVerseRow.IsvisibleNull())
+                IsVisible = theVerseRow.visible;
 
             VernacularText = new StringTransfer((!theVerseRow.IsVernacularNull()) ? theVerseRow.Vernacular : null);
             NationalBTText = new StringTransfer((!theVerseRow.IsNationalBTNull()) ? theVerseRow.NationalBT : null);
@@ -54,6 +58,7 @@ namespace OneStoryProjectEditor
             // the guid shouldn't be replicated
             guid = Guid.NewGuid().ToString();   // rhs.guid;
             IsFirstVerse = rhs.IsFirstVerse;
+            IsVisible = rhs.IsVisible;
 
             VernacularText = new StringTransfer(rhs.VernacularText.ToString());
             NationalBTText = new StringTransfer(rhs.NationalBTText.ToString());
@@ -107,6 +112,10 @@ namespace OneStoryProjectEditor
                 // only need to write out the 'first' attribute if it's true
                 if (IsFirstVerse)
                     elemVerse.Add(new XAttribute("first", IsFirstVerse));
+
+                // only need to write out the 'visible' attribute if it's false
+                if (!IsVisible)
+                    elemVerse.Add(new XAttribute("visible", IsVisible));
                 
                 if (VernacularText.HasData)
                     elemVerse.Add(new XElement("Vernacular", VernacularText));
@@ -171,7 +180,7 @@ namespace OneStoryProjectEditor
                 RemoveAt(0);
             }
             else
-                InsureFirstVerse();
+                CreateFirstVerse();
         }
 
         public VersesData(VersesData rhs)
@@ -185,7 +194,7 @@ namespace OneStoryProjectEditor
         {
         }
 
-        public void InsureFirstVerse()
+        public void CreateFirstVerse()
         {
             FirstVerse = new VerseData { IsFirstVerse = true };
         }

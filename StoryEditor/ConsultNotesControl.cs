@@ -29,7 +29,7 @@ namespace OneStoryProjectEditor
                 int nRowIndex = 1;
                 foreach (ConsultNoteDataConverter aCNDC in aCNsDC)
                 {
-                    if (aCNDC.Visible)
+                    if (aCNDC.Visible || theSE.hiddenVersesToolStripMenuItem.Checked)
                     {
                         ConsultNoteControl aCNCtrl = new ConsultNoteControl(this, storyStageLogic, aCNsDC, aCNDC, eLoggedOnMemberType);
                         aCNCtrl.Name = CstrFieldNameConsultantNote + nRowIndex;

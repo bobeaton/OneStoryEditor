@@ -24,7 +24,7 @@ namespace OneStoryProjectEditor
             ProjStage = new StoryStageLogic(projSettings);
             CraftingInfo = new CraftingInfoData(strCrafterMemberGuid, strLoggedOnMemberGuid, bIsBiblicalStory);
             Verses = new VersesData();
-            Verses.InsureFirstVerse();
+            Verses.CreateFirstVerse();
         }
 
         public StoryData(NewDataSet.storyRow theStoryRow, NewDataSet projFile)

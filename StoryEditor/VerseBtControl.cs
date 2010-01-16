@@ -223,6 +223,15 @@ namespace OneStoryProjectEditor
                 AddRemoveTestQuestionsAndAnswersSubmenus(_verseData.TestQuestions);
 
             removeToolStripMenuItem.Enabled = (removeToolStripMenuItem.DropDown.Items.Count > 0);
+
+            if (_verseData.IsVisible)
+            {
+                hideVerseToolStripMenuItem.Text = "&Hide verse";
+            }
+            else
+            {
+                hideVerseToolStripMenuItem.Text = "&Unhide verse";
+            }
         }
 
         protected void AddRemoveTestQuestionsAndAnswersSubmenus(TestQuestionsData theTQs)
@@ -388,13 +397,31 @@ namespace OneStoryProjectEditor
 
         private void deleteTheWholeVerseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want to delete this verse (and all associated consultant notes, etc)?",  Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
-            {
-                // the only function of the button here is to add a slot to type a con note
-                StoryEditor theSE;
-                if (!CheckForProperEditToken(out theSE))
-                    return;
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
+                return;
 
+            if (_verseData.HasData)
+            {
+                DialogResult res = MessageBox.Show(
+                    Properties.Resources.IDS_VerseNotEmptyHideQuery,
+                    Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+
+                if (res == DialogResult.Yes)
+                {
+                    theSE.VisiblizeVerse(_verseData, false);
+                    return;
+                }
+                
+                if (res == DialogResult.Cancel)
+                    return;
+            }
+
+            if (MessageBox.Show(
+                Properties.Resources.IDS_DeleteVerseQuery, 
+                Properties.Resources.IDS_Caption, 
+                MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+            {
                 theSE.DeleteVerse(_verseData);
             }
         }
@@ -500,6 +527,17 @@ namespace OneStoryProjectEditor
         private void pasteVerseFromClipboardAfterThisOneToolStripMenuItem_Click(object sender, EventArgs e)
         {
             PasteVerseToIndex(VerseNumber);
+        }
+
+        private void hideVerseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
+                return;
+
+            theSE.VisiblizeVerse(_verseData, 
+                (_verseData.IsVisible) ? false : true   // toggle
+                );
         }
     }
 }

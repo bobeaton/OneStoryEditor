@@ -6324,6 +6324,8 @@ namespace OneStoryProjectEditor {
             
             private global::System.Data.DataColumn columnfirst;
             
+            private global::System.Data.DataColumn columnvisible;
+            
             private global::System.Data.DataColumn columnVernacular;
             
             private global::System.Data.DataColumn columnNationalBT;
@@ -6375,6 +6377,13 @@ namespace OneStoryProjectEditor {
             public global::System.Data.DataColumn firstColumn {
                 get {
                     return this.columnfirst;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn visibleColumn {
+                get {
+                    return this.columnvisible;
                 }
             }
             
@@ -6442,18 +6451,19 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public verseRow AddverseRow(string guid, bool first, string Vernacular, string NationalBT, string InternationalBT, versesRow parentversesRowByverses_verse) {
+            public verseRow AddverseRow(string guid, bool first, bool visible, string Vernacular, string NationalBT, string InternationalBT, versesRow parentversesRowByverses_verse) {
                 verseRow rowverseRow = ((verseRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         guid,
                         first,
+                        visible,
                         Vernacular,
                         NationalBT,
                         InternationalBT,
                         null,
                         null};
                 if ((parentversesRowByverses_verse != null)) {
-                    columnValuesArray[6] = parentversesRowByverses_verse[0];
+                    columnValuesArray[7] = parentversesRowByverses_verse[0];
                 }
                 rowverseRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowverseRow);
@@ -6476,6 +6486,7 @@ namespace OneStoryProjectEditor {
             internal void InitVars() {
                 this.columnguid = base.Columns["guid"];
                 this.columnfirst = base.Columns["first"];
+                this.columnvisible = base.Columns["visible"];
                 this.columnVernacular = base.Columns["Vernacular"];
                 this.columnNationalBT = base.Columns["NationalBT"];
                 this.columnInternationalBT = base.Columns["InternationalBT"];
@@ -6489,6 +6500,8 @@ namespace OneStoryProjectEditor {
                 base.Columns.Add(this.columnguid);
                 this.columnfirst = new global::System.Data.DataColumn("first", typeof(bool), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnfirst);
+                this.columnvisible = new global::System.Data.DataColumn("visible", typeof(bool), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnvisible);
                 this.columnVernacular = new global::System.Data.DataColumn("Vernacular", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnVernacular);
                 this.columnNationalBT = new global::System.Data.DataColumn("NationalBT", typeof(string), null, global::System.Data.MappingType.Element);
@@ -6505,6 +6518,8 @@ namespace OneStoryProjectEditor {
                 this.columnguid.Namespace = "";
                 this.columnfirst.Namespace = "";
                 this.columnfirst.DefaultValue = ((bool)(false));
+                this.columnvisible.Namespace = "";
+                this.columnvisible.DefaultValue = ((bool)(true));
                 this.columnverse_Id.AutoIncrement = true;
                 this.columnverse_Id.AllowDBNull = false;
                 this.columnverse_Id.Unique = true;
@@ -6726,7 +6741,7 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentverseRowByverse_anchors != null)) {
-                    columnValuesArray[2] = parentverseRowByverse_anchors[5];
+                    columnValuesArray[2] = parentverseRowByverse_anchors[6];
                 }
                 rowanchorsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowanchorsRow);
@@ -7729,7 +7744,7 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentverseRowByverse_TestQuestions != null)) {
-                    columnValuesArray[1] = parentverseRowByverse_TestQuestions[5];
+                    columnValuesArray[1] = parentverseRowByverse_TestQuestions[6];
                 }
                 rowTestQuestionsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowTestQuestionsRow);
@@ -8782,7 +8797,7 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentverseRowByverse_Retellings != null)) {
-                    columnValuesArray[1] = parentverseRowByverse_Retellings[5];
+                    columnValuesArray[1] = parentverseRowByverse_Retellings[6];
                 }
                 rowRetellingsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowRetellingsRow);
@@ -9279,7 +9294,7 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentverseRowByverse_ConsultantNotes != null)) {
-                    columnValuesArray[1] = parentverseRowByverse_ConsultantNotes[5];
+                    columnValuesArray[1] = parentverseRowByverse_ConsultantNotes[6];
                 }
                 rowConsultantNotesRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowConsultantNotesRow);
@@ -10095,7 +10110,7 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentverseRowByverse_CoachNotes != null)) {
-                    columnValuesArray[1] = parentverseRowByverse_CoachNotes[5];
+                    columnValuesArray[1] = parentverseRowByverse_CoachNotes[6];
                 }
                 rowCoachNotesRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowCoachNotesRow);
@@ -12861,6 +12876,21 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool visible {
+                get {
+                    try {
+                        return ((bool)(this[this.tableverse.visibleColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'visible\' in table \'verse\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableverse.visibleColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public string Vernacular {
                 get {
                     try {
@@ -12948,6 +12978,16 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public void SetfirstNull() {
                 this[this.tableverse.firstColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsvisibleNull() {
+                return this.IsNull(this.tableverse.visibleColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetvisibleNull() {
+                this[this.tableverse.visibleColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

@@ -754,13 +754,16 @@ namespace OneStoryProjectEditor
             AddDropTargetToFlowLayout(nVerseIndex++);
             foreach (VerseData aVerse in theVerses)
             {
-                InitVerseControls(aVerse, nVerseIndex);
+                if (aVerse.IsVisible || hiddenVersesToolStripMenuItem.Checked)
+                {
+                    InitVerseControls(aVerse, nVerseIndex);
 
-                InitConsultNotesPane(flowLayoutPanelConsultantNotes, aVerse.ConsultantNotes, nVerseIndex);
+                    InitConsultNotesPane(flowLayoutPanelConsultantNotes, aVerse.ConsultantNotes, nVerseIndex);
 
-                InitConsultNotesPane(flowLayoutPanelCoachNotes, aVerse.CoachNotes, nVerseIndex);
+                    InitConsultNotesPane(flowLayoutPanelCoachNotes, aVerse.CoachNotes, nVerseIndex);
 
-                nVerseIndex++;
+                    nVerseIndex++;
+                }
             }
 
             flowLayoutPanelVerses.ResumeLayout(true);
@@ -1150,6 +1153,13 @@ namespace OneStoryProjectEditor
         internal void DeleteVerse(VerseData theVerseDataToDelete)
         {
             theCurrentStory.Verses.Remove(theVerseDataToDelete);
+            InitAllPanes();
+            Modified = true;
+        }
+
+        internal void VisiblizeVerse(VerseData theVerseDataToVisiblize, bool bVisible)
+        {
+            theVerseDataToVisiblize.IsVisible = bVisible;
             InitAllPanes();
             Modified = true;
         }
@@ -2911,6 +2921,11 @@ namespace OneStoryProjectEditor
                 theNewStory.Name = strStoryName;
                 InsertNewStoryAdjustComboBox(theNewStory, nIndexOfCurrentStory);
             }
+        }
+
+        private void hiddenVersesToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
+        {
+            InitAllPanes();
         }
     }
 }

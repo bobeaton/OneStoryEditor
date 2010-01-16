@@ -268,6 +268,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete this verse (and all associated consultant notes, etc)?.
+        /// </summary>
+        internal static string IDS_DeleteVerseQuery {
+            get {
+                return ResourceManager.GetString("IDS_DeleteVerseQuery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter the name you want to give this project (e.g. the language name)..
         /// </summary>
         internal static string IDS_EnterProjectName {
@@ -522,6 +531,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This conversation isn&apos;t empty! Instead of deleting it, it would be better to just hide it so it will be left around for history. Would you like to hide it instead?.
+        /// </summary>
+        internal static string IDS_NoteNotEmptyHideQuery {
+            get {
+                return ResourceManager.GetString("IDS_NoteNotEmptyHideQuery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to WARNING: You are not the Project Facilitator that originally entered this story. If you make any changes, it is very likely that they will conflict with any changes done by the other Project Facilitator. Proceed with caution (e.g. say &quot;No&quot; if you are asked if you want to Save Changes while on this story).
         /// </summary>
         internal static string IDS_NotTheRightProjFac {
@@ -716,6 +734,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_UseStoryCollapse {
             get {
                 return ResourceManager.GetString("IDS_UseStoryCollapse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This verse isn&apos;t empty! Instead of deleting it, it would be better to just hide it so it will be left around to know what it used to be. Would you like to hide it instead?.
+        /// </summary>
+        internal static string IDS_VerseNotEmptyHideQuery {
+            get {
+                return ResourceManager.GetString("IDS_VerseNotEmptyHideQuery", resourceCulture);
             }
         }
         
