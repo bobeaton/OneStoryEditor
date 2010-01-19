@@ -17,17 +17,23 @@ namespace OneStoryProjectEditor
 
             InitializeComponent();
 
-            textBoxProjectFacilitator.Text =
-                theStoryProjectData.GetMemberNameFromMemberGuid(theCurrentStory.CraftingInfo.ProjectFacilitatorMemberID);
-            textBoxStoryCrafter.Text =
-                theStoryProjectData.GetMemberNameFromMemberGuid(theCurrentStory.CraftingInfo.StoryCrafterMemberID);
+            InitToolboxTextTip(theCurrentStory.CraftingInfo.ProjectFacilitatorMemberID,
+                textBoxProjectFacilitator);
+
+            InitToolboxTextTip(theCurrentStory.CraftingInfo.StoryCrafterMemberID,
+                textBoxStoryCrafter);
+
             textBoxStoryPurpose.Text = theCurrentStory.CraftingInfo.StoryPurpose;
             textBoxResourcesUsed.Text = theCurrentStory.CraftingInfo.ResourcesUsed;
-            textBoxUnsBackTranslator.Text =
-                theStoryProjectData.GetMemberNameFromMemberGuid(theCurrentStory.CraftingInfo.BackTranslatorMemberID);
+            
+            InitToolboxTextTip(theCurrentStory.CraftingInfo.BackTranslatorMemberID,
+                textBoxUnsBackTranslator);
+
             if (theCurrentStory.CraftingInfo.Testors.Count > 0)
             {
-                textBoxUnsTest1.Text = theStoryProjectData.GetMemberNameFromMemberGuid(theCurrentStory.CraftingInfo.Testors[0]);
+                InitToolboxTextTip(theCurrentStory.CraftingInfo.Testors[0],
+                    textBoxUnsTest1);
+
                 buttonBrowseUnsTest2.Enabled = true;
             }
             else
@@ -35,16 +41,32 @@ namespace OneStoryProjectEditor
 
             if (theCurrentStory.CraftingInfo.Testors.Count > 1)
             {
-                textBoxUnsTest2.Text = theStoryProjectData.GetMemberNameFromMemberGuid(theCurrentStory.CraftingInfo.Testors[1]);
+                InitToolboxTextTip(theCurrentStory.CraftingInfo.Testors[1],
+                    textBoxUnsTest2);
+
                 buttonBrowseUnsTest3.Enabled = true;
             }
             else
                 buttonBrowseUnsTest3.Enabled = false;
 
             if (theCurrentStory.CraftingInfo.Testors.Count > 2)
-                textBoxUnsTest3.Text = theStoryProjectData.GetMemberNameFromMemberGuid(theCurrentStory.CraftingInfo.Testors[2]);
+                InitToolboxTextTip(theCurrentStory.CraftingInfo.Testors[2],
+                    textBoxUnsTest3);
 
             Text = String.Format("Story Information for '{0}'", theCurrentStory.Name);
+        }
+
+        protected void InitToolboxTextTip(string strGuid, TextBox tb)
+        {
+            string strName = _theStoryProjectData.GetMemberNameFromMemberGuid(strGuid);
+            if (!String.IsNullOrEmpty(strName))
+                InitToolboxTextTip(_theStoryProjectData.TeamMembers[strName], tb);
+        }
+
+        protected void InitToolboxTextTip(TeamMemberData tmd, TextBox tb)
+        {
+            tb.Text = tmd.Name;
+            toolTip.SetToolTip(tb, tmd.BioData);
         }
 
         private void buttonBrowserForProjectFacilitator_Click(object sender, EventArgs e)
@@ -53,7 +75,7 @@ namespace OneStoryProjectEditor
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 textBoxProjectFacilitator.Tag = dlg.SelectedMember;
-                textBoxProjectFacilitator.Text = dlg.SelectedMember.Name;
+                InitToolboxTextTip(dlg.SelectedMember, textBoxProjectFacilitator);
             }
         }
 
@@ -63,7 +85,7 @@ namespace OneStoryProjectEditor
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 textBoxStoryCrafter.Tag = dlg.SelectedMember;
-                textBoxStoryCrafter.Text = dlg.SelectedMember.Name;
+                InitToolboxTextTip(dlg.SelectedMember, textBoxStoryCrafter);
             }
         }
 
@@ -80,7 +102,7 @@ namespace OneStoryProjectEditor
             TeamMemberData aUns = SelectedUnsMember();
             textBoxUnsBackTranslator.Tag = aUns;
             if (aUns != null)
-                textBoxUnsBackTranslator.Text = aUns.Name;
+                InitToolboxTextTip(aUns, textBoxUnsBackTranslator);
         }
 
         private void buttonBrowseUnsTest1_Click(object sender, EventArgs e)
@@ -88,7 +110,7 @@ namespace OneStoryProjectEditor
             TeamMemberData aUns = SelectedUnsMember();
             textBoxUnsTest1.Tag = aUns;
             if (aUns != null)
-                textBoxUnsTest1.Text = aUns.Name;
+                InitToolboxTextTip(aUns, textBoxUnsTest1);
         }
 
         private void buttonBrowseUnsTest2_Click(object sender, EventArgs e)
@@ -96,7 +118,7 @@ namespace OneStoryProjectEditor
             TeamMemberData aUns = SelectedUnsMember();
             textBoxUnsTest2.Tag = aUns;
             if (aUns != null)
-                textBoxUnsTest2.Text = aUns.Name;
+                InitToolboxTextTip(aUns, textBoxUnsTest2);
         }
 
         private void buttonBrowseUnsTest3_Click(object sender, EventArgs e)
@@ -104,7 +126,7 @@ namespace OneStoryProjectEditor
             TeamMemberData aUns = SelectedUnsMember();
             textBoxUnsTest3.Tag = aUns;
             if (aUns != null)
-                textBoxUnsTest3.Text = aUns.Name;
+                InitToolboxTextTip(aUns, textBoxUnsTest3);
         }
 
         private void buttonOK_Click(object sender, EventArgs e)
