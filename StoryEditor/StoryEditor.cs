@@ -1644,7 +1644,7 @@ namespace OneStoryProjectEditor
                     && (!aps.RequiresUsingNationalBT || StoryProject.ProjSettings.NationalBT.HasData)
                     && (!aps.RequiresUsingEnglishBT || StoryProject.ProjSettings.InternationalBT.HasData)
                     && (!aps.RequiresBiblicalStory || theCurrentStory.CraftingInfo.IsBiblicalStory)
-                    && (!aps.RequiresFirstPassMentor || StoryProject.TeamMembers.IsThereAFirstPassMentor)
+                    && (!aps.RequiresFirstPassMentor || StoryProject.TeamMembers.HasOutsideEnglishBTer)
                     && (!aps.HasUsingOtherEnglishBTer
                         || (aps.RequiresUsingOtherEnglishBTer == 
                             StoryProject.TeamMembers.HasOutsideEnglishBTer))

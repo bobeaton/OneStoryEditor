@@ -1,17 +1,8 @@
-
-Have hide/show round 1, etc, hidden, etc connotes.
-
 can we allow the retelling/answers/connotes be in some other lg?
 
 Add search to Bible pane as well
 
-Add Bible verse drag-drop support to the ConNotes panes as well (what about making it html jump linkable and/or RichText?)
-
-Add right-click on Anchors and "Add Note About" to insert a connote for an anchor
-
 Same with other kinds of "InitAllPanes" work (e.g. Deleting a verse, etc), adding panes, changing views... remember which control had the focus and make sure that control (in each pane) still has focus).
-
-When adding a note, that new textbox really needs to get the focus
 
 From the Story Information dialog, add 'View member info' button
 

@@ -450,7 +450,7 @@ namespace OneStoryProjectEditor
 
             if (theStoryProjectData.TeamMembers.HasOutsideEnglishBTer)
                 eProposedNextState = StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT;
-            else if (!theStoryProjectData.TeamMembers.IsThereAFirstPassMentor)
+            else if (!theStoryProjectData.TeamMembers.HasFirstPassMentor)
                 eProposedNextState = StoryStageLogic.ProjectStages.eConsultantCheckStoryInfo;
             else
                 System.Diagnostics.Debug.Assert(eProposedNextState ==
@@ -508,7 +508,7 @@ namespace OneStoryProjectEditor
 
             if (!theCurrentStory.CraftingInfo.IsBiblicalStory)
                 eProposedNextState = StoryStageLogic.ProjectStages.eConsultantCheckNonBiblicalStory;
-            else if (!theStoryProjectData.TeamMembers.IsThereAFirstPassMentor)
+            else if (!theStoryProjectData.TeamMembers.HasFirstPassMentor)
                 eProposedNextState = StoryStageLogic.ProjectStages.eConsultantCheckStoryInfo;
             else
                 System.Diagnostics.Debug.Assert(eProposedNextState ==
@@ -800,7 +800,7 @@ namespace OneStoryProjectEditor
             }
             else if (res == DialogResult.Cancel)
                 return false;
-            else if (!theStoryProjectData.TeamMembers.IsThereAFirstPassMentor)
+            else if (!theStoryProjectData.TeamMembers.HasFirstPassMentor)
                 eProposedNextState = StoryStageLogic.ProjectStages.eConsultantCheck2;
             else
                 System.Diagnostics.Debug.Assert(eProposedNextState ==
@@ -936,7 +936,7 @@ namespace OneStoryProjectEditor
             if (!CheckAnswersAnswered(theSE, theCurrentStory))
                 return false;
 
-            if (!theStoryProjectData.TeamMembers.IsThereAFirstPassMentor)
+            if (!theStoryProjectData.TeamMembers.HasFirstPassMentor)
                 eProposedNextState = StoryStageLogic.ProjectStages.eConsultantReviewTest2;
             else
                 System.Diagnostics.Debug.Assert(eProposedNextState ==
@@ -959,8 +959,7 @@ namespace OneStoryProjectEditor
         {
             Console.WriteLine(String.Format("Checking if stage 'ConsultantReviewTest2' work is finished: Name: {0}", theCurrentStory.Name));
 
-            System.Diagnostics.Debug.Assert(theStoryProjectData.TeamMembers.IsThereAFirstPassMentor
-                && (eProposedNextState == StoryStageLogic.ProjectStages.eCoachReviewTest2Notes));
+            System.Diagnostics.Debug.Assert(eProposedNextState == StoryStageLogic.ProjectStages.eCoachReviewTest2Notes);
 
             return true;
         }
