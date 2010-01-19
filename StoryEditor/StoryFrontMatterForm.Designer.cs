@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StoryFrontMatterForm));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.labelStoryPurpose = new System.Windows.Forms.Label();
@@ -54,6 +55,7 @@
             this.buttonBrowserForProjectFacilitator = new System.Windows.Forms.Button();
             this.buttonOK = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -380,5 +382,6 @@
         private System.Windows.Forms.Label labelProjectFacilitator;
         private System.Windows.Forms.TextBox textBoxProjectFacilitator;
         private System.Windows.Forms.Button buttonBrowserForProjectFacilitator;
+        private System.Windows.Forms.ToolTip toolTip;
     }
 }
