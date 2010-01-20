@@ -1998,6 +1998,9 @@ namespace OneStoryProjectEditor
             while (String.IsNullOrEmpty(strUnsGuid))
             {
                 strUnsGuid = QueryForUnsTestor(StoryProject);
+                if (String.IsNullOrEmpty(strUnsGuid))
+                    return false;
+
                 foreach (string strGuid in theCurrentStory.CraftingInfo.Testors)
                     if (strGuid == strUnsGuid)
                     {
@@ -2056,10 +2059,9 @@ namespace OneStoryProjectEditor
                         nIndex = aTQ.Answers.MemberIDs.IndexOf(strUnsGuid);
                         if (nIndex != -1)
                         {
-                            aTQ.Answers.MemberIDs.RemoveAt(nTestNum);
-                            Debug.Assert(nTestNum < aTQ.Answers.Count);
-                            aTQ.Answers.RemoveAt(nTestNum);
-                            break;
+                            aTQ.Answers.MemberIDs.RemoveAt(nIndex);
+                            Debug.Assert(nIndex < aTQ.Answers.Count);
+                            aTQ.Answers.RemoveAt(nIndex);
                         }
                     }
 
@@ -2068,9 +2070,9 @@ namespace OneStoryProjectEditor
                     nIndex = aVerseData.Retellings.MemberIDs.IndexOf(strUnsGuid);
                     if (nIndex != -1)
                     {
-                        aVerseData.Retellings.MemberIDs.RemoveAt(nTestNum);
-                        Debug.Assert(nTestNum < aVerseData.Retellings.Count);
-                        aVerseData.Retellings.RemoveAt(nTestNum);
+                        aVerseData.Retellings.MemberIDs.RemoveAt(nIndex);
+                        Debug.Assert(nIndex < aVerseData.Retellings.Count);
+                        aVerseData.Retellings.RemoveAt(nIndex);
                     }
                 }
 
@@ -2583,7 +2585,11 @@ namespace OneStoryProjectEditor
 
                 viewConsultantNoteFieldMenuItem.Enabled =
                     viewCoachNotesFieldMenuItem.Enabled = (theCurrentStory != null);
+
+                stateMapToolStripMenuItem.Enabled = true;
             }
+            else
+                stateMapToolStripMenuItem.Enabled = false;
 
             if (IsInStoriesSet && (StoryProject != null))
             {
@@ -2926,6 +2932,12 @@ namespace OneStoryProjectEditor
         private void hiddenVersesToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
         {
             InitAllPanes();
+        }
+
+        private void stateMapToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var dlg = new StageEditorForm(StoryProject);
+            dlg.ShowDialog();
         }
     }
 }
