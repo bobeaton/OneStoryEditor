@@ -450,11 +450,11 @@ namespace OneStoryProjectEditor
 
             if (theStoryProjectData.TeamMembers.HasOutsideEnglishBTer)
                 eProposedNextState = StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT;
-            else if (!theStoryProjectData.TeamMembers.HasFirstPassMentor)
-                eProposedNextState = StoryStageLogic.ProjectStages.eConsultantCheckStoryInfo;
+            else if (theStoryProjectData.TeamMembers.HasFirstPassMentor)
+                eProposedNextState = StoryStageLogic.ProjectStages.eFirstPassMentorCheck1;
             else
                 System.Diagnostics.Debug.Assert(eProposedNextState ==
-                    StoryStageLogic.ProjectStages.eFirstPassMentorCheck1);
+                    StoryStageLogic.ProjectStages.eConsultantCheckStoryInfo);
 
             return true;
         }
@@ -508,11 +508,11 @@ namespace OneStoryProjectEditor
 
             if (!theCurrentStory.CraftingInfo.IsBiblicalStory)
                 eProposedNextState = StoryStageLogic.ProjectStages.eConsultantCheckNonBiblicalStory;
-            else if (!theStoryProjectData.TeamMembers.HasFirstPassMentor)
-                eProposedNextState = StoryStageLogic.ProjectStages.eConsultantCheckStoryInfo;
+            else if (theStoryProjectData.TeamMembers.HasFirstPassMentor)
+                eProposedNextState = StoryStageLogic.ProjectStages.eFirstPassMentorCheck1;
             else
                 System.Diagnostics.Debug.Assert(eProposedNextState ==
-                    StoryStageLogic.ProjectStages.eFirstPassMentorCheck1);
+                    StoryStageLogic.ProjectStages.eConsultantCheckStoryInfo);
             
             return true;
         }
@@ -688,11 +688,11 @@ namespace OneStoryProjectEditor
             if (!CheckThatCITAnsweredPFsQuestions(theSE, theCurrentStory))
                 return false;
 
-            if (!theStoryProjectData.TeamMembers.HasOutsideEnglishBTer)
-                eProposedNextState = StoryStageLogic.ProjectStages.eProjFacReviseBasedOnRound1Notes;
+            if (theStoryProjectData.TeamMembers.HasOutsideEnglishBTer)
+                eProposedNextState = StoryStageLogic.ProjectStages.eBackTranslatorTranslateConNotes;
             else
                 System.Diagnostics.Debug.Assert(eProposedNextState ==
-                    StoryStageLogic.ProjectStages.eBackTranslatorTranslateConNotes);
+                    StoryStageLogic.ProjectStages.eProjFacReviseBasedOnRound1Notes);
 
             return true;
         }
@@ -800,12 +800,35 @@ namespace OneStoryProjectEditor
             }
             else if (res == DialogResult.Cancel)
                 return false;
-            else if (!theStoryProjectData.TeamMembers.HasFirstPassMentor)
-                eProposedNextState = StoryStageLogic.ProjectStages.eConsultantCheck2;
+            else if (theStoryProjectData.TeamMembers.HasOutsideEnglishBTer)
+                eProposedNextState = StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBTTest1;
+            else if (theStoryProjectData.TeamMembers.HasFirstPassMentor)
+                eProposedNextState = StoryStageLogic.ProjectStages.eFirstPassMentorCheck2;
             else
                 System.Diagnostics.Debug.Assert(eProposedNextState ==
-                    StoryStageLogic.ProjectStages.eFirstPassMentorCheck2);
+                    StoryStageLogic.ProjectStages.eConsultantCheck2);
 
+            return true;
+        }
+
+        public static bool BackTranslatorTypeInternationalBTTest1(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
+        {
+            System.Diagnostics.Debug.Assert(theStoryProjectData.ProjSettings.InternationalBT.HasData);
+            Console.WriteLine(String.Format("Checking if stage 'BackTranslatorTypeInternationalBTTest1' work is finished: Name: {0}", theCurrentStory.Name));
+
+            // if there are no verses, then just quit (before we get into an infinite loop)
+            if (theCurrentStory.Verses.Count == 0)
+            {
+                ShowError(theSE, "Error: No verses in the story!");
+                return false;
+            }
+
+            if (theStoryProjectData.TeamMembers.HasFirstPassMentor)
+                eProposedNextState = StoryStageLogic.ProjectStages.eFirstPassMentorCheck2;
+            else
+                System.Diagnostics.Debug.Assert(eProposedNextState ==
+                    StoryStageLogic.ProjectStages.eConsultantCheck2);
+            
             return true;
         }
 
@@ -857,11 +880,11 @@ namespace OneStoryProjectEditor
             if (!CheckThatCITAnsweredPFsQuestions(theSE, theCurrentStory))
                 return false;
 
-            if (!theStoryProjectData.TeamMembers.HasOutsideEnglishBTer)
-                eProposedNextState = StoryStageLogic.ProjectStages.eProjFacReviseBasedOnRound2Notes;
+            if (theStoryProjectData.TeamMembers.HasOutsideEnglishBTer)
+                eProposedNextState = StoryStageLogic.ProjectStages.eBackTranslatorTranslateConNotes2;
             else
                 System.Diagnostics.Debug.Assert(eProposedNextState ==
-                    StoryStageLogic.ProjectStages.eBackTranslatorTranslateConNotes2);
+                    StoryStageLogic.ProjectStages.eProjFacReviseBasedOnRound2Notes);
 
             return true;
         }
@@ -936,11 +959,40 @@ namespace OneStoryProjectEditor
             if (!CheckAnswersAnswered(theSE, theCurrentStory))
                 return false;
 
-            if (!theStoryProjectData.TeamMembers.HasFirstPassMentor)
-                eProposedNextState = StoryStageLogic.ProjectStages.eConsultantReviewTest2;
+            // see if they want to enter results for the next UNS test
+            DialogResult res = MessageBox.Show("Click 'Yes' to create the boxes for entering the next UNS's answers to the testing questions", Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+            if (res == DialogResult.Yes)
+                theSE.AddTest();
+            else if (res == DialogResult.Cancel)
+                return false;
+            else if (theStoryProjectData.TeamMembers.HasOutsideEnglishBTer)
+                eProposedNextState = StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBTTest2;
+            else if (theStoryProjectData.TeamMembers.HasFirstPassMentor)
+                eProposedNextState = StoryStageLogic.ProjectStages.eFirstPassMentorReviewTest2;
             else
                 System.Diagnostics.Debug.Assert(eProposedNextState ==
-                    StoryStageLogic.ProjectStages.eFirstPassMentorReviewTest2);
+                    StoryStageLogic.ProjectStages.eConsultantReviewTest2);
+
+            return true;
+        }
+
+        public static bool BackTranslatorTypeInternationalBTTest2(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
+        {
+            System.Diagnostics.Debug.Assert(theStoryProjectData.ProjSettings.InternationalBT.HasData);
+            Console.WriteLine(String.Format("Checking if stage 'BackTranslatorTypeInternationalBTTest2' work is finished: Name: {0}", theCurrentStory.Name));
+
+            // if there are no verses, then just quit (before we get into an infinite loop)
+            if (theCurrentStory.Verses.Count == 0)
+            {
+                ShowError(theSE, "Error: No verses in the story!");
+                return false;
+            }
+
+            if (theStoryProjectData.TeamMembers.HasFirstPassMentor)
+                eProposedNextState = StoryStageLogic.ProjectStages.eFirstPassMentorReviewTest2;
+            else
+                System.Diagnostics.Debug.Assert(eProposedNextState ==
+                    StoryStageLogic.ProjectStages.eConsultantReviewTest2);
 
             return true;
         }

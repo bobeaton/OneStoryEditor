@@ -42,6 +42,12 @@ namespace OneStoryProjectEditor
                     case TeamMemberData.UserTypes.eProjectFacilitator:
                         InitComboBox(stateTransition, ColumnProjectFacilitatorStages.Name);
                         break;
+                    case TeamMemberData.UserTypes.eEnglishBacktranslator:
+                        if (ColumnEnglishBackTranslator.Visible)
+                        {
+                            InitComboBox(stateTransition, ColumnEnglishBackTranslator.Name);
+                        }
+                        break;
                     case TeamMemberData.UserTypes.eFirstPassMentor:
                         if (ColumnFirstPassMentor.Visible)
                         {

@@ -174,7 +174,7 @@ the status bar to go to the next stage in the process.
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="true" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
-  <StateTransition stage="eProjFacAddStoryQuestions" MemberTypeWithEditToken="eProjectFacilitator" NextState="eFirstPassMentorCheck1">
+  <StateTransition stage="eProjFacAddStoryQuestions" MemberTypeWithEditToken="eProjectFacilitator" NextState="eConsultantCheckStoryInfo">
     <StageDisplayString>Project Facilitator adds story testing questions</StageDisplayString>
     <StageInstructions>
 In this stage, one of the crafting team will go through the story and add "Story Testing Questions" (STQs). These are 
@@ -229,7 +229,7 @@ status bar to go to the next stage in the process.
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
-  <StateTransition stage="eBackTranslatorTypeInternationalBT" MemberTypeWithEditToken="eEnglishBacktranslator" NextState="eFirstPassMentorCheck1">
+  <StateTransition stage="eBackTranslatorTypeInternationalBT" MemberTypeWithEditToken="eEnglishBacktranslator" NextState="eConsultantCheckStoryInfo">
     <StageDisplayString>Special back-translator enters the English back-translation</StageDisplayString>
     <StageInstructions>
 In this stage, someone typically outside of the crafting team will translate the National language 
@@ -507,7 +507,7 @@ to the next stage in the process.
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="false" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
   </StateTransition>
-  <StateTransition stage="eConsultantReviseRound1Notes" MemberTypeWithEditToken="eConsultantInTraining" NextState="eBackTranslatorTranslateConNotes">
+  <StateTransition stage="eConsultantReviseRound1Notes" MemberTypeWithEditToken="eConsultantInTraining" NextState="eProjFacReviseBasedOnRound1Notes">
     <StageDisplayString>Consultant revises round 1 notes based on Coach's feedback</StageDisplayString>
     <StageInstructions>
 In this stage, you (the consultant) will go through the feedback given by the coach in the Coach Notes
@@ -528,7 +528,7 @@ to the next stage in the process.
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
   </StateTransition>
-  <StateTransition stage="eBackTranslatorTranslateConNotes" MemberTypeWithEditToken="eProjectFacilitator" NextState="eProjFacReviseBasedOnRound1Notes">
+  <StateTransition stage="eBackTranslatorTranslateConNotes" MemberTypeWithEditToken="eEnglishBacktranslator" NextState="eProjFacReviseBasedOnRound1Notes">
     <StageDisplayString>English back-translator translates Consultant Notes for Project Facilitator/Team</StageDisplayString>
     <StageInstructions>
 In this stage, you (the English back-translator) will go through the feedback given by the consultant in 
@@ -645,7 +645,7 @@ of the status bar and to go to the next stage in the process.
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="true" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
-  <StateTransition stage="eProjFacEnterAnswersToStoryQuestionsOfTest1" MemberTypeWithEditToken="eProjectFacilitator" NextState="eFirstPassMentorCheck2">
+  <StateTransition stage="eProjFacEnterAnswersToStoryQuestionsOfTest1" MemberTypeWithEditToken="eProjectFacilitator" NextState="eConsultantCheck2">
     <StageDisplayString>Project Facilitator enters answers to the story questions from the UNS test</StageDisplayString>
     <StageInstructions>
 In this stage, you (the Project Facilitator) will enter the UNS's responses to the inference testing 
@@ -674,6 +674,28 @@ go to the next stage in the process.
       <AllowableBackwardsTransition>eProjFacEnterRetellingOfTest1</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
+  </StateTransition>
+  <StateTransition stage="eBackTranslatorTypeInternationalBTTest1" MemberTypeWithEditToken="eEnglishBacktranslator" NextState="eConsultantCheck2">
+    <StageDisplayString>Special back-translator enters the English back-translation of UNS Test results</StageDisplayString>
+    <StageInstructions>
+In this stage, someone typically outside of the crafting team will translate the responses from the
+UNS tests (and the latest version of the story) from the National language back translation into 
+English (or from the story language if not using the national language back-translation). 
+
+This stage only occurs if you have an "English Back-translator" member on your team and it occurs
+after all the Project Facilitator states are finished and just before the story goes to the consultant. 
+
+When you are finished entering the English back translation, then click the 'Next Stage' button in the
+left-hand side of the status bar to go to the next stage in the process.
+    </StageInstructions>
+    <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eProjFacReviseBasedOnRound1Notes</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eProjFacOnlineReview1WithConsultant</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eProjFacReadyForTest1</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eProjFacEnterRetellingOfTest1</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eProjFacEnterAnswersToStoryQuestionsOfTest1</AllowableBackwardsTransition>
+    </AllowableBackwardsTransitions>
+    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
   <StateTransition stage="eFirstPassMentorCheck2" MemberTypeWithEditToken="eFirstPassMentor" NextState="eConsultantCheck2">
     <StageDisplayString>First-pass mentor checks test 1 results</StageDisplayString>
@@ -721,6 +743,7 @@ bar to go to the next stage in the process.
       <AllowableBackwardsTransition>eProjFacReadyForTest1</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eProjFacEnterRetellingOfTest1</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eProjFacEnterAnswersToStoryQuestionsOfTest1</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTypeInternationalBTTest1</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
@@ -766,6 +789,7 @@ bar to go to the next stage in the process.
     </StageInstructions>
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eProjFacReviseBasedOnRound1Notes</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTypeInternationalBTTest1</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresFirstPassMentor="true">eFirstPassMentorCheck2</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
@@ -785,9 +809,12 @@ you have in the line labeled, "coch:"
 When you are finished, then click the 'Next Stage' button in the left-hand side of the status bar to go
 to the next stage in the process.
     </StageInstructions>
+    <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eConsultantCheck2</AllowableBackwardsTransition>
+    </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="false" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
   </StateTransition>
-  <StateTransition stage="eConsultantReviseRound2Notes" MemberTypeWithEditToken="eConsultantInTraining" NextState="eBackTranslatorTranslateConNotes2">
+  <StateTransition stage="eConsultantReviseRound2Notes" MemberTypeWithEditToken="eConsultantInTraining" NextState="eProjFacReviseBasedOnRound2Notes">
     <StageDisplayString>Consultant revises round 2 notes based on Coach's feedback</StageDisplayString>
     <StageInstructions>
 In this stage, you (the consultant) will go through the feedback given by the coach in the Coach Notes
@@ -811,7 +838,7 @@ to the next stage in the process.
     </StageInstructions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
   </StateTransition>
-  <StateTransition stage="eBackTranslatorTranslateConNotes2" MemberTypeWithEditToken="eProjectFacilitator" NextState="eProjFacReviseBasedOnRound2Notes">
+  <StateTransition stage="eBackTranslatorTranslateConNotes2" MemberTypeWithEditToken="eEnglishBacktranslator" NextState="eProjFacReviseBasedOnRound2Notes">
     <StageDisplayString>English back-translator translates Consultant Notes for Project Facilitator/Team</StageDisplayString>
     <StageInstructions>
 In this stage, you (the English back-translator) will go through the feedback given by the consultant in
@@ -921,7 +948,7 @@ of the status bar and to go to the next stage in the process.
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="true" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
-  <StateTransition stage="eProjFacEnterAnswersToStoryQuestionsOfTest2" MemberTypeWithEditToken="eProjectFacilitator" NextState="eFirstPassMentorReviewTest2">
+  <StateTransition stage="eProjFacEnterAnswersToStoryQuestionsOfTest2" MemberTypeWithEditToken="eProjectFacilitator" NextState="eConsultantReviewTest2">
     <StageDisplayString>Project Facilitator enters round 3 answers to story testing questions</StageDisplayString>
     <StageInstructions>
 In this stage, you (the Project Facilitator) will enter the UNS's responses to the inference testing 
@@ -940,6 +967,28 @@ go to the next stage in the process.
       <AllowableBackwardsTransition>eProjFacEnterRetellingOfTest2</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
+  </StateTransition>
+  <StateTransition stage="eBackTranslatorTypeInternationalBTTest2" MemberTypeWithEditToken="eEnglishBacktranslator" NextState="eConsultantReviewTest2">
+    <StageDisplayString>Special back-translator enters the English back-translation of UNS Test results</StageDisplayString>
+    <StageInstructions>
+In this stage, someone typically outside of the crafting team will translate the responses from the
+UNS tests (and the latest version of the story) from the National language back translation into 
+English (or from the story language if not using the national language back-translation). 
+
+This stage only occurs if you have an "English Back-translator" member on your team and it occurs
+after all the Project Facilitator states are finished and just before the story goes to the consultant. 
+
+When you are finished entering the English back translation, then click the 'Next Stage' button in the
+left-hand side of the status bar to go to the next stage in the process.
+    </StageInstructions>
+    <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eProjFacReviseBasedOnRound2Notes</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eProjFacOnlineReview2WithConsultant</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eProjFacReadyForTest2</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eProjFacEnterRetellingOfTest2</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eProjFacEnterAnswersToStoryQuestionsOfTest2</AllowableBackwardsTransition>
+    </AllowableBackwardsTransitions>
+    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
   <StateTransition stage="eFirstPassMentorReviewTest2" MemberTypeWithEditToken="eFirstPassMentor" NextState="eConsultantReviewTest2">
     <StageDisplayString>First-pass mentor checks test 2 results</StageDisplayString>
@@ -987,6 +1036,7 @@ bar to go to the next stage in the process.
       <AllowableBackwardsTransition>eProjFacReadyForTest2</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eProjFacEnterRetellingOfTest2</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eProjFacEnterAnswersToStoryQuestionsOfTest2</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTypeInternationalBTTest2</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
@@ -1032,6 +1082,7 @@ bar to go to the next stage in the process.
     </StageInstructions>
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eProjFacReviseBasedOnRound2Notes</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTypeInternationalBTTest2</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresFirstPassMentor="true">eFirstPassMentorCheck2</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
@@ -1062,7 +1113,6 @@ When you are finished, then click the 'Next Stage' button in the left-hand side 
 to the final 'Story testing complete (waiting for panorama completion review)' stage.
     </StageInstructions>
     <AllowableBackwardsTransitions>
-      <AllowableBackwardsTransition>eConsultantReviseRound2Notes</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eConsultantReviewTest2</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="false" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />

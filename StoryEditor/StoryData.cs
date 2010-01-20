@@ -418,8 +418,10 @@ namespace OneStoryProjectEditor
                     //  if we have an English Back-translator person in the team, then we have to set the 
                     //  member with the edit token when we get to the EnglishBT state as that person
                     //  otherwise, it's a crafter
+                    /*
                     StoryStageLogic.stateTransitions[StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT].MemberTypeWithEditToken =
                         (TeamMembers.HasOutsideEnglishBTer) ? TeamMemberData.UserTypes.eEnglishBacktranslator : TeamMemberData.UserTypes.eProjectFacilitator;
+                    */
                     return true;
                 }
             }
@@ -456,9 +458,10 @@ namespace OneStoryProjectEditor
             //  If we have an English Back-translator person in the team, then we have to set the 
             //  member with the edit token when we get to the EnglishBT state as that person
             //  otherwise, it's a crafter
+            /*
             StoryStageLogic.stateTransitions[StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT].MemberTypeWithEditToken =
                 (TeamMembers.HasOutsideEnglishBTer) ? TeamMemberData.UserTypes.eEnglishBacktranslator : TeamMemberData.UserTypes.eProjectFacilitator;
-
+            */
             return TeamMembers[dlg.SelectedMember];
         }
 #endif
