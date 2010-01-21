@@ -836,6 +836,9 @@ provide additional feedback to the team and repeat the this and the next 10 or s
 When you are finished, then click the 'Next Stage' button in the left-hand side of the status bar to go 
 to the next stage in the process.
     </StageInstructions>
+    <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eCoachReviewRound2Notes</AllowableBackwardsTransition>
+    </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eBackTranslatorTranslateConNotes2" MemberTypeWithEditToken="eEnglishBacktranslator" NextState="eProjFacReviseBasedOnRound2Notes">
