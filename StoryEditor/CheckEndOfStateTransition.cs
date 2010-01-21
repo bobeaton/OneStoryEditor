@@ -786,9 +786,15 @@ namespace OneStoryProjectEditor
                 return false;
 
             // if they've only done one test, then ask them to do another (but don't force them)
-            DialogResult res = DialogResult.No;
-            if ((theCurrentStory.CraftingInfo.Testors.Count < 2)
-                && ((res = MessageBox.Show("Click 'Yes' to create the boxes for entering the 2nd UNS's answers to the testing questions", Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel)) == DialogResult.Yes))
+            DialogResult res =
+                MessageBox.Show(
+                    Properties.Resources.IDS_AddAnotherTestQuery,
+                    Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+
+            if (res == DialogResult.Cancel)
+                return false;
+
+            if (res == DialogResult.Yes)
             {
                 theSE.AddTest();
 
@@ -798,8 +804,6 @@ namespace OneStoryProjectEditor
                 //  ProjFacEnterRetellingOfTest1, etc.
                 eProposedNextState = StoryStageLogic.ProjectStages.eProjFacEnterRetellingOfTest1;
             }
-            else if (res == DialogResult.Cancel)
-                return false;
             else if (theStoryProjectData.TeamMembers.HasOutsideEnglishBTer)
                 eProposedNextState = StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBTTest1;
             else if (theStoryProjectData.TeamMembers.HasFirstPassMentor)

@@ -139,6 +139,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Do you want to add another set of boxes for another test?.
+        /// </summary>
+        internal static string IDS_AddAnotherTestQuery {
+            get {
+                return ResourceManager.GetString("IDS_AddAnotherTestQuery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do you want to add boxes for the retelling and testing question answers?.
         /// </summary>
         internal static string IDS_AddTestQuery {

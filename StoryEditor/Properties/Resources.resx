@@ -1520,4 +1520,7 @@ eater Panorama
   <data name="IDS_NoteNotEmptyHideQuery" xml:space="preserve">
     <value>This conversation isn't empty! Instead of deleting it, it would be better to just hide it so it will be left around for history. Would you like to hide it instead?</value>
   </data>
+  <data name="IDS_AddAnotherTestQuery" xml:space="preserve">
+    <value>Do you want to add another set of boxes for another test?</value>
+  </data>
 </root>
