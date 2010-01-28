@@ -16,9 +16,13 @@ namespace OneStoryProjectEditor
 
             if (!storyProjectData.TeamMembers.HasOutsideEnglishBTer)
                 ColumnEnglishBackTranslator.Visible = false;
+            else
+                checkBoxOutsideEnglishBackTranslator.Checked = true;
 
             if (!storyProjectData.TeamMembers.HasFirstPassMentor)
                 ColumnFirstPassMentor.Visible = false;
+            else
+                checkBoxFirstPassMentor.Checked = true;
 
             if (storyProjectData.TeamMembers.HasIndependentConsultant)
             {

@@ -30,12 +30,19 @@ namespace OneStoryProjectEditor
         internal TeamMemberData LoggedOnMember;
         internal bool Modified;
         internal Timer myFocusTimer = new Timer();
+        protected Timer mySaveTimer = new Timer();
 
+        protected DateTime tmLastSync = DateTime.Now;
+        protected TimeSpan tsBackupTime = new TimeSpan(1, 0, 0);
 
         public StoryEditor(string strStoriesSet)
         {
             myFocusTimer.Tick += TimeToSetFocus;
             myFocusTimer.Interval = 200;
+
+            mySaveTimer.Tick += TimeToSave;
+            mySaveTimer.Interval = 5*1000*60;
+            mySaveTimer.Start();
 
             _strStoriesSet = strStoriesSet;
 
@@ -61,6 +68,17 @@ namespace OneStoryProjectEditor
                     OpenProject(Properties.Settings.Default.LastProjectPath, Properties.Settings.Default.LastProject);
             }
             catch { }   // this was only a bene anyway, so just ignore it
+        }
+
+        private void TimeToSave(object sender, EventArgs e)
+        {
+            mySaveTimer.Stop();
+            
+            DialogResult res = MessageBox.Show(Properties.Resources.IDS_SaveChanges, Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+            if (res == DialogResult.Yes)
+                SaveClicked();
+            else
+                mySaveTimer.Start();
         }
 
         internal StoriesData TheCurrentStoriesSet
@@ -1326,11 +1344,20 @@ namespace OneStoryProjectEditor
 
         internal void SaveClicked()
         {
+            mySaveTimer.Stop();
+            mySaveTimer.Start();
+
             if (!IsInStoriesSet || !Modified || (StoryProject == null) || (StoryProject.ProjSettings == null))
                 return;
 
             string strFilename = StoryProject.ProjSettings.ProjectFilePath;
             SaveFile(strFilename);
+
+            if ((DateTime.Now - tmLastSync) > tsBackupTime)
+            {
+                Program.BackupInRepo(StoryProject.ProjSettings.ProjectFolder);
+                tmLastSync = DateTime.Now;
+            }
         }
 
         protected void SaveXElement(XElement elem, string strFilename)

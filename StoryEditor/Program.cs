@@ -335,5 +335,33 @@ namespace OneStoryProjectEditor
 
             return lst;
         }
+
+        public static void BackupInRepo(string strProjectFolder)
+        {
+            // the project folder name has come here bogus at times...
+            if (!Directory.Exists(strProjectFolder))
+                return;
+
+            // if there's no repo yet, then create one (even if we aren't going
+            //  to ultimately push with an internet repo, we still want one locally)
+            var projectConfig = new Chorus.sync.ProjectFolderConfiguration(strProjectFolder);
+            projectConfig.IncludePatterns.Add("*.onestory");
+            projectConfig.IncludePatterns.Add("*.xml"); // the P7 key terms list
+            projectConfig.IncludePatterns.Add("*.bad"); // if we write a bad file, commit that as well
+            projectConfig.IncludePatterns.Add("*.ChorusNotes"); // the new conflict file
+
+            // even if the user doesn't want to go to the internet, we
+            //  at least want to back up locally (when the user closes)
+            using (var dlg = new SyncDialog(projectConfig,
+                SyncUIDialogBehaviors.StartImmediatelyAndCloseWhenFinished,
+                SyncUIFeatures.Minimal))
+            {
+                dlg.Text = "OneStory Automatic Backup... Please wait";
+                dlg.SyncOptions.DoMergeWithOthers = false;
+                dlg.SyncOptions.DoPullFromOthers = false;
+                dlg.SyncOptions.DoSendToOthers = false;
+                dlg.ShowDialog();
+            }
+        }
     }
 }

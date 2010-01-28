@@ -101,6 +101,7 @@
             this.buttonSave.TabIndex = 6;
             this.buttonSave.Text = "&Save";
             this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Visible = false;
             // 
             // buttonCancel
             // 
@@ -110,7 +111,7 @@
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 7;
-            this.buttonCancel.Text = "Cancel";
+            this.buttonCancel.Text = "Close";
             this.buttonCancel.UseVisualStyleBackColor = true;
             // 
             // checkBoxProjectFacilitator
