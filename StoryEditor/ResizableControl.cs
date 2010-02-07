@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
@@ -201,16 +198,25 @@ namespace OneStoryProjectEditor
         protected const string CstrVerseName = "ln: ";
         internal int VerseNumber = -1;
         internal StoryEditor TheSE = null;
+        protected LineFlowLayoutPanel ParentFlowLayoutPanel;
 
         private VerseControl()
         {
         }
 
-        public VerseControl(StoryStageLogic storyStageLogic, int nVerseNumber, StoryEditor theSE)
+        public VerseControl(StoryStageLogic storyStageLogic, int nVerseNumber, 
+            StoryEditor theSE, LineFlowLayoutPanel parentFlowLayoutPanel)
             : base(storyStageLogic)
         {
             VerseNumber = nVerseNumber;
             TheSE = theSE;
+            ParentFlowLayoutPanel = parentFlowLayoutPanel;
+        }
+
+        public void SendScrollWheelToParentFormLayoutPanel(MouseEventArgs e)
+        {
+            if (ParentFlowLayoutPanel != null)
+                ParentFlowLayoutPanel.DoMouseWheel(e);
         }
     }
 }

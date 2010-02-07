@@ -15,8 +15,10 @@ namespace OneStoryProjectEditor
 
         internal VerseData _verseData = null;
 
-        public VerseBtControl(StoryEditor theSE, VerseData dataVerse, int nVerseNumber)
-            : base(theSE.theCurrentStory.ProjStage, nVerseNumber, theSE)
+        public VerseBtControl(StoryEditor theSE, LineFlowLayoutPanel parentFlowLayoutPanel,
+            VerseData dataVerse, int nVerseNumber)
+            : base(theSE.theCurrentStory.ProjStage, nVerseNumber, theSE, 
+                parentFlowLayoutPanel)
         {
             _verseData = dataVerse;
             InitializeComponent();

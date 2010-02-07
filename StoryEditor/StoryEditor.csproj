@@ -214,6 +214,12 @@
     <Compile Include="InstallerClass.Designer.cs">
       <DependentUpon>InstallerClass.cs</DependentUpon>
     </Compile>
+    <Compile Include="LineFlowLayoutPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="LineFlowLayoutPanel.Designer.cs">
+      <DependentUpon>LineFlowLayoutPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="MultipleLineDataConverter.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -332,6 +338,9 @@
     <EmbeddedResource Include="HtmlForm.resx">
       <DependentUpon>HtmlForm.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LineFlowLayoutPanel.resx">
+      <DependentUpon>LineFlowLayoutPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NetBibleFootnoteTooltip.resx">
       <DependentUpon>NetBibleFootnoteTooltip.cs</DependentUpon>

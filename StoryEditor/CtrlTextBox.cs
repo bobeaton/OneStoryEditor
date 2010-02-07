@@ -340,6 +340,12 @@ namespace OneStoryProjectEditor
             HideSelection = false;
             AllowDrop = true;
             MouseUp += new MouseEventHandler(CtrlTextBox_MouseUp);
+            MouseWheel += new MouseEventHandler(CtrlTextBox_MouseWheel);
+        }
+
+        void CtrlTextBox_MouseWheel(object sender, MouseEventArgs e)
+        {
+            _ctrlVerseParent.SendScrollWheelToParentFormLayoutPanel(e);
         }
 
         private void onJumpToBibleRef(object sender, EventArgs e)

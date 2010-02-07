@@ -9,10 +9,12 @@ namespace OneStoryProjectEditor
         protected const string CstrZerothVerseName = "Story:";
 
         internal ConsultNotesDataConverter _theCNsDC = null;
-        public ConsultNotesControl(StoryEditor theSE, StoryStageLogic storyStageLogic, 
+        public ConsultNotesControl(StoryEditor theSE, 
+            LineFlowLayoutPanel parentFlowLayoutPanel, 
+            StoryStageLogic storyStageLogic, 
             ConsultNotesDataConverter aCNsDC, int nVerseNumber, 
             TeamMemberData.UserTypes eLoggedOnMemberType)
-            : base(storyStageLogic, nVerseNumber, theSE)
+            : base(storyStageLogic, nVerseNumber, theSE, parentFlowLayoutPanel)
         {
             _theCNsDC = aCNsDC;
             InitializeComponent();

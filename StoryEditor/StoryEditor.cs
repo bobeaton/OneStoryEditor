@@ -73,12 +73,18 @@ namespace OneStoryProjectEditor
         private void TimeToSave(object sender, EventArgs e)
         {
             mySaveTimer.Stop();
-            
-            DialogResult res = MessageBox.Show(Properties.Resources.IDS_SaveChanges, Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
-            if (res == DialogResult.Yes)
-                SaveClicked();
-            else
-                mySaveTimer.Start();
+
+            if (Modified)
+            {
+                DialogResult res = MessageBox.Show(Properties.Resources.IDS_SaveChanges, Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+                if (res == DialogResult.Yes)
+                {
+                    SaveClicked();
+                    return;
+                }
+            }
+
+            mySaveTimer.Start();
         }
 
         internal StoriesData TheCurrentStoriesSet
@@ -170,8 +176,8 @@ namespace OneStoryProjectEditor
                 string strProjectName = Path.GetFileNameWithoutExtension(dlg.PathToNewProject);
 
                 // we can save this information so we can use it automatically during the next restart
-                string strUsername = ExtractUsernameFromUrl(dlg.URL);
-                Program.SetHgParameters(dlg.PathToNewProject, strProjectName, dlg.URL, strUsername);
+                string strUsername = ExtractUsernameFromUrl(dlg.ThreadSafeUrl);
+                Program.SetHgParameters(dlg.PathToNewProject, strProjectName, dlg.ThreadSafeUrl, strUsername);
                 ProjectSettings projSettings = new ProjectSettings(dlg.PathToNewProject, strProjectName);
                 try
                 {
@@ -180,7 +186,7 @@ namespace OneStoryProjectEditor
                 catch (Exception)
                 {
                     string strErrorMsg = String.Format(Properties.Resources.IDS_NoProjectFromInternet,
-                                                       Environment.NewLine, dlg.URL);
+                                                       Environment.NewLine, dlg.ThreadSafeUrl);
                     MessageBox.Show(strErrorMsg, Properties.Resources.IDS_Caption);
                 }
             }
@@ -377,7 +383,7 @@ namespace OneStoryProjectEditor
                     if (LoggedOnMember != null)
                         strMemberName = LoggedOnMember.Name;
 
-                    LoggedOnMember = StoryProject.EditTeamMembers(strMemberName, TeamMemberForm.CstrDefaultOKLabel, ref Modified);
+                    LoggedOnMember = StoryProject.EditTeamMembers(strMemberName, null, ref Modified);
                     
                     if (theCurrentStory != null)
                     {
@@ -779,9 +785,12 @@ namespace OneStoryProjectEditor
                     InitConsultNotesPane(flowLayoutPanelConsultantNotes, aVerse.ConsultantNotes, nVerseIndex);
 
                     InitConsultNotesPane(flowLayoutPanelCoachNotes, aVerse.CoachNotes, nVerseIndex);
-
-                    nVerseIndex++;
                 }
+
+                // skip numbers, though, if we have hidden verses so that the verse nums
+                //  will be the same (in case we have references to lines in the connotes)
+                //  AND so it'll be a clue to the user that there are hidden verses present.
+                nVerseIndex++;
             }
 
             flowLayoutPanelVerses.ResumeLayout(true);
@@ -796,7 +805,7 @@ namespace OneStoryProjectEditor
 
         protected void InitVerseControls(VerseData aVerse, int nVerseIndex)
         {
-            VerseBtControl aVerseCtrl = new VerseBtControl(this, aVerse, nVerseIndex);
+            VerseBtControl aVerseCtrl = new VerseBtControl(this, flowLayoutPanelVerses, aVerse, nVerseIndex);
             aVerseCtrl.UpdateHeight(Panel1_Width);
             flowLayoutPanelVerses.Controls.Add(aVerseCtrl);
             AddDropTargetToFlowLayout(nVerseIndex);
@@ -833,7 +842,8 @@ namespace OneStoryProjectEditor
 
         protected void InitConsultNotesPane(ConNoteFlowLayoutPanel theFLP, ConsultNotesDataConverter aCNsDC, int nVerseIndex)
         {
-            ConsultNotesControl aConsultNotesCtrl = new ConsultNotesControl(this, theCurrentStory.ProjStage, aCNsDC, nVerseIndex, LoggedOnMember.MemberType);
+            ConsultNotesControl aConsultNotesCtrl = new ConsultNotesControl(this, theFLP, 
+                theCurrentStory.ProjStage, aCNsDC, nVerseIndex, LoggedOnMember.MemberType);
             aConsultNotesCtrl.UpdateHeight(Panel2_Width);
             theFLP.AddCtrl(aConsultNotesCtrl);
         }

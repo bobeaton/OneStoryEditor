@@ -84,6 +84,7 @@ namespace OneStoryProjectEditor
             this.viewOldStoriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.hiddenVersesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.stateMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.comboBoxStorySelector = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripTextBoxChooseStory = new System.Windows.Forms.ToolStripTextBox();
             this.storyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -102,7 +103,7 @@ namespace OneStoryProjectEditor
             this.advancedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changeProjectFolderRootToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.flowLayoutPanelVerses = new System.Windows.Forms.FlowLayoutPanel();
+            this.flowLayoutPanelVerses = new VerseBtLineFlowLayoutPanel();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.splitContainerLeftRight = new System.Windows.Forms.SplitContainer();
@@ -118,7 +119,6 @@ namespace OneStoryProjectEditor
             this.buttonsStoryStage = new System.Windows.Forms.ToolStripSplitButton();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.helpProvider = new System.Windows.Forms.HelpProvider();
-            this.stateMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
             this.splitContainerLeftRight.Panel2.SuspendLayout();
@@ -621,6 +621,13 @@ namespace OneStoryProjectEditor
             this.hiddenVersesToolStripMenuItem.Text = "&Hidden verses";
             this.hiddenVersesToolStripMenuItem.CheckStateChanged += new System.EventHandler(this.hiddenVersesToolStripMenuItem_CheckStateChanged);
             // 
+            // stateMapToolStripMenuItem
+            // 
+            this.stateMapToolStripMenuItem.Name = "stateMapToolStripMenuItem";
+            this.stateMapToolStripMenuItem.Size = new System.Drawing.Size(284, 22);
+            this.stateMapToolStripMenuItem.Text = "State &Map";
+            this.stateMapToolStripMenuItem.Click += new System.EventHandler(this.stateMapToolStripMenuItem_Click);
+            // 
             // comboBoxStorySelector
             // 
             this.comboBoxStorySelector.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -978,13 +985,6 @@ namespace OneStoryProjectEditor
             this.statusLabel.Spring = true;
             this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // stateMapToolStripMenuItem
-            // 
-            this.stateMapToolStripMenuItem.Name = "stateMapToolStripMenuItem";
-            this.stateMapToolStripMenuItem.Size = new System.Drawing.Size(284, 22);
-            this.stateMapToolStripMenuItem.Text = "State &Map";
-            this.stateMapToolStripMenuItem.Click += new System.EventHandler(this.stateMapToolStripMenuItem_Click);
-            // 
             // StoryEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1031,7 +1031,7 @@ namespace OneStoryProjectEditor
         private ToolStripSeparator toolStripSeparator2;
         private OpenFileDialog openFileDialog;
         private SaveFileDialog saveFileDialog;
-        internal FlowLayoutPanel flowLayoutPanelVerses;
+        internal VerseBtLineFlowLayoutPanel flowLayoutPanelVerses;
         private SplitContainer splitContainerLeftRight;
         private SplitContainer splitContainerUpDown;
         private ToolStripMenuItem viewToolStripMenuItem;
@@ -1110,7 +1110,7 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem stateMapToolStripMenuItem;
     }
 
-    public class ConNoteFlowLayoutPanel : FlowLayoutPanel
+    public class ConNoteFlowLayoutPanel : LineFlowLayoutPanel
     {
         protected List<ConsultNotesDataConverter> lstCNsD = new List<ConsultNotesDataConverter>();
 
