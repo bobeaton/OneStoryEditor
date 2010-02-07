@@ -400,7 +400,7 @@ namespace OneStoryProjectEditor
             }
 
             // otherwise, fall thru and make them pick it.
-            return EditTeamMembers(strMemberName, TeamMemberForm.CstrDefaultOKLabel,
+            return EditTeamMembers(strMemberName, null,
                 ref bModified);
         }
 
@@ -446,7 +446,9 @@ namespace OneStoryProjectEditor
 
             if (dlg.ShowDialog() != DialogResult.OK)
             {
-                MessageBox.Show(Properties.Resources.IDS_HaveToLogInToContinue, Properties.Resources.IDS_Caption);
+                if (String.IsNullOrEmpty(strOKLabel))
+                    MessageBox.Show(Properties.Resources.IDS_HaveToLogInToContinue, Properties.Resources.IDS_Caption);
+
                 throw StoryEditor.BackOutWithNoUI;
             }
 
