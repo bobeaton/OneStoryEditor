@@ -166,6 +166,11 @@ namespace OneStoryProjectEditor
         {
             if (m_theLastButtonClicked != null)
             {
+                // the only function of the button here is to add a slot to type a con note
+                StoryEditor theSE;
+                if (!CheckForProperEditToken(out theSE))
+                    return;
+
                 if (_mapAnchorsToTextBoxes.ContainsKey(m_theLastButtonClicked))
                 {
                     DialogResult res = MessageBox.Show(String.Format("The anchor you are about to delete has exegetical or cultural note(s) attached to it. These will be deleted also. Click 'OK' to continue with the deletion.{0}{0}[if you would rather have kept them, say associated to another anchor, then tell bob_eaton@sall.com and he may implement that feature. For now, you can copy the note and paste it into a new note added to a new or existing anchor (right-click on the anchor and choose 'Add Exegetical/Cultural Note'). Then come back here and delete this anchor]", Environment.NewLine),  Properties.Resources.IDS_Caption, MessageBoxButtons.OKCancel);
@@ -184,10 +189,14 @@ namespace OneStoryProjectEditor
                 }
 
                 toolStripAnchors.Items.RemoveByKey(m_theLastButtonClicked.Name);
-                System.Diagnostics.Debug.Assert((m_theLastButtonClicked.Tag != null) && (m_theLastButtonClicked.Tag is AnchorData));
+                Debug.Assert((m_theLastButtonClicked.Tag != null) && (m_theLastButtonClicked.Tag is AnchorData));
                 AnchorData theAnchorData = (AnchorData)m_theLastButtonClicked.Tag;
                 _myAnchorsData.Remove(theAnchorData);
                 m_theLastButtonClicked = null;
+
+                // indicate that we've changed something so that we don't exit without offering
+                //  to save.
+                theSE.Modified = true;
             }
             else
                 MessageBox.Show("Right-click on one of the buttons to choose which one to delete",  Properties.Resources.IDS_Caption);
