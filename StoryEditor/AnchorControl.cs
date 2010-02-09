@@ -73,11 +73,12 @@ namespace OneStoryProjectEditor
         void aButton_Click(object sender, EventArgs e)
         {
             Form form = FindForm();
-            if (form is StoryEditor)
+            if ((form != null) && (form is StoryEditor))
             {
                 StoryEditor aSE = (StoryEditor)form;
                 ToolStripButton tssb = (ToolStripButton)sender;
                 aSE.SetNetBibleVerse(tssb.Text);
+                aSE.FocusOnVerse(_ctrlVerse.VerseNumber);
             }
         }
 
