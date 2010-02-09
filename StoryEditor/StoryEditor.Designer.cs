@@ -1114,9 +1114,9 @@ namespace OneStoryProjectEditor
     {
         protected List<ConsultNotesDataConverter> lstCNsD = new List<ConsultNotesDataConverter>();
 
-        public void Clear()
+        public override void Clear()
         {
-            Controls.Clear();
+            base.Clear();
             lstCNsD.Clear();
         }
 

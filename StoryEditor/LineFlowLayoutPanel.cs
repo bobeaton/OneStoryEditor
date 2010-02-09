@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
 {
@@ -9,6 +10,21 @@ namespace OneStoryProjectEditor
             InitializeComponent();
         }
 
+        public virtual void Clear()
+        {
+            SuspendLayout();
+
+            while (Controls.Count > 0)
+            {
+                Control ctrl = Controls[0];
+                ctrl.Dispose();
+            }
+
+            Controls.Clear();
+
+            ResumeLayout(false);
+        }
+
         public void DoMouseWheel(MouseEventArgs e)
         {
             base.OnMouseWheel(e);
@@ -16,35 +32,24 @@ namespace OneStoryProjectEditor
 
         private void LineFlowLayoutPanel_Scroll(object sender, ScrollEventArgs e)
         {
-            if (e.ScrollOrientation == ScrollOrientation.VerticalScroll)
+            // if we get a vertical scroll event, and the values are different (i.e. 
+            //  it's not at the first/last position) and if it's a large change (i.e.
+            //  click in the middle of the scroll bar), then...
+            if ((e.ScrollOrientation == ScrollOrientation.VerticalScroll)
+                && (e.NewValue != e.OldValue)
+                && ((e.Type == ScrollEventType.LargeDecrement)
+                    || (e.Type == ScrollEventType.LargeIncrement)))
             {
-                if (e.NewValue == e.OldValue)
-                    return;
-
                 bool bScrollDown = (e.NewValue > e.OldValue);
 
-                int nControlCount = 1;
-                if (    (e.Type == ScrollEventType.LargeDecrement)
-                    || (e.Type == ScrollEventType.LargeIncrement))
+                Control ctrlNext;
+                if (bScrollDown)
                 {
-                    nControlCount = 3;
+                    ctrlNext = NextControlDown;
                 }
-
-                Control ctrlNext = null;
-                for (; nControlCount-- > 0; )
+                else
                 {
-                    Control ctrlTemp;
-                    if (bScrollDown)
-                    {
-                        ctrlTemp = NextControlDown;
-                    }
-                    else
-                    {
-                        ctrlTemp = NextControlUp;
-                    }
-
-                    if (ctrlTemp != null)
-                        ctrlNext = LastControlIntoView = ctrlTemp;
+                    ctrlNext = NextControlUp;
                 }
 
                 if (ctrlNext != null)

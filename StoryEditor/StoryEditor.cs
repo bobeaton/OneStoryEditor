@@ -357,7 +357,7 @@ namespace OneStoryProjectEditor
                         //  configuration (e.g. there might now be a FPM)
                         StoryStageLogic.stateTransitions = new StoryStageLogic.StateTransitions();
                         ReInitMenuVisibility();
-                        SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage);
+                        SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage, false);
                     }
                 }
 
@@ -709,7 +709,8 @@ namespace OneStoryProjectEditor
             // initialize the project stage details (which might hide certain views)
             //  (do this *after* initializing the whole thing, because if we save, we'll
             //  want to save even the hidden pieces)
-            SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage);
+            // BUT to avoid the multiple repaints, temporarily disable the painting
+            SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage, true);
 
             // finally, initialize the verse controls
             InitAllPanes();
@@ -1192,11 +1193,17 @@ namespace OneStoryProjectEditor
             Modified = true;
         }
 
-        internal void SetViewBasedOnProjectStage(StoryStageLogic.ProjectStages eStage)
+        internal void SetViewBasedOnProjectStage(StoryStageLogic.ProjectStages eStage,
+            bool bDisableReInits)
         {
             StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[eStage];
 
+            // in case the caller is just about to call InitAllPanes anyway, we don't
+            //  want the screen to thrash, so have the ability to disable the thrashing.
+            _bDisableReInitVerseControls = bDisableReInits;
             st.SetView(this);
+            _bDisableReInitVerseControls = false;
+
             helpProvider.SetHelpString(this, st.StageInstructions);
             SetStatusBar(String.Format(Properties.Resources.IDS_PressF1ForInstructions, st.StageDisplayString));
         }
@@ -1347,7 +1354,7 @@ namespace OneStoryProjectEditor
 
         protected void ClearFlowControls()
         {
-            flowLayoutPanelVerses.Controls.Clear();
+            flowLayoutPanelVerses.Clear();
             flowLayoutPanelConsultantNotes.Clear();
             flowLayoutPanelCoachNotes.Clear();
         }
@@ -1451,9 +1458,12 @@ namespace OneStoryProjectEditor
             SaveClicked();
         }
 
+        protected bool _bDisableReInitVerseControls = false;
+
         private void viewFieldMenuItem_CheckedChanged(object sender, EventArgs e)
         {
-            ReInitVerseControls();
+            if (!_bDisableReInitVerseControls)
+                ReInitVerseControls();
         }
 
         private void viewNetBibleMenuItem_CheckedChanged(object sender, EventArgs e)
@@ -1731,7 +1741,7 @@ namespace OneStoryProjectEditor
                             return;
 
                     theCurrentStory.ProjStage.ProjectStage = theNewST.CurrentStage;
-                    SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage);
+                    SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage, true);
                     Modified = true;
                     break;
                 }
@@ -1756,7 +1766,8 @@ namespace OneStoryProjectEditor
 
             if (SetNextStateIfReady())
             {
-                SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage);
+                SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage,
+                    bDoUpdateCtrls);
                 if (bDoUpdateCtrls)
                     InitAllPanes();    // just in case there were changes
                 Modified = true;
