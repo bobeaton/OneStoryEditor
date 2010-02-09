@@ -79,6 +79,11 @@ namespace OneStoryProjectEditor
                 ToolStripButton tssb = (ToolStripButton)sender;
                 aSE.SetNetBibleVerse(tssb.Text);
                 aSE.FocusOnVerse(_ctrlVerse.VerseNumber);
+                
+                // if we aren't already in some text box, then set the focus on the 
+                //  parent verse form so that scroll wheel can work
+                if (CtrlTextBox._inTextBox == null)
+                    _ctrlVerse.Focus();
             }
         }
 
