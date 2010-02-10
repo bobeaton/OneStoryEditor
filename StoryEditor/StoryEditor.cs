@@ -1753,6 +1753,7 @@ namespace OneStoryProjectEditor
                             return;
 
                     theCurrentStory.ProjStage.ProjectStage = theNewST.CurrentStage;
+                    theCurrentStory.StageTimeStamp = DateTime.Now;
                     SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage, true);
                     Modified = true;
                     break;
