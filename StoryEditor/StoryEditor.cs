@@ -278,7 +278,9 @@ namespace OneStoryProjectEditor
 
         protected void NewProjectFile()
         {
-            CheckForSaveDirtyFile();
+            if (!CheckForSaveDirtyFile())
+                return;
+
             CloseProjectFile();
             comboBoxStorySelector.Focus();
             
@@ -422,7 +424,9 @@ namespace OneStoryProjectEditor
             if (IsInStoriesSet && Directory.Exists(strDotHgFolder))
             {
                 // clean up any existing open projects
-                CheckForSaveDirtyFile();
+                if (!CheckForSaveDirtyFile())
+                    return;
+
                 CloseProjectFile();
 
                 Program.SyncWithRepository(projSettings.ProjectFolder, true);
@@ -434,7 +438,9 @@ namespace OneStoryProjectEditor
         protected void OpenProject(ProjectSettings projSettings)
         {
             // clean up any existing open projects
-            CheckForSaveDirtyFile();
+            if (!CheckForSaveDirtyFile())
+                return;
+
             CloseProjectFile();
 
             // next, insure that the file for the project exists (do this outside the try,
@@ -642,7 +648,8 @@ namespace OneStoryProjectEditor
 
         protected void InsertNewStory(string strStoryName, int nIndexToInsert)
         {
-            CheckForSaveDirtyFile();
+            if (!CheckForSaveDirtyFile())
+                return;
 
             // query for the crafter
             MemberPicker dlg = new MemberPicker(StoryProject, TeamMemberData.UserTypes.eCrafter);
@@ -673,7 +680,8 @@ namespace OneStoryProjectEditor
         private void comboBoxStorySelector_SelectedIndexChanged(object sender, EventArgs e)
         {
             // save the file before moving on.
-            CheckForSaveDirtyFile();
+            if (!CheckForSaveDirtyFile())
+                return;
 
             Debug.Assert(!Modified 
                 || (flowLayoutPanelVerses.Controls.Count != 0)
@@ -1322,7 +1330,7 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private void CheckForSaveDirtyFile()
+        private bool CheckForSaveDirtyFile()
         {
             // if we're in the 'old stories' window OR if it's a Just looking user, then
             //  ignore the modified flag and return
@@ -1330,7 +1338,7 @@ namespace OneStoryProjectEditor
                 ((LoggedOnMember != null) && (LoggedOnMember.MemberType == TeamMemberData.UserTypes.eJustLooking)))
             {
                 Modified = false;   // just in case
-                return;
+                return true;
             }
 
             if (Modified)
@@ -1339,17 +1347,21 @@ namespace OneStoryProjectEditor
                 KeyboardController.DeactivateKeyboard();    // ... do it manually
 
                 DialogResult res = MessageBox.Show(Properties.Resources.IDS_SaveChanges, Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
-                if (res != DialogResult.Yes)
+                if (res == DialogResult.Cancel)
+                    return false;
+                if (res == DialogResult.No)
                 {
                     Modified = false;
-                    return;
+                    return true;
                 }
+
                 SaveClicked();
             }
 
             // do cleanup, because this is always called before starting something new (new file or empty project)
             ClearFlowControls();
             textBoxStoryVerse.Text = Properties.Resources.IDS_Story;
+            return true;
         }
 
         protected void ClearFlowControls()
@@ -1802,7 +1814,8 @@ namespace OneStoryProjectEditor
                 theCurrentStory.StageTimeStamp = DateTime.Now;
                 Modified = true;
                 if (bReqSave)
-                    CheckForSaveDirtyFile();
+                    if (!CheckForSaveDirtyFile())
+                        return false;
             }
             return bRet;
         }
@@ -2731,7 +2744,8 @@ namespace OneStoryProjectEditor
             if (WillBeLossInVerse(theCurrentStory.Verses))
                 return;
 
-            CheckForSaveDirtyFile();    // ought to do a save before this so we don't cause them to lose anything.
+            if (!CheckForSaveDirtyFile())    // ought to do a save before this so we don't cause them to lose anything.
+                return;
 
             // first 'collapse into 1 line'
             string strVernacular = GetFullStoryContentsVernacular;
@@ -2771,7 +2785,9 @@ namespace OneStoryProjectEditor
                 && (theCurrentStory.Verses.Count > 0)
                 && !WillBeLossInVerse(theCurrentStory.Verses));
 
-            CheckForSaveDirtyFile();    // ought to do a save before this so we don't cause them to lose anything.
+            if (!CheckForSaveDirtyFile())    // ought to do a save before this so we don't cause them to lose anything.
+                return;
+
             if (theCurrentStory.Verses.Count == 1)
             {
                 // means 'split into lines'
