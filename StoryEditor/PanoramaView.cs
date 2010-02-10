@@ -21,12 +21,16 @@ namespace OneStoryProjectEditor
         protected StoriesData _stories;
         protected bool _bInCtor = true;
 
+        protected Font _fontForDev = new Font("Arial Unicode MS", 11);
+
         public PanoramaView(StoryProjectData storyProject)
         {
             _storyProject = storyProject;
             InitializeComponent();
             richTextBoxPanoramaFrontMatter.Rtf = storyProject.PanoramaFrontMatter;
             _bInCtor = false;   // prevent the _TextChanged during ctor
+            dataGridViewPanorama.Columns[CnColumnStoryName].DefaultCellStyle.Font =
+                dataGridViewPanorama.Columns[CnColumnStoryPurpose].DefaultCellStyle.Font = _fontForDev;
         }
 
         public bool Modified = false;
@@ -56,6 +60,7 @@ namespace OneStoryProjectEditor
                 int nRowIndex = dataGridViewPanorama.Rows.Add(aObs);
                 DataGridViewRow aRow = dataGridViewPanorama.Rows[nRowIndex];
                 aRow.Tag = st;
+                aRow.Height = _fontForDev.Height + 4;
             }
         }
 

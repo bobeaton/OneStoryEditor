@@ -36,17 +36,17 @@
             this.tabPagePanorama = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.dataGridViewPanorama = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnTimeInState = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.buttonMoveUp = new System.Windows.Forms.Button();
             this.buttonDelete = new System.Windows.Forms.Button();
             this.buttonCopyToOldStories = new System.Windows.Forms.Button();
             this.buttonMoveDown = new System.Windows.Forms.Button();
             this.tabPageObsolete = new System.Windows.Forms.TabPage();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnTimeInState = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControlSets.SuspendLayout();
             this.tabPageFrontMatter.SuspendLayout();
             this.tabPagePanorama.SuspendLayout();
@@ -73,7 +73,7 @@
             this.tabControlSets.Location = new System.Drawing.Point(0, 0);
             this.tabControlSets.Name = "tabControlSets";
             this.tabControlSets.SelectedIndex = 0;
-            this.tabControlSets.Size = new System.Drawing.Size(717, 467);
+            this.tabControlSets.Size = new System.Drawing.Size(894, 514);
             this.tabControlSets.TabIndex = 4;
             this.tabControlSets.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControlSets_Selected);
             // 
@@ -94,7 +94,7 @@
             this.tabPagePanorama.Location = new System.Drawing.Point(4, 22);
             this.tabPagePanorama.Name = "tabPagePanorama";
             this.tabPagePanorama.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPagePanorama.Size = new System.Drawing.Size(709, 441);
+            this.tabPagePanorama.Size = new System.Drawing.Size(886, 488);
             this.tabPagePanorama.TabIndex = 1;
             this.tabPagePanorama.Text = "Stories";
             this.tabPagePanorama.UseVisualStyleBackColor = true;
@@ -117,7 +117,7 @@
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel.Size = new System.Drawing.Size(703, 435);
+            this.tableLayoutPanel.Size = new System.Drawing.Size(880, 482);
             this.tableLayoutPanel.TabIndex = 2;
             // 
             // dataGridViewPanorama
@@ -142,69 +142,9 @@
             this.dataGridViewPanorama.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.tableLayoutPanel.SetRowSpan(this.dataGridViewPanorama, 4);
             this.dataGridViewPanorama.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridViewPanorama.Size = new System.Drawing.Size(665, 429);
+            this.dataGridViewPanorama.Size = new System.Drawing.Size(842, 476);
             this.dataGridViewPanorama.TabIndex = 0;
             this.dataGridViewPanorama.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewPanorama_CellEndEdit);
-            // 
-            // buttonMoveUp
-            // 
-            this.buttonMoveUp.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.buttonMoveUp.Image = global::OneStoryProjectEditor.Properties.Resources.BuilderDialog_moveup1;
-            this.buttonMoveUp.Location = new System.Drawing.Point(674, 162);
-            this.buttonMoveUp.Name = "buttonMoveUp";
-            this.buttonMoveUp.Size = new System.Drawing.Size(26, 23);
-            this.buttonMoveUp.TabIndex = 1;
-            this.toolTip.SetToolTip(this.buttonMoveUp, "Move selected story up");
-            this.buttonMoveUp.UseVisualStyleBackColor = true;
-            this.buttonMoveUp.Click += new System.EventHandler(this.buttonMoveUp_Click);
-            // 
-            // buttonDelete
-            // 
-            this.buttonDelete.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.buttonDelete.Image = global::OneStoryProjectEditor.Properties.Resources.DeleteHS;
-            this.buttonDelete.Location = new System.Drawing.Point(674, 191);
-            this.buttonDelete.Name = "buttonDelete";
-            this.buttonDelete.Size = new System.Drawing.Size(26, 23);
-            this.buttonDelete.TabIndex = 2;
-            this.toolTip.SetToolTip(this.buttonDelete, "Delete the selected story");
-            this.buttonDelete.UseVisualStyleBackColor = true;
-            this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
-            // 
-            // buttonCopyToOldStories
-            // 
-            this.buttonCopyToOldStories.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.buttonCopyToOldStories.Image = global::OneStoryProjectEditor.Properties.Resources.CopyHS;
-            this.buttonCopyToOldStories.Location = new System.Drawing.Point(674, 220);
-            this.buttonCopyToOldStories.Name = "buttonCopyToOldStories";
-            this.buttonCopyToOldStories.Size = new System.Drawing.Size(26, 23);
-            this.buttonCopyToOldStories.TabIndex = 3;
-            this.toolTip.SetToolTip(this.buttonCopyToOldStories, "Copy the selected story to the \"Old Stories\" list. Then you can use the \'View\' me" +
-                    "nu, \'View Old Stories\' command (from the main window) to view stories in the \'Ol" +
-                    "d Stories\' list.");
-            this.buttonCopyToOldStories.UseVisualStyleBackColor = true;
-            this.buttonCopyToOldStories.Click += new System.EventHandler(this.buttonCopyToOldStories_Click);
-            // 
-            // buttonMoveDown
-            // 
-            this.buttonMoveDown.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.buttonMoveDown.Image = global::OneStoryProjectEditor.Properties.Resources.BuilderDialog_movedown1;
-            this.buttonMoveDown.Location = new System.Drawing.Point(674, 249);
-            this.buttonMoveDown.Name = "buttonMoveDown";
-            this.buttonMoveDown.Size = new System.Drawing.Size(25, 23);
-            this.buttonMoveDown.TabIndex = 4;
-            this.toolTip.SetToolTip(this.buttonMoveDown, "Move the selected story down");
-            this.buttonMoveDown.UseVisualStyleBackColor = true;
-            this.buttonMoveDown.Click += new System.EventHandler(this.buttonMoveDown_Click);
-            // 
-            // tabPageObsolete
-            // 
-            this.tabPageObsolete.Location = new System.Drawing.Point(4, 22);
-            this.tabPageObsolete.Name = "tabPageObsolete";
-            this.tabPageObsolete.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageObsolete.Size = new System.Drawing.Size(709, 441);
-            this.tabPageObsolete.TabIndex = 2;
-            this.tabPageObsolete.Text = "Old Stories";
-            this.tabPageObsolete.UseVisualStyleBackColor = true;
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -238,11 +178,71 @@
             this.ColumnTimeInState.HeaderText = "Time in Stage";
             this.ColumnTimeInState.Name = "ColumnTimeInState";
             // 
+            // buttonMoveUp
+            // 
+            this.buttonMoveUp.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.buttonMoveUp.Image = global::OneStoryProjectEditor.Properties.Resources.BuilderDialog_moveup1;
+            this.buttonMoveUp.Location = new System.Drawing.Point(851, 186);
+            this.buttonMoveUp.Name = "buttonMoveUp";
+            this.buttonMoveUp.Size = new System.Drawing.Size(26, 23);
+            this.buttonMoveUp.TabIndex = 1;
+            this.toolTip.SetToolTip(this.buttonMoveUp, "Move selected story up");
+            this.buttonMoveUp.UseVisualStyleBackColor = true;
+            this.buttonMoveUp.Click += new System.EventHandler(this.buttonMoveUp_Click);
+            // 
+            // buttonDelete
+            // 
+            this.buttonDelete.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.buttonDelete.Image = global::OneStoryProjectEditor.Properties.Resources.DeleteHS;
+            this.buttonDelete.Location = new System.Drawing.Point(851, 215);
+            this.buttonDelete.Name = "buttonDelete";
+            this.buttonDelete.Size = new System.Drawing.Size(26, 23);
+            this.buttonDelete.TabIndex = 2;
+            this.toolTip.SetToolTip(this.buttonDelete, "Delete the selected story");
+            this.buttonDelete.UseVisualStyleBackColor = true;
+            this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
+            // 
+            // buttonCopyToOldStories
+            // 
+            this.buttonCopyToOldStories.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.buttonCopyToOldStories.Image = global::OneStoryProjectEditor.Properties.Resources.CopyHS;
+            this.buttonCopyToOldStories.Location = new System.Drawing.Point(851, 244);
+            this.buttonCopyToOldStories.Name = "buttonCopyToOldStories";
+            this.buttonCopyToOldStories.Size = new System.Drawing.Size(26, 23);
+            this.buttonCopyToOldStories.TabIndex = 3;
+            this.toolTip.SetToolTip(this.buttonCopyToOldStories, "Copy the selected story to the \"Old Stories\" list. Then you can use the \'View\' me" +
+                    "nu, \'View Old Stories\' command (from the main window) to view stories in the \'Ol" +
+                    "d Stories\' list.");
+            this.buttonCopyToOldStories.UseVisualStyleBackColor = true;
+            this.buttonCopyToOldStories.Click += new System.EventHandler(this.buttonCopyToOldStories_Click);
+            // 
+            // buttonMoveDown
+            // 
+            this.buttonMoveDown.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.buttonMoveDown.Image = global::OneStoryProjectEditor.Properties.Resources.BuilderDialog_movedown1;
+            this.buttonMoveDown.Location = new System.Drawing.Point(851, 273);
+            this.buttonMoveDown.Name = "buttonMoveDown";
+            this.buttonMoveDown.Size = new System.Drawing.Size(25, 23);
+            this.buttonMoveDown.TabIndex = 4;
+            this.toolTip.SetToolTip(this.buttonMoveDown, "Move the selected story down");
+            this.buttonMoveDown.UseVisualStyleBackColor = true;
+            this.buttonMoveDown.Click += new System.EventHandler(this.buttonMoveDown_Click);
+            // 
+            // tabPageObsolete
+            // 
+            this.tabPageObsolete.Location = new System.Drawing.Point(4, 22);
+            this.tabPageObsolete.Name = "tabPageObsolete";
+            this.tabPageObsolete.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageObsolete.Size = new System.Drawing.Size(709, 441);
+            this.tabPageObsolete.TabIndex = 2;
+            this.tabPageObsolete.Text = "Old Stories";
+            this.tabPageObsolete.UseVisualStyleBackColor = true;
+            // 
             // PanoramaView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(717, 467);
+            this.ClientSize = new System.Drawing.Size(894, 514);
             this.Controls.Add(this.tabControlSets);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "PanoramaView";
