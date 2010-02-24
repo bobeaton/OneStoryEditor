@@ -702,6 +702,11 @@ namespace OneStoryProjectEditor
         {
             KeyboardController.DeactivateKeyboard();
         }
+
+        private void comboBoxKeyboard_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            Modified = true;
+        }
     }
 
     public class UserException : ApplicationException

@@ -550,6 +550,7 @@
             this.comboBoxKeyboardVernacular.Name = "comboBoxKeyboardVernacular";
             this.comboBoxKeyboardVernacular.Size = new System.Drawing.Size(414, 21);
             this.comboBoxKeyboardVernacular.TabIndex = 5;
+            this.comboBoxKeyboardVernacular.SelectionChangeCommitted += new System.EventHandler(this.comboBoxKeyboard_SelectionChangeCommitted);
             // 
             // tabPageLanguageNationalBT
             // 
@@ -707,6 +708,7 @@
             this.comboBoxKeyboardNationalBT.Name = "comboBoxKeyboardNationalBT";
             this.comboBoxKeyboardNationalBT.Size = new System.Drawing.Size(414, 21);
             this.comboBoxKeyboardNationalBT.TabIndex = 5;
+            this.comboBoxKeyboardNationalBT.SelectionChangeCommitted += new System.EventHandler(this.comboBoxKeyboard_SelectionChangeCommitted);
             // 
             // textBoxLanguageTabInstructionsNationalBT
             // 
@@ -894,6 +896,7 @@
             this.comboBoxKeyboardEnglishBT.Name = "comboBoxKeyboardEnglishBT";
             this.comboBoxKeyboardEnglishBT.Size = new System.Drawing.Size(414, 21);
             this.comboBoxKeyboardEnglishBT.TabIndex = 5;
+            this.comboBoxKeyboardEnglishBT.SelectionChangeCommitted += new System.EventHandler(this.comboBoxKeyboard_SelectionChangeCommitted);
             // 
             // tabPageMemberRoles
             // 
