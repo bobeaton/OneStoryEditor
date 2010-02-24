@@ -998,7 +998,12 @@ namespace OneStoryProjectEditor
 
                 Debug.Assert(ctrl is VerseBtControl);
                 VerseBtControl theVerse = ctrl as VerseBtControl;
-                flowLayoutPanelVerses.ScrollControlIntoView(theVerse);
+
+                // then scroll it into view (but not if this is the one that initiated
+                //  the scrolling since it's annoying that it jumps around when greater
+                //  than the height of the view).
+                if ((CtrlTextBox._inTextBox == null) || (CtrlTextBox._inTextBox._ctrlVerseParent != theVerse))
+                    flowLayoutPanelVerses.ScrollControlIntoView(theVerse);
             }
 
             // the ConNote controls have a zeroth line, so the index is one greater
@@ -1008,7 +1013,8 @@ namespace OneStoryProjectEditor
                 Control ctrl = flowLayoutPanelConsultantNotes.Controls[nVerseIndex];
                 Debug.Assert(ctrl is ConsultNotesControl);
                 ConsultNotesControl theConsultantNotes = ctrl as ConsultNotesControl;
-                flowLayoutPanelConsultantNotes.ScrollControlIntoView(theConsultantNotes);
+                if ((CtrlTextBox._inTextBox == null) || (CtrlTextBox._inTextBox._ctrlVerseParent != theConsultantNotes))
+                    flowLayoutPanelConsultantNotes.ScrollControlIntoView(theConsultantNotes);
             }
 
             if (viewCoachNotesFieldMenuItem.Checked
@@ -1017,7 +1023,8 @@ namespace OneStoryProjectEditor
                 Control ctrl = flowLayoutPanelCoachNotes.Controls[nVerseIndex];
                 Debug.Assert(ctrl is ConsultNotesControl);
                 ConsultNotesControl theCoachNotes = ctrl as ConsultNotesControl;
-                flowLayoutPanelCoachNotes.ScrollControlIntoView(theCoachNotes);
+                if ((CtrlTextBox._inTextBox == null) || (CtrlTextBox._inTextBox._ctrlVerseParent != theCoachNotes))
+                    flowLayoutPanelCoachNotes.ScrollControlIntoView(theCoachNotes);
             }
         }
 
