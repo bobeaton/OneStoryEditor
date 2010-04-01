@@ -402,16 +402,20 @@ namespace OneStoryProjectEditor
             int nVerseNumber = 1;
             foreach (VerseData aVerseData in theCurrentStory.Verses)
             {
-                if (aVerseData.Anchors.Count == 0)
+                if (aVerseData.IsVisible)
                 {
-                    ShowError(theSE, String.Format("Error: Verse {0} doesn't have an anchor. Did you forget it?", nVerseNumber));
-                    theSE.FocusOnVerse(nVerseNumber);
-                    return false;
-                }
-                
-                if (aVerseData.Anchors.IsKeyTermChecked)
-                    bHasAnyKeyTermBeenChecked = true;
+                    if (aVerseData.Anchors.Count == 0)
+                    {
+                        ShowError(theSE,
+                                  String.Format("Error: Verse {0} doesn't have an anchor. Did you forget it?",
+                                                nVerseNumber));
+                        theSE.FocusOnVerse(nVerseNumber);
+                        return false;
+                    }
 
+                    if (aVerseData.Anchors.IsKeyTermChecked)
+                        bHasAnyKeyTermBeenChecked = true;
+                }
                 nVerseNumber++;
             }
 
