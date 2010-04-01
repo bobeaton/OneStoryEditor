@@ -183,7 +183,13 @@ namespace OneStoryProjectEditor
             if (_theCurrentStory.CraftingInfo.Testors.Count <= nIndex)
                 _theCurrentStory.CraftingInfo.Testors.Add(theUns.MemberGuid);
             else
+            {
+                // but might means that they've changed the UNS, which means we have
+                //  to update all the test values in the verses.
+
                 _theCurrentStory.CraftingInfo.Testors[nIndex] = theUns.MemberGuid;
+                System.Diagnostics.Debug.Assert(false);
+            }
             _theSE.Modified = true;
         }
     }

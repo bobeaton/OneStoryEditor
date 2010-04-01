@@ -225,6 +225,7 @@
             this.buttonBrowseUnsTest1.TabIndex = 15;
             this.buttonBrowseUnsTest1.Text = "...";
             this.buttonBrowseUnsTest1.UseVisualStyleBackColor = true;
+            this.buttonBrowseUnsTest1.Visible = false;
             this.buttonBrowseUnsTest1.Click += new System.EventHandler(this.buttonBrowseUnsTest1_Click);
             // 
             // labelUnsTest2
@@ -253,6 +254,7 @@
             this.buttonBrowseUnsTest2.TabIndex = 18;
             this.buttonBrowseUnsTest2.Text = "...";
             this.buttonBrowseUnsTest2.UseVisualStyleBackColor = true;
+            this.buttonBrowseUnsTest2.Visible = false;
             this.buttonBrowseUnsTest2.Click += new System.EventHandler(this.buttonBrowseUnsTest2_Click);
             // 
             // labelUnsTest3
@@ -281,6 +283,7 @@
             this.buttonBrowseUnsTest3.TabIndex = 21;
             this.buttonBrowseUnsTest3.Text = "...";
             this.buttonBrowseUnsTest3.UseVisualStyleBackColor = true;
+            this.buttonBrowseUnsTest3.Visible = false;
             this.buttonBrowseUnsTest3.Click += new System.EventHandler(this.buttonBrowseUnsTest3_Click);
             // 
             // labelProjectFacilitator
