@@ -54,9 +54,8 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(Name)
-                    && !String.IsNullOrEmpty(ProjStage.ProjectStage.ToString())
-                    && !String.IsNullOrEmpty(guid));
+                System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(ProjStage.ProjectStage.ToString())
+                                                && !String.IsNullOrEmpty(guid));
 
                 XElement elemStory = new XElement("story",
                         new XAttribute("name", Name),
@@ -103,6 +102,32 @@ namespace OneStoryProjectEditor
 
                 CraftingInfo.ProjectFacilitatorMemberID = dlg.SelectedMember.MemberGuid;
             }
+        }
+
+        public string VersesHtml
+        {
+            get
+            {
+                return String.Format(Properties.Resources.HTML_Header, Verses.Html);
+            }
+        }
+
+        public string ConsultantNotesHtml(TeamMemberData.UserTypes eLoggedOnMember, 
+            bool bViewHidden)
+        {
+            string strHtml = Verses.ConsultantNotesHtml(eLoggedOnMember, bViewHidden);
+            return String.Format(Properties.Resources.HTML_Header,
+                Properties.Resources.HTML_DOM_Prefix, 
+                strHtml);
+        }
+
+        public string CoachNotesHtml(TeamMemberData.UserTypes eLoggedOnMember, 
+            bool bViewHidden)
+        {
+            string strHtml = Verses.CoachNotesHtml(eLoggedOnMember, bViewHidden);
+            return String.Format(Properties.Resources.HTML_Header,
+                Properties.Resources.HTML_DOM_Prefix,
+                strHtml);
         }
     }
 

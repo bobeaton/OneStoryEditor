@@ -138,6 +138,15 @@ namespace OneStoryProjectEditor
             }
         }
 
+        public string Html
+        {
+            get
+            {
+                string strHtml = String.Format(Properties.Resources.HTML_TableCell, "ln n:");
+                return strHtml;
+            }
+        }
+
         public static bool IsViewItemOn(ViewItemToInsureOn eValue, ViewItemToInsureOn eFlag)
         {
             return ((eValue & eFlag) == eFlag);
@@ -232,6 +241,67 @@ namespace OneStoryProjectEditor
 
                 return elemVerses;
             }
+        }
+
+        public string Html
+        {
+            get
+            {
+                string strHtml = null;
+                foreach (VerseData aVerseData in this)
+                    strHtml = aVerseData.Html;
+
+                return String.Format(Properties.Resources.HTML_Table, strHtml);
+            }
+        }
+
+        protected string GetHeaderRow(string strHeader, int nVerseIndex)
+        {
+            return String.Format(Properties.Resources.HTML_TableRow,
+                                 String.Format("{0}{1}",
+                                               String.Format(Properties.Resources.HTML_TableCellWidth, 100,
+                                                             strHeader),
+                                               String.Format(Properties.Resources.HTML_TableCell,
+                                                             String.Format(Properties.Resources.HTML_Button,
+                                                                           nVerseIndex,
+                                                                           "return OnAddNote(this);",
+                                                                           "Add Note"))));
+        }
+
+        public string ConsultantNotesHtml(TeamMemberData.UserTypes eLoggedOnMember, bool bViewHidden)
+        {
+            string strHtml = null;
+            strHtml += GetHeaderRow("Story:", 0);
+
+            strHtml += FirstVerse.ConsultantNotes.Html(eLoggedOnMember, bViewHidden, 0);
+
+            for (int i = 1; i < Count; i++)
+            {
+                VerseData aVerseData = this[i - 1];
+                strHtml += GetHeaderRow("Ln: " + i, i);
+
+                strHtml += aVerseData.ConsultantNotes.Html(eLoggedOnMember, bViewHidden, i);
+            }
+
+            return String.Format(Properties.Resources.HTML_Table, strHtml);
+        }
+
+        public string CoachNotesHtml(TeamMemberData.UserTypes eLoggedOnMember, bool bViewHidden)
+        {
+            string strHtml = null;
+            strHtml += GetHeaderRow("Story:", 0);
+
+            strHtml += FirstVerse.CoachNotes.Html(eLoggedOnMember, bViewHidden, 0);
+
+            for (int i = 1; i < Count; i++)
+            {
+                VerseData aVerseData = this[i - 1];
+                strHtml += GetHeaderRow("Ln: " + i, i);
+
+                strHtml += aVerseData.CoachNotes.Html(eLoggedOnMember, bViewHidden, i);
+            }
+
+            return String.Format(Properties.Resources.HTML_Table, strHtml);
         }
 
         public void IndexSearch(SearchForm.SearchLookInProperties findProperties,

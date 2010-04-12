@@ -31,6 +31,15 @@ namespace OneStoryProjectEditor
             Guid = System.Guid.NewGuid().ToString();  // rhs.Guid;
             TimeStamp = rhs.TimeStamp;
         }
+
+        public bool IsMentor
+        {
+            get
+            {
+                return ((Direction == ConsultNoteDataConverter.CommunicationDirections.eConsultantToProjFac)
+                        || (Direction == ConsultNoteDataConverter.CommunicationDirections.eCoachToConsultant));
+            }
+        }
     }
 
     public abstract class ConsultNoteDataConverter : List<CommInstance>
@@ -118,8 +127,13 @@ namespace OneStoryProjectEditor
         // do this here, because we need to sub-class it to allow for FirstPassMentor working as well in addition to CIT
         public virtual void ThrowIfWrongEditor(TeamMemberData.UserTypes eLoggedOnMember, TeamMemberData.UserTypes eRequiredEditor)
         {
-            if (eLoggedOnMember != eRequiredEditor)
+            if (IsWrongEditor(eLoggedOnMember, eRequiredEditor))
                 throw new ApplicationException(String.Format("Only a '{0}' can edit this field", TeamMemberData.GetMemberTypeAsDisplayString(eRequiredEditor)));
+        }
+
+        protected virtual bool IsWrongEditor(TeamMemberData.UserTypes eLoggedOnMember, TeamMemberData.UserTypes eRequiredEditor)
+        {
+            return (eLoggedOnMember != eRequiredEditor);
         }
 
         public abstract CommunicationDirections MenteeDirection { get; }
@@ -203,6 +217,79 @@ namespace OneStoryProjectEditor
             }
         }
 
+        public string Html(TeamMemberData.UserTypes eLoggedOnMember, 
+            int nVerseIndex, int nConversationIndex)
+        {
+            // r1: "Round: n"; "button"
+            // r2-n: "Label:"; "value in textbox"
+            string strRow = String.Format(Properties.Resources.HTML_TableCellWithSpanAndWidth, 100, 2,
+                String.Format("{0}{1}", ConsultNoteControl.CstrRoundLabel, RoundNum));
+            
+            strRow += String.Format(Properties.Resources.HTML_TableCell,
+                     String.Format(Properties.Resources.HTML_Button,
+                        nVerseIndex + "_" + nConversationIndex,
+                        "return OnClickDelete(this);",
+                        "Delete"));
+
+            strRow += String.Format(Properties.Resources.HTML_TableCell,
+                     String.Format(Properties.Resources.HTML_Button,
+                        nVerseIndex + "_" + nConversationIndex,
+                        "return OnClickHide(this);",
+                        (Visible) ? "Hide" : "Unhide"));
+
+            strRow += String.Format(Properties.Resources.HTML_TableCell,
+                     String.Format(Properties.Resources.HTML_Button,
+                        nVerseIndex + "_" + nConversationIndex,
+                        "return OnClickEndConversation(this);",
+                        (IsFinished) ? "Reopen conversation" : "End conversation"));
+
+            string strHtml = String.Format(Properties.Resources.HTML_TableRow,
+                strRow);
+
+            string strHtmlTable = null;
+            for (int i = 0; i < Count; i++)
+            {
+                CommInstance aCI = this[i];
+
+                strRow = null;
+                if (aCI.IsMentor)
+                    strRow += String.Format(Properties.Resources.HTML_TableCell,
+                                            MentorLabel);
+                else
+                    strRow += String.Format(Properties.Resources.HTML_TableCell,
+                                            MenteeLabel);
+
+                // only the last one is editable and then only if the right person is logged in
+                if ((i == (Count - 1))
+                    && ((aCI.IsMentor && !IsWrongEditor(eLoggedOnMember, MentorRequiredEditor))
+                        || (!aCI.IsMentor && !IsWrongEditor(eLoggedOnMember, MenteeRequiredEditor))))
+                {
+                    strRow += String.Format(Properties.Resources.HTML_TableCellForTextArea,
+                                            String.Format(Properties.Resources.HTML_Textarea,
+                                                          nVerseIndex,
+                                                          nConversationIndex,
+                                                          aCI));
+                }
+                else
+                {
+                    strRow += String.Format(Properties.Resources.HTML_TableCellWidth, 100,
+                                            String.Format(Properties.Resources.HTML_TextareaReadonly, aCI));
+                }
+
+                strHtmlTable += String.Format(Properties.Resources.HTML_TableRow,
+                                         strRow);
+            }
+
+            string strEmbeddedTable = String.Format(Properties.Resources.HTML_Table,
+                                                    strHtmlTable);
+
+            strHtml += String.Format(Properties.Resources.HTML_TableRow,
+                                     String.Format(Properties.Resources.HTML_TableCellWithSpan, 5,
+                                                   strEmbeddedTable));
+
+            return strHtml;
+        }
+
         public void IndexSearch(SearchForm.SearchLookInProperties findProperties, 
             SearchForm.StringTransferSearchIndex lstBoxesToSearch)
         {
@@ -272,9 +359,7 @@ namespace OneStoryProjectEditor
             get { return "ConsultantNote"; }
         }
 
-        // override to allow for FirstPassMentor working as well in addition to CIT
-        //  (or an independent consultant)
-        public override void ThrowIfWrongEditor(TeamMemberData.UserTypes eLoggedOnMember, TeamMemberData.UserTypes eRequiredEditor)
+        protected override bool IsWrongEditor(TeamMemberData.UserTypes eLoggedOnMember, TeamMemberData.UserTypes eRequiredEditor)
         {
             // if it's the *mentor* that we're supposed to be checking for... (this will get called for the mentee check
             //  as well, but the special case is only for FirstPassMentor; not ProjFac)
@@ -286,18 +371,31 @@ namespace OneStoryProjectEditor
                     && (eLoggedOnMember != TeamMemberData.UserTypes.eFirstPassMentor)
                     && (eLoggedOnMember != TeamMemberData.UserTypes.eIndependentConsultant))
                 {
-                    // then throw that it's the wrong editor
-                    throw new ApplicationException(String.Format("Only a '{0}', '{1}', or a '{2}' can edit this field",
-                                                                 TeamMemberData.GetMemberTypeAsDisplayString(
-                                                                     eRequiredEditor),
-                                                                 TeamMemberData.GetMemberTypeAsDisplayString(
-                                                                     TeamMemberData.UserTypes.eFirstPassMentor),
-                                                                 TeamMemberData.GetMemberTypeAsDisplayString(
-                                                                     TeamMemberData.UserTypes.eIndependentConsultant)));
+                    return true;
                 }
             }
-            else // otherwise, let the base class handle it
-                base.ThrowIfWrongEditor(eLoggedOnMember, eRequiredEditor);
+            
+            // otherwise, let the base class handle it
+            return base.IsWrongEditor(eLoggedOnMember, eRequiredEditor);
+        }
+
+        // override to allow for FirstPassMentor working as well in addition to CIT
+        //  (or an independent consultant)
+        public override void ThrowIfWrongEditor(TeamMemberData.UserTypes eLoggedOnMember, TeamMemberData.UserTypes eRequiredEditor)
+        {
+            // if it's the *mentor* that we're supposed to be checking for... (this will get called for the mentee check
+            //  as well, but the special case is only for FirstPassMentor; not ProjFac)
+            if (IsWrongEditor(eRequiredEditor, eRequiredEditor))
+            {
+                // then throw that it's the wrong editor
+                throw new ApplicationException(String.Format("Only a '{0}', '{1}', or a '{2}' can edit this field",
+                                                             TeamMemberData.GetMemberTypeAsDisplayString(
+                                                                 eRequiredEditor),
+                                                             TeamMemberData.GetMemberTypeAsDisplayString(
+                                                                 TeamMemberData.UserTypes.eFirstPassMentor),
+                                                             TeamMemberData.GetMemberTypeAsDisplayString(
+                                                                 TeamMemberData.UserTypes.eIndependentConsultant)));
+            }
         }
 
         public override TeamMemberData.UserTypes MentorRequiredEditor
@@ -441,6 +539,22 @@ namespace OneStoryProjectEditor
                         elemCNDC.Add(aCNDC.GetXml);
                 return elemCNDC;
             }
+        }
+
+        public string Html(TeamMemberData.UserTypes eLoggedOnMember, bool bViewHidden,
+            int nVerseIndex)
+        {
+            string strHtml = null;
+            for (int i = 0; i < Count; i++)
+            {
+                ConsultNoteDataConverter aCNDC = this[i];
+                if (aCNDC.Visible || bViewHidden)
+                    strHtml += aCNDC.Html(eLoggedOnMember, nVerseIndex, i);
+            }
+
+            return String.Format(Properties.Resources.HTML_TableRow,
+                    String.Format(Properties.Resources.HTML_TableCellWithSpan, 2,
+                        String.Format(Properties.Resources.HTML_TableNoBorder, strHtml)));
         }
 
         public void IndexSearch(SearchForm.SearchLookInProperties findProperties,

@@ -1523,4 +1523,482 @@ eater Panorama
   <data name="IDS_AddAnotherTestQuery" xml:space="preserve">
     <value>Do you want to add another set of boxes for another test?</value>
   </data>
+  <data name="HTML_Header" xml:space="preserve">
+    <value>&lt;html&gt;
+&lt;head&gt;
+{0}
+&lt;/head&gt;
+&lt;body&gt;
+{1}
+&lt;/body&gt;
+&lt;/html&gt;</value>
+  </data>
+  <data name="HTML_Table" xml:space="preserve">
+    <value>  &lt;table style="width:100%;" border="1"&gt;
+  {0}
+  &lt;/table&gt;</value>
+  </data>
+  <data name="HTML_TableCell" xml:space="preserve">
+    <value>&lt;td&gt;{0}&lt;/td&gt;</value>
+  </data>
+  <data name="HTML_TableRow" xml:space="preserve">
+    <value>  &lt;tr&gt;
+    {0}
+  &lt;/tr&gt;
+    </value>
+  </data>
+  <data name="HTML_Button" xml:space="preserve">
+    <value>&lt;button id="{0}" onClick="{1}"&gt;{2}&lt;/button&gt;</value>
+  </data>
+  <data name="HTML_Textarea" xml:space="preserve">
+    <value>&lt;textarea id="{0}_{1}" style="width:100%; overflow:visible" onKeyUp="return TextareaOnKeyUp(this);"&gt;{2}&lt;/textarea&gt;</value>
+  </data>
+  <data name="HTML_TableNoBorder" xml:space="preserve">
+    <value>        &lt;table style="width:100%;"&gt;
+        {0}
+        &lt;/table&gt;
+</value>
+  </data>
+  <data name="HTML_TableCellForTextArea" xml:space="preserve">
+    <value>&lt;td width="100%" BGCOLOR="#AACCFF"&gt;{0}&lt;/td&gt;</value>
+  </data>
+  <data name="HTML_TableCellWidth" xml:space="preserve">
+    <value>&lt;td width="{0}%"&gt;{1}&lt;/td&gt;</value>
+  </data>
+  <data name="HTML_TableCellWithSpan" xml:space="preserve">
+    <value>&lt;td colspan="{0}"&gt;{1}&lt;/td&gt;</value>
+  </data>
+  <data name="HTML_TableCellWithSpanAndWidth" xml:space="preserve">
+    <value>&lt;td width="{0}%" colspan="{1}"&gt;{2}&lt;/td&gt;</value>
+  </data>
+  <data name="IDS_CantExport" xml:space="preserve">
+    <value>Unable to export to Toolbox! Cause: {0} {1}</value>
+  </data>
+  <data name="oneStory2CoachNotes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\oneStory2CoachNotes.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="oneStory2ConNotes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\oneStory2ConNotes.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="oneStory2storyingBT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\oneStory2storyingBT.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="oneStory2storyingRetelling" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\oneStory2storyingRetelling.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="IDS_ExportedToolboxMessage" xml:space="preserve">
+    <value>The project has been exported to the folder '{0}\Toolbox'. Click 'Yes' to launch Toolbox and open that project.</value>
+  </data>
+  <data name="HTML_TextareaReadonly" xml:space="preserve">
+    <value>&lt;textarea style="width:100%; overflow:visible" readonly="readonly"&gt;{0}&lt;/textarea&gt;</value>
+  </data>
+  <data name="HTML_DOM_Prefix" xml:space="preserve">
+    <value>&lt;script&gt;
+function TextareaOnKeyUp(textArea)
+{
+  return window.external.TextareaOnKeyUp(textArea.id, textArea.value);
+}
+function OnAddNote(button)
+{
+  return window.external.OnAddNote(button.id);
+}
+function OnClickDelete(button)
+{
+  return window.external.OnClickDelete(button.id);
+}
+function OnClickHide(button)
+{
+  return window.external.OnClickHide(button.id, button.value);
+}
+function OnClickEndConversation(button)
+{
+  return window.external.OnClickEndConversation(button.id, button.value);
+}
+&lt;/script&gt;</value>
+  </data>
+  <data name="oneStory2KeyTerms" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\oneStory2KeyTerms.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="IDS_TbxFile_StoryBT" xml:space="preserve">
+    <value>\+DatabaseType StoryBT
+\ver 5.0
+\desc BT and Anchors. Tracks with ConNotes
+\+mkrset 
+\lngDefault Default
+\mkrRecord c
+
+\+mkr Ro
+\nam *
+\lng Default
+\mkrOverThis c
+\-mkr
+
+\+mkr _DateStampHasFourDigitYear
+\nam *
+\lng Default
+\mkrOverThis c
+\-mkr
+
+\+mkr _sh
+\nam *
+\lng Default
+\mkrOverThis c
+\-mkr
+
+\+mkr anc
+\nam Anchor
+\lng Default
+\+fnt 
+\Name Arial Unicode MS
+\Size 8
+\charset 00
+\rgbColor 255,0,0
+\-fnt
+\mkrOverThis bt
+\-mkr
+
+\+mkr ans
+\nam Answers
+\lng InternationalBT
+\+fnt 
+\Name Arial Unicode MS
+\Size 9
+\Italic
+\charset 00
+\rgbColor 128,0,0
+\-fnt
+\mkrOverThis c
+\-mkr
+
+\+mkr {0}
+\nam {1}
+\lng Vernacular
+\mkrOverThis c
+\-mkr
+
+\+mkr bt{2}
+\nam {3}
+\lng NationalBT
+\mkrOverThis c
+\-mkr
+
+\+mkr bt{4}
+\nam {5}
+\lng InternationalBT
+\mkrOverThis c
+\-mkr
+
+\+mkr c
+\lng Default
+\-mkr
+
+\+mkr cat
+\nam Catetory
+\lng Default
+\mkrOverThis c
+\CharStyle
+\-mkr
+
+\+mkr chk
+\nam Consultant checked
+\lng Default
+\+fnt 
+\Name Arial Unicode MS
+\Size 9
+\Bold
+\Italic
+\charset 00
+\rgbColor 255,0,0
+\-fnt
+\mkrOverThis c
+\CharStyle
+\-mkr
+
+\+mkr cn
+\nam Crafting Note
+\lng InternationalBT
+\+fnt 
+\Name Arial Unicode MS
+\Size 8
+\charset 00
+\rgbColor 0,0,0
+\-fnt
+\mkrOverThis bt
+\-mkr
+
+\+mkr co
+\nam Comment
+\lng InternationalBT
+\+fnt 
+\Name Arial Unicode MS
+\Size 9
+\Italic
+\charset 00
+\rgbColor 0,0,0
+\-fnt
+\mkrOverThis c
+\-mkr
+
+\+mkr con
+\nam *
+\lng Default
+\+fnt 
+\Name Arial Unicode MS
+\Size 8
+\Bold
+\Italic
+\charset 00
+\rgbColor 255,0,255
+\-fnt
+\mkrOverThis c
+\-mkr
+
+\+mkr dt
+\nam Date
+\lng Date
+\mkrOverThis c
+\-mkr
+
+\+mkr fac
+\nam *
+\lng Default
+\mkrOverThis c
+\-mkr
+
+\+mkr ft
+\nam free trans.
+\lng InternationalBT
+\+fnt 
+\Name Arial Unicode MS
+\Size 10
+\Italic
+\charset 00
+\rgbColor 0,0,0
+\-fnt
+\mkrOverThis c
+\-mkr
+
+\+mkr id
+\nam ID of Text
+\lng English
+\mkrOverThis c
+\-mkr
+
+\+mkr ln
+\nam Line number
+\lng Book References
+\+fnt 
+\Name Arial Unicode MS
+\Size 8
+\Bold
+\charset 00
+\rgbColor 128,0,0
+\-fnt
+\mkrOverThis c
+\-mkr
+
+\+mkr old
+\nam Old version
+\lng InternationalBT
+\+fnt 
+\Name Arial Unicode MS
+\Size 8
+\Italic
+\charset 00
+\rgbColor 0,128,0
+\-fnt
+\mkrOverThis c
+\CharStyle
+\-mkr
+
+\+mkr p
+\lng InternationalBT
+\+fnt 
+\Name Arial Unicode MS
+\Size 10
+\charset 00
+\rgbColor 128,0,0
+\-fnt
+\mkrOverThis c
+\CharStyle
+\-mkr
+
+\+mkr rec
+\nam Date received
+\lng Default
+\+fnt 
+\Name Arial Unicode MS
+\Size 8
+\Italic
+\charset 00
+\rgbColor 0,0,255
+\-fnt
+\mkrOverThis c
+\-mkr
+
+\+mkr s
+\nam *
+\lng InternationalBT
+\mkrOverThis c
+\-mkr
+
+\+mkr t
+\nam *
+\lng InternationalBT
+\+fnt 
+\Name Arial Unicode MS
+\Size 10
+\Bold
+\charset 00
+\rgbColor 0,0,0
+\-fnt
+\mkrOverThis c
+\-mkr
+
+\+mkr thm
+\nam Theme
+\lng Default
+\+fnt 
+\Name Arial Unicode MS
+\Size 8
+\Bold
+\charset 00
+\rgbColor 0,0,255
+\-fnt
+\mkrOverThis c
+\-mkr
+
+\+mkr to-do
+\nam *
+\lng Default
+\mkrOverThis c
+\-mkr
+
+\+mkr tst{0}
+\nam testing qs in vernacular
+\lng Vernacular
+\+fnt 
+\Name {6}
+\Size 9
+\Bold
+\charset 00
+\rgbColor 0,0,255
+\-fnt
+\mkrOverThis c
+\CharStyle
+\-mkr
+
+\+mkr tst{4}
+\nam testing qs in English
+\lng InternationalBT
+\+fnt 
+\Name {7}
+\Size 9
+\Bold
+\charset 00
+\rgbColor 0,64,0
+\-fnt
+\mkrOverThis c
+\CharStyle
+\-mkr
+
+\-mkrset
+
+\iInterlinCharWd 8
+\+filset 
+
+\-filset
+
+\+jmpset 
+\+jmp Cultural Notes
+\+mkrsubsetIncluded 
+\mkr cn
+\-mkrsubsetIncluded
+\+drflst 
+\-drflst
+\match_char p
+\-jmp
+\+jmp Keyterms
+\+mkrsubsetIncluded 
+\mkr bt
+\-mkrsubsetIncluded
+\+drflst 
+\-drflst
+\match_char p
+\-jmp
+\+jmp LineNumber
+\+mkrsubsetIncluded 
+\mkr ln
+\-mkrsubsetIncluded
+\+drflst 
+\+drf 
+\File {8}\{9}\Toolbox\ProjectConNotes.txt
+\mkr ln
+\-drf
+\-drflst
+\-jmp
+\+jmp Net Bible
+\+mkrsubsetIncluded 
+\mkr anc
+\-mkrsubsetIncluded
+\+drflst 
+\+drf 
+\File {8}\NETBIBLE.TXT
+\mkr v
+\-drf
+\-drflst
+\match_char p
+\-jmp
+\-jmpset
+
+\mkrRecord c
+\mkrDateStamp dt
+\+PrintProperties 
+\header File: &amp;f, Date: &amp;d
+\footer Page &amp;p
+\topmargin 1.00 in
+\leftmargin 0.25 in
+\bottommargin 1.00 in
+\rightmargin 0.25 in
+\recordsspace 10
+\-PrintProperties
+\+expset 
+
+\+expRTF Rich Text Format
+\exportedFile {8}\{9}\{9}.rtf
+\MarkerFont
+\+rtfPageSetup 
+\paperSize letter
+\topMargin 1
+\bottomMargin 1
+\leftMargin 1.25
+\rightMargin 1.25
+\gutter 0
+\headerToEdge 0.5
+\footerToEdge 0.5
+\columns 1
+\columnSpacing 0.5
+\-rtfPageSetup
+\-expRTF
+
+\+expSF Standard Format
+\exportedFile {8}\{9}\{9}.sfm
+\-expSF
+
+\expDefault Standard Format
+\CurrentRecord
+\AutoOpen
+\SkipProperties
+\-expset
+\HideFields
+\-DatabaseType</value>
+  </data>
+  <data name="IDS_TbxFile_EmptyLnC" xml:space="preserve">
+    <value>\_sh v3.0  374  LnC Note
+\_DateStampHasFourDigitYear
+
+\r
+\wrd
+\co</value>
+  </data>
 </root>

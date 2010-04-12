@@ -10,7 +10,7 @@ namespace OneStoryProjectEditor
 {
     public partial class ConsultNoteControl : ResizableControl
     {
-        protected const string CstrRoundLabel = "Round: ";
+        internal const string CstrRoundLabel = "Round: ";
         protected int m_nRoundNum = -1;
         internal ConsultNoteDataConverter _myCNDC = null;
         internal ConsultNotesDataConverter _myCollection = null;

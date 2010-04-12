@@ -85,6 +85,7 @@ namespace OneStoryProjectEditor
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.hiddenVersesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stateMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.htmlDisplayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.comboBoxStorySelector = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripTextBoxChooseStory = new System.Windows.Forms.ToolStripTextBox();
             this.storyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -103,7 +104,7 @@ namespace OneStoryProjectEditor
             this.advancedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changeProjectFolderRootToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.flowLayoutPanelVerses = new VerseBtLineFlowLayoutPanel();
+            this.flowLayoutPanelVerses = new OneStoryProjectEditor.VerseBtLineFlowLayoutPanel();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.splitContainerLeftRight = new System.Windows.Forms.SplitContainer();
@@ -119,6 +120,7 @@ namespace OneStoryProjectEditor
             this.buttonsStoryStage = new System.Windows.Forms.ToolStripSplitButton();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.helpProvider = new System.Windows.Forms.HelpProvider();
+            this.exportToToolboxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
             this.splitContainerLeftRight.Panel2.SuspendLayout();
@@ -164,6 +166,7 @@ namespace OneStoryProjectEditor
             this.toolStripSeparator4,
             this.projectSettingsToolStripMenuItem,
             this.projectLoginToolStripMenuItem,
+            this.exportToToolboxToolStripMenuItem,
             this.toolStripSeparator2,
             this.exitToolStripMenuItem});
             this.projectToolStripMenuItem.Name = "projectToolStripMenuItem";
@@ -457,7 +460,8 @@ namespace OneStoryProjectEditor
             this.viewOldStoriesToolStripMenuItem,
             this.toolStripSeparator11,
             this.hiddenVersesToolStripMenuItem,
-            this.stateMapToolStripMenuItem});
+            this.stateMapToolStripMenuItem,
+            this.htmlDisplayToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 23);
             this.viewToolStripMenuItem.Text = "&View";
@@ -627,6 +631,13 @@ namespace OneStoryProjectEditor
             this.stateMapToolStripMenuItem.Size = new System.Drawing.Size(284, 22);
             this.stateMapToolStripMenuItem.Text = "State &Map";
             this.stateMapToolStripMenuItem.Click += new System.EventHandler(this.stateMapToolStripMenuItem_Click);
+            // 
+            // htmlDisplayToolStripMenuItem
+            // 
+            this.htmlDisplayToolStripMenuItem.Name = "htmlDisplayToolStripMenuItem";
+            this.htmlDisplayToolStripMenuItem.Size = new System.Drawing.Size(284, 22);
+            this.htmlDisplayToolStripMenuItem.Text = "Html &Display";
+            this.htmlDisplayToolStripMenuItem.Click += new System.EventHandler(this.htmlDisplayToolStripMenuItem_Click);
             // 
             // comboBoxStorySelector
             // 
@@ -985,6 +996,13 @@ namespace OneStoryProjectEditor
             this.statusLabel.Spring = true;
             this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // exportToToolboxToolStripMenuItem
+            // 
+            this.exportToToolboxToolStripMenuItem.Name = "exportToToolboxToolStripMenuItem";
+            this.exportToToolboxToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
+            this.exportToToolboxToolStripMenuItem.Text = "E&xport to Toolbox";
+            this.exportToToolboxToolStripMenuItem.Click += new System.EventHandler(this.exportToToolboxToolStripMenuItem_Click);
+            // 
             // StoryEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1108,6 +1126,8 @@ namespace OneStoryProjectEditor
         private ToolStripSeparator toolStripSeparator11;
         internal ToolStripMenuItem hiddenVersesToolStripMenuItem;
         private ToolStripMenuItem stateMapToolStripMenuItem;
+        private ToolStripMenuItem htmlDisplayToolStripMenuItem;
+        private ToolStripMenuItem exportToToolboxToolStripMenuItem;
     }
 
     public class ConNoteFlowLayoutPanel : LineFlowLayoutPanel
