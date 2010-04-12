@@ -229,9 +229,15 @@ namespace OneStoryProjectEditor
                 DialogResult res = dlg.ShowDialog();
                 if ((res == DialogResult.OK) || (res == DialogResult.Yes))
                 {
-                    System.Diagnostics.Debug.Assert((m_theLastButtonClicked.Tag != null) && (m_theLastButtonClicked.Tag is AnchorData));
+                    Debug.Assert((m_theLastButtonClicked.Tag != null) && (m_theLastButtonClicked.Tag is AnchorData));
                     AnchorData theAnchorData = (AnchorData)m_theLastButtonClicked.Tag;
                     theAnchorData.ToolTipText = m_theLastButtonClicked.ToolTipText = dlg.CommentText;
+
+                    string strJumpTarget = m_theLastButtonClicked.Text;
+                    int nIndLen = CstrTooltipIndicator.Length;
+                    if (strJumpTarget.Substring(strJumpTarget.Length - nIndLen, nIndLen) != CstrTooltipIndicator)
+                        m_theLastButtonClicked.Text += CstrTooltipIndicator;
+
                     if (res == DialogResult.Yes)
                     {
                         addExegeticalCulturalNoteToolStripMenuItem_Click(null, null);
