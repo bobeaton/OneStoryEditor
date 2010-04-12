@@ -202,6 +202,18 @@
     <Compile Include="HgRepoForm.Designer.cs">
       <DependentUpon>HgRepoForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="HtmlConNoteControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HtmlConNoteControl.Designer.cs">
+      <DependentUpon>HtmlConNoteControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HtmlDisplayForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HtmlDisplayForm.Designer.cs">
+      <DependentUpon>HtmlDisplayForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="HtmlForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -334,6 +346,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HgRepoForm.resx">
       <DependentUpon>HgRepoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HtmlDisplayForm.resx">
+      <DependentUpon>HtmlDisplayForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HtmlForm.resx">
       <DependentUpon>HtmlForm.cs</DependentUpon>
@@ -495,6 +510,11 @@
     <None Include="StoryProject.xsx">
       <DependentUpon>StoryProject.xsd</DependentUpon>
     </None>
+    <None Include="Resources\oneStory2ConNotes.xsl" />
+    <None Include="Resources\oneStory2CoachNotes.xsl" />
+    <None Include="Resources\oneStory2KeyTerms.xsl" />
+    <None Include="Resources\oneStory2storyingBT.xsl" />
+    <None Include="Resources\oneStory2storyingRetelling.xsl" />
     <Content Include="SWORD\mods.d\net.conf" />
     <Content Include="SWORD\modules\texts\ztext\net\nt.bzs" />
     <Content Include="SWORD\modules\texts\ztext\net\nt.bzv" />

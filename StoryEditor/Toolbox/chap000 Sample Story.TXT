@@ -1,0 +1,166 @@
+\c 000 (SAMPLE)
+\t Flood
+\co Lg: Z
+\co Reason for having this story in the set: Our Redemptive Theme is Victory over Satan.
+This story show God's power.  Also, the Z. people have a cultural story of the world being
+destroyed by a flood. We decided to include the Biblical story because it shows how, by
+the power of God, He destroyed the earth because of wickedness but preserved Noah and
+his family because of Noah's righteousness. 
+\co Crafter: XR
+\co Backtranslator: Elizabeth 
+\co Resources: Chinese Union Version, New Chinese Version, story board, Mandarin story
+\co Test 1: with XL and PL
+\co Test 2: with storying group in T.
+
+\tst Q: If other people in the village heard this story, would they think it is true? 
+\ans If people heard their own story about the flood before, they would not believe this story. 
+\ln 05.01
+\bt In the last story Adam and Eve were thrown out of the garden by God.
+From that time to this story is
+\anc Gen.03:23 -24  Gen.05.01 -32
+\ln 05.02
+\bt After Adam and Eve were thrown out of the garden, they had several
+children, and those children had children, and so.... many people were
+born on the earth.
+\anc Gen.05:01 -32   Gen.06:01
+\ln 05.03
+\bt One day God looked down on the people on the earth. He was very sad
+because the people on the earth, their hearts had become very evil.
+\anc Gen.06:05 -06
+\cn "very sad" -- Translator's Notes says about God "and he felt very sad."
+\tst Q: What do you think evil people do? 
+\ans Do some things that aren't good that God doesn't like. What kind of thing does God not like.
+According to common people's thinking, the things that God doesn't like are things like
+stealing. 
+\ans They don't care about others.
+\ln 05.04
+\bt At this time God looked down on the earth and saw a man whose name
+was Noah. Noah believed in God and was the best man in the world.
+\anc Gen.06:08 -09
+\tst Q: Why do you think Noah was the best man in the world?
+\ans Because in this story only Noah is the the only one who listens to and obeys God.
+\ans God found him and God gave him the chance to be the best. God gave him opportunity. 
+\ln 05.05
+\bt Noah had three sons. They were married.
+\anc Gen.06:10 Gen.06:18
+\ln 05.06
+\bt When God looked at the world He was grieved in his heart because the
+people did not listen to Him
+\anc Gen.06:05 -06 , 11 , 12
+\ln 05.07
+\bt So... God decided to destroy the world.
+\anc Gen.06:13
+\ln 05.08
+\bt One day God spoke to Noah and told him to build a big boat.
+\anc Gen.06:14 -16
+\tst Q: How big do you think the boat was that Noah built?
+\ans The boat must be very, very big because there was two of every kind of animal.  
+\ans The boat will be VERY big. 
+\ln 05.09
+\bt You and your family will go in the boat and be safe."
+\anc Gen.06:17 -19
+\ln 05.10
+\bt God also commanded Noah to take a pair of each animal in the world
+along with his family on the boat. God told Noah to bring more than two of
+some of the animals. "You shall also bring food for all the animals and
+your family."
+\anc Gen.06:19 -21  Gen.07:02 -03
+\ln 05.11
+\bt God loved Noah very much because he listened to God and believed in
+God.
+\anc Gen.06:08  Gen.07:01
+\tst Q: What do you think it means to believe in God? 
+\ans Believe in God means doing what God tells you to do.
+\ans I don't know.
+\ln 05.12
+\bt God told Noah, "In a few days I will send a big rain from the heavens and
+bring water up from the ground."
+\anc Gen.06:17 , Gen.07:04 , Gen.07:10 -11
+\ln 05.13
+\bt The day that it started raining, Noah and his family and all the animals got
+into the boat. When they were all inside, God closed the door
+\tst Q: How do you think all the animals got to the boat?
+\ans In this story, it says that God made all the animals go to the boat.
+\ans All the animals are obedient. If you call them, they will come. 
+\anc Gen.07:13 -16
+\ln 05.14
+\bt The rain kept coming more and more. So much water was on the earth
+that even the highest mountains were covered with water.
+\anc Gen.07:17 -20
+\ln 05.15
+\bt So all the people and animals on the earth were killed by the water.
+\old So all the people and animals on the earth were killed by the water, and God was very sad.
+\anc Gen.07:21 -23
+\cn Cannot anchor, will delete God was sad.
+\ln 05.16
+\bt God had mercy on Noah and his family. Only Noah and his family and the
+animals were in the boat.
+\anc Gen.07:23
+\tst Q: What do you think Noah and his family did all day in the boat?
+\ans It must be very difficult because every day they must feed and take care of the animals.
+\ans Feed the animals.  
+\ans Not busy, leisure time.
+\ln 05.17
+\bt God stopped the rain coming down from heaven and the water coming up
+from the ground. The water started going down. After five months the
+boat rested on some mountains.
+\anc Gen.07:24 , Gen.08:01 -04
+\ln 05.18
+\bt After a few days, Noah opened the window on the boat.
+\old After a few days, Noah opened the window on the boat in order to see outside.
+\anc Gen.08:06
+\ln 05.19
+\bt After a few days, Noah sent a bird out. It just flew around and came back.
+\anc Gen.08:08 -09
+\tst Q: Why do you think did Noah send out a bird?
+\ans To see if the water was gone or not.
+\ans To send a message to God.
+\ln 05.20
+\bt After some more days, Noah sent a bird out again. This time the bird
+came back with a leaf in its beak.
+\old After a few more days, Noah sent a bird out again. This time the bird came back with a leaf in
+its beak.
+\anc Gen.08:10 -11
+\ln 05.21
+\bt Some days later, Noah sent another bird out, and that bird did not come
+back, and Noah knew the water was dry.
+\anc Gen.08:12 -14
+\ln 05.22
+\bt One day, God told Noah, "You and your family and the animals can go out
+of the boat. Your family and the animals should propagate on the earth.
+\anc Gen.08:16 -17
+\ln 05.23
+\bt So Noah and his family and all the animal in the boat get out of the boat.
+\anc Gen.08:18 -19
+\ln 05.23b
+\bt Then Noah built a sacrificial altar and use the animal and the birds which
+is prepared to be sacrificed for the sacrifice to God.
+\anc Gen.08:20
+\tst Q: Why do you think Noah made an offering to God?
+\ans Because he believed in God and honored God.
+\ans The offering is not just for God, because there were so many people in the world but only
+Noah's family survived so the offering was for the people who died too.  
+\ans Give thanks to God. Thanks to God for keeping him to survive.
+\ln 05.24
+\bt God was very pleased with the sacrifice.
+\anc Gen.08:21
+\tst Q: Why do you think God was pleased with the sacrifice? 
+\ans In fact God wasn't pelased with the offering itself, but he is pleased with Noah's heart. 
+\ans The sacrifice symbolized communicating with God.  
+\ln 05.25
+\bt God said to Himself, "I will never destroy the earth by water again.
+\anc Gen.09:11 -12
+\ln 05.26
+\bt Your family should be fruitful and multiply on the earth."
+\anc Gen.09:01
+\ln 05.27
+\bt God told Noah, "I will never destroy the earth by water. I will put a
+rainbow in the clouds. When I see the rainbow, I will remember my
+promise. The rainbow is a sign that I will always keep my promise."
+\anc Gen.09:11 -17
+\tst Q: Why do you think God decided not to destroy the earth? 
+\ans If God destroyed the world with water again, He is not God because he would have no one to
+be God over. 
+\tst Q: What do you think of God's promise not to flood the earth again? 
+\ans He is God he will keep His promise.
+\dt 29/Jun/2008

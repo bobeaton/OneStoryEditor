@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Xml;
 using System.Xml.Linq;
 using System.Windows.Forms;
 using System.IO;
 using System.Xml.XPath;                 // for XPathNavigator
+using System.Xml.Xsl;
 using Palaso.UI.WindowsForms.Keyboarding;
 using SilEncConverters31;
 using System.Diagnostics;               // Process
@@ -839,8 +841,15 @@ namespace OneStoryProjectEditor
 
             AddDropTargetToFlowLayout(nVerseIndex++);
             foreach (VerseData aVerse in theCurrentStory.Verses)
-                InitVerseControls(aVerse, nVerseIndex++);
+            {
+                if (aVerse.IsVisible || hiddenVersesToolStripMenuItem.Checked)
+                    InitVerseControls(aVerse, nVerseIndex);
 
+                // skip numbers, though, if we have hidden verses so that the verse nums
+                //  will be the same (in case we have references to lines in the connotes)
+                //  AND so it'll be a clue to the user that there are hidden verses present.
+                nVerseIndex++;
+            }
             flowLayoutPanelVerses.ResumeLayout(true);
             ResumeLayout(true);
 
@@ -876,8 +885,16 @@ namespace OneStoryProjectEditor
                     theCurrentStory.Verses.FirstVerse.ConsultantNotes, nVerseIndex);
 
                 foreach (VerseData aVerse in theCurrentStory.Verses)
-                    InitConsultNotesPane(flowLayoutPanelConsultantNotes, 
-                        aVerse.ConsultantNotes, ++nVerseIndex);
+                {
+                    // skip numbers, though, if we have hidden verses so that the verse nums
+                    //  will be the same (in case we have references to lines in the connotes)
+                    //  AND so it'll be a clue to the user that there are hidden verses present.
+                    ++nVerseIndex;
+
+                    if (aVerse.IsVisible || hiddenVersesToolStripMenuItem.Checked)
+                        InitConsultNotesPane(flowLayoutPanelConsultantNotes,
+                                             aVerse.ConsultantNotes, nVerseIndex);
+                }
 
                 flowLayoutPanelConsultantNotes.ResumeLayout(true);
                 ResumeLayout(true);
@@ -894,7 +911,16 @@ namespace OneStoryProjectEditor
                     theCurrentStory.Verses.FirstVerse.CoachNotes, nVerseIndex);
 
                 foreach (VerseData aVerse in theCurrentStory.Verses)
-                    InitConsultNotesPane(flowLayoutPanelCoachNotes, aVerse.CoachNotes, ++nVerseIndex);
+                {
+                    // skip numbers, though, if we have hidden verses so that the verse nums
+                    //  will be the same (in case we have references to lines in the connotes)
+                    //  AND so it'll be a clue to the user that there are hidden verses present.
+                    ++nVerseIndex;
+
+                    if (aVerse.IsVisible || hiddenVersesToolStripMenuItem.Checked)
+                        InitConsultNotesPane(flowLayoutPanelCoachNotes,
+                                             aVerse.CoachNotes, nVerseIndex);
+                }
 
                 flowLayoutPanelCoachNotes.ResumeLayout(true);
                 ResumeLayout(true);
@@ -991,10 +1017,9 @@ namespace OneStoryProjectEditor
             //  line of the ConNotes, then just skip it)
             if (nVerseIndex > 0)
             {
-                if ((((nVerseIndex - 1) * 2) + 1) >= flowLayoutPanelVerses.Controls.Count)
+                Control ctrl = flowLayoutPanelVerses.GetControlAtVerseIndex(nVerseIndex);
+                if (ctrl == null)
                     return;
-
-                Control ctrl = flowLayoutPanelVerses.Controls[((nVerseIndex - 1)*2) + 1];
 
                 Debug.Assert(ctrl is VerseBtControl);
                 VerseBtControl theVerse = ctrl as VerseBtControl;
@@ -1007,20 +1032,24 @@ namespace OneStoryProjectEditor
             }
 
             // the ConNote controls have a zeroth line, so the index is one greater
-            if (viewConsultantNoteFieldMenuItem.Checked 
-                && (nVerseIndex < flowLayoutPanelConsultantNotes.Controls.Count))
+            if (viewConsultantNoteFieldMenuItem.Checked)
             {
-                Control ctrl = flowLayoutPanelConsultantNotes.Controls[nVerseIndex];
+                Control ctrl = flowLayoutPanelConsultantNotes.GetControlAtVerseIndex(nVerseIndex);
+                if (ctrl == null)
+                    return; 
+                
                 Debug.Assert(ctrl is ConsultNotesControl);
                 ConsultNotesControl theConsultantNotes = ctrl as ConsultNotesControl;
                 if ((CtrlTextBox._inTextBox == null) || (CtrlTextBox._inTextBox._ctrlVerseParent != theConsultantNotes))
                     flowLayoutPanelConsultantNotes.ScrollControlIntoView(theConsultantNotes);
             }
 
-            if (viewCoachNotesFieldMenuItem.Checked
-                && (nVerseIndex < flowLayoutPanelCoachNotes.Controls.Count))
+            if (viewCoachNotesFieldMenuItem.Checked)
             {
-                Control ctrl = flowLayoutPanelCoachNotes.Controls[nVerseIndex];
+                Control ctrl = flowLayoutPanelCoachNotes.GetControlAtVerseIndex(nVerseIndex);
+                if (ctrl == null)
+                    return; 
+                
                 Debug.Assert(ctrl is ConsultNotesControl);
                 ConsultNotesControl theCoachNotes = ctrl as ConsultNotesControl;
                 if ((CtrlTextBox._inTextBox == null) || (CtrlTextBox._inTextBox._ctrlVerseParent != theCoachNotes))
@@ -1113,8 +1142,10 @@ namespace OneStoryProjectEditor
                 if (!viewCoachNotesFieldMenuItem.Checked)
                     viewCoachNotesFieldMenuItem.Checked = true;
 
-                Debug.Assert(nVerseIndex < flowLayoutPanelCoachNotes.Controls.Count);
-                Control ctrl = flowLayoutPanelCoachNotes.Controls[nVerseIndex];
+                Control ctrl = flowLayoutPanelCoachNotes.GetControlAtVerseIndex(nVerseIndex);
+                if (ctrl == null)
+                    return;
+
                 Debug.Assert(ctrl is ConsultNotesControl);
                 ConsultNotesControl theCoachNotes = ctrl as ConsultNotesControl;
                 StringTransfer st = theCoachNotes.DoAddNote(strNote);
@@ -1122,18 +1153,27 @@ namespace OneStoryProjectEditor
                 // after the note is added, the control references are no longer valid, but
                 //  we want to go back to where we were... so requery the controls
                 // Order: BT, then *other* connote pane and then *this* connote pane
-                ctrl = flowLayoutPanelVerses.Controls[((nVerseIndex-1) * 2) + 1];
+                ctrl = flowLayoutPanelVerses.GetControlAtVerseIndex(nVerseIndex);
+                if (ctrl == null)
+                    return;
+
                 Debug.Assert(ctrl is VerseBtControl);
                 flowLayoutPanelVerses.ScrollControlIntoView(ctrl);
 
                 if (viewConsultantNoteFieldMenuItem.Checked)
                 {
-                    ctrl = flowLayoutPanelConsultantNotes.Controls[nVerseIndex];
+                    ctrl = flowLayoutPanelConsultantNotes.GetControlAtVerseIndex(nVerseIndex);
+                    if (ctrl == null)
+                        return;
+
                     Debug.Assert(ctrl is ConsultNotesControl);
                     flowLayoutPanelConsultantNotes.ScrollControlIntoView(ctrl);
                 }
 
-                ctrl = flowLayoutPanelCoachNotes.Controls[nVerseIndex];
+                ctrl = flowLayoutPanelCoachNotes.GetControlAtVerseIndex(nVerseIndex);
+                if (ctrl == null)
+                    return;
+
                 Debug.Assert(ctrl is ConsultNotesControl);
                 flowLayoutPanelCoachNotes.ScrollControlIntoView(ctrl);
 
@@ -1145,8 +1185,10 @@ namespace OneStoryProjectEditor
                 if (!viewConsultantNoteFieldMenuItem.Checked)
                     viewConsultantNoteFieldMenuItem.Checked = true;
 
-                Debug.Assert(nVerseIndex < flowLayoutPanelConsultantNotes.Controls.Count);
-                Control ctrl = flowLayoutPanelConsultantNotes.Controls[nVerseIndex];
+                Control ctrl = flowLayoutPanelConsultantNotes.GetControlAtVerseIndex(nVerseIndex);
+                if (ctrl == null)
+                    return;
+
                 Debug.Assert(ctrl is ConsultNotesControl);
                 ConsultNotesControl theConsultantNotes = ctrl as ConsultNotesControl;
                 StringTransfer st = theConsultantNotes.DoAddNote(strNote);
@@ -1154,18 +1196,27 @@ namespace OneStoryProjectEditor
                 // after the note is added, the control references are no longer valid, but
                 //  we want to go back to where we were... so requery the controls
                 // Order: BT, then *other* connote pane and then *this* connote pane
-                ctrl = flowLayoutPanelVerses.Controls[((nVerseIndex - 1) * 2) + 1];
+                ctrl = flowLayoutPanelVerses.GetControlAtVerseIndex(nVerseIndex);
+                if (ctrl == null)
+                    return;
+
                 Debug.Assert(ctrl is VerseBtControl);
                 flowLayoutPanelVerses.ScrollControlIntoView(ctrl);
 
                 if (viewCoachNotesFieldMenuItem.Checked)
                 {
-                    ctrl = flowLayoutPanelCoachNotes.Controls[nVerseIndex];
+                    ctrl = flowLayoutPanelCoachNotes.GetControlAtVerseIndex(nVerseIndex);
+                    if (ctrl == null)
+                        return;
+
                     Debug.Assert(ctrl is ConsultNotesControl);
                     flowLayoutPanelCoachNotes.ScrollControlIntoView(ctrl);
                 }
 
-                ctrl = flowLayoutPanelConsultantNotes.Controls[nVerseIndex];
+                ctrl = flowLayoutPanelConsultantNotes.GetControlAtVerseIndex(nVerseIndex);
+                if (ctrl == null)
+                    return;
+                
                 Debug.Assert(ctrl is ConsultNotesControl);
                 flowLayoutPanelConsultantNotes.ScrollControlIntoView(ctrl);
 
@@ -1614,9 +1665,10 @@ namespace OneStoryProjectEditor
 
                 saveToolStripMenuItem.Enabled = Modified;
 
-                projectSettingsToolStripMenuItem.Enabled = ((StoryProject != null) 
-                    && (StoryProject.ProjSettings != null)
-                    && (LoggedOnMember != null));
+                exportToToolboxToolStripMenuItem.Enabled = 
+                    projectSettingsToolStripMenuItem.Enabled = ((StoryProject != null) 
+                        && (StoryProject.ProjSettings != null)
+                        && (LoggedOnMember != null));
 
                 projectLoginToolStripMenuItem.Enabled = (StoryProject != null);
             }
@@ -2653,12 +2705,14 @@ namespace OneStoryProjectEditor
                                                                  > (int)StoryStageLogic.ProjectStages.eProjFacAddStoryQuestions));
 
                 viewConsultantNoteFieldMenuItem.Enabled =
-                    viewCoachNotesFieldMenuItem.Enabled = (theCurrentStory != null);
+                    viewCoachNotesFieldMenuItem.Enabled =
+                    htmlDisplayToolStripMenuItem.Enabled = (theCurrentStory != null);
 
                 stateMapToolStripMenuItem.Enabled = true;
             }
             else
-                stateMapToolStripMenuItem.Enabled = false;
+                stateMapToolStripMenuItem.Enabled =
+                    htmlDisplayToolStripMenuItem.Enabled = false;
 
             if (IsInStoriesSet && (StoryProject != null))
             {
@@ -3010,6 +3064,237 @@ namespace OneStoryProjectEditor
         {
             var dlg = new StageEditorForm(StoryProject);
             dlg.ShowDialog();
+        }
+
+        private void htmlDisplayToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            HtmlDisplayForm dlg = new HtmlDisplayForm(theCurrentStory.Verses,
+                theCurrentStory.ConsultantNotesHtml(LoggedOnMember.MemberType,
+                    hiddenVersesToolStripMenuItem.Checked));
+            dlg.ShowDialog();
+        }
+
+        protected string GetTbxDestPath(string strFilename)
+        {
+            return String.Format(@"{0}\Toolbox\{1}",
+                                 StoryProject.ProjSettings.ProjectFolder, strFilename);
+        }
+
+        private void exportToToolboxToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Cursor = Cursors.WaitCursor;
+            try
+            {
+                // get the xml (.onestory) file into a memory string so it can be the 
+                //  input to the transformer
+                MemoryStream streamData = new MemoryStream(Encoding.UTF8.GetBytes(GetXml.ToString()));
+
+#if DEBUG
+                string strXslt = File.ReadAllText(@"C:\src\StoryEditor\StoryEditor\Resources\oneStory2storyingBT.xsl");
+#else
+                string strXslt = Properties.Resources.oneStory2storyingBT;
+#endif
+                string strTbxStoriesBTFilePath = GetTbxDestPath("StoriesBT.txt");
+
+                // make sure the folder exists
+                if (!Directory.Exists(Path.GetDirectoryName(strTbxStoriesBTFilePath)))
+                    Directory.CreateDirectory(Path.GetDirectoryName(strTbxStoriesBTFilePath));
+
+                ExportToToolbox(strXslt, streamData, strTbxStoriesBTFilePath, "Stories");
+
+                strTbxStoriesBTFilePath = GetTbxDestPath("OldStoriesBT.txt");
+                ExportToToolbox(strXslt, streamData, strTbxStoriesBTFilePath, "Old Stories");
+
+#if DEBUG
+                strXslt = File.ReadAllText(@"C:\src\StoryEditor\StoryEditor\Resources\oneStory2storyingRetelling.xsl");
+#else
+                strXslt = Properties.Resources.oneStory2storyingRetelling;
+#endif
+                ExportToToolbox(strXslt, streamData,
+                    GetTbxDestPath("TestRetellings.txt"), null);
+
+#if DEBUG
+                strXslt = File.ReadAllText(@"C:\src\StoryEditor\StoryEditor\Resources\oneStory2ConNotes.xsl");
+#else
+                strXslt = Properties.Resources.oneStory2ConNotes;
+#endif
+                ExportToToolbox(strXslt, streamData,
+                    GetTbxDestPath("ProjectConNotes.txt"), null);
+
+#if DEBUG
+                strXslt = File.ReadAllText(@"C:\src\StoryEditor\StoryEditor\Resources\oneStory2CoachNotes.xsl");
+#else
+                strXslt = Properties.Resources.oneStory2CoachNotes;
+#endif
+                ExportToToolbox(strXslt, streamData,
+                    GetTbxDestPath("CoachingNotes.txt"), null);
+
+                // for the key terms file, the xml is from the project key term db
+                string strLnCNotesFilePath = GetTbxDestPath("L&CNotes.txt");
+                string strKeyTermDb = TermRenderingsList.FileName(StoryProject.ProjSettings.ProjectFolder,
+                                                                  StoryProject.ProjSettings.Vernacular.LangCode);
+                
+                if (File.Exists(strKeyTermDb))
+                {
+                    string strFileContents = File.ReadAllText(strKeyTermDb);
+                    streamData = new MemoryStream(Encoding.UTF8.GetBytes(strFileContents));
+
+#if DEBUG
+                    strXslt = File.ReadAllText(@"C:\src\StoryEditor\StoryEditor\Resources\oneStory2KeyTerms.xsl");
+#else
+                    strXslt = Properties.Resources.oneStory2KeyTerms;
+#endif
+                    ExportToToolbox(strXslt, streamData, strLnCNotesFilePath, null);
+                }
+
+                FileInfo fiLnC = new FileInfo(strLnCNotesFilePath);
+                if (!fiLnC.Exists || fiLnC.Length == 0)
+                    File.WriteAllText(strLnCNotesFilePath, 
+                        Properties.Resources.IDS_TbxFile_EmptyLnC);
+
+                CopyDefaultToolboxProjectFiles();
+            }
+            catch (Exception ex)
+            {
+                string strErrorMsg = String.Format(Properties.Resources.IDS_CantExport,
+                    ex.Message,
+                    ((ex.InnerException != null) ? ex.InnerException.Message : ""));
+                MessageBox.Show(strErrorMsg, Properties.Resources.IDS_Caption);
+            }
+
+            Cursor = Cursors.Default;
+        }
+
+        protected const string CstrProjectFilename = @"\StoryingProject.prj";
+        protected const string CstrStoryBtTypFilename = @"\StoryBT.typ";
+        protected const string CstrLCNoteTypFilename = @"\LCNote.typ";
+        protected const string CstrStoryNotesTypFilename = @"\StoryNotes.typ";
+
+        private void CopyDefaultToolboxProjectFiles()
+        {
+            // copy all of the files that are in [TARGETDIR]Toolbox into the same
+            //  folder (but don't overwrite) so we can have a full, modifiable project
+            string strDestFolder = GetTbxDestPath("");
+#if DEBUG
+            string strSrcFolder = @"C:\src\StoryEditor\StoryEditor\Toolbox";
+#else
+            string strSrcFolder = StoryProjectData.GetRunningFolder + @"\Toolbox";
+#endif
+            string[] astrSrcFiles = Directory.GetFiles(strSrcFolder);
+            foreach (string strSrcFile in astrSrcFiles)
+            {
+                string strFilename = Path.GetFileName(strSrcFile);
+                string strDestFile = strDestFolder + strFilename;
+                if (!File.Exists(strDestFile))
+                    File.Copy(strSrcFile, strDestFile);
+            }
+
+            // the files in the PathFixup folder need to have folder information put in
+            strSrcFolder += @"\PathFixup";
+
+            // create the project file
+            CreateTbxFileWithPathFixup(strSrcFolder, strDestFolder, CstrProjectFilename);
+
+            // do the StoryBT.typ file
+            string strStoryBTFilename = strSrcFolder + CstrStoryBtTypFilename;
+            string strStoryBT = File.ReadAllText(strStoryBTFilename);
+            strStoryBT = String.Format(strStoryBT,
+                (String.IsNullOrEmpty(StoryProject.ProjSettings.Vernacular.LangCode) ? "vrn" : StoryProject.ProjSettings.Vernacular.LangCode),
+                (String.IsNullOrEmpty(StoryProject.ProjSettings.Vernacular.LangName) ? "Vernacular Language" : StoryProject.ProjSettings.Vernacular.LangName),
+                (String.IsNullOrEmpty(StoryProject.ProjSettings.NationalBT.LangCode) ? "n" : StoryProject.ProjSettings.NationalBT.LangCode),
+                (String.IsNullOrEmpty(StoryProject.ProjSettings.NationalBT.LangName) ? "National Language BT" : StoryProject.ProjSettings.NationalBT.LangName),
+                StoryProject.ProjSettings.InternationalBT.LangCode,
+                (String.IsNullOrEmpty(StoryProject.ProjSettings.InternationalBT.LangName) ? "English Language BT" : StoryProject.ProjSettings.InternationalBT.LangName),
+                (String.IsNullOrEmpty(StoryProject.ProjSettings.Vernacular.FontName) ? "Arial Unicode MS" : StoryProject.ProjSettings.Vernacular.FontName),
+                (String.IsNullOrEmpty(StoryProject.ProjSettings.InternationalBT.FontName) ? "Arial Unicode MS" : StoryProject.ProjSettings.InternationalBT.FontName),
+                ProjectSettings.OneStoryProjectFolderRoot,
+                StoryProject.ProjSettings.ProjectName);
+
+            strStoryBTFilename = strDestFolder + CstrStoryBtTypFilename;
+            if (!File.Exists(strStoryBTFilename))
+#if DEBUG
+            {
+            }
+            else
+                File.Delete(strStoryBTFilename);
+#endif
+            File.WriteAllText(strStoryBTFilename, strStoryBT);
+
+            // do the LCNote.typ file
+            CreateTbxFileWithPathFixup(strSrcFolder, strDestFolder, CstrLCNoteTypFilename);
+
+            // do the StoryNotes.typ file
+            CreateTbxFileWithPathFixup(strSrcFolder, strDestFolder, CstrStoryNotesTypFilename);
+
+            DialogResult res = MessageBox.Show(String.Format(Properties.Resources.IDS_ExportedToolboxMessage,
+                                                             StoryProject.ProjSettings.ProjectFolder),
+                                               Properties.Resources.IDS_Caption,
+                                               MessageBoxButtons.YesNoCancel);
+
+            if (res == DialogResult.Yes)
+                LaunchProgram(strDestFolder + CstrProjectFilename, null);
+        }
+
+        protected void CreateTbxFileWithPathFixup(string strSrcFolder, 
+            string strDestFolder, string strTbxFilename)
+        {
+            string strTbxFileFilename = strSrcFolder + strTbxFilename;
+            string strTbxFileContents = File.ReadAllText(strTbxFileFilename);
+            strTbxFileContents = String.Format(strTbxFileContents,
+                                              ProjectSettings.OneStoryProjectFolderRoot,
+                                              StoryProject.ProjSettings.ProjectName);
+
+            // now get the destination address
+            strTbxFileFilename = strDestFolder + strTbxFilename;
+            if (!File.Exists(strTbxFileFilename))
+#if DEBUG
+            {
+            }
+            else
+                File.Delete(strTbxFileFilename);
+#endif
+            File.WriteAllText(strTbxFileFilename, strTbxFileContents);
+        }
+
+        protected void ExportToToolbox(string strXsltFile, MemoryStream streamData,
+            string strTbxFilename, string strParameter)
+        {
+            // write the formatted XSLT to another memory stream.
+            MemoryStream streamXSLT = new MemoryStream(Encoding.UTF8.GetBytes(strXsltFile));
+            TransformedXmlDataToSfm(streamXSLT, streamData, strTbxFilename, strParameter);
+        }
+        
+        protected void TransformedXmlDataToSfm(Stream streamXSLT, Stream streamData,
+            string strTbxFilename, string strParameter)
+        {
+            XslCompiledTransform myProcessor = new XslCompiledTransform();
+            XmlReader xslReader = XmlReader.Create(streamXSLT, new XmlReaderSettings() { ProhibitDtd = false });
+            XsltSettings xsltSettings = new XsltSettings {EnableDocumentFunction = true, EnableScript = true};
+            myProcessor.Load(xslReader, xsltSettings, null);
+
+            // rewind
+            streamData.Seek(0, SeekOrigin.Begin);
+
+            XsltArgumentList xslArg = null;
+            if (!String.IsNullOrEmpty(strParameter))
+            {
+                xslArg = new XsltArgumentList();
+                xslArg.AddParam("storySet", "", strParameter);
+            }
+            
+            XmlReader reader = XmlReader.Create(streamData);
+            StringBuilder strBuilder = new StringBuilder();
+            XmlWriterSettings settings = new XmlWriterSettings { ConformanceLevel = ConformanceLevel.Fragment };
+            XmlWriter writer = XmlWriter.Create(strBuilder, settings);
+            myProcessor.Transform(reader, xslArg, writer);
+
+            System.Diagnostics.Debug.Assert(Directory.Exists(Path.GetDirectoryName(strTbxFilename)));
+
+            // overwrite existing version
+            if (File.Exists(strTbxFilename))
+                File.Delete(strTbxFilename);
+
+            File.WriteAllText(strTbxFilename, strBuilder.ToString());
         }
     }
 }
