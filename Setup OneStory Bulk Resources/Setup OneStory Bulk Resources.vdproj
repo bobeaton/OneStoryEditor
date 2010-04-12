@@ -33,7 +33,19 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_C91A9374D66340CABDE5C8305B2F2015"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_E680E29D688543F78C1977A4FFFD52EB"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E7C042459A2443DF90D189DDAB491556"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -41,12 +53,6 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_E680E29D688543F78C1977A4FFFD52EB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_036BD9A41BF54E8AB32A100749CB2EC5"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -174,6 +180,46 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C91A9374D66340CABDE5C8305B2F2015"
+            {
+            "SourcePath" = "8:L:\\Pahari\\Storying\\Origin of Spirit World Biblical Support.doc"
+            "TargetName" = "8:Origin of Spirit World Biblical Support.doc"
+            "Tag" = "8:"
+            "Folder" = "8:_5F13CBAFEE5842B6A961022AF92EA25D"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E7C042459A2443DF90D189DDAB491556"
+            {
+            "SourcePath" = "8:L:\\Pahari\\Storying\\NETBIBLE.TXT"
+            "TargetName" = "8:NETBIBLE.TXT"
+            "Tag" = "8:"
+            "Folder" = "8:_5F13CBAFEE5842B6A961022AF92EA25D"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
         }
         "FileType"
         {
@@ -189,6 +235,17 @@
             "Property" = "8:ProgramMenuFolder"
                 "Folders"
                 {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_DBBD33AE007E46829C62CED266B4BF77"
+                    {
+                    "Name" = "8:OneStory Editor"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_53ACD5B1FB0B4F2890B21E5FA2337409"
+                        "Folders"
+                        {
+                        }
+                    }
                 }
             }
             "{3C67513D-01DD-4637-8A68-80971EB9504F}:_1E0B834CE697461C80146668203EA38A"
@@ -201,6 +258,39 @@
             "Property" = "8:TARGETDIR"
                 "Folders"
                 {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_20803F20271945198CF9369599DFB2A1"
+                    {
+                    "Name" = "8:Toolbox"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_75D1EBD4643C46FF96F810BA1C59373D"
+                        "Folders"
+                        {
+                        }
+                    }
+                }
+            }
+            "{1525181F-901A-416C-8A58-119130FE478E}:_9824B9996A3D43C494FC36165D9A45DD"
+            {
+            "Name" = "8:#1918"
+            "AlwaysCreate" = "11:FALSE"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Property" = "8:PersonalFolder"
+                "Folders"
+                {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_5F13CBAFEE5842B6A961022AF92EA25D"
+                    {
+                    "Name" = "8:OneStory Editor Projects"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_D53F5C61FB2C48D2AB35EAAFBD8B0B76"
+                        "Folders"
+                        {
+                        }
+                    }
                 }
             }
             "{1525181F-901A-416C-8A58-119130FE478E}:_D13CCE5B253146FF9A313C502E7BF00E"
@@ -302,6 +392,20 @@
         }
         "Shortcut"
         {
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_898CEB1D0B1048BAAABCD469C04C8AE2"
+            {
+            "Name" = "8:Origin of Spirit World Biblical Support"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_C91A9374D66340CABDE5C8305B2F2015"
+            "Folder" = "8:_DBBD33AE007E46829C62CED266B4BF77"
+            "WorkingFolder" = "8:_5F13CBAFEE5842B6A961022AF92EA25D"
+            "Icon" = "8:"
+            "Feature" = "8:"
+            }
         }
         "UserInterface"
         {
