@@ -46,14 +46,20 @@ namespace OneStoryProjectEditor
             ResumeLayout(false);
         }
 
+        protected const string CstrTooltipIndicator = " *";
+
         protected ToolStripButton InitAnchorButton(ToolStrip ts, AnchorData theAnchorData)
         {
+            string strText = theAnchorData.JumpTarget;
+            if (theAnchorData.JumpTarget != theAnchorData.ToolTipText)
+                strText += CstrTooltipIndicator;    // give an indication that there's a tooltip
+
             ToolStripButton aButton = new ToolStripButton();
             aButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             aButton.Tag = theAnchorData;
             aButton.Name = CstrFieldNameAnchor + theAnchorData.JumpTarget;
             aButton.AutoSize = true;
-            aButton.Text = theAnchorData.JumpTarget;
+            aButton.Text = strText;
             aButton.ToolTipText = theAnchorData.ToolTipText;
             aButton.Click += new EventHandler(aButton_Click);
             aButton.MouseDown += new MouseEventHandler(aButton_MouseDown);
@@ -77,7 +83,14 @@ namespace OneStoryProjectEditor
             {
                 StoryEditor aSE = (StoryEditor)form;
                 ToolStripButton tssb = (ToolStripButton)sender;
-                aSE.SetNetBibleVerse(tssb.Text);
+
+                // the button may have the extra indicator that there's a tooltip.
+                string strJumpTarget = tssb.Text;
+                int nIndLen = CstrTooltipIndicator.Length;
+                if (strJumpTarget.Substring(strJumpTarget.Length - nIndLen, nIndLen) == CstrTooltipIndicator)
+                    strJumpTarget = strJumpTarget.Substring(0, strJumpTarget.Length - nIndLen);
+
+                aSE.SetNetBibleVerse(strJumpTarget);
                 aSE.FocusOnVerse(_ctrlVerse.VerseNumber);
                 
                 // if we aren't already in some text box, then set the focus on the 
