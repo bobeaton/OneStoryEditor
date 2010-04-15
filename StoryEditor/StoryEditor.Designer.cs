@@ -45,6 +45,7 @@ namespace OneStoryProjectEditor
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.projectSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.projectLoginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportToToolboxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -112,15 +113,14 @@ namespace OneStoryProjectEditor
             this.textBoxStoryVerse = new System.Windows.Forms.TextBox();
             this.netBibleViewer = new OneStoryProjectEditor.NetBibleViewer();
             this.splitContainerMentorNotes = new System.Windows.Forms.SplitContainer();
-            this.flowLayoutPanelConsultantNotes = new OneStoryProjectEditor.ConNoteFlowLayoutPanel();
             this.textBoxConsultantNotesTable = new System.Windows.Forms.TextBox();
             this.textBoxCoachNotes = new System.Windows.Forms.TextBox();
-            this.flowLayoutPanelCoachNotes = new OneStoryProjectEditor.ConNoteFlowLayoutPanel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.buttonsStoryStage = new System.Windows.Forms.ToolStripSplitButton();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.helpProvider = new System.Windows.Forms.HelpProvider();
-            this.exportToToolboxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.htmlConsultantNotesControl = new OneStoryProjectEditor.HtmlConsultantNotesControl();
+            this.htmlCoachNotesControl = new OneStoryProjectEditor.HtmlCoachNotesControl();
             this.menuStrip.SuspendLayout();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
             this.splitContainerLeftRight.Panel2.SuspendLayout();
@@ -261,6 +261,13 @@ namespace OneStoryProjectEditor
             this.projectLoginToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
             this.projectLoginToolStripMenuItem.Text = "&Login";
             this.projectLoginToolStripMenuItem.Click += new System.EventHandler(this.projectLoginToolStripMenuItem_Click);
+            // 
+            // exportToToolboxToolStripMenuItem
+            // 
+            this.exportToToolboxToolStripMenuItem.Name = "exportToToolboxToolStripMenuItem";
+            this.exportToToolboxToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
+            this.exportToToolboxToolStripMenuItem.Text = "E&xport to Toolbox";
+            this.exportToToolboxToolStripMenuItem.Click += new System.EventHandler(this.exportToToolboxToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
@@ -899,29 +906,16 @@ namespace OneStoryProjectEditor
             // 
             // splitContainerMentorNotes.Panel1
             // 
-            this.splitContainerMentorNotes.Panel1.Controls.Add(this.flowLayoutPanelConsultantNotes);
+            this.splitContainerMentorNotes.Panel1.Controls.Add(this.htmlConsultantNotesControl);
             this.splitContainerMentorNotes.Panel1.Controls.Add(this.textBoxConsultantNotesTable);
             // 
             // splitContainerMentorNotes.Panel2
             // 
+            this.splitContainerMentorNotes.Panel2.Controls.Add(this.htmlCoachNotesControl);
             this.splitContainerMentorNotes.Panel2.Controls.Add(this.textBoxCoachNotes);
-            this.splitContainerMentorNotes.Panel2.Controls.Add(this.flowLayoutPanelCoachNotes);
             this.splitContainerMentorNotes.Size = new System.Drawing.Size(368, 287);
             this.splitContainerMentorNotes.SplitterDistance = 169;
             this.splitContainerMentorNotes.TabIndex = 0;
-            // 
-            // flowLayoutPanelConsultantNotes
-            // 
-            this.flowLayoutPanelConsultantNotes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.flowLayoutPanelConsultantNotes.AutoScroll = true;
-            this.flowLayoutPanelConsultantNotes.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanelConsultantNotes.Location = new System.Drawing.Point(0, 29);
-            this.flowLayoutPanelConsultantNotes.Name = "flowLayoutPanelConsultantNotes";
-            this.flowLayoutPanelConsultantNotes.Size = new System.Drawing.Size(364, 139);
-            this.flowLayoutPanelConsultantNotes.TabIndex = 0;
-            this.flowLayoutPanelConsultantNotes.WrapContents = false;
             // 
             // textBoxConsultantNotesTable
             // 
@@ -948,19 +942,6 @@ namespace OneStoryProjectEditor
             this.textBoxCoachNotes.TabStop = false;
             this.textBoxCoachNotes.Text = "Coach Notes";
             this.textBoxCoachNotes.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // flowLayoutPanelCoachNotes
-            // 
-            this.flowLayoutPanelCoachNotes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.flowLayoutPanelCoachNotes.AutoScroll = true;
-            this.flowLayoutPanelCoachNotes.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanelCoachNotes.Location = new System.Drawing.Point(0, 27);
-            this.flowLayoutPanelCoachNotes.Name = "flowLayoutPanelCoachNotes";
-            this.flowLayoutPanelCoachNotes.Size = new System.Drawing.Size(366, 87);
-            this.flowLayoutPanelCoachNotes.TabIndex = 1;
-            this.flowLayoutPanelCoachNotes.WrapContents = false;
             // 
             // statusStrip
             // 
@@ -996,12 +977,27 @@ namespace OneStoryProjectEditor
             this.statusLabel.Spring = true;
             this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // exportToToolboxToolStripMenuItem
+            // htmlConsultantNotesControl
             // 
-            this.exportToToolboxToolStripMenuItem.Name = "exportToToolboxToolStripMenuItem";
-            this.exportToToolboxToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
-            this.exportToToolboxToolStripMenuItem.Text = "E&xport to Toolbox";
-            this.exportToToolboxToolStripMenuItem.Click += new System.EventHandler(this.exportToToolboxToolStripMenuItem_Click);
+            this.htmlConsultantNotesControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.htmlConsultantNotesControl.Location = new System.Drawing.Point(0, 29);
+            this.htmlConsultantNotesControl.MinimumSize = new System.Drawing.Size(20, 20);
+            this.htmlConsultantNotesControl.Name = "htmlConsultantNotesControl";
+            this.htmlConsultantNotesControl.Size = new System.Drawing.Size(366, 138);
+            this.htmlConsultantNotesControl.StoryData = null;
+            this.htmlConsultantNotesControl.TabIndex = 2;
+            this.htmlConsultantNotesControl.TheSE = null;
+            // 
+            // htmlCoachNotesControl
+            // 
+            this.htmlCoachNotesControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.htmlCoachNotesControl.Location = new System.Drawing.Point(0, 29);
+            this.htmlCoachNotesControl.MinimumSize = new System.Drawing.Size(20, 20);
+            this.htmlCoachNotesControl.Name = "htmlCoachNotesControl";
+            this.htmlCoachNotesControl.Size = new System.Drawing.Size(366, 83);
+            this.htmlCoachNotesControl.StoryData = null;
+            this.htmlCoachNotesControl.TabIndex = 3;
+            this.htmlCoachNotesControl.TheSE = null;
             // 
             // StoryEditor
             // 
@@ -1067,8 +1063,6 @@ namespace OneStoryProjectEditor
         private NetBibleViewer netBibleViewer;
         private ToolStripSeparator toolStripSeparator3;
         private SplitContainer splitContainerMentorNotes;
-        private ConNoteFlowLayoutPanel flowLayoutPanelConsultantNotes;
-        private ConNoteFlowLayoutPanel flowLayoutPanelCoachNotes;
         private TextBox textBoxConsultantNotesTable;
         private TextBox textBoxCoachNotes;
         private TextBox textBoxStoryVerse;
@@ -1128,6 +1122,8 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem stateMapToolStripMenuItem;
         private ToolStripMenuItem htmlDisplayToolStripMenuItem;
         private ToolStripMenuItem exportToToolboxToolStripMenuItem;
+        private HtmlConsultantNotesControl htmlConsultantNotesControl;
+        private HtmlCoachNotesControl htmlCoachNotesControl;
     }
 
     public class ConNoteFlowLayoutPanel : LineFlowLayoutPanel

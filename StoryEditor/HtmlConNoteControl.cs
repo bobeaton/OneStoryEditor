@@ -21,10 +21,17 @@ namespace OneStoryProjectEditor
             return aCNsDC[nConversationIndex];
         }
 
-        public bool OnAddNote(int nVerseIndex)
+        public override void ScrollToVerse(int nVerseIndex)
         {
             ConsultNotesDataConverter aCNsDC = DataConverter(nVerseIndex);
-            ConsultNoteDataConverter aCNDC = DoAddNote(null, aCNsDC);
+            StrIdToScrollTo = ConsultNoteDataConverter.TextareaId(nVerseIndex, aCNsDC.Count - 1);
+            base.ScrollToVerse(nVerseIndex);
+        }
+
+        public bool OnAddNote(int nVerseIndex, string strNote)
+        {
+            ConsultNotesDataConverter aCNsDC = DataConverter(nVerseIndex);
+            ConsultNoteDataConverter aCNDC = DoAddNote(strNote, aCNsDC);
             if (aCNDC != null)
                 StrIdToScrollTo = ConsultNoteDataConverter.TextareaId(nVerseIndex, aCNsDC.IndexOf(aCNDC));
             return true;

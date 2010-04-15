@@ -12,6 +12,12 @@ namespace OneStoryProjectEditor
         public StoryEditor TheSE { get; set; }
         public StoryData StoryData { get; set; }
 
+        public virtual void ScrollToVerse(int nVerseIndex)
+        {
+            if (!String.IsNullOrEmpty(StrIdToScrollTo))
+                ScrollToElement(StrIdToScrollTo);
+        }
+
         protected HtmlVerseControl()
         {
             InitializeComponent();
@@ -19,13 +25,13 @@ namespace OneStoryProjectEditor
 
         public abstract void LoadDocument();
 
-        void HtmlConNoteControl_DocumentCompleted(object sender, System.Windows.Forms.WebBrowserDocumentCompletedEventArgs e)
+        private void HtmlConNoteControl_DocumentCompleted(object sender, System.Windows.Forms.WebBrowserDocumentCompletedEventArgs e)
         {
             if (!String.IsNullOrEmpty(StrIdToScrollTo))
                 ScrollToElement(StrIdToScrollTo);
         }
 
-        public VerseData Verse(int nVerseIndex)
+        protected VerseData Verse(int nVerseIndex)
         {
             System.Diagnostics.Debug.Assert(StoryData.Verses.Count > (nVerseIndex - 1));
             return (nVerseIndex == 0) ? StoryData.Verses.FirstVerse : StoryData.Verses[nVerseIndex - 1];

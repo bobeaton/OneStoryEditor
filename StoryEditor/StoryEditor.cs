@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define UsingHtmlDisplayForConNotes
+
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -685,11 +687,16 @@ namespace OneStoryProjectEditor
             if (!CheckForSaveDirtyFile())
                 return;
 
-            Debug.Assert(!Modified 
-                || (flowLayoutPanelVerses.Controls.Count != 0)
+            // if this happens, it means we didn't save or cleanup the document
+            Debug.Assert(!Modified
+                         || (flowLayoutPanelVerses.Controls.Count != 0)
+#if UsingHtmlDisplayForConNotes
+                         || (htmlConsultantNotesControl.DocumentText == null)
+                         || (htmlCoachNotesControl.DocumentText == null));
+#else
                 || (flowLayoutPanelConsultantNotes.Controls.Count != 0)
                 || (flowLayoutPanelCoachNotes.Controls.Count != 0)); // if this happens, it means we didn't save or cleanup the document
-
+#endif
             // we might could come thru here without having opened any file (e.g. after New)
             if (StoryProject == null)
                 if (!InitNewStoryProjectObject())
@@ -778,13 +785,23 @@ namespace OneStoryProjectEditor
                 theCurrentStory.Verses.InsertVerse(0, null, null, null);
 
             flowLayoutPanelVerses.SuspendLayout();
+#if UsingHtmlDisplayForConNotes
+            htmlConsultantNotesControl.TheSE = this;
+            htmlConsultantNotesControl.StoryData = theCurrentStory;
+            htmlCoachNotesControl.TheSE = this;
+            htmlCoachNotesControl.StoryData = theCurrentStory;
+#else
             flowLayoutPanelConsultantNotes.SuspendLayout();
             flowLayoutPanelCoachNotes.SuspendLayout();
+#endif
             SuspendLayout();
 
+#if UsingHtmlDisplayForConNotes
+#else
             // for ConNotes, there's a zeroth verse that's for global story comments
             InitConsultNotesPane(flowLayoutPanelConsultantNotes, theVerses.FirstVerse.ConsultantNotes, nVerseIndex);
             InitConsultNotesPane(flowLayoutPanelCoachNotes, theVerses.FirstVerse.CoachNotes, nVerseIndex);
+#endif
 
             AddDropTargetToFlowLayout(nVerseIndex++);
             foreach (VerseData aVerse in theVerses)
@@ -793,9 +810,12 @@ namespace OneStoryProjectEditor
                 {
                     InitVerseControls(aVerse, nVerseIndex);
 
+#if UsingHtmlDisplayForConNotes
+#else
                     InitConsultNotesPane(flowLayoutPanelConsultantNotes, aVerse.ConsultantNotes, nVerseIndex);
 
                     InitConsultNotesPane(flowLayoutPanelCoachNotes, aVerse.CoachNotes, nVerseIndex);
+#endif
                 }
 
                 // skip numbers, though, if we have hidden verses so that the verse nums
@@ -805,8 +825,14 @@ namespace OneStoryProjectEditor
             }
 
             flowLayoutPanelVerses.ResumeLayout(true);
+#if UsingHtmlDisplayForConNotes
+            // ConNotes are not done in one swell-foop via an Html control
+            htmlConsultantNotesControl.LoadDocument();
+            htmlCoachNotesControl.LoadDocument();
+#else
             flowLayoutPanelConsultantNotes.ResumeLayout(true);
             flowLayoutPanelCoachNotes.ResumeLayout(true);
+#endif
             ResumeLayout(true);
 
             FocusOnVerse(nLastVerseInFocus);
@@ -869,6 +895,9 @@ namespace OneStoryProjectEditor
         // this is for use by the consultant panes if we add or remove or hide a single note
         internal void ReInitConsultNotesPane(ConsultNotesDataConverter aCNsD)
         {
+#if UsingHtmlDisplayForConNotes
+            Debug.Assert(false);
+#else
             int nLastVerseInFocus = CtrlTextBox._nLastVerse;
             StringTransfer stLast = (CtrlTextBox._inTextBox != null)
                 ? CtrlTextBox._inTextBox.MyStringTransfer : null;
@@ -932,10 +961,14 @@ namespace OneStoryProjectEditor
 
             // if we do this, it's because something changed
             Modified = true;
+#endif
         }
 
         internal void HandleQueryContinueDrag(ConsultNotesControl aCNsDC, QueryContinueDragEventArgs e)
         {
+#if UsingHtmlDisplayForConNotes
+            Debug.Assert(false);
+#else
             Debug.Assert(flowLayoutPanelConsultantNotes.Contains(aCNsDC._theCNsDC)
                 || flowLayoutPanelCoachNotes.Contains(aCNsDC._theCNsDC));
             FlowLayoutPanel theFLP = (flowLayoutPanelConsultantNotes.Contains(aCNsDC._theCNsDC)) ? flowLayoutPanelConsultantNotes : flowLayoutPanelCoachNotes;
@@ -952,6 +985,7 @@ namespace OneStoryProjectEditor
                 DimConsultNotesDropTargetButtons(theFLP, aCNsDC);
             else
                 LightUpConsultNotesDropTargetButtons(theFLP, aCNsDC);
+#endif
         }
 
         private static void LightUpConsultNotesDropTargetButtons(FlowLayoutPanel theFLP, ConsultNotesControl control)
@@ -1034,6 +1068,9 @@ namespace OneStoryProjectEditor
             // the ConNote controls have a zeroth line, so the index is one greater
             if (viewConsultantNoteFieldMenuItem.Checked)
             {
+#if UsingHtmlDisplayForConNotes
+                htmlConsultantNotesControl.ScrollToVerse(nVerseIndex);
+#else
                 Control ctrl = flowLayoutPanelConsultantNotes.GetControlAtVerseIndex(nVerseIndex);
                 if (ctrl == null)
                     return; 
@@ -1042,10 +1079,14 @@ namespace OneStoryProjectEditor
                 ConsultNotesControl theConsultantNotes = ctrl as ConsultNotesControl;
                 if ((CtrlTextBox._inTextBox == null) || (CtrlTextBox._inTextBox._ctrlVerseParent != theConsultantNotes))
                     flowLayoutPanelConsultantNotes.ScrollControlIntoView(theConsultantNotes);
+#endif
             }
 
             if (viewCoachNotesFieldMenuItem.Checked)
             {
+#if UsingHtmlDisplayForConNotes
+                htmlCoachNotesControl.ScrollToVerse(nVerseIndex);
+#else
                 Control ctrl = flowLayoutPanelCoachNotes.GetControlAtVerseIndex(nVerseIndex);
                 if (ctrl == null)
                     return; 
@@ -1054,6 +1095,7 @@ namespace OneStoryProjectEditor
                 ConsultNotesControl theCoachNotes = ctrl as ConsultNotesControl;
                 if ((CtrlTextBox._inTextBox == null) || (CtrlTextBox._inTextBox._ctrlVerseParent != theCoachNotes))
                     flowLayoutPanelCoachNotes.ScrollControlIntoView(theCoachNotes);
+#endif
             }
         }
 
@@ -1142,6 +1184,9 @@ namespace OneStoryProjectEditor
                 if (!viewCoachNotesFieldMenuItem.Checked)
                     viewCoachNotesFieldMenuItem.Checked = true;
 
+#if UsingHtmlDisplayForConNotes
+                htmlCoachNotesControl.OnAddNote(nVerseIndex, strNote);
+#else
                 Control ctrl = flowLayoutPanelCoachNotes.GetControlAtVerseIndex(nVerseIndex);
                 if (ctrl == null)
                     return;
@@ -1179,12 +1224,16 @@ namespace OneStoryProjectEditor
 
                 if ((st != null) && (st.TextBox != null))
                     st.TextBox.Focus();
+#endif
             }
             else
             {
                 if (!viewConsultantNoteFieldMenuItem.Checked)
                     viewConsultantNoteFieldMenuItem.Checked = true;
 
+#if UsingHtmlDisplayForConNotes
+                htmlConsultantNotesControl.OnAddNote(nVerseIndex, strNote);
+#else
                 Control ctrl = flowLayoutPanelConsultantNotes.GetControlAtVerseIndex(nVerseIndex);
                 if (ctrl == null)
                     return;
@@ -1222,6 +1271,7 @@ namespace OneStoryProjectEditor
 
                 if ((st != null) && (st.TextBox != null))
                     st.TextBox.Focus();
+#endif
             }
         }
 
@@ -1425,8 +1475,13 @@ namespace OneStoryProjectEditor
         protected void ClearFlowControls()
         {
             flowLayoutPanelVerses.Clear();
+#if UsingHtmlDisplayForConNotes
+            htmlConsultantNotesControl.DocumentText = null;
+            htmlCoachNotesControl.DocumentText = null;
+#else
             flowLayoutPanelConsultantNotes.Clear();
             flowLayoutPanelCoachNotes.Clear();
+#endif
         }
 
         internal void SaveClicked()
@@ -1606,6 +1661,8 @@ namespace OneStoryProjectEditor
 
         private void splitContainerLeftRight_Panel2_SizeChanged(object sender, EventArgs e)
         {
+#if UsingHtmlDisplayForConNotes
+#else
             // if (!splitContainerMentorNotes.Panel1Collapsed)
                 foreach (Control ctrl in flowLayoutPanelConsultantNotes.Controls)
                 {
@@ -1625,6 +1682,7 @@ namespace OneStoryProjectEditor
                         aConsultNoteCtrl.UpdateHeight(Panel2_Width);
                     }
                 }
+#endif
         }
 
         private void splitContainerLeftRight_Panel1_SizeChanged(object sender, EventArgs e)

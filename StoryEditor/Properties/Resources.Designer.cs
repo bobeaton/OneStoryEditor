@@ -112,7 +112,7 @@ namespace OneStoryProjectEditor.Properties {
         ///}
         ///function OnAddNote(button)
         ///{
-        ///  return window.external.OnAddNote(button.id);
+        ///  return window.external.OnAddNote(button.id, null);
         ///}
         ///function OnClickDelete(button)
         ///{
