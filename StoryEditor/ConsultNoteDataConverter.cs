@@ -217,6 +217,16 @@ namespace OneStoryProjectEditor
             }
         }
 
+        public static string TextareaId(int nVerseIndex, int nConversationIndex)
+        {
+            return String.Format("ta_{0}_{1}", nVerseIndex, nConversationIndex);
+        }
+
+        public static string ButtonId(int nVerseIndex, int nConversationIndex)
+        {
+            return String.Format("btn_{0}_{1}", nVerseIndex, nConversationIndex);
+        }
+
         public string Html(TeamMemberData.UserTypes eLoggedOnMember, 
             int nVerseIndex, int nConversationIndex)
         {
@@ -227,19 +237,19 @@ namespace OneStoryProjectEditor
             
             strRow += String.Format(Properties.Resources.HTML_TableCell,
                      String.Format(Properties.Resources.HTML_Button,
-                        nVerseIndex + "_" + nConversationIndex,
+                        ButtonId(nVerseIndex, nConversationIndex),
                         "return OnClickDelete(this);",
                         "Delete"));
 
             strRow += String.Format(Properties.Resources.HTML_TableCell,
                      String.Format(Properties.Resources.HTML_Button,
-                        nVerseIndex + "_" + nConversationIndex,
+                        ButtonId(nVerseIndex, nConversationIndex),
                         "return OnClickHide(this);",
                         (Visible) ? "Hide" : "Unhide"));
 
             strRow += String.Format(Properties.Resources.HTML_TableCell,
                      String.Format(Properties.Resources.HTML_Button,
-                        nVerseIndex + "_" + nConversationIndex,
+                        ButtonId(nVerseIndex, nConversationIndex),
                         "return OnClickEndConversation(this);",
                         (IsFinished) ? "Reopen conversation" : "End conversation"));
 
@@ -266,8 +276,7 @@ namespace OneStoryProjectEditor
                 {
                     strRow += String.Format(Properties.Resources.HTML_TableCellForTextArea,
                                             String.Format(Properties.Resources.HTML_Textarea,
-                                                          nVerseIndex,
-                                                          nConversationIndex,
+                                                          TextareaId(nVerseIndex, nConversationIndex),
                                                           aCI));
                 }
                 else

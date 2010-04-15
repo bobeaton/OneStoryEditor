@@ -3068,9 +3068,7 @@ namespace OneStoryProjectEditor
 
         private void htmlDisplayToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            HtmlDisplayForm dlg = new HtmlDisplayForm(theCurrentStory.Verses,
-                theCurrentStory.ConsultantNotesHtml(LoggedOnMember.MemberType,
-                    hiddenVersesToolStripMenuItem.Checked));
+            HtmlDisplayForm dlg = new HtmlDisplayForm(this, theCurrentStory);
             dlg.ShowDialog();
         }
 

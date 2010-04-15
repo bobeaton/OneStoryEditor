@@ -1551,7 +1551,7 @@ eater Panorama
     <value>&lt;button id="{0}" onClick="{1}"&gt;{2}&lt;/button&gt;</value>
   </data>
   <data name="HTML_Textarea" xml:space="preserve">
-    <value>&lt;textarea id="{0}_{1}" style="width:100%; overflow:visible" onKeyUp="return TextareaOnKeyUp(this);"&gt;{2}&lt;/textarea&gt;</value>
+    <value>&lt;textarea id="{0}" style="width:100%; overflow:visible" onKeyUp="return TextareaOnKeyUp(this);"&gt;{1}&lt;/textarea&gt;</value>
   </data>
   <data name="HTML_TableNoBorder" xml:space="preserve">
     <value>        &lt;table style="width:100%;"&gt;
@@ -1608,11 +1608,11 @@ function OnClickDelete(button)
 }
 function OnClickHide(button)
 {
-  return window.external.OnClickHide(button.id, button.value);
+  return window.external.OnClickHide(button.id);
 }
 function OnClickEndConversation(button)
 {
-  return window.external.OnClickEndConversation(button.id, button.value);
+  return window.external.OnClickEndConversation(button.id);
 }
 &lt;/script&gt;</value>
   </data>

@@ -5,39 +5,14 @@ using System.Windows.Forms;
 namespace OneStoryProjectEditor
 {
     [ComVisible(true)]
-    public partial class HtmlConNoteControl : WebBrowser
+    public abstract class HtmlConNoteControl : HtmlVerseControl
     {
-        protected string _strIdToScrollTo = null;
-
-        public HtmlConNoteControl()
+        protected HtmlConNoteControl()
         {
-            InitializeComponent();
             ObjectForScripting = this;
         }
 
-        public VersesData Verses
-        {
-            get; set;
-        }
-
-        public bool IsConsultantNotes { get; set; }
-
-        public VerseData Verse(int nVerseIndex)
-        {
-            System.Diagnostics.Debug.Assert(Verses.Count > (nVerseIndex - 1));
-            return (nVerseIndex == 0) ? Verses.FirstVerse : Verses[nVerseIndex - 1];
-        }
-
-        public ConsultNotesDataConverter DataConverter(int nVerseIndex)
-        {
-            VerseData verse = Verse(nVerseIndex);
-            ConsultNotesDataConverter aCNsDC;
-            if (IsConsultantNotes)
-                aCNsDC = verse.ConsultantNotes;
-            else
-                aCNsDC = verse.CoachNotes;
-            return aCNsDC;
-        }
+        public abstract ConsultNotesDataConverter DataConverter(int nVerseIndex);
 
         public ConsultNoteDataConverter DataConverter(int nVerseIndex, int nConversationIndex)
         {
@@ -46,55 +21,122 @@ namespace OneStoryProjectEditor
             return aCNsDC[nConversationIndex];
         }
 
-        private readonly char[] _achDelim = new[] { '_' };
-
         public bool OnAddNote(int nVerseIndex)
         {
             ConsultNotesDataConverter aCNsDC = DataConverter(nVerseIndex);
             ConsultNoteDataConverter aCNDC = DoAddNote(null, aCNsDC);
             if (aCNDC != null)
-                _strIdToScrollTo = String.Format("ta_{0}_{1}", nVerseIndex, aCNsDC.IndexOf(aCNDC));
+                StrIdToScrollTo = ConsultNoteDataConverter.TextareaId(nVerseIndex, aCNsDC.IndexOf(aCNDC));
             return true;
         }
 
         public bool OnClickDelete(string strId)
         {
+            ConsultNotesDataConverter theCNsDC;
+            ConsultNoteDataConverter theCNDC;
+            if (!GetDataConverters(strId, out theCNsDC, out theCNDC))
+                return false;
+
+            if (theCNDC.HasData)
+            {
+                DialogResult res = MessageBox.Show(
+                    Properties.Resources.IDS_NoteNotEmptyHideQuery,
+                    Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+
+                if (res == DialogResult.Yes)
+                {
+                    theCNDC.Visible = false;
+                    LoadDocument();
+                    return true;
+                }
+
+                if (res == DialogResult.Cancel)
+                    return true;
+            }
+
+            theCNsDC.Remove(theCNDC);
+            LoadDocument();
             return true;
         }
 
-        public bool OnClickHide(string strId, string strLabel)
+        public bool OnClickHide(string strId)
         {
+            ConsultNotesDataConverter theCNsDC;
+            ConsultNoteDataConverter theCNDC;
+            if (!GetDataConverters(strId, out theCNsDC, out theCNDC))
+                return false;
+
+            theCNDC.Visible = (theCNDC.Visible) ? false : true;
+
+            LoadDocument();
+
             return true;
         }
 
-        public bool OnClickEndConversation(string strId, string strLabel)
+        public bool OnClickEndConversation(string strId)
         {
+            ConsultNotesDataConverter theCNsDC;
+            ConsultNoteDataConverter theCNDC;
+            if (!GetDataConverters(strId, out theCNsDC, out theCNDC))
+                return false;
+
+            if (theCNDC.IsFinished)
+                theCNDC.IsFinished = false;
+            else
+                theCNDC.IsFinished = true;
+
+            LoadDocument();
             return true;
         }
-        
+
         public bool TextareaOnKeyUp(string strId, string strText)
         {
-            string[] aVerseConversationIndices = strId.Split(_achDelim);
-            System.Diagnostics.Debug.Assert(aVerseConversationIndices.Length == 2);
-            try
-            {
-                int nVerseIndex = Convert.ToInt32(aVerseConversationIndices[0]);
-                int nConversationIndex = Convert.ToInt32(aVerseConversationIndices[1]);
-                ConsultNoteDataConverter aCNDC = DataConverter(nVerseIndex, nConversationIndex);
-                System.Diagnostics.Debug.Assert(aCNDC != null);
-                CommInstance aCI = aCNDC[aCNDC.Count - 1];
-                System.Diagnostics.Debug.WriteLine(String.Format("Was: {0}, now: {1}",
-                    aCI, strText));
-                aCI.SetValue(strText);
-            }
-            catch
-            {
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
                 return false;
-            }
+
+            int nVerseIndex, nConversationIndex;
+            if (!GetIndicesFromId(strId, out nVerseIndex, out nConversationIndex))
+                return false;
+
+            ConsultNoteDataConverter theCNDC = DataConverter(nVerseIndex, nConversationIndex);
+            System.Diagnostics.Debug.Assert((theCNDC != null) && (theCNDC.Count > 0));
+            CommInstance aCI = theCNDC[theCNDC.Count - 1];
+            System.Diagnostics.Debug.WriteLine(String.Format("Was: {0}, now: {1}",
+                aCI, strText));
+            aCI.SetValue(strText);
+
+            // indicate that the document has changed
+            theSE.Modified = true;
+
             return true;
         }
 
-        public ConsultNoteDataConverter DoAddNote(string strNote, 
+        protected bool GetDataConverters(string strId,
+            out ConsultNotesDataConverter theCNsDC, out ConsultNoteDataConverter theCNDC)
+        {
+            theCNsDC = null;
+            theCNDC = null;
+
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
+                return false;
+
+            int nVerseIndex, nConversationIndex;
+            if (!GetIndicesFromId(strId, out nVerseIndex, out nConversationIndex))
+                return false;
+
+            theCNsDC = DataConverter(nVerseIndex);
+            System.Diagnostics.Debug.Assert((theCNsDC != null) && (theCNsDC.Count > nConversationIndex));
+            theCNDC = theCNsDC[nConversationIndex];
+
+            // this always leads to the document being modified
+            theSE.Modified = true;
+            
+            return true;
+        }
+
+        public ConsultNoteDataConverter DoAddNote(string strNote,
             ConsultNotesDataConverter aCNsDC)
         {
             // the only function of the button here is to add a slot to type a con note
@@ -126,35 +168,47 @@ namespace OneStoryProjectEditor
                 aCNsDC.Add(round, theSE.LoggedOnMember.MemberType, strNote);
             System.Diagnostics.Debug.Assert(cndc.Count == 1);
 
-            theSE.ReInitConsultNotesPane(aCNsDC);
+            LoadDocument();
+            theSE.Modified = true;
 
             // return the conversation we just created
             return cndc;
         }
+    }
 
-        protected bool CheckForProperEditToken(out StoryEditor theSE)
+    [ComVisible(true)]
+    public class HtmlConsultantNotesControl : HtmlConNoteControl
+    {
+        public override void LoadDocument()
         {
-            theSE = (StoryEditor)FindForm();
-            try
-            {
-                if (theSE == null)
-                    throw new ApplicationException(
-                        "Unable to edit the file! Restart the program and if it persists, contact bob_eaton@sall.com");
+            string strHtml = StoryData.ConsultantNotesHtml(TheSE.LoggedOnMember.MemberType,
+                                                           TheSE.hiddenVersesToolStripMenuItem.Checked);
+            DocumentText = strHtml;
+        }
 
-                if (!theSE.IsInStoriesSet)
-                    throw theSE.CantEditOldStoriesEx;
+        public override ConsultNotesDataConverter DataConverter(int nVerseIndex)
+        {
+            VerseData verse = Verse(nVerseIndex);
+            ConsultNotesDataConverter aCNsDC = verse.ConsultantNotes;
+            return aCNsDC;
+        }
+    }
 
-                if (!theSE.theCurrentStory.ProjStage.IsEditAllowed(theSE.LoggedOnMember))
-                    throw theSE.theCurrentStory.ProjStage.WrongMemberTypeEx;
-            }
-            catch (Exception ex)
-            {
-                if (theSE != null)
-                    theSE.SetStatusBar(String.Format("Error: {0}", ex.Message));
-                return false;
-            }
+    [ComVisible(true)]
+    public class HtmlCoachNotesControl : HtmlConNoteControl
+    {
+        public override void LoadDocument()
+        {
+            string strHtml = StoryData.CoachNotesHtml(TheSE.LoggedOnMember.MemberType,
+                                                      TheSE.hiddenVersesToolStripMenuItem.Checked);
+            DocumentText = strHtml;
+        }
 
-            return true;
+        public override ConsultNotesDataConverter DataConverter(int nVerseIndex)
+        {
+            VerseData verse = Verse(nVerseIndex);
+            ConsultNotesDataConverter aCNsDC = verse.CoachNotes;
+            return aCNsDC;
         }
     }
 }

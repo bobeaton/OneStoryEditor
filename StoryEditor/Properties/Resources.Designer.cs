@@ -120,11 +120,13 @@ namespace OneStoryProjectEditor.Properties {
         ///}
         ///function OnClickHide(button)
         ///{
-        ///  return window.external.OnClickHide(button.id, button.value);
+        ///  return window.external.OnClickHide(button.id);
         ///}
         ///function OnClickEndConversation(button)
         ///{
-        ///  return window.external.OnClickEndConversation(button.id, button.value) [rest of string was truncated]&quot;;.
+        ///  return window.external.OnClickEndConversation(button.id);
+        ///}
+        ///&lt;/script&gt;.
         /// </summary>
         internal static string HTML_DOM_Prefix {
             get {
@@ -229,7 +231,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;textarea id=&quot;{0}_{1}&quot; style=&quot;width:100%; overflow:visible&quot; onKeyUp=&quot;return TextareaOnKeyUp(this);&quot;&gt;{2}&lt;/textarea&gt;.
+        ///   Looks up a localized string similar to &lt;textarea id=&quot;{0}&quot; style=&quot;width:100%; overflow:visible&quot; onKeyUp=&quot;return TextareaOnKeyUp(this);&quot;&gt;{1}&lt;/textarea&gt;.
         /// </summary>
         internal static string HTML_Textarea {
             get {

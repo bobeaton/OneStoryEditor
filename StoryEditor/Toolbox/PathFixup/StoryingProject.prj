@@ -26,7 +26,7 @@
 \+wndlst 
 \+wnd 
 \placement normal -1 -1 -1 -1 0 460 794 620
-\z 5
+\z 4
 \ViewMarkers
 \widthMarkerArea 50
 \JumpTarget
@@ -53,8 +53,8 @@
 \MatchWhole
 \match_char p
 \-keyInsert
-\CaretLine 3
-\CaretLineScroll 3
+\CaretLine 8
+\CaretLineScroll 4
 \CaretChar 0
 \-wnd
 \-wndlst
@@ -91,7 +91,7 @@
 \fldSecKey 01.0
 \-rec
 \+keySearch 
-\fldPri asdg
+\fldPri 01 Genesis 001
 \match_char p
 \-keySearch
 \+keyInsert 
@@ -135,7 +135,7 @@
 \fldPriKey 01
 \-rec
 \+keySearch 
-\fldPri asdg
+\fldPri 01 Genesis 001
 \match_char p
 \-keySearch
 \+keyInsert 
@@ -154,7 +154,7 @@
 \+wndlst 
 \+wnd 
 \placement normal -1 -1 -1 -1 -1 -1 462 460
-\z 4
+\z 5
 \ViewMarkers
 \widthMarkerArea 50
 \JumpTarget
@@ -164,7 +164,11 @@
 \NoFieldEntry *no field*
 \+brf 
 \mkr c
-\width 437
+\width 206
+\-brf
+\+brf 
+\mkr t
+\width 207
 \-brf
 \-brflst
 \+ind 
@@ -175,7 +179,7 @@
 \fldPriKey 01
 \-rec
 \+keySearch 
-\fldPri asdg
+\fldPri 01 Genesis 001
 \match_char p
 \-keySearch
 \+keyInsert 
@@ -184,7 +188,7 @@
 \-keyInsert
 \CaretLine 15
 \CaretLineScroll 15
-\CaretChar 6
+\CaretChar 50
 \-wnd
 \-wndlst
 \-db
@@ -214,7 +218,7 @@
 \fldPriKey 01
 \-rec
 \+keySearch 
-\fldPri asdg
+\fldPri 01 Genesis 001
 \match_char p
 \-keySearch
 \+keyInsert 
@@ -250,9 +254,10 @@
 \srtPriKey Default
 \-ind
 \+rec 
-\fldPriKey angel
+\fldPriKey god; gods; God
 \-rec
 \+keySearch 
+\fldPri 01 Genesis 001
 \match_char p
 \-keySearch
 \+keyInsert 
@@ -262,7 +267,7 @@
 \-keyInsert
 \CaretLine 2
 \CaretLineScroll 2
-\CaretChar 8
+\CaretChar 0
 \-wnd
 \-wndlst
 \-db

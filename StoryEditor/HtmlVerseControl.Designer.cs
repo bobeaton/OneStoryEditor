@@ -1,6 +1,6 @@
 ﻿namespace OneStoryProjectEditor
 {
-    partial class HtmlConNoteControl
+    partial class HtmlVerseControl
     {
         /// <summary>
         /// Required designer variable.
@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(HtmlConNoteControl_DocumentCompleted);
         }
 
         #endregion

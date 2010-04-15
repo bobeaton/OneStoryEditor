@@ -11,12 +11,16 @@ namespace OneStoryProjectEditor
 {
     public partial class HtmlDisplayForm : Form
     {
-        public HtmlDisplayForm(VersesData Verses, string strDocumentText)
+        public HtmlDisplayForm(StoryEditor theSE, StoryData storyData)
         {
             InitializeComponent();
-            _webBrowser.IsConsultantNotes = true;
-            _webBrowser.Verses = Verses;
-            _webBrowser.DocumentText = strDocumentText;
+            _webBrowser.TheSE = theSE;
+            _webBrowser.StoryData = storyData;
+            _webBrowser.LoadDocument();
+
+            htmlCoachNotesControl1.TheSE = theSE;
+            htmlCoachNotesControl1.StoryData = storyData;
+            htmlCoachNotesControl1.LoadDocument();
         }
     }
 }

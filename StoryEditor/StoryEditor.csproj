@@ -205,9 +205,6 @@
     <Compile Include="HtmlConNoteControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="HtmlConNoteControl.Designer.cs">
-      <DependentUpon>HtmlConNoteControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="HtmlDisplayForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -219,6 +216,12 @@
     </Compile>
     <Compile Include="HtmlForm.Designer.cs">
       <DependentUpon>HtmlForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HtmlVerseControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HtmlVerseControl.designer.cs">
+      <DependentUpon>HtmlVerseControl.cs</DependentUpon>
     </Compile>
     <Compile Include="InstallerClass.cs">
       <SubType>Component</SubType>
