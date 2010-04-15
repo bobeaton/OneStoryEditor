@@ -93,7 +93,14 @@
   {
     int nIndexSpace = strAnchor.IndexOf(' ');
     string strBookCode = strAnchor.Substring(0, nIndexSpace);
-    strBookCode = map[strBookCode];
+    try
+    {
+      strBookCode = map[strBookCode];
+    }
+    catch
+    {
+      // ignore
+    }
     string[] astrChVrs = strAnchor.Substring(nIndexSpace+1).Split(new char[] { ':' });
     int nLen = 2;
     string strChap = astrChVrs[0];
