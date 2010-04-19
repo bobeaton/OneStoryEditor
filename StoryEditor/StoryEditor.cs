@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -689,10 +688,8 @@ namespace OneStoryProjectEditor
 
             // if this happens, it means we didn't save or cleanup the document
             Debug.Assert(!Modified
-                         || (flowLayoutPanelVerses.Controls.Count != 0)
+                         || (flowLayoutPanelVerses.Controls.Count != 0));
 #if UsingHtmlDisplayForConNotes
-                         || (htmlConsultantNotesControl.DocumentText == null)
-                         || (htmlCoachNotesControl.DocumentText == null));
 #else
                 || (flowLayoutPanelConsultantNotes.Controls.Count != 0)
                 || (flowLayoutPanelCoachNotes.Controls.Count != 0)); // if this happens, it means we didn't save or cleanup the document
@@ -1476,8 +1473,10 @@ namespace OneStoryProjectEditor
         {
             flowLayoutPanelVerses.Clear();
 #if UsingHtmlDisplayForConNotes
-            htmlConsultantNotesControl.DocumentText = null;
-            htmlCoachNotesControl.DocumentText = null;
+            if (htmlConsultantNotesControl.Document != null)
+                htmlConsultantNotesControl.Document.OpenNew(true);
+            if (htmlCoachNotesControl.Document != null)
+                htmlCoachNotesControl.Document.OpenNew(true);
 #else
             flowLayoutPanelConsultantNotes.Clear();
             flowLayoutPanelCoachNotes.Clear();
@@ -2763,14 +2762,12 @@ namespace OneStoryProjectEditor
                                                                  > (int)StoryStageLogic.ProjectStages.eProjFacAddStoryQuestions));
 
                 viewConsultantNoteFieldMenuItem.Enabled =
-                    viewCoachNotesFieldMenuItem.Enabled =
-                    htmlDisplayToolStripMenuItem.Enabled = (theCurrentStory != null);
+                    viewCoachNotesFieldMenuItem.Enabled = (theCurrentStory != null);
 
                 stateMapToolStripMenuItem.Enabled = true;
             }
             else
-                stateMapToolStripMenuItem.Enabled =
-                    htmlDisplayToolStripMenuItem.Enabled = false;
+                stateMapToolStripMenuItem.Enabled = false;
 
             if (IsInStoriesSet && (StoryProject != null))
             {
@@ -3121,12 +3118,6 @@ namespace OneStoryProjectEditor
         private void stateMapToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var dlg = new StageEditorForm(StoryProject);
-            dlg.ShowDialog();
-        }
-
-        private void htmlDisplayToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            HtmlDisplayForm dlg = new HtmlDisplayForm(this, theCurrentStory);
             dlg.ShowDialog();
         }
 

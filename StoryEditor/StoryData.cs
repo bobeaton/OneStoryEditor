@@ -112,20 +112,40 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public string ConsultantNotesHtml(TeamMemberData.UserTypes eLoggedOnMember, 
-            bool bViewHidden)
+        public const string CstrLangVernacularStyleClassName = "LangVernacular";
+        public const string CstrLangNationalBtStyleClassName = "LangNationalBT";
+        public const string CstrLangInternationalBtStyleClassName = "LangInternationalBT";
+
+        public string StylePrefix(ProjectSettings projSettings)
+        {
+            string strLangStyles = null;
+            if (projSettings.Vernacular.HasData)
+                strLangStyles += projSettings.Vernacular.HtmlStyle(CstrLangVernacularStyleClassName);
+            if (projSettings.NationalBT.HasData)
+                strLangStyles += projSettings.NationalBT.HtmlStyle(CstrLangNationalBtStyleClassName);
+            if (projSettings.InternationalBT.HasData)
+                strLangStyles += projSettings.InternationalBT.HtmlStyle(CstrLangInternationalBtStyleClassName);
+
+            return String.Format(Properties.Resources.HTML_StyleDefinition,
+                                 strLangStyles);
+        }
+
+        public string ConsultantNotesHtml(ProjectSettings projSettings, 
+            TeamMemberData.UserTypes eLoggedOnMember, bool bViewHidden)
         {
             string strHtml = Verses.ConsultantNotesHtml(eLoggedOnMember, bViewHidden);
             return String.Format(Properties.Resources.HTML_Header,
+                StylePrefix(projSettings),
                 Properties.Resources.HTML_DOM_Prefix, 
                 strHtml);
         }
 
-        public string CoachNotesHtml(TeamMemberData.UserTypes eLoggedOnMember, 
-            bool bViewHidden)
+        public string CoachNotesHtml(ProjectSettings projSettings,
+            TeamMemberData.UserTypes eLoggedOnMember, bool bViewHidden)
         {
             string strHtml = Verses.CoachNotesHtml(eLoggedOnMember, bViewHidden);
             return String.Format(Properties.Resources.HTML_Header,
+                StylePrefix(projSettings),
                 Properties.Resources.HTML_DOM_Prefix,
                 strHtml);
         }

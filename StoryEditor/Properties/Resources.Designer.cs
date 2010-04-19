@@ -136,17 +136,47 @@ namespace OneStoryProjectEditor.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;html&gt;
-        ///&lt;head&gt;
         ///{0}
+        ///&lt;head&gt;
+        ///{1}
         ///&lt;/head&gt;
         ///&lt;body&gt;
-        ///{1}
+        ///{2}
         ///&lt;/body&gt;
         ///&lt;/html&gt;.
         /// </summary>
         internal static string HTML_Header {
             get {
                 return ResourceManager.GetString("HTML_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to   .{0} {{
+        ///      font-family: &quot;{1}&quot;;
+        ///      font-size: {2} pt;
+        ///      direction: {3};
+        ///      text-align: {4};
+        ///  }}
+        ///.
+        /// </summary>
+        internal static string HTML_LangStyle {
+            get {
+                return ResourceManager.GetString("HTML_LangStyle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;style TYPE=&quot;text/css&quot;&gt;
+        ///  textarea {{ 
+        ///      width:100%; 
+        ///      overflow:visible
+        ///  }}
+        ///{0}&lt;/style&gt;.
+        /// </summary>
+        internal static string HTML_StyleDefinition {
+            get {
+                return ResourceManager.GetString("HTML_StyleDefinition", resourceCulture);
             }
         }
         
@@ -231,7 +261,16 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;textarea id=&quot;{0}&quot; style=&quot;width:100%; overflow:visible&quot; onKeyUp=&quot;return TextareaOnKeyUp(this);&quot;&gt;{1}&lt;/textarea&gt;.
+        ///   Looks up a localized string similar to &lt;tr id=&quot;{0}&quot;&gt;{1}&lt;/tr&gt;    .
+        /// </summary>
+        internal static string HTML_TableRowId {
+            get {
+                return ResourceManager.GetString("HTML_TableRowId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;textarea id=&quot;{0}&quot; class=&quot;{1}&quot; onKeyUp=&quot;return TextareaOnKeyUp(this);&quot;&gt;{2}&lt;/textarea&gt;.
         /// </summary>
         internal static string HTML_Textarea {
             get {
@@ -240,7 +279,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;textarea style=&quot;width:100%; overflow:visible&quot; readonly=&quot;readonly&quot;&gt;{0}&lt;/textarea&gt;.
+        ///   Looks up a localized string similar to &lt;textarea class=&quot;{0}&quot; readonly=&quot;readonly&quot;&gt;{1}&lt;/textarea&gt;.
         /// </summary>
         internal static string HTML_TextareaReadonly {
             get {

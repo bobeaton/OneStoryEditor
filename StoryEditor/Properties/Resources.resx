@@ -1525,11 +1525,12 @@ eater Panorama
   </data>
   <data name="HTML_Header" xml:space="preserve">
     <value>&lt;html&gt;
-&lt;head&gt;
 {0}
+&lt;head&gt;
+{1}
 &lt;/head&gt;
 &lt;body&gt;
-{1}
+{2}
 &lt;/body&gt;
 &lt;/html&gt;</value>
   </data>
@@ -1551,7 +1552,7 @@ eater Panorama
     <value>&lt;button id="{0}" onClick="{1}"&gt;{2}&lt;/button&gt;</value>
   </data>
   <data name="HTML_Textarea" xml:space="preserve">
-    <value>&lt;textarea id="{0}" style="width:100%; overflow:visible" onKeyUp="return TextareaOnKeyUp(this);"&gt;{1}&lt;/textarea&gt;</value>
+    <value>&lt;textarea id="{0}" class="{1}" onKeyUp="return TextareaOnKeyUp(this);"&gt;{2}&lt;/textarea&gt;</value>
   </data>
   <data name="HTML_TableNoBorder" xml:space="preserve">
     <value>        &lt;table style="width:100%;"&gt;
@@ -1590,7 +1591,7 @@ eater Panorama
     <value>The project has been exported to the folder '{0}\Toolbox'. Click 'Yes' to launch Toolbox and open that project.</value>
   </data>
   <data name="HTML_TextareaReadonly" xml:space="preserve">
-    <value>&lt;textarea style="width:100%; overflow:visible" readonly="readonly"&gt;{0}&lt;/textarea&gt;</value>
+    <value>&lt;textarea class="{0}" readonly="readonly"&gt;{1}&lt;/textarea&gt;</value>
   </data>
   <data name="HTML_DOM_Prefix" xml:space="preserve">
     <value>&lt;script&gt;
@@ -2000,5 +2001,25 @@ function OnClickEndConversation(button)
 \r
 \wrd
 \co</value>
+  </data>
+  <data name="HTML_LangStyle" xml:space="preserve">
+    <value>  .{0} {{
+      font-family: "{1}";
+      font-size: {2} pt;
+      direction: {3};
+      text-align: {4};
+  }}
+</value>
+  </data>
+  <data name="HTML_StyleDefinition" xml:space="preserve">
+    <value>&lt;style TYPE="text/css"&gt;
+  textarea {{ 
+      width:100%; 
+      overflow:visible
+  }}
+{0}&lt;/style&gt;</value>
+  </data>
+  <data name="HTML_TableRowId" xml:space="preserve">
+    <value>&lt;tr id="{0}"&gt;{1}&lt;/tr&gt;    </value>
   </data>
 </root>

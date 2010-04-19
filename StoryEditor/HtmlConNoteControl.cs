@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using mshtml;
 
 namespace OneStoryProjectEditor
 {
@@ -23,8 +24,7 @@ namespace OneStoryProjectEditor
 
         public override void ScrollToVerse(int nVerseIndex)
         {
-            ConsultNotesDataConverter aCNsDC = DataConverter(nVerseIndex);
-            StrIdToScrollTo = ConsultNoteDataConverter.TextareaId(nVerseIndex, aCNsDC.Count - 1);
+            StrIdToScrollTo = nVerseIndex.ToString();
             base.ScrollToVerse(nVerseIndex);
         }
 
@@ -39,9 +39,11 @@ namespace OneStoryProjectEditor
 
         public bool OnClickDelete(string strId)
         {
+            int nVerseIndex, nConversationIndex;
             ConsultNotesDataConverter theCNsDC;
             ConsultNoteDataConverter theCNDC;
-            if (!GetDataConverters(strId, out theCNsDC, out theCNDC))
+            if (!GetDataConverters(strId, out nVerseIndex, out nConversationIndex, 
+                out theCNsDC, out theCNDC))
                 return false;
 
             if (theCNDC.HasData)
@@ -51,46 +53,126 @@ namespace OneStoryProjectEditor
                     Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
 
                 if (res == DialogResult.Yes)
-                {
-                    theCNDC.Visible = false;
-                    LoadDocument();
-                    return true;
-                }
+                    return OnClickHide(strId);
 
                 if (res == DialogResult.Cancel)
                     return true;
             }
 
             theCNsDC.Remove(theCNDC);
-            LoadDocument();
+
+            // remove the HTML elements for the row of buttons and the conversation table
+            if (!RemoveHtmlNodeById(ConsultNoteDataConverter.ButtonRowId(nVerseIndex, nConversationIndex))
+                || 
+                !RemoveHtmlNodeById(ConsultNoteDataConverter.ConversationTableRowId(nVerseIndex, nConversationIndex)))
+            {
+                System.Diagnostics.Debug.Assert(false);
+                LoadDocument();
+            }
+
             return true;
         }
 
         public bool OnClickHide(string strId)
         {
+            int nVerseIndex, nConversationIndex;
             ConsultNotesDataConverter theCNsDC;
             ConsultNoteDataConverter theCNDC;
-            if (!GetDataConverters(strId, out theCNsDC, out theCNDC))
+            if (!GetDataConverters(strId, out nVerseIndex, out nConversationIndex, 
+                out theCNsDC, out theCNDC))
                 return false;
 
             theCNDC.Visible = (theCNDC.Visible) ? false : true;
 
-            LoadDocument();
+            if (TheSE.hiddenVersesToolStripMenuItem.Checked)
+            {
+                // then we just swap the text on the button
+                if (Document != null)
+                {
+                    // repaint the button to be 'hide'
+                    HtmlElement elemButtonHide = Document.GetElementById(strId);
+                    if (elemButtonHide != null)
+                    {
+                        elemButtonHide.InnerText = (theCNDC.Visible)
+                                                       ? ConsultNoteDataConverter.CstrButtonLabelHide
+                                                       : ConsultNoteDataConverter.CstrButtonLabelUnhide;
+                        return true;
+                    }
+                }
+            }
+            // otherwise remove the row of buttons and the embedded conversation table
+            // if it's not invisible
+            else if (!theCNDC.Visible 
+                    && RemoveHtmlNodeById(ConsultNoteDataConverter.ButtonRowId(nVerseIndex, nConversationIndex))
+                    && RemoveHtmlNodeById(ConsultNoteDataConverter.ConversationTableRowId(nVerseIndex, nConversationIndex)))
+            {
+                return true;
+            }
 
+            // otherwise, we have some faulty assumptions
+            //  so just reload the document
+            System.Diagnostics.Debug.Assert(false);
+            LoadDocument();
             return true;
+        }
+
+        protected bool RemoveHtmlNodeById(string strId)
+        {
+            if (Document != null)
+            {
+                HTMLDocumentClass htmldoc = (HTMLDocumentClass)Document.DomDocument;
+                if (htmldoc != null)
+                {
+                    IHTMLDOMNode node = (IHTMLDOMNode)htmldoc.getElementById(strId);
+                    if (node != null)
+                    {
+                        node.parentNode.removeChild(node);
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         public bool OnClickEndConversation(string strId)
         {
+            int nVerseIndex, nConversationIndex;
             ConsultNotesDataConverter theCNsDC;
             ConsultNoteDataConverter theCNDC;
-            if (!GetDataConverters(strId, out theCNsDC, out theCNDC))
+            if (!GetDataConverters(strId, out nVerseIndex, out nConversationIndex, 
+                out theCNsDC, out theCNDC))
                 return false;
 
             if (theCNDC.IsFinished)
                 theCNDC.IsFinished = false;
             else
                 theCNDC.IsFinished = true;
+
+            if (theCNDC.IsFinished)
+            {
+                if (Document != null)
+                {
+                    HtmlElement elem =
+                        Document.GetElementById(ConsultNoteDataConverter.TextareaId(nVerseIndex, nConversationIndex));
+                    if (elem != null)
+                    {
+                        if (String.IsNullOrEmpty(elem.InnerText))
+                        {
+                            theCNDC.RemoveAt(theCNDC.Count - 1);
+                            if (RemoveHtmlNodeById(ConsultNoteDataConverter.TextareaRowId(nVerseIndex,
+                                                                                          nConversationIndex)))
+                                return true;
+                        }
+                    }
+                }
+            }
+
+            if (theCNDC.IsEditable(theCNDC.Count - 1, TheSE.LoggedOnMember.MemberType,
+                theCNDC[theCNDC.Count - 1]))
+                StrIdToScrollTo = ConsultNoteDataConverter.TextareaId(nVerseIndex, nConversationIndex);
+            else
+                StrIdToScrollTo = ConsultNoteDataConverter.TextareaReadonlyRowId(nVerseIndex, nConversationIndex,
+                                                                                 theCNDC.Count - 1);
 
             LoadDocument();
             return true;
@@ -119,18 +201,17 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        protected bool GetDataConverters(string strId,
+        protected bool GetDataConverters(string strId, out int nVerseIndex, out int nConversationIndex,
             out ConsultNotesDataConverter theCNsDC, out ConsultNoteDataConverter theCNDC)
         {
             theCNsDC = null;
             theCNDC = null;
 
-            StoryEditor theSE;
-            if (!CheckForProperEditToken(out theSE))
+            if (!GetIndicesFromId(strId, out nVerseIndex, out nConversationIndex))
                 return false;
 
-            int nVerseIndex, nConversationIndex;
-            if (!GetIndicesFromId(strId, out nVerseIndex, out nConversationIndex))
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
                 return false;
 
             theCNsDC = DataConverter(nVerseIndex);
@@ -188,7 +269,8 @@ namespace OneStoryProjectEditor
     {
         public override void LoadDocument()
         {
-            string strHtml = StoryData.ConsultantNotesHtml(TheSE.LoggedOnMember.MemberType,
+            string strHtml = StoryData.ConsultantNotesHtml(TheSE.StoryProject.ProjSettings,
+                                                           TheSE.LoggedOnMember.MemberType,
                                                            TheSE.hiddenVersesToolStripMenuItem.Checked);
             DocumentText = strHtml;
         }
@@ -206,7 +288,8 @@ namespace OneStoryProjectEditor
     {
         public override void LoadDocument()
         {
-            string strHtml = StoryData.CoachNotesHtml(TheSE.LoggedOnMember.MemberType,
+            string strHtml = StoryData.CoachNotesHtml(TheSE.StoryProject.ProjSettings,
+                                                      TheSE.LoggedOnMember.MemberType,
                                                       TheSE.hiddenVersesToolStripMenuItem.Checked);
             DocumentText = strHtml;
         }

@@ -15,7 +15,7 @@ namespace OneStoryProjectEditor
         public virtual void ScrollToVerse(int nVerseIndex)
         {
             if (!String.IsNullOrEmpty(StrIdToScrollTo))
-                ScrollToElement(StrIdToScrollTo);
+                ScrollToElement(StrIdToScrollTo, true);
         }
 
         protected HtmlVerseControl()
@@ -28,7 +28,7 @@ namespace OneStoryProjectEditor
         private void HtmlConNoteControl_DocumentCompleted(object sender, System.Windows.Forms.WebBrowserDocumentCompletedEventArgs e)
         {
             if (!String.IsNullOrEmpty(StrIdToScrollTo))
-                ScrollToElement(StrIdToScrollTo);
+                ScrollToElement(StrIdToScrollTo, false);
         }
 
         protected VerseData Verse(int nVerseIndex)
@@ -37,7 +37,7 @@ namespace OneStoryProjectEditor
             return (nVerseIndex == 0) ? StoryData.Verses.FirstVerse : StoryData.Verses[nVerseIndex - 1];
         }
 
-        private void ScrollToElement(String strElemName)
+        private void ScrollToElement(String strElemName, bool bAlignWithTop)
         {
             if (Document != null)
             {
@@ -45,7 +45,7 @@ namespace OneStoryProjectEditor
                 HtmlElement elem = doc.GetElementById(strElemName);
                 if (elem != null)
                 {
-                    elem.ScrollIntoView(false);
+                    elem.ScrollIntoView(bAlignWithTop);
                     elem.Focus();
                 }
             }
@@ -59,8 +59,11 @@ namespace OneStoryProjectEditor
             try
             {
                 string[] aVerseConversationIndices = strId.Split(_achDelim);
-                System.Diagnostics.Debug.Assert((aVerseConversationIndices.Length == 3)
-                    && ((aVerseConversationIndices[0] == "ta") || (aVerseConversationIndices[0] == "btn")));
+                System.Diagnostics.Debug.Assert(((aVerseConversationIndices.Length == 3) ||
+                                                 (aVerseConversationIndices.Length == 4))
+                                                &&
+                                                ((aVerseConversationIndices[0] == "ta") ||
+                                                 (aVerseConversationIndices[0] == "btn")));
 
                 nVerseIndex = Convert.ToInt32(aVerseConversationIndices[1]);
                 nConversationIndex = Convert.ToInt32(aVerseConversationIndices[2]);

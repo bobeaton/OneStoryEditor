@@ -275,7 +275,7 @@ namespace OneStoryProjectEditor
 
             strHtml += FirstVerse.ConsultantNotes.Html(eLoggedOnMember, bViewHidden, 0);
 
-            for (int i = 1; i < Count; i++)
+            for (int i = 1; i <= Count; i++)
             {
                 VerseData aVerseData = this[i - 1];
                 strHtml += GetHeaderRow("Ln: " + i, i);
@@ -293,7 +293,7 @@ namespace OneStoryProjectEditor
 
             strHtml += FirstVerse.CoachNotes.Html(eLoggedOnMember, bViewHidden, 0);
 
-            for (int i = 1; i < Count; i++)
+            for (int i = 1; i <= Count; i++)
             {
                 VerseData aVerseData = this[i - 1];
                 strHtml += GetHeaderRow("Ln: " + i, i);

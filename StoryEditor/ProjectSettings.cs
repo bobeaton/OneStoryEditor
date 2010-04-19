@@ -176,6 +176,18 @@ namespace OneStoryProjectEditor
 
                 return elemLang;
             }
+
+            public string HtmlStyle(string strLangCat)
+            {
+                string strHtmlStyle = String.Format(Properties.Resources.HTML_LangStyle,
+                    strLangCat,
+                    LangFont.Name,
+                    LangFont.SizeInPoints,
+                    (IsRTL) ? "rtl" : "ltr",
+                    (IsRTL) ? "right" : "left");
+
+                return strHtmlStyle;
+            }
         }
 
         internal class ProjectFileNotFoundException : ApplicationException

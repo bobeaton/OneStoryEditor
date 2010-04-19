@@ -222,9 +222,46 @@ namespace OneStoryProjectEditor
             return String.Format("ta_{0}_{1}", nVerseIndex, nConversationIndex);
         }
 
-        public static string ButtonId(int nVerseIndex, int nConversationIndex)
+        public static string TextareaRowId(int nVerseIndex, int nConversationIndex)
         {
-            return String.Format("btn_{0}_{1}", nVerseIndex, nConversationIndex);
+            return String.Format("tarow_{0}_{1}", nVerseIndex, nConversationIndex);
+        }
+
+        public static string TextareaReadonlyRowId(int nVerseIndex, int nConversationIndex, int nCommentIndex)
+        {
+            return String.Format("tarorow_{0}_{1}_{2}", nVerseIndex, nConversationIndex, nCommentIndex);
+        }
+
+        public static string ButtonId(int nVerseIndex, int nConversationIndex, int nBtnIndex)
+        {
+            return String.Format("btn_{0}_{1}_{2}", nVerseIndex, nConversationIndex, nBtnIndex);
+        }
+
+        public const int CnBtnIndexDelete = 0;
+        public const int CnBtnIndexHide = 1;
+        public const int CnBtnIndexEndConversation = 2;
+
+        public static string ButtonRowId(int nVerseIndex, int nConversationIndex)
+        {
+            return String.Format("btnrow_{0}_{1}", nVerseIndex, nConversationIndex);
+        }
+
+        public static string ConversationTableRowId(int nVerseIndex, int nConversationIndex)
+        {
+            return String.Format("convtblrow_{0}_{1}", nVerseIndex, nConversationIndex);
+        }
+
+        public const string CstrButtonLabelHide = "Hide";
+        public const string CstrButtonLabelUnhide = "Unhide";
+        public const string CstrButtonLabelConversationReopen = "Reopen conversation";
+        public const string CstrButtonLabelConversationEnd = "End conversation";
+
+        public bool IsEditable(int i, TeamMemberData.UserTypes eLoggedOnMember, CommInstance aCI)
+        {
+            return (i == (Count - 1))
+                   && (!IsFinished)
+                   && ((aCI.IsMentor && !IsWrongEditor(eLoggedOnMember, MentorRequiredEditor))
+                       || (!aCI.IsMentor && !IsWrongEditor(eLoggedOnMember, MenteeRequiredEditor)));
         }
 
         public string Html(TeamMemberData.UserTypes eLoggedOnMember, 
@@ -237,23 +274,24 @@ namespace OneStoryProjectEditor
             
             strRow += String.Format(Properties.Resources.HTML_TableCell,
                      String.Format(Properties.Resources.HTML_Button,
-                        ButtonId(nVerseIndex, nConversationIndex),
+                        ButtonId(nVerseIndex, nConversationIndex, CnBtnIndexDelete),
                         "return OnClickDelete(this);",
                         "Delete"));
 
             strRow += String.Format(Properties.Resources.HTML_TableCell,
                      String.Format(Properties.Resources.HTML_Button,
-                        ButtonId(nVerseIndex, nConversationIndex),
+                        ButtonId(nVerseIndex, nConversationIndex, CnBtnIndexHide),
                         "return OnClickHide(this);",
-                        (Visible) ? "Hide" : "Unhide"));
+                        (Visible) ? CstrButtonLabelHide : CstrButtonLabelUnhide));
 
             strRow += String.Format(Properties.Resources.HTML_TableCell,
                      String.Format(Properties.Resources.HTML_Button,
-                        ButtonId(nVerseIndex, nConversationIndex),
+                        ButtonId(nVerseIndex, nConversationIndex, CnBtnIndexEndConversation),
                         "return OnClickEndConversation(this);",
-                        (IsFinished) ? "Reopen conversation" : "End conversation"));
+                        (IsFinished) ? CstrButtonLabelConversationReopen : CstrButtonLabelConversationEnd));
 
-            string strHtml = String.Format(Properties.Resources.HTML_TableRow,
+            string strHtml = String.Format(Properties.Resources.HTML_TableRowId,
+                ButtonRowId(nVerseIndex, nConversationIndex),
                 strRow);
 
             string strHtmlTable = null;
@@ -269,30 +307,38 @@ namespace OneStoryProjectEditor
                     strRow += String.Format(Properties.Resources.HTML_TableCell,
                                             MenteeLabel);
 
-                // only the last one is editable and then only if the right person is logged in
-                if ((i == (Count - 1))
-                    && ((aCI.IsMentor && !IsWrongEditor(eLoggedOnMember, MentorRequiredEditor))
-                        || (!aCI.IsMentor && !IsWrongEditor(eLoggedOnMember, MenteeRequiredEditor))))
+                // only the last one is editable and then only if the right person is 
+                //  logged in
+                if (IsEditable(i, eLoggedOnMember, aCI))
                 {
                     strRow += String.Format(Properties.Resources.HTML_TableCellForTextArea,
                                             String.Format(Properties.Resources.HTML_Textarea,
                                                           TextareaId(nVerseIndex, nConversationIndex),
+                                                          StoryData.CstrLangInternationalBtStyleClassName,
                                                           aCI));
+
+                    strHtmlTable += String.Format(Properties.Resources.HTML_TableRowId,
+                                                  TextareaRowId(nVerseIndex, nConversationIndex),
+                                                  strRow);
                 }
                 else
                 {
                     strRow += String.Format(Properties.Resources.HTML_TableCellWidth, 100,
-                                            String.Format(Properties.Resources.HTML_TextareaReadonly, aCI));
-                }
+                                            String.Format(Properties.Resources.HTML_TextareaReadonly,
+                                            StoryData.CstrLangInternationalBtStyleClassName, 
+                                            aCI));
 
-                strHtmlTable += String.Format(Properties.Resources.HTML_TableRow,
-                                         strRow);
+                    strHtmlTable += String.Format(Properties.Resources.HTML_TableRowId,
+                                                  TextareaReadonlyRowId(nVerseIndex, nConversationIndex, i),
+                                                  strRow);
+                }
             }
 
             string strEmbeddedTable = String.Format(Properties.Resources.HTML_Table,
                                                     strHtmlTable);
 
-            strHtml += String.Format(Properties.Resources.HTML_TableRow,
+            strHtml += String.Format(Properties.Resources.HTML_TableRowId,
+                                     ConversationTableRowId(nVerseIndex, nConversationIndex),
                                      String.Format(Properties.Resources.HTML_TableCellWithSpan, 5,
                                                    strEmbeddedTable));
 
