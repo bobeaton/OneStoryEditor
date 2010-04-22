@@ -311,7 +311,7 @@ namespace OneStoryProjectEditor
                 //  logged in
                 if (IsEditable(i, eLoggedOnMember, aCI))
                 {
-                    strRow += String.Format(Properties.Resources.HTML_TableCellForTextArea,
+                    strRow += String.Format(Properties.Resources.HTML_TableCellForTextArea, "#FF0000",
                                             String.Format(Properties.Resources.HTML_Textarea,
                                                           TextareaId(nVerseIndex, nConversationIndex),
                                                           StoryData.CstrLangInternationalBtStyleClassName,
@@ -337,8 +337,9 @@ namespace OneStoryProjectEditor
             string strEmbeddedTable = String.Format(Properties.Resources.HTML_Table,
                                                     strHtmlTable);
 
-            strHtml += String.Format(Properties.Resources.HTML_TableRowId,
+            strHtml += String.Format(Properties.Resources.HTML_TableRowIdColor,
                                      ConversationTableRowId(nVerseIndex, nConversationIndex),
+                                     "#CCFFAA",
                                      String.Format(Properties.Resources.HTML_TableCellWithSpan, 5,
                                                    strEmbeddedTable));
 
