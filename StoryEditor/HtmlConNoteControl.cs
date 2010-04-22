@@ -13,6 +13,27 @@ namespace OneStoryProjectEditor
             ObjectForScripting = this;
         }
 
+        public override StoryData StoryData
+        {
+            set
+            {
+                System.Diagnostics.Debug.Assert((value == null) || (TheSE != null));
+                base.StoryData = value;
+                if (value == null)
+                    return;
+
+                // for ConNotes, we also have to do the 'insure extra box' thingy
+                //  (there are actually one more verses than 'Count', but DataConverter(i)
+                //  handles that for us)
+                for (int i = 0; i <= StoryData.Verses.Count; i++)
+                {
+                    ConsultNotesDataConverter aCNsDC = DataConverter(i);
+                    foreach (ConsultNoteDataConverter dc in aCNsDC)
+                        aCNsDC.InsureExtraBox(dc, TheSE.LoggedOnMember.MemberType);
+                }
+            }
+        }
+
         public abstract ConsultNotesDataConverter DataConverter(int nVerseIndex);
 
         public ConsultNoteDataConverter DataConverter(int nVerseIndex, int nConversationIndex)
@@ -166,6 +187,11 @@ namespace OneStoryProjectEditor
                     }
                 }
             }
+            else
+            {
+                // just in case we need to have an open box now
+                theCNsDC.InsureExtraBox(theCNDC, TheSE.LoggedOnMember.MemberType);
+            }
 
             if (theCNDC.IsEditable(theCNDC.Count - 1, TheSE.LoggedOnMember.MemberType,
                 theCNDC[theCNDC.Count - 1]))
@@ -177,6 +203,32 @@ namespace OneStoryProjectEditor
             LoadDocument();
             return true;
         }
+
+        /* doesn't seem to work... the 'value' member isn't updated until *after*
+         * keyPress is executed. I could use event.keyCode to get the latest key
+         * pressed, but that's not what I want. So have to use onKeyUp
+        public bool TextareaOnKeyPress(string strId, string strText)
+        {
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
+                return false;
+
+            int nVerseIndex, nConversationIndex;
+            if (!GetIndicesFromId(strId, out nVerseIndex, out nConversationIndex))
+                return false;
+
+            ConsultNoteDataConverter theCNDC = DataConverter(nVerseIndex, nConversationIndex);
+            System.Diagnostics.Debug.Assert((theCNDC != null) && (theCNDC.Count > 0));
+            CommInstance aCI = theCNDC[theCNDC.Count - 1];
+            System.Diagnostics.Debug.WriteLine(String.Format("Was: {0}, now: {1}",
+                aCI, strText));
+            aCI.SetValue(strText);
+
+            // indicate that the document has changed
+            theSE.Modified = true;
+            return true;
+        }
+        */
 
         public bool TextareaOnKeyUp(string strId, string strText)
         {

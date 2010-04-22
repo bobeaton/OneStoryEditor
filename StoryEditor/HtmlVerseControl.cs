@@ -10,7 +10,7 @@ namespace OneStoryProjectEditor
         protected string StrIdToScrollTo;
 
         public StoryEditor TheSE { get; set; }
-        public StoryData StoryData { get; set; }
+        public virtual StoryData StoryData { get; set; }
 
         public virtual void ScrollToVerse(int nVerseIndex)
         {
