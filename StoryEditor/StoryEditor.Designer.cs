@@ -116,6 +116,7 @@ namespace OneStoryProjectEditor
             this.buttonsStoryStage = new System.Windows.Forms.ToolStripSplitButton();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.helpProvider = new System.Windows.Forms.HelpProvider();
+            this.showHideFieldsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.flowLayoutPanelVerses = new OneStoryProjectEditor.VerseBtLineFlowLayoutPanel();
             this.netBibleViewer = new OneStoryProjectEditor.NetBibleViewer();
             this.htmlConsultantNotesControl = new OneStoryProjectEditor.HtmlConsultantNotesControl();
@@ -448,6 +449,7 @@ namespace OneStoryProjectEditor
             // viewToolStripMenuItem
             // 
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showHideFieldsToolStripMenuItem,
             this.viewVernacularLangFieldMenuItem,
             this.viewNationalLangFieldMenuItem,
             this.viewEnglishBTFieldMenuItem,
@@ -481,6 +483,7 @@ namespace OneStoryProjectEditor
             this.viewVernacularLangFieldMenuItem.Size = new System.Drawing.Size(284, 22);
             this.viewVernacularLangFieldMenuItem.Text = "Story &Language field";
             this.viewVernacularLangFieldMenuItem.ToolTipText = "Show the text boxes for the story lines in the story language";
+            this.viewVernacularLangFieldMenuItem.Visible = false;
             this.viewVernacularLangFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
             // 
             // viewNationalLangFieldMenuItem
@@ -493,6 +496,7 @@ namespace OneStoryProjectEditor
             this.viewNationalLangFieldMenuItem.Text = "National language &back translation field";
             this.viewNationalLangFieldMenuItem.ToolTipText = "Show the text boxes for the national language back-translation of the story lines" +
                 "";
+            this.viewNationalLangFieldMenuItem.Visible = false;
             this.viewNationalLangFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
             // 
             // viewEnglishBTFieldMenuItem
@@ -504,6 +508,7 @@ namespace OneStoryProjectEditor
             this.viewEnglishBTFieldMenuItem.Size = new System.Drawing.Size(284, 22);
             this.viewEnglishBTFieldMenuItem.Text = "&English back translation fields";
             this.viewEnglishBTFieldMenuItem.ToolTipText = "Show the text boxes for the English language back-translation of the story lines";
+            this.viewEnglishBTFieldMenuItem.Visible = false;
             this.viewEnglishBTFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
             // 
             // viewAnchorFieldMenuItem
@@ -515,6 +520,7 @@ namespace OneStoryProjectEditor
             this.viewAnchorFieldMenuItem.Size = new System.Drawing.Size(284, 22);
             this.viewAnchorFieldMenuItem.Text = "&Anchor fields";
             this.viewAnchorFieldMenuItem.ToolTipText = "Show the Anchor toolbar";
+            this.viewAnchorFieldMenuItem.Visible = false;
             this.viewAnchorFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
             // 
             // viewStoryTestingQuestionFieldMenuItem
@@ -526,12 +532,14 @@ namespace OneStoryProjectEditor
             this.viewStoryTestingQuestionFieldMenuItem.Size = new System.Drawing.Size(284, 22);
             this.viewStoryTestingQuestionFieldMenuItem.Text = "Story &testing questions fields";
             this.viewStoryTestingQuestionFieldMenuItem.ToolTipText = "Show the text boxes for the testing questions (and UNS answers if available)";
+            this.viewStoryTestingQuestionFieldMenuItem.Visible = false;
             this.viewStoryTestingQuestionFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
             this.toolStripSeparator5.Size = new System.Drawing.Size(281, 6);
+            this.toolStripSeparator5.Visible = false;
             // 
             // viewRetellingFieldMenuItem
             // 
@@ -542,12 +550,14 @@ namespace OneStoryProjectEditor
             this.viewRetellingFieldMenuItem.Size = new System.Drawing.Size(284, 22);
             this.viewRetellingFieldMenuItem.Text = "&Retelling fields";
             this.viewRetellingFieldMenuItem.ToolTipText = "Show the text boxes for the UNS retelling responses";
+            this.viewRetellingFieldMenuItem.Visible = false;
             this.viewRetellingFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
             this.toolStripSeparator6.Size = new System.Drawing.Size(281, 6);
+            this.toolStripSeparator6.Visible = false;
             // 
             // viewConsultantNoteFieldMenuItem
             // 
@@ -558,6 +568,7 @@ namespace OneStoryProjectEditor
             this.viewConsultantNoteFieldMenuItem.Size = new System.Drawing.Size(284, 22);
             this.viewConsultantNoteFieldMenuItem.Text = "&Consultant notes fields";
             this.viewConsultantNoteFieldMenuItem.ToolTipText = "Show the Consultant Notes pane";
+            this.viewConsultantNoteFieldMenuItem.Visible = false;
             this.viewConsultantNoteFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewConsultantNoteFieldMenuItem_CheckedChanged);
             // 
             // viewCoachNotesFieldMenuItem
@@ -569,12 +580,14 @@ namespace OneStoryProjectEditor
             this.viewCoachNotesFieldMenuItem.Size = new System.Drawing.Size(284, 22);
             this.viewCoachNotesFieldMenuItem.Text = "Coac&h notes fields";
             this.viewCoachNotesFieldMenuItem.ToolTipText = "Show the Coach Notes pane";
+            this.viewCoachNotesFieldMenuItem.Visible = false;
             this.viewCoachNotesFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewCoachNotesFieldMenuItem_CheckedChanged);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(281, 6);
+            this.toolStripSeparator3.Visible = false;
             // 
             // viewNetBibleMenuItem
             // 
@@ -585,6 +598,7 @@ namespace OneStoryProjectEditor
             this.viewNetBibleMenuItem.Size = new System.Drawing.Size(284, 22);
             this.viewNetBibleMenuItem.Text = "&Bible viewer";
             this.viewNetBibleMenuItem.ToolTipText = "Show the Bible Viewer pane";
+            this.viewNetBibleMenuItem.Visible = false;
             this.viewNetBibleMenuItem.CheckedChanged += new System.EventHandler(this.viewNetBibleMenuItem_CheckedChanged);
             this.viewNetBibleMenuItem.Click += new System.EventHandler(this.viewNetBibleMenuItem_Click);
             // 
@@ -944,6 +958,13 @@ namespace OneStoryProjectEditor
             this.statusLabel.Spring = true;
             this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // showHideFieldsToolStripMenuItem
+            // 
+            this.showHideFieldsToolStripMenuItem.Name = "showHideFieldsToolStripMenuItem";
+            this.showHideFieldsToolStripMenuItem.Size = new System.Drawing.Size(284, 22);
+            this.showHideFieldsToolStripMenuItem.Text = "&Show/Hide Fields";
+            this.showHideFieldsToolStripMenuItem.Click += new System.EventHandler(this.showHideFieldsToolStripMenuItem_Click);
+            // 
             // flowLayoutPanelVerses
             // 
             this.flowLayoutPanelVerses.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
@@ -972,7 +993,6 @@ namespace OneStoryProjectEditor
             // 
             this.htmlConsultantNotesControl.AllowWebBrowserDrop = false;
             this.htmlConsultantNotesControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.htmlConsultantNotesControl.IsWebBrowserContextMenuEnabled = false;
             this.htmlConsultantNotesControl.Location = new System.Drawing.Point(0, 29);
             this.htmlConsultantNotesControl.MinimumSize = new System.Drawing.Size(20, 20);
             this.htmlConsultantNotesControl.Name = "htmlConsultantNotesControl";
@@ -980,13 +1000,11 @@ namespace OneStoryProjectEditor
             this.htmlConsultantNotesControl.StoryData = null;
             this.htmlConsultantNotesControl.TabIndex = 2;
             this.htmlConsultantNotesControl.TheSE = null;
-            this.htmlConsultantNotesControl.WebBrowserShortcutsEnabled = false;
             // 
             // htmlCoachNotesControl
             // 
             this.htmlCoachNotesControl.AllowWebBrowserDrop = false;
             this.htmlCoachNotesControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.htmlCoachNotesControl.IsWebBrowserContextMenuEnabled = false;
             this.htmlCoachNotesControl.Location = new System.Drawing.Point(0, 29);
             this.htmlCoachNotesControl.MinimumSize = new System.Drawing.Size(20, 20);
             this.htmlCoachNotesControl.Name = "htmlCoachNotesControl";
@@ -994,7 +1012,6 @@ namespace OneStoryProjectEditor
             this.htmlCoachNotesControl.StoryData = null;
             this.htmlCoachNotesControl.TabIndex = 3;
             this.htmlCoachNotesControl.TheSE = null;
-            this.htmlCoachNotesControl.WebBrowserShortcutsEnabled = false;
             // 
             // StoryEditor
             // 
@@ -1120,6 +1137,7 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem exportToToolboxToolStripMenuItem;
         private HtmlConsultantNotesControl htmlConsultantNotesControl;
         private HtmlCoachNotesControl htmlCoachNotesControl;
+        private ToolStripMenuItem showHideFieldsToolStripMenuItem;
     }
 
     public class ConNoteFlowLayoutPanel : LineFlowLayoutPanel

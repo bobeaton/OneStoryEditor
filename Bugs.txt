@@ -1,3 +1,5 @@
+Find doesn't work for new HTML controls
+
 add 'hidden text' to the search dialog (don't search 'hidden' verses unless it's checked, and NavigateTo needs to unhide such a find)
 
 can we allow the retelling/answers/connotes be in some other lg?

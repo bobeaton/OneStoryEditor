@@ -152,6 +152,41 @@ namespace OneStoryProjectEditor
             return ((eValue & eFlag) == eFlag);
         }
 
+        public static ViewItemToInsureOn SetItemsToInsureOn
+            (
+            bool bLangVernacular,
+            bool bLangNationalBT,
+            bool bLangInternationalBT,
+            bool bAnchors,
+            bool bStoryTestingQuestions,
+            bool bRetellings,
+            bool bConsultantNotes,
+            bool bCoachNotes,
+            bool bBibleViewer
+            )
+        {
+            ViewItemToInsureOn items = 0;
+            if (bLangVernacular)
+                items |= VerseData.ViewItemToInsureOn.eVernacularLangField;
+            if (bLangNationalBT)
+                items |= VerseData.ViewItemToInsureOn.eNationalLangField;
+            if (bLangInternationalBT)
+                items |= VerseData.ViewItemToInsureOn.eEnglishBTField;
+            if (bAnchors)
+                items |= VerseData.ViewItemToInsureOn.eAnchorFields;
+            if (bStoryTestingQuestions)
+                items |= VerseData.ViewItemToInsureOn.eStoryTestingQuestionFields;
+            if (bRetellings)
+                items |= VerseData.ViewItemToInsureOn.eRetellingFields;
+            if (bConsultantNotes)
+                items |= VerseData.ViewItemToInsureOn.eConsultantNoteFields;
+            if (bCoachNotes)
+                items |= VerseData.ViewItemToInsureOn.eCoachNotesFields;
+            if (bBibleViewer)
+                items |= VerseData.ViewItemToInsureOn.eBibleViewer;
+            return items;
+        }
+
         [Flags]
         public enum ViewItemToInsureOn
         {
@@ -162,7 +197,8 @@ namespace OneStoryProjectEditor
             eStoryTestingQuestionFields = 16,
             eRetellingFields = 32,
             eConsultantNoteFields = 64,
-            eCoachNotesFields = 128
+            eCoachNotesFields = 128,
+            eBibleViewer = 256
         }
     }
 
@@ -257,7 +293,7 @@ namespace OneStoryProjectEditor
 
         protected string GetHeaderRow(string strHeader, int nVerseIndex)
         {
-            return String.Format(Properties.Resources.HTML_TableRow,
+            return String.Format(Properties.Resources.HTML_TableRowColor, "#AACCFF",
                                  String.Format("{0}{1}",
                                                String.Format(Properties.Resources.HTML_TableCellWidth, 100,
                                                              strHeader),
