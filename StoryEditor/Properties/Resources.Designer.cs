@@ -110,23 +110,24 @@ namespace OneStoryProjectEditor.Properties {
         ///{
         ///  return window.external.TextareaOnKeyUp(textArea.id, textArea.value);
         ///}
+        ///function OnKeyDown()
+        ///{
+        ///  if (window.event.keyCode == 116)
+        ///  {
+        ///    // let the form handle it
+        ///    window.external.LoadDocument();
+        ///
+        ///    // disable the propagation of the F5 event
+        ///    window.event.keyCode = 0;
+        ///    window.event.returnValue = false;
+        ///    return false;
+        ///  }
+        ///}
         ///function OnAddNote(button)
         ///{
         ///  return window.external.OnAddNote(button.id, null);
         ///}
-        ///function OnClickDelete(button)
-        ///{
-        ///  return window.external.OnClickDelete(button.id);
-        ///}
-        ///function OnClickHide(button)
-        ///{
-        ///  return window.external.OnClickHide(button.id);
-        ///}
-        ///function OnClickEndConversation(button)
-        ///{
-        ///  return window.external.OnClickEndConversation(button.id);
-        ///}
-        ///&lt;/script&gt;.
+        ///function OnClickDel [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string HTML_DOM_Prefix {
             get {
@@ -140,7 +141,7 @@ namespace OneStoryProjectEditor.Properties {
         ///&lt;head&gt;
         ///{1}
         ///&lt;/head&gt;
-        ///&lt;body&gt;
+        ///&lt;body onKeyDown=&quot;return OnKeyDown();&quot;&gt;
         ///{2}
         ///&lt;/body&gt;
         ///&lt;/html&gt;.
@@ -201,7 +202,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;td width=&quot;100%&quot; BGCOLOR=&quot;#AACCFF&quot;&gt;{0}&lt;/td&gt;.
+        ///   Looks up a localized string similar to &lt;td width=&quot;100%&quot; BGCOLOR={0}&gt;{1}&lt;/td&gt;.
         /// </summary>
         internal static string HTML_TableCellForTextArea {
             get {
@@ -261,11 +262,29 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;tr BGCOLOR=&quot;{0}&quot;&gt;{1}&lt;/tr&gt;.
+        /// </summary>
+        internal static string HTML_TableRowColor {
+            get {
+                return ResourceManager.GetString("HTML_TableRowColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;tr id=&quot;{0}&quot;&gt;{1}&lt;/tr&gt;    .
         /// </summary>
         internal static string HTML_TableRowId {
             get {
                 return ResourceManager.GetString("HTML_TableRowId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;tr id=&quot;{0}&quot; BGCOLOR=&quot;{1}&quot;&gt;{2}&lt;/tr&gt;    .
+        /// </summary>
+        internal static string HTML_TableRowIdColor {
+            get {
+                return ResourceManager.GetString("HTML_TableRowIdColor", resourceCulture);
             }
         }
         

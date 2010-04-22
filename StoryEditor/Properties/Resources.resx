@@ -1529,7 +1529,7 @@ eater Panorama
 &lt;head&gt;
 {1}
 &lt;/head&gt;
-&lt;body&gt;
+&lt;body onKeyDown="return OnKeyDown();"&gt;
 {2}
 &lt;/body&gt;
 &lt;/html&gt;</value>
@@ -1561,7 +1561,7 @@ eater Panorama
 </value>
   </data>
   <data name="HTML_TableCellForTextArea" xml:space="preserve">
-    <value>&lt;td width="100%" BGCOLOR="#AACCFF"&gt;{0}&lt;/td&gt;</value>
+    <value>&lt;td width="100%" BGCOLOR={0}&gt;{1}&lt;/td&gt;</value>
   </data>
   <data name="HTML_TableCellWidth" xml:space="preserve">
     <value>&lt;td width="{0}%"&gt;{1}&lt;/td&gt;</value>
@@ -1598,6 +1598,19 @@ eater Panorama
 function TextareaOnKeyUp(textArea)
 {
   return window.external.TextareaOnKeyUp(textArea.id, textArea.value);
+}
+function OnKeyDown()
+{
+  if (window.event.keyCode == 116)
+  {
+    // let the form handle it
+    window.external.LoadDocument();
+
+    // disable the propagation of the F5 event
+    window.event.keyCode = 0;
+    window.event.returnValue = false;
+    return false;
+  }
 }
 function OnAddNote(button)
 {
@@ -2021,5 +2034,11 @@ function OnClickEndConversation(button)
   </data>
   <data name="HTML_TableRowId" xml:space="preserve">
     <value>&lt;tr id="{0}"&gt;{1}&lt;/tr&gt;    </value>
+  </data>
+  <data name="HTML_TableRowColor" xml:space="preserve">
+    <value>&lt;tr BGCOLOR="{0}"&gt;{1}&lt;/tr&gt;</value>
+  </data>
+  <data name="HTML_TableRowIdColor" xml:space="preserve">
+    <value>&lt;tr id="{0}" BGCOLOR="{1}"&gt;{2}&lt;/tr&gt;    </value>
   </data>
 </root>
