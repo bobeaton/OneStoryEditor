@@ -47,11 +47,11 @@ namespace OneStoryProjectEditor
             else
                 checkBoxLangInternationalBT.Visible = false;
 
-            checkBoxAnchors.Visible = ((theCurrentStory != null)
+            checkBoxAnchors.Enabled = ((theCurrentStory != null)
                                        && (((int) theCurrentStory.ProjStage.ProjectStage)
                                            >= (int) StoryStageLogic.ProjectStages.eProjFacAddAnchors));
 
-            checkBoxStoryTestingQuestions.Visible = ((theCurrentStory != null)
+            checkBoxStoryTestingQuestions.Enabled = ((theCurrentStory != null)
                                                      && (((int) theCurrentStory.ProjStage.ProjectStage)
                                                          > (int) StoryStageLogic.ProjectStages.eProjFacAddStoryQuestions));
 
