@@ -80,17 +80,23 @@ namespace OneStoryProjectEditor
                     return true;
             }
 
+            bool bRemovedLast = (theCNsDC.IndexOf(theCNDC) == (theCNsDC.Count - 1));
             theCNsDC.Remove(theCNDC);
 
             // remove the HTML elements for the row of buttons and the conversation table
-            if (!RemoveHtmlNodeById(ConsultNoteDataConverter.ButtonRowId(nVerseIndex, nConversationIndex))
-                || 
-                !RemoveHtmlNodeById(ConsultNoteDataConverter.ConversationTableRowId(nVerseIndex, nConversationIndex)))
+            //  (but only if it was the last conversation. If it wasn't, then the other
+            //  conversations will have out of sequence ids, so we'll just *have* to do
+            //  LoadDoc
+            if (bRemovedLast
+                && 
+                RemoveHtmlNodeById(ConsultNoteDataConverter.ButtonRowId(nVerseIndex, nConversationIndex))
+                && 
+                RemoveHtmlNodeById(ConsultNoteDataConverter.ConversationTableRowId(nVerseIndex, nConversationIndex)))
             {
-                System.Diagnostics.Debug.Assert(false);
-                LoadDocument();
+                return true;
             }
 
+            LoadDocument();
             return true;
         }
 
@@ -122,17 +128,18 @@ namespace OneStoryProjectEditor
                 }
             }
             // otherwise remove the row of buttons and the embedded conversation table
-            // if it's not invisible
+            // if it's not invisible (but only if it's the last conversation... if it
+            //  isn't the last one, then just hiding it won't work, because the subsequent
+            //  conversations will have the wrong index (so we *must* do LoadDoc)
             else if (!theCNDC.Visible 
+                    && (theCNsDC.Count == (nConversationIndex - 1))
                     && RemoveHtmlNodeById(ConsultNoteDataConverter.ButtonRowId(nVerseIndex, nConversationIndex))
                     && RemoveHtmlNodeById(ConsultNoteDataConverter.ConversationTableRowId(nVerseIndex, nConversationIndex)))
             {
                 return true;
             }
 
-            // otherwise, we have some faulty assumptions
-            //  so just reload the document
-            System.Diagnostics.Debug.Assert(false);
+            // otherwise, we have to reload the document
             LoadDocument();
             return true;
         }
@@ -193,7 +200,7 @@ namespace OneStoryProjectEditor
                 theCNsDC.InsureExtraBox(theCNDC, TheSE.LoggedOnMember.MemberType);
             }
 
-            if (theCNDC.IsEditable(theCNDC.Count - 1, TheSE.LoggedOnMember.MemberType,
+            if (theCNDC.IsEditable(TheSE.theCurrentStory.ProjStage, theCNDC.Count - 1, TheSE.LoggedOnMember,
                 theCNDC[theCNDC.Count - 1]))
                 StrIdToScrollTo = ConsultNoteDataConverter.TextareaId(nVerseIndex, nConversationIndex);
             else
@@ -321,8 +328,9 @@ namespace OneStoryProjectEditor
     {
         public override void LoadDocument()
         {
-            string strHtml = StoryData.ConsultantNotesHtml(TheSE.StoryProject.ProjSettings,
-                                                           TheSE.LoggedOnMember.MemberType,
+            string strHtml = StoryData.ConsultantNotesHtml(TheSE.theCurrentStory.ProjStage,
+                                                           TheSE.StoryProject.ProjSettings,
+                                                           TheSE.LoggedOnMember,
                                                            TheSE.hiddenVersesToolStripMenuItem.Checked);
             DocumentText = strHtml;
         }
@@ -340,8 +348,9 @@ namespace OneStoryProjectEditor
     {
         public override void LoadDocument()
         {
-            string strHtml = StoryData.CoachNotesHtml(TheSE.StoryProject.ProjSettings,
-                                                      TheSE.LoggedOnMember.MemberType,
+            string strHtml = StoryData.CoachNotesHtml(TheSE.theCurrentStory.ProjStage,
+                                                      TheSE.StoryProject.ProjSettings,
+                                                      TheSE.LoggedOnMember,
                                                       TheSE.hiddenVersesToolStripMenuItem.Checked);
             DocumentText = strHtml;
         }
