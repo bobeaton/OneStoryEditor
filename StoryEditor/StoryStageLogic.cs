@@ -101,9 +101,9 @@ namespace OneStoryProjectEditor
             return bRet;
         }
 
-        public bool IsEditAllowed(TeamMemberData loggedOnMember)
+        public bool IsEditAllowed(TeamMemberData.UserTypes loggedOnMemberType)
         {
-            return (MemberTypeWithEditToken == loggedOnMember.MemberType);
+            return (MemberTypeWithEditToken == loggedOnMemberType);
         }
 
         public ApplicationException WrongMemberTypeEx

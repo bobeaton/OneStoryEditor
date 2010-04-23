@@ -291,31 +291,36 @@ namespace OneStoryProjectEditor
             }
         }
 
-        protected string GetHeaderRow(string strHeader, int nVerseIndex)
+        protected string GetHeaderRow(string strHeader, int nVerseIndex,
+            ConsultNotesDataConverter theCNsDC, TeamMemberData LoggedOnMember)
         {
+            string strHtmlAddNoteButton = null;
+            if (theCNsDC.HasAddNotePrivilege(LoggedOnMember.MemberType))
+                strHtmlAddNoteButton = String.Format(Properties.Resources.HTML_TableCell,
+                                                     String.Format(Properties.Resources.HTML_Button,
+                                                                   nVerseIndex,
+                                                                   "return OnAddNote(this);",
+                                                                   "Add Note"));
+
             return String.Format(Properties.Resources.HTML_TableRowColor, "#AACCFF",
                                  String.Format("{0}{1}",
                                                String.Format(Properties.Resources.HTML_TableCellWidth, 100,
                                                              strHeader),
-                                               String.Format(Properties.Resources.HTML_TableCell,
-                                                             String.Format(Properties.Resources.HTML_Button,
-                                                                           nVerseIndex,
-                                                                           "return OnAddNote(this);",
-                                                                           "Add Note"))));
+                                                             strHtmlAddNoteButton));
         }
 
         public string ConsultantNotesHtml(StoryStageLogic theStoryStage, 
             TeamMemberData LoggedOnMember, bool bViewHidden)
         {
             string strHtml = null;
-            strHtml += GetHeaderRow("Story:", 0);
+            strHtml += GetHeaderRow("Story:", 0, FirstVerse.ConsultantNotes, LoggedOnMember);
 
             strHtml += FirstVerse.ConsultantNotes.Html(theStoryStage, LoggedOnMember, bViewHidden, 0);
 
             for (int i = 1; i <= Count; i++)
             {
                 VerseData aVerseData = this[i - 1];
-                strHtml += GetHeaderRow("Ln: " + i, i);
+                strHtml += GetHeaderRow("Ln: " + i, i, aVerseData.ConsultantNotes, LoggedOnMember);
 
                 strHtml += aVerseData.ConsultantNotes.Html(theStoryStage, LoggedOnMember, bViewHidden, i);
             }
@@ -327,14 +332,14 @@ namespace OneStoryProjectEditor
             TeamMemberData LoggedOnMember, bool bViewHidden)
         {
             string strHtml = null;
-            strHtml += GetHeaderRow("Story:", 0);
+            strHtml += GetHeaderRow("Story:", 0, FirstVerse.CoachNotes, LoggedOnMember);
 
             strHtml += FirstVerse.CoachNotes.Html(theStoryStage, LoggedOnMember, bViewHidden, 0);
 
             for (int i = 1; i <= Count; i++)
             {
                 VerseData aVerseData = this[i - 1];
-                strHtml += GetHeaderRow("Ln: " + i, i);
+                strHtml += GetHeaderRow("Ln: " + i, i, aVerseData.CoachNotes, LoggedOnMember);
 
                 strHtml += aVerseData.CoachNotes.Html(theStoryStage, LoggedOnMember, bViewHidden, i);
             }

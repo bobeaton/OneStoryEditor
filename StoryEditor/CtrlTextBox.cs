@@ -31,6 +31,7 @@ namespace OneStoryProjectEditor
             _ctrlVerseParent = ctrlVerseParent;
         }
 
+        /* was used by the ConNotes, which are now done differently
         public CtrlTextBox(string strName, VerseControl ctrlVerseParent, ResizableControl ctrlParent, StringTransfer stData,
             ThrowIfNotCorrectEditor delegateRequiredEditorCheck, TeamMemberData.UserTypes eRequiredEditor)
         {
@@ -45,6 +46,7 @@ namespace OneStoryProjectEditor
             _delegateRequiredEditorCheck = delegateRequiredEditorCheck; // call to check if the proper member is logged in!
             _eRequiredEditor = eRequiredEditor;
         }
+        */
 
         public CtrlTextBox(string strName, VerseControl ctrlVerseParent, ResizableControl ctrlParent, StringTransfer stData,
             ProjectSettings.LanguageInfo li, string strOverrideKeyboard, string strLabel)
@@ -125,7 +127,7 @@ namespace OneStoryProjectEditor
 
                     // finally, the last possible blockage is if the currently logged on member isn't the 
                     //  right editor for the state we are in (which has to do with who has the edit token)
-                    if (!_stageLogic.IsEditAllowed(theSE.LoggedOnMember))
+                    if (!_stageLogic.IsEditAllowed(theSE.LoggedOnMember.MemberType))
                         throw _stageLogic.WrongMemberTypeEx;
                 }
 
@@ -176,7 +178,7 @@ namespace OneStoryProjectEditor
 
                     // finally, the last possible blockage is if the currently logged on member isn't the 
                     //  right editor for the state we are in (which has to do with who has the edit token)
-                    if (!_stageLogic.IsEditAllowed(theSE.LoggedOnMember))
+                    if (!_stageLogic.IsEditAllowed(theSE.LoggedOnMember.MemberType))
                         throw _stageLogic.WrongMemberTypeEx;
 
                     drgevent.Effect = DragDropEffects.Copy;

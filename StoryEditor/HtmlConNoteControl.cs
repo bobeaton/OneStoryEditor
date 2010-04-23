@@ -29,7 +29,8 @@ namespace OneStoryProjectEditor
                 {
                     ConsultNotesDataConverter aCNsDC = DataConverter(i);
                     foreach (ConsultNoteDataConverter dc in aCNsDC)
-                        aCNsDC.InsureExtraBox(dc, TheSE.LoggedOnMember.MemberType);
+                        aCNsDC.InsureExtraBox(dc, TheSE.theCurrentStory.ProjStage, 
+                                TheSE.LoggedOnMember.MemberType);
                 }
             }
         }
@@ -109,6 +110,10 @@ namespace OneStoryProjectEditor
                 out theCNsDC, out theCNDC))
                 return false;
 
+            // if there's only one and it's empty, then just delete it
+            if (!theCNDC.HasData)
+                OnClickDelete(strId);
+
             theCNDC.Visible = (theCNDC.Visible) ? false : true;
 
             if (TheSE.hiddenVersesToolStripMenuItem.Checked)
@@ -171,10 +176,20 @@ namespace OneStoryProjectEditor
                 out theCNsDC, out theCNDC))
                 return false;
 
+            System.Diagnostics.Debug.Assert(Document != null);
+            HtmlElement elemButton = Document.GetElementById(strId);
+            System.Diagnostics.Debug.Assert(elemButton != null);
+
             if (theCNDC.IsFinished)
+            {
                 theCNDC.IsFinished = false;
+                elemButton.InnerText = ConsultNoteDataConverter.CstrButtonLabelConversationEnd;
+            }
             else
+            {
                 theCNDC.IsFinished = true;
+                elemButton.InnerText = ConsultNoteDataConverter.CstrButtonLabelConversationReopen;
+            }
 
             if (theCNDC.IsFinished)
             {
@@ -197,7 +212,8 @@ namespace OneStoryProjectEditor
             else
             {
                 // just in case we need to have an open box now
-                theCNsDC.InsureExtraBox(theCNDC, TheSE.LoggedOnMember.MemberType);
+                theCNsDC.InsureExtraBox(theCNDC, TheSE.theCurrentStory.ProjStage, 
+                    TheSE.LoggedOnMember.MemberType);
             }
 
             if (theCNDC.IsEditable(TheSE.theCurrentStory.ProjStage, theCNDC.Count - 1, TheSE.LoggedOnMember,
@@ -250,12 +266,14 @@ namespace OneStoryProjectEditor
             ConsultNoteDataConverter theCNDC = DataConverter(nVerseIndex, nConversationIndex);
             System.Diagnostics.Debug.Assert((theCNDC != null) && (theCNDC.Count > 0));
             CommInstance aCI = theCNDC[theCNDC.Count - 1];
-            System.Diagnostics.Debug.WriteLine(String.Format("Was: {0}, now: {1}",
-                aCI, strText));
             aCI.SetValue(strText);
 
             // indicate that the document has changed
             theSE.Modified = true;
+
+            // update the status bar (in case we previously put an error there
+            StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[theSE.theCurrentStory.ProjStage.ProjectStage];
+            theSE.SetStatusBar(String.Format("{0}  Press F1 for instructions", st.StageDisplayString));
 
             return true;
         }
@@ -312,7 +330,8 @@ namespace OneStoryProjectEditor
             }
 
             ConsultNoteDataConverter cndc =
-                aCNsDC.Add(round, theSE.LoggedOnMember.MemberType, strNote);
+                aCNsDC.Add(round, theSE.theCurrentStory.ProjStage, 
+                    theSE.LoggedOnMember.MemberType, strNote);
             System.Diagnostics.Debug.Assert(cndc.Count == 1);
 
             LoadDocument();
