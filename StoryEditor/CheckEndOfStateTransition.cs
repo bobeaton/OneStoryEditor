@@ -380,8 +380,18 @@ namespace OneStoryProjectEditor
 
         protected static void ShowErrorFocus(StoryEditor theSE, CtrlTextBox tb, string strStatusMessage)
         {
-            tb.Focus();
-            tb.SelectAll();
+            if (tb != null)
+            {
+                tb.Focus();
+                tb.SelectAll();
+            }
+            ShowError(theSE, strStatusMessage);
+        }
+
+        protected static void ShowErrorFocus(StoryEditor theSE, 
+            HtmlConNoteControl paneConNote, int nVerseNumber, string strStatusMessage)
+        {
+            paneConNote.ScrollToVerse(nVerseNumber);
             ShowError(theSE, strStatusMessage);
         }
 
@@ -452,13 +462,19 @@ namespace OneStoryProjectEditor
                 return false;
             }
 
+            // before going to the CIT, let's make sure that if the CIT had made 
+            //  a comment, that the PF answered it. (this only occurs if the CIT
+            //  had earlier checked the story and gone backwards)
+            if (!CheckThatPFRespondedToCITQuestions(theSE, theCurrentStory))
+                return false;
+
             if (theStoryProjectData.TeamMembers.HasOutsideEnglishBTer)
                 eProposedNextState = StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT;
             else if (theStoryProjectData.TeamMembers.HasFirstPassMentor)
                 eProposedNextState = StoryStageLogic.ProjectStages.eFirstPassMentorCheck1;
             else
                 System.Diagnostics.Debug.Assert(eProposedNextState ==
-                    StoryStageLogic.ProjectStages.eConsultantCheckStoryInfo);
+                                                StoryStageLogic.ProjectStages.eConsultantCheckStoryInfo);
 
             return true;
         }
@@ -577,16 +593,30 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert(eProposedNextState ==
                 StoryStageLogic.ProjectStages.eCoachReviewRound1Notes);
 
+            // before going to the Coach, let's make sure that if the coach had made 
+            //  a comment, that the CIT answered it. (this only occurs if the coach
+            //  had earlier checked the story and gone backwards)
+            if (!CheckThatCITRespondedToCoachQuestions(theSE, theCurrentStory))
+                return false;
+
             return true;
         }
 
         static bool CheckThatCoachAnsweredCITsQuestions(StoryEditor theSE, StoryData theCurrentStory)
         {
-            int nVerseNumber = 1;
+            int nVerseNumber = 0;
+            if (theCurrentStory.Verses.FirstVerse.IsVisible)
+                if (!CheckThatMentorAnsweredMenteesQuestions(theSE, theSE.htmlCoachNotesControl,
+                    theCurrentStory.Verses.FirstVerse.CoachNotes, ref nVerseNumber))
+                    return false;
+
+            nVerseNumber++;
             foreach (VerseData aVerseData in theCurrentStory.Verses)
             {
-                if (!CheckThatMentorAnsweredMenteesQuestions(theSE, aVerseData.CoachNotes, ref nVerseNumber))
-                    return false;
+                if (aVerseData.IsVisible)
+                    if (!CheckThatMentorAnsweredMenteesQuestions(theSE, theSE.htmlCoachNotesControl,
+                        aVerseData.CoachNotes, ref nVerseNumber))
+                        return false;
                 nVerseNumber++;
             }
             return true;
@@ -595,10 +625,18 @@ namespace OneStoryProjectEditor
         static bool CheckThatCITAnsweredPFsQuestions(StoryEditor theSE, StoryData theCurrentStory)
         {
             int nVerseNumber = 1;
+            if (theCurrentStory.Verses.FirstVerse.IsVisible)
+                if (!CheckThatMentorAnsweredMenteesQuestions(theSE, theSE.htmlConsultantNotesControl,
+                    theCurrentStory.Verses.FirstVerse.ConsultantNotes, ref nVerseNumber))
+                    return false;
+
+            nVerseNumber++;
             foreach (VerseData aVerseData in theCurrentStory.Verses)
             {
-                if (!CheckThatMentorAnsweredMenteesQuestions(theSE, aVerseData.ConsultantNotes, ref nVerseNumber))
-                    return false;
+                if (aVerseData.IsVisible)
+                    if (!CheckThatMentorAnsweredMenteesQuestions(theSE, theSE.htmlConsultantNotesControl,
+                        aVerseData.ConsultantNotes, ref nVerseNumber))
+                        return false;
                 nVerseNumber++;
             }
             return true;
@@ -606,11 +644,20 @@ namespace OneStoryProjectEditor
 
         static bool CheckThatCITRespondedToCoachQuestions(StoryEditor theSE, StoryData theCurrentStory)
         {
-            int nVerseNumber = 1;
+            int nVerseNumber = 0;
+            if (theCurrentStory.Verses.FirstVerse.IsVisible)
+                if (!CheckThatMenteeAnsweredMentorsQuestions(theSE,
+                        theSE.htmlCoachNotesControl, 
+                        theCurrentStory.Verses.FirstVerse.CoachNotes, ref nVerseNumber))
+                    return false;
+
+            nVerseNumber++;
             foreach (VerseData aVerseData in theCurrentStory.Verses)
             {
-                if (!CheckThatMenteeAnsweredMentorsQuestions(theSE, aVerseData.CoachNotes, ref nVerseNumber))
-                    return false;
+                if (aVerseData.IsVisible)
+                    if (!CheckThatMenteeAnsweredMentorsQuestions(theSE, theSE.htmlCoachNotesControl,
+                        aVerseData.CoachNotes, ref nVerseNumber))
+                        return false;
                 nVerseNumber++;
             }
             return true;
@@ -618,47 +665,69 @@ namespace OneStoryProjectEditor
 
         static bool CheckThatPFRespondedToCITQuestions(StoryEditor theSE, StoryData theCurrentStory)
         {
-            int nVerseNumber = 1;
+            int nVerseNumber = 0;
+            if (theCurrentStory.Verses.FirstVerse.IsVisible)
+                if (!CheckThatMenteeAnsweredMentorsQuestions(theSE, theSE.htmlConsultantNotesControl,
+                    theCurrentStory.Verses.FirstVerse.ConsultantNotes, ref nVerseNumber))
+                    return false;
+            
+            nVerseNumber++;
             foreach (VerseData aVerseData in theCurrentStory.Verses)
             {
-                if (!CheckThatMenteeAnsweredMentorsQuestions(theSE, aVerseData.ConsultantNotes, ref nVerseNumber))
-                    return false;
+                if (aVerseData.IsVisible)
+                    if (!CheckThatMenteeAnsweredMentorsQuestions(theSE, theSE.htmlConsultantNotesControl,
+                        aVerseData.ConsultantNotes, ref nVerseNumber))
+                        return false;
                 nVerseNumber++;
             }
             return true;
         }
 
-        static bool CheckThatMentorAnsweredMenteesQuestions(StoryEditor theSE, ConsultNotesDataConverter aCNDC, ref int nVerseNumber)
+        static bool CheckThatMentorAnsweredMenteesQuestions(StoryEditor theSE,
+            HtmlConNoteControl paneConNote, ConsultNotesDataConverter aCNsDC, 
+            ref int nVerseNumber)
         {
-            foreach (ConsultNoteDataConverter aConNote in aCNDC)
+            foreach (ConsultNoteDataConverter aConNote in aCNsDC)
             {
-                int nIndexLast = aConNote.Count - 1;
-                CommInstance theLastCI = aConNote[nIndexLast];
-                if ((theLastCI.Direction == aConNote.MentorDirection)
-                    && !theLastCI.HasData)
+                if (aConNote.Visible)
                 {
-                    ShowErrorFocus(theSE, theLastCI.TextBox,
-                        String.Format("Error: in line {0}, the {1} made a comment, which you didn't respond to. Did you forget it?",
-                        nVerseNumber, TeamMemberData.GetMemberTypeAsDisplayString(aConNote.MenteeRequiredEditor)));
-                    return false;
+                    int nIndexLast = aConNote.Count - 1;
+                    CommInstance theLastCI = aConNote[nIndexLast];
+                    if ((theLastCI.Direction == aConNote.MentorDirection)
+                        && !theLastCI.HasData)
+                    {
+                        ShowErrorFocus(theSE, paneConNote, nVerseNumber,
+                                       String.Format(
+                                           "Error: in line {0}, the {1} made a comment, which you didn't respond to. Did you forget it?",
+                                           nVerseNumber,
+                                           TeamMemberData.GetMemberTypeAsDisplayString(aConNote.MenteeRequiredEditor)));
+                        return false;
+                    }
                 }
             }
             return true;
         }
 
-        static bool CheckThatMenteeAnsweredMentorsQuestions(StoryEditor theSE, ConsultNotesDataConverter aCNDC, ref int nVerseNumber)
+        static bool CheckThatMenteeAnsweredMentorsQuestions(StoryEditor theSE, 
+            HtmlConNoteControl paneConNote, ConsultNotesDataConverter aCNsDC, 
+            ref int nVerseNumber)
         {
-            foreach (ConsultNoteDataConverter aConNote in aCNDC)
+            foreach (ConsultNoteDataConverter aConNote in aCNsDC)
             {
-                int nIndexLast = aConNote.Count - 1;
-                CommInstance theLastCI = aConNote[nIndexLast];
-                if ((theLastCI.Direction == aConNote.MenteeDirection)
-                    && !theLastCI.HasData)
+                if (aConNote.Visible)
                 {
-                    ShowErrorFocus(theSE, theLastCI.TextBox,
-                        String.Format("Error: in line {0}, the {1} made a comment, which you didn't respond to. Did you forget it?",
-                        nVerseNumber, TeamMemberData.GetMemberTypeAsDisplayString(aConNote.MentorRequiredEditor)));
-                    return false;
+                    int nIndexLast = aConNote.Count - 1;
+                    CommInstance theLastCI = aConNote[nIndexLast];
+                    if ((theLastCI.Direction == aConNote.MenteeDirection)
+                        && !theLastCI.HasData)
+                    {
+                        ShowErrorFocus(theSE, paneConNote, nVerseNumber,
+                                       String.Format(
+                                           "Error: in line {0}, the {1} made a comment, which you didn't respond to. Did you forget it?",
+                                           nVerseNumber,
+                                           TeamMemberData.GetMemberTypeAsDisplayString(aConNote.MentorRequiredEditor)));
+                        return false;
+                    }
                 }
             }
             return true;
