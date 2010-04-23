@@ -881,6 +881,8 @@ namespace OneStoryProjectEditor
                 stLast.TextBox.Focus();
         }
 
+#if UsingHtmlDisplayForConNotes
+#else
         protected void InitConsultNotesPane(ConNoteFlowLayoutPanel theFLP, ConsultNotesDataConverter aCNsDC, int nVerseIndex)
         {
             ConsultNotesControl aConsultNotesCtrl = new ConsultNotesControl(this, theFLP,
@@ -892,9 +894,6 @@ namespace OneStoryProjectEditor
         // this is for use by the consultant panes if we add or remove or hide a single note
         internal void ReInitConsultNotesPane(ConsultNotesDataConverter aCNsD)
         {
-#if UsingHtmlDisplayForConNotes
-            Debug.Assert(false);
-#else
             int nLastVerseInFocus = CtrlTextBox._nLastVerse;
             StringTransfer stLast = (CtrlTextBox._inTextBox != null)
                 ? CtrlTextBox._inTextBox.MyStringTransfer : null;
@@ -958,14 +957,10 @@ namespace OneStoryProjectEditor
 
             // if we do this, it's because something changed
             Modified = true;
-#endif
         }
 
         internal void HandleQueryContinueDrag(ConsultNotesControl aCNsDC, QueryContinueDragEventArgs e)
         {
-#if UsingHtmlDisplayForConNotes
-            Debug.Assert(false);
-#else
             Debug.Assert(flowLayoutPanelConsultantNotes.Contains(aCNsDC._theCNsDC)
                 || flowLayoutPanelCoachNotes.Contains(aCNsDC._theCNsDC));
             FlowLayoutPanel theFLP = (flowLayoutPanelConsultantNotes.Contains(aCNsDC._theCNsDC)) ? flowLayoutPanelConsultantNotes : flowLayoutPanelCoachNotes;
@@ -982,7 +977,6 @@ namespace OneStoryProjectEditor
                 DimConsultNotesDropTargetButtons(theFLP, aCNsDC);
             else
                 LightUpConsultNotesDropTargetButtons(theFLP, aCNsDC);
-#endif
         }
 
         private static void LightUpConsultNotesDropTargetButtons(FlowLayoutPanel theFLP, ConsultNotesControl control)
@@ -1006,6 +1000,7 @@ namespace OneStoryProjectEditor
                     aCNsC.buttonDragDropHandle.Dock = DockStyle.Right;
             }
         }
+#endif
 
         internal void AddNewVerse(VerseBtControl theVerse, int nNumberToAdd, bool bAfter)
         {
@@ -2764,7 +2759,7 @@ namespace OneStoryProjectEditor
             if ((StoryProject != null) && (StoryProject.ProjSettings != null))
             {
                 showHideFieldsToolStripMenuItem.Enabled = (theCurrentStory != null);
-                /*
+
                 if (StoryProject.ProjSettings.Vernacular.HasData)
                     viewVernacularLangFieldMenuItem.Text = String.Format(Properties.Resources.IDS_LanguageFields, StoryProject.ProjSettings.Vernacular.LangName);
                 else
@@ -2797,7 +2792,7 @@ namespace OneStoryProjectEditor
 
                 viewConsultantNoteFieldMenuItem.Enabled =
                     viewCoachNotesFieldMenuItem.Enabled = (theCurrentStory != null);
-                */
+
                 stateMapToolStripMenuItem.Enabled = true;
             }
             else
@@ -3391,6 +3386,17 @@ namespace OneStoryProjectEditor
                 File.Delete(strTbxFilename);
 
             File.WriteAllText(strTbxFilename, strBuilder.ToString());
+        }
+
+        private void statusLabel_Click(object sender, EventArgs e)
+        {
+            if ((theCurrentStory != null) && (theCurrentStory.ProjStage != null))
+            {
+                // update the status bar (in case we previously put an error there
+                StoryStageLogic.StateTransition st =
+                    StoryStageLogic.stateTransitions[theCurrentStory.ProjStage.ProjectStage];
+                SetStatusBar(String.Format("{0}  Press F1 for instructions", st.StageDisplayString));
+            }
         }
     }
 }
