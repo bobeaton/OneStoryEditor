@@ -304,37 +304,39 @@ namespace OneStoryProjectEditor
                                                                            "Add Note"))));
         }
 
-        public string ConsultantNotesHtml(TeamMemberData.UserTypes eLoggedOnMember, bool bViewHidden)
+        public string ConsultantNotesHtml(StoryStageLogic theStoryStage, 
+            TeamMemberData LoggedOnMember, bool bViewHidden)
         {
             string strHtml = null;
             strHtml += GetHeaderRow("Story:", 0);
 
-            strHtml += FirstVerse.ConsultantNotes.Html(eLoggedOnMember, bViewHidden, 0);
+            strHtml += FirstVerse.ConsultantNotes.Html(theStoryStage, LoggedOnMember, bViewHidden, 0);
 
             for (int i = 1; i <= Count; i++)
             {
                 VerseData aVerseData = this[i - 1];
                 strHtml += GetHeaderRow("Ln: " + i, i);
 
-                strHtml += aVerseData.ConsultantNotes.Html(eLoggedOnMember, bViewHidden, i);
+                strHtml += aVerseData.ConsultantNotes.Html(theStoryStage, LoggedOnMember, bViewHidden, i);
             }
 
             return String.Format(Properties.Resources.HTML_Table, strHtml);
         }
 
-        public string CoachNotesHtml(TeamMemberData.UserTypes eLoggedOnMember, bool bViewHidden)
+        public string CoachNotesHtml(StoryStageLogic theStoryStage, 
+            TeamMemberData LoggedOnMember, bool bViewHidden)
         {
             string strHtml = null;
             strHtml += GetHeaderRow("Story:", 0);
 
-            strHtml += FirstVerse.CoachNotes.Html(eLoggedOnMember, bViewHidden, 0);
+            strHtml += FirstVerse.CoachNotes.Html(theStoryStage, LoggedOnMember, bViewHidden, 0);
 
             for (int i = 1; i <= Count; i++)
             {
                 VerseData aVerseData = this[i - 1];
                 strHtml += GetHeaderRow("Ln: " + i, i);
 
-                strHtml += aVerseData.CoachNotes.Html(eLoggedOnMember, bViewHidden, i);
+                strHtml += aVerseData.CoachNotes.Html(theStoryStage, LoggedOnMember, bViewHidden, i);
             }
 
             return String.Format(Properties.Resources.HTML_Table, strHtml);

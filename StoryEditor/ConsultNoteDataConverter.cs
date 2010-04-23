@@ -31,15 +31,6 @@ namespace OneStoryProjectEditor
             Guid = System.Guid.NewGuid().ToString();  // rhs.Guid;
             TimeStamp = rhs.TimeStamp;
         }
-
-        public bool IsMentor
-        {
-            get
-            {
-                return ((Direction == ConsultNoteDataConverter.CommunicationDirections.eConsultantToProjFac)
-                        || (Direction == ConsultNoteDataConverter.CommunicationDirections.eCoachToConsultant));
-            }
-        }
     }
 
     public abstract class ConsultNoteDataConverter : List<CommInstance>
@@ -256,15 +247,23 @@ namespace OneStoryProjectEditor
         public const string CstrButtonLabelConversationReopen = "Reopen conversation";
         public const string CstrButtonLabelConversationEnd = "End conversation";
 
-        public bool IsEditable(int i, TeamMemberData.UserTypes eLoggedOnMember, CommInstance aCI)
+        public bool IsEditable(StoryStageLogic theStoryStage, int i, 
+            TeamMemberData LoggedOnMember, CommInstance aCI)
         {
             return (i == (Count - 1))
                    && (!IsFinished)
-                   && ((aCI.IsMentor && !IsWrongEditor(eLoggedOnMember, MentorRequiredEditor))
-                       || (!aCI.IsMentor && !IsWrongEditor(eLoggedOnMember, MenteeRequiredEditor)));
+                   && (theStoryStage.IsEditAllowed(LoggedOnMember))
+                   && ((IsFromMentor(aCI) && !IsWrongEditor(LoggedOnMember.MemberType, MentorRequiredEditor))
+                       || (!IsFromMentor(aCI) && !IsWrongEditor(LoggedOnMember.MemberType, MenteeRequiredEditor)));
         }
 
-        public string Html(TeamMemberData.UserTypes eLoggedOnMember, 
+        public bool IsFromMentor(CommInstance aCI)
+        {
+            return (aCI.Direction == MentorDirection);
+        }
+
+        public string Html(StoryStageLogic theStoryStage, 
+            TeamMemberData LoggedOnMember, 
             int nVerseIndex, int nConversationIndex)
         {
             // r1: "Round: n"; "button"
@@ -300,7 +299,7 @@ namespace OneStoryProjectEditor
                 CommInstance aCI = this[i];
 
                 strRow = null;
-                if (aCI.IsMentor)
+                if (IsFromMentor(aCI))
                     strRow += String.Format(Properties.Resources.HTML_TableCell,
                                             MentorLabel);
                 else
@@ -309,7 +308,7 @@ namespace OneStoryProjectEditor
 
                 // only the last one is editable and then only if the right person is 
                 //  logged in
-                if (IsEditable(i, eLoggedOnMember, aCI))
+                if (IsEditable(theStoryStage, i, LoggedOnMember, aCI))
                 {
                     strRow += String.Format(Properties.Resources.HTML_TableCellForTextArea, "#FF0000",
                                             String.Format(Properties.Resources.HTML_Textarea,
@@ -597,15 +596,15 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public string Html(TeamMemberData.UserTypes eLoggedOnMember, bool bViewHidden,
-            int nVerseIndex)
+        public string Html(StoryStageLogic theStoryStage, TeamMemberData LoggedOnMember, 
+            bool bViewHidden, int nVerseIndex)
         {
             string strHtml = null;
             for (int i = 0; i < Count; i++)
             {
                 ConsultNoteDataConverter aCNDC = this[i];
                 if (aCNDC.Visible || bViewHidden)
-                    strHtml += aCNDC.Html(eLoggedOnMember, nVerseIndex, i);
+                    strHtml += aCNDC.Html(theStoryStage, LoggedOnMember, nVerseIndex, i);
             }
 
             return String.Format(Properties.Resources.HTML_TableRow,

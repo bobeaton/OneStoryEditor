@@ -130,20 +130,22 @@ namespace OneStoryProjectEditor
                                  strLangStyles);
         }
 
-        public string ConsultantNotesHtml(ProjectSettings projSettings, 
-            TeamMemberData.UserTypes eLoggedOnMember, bool bViewHidden)
+        public string ConsultantNotesHtml(StoryStageLogic theStoryStage, 
+            ProjectSettings projSettings, TeamMemberData LoggedOnMember, 
+            bool bViewHidden)
         {
-            string strHtml = Verses.ConsultantNotesHtml(eLoggedOnMember, bViewHidden);
+            string strHtml = Verses.ConsultantNotesHtml(theStoryStage, LoggedOnMember, bViewHidden);
             return String.Format(Properties.Resources.HTML_Header,
                 StylePrefix(projSettings),
                 Properties.Resources.HTML_DOM_Prefix, 
                 strHtml);
         }
 
-        public string CoachNotesHtml(ProjectSettings projSettings,
-            TeamMemberData.UserTypes eLoggedOnMember, bool bViewHidden)
+        public string CoachNotesHtml(StoryStageLogic theStoryStage, 
+            ProjectSettings projSettings, TeamMemberData LoggedOnMember, 
+            bool bViewHidden)
         {
-            string strHtml = Verses.CoachNotesHtml(eLoggedOnMember, bViewHidden);
+            string strHtml = Verses.CoachNotesHtml(theStoryStage, LoggedOnMember, bViewHidden);
             return String.Format(Properties.Resources.HTML_Header,
                 StylePrefix(projSettings),
                 Properties.Resources.HTML_DOM_Prefix,
