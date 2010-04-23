@@ -46,7 +46,8 @@ namespace OneStoryProjectEditor
                 if (elem != null)
                 {
                     elem.ScrollIntoView(bAlignWithTop);
-                    elem.Focus();
+                    if (!bAlignWithTop)
+                        elem.Focus();
                 }
             }
         }

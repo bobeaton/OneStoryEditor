@@ -76,7 +76,7 @@ namespace OneStoryProjectEditor
             }
         }
 
-        protected Control LastControlIntoView;
+        public Control LastControlIntoView { get; set; }
 
         public new void ScrollControlIntoView(Control ctrl)
         {
