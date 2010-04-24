@@ -894,6 +894,10 @@ for additional comments by right-clicking on the small button and choosing "Add 
 When you are finished, then click the 'Next Stage' button in the left-hand side of the status bar to go to the next 
 stage in the process.
     </StageInstructions>
+    <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eConsultantReviseRound2Notes</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotes2</AllowableBackwardsTransition>
+    </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eProjFacOnlineReview2WithConsultant" MemberTypeWithEditToken="eProjectFacilitator" NextState="eProjFacReadyForTest2">
@@ -910,6 +914,8 @@ Once all of the issues and their resolutions are discussed, you can transition t
 which you will do your first (formal) UNS test.
     </StageInstructions>
     <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eConsultantReviseRound2Notes</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotes2</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eProjFacReviseBasedOnRound2Notes</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
@@ -1086,7 +1092,7 @@ bar to go to the next stage in the process.
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eProjFacReviseBasedOnRound2Notes</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTypeInternationalBTTest2</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresFirstPassMentor="true">eFirstPassMentorCheck2</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresFirstPassMentor="true">eFirstPassMentorReviewTest2</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
@@ -1134,7 +1140,7 @@ to the 'First-pass mentor checks test 2 results' state), which sends it to them 
     </StageInstructions>
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eConsultantReviewTest2</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresFirstPassMentor="true">eFirstPassMentorCheck2</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresFirstPassMentor="true">eFirstPassMentorReviewTest2</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
   </StateTransition>
