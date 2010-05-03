@@ -1418,6 +1418,11 @@ namespace OneStoryProjectEditor
             netBibleViewer.DisplayVerses(strScriptureReference);
         }
 
+        internal string GetNetBibleScriptureReference
+        {
+            get { return netBibleViewer.ScriptureReference; }
+        }
+
         protected int Panel1_Width
         {
             get

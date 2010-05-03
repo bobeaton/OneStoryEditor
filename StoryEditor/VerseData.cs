@@ -299,7 +299,7 @@ namespace OneStoryProjectEditor
                 strHtmlAddNoteButton = String.Format(Properties.Resources.HTML_TableCell,
                                                      String.Format(Properties.Resources.HTML_Button,
                                                                    nVerseIndex,
-                                                                   "return OnAddNote(this);",
+                                                                   "return window.external.OnAddNote(this.id, null);",
                                                                    "Add Note"));
 
             return String.Format(Properties.Resources.HTML_TableRowColor, "#AACCFF",

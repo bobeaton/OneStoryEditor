@@ -313,20 +313,20 @@ namespace OneStoryProjectEditor
                 strRow += String.Format(Properties.Resources.HTML_TableCell,
                                         String.Format(Properties.Resources.HTML_Button,
                                                       ButtonId(nVerseIndex, nConversationIndex, CnBtnIndexDelete),
-                                                      "return OnClickDelete(this);",
+                                                      "return window.external.OnClickDelete(this.id);",
                                                       "Delete"));
 
                 strRow += String.Format(Properties.Resources.HTML_TableCell,
                                         String.Format(Properties.Resources.HTML_Button,
                                                       ButtonId(nVerseIndex, nConversationIndex, CnBtnIndexHide),
-                                                      "return OnClickHide(this);",
+                                                      "return window.external.OnClickHide(this.id);",
                                                       (Visible) ? CstrButtonLabelHide : CstrButtonLabelUnhide));
 
                 strRow += String.Format(Properties.Resources.HTML_TableCell,
                                         String.Format(Properties.Resources.HTML_Button,
                                                       ButtonId(nVerseIndex, nConversationIndex,
                                                                CnBtnIndexEndConversation),
-                                                      "return OnClickEndConversation(this);",
+                                                      "return window.external.OnClickEndConversation(this.id);",
                                                       (IsFinished)
                                                           ? CstrButtonLabelConversationReopen
                                                           : CstrButtonLabelConversationEnd));

@@ -106,10 +106,6 @@ namespace OneStoryProjectEditor.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;script&gt;
-        ///function TextareaOnKeyUp(textArea)
-        ///{
-        ///  return window.external.TextareaOnKeyUp(textArea.id, textArea.value);
-        ///}
         ///function OnBibRefJump(link)
         ///{
         ///  window.external.OnBibRefJump(link.name);
@@ -124,7 +120,11 @@ namespace OneStoryProjectEditor.Properties {
         ///
         ///    // disable the propagation of the F5 event
         ///    window.event.keyCode = 0;
-        ///    window.event.returnValue = fal [rest of string was truncated]&quot;;.
+        ///    window.event.returnValue = false;
+        ///    return false;
+        ///  }
+        ///}
+        ///&lt;/script&gt;.
         /// </summary>
         internal static string HTML_DOM_Prefix {
             get {
@@ -295,7 +295,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;textarea id=&quot;{0}&quot; class=&quot;{1}&quot; onKeyUp=&quot;return TextareaOnKeyUp(this);&quot;&gt;{2}&lt;/textarea&gt;.
+        ///   Looks up a localized string similar to &lt;textarea id=&quot;{0}&quot; class=&quot;{1}&quot; onKeyUp=&quot;return window.external.TextareaOnKeyUp(this.id, this.value);&quot; ondragover=&quot;window.event.returnValue=false&quot; ondrop=&quot;window.external.CopyScriptureReference(this.id)&quot;&gt;{2}&lt;/textarea&gt;.
         /// </summary>
         internal static string HTML_Textarea {
             get {

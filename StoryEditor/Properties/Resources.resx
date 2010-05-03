@@ -1552,7 +1552,7 @@ eater Panorama
     <value>&lt;button id="{0}" onClick="{1}"&gt;{2}&lt;/button&gt;</value>
   </data>
   <data name="HTML_Textarea" xml:space="preserve">
-    <value>&lt;textarea id="{0}" class="{1}" onKeyUp="return TextareaOnKeyUp(this);"&gt;{2}&lt;/textarea&gt;</value>
+    <value>&lt;textarea id="{0}" class="{1}" onKeyUp="return window.external.TextareaOnKeyUp(this.id, this.value);" ondragover="window.event.returnValue=false" ondrop="window.external.CopyScriptureReference(this.id)"&gt;{2}&lt;/textarea&gt;</value>
   </data>
   <data name="HTML_TableNoBorder" xml:space="preserve">
     <value>        &lt;table style="width:100%;"&gt;
@@ -1595,10 +1595,6 @@ eater Panorama
   </data>
   <data name="HTML_DOM_Prefix" xml:space="preserve">
     <value>&lt;script&gt;
-function TextareaOnKeyUp(textArea)
-{
-  return window.external.TextareaOnKeyUp(textArea.id, textArea.value);
-}
 function OnBibRefJump(link)
 {
   window.external.OnBibRefJump(link.name);
@@ -1616,22 +1612,6 @@ function OnKeyDown()
     window.event.returnValue = false;
     return false;
   }
-}
-function OnAddNote(button)
-{
-  return window.external.OnAddNote(button.id, null);
-}
-function OnClickDelete(button)
-{
-  return window.external.OnClickDelete(button.id);
-}
-function OnClickHide(button)
-{
-  return window.external.OnClickHide(button.id);
-}
-function OnClickEndConversation(button)
-{
-  return window.external.OnClickEndConversation(button.id);
 }
 &lt;/script&gt;</value>
   </data>

@@ -122,6 +122,11 @@ namespace OneStoryProjectEditor
                 if (Document != null)
                 {
                     // repaint the button to be 'hide'
+                    // since the strId might be from a Delete request (where the user
+                    //  said "yes" to our request to hide it instead), we have to 
+                    //  rebuild the ID for the Hide button, which is:
+                    strId = ConsultNoteDataConverter.ButtonId(nVerseIndex,
+                        nConversationIndex, ConsultNoteDataConverter.CnBtnIndexHide);
                     HtmlElement elemButtonHide = Document.GetElementById(strId);
                     if (elemButtonHide != null)
                     {
@@ -257,6 +262,30 @@ namespace OneStoryProjectEditor
         {
             TheSE.SetNetBibleVerse(strBibRef);
             return true;
+        }
+
+        public void CopyScriptureReference(string strId)
+        {
+            int nVerseIndex, nConversationIndex;
+            if (!GetIndicesFromId(strId, out nVerseIndex, out nConversationIndex))
+                return;
+
+            ConsultNoteDataConverter theCNDC = DataConverter(nVerseIndex, nConversationIndex);
+            System.Diagnostics.Debug.Assert((theCNDC != null) && (theCNDC.Count > 0));
+            CommInstance aCI = theCNDC[theCNDC.Count - 1];
+
+            if (Document != null)
+            {
+                HtmlDocument doc = Document;
+                HtmlElement elem = doc.GetElementById(strId);
+                if (elem != null)
+                {
+                    System.Diagnostics.Debug.Assert(elem.InnerText == aCI.ToString());
+                    elem.InnerText += TheSE.GetNetBibleScriptureReference;
+                    aCI.SetValue(elem.InnerText);
+                    elem.Focus();
+                }
+            }
         }
 
         public bool TextareaOnKeyUp(string strId, string strText)
