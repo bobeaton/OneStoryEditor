@@ -70,12 +70,12 @@ namespace OneStoryProjectEditor
             this.editAddTestResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showHideFieldsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.viewVernacularLangFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewNationalLangFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewEnglishBTFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewAnchorFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewStoryTestingQuestionFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.viewRetellingFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.viewConsultantNoteFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -111,18 +111,18 @@ namespace OneStoryProjectEditor
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.splitContainerLeftRight = new System.Windows.Forms.SplitContainer();
             this.splitContainerUpDown = new System.Windows.Forms.SplitContainer();
-            this.flowLayoutPanelVerses = new OneStoryProjectEditor.VerseBtLineFlowLayoutPanel();
             this.textBoxStoryVerse = new System.Windows.Forms.TextBox();
-            this.netBibleViewer = new OneStoryProjectEditor.NetBibleViewer();
             this.splitContainerMentorNotes = new System.Windows.Forms.SplitContainer();
-            this.htmlConsultantNotesControl = new OneStoryProjectEditor.HtmlConsultantNotesControl();
             this.textBoxConsultantNotesTable = new System.Windows.Forms.TextBox();
-            this.htmlCoachNotesControl = new OneStoryProjectEditor.HtmlCoachNotesControl();
             this.textBoxCoachNotes = new System.Windows.Forms.TextBox();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.buttonsStoryStage = new System.Windows.Forms.ToolStripSplitButton();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.helpProvider = new System.Windows.Forms.HelpProvider();
+            this.flowLayoutPanelVerses = new OneStoryProjectEditor.VerseBtLineFlowLayoutPanel();
+            this.netBibleViewer = new OneStoryProjectEditor.NetBibleViewer();
+            this.htmlConsultantNotesControl = new OneStoryProjectEditor.HtmlConsultantNotesControl();
+            this.htmlCoachNotesControl = new OneStoryProjectEditor.HtmlCoachNotesControl();
             this.menuStrip.SuspendLayout();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
             this.splitContainerLeftRight.Panel2.SuspendLayout();
@@ -483,6 +483,11 @@ namespace OneStoryProjectEditor
             this.showHideFieldsToolStripMenuItem.Text = "&Show/Hide multiple fields at once";
             this.showHideFieldsToolStripMenuItem.Click += new System.EventHandler(this.showHideFieldsToolStripMenuItem_Click);
             // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(281, 6);
+            // 
             // viewVernacularLangFieldMenuItem
             // 
             this.viewVernacularLangFieldMenuItem.Checked = true;
@@ -538,11 +543,6 @@ namespace OneStoryProjectEditor
             this.viewStoryTestingQuestionFieldMenuItem.Text = "Story &testing questions fields";
             this.viewStoryTestingQuestionFieldMenuItem.ToolTipText = "Show the text boxes for the testing questions (and UNS answers if available)";
             this.viewStoryTestingQuestionFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
-            // 
-            // toolStripSeparator5
-            // 
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(281, 6);
             // 
             // viewRetellingFieldMenuItem
             // 
@@ -861,20 +861,6 @@ namespace OneStoryProjectEditor
             this.splitContainerUpDown.SplitterDistance = 164;
             this.splitContainerUpDown.TabIndex = 2;
             // 
-            // flowLayoutPanelVerses
-            // 
-            this.flowLayoutPanelVerses.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.flowLayoutPanelVerses.AutoScroll = true;
-            this.flowLayoutPanelVerses.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanelVerses.LastControlIntoView = null;
-            this.flowLayoutPanelVerses.Location = new System.Drawing.Point(0, 29);
-            this.flowLayoutPanelVerses.Name = "flowLayoutPanelVerses";
-            this.flowLayoutPanelVerses.Size = new System.Drawing.Size(521, 135);
-            this.flowLayoutPanelVerses.TabIndex = 1;
-            this.flowLayoutPanelVerses.WrapContents = false;
-            // 
             // textBoxStoryVerse
             // 
             this.textBoxStoryVerse.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -888,17 +874,6 @@ namespace OneStoryProjectEditor
             this.textBoxStoryVerse.TabStop = false;
             this.textBoxStoryVerse.Text = "Story";
             this.textBoxStoryVerse.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // netBibleViewer
-            // 
-            this.netBibleViewer.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.netBibleViewer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.netBibleViewer.Location = new System.Drawing.Point(0, 0);
-            this.netBibleViewer.Margin = new System.Windows.Forms.Padding(0);
-            this.netBibleViewer.Name = "netBibleViewer";
-            this.netBibleViewer.ScriptureReference = "gen 1:1";
-            this.netBibleViewer.Size = new System.Drawing.Size(521, 117);
-            this.netBibleViewer.TabIndex = 0;
             // 
             // splitContainerMentorNotes
             // 
@@ -921,18 +896,6 @@ namespace OneStoryProjectEditor
             this.splitContainerMentorNotes.SplitterDistance = 169;
             this.splitContainerMentorNotes.TabIndex = 0;
             // 
-            // htmlConsultantNotesControl
-            // 
-            this.htmlConsultantNotesControl.AllowWebBrowserDrop = false;
-            this.htmlConsultantNotesControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.htmlConsultantNotesControl.Location = new System.Drawing.Point(0, 29);
-            this.htmlConsultantNotesControl.MinimumSize = new System.Drawing.Size(20, 20);
-            this.htmlConsultantNotesControl.Name = "htmlConsultantNotesControl";
-            this.htmlConsultantNotesControl.Size = new System.Drawing.Size(366, 138);
-            this.htmlConsultantNotesControl.StoryData = null;
-            this.htmlConsultantNotesControl.TabIndex = 2;
-            this.htmlConsultantNotesControl.TheSE = null;
-            // 
             // textBoxConsultantNotesTable
             // 
             this.textBoxConsultantNotesTable.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -946,18 +909,6 @@ namespace OneStoryProjectEditor
             this.textBoxConsultantNotesTable.TabStop = false;
             this.textBoxConsultantNotesTable.Text = "Consultant Notes";
             this.textBoxConsultantNotesTable.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // htmlCoachNotesControl
-            // 
-            this.htmlCoachNotesControl.AllowWebBrowserDrop = false;
-            this.htmlCoachNotesControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.htmlCoachNotesControl.Location = new System.Drawing.Point(0, 29);
-            this.htmlCoachNotesControl.MinimumSize = new System.Drawing.Size(20, 20);
-            this.htmlCoachNotesControl.Name = "htmlCoachNotesControl";
-            this.htmlCoachNotesControl.Size = new System.Drawing.Size(366, 83);
-            this.htmlCoachNotesControl.StoryData = null;
-            this.htmlCoachNotesControl.TabIndex = 3;
-            this.htmlCoachNotesControl.TheSE = null;
             // 
             // textBoxCoachNotes
             // 
@@ -1007,6 +958,56 @@ namespace OneStoryProjectEditor
             this.statusLabel.Spring = true;
             this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.statusLabel.Click += new System.EventHandler(this.statusLabel_Click);
+            // 
+            // flowLayoutPanelVerses
+            // 
+            this.flowLayoutPanelVerses.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.flowLayoutPanelVerses.AutoScroll = true;
+            this.flowLayoutPanelVerses.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanelVerses.LastControlIntoView = null;
+            this.flowLayoutPanelVerses.Location = new System.Drawing.Point(0, 29);
+            this.flowLayoutPanelVerses.Name = "flowLayoutPanelVerses";
+            this.flowLayoutPanelVerses.Size = new System.Drawing.Size(521, 135);
+            this.flowLayoutPanelVerses.TabIndex = 1;
+            this.flowLayoutPanelVerses.WrapContents = false;
+            // 
+            // netBibleViewer
+            // 
+            this.netBibleViewer.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.netBibleViewer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.netBibleViewer.Location = new System.Drawing.Point(0, 0);
+            this.netBibleViewer.Margin = new System.Windows.Forms.Padding(0);
+            this.netBibleViewer.Name = "netBibleViewer";
+            this.netBibleViewer.ScriptureReference = "gen 1:1";
+            this.netBibleViewer.Size = new System.Drawing.Size(521, 117);
+            this.netBibleViewer.TabIndex = 0;
+            // 
+            // htmlConsultantNotesControl
+            // 
+            this.htmlConsultantNotesControl.AllowWebBrowserDrop = false;
+            this.htmlConsultantNotesControl.AllowDrop = true;
+            this.htmlConsultantNotesControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.htmlConsultantNotesControl.Location = new System.Drawing.Point(0, 29);
+            this.htmlConsultantNotesControl.MinimumSize = new System.Drawing.Size(20, 20);
+            this.htmlConsultantNotesControl.Name = "htmlConsultantNotesControl";
+            this.htmlConsultantNotesControl.Size = new System.Drawing.Size(366, 138);
+            this.htmlConsultantNotesControl.StoryData = null;
+            this.htmlConsultantNotesControl.TabIndex = 2;
+            this.htmlConsultantNotesControl.TheSE = null;
+            // 
+            // htmlCoachNotesControl
+            // 
+            this.htmlCoachNotesControl.AllowWebBrowserDrop = false;
+            this.htmlCoachNotesControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.htmlCoachNotesControl.Location = new System.Drawing.Point(0, 29);
+            this.htmlCoachNotesControl.MinimumSize = new System.Drawing.Size(20, 20);
+            this.htmlCoachNotesControl.Name = "htmlCoachNotesControl";
+            this.htmlCoachNotesControl.Size = new System.Drawing.Size(366, 83);
+            this.htmlCoachNotesControl.StoryData = null;
+            this.htmlCoachNotesControl.TabIndex = 3;
+            this.htmlCoachNotesControl.TheSE = null;
             // 
             // StoryEditor
             // 
