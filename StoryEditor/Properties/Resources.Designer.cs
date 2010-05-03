@@ -110,6 +110,11 @@ namespace OneStoryProjectEditor.Properties {
         ///{
         ///  return window.external.TextareaOnKeyUp(textArea.id, textArea.value);
         ///}
+        ///function OnBibRefJump(link)
+        ///{
+        ///  window.external.OnBibRefJump(link.name);
+        ///  return false; // cause the href navigation to not happen
+        ///}
         ///function OnKeyDown()
         ///{
         ///  if (window.event.keyCode == 116)
@@ -119,15 +124,7 @@ namespace OneStoryProjectEditor.Properties {
         ///
         ///    // disable the propagation of the F5 event
         ///    window.event.keyCode = 0;
-        ///    window.event.returnValue = false;
-        ///    return false;
-        ///  }
-        ///}
-        ///function OnAddNote(button)
-        ///{
-        ///  return window.external.OnAddNote(button.id, null);
-        ///}
-        ///function OnClickDel [rest of string was truncated]&quot;;.
+        ///    window.event.returnValue = fal [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string HTML_DOM_Prefix {
             get {
@@ -164,6 +161,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string HTML_LangStyle {
             get {
                 return ResourceManager.GetString("HTML_LangStyle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;a href=&quot;bibleViewer.setReference&quot; name=&quot;{0}&quot; onClick=&quot;return OnBibRefJump(this);&quot;&gt;{0}&lt;/a&gt;.
+        /// </summary>
+        internal static string HTML_LinkJumpTarget {
+            get {
+                return ResourceManager.GetString("HTML_LinkJumpTarget", resourceCulture);
             }
         }
         
@@ -298,7 +304,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;textarea class=&quot;{0}&quot; readonly=&quot;readonly&quot;&gt;{1}&lt;/textarea&gt;.
+        ///   Looks up a localized string similar to &lt;p class=&quot;{0}&quot;&gt;{1}&lt;/p&gt;.
         /// </summary>
         internal static string HTML_TextareaReadonly {
             get {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using System.Text;
 using System.Drawing;
@@ -364,10 +365,13 @@ namespace OneStoryProjectEditor
                 }
                 else
                 {
+                    Regex regexBibRef = new Regex(@"\b([1-3a-zA-Z][a-zA-Z]{2,5} \d{1,3}:\d{1,3})", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
+                    string strHyperlinkedText = regexBibRef.Replace(aCI.ToString(), BibleReferenceFound);
+
                     strRow += String.Format(Properties.Resources.HTML_TableCellWidth, 100,
                                             String.Format(Properties.Resources.HTML_TextareaReadonly,
-                                            StoryData.CstrLangInternationalBtStyleClassName, 
-                                            aCI));
+                                            StoryData.CstrLangInternationalBtStyleClassName,
+                                            strHyperlinkedText));
 
                     strHtmlTable += String.Format(Properties.Resources.HTML_TableRowId,
                                                   TextareaReadonlyRowId(nVerseIndex, nConversationIndex, i),
@@ -385,6 +389,14 @@ namespace OneStoryProjectEditor
                                                    strEmbeddedTable));
 
             return strHtml;
+        }
+
+        static string BibleReferenceFound(Match m)
+        {
+            // Get the matched string.
+            string strRendering = String.Format(Properties.Resources.HTML_LinkJumpTarget, 
+                m);
+            return strRendering;
         }
 
         public void IndexSearch(SearchForm.SearchLookInProperties findProperties, 

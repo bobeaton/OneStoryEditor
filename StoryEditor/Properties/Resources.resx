@@ -1591,13 +1591,18 @@ eater Panorama
     <value>The project has been exported to the folder '{0}\Toolbox'. Click 'Yes' to launch Toolbox and open that project.</value>
   </data>
   <data name="HTML_TextareaReadonly" xml:space="preserve">
-    <value>&lt;textarea class="{0}" readonly="readonly"&gt;{1}&lt;/textarea&gt;</value>
+    <value>&lt;p class="{0}"&gt;{1}&lt;/p&gt;</value>
   </data>
   <data name="HTML_DOM_Prefix" xml:space="preserve">
     <value>&lt;script&gt;
 function TextareaOnKeyUp(textArea)
 {
   return window.external.TextareaOnKeyUp(textArea.id, textArea.value);
+}
+function OnBibRefJump(link)
+{
+  window.external.OnBibRefJump(link.name);
+  return false; // cause the href navigation to not happen
 }
 function OnKeyDown()
 {
@@ -2040,5 +2045,8 @@ function OnClickEndConversation(button)
   </data>
   <data name="HTML_TableRowIdColor" xml:space="preserve">
     <value>&lt;tr id="{0}" BGCOLOR="{1}"&gt;{2}&lt;/tr&gt;    </value>
+  </data>
+  <data name="HTML_LinkJumpTarget" xml:space="preserve">
+    <value>&lt;a href="bibleViewer.setReference" name="{0}" onClick="return OnBibRefJump(this);"&gt;{0}&lt;/a&gt;</value>
   </data>
 </root>
