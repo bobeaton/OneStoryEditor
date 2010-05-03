@@ -74,6 +74,7 @@ namespace OneStoryProjectEditor
         protected const string CstrFontForHindi = "Arial Unicode MS";
         protected const string CstrFontForFarsi = "Nafees Nastaleeq";
         protected const string CstrHindiModule = "HINDI";
+        protected const string CstrKangriModule = "XNR";
         protected const string CstrFarsiModule = "FarsiOPV";
 
 
@@ -334,8 +335,12 @@ namespace OneStoryProjectEditor
                     // insert a button (for drag-drop) and the HTML into a table format
                     // kindof a cheat, but I don't mind (this should be done better...)
                     string strModuleVersion = moduleVersion.Name();
-                    if (strModuleVersion == CstrHindiModule)
+                    if ((strModuleVersion == CstrHindiModule)
+                        ||
+                        (strModuleVersion == CstrKangriModule))
+                    {
                         strVerseHtml = String.Format(CstrAddFontFormat, strVerseHtml, CstrFontForHindi);
+                    }
                     else if (strModuleVersion == CstrFarsiModule)
                     {
                         strVerseHtml = String.Format(CstrAddDirFormat, strVerseHtml);
