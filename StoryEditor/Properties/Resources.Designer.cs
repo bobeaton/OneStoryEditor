@@ -133,6 +133,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;em&gt;{0}&lt;/em&gt;.
+        /// </summary>
+        internal static string HTML_EmphasizedText {
+            get {
+                return ResourceManager.GetString("HTML_EmphasizedText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;html&gt;
         ///{0}
         ///&lt;head&gt;
@@ -170,6 +179,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string HTML_LinkJumpTarget {
             get {
                 return ResourceManager.GetString("HTML_LinkJumpTarget", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p class=&quot;{0}&quot;&gt;{1}&lt;/p&gt;.
+        /// </summary>
+        internal static string HTML_ParagraphText {
+            get {
+                return ResourceManager.GetString("HTML_ParagraphText", resourceCulture);
             }
         }
         
@@ -300,15 +318,6 @@ namespace OneStoryProjectEditor.Properties {
         internal static string HTML_Textarea {
             get {
                 return ResourceManager.GetString("HTML_Textarea", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;p class=&quot;{0}&quot;&gt;{1}&lt;/p&gt;.
-        /// </summary>
-        internal static string HTML_TextareaReadonly {
-            get {
-                return ResourceManager.GetString("HTML_TextareaReadonly", resourceCulture);
             }
         }
         

@@ -1590,7 +1590,7 @@ eater Panorama
   <data name="IDS_ExportedToolboxMessage" xml:space="preserve">
     <value>The project has been exported to the folder '{0}\Toolbox'. Click 'Yes' to launch Toolbox and open that project.</value>
   </data>
-  <data name="HTML_TextareaReadonly" xml:space="preserve">
+  <data name="HTML_ParagraphText" xml:space="preserve">
     <value>&lt;p class="{0}"&gt;{1}&lt;/p&gt;</value>
   </data>
   <data name="HTML_DOM_Prefix" xml:space="preserve">
@@ -2028,5 +2028,8 @@ function OnKeyDown()
   </data>
   <data name="HTML_LinkJumpTarget" xml:space="preserve">
     <value>&lt;a href="bibleViewer.setReference" name="{0}" onClick="return OnBibRefJump(this);"&gt;{0}&lt;/a&gt;</value>
+  </data>
+  <data name="HTML_EmphasizedText" xml:space="preserve">
+    <value>&lt;em&gt;{0}&lt;/em&gt;</value>
   </data>
 </root>

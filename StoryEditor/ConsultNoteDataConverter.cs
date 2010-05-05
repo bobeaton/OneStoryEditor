@@ -292,6 +292,9 @@ namespace OneStoryProjectEditor
             return (aCI.Direction == MentorDirection);
         }
 
+        readonly Regex regexBibRef = new Regex(@"\b([1-3a-zA-Z][a-zA-Z]{2,5} \d{1,3}:\d{1,3})\b", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
+        readonly Regex regexItalics = new Regex(@"\*\b(.+)\b\*", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
+
         public string Html(StoryStageLogic theStoryStage, 
             TeamMemberData LoggedOnMember, 
             int nVerseIndex, int nConversationIndex)
@@ -365,13 +368,14 @@ namespace OneStoryProjectEditor
                 }
                 else
                 {
-                    Regex regexBibRef = new Regex(@"\b([1-3a-zA-Z][a-zA-Z]{2,5} \d{1,3}:\d{1,3})", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
-                    string strHyperlinkedText = regexBibRef.Replace(aCI.ToString(), BibleReferenceFound);
+                    string strHyperlinkedText = aCI.ToString().Replace("\r\n", "<br />");   // regexParagraph.Replace(aCI.ToString(), ParagraphFound);
+                    strHyperlinkedText = regexBibRef.Replace(strHyperlinkedText, BibleReferenceFound);
+                    strHyperlinkedText = regexItalics.Replace(strHyperlinkedText, EmphasizedTextFound);
 
                     strRow += String.Format(Properties.Resources.HTML_TableCellWidth, 100,
-                                            String.Format(Properties.Resources.HTML_TextareaReadonly,
-                                            StoryData.CstrLangInternationalBtStyleClassName,
-                                            strHyperlinkedText));
+                                            String.Format(Properties.Resources.HTML_ParagraphText,
+                                                          StoryData.CstrLangInternationalBtStyleClassName,
+                                                          strHyperlinkedText));
 
                     strHtmlTable += String.Format(Properties.Resources.HTML_TableRowId,
                                                   TextareaReadonlyRowId(nVerseIndex, nConversationIndex, i),
@@ -394,9 +398,16 @@ namespace OneStoryProjectEditor
         static string BibleReferenceFound(Match m)
         {
             // Get the matched string.
-            string strRendering = String.Format(Properties.Resources.HTML_LinkJumpTarget, 
+            string str = String.Format(Properties.Resources.HTML_LinkJumpTarget, 
                 m);
-            return strRendering;
+            return str;
+        }
+
+        static string EmphasizedTextFound(Match m)
+        {
+            string str = String.Format(Properties.Resources.HTML_EmphasizedText,
+                m.Groups[1]);
+            return str;
         }
 
         public void IndexSearch(SearchForm.SearchLookInProperties findProperties, 
