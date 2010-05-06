@@ -234,6 +234,9 @@ namespace OneStoryProjectEditor
             {
                 hideVerseToolStripMenuItem.Text = "&Unhide verse";
             }
+
+            moveSelectedTextToANewLineToolStripMenuItem.Enabled =
+                tableLayoutPanel.Controls.ContainsKey(CstrFieldNameStoryLine);
         }
 
         protected void AddRemoveTestQuestionsAndAnswersSubmenus(TestQuestionsData theTQs)
@@ -453,13 +456,29 @@ namespace OneStoryProjectEditor
             if ((nNumNewVerses == 1) 
                 && tableLayoutPanel.Controls.ContainsKey(CstrFieldNameStoryLine))
             {
-                StoryLineControl slc = tableLayoutPanel.Controls[CstrFieldNameStoryLine] as StoryLineControl;
-                string strVernacular, strNationalBT, strEnglishBT;
-                slc.GetTextBoxValues(out strVernacular, out strNationalBT, out strEnglishBT);
-                theSE.AddNewVerse(VerseNumber, strVernacular, strNationalBT, strEnglishBT);
+                MoveSelectedTextToANewLineToolStripMenuItem(theSE);
             }
             else
                 theSE.AddNewVerse(this, nNumNewVerses, true);
+        }
+
+        private void moveSelectedTextToANewLineToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // the only function of the button here is to add a slot to type a con note
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
+                return;
+
+            MoveSelectedTextToANewLineToolStripMenuItem(theSE);
+        }
+
+        private void MoveSelectedTextToANewLineToolStripMenuItem(StoryEditor theSE)
+        {
+            System.Diagnostics.Debug.Assert(tableLayoutPanel.Controls.ContainsKey(CstrFieldNameStoryLine));
+            StoryLineControl slc = tableLayoutPanel.Controls[CstrFieldNameStoryLine] as StoryLineControl;
+            string strVernacular, strNationalBT, strEnglishBT;
+            slc.GetTextBoxValues(out strVernacular, out strNationalBT, out strEnglishBT);
+            theSE.AddNewVerse(VerseNumber, strVernacular, strNationalBT, strEnglishBT);
         }
 
         private void addNewVersesBeforeMenuItem_Click(object sender, EventArgs e)

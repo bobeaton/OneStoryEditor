@@ -1016,6 +1016,8 @@ namespace OneStoryProjectEditor
             InitAllPanes();
             Debug.Assert(lstNewVerses.Count > 0);
             // shouldn't need to do this here (done in InitAllPanes): FocusOnVerse(nInsertionIndex);
+
+            Modified = true;
         }
 
         private void TimeToSetFocus(object sender, EventArgs e)
@@ -1278,6 +1280,8 @@ namespace OneStoryProjectEditor
             Debug.Assert((theCurrentStory != null) && (theCurrentStory.Verses != null));
             theCurrentStory.Verses.InsertVerse(nInsertionIndex, strVernacular, strNationalBT, strInternationalBT);
             InitAllPanes();
+
+            Modified = true;
         }
 
         internal void InitAllPanes()
