@@ -3194,6 +3194,10 @@ namespace OneStoryProjectEditor
 #else
                 string strXslt = Properties.Resources.oneStory2storyingBT;
 #endif
+                // the 'document()' function in this Xslt needs the full path to the 
+                //  running folder
+                string strPathRunningFolder = StoryProjectData.GetRunningFolder;
+                strXslt = strXslt.Replace("{0}", strPathRunningFolder);
                 string strTbxStoriesBTFilePath = GetTbxDestPath("StoriesBT.txt");
 
                 // make sure the folder exists
@@ -3244,6 +3248,9 @@ namespace OneStoryProjectEditor
 #else
                     strXslt = Properties.Resources.oneStory2KeyTerms;
 #endif
+                    // the 'document()' function in this Xslt needs the full path to the 
+                    //  running folder
+                    strXslt = strXslt.Replace("{0}", strPathRunningFolder);
                     ExportToToolbox(strXslt, streamData, strLnCNotesFilePath, null);
                 }
 

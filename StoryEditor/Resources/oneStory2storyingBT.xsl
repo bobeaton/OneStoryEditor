@@ -111,8 +111,7 @@
       nLen++;
     while (strChap.Length < nLen)
       strChap = "0" + strChap;
-    return String.Format("{0}.{1}:{2}", 
-      strBookCode, strChap, strVerse);
+    return strBookCode + "." + strChap + ":" + strVerse;
   }
   ]]>
   </msxsl:script>
@@ -179,7 +178,7 @@
   <xsl:text>&cr;\co reason this story is in the set: </xsl:text><xsl:value-of select="descendant::StoryPurpose"/>
   <xsl:variable name="stageId" select="concat('e', @stage)"/>
   <xsl:text>&cr;\co Story State: </xsl:text>
-  <xsl:value-of select="document('StageTransitions.xml')/ProjectStates/StateTransition[@stage = $stageId]/StageDisplayString"/>
+  <xsl:value-of select="document('{0}\StageTransitions.xml')/ProjectStates/StateTransition[@stage = $stageId]/StageDisplayString"/>
   <xsl:apply-templates select="descendant::Test"/>
   <xsl:text>&cr;</xsl:text>
   <xsl:apply-templates select="descendant::verses">

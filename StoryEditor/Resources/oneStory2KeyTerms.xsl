@@ -25,7 +25,7 @@
       <xsl:if test="Renderings[text()]">
         <xsl:variable name="KTId" select="Id"/>
         <xsl:text>&cr;\r </xsl:text>
-        <xsl:value-of select="document('..\BiblicalTerms\BiblicalTermsEn.xml')/BiblicalTermsLocalizations/Terms/Localization[@Id = $KTId]/@Gloss"/>
+        <xsl:value-of select="document('{0}\BiblicalTerms\BiblicalTermsEn.xml')/BiblicalTermsLocalizations/Terms/Localization[@Id = $KTId]/@Gloss"/>
         <xsl:text>&cr;\wrd </xsl:text>
         <xsl:value-of select="Renderings"/>
         <xsl:text>&cr;\co </xsl:text>
