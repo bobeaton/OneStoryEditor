@@ -3034,7 +3034,7 @@ namespace OneStoryProjectEditor
             bSomethingChanged |= InsureVisible(viewNetBibleMenuItem,
                 VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eBibleViewer));
 
-            _bDisableReInitVerseControls = true;
+            _bDisableReInitVerseControls = false;
 
             if (bSomethingChanged)
                 ReInitVerseControls();
