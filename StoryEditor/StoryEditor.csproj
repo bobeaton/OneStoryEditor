@@ -502,6 +502,11 @@
     <None Include="Resources\oneStory2KeyTerms.xsl" />
     <None Include="Resources\oneStory2storyingBT.xsl" />
     <None Include="Resources\oneStory2storyingRetelling.xsl" />
+    <Content Include="SWORD\mods.d\xnr.conf" />
+    <Content Include="SWORD\modules\texts\rawtext\xnr\nt" />
+    <Content Include="SWORD\modules\texts\rawtext\xnr\nt.vss" />
+    <Content Include="SWORD\modules\texts\rawtext\xnr\ot" />
+    <Content Include="SWORD\modules\texts\rawtext\xnr\ot.vss" />
     <Content Include="SWORD\mods.d\net.conf" />
     <Content Include="SWORD\modules\texts\ztext\net\nt.bzs" />
     <Content Include="SWORD\modules\texts\ztext\net\nt.bzv" />
