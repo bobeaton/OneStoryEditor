@@ -244,6 +244,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;td id=&quot;{0}&quot; width=&quot;{1}%&quot;&gt;{2}&lt;/td&gt;.
+        /// </summary>
+        internal static string HTML_TableCellWidthId {
+            get {
+                return ResourceManager.GetString("HTML_TableCellWidthId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;td colspan=&quot;{0}&quot;&gt;{1}&lt;/td&gt;.
         /// </summary>
         internal static string HTML_TableCellWithSpan {

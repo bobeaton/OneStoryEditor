@@ -291,6 +291,16 @@ namespace OneStoryProjectEditor
             }
         }
 
+        protected static string ButtonId(int nVerseIndex)
+        {
+            return String.Format("btn_{0}", nVerseIndex);
+        }
+
+        public static string LineId(int nVerseIndex)
+        {
+            return String.Format("ln_{0}", nVerseIndex);
+        }
+
         protected string GetHeaderRow(string strHeader, int nVerseIndex,
             ConsultNotesDataConverter theCNsDC, TeamMemberData LoggedOnMember)
         {
@@ -298,15 +308,17 @@ namespace OneStoryProjectEditor
             if (theCNsDC.HasAddNotePrivilege(LoggedOnMember.MemberType))
                 strHtmlAddNoteButton = String.Format(Properties.Resources.HTML_TableCell,
                                                      String.Format(Properties.Resources.HTML_Button,
-                                                                   nVerseIndex,
+                                                                   ButtonId(nVerseIndex),
                                                                    "return window.external.OnAddNote(this.id, null);",
                                                                    "Add Note"));
 
             return String.Format(Properties.Resources.HTML_TableRowColor, "#AACCFF",
                                  String.Format("{0}{1}",
-                                               String.Format(Properties.Resources.HTML_TableCellWidth, 100,
+                                               String.Format(Properties.Resources.HTML_TableCellWidthId,
+                                                             LineId(nVerseIndex),
+                                                             100,
                                                              strHeader),
-                                                             strHtmlAddNoteButton));
+                                               strHtmlAddNoteButton));
         }
 
         public string ConsultantNotesHtml(StoryStageLogic theStoryStage, 

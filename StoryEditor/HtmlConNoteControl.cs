@@ -46,7 +46,7 @@ namespace OneStoryProjectEditor
 
         public override void ScrollToVerse(int nVerseIndex)
         {
-            StrIdToScrollTo = nVerseIndex.ToString();
+            StrIdToScrollTo = VersesData.LineId(nVerseIndex);
             base.ScrollToVerse(nVerseIndex);
         }
 
