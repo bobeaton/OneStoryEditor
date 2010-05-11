@@ -1056,11 +1056,7 @@ namespace OneStoryProjectEditor
                 //  the scrolling since it's annoying that it jumps around when greater
                 //  than the height of the view).
                 if ((CtrlTextBox._inTextBox == null) || (CtrlTextBox._inTextBox._ctrlVerseParent != theVerse))
-                {
-                    // Or case not valid anymore; don't think this can happen with HtmlCon...
-                    Debug.Assert(CtrlTextBox._inTextBox == null);
                     flowLayoutPanelVerses.ScrollControlIntoView(theVerse);
-                }
                 else
                     flowLayoutPanelVerses.LastControlIntoView = theVerse;
             }
