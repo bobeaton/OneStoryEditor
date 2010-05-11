@@ -327,9 +327,12 @@ namespace OneStoryProjectEditor
             for (int i = 1; i <= Count; i++)
             {
                 VerseData aVerseData = this[i - 1];
-                strHtml += GetHeaderRow("Ln: " + i, i, aVerseData.ConsultantNotes, LoggedOnMember);
+                if (aVerseData.IsVisible || bViewHidden)
+                {
+                    strHtml += GetHeaderRow("Ln: " + i, i, aVerseData.ConsultantNotes, LoggedOnMember);
 
-                strHtml += aVerseData.ConsultantNotes.Html(theStoryStage, LoggedOnMember, bViewHidden, i);
+                    strHtml += aVerseData.ConsultantNotes.Html(theStoryStage, LoggedOnMember, bViewHidden, i);
+                }
             }
 
             return String.Format(Properties.Resources.HTML_Table, strHtml);
@@ -346,9 +349,12 @@ namespace OneStoryProjectEditor
             for (int i = 1; i <= Count; i++)
             {
                 VerseData aVerseData = this[i - 1];
-                strHtml += GetHeaderRow("Ln: " + i, i, aVerseData.CoachNotes, LoggedOnMember);
+                if (aVerseData.IsVisible || bViewHidden)
+                {
+                    strHtml += GetHeaderRow("Ln: " + i, i, aVerseData.CoachNotes, LoggedOnMember);
 
-                strHtml += aVerseData.CoachNotes.Html(theStoryStage, LoggedOnMember, bViewHidden, i);
+                    strHtml += aVerseData.CoachNotes.Html(theStoryStage, LoggedOnMember, bViewHidden, i);
+                }
             }
 
             return String.Format(Properties.Resources.HTML_Table, strHtml);
