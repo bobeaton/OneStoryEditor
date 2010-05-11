@@ -312,7 +312,8 @@ namespace OneStoryProjectEditor
                                                String.Format(Properties.Resources.HTML_TableCellWidthId,
                                                              LineId(nVerseIndex),
                                                              100,
-                                                             strHeader),
+                                                             String.Format(Properties.Resources.HTML_LinkJumpLine,
+                                                                           nVerseIndex, strHeader)),
                                                strHtmlAddNoteButton));
         }
 

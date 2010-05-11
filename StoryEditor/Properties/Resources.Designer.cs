@@ -111,6 +111,11 @@ namespace OneStoryProjectEditor.Properties {
         ///  window.external.OnBibRefJump(link.name);
         ///  return false; // cause the href navigation to not happen
         ///}
+        ///function OnVerseLineJump(link)
+        ///{
+        ///  window.external.OnVerseLineJump(link.name);
+        ///  return false; // cause the href navigation to not happen
+        ///}
         ///function OnKeyDown()
         ///{
         ///  if (window.event.keyCode == 116)
@@ -120,11 +125,7 @@ namespace OneStoryProjectEditor.Properties {
         ///
         ///    // disable the propagation of the F5 event
         ///    window.event.keyCode = 0;
-        ///    window.event.returnValue = false;
-        ///    return false;
-        ///  }
-        ///}
-        ///&lt;/script&gt;.
+        ///    [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string HTML_DOM_Prefix {
             get {
@@ -170,6 +171,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string HTML_LangStyle {
             get {
                 return ResourceManager.GetString("HTML_LangStyle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;a href=&quot;conNote.jumpToLine&quot; name=&quot;{0}&quot; onClick=&quot;return OnVerseLineJump(this);&quot;&gt;{1}&lt;/a&gt;.
+        /// </summary>
+        internal static string HTML_LinkJumpLine {
+            get {
+                return ResourceManager.GetString("HTML_LinkJumpLine", resourceCulture);
             }
         }
         

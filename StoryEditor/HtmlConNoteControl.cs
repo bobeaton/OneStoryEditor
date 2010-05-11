@@ -50,6 +50,11 @@ namespace OneStoryProjectEditor
             base.ScrollToVerse(nVerseIndex);
         }
 
+        public void OnVerseLineJump(int nVerseIndex)
+        {
+            TheSE.FocusOnVerse(nVerseIndex);
+        }
+
         public bool OnAddNote(int nVerseIndex, string strNote)
         {
             ConsultNotesDataConverter aCNsDC = DataConverter(nVerseIndex);
