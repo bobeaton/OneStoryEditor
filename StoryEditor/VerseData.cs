@@ -291,11 +291,6 @@ namespace OneStoryProjectEditor
             }
         }
 
-        protected static string ButtonId(int nVerseIndex)
-        {
-            return String.Format("btn_{0}", nVerseIndex);
-        }
-
         public static string LineId(int nVerseIndex)
         {
             return String.Format("ln_{0}", nVerseIndex);
@@ -308,7 +303,7 @@ namespace OneStoryProjectEditor
             if (theCNsDC.HasAddNotePrivilege(LoggedOnMember.MemberType))
                 strHtmlAddNoteButton = String.Format(Properties.Resources.HTML_TableCell,
                                                      String.Format(Properties.Resources.HTML_Button,
-                                                                   ButtonId(nVerseIndex),
+                                                                   nVerseIndex,
                                                                    "return window.external.OnAddNote(this.id, null);",
                                                                    "Add Note"));
 
