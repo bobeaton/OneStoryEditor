@@ -167,12 +167,12 @@ namespace OneStoryProjectEditor
 
         public Color CommentColor
         {
-            get { return Color.Maroon; }
+            get { return Color.AliceBlue; }
         }
 
         public Color ResponseColor
         {
-            get { return Color.Blue; }
+            get { return Color.Cornsilk; /* LightCyan */ }
         }
 
         protected abstract string InstanceElementName   // *Conversation
@@ -345,12 +345,22 @@ namespace OneStoryProjectEditor
                 CommInstance aCI = this[i];
 
                 strRow = null;
+                Color clrRow;
                 if (IsFromMentor(aCI))
+                {
                     strRow += String.Format(Properties.Resources.HTML_TableCell,
                                             MentorLabel);
+                    clrRow = CommentColor;
+                }
                 else
+                {
                     strRow += String.Format(Properties.Resources.HTML_TableCell,
                                             MenteeLabel);
+                    clrRow = ResponseColor;
+                }
+
+                string strColor = String.Format("#{0:X2}{1:X2}{2:X2}",
+                                                clrRow.R, clrRow.G, clrRow.B);
 
                 // only the last one is editable and then only if the right person is 
                 //  logged in
@@ -362,8 +372,9 @@ namespace OneStoryProjectEditor
                                                           StoryData.CstrLangInternationalBtStyleClassName,
                                                           aCI));
 
-                    strHtmlTable += String.Format(Properties.Resources.HTML_TableRowId,
+                    strHtmlTable += String.Format(Properties.Resources.HTML_TableRowIdColor,
                                                   TextareaRowId(nVerseIndex, nConversationIndex),
+                                                  strColor,
                                                   strRow);
                 }
                 else
@@ -377,8 +388,9 @@ namespace OneStoryProjectEditor
                                                           StoryData.CstrLangInternationalBtStyleClassName,
                                                           strHyperlinkedText));
 
-                    strHtmlTable += String.Format(Properties.Resources.HTML_TableRowId,
+                    strHtmlTable += String.Format(Properties.Resources.HTML_TableRowIdColor,
                                                   TextareaReadonlyRowId(nVerseIndex, nConversationIndex, i),
+                                                  strColor,
                                                   strRow);
                 }
             }
