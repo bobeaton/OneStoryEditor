@@ -832,7 +832,7 @@ namespace OneStoryProjectEditor
 #endif
             ResumeLayout(true);
 
-            FocusOnVerse(nLastVerseInFocus);
+            FocusOnVerse(nLastVerseInFocus, true, true);
             if ((stLast != null) && (stLast.TextBox != null))
                 stLast.TextBox.Focus();
         }
@@ -876,7 +876,7 @@ namespace OneStoryProjectEditor
             flowLayoutPanelVerses.ResumeLayout(true);
             ResumeLayout(true);
 
-            FocusOnVerse(nLastVerseInFocus);
+            FocusOnVerse(nLastVerseInFocus, true, true);
             if ((stLast != null) && (stLast.TextBox != null))
                 stLast.TextBox.Focus();
         }
@@ -1025,7 +1025,7 @@ namespace OneStoryProjectEditor
             Debug.Assert((sender != null) && (sender is Timer) && ((sender as Timer).Tag is int));
             ((Timer)sender).Stop();
             int nVerseIndex = (int)((Timer)sender).Tag;
-            FocusOnVerse(nVerseIndex);
+            FocusOnVerse(nVerseIndex, true, true);
         }
 
         /// <summary>
@@ -1033,7 +1033,10 @@ namespace OneStoryProjectEditor
         /// visible.
         /// </summary>
         /// <param name="nVerseIndex">corresponds to the line number (e.g. ln: 1 == 1), but could be 0 for ConNote panes</param>
-        public void FocusOnVerse(int nVerseIndex)
+        /// <param name="bDontSyncConsultantNotePane">Don't sync the Consultant Note pane</param>
+        /// <param name="bDontSyncCoachNotePane">Don't sync the Coach Note pane</param>
+        public void FocusOnVerse(int nVerseIndex, bool bSyncConsultantNotePane, 
+            bool bSyncCoachNotePane)
         {
             // if no box was actually ever selected, then this might be -1
             if (nVerseIndex < 0)
@@ -1062,7 +1065,7 @@ namespace OneStoryProjectEditor
             }
 
             // the ConNote controls have a zeroth line, so the index is one greater
-            if (viewConsultantNoteFieldMenuItem.Checked)
+            if (viewConsultantNoteFieldMenuItem.Checked && bSyncConsultantNotePane)
             {
 #if UsingHtmlDisplayForConNotes
                 htmlConsultantNotesControl.ScrollToVerse(nVerseIndex);
@@ -1078,7 +1081,7 @@ namespace OneStoryProjectEditor
 #endif
             }
 
-            if (viewCoachNotesFieldMenuItem.Checked)
+            if (viewCoachNotesFieldMenuItem.Checked && bSyncCoachNotePane)
             {
 #if UsingHtmlDisplayForConNotes
                 htmlCoachNotesControl.ScrollToVerse(nVerseIndex);
@@ -2999,7 +3002,7 @@ namespace OneStoryProjectEditor
             comboBoxStorySelector.SelectedItem = strStoryName;
             SetNetBibleVerse(strAnchor);
             Debug.Assert(theCurrentStory.Verses.Count >= nLineIndex);
-            FocusOnVerse(nLineIndex);
+            FocusOnVerse(nLineIndex, true, true);
         }
 
         public void NavigateTo(string strStoryName,

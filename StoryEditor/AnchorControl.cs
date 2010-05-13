@@ -91,7 +91,7 @@ namespace OneStoryProjectEditor
                     strJumpTarget = strJumpTarget.Substring(0, strJumpTarget.Length - nIndLen);
 
                 aSE.SetNetBibleVerse(strJumpTarget);
-                aSE.FocusOnVerse(_ctrlVerse.VerseNumber);
+                aSE.FocusOnVerse(_ctrlVerse.VerseNumber, true, true);
                 
                 // if we aren't already in some text box, then set the focus on the 
                 //  parent verse form so that scroll wheel can work

@@ -50,11 +50,6 @@ namespace OneStoryProjectEditor
             base.ScrollToVerse(nVerseIndex);
         }
 
-        public void OnVerseLineJump(int nVerseIndex)
-        {
-            TheSE.FocusOnVerse(nVerseIndex);
-        }
-
         public bool OnAddNote(int nVerseIndex, string strNote)
         {
             ConsultNotesDataConverter aCNsDC = DataConverter(nVerseIndex);
@@ -400,6 +395,11 @@ namespace OneStoryProjectEditor
             ConsultNotesDataConverter aCNsDC = verse.ConsultantNotes;
             return aCNsDC;
         }
+
+        public void OnVerseLineJump(int nVerseIndex)
+        {
+            TheSE.FocusOnVerse(nVerseIndex, false, true);
+        }
     }
 
     [ComVisible(true)]
@@ -419,6 +419,11 @@ namespace OneStoryProjectEditor
             VerseData verse = Verse(nVerseIndex);
             ConsultNotesDataConverter aCNsDC = verse.CoachNotes;
             return aCNsDC;
+        }
+
+        public void OnVerseLineJump(int nVerseIndex)
+        {
+            TheSE.FocusOnVerse(nVerseIndex, true, false);
         }
     }
 }

@@ -437,7 +437,7 @@ namespace OneStoryProjectEditor
                         ShowError(theSE,
                                   String.Format("Error: Verse {0} doesn't have an anchor. Did you forget it?",
                                                 nVerseNumber));
-                        theSE.FocusOnVerse(nVerseNumber);
+                        theSE.FocusOnVerse(nVerseNumber, true, true);
                         return false;
                     }
 
