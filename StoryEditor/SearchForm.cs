@@ -239,6 +239,7 @@ namespace OneStoryProjectEditor
                         System.Diagnostics.Debug.Assert(vs.StringTransfer == stringTransfer);
                         TheSE.NavigateTo(stsi.StoryName,
                                          vs.ViewToInsureIsOn,
+                                         false,
                                          stringTransfer.TextBox);
                         
                         // The navigation process should make it visible as well.

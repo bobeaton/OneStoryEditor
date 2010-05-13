@@ -2754,9 +2754,7 @@ namespace OneStoryProjectEditor
 
             if (dlg.ShowDialog() == DialogResult.OK)
             {
-                NavigateTo(theCurrentStory.Name, dlg.ItemsToInsureAreOn, CtrlTextBox._inTextBox);
-
-                // todo: some of these had special handling
+                NavigateTo(theCurrentStory.Name, dlg.ItemsToInsureAreOn, true, CtrlTextBox._inTextBox);
             }
         }
 
@@ -3006,7 +3004,8 @@ namespace OneStoryProjectEditor
         }
 
         public void NavigateTo(string strStoryName,
-            VerseData.ViewItemToInsureOn viewItemToInsureOn, CtrlTextBox ctbToFocus)
+            VerseData.ViewItemToInsureOn viewItemToInsureOn, bool bDoOffToo, 
+            CtrlTextBox ctbToFocus)
         {
             Debug.Assert(comboBoxStorySelector.Items.Contains(strStoryName));
             if (strStoryName != theCurrentStory.Name)
@@ -3015,23 +3014,42 @@ namespace OneStoryProjectEditor
             bool bSomethingChanged = false;
             _bDisableReInitVerseControls = true;
             bSomethingChanged |= InsureVisible(viewVernacularLangFieldMenuItem,
-                VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eVernacularLangField));
+                                               VerseData.IsViewItemOn(viewItemToInsureOn,
+                                                                      VerseData.ViewItemToInsureOn.eVernacularLangField),
+                                               bDoOffToo);
             bSomethingChanged |= InsureVisible(viewNationalLangFieldMenuItem,
-                VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eNationalLangField));
+                                               VerseData.IsViewItemOn(viewItemToInsureOn,
+                                                                      VerseData.ViewItemToInsureOn.eNationalLangField),
+                                               bDoOffToo);
             bSomethingChanged |= InsureVisible(viewEnglishBTFieldMenuItem,
-                VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eEnglishBTField));
+                                               VerseData.IsViewItemOn(viewItemToInsureOn,
+                                                                      VerseData.ViewItemToInsureOn.eEnglishBTField),
+                                               bDoOffToo);
             bSomethingChanged |= InsureVisible(viewAnchorFieldMenuItem,
-                VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eAnchorFields));
+                                               VerseData.IsViewItemOn(viewItemToInsureOn,
+                                                                      VerseData.ViewItemToInsureOn.eAnchorFields),
+                                               bDoOffToo);
             bSomethingChanged |= InsureVisible(viewStoryTestingQuestionFieldMenuItem,
-                VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eStoryTestingQuestionFields));
+                                               VerseData.IsViewItemOn(viewItemToInsureOn,
+                                                                      VerseData.ViewItemToInsureOn.
+                                                                          eStoryTestingQuestionFields),
+                                               bDoOffToo);
             bSomethingChanged |= InsureVisible(viewRetellingFieldMenuItem,
-                VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eRetellingFields));
+                                               VerseData.IsViewItemOn(viewItemToInsureOn,
+                                                                      VerseData.ViewItemToInsureOn.eRetellingFields),
+                                               bDoOffToo);
             bSomethingChanged |= InsureVisible(viewConsultantNoteFieldMenuItem,
-                VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eConsultantNoteFields));
+                                               VerseData.IsViewItemOn(viewItemToInsureOn,
+                                                                      VerseData.ViewItemToInsureOn.eConsultantNoteFields),
+                                               bDoOffToo);
             bSomethingChanged |= InsureVisible(viewCoachNotesFieldMenuItem,
-                VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eCoachNotesFields));
+                                               VerseData.IsViewItemOn(viewItemToInsureOn,
+                                                                      VerseData.ViewItemToInsureOn.eCoachNotesFields),
+                                               bDoOffToo);
             bSomethingChanged |= InsureVisible(viewNetBibleMenuItem,
-                VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eBibleViewer));
+                                               VerseData.IsViewItemOn(viewItemToInsureOn,
+                                                                      VerseData.ViewItemToInsureOn.eBibleViewer),
+                                               bDoOffToo);
 
             _bDisableReInitVerseControls = false;
 
@@ -3042,14 +3060,22 @@ namespace OneStoryProjectEditor
                 ctbToFocus.Focus();
         }
 
-        protected bool InsureVisible(ToolStripMenuItem tsmi, bool bChecked)
+        protected bool InsureVisible(ToolStripMenuItem tsmi, bool bChecked, bool bDoOffToo)
         {
             Debug.Assert(tsmi != null);
-            if ((bChecked && !tsmi.Checked)
-                || 
-                (!bChecked && tsmi.Checked))
+            if (bDoOffToo)
             {
-                tsmi.Checked = bChecked;
+                if ((bChecked && !tsmi.Checked)
+                    ||
+                    (!bChecked && tsmi.Checked))
+                {
+                    tsmi.Checked = bChecked;
+                    return true;
+                }
+            }
+            else if (!tsmi.Checked)
+            {
+                tsmi.Checked = true;
                 return true;
             }
             return false;
