@@ -292,7 +292,8 @@ namespace OneStoryProjectEditor
             return (aCI.Direction == MentorDirection);
         }
 
-        readonly Regex regexBibRef = new Regex(@"\b([1-3a-zA-Z][a-zA-Z]{2,5} \d{1,3}:\d{1,3})\b", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
+        readonly Regex regexBibRef = new Regex(@"\b(([a-zA-Z]{3,4}|[1-3][a-zA-Z]{2,5}) \d{1,3}:\d{1,3})\b", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
+        readonly Regex regexLineRef = new Regex(@"\b((Ln|ln) ([1-9][0-9]?))\b", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
         readonly Regex regexItalics = new Regex(@"\*\b(.+)\b\*", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
 
         public string Html(StoryStageLogic theStoryStage, 
@@ -381,6 +382,7 @@ namespace OneStoryProjectEditor
                 {
                     string strHyperlinkedText = aCI.ToString().Replace("\r\n", "<br />");   // regexParagraph.Replace(aCI.ToString(), ParagraphFound);
                     strHyperlinkedText = regexBibRef.Replace(strHyperlinkedText, BibleReferenceFound);
+                    strHyperlinkedText = regexLineRef.Replace(strHyperlinkedText, LineReferenceFound);
                     strHyperlinkedText = regexItalics.Replace(strHyperlinkedText, EmphasizedTextFound);
 
                     strRow += String.Format(Properties.Resources.HTML_TableCellWidth, 100,
@@ -410,8 +412,16 @@ namespace OneStoryProjectEditor
         static string BibleReferenceFound(Match m)
         {
             // Get the matched string.
-            string str = String.Format(Properties.Resources.HTML_LinkJumpTarget, 
+            string str = String.Format(Properties.Resources.HTML_LinkJumpTargetBibleReference, 
                 m);
+            return str;
+        }
+
+        static string LineReferenceFound(Match m)
+        {
+            // Get the matched string.
+            string str = String.Format(Properties.Resources.HTML_LinkJumpLine,
+                                       m.Groups[3], m);
             return str;
         }
 

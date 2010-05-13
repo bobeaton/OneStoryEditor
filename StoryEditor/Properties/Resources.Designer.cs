@@ -186,9 +186,18 @@ namespace OneStoryProjectEditor.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;a href=&quot;bibleViewer.setReference&quot; name=&quot;{0}&quot; onClick=&quot;return OnBibRefJump(this);&quot;&gt;{0}&lt;/a&gt;.
         /// </summary>
-        internal static string HTML_LinkJumpTarget {
+        internal static string HTML_LinkJumpTargetBibleReference {
             get {
-                return ResourceManager.GetString("HTML_LinkJumpTarget", resourceCulture);
+                return ResourceManager.GetString("HTML_LinkJumpTargetBibleReference", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;a href=&quot;verseViewer.setReference&quot; name=&quot;{1}&quot; onClick=&quot;return OnBibRefJump(this);&quot;&gt;{0}&lt;/a&gt;.
+        /// </summary>
+        internal static string HTML_LinkJumpTargetLineReference {
+            get {
+                return ResourceManager.GetString("HTML_LinkJumpTargetLineReference", resourceCulture);
             }
         }
         
