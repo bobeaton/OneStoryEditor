@@ -34,14 +34,14 @@
             this.textBoxSizer = new System.Windows.Forms.TextBox();
             this.webBrowserNetBible = new System.Windows.Forms.WebBrowser();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.contextMenuStripBibleBooks = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanelSpinControls = new OneStoryProjectEditor.DynamicTableLayoutPanel();
             this.domainUpDownBookNames = new System.Windows.Forms.DomainUpDown();
             this.numericUpDownChapterNumber = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownVerseNumber = new System.Windows.Forms.NumericUpDown();
             this.textBoxNetFlixViewer = new System.Windows.Forms.TextBox();
             this.radioButtonShowOtherSwordResources = new System.Windows.Forms.RadioButton();
-            this.contextMenuStripBibleBooks = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanel.SuspendLayout();
             this.tableLayoutPanelSpinControls.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownChapterNumber)).BeginInit();
@@ -90,6 +90,15 @@
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel.Size = new System.Drawing.Size(583, 262);
             this.tableLayoutPanel.TabIndex = 0;
+            // 
+            // contextMenuStripBibleBooks
+            // 
+            this.contextMenuStripBibleBooks.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Table;
+            this.contextMenuStripBibleBooks.Name = "contextMenuStripBibleBooks";
+            this.contextMenuStripBibleBooks.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.contextMenuStripBibleBooks.ShowImageMargin = false;
+            this.contextMenuStripBibleBooks.ShowItemToolTips = false;
+            this.contextMenuStripBibleBooks.Size = new System.Drawing.Size(36, 4);
             // 
             // tableLayoutPanelSpinControls
             // 
@@ -190,7 +199,6 @@
             // 
             // numericUpDownChapterNumber
             // 
-            this.numericUpDownChapterNumber.AutoSize = true;
             this.numericUpDownChapterNumber.Location = new System.Drawing.Point(67, 3);
             this.numericUpDownChapterNumber.Minimum = new decimal(new int[] {
             1,
@@ -198,18 +206,18 @@
             0,
             0});
             this.numericUpDownChapterNumber.Name = "numericUpDownChapterNumber";
-            this.numericUpDownChapterNumber.Size = new System.Drawing.Size(41, 20);
+            this.numericUpDownChapterNumber.Size = new System.Drawing.Size(53, 20);
             this.numericUpDownChapterNumber.TabIndex = 1;
             this.numericUpDownChapterNumber.Value = new decimal(new int[] {
             100,
             0,
             0,
             0});
-            this.numericUpDownChapterNumber.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDownChapterNumber.ValueChanged += new System.EventHandler(this.numericUpDownChapter_ValueChanged);
             // 
             // numericUpDownVerseNumber
             // 
-            this.numericUpDownVerseNumber.Location = new System.Drawing.Point(114, 3);
+            this.numericUpDownVerseNumber.Location = new System.Drawing.Point(126, 3);
             this.numericUpDownVerseNumber.Minimum = new decimal(new int[] {
             1,
             0,
@@ -223,18 +231,18 @@
             0,
             0,
             0});
-            this.numericUpDownVerseNumber.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDownVerseNumber.ValueChanged += new System.EventHandler(this.numericUpDownVerse_ValueChanged);
             // 
             // textBoxNetFlixViewer
             // 
             this.textBoxNetFlixViewer.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBoxNetFlixViewer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxNetFlixViewer.Font = new System.Drawing.Font("Segoe UI", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxNetFlixViewer.Location = new System.Drawing.Point(158, 0);
+            this.textBoxNetFlixViewer.Location = new System.Drawing.Point(170, 0);
             this.textBoxNetFlixViewer.Margin = new System.Windows.Forms.Padding(0);
             this.textBoxNetFlixViewer.Name = "textBoxNetFlixViewer";
             this.textBoxNetFlixViewer.ReadOnly = true;
-            this.textBoxNetFlixViewer.Size = new System.Drawing.Size(362, 22);
+            this.textBoxNetFlixViewer.Size = new System.Drawing.Size(350, 22);
             this.textBoxNetFlixViewer.TabIndex = 6;
             this.textBoxNetFlixViewer.TabStop = false;
             this.textBoxNetFlixViewer.Text = "Bible";
@@ -251,15 +259,6 @@
             this.radioButtonShowOtherSwordResources.Text = "Other";
             this.radioButtonShowOtherSwordResources.UseVisualStyleBackColor = true;
             this.radioButtonShowOtherSwordResources.CheckedChanged += new System.EventHandler(this.radioButtonShowOtherSwordResources_CheckedChanged);
-            // 
-            // contextMenuStripBibleBooks
-            // 
-            this.contextMenuStripBibleBooks.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Table;
-            this.contextMenuStripBibleBooks.Name = "contextMenuStripBibleBooks";
-            this.contextMenuStripBibleBooks.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.contextMenuStripBibleBooks.ShowImageMargin = false;
-            this.contextMenuStripBibleBooks.ShowItemToolTips = false;
-            this.contextMenuStripBibleBooks.Size = new System.Drawing.Size(36, 4);
             // 
             // NetBibleViewer
             // 

@@ -369,10 +369,11 @@ namespace OneStoryProjectEditor
 
         protected void UpdateUpDowns(VerseKey keyVerse)
         {
+            System.Diagnostics.Debug.Assert(!m_bDisableInterrupts);
             m_bDisableInterrupts = true;
 
             // initialize the combo boxes for this new situation
-            if (keyVerse.Verse() != m_nBook)
+            if (keyVerse.Book() != m_nBook)
             {
                 domainUpDownBookNames.SelectedItem = keyVerse.getBookAbbrev();
                 m_nBook = keyVerse.Book();
@@ -506,10 +507,23 @@ namespace OneStoryProjectEditor
 
         private void domainUpDownBookNames_SelectedItemChanged(object sender, EventArgs e)
         {
+            bool bIntValue = m_bDisableInterrupts;
+            m_bDisableInterrupts = true;
+            numericUpDownChapterNumber.Value = numericUpDownVerseNumber.Value = 1;
+            m_bDisableInterrupts = bIntValue;
             CallUpdateUpDowns();
         }
 
-        private void numericUpDown_ValueChanged(object sender, EventArgs e)
+        private void numericUpDownChapter_ValueChanged(object sender, EventArgs e)
+        {
+            bool bIntValue = m_bDisableInterrupts;
+            m_bDisableInterrupts = true;
+            numericUpDownVerseNumber.Value = 1;
+            m_bDisableInterrupts = bIntValue;
+            CallUpdateUpDowns();
+        }
+
+        private void numericUpDownVerse_ValueChanged(object sender, EventArgs e)
         {
             CallUpdateUpDowns();
         }
