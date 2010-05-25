@@ -31,7 +31,8 @@ namespace OneStoryProjectEditor
             bool bRepeatAfterMe = false;
             do
             {
-                int nVerseNumber = 1;
+                int nVerseNumber = 1;   // this wants to be 1, because it's dealing with the
+                                        // VerseBT pane, which starts at 1.
                 foreach (VerseData aVerseData in theCurrentStory.Verses)
                 {
                     if (aVerseData.IsVisible)
@@ -628,7 +629,7 @@ namespace OneStoryProjectEditor
 
         static bool CheckThatCoachAnsweredCITsQuestions(StoryEditor theSE, StoryData theCurrentStory)
         {
-            int nVerseNumber = 0;
+            int nVerseNumber = 0;   // this wants to be 0, because ConNotes have a 0th verse
             if (theCurrentStory.Verses.FirstVerse.IsVisible)
                 if (!CheckThatMentorAnsweredMenteesQuestions(theSE, theSE.htmlCoachNotesControl,
                     theCurrentStory.Verses.FirstVerse.CoachNotes, ref nVerseNumber))
@@ -648,7 +649,7 @@ namespace OneStoryProjectEditor
 
         static bool CheckThatCITAnsweredPFsQuestions(StoryEditor theSE, StoryData theCurrentStory)
         {
-            int nVerseNumber = 1;
+            int nVerseNumber = 0;
             if (theCurrentStory.Verses.FirstVerse.IsVisible)
                 if (!CheckThatMentorAnsweredMenteesQuestions(theSE, theSE.htmlConsultantNotesControl,
                     theCurrentStory.Verses.FirstVerse.ConsultantNotes, ref nVerseNumber))
@@ -848,7 +849,7 @@ namespace OneStoryProjectEditor
 
         static bool CheckAnswersAnswered(StoryEditor theSE, StoryData theCurrentStory)
         {
-            int nVerseNumber = 1;
+            int nVerseNumber = 1;   // this wants to be 1, because it deals with the VerseBT pane
             foreach (VerseData aVerseData in theCurrentStory.Verses)
             {
                 if (aVerseData.IsVisible)
@@ -951,7 +952,12 @@ namespace OneStoryProjectEditor
         public static bool ConsultantCheck2(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ConsultantCheck2' work is finished: Name: {0}", theCurrentStory.Name));
-            
+
+            // and if the ProjectFac asked a question that the CIT responded to it (so the 
+            //  coach can check the responses)
+            if (!CheckThatCITAnsweredPFsQuestions(theSE, theCurrentStory))
+                return false;
+
             System.Diagnostics.Debug.Assert(eProposedNextState == 
                 StoryStageLogic.ProjectStages.eCoachReviewRound2Notes);
 
