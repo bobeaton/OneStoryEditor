@@ -478,7 +478,12 @@ namespace OneStoryProjectEditor
             StoryLineControl slc = tableLayoutPanel.Controls[CstrFieldNameStoryLine] as StoryLineControl;
             string strVernacular, strNationalBT, strEnglishBT;
             slc.GetTextBoxValues(out strVernacular, out strNationalBT, out strEnglishBT);
-            theSE.AddNewVerse(VerseNumber, strVernacular, strNationalBT, strEnglishBT);
+            copyVerseToClipboardToolStripMenuItem_Click(null, null);
+            _myClipboard.VernacularText.SetValue(strVernacular);
+            _myClipboard.NationalBTText.SetValue(strNationalBT);
+            _myClipboard.InternationalBTText.SetValue(strEnglishBT);
+            PasteVerseToIndex(VerseNumber);
+            // theSE.AddNewVerse(VerseNumber, strVernacular, strNationalBT, strEnglishBT);
         }
 
         private void addNewVersesBeforeMenuItem_Click(object sender, EventArgs e)
