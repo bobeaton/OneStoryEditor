@@ -95,7 +95,7 @@ namespace OneStoryProjectEditor
 
                 ColumnTermLemma.DefaultCellStyle.Font = new Font("Charis SIL", 12);
                 ColumnStatus.DefaultCellStyle.Font = new Font("Wingdings", 11);
-                ColumnRenderings.DefaultCellStyle.Font = MainLang.LangFont;
+                ColumnRenderings.DefaultCellStyle.Font = MainLang.FontToUse;
                 ColumnRenderings.DefaultCellStyle.ForeColor = MainLang.FontColor;
 
                 termIndexRequested = -1;
@@ -481,7 +481,7 @@ namespace OneStoryProjectEditor
 			}
 
 			EditRenderingsForm form = new EditRenderingsForm(
-                MainLang.LangFont,
+                MainLang.FontToUse,
 				currentRenderings,
 				termRendering,
                 MainLang.LangCode,

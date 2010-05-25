@@ -49,7 +49,7 @@ namespace OneStoryProjectEditor
                 AnchorsData anAnchorsData = _verseData.Anchors;
                 if (anAnchorsData != null)
                 {
-                    InitAnchors(anAnchorsData, nNumRows, TheSE.StoryProject.ProjSettings.InternationalBT.LangFont);
+                    InitAnchors(anAnchorsData, nNumRows, TheSE.StoryProject.ProjSettings.InternationalBT.FontToUse);
                     nNumRows++;
                 }
             }
@@ -58,8 +58,8 @@ namespace OneStoryProjectEditor
             {
                 if (_verseData.Retellings.Count > 0)
                 {
-                    InitRetellings(_verseData.Retellings, nNumRows, theSE.theCurrentStory.CraftingInfo.Testors, 
-                        TheSE.StoryProject.ProjSettings.InternationalBT.LangFont);
+                    InitRetellings(_verseData.Retellings, nNumRows, theSE.theCurrentStory.CraftingInfo.Testors,
+                        TheSE.StoryProject.ProjSettings.InternationalBT.FontToUse);
                     nNumRows++;
                 }
             }

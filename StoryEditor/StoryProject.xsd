@@ -21,9 +21,22 @@
 									<xs:attribute name="OverrideVernacularKeyboard" type="xs:string" use="optional" />
 									<xs:attribute name="OverrideNationalBTKeyboard" type="xs:string" use="optional" />
 									<xs:attribute name="OverrideInternationalBTKeyboard" type="xs:string" use="optional" />
-									<xs:attribute name="HgUsername" type="xs:string" use="optional" />
+                  <xs:attribute name="OverrideFontNameVernacular" type="xs:string" use="optional" />
+                  <xs:attribute name="OverrideFontSizeVernacular" type="xs:float" use="optional" />
+                  <xs:attribute name="OverrideRtlVernacular" type="xs:boolean" use="optional" />
+                  <xs:attribute name="OverrideFontNameNationalBT" type="xs:string" use="optional" />
+                  <xs:attribute name="OverrideFontSizeNationalBT" type="xs:float" use="optional" />
+                  <xs:attribute name="OverrideRtlNationalBT" type="xs:boolean" use="optional" />
+                  <xs:attribute name="OverrideFontNameInternationalBT" type="xs:string" use="optional" />
+                  <xs:attribute name="OverrideFontSizeInternationalBT" type="xs:float" use="optional" />
+                  <xs:attribute name="OverrideRtlInternationalBT" type="xs:boolean" use="optional" />
+                  <xs:attribute name="HgUsername" type="xs:string" use="optional" />
 									<xs:attribute name="HgPassword" type="xs:string" use="optional" />
-								</xs:complexType>
+                  <xs:attribute name="TransliteratorVernacular" type="xs:string" use="optional" />
+                  <xs:attribute name="TransliteratorDirectionForwardVernacular" type="xs:boolean" use="optional" />
+                  <xs:attribute name="TransliteratorNationalBT" type="xs:string" use="optional" />
+                  <xs:attribute name="TransliteratorDirectionForwardNationalBT" type="xs:boolean" use="optional" />
+                </xs:complexType>
 							</xs:element>
 						</xs:choice>
 						<xs:attribute name="HasOutsideEnglishBTer" type="xs:boolean" use="optional" />

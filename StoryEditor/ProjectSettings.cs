@@ -46,17 +46,16 @@ namespace OneStoryProjectEditor
                 NewDataSet.VernacularLangRow theVernRow = projFile.VernacularLang[0];
                 Vernacular.LangName = theVernRow.name;
                 Vernacular.LangCode = theVernRow.code;
-                Vernacular.LangFont = new Font(theVernRow.FontName, theVernRow.FontSize);
-                
-                // save what was in the actual file so we don't overwrite when the font isn't present
-                if (Vernacular.LangFont.Name != theVernRow.FontName)
-                    Vernacular.FontName = theVernRow.FontName;
-
+                Vernacular.DefaultFontName = theVernRow.FontName;
+                Vernacular.DefaultFontSize = theVernRow.FontSize;
+                Vernacular.FontToUse = new Font(theVernRow.FontName, theVernRow.FontSize);
                 Vernacular.FontColor = Color.FromName(theVernRow.FontColor);
                 Vernacular.FullStop = theVernRow.SentenceFinalPunct;
-                Vernacular.IsRTL = (!theVernRow.IsRTLNull() && theVernRow.RTL);
-                Vernacular.DefaultKeyboard = (!theVernRow.IsKeyboardNull() && !String.IsNullOrEmpty(theVernRow.Keyboard))
-                    ? theVernRow.Keyboard : null;
+                Vernacular.DefaultRtl = (!theVernRow.IsRTLNull() && theVernRow.RTL);
+                Vernacular.DefaultKeyboard = 
+                    (!theVernRow.IsKeyboardNull() && !String.IsNullOrEmpty(theVernRow.Keyboard))
+                        ? theVernRow.Keyboard
+                        : null;
             }
 
             // the national language BT isn't strictly necessary...
@@ -67,17 +66,16 @@ namespace OneStoryProjectEditor
                 NewDataSet.NationalBTLangRow rowNatlRow = projFile.NationalBTLang[0];
                 NationalBT.LangName = rowNatlRow.name;
                 NationalBT.LangCode = rowNatlRow.code;
-                NationalBT.LangFont = new Font(rowNatlRow.FontName, rowNatlRow.FontSize);
-
-                // save what was in the actual file so we don't overwrite when the font isn't present
-                if (NationalBT.LangFont.Name != rowNatlRow.FontName)
-                    NationalBT.FontName = rowNatlRow.FontName;
-
+                NationalBT.DefaultFontName = rowNatlRow.FontName;
+                NationalBT.DefaultFontSize = rowNatlRow.FontSize;
+                NationalBT.FontToUse = new Font(rowNatlRow.FontName, rowNatlRow.FontSize);
                 NationalBT.FontColor = Color.FromName(rowNatlRow.FontColor);
                 NationalBT.FullStop = rowNatlRow.SentenceFinalPunct;
-                NationalBT.IsRTL = (!rowNatlRow.IsRTLNull() && rowNatlRow.RTL);
-                NationalBT.DefaultKeyboard = (!rowNatlRow.IsKeyboardNull() && !String.IsNullOrEmpty(rowNatlRow.Keyboard))
-                    ? rowNatlRow.Keyboard : null;
+                NationalBT.DefaultRtl = (!rowNatlRow.IsRTLNull() && rowNatlRow.RTL);
+                NationalBT.DefaultKeyboard =
+                    (!rowNatlRow.IsKeyboardNull() && !String.IsNullOrEmpty(rowNatlRow.Keyboard))
+                        ? rowNatlRow.Keyboard
+                        : null;
             }
 
             // the international language BT isn't strictly necessary... (e.g. if they're only doing
@@ -89,17 +87,16 @@ namespace OneStoryProjectEditor
                 NewDataSet.InternationalBTLangRow rowEngRow = projFile.InternationalBTLang[0];
                 InternationalBT.LangName = rowEngRow.name;
                 InternationalBT.LangCode = rowEngRow.code;
-                InternationalBT.LangFont = new Font(rowEngRow.FontName, rowEngRow.FontSize);
-
-                // save what was in the actual file so we don't overwrite when the font isn't present
-                if (InternationalBT.LangFont.Name != rowEngRow.FontName)
-                    InternationalBT.FontName = rowEngRow.FontName;
-
+                InternationalBT.DefaultFontName = rowEngRow.FontName;
+                InternationalBT.DefaultFontSize = rowEngRow.FontSize;
+                InternationalBT.FontToUse = new Font(rowEngRow.FontName, rowEngRow.FontSize);
                 InternationalBT.FontColor = Color.FromName(rowEngRow.FontColor);
                 InternationalBT.FullStop = rowEngRow.SentenceFinalPunct;
-                InternationalBT.IsRTL = (!rowEngRow.IsRTLNull() && rowEngRow.RTL);
-                InternationalBT.DefaultKeyboard = (!rowEngRow.IsKeyboardNull() && !String.IsNullOrEmpty(rowEngRow.Keyboard))
-                    ? rowEngRow.Keyboard : null;
+                InternationalBT.DefaultRtl = (!rowEngRow.IsRTLNull() && rowEngRow.RTL);
+                InternationalBT.DefaultKeyboard =
+                    (!rowEngRow.IsKeyboardNull() && !String.IsNullOrEmpty(rowEngRow.Keyboard))
+                        ? rowEngRow.Keyboard
+                        : null;
             }
             else
             {
@@ -117,18 +114,25 @@ namespace OneStoryProjectEditor
         {
             internal static string CstrSentenceFinalPunctuation = ".!?:";
 
-            public string LangName = null;
-            public string LangCode = null;
-            public string FontName = null;
-            public Font LangFont;
+            public string LangName;
+            public string LangCode;
+            public string DefaultFontName;
+            public float DefaultFontSize;
+            public Font FontToUse;
             public Color FontColor;
             public string FullStop = CstrSentenceFinalPunctuation;
-            public string DefaultKeyboard = null;
-            public bool IsRTL = false;
+            public string DefaultKeyboard;
+            public string KeyboardOverride;
+            public bool DefaultRtl; // this is the value that most of the team uses
+            public bool InvertRtl;  // this indicates whether the default value should
+                                    // be overridden (which means toggle) for a particular
+                                    // user.
 
             public LanguageInfo(Font font, Color fontColor)
             {
-                LangFont = font;
+                FontToUse = font;
+                DefaultFontName = font.Name;
+                DefaultFontSize = font.Size;
                 FontColor = fontColor;
             }
 
@@ -136,8 +140,27 @@ namespace OneStoryProjectEditor
             {
                 LangName = strLangName;
                 LangCode = strLangCode;
-                LangFont = font;
+                FontToUse = font;
+                DefaultFontName = font.Name;
+                DefaultFontSize = font.Size;
                 FontColor = fontColor;
+            }
+
+            public string Keyboard
+            {
+                get
+                {
+                    return (String.IsNullOrEmpty(KeyboardOverride)) ? DefaultKeyboard : KeyboardOverride;
+                }
+            }
+
+            public bool DoRtl
+            {
+                // we want to 'do RTL' if a) we're supposed to invert the default
+                //  RTL flag (what most users are using) and the default is false OR 
+                //  b) we're not supposed to invert (which means override) and the 
+                //  default is true
+                get { return ((InvertRtl && !DefaultRtl) || (!InvertRtl && DefaultRtl)); }
             }
 
             public bool HasData
@@ -154,22 +177,21 @@ namespace OneStoryProjectEditor
 
             public XElement GetXml(string strLangType)
             {
-                // if the font wasn't present (as evidenced by a non-null value for FontName), then
-                //  don't overwrite the xml file's value
-                string strFontName = (String.IsNullOrEmpty(FontName)) ? LangFont.Name : FontName;
                 XElement elemLang =
                     new XElement(strLangType,
                         new XAttribute("name", LangName),
                         new XAttribute("code", LangCode),
-                        new XAttribute("FontName", strFontName),
-                        new XAttribute("FontSize", LangFont.Size),
+                        new XAttribute("FontName", DefaultFontName),
+                        new XAttribute("FontSize", DefaultFontSize),
                         new XAttribute("FontColor", FontColor.Name));
 
                 if (!String.IsNullOrEmpty(FullStop))
                     elemLang.Add(new XAttribute("SentenceFinalPunct", FullStop));
 
-                if (IsRTL)
-                    elemLang.Add(new XAttribute("RTL", IsRTL));
+                // when saving, though, we only write out the default value (override
+                //  values (if any) are saved by the member ID info)
+                if (DefaultRtl)
+                    elemLang.Add(new XAttribute("RTL", DefaultRtl));
 
                 if (!String.IsNullOrEmpty(DefaultKeyboard))
                     elemLang.Add(new XAttribute("Keyboard", DefaultKeyboard));
@@ -181,10 +203,10 @@ namespace OneStoryProjectEditor
             {
                 string strHtmlStyle = String.Format(Properties.Resources.HTML_LangStyle,
                     strLangCat,
-                    LangFont.Name,
-                    LangFont.SizeInPoints,
-                    (IsRTL) ? "rtl" : "ltr",
-                    (IsRTL) ? "right" : "left");
+                    FontToUse.Name,
+                    FontToUse.SizeInPoints,
+                    (DoRtl) ? "rtl" : "ltr",
+                    (DoRtl) ? "right" : "left");
 
                 return strHtmlStyle;
             }
@@ -300,6 +322,28 @@ namespace OneStoryProjectEditor
                 System.Diagnostics.Debug.Assert(projFile.Languages.Count == 1);
                 return projFile.Languages[0];
             }
+        }
+
+        public void InitializeOverrides(TeamMemberData loggedOnMember)
+        {
+            if (!String.IsNullOrEmpty(loggedOnMember.OverrideFontNameVernacular))
+                Vernacular.FontToUse =
+                    new Font(loggedOnMember.OverrideFontNameVernacular, loggedOnMember.OverrideFontSizeVernacular);
+            if (!String.IsNullOrEmpty(loggedOnMember.OverrideFontNameNationalBT))
+                NationalBT.FontToUse =
+                    new Font(loggedOnMember.OverrideFontNameNationalBT, loggedOnMember.OverrideFontSizeNationalBT);
+            if (!String.IsNullOrEmpty(loggedOnMember.OverrideFontNameInternationalBT))
+                InternationalBT.FontToUse =
+                    new Font(loggedOnMember.OverrideFontNameInternationalBT, loggedOnMember.OverrideFontSizeInternationalBT);
+            if (!String.IsNullOrEmpty(loggedOnMember.OverrideVernacularKeyboard))
+                Vernacular.KeyboardOverride = loggedOnMember.OverrideVernacularKeyboard;
+            if (!String.IsNullOrEmpty(loggedOnMember.OverrideNationalBTKeyboard))
+                NationalBT.KeyboardOverride = loggedOnMember.OverrideNationalBTKeyboard;
+            if (!String.IsNullOrEmpty(loggedOnMember.OverrideInternationalBTKeyboard))
+                InternationalBT.KeyboardOverride = loggedOnMember.OverrideInternationalBTKeyboard;
+            Vernacular.InvertRtl = loggedOnMember.OverrideRtlVernacular;
+            NationalBT.InvertRtl = loggedOnMember.OverrideRtlNationalBT;
+            InternationalBT.InvertRtl = loggedOnMember.OverrideRtlInternationalBT;
         }
     }
 }

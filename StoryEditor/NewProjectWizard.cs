@@ -9,7 +9,7 @@ namespace OneStoryProjectEditor
     public partial class NewProjectWizard : Form
     {
         protected const string CstrDefaultFontTooltip =
-                    "Click here to choose the font, size, and color of the font to use for this language{0}Currently, Font: {1}, Size: {2}";
+                    "Click here to choose the font, size, and color of the font to use for this language{0}Currently, Font: {1}, Size: {2}, {3}";
         protected const string CstrFinishButtonText = "&Finish";
 
         protected StoryProjectData _storyProjectData;
@@ -166,30 +166,42 @@ namespace OneStoryProjectEditor
             }
             else if (tabControl.SelectedTab == tabPageLanguageVernacular)
             {
+                bool bRtfOverride = false;
                 string strKeyboardOverride = null;
                 ProcessLanguageTab(comboBoxKeyboardVernacular, ProjSettings.Vernacular, checkBoxIsRTLVernacular,
                     textBoxLanguageNameVernacular, textBoxEthCodeVernacular, textBoxSentFullStopVernacular,
-                    ref strKeyboardOverride);
+                    ref strKeyboardOverride, ref bRtfOverride);
                 if (LoggedInMember != null)
+                {
                     LoggedInMember.OverrideVernacularKeyboard = strKeyboardOverride;
+                    LoggedInMember.OverrideRtlVernacular = bRtfOverride;
+                }
             }
             else if (tabControl.SelectedTab == tabPageLanguageNationalBT)
             {
+                bool bRtfOverride = false;
                 string strKeyboardOverride = null;
                 ProcessLanguageTab(comboBoxKeyboardNationalBT, ProjSettings.NationalBT, checkBoxIsRTLNationalBT,
                     textBoxLanguageNameNationalBT, textBoxEthCodeNationalBT, textBoxSentFullStopNationalBT,
-                    ref strKeyboardOverride);
+                    ref strKeyboardOverride, ref bRtfOverride);
                 if (LoggedInMember != null)
+                {
                     LoggedInMember.OverrideNationalBTKeyboard = strKeyboardOverride;
+                    LoggedInMember.OverrideRtlNationalBT = bRtfOverride;
+                }
             }
             else if (tabControl.SelectedTab == tabPageLanguageEnglishBT)
             {
+                bool bRtfOverride = false;
                 string strKeyboardOverride = null;
                 ProcessLanguageTab(comboBoxKeyboardEnglishBT, ProjSettings.InternationalBT, checkBoxIsRTLEnglishBT,
                     textBoxLanguageNameEnglishBT, textBoxEthCodeEnglishBT, textBoxSentFullStopEnglishBT,
-                    ref strKeyboardOverride);
+                    ref strKeyboardOverride, ref bRtfOverride);
                 if (LoggedInMember != null)
+                {
                     LoggedInMember.OverrideInternationalBTKeyboard = strKeyboardOverride;
+                    LoggedInMember.OverrideRtlInternationalBT = bRtfOverride;
+                }
             }
             else if (tabControl.SelectedTab == tabPageMemberRoles)
             {
@@ -227,7 +239,7 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert(tlp.GetControlFromPosition(1, 4) is TextBox);
             TextBox tbSentFullStop = tlp.GetControlFromPosition(1, 4) as TextBox;
 
-            tbSentFullStop.Font = languageInfo.LangFont;
+            tbSentFullStop.Font = languageInfo.FontToUse;
             tbSentFullStop.ForeColor = languageInfo.FontColor;
             tbSentFullStop.Text = languageInfo.FullStop;
 
@@ -235,7 +247,9 @@ namespace OneStoryProjectEditor
             Button btnFont = tlp.GetControlFromPosition(1, 3) as Button;
 
             toolTip.SetToolTip(btnFont, String.Format(CstrDefaultFontTooltip,
-                                                       Environment.NewLine, languageInfo.LangFont,
+                                                       Environment.NewLine, 
+                                                       languageInfo.DefaultFontName,
+                                                       languageInfo.DefaultFontSize,
                                                        languageInfo.FontColor));
 
             if (languageInfo.HasData)
@@ -252,7 +266,7 @@ namespace OneStoryProjectEditor
 
                 System.Diagnostics.Debug.Assert(tlp.GetControlFromPosition(2, 3) is CheckBox);
                 CheckBox checkBoxIsRTL = tlp.GetControlFromPosition(2, 3) as CheckBox;
-                checkBoxIsRTL.Checked = languageInfo.IsRTL;
+                checkBoxIsRTL.Checked = languageInfo.DefaultRtl;
             }
         }
 
@@ -357,7 +371,7 @@ namespace OneStoryProjectEditor
                 Program.ClearHgParameters(ProjectName);
 
             // this is now configured!
-            _storyProjectData.ProjSettings.IsConfigured = true;
+            ProjSettings.IsConfigured = true;
             DialogResult = DialogResult.OK;
             Close();
         }
@@ -368,7 +382,7 @@ namespace OneStoryProjectEditor
 
         protected void ProcessLanguageTab(ComboBox cb, ProjectSettings.LanguageInfo li, 
             CheckBox cbRtl, TextBox textBoxLanguageName, TextBox textBoxEthCode, 
-            TextBox textBoxSentFullStop, ref string strKeyboardOverride)
+            TextBox textBoxSentFullStop, ref string strKeyboardOverride, ref bool bRtfOverride)
         {
             // if there is a default keyboard (from before) and the user has chosen another 
             //  one, then see if they mean to change it for everyone or just themselves 
@@ -379,8 +393,8 @@ namespace OneStoryProjectEditor
                 if (!String.IsNullOrEmpty(li.DefaultKeyboard)
                     && (strKeyboard != li.DefaultKeyboard))
                 {
-                    DialogResult res = MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmKeyboardOverride,
-                        li.LangName, LoggedInMember.Name), Properties.Resources.IDS_Caption,
+                    DialogResult res = MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmOverride,
+                        li.LangName, "keyboard", LoggedInMember.Name), Properties.Resources.IDS_Caption,
                         MessageBoxButtons.YesNoCancel);
 
                     if (res == DialogResult.Yes)
@@ -398,14 +412,33 @@ namespace OneStoryProjectEditor
                     li.DefaultKeyboard = strKeyboard;
                     strKeyboardOverride = null;   // if there was an override, it should go away
                 }
+
+                if (li.DefaultRtl != cbRtl.Checked)
+                {
+                    DialogResult res = MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmOverride,
+                        "Right-to-left", "value", LoggedInMember.Name), Properties.Resources.IDS_Caption,
+                        MessageBoxButtons.YesNoCancel);
+
+                    if (res == DialogResult.Yes)
+                        bRtfOverride = true;
+                    else if (res == DialogResult.No)
+                    {
+                        li.DefaultRtl = cbRtl.Checked;
+                    }
+                    else
+                        return;
+                }
+                else
+                {
+                    li.DefaultRtl = cbRtl.Checked;
+                }
             }
             else
-                li.DefaultKeyboard = strKeyboard;
+                li.DefaultRtl = cbRtl.Checked;
 
             li.LangName = ThrowIfTextNullOrEmpty(textBoxLanguageName, "Language Name");
             li.LangCode = ThrowIfTextNullOrEmpty(textBoxEthCode, "Ethnologue Code");
             li.FullStop = ThrowIfTextNullOrEmpty(textBoxSentFullStop, "Sentence Final Punctuation");
-            li.IsRTL = cbRtl.Checked;
 
             tabControl.SelectedIndex++;
         }
@@ -660,16 +693,49 @@ namespace OneStoryProjectEditor
             SetKeyboard((string)comboBoxKeyboardEnglishBT.SelectedItem);
         }
 
-        protected void DoFontDialog(ProjectSettings.LanguageInfo li, TextBox tb)
+        protected void DoFontDialog(ProjectSettings.LanguageInfo li, TextBox tb,
+            out string strOverrideFont, out float fOverrideFontSize)
         {
+            strOverrideFont = null;
+            fOverrideFontSize = 0;
             try
             {
-                fontDialog.Font = li.LangFont;
+                fontDialog.Font = li.FontToUse;
                 fontDialog.Color = li.FontColor;
                 if (fontDialog.ShowDialog() == DialogResult.OK)
                 {
-                    li.LangFont = fontDialog.Font;
-                    li.FontName = null;  // clear it out so we use the value in LangFont
+                    li.FontToUse = fontDialog.Font;
+                    if (LoggedInMember != null)
+                    {
+                        if (!String.IsNullOrEmpty(li.DefaultFontName)
+                            && (fontDialog.Font.Name != li.DefaultFontName))
+                        {
+                            DialogResult res = MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmOverride,
+                                li.DefaultFontName, "font", LoggedInMember.Name), Properties.Resources.IDS_Caption,
+                                MessageBoxButtons.YesNoCancel);
+
+                            if (res == DialogResult.Yes)
+                            {
+                                strOverrideFont = fontDialog.Font.Name;
+                                fOverrideFontSize = fontDialog.Font.Size;
+                            }
+                            else if (res == DialogResult.No)
+                            {
+                                li.DefaultKeyboard = fontDialog.Font.Name;
+                                // strOverrideFont = null;   // if there was an override, it should go away
+                            }
+                            else
+                                return;
+                        }
+                        else
+                        {
+                            li.DefaultFontName = fontDialog.Font.Name;
+                            // strOverrideFont = null;   // if there was an override, it should go away
+                        }
+                    }
+                    else
+                        li.DefaultFontName = fontDialog.Font.Name;
+
                     li.FontColor = fontDialog.Color;
                     tb.Font = fontDialog.Font;
                     tb.ForeColor = fontDialog.Color;
@@ -685,17 +751,41 @@ namespace OneStoryProjectEditor
 
         private void buttonFontVernacular_Click(object sender, EventArgs e)
         {
-            DoFontDialog(ProjSettings.Vernacular, textBoxSentFullStopVernacular);
+            string strOverrideFont;
+            float fOverrideFontSize;
+            DoFontDialog(ProjSettings.Vernacular, textBoxSentFullStopVernacular, 
+                out strOverrideFont, out fOverrideFontSize);
+            if (LoggedInMember != null)
+            {
+                LoggedInMember.OverrideFontNameVernacular = strOverrideFont;
+                LoggedInMember.OverrideFontSizeVernacular = fOverrideFontSize;
+            }
         }
 
         private void buttonFontNationalBT_Click(object sender, EventArgs e)
         {
-            DoFontDialog(ProjSettings.NationalBT, textBoxSentFullStopNationalBT);
+            string strOverrideFont;
+            float fOverrideFontSize;
+            DoFontDialog(ProjSettings.NationalBT, textBoxSentFullStopNationalBT,
+                out strOverrideFont, out fOverrideFontSize);
+            if (LoggedInMember != null)
+            {
+                LoggedInMember.OverrideFontNameNationalBT = strOverrideFont;
+                LoggedInMember.OverrideFontSizeNationalBT = fOverrideFontSize;
+            }
         }
 
         private void buttonFontEnglishBT_Click(object sender, EventArgs e)
         {
-            DoFontDialog(ProjSettings.InternationalBT, textBoxSentFullStopEnglishBT);
+            string strOverrideFont;
+            float fOverrideFontSize;
+            DoFontDialog(ProjSettings.InternationalBT, textBoxSentFullStopEnglishBT,
+                out strOverrideFont, out fOverrideFontSize);
+            if (LoggedInMember != null)
+            {
+                LoggedInMember.OverrideFontNameInternationalBT = strOverrideFont;
+                LoggedInMember.OverrideFontSizeInternationalBT = fOverrideFontSize;
+            }
         }
 
         private void textBoxSentFullStop_Leave(object sender, EventArgs e)

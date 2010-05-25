@@ -145,7 +145,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdaptItGlossing.cs" />
     <Compile Include="BiblicalKeyTermsForm.cs">
       <SubType>Form</SubType>
     </Compile>

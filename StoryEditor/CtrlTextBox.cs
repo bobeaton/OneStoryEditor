@@ -48,22 +48,23 @@ namespace OneStoryProjectEditor
         }
         */
 
-        public CtrlTextBox(string strName, VerseControl ctrlVerseParent, ResizableControl ctrlParent, StringTransfer stData,
-            ProjectSettings.LanguageInfo li, string strOverrideKeyboard, string strLabel)
+        public CtrlTextBox(string strName, VerseControl ctrlVerseParent, 
+            ResizableControl ctrlParent, StringTransfer stData, 
+            ProjectSettings.LanguageInfo li, string strLabel)
         {
             InitComponent();
             Name = strName;
             _strLabel = strLabel;
-            Font = li.LangFont;
+            Font = li.FontToUse;
             ForeColor = li.FontColor;
-            if (li.IsRTL)
+            if (li.DoRtl)
                 RightToLeft = RightToLeft.Yes;
             stData.SetAssociation(this);
-            TextChanged += new EventHandler(ctrlParent.textBox_TextChanged);
+            TextChanged += ctrlParent.textBox_TextChanged;
             System.Diagnostics.Debug.Assert(ctrlParent.StageLogic != null);
             _stageLogic = ctrlParent.StageLogic;
             _ctrlVerseParent = ctrlVerseParent;
-            _strKeyboardName = (String.IsNullOrEmpty(strOverrideKeyboard)) ? li.DefaultKeyboard : strOverrideKeyboard;
+            _strKeyboardName = li.Keyboard;
         }
 
         // get the string transfer associated with this box (we do this when we're about

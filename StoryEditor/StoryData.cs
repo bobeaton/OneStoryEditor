@@ -61,7 +61,7 @@ namespace OneStoryProjectEditor
                         new XAttribute("name", Name),
                         new XAttribute("stage", ProjStage.ToString()),
                         new XAttribute("guid", guid),
-                        new XAttribute("stageDateTimeStamp", StageTimeStamp),
+                        new XAttribute("stageDateTimeStamp", StageTimeStamp.ToString("s")),
                         CraftingInfo.GetXml);
 
                 if (Verses.HasData)
@@ -438,17 +438,25 @@ namespace OneStoryProjectEditor
             // look at the last person to log in and see if we ought to automatically log them in again
             //  (basically Crafters or others that are also the same role as last time)
             string strMemberName = null;
+            TeamMemberData loggedOnMember = null;
             if (!String.IsNullOrEmpty(Properties.Settings.Default.LastMemberLogin))
             {
                 strMemberName = Properties.Settings.Default.LastMemberLogin;
                 string strMemberTypeString = Properties.Settings.Default.LastUserType;
                 if (CanLoginMember(strMemberName, strMemberTypeString))
-                    return TeamMembers[strMemberName];
+                    loggedOnMember = TeamMembers[strMemberName];
             }
 
             // otherwise, fall thru and make them pick it.
-            return EditTeamMembers(strMemberName, null,
-                ref bModified);
+            if (loggedOnMember == null)
+                loggedOnMember = EditTeamMembers(strMemberName, null, ref bModified);
+
+            // if we have a logged on person, then initialize the overrides for that
+            //  person (i.e. fonts, keyboards)
+            if (loggedOnMember != null)
+                ProjSettings.InitializeOverrides(loggedOnMember);
+
+            return loggedOnMember;
         }
 
         // this can be used to determine whether a given member name and type are one

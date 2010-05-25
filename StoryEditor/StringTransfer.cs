@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using ECInterfaces;
+using SilEncConverters31;
 
 namespace OneStoryProjectEditor
 {
@@ -14,6 +16,8 @@ namespace OneStoryProjectEditor
 #if !DataDllBuild
         protected CtrlTextBox _tb = null;
 #endif
+
+        public DirectableEncConverter Transliterator { get; set; }
 
         public StringTransfer(string strValue)
         {
@@ -29,7 +33,16 @@ namespace OneStoryProjectEditor
         public void SetAssociation(CtrlTextBox tb)
         {
             _tb = tb;
-            tb.Text = Value;
+            if (Transliterator != null)
+            {
+                tb.Text = Transliterator.Convert(Value);
+                tb.ReadOnly = true;
+            }
+            else
+            {
+                tb.Text = Value;
+                tb.ReadOnly = false;
+            }
             tb.Tag = this;
         }
 

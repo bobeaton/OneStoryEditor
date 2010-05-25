@@ -483,11 +483,11 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Click &apos;Yes&apos; to override the &apos;{0}&apos; keyboard for yourself (&apos;{1}&apos;) only. Click &apos;No&apos; to make this change apply to every member of the team (if you all are switching to a new keyboard)..
+        ///   Looks up a localized string similar to Click &apos;Yes&apos; to override the &apos;{0}&apos; {1} for yourself (&apos;{2}&apos;) only. Click &apos;No&apos; to make this change apply to every member of the team (if you all are switching to a new {1})..
         /// </summary>
-        internal static string IDS_ConfirmKeyboardOverride {
+        internal static string IDS_ConfirmOverride {
             get {
-                return ResourceManager.GetString("IDS_ConfirmKeyboardOverride", resourceCulture);
+                return ResourceManager.GetString("IDS_ConfirmOverride", resourceCulture);
             }
         }
         

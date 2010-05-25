@@ -1,5 +1,8 @@
 ﻿#define TurnOffLabels
+using System;
 using System.Windows.Forms;
+using ECInterfaces;
+using SilEncConverters31;
 
 namespace OneStoryProjectEditor
 {
@@ -10,6 +13,9 @@ namespace OneStoryProjectEditor
         protected const string CstrFieldNameInternationalBt = "InternationalBT";
 
         protected VerseData _aVerseData = null;
+
+        protected static DirectableEncConverter _decVernacular;
+        protected static DirectableEncConverter _decNationalBT;
 
         public StoryLineControl(StoryEditor aSE, VerseControl ctrlVerse, VerseData aVerseData)
             : base(aSE.theCurrentStory.ProjStage)
@@ -30,6 +36,34 @@ namespace OneStoryProjectEditor
             while (tableLayoutPanel.ColumnCount > 0)
                 RemoveColumn(tableLayoutPanel.ColumnCount - 1);
 
+            if (aSE.viewTransliterationVernacular.Checked 
+                && !String.IsNullOrEmpty(aSE.LoggedOnMember.TransliteratorVernacular))
+            {
+                if (_decVernacular == null)
+                {
+                    _decVernacular = new DirectableEncConverter(aSE.LoggedOnMember.TransliteratorVernacular,
+                                                                aSE.LoggedOnMember.
+                                                                    TransliteratorDirectionForwardVernacular,
+                                                                NormalizeFlags.None);
+                }
+            }
+            else
+                _decVernacular = null;  // in case it was set from before
+
+            if (aSE.viewTransliterationNationalBT.Checked
+                && !String.IsNullOrEmpty(aSE.LoggedOnMember.TransliteratorNationalBT))
+            {
+                if (_decNationalBT == null)
+                {
+                    _decNationalBT = new DirectableEncConverter(aSE.LoggedOnMember.TransliteratorNationalBT,
+                                                                aSE.LoggedOnMember.
+                                                                    TransliteratorDirectionForwardNationalBT,
+                                                                NormalizeFlags.None);
+                }
+            }
+            else
+                _decNationalBT = null;
+
             int nNumColumns = 0;
             if (aSE.viewVernacularLangFieldMenuItem.Checked)
             {
@@ -44,9 +78,10 @@ namespace OneStoryProjectEditor
                     || (aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT)
                     || (aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT));
 
+                _aVerseData.VernacularText.Transliterator = _decVernacular;
                 InitTextBox(ctrlVerse, CstrFieldNameVernacular, _aVerseData.VernacularText, 
-                    aSE.StoryProject.ProjSettings.Vernacular, aSE.LoggedOnMember.OverrideVernacularKeyboard,
-                    bDisableTabStopVernacular, nNumColumns);
+                    aSE.StoryProject.ProjSettings.Vernacular, bDisableTabStopVernacular, 
+                    nNumColumns);
                 nNumColumns++;
             }
 
@@ -62,9 +97,10 @@ namespace OneStoryProjectEditor
                     ((aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT)
                     || (aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT));
 
+                _aVerseData.NationalBTText.Transliterator = _decNationalBT;
                 InitTextBox(ctrlVerse, CstrFieldNameNationalBt, _aVerseData.NationalBTText, 
-                    aSE.StoryProject.ProjSettings.NationalBT, aSE.LoggedOnMember.OverrideNationalBTKeyboard,
-                    bDisableTabStopNationalBT, nNumColumns);
+                    aSE.StoryProject.ProjSettings.NationalBT, bDisableTabStopNationalBT, 
+                    nNumColumns);
 
                 nNumColumns++;
             }
@@ -76,7 +112,7 @@ namespace OneStoryProjectEditor
                     InitLabel(aSE.StoryProject.ProjSettings.InternationalBT.LangName, nNumColumns);
 
                 InitTextBox(ctrlVerse, CstrFieldNameInternationalBt, _aVerseData.InternationalBTText, 
-                    aSE.StoryProject.ProjSettings.InternationalBT, null, false, nNumColumns);
+                    aSE.StoryProject.ProjSettings.InternationalBT, false, nNumColumns);
                 nNumColumns++;
             }
 
@@ -132,11 +168,11 @@ namespace OneStoryProjectEditor
         }
 
         protected void InitTextBox(VerseControl ctrlVerse, string strTbName, StringTransfer strTbText, 
-            ProjectSettings.LanguageInfo li, string strOverrideKeyboard, bool bDisableTabStop, int nLayoutColumn)
+            ProjectSettings.LanguageInfo li, bool bDisableTabStop, int nLayoutColumn)
         {
             System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(strTbName + CstrSuffixTextBox), "otherwise, fix wrong assumption");
             CtrlTextBox tb = new CtrlTextBox(strTbName + CstrSuffixTextBox, ctrlVerse, this, 
-                strTbText, li, strOverrideKeyboard, li.LangCode);
+                strTbText, li, li.LangCode);
             tb.TabStop = !bDisableTabStop;
             tableLayoutPanel.Controls.Add(tb, nLayoutColumn, 1);
         }

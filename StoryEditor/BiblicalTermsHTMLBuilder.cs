@@ -131,10 +131,10 @@ namespace OneStoryProjectEditor
 
             dict["ScrTextName"] = li.LangName;
             dict["ProjectN"] = "project" + projectNum.ToString();
-            dict["FontFace"] = li.LangFont.Name;
-            dict["FontSize"] = li.LangFont.Size.ToString();
+            dict["FontFace"] = li.FontToUse.Name;
+            dict["FontSize"] = li.FontToUse.Size.ToString();
 
-            if (li.IsRTL)
+            if (li.DoRtl)
 			{
 				dict["Direction"] = "rtl";
 				dict["Alignment"] = "right";

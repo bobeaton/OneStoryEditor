@@ -50,8 +50,21 @@ namespace OneStoryProjectEditor
         public string OverrideVernacularKeyboard;
         public string OverrideNationalBTKeyboard;
         public string OverrideInternationalBTKeyboard;
+        public string OverrideFontNameVernacular;
+        public float OverrideFontSizeVernacular;
+        public bool OverrideRtlVernacular;
+        public string OverrideFontNameNationalBT;
+        public float OverrideFontSizeNationalBT;
+        public bool OverrideRtlNationalBT;
+        public string OverrideFontNameInternationalBT;
+        public float OverrideFontSizeInternationalBT;
+        public bool OverrideRtlInternationalBT;
         public string HgUsername;
         public string HgPassword;
+        public string TransliteratorVernacular;
+        public bool TransliteratorDirectionForwardVernacular;
+        public string TransliteratorNationalBT;
+        public bool TransliteratorDirectionForwardNationalBT;
 
         public TeamMemberData(string strName, UserTypes eMemberType, string strMemberGuid, string strEmail, string strSkypeID, string strTeamViewerID, string strPhone, string strAltPhone, string strBioData)
         {
@@ -99,7 +112,34 @@ namespace OneStoryProjectEditor
 
             if (!theMemberRow.IsOverrideInternationalBTKeyboardNull())
                 OverrideInternationalBTKeyboard = theMemberRow.OverrideInternationalBTKeyboard;
-            
+
+            if (!theMemberRow.IsOverrideFontNameVernacularNull())
+                OverrideFontNameVernacular = theMemberRow.OverrideFontNameVernacular;
+
+            if (!theMemberRow.IsOverrideFontSizeVernacularNull())
+                OverrideFontSizeVernacular = theMemberRow.OverrideFontSizeVernacular;
+
+            if (!theMemberRow.IsOverrideRtlVernacularNull())
+                OverrideRtlVernacular = theMemberRow.OverrideRtlVernacular;
+
+            if (!theMemberRow.IsOverrideFontNameNationalBTNull())
+                OverrideFontNameNationalBT = theMemberRow.OverrideFontNameNationalBT;
+
+            if (!theMemberRow.IsOverrideFontSizeNationalBTNull())
+                OverrideFontSizeNationalBT = theMemberRow.OverrideFontSizeNationalBT;
+
+            if (!theMemberRow.IsOverrideRtlNationalBTNull())
+                OverrideRtlNationalBT = theMemberRow.OverrideRtlNationalBT;
+
+            if (!theMemberRow.IsOverrideFontNameInternationalBTNull())
+                OverrideFontNameInternationalBT = theMemberRow.OverrideFontNameInternationalBT;
+
+            if (!theMemberRow.IsOverrideFontSizeInternationalBTNull())
+                OverrideFontSizeInternationalBT = theMemberRow.OverrideFontSizeInternationalBT;
+
+            if (!theMemberRow.IsOverrideRtlInternationalBTNull())
+                OverrideRtlInternationalBT = theMemberRow.OverrideRtlInternationalBT;
+
             if (!theMemberRow.IsHgUsernameNull())
                 HgUsername = theMemberRow.HgUsername;
 
@@ -108,6 +148,16 @@ namespace OneStoryProjectEditor
                 string strEncryptedHgPassword = theMemberRow.HgPassword;
                 HgPassword = EncryptionClass.Decrypt(strEncryptedHgPassword);
             }
+
+            if (!theMemberRow.IsTransliteratorVernacularNull())
+                TransliteratorVernacular = theMemberRow.TransliteratorVernacular;
+            if (!theMemberRow.IsTransliteratorDirectionForwardVernacularNull())
+                TransliteratorDirectionForwardVernacular = theMemberRow.TransliteratorDirectionForwardVernacular;
+
+            if (!theMemberRow.IsTransliteratorNationalBTNull())
+                TransliteratorNationalBT = theMemberRow.TransliteratorNationalBT;
+            if (!theMemberRow.IsTransliteratorDirectionForwardNationalBTNull())
+                TransliteratorDirectionForwardNationalBT = theMemberRow.TransliteratorDirectionForwardNationalBT;
         }
 
         public static UserTypes GetMemberType(string strMemberTypeString)
@@ -204,8 +254,35 @@ namespace OneStoryProjectEditor
                     eleMember.Add(new XAttribute("OverrideVernacularKeyboard", OverrideVernacularKeyboard));
                 if (!String.IsNullOrEmpty(OverrideNationalBTKeyboard))
                     eleMember.Add(new XAttribute("OverrideNationalBTKeyboard", OverrideNationalBTKeyboard));
-                    if (!String.IsNullOrEmpty(OverrideInternationalBTKeyboard))
-                        eleMember.Add(new XAttribute("OverrideInternationalBTKeyboard", OverrideInternationalBTKeyboard));
+                if (!String.IsNullOrEmpty(OverrideInternationalBTKeyboard))
+                    eleMember.Add(new XAttribute("OverrideInternationalBTKeyboard", OverrideInternationalBTKeyboard));
+                if (!String.IsNullOrEmpty(OverrideFontNameVernacular))
+                {
+                    eleMember.Add(
+                        new XAttribute("OverrideFontNameVernacular", OverrideFontNameVernacular),
+                        new XAttribute("OverrideFontSizeVernacular", OverrideFontSizeVernacular));
+                }
+                if (OverrideRtlVernacular)
+                    eleMember.Add(new XAttribute("OverrideRtlVernacular", OverrideRtlVernacular));
+
+                if (!String.IsNullOrEmpty(OverrideFontNameNationalBT))
+                {
+                    eleMember.Add(
+                        new XAttribute("OverrideFontNameNationalBT", OverrideFontNameNationalBT),
+                        new XAttribute("OverrideFontSizeNationalBT", OverrideFontSizeNationalBT));
+                }
+                if (OverrideRtlNationalBT)
+                    eleMember.Add(new XAttribute("OverrideRtlNationalBT", OverrideRtlNationalBT));
+
+                if (!String.IsNullOrEmpty(OverrideFontNameInternationalBT))
+                {
+                    eleMember.Add(
+                        new XAttribute("OverrideFontNameInternationalBT", OverrideFontNameInternationalBT),
+                        new XAttribute("OverrideFontSizeInternationalBT", OverrideFontSizeInternationalBT));
+                }
+                if (OverrideRtlInternationalBT)
+                    eleMember.Add(new XAttribute("OverrideRtlInternationalBT", OverrideRtlInternationalBT));
+
                 if (!String.IsNullOrEmpty(HgUsername))
                     eleMember.Add(new XAttribute("HgUsername", HgUsername));
                 if (!String.IsNullOrEmpty(HgPassword))
@@ -213,6 +290,20 @@ namespace OneStoryProjectEditor
                     string strEncryptedHgPassword = EncryptionClass.Encrypt(HgPassword);
                     System.Diagnostics.Debug.Assert(HgPassword == EncryptionClass.Decrypt(strEncryptedHgPassword));
                     eleMember.Add(new XAttribute("HgPassword", strEncryptedHgPassword));
+                }
+
+                if (!String.IsNullOrEmpty(TransliteratorVernacular))
+                {
+                    eleMember.Add(
+                        new XAttribute("TransliteratorVernacular", TransliteratorVernacular),
+                        new XAttribute("TransliteratorDirectionForwardVernacular",
+                                       TransliteratorDirectionForwardVernacular));
+                }
+                if (!String.IsNullOrEmpty(TransliteratorNationalBT))
+                {
+                    eleMember.Add(new XAttribute("TransliteratorNationalBT", TransliteratorNationalBT),
+                                  new XAttribute("TransliteratorDirectionForwardNationalBT",
+                                                 TransliteratorDirectionForwardNationalBT));
                 }
 
                 eleMember.Add(new XAttribute("memberKey", MemberGuid));

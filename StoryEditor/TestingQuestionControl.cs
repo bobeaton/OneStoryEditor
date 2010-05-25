@@ -55,7 +55,7 @@ namespace OneStoryProjectEditor
                 if (bShowHeader)
                     InitColumnLabel(theSE.StoryProject.ProjSettings.Vernacular.LangName, nNumColumns);
                 InitTextBox(ctrlVerse, CstrFieldNameVernacular, _aTQData.QuestionVernacular, 
-                    theSE.StoryProject.ProjSettings.Vernacular, theSE.LoggedOnMember.OverrideVernacularKeyboard, nNumColumns);
+                    theSE.StoryProject.ProjSettings.Vernacular, nNumColumns);
                 nNumColumns++;
             }
 
@@ -69,7 +69,7 @@ namespace OneStoryProjectEditor
                 if (bShowHeader)
                     InitColumnLabel(theSE.StoryProject.ProjSettings.NationalBT.LangName, nNumColumns);
                 InitTextBox(ctrlVerse, CstrFieldNameNationalBt, _aTQData.QuestionNationalBT,
-                    theSE.StoryProject.ProjSettings.NationalBT, theSE.LoggedOnMember.OverrideNationalBTKeyboard, nNumColumns);
+                    theSE.StoryProject.ProjSettings.NationalBT, nNumColumns);
                 nNumColumns++;
             }
 
@@ -82,7 +82,7 @@ namespace OneStoryProjectEditor
                 if (bShowHeader)
                     InitColumnLabel(theSE.StoryProject.ProjSettings.InternationalBT.LangName, nNumColumns);
                 InitTextBox(ctrlVerse, CstrFieldNameVernacular, _aTQData.QuestionInternationalBT, 
-                    theSE.StoryProject.ProjSettings.InternationalBT, null, nNumColumns);
+                    theSE.StoryProject.ProjSettings.InternationalBT, nNumColumns);
                 nNumColumns++;
             }
 
@@ -90,8 +90,8 @@ namespace OneStoryProjectEditor
             if ((_aTQData.Answers != null) && (_aTQData.Answers.Count > 0))
             {
                 System.Diagnostics.Debug.Assert(theSE.theCurrentStory.CraftingInfo.Testors.Count >= _aTQData.Answers.Count);
-                MultiLineControl aAnswersCtrl = new MultiLineControl(ctrlVerse, StageLogic, 
-                    _aTQData.Answers, theSE.StoryProject.ProjSettings.InternationalBT.LangFont,
+                MultiLineControl aAnswersCtrl = new MultiLineControl(ctrlVerse, StageLogic,
+                    _aTQData.Answers, theSE.StoryProject.ProjSettings.InternationalBT.FontToUse,
                     theSE.theCurrentStory.CraftingInfo.Testors);
                 aAnswersCtrl.Name = CstrFieldNameAnswers;
                 aAnswersCtrl.ParentControl = this;
@@ -121,11 +121,11 @@ namespace OneStoryProjectEditor
             tableLayoutPanel.Controls.Add(lbl, nLayoutColumn, 0);
         }
 
-        protected void InitTextBox(VerseControl ctrlVerse, string strTbName, StringTransfer strTbText, ProjectSettings.LanguageInfo li, 
-            string strOverrideKeyboard, int nLayoutColumn)
+        protected void InitTextBox(VerseControl ctrlVerse, string strTbName, 
+            StringTransfer strTbText, ProjectSettings.LanguageInfo li, int nLayoutColumn)
         {
             CtrlTextBox tb = new CtrlTextBox(strTbName + CstrSuffixTextBox, ctrlVerse, this,
-                strTbText, li, strOverrideKeyboard, CstrTestQuestionsLabelFormat);
+                strTbText, li, CstrTestQuestionsLabelFormat);
             tableLayoutPanel.Controls.Add(tb, nLayoutColumn, 1);
         }
     }

@@ -1445,8 +1445,8 @@ eater Panorama
   <data name="IDS_MainFrameTitleOldStories" xml:space="preserve">
     <value>OneStory Editor -- {0} Story Project -- Viewing Old Stories</value>
   </data>
-  <data name="IDS_ConfirmKeyboardOverride" xml:space="preserve">
-    <value>Click 'Yes' to override the '{0}' keyboard for yourself ('{1}') only. Click 'No' to make this change apply to every member of the team (if you all are switching to a new keyboard).</value>
+  <data name="IDS_ConfirmOverride" xml:space="preserve">
+    <value>Click 'Yes' to override the '{0}' {1} for yourself ('{2}') only. Click 'No' to make this change apply to every member of the team (if you all are switching to a new {1}).</value>
   </data>
   <data name="IDS_StartFromBeginning" xml:space="preserve">
     <value>Would you like to start searching from the beginning of the story?</value>
