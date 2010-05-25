@@ -148,7 +148,7 @@ namespace OneStoryProjectEditor.Properties {
         ///&lt;head&gt;
         ///{1}
         ///&lt;/head&gt;
-        ///&lt;body onKeyDown=&quot;return OnKeyDown();&quot;&gt;
+        ///&lt;body onKeyDown=&quot;return OnKeyDown();&quot; onscroll=&quot;window.external.OnScroll()&quot;&gt;
         ///{2}
         ///&lt;/body&gt;
         ///&lt;/html&gt;.

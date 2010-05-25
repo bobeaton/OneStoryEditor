@@ -791,8 +791,12 @@ namespace OneStoryProjectEditor
 #if UsingHtmlDisplayForConNotes
             htmlConsultantNotesControl.TheSE = this;
             htmlConsultantNotesControl.StoryData = theCurrentStory;
+            htmlConsultantNotesControl.HeaderTextBox = textBoxConsultantNotesTable;
+            htmlConsultantNotesControl.HeaderText = "Consultant Notes";
             htmlCoachNotesControl.TheSE = this;
             htmlCoachNotesControl.StoryData = theCurrentStory;
+            htmlCoachNotesControl.HeaderTextBox = textBoxCoachNotes;
+            htmlCoachNotesControl.HeaderText = "Coach Notes";
 #else
             flowLayoutPanelConsultantNotes.SuspendLayout();
             flowLayoutPanelCoachNotes.SuspendLayout();

@@ -1529,7 +1529,7 @@ eater Panorama
 &lt;head&gt;
 {1}
 &lt;/head&gt;
-&lt;body onKeyDown="return OnKeyDown();"&gt;
+&lt;body onKeyDown="return OnKeyDown();" onscroll="window.external.OnScroll()"&gt;
 {2}
 &lt;/body&gt;
 &lt;/html&gt;</value>

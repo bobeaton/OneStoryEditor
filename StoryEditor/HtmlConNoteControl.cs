@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using mshtml;
@@ -8,6 +9,9 @@ namespace OneStoryProjectEditor
     [ComVisible(true)]
     public abstract class HtmlConNoteControl : HtmlVerseControl
     {
+        internal TextBox HeaderTextBox;
+        internal string HeaderText;
+
         protected HtmlConNoteControl()
         {
             ObjectForScripting = this;
@@ -48,6 +52,37 @@ namespace OneStoryProjectEditor
         {
             StrIdToScrollTo = VersesData.LineId(nVerseIndex);
             base.ScrollToVerse(nVerseIndex);
+        }
+
+        public void OnScroll()
+        {
+            if ((Document != null) && (Document.Body != null))
+            {
+                HtmlDocument doc = Document;
+#if DEBUG
+                System.Diagnostics.Debug.WriteLine(String.Format("doc.Body.ScrollTop: {0}", doc.Body.ScrollTop));
+                foreach (HtmlElement elemLn in doc.GetElementsByTagName("td"))
+                    if (!String.IsNullOrEmpty(elemLn.Id))   // so we only get "ln: n" values
+                        System.Diagnostics.Debug.WriteLine(String.Format("id: {0}, or: {1}, sr: {2}, st: {3}",
+                            elemLn.Id, elemLn.OffsetRectangle,
+                            elemLn.ScrollRectangle,
+                            elemLn.ScrollTop));
+#endif
+
+                HtmlElement elemLnPrev = null;
+                foreach (HtmlElement elemLn in doc.GetElementsByTagName("td"))
+                    if (!String.IsNullOrEmpty(elemLn.Id))
+                    {
+                        if (elemLn.OffsetRectangle.Top < doc.Body.ScrollTop)
+                            elemLnPrev = elemLn;
+                        else
+                            break;
+                    }
+
+                if (elemLnPrev != null)
+                    HeaderTextBox.Text = String.Format("{0} ({1})",
+                                                       HeaderText, elemLnPrev.InnerText);
+            }
         }
 
         public bool OnAddNote(int nVerseIndex, string strNote)
