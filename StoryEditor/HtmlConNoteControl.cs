@@ -9,8 +9,7 @@ namespace OneStoryProjectEditor
     [ComVisible(true)]
     public abstract class HtmlConNoteControl : HtmlVerseControl
     {
-        internal TextBox HeaderTextBox;
-        internal string HeaderText;
+        internal LinkLabel LineNumberLink;
 
         protected HtmlConNoteControl()
         {
@@ -80,8 +79,21 @@ namespace OneStoryProjectEditor
                     }
 
                 if (elemLnPrev != null)
-                    HeaderTextBox.Text = String.Format("{0} ({1})",
-                                                       HeaderText, elemLnPrev.InnerText);
+                {
+                    if (elemLnPrev.InnerText == VersesData.CstrZerothLineName)
+                    {
+                        LineNumberLink.Text = "Story (Ln: 0)";
+                        LineNumberLink.Tag = 0;
+                    }
+                    else
+                    {
+                        LineNumberLink.Text = elemLnPrev.InnerText;
+                        int nIndex = elemLnPrev.InnerText.IndexOf(' ');
+                        System.Diagnostics.Debug.Assert(nIndex != -1);
+                        string strLineNumber = elemLnPrev.InnerText.Substring(nIndex + 1);
+                        LineNumberLink.Tag = Convert.ToInt32(strLineNumber);
+                    }
+                }
             }
         }
 
@@ -422,6 +434,7 @@ namespace OneStoryProjectEditor
                                                            TheSE.LoggedOnMember,
                                                            TheSE.hiddenVersesToolStripMenuItem.Checked);
             DocumentText = strHtml;
+            LineNumberLink.Visible = true;
         }
 
         public override ConsultNotesDataConverter DataConverter(int nVerseIndex)
@@ -447,6 +460,7 @@ namespace OneStoryProjectEditor
                                                       TheSE.LoggedOnMember,
                                                       TheSE.hiddenVersesToolStripMenuItem.Checked);
             DocumentText = strHtml;
+            LineNumberLink.Visible = true;
         }
 
         public override ConsultNotesDataConverter DataConverter(int nVerseIndex)

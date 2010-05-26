@@ -791,12 +791,10 @@ namespace OneStoryProjectEditor
 #if UsingHtmlDisplayForConNotes
             htmlConsultantNotesControl.TheSE = this;
             htmlConsultantNotesControl.StoryData = theCurrentStory;
-            htmlConsultantNotesControl.HeaderTextBox = textBoxConsultantNotesTable;
-            htmlConsultantNotesControl.HeaderText = "Consultant Notes";
+            htmlConsultantNotesControl.LineNumberLink = linkLabelConsultantNotes;
             htmlCoachNotesControl.TheSE = this;
             htmlCoachNotesControl.StoryData = theCurrentStory;
-            htmlCoachNotesControl.HeaderTextBox = textBoxCoachNotes;
-            htmlCoachNotesControl.HeaderText = "Coach Notes";
+            htmlCoachNotesControl.LineNumberLink = linkLabelCoachNotes;
 #else
             flowLayoutPanelConsultantNotes.SuspendLayout();
             flowLayoutPanelCoachNotes.SuspendLayout();
@@ -3533,6 +3531,20 @@ namespace OneStoryProjectEditor
             LoggedOnMember.TransliteratorNationalBT = null;
             viewTransliterationNationalBT.Checked = true;
             viewTransliterationNationalBT_Click(viewTransliterationNationalBT, null);
+        }
+
+        private void linkLabelConsultantNotes_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            var ll = sender as LinkLabel;
+            if (ll != null)
+                htmlConsultantNotesControl.OnVerseLineJump((int)ll.Tag);
+        }
+
+        private void linkLabelCoachNotes_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            var ll = sender as LinkLabel;
+            if (ll != null)
+                htmlCoachNotesControl.OnVerseLineJump((int)ll.Tag);
         }
     }
 }

@@ -204,6 +204,8 @@ namespace OneStoryProjectEditor
 
     public class VersesData : List<VerseData>
     {
+        internal const string CstrZerothLineName = "Story:";
+
         public VerseData FirstVerse;
 
         public VersesData(NewDataSet.storyRow theStoryRow, NewDataSet projFile)
@@ -321,7 +323,7 @@ namespace OneStoryProjectEditor
             TeamMemberData LoggedOnMember, bool bViewHidden)
         {
             string strHtml = null;
-            strHtml += GetHeaderRow("Story:", 0, FirstVerse.ConsultantNotes, LoggedOnMember);
+            strHtml += GetHeaderRow(CstrZerothLineName, 0, FirstVerse.ConsultantNotes, LoggedOnMember);
 
             strHtml += FirstVerse.ConsultantNotes.Html(theStoryStage, LoggedOnMember, bViewHidden, 0);
 
@@ -343,7 +345,7 @@ namespace OneStoryProjectEditor
             TeamMemberData LoggedOnMember, bool bViewHidden)
         {
             string strHtml = null;
-            strHtml += GetHeaderRow("Story:", 0, FirstVerse.CoachNotes, LoggedOnMember);
+            strHtml += GetHeaderRow(CstrZerothLineName, 0, FirstVerse.CoachNotes, LoggedOnMember);
 
             strHtml += FirstVerse.CoachNotes.Html(theStoryStage, LoggedOnMember, bViewHidden, 0);
 
