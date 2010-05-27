@@ -16,7 +16,7 @@ namespace OneStoryProjectEditor
 
         #region "format strings for HTML items"
         protected const string CstrHtmlTableBegin = "<table border=\"1\">";
-        protected const string CstrHtmlLineFormat = "<tr><td><button type=\"button\">{0}</button></td><td>{1}</td>";
+        protected const string CstrHtmlLineFormat = "<tr><td><button id=\"{0}\" type=\"button\">{1}</button></td><td>{2}</td>";
         protected const string CstrAddFontFormat = "<font face=\"{1}\">{0}</font>";
         protected const string CstrAddDirFormat = "<p dir=\"RTL\">{0}</p>";
         protected const string CstrHtmlTableEnd = "</table>";
@@ -317,18 +317,20 @@ namespace OneStoryProjectEditor
             int nChapter = keyVerse.Chapter();
             int nVerse = keyVerse.Verse();
 
-            if ((nBook != m_nBook) || (nChapter != m_nChapter) || (nVerse != m_nVerse))
+            bool bJustUpdated = false;
+            if ((nBook != m_nBook) || (nChapter != m_nChapter))
             {
                 // something changed
                 // Build up the string which we're going to put in the HTML viewer
                 StringBuilder sb = new StringBuilder(CstrHtmlTableBegin);
 
-                // Let's just read in what left in the chapter
-                VerseKey keyRestOfChapter = new VerseKey(keyVerse);
-                while ((keyRestOfChapter.Chapter() == nChapter) && (keyRestOfChapter.Book() == nBook) && (keyRestOfChapter.Error() == '\0'))
+                // Do the whole chapter
+                VerseKey keyWholeOfChapter = new VerseKey(keyVerse);
+                keyWholeOfChapter.Verse(1);
+                while ((keyWholeOfChapter.Chapter() == nChapter) && (keyWholeOfChapter.Book() == nBook) && (keyWholeOfChapter.Error() == '\0'))
                 {
                     // get the verse and remove any line break signals
-                    string strVerseHtml = moduleVersion.RenderText(keyRestOfChapter).Replace(verseLineBreak, null);
+                    string strVerseHtml = moduleVersion.RenderText(keyWholeOfChapter).Replace(verseLineBreak, null);
                     if (String.IsNullOrEmpty(strVerseHtml))
                         strVerseHtml = "Passage not available in this version";
 
@@ -347,24 +349,48 @@ namespace OneStoryProjectEditor
                         strVerseHtml = String.Format(CstrAddFontFormat, strVerseHtml, CstrFontForFarsi);
                     }
 
-                    string strLineHtml = String.Format(CstrHtmlLineFormat, keyRestOfChapter.getShortText(), strVerseHtml);
+                    string strLineHtml = String.Format(CstrHtmlLineFormat, 
+                        keyWholeOfChapter.Verse(),
+                        keyWholeOfChapter.getShortText(), 
+                        strVerseHtml);
                     sb.Append(strLineHtml);
 
                     // next verse until end of chapter
-                    keyRestOfChapter.Verse(keyRestOfChapter.Verse() + 1);
+                    keyWholeOfChapter.Verse(keyWholeOfChapter.Verse() + 1);
                 }
 
                 // delimit the table
                 sb.Append(CstrHtmlTableEnd);
 
                 // set this along with scripts for clicks and such into the web browser.
-                webBrowserNetBible.DocumentText = preDocumentDOMScript + sb.ToString() + postDocumentDOMScript;
-
-                Properties.Settings.Default.LastNetBibleReference = ScriptureReference;
+                webBrowserNetBible.DocumentText = preDocumentDOMScript + sb + postDocumentDOMScript;
+                bJustUpdated = true;
             }
+
+            if (nVerse != m_nVerse)
+            {
+                strIdToScrollTo = nVerse.ToString();
+                if (!bJustUpdated)
+                    ScrollToElement();
+            }
+
+            Properties.Settings.Default.LastNetBibleReference = ScriptureReference;
 
             // update the updown controls
             UpdateUpDowns(keyVerse);
+        }
+
+        private string strIdToScrollTo = null;
+
+        private void ScrollToElement()
+        {
+            if (!String.IsNullOrEmpty(strIdToScrollTo) && (webBrowserNetBible.Document != null))
+            {
+                HtmlDocument doc = webBrowserNetBible.Document;
+                HtmlElement elem = doc.GetElementById(strIdToScrollTo);
+                if (elem != null)
+                    elem.ScrollIntoView(true);
+            }
         }
 
         protected void UpdateUpDowns(VerseKey keyVerse)
@@ -526,6 +552,11 @@ namespace OneStoryProjectEditor
         private void numericUpDownVerse_ValueChanged(object sender, EventArgs e)
         {
             CallUpdateUpDowns();
+        }
+
+        private void webBrowserNetBible_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        {
+            ScrollToElement();
         }
     }
 }

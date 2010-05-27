@@ -34,14 +34,14 @@
             this.textBoxSizer = new System.Windows.Forms.TextBox();
             this.webBrowserNetBible = new System.Windows.Forms.WebBrowser();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.contextMenuStripBibleBooks = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanelSpinControls = new OneStoryProjectEditor.DynamicTableLayoutPanel();
             this.domainUpDownBookNames = new System.Windows.Forms.DomainUpDown();
             this.numericUpDownChapterNumber = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownVerseNumber = new System.Windows.Forms.NumericUpDown();
             this.textBoxNetFlixViewer = new System.Windows.Forms.TextBox();
             this.radioButtonShowOtherSwordResources = new System.Windows.Forms.RadioButton();
+            this.contextMenuStripBibleBooks = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanel.SuspendLayout();
             this.tableLayoutPanelSpinControls.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownChapterNumber)).BeginInit();
@@ -74,6 +74,7 @@
             this.webBrowserNetBible.Name = "webBrowserNetBible";
             this.webBrowserNetBible.Size = new System.Drawing.Size(577, 225);
             this.webBrowserNetBible.TabIndex = 1;
+            this.webBrowserNetBible.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserNetBible_DocumentCompleted);
             // 
             // tableLayoutPanel
             // 
@@ -90,15 +91,6 @@
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel.Size = new System.Drawing.Size(583, 262);
             this.tableLayoutPanel.TabIndex = 0;
-            // 
-            // contextMenuStripBibleBooks
-            // 
-            this.contextMenuStripBibleBooks.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Table;
-            this.contextMenuStripBibleBooks.Name = "contextMenuStripBibleBooks";
-            this.contextMenuStripBibleBooks.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.contextMenuStripBibleBooks.ShowImageMargin = false;
-            this.contextMenuStripBibleBooks.ShowItemToolTips = false;
-            this.contextMenuStripBibleBooks.Size = new System.Drawing.Size(36, 4);
             // 
             // tableLayoutPanelSpinControls
             // 
@@ -259,6 +251,15 @@
             this.radioButtonShowOtherSwordResources.Text = "Other";
             this.radioButtonShowOtherSwordResources.UseVisualStyleBackColor = true;
             this.radioButtonShowOtherSwordResources.CheckedChanged += new System.EventHandler(this.radioButtonShowOtherSwordResources_CheckedChanged);
+            // 
+            // contextMenuStripBibleBooks
+            // 
+            this.contextMenuStripBibleBooks.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Table;
+            this.contextMenuStripBibleBooks.Name = "contextMenuStripBibleBooks";
+            this.contextMenuStripBibleBooks.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.contextMenuStripBibleBooks.ShowImageMargin = false;
+            this.contextMenuStripBibleBooks.ShowItemToolTips = false;
+            this.contextMenuStripBibleBooks.Size = new System.Drawing.Size(36, 4);
             // 
             // NetBibleViewer
             // 
