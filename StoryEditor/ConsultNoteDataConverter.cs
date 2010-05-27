@@ -58,6 +58,7 @@ namespace OneStoryProjectEditor
         public string guid;
         public bool Visible = true;
         public bool IsFinished;
+        public bool AllowButtonsOverride;
 
         public enum CommunicationDirections
         {
@@ -134,14 +135,14 @@ namespace OneStoryProjectEditor
             else if ((eLoggedOnMember == eMenteeType) && ((Count == 0) || (this[Count - 1].Direction == MentorDirection)))
                 Add(new CommInstance(strValue, MenteeDirection, null, DateTime.Now));
         }
-
+        /*
         // do this here, because we need to sub-class it to allow for FirstPassMentor working as well in addition to CIT
         public virtual void ThrowIfWrongEditor(TeamMemberData.UserTypes eLoggedOnMember, TeamMemberData.UserTypes eRequiredEditor)
         {
             if (IsWrongEditor(eLoggedOnMember, eRequiredEditor))
                 throw new ApplicationException(String.Format("Only a '{0}' can edit this field", TeamMemberData.GetMemberTypeAsDisplayString(eRequiredEditor)));
         }
-
+        */
         protected virtual bool IsWrongEditor(TeamMemberData.UserTypes eLoggedOnMember, TeamMemberData.UserTypes eRequiredEditor)
         {
             return (eLoggedOnMember != eRequiredEditor);
@@ -149,7 +150,7 @@ namespace OneStoryProjectEditor
 
         protected virtual bool CanDoConversationButtons(TeamMemberData.UserTypes eLoggedOnMember, TeamMemberData.UserTypes eRequiredEditor)
         {
-            return !IsWrongEditor(eLoggedOnMember, eRequiredEditor);
+            return !IsWrongEditor(eLoggedOnMember, eRequiredEditor) || AllowButtonsOverride;
         }
 
         public abstract CommunicationDirections MenteeDirection { get; }
@@ -294,7 +295,7 @@ namespace OneStoryProjectEditor
 
         readonly Regex regexBibRef = new Regex(@"\b(([a-zA-Z]{3,4}|[1-3][a-zA-Z]{2,5}) \d{1,3}:\d{1,3})\b", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
         readonly Regex regexLineRef = new Regex(@"\b((Ln|ln) ([1-9][0-9]?))\b", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
-        readonly Regex regexItalics = new Regex(@"\*\b(.+)\b\*", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
+        readonly Regex regexItalics = new Regex(@"\*\b(.+?)\b\*", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
 
         public string Html(StoryStageLogic theStoryStage, 
             TeamMemberData LoggedOnMember, 
@@ -548,9 +549,9 @@ namespace OneStoryProjectEditor
             // otherwise, let the base class handle it
             // I really want this to be base.IsWrongEditorbase (we don't want to call back to
             //  *our* version of IsWro...)
-            return !base.IsWrongEditor(eLoggedOnMember, eRequiredEditor);
+            return !base.IsWrongEditor(eLoggedOnMember, eRequiredEditor) || AllowButtonsOverride;
         }
-
+        /*
         // override to allow for FirstPassMentor working as well in addition to CIT
         //  (or an independent consultant)
         public override void ThrowIfWrongEditor(TeamMemberData.UserTypes eLoggedOnMember, TeamMemberData.UserTypes eRequiredEditor)
@@ -569,7 +570,7 @@ namespace OneStoryProjectEditor
                                                                  TeamMemberData.UserTypes.eIndependentConsultant)));
             }
         }
-
+        */
         public override TeamMemberData.UserTypes MentorRequiredEditor
         {
             get { return TeamMemberData.UserTypes.eConsultantInTraining; }
@@ -736,6 +737,12 @@ namespace OneStoryProjectEditor
             return String.Format(Properties.Resources.HTML_TableRow,
                     String.Format(Properties.Resources.HTML_TableCellWithSpan, 2,
                         String.Format(Properties.Resources.HTML_TableNoBorder, strHtml)));
+        }
+
+        public void AllowButtonsOverride()
+        {
+            foreach (ConsultNoteDataConverter aCNDC in this)
+                aCNDC.AllowButtonsOverride = true;
         }
 
         public void IndexSearch(SearchForm.SearchLookInProperties findProperties,

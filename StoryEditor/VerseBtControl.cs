@@ -478,6 +478,11 @@ namespace OneStoryProjectEditor
             StoryLineControl slc = tableLayoutPanel.Controls[CstrFieldNameStoryLine] as StoryLineControl;
             string strVernacular, strNationalBT, strEnglishBT;
             slc.GetTextBoxValues(out strVernacular, out strNationalBT, out strEnglishBT);
+            
+            // all this verse to have it's buttons shown (so the editor can delete now
+            //  obsolete comments)
+            _verseData.AllowConNoteButtonsOverride();
+
             copyVerseToClipboardToolStripMenuItem_Click(null, null);
             _myClipboard.VernacularText.SetValue(strVernacular);
             _myClipboard.NationalBTText.SetValue(strNationalBT);
@@ -526,8 +531,12 @@ namespace OneStoryProjectEditor
                 return;
 
             if (_myClipboard != null)
+            {
+                VerseData theNewVerse = new VerseData(_myClipboard);
+                theNewVerse.AllowConNoteButtonsOverride();
                 // make another copy, so that the guid is changed
-                theSE.DoPasteVerse(nInsertionIndex, new VerseData(_myClipboard));
+                theSE.DoPasteVerse(nInsertionIndex, theNewVerse);
+            }
 
             /*
             IDataObject myRetrievedObject = Clipboard.GetDataObject();

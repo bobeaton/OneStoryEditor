@@ -187,6 +187,12 @@ namespace OneStoryProjectEditor
             return items;
         }
 
+        public void AllowConNoteButtonsOverride()
+        {
+            ConsultantNotes.AllowButtonsOverride();
+            CoachNotes.AllowButtonsOverride();
+        }
+
         [Flags]
         public enum ViewItemToInsureOn
         {

@@ -989,6 +989,7 @@ namespace OneStoryProjectEditor
             this.linkLabelConsultantNotes.Size = new System.Drawing.Size(64, 13);
             this.linkLabelConsultantNotes.TabIndex = 3;
             this.linkLabelConsultantNotes.TabStop = true;
+            this.linkLabelConsultantNotes.Tag = 0;
             this.linkLabelConsultantNotes.Text = "Story (Ln: 0)";
             this.linkLabelConsultantNotes.Visible = false;
             this.linkLabelConsultantNotes.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelConsultantNotes_LinkClicked);
@@ -1001,6 +1002,7 @@ namespace OneStoryProjectEditor
             this.linkLabelCoachNotes.Size = new System.Drawing.Size(64, 13);
             this.linkLabelCoachNotes.TabIndex = 4;
             this.linkLabelCoachNotes.TabStop = true;
+            this.linkLabelCoachNotes.Tag = 0;
             this.linkLabelCoachNotes.Text = "Story (Ln: 0)";
             this.linkLabelCoachNotes.Visible = false;
             this.linkLabelCoachNotes.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelCoachNotes_LinkClicked);
