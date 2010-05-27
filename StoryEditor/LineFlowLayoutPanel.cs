@@ -5,6 +5,8 @@ namespace OneStoryProjectEditor
 {
     public partial class LineFlowLayoutPanel : FlowLayoutPanel
     {
+        public LinkLabel LineNumberLink { get; set; }
+
         public LineFlowLayoutPanel()
         {
             InitializeComponent();
@@ -74,6 +76,30 @@ namespace OneStoryProjectEditor
                 if (ctrlNext != null)
                     ScrollControlIntoView(ctrlNext);
             }
+
+            VerseControl ctrlLastNegative = null;
+            foreach (Control control in Controls)
+            {
+                if (control is VerseControl)
+                {
+                    if (control.Bounds.Y <= 0)
+                        ctrlLastNegative = control as VerseControl;
+                    else
+                        break;
+                }
+            }
+
+            SetLineNumberLink(ctrlLastNegative);
+        }
+
+        private void SetLineNumberLink(VerseControl ctrl)
+        {
+            if (ctrl != null)
+            {
+                LineNumberLink.Text = String.Format("Ln: {0}",
+                                                    ctrl.VerseNumber);
+                LineNumberLink.Tag = ctrl.VerseNumber;
+            }
         }
 
         public Control LastControlIntoView { get; set; }
@@ -82,6 +108,7 @@ namespace OneStoryProjectEditor
         {
             LastControlIntoView = ctrl;
             base.ScrollControlIntoView(ctrl);
+            SetLineNumberLink(ctrl as VerseControl);
         }
 
         protected Control NextControlUp
