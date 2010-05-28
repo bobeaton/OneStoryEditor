@@ -3539,27 +3539,28 @@ namespace OneStoryProjectEditor
         private void linkLabelConsultantNotes_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             var ll = sender as LinkLabel;
-            if (ll != null)
+            if ((ll != null) && (e.Button == MouseButtons.Left))
                 htmlConsultantNotesControl.OnVerseLineJump((int)ll.Tag);
         }
 
         private void linkLabelCoachNotes_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             var ll = sender as LinkLabel;
-            if (ll != null)
+            if ((ll != null) && (e.Button == MouseButtons.Left))
                 htmlCoachNotesControl.OnVerseLineJump((int)ll.Tag);
         }
 
         private void linkLabelVerseBT_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             var ll = sender as LinkLabel;
-            if (ll != null)
+            if ((ll != null) && (e.Button == MouseButtons.Left))
             {
                 int nVerseIndex = (int) ll.Tag;
                 FocusOnVerse(nVerseIndex, true, true);
             }
         }
 
+        private const string CstrFirstVerse = "Story (Ln: 0)";
         private const string CstrHiddenVerseSuffix = " (Hidden)";
 
         private void contextMenuStripVerseList_Opening(object sender, System.ComponentModel.CancelEventArgs e)
@@ -3567,6 +3568,10 @@ namespace OneStoryProjectEditor
             contextMenuStripVerseList.Items.Clear();
             if (theCurrentStory != null)
             {
+                if (contextMenuStripVerseList.SourceControl != linkLabelVerseBT)
+                    contextMenuStripVerseList.Items.Add(CstrFirstVerse, null,
+                        onClickVerseNumber);
+
                 for (int i = 0; i < theCurrentStory.Verses.Count; i++)
                 {
                     VerseData aVerse = theCurrentStory.Verses[i];
@@ -3582,15 +3587,20 @@ namespace OneStoryProjectEditor
         private void onClickVerseNumber(object sender, EventArgs e)
         {
             string strMenuText = (sender as ToolStripMenuItem).Text;
-            if (strMenuText.IndexOf(CstrHiddenVerseSuffix) > 0)
+            int nVerseNumber;
+            if (strMenuText == CstrFirstVerse)
+                nVerseNumber = 0;
+            else
             {
-                strMenuText = strMenuText.Substring(0, strMenuText.Length - CstrHiddenVerseSuffix.Length);
-                hiddenVersesToolStripMenuItem.Checked = true;
+                if (strMenuText.IndexOf(CstrHiddenVerseSuffix) > 0)
+                {
+                    strMenuText = strMenuText.Substring(0, strMenuText.Length - CstrHiddenVerseSuffix.Length);
+                    hiddenVersesToolStripMenuItem.Checked = true;
+                }
+                int nIndex = strMenuText.IndexOf(' ');
+                Debug.Assert(nIndex != -1);
+                nVerseNumber = Convert.ToInt32(strMenuText.Substring(nIndex + 1));
             }
-
-            int nIndex = strMenuText.IndexOf(' ');
-            Debug.Assert(nIndex != -1);
-            int nVerseNumber = Convert.ToInt32(strMenuText.Substring(nIndex + 1));
             FocusOnVerse(nVerseNumber, true, true);
         }
     }
