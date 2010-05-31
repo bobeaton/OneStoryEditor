@@ -16,7 +16,7 @@ namespace OneStoryProjectEditor
 
         #region "format strings for HTML items"
         protected const string CstrHtmlTableBegin = "<table border=\"1\">";
-        protected const string CstrHtmlLineFormat = "<tr><td><button id=\"{0}\" type=\"button\">{1}</button></td><td>{2}</td>";
+        protected const string CstrHtmlLineFormat = "<tr id=\"{0}\"><td><button type=\"button\">{1}</button></td><td>{2}</td>";
         protected const string CstrAddFontFormat = "<font face=\"{1}\">{0}</font>";
         protected const string CstrAddDirFormat = "<p dir=\"RTL\">{0}</p>";
         protected const string CstrHtmlTableEnd = "</table>";
