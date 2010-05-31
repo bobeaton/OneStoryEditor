@@ -48,6 +48,11 @@ namespace OneStoryProjectEditor
 
         public void DoMouseWheel(MouseEventArgs e)
         {
+            // for some reason, the scroll wheel doesn't result in the _Scroll
+            //  event being called...
+            VerseControl ctrlLastNegative = VerseControlJustAboveDisplayRectange;
+            SetLineNumberLink(ctrlLastNegative);
+
             base.OnMouseWheel(e);
         }
 
@@ -77,19 +82,27 @@ namespace OneStoryProjectEditor
                     ScrollControlIntoView(ctrlNext);
             }
 
-            VerseControl ctrlLastNegative = null;
-            foreach (Control control in Controls)
-            {
-                if (control is VerseControl)
-                {
-                    if (control.Bounds.Y <= 0)
-                        ctrlLastNegative = control as VerseControl;
-                    else
-                        break;
-                }
-            }
-
+            VerseControl ctrlLastNegative = VerseControlJustAboveDisplayRectange;
             SetLineNumberLink(ctrlLastNegative);
+        }
+
+        private VerseControl VerseControlJustAboveDisplayRectange
+        {
+            get
+            {
+                VerseControl ctrlLastNegative = null;
+                foreach (Control control in Controls)
+                {
+                    if (control is VerseControl)
+                    {
+                        if (control.Bounds.Y <= 0)
+                            ctrlLastNegative = control as VerseControl;
+                        else
+                            break;
+                    }
+                }
+                return ctrlLastNegative;
+            }
         }
 
         private void SetLineNumberLink(VerseControl ctrl)
@@ -108,7 +121,10 @@ namespace OneStoryProjectEditor
         {
             LastControlIntoView = ctrl;
             base.ScrollControlIntoView(ctrl);
-            SetLineNumberLink(ctrl as VerseControl);
+
+            // technically, it may not have been moved much, so the given control
+            //  may *not* be the one where the link label should point to
+            SetLineNumberLink(VerseControlJustAboveDisplayRectange);
         }
 
         protected Control NextControlUp
