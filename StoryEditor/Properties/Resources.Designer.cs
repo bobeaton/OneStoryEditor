@@ -160,6 +160,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;a href=&quot;{0}&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt; .
+        /// </summary>
+        internal static string HTML_HttpLink {
+            get {
+                return ResourceManager.GetString("HTML_HttpLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to   .{0} {{
         ///      font-family: &quot;{1}&quot;;
         ///      font-size: {2} pt;
@@ -189,15 +198,6 @@ namespace OneStoryProjectEditor.Properties {
         internal static string HTML_LinkJumpTargetBibleReference {
             get {
                 return ResourceManager.GetString("HTML_LinkJumpTargetBibleReference", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;a href=&quot;verseViewer.setReference&quot; name=&quot;{1}&quot; onClick=&quot;return OnBibRefJump(this);&quot;&gt;{0}&lt;/a&gt;.
-        /// </summary>
-        internal static string HTML_LinkJumpTargetLineReference {
-            get {
-                return ResourceManager.GetString("HTML_LinkJumpTargetLineReference", resourceCulture);
             }
         }
         

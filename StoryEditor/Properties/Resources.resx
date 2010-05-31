@@ -2043,7 +2043,7 @@ function OnKeyDown()
   <data name="HTML_LinkJumpLine" xml:space="preserve">
     <value>&lt;a href="conNote.jumpToLine" name="{0}" onClick="return OnVerseLineJump(this);"&gt;{1}&lt;/a&gt;</value>
   </data>
-  <data name="HTML_LinkJumpTargetLineReference" xml:space="preserve">
-    <value>&lt;a href="verseViewer.setReference" name="{1}" onClick="return OnBibRefJump(this);"&gt;{0}&lt;/a&gt;</value>
+  <data name="HTML_HttpLink" xml:space="preserve">
+    <value>&lt;a href="{0}" target="_blank"&gt;here&lt;/a&gt; </value>
   </data>
 </root>
