@@ -349,9 +349,19 @@ namespace OneStoryProjectEditor
                         strVerseHtml = String.Format(CstrAddFontFormat, strVerseHtml, CstrFontForFarsi);
                     }
 
+                    string strButtonLabel;
+                    /*
+                     * This was a nice idea (of making the selected verse bold), but then
+                     * we need to re-do the DocumentText each time
+                    if (nVerse == keyWholeOfChapter.Verse())
+                        strButtonLabel = String.Format("<b>{0}</b>", 
+                            keyWholeOfChapter.getShortText());
+                    else
+                    */
+                    strButtonLabel = keyWholeOfChapter.getShortText();
                     string strLineHtml = String.Format(CstrHtmlLineFormat, 
                         keyWholeOfChapter.Verse(),
-                        keyWholeOfChapter.getShortText(), 
+                        strButtonLabel, 
                         strVerseHtml);
                     sb.Append(strLineHtml);
 
