@@ -135,8 +135,10 @@ namespace OneStoryProjectEditor
             {
                 System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(JumpTarget));
                 XElement elemAnchor = new XElement("anchor", 
-                    new XAttribute("jumpTarget", JumpTarget),
-                    new XElement("toolTip", ToolTipText));
+                    new XAttribute("jumpTarget", JumpTarget));
+
+                if (!String.IsNullOrEmpty(ToolTipText))
+                    elemAnchor.Add(new XElement("toolTip", ToolTipText));
 
                 if (ExegeticalHelpNotes.HasData)
                     elemAnchor.Add(ExegeticalHelpNotes.GetXml);

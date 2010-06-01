@@ -51,8 +51,11 @@ namespace OneStoryProjectEditor
         protected ToolStripButton InitAnchorButton(ToolStrip ts, AnchorData theAnchorData)
         {
             string strText = theAnchorData.JumpTarget;
-            if (theAnchorData.JumpTarget != theAnchorData.ToolTipText)
-                strText += CstrTooltipIndicator;    // give an indication that there's a tooltip
+            if (!String.IsNullOrEmpty(theAnchorData.ToolTipText)
+                && (theAnchorData.JumpTarget != theAnchorData.ToolTipText))
+            {
+                strText += CstrTooltipIndicator; // give an indication that there's a tooltip
+            }
 
             ToolStripButton aButton = new ToolStripButton();
             aButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
