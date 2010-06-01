@@ -3091,7 +3091,7 @@ namespace OneStoryProjectEditor
                     return true;
                 }
             }
-            else if (!tsmi.Checked)
+            else if (bChecked && !tsmi.Checked)
             {
                 tsmi.Checked = true;
                 return true;
@@ -3602,6 +3602,11 @@ namespace OneStoryProjectEditor
                 nVerseNumber = Convert.ToInt32(strMenuText.Substring(nIndex + 1));
             }
             FocusOnVerse(nVerseNumber, true, true);
+        }
+
+        private void resetStoredInformationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.Reset();
         }
     }
 }
