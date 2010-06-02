@@ -24,21 +24,7 @@ namespace OneStoryProjectEditor
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            if (Properties.Settings.Default.RecentProjects == null)
-                Properties.Settings.Default.RecentProjects = new StringCollection();
-            if (Properties.Settings.Default.RecentProjectPaths == null)
-                Properties.Settings.Default.RecentProjectPaths = new StringCollection();
-            if (Properties.Settings.Default.ProjectNameToHgUrl == null)
-                Properties.Settings.Default.ProjectNameToHgUrl = new StringCollection();
-            _mapProjectNameToHgHttpUrl = ArrayToDictionary(Properties.Settings.Default.ProjectNameToHgUrl);
-
-            if (Properties.Settings.Default.ProjectNameToHgUsername == null)
-                Properties.Settings.Default.ProjectNameToHgUsername = new StringCollection();
-            _mapProjectNameToHgUsername = ArrayToDictionary(Properties.Settings.Default.ProjectNameToHgUsername);
-
-            if (Properties.Settings.Default.ProjectNameToHgNetworkUrl == null)
-                Properties.Settings.Default.ProjectNameToHgNetworkUrl = new StringCollection();
-            _mapProjectNameToHgNetworkUrl = ArrayToDictionary(Properties.Settings.Default.ProjectNameToHgNetworkUrl);
+            InitializeLocalSettingsCollections();
             
             bool bNeedToSave = false;
             System.Diagnostics.Debug.Assert(Properties.Settings.Default.RecentProjects.Count == Properties.Settings.Default.RecentProjectPaths.Count);
@@ -99,6 +85,25 @@ namespace OneStoryProjectEditor
                     strMessage += String.Format("{0}{1}", Environment.NewLine, ex.InnerException.Message);
                 MessageBox.Show(strMessage, Properties.Resources.IDS_Caption);
             }
+        }
+
+        public static void InitializeLocalSettingsCollections()
+        {
+            if (Properties.Settings.Default.RecentProjects == null)
+                Properties.Settings.Default.RecentProjects = new StringCollection();
+            if (Properties.Settings.Default.RecentProjectPaths == null)
+                Properties.Settings.Default.RecentProjectPaths = new StringCollection();
+            if (Properties.Settings.Default.ProjectNameToHgUrl == null)
+                Properties.Settings.Default.ProjectNameToHgUrl = new StringCollection();
+            _mapProjectNameToHgHttpUrl = ArrayToDictionary(Properties.Settings.Default.ProjectNameToHgUrl);
+
+            if (Properties.Settings.Default.ProjectNameToHgUsername == null)
+                Properties.Settings.Default.ProjectNameToHgUsername = new StringCollection();
+            _mapProjectNameToHgUsername = ArrayToDictionary(Properties.Settings.Default.ProjectNameToHgUsername);
+
+            if (Properties.Settings.Default.ProjectNameToHgNetworkUrl == null)
+                Properties.Settings.Default.ProjectNameToHgNetworkUrl = new StringCollection();
+            _mapProjectNameToHgNetworkUrl = ArrayToDictionary(Properties.Settings.Default.ProjectNameToHgNetworkUrl);
         }
 
         private static void SetupErrorHandling()
