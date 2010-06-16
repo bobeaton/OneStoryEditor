@@ -1,6 +1,4 @@
-﻿using System;
-using System.Drawing;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
 {
@@ -16,7 +14,7 @@ namespace OneStoryProjectEditor
         protected TestQuestionData _aTQData = null;
         protected int _nNumAnswerRows = 0;
 
-        public TestingQuestionControl(StoryEditor theSE, VerseControl ctrlVerse, 
+        public TestingQuestionControl(StoryEditor theSE, VerseBtControl ctrlVerse, 
             TestQuestionData aTQData, bool bShowHeader)
             : base(theSE.theCurrentStory.ProjStage)
         {
@@ -54,6 +52,7 @@ namespace OneStoryProjectEditor
                 InsertColumn(nNumColumns);
                 if (bShowHeader)
                     InitColumnLabel(theSE.StoryProject.ProjSettings.Vernacular.LangName, nNumColumns);
+                _aTQData.QuestionVernacular.Transliterator = ctrlVerse.TransliteratorVernacular;
                 InitTextBox(ctrlVerse, CstrFieldNameVernacular, _aTQData.QuestionVernacular, 
                     theSE.StoryProject.ProjSettings.Vernacular, nNumColumns);
                 nNumColumns++;
@@ -68,6 +67,7 @@ namespace OneStoryProjectEditor
                 InsertColumn(nNumColumns);
                 if (bShowHeader)
                     InitColumnLabel(theSE.StoryProject.ProjSettings.NationalBT.LangName, nNumColumns);
+                _aTQData.QuestionNationalBT.Transliterator = ctrlVerse.TransliteratorNationalBT;
                 InitTextBox(ctrlVerse, CstrFieldNameNationalBt, _aTQData.QuestionNationalBT,
                     theSE.StoryProject.ProjSettings.NationalBT, nNumColumns);
                 nNumColumns++;

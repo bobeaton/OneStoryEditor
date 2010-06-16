@@ -14,10 +14,7 @@ namespace OneStoryProjectEditor
 
         protected VerseData _aVerseData = null;
 
-        protected static DirectableEncConverter _decVernacular;
-        protected static DirectableEncConverter _decNationalBT;
-
-        public StoryLineControl(StoryEditor aSE, VerseControl ctrlVerse, VerseData aVerseData)
+        public StoryLineControl(StoryEditor aSE, VerseBtControl ctrlVerse, VerseData aVerseData)
             : base(aSE.theCurrentStory.ProjStage)
         {
             InitializeComponent();
@@ -36,34 +33,6 @@ namespace OneStoryProjectEditor
             while (tableLayoutPanel.ColumnCount > 0)
                 RemoveColumn(tableLayoutPanel.ColumnCount - 1);
 
-            if (aSE.viewTransliterationVernacular.Checked 
-                && !String.IsNullOrEmpty(aSE.LoggedOnMember.TransliteratorVernacular))
-            {
-                if (_decVernacular == null)
-                {
-                    _decVernacular = new DirectableEncConverter(aSE.LoggedOnMember.TransliteratorVernacular,
-                                                                aSE.LoggedOnMember.
-                                                                    TransliteratorDirectionForwardVernacular,
-                                                                NormalizeFlags.None);
-                }
-            }
-            else
-                _decVernacular = null;  // in case it was set from before
-
-            if (aSE.viewTransliterationNationalBT.Checked
-                && !String.IsNullOrEmpty(aSE.LoggedOnMember.TransliteratorNationalBT))
-            {
-                if (_decNationalBT == null)
-                {
-                    _decNationalBT = new DirectableEncConverter(aSE.LoggedOnMember.TransliteratorNationalBT,
-                                                                aSE.LoggedOnMember.
-                                                                    TransliteratorDirectionForwardNationalBT,
-                                                                NormalizeFlags.None);
-                }
-            }
-            else
-                _decNationalBT = null;
-
             int nNumColumns = 0;
             if (aSE.viewVernacularLangFieldMenuItem.Checked)
             {
@@ -78,7 +47,7 @@ namespace OneStoryProjectEditor
                     || (aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT)
                     || (aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT));
 
-                _aVerseData.VernacularText.Transliterator = _decVernacular;
+                _aVerseData.VernacularText.Transliterator = ctrlVerse.TransliteratorVernacular;
                 InitTextBox(ctrlVerse, CstrFieldNameVernacular, _aVerseData.VernacularText, 
                     aSE.StoryProject.ProjSettings.Vernacular, bDisableTabStopVernacular, 
                     nNumColumns);
@@ -97,7 +66,7 @@ namespace OneStoryProjectEditor
                     ((aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT)
                     || (aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT));
 
-                _aVerseData.NationalBTText.Transliterator = _decNationalBT;
+                _aVerseData.NationalBTText.Transliterator = ctrlVerse.TransliteratorNationalBT;
                 InitTextBox(ctrlVerse, CstrFieldNameNationalBt, _aVerseData.NationalBTText, 
                     aSE.StoryProject.ProjSettings.NationalBT, bDisableTabStopNationalBT, 
                     nNumColumns);

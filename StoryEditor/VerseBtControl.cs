@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using ECInterfaces;
+using SilEncConverters31;
 
 namespace OneStoryProjectEditor
 {
@@ -15,6 +17,9 @@ namespace OneStoryProjectEditor
 
         internal VerseData _verseData = null;
 
+        public DirectableEncConverter TransliteratorVernacular;
+        public DirectableEncConverter TransliteratorNationalBT;
+
         public VerseBtControl(StoryEditor theSE, LineFlowLayoutPanel parentFlowLayoutPanel,
             VerseData dataVerse, int nVerseNumber)
             : base(theSE.theCurrentStory.ProjStage, nVerseNumber, theSE, 
@@ -26,6 +31,34 @@ namespace OneStoryProjectEditor
             tableLayoutPanel.Controls.Add(labelReference, 0, 0);
             tableLayoutPanel.Controls.Add(buttonDragDropHandle, 1, 0);
             labelReference.Text = CstrVerseName + VerseNumber;
+
+            if (theSE.viewTransliterationVernacular.Checked
+                && !String.IsNullOrEmpty(theSE.LoggedOnMember.TransliteratorVernacular))
+            {
+                if (TransliteratorVernacular == null)
+                {
+                    TransliteratorVernacular = new DirectableEncConverter(theSE.LoggedOnMember.TransliteratorVernacular,
+                                                                          theSE.LoggedOnMember.
+                                                                              TransliteratorDirectionForwardVernacular,
+                                                                          NormalizeFlags.None);
+                }
+            }
+            else
+                TransliteratorVernacular = null;  // in case it was set from before
+
+            if (theSE.viewTransliterationNationalBT.Checked
+                && !String.IsNullOrEmpty(theSE.LoggedOnMember.TransliteratorNationalBT))
+            {
+                if (TransliteratorNationalBT == null)
+                {
+                    TransliteratorNationalBT = new DirectableEncConverter(theSE.LoggedOnMember.TransliteratorNationalBT,
+                                                                          theSE.LoggedOnMember.
+                                                                              TransliteratorDirectionForwardNationalBT,
+                                                                          NormalizeFlags.None);
+                }
+            }
+            else
+                TransliteratorNationalBT = null;
 
             InitControls(theSE);
         }
