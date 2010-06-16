@@ -734,7 +734,7 @@ namespace OneStoryProjectEditor
         }
 
         public string Html(StoryStageLogic theStoryStage, TeamMemberData LoggedOnMember, 
-            bool bViewHidden, int nVerseIndex)
+            bool bViewHidden, bool bVerseVisible, int nVerseIndex)
         {
             string strHtml = null;
             for (int i = 0; i < Count; i++)
@@ -744,7 +744,14 @@ namespace OneStoryProjectEditor
                     strHtml += aCNDC.Html(theStoryStage, LoggedOnMember, nVerseIndex, i);
             }
 
-            return String.Format(Properties.Resources.HTML_TableRow,
+            // color changes if hidden
+            string strColor;
+            if (bVerseVisible)
+                strColor = "#FFFFFF";
+            else
+                strColor = "#F0E68C";
+
+            return String.Format(Properties.Resources.HTML_TableRowColor, strColor,
                     String.Format(Properties.Resources.HTML_TableCellWithSpan, 2,
                         String.Format(Properties.Resources.HTML_TableNoBorder, strHtml)));
         }

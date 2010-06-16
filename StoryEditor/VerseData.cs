@@ -304,7 +304,7 @@ namespace OneStoryProjectEditor
             return String.Format("ln_{0}", nVerseIndex);
         }
 
-        protected string GetHeaderRow(string strHeader, int nVerseIndex,
+        protected string GetHeaderRow(string strHeader, int nVerseIndex, bool bVerseVisible,
             ConsultNotesDataConverter theCNsDC, TeamMemberData LoggedOnMember)
         {
             string strHtmlAddNoteButton = null;
@@ -315,13 +315,16 @@ namespace OneStoryProjectEditor
                                                                    "return window.external.OnAddNote(this.id, null);",
                                                                    "Add Note"));
 
+            string strLink = String.Format(Properties.Resources.HTML_LinkJumpLine,
+                                           nVerseIndex, strHeader);
+            if (!bVerseVisible)
+                strLink += StoryEditor.CstrHiddenVerseSuffix;
             return String.Format(Properties.Resources.HTML_TableRowColor, "#AACCFF",
                                  String.Format("{0}{1}",
                                                String.Format(Properties.Resources.HTML_TableCellWidthId,
                                                              LineId(nVerseIndex),
                                                              100,
-                                                             String.Format(Properties.Resources.HTML_LinkJumpLine,
-                                                                           nVerseIndex, strHeader)),
+                                                             strLink),
                                                strHtmlAddNoteButton));
         }
 
@@ -329,18 +332,22 @@ namespace OneStoryProjectEditor
             TeamMemberData LoggedOnMember, bool bViewHidden)
         {
             string strHtml = null;
-            strHtml += GetHeaderRow(CstrZerothLineName, 0, FirstVerse.ConsultantNotes, LoggedOnMember);
+            strHtml += GetHeaderRow(CstrZerothLineName, 0, FirstVerse.IsVisible, 
+                FirstVerse.ConsultantNotes, LoggedOnMember);
 
-            strHtml += FirstVerse.ConsultantNotes.Html(theStoryStage, LoggedOnMember, bViewHidden, 0);
+            strHtml += FirstVerse.ConsultantNotes.Html(theStoryStage, LoggedOnMember, 
+                bViewHidden, FirstVerse.IsVisible, 0);
 
             for (int i = 1; i <= Count; i++)
             {
                 VerseData aVerseData = this[i - 1];
                 if (aVerseData.IsVisible || bViewHidden)
                 {
-                    strHtml += GetHeaderRow("Ln: " + i, i, aVerseData.ConsultantNotes, LoggedOnMember);
+                    strHtml += GetHeaderRow("Ln: " + i, i, aVerseData.IsVisible, 
+                        aVerseData.ConsultantNotes, LoggedOnMember);
 
-                    strHtml += aVerseData.ConsultantNotes.Html(theStoryStage, LoggedOnMember, bViewHidden, i);
+                    strHtml += aVerseData.ConsultantNotes.Html(theStoryStage, LoggedOnMember,
+                        bViewHidden, aVerseData.IsVisible, i);
                 }
             }
 
@@ -351,18 +358,22 @@ namespace OneStoryProjectEditor
             TeamMemberData LoggedOnMember, bool bViewHidden)
         {
             string strHtml = null;
-            strHtml += GetHeaderRow(CstrZerothLineName, 0, FirstVerse.CoachNotes, LoggedOnMember);
+            strHtml += GetHeaderRow(CstrZerothLineName, 0, FirstVerse.IsVisible,
+                FirstVerse.CoachNotes, LoggedOnMember);
 
-            strHtml += FirstVerse.CoachNotes.Html(theStoryStage, LoggedOnMember, bViewHidden, 0);
+            strHtml += FirstVerse.CoachNotes.Html(theStoryStage, LoggedOnMember, 
+                bViewHidden, FirstVerse.IsVisible, 0);
 
             for (int i = 1; i <= Count; i++)
             {
                 VerseData aVerseData = this[i - 1];
                 if (aVerseData.IsVisible || bViewHidden)
                 {
-                    strHtml += GetHeaderRow("Ln: " + i, i, aVerseData.CoachNotes, LoggedOnMember);
+                    strHtml += GetHeaderRow("Ln: " + i, i, aVerseData.IsVisible,
+                        aVerseData.CoachNotes, LoggedOnMember);
 
-                    strHtml += aVerseData.CoachNotes.Html(theStoryStage, LoggedOnMember, bViewHidden, i);
+                    strHtml += aVerseData.CoachNotes.Html(theStoryStage, LoggedOnMember, 
+                        bViewHidden, aVerseData.IsVisible, i);
                 }
             }
 

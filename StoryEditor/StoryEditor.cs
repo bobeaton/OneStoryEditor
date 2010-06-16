@@ -850,6 +850,9 @@ namespace OneStoryProjectEditor
         protected void InitVerseControls(VerseData aVerse, int nVerseIndex)
         {
             VerseBtControl aVerseCtrl = new VerseBtControl(this, flowLayoutPanelVerses, aVerse, nVerseIndex);
+            if (!aVerse.IsVisible)
+                aVerseCtrl.BackColor = System.Drawing.Color.Khaki;
+
             aVerseCtrl.UpdateHeight(Panel1_Width);
             flowLayoutPanelVerses.Controls.Add(aVerseCtrl);
             AddDropTargetToFlowLayout(nVerseIndex);
@@ -3561,7 +3564,7 @@ namespace OneStoryProjectEditor
         }
 
         private const string CstrFirstVerse = "Story (Ln: 0)";
-        private const string CstrHiddenVerseSuffix = " (Hidden)";
+        internal const string CstrHiddenVerseSuffix = " (Hidden)";
 
         private void contextMenuStripVerseList_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
