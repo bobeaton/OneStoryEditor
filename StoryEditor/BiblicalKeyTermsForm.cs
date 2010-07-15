@@ -36,6 +36,14 @@ namespace OneStoryProjectEditor
             InitializeComponent();
             _biblicalTerms = BiblicalTermsList.GetBiblicalTerms();
             htmlBuilder = new BiblicalTermsHTMLBuilder(projSettings);
+
+            // TODO: temporary hack. If we are using the Hindi 'MyKeyTerms' db, then
+            // change the 'English Gloss' column header to Hindi and change the font
+            if (_biblicalTerms.IsMyBiblicalTerms)
+            {
+                ColumnGlossEnglish.HeaderText = "Gloss";
+                ColumnGlossEnglish.DefaultCellStyle.Font = new Font("Arial Unicode MS", 12);
+            }
         }
 
         public void Show(AnchorsData theAnchors, StoryProjectData theStoryProject)

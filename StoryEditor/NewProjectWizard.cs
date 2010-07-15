@@ -78,6 +78,9 @@ namespace OneStoryProjectEditor
                     }
 
                     ProjSettings = new ProjectSettings(null, ProjectName);
+
+                    // make sure the 'new' folder exists
+                    Directory.CreateDirectory(ProjSettings.ProjectFolder);
                 }
                 else
                     ProjSettings.ProjectName = ProjectName;

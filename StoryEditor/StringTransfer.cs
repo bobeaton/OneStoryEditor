@@ -35,7 +35,14 @@ namespace OneStoryProjectEditor
             _tb = tb;
             if (Transliterator != null)
             {
-                tb.Text = Transliterator.Convert(Value);
+                try
+                {
+                    tb.Text = Transliterator.Convert(Value);
+                }
+                catch
+                {
+                    tb.Text = Value;
+                }
                 tb.ReadOnly = true;
             }
             else
@@ -46,10 +53,17 @@ namespace OneStoryProjectEditor
             tb.Tag = this;
         }
 
+        // the TextBox is for the BT pane where this string is associated with
         internal CtrlTextBox TextBox
         {
             get { return _tb; }
         }
+
+        // if this string is associated with the ConNotes pane, then keep track
+        //  of the element ID it's associated with and the pane, so we can use
+        //  it during 'find'
+        internal string HtmlElementId;
+        internal HtmlConNoteControl HtmlConNoteCtrl;
 #endif
 
         // make it a little non-obvious how to get the string out so we can benefit from compiler-time errors

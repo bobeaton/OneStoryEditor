@@ -189,7 +189,8 @@ namespace OneStoryProjectEditor
                     // check to see if we're wrapped around and are starting
                     //  back at the beginning
                     // note: that it's possible that this stringTransfer
-                    //  does not have a TextBox (e.g. if it isn't visible)
+                    //  does not have a TextBox (e.g. if it isn't visible) OR
+                    //  if its in the ConNotes panes (which are HTML thingys)
                     CtrlTextBox ctrlTextBox = stringTransfer.TextBox;
 
                     // get the index *after* the selected text (our starting index
@@ -243,16 +244,21 @@ namespace OneStoryProjectEditor
                                          stringTransfer.TextBox);
                         
                         // The navigation process should make it visible as well.
-                        System.Diagnostics.Debug.Assert(stringTransfer.TextBox != null);
                         if (stringTransfer.TextBox != null)
                         {
                             stringTransfer.TextBox.Select(nFoundIndex, nLengthToSelect);
-                            LastStoryIndex = nStoryIndex;
-                            LastCtxBoxIndex = nCtxBoxIndex;
                             LastCharIndex = CaptureNextStartingCharIndex(stringTransfer.TextBox);
-                            buttonReplace.Enabled = true;
+                        }
+                        else if (stringTransfer.HtmlConNoteCtrl != null)
+                        {
+                            stringTransfer.HtmlConNoteCtrl.SelectFoundText(stringTransfer.HtmlElementId, nFoundIndex,
+                                                                           nLengthToSelect);
+                            LastCharIndex = nFoundIndex + nLengthToSelect;
                         }
 
+                        LastStoryIndex = nStoryIndex;
+                        LastCtxBoxIndex = nCtxBoxIndex;
+                        buttonReplace.Enabled = true;
                         return;
                     }
                 }

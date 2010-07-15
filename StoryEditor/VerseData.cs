@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Xml.Linq;
 using System.Text;
 
@@ -138,15 +139,6 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public string Html
-        {
-            get
-            {
-                string strHtml = String.Format(Properties.Resources.HTML_TableCell, "ln n:");
-                return strHtml;
-            }
-        }
-
         public static bool IsViewItemOn(ViewItemToInsureOn eValue, ViewItemToInsureOn eFlag)
         {
             return ((eValue & eFlag) == eFlag);
@@ -167,23 +159,23 @@ namespace OneStoryProjectEditor
         {
             ViewItemToInsureOn items = 0;
             if (bLangVernacular)
-                items |= VerseData.ViewItemToInsureOn.eVernacularLangField;
+                items |= ViewItemToInsureOn.eVernacularLangField;
             if (bLangNationalBT)
-                items |= VerseData.ViewItemToInsureOn.eNationalLangField;
+                items |= ViewItemToInsureOn.eNationalLangField;
             if (bLangInternationalBT)
-                items |= VerseData.ViewItemToInsureOn.eEnglishBTField;
+                items |= ViewItemToInsureOn.eEnglishBTField;
             if (bAnchors)
-                items |= VerseData.ViewItemToInsureOn.eAnchorFields;
+                items |= ViewItemToInsureOn.eAnchorFields;
             if (bStoryTestingQuestions)
-                items |= VerseData.ViewItemToInsureOn.eStoryTestingQuestionFields;
+                items |= ViewItemToInsureOn.eStoryTestingQuestionFields;
             if (bRetellings)
-                items |= VerseData.ViewItemToInsureOn.eRetellingFields;
+                items |= ViewItemToInsureOn.eRetellingFields;
             if (bConsultantNotes)
-                items |= VerseData.ViewItemToInsureOn.eConsultantNoteFields;
+                items |= ViewItemToInsureOn.eConsultantNoteFields;
             if (bCoachNotes)
-                items |= VerseData.ViewItemToInsureOn.eCoachNotesFields;
+                items |= ViewItemToInsureOn.eCoachNotesFields;
             if (bBibleViewer)
-                items |= VerseData.ViewItemToInsureOn.eBibleViewer;
+                items |= ViewItemToInsureOn.eBibleViewer;
             return items;
         }
 
@@ -205,6 +197,64 @@ namespace OneStoryProjectEditor
             eConsultantNoteFields = 64,
             eCoachNotesFields = 128,
             eBibleViewer = 256
+        }
+
+        public static string TextareaId(int nVerseIndex, string strTextElementName)
+        {
+            return String.Format("ta_{0}_{1}", nVerseIndex, strTextElementName);
+        }
+
+        public static string HtmlColor(Color clrRow)
+        {
+            return String.Format("#{0:X2}{1:X2}{2:X2}",
+                                 clrRow.R, clrRow.G, clrRow.B);
+        }
+
+        public string StoryBtHtml(ProjectSettings projectSettings, TeamMembersData membersData,
+            StoryStageLogic stageLogic, TeamMemberData loggedOnMember, int nVerseIndex, 
+            ViewItemToInsureOn viewItemToInsureOn, int nNumCols)
+        {
+            string strRow = null;
+            if (IsViewItemOn(viewItemToInsureOn, ViewItemToInsureOn.eVernacularLangField))
+            {
+                strRow += String.Format(Properties.Resources.HTML_TableCellWidthAlignTop, 100 / nNumCols,
+                                        String.Format(Properties.Resources.HTML_Textarea,
+                                                      TextareaId(nVerseIndex, StoryLineControl.CstrFieldNameVernacular),
+                                                      StoryData.CstrLangVernacularStyleClassName,
+                                                      VernacularText));
+            }
+
+            if (IsViewItemOn(viewItemToInsureOn, ViewItemToInsureOn.eNationalLangField))
+            {
+                strRow += String.Format(Properties.Resources.HTML_TableCellWidthAlignTop, 100 / nNumCols,
+                                        String.Format(Properties.Resources.HTML_Textarea,
+                                                      TextareaId(nVerseIndex, StoryLineControl.CstrFieldNameNationalBt),
+                                                      StoryData.CstrLangNationalBtStyleClassName,
+                                                      NationalBTText));
+            }
+
+            if (IsViewItemOn(viewItemToInsureOn, ViewItemToInsureOn.eEnglishBTField))
+            {
+                strRow += String.Format(Properties.Resources.HTML_TableCellWidthAlignTop, 100 / nNumCols,
+                                        String.Format(Properties.Resources.HTML_Textarea,
+                                                      TextareaId(nVerseIndex, StoryLineControl.CstrFieldNameInternationalBt),
+                                                      StoryData.CstrLangInternationalBtStyleClassName,
+                                                      InternationalBTText));
+            }
+
+            string strStoryLineRow = String.Format(Properties.Resources.HTML_TableRow,
+                                                   strRow);
+
+            if (IsViewItemOn(viewItemToInsureOn, ViewItemToInsureOn.eAnchorFields))
+                strStoryLineRow += Anchors.Html(nVerseIndex, nNumCols);
+
+            if (IsViewItemOn(viewItemToInsureOn, ViewItemToInsureOn.eStoryTestingQuestionFields)
+                && (TestQuestions.Count > 0))
+                strStoryLineRow += TestQuestions.Html(projectSettings, viewItemToInsureOn,
+                    stageLogic, loggedOnMember, nVerseIndex, nNumCols, 
+                    membersData.HasOutsideEnglishBTer);
+
+            return strStoryLineRow;
         }
     }
 
@@ -287,16 +337,67 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public string Html
+        protected int CalculateColumns(VerseData.ViewItemToInsureOn viewItemToInsureOn)
         {
-            get
-            {
-                string strHtml = null;
-                foreach (VerseData aVerseData in this)
-                    strHtml = aVerseData.Html;
+            int nColSpan = 0;
+            if (VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eVernacularLangField))
+                nColSpan++;
+            if (VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eNationalLangField))
+                nColSpan++;
+            if (VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eEnglishBTField))
+                nColSpan++;
+            return nColSpan;
+        }
 
-                return String.Format(Properties.Resources.HTML_Table, strHtml);
+        public string StoryBtHtml(ProjectSettings projectSettings, bool bViewHidden,
+            StoryStageLogic stageLogic, TeamMembersData membersData, TeamMemberData loggedOnMember,
+            VerseData.ViewItemToInsureOn viewItemToInsureOn)
+        {
+            int nColSpan = CalculateColumns(viewItemToInsureOn);
+
+            // add a row indicating which languages are in what columns
+            string strHtml = null;
+            if (VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eVernacularLangField))
+                strHtml += String.Format(Properties.Resources.HTML_TableCell,
+                                         projectSettings.Vernacular.LangName);
+            if (VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eNationalLangField))
+                strHtml += String.Format(Properties.Resources.HTML_TableCell,
+                                         projectSettings.NationalBT.LangName);
+            if (VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eEnglishBTField))
+                strHtml += String.Format(Properties.Resources.HTML_TableCell,
+                                         projectSettings.InternationalBT.LangName);
+
+            strHtml = String.Format(Properties.Resources.HTML_TableRow,
+                                     strHtml);
+;
+            for (int i = 1; i <= Count; i++)
+            {
+                VerseData aVerseData = this[i - 1];
+                if (aVerseData.IsVisible || bViewHidden)
+                {
+                    strHtml += GetHeaderRow("Ln: " + i, i, aVerseData.IsVisible, nColSpan);
+
+                    strHtml += aVerseData.StoryBtHtml(projectSettings, membersData, 
+                        stageLogic, loggedOnMember, i, viewItemToInsureOn, nColSpan);
+                }
             }
+
+            return String.Format(Properties.Resources.HTML_Table, strHtml);
+        }
+
+        protected string GetHeaderRow(string strHeader, int nVerseIndex, bool bVerseVisible, int nColSpan)
+        {
+            string strLink = String.Format(Properties.Resources.HTML_LinkJumpLine,
+                                           nVerseIndex, strHeader);
+            if (!bVerseVisible)
+                strLink += StoryEditor.CstrHiddenVerseSuffix;
+
+            return String.Format(Properties.Resources.HTML_TableRowColor, "#AACCFF",
+                                 String.Format(Properties.Resources.HTML_TableCellWidthSpanId,
+                                               LineId(nVerseIndex),
+                                               100,
+                                               nColSpan,
+                                               strLink));
         }
 
         public static string LineId(int nVerseIndex)
@@ -328,15 +429,16 @@ namespace OneStoryProjectEditor
                                                strHtmlAddNoteButton));
         }
 
-        public string ConsultantNotesHtml(StoryStageLogic theStoryStage, 
-            TeamMemberData LoggedOnMember, bool bViewHidden)
+        public string ConsultantNotesHtml(HtmlConNoteControl htmlConNoteCtrl, 
+            StoryStageLogic theStoryStage, TeamMemberData LoggedOnMember, 
+            bool bViewHidden)
         {
             string strHtml = null;
             strHtml += GetHeaderRow(CstrZerothLineName, 0, FirstVerse.IsVisible, 
                 FirstVerse.ConsultantNotes, LoggedOnMember);
 
-            strHtml += FirstVerse.ConsultantNotes.Html(theStoryStage, LoggedOnMember, 
-                bViewHidden, FirstVerse.IsVisible, 0);
+            strHtml += FirstVerse.ConsultantNotes.Html(htmlConNoteCtrl, theStoryStage, 
+                LoggedOnMember, bViewHidden, FirstVerse.IsVisible, 0);
 
             for (int i = 1; i <= Count; i++)
             {
@@ -346,23 +448,23 @@ namespace OneStoryProjectEditor
                     strHtml += GetHeaderRow("Ln: " + i, i, aVerseData.IsVisible, 
                         aVerseData.ConsultantNotes, LoggedOnMember);
 
-                    strHtml += aVerseData.ConsultantNotes.Html(theStoryStage, LoggedOnMember,
-                        bViewHidden, aVerseData.IsVisible, i);
+                    strHtml += aVerseData.ConsultantNotes.Html(htmlConNoteCtrl, 
+                        theStoryStage, LoggedOnMember, bViewHidden, aVerseData.IsVisible, i);
                 }
             }
 
             return String.Format(Properties.Resources.HTML_Table, strHtml);
         }
 
-        public string CoachNotesHtml(StoryStageLogic theStoryStage, 
-            TeamMemberData LoggedOnMember, bool bViewHidden)
+        public string CoachNotesHtml(HtmlConNoteControl htmlConNoteCtrl, 
+            StoryStageLogic theStoryStage, TeamMemberData LoggedOnMember, bool bViewHidden)
         {
             string strHtml = null;
             strHtml += GetHeaderRow(CstrZerothLineName, 0, FirstVerse.IsVisible,
                 FirstVerse.CoachNotes, LoggedOnMember);
 
-            strHtml += FirstVerse.CoachNotes.Html(theStoryStage, LoggedOnMember, 
-                bViewHidden, FirstVerse.IsVisible, 0);
+            strHtml += FirstVerse.CoachNotes.Html(htmlConNoteCtrl, theStoryStage, 
+                LoggedOnMember, bViewHidden, FirstVerse.IsVisible, 0);
 
             for (int i = 1; i <= Count; i++)
             {
@@ -372,8 +474,8 @@ namespace OneStoryProjectEditor
                     strHtml += GetHeaderRow("Ln: " + i, i, aVerseData.IsVisible,
                         aVerseData.CoachNotes, LoggedOnMember);
 
-                    strHtml += aVerseData.CoachNotes.Html(theStoryStage, LoggedOnMember, 
-                        bViewHidden, aVerseData.IsVisible, i);
+                    strHtml += aVerseData.CoachNotes.Html(htmlConNoteCtrl, theStoryStage, 
+                        LoggedOnMember, bViewHidden, aVerseData.IsVisible, i);
                 }
             }
 

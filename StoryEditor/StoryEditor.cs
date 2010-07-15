@@ -296,7 +296,7 @@ namespace OneStoryProjectEditor
             if (StoryProject != null)
             {
                 UpdateRecentlyUsedLists(StoryProject.ProjSettings);
-                buttonsStoryStage.Enabled = true;
+                buttonPrevState.Enabled = toolNextStateLabel.Enabled = true;
                 UpdateUIMenusWithShortCuts();
             }
         }
@@ -327,7 +327,7 @@ namespace OneStoryProjectEditor
                 if (Modified)
                     SaveClicked();
 
-                buttonsStoryStage.Enabled = true;
+                buttonPrevState.Enabled = toolNextStateLabel.Enabled = true;
                 return true;
             }
             catch (BackOutWithNoUIException)
@@ -360,14 +360,16 @@ namespace OneStoryProjectEditor
                     {
                         // reload the state transitions so that we can possible support a new
                         //  configuration (e.g. there might now be a FPM)
-                        StoryStageLogic.stateTransitions = new StoryStageLogic.StateTransitions();
+                        Debug.Assert(StoryProject.TeamMembers != null);
+                        StoryStageLogic.stateTransitions =
+                            new StoryStageLogic.StateTransitions(StoryProject.TeamMembers.HasIndependentConsultant);
                         ReInitMenuVisibility();
                         SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage, true);
                         InitAllPanes(); // just in case e.g. the font or RTL value changed
                     }
                 }
 
-                buttonsStoryStage.Enabled = true;
+                buttonPrevState.Enabled = toolNextStateLabel.Enabled = true;
             }
             catch (BackOutWithNoUIException)
             {
@@ -465,7 +467,7 @@ namespace OneStoryProjectEditor
                 StoryProject = GetOldStoryProjectData(projFile, projSettings);
 
                 // enable the button
-                buttonsStoryStage.Enabled = true;
+                buttonPrevState.Enabled = toolNextStateLabel.Enabled = true;
 
                 string strStoryToLoad = null;
                 if (TheCurrentStoriesSet.Count > 0)
@@ -1821,7 +1823,7 @@ namespace OneStoryProjectEditor
             if ((StoryProject == null) || (theCurrentStory == null))
                 return;
 
-            buttonsStoryStage.DropDown.Items.Clear();
+            buttonPrevState.DropDown.Items.Clear();
 
             // get the current StateTransition object and find all of the allowable transition states
             StoryStageLogic.StateTransition theCurrentST = StoryStageLogic.stateTransitions[theCurrentStory.ProjStage.ProjectStage];
@@ -1846,10 +1848,11 @@ namespace OneStoryProjectEditor
                     && (!aps.HasUsingOtherEnglishBTer
                         || (aps.RequiresUsingOtherEnglishBTer ==
                             StoryProject.TeamMembers.HasOutsideEnglishBTer))
+                    && (!aps.RequiresManageWithCoaching || !StoryProject.TeamMembers.HasIndependentConsultant)
                     )
                 {
                     StoryStageLogic.StateTransition aST = StoryStageLogic.stateTransitions[aps.ProjectStage];
-                    ToolStripItem tsi = buttonsStoryStage.DropDown.Items.Add(
+                    ToolStripItem tsi = buttonPrevState.DropDown.Items.Add(
                         aST.StageDisplayString, null, OnSelectOtherState);
                     tsi.Tag = aST;
                 }
@@ -1908,6 +1911,13 @@ namespace OneStoryProjectEditor
 
         private void buttonsStoryStage_ButtonClick(object sender, EventArgs e)
         {
+            StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[theCurrentStory.ProjStage.ProjectStage];
+            if (st.PreviousButtonState != StoryStageLogic.ProjectStages.eUndefined)
+                DoNextSeveral(StoryStageLogic.stateTransitions[st.PreviousButtonState]);
+        }
+
+        private void toolNextStateLabel_ButtonClick(object sender, EventArgs e)
+        {
             DoNextState(true);
         }
 
@@ -1920,6 +1930,7 @@ namespace OneStoryProjectEditor
             {
                 SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage,
                     bDoUpdateCtrls);
+
                 if (bDoUpdateCtrls)
                     InitAllPanes();    // just in case there were changes
                 Modified = true;
@@ -1953,6 +1964,18 @@ namespace OneStoryProjectEditor
                 theCurrentStory.ProjStage.ProjectStage = eProposedNextState;  // if we are ready, then go ahead and transition
                 theCurrentStory.StageTimeStamp = DateTime.Now;
                 Modified = true;
+
+                // if this new state has special buttons, then set those
+                if (!String.IsNullOrEmpty(stNext.NextStateButtonLabel))
+                    toolNextStateLabel.Text = stNext.NextStateButtonLabel;
+                else
+                    toolNextStateLabel.Text = "Next State";
+
+                if (!String.IsNullOrEmpty(stNext.PreviousStateButtonLabel))
+                    buttonPrevState.Text = stNext.PreviousStateButtonLabel;
+                else
+                    buttonPrevState.Text = "Previous State";
+
                 if (bReqSave)
                     if (!CheckForSaveDirtyFile())
                         return false;
@@ -2190,6 +2213,11 @@ namespace OneStoryProjectEditor
 
         private void editAddTestResultsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (MessageBox.Show(Properties.Resources.IDS_AreAllTestingQuestionsEnteredQuery, 
+                                Properties.Resources.IDS_Caption, 
+                                MessageBoxButtons.OKCancel) == DialogResult.Cancel)
+                return;
+
             AddTest();
             InitAllPanes();
         }
@@ -2815,9 +2843,9 @@ namespace OneStoryProjectEditor
                                                                  > (int)StoryStageLogic.ProjectStages.eProjFacAddStoryQuestions));
 
                 viewConsultantNoteFieldMenuItem.Enabled =
-                    viewCoachNotesFieldMenuItem.Enabled = (theCurrentStory != null);
+                    viewCoachNotesFieldMenuItem.Enabled =
+                    stateMapToolStripMenuItem.Enabled = (theCurrentStory != null);
 
-                stateMapToolStripMenuItem.Enabled = true;
                 viewTransliterationsToolStripMenuItem.Enabled = (StoryProject.ProjSettings.Vernacular.HasData || StoryProject.ProjSettings.NationalBT.HasData);
             }
             else
@@ -3216,7 +3244,8 @@ namespace OneStoryProjectEditor
 
         private void stateMapToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var dlg = new StageEditorForm(StoryProject);
+            Debug.Assert((StoryProject != null) && (theCurrentStory != null));
+            var dlg = new StageEditorForm(StoryProject, theCurrentStory);
             dlg.ShowDialog();
         }
 
@@ -3611,6 +3640,18 @@ namespace OneStoryProjectEditor
         {
             Properties.Settings.Default.Reset();
             Program.InitializeLocalSettingsCollections();
+        }
+
+        private void selectAlternateKeyTermDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AnchorControl.m_dlgKeyTerms = null; // forget we had the dialog to requiry
+            BiblicalTermsList.SelectTermsList();
+        }
+
+        private void viewStoryBtInHtmlToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            HtmlDisplayForm dlg = new HtmlDisplayForm(this, theCurrentStory);
+            dlg.ShowDialog();
         }
     }
 }

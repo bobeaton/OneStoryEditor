@@ -14,13 +14,22 @@ namespace OneStoryProjectEditor
         public HtmlDisplayForm(StoryEditor theSE, StoryData storyData)
         {
             InitializeComponent();
-            _webBrowser.TheSE = theSE;
-            _webBrowser.StoryData = storyData;
-            _webBrowser.LoadDocument();
+            htmlStoryBtControl.TheSE = theSE;
+            htmlStoryBtControl.StoryData = storyData;
+            htmlStoryBtControl.ViewItemsToInsureOn = VerseData.SetItemsToInsureOn(
+                    theSE.viewVernacularLangFieldMenuItem.Checked,
+                    theSE.viewNationalLangFieldMenuItem.Checked,
+                    theSE.viewEnglishBTFieldMenuItem.Checked,
+                    theSE.viewAnchorFieldMenuItem.Checked,
+                    theSE.viewStoryTestingQuestionFieldMenuItem.Checked,
+                    theSE.viewRetellingFieldMenuItem.Checked,
+                    theSE.viewConsultantNoteFieldMenuItem.Checked,
+                    theSE.viewCoachNotesFieldMenuItem.Checked,
+                    theSE.viewNetBibleMenuItem.Checked);
 
-            htmlCoachNotesControl1.TheSE = theSE;
-            htmlCoachNotesControl1.StoryData = storyData;
-            htmlCoachNotesControl1.LoadDocument();
+            htmlStoryBtControl.MembersData = theSE.StoryProject.TeamMembers;
+            htmlStoryBtControl.LoggedOnMember = theSE.LoggedOnMember;
+            htmlStoryBtControl.LoadDocument();
         }
     }
 }

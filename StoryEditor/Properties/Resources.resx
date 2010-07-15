@@ -258,8 +258,8 @@
     <comment>प्रोजैक्ट नाम के बिना नया प्रोजैक्ट नहीं बन सकता है!</comment>
   </data>
   <data name="IDS_TerminalTransitionMessage" xml:space="preserve">
-    <value>If you change to this next state, then you won't be able to edit the story until after the {0} has done his or her changes. Are you sure you want to change to the '{1}' state?</value>
-    <comment>अगर अगले स्‍टेट में जाएं, तो इसके बाद आप इस कहानी को तब तक नहीं बदल सकते हैं, जब तक {0} अपने काम इस पर पूरा नहीं किया। क्‍या आप पक्‍का हैं कि अगले स्‍टेट (अनिकि '{1}' स्‍टेट) में जाएँ?</comment>
+    <value>If you change to this state, then you won't be able to edit the story further until it is your turn again (after the {0} has finished his or her changes). Are you sure you want to change to the '{1}' state?</value>
+    <comment>अगर इस स्‍टेट में जाएं, तो इसके बाद आप इस कहानी को तब तक नहीं बदल सकते हैं, जब तक {0} अपने काम इस पर पूरा नहीं किया। क्‍या आप पक्‍का हैं कि अगले स्‍टेट (अनिकि '{1}' स्‍टेट) में जाएँ?</comment>
   </data>
   <data name="IDS_KeyTermsProblem" xml:space="preserve">
     <value>Unable to process Key Terms: cause: {0}{0}{1}</value>
@@ -1551,7 +1551,7 @@ eater Panorama
   <data name="HTML_Button" xml:space="preserve">
     <value>&lt;button id="{0}" onClick="{1}"&gt;{2}&lt;/button&gt;</value>
   </data>
-  <data name="HTML_Textarea" xml:space="preserve">
+  <data name="HTML_TextareaWithRefDrop" xml:space="preserve">
     <value>&lt;textarea id="{0}" class="{1}" onKeyUp="return window.external.TextareaOnKeyUp(this.id, this.value);" ondragover="window.event.returnValue=false" ondrop="window.external.CopyScriptureReference(this.id)"&gt;{2}&lt;/textarea&gt;</value>
   </data>
   <data name="HTML_TableNoBorder" xml:space="preserve">
@@ -1591,7 +1591,7 @@ eater Panorama
     <value>The project has been exported to the folder '{0}\Toolbox'. Click 'Yes' to launch Toolbox and open that project.</value>
   </data>
   <data name="HTML_ParagraphText" xml:space="preserve">
-    <value>&lt;p class="{0}"&gt;{1}&lt;/p&gt;</value>
+    <value>&lt;p id="{0}" class="{1}"&gt;{2}&lt;/p&gt;</value>
   </data>
   <data name="HTML_DOM_Prefix" xml:space="preserve">
     <value>&lt;script&gt;
@@ -1617,6 +1617,34 @@ function OnKeyDown()
     window.event.returnValue = false;
     return false;
   }
+}
+function paragraphSelect(strId, iStart, iLen)
+{
+  alert("before getElementById");
+  var oParagraph = document.getElementById(strId);
+  alert("before createRange");
+  var range = document.createRange();
+  alert("before setStart");
+  range.setStart(oParagraph, iStart);
+  alert("before setEnd");
+  range.setEnd(oParagraph, iStart + iLen);
+  alert("before select");
+  range.select();
+  alert("after select");
+}
+function textboxSelect(strId, iStart, iLen)
+{
+  alert("before getElementById");
+  var oTextbox = document.getElementById(strId);
+  alert("before createTextRange");
+  var oRange = oTextbox.createTextRange();
+  alert("before moveStart");
+  oRange.moveStart("character", iStart);
+  alert("before moveEnd");
+  oRange.moveEnd("character", -oTextbox.value.length + iStart + iLen);
+  alert("before select");
+  oRange.select();
+  alert("after select");
 }
 &lt;/script&gt;</value>
   </data>
@@ -2006,13 +2034,13 @@ function OnKeyDown()
 \co</value>
   </data>
   <data name="HTML_LangStyle" xml:space="preserve">
-    <value>  .{0} {{
+    <value>.{0} {{
       font-family: "{1}";
       font-size: {2} pt;
-      direction: {3};
-      text-align: {4};
-  }}
-</value>
+      color: {3};
+      direction: {4};
+      text-align: {5};
+  }}</value>
   </data>
   <data name="HTML_StyleDefinition" xml:space="preserve">
     <value>&lt;style TYPE="text/css"&gt;
@@ -2045,5 +2073,75 @@ function OnKeyDown()
   </data>
   <data name="HTML_HttpLink" xml:space="preserve">
     <value>&lt;a href="{0}" target="_blank"&gt;here&lt;/a&gt; </value>
+  </data>
+  <data name="IDS_AreAllTestingQuestionsEnteredQuery" xml:space="preserve">
+    <value>Have you entered all of your testing questions? If not, then click 'Cancel' and finish entering all of the testing questions first (or you won't get answer boxes for questions added later). Or click 'OK' to add boxes for the UNS's retelling and answers to the testing quetsions.</value>
+  </data>
+  <data name="IDS_CheckForSkipToUnsCheck" xml:space="preserve">
+    <value>Would you like to enter the results of a UNS test now (click 'Yes') or have your consultant check the story and testing questions first (click 'No')?</value>
+  </data>
+  <data name="HTML_DOM_PrefixStoryBt" xml:space="preserve">
+    <value>&lt;script&gt;
+function OnBibRefJump(btn)
+{
+  window.external.OnBibRefJump(btn.id);
+  return false; // cause the href navigation to not happen
+}
+function OnVerseLineJump(link)
+{
+  window.external.OnVerseLineJump(link.name);
+  return false; // cause the href navigation to not happen
+}
+function OnKeyDown()
+{
+  if (window.event.keyCode == 116)
+  {
+    // let the form handle it
+    window.external.LoadDocument();
+
+    // disable the propagation of the F5 event
+    window.event.keyCode = 0;
+    window.event.returnValue = false;
+    return false;
+  }
+}
+function paragraphSelect(strId, iStart, iLen)
+{
+  alert("before getElementById");
+  var oParagraph = document.getElementById(strId);
+  alert("before createRange");
+  var range = document.createRange();
+  alert("before setStart");
+  range.setStart(oParagraph, iStart);
+  alert("before setEnd");
+  range.setEnd(oParagraph, iStart + iLen);
+  alert("before select");
+  range.select();
+  alert("after select");
+}
+function textboxSelect(strId, iStart, iLen)
+{
+  alert("before getElementById");
+  var oTextbox = document.getElementById(strId);
+  alert("before createTextRange");
+  var oRange = oTextbox.createTextRange();
+  alert("before moveStart");
+  oRange.moveStart("character", iStart);
+  alert("before moveEnd");
+  oRange.moveEnd("character", -oTextbox.value.length + iStart + iLen);
+  alert("before select");
+  oRange.select();
+  alert("after select");
+}
+&lt;/script&gt;</value>
+  </data>
+  <data name="HTML_TableCellWidthSpanId" xml:space="preserve">
+    <value>&lt;td id="{0}" width="{1}%" colspan="{2}"&gt;{3}&lt;/td&gt;</value>
+  </data>
+  <data name="HTML_TableCellWidthAlignTop" xml:space="preserve">
+    <value>&lt;td width="{0}%" valign="top"&gt;{1}&lt;/td&gt;</value>
+  </data>
+  <data name="HTML_Textarea" xml:space="preserve">
+    <value>&lt;textarea id="{0}" class="{1}" onKeyUp="return window.external.TextareaOnKeyUp(this.id, this.value);"&gt;{2}&lt;/textarea&gt;</value>
   </data>
 </root>

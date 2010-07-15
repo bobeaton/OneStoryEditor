@@ -8,18 +8,19 @@ namespace OneStoryProjectEditor
 {
     public class TeamMemberData
     {
+        [Flags]
         public enum UserTypes
         {
             eUndefined = 0,
-            eCrafter,
-            eEnglishBacktranslator,
-            eUNS,
-            eProjectFacilitator,
-            eFirstPassMentor,
-            eConsultantInTraining,
-            eIndependentConsultant,
-            eCoach,
-            eJustLooking
+            eCrafter = 1,
+            eEnglishBacktranslator = 2,
+            eUNS = 4,
+            eProjectFacilitator = 8,
+            eFirstPassMentor = 16,
+            eConsultantInTraining = 32,
+            eIndependentConsultant = 64,
+            eCoach = 128,
+            eJustLooking = 256
         }
 
         internal const string CstrCrafter = "Crafter";
@@ -35,7 +36,7 @@ namespace OneStoryProjectEditor
         protected const string CstrEnglishBackTranslatorDisplay = "English Back Translator";
         protected const string CstrFirstPassMentorDisplay = "First Pass Mentor";
         internal const string CstrConsultantInTrainingDisplay = "Consultant in Training";
-        internal const string CstrIndependentConsultantDisplay = "Independent Consultant";
+        internal const string CstrIndependentConsultantDisplay = "Consultant";
         protected const string CstrProjectFacilitatorDisplay = "Project Facilitator";
         
         public string Name;
@@ -190,15 +191,15 @@ namespace OneStoryProjectEditor
 
         public static string GetMemberTypeAsDisplayString(UserTypes eMemberType)
         {
-            if (eMemberType == UserTypes.eConsultantInTraining)
-                return CstrConsultantInTrainingDisplay;
-            if (eMemberType == UserTypes.eIndependentConsultant)
+            if ((eMemberType & UserTypes.eIndependentConsultant) == UserTypes.eIndependentConsultant)
                 return CstrIndependentConsultantDisplay;
-            if (eMemberType == UserTypes.eEnglishBacktranslator)
+            if ((eMemberType & UserTypes.eConsultantInTraining) == UserTypes.eConsultantInTraining)
+                return CstrConsultantInTrainingDisplay;
+            if ((eMemberType & UserTypes.eEnglishBacktranslator) == UserTypes.eEnglishBacktranslator)
                 return CstrEnglishBackTranslatorDisplay;
-            if (eMemberType == UserTypes.eProjectFacilitator)
+            if ((eMemberType & UserTypes.eProjectFacilitator) == UserTypes.eProjectFacilitator)
                 return CstrProjectFacilitatorDisplay;
-            if (eMemberType == UserTypes.eFirstPassMentor)
+            if ((eMemberType & UserTypes.eFirstPassMentor) == UserTypes.eFirstPassMentor)
                 return CstrFirstPassMentorDisplay;
             return GetMemberTypeAsString(eMemberType);
         }

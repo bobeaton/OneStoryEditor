@@ -99,6 +99,52 @@ namespace OneStoryProjectEditor
                     VerseData.ViewItemToInsureOn.eEnglishBTField);
             Answers.IndexSearch(findProperties, ref lstBoxesToSearch);
         }
+
+        protected const string CstrTestQuestionsLabelFormat = "tst:";
+
+        public static string TextareaId(int nVerseIndex, int nTQNum, string strTextElementName)
+        {
+            return String.Format("taTQ_{0}_{1}_{2}", nVerseIndex, nTQNum, strTextElementName);
+        }
+
+        public string Html(int nVerseIndex, int nTQNum, int nNumTestQuestionCols, bool bShowVernacular,
+            bool bShowNationalBT, bool bShowEnglishBT)
+        {
+            string strRow = String.Format(Properties.Resources.HTML_TableCell,
+                                          CstrTestQuestionsLabelFormat);
+            if (bShowVernacular)
+            {
+                strRow += String.Format(Properties.Resources.HTML_TableCellWidthAlignTop, 100 / nNumTestQuestionCols,
+                                        String.Format(Properties.Resources.HTML_Textarea,
+                                                      TextareaId(nVerseIndex, nTQNum, StoryLineControl.CstrFieldNameVernacular),
+                                                      StoryData.CstrLangVernacularStyleClassName,
+                                                      QuestionVernacular));
+            }
+
+            if (bShowNationalBT)
+            {
+                strRow += String.Format(Properties.Resources.HTML_TableCellWidthAlignTop, 100 / nNumTestQuestionCols,
+                                        String.Format(Properties.Resources.HTML_Textarea,
+                                                      TextareaId(nVerseIndex, nTQNum, StoryLineControl.CstrFieldNameNationalBt),
+                                                      StoryData.CstrLangNationalBtStyleClassName,
+                                                      QuestionNationalBT));
+            }
+
+            if (bShowEnglishBT)
+            {
+                strRow += String.Format(Properties.Resources.HTML_TableCellWidthAlignTop, 100 / nNumTestQuestionCols,
+                                        String.Format(Properties.Resources.HTML_Textarea,
+                                                      TextareaId(nVerseIndex, nTQNum, StoryLineControl.CstrFieldNameInternationalBt),
+                                                      StoryData.CstrLangInternationalBtStyleClassName,
+                                                      QuestionInternationalBT));
+            }
+
+            string strTQRow = String.Format(Properties.Resources.HTML_TableRow,
+                                                   strRow);
+
+            strTQRow += Answers.Html(nVerseIndex, nNumTestQuestionCols + 1);
+            return strTQRow;
+        }
     }
 
     public class TestQuestionsData : List<TestQuestionData>
@@ -156,6 +202,66 @@ namespace OneStoryProjectEditor
         {
             foreach (TestQuestionData testQuestionData in this)
                 testQuestionData.IndexSearch(findProperties, lstBoxesToSearch);
+        }
+
+        public string Html(ProjectSettings projectSettings, 
+            VerseData.ViewItemToInsureOn viewItemToInsureOn, 
+            StoryStageLogic stageLogic, TeamMemberData loggedOnMember,
+            int nVerseIndex, int nNumCols, bool bHasOutsideEnglishBTer)
+        {
+            int nNumTestQuestionCols = 0;
+            bool bShowVernacular =
+                (VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eVernacularLangField));
+            bool bShowNationalBT = (projectSettings.NationalBT.HasData
+                                  && (bHasOutsideEnglishBTer
+                                      ||
+                                      (VerseData.IsViewItemOn(viewItemToInsureOn,
+                                                              VerseData.ViewItemToInsureOn.eNationalLangField) &&
+                                       !projectSettings.Vernacular.HasData)));
+            bool bShowEnglishBT = (VerseData.IsViewItemOn(viewItemToInsureOn,
+                                                          VerseData.ViewItemToInsureOn.eEnglishBTField)
+                                   && (!bHasOutsideEnglishBTer
+                                       || (stageLogic.MemberTypeWithEditToken !=
+                                           TeamMemberData.UserTypes.eProjectFacilitator)
+                                       ||
+                                       (loggedOnMember.MemberType !=
+                                        TeamMemberData.UserTypes.eProjectFacilitator)));
+            if (bShowVernacular) nNumTestQuestionCols++;
+            if (bShowNationalBT) nNumTestQuestionCols++;
+            if (bShowEnglishBT) nNumTestQuestionCols++;
+
+            string strRow = null;
+            for (int i = 0; i < Count; i++)
+            {
+                TestQuestionData testQuestionData = this[i];
+                strRow += testQuestionData.Html(nVerseIndex, i, nNumTestQuestionCols,
+                    bShowVernacular, bShowNationalBT, bShowEnglishBT);
+            }
+
+            /*
+            // make a cell out of the testing question boxes
+            string strHtmlCell = String.Format(Properties.Resources.HTML_TableCellWidth,
+                                               100,
+                                               strRow);
+
+            // add combine with the 'tst:' header cell into a Table Row
+            string strHtml = String.Format(Properties.Resources.HTML_TableRow,
+                                           strHtmlCell);
+            // add exegetical comments as their own rows
+            for (int i = 0; i < Count; i++)
+            {
+                AnchorData anchorData = this[i];
+                if (anchorData.ExegeticalHelpNotes.Count > 0)
+                    strHtml += anchorData.ExegeticalHelpNotes.Html(nVerseIndex, i);
+            }
+            */
+
+            // make a sub-table out of all this
+            strRow = String.Format(Properties.Resources.HTML_TableRow,
+                                    String.Format(Properties.Resources.HTML_TableCellWithSpan, nNumCols,
+                                                  String.Format(Properties.Resources.HTML_TableNoBorder,
+                                                                strRow)));
+            return strRow;
         }
     }
 }

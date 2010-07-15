@@ -76,7 +76,8 @@ namespace OneStoryProjectEditor
             if (theSE.viewEnglishBTFieldMenuItem.Checked
                 && (!theSE.StoryProject.TeamMembers.HasOutsideEnglishBTer
                     || (StageLogic.MemberTypeWithEditToken !=
-                            TeamMemberData.UserTypes.eProjectFacilitator)))
+                            TeamMemberData.UserTypes.eProjectFacilitator)
+                            || (theSE.LoggedOnMember.MemberType != TeamMemberData.UserTypes.eProjectFacilitator)))
             {
                 InsertColumn(nNumColumns);
                 if (bShowHeader)

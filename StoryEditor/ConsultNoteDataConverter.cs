@@ -130,9 +130,9 @@ namespace OneStoryProjectEditor
             if (IsFinished || !theStoryStage.IsEditAllowed(eLoggedOnMember))
                 return;
 
-            if ((eLoggedOnMember == eMentorType) && ((Count == 0) || (this[Count - 1].Direction == MenteeDirection)))
+            if (((eLoggedOnMember & eMentorType) == eLoggedOnMember) && ((Count == 0) || (this[Count - 1].Direction == MenteeDirection)))
                 Add(new CommInstance(strValue, MentorDirection, null, DateTime.Now));
-            else if ((eLoggedOnMember == eMenteeType) && ((Count == 0) || (this[Count - 1].Direction == MentorDirection)))
+            else if (((eLoggedOnMember & eMenteeType) == eLoggedOnMember) && ((Count == 0) || (this[Count - 1].Direction == MentorDirection)))
                 Add(new CommInstance(strValue, MenteeDirection, null, DateTime.Now));
         }
         /*
@@ -243,6 +243,11 @@ namespace OneStoryProjectEditor
             return String.Format("ta_{0}_{1}", nVerseIndex, nConversationIndex);
         }
 
+        public static string TextParagraphId(int nVerseIndex, int nConversationIndex, int nCommentIndex)
+        {
+            return String.Format("tp_{0}_{1}_{2}", nVerseIndex, nConversationIndex, nCommentIndex);
+        }
+
         public static string TextareaRowId(int nVerseIndex, int nConversationIndex)
         {
             return String.Format("tarow_{0}_{1}", nVerseIndex, nConversationIndex);
@@ -298,7 +303,8 @@ namespace OneStoryProjectEditor
         readonly Regex regexItalics = new Regex(@"\*\b(.+?)\b\*", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
         readonly Regex regexHttpRef = new Regex(@"\b(http://.*?) \b", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
 
-        public string Html(StoryStageLogic theStoryStage, 
+        public string Html(HtmlConNoteControl htmlConNoteCtrl, 
+            StoryStageLogic theStoryStage, 
             TeamMemberData LoggedOnMember, 
             int nVerseIndex, int nConversationIndex)
         {
@@ -362,16 +368,17 @@ namespace OneStoryProjectEditor
                     clrRow = ResponseColor;
                 }
 
-                string strColor = String.Format("#{0:X2}{1:X2}{2:X2}",
-                                                clrRow.R, clrRow.G, clrRow.B);
+                string strColor = VerseData.HtmlColor(clrRow);
 
                 // only the last one is editable and then only if the right person is 
                 //  logged in
+                string strHtmlElementId;
                 if (IsEditable(theStoryStage, i, LoggedOnMember, aCI))
                 {
+                    strHtmlElementId = TextareaId(nVerseIndex, nConversationIndex);
                     strRow += String.Format(Properties.Resources.HTML_TableCellForTextArea, "#FF0000",
-                                            String.Format(Properties.Resources.HTML_Textarea,
-                                                          TextareaId(nVerseIndex, nConversationIndex),
+                                            String.Format(Properties.Resources.HTML_TextareaWithRefDrop,
+                                                          strHtmlElementId,
                                                           StoryData.CstrLangInternationalBtStyleClassName,
                                                           aCI));
 
@@ -382,6 +389,7 @@ namespace OneStoryProjectEditor
                 }
                 else
                 {
+                    strHtmlElementId = TextParagraphId(nVerseIndex, nConversationIndex, i);
                     string strHyperlinkedText = aCI.ToString().Replace("\r\n", "<br />");   // regexParagraph.Replace(aCI.ToString(), ParagraphFound);
                     strHyperlinkedText = regexBibRef.Replace(strHyperlinkedText, BibleReferenceFound);
                     strHyperlinkedText = regexLineRef.Replace(strHyperlinkedText, LineReferenceFound);
@@ -390,6 +398,7 @@ namespace OneStoryProjectEditor
 
                     strRow += String.Format(Properties.Resources.HTML_TableCellWidth, 100,
                                             String.Format(Properties.Resources.HTML_ParagraphText,
+                                                          strHtmlElementId,
                                                           StoryData.CstrLangInternationalBtStyleClassName,
                                                           strHyperlinkedText));
 
@@ -398,6 +407,10 @@ namespace OneStoryProjectEditor
                                                   strColor,
                                                   strRow);
                 }
+
+                // keep track of the element id so we can use it during 'Search/Replace' operations
+                aCI.HtmlElementId = strHtmlElementId;
+                aCI.HtmlConNoteCtrl = htmlConNoteCtrl;
             }
 
             string strEmbeddedTable = String.Format(Properties.Resources.HTML_Table,
@@ -696,7 +709,7 @@ namespace OneStoryProjectEditor
         // if the coach tries to add a note in the consultant's pane, that should fail.
         // (but it's okay for a project facilitator to add one if they have a question
         //  for the consultant)
-        public virtual bool CheckAddNotePrivilege(StoryEditor theSE, 
+        public bool CheckAddNotePrivilege(StoryEditor theSE, 
             TeamMemberData.UserTypes eLoggedOnMember)
         {
             if (!HasAddNotePrivilege(eLoggedOnMember))
@@ -709,9 +722,10 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public virtual bool HasAddNotePrivilege(TeamMemberData.UserTypes eLoggedOnMember)
+        public bool HasAddNotePrivilege(TeamMemberData.UserTypes eLoggedOnMember)
         {
-            return (eLoggedOnMember == MentorType) || (eLoggedOnMember == MenteeType);
+            return ((eLoggedOnMember & MentorType) == eLoggedOnMember) ||
+                   ((eLoggedOnMember & MenteeType) == eLoggedOnMember);
         }
 
         public abstract ConsultNoteDataConverter Add(int nRound,
@@ -733,7 +747,8 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public string Html(StoryStageLogic theStoryStage, TeamMemberData LoggedOnMember, 
+        public string Html(HtmlConNoteControl htmlConNoteCtrl, 
+            StoryStageLogic theStoryStage, TeamMemberData LoggedOnMember, 
             bool bViewHidden, bool bVerseVisible, int nVerseIndex)
         {
             string strHtml = null;
@@ -741,7 +756,7 @@ namespace OneStoryProjectEditor
             {
                 ConsultNoteDataConverter aCNDC = this[i];
                 if (aCNDC.Visible || bViewHidden)
-                    strHtml += aCNDC.Html(theStoryStage, LoggedOnMember, nVerseIndex, i);
+                    strHtml += aCNDC.Html(htmlConNoteCtrl, theStoryStage, LoggedOnMember, nVerseIndex, i);
             }
 
             // color changes if hidden
@@ -804,18 +819,19 @@ namespace OneStoryProjectEditor
             StoryStageLogic theStoryStage, TeamMemberData.UserTypes eLoggedOnMember, 
             string strValue)
         {
+            /*
             TeamMemberData.UserTypes eMentorType = MentorType;
             if (eLoggedOnMember == TeamMemberData.UserTypes.eFirstPassMentor)
                 eMentorType = TeamMemberData.UserTypes.eFirstPassMentor;
             else if (eLoggedOnMember == TeamMemberData.UserTypes.eIndependentConsultant)
                 eMentorType = TeamMemberData.UserTypes.eIndependentConsultant;
-
+            */
             ConsultNoteDataConverter theNewCN = new ConsultantNoteData(nRound, 
-                theStoryStage, eLoggedOnMember, eMentorType, MenteeType, strValue);
+                theStoryStage, eLoggedOnMember, MentorType, MenteeType, strValue);
             Add(theNewCN);
             return theNewCN;
         }
-
+        /*
         // if the coach tries to add a note in the consultant's pane, that should fail.
         // (but it's okay for a project facilitator to add one if they have a question
         //  for the consultant).
@@ -845,10 +861,17 @@ namespace OneStoryProjectEditor
                     || 
                     (eLoggedOnMember == MenteeType));
         }
+        */
 
         protected override TeamMemberData.UserTypes MentorType
         {
-            get { return TeamMemberData.UserTypes.eConsultantInTraining; }
+            get
+            {
+                // the 'mentor' for this class can be any of the following
+                return (TeamMemberData.UserTypes.eConsultantInTraining
+                        | TeamMemberData.UserTypes.eFirstPassMentor
+                        | TeamMemberData.UserTypes.eIndependentConsultant);
+            }
         }
 
         protected override TeamMemberData.UserTypes MenteeType
@@ -905,7 +928,13 @@ namespace OneStoryProjectEditor
 
         protected override TeamMemberData.UserTypes MenteeType
         {
-            get { return TeamMemberData.UserTypes.eConsultantInTraining; }
+            get
+            {
+                // the mentee type for this class can be any of the following
+                return (TeamMemberData.UserTypes.eConsultantInTraining
+                        | TeamMemberData.UserTypes.eFirstPassMentor
+                        | TeamMemberData.UserTypes.eIndependentConsultant);
+            }
         }
     }
 }

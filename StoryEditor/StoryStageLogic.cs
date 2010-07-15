@@ -11,7 +11,7 @@ namespace OneStoryProjectEditor
     public class StoryStageLogic
     {
         protected ProjectStages _ProjectStage = ProjectStages.eUndefined;
-        internal static StateTransitions stateTransitions = new StateTransitions();
+        internal static StateTransitions stateTransitions;
 
         public enum ProjectStages
         {
@@ -21,12 +21,15 @@ namespace OneStoryProjectEditor
             eProjFacTypeInternationalBT,
             eProjFacAddAnchors,
             eProjFacAddStoryQuestions,
+            eProjFacRevisesBeforeUnsTest,
             eBackTranslatorTypeInternationalBT,
+            eBackTranslatorTranslateConNotesBeforeUnsTest,
             eConsultantCheckNonBiblicalStory,
             eFirstPassMentorCheck1,
             eConsultantCheckStoryInfo,
             eConsultantCheckAnchors,
             eConsultantCheckStoryQuestions,
+            eConsultantCauseRevisionBeforeUnsTest,
             eCoachReviewRound1Notes,
             eConsultantReviseRound1Notes,
             eBackTranslatorTranslateConNotes,
@@ -36,20 +39,11 @@ namespace OneStoryProjectEditor
             eProjFacEnterRetellingOfTest1,
             eProjFacEnterAnswersToStoryQuestionsOfTest1,
             eBackTranslatorTypeInternationalBTTest1,
+            eBackTranslatorTranslateConNotesAfterUnsTest,
             eFirstPassMentorCheck2,
             eConsultantCheck2,
+            eConsultantCauseRevisionAfterUnsTest,
             eCoachReviewRound2Notes,
-            eConsultantReviseRound2Notes,
-            eBackTranslatorTranslateConNotes2,
-            eProjFacReviseBasedOnRound2Notes,
-            eProjFacOnlineReview2WithConsultant,
-            eProjFacReadyForTest2,
-            eProjFacEnterRetellingOfTest2,
-            eProjFacEnterAnswersToStoryQuestionsOfTest2,
-            eBackTranslatorTypeInternationalBTTest2,
-            eFirstPassMentorReviewTest2,
-            eConsultantReviewTest2,
-            eCoachReviewTest2Notes,
             eTeamComplete
         }
 
@@ -69,16 +63,22 @@ namespace OneStoryProjectEditor
             //  (can't have a separate EngBTr if there's no Vernacular or National BT)
             ProjectStage = (projSettings.Vernacular.HasData) ? ProjectStages.eProjFacTypeVernacular : 
                 (projSettings.NationalBT.HasData) ? ProjectStages.eProjFacTypeNationalBT : ProjectStages.eProjFacTypeInternationalBT;
+
+            System.Diagnostics.Debug.Assert(stateTransitions != null);
         }
 
-        public StoryStageLogic(string strProjectStage)
+        public StoryStageLogic(string strProjectStage, bool bHasIndependentConsultant)
         {
             ProjectStage = GetProjectStageFromString(strProjectStage);
+            if ((stateTransitions == null) 
+             || (stateTransitions.RewroteCitAsIndependentConsultant != bHasIndependentConsultant))
+                stateTransitions = new StateTransitions(bHasIndependentConsultant);
         }
 
         public StoryStageLogic(StoryStageLogic rhs)
         {
             ProjectStage = rhs.ProjectStage;
+            System.Diagnostics.Debug.Assert(stateTransitions != null);
         }
 
         protected ProjectStages GetProjectStageFromString(string strProjectStageString)
@@ -144,12 +144,15 @@ namespace OneStoryProjectEditor
             { "ProjFacTypeInternationalBT", ProjectStages.eProjFacTypeInternationalBT },
             { "ProjFacAddAnchors", ProjectStages.eProjFacAddAnchors },
             { "ProjFacAddStoryQuestions", ProjectStages.eProjFacAddStoryQuestions },
+            { "ProjFacRevisesBeforeUnsTest", ProjectStages.eProjFacRevisesBeforeUnsTest },
             { "BackTranslatorTypeInternationalBT", ProjectStages.eBackTranslatorTypeInternationalBT },
+            { "BackTranslatorTranslateConNotesBeforeUnsTest", ProjectStages.eBackTranslatorTranslateConNotesBeforeUnsTest },
             { "ConsultantCheckNonBiblicalStory", ProjectStages.eConsultantCheckNonBiblicalStory },
             { "FirstPassMentorCheck1", ProjectStages.eFirstPassMentorCheck1 },
 			{ "ConsultantCheckStoryInfo", ProjectStages.eConsultantCheckStoryInfo },
             { "ConsultantCheckAnchors", ProjectStages.eConsultantCheckAnchors },
             { "ConsultantCheckStoryQuestions", ProjectStages.eConsultantCheckStoryQuestions },
+            { "ConsultantCauseRevisionBeforeUnsTest", ProjectStages.eConsultantCauseRevisionBeforeUnsTest },
             { "CoachReviewRound1Notes", ProjectStages.eCoachReviewRound1Notes },
             { "ConsultantReviseRound1Notes", ProjectStages.eConsultantReviseRound1Notes },
             { "BackTranslatorTranslateConNotes", ProjectStages.eBackTranslatorTranslateConNotes },
@@ -159,29 +162,22 @@ namespace OneStoryProjectEditor
             { "ProjFacEnterRetellingOfTest1", ProjectStages.eProjFacEnterRetellingOfTest1 },
             { "ProjFacEnterAnswersToStoryQuestionsOfTest1", ProjectStages.eProjFacEnterAnswersToStoryQuestionsOfTest1 },
             { "BackTranslatorTypeInternationalBTTest1", ProjectStages.eBackTranslatorTypeInternationalBTTest1 },
+            { "BackTranslatorTranslateConNotesAfterUnsTest", ProjectStages.eBackTranslatorTranslateConNotesAfterUnsTest },
             { "FirstPassMentorCheck2", ProjectStages.eFirstPassMentorCheck2 },
             { "ConsultantCheck2", ProjectStages.eConsultantCheck2 },
+            { "ConsultantCauseRevisionAfterUnsTest", ProjectStages.eConsultantCauseRevisionAfterUnsTest },
             { "CoachReviewRound2Notes", ProjectStages.eCoachReviewRound2Notes },
-            { "ConsultantReviseRound2Notes", ProjectStages.eConsultantReviseRound2Notes },
-            { "BackTranslatorTranslateConNotes2", ProjectStages.eBackTranslatorTranslateConNotes2 },
-            { "ProjFacReviseBasedOnRound2Notes", ProjectStages.eProjFacReviseBasedOnRound2Notes },
-            { "ProjFacOnlineReview2WithConsultant", ProjectStages.eProjFacOnlineReview2WithConsultant },
-            { "ProjFacReadyForTest2", ProjectStages.eProjFacReadyForTest2 },
-            { "ProjFacEnterRetellingOfTest2", ProjectStages.eProjFacEnterRetellingOfTest2 },
-            { "ProjFacEnterAnswersToStoryQuestionsOfTest2", ProjectStages.eProjFacEnterAnswersToStoryQuestionsOfTest2 },
-            { "BackTranslatorTypeInternationalBTTest2", ProjectStages.eBackTranslatorTypeInternationalBTTest2 },
-            { "FirstPassMentorReviewTest2", ProjectStages.eFirstPassMentorReviewTest2 },
-            { "ConsultantReviewTest2", ProjectStages.eConsultantReviewTest2 },
-            { "CoachReviewTest2Notes", ProjectStages.eCoachReviewTest2Notes },
             { "TeamComplete", ProjectStages.eTeamComplete }};
 
         public class StateTransitions : Dictionary<ProjectStages, StateTransition>
         {
             protected const string CstrStateTransitionsXmlFilename = "StageTransitions.xml";
+            public bool RewroteCitAsIndependentConsultant;
 
-            public StateTransitions()
+            public StateTransitions(bool bHasIndependentConsultant)
             {
-                InitStateTransitionsFromXml();
+                RewroteCitAsIndependentConsultant = bHasIndependentConsultant;
+                InitStateTransitionsFromXml(bHasIndependentConsultant);
             }
 
             protected string PathToXmlFile
@@ -237,7 +233,7 @@ namespace OneStoryProjectEditor
                 manager = new XmlNamespaceManager(navigator.NameTable);
             }
 
-            protected void InitStateTransitionsFromXml()
+            protected void InitStateTransitionsFromXml(bool bHasIndependentConsultant)
             {
                 try
                 {
@@ -251,8 +247,18 @@ namespace OneStoryProjectEditor
                     {
                         ProjectStages eThisStage = (ProjectStages)Enum.Parse(typeof(ProjectStages), xpStageTransition.Current.GetAttribute("stage", navigator.NamespaceURI));
                         TeamMemberData.UserTypes eMemberType = (TeamMemberData.UserTypes)Enum.Parse(typeof(TeamMemberData.UserTypes), xpStageTransition.Current.GetAttribute("MemberTypeWithEditToken", navigator.NamespaceURI));
+                        if (eMemberType == TeamMemberData.UserTypes.eConsultantInTraining
+                            && bHasIndependentConsultant)
+                            eMemberType = TeamMemberData.UserTypes.eIndependentConsultant;
 
                         ProjectStages eNextStage = (ProjectStages)Enum.Parse(typeof(ProjectStages), xpStageTransition.Current.GetAttribute("NextState", navigator.NamespaceURI));
+
+                        bool bRequiresBiblicalStory =
+                            (xpStageTransition.Current.GetAttribute("RequiresBiblicalStory", navigator.NamespaceURI) ==
+                             "true");
+                        bool bRequiresNonBiblicalStory =
+                            (xpStageTransition.Current.GetAttribute("RequiresNonBiblicalStory", navigator.NamespaceURI) ==
+                             "true");
 
                         XPathNodeIterator xpNextElement = xpStageTransition.Current.Select("StageDisplayString");
                         string strStageDisplayString = null;
@@ -280,14 +286,36 @@ namespace OneStoryProjectEditor
                                 RequiresUsingEnglishBT = (xpNextElement.Current.GetAttribute("RequiresUsingEnglishBT", navigator.NamespaceURI) == "true"),
                                 UsingOtherEnglishBTer = xpNextElement.Current.GetAttribute("RequiresUsingOtherEnglishBTer", navigator.NamespaceURI),
                                 RequiresBiblicalStory = (xpNextElement.Current.GetAttribute("RequiresBiblicalStory", navigator.NamespaceURI) == "true"),
-                                RequiresFirstPassMentor = (xpNextElement.Current.GetAttribute("RequiresFirstPassMentor", navigator.NamespaceURI) == "true")
+                                RequiresFirstPassMentor = (xpNextElement.Current.GetAttribute("RequiresFirstPassMentor", navigator.NamespaceURI) == "true"),
+                                RequiresManageWithCoaching = (xpNextElement.Current.GetAttribute("RequiresManageWithCoaching", navigator.NamespaceURI) == "true")
                             };
                             lstAllowableBackwardsStages.Add(aps);
                         }
 
-                        StateTransition st = new StateTransition(eThisStage, eNextStage, eMemberType,
-                            strStageDisplayString, strStageInstructions,
-                            lstAllowableBackwardsStages);
+                        StateTransition st = new StateTransition(eThisStage, eNextStage, 
+                            eMemberType, strStageDisplayString, strStageInstructions,
+                            lstAllowableBackwardsStages, bRequiresBiblicalStory,
+                            bRequiresNonBiblicalStory);
+
+                        /*
+    <BackwardsProcessing ButtonLabel="Send back for revision">eConsultantCauseRevisionBeforeUnsTest</BackwardsProcessing>
+    <ForwardsProceessing ButtonLabel="Send forward for UNS test">eConsultantReviseRound1Notes</ForwardsProceessing>
+                        */
+                        xpNextElement = xpStageTransition.Current.Select("BackwardsProcessing");
+                        if (xpNextElement.MoveNext())
+                        {
+                            st.PreviousStateButtonLabel = xpNextElement.Current.GetAttribute("ButtonLabel",
+                                                                                             navigator.NamespaceURI);
+                            st.PreviousButtonState = (ProjectStages)Enum.Parse(typeof(ProjectStages), xpNextElement.Current.Value);
+                        }
+
+                        xpNextElement = xpStageTransition.Current.Select("ForwardsProceessing");
+                        if (xpNextElement.MoveNext())
+                        {
+                            st.NextStateButtonLabel = xpNextElement.Current.GetAttribute("ButtonLabel",
+                                                                                         navigator.NamespaceURI);
+                            System.Diagnostics.Debug.Assert(st.NextState == (ProjectStages)Enum.Parse(typeof(ProjectStages), xpNextElement.Current.Value));
+                        }
 
                         xpNextElement = xpStageTransition.Current.Select("ViewSettings");
                         if (xpNextElement.MoveNext())
@@ -323,6 +351,8 @@ namespace OneStoryProjectEditor
             public bool RequiresUsingOtherEnglishBTer { get; set; }
             public bool RequiresBiblicalStory { get; set; }
             public bool RequiresFirstPassMentor { get; set; }
+            public bool RequiresManageWithCoaching { get; set; }
+
             public object UsingOtherEnglishBTer
             {
                 set
@@ -361,6 +391,13 @@ namespace OneStoryProjectEditor
             internal bool IsCoachNotesVisible { get; set; }
             internal bool IsNetBibleVisible { get; set; }
 
+            internal string PreviousStateButtonLabel { get; set; }
+            internal ProjectStages PreviousButtonState { get; set; }
+            internal string NextStateButtonLabel { get; set; }
+
+            internal bool RequiresBiblicalStory { get; set; }
+            internal bool RequiresNonBiblicalStory { get; set; }
+
             public StateTransition
                 (
                     ProjectStages thisStage,
@@ -368,7 +405,9 @@ namespace OneStoryProjectEditor
                     TeamMemberData.UserTypes eMemberTypeWithEditToken,
                     string strDisplayString,
                     string strInstructions,
-                    List<AllowablePreviousStateWithConditions> lstAllowableBackwardsStages
+                    List<AllowablePreviousStateWithConditions> lstAllowableBackwardsStages,
+                    bool bRequiresBiblicalStory,
+                    bool bRequiresNonBiblicalStory
                 )
             {
                 CurrentStage = thisStage;
@@ -384,6 +423,8 @@ namespace OneStoryProjectEditor
                     typeof(CheckEndOfStateTransition.CheckForValidEndOfState), 
                     typeof(CheckEndOfStateTransition), strMethodName);
 #endif
+                RequiresBiblicalStory = bRequiresBiblicalStory;
+                RequiresNonBiblicalStory = bRequiresNonBiblicalStory;
             }
 
             public bool IsTransitionValid(ProjectStages eToStage)

@@ -8,9 +8,9 @@ namespace OneStoryProjectEditor
 {
     public partial class StoryLineControl : OneStoryProjectEditor.ResizableControl
     {
-        protected const string CstrFieldNameVernacular = "Vernacular";
-        protected const string CstrFieldNameNationalBt = "NationalBT";
-        protected const string CstrFieldNameInternationalBt = "InternationalBT";
+        public const string CstrFieldNameVernacular = "Vernacular";
+        public const string CstrFieldNameNationalBt = "NationalBT";
+        public const string CstrFieldNameInternationalBt = "InternationalBT";
 
         protected VerseData _aVerseData = null;
 

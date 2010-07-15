@@ -6,6 +6,7 @@ using System.Xml.Serialization;
 using System.IO;
 using NetLoc;
 using Paratext;
+using Paratext.BiblicalTerms;
 
 // This information regards Biblical terms.
 // This information is project and UI language independant.
@@ -243,9 +244,8 @@ namespace OneStoryProjectEditor
         }
 
         private static BiblicalTermsList biblicalTerms = null;  // Singleton instance of this class.
-	    private static string biblicalTermsPath = "";
+        private static string biblicalTermsPath = Properties.Settings.Default.BiblicalTermsPath;
 
-        /* rde
         public static void SelectTermsList()
         {
             var dialog = new SelectTermsListForm(biblicalTermsPath);
@@ -260,11 +260,12 @@ namespace OneStoryProjectEditor
             ForceReloadOfTerms();
             biblicalTermsPath = dialog.FileName;
             Properties.Settings.Default.BiblicalTermsPath = biblicalTermsPath;
-
+            Properties.Settings.Default.Save();
             OnBiblicalTermsListChanged();
 
             dialog.Dispose();
         }
+        /* rde
 
         public static void SelectAllBiblicalTermsList()
         {
@@ -343,7 +344,7 @@ namespace OneStoryProjectEditor
             if (myBiblicalTermsList != null)
                 return myBiblicalTermsList;
 
-            string fileName = Path.Combine(ScrTextCollection.SettingsDirectory, "MyBiblicalTerms.xml");
+            string fileName = Path.Combine(Path.Combine(StoryProjectData.GetRunningFolder, "BiblicalTerms"), "MyBiblicalTerms.xml");
             myBiblicalTermsList = GetBiblicalTermsLocal(fileName);
 
             if (myBiblicalTermsList != null)

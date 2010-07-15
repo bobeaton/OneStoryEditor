@@ -141,17 +141,28 @@ namespace OneStoryProjectEditor
             Properties.Settings.Default.ProjectNameToHgUsername = DictionaryToArray(_mapProjectNameToHgUsername);
             Properties.Settings.Default.Save();
 
-            var repo = new HgRepository(strProjectFolder, new NullProgress());
+            // var repo = new HgRepository(strProjectFolder, new NullProgress());
+            try
+            {
+                var repo = HgRepository.CreateOrLocate(strProjectFolder, new NullProgress());
 
-            var address = RepositoryAddress.Create(CstrInternetName, strUrl);
-            var addresses = repo.GetRepositoryPathsInHgrc();
-            foreach (var addr in addresses)
-                if (addr.URI == address.URI)
-                    return;
+                var address = RepositoryAddress.Create(CstrInternetName, strUrl);
+                var addresses = repo.GetRepositoryPathsInHgrc();
+                foreach (var addr in addresses)
+                    if (addr.URI == address.URI)
+                        return;
 
-            var lstAddrs = new List<RepositoryAddress>(addresses);
-            lstAddrs.Add(address);
-            repo.SetKnownRepositoryAddresses(lstAddrs);
+                var lstAddrs = new List<RepositoryAddress>(addresses);
+                lstAddrs.Add(address);
+                repo.SetKnownRepositoryAddresses(lstAddrs);
+            }
+            catch (Exception ex)
+            {
+                string strMessage = String.Format("Error occurred:{0}{0}{1}", Environment.NewLine, ex.Message);
+                if (ex.InnerException != null)
+                    strMessage += String.Format("{0}{1}", Environment.NewLine, ex.InnerException.Message);
+                MessageBox.Show(strMessage, Properties.Resources.IDS_Caption);
+            }
         }
 
         public static void SetHgParametersNetworkDrive(string strProjectFolder, string strProjectName, string strUrl)

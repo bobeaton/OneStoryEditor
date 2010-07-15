@@ -109,6 +109,8 @@ namespace OneStoryProjectEditor
             this.toolStripMenuItemShowPanorama = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changeProjectFolderRootToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.resetStoredInformationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectAlternateKeyTermDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
@@ -127,10 +129,11 @@ namespace OneStoryProjectEditor
             this.htmlCoachNotesControl = new OneStoryProjectEditor.HtmlCoachNotesControl();
             this.textBoxCoachNotes = new System.Windows.Forms.TextBox();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
-            this.buttonsStoryStage = new System.Windows.Forms.ToolStripSplitButton();
+            this.buttonPrevState = new System.Windows.Forms.ToolStripSplitButton();
+            this.toolNextStateLabel = new System.Windows.Forms.ToolStripSplitButton();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.helpProvider = new System.Windows.Forms.HelpProvider();
-            this.resetStoredInformationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewStoryBtInHtmlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
             this.splitContainerLeftRight.Panel2.SuspendLayout();
@@ -814,7 +817,9 @@ namespace OneStoryProjectEditor
             // 
             this.advancedToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.changeProjectFolderRootToolStripMenuItem,
-            this.resetStoredInformationToolStripMenuItem});
+            this.resetStoredInformationToolStripMenuItem,
+            this.selectAlternateKeyTermDatabaseToolStripMenuItem,
+            this.viewStoryBtInHtmlToolStripMenuItem});
             this.advancedToolStripMenuItem.Name = "advancedToolStripMenuItem";
             this.advancedToolStripMenuItem.Size = new System.Drawing.Size(72, 23);
             this.advancedToolStripMenuItem.Text = "A&dvanced";
@@ -822,9 +827,24 @@ namespace OneStoryProjectEditor
             // changeProjectFolderRootToolStripMenuItem
             // 
             this.changeProjectFolderRootToolStripMenuItem.Name = "changeProjectFolderRootToolStripMenuItem";
-            this.changeProjectFolderRootToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+            this.changeProjectFolderRootToolStripMenuItem.Size = new System.Drawing.Size(253, 22);
             this.changeProjectFolderRootToolStripMenuItem.Text = "Change &Project Folder Root";
             this.changeProjectFolderRootToolStripMenuItem.Click += new System.EventHandler(this.changeProjectFolderRootToolStripMenuItem_Click);
+            // 
+            // resetStoredInformationToolStripMenuItem
+            // 
+            this.resetStoredInformationToolStripMenuItem.Name = "resetStoredInformationToolStripMenuItem";
+            this.resetStoredInformationToolStripMenuItem.Size = new System.Drawing.Size(253, 22);
+            this.resetStoredInformationToolStripMenuItem.Text = "&Reset Stored Information";
+            this.resetStoredInformationToolStripMenuItem.ToolTipText = resources.GetString("resetStoredInformationToolStripMenuItem.ToolTipText");
+            this.resetStoredInformationToolStripMenuItem.Click += new System.EventHandler(this.resetStoredInformationToolStripMenuItem_Click);
+            // 
+            // selectAlternateKeyTermDatabaseToolStripMenuItem
+            // 
+            this.selectAlternateKeyTermDatabaseToolStripMenuItem.Name = "selectAlternateKeyTermDatabaseToolStripMenuItem";
+            this.selectAlternateKeyTermDatabaseToolStripMenuItem.Size = new System.Drawing.Size(253, 22);
+            this.selectAlternateKeyTermDatabaseToolStripMenuItem.Text = "&Select alternate key term database";
+            this.selectAlternateKeyTermDatabaseToolStripMenuItem.Click += new System.EventHandler(this.selectAlternateKeyTermDatabaseToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
@@ -1062,7 +1082,8 @@ namespace OneStoryProjectEditor
             // statusStrip
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.buttonsStoryStage,
+            this.buttonPrevState,
+            this.toolNextStateLabel,
             this.statusLabel});
             this.statusStrip.Location = new System.Drawing.Point(0, 314);
             this.statusStrip.Name = "statusStrip";
@@ -1070,17 +1091,27 @@ namespace OneStoryProjectEditor
             this.statusStrip.TabIndex = 1;
             this.statusStrip.Text = "statusStrip1";
             // 
-            // buttonsStoryStage
+            // buttonPrevState
             // 
-            this.buttonsStoryStage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.buttonsStoryStage.Enabled = false;
-            this.buttonsStoryStage.Image = ((System.Drawing.Image)(resources.GetObject("buttonsStoryStage.Image")));
-            this.buttonsStoryStage.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.buttonsStoryStage.Name = "buttonsStoryStage";
-            this.buttonsStoryStage.Size = new System.Drawing.Size(76, 20);
-            this.buttonsStoryStage.Text = "Next State";
-            this.buttonsStoryStage.ButtonClick += new System.EventHandler(this.buttonsStoryStage_ButtonClick);
-            this.buttonsStoryStage.DropDownOpening += new System.EventHandler(this.buttonsStoryStage_DropDownOpening);
+            this.buttonPrevState.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.buttonPrevState.Enabled = false;
+            this.buttonPrevState.Image = ((System.Drawing.Image)(resources.GetObject("buttonPrevState.Image")));
+            this.buttonPrevState.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.buttonPrevState.Name = "buttonPrevState";
+            this.buttonPrevState.Size = new System.Drawing.Size(97, 20);
+            this.buttonPrevState.Text = "Previous State";
+            this.buttonPrevState.ButtonClick += new System.EventHandler(this.buttonsStoryStage_ButtonClick);
+            this.buttonPrevState.DropDownOpening += new System.EventHandler(this.buttonsStoryStage_DropDownOpening);
+            // 
+            // toolNextStateLabel
+            // 
+            this.toolNextStateLabel.AutoToolTip = false;
+            this.toolNextStateLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolNextStateLabel.Enabled = false;
+            this.toolNextStateLabel.Name = "toolNextStateLabel";
+            this.toolNextStateLabel.Size = new System.Drawing.Size(76, 20);
+            this.toolNextStateLabel.Text = "Next State";
+            this.toolNextStateLabel.ButtonClick += new System.EventHandler(this.toolNextStateLabel_ButtonClick);
             // 
             // statusLabel
             // 
@@ -1089,18 +1120,17 @@ namespace OneStoryProjectEditor
             this.statusLabel.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken;
             this.statusLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(804, 17);
+            this.statusLabel.Size = new System.Drawing.Size(707, 17);
             this.statusLabel.Spring = true;
             this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.statusLabel.Click += new System.EventHandler(this.statusLabel_Click);
             // 
-            // resetStoredInformationToolStripMenuItem
+            // viewStoryBtInHtmlToolStripMenuItem
             // 
-            this.resetStoredInformationToolStripMenuItem.Name = "resetStoredInformationToolStripMenuItem";
-            this.resetStoredInformationToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
-            this.resetStoredInformationToolStripMenuItem.Text = "&Reset Stored Information";
-            this.resetStoredInformationToolStripMenuItem.ToolTipText = resources.GetString("resetStoredInformationToolStripMenuItem.ToolTipText");
-            this.resetStoredInformationToolStripMenuItem.Click += new System.EventHandler(this.resetStoredInformationToolStripMenuItem_Click);
+            this.viewStoryBtInHtmlToolStripMenuItem.Name = "viewStoryBtInHtmlToolStripMenuItem";
+            this.viewStoryBtInHtmlToolStripMenuItem.Size = new System.Drawing.Size(253, 22);
+            this.viewStoryBtInHtmlToolStripMenuItem.Text = "View StoryBt in Html";
+            this.viewStoryBtInHtmlToolStripMenuItem.Click += new System.EventHandler(this.viewStoryBtInHtmlToolStripMenuItem_Click);
             // 
             // StoryEditor
             // 
@@ -1175,9 +1205,8 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem recentProjectsToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator4;
         private StatusStrip statusStrip;
-        private ToolStripSplitButton buttonsStoryStage;
+        private ToolStripSplitButton buttonPrevState;
         private HelpProvider helpProvider;
-        private ToolStripStatusLabel statusLabel;
         private ToolStripMenuItem insertNewStoryToolStripMenuItem;
         private ToolStripMenuItem deleteStoryToolStripMenuItem;
         private ToolStripMenuItem addNewStoryAfterToolStripMenuItem;
@@ -1234,6 +1263,10 @@ namespace OneStoryProjectEditor
         internal LinkLabel linkLabelVerseBT;
         private ContextMenuStrip contextMenuStripVerseList;
         private ToolStripMenuItem resetStoredInformationToolStripMenuItem;
+        private ToolStripMenuItem selectAlternateKeyTermDatabaseToolStripMenuItem;
+        private ToolStripSplitButton toolNextStateLabel;
+        private ToolStripStatusLabel statusLabel;
+        private ToolStripMenuItem viewStoryBtInHtmlToolStripMenuItem;
     }
 
 #if UsingHtmlDisplayForConNotes

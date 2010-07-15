@@ -156,6 +156,24 @@ namespace OneStoryProjectEditor
                 return elemAnchor;
             }
         }
+
+        protected const string CstrTooltipIndicator = " *";
+
+        public string Html
+        {
+            get 
+            {
+                string strButtonLabel = JumpTarget;
+                if (!String.IsNullOrEmpty(ToolTipText)
+                    && (JumpTarget != ToolTipText))
+                    strButtonLabel += CstrTooltipIndicator; // give an indication that there's a tooltip
+
+                return String.Format(Properties.Resources.HTML_Button,
+                                        JumpTarget,
+                                        "return OnBibRefJump(this);",
+                                        strButtonLabel);
+            }
+        }
     }
 
     public class AnchorsData : List<AnchorData>
@@ -210,6 +228,41 @@ namespace OneStoryProjectEditor
                     elemAnchors.Add(anAnchorData.GetXml);
                 return elemAnchors;
             }
+        }
+
+        public string Html(int nVerseIndex, int nNumCols)
+        {
+            string strRow = null;
+            foreach (AnchorData anchorData in this)
+                strRow += anchorData.Html;
+
+            // make a cell out of the buttons
+            string strHtmlCell = String.Format(Properties.Resources.HTML_TableCellWidth,
+                                               100, 
+                                               strRow);
+
+            // add combine with the 'anc:' header cell into a Table Row
+            string strHtml = String.Format(Properties.Resources.HTML_TableRow,
+                                           String.Format("{0}{1}",
+                                                         String.Format(Properties.Resources.HTML_TableCell,
+                                                                       "anc:"),
+                                                         strHtmlCell));
+
+            // add exegetical comments as their own rows
+            for (int i = 0; i < Count; i++)
+            {
+                AnchorData anchorData = this[i];
+                if (anchorData.ExegeticalHelpNotes.Count > 0)
+                    strHtml += anchorData.ExegeticalHelpNotes.Html(nVerseIndex, i);
+            }
+
+            // make a sub-table out of all this
+            strHtml = String.Format(Properties.Resources.HTML_TableRow,
+                                    String.Format(Properties.Resources.HTML_TableCellWithSpan, nNumCols,
+                                                  String.Format(Properties.Resources.HTML_TableNoBorder,
+                                                                strHtml)));
+
+            return strHtml;
         }
     }
 }

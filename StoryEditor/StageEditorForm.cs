@@ -9,10 +9,12 @@ namespace OneStoryProjectEditor
         protected const string CstrAddState = "Add New State";
 
         protected StoryProjectData _storyProjectData;
-        public StageEditorForm(StoryProjectData storyProjectData)
+        protected StoryData _theCurrentStory;
+        public StageEditorForm(StoryProjectData storyProjectData, StoryData theCurrentStory)
         {
             InitializeComponent();
             _storyProjectData = storyProjectData;
+            _theCurrentStory = theCurrentStory;
 
             if (!storyProjectData.TeamMembers.HasOutsideEnglishBTer)
                 ColumnEnglishBackTranslator.Visible = false;
@@ -28,7 +30,10 @@ namespace OneStoryProjectEditor
             {
                 ColumnConsultantInTraining.HeaderText = TeamMemberData.CstrIndependentConsultantDisplay;
                 ColumnCoach.Visible = false;
+                radioButtonIndependentConsultant.Checked = true;
             }
+            else
+                radioButtonManageWithCoaching.Checked = true;
 
             InitGrid();
         }
@@ -41,6 +46,10 @@ namespace OneStoryProjectEditor
             // now populate the grid from the StateTransitions (whether default or specialized)
             foreach (StoryStageLogic.StateTransition stateTransition in StateTransitions.Values)
             {
+                if ((stateTransition.RequiresBiblicalStory && !_theCurrentStory.CraftingInfo.IsBiblicalStory)
+                    || (stateTransition.RequiresNonBiblicalStory && _theCurrentStory.CraftingInfo.IsBiblicalStory))
+                    continue;
+
                 switch (stateTransition.MemberTypeWithEditToken)
                 {
                     case TeamMemberData.UserTypes.eProjectFacilitator:
@@ -59,6 +68,9 @@ namespace OneStoryProjectEditor
                         }
                         break;
                     case TeamMemberData.UserTypes.eConsultantInTraining:
+                        InitComboBox(stateTransition, ColumnConsultantInTraining.Name);
+                        break;
+                    case TeamMemberData.UserTypes.eIndependentConsultant:
                         InitComboBox(stateTransition, ColumnConsultantInTraining.Name);
                         break;
                     case TeamMemberData.UserTypes.eCoach:
@@ -96,8 +108,6 @@ namespace OneStoryProjectEditor
 
         private void checkBoxOutsideEnglishBackTranslator_CheckedChanged(object sender, System.EventArgs e)
         {
-            ColumnEnglishBackTranslator.Visible = checkBoxOutsideEnglishBackTranslator.Checked;
-
             if (checkBoxOutsideEnglishBackTranslator.Checked 
                 && !_storyProjectData.IsASeparateEnglishBackTranslator)
             {
@@ -108,18 +118,20 @@ namespace OneStoryProjectEditor
                                            Text = "Choose the member that will do English BTs"
                                        };
                 if (dlg.ShowDialog() != DialogResult.OK)
+                {
+                    checkBoxOutsideEnglishBackTranslator.Checked = false;
                     return;
+                }
 
                 // noop
             }
 
+            ColumnEnglishBackTranslator.Visible = checkBoxOutsideEnglishBackTranslator.Checked;
             InitGrid();
         }
 
         private void checkBoxFirstPassMentor_CheckedChanged(object sender, System.EventArgs e)
         {
-            ColumnFirstPassMentor.Visible = checkBoxFirstPassMentor.Checked;
-
             if (checkBoxFirstPassMentor.Checked
                 && !_storyProjectData.TeamMembers.IsThereAFirstPassMentor)
             {
@@ -130,11 +142,15 @@ namespace OneStoryProjectEditor
                     Text = "Choose the member that is the first-pass mentor"
                 };
                 if (dlg.ShowDialog() != DialogResult.OK)
+                {
+                    checkBoxFirstPassMentor.Checked = false;
                     return;
+                }
 
                 // noop
             }
 
+            ColumnFirstPassMentor.Visible = checkBoxFirstPassMentor.Checked;
             InitGrid();
         }
 
