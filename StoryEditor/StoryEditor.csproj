@@ -523,6 +523,9 @@
     <None Include="Resources\oneStory2KeyTerms.xsl" />
     <None Include="Resources\oneStory2storyingBT.xsl" />
     <None Include="Resources\oneStory2storyingRetelling.xsl" />
+    <None Include="Resources\gradient.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="SWORD\mods.d\xnr.conf" />
     <Content Include="SWORD\modules\texts\rawtext\xnr\nt" />
     <Content Include="SWORD\modules\texts\rawtext\xnr\nt.vss" />

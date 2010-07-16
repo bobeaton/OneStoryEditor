@@ -31,6 +31,118 @@ namespace OneStoryProjectEditor
             // LineNumberLink.Visible = true;
         }
 
+        public void InsertNewVerseBefore(int nVerseIndex)
+        {
+            // the only function of the button here is to add a slot to type a con note
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
+                return;
+
+            theSE.AddNewVerse(nVerseIndex - 1, 1, false);
+        }
+
+        public void AddNewVerseAfter(int nVerseIndex)
+        {
+            // the only function of the button here is to add a slot to type a con note
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
+                return;
+
+            theSE.AddNewVerse(nVerseIndex - 1, 1, true);
+        }
+
+        public void HideVerse(int nVerseIndex)
+        {
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
+                return;
+
+            VerseData verseData = Verse(nVerseIndex);
+            theSE.VisiblizeVerse(verseData,
+                (verseData.IsVisible) ? false : true   // toggle
+                );
+        }
+
+        public void DeleteVerse(int nVerseIndex)
+        {
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
+                return;
+
+            VerseData verseData = Verse(nVerseIndex);
+            if (verseData.HasData)
+            {
+                DialogResult res = MessageBox.Show(
+                    Properties.Resources.IDS_VerseNotEmptyHideQuery,
+                    Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+
+                if (res == DialogResult.Yes)
+                {
+                    theSE.VisiblizeVerse(verseData, false);
+                    return;
+                }
+
+                if (res == DialogResult.Cancel)
+                    return;
+            }
+
+            if (MessageBox.Show(
+                Properties.Resources.IDS_DeleteVerseQuery,
+                Properties.Resources.IDS_Caption,
+                MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+            {
+                theSE.DeleteVerse(verseData);
+            }
+        }
+
+        protected static VerseData _myClipboard = null;
+        public void CopyVerse(int nVerseIndex)
+        {
+            try
+            {
+                // Copies the verse to the clipboard.
+                // Clipboard.SetDataObject(_verseData);
+                // make a copy so that if the user makes changes after the copy, we won't be
+                //  referring to the same object.
+                VerseData verseData = Verse(nVerseIndex);
+                _myClipboard = new VerseData(verseData);
+            }
+            catch   // ignore errors
+            {
+            }
+        }
+
+        public void PasteVerseBefore(int nVerseIndex)
+        {
+            PasteVerseToIndex(nVerseIndex - 1);
+        }
+
+        public void PasteVerseAfter(int nVerseIndex)
+        {
+            PasteVerseToIndex(nVerseIndex);
+        }
+
+        protected void PasteVerseToIndex(int nInsertionIndex)
+        {
+            // the only function of the button here is to add a slot to type a con note
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
+                return;
+
+            if (_myClipboard != null)
+            {
+                VerseData theNewVerse = new VerseData(_myClipboard);
+                theNewVerse.AllowConNoteButtonsOverride();
+                // make another copy, so that the guid is changed
+                theSE.DoPasteVerse(nInsertionIndex, theNewVerse);
+            }
+        }
+
+        public void OnVerseLineJump(int nVerseIndex)
+        {
+            TheSE.FocusOnVerse(nVerseIndex, true, true);
+        }
+
         public bool TextareaOnKeyUp(string strId, string strText)
         {
             StoryEditor theSE;

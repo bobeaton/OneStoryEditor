@@ -95,12 +95,28 @@ namespace OneStoryProjectEditor.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap gradient {
+            get {
+                object obj = ResourceManager.GetObject("gradient", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to &lt;button id=&quot;{0}&quot; onClick=&quot;{1}&quot;&gt;{2}&lt;/button&gt;.
         /// </summary>
         internal static string HTML_Button {
             get {
                 return ResourceManager.GetString("HTML_Button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;button id=&quot;{0}&quot; style=&quot;position:relative; left:20px; height:20px; width:20px;&quot; oncontextmenu=&quot;return showContextMenu(this);&quot;&gt;{1}&lt;/button&gt;.
+        /// </summary>
+        internal static string HTML_ButtonRightAlignCtxMenu {
+            get {
+                return ResourceManager.GetString("HTML_ButtonRightAlignCtxMenu", resourceCulture);
             }
         }
         
@@ -134,27 +150,21 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;script&gt;
-        ///function OnBibRefJump(btn)
-        ///{
-        ///  window.external.OnBibRefJump(btn.id);
-        ///  return false; // cause the href navigation to not happen
-        ///}
-        ///function OnVerseLineJump(link)
-        ///{
-        ///  window.external.OnVerseLineJump(link.name);
-        ///  return false; // cause the href navigation to not happen
-        ///}
-        ///function OnKeyDown()
-        ///{
-        ///  if (window.event.keyCode == 116)
-        ///  {
-        ///    // let the form handle it
-        ///    window.external.LoadDocument();
+        ///   Looks up a localized string similar to &lt;script type=&quot;text/javascript&quot;&gt;
         ///
-        ///    // disable the propagation of the F5 event
-        ///    window.event.keyCode = 0;
-        ///    win [rest of string was truncated]&quot;;.
+        ////************************************************************************************************************
+        ///(C) www.dhtmlgoodies.com, October 2005
+        ///
+        ///This is a script from www.dhtmlgoodies.com. You will find this and a lot of other scripts at our website.	
+        ///
+        ///Terms of use:
+        ///You are free to use this script as long as the copyright message is kept intact. However, you may not
+        ///redistribute, sell or repost it without our permission.
+        ///
+        ///Thank you!
+        ///
+        ///www.dhtmlgoodies.com
+        ///A [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string HTML_DOM_PrefixStoryBt {
             get {
@@ -185,6 +195,25 @@ namespace OneStoryProjectEditor.Properties {
         internal static string HTML_Header {
             get {
                 return ResourceManager.GetString("HTML_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;html&gt;
+        ///{0}
+        ///&lt;head&gt;
+        ///{1}
+        ///&lt;/head&gt;
+        ///&lt;body onKeyDown=&quot;return OnKeyDown();&quot; onscroll=&quot;window.external.OnScroll();&quot;&gt;
+        ///&lt;ul id=&quot;contextMenu&quot;&gt;
+        ///	&lt;li&gt;&lt;a href=&quot;#&quot; onclick=&quot;window.external.InsertNewVerseBefore(nVerseIndex);&quot;&gt;Insert new verse before this one&lt;/a&gt;&lt;/li&gt;
+        ///	&lt;li&gt;&lt;a href=&quot;#&quot; onclick=&quot;window.external.AddNewVerseAfter(nVerseIndex);&quot;&gt;Add new verse after this one&lt;/a&gt;&lt;/li&gt;
+        ///	&lt;li&gt;&lt;a href=&quot;#&quot; onclick=&quot;window.external.HideVerse(nVerseIndex);&quot;&gt;Hide verse&lt;/a&gt;&lt;/li&gt;
+        ///	&lt;li&gt;&lt;a href=&quot;#&quot; onclick=&quot;window.external.DeleteVerse [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string HTML_HeaderStoryBt {
+            get {
+                return ResourceManager.GetString("HTML_HeaderStoryBt", resourceCulture);
             }
         }
         
@@ -245,7 +274,19 @@ namespace OneStoryProjectEditor.Properties {
         ///      width:100%; 
         ///      overflow:visible
         ///  }}
-        ///{0}&lt;/style&gt;.
+        ///{0}
+        ///  #contextMenu {{	/* The menu container */
+        ///    border:1px solid #202867;	/* Border around the entire menu */
+        ///    background-color:#FFF;	/* White background color of the menu */
+        ///    margin:0px;
+        ///    padding:0px;
+        ///    width:300px;	/* Width of context menu */
+        ///    font-family:arial;
+        ///    font-size:11px;
+        ///    background-image:url(&apos;gradient.gif&apos;);
+        ///    background-repeat:repeat-y;
+        ///    	
+        ///    /* Never change these t [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string HTML_StyleDefinition {
             get {
@@ -279,6 +320,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string HTML_TableCellForTextArea {
             get {
                 return ResourceManager.GetString("HTML_TableCellForTextArea", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;td NOWRAP&gt;{0}&lt;/td&gt;.
+        /// </summary>
+        internal static string HTML_TableCellNoWrap {
+            get {
+                return ResourceManager.GetString("HTML_TableCellNoWrap", resourceCulture);
             }
         }
         

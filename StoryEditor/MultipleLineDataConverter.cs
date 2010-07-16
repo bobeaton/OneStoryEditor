@@ -126,6 +126,37 @@ namespace OneStoryProjectEditor
         {
             get { return VerseData.ViewItemToInsureOn.eRetellingFields; }
         }
+
+        public static string TextareaId(int nVerseIndex, int nRetellingNum)
+        {
+            return String.Format("taRetelling_{0}_{1}", nVerseIndex, nRetellingNum);
+        }
+
+        public string Html(int nVerseIndex, int nNumCols)
+        {
+            string strRow = null;
+            for (int i = 0; i < Count; i++)
+            {
+                strRow += String.Format(Properties.Resources.HTML_TableRow,
+                                        String.Format("{0}{1}",
+                                                      String.Format(Properties.Resources.HTML_TableCellNoWrap,
+                                                                    String.Format(LabelTextFormat, i + 1)),
+                                                      String.Format(Properties.Resources.HTML_TableCellWidth,
+                                                                    100,
+                                                                    String.Format(Properties.Resources.HTML_Textarea,
+                                                                                  TextareaId(nVerseIndex, i),
+                                                                                  StoryData.
+                                                                                      CstrLangInternationalBtStyleClassName,
+                                                                                  this[i]))));
+            }
+
+            // make a sub-table out of all this
+            strRow = String.Format(Properties.Resources.HTML_TableRow,
+                                    String.Format(Properties.Resources.HTML_TableCellWithSpan, nNumCols,
+                                                  String.Format(Properties.Resources.HTML_TableNoBorder,
+                                                                strRow)));
+            return strRow;
+        }
     }
 
     public class AnswersData : MultipleLineDataConverter
@@ -187,22 +218,17 @@ namespace OneStoryProjectEditor
             {
                 strRow += String.Format(Properties.Resources.HTML_TableRow,
                                         String.Format("{0}{1}",
-                                                      String.Format(Properties.Resources.HTML_TableCell,
+                                                      String.Format(Properties.Resources.HTML_TableCellNoWrap,
                                                                     String.Format(LabelTextFormat, i + 1)),
-                                                      String.Format(Properties.Resources.HTML_TableCellWidth,
+                                                      String.Format(Properties.Resources.HTML_TableCellWithSpanAndWidth,
                                                                     100,
+                                                                    nNumCols,
                                                                     String.Format(Properties.Resources.HTML_Textarea,
                                                                                   TextareaId(nVerseIndex, i),
                                                                                   StoryData.
                                                                                       CstrLangInternationalBtStyleClassName,
                                                                                   this[i]))));
             }
-
-            // make a sub-table out of all this
-            strRow = String.Format(Properties.Resources.HTML_TableRow,
-                                    String.Format(Properties.Resources.HTML_TableCellWithSpan, nNumCols,
-                                                  String.Format(Properties.Resources.HTML_TableNoBorder,
-                                                                strRow)));
 
             return strRow;
         }

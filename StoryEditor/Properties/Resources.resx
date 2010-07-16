@@ -2048,7 +2048,65 @@ function textboxSelect(strId, iStart, iLen)
       width:100%; 
       overflow:visible
   }}
-{0}&lt;/style&gt;</value>
+{0}
+  #contextMenu {{	/* The menu container */
+    border:1px solid #202867;	/* Border around the entire menu */
+    background-color:#FFF;	/* White background color of the menu */
+    margin:0px;
+    padding:0px;
+    width:300px;	/* Width of context menu */
+    font-family:arial;
+    font-size:11px;
+    background-image:url('gradient.gif');
+    background-repeat:repeat-y;
+    	
+    /* Never change these two values */
+    display:none;
+    position:absolute;
+  }}
+  #contextMenu a{{	/* Links in the context menu */
+    color: #000;
+    text-decoration:none;
+    line-height:25px;
+    vertical-align:middle;	
+    height:28px;
+    	
+    /* Don't change these 3 values */
+    display:block;	
+    width:100%;
+    clear:both;	
+  }}
+  #contextMenu li{{	/* Each menu item */
+    list-style-type:none;
+    padding:1px;
+    margin:1px;
+    cursor:pointer;	
+    clear:both;
+  }}
+  #contextMenu li div{{	/* Dynamically created divs */
+    cursor:pointer;	
+  }}
+  #contextMenu .contextMenuHighlighted{{	/* Highlighted context menu item */
+    border:1px solid #000;
+    padding:0px;
+    background-color:#E2EBED;
+  }}
+  #contextMenu img{{
+    border:0px;
+  }}
+  #contextMenu .imageBox{{	/* Dynamically created divs for images in the menu */
+    float:left;
+    padding-left:2px;
+    padding-top:3px;
+    vertical-align:middle;
+    	
+    width: 30px;	/* IE 5.x */
+  }}
+  #contextMenu .itemTxt{{
+    float:left;		
+    width: 120px;	/* IE 5.x */
+  }}
+&lt;/style&gt;</value>
   </data>
   <data name="HTML_TableRowId" xml:space="preserve">
     <value>&lt;tr id="{0}"&gt;{1}&lt;/tr&gt;    </value>
@@ -2081,7 +2139,131 @@ function textboxSelect(strId, iStart, iLen)
     <value>Would you like to enter the results of a UNS test now (click 'Yes') or have your consultant check the story and testing questions first (click 'No')?</value>
   </data>
   <data name="HTML_DOM_PrefixStoryBt" xml:space="preserve">
-    <value>&lt;script&gt;
+    <value>&lt;script type="text/javascript"&gt;
+
+/************************************************************************************************************
+(C) www.dhtmlgoodies.com, October 2005
+
+This is a script from www.dhtmlgoodies.com. You will find this and a lot of other scripts at our website.	
+
+Terms of use:
+You are free to use this script as long as the copyright message is kept intact. However, you may not
+redistribute, sell or repost it without our permission.
+
+Thank you!
+
+www.dhtmlgoodies.com
+Alf Magne Kalleland
+
+************************************************************************************************************/
+
+var contextMenuObj;
+var nVerseIndex;
+var MSIE = navigator.userAgent.indexOf('MSIE')?true:false;
+var navigatorVersion = navigator.appVersion.replace(/.*?MSIE (\d\.\d).*/g,'$1')/1;	
+var activeContextMenuItem = false;
+function highlightContextMenuItem()
+{
+	this.className='contextMenuHighlighted';
+}
+
+function deHighlightContextMenuItem()
+{
+	this.className='';
+}
+
+function showContextMenu(btn)
+ {
+  nVerseIndex = btn.id;
+  contextMenuSource = this;
+  if(activeContextMenuItem)activeContextMenuItem.className='';
+  if(document.all)e = event;
+  var xPos = e.clientX;
+  if(xPos + contextMenuObj.offsetWidth &gt; (document.documentElement.offsetWidth-20)){
+   xPos = xPos + (document.documentElement.offsetWidth - (xPos + contextMenuObj.offsetWidth)) - 20; 
+  }
+  
+  var yPos = e.clientY;
+  if(window.document.body.scrollTop &gt; 0)
+{
+  yPos = (window.screen.Height) ? e.clientY + window.document.body.scrollTop -20 : e.clientY -20;
+}
+else if (window.pageYOffset) 
+{
+  yPos = (window.pageYOffset &gt; 0) ? e.clientY + window.pageYOffset -20 : e.clientY -20;
+}
+else
+{ yPos = e.clientY -20; }
+  /* * */
+  contextMenuObj.style.left = xPos + 'px';
+  contextMenuObj.style.top = yPos + 'px';
+  contextMenuObj.style.display='block';
+  return false; 
+}
+
+function hideContextMenu(e)
+{
+	if(document.all) e = event;
+	if(e.button==0 &amp;&amp; !MSIE){
+		
+	}else{
+		contextMenuObj.style.display='none';
+	}
+}
+
+function initContextMenu()
+{
+	contextMenuObj = document.getElementById('contextMenu');
+	contextMenuObj.style.display = 'block';
+	var menuItems = contextMenuObj.getElementsByTagName('LI');
+	for(var no=0;no&lt;menuItems.length;no++){
+		menuItems[no].onmouseover = highlightContextMenuItem;
+		menuItems[no].onmouseout = deHighlightContextMenuItem;
+		
+		var aTag = menuItems[no].getElementsByTagName('A')[0];
+		
+		var img = menuItems[no].getElementsByTagName('IMG')[0];
+		if(img){
+			var div = document.createElement('DIV');
+			div.className = 'imageBox';
+			div.appendChild(img);
+			
+			if(MSIE &amp;&amp; navigatorVersion&lt;6){
+				aTag.style.paddingLeft = '0px';
+			}
+			
+			var divTxt = document.createElement('DIV');	
+			divTxt.className='itemTxt';
+			divTxt.innerHTML = aTag.innerHTML;
+			
+			aTag.innerHTML = '';
+			aTag.appendChild(div);
+			aTag.appendChild(divTxt);
+			if(MSIE &amp;&amp; navigatorVersion&lt;6){
+				div.style.position = 'absolute';
+				div.style.left = '2px';
+				divTxt.style.paddingLeft = '15px';
+			}
+			
+			if(!document.all){
+				var clearDiv = document.createElement('DIV');
+				clearDiv.style.clear = 'both';
+				aTag.appendChild(clearDiv);		
+			}
+		}else{
+			if(MSIE &amp;&amp; navigatorVersion&lt;6){
+				aTag.style.paddingLeft = '15px';
+				aTag.style.width = (aTag.offsetWidth - 30) + 'px';
+			}else{
+				aTag.style.paddingLeft = '30px';
+				aTag.style.width = (aTag.offsetWidth - 60) + 'px';
+			}
+		}
+	}
+	contextMenuObj.style.display = 'none';
+	document.documentElement.oncontextmenu = function(){return false};
+	document.documentElement.onclick = hideContextMenu;
+}
 function OnBibRefJump(btn)
 {
   window.external.OnBibRefJump(btn.id);
@@ -2143,5 +2325,37 @@ function textboxSelect(strId, iStart, iLen)
   </data>
   <data name="HTML_Textarea" xml:space="preserve">
     <value>&lt;textarea id="{0}" class="{1}" onKeyUp="return window.external.TextareaOnKeyUp(this.id, this.value);"&gt;{2}&lt;/textarea&gt;</value>
+  </data>
+  <data name="gradient" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\gradient.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="HTML_ButtonRightAlignCtxMenu" xml:space="preserve">
+    <value>&lt;button id="{0}" style="position:relative; left:20px; height:20px; width:20px;" oncontextmenu="return showContextMenu(this);"&gt;{1}&lt;/button&gt;</value>
+  </data>
+  <data name="HTML_HeaderStoryBt" xml:space="preserve">
+    <value>&lt;html&gt;
+{0}
+&lt;head&gt;
+{1}
+&lt;/head&gt;
+&lt;body onKeyDown="return OnKeyDown();" onscroll="window.external.OnScroll();"&gt;
+&lt;ul id="contextMenu"&gt;
+	&lt;li&gt;&lt;a href="#" onclick="window.external.InsertNewVerseBefore(nVerseIndex);"&gt;Insert new verse before this one&lt;/a&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;a href="#" onclick="window.external.AddNewVerseAfter(nVerseIndex);"&gt;Add new verse after this one&lt;/a&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;a href="#" onclick="window.external.HideVerse(nVerseIndex);"&gt;Hide verse&lt;/a&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;a href="#" onclick="window.external.DeleteVerse(nVerseIndex);"&gt;Delete verse&lt;/a&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;a href="#" onclick="window.external.CopyVerse(nVerseIndex);"&gt;Copy verse&lt;/a&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;a href="#" onclick="window.external.PasteVerseBefore(nVerseIndex);"&gt;Paste verse before this one&lt;/a&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;a href="#" onclick="window.external.PasteVerseAfter(nVerseIndex);"&gt;Paste verse after this one&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;script type="text/javascript"&gt;
+initContextMenu();
+&lt;/script&gt;
+{2}
+&lt;/body&gt;
+&lt;/html&gt;</value>
+  </data>
+  <data name="HTML_TableCellNoWrap" xml:space="preserve">
+    <value>&lt;td NOWRAP&gt;{0}&lt;/td&gt;</value>
   </data>
 </root>

@@ -114,7 +114,7 @@ namespace OneStoryProjectEditor
             string strHtml = Verses.StoryBtHtml(projSettings, bViewHidden, ProjStage, 
                 membersData, loggedOnMember, viewItemToInsureOn);
 
-            return String.Format(Properties.Resources.HTML_Header,
+            return String.Format(Properties.Resources.HTML_HeaderStoryBt,
                 StylePrefix(projSettings),
                 Properties.Resources.HTML_DOM_PrefixStoryBt,
                 strHtml);

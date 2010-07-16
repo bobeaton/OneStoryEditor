@@ -33,11 +33,12 @@
             // 
             // htmlStoryBtControl
             // 
-            this.htmlStoryBtControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.htmlStoryBtControl.Location = new System.Drawing.Point(0, 0);
+            this.htmlStoryBtControl.LoggedOnMember = null;
+            this.htmlStoryBtControl.MembersData = null;
             this.htmlStoryBtControl.MinimumSize = new System.Drawing.Size(20, 20);
             this.htmlStoryBtControl.Name = "htmlStoryBtControl";
-            this.htmlStoryBtControl.Size = new System.Drawing.Size(721, 339);
+            this.htmlStoryBtControl.Size = new System.Drawing.Size(546, 339);
             this.htmlStoryBtControl.StoryData = null;
             this.htmlStoryBtControl.TabIndex = 0;
             this.htmlStoryBtControl.TheSE = null;

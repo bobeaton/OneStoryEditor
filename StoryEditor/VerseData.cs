@@ -248,6 +248,10 @@ namespace OneStoryProjectEditor
             if (IsViewItemOn(viewItemToInsureOn, ViewItemToInsureOn.eAnchorFields))
                 strStoryLineRow += Anchors.Html(nVerseIndex, nNumCols);
 
+            if (IsViewItemOn(viewItemToInsureOn, ViewItemToInsureOn.eRetellingFields)
+                && (Retellings.Count > 0))
+                strStoryLineRow += Retellings.Html(nVerseIndex, nNumCols);
+
             if (IsViewItemOn(viewItemToInsureOn, ViewItemToInsureOn.eStoryTestingQuestionFields)
                 && (TestQuestions.Count > 0))
                 strStoryLineRow += TestQuestions.Html(projectSettings, viewItemToInsureOn,
@@ -385,6 +389,11 @@ namespace OneStoryProjectEditor
             return String.Format(Properties.Resources.HTML_Table, strHtml);
         }
 
+        public static string ButtonId(int nVerseIndex)
+        {
+            return String.Format("btnLn_{0}", nVerseIndex);
+        }
+
         protected string GetHeaderRow(string strHeader, int nVerseIndex, bool bVerseVisible, int nColSpan)
         {
             string strLink = String.Format(Properties.Resources.HTML_LinkJumpLine,
@@ -392,12 +401,15 @@ namespace OneStoryProjectEditor
             if (!bVerseVisible)
                 strLink += StoryEditor.CstrHiddenVerseSuffix;
 
-            return String.Format(Properties.Resources.HTML_TableRowColor, "#AACCFF",
-                                 String.Format(Properties.Resources.HTML_TableCellWidthSpanId,
-                                               LineId(nVerseIndex),
-                                               100,
-                                               nColSpan,
-                                               strLink));
+            string strHtml = String.Format(Properties.Resources.HTML_TableRowColor, "#AACCFF",
+                                           String.Format(Properties.Resources.HTML_TableCellWidthSpanId,
+                                                         LineId(nVerseIndex),
+                                                         100,
+                                                         nColSpan,
+                                                         strLink + String.Format(Properties.Resources.HTML_ButtonRightAlignCtxMenu,
+                                                                                 nVerseIndex, // ButtonId(nVerseIndex),
+                                                                                 " ")));
+            return strHtml;
         }
 
         public static string LineId(int nVerseIndex)

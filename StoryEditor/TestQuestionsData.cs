@@ -142,7 +142,7 @@ namespace OneStoryProjectEditor
             string strTQRow = String.Format(Properties.Resources.HTML_TableRow,
                                                    strRow);
 
-            strTQRow += Answers.Html(nVerseIndex, nNumTestQuestionCols + 1);
+            strTQRow += Answers.Html(nVerseIndex, nNumTestQuestionCols);
             return strTQRow;
         }
     }

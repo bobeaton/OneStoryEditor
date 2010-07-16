@@ -1017,9 +1017,8 @@ namespace OneStoryProjectEditor
         }
 #endif
 
-        internal void AddNewVerse(VerseBtControl theVerse, int nNumberToAdd, bool bAfter)
+        internal void AddNewVerse(int nInsertionIndex, int nNumberToAdd, bool bAfter)
         {
-            int nInsertionIndex = theVerse.VerseNumber - 1;
             if (bAfter)
                 nInsertionIndex++;
 
