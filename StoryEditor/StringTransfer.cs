@@ -35,7 +35,14 @@ namespace OneStoryProjectEditor
             _tb = tb;
             if (Transliterator != null)
             {
-                tb.Text = Transliterator.Convert(Value);
+                try
+                {
+                    tb.Text = Transliterator.Convert(Value);
+                }
+                catch
+                {
+                    tb.Text = Value;
+                }
                 tb.ReadOnly = true;
             }
             else
