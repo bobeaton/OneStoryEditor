@@ -16,7 +16,9 @@ namespace OneStoryProjectEditor
         public CraftingInfoData CraftingInfo;
         public VersesData Verses;
 
-        public StoryData(string strStoryName, string strCrafterMemberGuid, string strLoggedOnMemberGuid, bool bIsBiblicalStory, ProjectSettings projSettings)
+        public StoryData(string strStoryName, string strCrafterMemberGuid, 
+            string strLoggedOnMemberGuid, bool bIsBiblicalStory,
+            ProjectSettings projSettings)
         {
             Name = strStoryName;
             guid = Guid.NewGuid().ToString();
@@ -27,12 +29,13 @@ namespace OneStoryProjectEditor
             Verses.CreateFirstVerse();
         }
 
-        public StoryData(NewDataSet.storyRow theStoryRow, NewDataSet projFile)
+        public StoryData(NewDataSet.storyRow theStoryRow, NewDataSet projFile, 
+            bool bHasIndependentConsultant)
         {
             Name = theStoryRow.name;
             guid = theStoryRow.guid;
             StageTimeStamp = (theStoryRow.IsstageDateTimeStampNull()) ? DateTime.Now : theStoryRow.stageDateTimeStamp;
-            ProjStage = new StoryStageLogic(theStoryRow.stage);
+            ProjStage = new StoryStageLogic(theStoryRow.stage, bHasIndependentConsultant);
             CraftingInfo = new CraftingInfoData(theStoryRow);
             Verses = new VersesData(theStoryRow, projFile);
         }
@@ -104,12 +107,17 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public string VersesHtml
+        public string VersesHtml(ProjectSettings projSettings, bool bViewHidden,
+            TeamMembersData membersData, TeamMemberData loggedOnMember,
+            VerseData.ViewItemToInsureOn viewItemToInsureOn)
         {
-            get
-            {
-                return String.Format(Properties.Resources.HTML_Header, Verses.Html);
-            }
+            string strHtml = Verses.StoryBtHtml(projSettings, bViewHidden, ProjStage, 
+                membersData, loggedOnMember, viewItemToInsureOn);
+
+            return String.Format(Properties.Resources.HTML_HeaderStoryBt,
+                StylePrefix(projSettings),
+                Properties.Resources.HTML_DOM_PrefixStoryBt,
+                strHtml);
         }
 
         public const string CstrLangVernacularStyleClassName = "LangVernacular";
@@ -130,22 +138,26 @@ namespace OneStoryProjectEditor
                                  strLangStyles);
         }
 
-        public string ConsultantNotesHtml(StoryStageLogic theStoryStage, 
-            ProjectSettings projSettings, TeamMemberData LoggedOnMember, 
+        public string ConsultantNotesHtml(HtmlConNoteControl htmlConNoteCtrl, 
+            StoryStageLogic theStoryStage, ProjectSettings projSettings, 
+            TeamMemberData LoggedOnMember, 
             bool bViewHidden)
         {
-            string strHtml = Verses.ConsultantNotesHtml(theStoryStage, LoggedOnMember, bViewHidden);
+            string strHtml = Verses.ConsultantNotesHtml(htmlConNoteCtrl, theStoryStage, 
+                LoggedOnMember, bViewHidden);
             return String.Format(Properties.Resources.HTML_Header,
                 StylePrefix(projSettings),
                 Properties.Resources.HTML_DOM_Prefix, 
                 strHtml);
         }
 
-        public string CoachNotesHtml(StoryStageLogic theStoryStage, 
-            ProjectSettings projSettings, TeamMemberData LoggedOnMember, 
+        public string CoachNotesHtml(HtmlConNoteControl htmlConNoteCtrl, 
+            StoryStageLogic theStoryStage, ProjectSettings projSettings, 
+            TeamMemberData LoggedOnMember, 
             bool bViewHidden)
         {
-            string strHtml = Verses.CoachNotesHtml(theStoryStage, LoggedOnMember, bViewHidden);
+            string strHtml = Verses.CoachNotesHtml(htmlConNoteCtrl, theStoryStage, 
+                LoggedOnMember, bViewHidden);
             return String.Format(Properties.Resources.HTML_Header,
                 StylePrefix(projSettings),
                 Properties.Resources.HTML_DOM_Prefix,
@@ -265,13 +277,14 @@ namespace OneStoryProjectEditor
             SetName = strSetName;
         }
 
-        public StoriesData(NewDataSet.storiesRow theStoriesRow, NewDataSet projFile)
+        public StoriesData(NewDataSet.storiesRow theStoriesRow, NewDataSet projFile,
+            bool bHasIndependentConsultant)
         {
             SetName = theStoriesRow.SetName;
 
             // finally, if it's not new, then it might (should) have stories as well
             foreach (NewDataSet.storyRow aStoryRow in theStoriesRow.GetstoryRows())
-                Add(new StoryData(aStoryRow, projFile));
+                Add(new StoryData(aStoryRow, projFile, bHasIndependentConsultant));
         }
 
         public new bool Contains(StoryData theSD)
@@ -367,7 +380,8 @@ namespace OneStoryProjectEditor
 
             // finally, if it's not new, then it might (should) have stories as well
             foreach (NewDataSet.storiesRow aStoriesRow in projFile.StoryProject[0].GetstoriesRows())
-                Add(aStoriesRow.SetName, new StoriesData(aStoriesRow, projFile));
+                Add(aStoriesRow.SetName, new StoriesData(aStoriesRow, projFile,
+                                                         TeamMembers.HasIndependentConsultant));
         }
 
         // if this is "new", then we won't have a project name yet, so query the user for it

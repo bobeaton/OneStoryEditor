@@ -142,8 +142,8 @@ namespace OneStoryProjectEditor
             Properties.Settings.Default.Save();
 
             // var repo = new HgRepository(strProjectFolder, new NullProgress());
-             try
-             {
+            try
+            {
                 var repo = HgRepository.CreateOrLocate(strProjectFolder, new NullProgress());
 
                 var address = RepositoryAddress.Create(CstrInternetName, strUrl);

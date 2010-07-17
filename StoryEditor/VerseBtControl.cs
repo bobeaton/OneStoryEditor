@@ -471,7 +471,7 @@ namespace OneStoryProjectEditor
             if (!CheckForProperEditToken(out theSE))
                 return;
 
-            theSE.AddNewVerse(this, 1, false);
+            theSE.AddNewVerse(VerseNumber - 1, 1, false);
         }
 
         private void addNewVersesAfterMenuItem_Click(object sender, EventArgs e)
@@ -492,7 +492,7 @@ namespace OneStoryProjectEditor
                 MoveSelectedTextToANewLineToolStripMenuItem(theSE);
             }
             else
-                theSE.AddNewVerse(this, nNumNewVerses, true);
+                theSE.AddNewVerse(VerseNumber - 1, nNumNewVerses, true);
         }
 
         private void moveSelectedTextToANewLineToolStripMenuItem_Click(object sender, EventArgs e)
@@ -534,7 +534,7 @@ namespace OneStoryProjectEditor
             if (!CheckForProperEditToken(out theSE))
                 return;
 
-            theSE.AddNewVerse(this, nNumNewVerses, false);
+            theSE.AddNewVerse(VerseNumber - 1, nNumNewVerses, false);
         }
 
         // since you can't put something on the clipboard that isn't 'serializable', until I 

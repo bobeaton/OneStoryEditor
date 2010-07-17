@@ -103,7 +103,7 @@ left-hand side of the status bar to go to the next stage in the process.
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
-  <StateTransition stage="eProjFacAddAnchors" MemberTypeWithEditToken="eProjectFacilitator" NextState="eProjFacAddStoryQuestions">
+  <StateTransition stage="eProjFacAddAnchors" MemberTypeWithEditToken="eProjectFacilitator" NextState="eProjFacAddStoryQuestions" RequiresBiblicalStory="true">
     <StageDisplayString>Project Facilitator adds biblical anchors</StageDisplayString>
     <StageInstructions>
 In this stage, one of the crafting team will go through the story verse-by-verse and look up one or more Bible references 
@@ -174,7 +174,7 @@ the status bar to go to the next stage in the process.
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="true" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
-  <StateTransition stage="eProjFacAddStoryQuestions" MemberTypeWithEditToken="eProjectFacilitator" NextState="eConsultantCheckStoryInfo">
+  <StateTransition stage="eProjFacAddStoryQuestions" MemberTypeWithEditToken="eProjectFacilitator" NextState="eConsultantCheckStoryInfo" RequiresBiblicalStory="true">
     <StageDisplayString>Project Facilitator adds story testing questions</StageDisplayString>
     <StageInstructions>
 In this stage, one of the crafting team will go through the story and add "Story Testing Questions" (STQs). These are 
@@ -229,8 +229,43 @@ status bar to go to the next stage in the process.
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
+  <StateTransition stage="eProjFacRevisesBeforeUnsTest" MemberTypeWithEditToken="eProjectFacilitator" NextState="eConsultantCheckStoryInfo">
+    <StageDisplayString>Project Facilitator revises the story (before UNS test)</StageDisplayString>
+    <StageInstructions>
+In this stage, you (the project facilitator) will go through the feedback given by the consultant in the Consultant 
+Notes pane and revise your story before doing a UNS test.
+
+[Before making any changes, however, it is recommended that you keep a copy of the older version of the story so that 
+that consultant or others can see what changes were made. To make a copy, click the 'Panorama' menu, 'Show' command 
+to launch the Panorama View window. Then select the story you want to make a copy of and click the 3rd button own on 
+the right-hand side whose tooltip says, "Copy the selected story to the "Old Stories" list..." This will make a copy 
+of the story in the "Old Stories" list and you can refer to the older version of the story by using the 'View' menu, 
+'Old Stories' drop down list.]
+
+As you process the consultant's comments, decide on the appropriate change for each comment and then get the crafter
+to make a new recording incorporating all of the changes.
+
+Once you and the crafter have made revisions/corrections and have a new recording, then update the story line text 
+boxes with the change as well as the national language and English back-translations. 
+
+For each comment by the consultant (in the 'cons:' field of the 'Consultant Notes' pane) you should type in some 
+response in the boxes labeled 'prfc:' (for Project Facilitator) to close the loop on the conversation (even just "done" 
+is fine). If you have further questions, it's okay to ask for clarification in another line. You can add another line 
+for additional comments by right-clicking on the small button and choosing "Add Note" if one is not already visible.
+
+When you are finished, then click the 'Next Stage' button in the left-hand side of the status bar to go to the next 
+stage in the process.
+    </StageInstructions>
+    <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition RequiresUsingVernacular="true">eProjFacTypeVernacular</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingNationalBT="true">eProjFacTypeNationalBT</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="false">eProjFacTypeInternationalBT</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresBiblicalStory="true">eProjFacAddAnchors</AllowableBackwardsTransition>
+    </AllowableBackwardsTransitions>
+    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
+  </StateTransition>
   <StateTransition stage="eBackTranslatorTypeInternationalBT" MemberTypeWithEditToken="eEnglishBacktranslator" NextState="eConsultantCheckStoryInfo">
-    <StageDisplayString>Special back-translator enters the English back-translation</StageDisplayString>
+    <StageDisplayString>English back-translator enters the English back-translation</StageDisplayString>
     <StageInstructions>
 In this stage, someone typically outside of the crafting team will translate the National language 
 back translation of the story into English (or from the story language if not using the national 
@@ -261,15 +296,32 @@ When you are finished entering the English back translation, then click the 'Nex
 left-hand side of the status bar to go to the next stage in the process.
     </StageInstructions>
     <AllowableBackwardsTransitions>
-      <AllowableBackwardsTransition RequiresUsingVernacular="true">eProjFacTypeVernacular</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresUsingNationalBT="true">eProjFacTypeNationalBT</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="false">eProjFacTypeInternationalBT</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresBiblicalStory="true">eProjFacAddAnchors</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresBiblicalStory="true">eProjFacAddStoryQuestions</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eProjFacRevisesBeforeUnsTest</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
-  <StateTransition stage="eConsultantCheckNonBiblicalStory" MemberTypeWithEditToken="eConsultantInTraining" NextState="eConsultantCheckNonBiblicalStory">
+  <StateTransition stage="eBackTranslatorTranslateConNotesBeforeUnsTest" MemberTypeWithEditToken="eEnglishBacktranslator" NextState="eConsultantCheckStoryInfo">
+    <StageDisplayString>English back-translator translates Consultant Notes for Project Facilitator (going backwards prior to UNS testing)</StageDisplayString>
+    <StageInstructions>
+In this stage, you (the English back-translator) will go through the feedback given by the consultant in
+the Consultant Notes pane and translate it into the national language for the project facilitator.
+
+You can just type the translation into the same box as the original consultant note, though you'll have
+to manually turn on the proper keyboard as needed.
+
+This state is used when the consultant is returning the story to the team for revision *before* going
+on to the UNS test. So when you are finished translating the feedback or the Project Facilitator, you
+will go backwards to the 'Project Facilitator revises the story before returning it to the Consultant'
+state. So when you are finished, click the 'Send back for revision' button (in the left-hand side of 
+the status bar) or click the down arrow to choose a different, previous state.
+    </StageInstructions>
+    <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eProjFacRevisesBeforeUnsTest</AllowableBackwardsTransition>
+    </AllowableBackwardsTransitions>
+    <BackwardsProcessing ButtonLabel="Send back for revision">eProjFacRevisesBeforeUnsTest</BackwardsProcessing>
+    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="false" />
+  </StateTransition>
+  <StateTransition stage="eConsultantCheckNonBiblicalStory" MemberTypeWithEditToken="eConsultantInTraining" NextState="eConsultantCheckNonBiblicalStory" RequiresNonBiblicalStory="true">
     <StageDisplayString>Consultant checks the discourse features of the story</StageDisplayString>
     <StageInstructions>
 In this stage, you (the consultant) will help the team chart this story in the "Discourse Chart 
@@ -290,14 +342,12 @@ Discourse Chart Helper' program for details.
 This is the final stage of the process for this non-biblical story.
     </StageInstructions>
     <AllowableBackwardsTransitions>
-      <AllowableBackwardsTransition RequiresUsingVernacular="true">eProjFacTypeVernacular</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresUsingNationalBT="true">eProjFacTypeNationalBT</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="false">eProjFacTypeInternationalBT</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTypeInternationalBT</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eProjFacRevisesBeforeUnsTest</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotesBeforeUnsTest</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
-  <StateTransition stage="eFirstPassMentorCheck1" MemberTypeWithEditToken="eFirstPassMentor" NextState="eConsultantCheckStoryInfo">
+  <StateTransition stage="eFirstPassMentorCheck1" MemberTypeWithEditToken="eFirstPassMentor" NextState="eConsultantCheckStoryInfo" RequiresBiblicalStory="true">
     <StageDisplayString>First-pass mentor checks the story</StageDisplayString>
     <StageInstructions>
 In this stage, you (the first-pass mentor) will check the story and make any suggestions you can
@@ -346,17 +396,13 @@ the 'Consultant Notes' pane, then click the 'Next Stage' button in the left-hand
 bar to go to the next stage in the process.
     </StageInstructions>
     <AllowableBackwardsTransitions>
-      <AllowableBackwardsTransition RequiresUsingVernacular="true">eProjFacTypeVernacular</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresUsingNationalBT="true">eProjFacTypeNationalBT</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="false">eProjFacTypeInternationalBT</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresBiblicalStory="true">eProjFacAddAnchors</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresBiblicalStory="true">eProjFacAddStoryQuestions</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTypeInternationalBT</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eProjFacRevisesBeforeUnsTest</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotesBeforeUnsTest</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
-  <StateTransition stage="eConsultantCheckStoryInfo" MemberTypeWithEditToken="eConsultantInTraining" NextState="eConsultantCheckAnchors">
-    <StageDisplayString>Consultant checks the story information</StageDisplayString>
+  <StateTransition stage="eConsultantCheckStoryInfo" MemberTypeWithEditToken="eConsultantInTraining" NextState="eConsultantCheckAnchors" RequiresBiblicalStory="true">
+    <StageDisplayString>Consultant checks the story information (pre-UNS test)</StageDisplayString>
     <StageInstructions>
 In this stage, you (the consultant) will check to make sure that the Project Facilitator has 
 entered the following information properly (click the 'Story' menu, 'Story Information' command):
@@ -382,18 +428,14 @@ Otherwise, when you are finished reviewing the Story Information, then click the
 button in the left-hand side of the status bar to go to the next stage in the process.
     </StageInstructions>
     <AllowableBackwardsTransitions>
-      <AllowableBackwardsTransition RequiresUsingVernacular="true">eProjFacTypeVernacular</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresUsingNationalBT="true">eProjFacTypeNationalBT</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="false">eProjFacTypeInternationalBT</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresBiblicalStory="true">eProjFacAddAnchors</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresBiblicalStory="true">eProjFacAddStoryQuestions</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTypeInternationalBT</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eProjFacRevisesBeforeUnsTest</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotesBeforeUnsTest</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresFirstPassMentor="true">eFirstPassMentorCheck1</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
-  <StateTransition stage="eConsultantCheckAnchors" MemberTypeWithEditToken="eConsultantInTraining" NextState="eConsultantCheckStoryQuestions">
-    <StageDisplayString>Consultant checks the story anchors</StageDisplayString>
+  <StateTransition stage="eConsultantCheckAnchors" MemberTypeWithEditToken="eConsultantInTraining" NextState="eConsultantCheckStoryQuestions" RequiresBiblicalStory="true">
+    <StageDisplayString>Consultant checks the story anchors (pre-UNS test)</StageDisplayString>
     <StageInstructions>
 In this stage, you (the consultant) need to check the anchors added by the crafter(s) for each verse of the story.
 
@@ -417,18 +459,14 @@ When you are finished checking all the anchors, then click the 'Next Stage' butt
 status bar to go to the next stage in the process.
     </StageInstructions>
     <AllowableBackwardsTransitions>
-      <AllowableBackwardsTransition RequiresUsingVernacular="true">eProjFacTypeVernacular</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresUsingNationalBT="true">eProjFacTypeNationalBT</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="false">eProjFacTypeInternationalBT</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresBiblicalStory="true">eProjFacAddAnchors</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresBiblicalStory="true">eProjFacAddStoryQuestions</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTypeInternationalBT</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eProjFacRevisesBeforeUnsTest</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotesBeforeUnsTest</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eConsultantCheckStoryInfo</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
-  <StateTransition stage="eConsultantCheckStoryQuestions" MemberTypeWithEditToken="eConsultantInTraining" NextState="eCoachReviewRound1Notes">
-    <StageDisplayString>Consultant checks the story testing questions</StageDisplayString>
+  <StateTransition stage="eConsultantCheckStoryQuestions" MemberTypeWithEditToken="eConsultantInTraining" NextState="eCoachReviewRound1Notes" RequiresBiblicalStory="true">
+    <StageDisplayString>Consultant checks the story testing questions (pre-UNS test)</StageDisplayString>
     <StageInstructions>
 In this stage, you (the consultant) need to check the story testing questions added by the crafter(s).
 
@@ -478,37 +516,67 @@ command) by right-clicking on the small button to the right-hand side of the app
 choose "Add Note".
     </StageInstructions>
     <AllowableBackwardsTransitions>
-      <AllowableBackwardsTransition RequiresUsingVernacular="true">eProjFacTypeVernacular</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresUsingNationalBT="true">eProjFacTypeNationalBT</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="false">eProjFacTypeInternationalBT</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresBiblicalStory="true">eProjFacAddAnchors</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresBiblicalStory="true">eProjFacAddStoryQuestions</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTypeInternationalBT</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eProjFacRevisesBeforeUnsTest</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotesBeforeUnsTest</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eConsultantCheckStoryInfo</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eConsultantCheckAnchors</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
+    <BackwardsProcessing ButtonLabel="Send back for revision">eProjFacRevisesBeforeUnsTest</BackwardsProcessing>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
-  <StateTransition stage="eCoachReviewRound1Notes" MemberTypeWithEditToken="eCoach" NextState="eConsultantReviseRound1Notes">
-    <StageDisplayString>Coach reviews round 1 consultant notes</StageDisplayString>
+  <StateTransition stage="eConsultantCauseRevisionBeforeUnsTest" MemberTypeWithEditToken="eConsultantInTraining" NextState="eCoachReviewRound1Notes" RequiresBiblicalStory="true">
+    <StageDisplayString>Consultant revises feedback based on Coach feedback (going backwards prior to UNS testing)</StageDisplayString>
+    <StageInstructions>
+In this stage, you (the consultant) will go through the feedback given by the coach in the Coach Notes
+pane and, if necessary, modify or add to your feedback to the crafting team.
+
+For each comment by the coach (the comments in the "coch:" lines in the Coach Notes pane), you should
+give some response to close the loop on the conversation (even just "done" is fine). If you have further
+questions, it's okay to ask for clarification in another line.
+
+You can add another line for additional comments by right-clicking on the small button and choosing
+"Add Note" if one is not already visible.
+
+If in this state, it is likely because the Coach is not satisfied with something about the story, which
+will require the Project Facilitator and Crafter to revise the story (before doing a UNS test). So when
+you are finished, you probably want to go back to a previous state (e.g. 'Project Facilitator revises the 
+story (before UNS test)') for the Project Facilitator/Crafter to revise/correct the story. So you will 
+want to click the 'Send back for revision' button (in the left-hand side of the status bar) or choose one 
+of the previous states.
+    </StageInstructions>
+    <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eProjFacRevisesBeforeUnsTest</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotesBeforeUnsTest</AllowableBackwardsTransition>
+    </AllowableBackwardsTransitions>
+    <BackwardsProcessing ButtonLabel="Send back for revision">eProjFacRevisesBeforeUnsTest</BackwardsProcessing>
+    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
+  </StateTransition>
+  <StateTransition stage="eCoachReviewRound1Notes" MemberTypeWithEditToken="eCoach" NextState="eConsultantReviseRound1Notes" RequiresBiblicalStory="true">
+    <StageDisplayString>Coach reviews story/CIT feedback (pre-UNS testing)</StageDisplayString>
     <StageInstructions>
 In this stage, you (the coach) will check the consultant notes added by the consultant-in-training 
 (and possibly the first-pass mentor) in the Consultant Notes pane. Any feedback you have can be put into 
-a note in the "Coach Notes" pane. You can right-click on the small button to the right-hand side of the 
-appropriate line number and choose "Add Note" to enter the comment you have in the line labeled, "coch:"
+a note in the "Coach Notes" pane. You can click on the "Add Note" button to create a box for entering a 
+comment, which will be labeled, "coch:"
 
-When you are finished, then click the 'Next Stage' button in the left-hand side of the status bar to go 
-to the next stage in the process.
+If you are satisfied that the story is ready for a UNS test (after your feedback is processed), then 
+click the 'Send forward for UNS test' button, which will put it in the CIT's state to process your 
+feedback before sending it on to the Project Facilitator to make final revisions before the UNS test.
+
+If you would like the story or testing questions revised AND you want to see the new version of the
+story before allowing it to go on for a UNS test, then click the 'Send back for revision' button. This
+will send it back to the CIT who will update his/her comments before sending it back to the team for
+revisions/corrections. Eventually then, you will see it again before the UNS test is done.
     </StageInstructions>
     <AllowableBackwardsTransitions>
-      <AllowableBackwardsTransition>eConsultantCheckStoryInfo</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eConsultantCheckAnchors</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eConsultantCheckStoryQuestions</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresManageWithCoaching="true">eConsultantCauseRevisionBeforeUnsTest</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
+    <BackwardsProcessing ButtonLabel="Send back for revision">eConsultantCauseRevisionBeforeUnsTest</BackwardsProcessing>
+    <ForwardsProceessing ButtonLabel="Send forward for UNS test">eConsultantReviseRound1Notes</ForwardsProceessing>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="false" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
   </StateTransition>
-  <StateTransition stage="eConsultantReviseRound1Notes" MemberTypeWithEditToken="eConsultantInTraining" NextState="eProjFacReviseBasedOnRound1Notes">
-    <StageDisplayString>Consultant revises round 1 notes based on Coach's feedback</StageDisplayString>
+  <StateTransition stage="eConsultantReviseRound1Notes" MemberTypeWithEditToken="eConsultantInTraining" NextState="eProjFacReviseBasedOnRound1Notes" RequiresBiblicalStory="true">
+    <StageDisplayString>Consultant revises pre-UNS test notes based on Coach's feedback</StageDisplayString>
     <StageInstructions>
 In this stage, you (the consultant) will go through the feedback given by the coach in the Coach Notes
 pane and, if necessary, modify or add to your feedback to the crafting team.
@@ -524,12 +592,12 @@ When you are finished, then click the 'Next Stage' button in the left-hand side 
 to the next stage in the process.
     </StageInstructions>
     <AllowableBackwardsTransitions>
-      <AllowableBackwardsTransition>eCoachReviewRound1Notes</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresManageWithCoaching="true">eCoachReviewRound1Notes</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
   </StateTransition>
-  <StateTransition stage="eBackTranslatorTranslateConNotes" MemberTypeWithEditToken="eEnglishBacktranslator" NextState="eProjFacReviseBasedOnRound1Notes">
-    <StageDisplayString>English back-translator translates Consultant Notes for Project Facilitator/Team</StageDisplayString>
+  <StateTransition stage="eBackTranslatorTranslateConNotes" MemberTypeWithEditToken="eEnglishBacktranslator" NextState="eProjFacReviseBasedOnRound1Notes" RequiresBiblicalStory="true">
+    <StageDisplayString>English back-translator translates Consultant Notes for Project Facilitator</StageDisplayString>
     <StageInstructions>
 In this stage, you (the English back-translator) will go through the feedback given by the consultant in 
 the Consultant Notes pane and translate it into the national language for the project facilitator/crafting
@@ -542,11 +610,11 @@ When you are finished, then click the 'Next Stage' button in the left-hand side 
 to the next stage in the process.
     </StageInstructions>
     <AllowableBackwardsTransitions>
-      <AllowableBackwardsTransition>eConsultantReviseRound1Notes</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresManageWithCoaching="true">eConsultantReviseRound1Notes</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
-  <StateTransition stage="eProjFacReviseBasedOnRound1Notes" MemberTypeWithEditToken="eProjectFacilitator" NextState="eProjFacOnlineReview1WithConsultant">
+  <StateTransition stage="eProjFacReviseBasedOnRound1Notes" MemberTypeWithEditToken="eProjectFacilitator" NextState="eProjFacOnlineReview1WithConsultant" RequiresBiblicalStory="true">
     <StageDisplayString>Project Facilitator revises story based on Consultant's feedback</StageDisplayString>
     <StageInstructions>
 In this stage, you (the project facilitator) will go through the feedback given by the consultant in the Consultant 
@@ -582,12 +650,13 @@ When you are finished, then click the 'Next Stage' button in the left-hand side 
 stage in the process.
     </StageInstructions>
     <AllowableBackwardsTransitions>
-      <AllowableBackwardsTransition>eConsultantReviseRound1Notes</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eConsultantCauseRevisionBeforeUnsTest</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresManageWithCoaching="true">eConsultantReviseRound1Notes</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotes</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
-  <StateTransition stage="eProjFacOnlineReview1WithConsultant" MemberTypeWithEditToken="eProjectFacilitator" NextState="eProjFacReadyForTest1">
+  <StateTransition stage="eProjFacOnlineReview1WithConsultant" MemberTypeWithEditToken="eProjectFacilitator" NextState="eProjFacReadyForTest1" RequiresBiblicalStory="true">
     <StageDisplayString>Project Facilitator has 1st online review with consultant</StageDisplayString>
     <StageInstructions>
 In this stage, you (the Project Facilitator) will arrange a time to get online at the same time as the 
@@ -601,20 +670,21 @@ Once all of the issues and their resolutions are discussed, you can transition t
 which you will do your first (formal) UNS test. 
     </StageInstructions>
     <AllowableBackwardsTransitions>
-      <AllowableBackwardsTransition>eConsultantReviseRound1Notes</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresManageWithCoaching="true">eConsultantReviseRound1Notes</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotes</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eProjFacReviseBasedOnRound1Notes</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
-  <StateTransition stage="eProjFacReadyForTest1" MemberTypeWithEditToken="eProjectFacilitator" NextState="eProjFacEnterRetellingOfTest1">
+  <StateTransition stage="eProjFacReadyForTest1" MemberTypeWithEditToken="eProjectFacilitator" NextState="eProjFacEnterRetellingOfTest1" RequiresBiblicalStory="true">
     <StageDisplayString>Project Facilitator is ready for the 1st (formal) UNS test</StageDisplayString>
     <StageInstructions>
-In this stage, you (the Project Facilitator) will arrange for the first formal test with two different
-UNSs. As discussed in the process document, each full UNS test includes:
+In this stage, you (the Project Facilitator) will arrange for a UNS test (typically, with two different
+UNSs). Each full UNS test includes:
 
     UNS retelling
-    UNS inference testing
+    (optional UNS National language back-translation)
+    UNS inference testing questions
 
 When you are finished, then click the 'Next Stage' button in the left-hand side of the status bar to go 
 to the next stage in the process.
@@ -625,7 +695,7 @@ to the next stage in the process.
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
-  <StateTransition stage="eProjFacEnterRetellingOfTest1" MemberTypeWithEditToken="eProjectFacilitator" NextState="eProjFacEnterAnswersToStoryQuestionsOfTest1">
+  <StateTransition stage="eProjFacEnterRetellingOfTest1" MemberTypeWithEditToken="eProjectFacilitator" NextState="eProjFacEnterAnswersToStoryQuestionsOfTest1" RequiresBiblicalStory="true">
     <StageDisplayString>Project Facilitator enters retelling back-translation</StageDisplayString>
     <StageInstructions>
 In this stage, you (the Project Facilitator) will enter the back-translation of the UNS's retelling 
@@ -636,7 +706,10 @@ sets of responses to back-translate into English and enter. Entering this state 
 'retelling' boxes to appear below the story line boxes in which you can enter the retelling from the UNS.
 
 When you are finished entering the retelling, then click the 'Next Stage' button in the left-hand side 
-of the status bar and to go to the next stage in the process.
+of the status bar and to go to the next stage in the process, which is for entering the answers to the 
+inference testing questions or this same UNS. Once you have finished entering in the test results for
+one UNS, then when you click 'Next State' again, you will be given the opportunity to add a 2nd set
+of boxes for the 2nd UNS test results.
     </StageInstructions>
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eProjFacReviseBasedOnRound1Notes</AllowableBackwardsTransition>
@@ -645,7 +718,7 @@ of the status bar and to go to the next stage in the process.
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="true" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
-  <StateTransition stage="eProjFacEnterAnswersToStoryQuestionsOfTest1" MemberTypeWithEditToken="eProjectFacilitator" NextState="eConsultantCheck2">
+  <StateTransition stage="eProjFacEnterAnswersToStoryQuestionsOfTest1" MemberTypeWithEditToken="eProjectFacilitator" NextState="eConsultantCheck2" RequiresBiblicalStory="true">
     <StageDisplayString>Project Facilitator enters answers to the story questions from the UNS test</StageDisplayString>
     <StageInstructions>
 In this stage, you (the Project Facilitator) will enter the UNS's responses to the inference testing 
@@ -675,8 +748,8 @@ go to the next stage in the process.
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
-  <StateTransition stage="eBackTranslatorTypeInternationalBTTest1" MemberTypeWithEditToken="eEnglishBacktranslator" NextState="eConsultantCheck2">
-    <StageDisplayString>Special back-translator enters the English back-translation of UNS Test results</StageDisplayString>
+  <StateTransition stage="eBackTranslatorTypeInternationalBTTest1" MemberTypeWithEditToken="eEnglishBacktranslator" NextState="eConsultantCheck2" RequiresBiblicalStory="true">
+    <StageDisplayString>English back-translator enters the English back-translation of UNS Test results</StageDisplayString>
     <StageInstructions>
 In this stage, someone typically outside of the crafting team will translate the responses from the
 UNS tests (and the latest version of the story) from the National language back translation into 
@@ -684,6 +757,9 @@ English (or from the story language if not using the national language back-tran
 
 This stage only occurs if you have an "English Back-translator" member on your team and it occurs
 after all the Project Facilitator states are finished and just before the story goes to the consultant. 
+
+There are not separate boxes for the English back-translation of the test responses, so you can just
+add the English BT to the same boxes that have the vernacular or national language responses.
 
 When you are finished entering the English back translation, then click the 'Next Stage' button in the
 left-hand side of the status bar to go to the next stage in the process.
@@ -697,8 +773,29 @@ left-hand side of the status bar to go to the next stage in the process.
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
-  <StateTransition stage="eFirstPassMentorCheck2" MemberTypeWithEditToken="eFirstPassMentor" NextState="eConsultantCheck2">
-    <StageDisplayString>First-pass mentor checks test 1 results</StageDisplayString>
+  <StateTransition stage="eBackTranslatorTranslateConNotesAfterUnsTest" MemberTypeWithEditToken="eEnglishBacktranslator" NextState="eConsultantCheck2" RequiresBiblicalStory="true">
+    <StageDisplayString>English back-translator translates Consultant Notes for Project Facilitator (going backwards after UNS testing)</StageDisplayString>
+    <StageInstructions>
+In this stage, you (the English back-translator) will go through the feedback given by the consultant in
+the Consultant Notes pane and translate it into the national language for the project facilitator.
+
+You can just type the translation into the same box as the original consultant note, though you'll have
+to manually turn on the proper keyboard as needed.
+
+This state is used when the consultant is returning the story to the team for revision after UNS testing
+has been done. When you are finished translating the feedback or the Project Facilitator, you will go 
+backwards to the 'Project Facilitator revises story based on Consultant's feedback' state. You can do 
+this by clicking the 'Send back for revision' button (in the left-hand side of the status bar) or 
+click the down arrow to choose a different, previous state.
+    </StageInstructions>
+    <AllowableBackwardsTransitions>
+      <AllowableBackwardsTransition>eProjFacReviseBasedOnRound1Notes</AllowableBackwardsTransition>
+    </AllowableBackwardsTransitions>
+    <BackwardsProcessing ButtonLabel="Send back for revision">eProjFacReviseBasedOnRound1Notes</BackwardsProcessing>
+    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="false" />
+  </StateTransition>
+  <StateTransition stage="eFirstPassMentorCheck2" MemberTypeWithEditToken="eFirstPassMentor" NextState="eConsultantCheck2" RequiresBiblicalStory="true">
+    <StageDisplayString>First-pass mentor checks UNS test results</StageDisplayString>
     <StageInstructions>
 In this stage, you (the first-pass mentor) will check the story again now that you have the answers
 to the story testing questions and the retelling testing by two different UNSs. You should make any 
@@ -743,15 +840,15 @@ bar to go to the next stage in the process.
       <AllowableBackwardsTransition>eProjFacReadyForTest1</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eProjFacEnterRetellingOfTest1</AllowableBackwardsTransition>
       <AllowableBackwardsTransition>eProjFacEnterAnswersToStoryQuestionsOfTest1</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTypeInternationalBTTest1</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotesAfterUnsTest</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
-  <StateTransition stage="eConsultantCheck2" MemberTypeWithEditToken="eConsultantInTraining" NextState="eCoachReviewRound2Notes">
-    <StageDisplayString>Consultant checks story for round 2</StageDisplayString>
+  <StateTransition stage="eConsultantCheck2" MemberTypeWithEditToken="eConsultantInTraining" NextState="eCoachReviewRound2Notes" RequiresBiblicalStory="true">
+    <StageDisplayString>Consultant checks story after UNS test</StageDisplayString>
     <StageInstructions>
 In this stage, you (the consultant) will check the story again now that you have the answers
-to the story testing questions and the retelling testing by two different UNSs. You should make any 
+to the story testing questions and the retelling testing by one or more UNSs. You should make any 
 suggestions you think would help make the story more accurate, clear, and natural. You will put your 
 suggestions in the 'Consultant Notes' pane of the editor in the boxes labeled 'cons:'
 
@@ -789,33 +886,14 @@ bar to go to the next stage in the process.
     </StageInstructions>
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eProjFacReviseBasedOnRound1Notes</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTypeInternationalBTTest1</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotesAfterUnsTest</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresFirstPassMentor="true">eFirstPassMentorCheck2</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
+    <BackwardsProcessing ButtonLabel="Send back for revision">eProjFacReviseBasedOnRound1Notes</BackwardsProcessing>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
-  <StateTransition stage="eCoachReviewRound2Notes" MemberTypeWithEditToken="eCoach" NextState="eConsultantReviseRound2Notes">
-    <StageDisplayString>Coach reviews Round 2 (test 1) feedback</StageDisplayString>
-    <StageInstructions>
-In this stage, you (the coach) will check the consultant notes added by the consultant-in-training
-(and possibly the first-pass mentor) in the Consultant Notes pane. 
-
-This round will include the responses from the first formal UNS test (by two UNSs).
-
-Any feedback you have can be put into a note in the "Coach Notes" pane. You can right-click on the small 
-button to the right-hand side of the appropriate line number and choose "Add Note" to enter the comment 
-you have in the line labeled, "coch:"
-
-When you are finished, then click the 'Next Stage' button in the left-hand side of the status bar to go
-to the next stage in the process.
-    </StageInstructions>
-    <AllowableBackwardsTransitions>
-      <AllowableBackwardsTransition>eConsultantCheck2</AllowableBackwardsTransition>
-    </AllowableBackwardsTransitions>
-    <ViewSettings viewVernacularLangField="false" viewNationalLangField="false" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
-  </StateTransition>
-  <StateTransition stage="eConsultantReviseRound2Notes" MemberTypeWithEditToken="eConsultantInTraining" NextState="eProjFacReviseBasedOnRound2Notes">
-    <StageDisplayString>Consultant revises round 2 notes based on Coach's feedback</StageDisplayString>
+  <StateTransition stage="eConsultantCauseRevisionAfterUnsTest" MemberTypeWithEditToken="eConsultantInTraining" NextState="eCoachReviewRound2Notes" RequiresBiblicalStory="true">
+    <StageDisplayString>Consultant revises feedback based on Coach feedback (going backwards after UNS testing)</StageDisplayString>
     <StageInstructions>
 In this stage, you (the consultant) will go through the feedback given by the coach in the Coach Notes
 pane and, if necessary, modify or add to your feedback to the crafting team.
@@ -827,303 +905,42 @@ questions, it's okay to ask for clarification in another line.
 You can add another line for additional comments by right-clicking on the small button and choosing
 "Add Note" if one is not already visible.
 
-You may reach this state again if the coach has any additional feedback after the last round of checking. 
-That is, during the future state of the coach checking the test 2 results, either the coach will approved 
-the story after checking your feedback or not. If he or she doesn't approve the story to move on to the 
-Story Fellowship Group testing stage, then the coach will return the story to this stage for you to 
-provide additional feedback to the team and repeat the this and the next 10 or so states again.
-
-When you are finished, then click the 'Next Stage' button in the left-hand side of the status bar to go 
-to the next stage in the process.
+If in this state, it is likely because the Coach is not satisfied with something about the story, which
+will require the Project Facilitator and Crafter to revise the story (and do another UNS test). So when
+you are finished, you probably want to go back to a previous state (e.g. Project Facilitator revises
+story based on Consultant's feedback) for the Project Facilitator/Crafter to revise/correct the story.
+So you will want to click the 'Send back for revision' button (in the left-hand side of the status bar)
+or choose one of the other previous states.
     </StageInstructions>
     <AllowableBackwardsTransitions>
-      <AllowableBackwardsTransition>eCoachReviewRound2Notes</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eProjFacReviseBasedOnRound1Notes</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotesAfterUnsTest</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
-    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
+    <BackwardsProcessing ButtonLabel="Send back for revision">eProjFacReviseBasedOnRound1Notes</BackwardsProcessing>
+    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
   </StateTransition>
-  <StateTransition stage="eBackTranslatorTranslateConNotes2" MemberTypeWithEditToken="eEnglishBacktranslator" NextState="eProjFacReviseBasedOnRound2Notes">
-    <StageDisplayString>English back-translator translates Consultant Notes for Project Facilitator/Team</StageDisplayString>
+  <StateTransition stage="eCoachReviewRound2Notes" MemberTypeWithEditToken="eCoach" NextState="eTeamComplete" RequiresBiblicalStory="true">
+    <StageDisplayString>Coach reviews story/CIT feedback (including UNS testing results)</StageDisplayString>
     <StageInstructions>
-In this stage, you (the English back-translator) will go through the feedback given by the consultant in
-the Consultant Notes pane (from round 2; after the 2nd formal UNS test) and translate it into the national 
-language for the project facilitator/crafting team.
+In this stage, you (the coach) will check the UNS test results and the consultant notes added by the
+consultant-in-training (and possibly the first-pass mentor) in the Consultant Notes pane.
 
-You can just type the translation into the same box as the original consultant note, though you'll have
-to manually turn on the proper keyboard as needed.
-
-When you are finished, then click the 'Next Stage' button in the left-hand side of the status bar to go
-to the next stage in the process.
-    </StageInstructions>
-    <AllowableBackwardsTransitions>
-      <AllowableBackwardsTransition>eConsultantReviseRound2Notes</AllowableBackwardsTransition>
-    </AllowableBackwardsTransitions>
-    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
-  </StateTransition>
-  <StateTransition stage="eProjFacReviseBasedOnRound2Notes" MemberTypeWithEditToken="eProjectFacilitator" NextState="eProjFacOnlineReview2WithConsultant">
-    <StageDisplayString>Project Facilitator revises story based on round 2 notes</StageDisplayString>
-    <StageInstructions>
-In this stage, you (the project facilitator) will go through the feedback given by the consultant in the Consultant 
-Notes pane and revise your story accordingly. 
-
-[Before making any changes, however, it is recommended that you keep a copy of the older version of the story so that 
-that consultant or others can see what changes were made. To make a copy, click the 'Panorama' menu, 'Show' command 
-to launch the Panorama View window. Then select the story you want to make a copy of and click the 3rd button own on 
-the right-hand side whose tooltip says, "Copy the selected story to the "Old Stories" list..." This will make a copy 
-of the story in the "Old Stories" list and you can refer to the older version of the story by using the 'View' menu, 
-'Old Stories' drop down list.]
-
-As you process the consultant's comments, decide on the appropriate change for each comment and if it's a small change, 
-you can simply record just that changed part and splice the new recording over the old one in the original story 
-recording. It's okay that this will create an odd sounding recording with portions from different recording sessions. 
-
-For example, suppose that the back-translation of your story says that some character in the Bible story said something 
-which they didn't really say--something which is not anchorable. And the consultant points out that the person really 
-said something else instead. Then you would make a recording of the something else (revised) version and overwrite the 
-quote from the original recording.
-
-If you make your revisions/corrections in this manner (i.e. splicing the revisions in the old recording), then you can 
-also update the story line text boxes with the change as well as the national language and English back-translations. 
-But remember, the *change* is to the story *recording*; not the back-translations. The documentation of the story and 
-its back-translations are just reflections of the change to the story recording which is the ultimate product.
-
-For each comment by the consultant (in the 'cons:' field of the 'Consultant Notes' pane), you should type in some 
-response in the boxes labeled 'prfc:' (for Project Facilitator) to close the loop on the conversation (even just "done" 
-is fine). If you have further questions, it's okay to ask for clarification in another line. You can add another line 
-for additional comments by right-clicking on the small button and choosing "Add Note" if one is not already visible.
-
-When you are finished, then click the 'Next Stage' button in the left-hand side of the status bar to go to the next 
-stage in the process.
-    </StageInstructions>
-    <AllowableBackwardsTransitions>
-      <AllowableBackwardsTransition>eConsultantReviseRound2Notes</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotes2</AllowableBackwardsTransition>
-    </AllowableBackwardsTransitions>
-    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
-  </StateTransition>
-  <StateTransition stage="eProjFacOnlineReview2WithConsultant" MemberTypeWithEditToken="eProjectFacilitator" NextState="eProjFacReadyForTest2">
-    <StageDisplayString>Project Facilitator has 2nd online review with consultant</StageDisplayString>
-    <StageInstructions>
-In this stage, you (the Project Facilitator) will arrange a time to get online at the same time as the
-consultant so that you can discuss the feedback he or she gave. If your team has a First Pass Mentor,
-that person should also be involved in this discussion so they can learn as well. Finally, if the team
-itself is a team that doesn't know English, it might also be necessary to have the person on your team
-who does the English Back-translation also be present on-line, so that he or she can translate between
-the team and the consultant.
-
-Once all of the issues and their resolutions are discussed, you can transition to the next state during
-which you will do your first (formal) UNS test.
-    </StageInstructions>
-    <AllowableBackwardsTransitions>
-      <AllowableBackwardsTransition>eConsultantReviseRound2Notes</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotes2</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eProjFacReviseBasedOnRound2Notes</AllowableBackwardsTransition>
-    </AllowableBackwardsTransitions>
-    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
-  </StateTransition>
-  <StateTransition stage="eProjFacReadyForTest2" MemberTypeWithEditToken="eProjectFacilitator" NextState="eProjFacEnterRetellingOfTest2">
-    <StageDisplayString>Project Facilitator is ready for the 2nd (formal) UNS test</StageDisplayString>
-    <StageInstructions>
-In this stage, you (the Project Facilitator) will arrange for the second formal test with a third UNSs. 
-As discussed in the process document, the full UNS test includes:
-
-    UNS retelling
-    UNS inference testing
-
-When you are finished, then click the 'Next Stage' button in the left-hand side of the status bar to go 
-to the next stage in the process.
-    </StageInstructions>
-    <AllowableBackwardsTransitions>
-      <AllowableBackwardsTransition>eProjFacReviseBasedOnRound2Notes</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eProjFacOnlineReview2WithConsultant</AllowableBackwardsTransition>
-    </AllowableBackwardsTransitions>
-    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
-  </StateTransition>
-  <StateTransition stage="eProjFacEnterRetellingOfTest2" MemberTypeWithEditToken="eProjectFacilitator" NextState="eProjFacEnterAnswersToStoryQuestionsOfTest2">
-    <StageDisplayString>Project Facilitator enters round 3 UNS test retelling back-translation</StageDisplayString>
-    <StageInstructions>
-In this stage, you (the Project Facilitator) will enter the back-translation of the UNS's retelling 
-of the story from the round 3 UNS test.
-
-Entering this state will cause a new set of 'retelling' boxes to appear below the story line boxes in 
-which you can enter the retelling from the UNS.
-
-When you are finished entering both retellings, then click the 'Next Stage' button in the left-hand side 
-of the status bar and to go to the next stage in the process.
-    </StageInstructions>
-    <AllowableBackwardsTransitions>
-      <AllowableBackwardsTransition>eProjFacReviseBasedOnRound2Notes</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eProjFacOnlineReview2WithConsultant</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eProjFacReadyForTest2</AllowableBackwardsTransition>
-    </AllowableBackwardsTransitions>
-    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="true" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
-  </StateTransition>
-  <StateTransition stage="eProjFacEnterAnswersToStoryQuestionsOfTest2" MemberTypeWithEditToken="eProjectFacilitator" NextState="eConsultantReviewTest2">
-    <StageDisplayString>Project Facilitator enters round 3 answers to story testing questions</StageDisplayString>
-    <StageInstructions>
-In this stage, you (the Project Facilitator) will enter the UNS's responses to the inference testing 
-questions from the second formal UNS test.
-
-Entering this state will cause a new set of 'answer' boxes to appear underneath the testing questions 
-in which you can enter the response from the UNS.
-
-When you are finished, then click the 'Next Stage' button in the left-hand side of the status bar to 
-go to the next stage in the process.
-    </StageInstructions>
-    <AllowableBackwardsTransitions>
-      <AllowableBackwardsTransition>eProjFacReviseBasedOnRound2Notes</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eProjFacOnlineReview2WithConsultant</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eProjFacReadyForTest2</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eProjFacEnterRetellingOfTest2</AllowableBackwardsTransition>
-    </AllowableBackwardsTransitions>
-    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
-  </StateTransition>
-  <StateTransition stage="eBackTranslatorTypeInternationalBTTest2" MemberTypeWithEditToken="eEnglishBacktranslator" NextState="eConsultantReviewTest2">
-    <StageDisplayString>Special back-translator enters the English back-translation of UNS Test results</StageDisplayString>
-    <StageInstructions>
-In this stage, someone typically outside of the crafting team will translate the responses from the
-UNS tests (and the latest version of the story) from the National language back translation into 
-English (or from the story language if not using the national language back-translation). 
-
-This stage only occurs if you have an "English Back-translator" member on your team and it occurs
-after all the Project Facilitator states are finished and just before the story goes to the consultant. 
-
-When you are finished entering the English back translation, then click the 'Next Stage' button in the
-left-hand side of the status bar to go to the next stage in the process.
-    </StageInstructions>
-    <AllowableBackwardsTransitions>
-      <AllowableBackwardsTransition>eProjFacReviseBasedOnRound2Notes</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eProjFacOnlineReview2WithConsultant</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eProjFacReadyForTest2</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eProjFacEnterRetellingOfTest2</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eProjFacEnterAnswersToStoryQuestionsOfTest2</AllowableBackwardsTransition>
-    </AllowableBackwardsTransitions>
-    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
-  </StateTransition>
-  <StateTransition stage="eFirstPassMentorReviewTest2" MemberTypeWithEditToken="eFirstPassMentor" NextState="eConsultantReviewTest2">
-    <StageDisplayString>First-pass mentor checks test 2 results</StageDisplayString>
-    <StageInstructions>
-In this stage, you (the first-pass mentor) will check the story again now that you have the answers
-to the story testing questions and the retelling testing from yet another UNS. You should make any
-suggestions you think would help make the story more accurate, clear, and natural. You will put your
-suggestions in the 'Consultant Notes' pane of the editor in the boxes labeled 'cons:'
-
-As before, you can make comments related to any of the following issues:
-
-Anchors: are the lines of the story supported by the anchored verses, or has the story crafter mis-
-interpreted something?
-
-Story Flow: does the story flow nicely?
-
-Story Length: is the length of the story nice? Does it seem re-tellable?
-
-Translation issues: are any words translated in a way that makes you think it might be mis-
-translated?
-
-Story matches the stated purpose: does the story seem to support the purpose for which it was
-created? (see 'Story' menu, 'Story Information' to see the 'Purpose'). The redemptive theme
-is also supposed to be written up in the first tab of the 'Show Panorama' command.
-
-Additionally, during this state you will have responses to the Testing Questions and another 
-retelling of the story from a third UNS (second formal test).
-
-Review the answers that the UNS gave to the story and see if any of the answers suggest that
-the story is unclear or misleading at any point. If so, then be sure to make a comment about it
-in the consultant notes pane.
-
-Also, look at the retelling and if it is significantly different from the original story and
-especially if it seems more natural to you, then make a suggestion about that to the crafting
-team as well (i.e. to consider whether the retelling is a more natural way to say it and there-
-fore perhaps the original story ought to be changed.
-
-When you are finished reviewing the Story and putting any consultant notes you have in the
-'Consultant Notes' pane, then click the 'Next Stage' button in the left-hand side of the status
-bar to go to the next stage in the process.
-    </StageInstructions>
-    <AllowableBackwardsTransitions>
-      <AllowableBackwardsTransition>eProjFacReviseBasedOnRound2Notes</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eProjFacOnlineReview2WithConsultant</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eProjFacReadyForTest2</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eProjFacEnterRetellingOfTest2</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition>eProjFacEnterAnswersToStoryQuestionsOfTest2</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTypeInternationalBTTest2</AllowableBackwardsTransition>
-    </AllowableBackwardsTransitions>
-    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
-  </StateTransition>
-  <StateTransition stage="eConsultantReviewTest2" MemberTypeWithEditToken="eConsultantInTraining" NextState="eCoachReviewTest2Notes">
-    <StageDisplayString>Consultant reviews test 2 results</StageDisplayString>
-    <StageInstructions>
-In this stage, you (the consultant) will check the story again now that you have the another set of
-answers to the story testing questions and another retelling from a third UNS. You should make any 
-suggestions you think would help make the story more accurate, clear, and natural. You will put your 
-suggestions in the 'Consultant Notes' pane of the editor in the boxes labeled 'cons:'
-
-As before, you can make comments related to any of the following issues:
-
-Anchors: are the lines of the story supported by the anchored verses, or has the story crafter mis-
-    interpreted something?
-
-Story Flow: does the story flow nicely?
-
-Story Length: is the length of the story nice? Does it seem re-tellable?
-
-Translation issues: are any words translated in a way that makes you think it might be mis-
-    translated?
-
-Story matches the stated purpose: does the story seem to support the purpose for which it was 
-    created? (see 'Story' menu, 'Story Information' to see the 'Purpose'). The redemptive theme
-    is also supposed to be written up in the first tab of the 'Show Panorama' command.
-
-Additionally, during this state you will have responses to the Testing Questions and another 
-retellings of the story from a third UNS (second formal test).
-
-Review the answers that the UNS gave to the story and see if any of the answers suggest that 
-the story is unclear or misleading at any point. If so, then be sure to make a comment about it
-in the consultant notes pane.
-
-Also, look at the retelling and if it is significantly different from the original story and 
-especially if it seems more natural to you, then make a suggestion about that to the crafting
-team as well (i.e. to consider whether the retelling is a more natural way to say it and there-
-fore perhaps the original story ought to be changed.
-
-When you are finished reviewing the Story and putting any consultant notes you have in the 
-'Consultant Notes' pane, then click the 'Next Stage' button in the left-hand side of the status 
-bar to go to the next stage in the process.
-    </StageInstructions>
-    <AllowableBackwardsTransitions>
-      <AllowableBackwardsTransition>eProjFacReviseBasedOnRound2Notes</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTypeInternationalBTTest2</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresFirstPassMentor="true">eFirstPassMentorReviewTest2</AllowableBackwardsTransition>
-    </AllowableBackwardsTransitions>
-    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
-  </StateTransition>
-  <StateTransition stage="eCoachReviewTest2Notes" MemberTypeWithEditToken="eCoach" NextState="eTeamComplete">
-    <StageDisplayString>Coach reviews test 2 results</StageDisplayString>
-    <StageInstructions>
-In this stage, you (the coach) will check the consultant notes added by the consultant-in-training (and 
-possibly the first-pass mentor) in the Consultant Notes pane resulting from the 2nd formal UNS test.
-
-Any feedback you have can be put into a note in the "Coach Notes" pane. You can right-click on the small 
-button to the right-hand side of the appropriate line number and choose "Add Note" to enter the comment 
+Any feedback you have can be put into a note in the "Coach Notes" pane. You can right-click on the small
+button to the right-hand side of the appropriate line number and choose "Add Note" to enter the comment
 you have in the line labeled, "coch:"
 
-This is the last formal state of the checking process and so if there are any remaining problems in the
-story such that it doesn't have formal approval, then rather than going to a 'Next State', you'll want
-to click on the down arrow on the right-hand side of the 'Next State' button and choose one of the 
-previous states (in this case, the 'Consultant revises round 2 notes based on Coach's feedback') to 
-return to. The consultant will then revise/add your additional feedback and send it back to the project 
-facilitator for revisions and repeat the last 10 stages or so.
+If you are satisfied that the story is ready to go on to 'Story Fellowship Group' testing, then click the
+'Next Stage' button in the left-hand side of the status bar to go to the 'Story testing complete (waiting for panorama completion review)' 
+state.
 
-If your additional feedback is only for the benefit of the consultant (and will not lead to any revision
-by the project facilitator/team), then you can (again) click on the down arrow on the right-hand side of 
-the 'Next State' button and choose the 'Consultant reviews test 2 results' state, which just sends it
-back to the consultant for feedback.
-
-When you are finished, then click the 'Next Stage' button in the left-hand side of the status bar to go
-to the final 'Story testing complete (waiting for panorama completion review)' stage.
+If you are not satisfied with the story and would like further revisions, then indicate what changes you
+want in the Coach Notes pane and click the 'Send back for revision' button to send it back to the CIT
+to make revisions.
     </StageInstructions>
     <AllowableBackwardsTransitions>
-      <AllowableBackwardsTransition>eConsultantReviewTest2</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eConsultantCauseRevisionAfterUnsTest</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
+    <BackwardsProcessing ButtonLabel="Send back for revision">eConsultantCauseRevisionAfterUnsTest</BackwardsProcessing>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="false" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eTeamComplete" MemberTypeWithEditToken="eProjectFacilitator" NextState="eTeamComplete">
@@ -1139,8 +956,9 @@ want to return to (either the 'Consultant reviews test 2 results' state, or if y
 to the 'First-pass mentor checks test 2 results' state), which sends it to them for another consultant check.
     </StageInstructions>
     <AllowableBackwardsTransitions>
-      <AllowableBackwardsTransition>eConsultantReviewTest2</AllowableBackwardsTransition>
-      <AllowableBackwardsTransition RequiresFirstPassMentor="true">eFirstPassMentorReviewTest2</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eProjFacReviseBasedOnRound1Notes</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eConsultantCauseRevisionAfterUnsTest</AllowableBackwardsTransition>
+      <AllowableBackwardsTransition>eCoachReviewRound2Notes</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
   </StateTransition>

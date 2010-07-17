@@ -88,5 +88,34 @@ namespace OneStoryProjectEditor
                 return elemExegeticalHelps;
             }
         }
+
+        protected const string CstrFieldNameExegeticalHelp = "ExegeticalHelp";
+
+        public static string TextareaId(int nVerseIndex, int nAnchorNumber, int nCommentNumber, string strTextElementName)
+        {
+            return String.Format("ta{0}_{1}_{2}_{3}", strTextElementName, nVerseIndex, 
+                nAnchorNumber, nCommentNumber);
+        }
+
+        public string Html(int nVerseIndex, int nAnchorNumber)
+        {
+            string strHtml = null;
+            for (int i = 0; i < Count; i++)
+            {
+                ExegeticalHelpNoteData anExHelpNoteData = this[i];
+                string strHtmlElementId = TextareaId(nVerseIndex, nAnchorNumber, i, CstrFieldNameExegeticalHelp);
+                strHtml += String.Format(Properties.Resources.HTML_TableRow,
+                                         String.Format("{0}{1}",
+                                                       String.Format(Properties.Resources.HTML_TableCell, "cn:"),
+                                                       String.Format(Properties.Resources.HTML_TableCellWidth,
+                                                                     100,
+                                                                     String.Format(Properties.Resources.HTML_TextareaWithRefDrop,
+                                                                                   strHtmlElementId,
+                                                                                   StoryData.
+                                                                                       CstrLangInternationalBtStyleClassName,
+                                                                                   anExHelpNoteData.ExegeticalHelpNote))));
+            }
+            return strHtml;
+        }
     }
 }

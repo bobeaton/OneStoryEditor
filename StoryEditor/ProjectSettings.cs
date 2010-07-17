@@ -205,6 +205,7 @@ namespace OneStoryProjectEditor
                     strLangCat,
                     FontToUse.Name,
                     FontToUse.SizeInPoints,
+                    VerseData.HtmlColor(FontColor),
                     (DoRtl) ? "rtl" : "ltr",
                     (DoRtl) ? "right" : "left");
 

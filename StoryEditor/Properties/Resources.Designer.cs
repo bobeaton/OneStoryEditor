@@ -95,12 +95,28 @@ namespace OneStoryProjectEditor.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap gradient {
+            get {
+                object obj = ResourceManager.GetObject("gradient", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to &lt;button id=&quot;{0}&quot; onClick=&quot;{1}&quot;&gt;{2}&lt;/button&gt;.
         /// </summary>
         internal static string HTML_Button {
             get {
                 return ResourceManager.GetString("HTML_Button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;button id=&quot;{0}&quot; style=&quot;position:relative; left:20px; height:20px; width:20px;&quot; oncontextmenu=&quot;return showContextMenu(this);&quot;&gt;{1}&lt;/button&gt;.
+        /// </summary>
+        internal static string HTML_ButtonRightAlignCtxMenu {
+            get {
+                return ResourceManager.GetString("HTML_ButtonRightAlignCtxMenu", resourceCulture);
             }
         }
         
@@ -134,6 +150,29 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;script type=&quot;text/javascript&quot;&gt;
+        ///
+        ////************************************************************************************************************
+        ///(C) www.dhtmlgoodies.com, October 2005
+        ///
+        ///This is a script from www.dhtmlgoodies.com. You will find this and a lot of other scripts at our website.	
+        ///
+        ///Terms of use:
+        ///You are free to use this script as long as the copyright message is kept intact. However, you may not
+        ///redistribute, sell or repost it without our permission.
+        ///
+        ///Thank you!
+        ///
+        ///www.dhtmlgoodies.com
+        ///A [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string HTML_DOM_PrefixStoryBt {
+            get {
+                return ResourceManager.GetString("HTML_DOM_PrefixStoryBt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;em&gt;{0}&lt;/em&gt;.
         /// </summary>
         internal static string HTML_EmphasizedText {
@@ -160,6 +199,25 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;html&gt;
+        ///{0}
+        ///&lt;head&gt;
+        ///{1}
+        ///&lt;/head&gt;
+        ///&lt;body onKeyDown=&quot;return OnKeyDown();&quot; onscroll=&quot;window.external.OnScroll();&quot;&gt;
+        ///&lt;ul id=&quot;contextMenu&quot;&gt;
+        ///	&lt;li&gt;&lt;a href=&quot;#&quot; onclick=&quot;window.external.InsertNewVerseBefore(nVerseIndex);&quot;&gt;Insert new verse before this one&lt;/a&gt;&lt;/li&gt;
+        ///	&lt;li&gt;&lt;a href=&quot;#&quot; onclick=&quot;window.external.AddNewVerseAfter(nVerseIndex);&quot;&gt;Add new verse after this one&lt;/a&gt;&lt;/li&gt;
+        ///	&lt;li&gt;&lt;a href=&quot;#&quot; onclick=&quot;window.external.HideVerse(nVerseIndex);&quot;&gt;Hide verse&lt;/a&gt;&lt;/li&gt;
+        ///	&lt;li&gt;&lt;a href=&quot;#&quot; onclick=&quot;window.external.DeleteVerse [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string HTML_HeaderStoryBt {
+            get {
+                return ResourceManager.GetString("HTML_HeaderStoryBt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;a href=&quot;{0}&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt; .
         /// </summary>
         internal static string HTML_HttpLink {
@@ -169,13 +227,13 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to   .{0} {{
+        ///   Looks up a localized string similar to .{0} {{
         ///      font-family: &quot;{1}&quot;;
         ///      font-size: {2} pt;
-        ///      direction: {3};
-        ///      text-align: {4};
-        ///  }}
-        ///.
+        ///      color: {3};
+        ///      direction: {4};
+        ///      text-align: {5};
+        ///  }}.
         /// </summary>
         internal static string HTML_LangStyle {
             get {
@@ -202,7 +260,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;p class=&quot;{0}&quot;&gt;{1}&lt;/p&gt;.
+        ///   Looks up a localized string similar to &lt;p id=&quot;{0}&quot; class=&quot;{1}&quot;&gt;{2}&lt;/p&gt;.
         /// </summary>
         internal static string HTML_ParagraphText {
             get {
@@ -216,7 +274,19 @@ namespace OneStoryProjectEditor.Properties {
         ///      width:100%; 
         ///      overflow:visible
         ///  }}
-        ///{0}&lt;/style&gt;.
+        ///{0}
+        ///  #contextMenu {{	/* The menu container */
+        ///    border:1px solid #202867;	/* Border around the entire menu */
+        ///    background-color:#FFF;	/* White background color of the menu */
+        ///    margin:0px;
+        ///    padding:0px;
+        ///    width:300px;	/* Width of context menu */
+        ///    font-family:arial;
+        ///    font-size:11px;
+        ///    background-image:url(&apos;gradient.gif&apos;);
+        ///    background-repeat:repeat-y;
+        ///    	
+        ///    /* Never change these t [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string HTML_StyleDefinition {
             get {
@@ -254,6 +324,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;td NOWRAP&gt;{0}&lt;/td&gt;.
+        /// </summary>
+        internal static string HTML_TableCellNoWrap {
+            get {
+                return ResourceManager.GetString("HTML_TableCellNoWrap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;td width=&quot;{0}%&quot;&gt;{1}&lt;/td&gt;.
         /// </summary>
         internal static string HTML_TableCellWidth {
@@ -263,11 +342,29 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;td width=&quot;{0}%&quot; valign=&quot;top&quot;&gt;{1}&lt;/td&gt;.
+        /// </summary>
+        internal static string HTML_TableCellWidthAlignTop {
+            get {
+                return ResourceManager.GetString("HTML_TableCellWidthAlignTop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;td id=&quot;{0}&quot; width=&quot;{1}%&quot;&gt;{2}&lt;/td&gt;.
         /// </summary>
         internal static string HTML_TableCellWidthId {
             get {
                 return ResourceManager.GetString("HTML_TableCellWidthId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;td id=&quot;{0}&quot; width=&quot;{1}%&quot; colspan=&quot;{2}&quot;&gt;{3}&lt;/td&gt;.
+        /// </summary>
+        internal static string HTML_TableCellWidthSpanId {
+            get {
+                return ResourceManager.GetString("HTML_TableCellWidthSpanId", resourceCulture);
             }
         }
         
@@ -341,11 +438,20 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;textarea id=&quot;{0}&quot; class=&quot;{1}&quot; onKeyUp=&quot;return window.external.TextareaOnKeyUp(this.id, this.value);&quot; ondragover=&quot;window.event.returnValue=false&quot; ondrop=&quot;window.external.CopyScriptureReference(this.id)&quot;&gt;{2}&lt;/textarea&gt;.
+        ///   Looks up a localized string similar to &lt;textarea id=&quot;{0}&quot; class=&quot;{1}&quot; onKeyUp=&quot;return window.external.TextareaOnKeyUp(this.id, this.value);&quot;&gt;{2}&lt;/textarea&gt;.
         /// </summary>
         internal static string HTML_Textarea {
             get {
                 return ResourceManager.GetString("HTML_Textarea", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;textarea id=&quot;{0}&quot; class=&quot;{1}&quot; onKeyUp=&quot;return window.external.TextareaOnKeyUp(this.id, this.value);&quot; ondragover=&quot;window.event.returnValue=false&quot; ondrop=&quot;window.external.CopyScriptureReference(this.id)&quot;&gt;{2}&lt;/textarea&gt;.
+        /// </summary>
+        internal static string HTML_TextareaWithRefDrop {
+            get {
+                return ResourceManager.GetString("HTML_TextareaWithRefDrop", resourceCulture);
             }
         }
         
@@ -411,6 +517,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Have you entered all of your testing questions? If not, then click &apos;Cancel&apos; and finish entering all of the testing questions first (or you won&apos;t get answer boxes for questions added later). Or click &apos;OK&apos; to add boxes for the UNS&apos;s retelling and answers to the testing quetsions..
+        /// </summary>
+        internal static string IDS_AreAllTestingQuestionsEnteredQuery {
+            get {
+                return ResourceManager.GetString("IDS_AreAllTestingQuestionsEnteredQuery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Talk with your project consultant before creating an &apos;Outside English back-translator&apos; member on your team. The role of &apos;Outside English back-translator&apos; is only used when the team doesn&apos;t have anyone to do an English back-translation and they arrange with some other team to do their English BT for them. If your team is doing its own English back-translations, then don&apos;t create an &apos;Outside English back-translator&apos; member (you would do it as the Project Facilitator). .
         /// </summary>
         internal static string IDS_AreYouSureYouWantToHaveAnEnglishBter {
@@ -443,6 +558,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_Caption {
             get {
                 return ResourceManager.GetString("IDS_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Would you like to enter the results of a UNS test now (click &apos;Yes&apos;) or have your consultant check the story and testing questions first (click &apos;No&apos;)?.
+        /// </summary>
+        internal static string IDS_CheckForSkipToUnsCheck {
+            get {
+                return ResourceManager.GetString("IDS_CheckForSkipToUnsCheck", resourceCulture);
             }
         }
         
@@ -1000,7 +1124,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to If you change to this next state, then you won&apos;t be able to edit the story until after the {0} has done his or her changes. Are you sure you want to change to the &apos;{1}&apos; state?.
+        ///   Looks up a localized string similar to If you change to this state, then you won&apos;t be able to edit the story further until it is your turn again (after the {0} has finished his or her changes). Are you sure you want to change to the &apos;{1}&apos; state?.
         /// </summary>
         internal static string IDS_TerminalTransitionMessage {
             get {

@@ -488,6 +488,42 @@ namespace OneStoryProjectEditor
             if (!CheckThatPFRespondedToCITQuestions(theSE, theCurrentStory))
                 return false;
 
+            // for the Payne approach, they want the first two UNS checks *before* the
+            //  consultant sees it, so check if we should be skipping all the way to the 
+            //  "after round 1 consultant checking do the UNS test" state
+            DialogResult res = MessageBox.Show(Properties.Resources.IDS_CheckForSkipToUnsCheck,
+                                           Properties.Resources.IDS_Caption,
+                                           MessageBoxButtons.YesNoCancel);
+            if (res == DialogResult.Cancel)
+                return false;
+
+            if (res == DialogResult.Yes)
+            {
+                theSE.AddTest();
+                eProposedNextState = StoryStageLogic.ProjectStages.eProjFacEnterRetellingOfTest1;
+            }
+            else if (theStoryProjectData.TeamMembers.HasOutsideEnglishBTer)
+                eProposedNextState = StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT;
+            else if (theStoryProjectData.TeamMembers.HasFirstPassMentor)
+                eProposedNextState = StoryStageLogic.ProjectStages.eFirstPassMentorCheck1;
+            else
+                System.Diagnostics.Debug.Assert(eProposedNextState ==
+                                                StoryStageLogic.ProjectStages.eConsultantCheckStoryInfo);
+
+            return true;
+        }
+
+        public static bool ProjFacRevisesBeforeUnsTest(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
+        {
+            System.Diagnostics.Debug.Assert(theCurrentStory.CraftingInfo.IsBiblicalStory);
+            Console.WriteLine(String.Format("Checking if stage 'ProjFacRevisesBeforeUnsTest' work is finished: Name: {0}", theCurrentStory.Name));
+
+            // before going to the CIT, let's make sure that if the CIT had made 
+            //  a comment, that the PF answered it. (this only occurs if the CIT
+            //  had earlier checked the story and gone backwards)
+            if (!CheckThatPFRespondedToCITQuestions(theSE, theCurrentStory))
+                return false;
+
             if (theStoryProjectData.TeamMembers.HasOutsideEnglishBTer)
                 eProposedNextState = StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT;
             else if (theStoryProjectData.TeamMembers.HasFirstPassMentor)
@@ -562,6 +598,16 @@ namespace OneStoryProjectEditor
             return true;
         }
 
+        public static bool BackTranslatorTranslateConNotesBeforeUnsTest(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
+        {
+            Console.WriteLine(String.Format("Checking if stage 'BackTranslatorTranslateConNotesBeforeUnsTest' work is finished: Name: {0}", theCurrentStory.Name));
+
+            System.Diagnostics.Debug.Assert(eProposedNextState ==
+                StoryStageLogic.ProjectStages.eConsultantCheckStoryInfo);
+
+            return true;
+        }
+
         protected static void QueryForUnsBackTranslator(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory)
         {
             while (String.IsNullOrEmpty(theCurrentStory.CraftingInfo.BackTranslatorMemberID))
@@ -624,6 +670,31 @@ namespace OneStoryProjectEditor
             if (!CheckThatCITRespondedToCoachQuestions(theSE, theCurrentStory))
                 return false;
 
+            // if we have an independent consultant, then the next state is back to the PF
+            if (theStoryProjectData.TeamMembers.HasIndependentConsultant 
+             && theSE.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eIndependentConsultant)
+            {
+                if (theStoryProjectData.TeamMembers.HasOutsideEnglishBTer)
+                    eProposedNextState = StoryStageLogic.ProjectStages.eBackTranslatorTranslateConNotes;
+                else
+                    eProposedNextState = StoryStageLogic.ProjectStages.eProjFacReviseBasedOnRound1Notes;
+            }
+            return true;
+        }
+
+        public static bool ConsultantCauseRevisionBeforeUnsTest(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
+        {
+            Console.WriteLine(String.Format("Checking if stage 'ConsultantCauseRevisionBeforeUnsTest' work is finished: Name: {0}", theCurrentStory.Name));
+
+            System.Diagnostics.Debug.Assert(eProposedNextState ==
+                StoryStageLogic.ProjectStages.eCoachReviewRound1Notes);
+
+            // before going to the Coach, let's make sure that if the coach had made 
+            //  a comment, that the CIT answered it. (this only occurs if the coach
+            //  had earlier checked the story and gone backwards)
+            if (!CheckThatCITRespondedToCoachQuestions(theSE, theCurrentStory))
+                return false;
+
             return true;
         }
 
@@ -633,7 +704,13 @@ namespace OneStoryProjectEditor
             if (theCurrentStory.Verses.FirstVerse.IsVisible)
                 if (!CheckThatMentorAnsweredMenteesQuestions(theSE, theSE.htmlCoachNotesControl,
                     theCurrentStory.Verses.FirstVerse.CoachNotes, ref nVerseNumber))
+                {
+                    theSE.NavigateTo(theCurrentStory.Name,
+                                     VerseData.ViewItemToInsureOn.eCoachNotesFields,
+                                     false,
+                                     null);
                     return false;
+                }
 
             nVerseNumber++;
             foreach (VerseData aVerseData in theCurrentStory.Verses)
@@ -641,7 +718,13 @@ namespace OneStoryProjectEditor
                 if (aVerseData.IsVisible)
                     if (!CheckThatMentorAnsweredMenteesQuestions(theSE, theSE.htmlCoachNotesControl,
                         aVerseData.CoachNotes, ref nVerseNumber))
+                    {
+                        theSE.NavigateTo(theCurrentStory.Name,
+                                         VerseData.ViewItemToInsureOn.eCoachNotesFields,
+                                         false,
+                                         null);
                         return false;
+                    }
                 nVerseNumber++;
             }
             return true;
@@ -653,7 +736,13 @@ namespace OneStoryProjectEditor
             if (theCurrentStory.Verses.FirstVerse.IsVisible)
                 if (!CheckThatMentorAnsweredMenteesQuestions(theSE, theSE.htmlConsultantNotesControl,
                     theCurrentStory.Verses.FirstVerse.ConsultantNotes, ref nVerseNumber))
+                {
+                    theSE.NavigateTo(theCurrentStory.Name,
+                                     VerseData.ViewItemToInsureOn.eConsultantNoteFields,
+                                     false,
+                                     null);
                     return false;
+                }
 
             nVerseNumber++;
             foreach (VerseData aVerseData in theCurrentStory.Verses)
@@ -661,7 +750,13 @@ namespace OneStoryProjectEditor
                 if (aVerseData.IsVisible)
                     if (!CheckThatMentorAnsweredMenteesQuestions(theSE, theSE.htmlConsultantNotesControl,
                         aVerseData.ConsultantNotes, ref nVerseNumber))
+                    {
+                        theSE.NavigateTo(theCurrentStory.Name,
+                                         VerseData.ViewItemToInsureOn.eConsultantNoteFields,
+                                         false,
+                                         null);
                         return false;
+                    }
                 nVerseNumber++;
             }
             return true;
@@ -672,8 +767,9 @@ namespace OneStoryProjectEditor
             int nVerseNumber = 0;
             if (theCurrentStory.Verses.FirstVerse.IsVisible)
                 if (!CheckThatMenteeAnsweredMentorsQuestions(theSE,
-                        theSE.htmlCoachNotesControl, 
-                        theCurrentStory.Verses.FirstVerse.CoachNotes, ref nVerseNumber))
+                        theSE.htmlCoachNotesControl, theCurrentStory.Verses.FirstVerse.CoachNotes, 
+                        theCurrentStory.Name, VerseData.ViewItemToInsureOn.eCoachNotesFields, 
+                        ref nVerseNumber))
                     return false;
 
             nVerseNumber++;
@@ -681,7 +777,8 @@ namespace OneStoryProjectEditor
             {
                 if (aVerseData.IsVisible)
                     if (!CheckThatMenteeAnsweredMentorsQuestions(theSE, theSE.htmlCoachNotesControl,
-                        aVerseData.CoachNotes, ref nVerseNumber))
+                        aVerseData.CoachNotes, theCurrentStory.Name, 
+                        VerseData.ViewItemToInsureOn.eCoachNotesFields, ref nVerseNumber))
                         return false;
                 nVerseNumber++;
             }
@@ -693,16 +790,19 @@ namespace OneStoryProjectEditor
             int nVerseNumber = 0;
             if (theCurrentStory.Verses.FirstVerse.IsVisible)
                 if (!CheckThatMenteeAnsweredMentorsQuestions(theSE, theSE.htmlConsultantNotesControl,
-                    theCurrentStory.Verses.FirstVerse.ConsultantNotes, ref nVerseNumber))
+                    theCurrentStory.Verses.FirstVerse.ConsultantNotes, theCurrentStory.Name,
+                    VerseData.ViewItemToInsureOn.eConsultantNoteFields, ref nVerseNumber))
                     return false;
-            
+
             nVerseNumber++;
             foreach (VerseData aVerseData in theCurrentStory.Verses)
             {
                 if (aVerseData.IsVisible)
                     if (!CheckThatMenteeAnsweredMentorsQuestions(theSE, theSE.htmlConsultantNotesControl,
-                        aVerseData.ConsultantNotes, ref nVerseNumber))
+                        aVerseData.ConsultantNotes, theCurrentStory.Name,
+                    VerseData.ViewItemToInsureOn.eConsultantNoteFields, ref nVerseNumber))
                         return false;
+
                 nVerseNumber++;
             }
             return true;
@@ -735,6 +835,7 @@ namespace OneStoryProjectEditor
 
         static bool CheckThatMenteeAnsweredMentorsQuestions(StoryEditor theSE, 
             HtmlConNoteControl paneConNote, ConsultNotesDataConverter aCNsDC, 
+            string strCurrentStoryName, VerseData.ViewItemToInsureOn ePane,
             ref int nVerseNumber)
         {
             foreach (ConsultNoteDataConverter aConNote in aCNsDC)
@@ -746,6 +847,10 @@ namespace OneStoryProjectEditor
                     if ((theLastCI.Direction == aConNote.MenteeDirection)
                         && !theLastCI.HasData)
                     {
+                        theSE.NavigateTo(strCurrentStoryName,
+                                         ePane,
+                                         false,
+                                         null);
                         ShowErrorFocus(theSE, paneConNote, nVerseNumber,
                                        String.Format(
                                            "Error: in line {0}, the {1} made a comment, which you didn't respond to. Did you forget it?",
@@ -939,6 +1044,19 @@ namespace OneStoryProjectEditor
             return true;
         }
 
+        public static bool BackTranslatorTranslateConNotesAfterUnsTest(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
+        {
+            Console.WriteLine(String.Format("Checking if stage 'BackTranslatorTranslateConNotesAfterUnsTest' work is finished: Name: {0}", theCurrentStory.Name));
+
+            if (theStoryProjectData.TeamMembers.HasFirstPassMentor)
+                eProposedNextState = StoryStageLogic.ProjectStages.eFirstPassMentorCheck2;
+            else
+                System.Diagnostics.Debug.Assert(eProposedNextState ==
+                    StoryStageLogic.ProjectStages.eConsultantCheck2);
+
+            return true;
+        }
+
         public static bool FirstPassMentorCheck2(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'FirstPassMentorCheck2' work is finished: Name: {0}", theCurrentStory.Name));
@@ -961,6 +1079,35 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert(eProposedNextState == 
                 StoryStageLogic.ProjectStages.eCoachReviewRound2Notes);
 
+            // if we have an independent consultant, then the next state is TeamComplete
+            if (theStoryProjectData.TeamMembers.HasIndependentConsultant
+             && theSE.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eIndependentConsultant)
+            {
+                eProposedNextState = StoryStageLogic.ProjectStages.eTeamComplete;
+            }
+
+            return true;
+        }
+
+        public static bool ConsultantCauseRevisionAfterUnsTest(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
+        {
+            Console.WriteLine(String.Format("Checking if stage 'ConsultantCauseRevisionAfterUnsTest' work is finished: Name: {0}", theCurrentStory.Name));
+
+            // and if the ProjectFac asked a question that the CIT responded to it (so the 
+            //  coach can check the responses)
+            if (!CheckThatCITAnsweredPFsQuestions(theSE, theCurrentStory))
+                return false;
+
+            System.Diagnostics.Debug.Assert(eProposedNextState ==
+                StoryStageLogic.ProjectStages.eCoachReviewRound2Notes);
+
+            // if we have an independent consultant, then the next state is Team Complete
+            if (theStoryProjectData.TeamMembers.HasIndependentConsultant
+             && theSE.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eIndependentConsultant)
+            {
+                eProposedNextState = StoryStageLogic.ProjectStages.eTeamComplete;
+            }
+
             return true;
         }
 
@@ -974,11 +1121,12 @@ namespace OneStoryProjectEditor
                 return false;
 
             System.Diagnostics.Debug.Assert(eProposedNextState == 
-                StoryStageLogic.ProjectStages.eConsultantReviseRound2Notes);
+                StoryStageLogic.ProjectStages.eTeamComplete);
 
             return true;
         }
 
+        /*
         public static bool ConsultantReviseRound2Notes(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ConsultantReviseRound2Notes' work is finished: Name: {0}", theCurrentStory.Name));
@@ -1125,6 +1273,13 @@ namespace OneStoryProjectEditor
 
             System.Diagnostics.Debug.Assert(eProposedNextState == StoryStageLogic.ProjectStages.eCoachReviewTest2Notes);
 
+            // if we have an independent consultant, then we're done
+            if (theStoryProjectData.TeamMembers.HasIndependentConsultant
+             && theSE.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eIndependentConsultant)
+            {
+                eProposedNextState = StoryStageLogic.ProjectStages.eTeamComplete;
+            }
+
             return true;
         }
 
@@ -1142,7 +1297,7 @@ namespace OneStoryProjectEditor
 
             return true;
         }
-
+        */
         public static bool TeamComplete(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'TeamComplete' work is finished: Name: {0}", theCurrentStory.Name));

@@ -228,6 +228,12 @@ namespace OneStoryProjectEditor
         {
             if (m_theLastButtonClicked != null)
             {
+                // the only function of the button here is to add a slot to type a con note
+                StoryEditor theSE;
+                if (!CheckForProperEditToken(out theSE))
+                    return;
+                Debug.Assert(m_theLastButtonClicked.Tag is AnchorData);
+
                 AnchorAddCommentForm dlg = new AnchorAddCommentForm(m_theLastButtonClicked.Text, m_theLastButtonClicked.ToolTipText);
                 DialogResult res = dlg.ShowDialog();
                 if ((res == DialogResult.OK) || (res == DialogResult.Yes))
@@ -245,6 +251,8 @@ namespace OneStoryProjectEditor
                     {
                         addExegeticalCulturalNoteToolStripMenuItem_Click(null, null);
                     }
+
+                    theSE.Modified = true;
                 }
             }
             else
@@ -270,12 +278,13 @@ namespace OneStoryProjectEditor
                 ExegeticalHelpNoteData anEHN = theAnchorData.ExegeticalHelpNotes.AddExegeticalHelpNote("Re: " + m_theLastButtonClicked.Text);
                 SetExegeticalHelpControls(_ctrlVerse, m_theLastButtonClicked, _font, anEHN.ExegeticalHelpNote, ref m_nNumRows);
                 AdjustHeightWithSuspendLayout(null);
+                theSE.Modified = true;
             }
             else
                 MessageBox.Show("Right-click on one of the buttons to choose which one to add the exegetical or cultural note to",  Properties.Resources.IDS_Caption);
         }
 
-        protected BiblicalKeyTermsForm m_dlgKeyTerms = null;
+        internal static BiblicalKeyTermsForm m_dlgKeyTerms = null;
 
         private void editKeyTermsToolStripMenuItem_Click(object sender, EventArgs e)
         {

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using mshtml;
@@ -9,8 +8,6 @@ namespace OneStoryProjectEditor
     [ComVisible(true)]
     public abstract class HtmlConNoteControl : HtmlVerseControl
     {
-        internal LinkLabel LineNumberLink;
-
         protected HtmlConNoteControl()
         {
             ObjectForScripting = this;
@@ -45,58 +42,6 @@ namespace OneStoryProjectEditor
             ConsultNotesDataConverter aCNsDC = DataConverter(nVerseIndex);
             System.Diagnostics.Debug.Assert(aCNsDC.Count > nConversationIndex);
             return aCNsDC[nConversationIndex];
-        }
-
-        public override void ScrollToVerse(int nVerseIndex)
-        {
-            StrIdToScrollTo = VersesData.LineId(nVerseIndex);
-            base.ScrollToVerse(nVerseIndex);
-        }
-
-        public void OnScroll()
-        {
-            if ((Document != null) && (Document.Body != null))
-            {
-                HtmlDocument doc = Document;
-#if DEBUG
-                System.Diagnostics.Debug.WriteLine(String.Format("doc.Body.ScrollTop: {0}", doc.Body.ScrollTop));
-                foreach (HtmlElement elemLn in doc.GetElementsByTagName("td"))
-                    if (!String.IsNullOrEmpty(elemLn.Id))   // so we only get "ln: n" values
-                        System.Diagnostics.Debug.WriteLine(String.Format("id: {0}, or: {1}, sr: {2}, st: {3}",
-                            elemLn.Id, elemLn.OffsetRectangle,
-                            elemLn.ScrollRectangle,
-                            elemLn.ScrollTop));
-#endif
-
-                HtmlElement elemLnPrev = null;
-                foreach (HtmlElement elemLn in doc.GetElementsByTagName("td"))
-                    if (!String.IsNullOrEmpty(elemLn.Id))
-                    {
-                        if (elemLn.OffsetRectangle.Top < doc.Body.ScrollTop)
-                            elemLnPrev = elemLn;
-                        else
-                            break;
-                    }
-
-                if (elemLnPrev != null)
-                {
-                    if (elemLnPrev.InnerText == VersesData.CstrZerothLineName)
-                    {
-                        LineNumberLink.Text = "Story (Ln: 0)";
-                        LineNumberLink.Tag = 0;
-                    }
-                    else
-                    {
-                        LineNumberLink.Text = elemLnPrev.InnerText;
-                        int nIndex = elemLnPrev.InnerText.IndexOf(' ');
-                        System.Diagnostics.Debug.Assert(nIndex != -1);
-                        string strLineNumber = elemLnPrev.InnerText.Substring(nIndex + 1);
-                        if ((nIndex = strLineNumber.IndexOf(StoryEditor.CstrHiddenVerseSuffix)) != -1)
-                            strLineNumber = strLineNumber.Substring(0, nIndex);
-                        LineNumberLink.Tag = Convert.ToInt32(strLineNumber);
-                    }
-                }
-            }
         }
 
         public bool OnAddNote(int nVerseIndex, string strNote)
@@ -307,12 +252,6 @@ namespace OneStoryProjectEditor
         }
         */
         
-        public bool OnBibRefJump(string strBibRef)
-        {
-            TheSE.SetNetBibleVerse(strBibRef);
-            return true;
-        }
-
         public void CopyScriptureReference(string strId)
         {
             int nVerseIndex, nConversationIndex;
@@ -407,11 +346,7 @@ namespace OneStoryProjectEditor
             StoryStageLogic.ProjectStages eCurState = theSE.theCurrentStory.ProjStage.ProjectStage;
             int round = 1;
             if (eCurState > StoryStageLogic.ProjectStages.eProjFacOnlineReview1WithConsultant)
-            {
                 round = 2;
-                if (eCurState > StoryStageLogic.ProjectStages.eProjFacOnlineReview2WithConsultant)
-                    round = 3;
-            }
 
             ConsultNoteDataConverter cndc =
                 aCNsDC.Add(round, theSE.theCurrentStory.ProjStage, 
@@ -424,6 +359,42 @@ namespace OneStoryProjectEditor
             // return the conversation we just created
             return cndc;
         }
+
+        public void SelectFoundText(string strHtmlElementId,
+            int nFoundIndex, int nLengthToSelect)
+        {
+            if (Document != null)
+            {
+                HtmlDocument doc = Document;
+                object[] oaParams = new object[] {strHtmlElementId, nFoundIndex, nLengthToSelect};
+                // doc.InvokeScript("textboxSelect", oaParams);
+                doc.InvokeScript("paragraphSelect", oaParams);
+            }
+        }
+
+        protected bool GetIndicesFromId(string strId,
+            out int nVerseIndex, out int nConversationIndex)
+        {
+            try
+            {
+                string[] aVerseConversationIndices = strId.Split(_achDelim);
+                System.Diagnostics.Debug.Assert(((aVerseConversationIndices.Length == 3) ||
+                                                 (aVerseConversationIndices.Length == 4))
+                                                &&
+                                                ((aVerseConversationIndices[0] == "ta") ||
+                                                 (aVerseConversationIndices[0] == "btn")));
+
+                nVerseIndex = Convert.ToInt32(aVerseConversationIndices[1]);
+                nConversationIndex = Convert.ToInt32(aVerseConversationIndices[2]);
+            }
+            catch
+            {
+                nVerseIndex = 0;
+                nConversationIndex = 0;
+                return false;
+            }
+            return true;
+        }
     }
 
     [ComVisible(true)]
@@ -431,7 +402,7 @@ namespace OneStoryProjectEditor
     {
         public override void LoadDocument()
         {
-            string strHtml = StoryData.ConsultantNotesHtml(TheSE.theCurrentStory.ProjStage,
+            string strHtml = StoryData.ConsultantNotesHtml(this, TheSE.theCurrentStory.ProjStage,
                                                            TheSE.StoryProject.ProjSettings,
                                                            TheSE.LoggedOnMember,
                                                            TheSE.hiddenVersesToolStripMenuItem.Checked);
@@ -457,7 +428,7 @@ namespace OneStoryProjectEditor
     {
         public override void LoadDocument()
         {
-            string strHtml = StoryData.CoachNotesHtml(TheSE.theCurrentStory.ProjStage,
+            string strHtml = StoryData.CoachNotesHtml(this, TheSE.theCurrentStory.ProjStage,
                                                       TheSE.StoryProject.ProjSettings,
                                                       TheSE.LoggedOnMember,
                                                       TheSE.hiddenVersesToolStripMenuItem.Checked);

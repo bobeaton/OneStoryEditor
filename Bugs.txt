@@ -1,3 +1,7 @@
+When we change major version numbers, don't forget that there was an internet repository (i.e. save that info in the xml file itself)
+
+
+
 Find doesn't work for new HTML controls
 
 add 'hidden text' to the search dialog (don't search 'hidden' verses unless it's checked, and NavigateTo needs to unhide such a find)
