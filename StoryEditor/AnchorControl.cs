@@ -46,15 +46,13 @@ namespace OneStoryProjectEditor
             ResumeLayout(false);
         }
 
-        protected const string CstrTooltipIndicator = " *";
-
         protected ToolStripButton InitAnchorButton(ToolStrip ts, AnchorData theAnchorData)
         {
             string strText = theAnchorData.JumpTarget;
             if (!String.IsNullOrEmpty(theAnchorData.ToolTipText)
                 && (theAnchorData.JumpTarget != theAnchorData.ToolTipText))
             {
-                strText += CstrTooltipIndicator; // give an indication that there's a tooltip
+                strText += AnchorData.CstrTooltipIndicator; // give an indication that there's a tooltip
             }
 
             ToolStripButton aButton = new ToolStripButton();
@@ -89,8 +87,8 @@ namespace OneStoryProjectEditor
 
                 // the button may have the extra indicator that there's a tooltip.
                 string strJumpTarget = tssb.Text;
-                int nIndLen = CstrTooltipIndicator.Length;
-                if (strJumpTarget.Substring(strJumpTarget.Length - nIndLen, nIndLen) == CstrTooltipIndicator)
+                int nIndLen = AnchorData.CstrTooltipIndicator.Length;
+                if (strJumpTarget.Substring(strJumpTarget.Length - nIndLen, nIndLen) == AnchorData.CstrTooltipIndicator)
                     strJumpTarget = strJumpTarget.Substring(0, strJumpTarget.Length - nIndLen);
 
                 aSE.SetNetBibleVerse(strJumpTarget);
@@ -142,7 +140,7 @@ namespace OneStoryProjectEditor
             ref int nNumRows)
         {
             foreach (ExegeticalHelpNoteData anExHelpNoteData in anExHelpsNoteData)
-                SetExegeticalHelpControls(ctrlVerse, theAnchorButton, _font, anExHelpNoteData.ExegeticalHelpNote, ref nNumRows);
+                SetExegeticalHelpControls(ctrlVerse, theAnchorButton, _font, anExHelpNoteData, ref nNumRows);
         }
 
         private void toolStripAnchors_DragEnter(object sender, DragEventArgs e)
@@ -195,7 +193,7 @@ namespace OneStoryProjectEditor
 
                 if (_mapAnchorsToTextBoxes.ContainsKey(m_theLastButtonClicked))
                 {
-                    DialogResult res = MessageBox.Show(String.Format("The anchor you are about to delete has exegetical or cultural note(s) attached to it. These will be deleted also. Click 'OK' to continue with the deletion.{0}{0}[if you would rather have kept them, say associated to another anchor, then tell bob_eaton@sall.com and he may implement that feature. For now, you can copy the note and paste it into a new note added to a new or existing anchor (right-click on the anchor and choose 'Add Exegetical/Cultural Note'). Then come back here and delete this anchor]", Environment.NewLine),  Properties.Resources.IDS_Caption, MessageBoxButtons.OKCancel);
+                    DialogResult res = MessageBox.Show(String.Format("The anchor you are about to delete has exegetical or cultural note(s) attached to it. These will be deleted also. Click 'OK' to continue with the deletion.{0}{0}[if you would rather have kept them, say associated to another anchor, then tell bob_eaton@sall.com and he may implement that feature. For now, you can copy the note and paste it into a new note added to a new or existing anchor (right-click on the anchor and choose 'Add Exegetical/Cultural Note'). Then come back here and delete this anchor]", Environment.NewLine),  OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.OKCancel);
                     if (res != DialogResult.OK)
                         return;
 
@@ -221,7 +219,7 @@ namespace OneStoryProjectEditor
                 theSE.Modified = true;
             }
             else
-                MessageBox.Show("Right-click on one of the buttons to choose which one to delete",  Properties.Resources.IDS_Caption);
+                MessageBox.Show("Right-click on one of the buttons to choose which one to delete",  OseResources.Properties.Resources.IDS_Caption);
         }
 
         private void addCommentToolStripMenuItem_Click(object sender, EventArgs e)
@@ -243,9 +241,9 @@ namespace OneStoryProjectEditor
                     theAnchorData.ToolTipText = m_theLastButtonClicked.ToolTipText = dlg.CommentText;
 
                     string strJumpTarget = m_theLastButtonClicked.Text;
-                    int nIndLen = CstrTooltipIndicator.Length;
-                    if (strJumpTarget.Substring(strJumpTarget.Length - nIndLen, nIndLen) != CstrTooltipIndicator)
-                        m_theLastButtonClicked.Text += CstrTooltipIndicator;
+                    int nIndLen = AnchorData.CstrTooltipIndicator.Length;
+                    if (strJumpTarget.Substring(strJumpTarget.Length - nIndLen, nIndLen) != AnchorData.CstrTooltipIndicator)
+                        m_theLastButtonClicked.Text += AnchorData.CstrTooltipIndicator;
 
                     if (res == DialogResult.Yes)
                     {
@@ -256,7 +254,7 @@ namespace OneStoryProjectEditor
                 }
             }
             else
-                MessageBox.Show("Right-click on one of the buttons to choose which one to add the comment to",  Properties.Resources.IDS_Caption);
+                MessageBox.Show("Right-click on one of the buttons to choose which one to add the comment to",  OseResources.Properties.Resources.IDS_Caption);
         }
 
         private void toolStripAnchors_MouseDown(object sender, MouseEventArgs e)
@@ -276,12 +274,12 @@ namespace OneStoryProjectEditor
                 System.Diagnostics.Debug.Assert(m_theLastButtonClicked.Tag is AnchorData);
                 AnchorData theAnchorData = (AnchorData)m_theLastButtonClicked.Tag;
                 ExegeticalHelpNoteData anEHN = theAnchorData.ExegeticalHelpNotes.AddExegeticalHelpNote("Re: " + m_theLastButtonClicked.Text);
-                SetExegeticalHelpControls(_ctrlVerse, m_theLastButtonClicked, _font, anEHN.ExegeticalHelpNote, ref m_nNumRows);
+                SetExegeticalHelpControls(_ctrlVerse, m_theLastButtonClicked, _font, anEHN, ref m_nNumRows);
                 AdjustHeightWithSuspendLayout(null);
                 theSE.Modified = true;
             }
             else
-                MessageBox.Show("Right-click on one of the buttons to choose which one to add the exegetical or cultural note to",  Properties.Resources.IDS_Caption);
+                MessageBox.Show("Right-click on one of the buttons to choose which one to add the exegetical or cultural note to",  OseResources.Properties.Resources.IDS_Caption);
         }
 
         internal static BiblicalKeyTermsForm m_dlgKeyTerms = null;
@@ -317,7 +315,7 @@ namespace OneStoryProjectEditor
             catch (Exception ex)
             {
                 MessageBox.Show(String.Format(Properties.Resources.IDS_KeyTermsProblem,
-                    Environment.NewLine, ex.Message), Properties.Resources.IDS_Caption);
+                    Environment.NewLine, ex.Message), OseResources.Properties.Resources.IDS_Caption);
                 return;
             }
         }
@@ -363,7 +361,7 @@ namespace OneStoryProjectEditor
                 theSE.SendNoteToCorrectPane(_ctrlVerse.VerseNumber, strNote);
             }
             else
-                MessageBox.Show("Right-click on one of the buttons to choose which one to add the comment to", Properties.Resources.IDS_Caption);
+                MessageBox.Show("Right-click on one of the buttons to choose which one to add the comment to", OseResources.Properties.Resources.IDS_Caption);
         }
     }
 }

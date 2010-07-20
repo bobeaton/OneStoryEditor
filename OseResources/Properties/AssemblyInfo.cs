@@ -1,18 +1,17 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Resources;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("OneStory Editor Data Model")]
-[assembly: AssemblyDescription("Data classes for OneStory Projects")]
+[assembly: AssemblyTitle("OseResources")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("SIL")]
-[assembly: AssemblyProduct("OneStory Editor")]
-[assembly: AssemblyCopyright("Copyright © SIL 2010")]
-[assembly: AssemblyTrademark("Copyright © SIL 2010")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("OseResources")]
+[assembly: AssemblyCopyright("Copyright ©  2010")]
+[assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
@@ -21,7 +20,7 @@ using System.Resources;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("e7f6e37a-b2f5-4424-9625-84bc59933d4b")]
+[assembly: Guid("1615694a-b528-479e-854a-70a512a4f290")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -33,6 +32,5 @@ using System.Resources;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.4.0.0")]
-[assembly: AssemblyFileVersion("1.4.0.0")]
-[assembly: NeutralResourcesLanguageAttribute("en")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]

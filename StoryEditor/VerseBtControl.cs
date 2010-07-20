@@ -443,7 +443,7 @@ namespace OneStoryProjectEditor
             {
                 DialogResult res = MessageBox.Show(
                     Properties.Resources.IDS_VerseNotEmptyHideQuery,
-                    Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+                    OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
 
                 if (res == DialogResult.Yes)
                 {
@@ -457,7 +457,7 @@ namespace OneStoryProjectEditor
 
             if (MessageBox.Show(
                 Properties.Resources.IDS_DeleteVerseQuery, 
-                Properties.Resources.IDS_Caption, 
+                OseResources.Properties.Resources.IDS_Caption, 
                 MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
             {
                 theSE.DeleteVerse(_verseData);

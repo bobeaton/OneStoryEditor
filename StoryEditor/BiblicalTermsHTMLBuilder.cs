@@ -329,7 +329,7 @@ namespace OneStoryProjectEditor
             // List<VerseRef> vrefs = new List<VerseRef>(myTerm.VerseRefs());
 
             // get the current stories only (not the obsolete ones)
-            StoriesData theStories = theSPD[Properties.Resources.IDS_MainStoriesSet];
+            StoriesData theStories = theSPD[OseResources.Properties.Resources.IDS_MainStoriesSet];
             progressBarLoadingKeyTerms.Maximum = theStories.Count;
             progressBarLoadingKeyTerms.Value = 0;
 

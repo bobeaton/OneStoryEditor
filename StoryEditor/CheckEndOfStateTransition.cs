@@ -54,7 +54,7 @@ namespace OneStoryProjectEditor
                                 MessageBox.Show(
                                     String.Format(
                                         "Verse number '{0}' has multiple sentences. Click 'Yes' to have them separated into their own verses.",
-                                        nVerseNumber), Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) !=
+                                        nVerseNumber), OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) !=
                                 DialogResult.Yes)
                                 return false;
 
@@ -81,7 +81,7 @@ namespace OneStoryProjectEditor
                 (String.IsNullOrEmpty(theCurrentStory.CraftingInfo.StoryPurpose)
                 || String.IsNullOrEmpty(theCurrentStory.CraftingInfo.ResourcesUsed)))
             {
-                MessageBox.Show(String.Format("In the following window, type in the purpose of the story (why you have it in your panorama) and list the resources you used to craft the story", Environment.NewLine), Properties.Resources.IDS_Caption);
+                MessageBox.Show(String.Format("In the following window, type in the purpose of the story (why you have it in your panorama) and list the resources you used to craft the story", Environment.NewLine), OseResources.Properties.Resources.IDS_Caption);
                 theSE.QueryStoryPurpose();
             }
 
@@ -163,11 +163,11 @@ namespace OneStoryProjectEditor
                             MessageBox.Show(String.Format(Properties.Resources.IDS_UseStoryCollapse,
                                                           nVerseNumber,
                                                           theStoryProjectData.ProjSettings.NationalBT.LangName),
-                                            Properties.Resources.IDS_Caption);
+                                            OseResources.Properties.Resources.IDS_Caption);
                             return false;
                             // this is too dangerous
                             /*
-                            if (MessageBox.Show(String.Format("Verse number '{0}' has multiple sentences. Click Yes to have them separated into their own verses.", nVerseNumber), Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
+                            if (MessageBox.Show(String.Format("Verse number '{0}' has multiple sentences. Click Yes to have them separated into their own verses.", nVerseNumber), OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
                             {
                                 if (theStoryProjectData.ProjSettings.Vernacular.HasData)
                                 {
@@ -284,13 +284,13 @@ namespace OneStoryProjectEditor
                             MessageBox.Show(String.Format(Properties.Resources.IDS_UseStoryCollapse,
                                                           nVerseNumber,
                                                           theStoryProjectData.ProjSettings.InternationalBT.LangName),
-                                            Properties.Resources.IDS_Caption);
+                                            OseResources.Properties.Resources.IDS_Caption);
                             return false;
 
                             // this is too dangerous
                             // the see if they want to fix it.
                             /*
-                            if (MessageBox.Show(String.Format("Verse number '{0}' has multiple sentences. Click Yes to have them separated into their own verses.", nVerseNumber), Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
+                            if (MessageBox.Show(String.Format("Verse number '{0}' has multiple sentences. Click Yes to have them separated into their own verses.", nVerseNumber), OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
                             {
                                 if (theStoryProjectData.ProjSettings.Vernacular.HasData
                                     || theStoryProjectData.ProjSettings.NationalBT.HasData)
@@ -418,7 +418,7 @@ namespace OneStoryProjectEditor
         {
             theSE.SetStatusBar(strStatusMessage);
             Console.Beep();
-            MessageBox.Show(strStatusMessage, Properties.Resources.IDS_Caption);
+            MessageBox.Show(strStatusMessage, OseResources.Properties.Resources.IDS_Caption);
         }
 
         public static bool ProjFacAddAnchors(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
@@ -451,7 +451,7 @@ namespace OneStoryProjectEditor
             if (!bHasAnyKeyTermBeenChecked)
             {
                 DialogResult res = MessageBox.Show(Properties.Resources.IDS_CheckOnKeyTerms,
-                                               Properties.Resources.IDS_Caption, 
+                                               OseResources.Properties.Resources.IDS_Caption, 
                                                MessageBoxButtons.RetryCancel);
                 if (res == DialogResult.Cancel)
                     return false;
@@ -492,7 +492,7 @@ namespace OneStoryProjectEditor
             //  consultant sees it, so check if we should be skipping all the way to the 
             //  "after round 1 consultant checking do the UNS test" state
             DialogResult res = MessageBox.Show(Properties.Resources.IDS_CheckForSkipToUnsCheck,
-                                           Properties.Resources.IDS_Caption,
+                                           OseResources.Properties.Resources.IDS_Caption,
                                            MessageBoxButtons.YesNoCancel);
             if (res == DialogResult.Cancel)
                 return false;
@@ -939,7 +939,7 @@ namespace OneStoryProjectEditor
             Console.WriteLine(String.Format("Checking if stage 'ProjFacReadyForTest1' work is finished: Name: {0}", theCurrentStory.Name));
 
             // add the story question answer lines and retelling lines to the verses for test n
-            DialogResult res = MessageBox.Show(Properties.Resources.IDS_AddTestQuery, Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+            DialogResult res = MessageBox.Show(Properties.Resources.IDS_AddTestQuery, OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
             if (res == DialogResult.Cancel)
                 return false;
 
@@ -997,7 +997,7 @@ namespace OneStoryProjectEditor
             DialogResult res =
                 MessageBox.Show(
                     Properties.Resources.IDS_AddAnotherTestQuery,
-                    Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+                    OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
 
             if (res == DialogResult.Cancel)
                 return false;
@@ -1188,7 +1188,7 @@ namespace OneStoryProjectEditor
             Console.WriteLine(String.Format("Checking if stage 'ProjFacReadyForTest2' work is finished: Name: {0}", theCurrentStory.Name));
 
             // add the story question answer lines and retelling lines to the verses for test n
-            DialogResult res = MessageBox.Show(Properties.Resources.IDS_AddTestQuery, Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+            DialogResult res = MessageBox.Show(OseResources.Properties.Resources.IDS_AddTestQuery, OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
             if (res == DialogResult.Cancel)
                 return false;
 
@@ -1220,7 +1220,7 @@ namespace OneStoryProjectEditor
                 return false;
 
             // see if they want to enter results for the next UNS test
-            DialogResult res = MessageBox.Show("Click 'Yes' to create the boxes for entering the next UNS's answers to the testing questions", Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+            DialogResult res = MessageBox.Show("Click 'Yes' to create the boxes for entering the next UNS's answers to the testing questions", OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
             if (res == DialogResult.Yes)
                 theSE.AddTest();
             else if (res == DialogResult.Cancel)

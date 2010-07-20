@@ -348,7 +348,7 @@ This is the final stage of the process for this non-biblical story.
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
   <StateTransition stage="eFirstPassMentorCheck1" MemberTypeWithEditToken="eFirstPassMentor" NextState="eConsultantCheckStoryInfo" RequiresBiblicalStory="true">
-    <StageDisplayString>First-pass mentor checks the story</StageDisplayString>
+    <StageDisplayString>First-pass mentor checks the story (pre-UNS test)</StageDisplayString>
     <StageInstructions>
 In this stage, you (the first-pass mentor) will check the story and make any suggestions you can
 think of that would make the story more accurate, clear, and natural. You will put your suggestions
@@ -657,7 +657,7 @@ stage in the process.
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eProjFacOnlineReview1WithConsultant" MemberTypeWithEditToken="eProjectFacilitator" NextState="eProjFacReadyForTest1" RequiresBiblicalStory="true">
-    <StageDisplayString>Project Facilitator has 1st online review with consultant</StageDisplayString>
+    <StageDisplayString>Project Facilitator has online review with consultant</StageDisplayString>
     <StageInstructions>
 In this stage, you (the Project Facilitator) will arrange a time to get online at the same time as the 
 consultant so that you can discuss the feedback he or she gave. If your team has a First Pass Mentor, 
@@ -677,7 +677,7 @@ which you will do your first (formal) UNS test.
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eProjFacReadyForTest1" MemberTypeWithEditToken="eProjectFacilitator" NextState="eProjFacEnterRetellingOfTest1" RequiresBiblicalStory="true">
-    <StageDisplayString>Project Facilitator is ready for the 1st (formal) UNS test</StageDisplayString>
+    <StageDisplayString>Project Facilitator is ready for a UNS test</StageDisplayString>
     <StageInstructions>
 In this stage, you (the Project Facilitator) will arrange for a UNS test (typically, with two different
 UNSs). Each full UNS test includes:

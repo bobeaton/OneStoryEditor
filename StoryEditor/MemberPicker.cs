@@ -51,7 +51,7 @@ namespace OneStoryProjectEditor
                 InitializeListBox(_eWantedType);
                 listBoxUNSs.SelectedItem = theMember.Name;
             }
-            catch (StoryEditor.BackOutWithNoUIException)
+            catch (StoryProjectData.BackOutWithNoUIException)
             {
                 // sub-routine has taken care of the UI, just exit without doing anything
             }

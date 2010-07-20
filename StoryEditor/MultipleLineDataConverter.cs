@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml;
 using System.Xml.Linq;
 using System.Text;
 
@@ -8,7 +9,7 @@ namespace OneStoryProjectEditor
     public abstract class MultipleLineDataConverter : List<StringTransfer>
     {
         public List<string> MemberIDs = new List<string>();
-        protected abstract string CollectionElementName { get; }
+        public abstract string CollectionElementName { get; }
         protected abstract string InstanceElementName { get; }
         public abstract string LabelTextFormat { get; }
         protected abstract VerseData.ViewItemToInsureOn AssociatedViewMenu { get; }
@@ -24,6 +25,22 @@ namespace OneStoryProjectEditor
 
         protected MultipleLineDataConverter()
         {
+        }
+
+        protected void InitFromXmlNode(XmlNode node, string strInstanceElementName)
+        {
+            if (node == null)
+                return;
+
+            XmlNodeList list = node.SelectNodes(strInstanceElementName);
+            if (list == null)
+                return;
+
+            foreach (XmlNode nodeList in list)
+            {
+                Add(new StringTransfer(nodeList.InnerText));
+                MemberIDs.Add(nodeList.Attributes[CstrAttributeMemberID].Value);
+            }
         }
 
         public bool HasData
@@ -54,6 +71,8 @@ namespace OneStoryProjectEditor
             }
         }
 
+        public const string CstrAttributeMemberID = "memberID";
+
         public XElement GetXml
         {
             get
@@ -66,17 +85,124 @@ namespace OneStoryProjectEditor
                     // for these instances of StringTransfers, we want to store them even if they are empty
                     //  so that the boxes will persist across save and restarts
                     // if (this[i].HasData)
-                        elem.Add(new XElement(InstanceElementName, new XAttribute("memberID", MemberIDs[i]), this[i]));
+                    elem.Add(new XElement(InstanceElementName, new XAttribute(CstrAttributeMemberID, MemberIDs[i]), this[i]));
                 }
                 return elem;
             }
         }
 
-        public void IndexSearch(SearchForm.SearchLookInProperties findProperties,
-            ref SearchForm.StringTransferSearchIndex lstBoxesToSearch)
+        public void IndexSearch(VerseData.SearchLookInProperties findProperties,
+            ref VerseData.StringTransferSearchIndex lstBoxesToSearch)
         {
             foreach (StringTransfer line in this)
                 lstBoxesToSearch.AddNewVerseString(line, AssociatedViewMenu);
+        }
+
+        public static string TextareaId(string strPrefix, int nVerseIndex, int nRetellingNum)
+        {
+            return String.Format("ta{0}_{1}_{2}", strPrefix, nVerseIndex, nRetellingNum);
+        }
+
+        public string Html(int nVerseIndex, int nNumCols)
+        {
+            string strRow = null;
+            for (int i = 0; i < Count; i++)
+            {
+                strRow += String.Format(OseResources.Properties.Resources.HTML_TableRow,
+                                        String.Format("{0}{1}",
+                                                      String.Format(OseResources.Properties.Resources.HTML_TableCellNoWrap,
+                                                                    String.Format(LabelTextFormat, i + 1)),
+                                                      String.Format(OseResources.Properties.Resources.HTML_TableCellWidth,
+                                                                    100,
+                                                                    String.Format(OseResources.Properties.Resources.HTML_Textarea,
+                                                                                  TextareaId(InstanceElementName, nVerseIndex, i),
+                                                                                  StoryData.
+                                                                                      CstrLangInternationalBtStyleClassName,
+                                                                                  this[i]))));
+            }
+
+            // make a sub-table out of all this
+            strRow = String.Format(OseResources.Properties.Resources.HTML_TableRow,
+                                    String.Format(OseResources.Properties.Resources.HTML_TableCellWithSpan, nNumCols,
+                                                  String.Format(OseResources.Properties.Resources.HTML_Table,
+                                                                strRow)));
+            return strRow;
+        }
+
+        public string PresentationHtml(int nVerseIndex, int nNumCols, List<string> astrTestors, MultipleLineDataConverter child)
+        {
+            string strRow = null;
+            int nTestNum = 0;
+            for (int i = 0; i < Count; i++)
+            {
+                string strMemberId = MemberIDs[i];
+                nTestNum = astrTestors.IndexOf(strMemberId);
+                StringTransfer stParent = this[i];
+                bool bFound = false;
+                StringTransfer stChild = null;
+                if (child != null)
+                    for (int j = 0; j < child.Count; j++)
+                    {
+                        string strChildMemberID = child.MemberIDs[j];
+                        if (strMemberId == strChildMemberID)
+                        {
+                            stChild = child[j];
+                            child.RemoveAt(j);
+                            child.MemberIDs.RemoveAt(j);
+                            bFound = true;
+                            break;
+                        }
+                    }
+
+                string str;
+                // if we found it, it means there was a child version... 
+                if (bFound)
+                    str = Diff.HtmlDiff(stParent, stChild); // so diff them
+
+                // but if there was a child and yet we didn't find it...
+                else if (child != null)
+                    str = Diff.HtmlDiff(stParent, null);    // then the parent was deleted.
+
+                // otherwise, if there was no child (e.g. just doing a print preview of one version)...
+                else
+                    str = stParent.ToString();  // then the parent's value is the value
+
+                strRow += PresentationHtmlRow(nVerseIndex, nTestNum, str);
+            }
+
+            // finally, everything that is left in the child is new
+            if ((child != null) && (child.Count > 0))
+            {
+                for (int j = 0; j < child.Count; j++)
+                {
+                    string str = Diff.HtmlDiff(null, child[j]);
+                    strRow += PresentationHtmlRow(nVerseIndex, nTestNum, str);
+                }
+            }
+
+            // make a sub-table out of all this
+            strRow = String.Format(OseResources.Properties.Resources.HTML_TableRow,
+                                    String.Format(OseResources.Properties.Resources.HTML_TableCellWithSpan, nNumCols,
+                                                  String.Format(OseResources.Properties.Resources.HTML_Table,
+                                                                strRow)));
+            return strRow;
+        }
+
+        protected string PresentationHtmlRow(int nVerseIndex, int nTestNum, string str)
+        {
+            if (String.IsNullOrEmpty(str))
+                str = "-";  // give it something so we don't have no cell there.
+            return String.Format(OseResources.Properties.Resources.HTML_TableRow,
+                                 String.Format("{0}{1}",
+                                               String.Format(OseResources.Properties.Resources.HTML_TableCellNoWrap,
+                                                             String.Format(LabelTextFormat, nTestNum + 1)),
+                                               String.Format(OseResources.Properties.Resources.HTML_TableCellWidth,
+                                                             100,
+                                                             String.Format(OseResources.Properties.Resources.HTML_ParagraphText,
+                                                                           TextareaId(InstanceElementName, nVerseIndex, nTestNum),
+                                                                           StoryData.
+                                                                              CstrLangInternationalBtStyleClassName,
+                                                                           str))));
         }
     }
 
@@ -103,16 +229,23 @@ namespace OneStoryProjectEditor
         {
         }
 
+        public RetellingsData(XmlNode node)
+        {
+            InitFromXmlNode(node, InstanceElementName);
+        }
+
         public RetellingsData()
         {
         }
 
-        protected override string CollectionElementName
+        public const string CstrElementLableRetellings = "Retellings";
+
+        public override sealed string CollectionElementName
         {
-            get { return "Retellings"; }
+            get { return CstrElementLableRetellings; }
         }
 
-        protected override string InstanceElementName
+        protected override sealed string InstanceElementName
         {
             get { return "Retelling"; }
         }
@@ -125,37 +258,6 @@ namespace OneStoryProjectEditor
         protected override VerseData.ViewItemToInsureOn AssociatedViewMenu
         {
             get { return VerseData.ViewItemToInsureOn.eRetellingFields; }
-        }
-
-        public static string TextareaId(int nVerseIndex, int nRetellingNum)
-        {
-            return String.Format("taRetelling_{0}_{1}", nVerseIndex, nRetellingNum);
-        }
-
-        public string Html(int nVerseIndex, int nNumCols)
-        {
-            string strRow = null;
-            for (int i = 0; i < Count; i++)
-            {
-                strRow += String.Format(Properties.Resources.HTML_TableRow,
-                                        String.Format("{0}{1}",
-                                                      String.Format(Properties.Resources.HTML_TableCellNoWrap,
-                                                                    String.Format(LabelTextFormat, i + 1)),
-                                                      String.Format(Properties.Resources.HTML_TableCellWidth,
-                                                                    100,
-                                                                    String.Format(Properties.Resources.HTML_Textarea,
-                                                                                  TextareaId(nVerseIndex, i),
-                                                                                  StoryData.
-                                                                                      CstrLangInternationalBtStyleClassName,
-                                                                                  this[i]))));
-            }
-
-            // make a sub-table out of all this
-            strRow = String.Format(Properties.Resources.HTML_TableRow,
-                                    String.Format(Properties.Resources.HTML_TableCellWithSpan, nNumCols,
-                                                  String.Format(Properties.Resources.HTML_TableNoBorder,
-                                                                strRow)));
-            return strRow;
         }
     }
 
@@ -177,6 +279,11 @@ namespace OneStoryProjectEditor
             }
         }
 
+        public AnswersData(XmlNode node)
+        {
+            InitFromXmlNode(node, InstanceElementName);
+        }
+
         public AnswersData(MultipleLineDataConverter rhs)
             : base(rhs)
         {
@@ -186,12 +293,14 @@ namespace OneStoryProjectEditor
         {
         }
 
-        protected override string CollectionElementName
+        public const string CstrElementLableAnswers = "Answers";
+
+        public override sealed string CollectionElementName
         {
-            get { return "Answers"; }
+            get { return CstrElementLableAnswers; }
         }
 
-        protected override string InstanceElementName
+        protected override sealed string InstanceElementName
         {
             get { return "answer"; }
         }
@@ -204,33 +313,6 @@ namespace OneStoryProjectEditor
         protected override VerseData.ViewItemToInsureOn AssociatedViewMenu
         {
             get { return VerseData.ViewItemToInsureOn.eStoryTestingQuestionFields; }
-        }
-
-        public static string TextareaId(int nVerseIndex, int nAnswerNum)
-        {
-            return String.Format("taTQA_{0}_{1}", nVerseIndex, nAnswerNum);
-        }
-
-        public string Html(int nVerseIndex, int nNumCols)
-        {
-            string strRow = null;
-            for (int i = 0; i < Count; i++)
-            {
-                strRow += String.Format(Properties.Resources.HTML_TableRow,
-                                        String.Format("{0}{1}",
-                                                      String.Format(Properties.Resources.HTML_TableCellNoWrap,
-                                                                    String.Format(LabelTextFormat, i + 1)),
-                                                      String.Format(Properties.Resources.HTML_TableCellWithSpanAndWidth,
-                                                                    100,
-                                                                    nNumCols,
-                                                                    String.Format(Properties.Resources.HTML_Textarea,
-                                                                                  TextareaId(nVerseIndex, i),
-                                                                                  StoryData.
-                                                                                      CstrLangInternationalBtStyleClassName,
-                                                                                  this[i]))));
-            }
-
-            return strRow;
         }
     }
 }

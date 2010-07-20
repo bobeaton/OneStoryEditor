@@ -112,7 +112,7 @@ namespace OneStoryProjectEditor
             catch (Exception ex)
             {
                 MessageBox.Show(String.Format(Properties.Resources.IDS_KeyTermsProblem,
-                    Environment.NewLine, ex.Message), Properties.Resources.IDS_Caption);
+                    Environment.NewLine, ex.Message), OseResources.Properties.Resources.IDS_Caption);
                 return;
             }
             finally

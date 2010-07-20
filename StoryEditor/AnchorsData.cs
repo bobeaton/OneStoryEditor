@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml;
 using System.Xml.Linq;
 using System.Text;
 using System.Text.RegularExpressions;   // for Regex
@@ -22,6 +23,15 @@ namespace OneStoryProjectEditor
                 ToolTipText = theAnchorRow.toolTip;
 
             ExegeticalHelpNotes = new ExegeticalHelpNotesData(theAnchorRow, projFile);
+        }
+
+        public AnchorData(XmlNode node)
+        {
+            XmlAttribute attr;
+            JumpTarget = ((attr = node.Attributes[CstrAttributeJumpTarget]) != null) ? attr.Value : null;
+            XmlNode elem;
+            ToolTipText = ((elem = node.SelectSingleNode(CstrElementLabelToolTip)) != null) ? elem.InnerText : null;
+            ExegeticalHelpNotes = new ExegeticalHelpNotesData(node.SelectSingleNode(ExegeticalHelpNotesData.CstrElementLabelExegeticalHelps));
         }
 
         public AnchorData(string strJumpTarget, string strComment)
@@ -122,42 +132,36 @@ namespace OneStoryProjectEditor
                 catch (Exception)
                 {
                     throw new ApplicationException(
-                        String.Format(Properties.Resources.IDS_IllFormedJumpTarget, strBookCode));
+                        String.Format(OseResources.Properties.Resources.IDS_IllFormedJumpTarget, strBookCode));
                 }
                 
                 return strBookCode + JumpTarget.Substring(nIndexSpace);
             }
         }
 
+        public const string CstrElementLabelAnchor = "anchor";
+        public const string CstrAttributeJumpTarget = "jumpTarget";
+        public const string CstrElementLabelToolTip = "toolTip";
+
         public XElement GetXml
         {
             get
             {
                 System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(JumpTarget));
-                XElement elemAnchor = new XElement("anchor", 
-                    new XAttribute("jumpTarget", JumpTarget));
+                XElement elemAnchor = new XElement(CstrElementLabelAnchor,
+                    new XAttribute(CstrAttributeJumpTarget, JumpTarget));
 
                 if (!String.IsNullOrEmpty(ToolTipText))
-                    elemAnchor.Add(new XElement("toolTip", ToolTipText));
+                    elemAnchor.Add(new XElement(CstrElementLabelToolTip, ToolTipText));
 
                 if (ExegeticalHelpNotes.HasData)
                     elemAnchor.Add(ExegeticalHelpNotes.GetXml);
-
-                /* not using anymore
-                if (keyTerms.Count > 0)
-                {
-                    XElement elemKeyTerms = new XElement("keyTerms");
-                    foreach (string strKeyTerm in keyTerms)
-                        elemKeyTerms.Add(new XElement("keyTerm", strKeyTerm));
-                    elemAnchor.Add(elemKeyTerms);
-                }
-                */
 
                 return elemAnchor;
             }
         }
 
-        protected const string CstrTooltipIndicator = " *";
+        public const string CstrTooltipIndicator = " *";
 
         public string Html
         {
@@ -168,11 +172,75 @@ namespace OneStoryProjectEditor
                     && (JumpTarget != ToolTipText))
                     strButtonLabel += CstrTooltipIndicator; // give an indication that there's a tooltip
 
-                return String.Format(Properties.Resources.HTML_Button,
+                return String.Format(OseResources.Properties.Resources.HTML_Button,
                                         JumpTarget,
                                         "return OnBibRefJump(this);",
                                         strButtonLabel);
             }
+        }
+
+        public string PresentationHtml(AnchorsData childAnchorsData, bool bProcessingChild,
+            ref List<string> astrExegeticalHelpNotes)
+        {
+            string strButtonLabel = JumpTarget;
+            if (childAnchorsData != null)
+            {
+                bool bFound = false;
+                string strToolTipText = null;
+                foreach (AnchorData anAnchor in childAnchorsData)
+                    if (JumpTarget == anAnchor.JumpTarget)
+                    {
+                        bFound = true;
+                        strToolTipText = anAnchor.ToolTipText;
+
+                        // get the ExegeticalHelp notes as well
+                        ExegeticalHelpNotes.PresentationHtml(anAnchor.ExegeticalHelpNotes, ref astrExegeticalHelpNotes);
+
+                        childAnchorsData.Remove(anAnchor);   // so we know which ones we've "done"
+                        break;
+                    }
+
+                // if we didn't find it, then
+                if (!bFound)
+                    strButtonLabel = Diff.HtmlDiff(JumpTarget, null);   // show as deleted
+                else
+                {
+                    // otherwise, if we did find it, see if there's any difference to the tooltip
+                    strToolTipText = Diff.HtmlDiff(ToolTipText, strToolTipText);
+                    if (strToolTipText != JumpTarget)
+                        astrExegeticalHelpNotes.Add(strToolTipText);
+                }
+            }
+            else if (bProcessingChild)
+            {
+                // the only time we call this method without a value for childAnchorsData is when
+                //  we're processing the new stuff (i.e. what's in the child)
+                //  so show it with 'addition' markup
+                strButtonLabel = Diff.HtmlDiff(null, JumpTarget);
+                if (JumpTarget != ToolTipText)
+                    astrExegeticalHelpNotes.Add(Diff.HtmlDiff(null, ToolTipText));
+
+                ExegeticalHelpNotes.PresentationHtml(null, ref astrExegeticalHelpNotes);
+            }
+            else
+            {
+                // the only time we call this method without a value for childAnchorsData is when
+                //  we're processing the new stuff (i.e. what's in the child)
+                //  so show it with 'addition' markup
+                strButtonLabel = JumpTarget;
+                if (JumpTarget != ToolTipText)
+                {
+                    strButtonLabel += CstrTooltipIndicator;
+                    astrExegeticalHelpNotes.Add(ToolTipText);
+                }
+
+                ExegeticalHelpNotes.PresentationHtml(null, ref astrExegeticalHelpNotes);
+            }
+
+            return String.Format(OseResources.Properties.Resources.HTML_Button,
+                                    JumpTarget,
+                                    "return OnBibRefJump(this);",
+                                    strButtonLabel);
         }
     }
 
@@ -193,6 +261,19 @@ namespace OneStoryProjectEditor
 
             foreach (NewDataSet.anchorRow anAnchorRow in theAnchorsRow.GetanchorRows())
                 Add(new AnchorData(anAnchorRow, projFile));
+        }
+
+        public AnchorsData(XmlNode node)
+        {
+            if (node == null)
+                return;
+
+            XmlNodeList list = node.SelectNodes(AnchorData.CstrElementLabelAnchor);
+            if (list == null)
+                return;
+
+            foreach (XmlNode nodeAnchor in list)
+                Add(new AnchorData(nodeAnchor));
         }
 
         public AnchorsData(AnchorsData rhs)
@@ -218,12 +299,14 @@ namespace OneStoryProjectEditor
             get { return (Count > 0); }
         }
 
+        public const string CstrElementLabelAnchors = "anchors";
+
         public XElement GetXml
         {
             get
             {
                 System.Diagnostics.Debug.Assert(HasData, "trying to serialize an AnchorsData without items");
-                XElement elemAnchors = new XElement("anchors", new XAttribute("keyTermChecked", IsKeyTermChecked));
+                XElement elemAnchors = new XElement(CstrElementLabelAnchors, new XAttribute("keyTermChecked", IsKeyTermChecked));
                 foreach (AnchorData anAnchorData in this)
                     elemAnchors.Add(anAnchorData.GetXml);
                 return elemAnchors;
@@ -237,14 +320,14 @@ namespace OneStoryProjectEditor
                 strRow += anchorData.Html;
 
             // make a cell out of the buttons
-            string strHtmlCell = String.Format(Properties.Resources.HTML_TableCellWidth,
+            string strHtmlCell = String.Format(OseResources.Properties.Resources.HTML_TableCellWidth,
                                                100, 
                                                strRow);
 
             // add combine with the 'anc:' header cell into a Table Row
-            string strHtml = String.Format(Properties.Resources.HTML_TableRow,
+            string strHtml = String.Format(OseResources.Properties.Resources.HTML_TableRow,
                                            String.Format("{0}{1}",
-                                                         String.Format(Properties.Resources.HTML_TableCell,
+                                                         String.Format(OseResources.Properties.Resources.HTML_TableCell,
                                                                        "anc:"),
                                                          strHtmlCell));
 
@@ -257,9 +340,57 @@ namespace OneStoryProjectEditor
             }
 
             // make a sub-table out of all this
-            strHtml = String.Format(Properties.Resources.HTML_TableRow,
-                                    String.Format(Properties.Resources.HTML_TableCellWithSpan, nNumCols,
-                                                  String.Format(Properties.Resources.HTML_TableNoBorder,
+            strHtml = String.Format(OseResources.Properties.Resources.HTML_TableRow,
+                                    String.Format(OseResources.Properties.Resources.HTML_TableCellWithSpan, nNumCols,
+                                                  String.Format(OseResources.Properties.Resources.HTML_Table,
+                                                                strHtml)));
+
+            return strHtml;
+        }
+
+        public string PresentationHtml(int nVerseIndex, int nNumCols, AnchorsData childAnchorsData)
+        {
+            List<string> astrExegeticalHelpNotes = new List<string>();
+            string strRow = null;
+            foreach (AnchorData anchorData in this)
+                strRow += anchorData.PresentationHtml(childAnchorsData, false, ref astrExegeticalHelpNotes);
+            
+            // now put the anchors that are in the child (as additions)
+            if (childAnchorsData != null)
+                foreach (AnchorData anchorData in childAnchorsData)
+                    strRow += anchorData.PresentationHtml(null, true, ref astrExegeticalHelpNotes);
+
+            // make a cell out of the buttons
+            string strHtmlCell = String.Format(OseResources.Properties.Resources.HTML_TableCellWidth,
+                                               100,
+                                               strRow);
+
+            // add combine with the 'anc:' header cell into a Table Row
+            string strHtml = String.Format(OseResources.Properties.Resources.HTML_TableRow,
+                                           String.Format("{0}{1}",
+                                                         String.Format(OseResources.Properties.Resources.HTML_TableCell,
+                                                                       "anc:"),
+                                                         strHtmlCell));
+
+            // add exegetical comments as their own rows
+            foreach (string strExegeticalHelpNote in astrExegeticalHelpNotes)
+            {
+                strHtml += String.Format(OseResources.Properties.Resources.HTML_TableRow,
+                                         String.Format("{0}{1}",
+                                                       String.Format(OseResources.Properties.Resources.HTML_TableCell, "cn:"),
+                                                       String.Format(OseResources.Properties.Resources.HTML_TableCellWidth,
+                                                                     100,
+                                                                     String.Format(OseResources.Properties.Resources.HTML_ParagraphText,
+                                                                                   strExegeticalHelpNote,
+                                                                                   StoryData.
+                                                                                       CstrLangInternationalBtStyleClassName,
+                                                                                   strExegeticalHelpNote))));
+            }
+
+            // make a sub-table out of all this
+            strHtml = String.Format(OseResources.Properties.Resources.HTML_TableRow,
+                                    String.Format(OseResources.Properties.Resources.HTML_TableCellWithSpan, nNumCols,
+                                                  String.Format(OseResources.Properties.Resources.HTML_Table,
                                                                 strHtml)));
 
             return strHtml;

@@ -152,14 +152,14 @@ namespace OneStoryProjectEditor
             {
                 StoryData theSD = new StoryData(_stories[nSelectedRowIndex]);
                 int n = 1;
-                if (_storyProject[Properties.Resources.IDS_ObsoleteStoriesSet].Contains(theSD))
+                if (_storyProject[OseResources.Properties.Resources.IDS_ObsoleteStoriesSet].Contains(theSD))
                 {
                     string strName = theSD.Name;
-                    while (_storyProject[Properties.Resources.IDS_ObsoleteStoriesSet].Contains(theSD))
+                    while (_storyProject[OseResources.Properties.Resources.IDS_ObsoleteStoriesSet].Contains(theSD))
                         theSD.Name = String.Format("{0}.{1}", strName, n++);
                     theSD.guid = Guid.NewGuid().ToString();
                 }
-                _storyProject[Properties.Resources.IDS_ObsoleteStoriesSet].Add(theSD);
+                _storyProject[OseResources.Properties.Resources.IDS_ObsoleteStoriesSet].Add(theSD);
                 Modified = true;
             }
         }
@@ -176,7 +176,7 @@ namespace OneStoryProjectEditor
                 // make sure the user really wants to do this
                 if (MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmDeleteStory,
                     dataGridViewPanorama.Rows[nSelectedRowIndex].Cells[CnColumnStoryName].Value), 
-                    Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel)
+                    OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel)
                     != DialogResult.Yes)
                     return;
 
@@ -200,9 +200,9 @@ namespace OneStoryProjectEditor
                 if ((tab == tabPagePanorama) || (tab == tabPageObsolete))
                 {
                     if (tab == tabPagePanorama)
-                        _stories = _storyProject[Properties.Resources.IDS_MainStoriesSet];
+                        _stories = _storyProject[OseResources.Properties.Resources.IDS_MainStoriesSet];
                     else if (tab == tabPageObsolete)
-                        _stories = _storyProject[Properties.Resources.IDS_ObsoleteStoriesSet];
+                        _stories = _storyProject[OseResources.Properties.Resources.IDS_ObsoleteStoriesSet];
                     InitParentTab(tab);
                     InitGrid();
                 }

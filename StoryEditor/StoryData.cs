@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Xml;
 using System.Xml.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -29,6 +30,20 @@ namespace OneStoryProjectEditor
             Verses.CreateFirstVerse();
         }
 
+        public StoryData(XmlNode node)
+        {
+            XmlAttribute attr;
+            Name = ((attr = node.Attributes[CstrAttributeName]) != null) ? attr.Value : null;
+            
+            // the last param isn't really false, but this ctor is only called when that doesn't matter
+            //  (during Chorus diff presentation)
+            ProjStage = new StoryStageLogic(node.Attributes[CstrAttributeStage].Value, false);
+            guid = node.Attributes[CstrAttributeGuid].Value;
+            StageTimeStamp = DateTime.Parse(node.Attributes[CstrAttributeTimeStamp].Value);
+            CraftingInfo = new CraftingInfoData(node.SelectSingleNode("CraftingInfo"));
+            Verses = new VersesData(node.SelectSingleNode("verses"));
+        }
+
         public StoryData(NewDataSet.storyRow theStoryRow, NewDataSet projFile, 
             bool bHasIndependentConsultant)
         {
@@ -53,6 +68,11 @@ namespace OneStoryProjectEditor
             Verses = new VersesData(rhs.Verses);
         }
 
+        protected const string CstrAttributeName = "name";
+        protected const string CstrAttributeStage = "stage";
+        protected const string CstrAttributeGuid = "guid";
+        public const string CstrAttributeTimeStamp = "stageDateTimeStamp";
+
         public XElement GetXml
         {
             get
@@ -61,10 +81,10 @@ namespace OneStoryProjectEditor
                                                 && !String.IsNullOrEmpty(guid));
 
                 XElement elemStory = new XElement("story",
-                        new XAttribute("name", Name),
-                        new XAttribute("stage", ProjStage.ToString()),
-                        new XAttribute("guid", guid),
-                        new XAttribute("stageDateTimeStamp", StageTimeStamp.ToString("s")),
+                        new XAttribute(CstrAttributeName, Name),
+                        new XAttribute(CstrAttributeStage, ProjStage.ToString()),
+                        new XAttribute(CstrAttributeGuid, guid),
+                        new XAttribute(CstrAttributeTimeStamp, StageTimeStamp.ToString("s")),
                         CraftingInfo.GetXml);
 
                 if (Verses.HasData)
@@ -74,8 +94,8 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public void IndexSearch(SearchForm.SearchLookInProperties findProperties, 
-            ref SearchForm.StringTransferSearchIndex lstBoxesToSearch)
+        public void IndexSearch(VerseData.SearchLookInProperties findProperties,
+            ref VerseData.StringTransferSearchIndex lstBoxesToSearch)
         {
             Verses.IndexSearch(findProperties, ref lstBoxesToSearch);
         }
@@ -93,7 +113,7 @@ namespace OneStoryProjectEditor
                     CraftingInfo.ProjectFacilitatorMemberID = loggedOnMember.MemberGuid;
                     return;
                 }
-
+#if !DataDllBuild
                 // fall thru means either the logged in person isn't a PF or there are multiple,
                 //  so, ask the user to tell which PF added this story
                 var dlg = new MemberPicker(storyProjectData, TeamMemberData.UserTypes.eProjectFacilitator)
@@ -104,20 +124,84 @@ namespace OneStoryProjectEditor
                     return;
 
                 CraftingInfo.ProjectFacilitatorMemberID = dlg.SelectedMember.MemberGuid;
+#endif
             }
         }
 
-        public string VersesHtml(ProjectSettings projSettings, bool bViewHidden,
+        public string VersesHtml(bool b, ProjectSettings projSettings, bool bViewHidden,
             TeamMembersData membersData, TeamMemberData loggedOnMember,
             VerseData.ViewItemToInsureOn viewItemToInsureOn)
         {
             string strHtml = Verses.StoryBtHtml(projSettings, bViewHidden, ProjStage, 
                 membersData, loggedOnMember, viewItemToInsureOn);
 
-            return String.Format(Properties.Resources.HTML_HeaderStoryBt,
+            return String.Format(OseResources.Properties.Resources.HTML_HeaderStoryBt,
                 StylePrefix(projSettings),
-                Properties.Resources.HTML_DOM_PrefixStoryBt,
+                OseResources.Properties.Resources.HTML_DOM_PrefixStoryBt,
                 strHtml);
+        }
+
+        public string PresentationHtml(ProjectSettings projSettings, TeamMembersData teamMembers, StoryData child)
+        {
+            bool bShowVernacular = projSettings.Vernacular.HasData;
+            bool bShowNationalBT = projSettings.NationalBT.HasData;
+            bool bShowEnglishBT = projSettings.InternationalBT.HasData;
+
+            int nNumCols = 0;
+            if (bShowVernacular) nNumCols++;
+            if (bShowNationalBT) nNumCols++;
+            if (bShowEnglishBT) nNumCols++;
+
+            string strHtml = null;
+            strHtml += PresentationHtmlRow("Story Name", Name, (child != null) ? child.Name : null);
+
+            // for stage, it's a bit more complicated
+            StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[ProjStage.ProjectStage];
+            string strParentStage = st.StageDisplayString;
+            string strChildStage = null;
+            if (child != null)
+            {
+                st = StoryStageLogic.stateTransitions[child.ProjStage.ProjectStage];
+                strChildStage = st.StageDisplayString;
+            }
+            strHtml += PresentationHtmlRow("Story Stage", strParentStage, strChildStage);
+
+            strHtml += CraftingInfo.PresentationHtml(teamMembers, (child != null) ? child.CraftingInfo : null);
+
+            // make a sub-table out of all this
+            strHtml = String.Format(OseResources.Properties.Resources.HTML_TableRow,
+                                    String.Format(OseResources.Properties.Resources.HTML_TableCellWithSpan, nNumCols,
+                                                  String.Format(OseResources.Properties.Resources.HTML_Table,
+                                                                strHtml)));
+
+            strHtml += Verses.PresentationHtml((child != null) ? child.CraftingInfo : CraftingInfo, 
+                (child != null) ? child.Verses : null, nNumCols, bShowVernacular, bShowNationalBT, bShowEnglishBT);
+
+            return String.Format(OseResources.Properties.Resources.HTML_HeaderPresentation,
+                StylePrefix(projSettings),
+                OseResources.Properties.Resources.HTML_DOM_PrefixPresentation,
+                strHtml);
+        }
+
+        protected string PresentationHtmlRow(string strLabel, string strParentValue, string strChildValue)
+        {
+            string strName;
+            if (String.IsNullOrEmpty(strChildValue))
+                strName = strParentValue;
+            else
+                strName = Diff.HtmlDiff(strParentValue, strChildValue);
+
+            return String.Format(OseResources.Properties.Resources.HTML_TableRow,
+                                 String.Format("{0}{1}",
+                                               String.Format(OseResources.Properties.Resources.HTML_TableCellNoWrap,
+                                                             strLabel),
+                                               String.Format(OseResources.Properties.Resources.HTML_TableCellWidth,
+                                                             100,
+                                                             String.Format(OseResources.Properties.Resources.HTML_ParagraphText,
+                                                                           strLabel + strName,
+                                                                           StoryData.
+                                                                              CstrLangInternationalBtStyleClassName,
+                                                                           strName))));
         }
 
         public const string CstrLangVernacularStyleClassName = "LangVernacular";
@@ -134,33 +218,33 @@ namespace OneStoryProjectEditor
             if (projSettings.InternationalBT.HasData)
                 strLangStyles += projSettings.InternationalBT.HtmlStyle(CstrLangInternationalBtStyleClassName);
 
-            return String.Format(Properties.Resources.HTML_StyleDefinition,
+            return String.Format(OseResources.Properties.Resources.HTML_StyleDefinition,
                                  strLangStyles);
         }
 
-        public string ConsultantNotesHtml(HtmlConNoteControl htmlConNoteCtrl, 
+        public string ConsultantNotesHtml(object htmlConNoteCtrl, 
             StoryStageLogic theStoryStage, ProjectSettings projSettings, 
             TeamMemberData LoggedOnMember, 
             bool bViewHidden)
         {
             string strHtml = Verses.ConsultantNotesHtml(htmlConNoteCtrl, theStoryStage, 
                 LoggedOnMember, bViewHidden);
-            return String.Format(Properties.Resources.HTML_Header,
+            return String.Format(OseResources.Properties.Resources.HTML_Header,
                 StylePrefix(projSettings),
-                Properties.Resources.HTML_DOM_Prefix, 
+                OseResources.Properties.Resources.HTML_DOM_Prefix, 
                 strHtml);
         }
 
-        public string CoachNotesHtml(HtmlConNoteControl htmlConNoteCtrl, 
+        public string CoachNotesHtml(object htmlConNoteCtrl, 
             StoryStageLogic theStoryStage, ProjectSettings projSettings, 
             TeamMemberData LoggedOnMember, 
             bool bViewHidden)
         {
             string strHtml = Verses.CoachNotesHtml(htmlConNoteCtrl, theStoryStage, 
                 LoggedOnMember, bViewHidden);
-            return String.Format(Properties.Resources.HTML_Header,
+            return String.Format(OseResources.Properties.Resources.HTML_Header,
                 StylePrefix(projSettings),
-                Properties.Resources.HTML_DOM_Prefix,
+                OseResources.Properties.Resources.HTML_DOM_Prefix,
                 strHtml);
         }
     }
@@ -182,6 +266,38 @@ namespace OneStoryProjectEditor
             IsBiblicalStory = bIsBiblicalStory;
         }
 
+        public CraftingInfoData(XmlNode node)
+        {
+            XmlNode elem;
+            StoryCrafterMemberID = ((elem = node.SelectSingleNode(String.Format("{0}[@{1}]", 
+                                                                                CstrElementLabelStoryCrafter,
+                                                                                CstrAttributeMemberID))) != null) 
+                                                                                ? elem.Attributes[CstrAttributeMemberID].Value 
+                                                                                : null;
+            ProjectFacilitatorMemberID = ((elem = node.SelectSingleNode(String.Format("{0}[@{1}]",
+                                                                                CstrElementLabelProjectFacilitator,
+                                                                                CstrAttributeMemberID))) != null)
+                                                                                ? elem.Attributes[CstrAttributeMemberID].Value
+                                                                                : null;
+            StoryPurpose = ((elem = node.SelectSingleNode(CstrElementLabelStoryPurpose)) != null) 
+                ? elem.InnerText 
+                : null;
+            ResourcesUsed = ((elem = node.SelectSingleNode(CstrElementLabelResourcesUsed)) != null)
+                ? elem.InnerText
+                : null;
+            BackTranslatorMemberID = ((elem = node.SelectSingleNode(String.Format("{0}[@{1}]",
+                                                                                CstrElementLabelBackTranslator,
+                                                                                CstrAttributeMemberID))) != null)
+                                                                                ? elem.Attributes[CstrAttributeMemberID].Value
+                                                                                : null;
+
+            XmlNodeList list = node.SelectNodes(String.Format("{0}/{1}[@{2}]", 
+                CstrElementLabelTests, CstrElementLabelTest, CstrAttributeMemberID));
+            if (list != null)
+                foreach (XmlNode nodeTest in list)
+                    Testors.Add(nodeTest.Attributes[CstrAttributeMemberID].Value);
+        }
+
         public CraftingInfoData(NewDataSet.storyRow theStoryRow)
         {
             NewDataSet.CraftingInfoRow[] aCIRs = theStoryRow.GetCraftingInfoRows();
@@ -195,7 +311,7 @@ namespace OneStoryProjectEditor
                 if (aSCRs.Length == 1)
                     StoryCrafterMemberID = aSCRs[0].memberID;
                 else
-                    throw new ApplicationException(Properties.Resources.IDS_ProjectFileCorrupted);
+                    throw new ApplicationException(OseResources.Properties.Resources.IDS_ProjectFileCorrupted);
 
                 NewDataSet.ProjectFacilitatorRow[] aPFRs = theCIR.GetProjectFacilitatorRows();
                 if (aPFRs.Length == 1)
@@ -219,7 +335,7 @@ namespace OneStoryProjectEditor
                 }
             }
             else
-                throw new ApplicationException(Properties.Resources.IDS_ProjectFileCorruptedNoCraftingInfo);
+                throw new ApplicationException(OseResources.Properties.Resources.IDS_ProjectFileCorruptedNoCraftingInfo);
         }
 
         public CraftingInfoData(CraftingInfoData rhs)
@@ -234,37 +350,111 @@ namespace OneStoryProjectEditor
                 Testors.Add(strUnsGuid);
         }
 
+        public const string CstrElementLableNonBiblicalStory = "NonBiblicalStory";
+        public const string CstrElementLabelStoryCrafter = "StoryCrafter";
+        public const string CstrElementLabelProjectFacilitator = "ProjectFacilitator";
+        public const string CstrElementLabelStoryPurpose = "StoryPurpose";
+        public const string CstrElementLabelResourcesUsed = "ResourcesUsed";
+        public const string CstrElementLabelBackTranslator = "BackTranslator";
+        public const string CstrElementLabelTests = "Tests";
+        public const string CstrElementLabelTest = "Test";
+        public const string CstrAttributeMemberID = "memberID";
+
         public XElement GetXml
         {
             get
             {
                 var elemCraftingInfo = new XElement("CraftingInfo",
-                                                         new XAttribute("NonBiblicalStory", !IsBiblicalStory),
-                                                         new XElement("StoryCrafter",
-                                                                      new XAttribute("memberID", StoryCrafterMemberID)));
+                                                         new XAttribute(CstrElementLableNonBiblicalStory, !IsBiblicalStory),
+                                                         new XElement(CstrElementLabelStoryCrafter,
+                                                                      new XAttribute(CstrAttributeMemberID, StoryCrafterMemberID)));
 
                 if (!String.IsNullOrEmpty(ProjectFacilitatorMemberID))
-                    elemCraftingInfo.Add(new XElement("ProjectFacilitator", new XAttribute("memberID", ProjectFacilitatorMemberID)));
+                    elemCraftingInfo.Add(new XElement(CstrElementLabelProjectFacilitator, 
+                        new XAttribute(CstrAttributeMemberID, ProjectFacilitatorMemberID)));
 
                 if (!String.IsNullOrEmpty(StoryPurpose))
-                    elemCraftingInfo.Add(new XElement("StoryPurpose", StoryPurpose));
+                    elemCraftingInfo.Add(new XElement(CstrElementLabelStoryPurpose, StoryPurpose));
 
                 if (!String.IsNullOrEmpty(ResourcesUsed))
-                    elemCraftingInfo.Add(new XElement("ResourcesUsed", ResourcesUsed));
+                    elemCraftingInfo.Add(new XElement(CstrElementLabelResourcesUsed, ResourcesUsed));
 
                 if (!String.IsNullOrEmpty(BackTranslatorMemberID))
-                    elemCraftingInfo.Add(new XElement("BackTranslator", new XAttribute("memberID", BackTranslatorMemberID)));
+                    elemCraftingInfo.Add(new XElement(CstrElementLabelBackTranslator, 
+                        new XAttribute(CstrAttributeMemberID, BackTranslatorMemberID)));
 
                 if (Testors.Count > 0)
                 {
                     XElement elemTestors = new XElement("Tests");
                     foreach (string strUnsGuid in Testors)
-                        elemTestors.Add(new XElement("Test", new XAttribute("memberID", strUnsGuid)));
+                        elemTestors.Add(new XElement("Test", new XAttribute(CstrAttributeMemberID, strUnsGuid)));
                     elemCraftingInfo.Add(elemTestors);
                 }
 
                 return elemCraftingInfo;
             }
+        }
+
+        public string PresentationHtml(TeamMembersData teamMembers, CraftingInfoData child)
+        {
+            string strRow = null;
+            strRow += PresentationHtmlRow(teamMembers, "Story Crafter", StoryCrafterMemberID, 
+                (child != null) 
+                ? child.StoryCrafterMemberID 
+                : null);
+            strRow += PresentationHtmlRow(teamMembers, "Project Facilitator", ProjectFacilitatorMemberID, 
+                (child != null) 
+                ? child.ProjectFacilitatorMemberID 
+                : null);
+            strRow += PresentationHtmlRow(null, "Story Purpose", StoryPurpose,
+                (child != null)
+                ? child.StoryPurpose
+                : null);
+            strRow += PresentationHtmlRow(null, "Resources Used", ResourcesUsed,
+                (child != null)
+                ? child.ResourcesUsed
+                : null);
+            strRow += PresentationHtmlRow(teamMembers, "Back Translator", BackTranslatorMemberID,
+                (child != null)
+                ? child.BackTranslatorMemberID
+                : null);
+            for (int i = 0; i < Testors.Count; i++)
+            {
+                string strTestor = Testors[i];
+                strRow += PresentationHtmlRow(teamMembers, String.Format("Testor {0}", i), strTestor,
+                    ((child != null) && (child.Testors.Count > i))
+                    ? child.Testors[i]
+                    : null);
+            }
+            return strRow;
+        }
+
+        protected string PresentationHtmlRow(TeamMembersData teamMembers, string strLabel, string strParentMemberId, string strChildMemberId)
+        {
+            string strName;
+            if (teamMembers != null)
+            {
+                string strParent = teamMembers.GetNameFromMemberId(strParentMemberId);
+                strName = (String.IsNullOrEmpty(strChildMemberId))
+                    ? strParent
+                    : Diff.HtmlDiff(strParent, teamMembers.GetNameFromMemberId(strChildMemberId));
+            }
+            else if (String.IsNullOrEmpty(strChildMemberId))
+                strName = strParentMemberId;
+            else
+                strName = Diff.HtmlDiff(strParentMemberId, strChildMemberId);
+
+            return String.Format(OseResources.Properties.Resources.HTML_TableRow,
+                                 String.Format("{0}{1}",
+                                               String.Format(OseResources.Properties.Resources.HTML_TableCellNoWrap,
+                                                             strLabel),
+                                               String.Format(OseResources.Properties.Resources.HTML_TableCellWidth,
+                                                             100,
+                                                             String.Format(OseResources.Properties.Resources.HTML_ParagraphText,
+                                                                           strLabel + strName,
+                                                                           StoryData.
+                                                                              CstrLangInternationalBtStyleClassName,
+                                                                           strName))));
         }
     }
 
@@ -308,12 +498,12 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public void IndexSearch(SearchForm.SearchLookInProperties findProperties,
-            ref SearchForm.StorySearchIndex alstBoxesToSearch)
+        public void IndexSearch(VerseData.SearchLookInProperties findProperties,
+            ref VerseData.StorySearchIndex alstBoxesToSearch)
         {
             foreach (StoryData aSD in this)
             {
-                SearchForm.StringTransferSearchIndex ssi = alstBoxesToSearch.GetNewStorySearchIndex(aSD.Name);
+                VerseData.StringTransferSearchIndex ssi = alstBoxesToSearch.GetNewStorySearchIndex(aSD.Name);
                 aSD.IndexSearch(findProperties, ref ssi);
             }
         }
@@ -340,11 +530,11 @@ namespace OneStoryProjectEditor
         public StoryProjectData()
         {
             TeamMembers = new TeamMembersData();
-            PanoramaFrontMatter = Properties.Resources.IDS_DefaultPanoramaFrontMatter;
+            PanoramaFrontMatter = OseResources.Properties.Resources.IDS_DefaultPanoramaFrontMatter;
 
             // start with to stories sets (the current one and the obsolete ones)
-            Add(Properties.Resources.IDS_MainStoriesSet, new StoriesData(Properties.Resources.IDS_MainStoriesSet));
-            Add(Properties.Resources.IDS_ObsoleteStoriesSet, new StoriesData(Properties.Resources.IDS_ObsoleteStoriesSet));
+            Add(OseResources.Properties.Resources.IDS_MainStoriesSet, new StoriesData(OseResources.Properties.Resources.IDS_MainStoriesSet));
+            Add(OseResources.Properties.Resources.IDS_ObsoleteStoriesSet, new StoriesData(OseResources.Properties.Resources.IDS_ObsoleteStoriesSet));
         }
 
         public StoryProjectData(NewDataSet projFile, ProjectSettings projSettings)
@@ -354,25 +544,25 @@ namespace OneStoryProjectEditor
 
             // if the project file we opened doesn't have anything yet.. (shouldn't really happen)
             if (projFile.StoryProject.Count == 0)
-                projFile.StoryProject.AddStoryProjectRow(XmlDataVersion, ProjSettings.ProjectName, Properties.Resources.IDS_DefaultPanoramaFrontMatter);
+                projFile.StoryProject.AddStoryProjectRow(XmlDataVersion, ProjSettings.ProjectName, OseResources.Properties.Resources.IDS_DefaultPanoramaFrontMatter);
             else
             {
                 projFile.StoryProject[0].ProjectName = ProjSettings.ProjectName; // in case the user changed it.
                 if (projFile.StoryProject[0].version.CompareTo(XmlDataVersion) > 0)
                 {
-                    MessageBox.Show(Properties.Resources.IDS_GetNewVersion, Properties.Resources.IDS_Caption);
-                    throw StoryEditor.BackOutWithNoUI;
+                    MessageBox.Show(OseResources.Properties.Resources.IDS_GetNewVersion, OseResources.Properties.Resources.IDS_Caption);
+                    throw BackOutWithNoUI;
                 }
             }
 
             PanoramaFrontMatter = projFile.StoryProject[0].PanoramaFrontMatter;
             if (String.IsNullOrEmpty(PanoramaFrontMatter))
-                PanoramaFrontMatter = Properties.Resources.IDS_DefaultPanoramaFrontMatter;
+                PanoramaFrontMatter = OseResources.Properties.Resources.IDS_DefaultPanoramaFrontMatter;
 
             if (projFile.stories.Count == 0)
             {
-                projFile.stories.AddstoriesRow(Properties.Resources.IDS_MainStoriesSet, projFile.StoryProject[0]);
-                projFile.stories.AddstoriesRow(Properties.Resources.IDS_ObsoleteStoriesSet, projFile.StoryProject[0]);
+                projFile.stories.AddstoriesRow(OseResources.Properties.Resources.IDS_MainStoriesSet, projFile.StoryProject[0]);
+                projFile.stories.AddstoriesRow(OseResources.Properties.Resources.IDS_ObsoleteStoriesSet, projFile.StoryProject[0]);
             }
 
             TeamMembers = new TeamMembersData(projFile);
@@ -387,17 +577,33 @@ namespace OneStoryProjectEditor
         // if this is "new", then we won't have a project name yet, so query the user for it
         public bool InitializeProjectSettings(TeamMemberData loggedOnMember)
         {
+            bool bRet = false;
+#if !DataDllBuild
             NewProjectWizard dlg = new NewProjectWizard(this) 
             { 
                 LoggedInMember = loggedOnMember,
                 Text = "Edit Project Settings"
             };
             if (dlg.ShowDialog() != DialogResult.OK)
-                throw StoryEditor.BackOutWithNoUI;
+                throw BackOutWithNoUI;
 
             // otherwise, it has our new project settings
             ProjSettings = dlg.ProjSettings;
-            return dlg.Modified;
+            bRet = dlg.Modified;
+#endif
+            return bRet;
+        }
+
+        // routines can use this exception to back out of creating a new project without UI 
+        //  (presumably, because they've already done so--e.g. "are you sure you want to 
+        //  overwrite this project + user Cancel)
+        internal class BackOutWithNoUIException : ApplicationException
+        {
+        }
+
+        internal static BackOutWithNoUIException BackOutWithNoUI
+        {
+            get { return new BackOutWithNoUIException(); }
         }
 
         internal string GetMemberNameFromMemberGuid(string strMemberGuid)
@@ -423,9 +629,9 @@ namespace OneStoryProjectEditor
             do
             {
                 bDoItAgain = false;
-                strProjectName = Microsoft.VisualBasic.Interaction.InputBox(Properties.Resources.IDS_EnterProjectName, Properties.Resources.IDS_Caption, strProjectName, 300, 200);
+                strProjectName = Microsoft.VisualBasic.Interaction.InputBox(OseResources.Properties.Resources.IDS_EnterProjectName, OseResources.Properties.Resources.IDS_Caption, strProjectName, 300, 200);
                 if (String.IsNullOrEmpty(strProjectName))
-                    throw new ApplicationException(Properties.Resources.IDS_UnableToCreateProjectWithoutName);
+                    throw new ApplicationException(OseResources.Properties.Resources.IDS_UnableToCreateProjectWithoutName);
 
                 // See if there's already a project with this name (which may be elsewhere)
                 for (int i = 0; i < Properties.Settings.Default.RecentProjects.Count; i++)
@@ -434,9 +640,9 @@ namespace OneStoryProjectEditor
                     if (strProject == strProjectName)
                     {
                         string strProjectFolder = Properties.Settings.Default.RecentProjectPaths[i];
-                        DialogResult res = MessageBox.Show(String.Format(Properties.Resources.IDS_AboutToStrandProject, Environment.NewLine, strProjectName, strProjectFolder), Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+                        DialogResult res = MessageBox.Show(String.Format(OseResources.Properties.Resources.IDS_AboutToStrandProject, Environment.NewLine, strProjectName, strProjectFolder), OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
                         if (res == DialogResult.Cancel)
-                            throw StoryEditor.BackOutWithNoUI;
+                            throw BackOutWithNoUI;
                         if (res == DialogResult.No)
                             bDoItAgain = true;
                         break;
@@ -516,9 +722,9 @@ namespace OneStoryProjectEditor
             if (dlg.ShowDialog() != DialogResult.OK)
             {
                 if (String.IsNullOrEmpty(strOKLabel))
-                    MessageBox.Show(Properties.Resources.IDS_HaveToLogInToContinue, Properties.Resources.IDS_Caption);
+                    MessageBox.Show(OseResources.Properties.Resources.IDS_HaveToLogInToContinue, OseResources.Properties.Resources.IDS_Caption);
 
-                throw StoryEditor.BackOutWithNoUI;
+                throw BackOutWithNoUI;
             }
 
             // if the user added a new member, then the proj file is 'dirty'
@@ -543,6 +749,7 @@ namespace OneStoryProjectEditor
         {
             strPassword = strHgUrlBase = null;    // just in case we don't have anything for this.
 
+#if !DataDllBuild
             string strRepoUrl, strDummy;
             if (Program.GetHgRepoParameters(strProjectName, out strUsername, out strRepoUrl, 
                 out strDummy))
@@ -560,6 +767,9 @@ namespace OneStoryProjectEditor
                     strHgUrlBase = uri.Scheme + "://" + uri.Host;
                 }
             }
+#else
+            strUsername = null;
+#endif
 
             // okay, the above is what we saved in the user file, but it's possible that that
             //  will be empty (e.g. if change the assembly number), so let's get it out of the
@@ -599,6 +809,8 @@ namespace OneStoryProjectEditor
             }
         }
 
+        public const string CstrAttributeProjectName = "ProjectName";
+
         public XElement GetXml
         {
             get
@@ -606,7 +818,7 @@ namespace OneStoryProjectEditor
                 XElement elemStoryProject =
                     new XElement("StoryProject",
                         new XAttribute("version", XmlDataVersion),
-                        new XAttribute("ProjectName", ProjSettings.ProjectName),
+                        new XAttribute(CstrAttributeProjectName, ProjSettings.ProjectName),
                         new XAttribute("PanoramaFrontMatter", PanoramaFrontMatter),
                         TeamMembers.GetXml,
                         ProjSettings.GetXml);

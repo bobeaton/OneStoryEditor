@@ -1,40 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml;
 using System.Xml.Linq;
 using System.Text;
 
 namespace OneStoryProjectEditor
 {
-    public class ExegeticalHelpNoteData
+    public class ExegeticalHelpNoteData : StringTransfer
     {
-        public StringTransfer ExegeticalHelpNote = null;
-
         public ExegeticalHelpNoteData(NewDataSet.exegeticalHelpRow theExHelpNoteRow)
+            : base(theExHelpNoteRow.exegeticalHelp_Column)
         {
-            ExegeticalHelpNote = new StringTransfer(theExHelpNoteRow.exegeticalHelp_Column);
         }
 
         public ExegeticalHelpNoteData(string strInitialText)
+            : base(strInitialText)
         {
-            ExegeticalHelpNote = new StringTransfer(strInitialText);
         }
 
         public ExegeticalHelpNoteData(ExegeticalHelpNoteData rhs)
+            : base(rhs.ToString())
         {
-            ExegeticalHelpNote = new StringTransfer(rhs.ExegeticalHelpNote.ToString());
         }
 
-        public bool HasData
-        {
-            get { return (ExegeticalHelpNote.HasData); }
-        }
+        public const string CstrElementNameExegeticalHelp = "exegeticalHelp";
 
         public XElement GetXml
         {
             get
             {
-                System.Diagnostics.Debug.Assert(ExegeticalHelpNote.HasData, "Trying to serialize an ExegeticalHelpNoteData with no data");
-                return new XElement("exegeticalHelp", ExegeticalHelpNote);
+                System.Diagnostics.Debug.Assert(HasData, "Trying to serialize an ExegeticalHelpNoteData with no data");
+                return new XElement(CstrElementNameExegeticalHelp, ToString());
             }
         }
     }
@@ -52,6 +48,19 @@ namespace OneStoryProjectEditor
 
             foreach (NewDataSet.exegeticalHelpRow anExHelpNoteRow in theExHelpNotesRow.GetexegeticalHelpRows())
                 Add(new ExegeticalHelpNoteData(anExHelpNoteRow));
+        }
+
+        public ExegeticalHelpNotesData(XmlNode node)
+        {
+            if (node == null)
+                return;
+
+            XmlNodeList list = node.SelectNodes(ExegeticalHelpNoteData.CstrElementNameExegeticalHelp);
+            if (list == null)
+                return;
+
+            foreach (XmlNode nodeExegeticalNote in list)
+                Add(new ExegeticalHelpNoteData(nodeExegeticalNote.InnerText));
         }
 
         public ExegeticalHelpNotesData(ExegeticalHelpNotesData rhs)
@@ -76,12 +85,14 @@ namespace OneStoryProjectEditor
             get { return (Count > 0); }
         }
 
+        public const string CstrElementLabelExegeticalHelps = "exegeticalHelps";
+
         public XElement GetXml
         {
             get
             {
                 System.Diagnostics.Debug.Assert(HasData);
-                XElement elemExegeticalHelps = new XElement("exegeticalHelps");
+                XElement elemExegeticalHelps = new XElement(CstrElementLabelExegeticalHelps);
                 foreach (ExegeticalHelpNoteData aExHelpData in this)
                     if (aExHelpData.HasData)
                         elemExegeticalHelps.Add(aExHelpData.GetXml);
@@ -104,18 +115,49 @@ namespace OneStoryProjectEditor
             {
                 ExegeticalHelpNoteData anExHelpNoteData = this[i];
                 string strHtmlElementId = TextareaId(nVerseIndex, nAnchorNumber, i, CstrFieldNameExegeticalHelp);
-                strHtml += String.Format(Properties.Resources.HTML_TableRow,
+                strHtml += String.Format(OseResources.Properties.Resources.HTML_TableRow,
                                          String.Format("{0}{1}",
-                                                       String.Format(Properties.Resources.HTML_TableCell, "cn:"),
-                                                       String.Format(Properties.Resources.HTML_TableCellWidth,
+                                                       String.Format(OseResources.Properties.Resources.HTML_TableCell, "cn:"),
+                                                       String.Format(OseResources.Properties.Resources.HTML_TableCellWidth,
                                                                      100,
-                                                                     String.Format(Properties.Resources.HTML_TextareaWithRefDrop,
+                                                                     String.Format(OseResources.Properties.Resources.HTML_TextareaWithRefDrop,
                                                                                    strHtmlElementId,
                                                                                    StoryData.
                                                                                        CstrLangInternationalBtStyleClassName,
-                                                                                   anExHelpNoteData.ExegeticalHelpNote))));
+                                                                                   anExHelpNoteData))));
             }
             return strHtml;
+        }
+
+        public void PresentationHtml(ExegeticalHelpNotesData child, ref List<string> astrExegeticalHelpNotes)
+        {
+            // processing parent...
+            foreach (ExegeticalHelpNoteData anExHelpNoteData in this)
+            {
+                bool bFound = false;
+                if (child != null)
+                    foreach (ExegeticalHelpNoteData anChildExHelpNoteData in child)
+                        if (anExHelpNoteData.ToString() == anChildExHelpNoteData.ToString())
+                        {
+                            child.Remove(anChildExHelpNoteData);
+                            bFound = true;
+                            break;
+                        }
+
+                // if there was a child, but we didn't find it...
+                if ((child != null) && !bFound)
+                    // means the parent was deleted in the child version
+                    astrExegeticalHelpNotes.Add(Diff.HtmlDiff(anExHelpNoteData, null));
+                
+                // otherwise, the parent's version is the only one
+                else
+                    astrExegeticalHelpNotes.Add(anExHelpNoteData.ToString());
+            }
+
+            if (child != null)
+                // what's left in the child are those that were added...
+                foreach (ExegeticalHelpNoteData anChildExHelpNoteData in child)
+                    astrExegeticalHelpNotes.Add(Diff.HtmlDiff(null, anChildExHelpNoteData));
         }
     }
 }

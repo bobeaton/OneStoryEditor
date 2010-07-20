@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using ECInterfaces;
 using SilEncConverters31;
 
 namespace OneStoryProjectEditor
@@ -58,13 +53,13 @@ namespace OneStoryProjectEditor
         {
             get { return _tb; }
         }
+#endif
 
         // if this string is associated with the ConNotes pane, then keep track
         //  of the element ID it's associated with and the pane, so we can use
         //  it during 'find'
-        internal string HtmlElementId;
-        internal HtmlConNoteControl HtmlConNoteCtrl;
-#endif
+        public string HtmlElementId;
+        public object HtmlConNoteCtrl;
 
         // make it a little non-obvious how to get the string out so we can benefit from compiler-time errors
         public override string ToString()
@@ -80,6 +75,7 @@ namespace OneStoryProjectEditor
 
         public void ExtractSelectedText(out string strSelectedText)
         {
+#if !DataDllBuild
             if (_tb != null)
             {
                 strSelectedText = _tb.SelectedText;
@@ -87,6 +83,7 @@ namespace OneStoryProjectEditor
                     _tb.SelectedText = null;
             }
             else
+#endif
                 strSelectedText = null;
         }
     }

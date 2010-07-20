@@ -133,18 +133,11 @@
   <data name="Hyperlink" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Hyperlink.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="IDS_AdaptationInstructions" xml:space="preserve">
-    <value>Follow these steps to use the Adapt It program to translate the story into English:{0}{0}1) Switch to the Adapt It program using Alt+Tab keys{0}2) Select the '{1}' project and click the 'Next' button (if a file is already open in Adapt It, then choose the 'File' menu, 'Close Project' command and then the 'File' menu, 'Start Working' command first).{0}3) Select the '{2}.xls' document to open and press the 'Finished' button.{0}4) When you see this story in the adaptation window, then translate it into English.</value>
-  </data>
   <data name="IDS_AdaptationInstructionsContinue" xml:space="preserve">
     <value>{0}5) When you're finished, return to this window and click the 'Yes' button to re-import the translated English text back into the English fields.{0}{0}Have you finished translating the story to English and are ready to import it into the English fields?</value>
   </data>
   <data name="IDS_AdaptItFileAlreadyExists" xml:space="preserve">
     <value>The Adapt It file for the project '{0}', story '{1}' already exists. If you want to delete that file and do the English translation of the story all over again, then click 'Yes'. If you just want to try to import the existing file again, choose 'No'. Otherwise, click 'Cancel' to stop this command.</value>
-  </data>
-  <data name="IDS_Caption" xml:space="preserve">
-    <value>OneStory Project Editor</value>
-    <comment>"एक-कहानी" प्रोजैक्‍ट ऐडिटर</comment>
   </data>
   <data name="IDS_ChooseTheStoryCrafter" xml:space="preserve">
     <value>Choose the Story Crafter</value>
@@ -242,16 +235,6 @@
   <data name="IDS_AboutToStrandProject" xml:space="preserve">
     <value>You already have a project with the name '{1}' that is in another location. If you create this new project with the same name, then you won't be able to access the earlier project that is located in the '{2}' folder.{0}{0}Do you want to continue creating the new project and lose the reference to the earlier project (it won't be deleted if you do)?</value>
     <comment>'{1}' नाम का एक प्रजैक्ट दूसरे फ़ोल्‍डर में हो चुका है। अगर यह नया प्रोजैक्ट इसी नाम के साथ बनता है, तब दूसरा प्रोजैक्‍ट नहीं खोल पाएगा, जो '{2}' फ़ोल्‍डर में है।{0}{0}क्‍या आप नया प्रोजैक्ट फिर भी बनाना चाहते हैं?</comment>
-  </data>
-  <data name="IDS_HaveToLogInToContinue" xml:space="preserve">
-    <value>You have to log in to continue. Click 'Project', 'Login' and choose or add your name.</value>
-    <comment>काम करने के लिए आपको लॉग-इन करना है। 'Project' मेनू, 'Login' पर क्‍लिक करो और अपना नाम चुनकर 'लॉग-इन' बटन दबाओ।</comment>
-  </data>
-  <data name="IDS_ProjectFileCorrupted" xml:space="preserve">
-    <value>The project file is corrupted. No 'StoryCrafterMemberID' record found. Send to bob_eaton@sall.com for help.</value>
-  </data>
-  <data name="IDS_ProjectFileCorruptedNoCraftingInfo" xml:space="preserve">
-    <value>The project file is corrupted. No 'CraftingInfo' record found. Send to bob_eaton@sall.com for help.</value>
   </data>
   <data name="IDS_UnableToCreateProjectWithoutName" xml:space="preserve">
     <value>Unable to create a project without a project name!</value>
@@ -1328,117 +1311,6 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
 
 &lt;/html&gt;</value>
   </data>
-  <data name="IDS_DefaultPanoramaFrontMatter" xml:space="preserve">
-    <value>{\rtf1\adeflang1081\ansi\ansicpg1252\uc1\adeff0\deff0\stshfdbch0\stshfloch0\stshfhich0\stshfbi0\deflang1033\deflangfe1033{\fonttbl{\f0\froman\fcharset0\fprq2{\*\panose 02020603050405020304}Times New Roman;}{\f312\froman\fcharset238\fprq2 Times New Roman CE;}{\f313\froman\fcharset204\fprq2 Times New Roman Cyr;}
-{\f315\froman\fcharset161\fprq2 Times New Roman Greek;}{\f316\froman\fcharset162\fprq2 Times New Roman Tur;}{\f317\fbidi \froman\fcharset177\fprq2 Times New Roman (Hebrew);}{\f318\fbidi \froman\fcharset178\fprq2 Times New Roman (Arabic);}
-{\f319\froman\fcharset186\fprq2 Times New Roman Baltic;}{\f320\froman\fcharset163\fprq2 Times New Roman (Vietnamese);}}{\colortbl;\red0\green0\blue0;\red0\green0\blue255;\red0\green255\blue255;\red0\green255\blue0;\red255\green0\blue255;
-\red255\green0\blue0;\red255\green255\blue0;\red255\green255\blue255;\red0\green0\blue128;\red0\green128\blue128;\red0\green128\blue0;\red128\green0\blue128;\red128\green0\blue0;\red128\green128\blue0;\red128\green128\blue128;\red192\green192\blue192;}
-{\stylesheet{\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \snext0 Normal;}{\*\cs10 \additive Default Paragraph Font;}{\*
-\ts11\tsrowd\trftsWidthB3\trpaddl108\trpaddr108\trpaddfl3\trpaddft3\trpaddfb3\trpaddfr3\trcbpat1\trcfpat1\tblind0\tblindtype3\tscellwidthfts0\tsvertalt\tsbrdrt\tsbrdrl\tsbrdrb\tsbrdrr\tsbrdrdgl\tsbrdrdgr\tsbrdrh\tsbrdrv 
-\ql \li0\ri0\widctlpar\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20 \ltrch\fcs0 \fs20\lang1024\langfe1024\cgrid\langnp1024\langfenp1024 \snext11 \ssemihidden Normal Table;}{
-\s15\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext15 Anchor;}{
-\s16\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext16 Back translation;}{\*\cs17 \additive Catetory;}{
-\s18\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext18 Comment;}{\*\cs19 \additive Consultant checked;}{
-\s20\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext20 Crafting Note;}{
-\s21\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext21 Date;}{
-\s22\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext22 French;}{
-\s23\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext23 ID of Text;}{
-\s24\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext24 Line number;}{\*\cs25 \additive Old version;}{\*\cs26 \additive 
-Stage;}{\*\cs27 \additive Testing Questions;}{\s28\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext28 Title;}{
-\s29\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext29 _DateStampHasFourDigitYear;}{
-\s30\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext30 _sh;}{\s31\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 
-\rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext31 ans;}{\s32\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 
-\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext32 ansid;}{\s33\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 
-\sbasedon0 \snext33 ansplm;}{\*\cs34 \additive bold;}{\s35\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext35 bt1;}{
-\s36\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext36 bt2;}{\s37\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 
-\rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext37 bteng;}{\s38\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 
-\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext38 btn;}{\s39\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 
-\sbasedon0 \snext39 c;}{\s40\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext40 eans;}{
-\s41\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext41 en;}{\s42\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 
-\rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext42 eng;}{\s43\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 
-\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext43 ert1;}{\s44\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 
-\sbasedon0 \snext44 ert2;}{\s45\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext45 etst;}{
-\s46\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext46 fix;}{\s47\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 
-\rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext47 footer;}{\*\cs48 \additive \rtlch\fcs1 \af0 \ltrch\fcs0 \sbasedon10 footnote reference;}{
-\s49\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext49 footnote text;}{\*\cs50 \additive for revision;}{
-\s51\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext51 gtst;}{
-\s52\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext52 gtstid;}{
-\s53\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext53 header;}{
-\s54\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext54 ind;}{\s55\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 
-\rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext55 mnd;}{\s56\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 
-\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext56 mrt1;}{\s57\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 
-\sbasedon0 \snext57 mrt2;}{\s58\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext58 nat;}{
-\s59\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext59 olden;}{
-\s60\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext60 oldid;}{
-\s61\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext61 p;}{\s62\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 
-\rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext62 ret;}{\*\cs63 \additive retelling 1;}{\s64\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 
-\af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext64 retelling 2;}{\s65\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 
-\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext65 rtl3;}{\s66\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 
-\sbasedon0 \snext66 rtl4;}{\*\cs67 \additive secondary comment;}{\s68\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext68 tra;}
-{\s69\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext69 tst1;}{
-\s70\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext70 tsta;}{
-\s71\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext71 ver;}}{\*\latentstyles\lsdstimax156\lsdlockeddef0}
-{\*\rsidtbl \rsid150813\rsid6567156\rsid12199339\rsid16282371}{\*\generator Microsoft Word 11.0.0000;}{\info{\operator Bob Eaton}{\creatim\yr2009\mo10\dy3\hr8\min55}{\revtim\yr2009\mo10\dy3\hr9\min4}{\version4}{\edmins9}{\nofpages1}{\nofwords86}
-{\nofchars494}{\nofcharsws579}{\vern24615}{\*\password 00000000}}{\*\xmlnstbl {\xmlns1 http://schemas.microsoft.com/office/word/2003/wordml}}\paperw12240\paperh15840\margl1800\margr1800\margt1440\margb1440\gutter0\ltrsect 
-\facingp\widowctrl\ftnbj\aenddoc\donotembedsysfont0\donotembedlingdata1\grfdocevents0\validatexml0\showplaceholdtext0\ignoremixedcontent0\saveinvalidxml0\showxmlerrors0\horzdoc\dghspace120\dgvspace120\dghorigin1701\dgvorigin1984\dghshow0\dgvshow3
-\jcompress\viewkind1\viewscale100\rsidroot16282371 \fet0{\*\wgrffmtfilter 013f}\ilfomacatclnup0{\*\ftnsep \ltrpar \pard\plain \ltrpar\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 
-\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 \chftnsep 
-\par }}{\*\ftnsepc \ltrpar \pard\plain \ltrpar\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 
-\chftnsepc 
-\par }}{\*\aftnsep \ltrpar \pard\plain \ltrpar\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 
-\chftnsep 
-\par }}{\*\aftnsepc \ltrpar \pard\plain \ltrpar\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 
-\chftnsepc 
-\par }}\ltrpar \sectd \ltrsect\sbknone\linex0\sectdefaultcl\sftnbj {\headerl \ltrpar \pard\plain \ltrpar\s53\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 
-\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 \tab \tab 
-\par }}{\headerr \ltrpar \pard\plain \ltrpar\s53\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 \tab 
-\tab 
-\par }}{\footerl \ltrpar \pard\plain \ltrpar\s47\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\field{\*\fldinst {\rtlch\fcs1 \af0 \ltrch\fcs0 
-\insrsid6567156 PAGE}}{\fldrslt {\rtlch\fcs1 \af0 \ltrch\fcs0 \lang1024\langfe1024\noproof\insrsid16282371 2}}}\sectd \linex0\endnhere\sectdefaultcl\sftnbj {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 \tab asdg.rtf\tab }{\field{\*\fldinst {\rtlch\fcs1 
-\af0 \ltrch\fcs0 \insrsid6567156 DATE}}{\fldrslt {\rtlch\fcs1 \af0 \ltrch\fcs0 \lang1024\langfe1024\noproof\insrsid16282371 10/3/2009}}}\sectd \linex0\endnhere\sectdefaultcl\sftnbj {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 
-\par }}{\footerr \ltrpar \pard\plain \ltrpar\s47\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\field{\*\fldinst {\rtlch\fcs1 \af0 \ltrch\fcs0 
-\insrsid6567156 DATE}}{\fldrslt {\rtlch\fcs1 \af0 \ltrch\fcs0 \lang1024\langfe1024\noproof\insrsid16282371 10/3/2009}}}\sectd \linex0\endnhere\sectdefaultcl\sftnbj {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 \tab asdg.rtf\tab }{\field{\*\fldinst {
-\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 PAGE}}{\fldrslt {\rtlch\fcs1 \af0 \ltrch\fcs0 \lang1024\langfe1024\noproof\insrsid6567156 1}}}\sectd \linex0\endnhere\sectdefaultcl\sftnbj {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 
-\par }}{\*\pnseclvl1\pnucrm\pnstart1\pnindent720\pnhang {\pntxta .}}{\*\pnseclvl2\pnucltr\pnstart1\pnindent720\pnhang {\pntxta .}}{\*\pnseclvl3\pndec\pnstart1\pnindent720\pnhang {\pntxta .}}{\*\pnseclvl4\pnlcltr\pnstart1\pnindent720\pnhang {\pntxta )}}
-{\*\pnseclvl5\pndec\pnstart1\pnindent720\pnhang {\pntxtb (}{\pntxta )}}{\*\pnseclvl6\pnlcltr\pnstart1\pnindent720\pnhang {\pntxtb (}{\pntxta )}}{\*\pnseclvl7\pnlcrm\pnstart1\pnindent720\pnhang {\pntxtb (}{\pntxta )}}{\*\pnseclvl8
-\pnlcltr\pnstart1\pnindent720\pnhang {\pntxtb (}{\pntxta )}}{\*\pnseclvl9\pnlcrm\pnstart1\pnindent720\pnhang {\pntxtb (}{\pntxta )}}\pard\plain \ltrpar\s16\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 
-\ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \ab\af0 \ltrch\fcs0 \b\insrsid6567156\charrsid16282371 Target audience: }{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371\charrsid16282371 &lt;Target audience name&gt;}{\rtlch\fcs1 
-\ab\af0 \ltrch\fcs0 \b\insrsid6567156\charrsid16282371 
-\par }\pard\plain \ltrpar\s18\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371 &lt;
-enter description here&gt;}{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 
-\par }{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371 
-\par }\pard\plain \ltrpar\s16\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \ab\af0 \ltrch\fcs0 \b\insrsid6567156\charrsid16282371 Re
-demptive theme:}{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156  }{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371 &lt;Redemptive theme&gt;}{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 
-\par }\pard\plain \ltrpar\s18\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371 &lt;enter description here
-&gt;}{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 
-\par }{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371 
-\par }\pard\plain \ltrpar\s16\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \ab\af0 \ltrch\fcs0 \b\insrsid6567156\charrsid16282371 Gr
-eater Panorama
-\par }\pard\plain \ltrpar\s18\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371 Spiritual World}{
-\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid150813  (background)}{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371 
-\par Creation}{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid150813  (God as creator)}{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371 
-\par \'85
-\par &lt;Prophesy Story&gt;
-\par \'85
-\par }\pard \ltrpar\s18\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0\pararsid16282371 {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371 Mary and Joseph}{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156  (Jesus as Solution)}{\rtlch\fcs1 \af0 \ltrch\fcs0 
-\insrsid16282371 
-\par }\pard \ltrpar\s18\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371 Birth of Jesus
-\par Baptism of Jesus
-\par \'85
-\par 99 + one/doctor for the sick/Prayer of the Pharisee and tax collector (for coverage of why the priests wanted to kill Jesus)
-\par Jesus foreshadows the future (for prophesy of his death and background of Holy Spirit)
-\par }{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 Trial}{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371  and death of Jesus}{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 
-\par Resurrection
-\par }{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371 Coming of the Holy Spirit (response)}{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 
-\par }{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 
-\par }}</value>
-  </data>
-  <data name="IDS_MainStoriesSet" xml:space="preserve">
-    <value>Stories</value>
-  </data>
-  <data name="IDS_ObsoleteStoriesSet" xml:space="preserve">
-    <value>Old Stories</value>
-  </data>
   <data name="CopyHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CopyHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -1478,9 +1350,6 @@ eater Panorama
   <data name="IDS_CheckOnKeyTerms" xml:space="preserve">
     <value>Are there any key terms in this story that you should check? To check key terms, right-click on an anchor button and choose the 'Edit Key Terms' command. Click the "Retry" button to continue on to the next state. Click the 'Cancel' button to stay in this state to look for key terms to check.</value>
   </data>
-  <data name="IDS_GetNewVersion" xml:space="preserve">
-    <value>One of the team members has used a newer version of this program to edit the file, which is not compatible with the version you are using. You will have to go to the http://palaso.org/install/onestory website and download and install the new version of the program in the "Setup OneStory Editor.zip" file.</value>
-  </data>
   <data name="IDS_AreYouSureYouWantToHaveAnEnglishBter" xml:space="preserve">
     <value>Talk with your project consultant before creating an 'Outside English back-translator' member on your team. The role of 'Outside English back-translator' is only used when the team doesn't have anyone to do an English back-translation and they arrange with some other team to do their English BT for them. If your team is doing its own English back-translations, then don't create an 'Outside English back-translator' member (you would do it as the Project Facilitator). </value>
   </data>
@@ -1496,17 +1365,11 @@ eater Panorama
   <data name="IDS_NotTheRightProjFac" xml:space="preserve">
     <value>WARNING: You are not the Project Facilitator that originally entered this story. If you make any changes, it is very likely that they will conflict with any changes done by the other Project Facilitator. Proceed with caution (e.g. say "No" if you are asked if you want to Save Changes while on this story)</value>
   </data>
-  <data name="IDS_IllFormedJumpTarget" xml:space="preserve">
-    <value>The project file has an ill-formed Anchor! Wasn't expecting to see '{0}'. Contact bob_eaton@sall.com and mention which the project name.</value>
-  </data>
   <data name="IDS_DefaultRepoBasePath" xml:space="preserve">
     <value>http://hg-private.languagedepot.org</value>
   </data>
   <data name="IDS_MustHaveAtLeastOneLanguage" xml:space="preserve">
     <value>A project must have at least one language selected</value>
-  </data>
-  <data name="IDS_WhichUserEdits" xml:space="preserve">
-    <value>Right now, only a '{0}' can change the state of this story. If you're a {0}, click 'Project', 'Login' to login. You can log in as a 'Just Looking' member to be able to transition to any state, but without edit privileges.</value>
   </data>
   <data name="IDS_AddTestQuery" xml:space="preserve">
     <value>Do you want to add boxes for the retelling and testing question answers?</value>
@@ -1522,55 +1385,6 @@ eater Panorama
   </data>
   <data name="IDS_AddAnotherTestQuery" xml:space="preserve">
     <value>Do you want to add another set of boxes for another test?</value>
-  </data>
-  <data name="HTML_Header" xml:space="preserve">
-    <value>&lt;html&gt;
-{0}
-&lt;head&gt;
-{1}
-&lt;/head&gt;
-&lt;body onKeyDown="return OnKeyDown();" onscroll="window.external.OnScroll()"&gt;
-{2}
-&lt;/body&gt;
-&lt;/html&gt;</value>
-  </data>
-  <data name="HTML_Table" xml:space="preserve">
-    <value>  &lt;table style="width:100%;" border="1"&gt;
-  {0}
-  &lt;/table&gt;</value>
-  </data>
-  <data name="HTML_TableCell" xml:space="preserve">
-    <value>&lt;td&gt;{0}&lt;/td&gt;</value>
-  </data>
-  <data name="HTML_TableRow" xml:space="preserve">
-    <value>  &lt;tr&gt;
-    {0}
-  &lt;/tr&gt;
-    </value>
-  </data>
-  <data name="HTML_Button" xml:space="preserve">
-    <value>&lt;button id="{0}" onClick="{1}"&gt;{2}&lt;/button&gt;</value>
-  </data>
-  <data name="HTML_TextareaWithRefDrop" xml:space="preserve">
-    <value>&lt;textarea id="{0}" class="{1}" onKeyUp="return window.external.TextareaOnKeyUp(this.id, this.value);" ondragover="window.event.returnValue=false" ondrop="window.external.CopyScriptureReference(this.id)"&gt;{2}&lt;/textarea&gt;</value>
-  </data>
-  <data name="HTML_TableNoBorder" xml:space="preserve">
-    <value>        &lt;table style="width:100%;"&gt;
-        {0}
-        &lt;/table&gt;
-</value>
-  </data>
-  <data name="HTML_TableCellForTextArea" xml:space="preserve">
-    <value>&lt;td width="100%" BGCOLOR={0}&gt;{1}&lt;/td&gt;</value>
-  </data>
-  <data name="HTML_TableCellWidth" xml:space="preserve">
-    <value>&lt;td width="{0}%"&gt;{1}&lt;/td&gt;</value>
-  </data>
-  <data name="HTML_TableCellWithSpan" xml:space="preserve">
-    <value>&lt;td colspan="{0}"&gt;{1}&lt;/td&gt;</value>
-  </data>
-  <data name="HTML_TableCellWithSpanAndWidth" xml:space="preserve">
-    <value>&lt;td width="{0}%" colspan="{1}"&gt;{2}&lt;/td&gt;</value>
   </data>
   <data name="IDS_CantExport" xml:space="preserve">
     <value>Unable to export to Toolbox! Cause: {0} {1}</value>
@@ -1589,64 +1403,6 @@ eater Panorama
   </data>
   <data name="IDS_ExportedToolboxMessage" xml:space="preserve">
     <value>The project has been exported to the folder '{0}\Toolbox'. Click 'Yes' to launch Toolbox and open that project.</value>
-  </data>
-  <data name="HTML_ParagraphText" xml:space="preserve">
-    <value>&lt;p id="{0}" class="{1}"&gt;{2}&lt;/p&gt;</value>
-  </data>
-  <data name="HTML_DOM_Prefix" xml:space="preserve">
-    <value>&lt;script&gt;
-function OnBibRefJump(link)
-{
-  window.external.OnBibRefJump(link.name);
-  return false; // cause the href navigation to not happen
-}
-function OnVerseLineJump(link)
-{
-  window.external.OnVerseLineJump(link.name);
-  return false; // cause the href navigation to not happen
-}
-function OnKeyDown()
-{
-  if (window.event.keyCode == 116)
-  {
-    // let the form handle it
-    window.external.LoadDocument();
-
-    // disable the propagation of the F5 event
-    window.event.keyCode = 0;
-    window.event.returnValue = false;
-    return false;
-  }
-}
-function paragraphSelect(strId, iStart, iLen)
-{
-  alert("before getElementById");
-  var oParagraph = document.getElementById(strId);
-  alert("before createRange");
-  var range = document.createRange();
-  alert("before setStart");
-  range.setStart(oParagraph, iStart);
-  alert("before setEnd");
-  range.setEnd(oParagraph, iStart + iLen);
-  alert("before select");
-  range.select();
-  alert("after select");
-}
-function textboxSelect(strId, iStart, iLen)
-{
-  alert("before getElementById");
-  var oTextbox = document.getElementById(strId);
-  alert("before createTextRange");
-  var oRange = oTextbox.createTextRange();
-  alert("before moveStart");
-  oRange.moveStart("character", iStart);
-  alert("before moveEnd");
-  oRange.moveEnd("character", -oTextbox.value.length + iStart + iLen);
-  alert("before select");
-  oRange.select();
-  alert("after select");
-}
-&lt;/script&gt;</value>
   </data>
   <data name="oneStory2KeyTerms" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\oneStory2KeyTerms.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
@@ -2033,329 +1789,13 @@ function textboxSelect(strId, iStart, iLen)
 \wrd
 \co</value>
   </data>
-  <data name="HTML_LangStyle" xml:space="preserve">
-    <value>.{0} {{
-      font-family: "{1}";
-      font-size: {2} pt;
-      color: {3};
-      direction: {4};
-      text-align: {5};
-  }}</value>
-  </data>
-  <data name="HTML_StyleDefinition" xml:space="preserve">
-    <value>&lt;style TYPE="text/css"&gt;
-  textarea {{ 
-      width:100%; 
-      overflow:visible
-  }}
-{0}
-  #contextMenu {{	/* The menu container */
-    border:1px solid #202867;	/* Border around the entire menu */
-    background-color:#FFF;	/* White background color of the menu */
-    margin:0px;
-    padding:0px;
-    width:300px;	/* Width of context menu */
-    font-family:arial;
-    font-size:11px;
-    background-image:url('gradient.gif');
-    background-repeat:repeat-y;
-    	
-    /* Never change these two values */
-    display:none;
-    position:absolute;
-  }}
-  #contextMenu a{{	/* Links in the context menu */
-    color: #000;
-    text-decoration:none;
-    line-height:25px;
-    vertical-align:middle;	
-    height:28px;
-    	
-    /* Don't change these 3 values */
-    display:block;	
-    width:100%;
-    clear:both;	
-  }}
-  #contextMenu li{{	/* Each menu item */
-    list-style-type:none;
-    padding:1px;
-    margin:1px;
-    cursor:pointer;	
-    clear:both;
-  }}
-  #contextMenu li div{{	/* Dynamically created divs */
-    cursor:pointer;	
-  }}
-  #contextMenu .contextMenuHighlighted{{	/* Highlighted context menu item */
-    border:1px solid #000;
-    padding:0px;
-    background-color:#E2EBED;
-  }}
-  #contextMenu img{{
-    border:0px;
-  }}
-  #contextMenu .imageBox{{	/* Dynamically created divs for images in the menu */
-    float:left;
-    padding-left:2px;
-    padding-top:3px;
-    vertical-align:middle;
-    	
-    width: 30px;	/* IE 5.x */
-  }}
-  #contextMenu .itemTxt{{
-    float:left;		
-    width: 120px;	/* IE 5.x */
-  }}
-&lt;/style&gt;</value>
-  </data>
-  <data name="HTML_TableRowId" xml:space="preserve">
-    <value>&lt;tr id="{0}"&gt;{1}&lt;/tr&gt;    </value>
-  </data>
-  <data name="HTML_TableRowColor" xml:space="preserve">
-    <value>&lt;tr BGCOLOR="{0}"&gt;{1}&lt;/tr&gt;</value>
-  </data>
-  <data name="HTML_TableRowIdColor" xml:space="preserve">
-    <value>&lt;tr id="{0}" BGCOLOR="{1}"&gt;{2}&lt;/tr&gt;    </value>
-  </data>
-  <data name="HTML_LinkJumpTargetBibleReference" xml:space="preserve">
-    <value>&lt;a href="bibleViewer.setReference" name="{0}" onClick="return OnBibRefJump(this);"&gt;{0}&lt;/a&gt;</value>
-  </data>
-  <data name="HTML_EmphasizedText" xml:space="preserve">
-    <value>&lt;em&gt;{0}&lt;/em&gt;</value>
-  </data>
-  <data name="HTML_TableCellWidthId" xml:space="preserve">
-    <value>&lt;td id="{0}" width="{1}%"&gt;{2}&lt;/td&gt;</value>
-  </data>
-  <data name="HTML_LinkJumpLine" xml:space="preserve">
-    <value>&lt;a href="conNote.jumpToLine" name="{0}" onClick="return OnVerseLineJump(this);"&gt;{1}&lt;/a&gt;</value>
-  </data>
-  <data name="HTML_HttpLink" xml:space="preserve">
-    <value>&lt;a href="{0}" target="_blank"&gt;here&lt;/a&gt; </value>
-  </data>
   <data name="IDS_AreAllTestingQuestionsEnteredQuery" xml:space="preserve">
     <value>Have you entered all of your testing questions? If not, then click 'Cancel' and finish entering all of the testing questions first (or you won't get answer boxes for questions added later). Or click 'OK' to add boxes for the UNS's retelling and answers to the testing quetsions.</value>
   </data>
   <data name="IDS_CheckForSkipToUnsCheck" xml:space="preserve">
     <value>Would you like to enter the results of a UNS test now (click 'Yes') or have your consultant check the story and testing questions first (click 'No')?</value>
   </data>
-  <data name="HTML_DOM_PrefixStoryBt" xml:space="preserve">
-    <value>&lt;script type="text/javascript"&gt;
-
-/************************************************************************************************************
-(C) www.dhtmlgoodies.com, October 2005
-
-This is a script from www.dhtmlgoodies.com. You will find this and a lot of other scripts at our website.	
-
-Terms of use:
-You are free to use this script as long as the copyright message is kept intact. However, you may not
-redistribute, sell or repost it without our permission.
-
-Thank you!
-
-www.dhtmlgoodies.com
-Alf Magne Kalleland
-
-************************************************************************************************************/
-
-var contextMenuObj;
-var nVerseIndex;
-var MSIE = navigator.userAgent.indexOf('MSIE')?true:false;
-var navigatorVersion = navigator.appVersion.replace(/.*?MSIE (\d\.\d).*/g,'$1')/1;	
-var activeContextMenuItem = false;
-function highlightContextMenuItem()
-{
-	this.className='contextMenuHighlighted';
-}
-
-function deHighlightContextMenuItem()
-{
-	this.className='';
-}
-
-function showContextMenu(btn)
- {
-  nVerseIndex = btn.id;
-  contextMenuSource = this;
-  if(activeContextMenuItem)activeContextMenuItem.className='';
-  if(document.all)e = event;
-  var xPos = e.clientX;
-  if(xPos + contextMenuObj.offsetWidth &gt; (document.documentElement.offsetWidth-20)){
-   xPos = xPos + (document.documentElement.offsetWidth - (xPos + contextMenuObj.offsetWidth)) - 20; 
-  }
-  
-  var yPos = e.clientY;
-  if(window.document.body.scrollTop &gt; 0)
-{
-  yPos = (window.screen.Height) ? e.clientY + window.document.body.scrollTop -20 : e.clientY -20;
-}
-else if (window.pageYOffset) 
-{
-  yPos = (window.pageYOffset &gt; 0) ? e.clientY + window.pageYOffset -20 : e.clientY -20;
-}
-else
-{ yPos = e.clientY -20; }
-  /* * */
-  contextMenuObj.style.left = xPos + 'px';
-  contextMenuObj.style.top = yPos + 'px';
-  contextMenuObj.style.display='block';
-  return false; 
-}
-
-function hideContextMenu(e)
-{
-	if(document.all) e = event;
-	if(e.button==0 &amp;&amp; !MSIE){
-		
-	}else{
-		contextMenuObj.style.display='none';
-	}
-}
-
-function initContextMenu()
-{
-	contextMenuObj = document.getElementById('contextMenu');
-	contextMenuObj.style.display = 'block';
-	var menuItems = contextMenuObj.getElementsByTagName('LI');
-	for(var no=0;no&lt;menuItems.length;no++){
-		menuItems[no].onmouseover = highlightContextMenuItem;
-		menuItems[no].onmouseout = deHighlightContextMenuItem;
-		
-		var aTag = menuItems[no].getElementsByTagName('A')[0];
-		
-		var img = menuItems[no].getElementsByTagName('IMG')[0];
-		if(img){
-			var div = document.createElement('DIV');
-			div.className = 'imageBox';
-			div.appendChild(img);
-			
-			if(MSIE &amp;&amp; navigatorVersion&lt;6){
-				aTag.style.paddingLeft = '0px';
-			}
-			
-			var divTxt = document.createElement('DIV');	
-			divTxt.className='itemTxt';
-			divTxt.innerHTML = aTag.innerHTML;
-			
-			aTag.innerHTML = '';
-			aTag.appendChild(div);
-			aTag.appendChild(divTxt);
-			if(MSIE &amp;&amp; navigatorVersion&lt;6){
-				div.style.position = 'absolute';
-				div.style.left = '2px';
-				divTxt.style.paddingLeft = '15px';
-			}
-			
-			if(!document.all){
-				var clearDiv = document.createElement('DIV');
-				clearDiv.style.clear = 'both';
-				aTag.appendChild(clearDiv);		
-			}
-		}else{
-			if(MSIE &amp;&amp; navigatorVersion&lt;6){
-				aTag.style.paddingLeft = '15px';
-				aTag.style.width = (aTag.offsetWidth - 30) + 'px';
-			}else{
-				aTag.style.paddingLeft = '30px';
-				aTag.style.width = (aTag.offsetWidth - 60) + 'px';
-			}
-		}
-	}
-	contextMenuObj.style.display = 'none';
-	document.documentElement.oncontextmenu = function(){return false};
-	document.documentElement.onclick = hideContextMenu;
-}
-function OnBibRefJump(btn)
-{
-  window.external.OnBibRefJump(btn.id);
-  return false; // cause the href navigation to not happen
-}
-function OnVerseLineJump(link)
-{
-  window.external.OnVerseLineJump(link.name);
-  return false; // cause the href navigation to not happen
-}
-function OnKeyDown()
-{
-  if (window.event.keyCode == 116)
-  {
-    // let the form handle it
-    window.external.LoadDocument();
-
-    // disable the propagation of the F5 event
-    window.event.keyCode = 0;
-    window.event.returnValue = false;
-    return false;
-  }
-}
-function paragraphSelect(strId, iStart, iLen)
-{
-  alert("before getElementById");
-  var oParagraph = document.getElementById(strId);
-  alert("before createRange");
-  var range = document.createRange();
-  alert("before setStart");
-  range.setStart(oParagraph, iStart);
-  alert("before setEnd");
-  range.setEnd(oParagraph, iStart + iLen);
-  alert("before select");
-  range.select();
-  alert("after select");
-}
-function textboxSelect(strId, iStart, iLen)
-{
-  alert("before getElementById");
-  var oTextbox = document.getElementById(strId);
-  alert("before createTextRange");
-  var oRange = oTextbox.createTextRange();
-  alert("before moveStart");
-  oRange.moveStart("character", iStart);
-  alert("before moveEnd");
-  oRange.moveEnd("character", -oTextbox.value.length + iStart + iLen);
-  alert("before select");
-  oRange.select();
-  alert("after select");
-}
-&lt;/script&gt;</value>
-  </data>
-  <data name="HTML_TableCellWidthSpanId" xml:space="preserve">
-    <value>&lt;td id="{0}" width="{1}%" colspan="{2}"&gt;{3}&lt;/td&gt;</value>
-  </data>
-  <data name="HTML_TableCellWidthAlignTop" xml:space="preserve">
-    <value>&lt;td width="{0}%" valign="top"&gt;{1}&lt;/td&gt;</value>
-  </data>
-  <data name="HTML_Textarea" xml:space="preserve">
-    <value>&lt;textarea id="{0}" class="{1}" onKeyUp="return window.external.TextareaOnKeyUp(this.id, this.value);"&gt;{2}&lt;/textarea&gt;</value>
-  </data>
   <data name="gradient" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\gradient.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="HTML_ButtonRightAlignCtxMenu" xml:space="preserve">
-    <value>&lt;button id="{0}" style="position:relative; left:20px; height:20px; width:20px;" oncontextmenu="return showContextMenu(this);"&gt;{1}&lt;/button&gt;</value>
-  </data>
-  <data name="HTML_HeaderStoryBt" xml:space="preserve">
-    <value>&lt;html&gt;
-{0}
-&lt;head&gt;
-{1}
-&lt;/head&gt;
-&lt;body onKeyDown="return OnKeyDown();" onscroll="window.external.OnScroll();"&gt;
-&lt;ul id="contextMenu"&gt;
-	&lt;li&gt;&lt;a href="#" onclick="window.external.InsertNewVerseBefore(nVerseIndex);"&gt;Insert new verse before this one&lt;/a&gt;&lt;/li&gt;
-	&lt;li&gt;&lt;a href="#" onclick="window.external.AddNewVerseAfter(nVerseIndex);"&gt;Add new verse after this one&lt;/a&gt;&lt;/li&gt;
-	&lt;li&gt;&lt;a href="#" onclick="window.external.HideVerse(nVerseIndex);"&gt;Hide verse&lt;/a&gt;&lt;/li&gt;
-	&lt;li&gt;&lt;a href="#" onclick="window.external.DeleteVerse(nVerseIndex);"&gt;Delete verse&lt;/a&gt;&lt;/li&gt;
-	&lt;li&gt;&lt;a href="#" onclick="window.external.CopyVerse(nVerseIndex);"&gt;Copy verse&lt;/a&gt;&lt;/li&gt;
-	&lt;li&gt;&lt;a href="#" onclick="window.external.PasteVerseBefore(nVerseIndex);"&gt;Paste verse before this one&lt;/a&gt;&lt;/li&gt;
-	&lt;li&gt;&lt;a href="#" onclick="window.external.PasteVerseAfter(nVerseIndex);"&gt;Paste verse after this one&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;script type="text/javascript"&gt;
-initContextMenu();
-&lt;/script&gt;
-{2}
-&lt;/body&gt;
-&lt;/html&gt;</value>
-  </data>
-  <data name="HTML_TableCellNoWrap" xml:space="preserve">
-    <value>&lt;td NOWRAP&gt;{0}&lt;/td&gt;</value>
   </data>
 </root>

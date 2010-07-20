@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using System.Xml;
 using System.Xml.Linq;
 using System.Text;
 
@@ -78,6 +79,25 @@ namespace OneStoryProjectEditor
             Phone = strPhone;
             AltPhone = strAltPhone;
             BioData = strBioData;
+        }
+
+        protected string GetAttribute(XmlNode node, string strAttrName)
+        {
+            XmlAttribute attr = node.Attributes[strAttrName];
+            if (attr != null)
+                return attr.Value;
+            return null;
+        }
+
+        public TeamMemberData(XmlNode node)
+        {
+            Name = GetAttribute(node, CstrAttributeNameName);
+            MemberType = GetMemberType(GetAttribute(node, CstrAttributeNameMemberType));
+            MemberGuid = GetAttribute(node, CstrAttributeNameMemberKey);
+
+            // I could do the rest, but I know that when this version of the ctor is call 
+            //  (e.g. history diffing/print preview), I'm only interested in the mapping 
+            //  between MemberGuid and Name... so for now, I'm ignoring the rest
         }
 
         public TeamMemberData(NewDataSet.MemberRow theMemberRow)
@@ -232,82 +252,111 @@ namespace OneStoryProjectEditor
             }
         }
 
+        public const string CstrElementLabelMember = "Member";
+        public const string CstrAttributeNameName = "name";
+        public const string CstrAttributeNameMemberType = "memberType";
+        public const string CstrAttributeNameEmail = "email";
+        public const string CstrAttributeNameAltPhone = "altPhone";
+        public const string CstrAttributeNamePhone = "phone";
+        public const string CstrAttributeNameBioData = "bioData";
+        public const string CstrAttributeNameSkypeID = "skypeID";
+        public const string CstrAttributeNameTeamViewerID = "teamViewerID";
+        public const string CstrAttributeNameOverrideVernacularKeyboard = "OverrideVernacularKeyboard";
+        public const string CstrAttributeNameOverrideNationalBTKeyboard = "OverrideNationalBTKeyboard";
+        public const string CstrAttributeNameOverrideInternationalBTKeyboard = "OverrideInternationalBTKeyboard";
+        public const string CstrAttributeNameOverrideFontNameVernacular = "OverrideFontNameVernacular";
+        public const string CstrAttributeNameOverrideFontSizeVernacular = "OverrideFontSizeVernacular";
+        public const string CstrAttributeNameOverrideRtlVernacular = "OverrideRtlVernacular";
+        public const string CstrAttributeNameOverrideFontNameNationalBT = "OverrideFontNameNationalBT";
+        public const string CstrAttributeNameOverrideFontSizeNationalBT = "OverrideFontSizeNationalBT";
+        public const string CstrAttributeNameOverrideRtlNationalBT = "OverrideRtlNationalBT";
+        public const string CstrAttributeNameOverrideFontNameInternationalBT = "OverrideFontNameInternationalBT";
+        public const string CstrAttributeNameOverrideFontSizeInternationalBT = "OverrideFontSizeInternationalBT";
+        public const string CstrAttributeNameOverrideRtlInternationalBT = "OverrideRtlInternationalBT";
+        public const string CstrAttributeNameHgUsername = "HgUsername";
+        public const string CstrAttributeNameHgPassword = "HgPassword";
+        public const string CstrAttributeNameTransliteratorVernacular = "TransliteratorVernacular";
+        public const string CstrAttributeNameTransliteratorDirectionForwardVernacular = "TransliteratorDirectionForwardVernacular";
+        public const string CstrAttributeNameTransliteratorNationalBT = "TransliteratorNationalBT";
+        public const string CstrAttributeNameTransliteratorDirectionForwardNationalBT = "TransliteratorDirectionForwardNationalBT";
+        public const string CstrAttributeNameMemberKey = "memberKey";
+
         public XElement GetXml
         {
             get
             {
-                XElement eleMember = new XElement("Member",
-                    new XAttribute("name", Name),
-                    new XAttribute("memberType", MemberTypeAsString));
+                XElement eleMember = new XElement(CstrElementLabelMember,
+                    new XAttribute(CstrAttributeNameName, Name),
+                    new XAttribute(CstrAttributeNameMemberType, MemberTypeAsString));
                 if (!String.IsNullOrEmpty(Email))
-                    eleMember.Add(new XAttribute("email", Email));
+                    eleMember.Add(new XAttribute(CstrAttributeNameEmail, Email));
                 if (!String.IsNullOrEmpty(AltPhone))
-                    eleMember.Add(new XAttribute("altPhone", AltPhone));
+                    eleMember.Add(new XAttribute(CstrAttributeNameAltPhone, AltPhone));
                 if (!String.IsNullOrEmpty(Phone))
-                    eleMember.Add(new XAttribute("phone", Phone));
+                    eleMember.Add(new XAttribute(CstrAttributeNamePhone, Phone));
                 if (!String.IsNullOrEmpty(BioData))
-                    eleMember.Add(new XAttribute("bioData", BioData));
+                    eleMember.Add(new XAttribute(CstrAttributeNameBioData, BioData));
                 if (!String.IsNullOrEmpty(SkypeID))
-                    eleMember.Add(new XAttribute("skypeID", SkypeID));
+                    eleMember.Add(new XAttribute(CstrAttributeNameSkypeID, SkypeID));
                 if (!String.IsNullOrEmpty(TeamViewerID))
-                    eleMember.Add(new XAttribute("teamViewerID", TeamViewerID));
+                    eleMember.Add(new XAttribute(CstrAttributeNameTeamViewerID, TeamViewerID));
                 if (!String.IsNullOrEmpty(OverrideVernacularKeyboard))
-                    eleMember.Add(new XAttribute("OverrideVernacularKeyboard", OverrideVernacularKeyboard));
+                    eleMember.Add(new XAttribute(CstrAttributeNameOverrideVernacularKeyboard, OverrideVernacularKeyboard));
                 if (!String.IsNullOrEmpty(OverrideNationalBTKeyboard))
-                    eleMember.Add(new XAttribute("OverrideNationalBTKeyboard", OverrideNationalBTKeyboard));
+                    eleMember.Add(new XAttribute(CstrAttributeNameOverrideNationalBTKeyboard, OverrideNationalBTKeyboard));
                 if (!String.IsNullOrEmpty(OverrideInternationalBTKeyboard))
-                    eleMember.Add(new XAttribute("OverrideInternationalBTKeyboard", OverrideInternationalBTKeyboard));
+                    eleMember.Add(new XAttribute(CstrAttributeNameOverrideInternationalBTKeyboard, OverrideInternationalBTKeyboard));
                 if (!String.IsNullOrEmpty(OverrideFontNameVernacular))
                 {
                     eleMember.Add(
-                        new XAttribute("OverrideFontNameVernacular", OverrideFontNameVernacular),
-                        new XAttribute("OverrideFontSizeVernacular", OverrideFontSizeVernacular));
+                        new XAttribute(CstrAttributeNameOverrideFontNameVernacular, OverrideFontNameVernacular),
+                        new XAttribute(CstrAttributeNameOverrideFontSizeVernacular, OverrideFontSizeVernacular));
                 }
                 if (OverrideRtlVernacular)
-                    eleMember.Add(new XAttribute("OverrideRtlVernacular", OverrideRtlVernacular));
+                    eleMember.Add(new XAttribute(CstrAttributeNameOverrideRtlVernacular, OverrideRtlVernacular));
 
                 if (!String.IsNullOrEmpty(OverrideFontNameNationalBT))
                 {
                     eleMember.Add(
-                        new XAttribute("OverrideFontNameNationalBT", OverrideFontNameNationalBT),
-                        new XAttribute("OverrideFontSizeNationalBT", OverrideFontSizeNationalBT));
+                        new XAttribute(CstrAttributeNameOverrideFontNameNationalBT, OverrideFontNameNationalBT),
+                        new XAttribute(CstrAttributeNameOverrideFontSizeNationalBT, OverrideFontSizeNationalBT));
                 }
                 if (OverrideRtlNationalBT)
-                    eleMember.Add(new XAttribute("OverrideRtlNationalBT", OverrideRtlNationalBT));
+                    eleMember.Add(new XAttribute(CstrAttributeNameOverrideRtlNationalBT, OverrideRtlNationalBT));
 
                 if (!String.IsNullOrEmpty(OverrideFontNameInternationalBT))
                 {
                     eleMember.Add(
-                        new XAttribute("OverrideFontNameInternationalBT", OverrideFontNameInternationalBT),
-                        new XAttribute("OverrideFontSizeInternationalBT", OverrideFontSizeInternationalBT));
+                        new XAttribute(CstrAttributeNameOverrideFontNameInternationalBT, OverrideFontNameInternationalBT),
+                        new XAttribute(CstrAttributeNameOverrideFontSizeInternationalBT, OverrideFontSizeInternationalBT));
                 }
                 if (OverrideRtlInternationalBT)
-                    eleMember.Add(new XAttribute("OverrideRtlInternationalBT", OverrideRtlInternationalBT));
+                    eleMember.Add(new XAttribute(CstrAttributeNameOverrideRtlInternationalBT, OverrideRtlInternationalBT));
 
                 if (!String.IsNullOrEmpty(HgUsername))
-                    eleMember.Add(new XAttribute("HgUsername", HgUsername));
+                    eleMember.Add(new XAttribute(CstrAttributeNameHgUsername, HgUsername));
                 if (!String.IsNullOrEmpty(HgPassword))
                 {
                     string strEncryptedHgPassword = EncryptionClass.Encrypt(HgPassword);
                     System.Diagnostics.Debug.Assert(HgPassword == EncryptionClass.Decrypt(strEncryptedHgPassword));
-                    eleMember.Add(new XAttribute("HgPassword", strEncryptedHgPassword));
+                    eleMember.Add(new XAttribute(CstrAttributeNameHgPassword, strEncryptedHgPassword));
                 }
 
                 if (!String.IsNullOrEmpty(TransliteratorVernacular))
                 {
                     eleMember.Add(
-                        new XAttribute("TransliteratorVernacular", TransliteratorVernacular),
-                        new XAttribute("TransliteratorDirectionForwardVernacular",
+                        new XAttribute(CstrAttributeNameTransliteratorVernacular, TransliteratorVernacular),
+                        new XAttribute(CstrAttributeNameTransliteratorDirectionForwardVernacular,
                                        TransliteratorDirectionForwardVernacular));
                 }
                 if (!String.IsNullOrEmpty(TransliteratorNationalBT))
                 {
-                    eleMember.Add(new XAttribute("TransliteratorNationalBT", TransliteratorNationalBT),
-                                  new XAttribute("TransliteratorDirectionForwardNationalBT",
+                    eleMember.Add(new XAttribute(CstrAttributeNameTransliteratorNationalBT, TransliteratorNationalBT),
+                                  new XAttribute(CstrAttributeNameTransliteratorDirectionForwardNationalBT,
                                                  TransliteratorDirectionForwardNationalBT));
                 }
 
-                eleMember.Add(new XAttribute("memberKey", MemberGuid));
+                eleMember.Add(new XAttribute(CstrAttributeNameMemberKey, MemberGuid));
 
                 return eleMember;
             }
@@ -327,6 +376,22 @@ namespace OneStoryProjectEditor
             var aTMD = new TeamMemberData(CstrBrowserMemberName, TeamMemberData.UserTypes.eJustLooking,
                 "mem-" + Guid.NewGuid(), null, null, null, null, null, null);
             Add(CstrBrowserMemberName, aTMD);
+        }
+
+        public TeamMembersData(XmlNode node)
+        {
+            if (node == null)
+                return;
+
+            XmlNodeList list = node.SelectNodes(CstrElementLabelMembers + '/' + TeamMemberData.CstrElementLabelMember);
+            if (list == null)
+                return;
+
+            foreach (XmlNode nodeMember in list)
+            {
+                TeamMemberData aTM = new TeamMemberData(nodeMember);
+                Add(aTM.Name, aTM);
+            }
         }
 
         public TeamMembersData(NewDataSet projFile)
@@ -360,6 +425,14 @@ namespace OneStoryProjectEditor
                 HasIndependentConsultant = IsThereAnIndependentConsultant;
             else
                 HasIndependentConsultant = theMembersRow.HasIndependentConsultant;
+        }
+
+        public string GetNameFromMemberId(string memberID)
+        {
+            foreach (TeamMemberData aTeamMember in Values)
+                if (aTeamMember.MemberGuid == memberID)
+                    return aTeamMember.Name;
+            return CstrBrowserMemberName;   // shouldn't really be able to happen, but return something
         }
 
         // should use the StoryProjectData version if outside user
@@ -419,11 +492,13 @@ namespace OneStoryProjectEditor
             }
         }
 
+        public const string CstrElementLabelMembers = "Members";
+
         public XElement GetXml
         {
             get
             {
-                var eleMembers = new XElement("Members",
+                var eleMembers = new XElement(CstrElementLabelMembers,
                     new XAttribute("HasOutsideEnglishBTer", HasOutsideEnglishBTer),
                     new XAttribute("HasFirstPassMentor", HasFirstPassMentor),
                     new XAttribute("HasIndependentConsultant", HasIndependentConsultant));

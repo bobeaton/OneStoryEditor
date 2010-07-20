@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using System.Xml;
 using System.Xml.Linq;
 using Microsoft.Win32;                  // for RegistryKey
 
@@ -30,6 +31,17 @@ namespace OneStoryProjectEditor
                 System.Diagnostics.Debug.Assert(strProjectFolderDefaultIfNull[strProjectFolderDefaultIfNull.Length-1] != '\\');
                 _strProjectFolder = strProjectFolderDefaultIfNull;
             }
+        }
+
+        public ProjectSettings(XmlNode node, string strProjectFolder)
+        {
+            XmlAttribute attr;
+            ProjectName = ((attr = node.Attributes[StoryProjectData.CstrAttributeProjectName]) != null) ? attr.Value : null;
+            _strProjectFolder = strProjectFolder;
+
+            Vernacular = new LanguageInfo(node.SelectSingleNode(CstrElementLabelLanguages + '/' + CstrElementLabelVernacular));
+            NationalBT = new LanguageInfo(node.SelectSingleNode(CstrElementLabelLanguages + '/' + CstrElementLabelNationalBT));
+            InternationalBT = new LanguageInfo(node.SelectSingleNode(CstrElementLabelLanguages + '/' + CstrElementLabelInternationalBT));
         }
 
         public void SerializeProjectSettings(NewDataSet projFile)
@@ -136,6 +148,23 @@ namespace OneStoryProjectEditor
                 FontColor = fontColor;
             }
 
+            public LanguageInfo(XmlNode node)
+            {
+                if (node == null)
+                    return;
+
+                XmlAttribute attr;
+                LangName = ((attr = node.Attributes[CstrAttributeName]) != null) ? attr.Value : null;
+                LangCode = ((attr = node.Attributes[CstrAttributeCode]) != null) ? attr.Value : null;
+                DefaultFontName = ((attr = node.Attributes[CstrAttributeFontName]) != null) ? attr.Value : null;
+                DefaultFontSize = ((attr = node.Attributes[CstrAttributeFontSize]) != null) ? Convert.ToSingle(attr.Value) : 12;
+                FontToUse = new Font(DefaultFontName, DefaultFontSize);
+                FontColor = ((attr = node.Attributes[CstrAttributeFontColor]) != null) ? Color.FromName(attr.Value) : Color.Black;
+                FullStop = ((attr = node.Attributes[CstrAttributeSentenceFinalPunct]) != null) ? attr.Value : null;
+                DefaultKeyboard = ((attr = node.Attributes[CstrAttributeKeyboard]) != null) ? attr.Value : null;
+                DefaultRtl = ((attr = node.Attributes[CstrAttributeRTL]) != null) ? (attr.Value == "true") : false;
+            }
+
             public LanguageInfo(string strLangName, string strLangCode, Font font, Color fontColor)
             {
                 LangName = strLangName;
@@ -175,33 +204,42 @@ namespace OneStoryProjectEditor
                 }
             }
 
+            public const string CstrAttributeName = "name";
+            public const string CstrAttributeCode = "code";
+            public const string CstrAttributeFontName = "FontName";
+            public const string CstrAttributeFontSize = "FontSize";
+            public const string CstrAttributeFontColor = "FontColor";
+            public const string CstrAttributeSentenceFinalPunct = "SentenceFinalPunct";
+            public const string CstrAttributeRTL = "RTL";
+            public const string CstrAttributeKeyboard = "Keyboard";
+
             public XElement GetXml(string strLangType)
             {
                 XElement elemLang =
                     new XElement(strLangType,
-                        new XAttribute("name", LangName),
-                        new XAttribute("code", LangCode),
-                        new XAttribute("FontName", DefaultFontName),
-                        new XAttribute("FontSize", DefaultFontSize),
-                        new XAttribute("FontColor", FontColor.Name));
+                        new XAttribute(CstrAttributeName, LangName),
+                        new XAttribute(CstrAttributeCode, LangCode),
+                        new XAttribute(CstrAttributeFontName, DefaultFontName),
+                        new XAttribute(CstrAttributeFontSize, DefaultFontSize),
+                        new XAttribute(CstrAttributeFontColor, FontColor.Name));
 
                 if (!String.IsNullOrEmpty(FullStop))
-                    elemLang.Add(new XAttribute("SentenceFinalPunct", FullStop));
+                    elemLang.Add(new XAttribute(CstrAttributeSentenceFinalPunct, FullStop));
 
                 // when saving, though, we only write out the default value (override
                 //  values (if any) are saved by the member ID info)
                 if (DefaultRtl)
-                    elemLang.Add(new XAttribute("RTL", DefaultRtl));
+                    elemLang.Add(new XAttribute(CstrAttributeRTL, DefaultRtl));
 
                 if (!String.IsNullOrEmpty(DefaultKeyboard))
-                    elemLang.Add(new XAttribute("Keyboard", DefaultKeyboard));
+                    elemLang.Add(new XAttribute(CstrAttributeKeyboard, DefaultKeyboard));
 
                 return elemLang;
             }
 
             public string HtmlStyle(string strLangCat)
             {
-                string strHtmlStyle = String.Format(Properties.Resources.HTML_LangStyle,
+                string strHtmlStyle = String.Format(OseResources.Properties.Resources.HTML_LangStyle,
                     strLangCat,
                     FontToUse.Name,
                     FontToUse.SizeInPoints,
@@ -278,7 +316,7 @@ namespace OneStoryProjectEditor
                     strDefaultProjectFolderRoot = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
                 string strPath = Path.Combine(strDefaultProjectFolderRoot,
-                    Properties.Settings.Default.DefMyDocsSubfolder);
+                    OseResources.Properties.Resources.DefMyDocsSubfolder);
 
                 return strPath;
             }
@@ -292,6 +330,11 @@ namespace OneStoryProjectEditor
             }
         }
 
+        public const string CstrElementLabelLanguages = "Languages";
+        public const string CstrElementLabelVernacular = "VernacularLang";
+        public const string CstrElementLabelNationalBT = "NationalBTLang";
+        public const string CstrElementLabelInternationalBT = "InternationalBTLang";
+
         public XElement GetXml
         {
             get
@@ -299,15 +342,15 @@ namespace OneStoryProjectEditor
                 // have to have one or the other languages
                 System.Diagnostics.Debug.Assert(Vernacular.HasData || NationalBT.HasData || InternationalBT.HasData);
 
-                XElement elem = new XElement("Languages");
+                XElement elem = new XElement(CstrElementLabelLanguages);
                 if (Vernacular.HasData)
-                    elem.Add(Vernacular.GetXml("VernacularLang"));
+                    elem.Add(Vernacular.GetXml(CstrElementLabelVernacular));
                     
                 if (NationalBT.HasData)
-                    elem.Add(NationalBT.GetXml("NationalBTLang"));
+                    elem.Add(NationalBT.GetXml(CstrElementLabelNationalBT));
 
                 if (InternationalBT.HasData)
-                    elem.Add(InternationalBT.GetXml("InternationalBTLang"));
+                    elem.Add(InternationalBT.GetXml(CstrElementLabelInternationalBT));
 
                 return elem;
             }

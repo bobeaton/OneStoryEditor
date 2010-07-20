@@ -66,7 +66,7 @@ namespace OneStoryProjectEditor
             {
                 DialogResult res = MessageBox.Show(
                     Properties.Resources.IDS_NoteNotEmptyHideQuery,
-                    Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+                    OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
 
                 if (res == DialogResult.Yes)
                     return OnClickHide(strId);
@@ -340,7 +340,7 @@ namespace OneStoryProjectEditor
             // if the coach tries to add a note in the consultant's pane, that should fail.
             // (but it's okay for a project facilitator to add one if they have a question
             //  for the consultant)
-            if (!aCNsDC.CheckAddNotePrivilege(theSE, theSE.LoggedOnMember.MemberType))
+            if (!aCNsDC.CheckAddNotePrivilege(theSE.SetStatusBar, theSE.LoggedOnMember.MemberType))
                 return null;
 
             StoryStageLogic.ProjectStages eCurState = theSE.theCurrentStory.ProjStage.ProjectStage;

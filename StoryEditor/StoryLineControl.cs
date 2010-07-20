@@ -8,10 +8,6 @@ namespace OneStoryProjectEditor
 {
     public partial class StoryLineControl : OneStoryProjectEditor.ResizableControl
     {
-        public const string CstrFieldNameVernacular = "Vernacular";
-        public const string CstrFieldNameNationalBt = "NationalBT";
-        public const string CstrFieldNameInternationalBt = "InternationalBT";
-
         protected VerseData _aVerseData = null;
 
         public StoryLineControl(StoryEditor aSE, VerseBtControl ctrlVerse, VerseData aVerseData)
@@ -48,7 +44,7 @@ namespace OneStoryProjectEditor
                     || (aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT));
 
                 _aVerseData.VernacularText.Transliterator = ctrlVerse.TransliteratorVernacular;
-                InitTextBox(ctrlVerse, CstrFieldNameVernacular, _aVerseData.VernacularText, 
+                InitTextBox(ctrlVerse, VerseData.CstrFieldNameVernacular, _aVerseData.VernacularText, 
                     aSE.StoryProject.ProjSettings.Vernacular, bDisableTabStopVernacular, 
                     nNumColumns);
                 nNumColumns++;
@@ -67,7 +63,7 @@ namespace OneStoryProjectEditor
                     || (aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT));
 
                 _aVerseData.NationalBTText.Transliterator = ctrlVerse.TransliteratorNationalBT;
-                InitTextBox(ctrlVerse, CstrFieldNameNationalBt, _aVerseData.NationalBTText, 
+                InitTextBox(ctrlVerse, VerseData.CstrFieldNameNationalBt, _aVerseData.NationalBTText, 
                     aSE.StoryProject.ProjSettings.NationalBT, bDisableTabStopNationalBT, 
                     nNumColumns);
 
@@ -80,7 +76,7 @@ namespace OneStoryProjectEditor
                 if (ctrlVerse.VerseNumber == 1)
                     InitLabel(aSE.StoryProject.ProjSettings.InternationalBT.LangName, nNumColumns);
 
-                InitTextBox(ctrlVerse, CstrFieldNameInternationalBt, _aVerseData.InternationalBTText, 
+                InitTextBox(ctrlVerse, VerseData.CstrFieldNameInternationalBt, _aVerseData.InternationalBTText, 
                     aSE.StoryProject.ProjSettings.InternationalBT, false, nNumColumns);
                 nNumColumns++;
             }

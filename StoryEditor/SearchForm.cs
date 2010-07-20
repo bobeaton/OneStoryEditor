@@ -10,20 +10,20 @@ namespace OneStoryProjectEditor
     public partial class SearchForm : Form
     {
         protected StoryEditor TheSE;
-        protected SearchLookInProperties FindProperties = new SearchLookInProperties();
+        protected VerseData.SearchLookInProperties FindProperties = new VerseData.SearchLookInProperties();
 
         public SearchForm()
         {
             InitializeComponent();
 
-            FindProperties.ReadFromConfig(this);
+            ReadFromConfig(ref FindProperties, this);
         }
 
         private void SearchForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = true;
 
-            FindProperties.WriteToConfig(this);
+            WriteToConfig(this);
 
             Hide();
         }
@@ -56,7 +56,7 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, Properties.Resources.IDS_Caption);
+                MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
             }
         }
 
@@ -72,15 +72,15 @@ namespace OneStoryProjectEditor
             buttonReplace.Enabled = false;
         }
 
-        public static StorySearchIndex BoxesToSearch = new StorySearchIndex();
+        public static VerseData.StorySearchIndex BoxesToSearch = new VerseData.StorySearchIndex();
         protected int LastStoryIndex = -1;
         protected int LastCtxBoxIndex = -1;
         protected int LastCharIndex = -1;
 
-        protected void InitSearchList(ref StorySearchIndex alstBoxesToSearch,
+        protected void InitSearchList(ref VerseData.StorySearchIndex alstBoxesToSearch,
             out int nStoryIndex, out int nCtxBoxIndex, out int nCharIndex)
         {
-            StringTransferSearchIndex ssidx = null;
+            VerseData.StringTransferSearchIndex ssidx = null;
                     
             // if the index is empty, then load it...
             if (alstBoxesToSearch.Count == 0)
@@ -160,7 +160,7 @@ namespace OneStoryProjectEditor
             string strToSearchFor = UpdateComboBox(comboBoxFindWhat);
             if (String.IsNullOrEmpty(strToSearchFor))
             {
-                MessageBox.Show(Properties.Resources.IDS_NoSearchString, Properties.Resources.IDS_Caption); 
+                MessageBox.Show(Properties.Resources.IDS_NoSearchString, OseResources.Properties.Resources.IDS_Caption); 
                 return;
             }
 
@@ -177,7 +177,7 @@ namespace OneStoryProjectEditor
             int nCtxBoxIndex = nLastCtxBoxIndex;
             while (nStoryIndex < BoxesToSearch.Count)
             {
-                StringTransferSearchIndex stsi = BoxesToSearch[nStoryIndex];
+                VerseData.StringTransferSearchIndex stsi = BoxesToSearch[nStoryIndex];
                 for (; nCtxBoxIndex < stsi.Count;  nCtxBoxIndex++)
                 {
                     StringTransfer stringTransfer = stsi[nCtxBoxIndex].StringTransfer;
@@ -236,7 +236,7 @@ namespace OneStoryProjectEditor
                     if (nFoundIndex != -1)
                     {
                         // found a match!
-                        VerseString vs = stsi[nCtxBoxIndex];
+                        VerseData.VerseString vs = stsi[nCtxBoxIndex];
                         System.Diagnostics.Debug.Assert(vs.StringTransfer == stringTransfer);
                         TheSE.NavigateTo(stsi.StoryName,
                                          vs.ViewToInsureIsOn,
@@ -251,7 +251,8 @@ namespace OneStoryProjectEditor
                         }
                         else if (stringTransfer.HtmlConNoteCtrl != null)
                         {
-                            stringTransfer.HtmlConNoteCtrl.SelectFoundText(stringTransfer.HtmlElementId, nFoundIndex,
+                            HtmlConNoteControl ctrl = stringTransfer.HtmlConNoteCtrl as HtmlConNoteControl;
+                            ctrl.SelectFoundText(stringTransfer.HtmlElementId, nFoundIndex,
                                                                            nLengthToSelect);
                             LastCharIndex = nFoundIndex + nLengthToSelect;
                         }
@@ -276,7 +277,7 @@ namespace OneStoryProjectEditor
 
                     // otherwise, see if the user wants to start over from 0
                     if (MessageBox.Show(Properties.Resources.IDS_StartFromBeginning, 
-                        Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+                        OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
                     {
                         nCtxBoxIndex = 0;
 
@@ -307,7 +308,7 @@ namespace OneStoryProjectEditor
 
             // otherwise, see if the user wants to start over from 0.0
             if (MessageBox.Show(Properties.Resources.IDS_StartFromBeginning,
-                Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+                OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
             {
                 LastStoryIndex = LastCtxBoxIndex = LastCharIndex = 0;
                 DoFindNext();
@@ -318,7 +319,7 @@ namespace OneStoryProjectEditor
         {
             Console.Beep();
             MessageBox.Show(Properties.Resources.IDS_FindStringNotFound,
-                            Properties.Resources.IDS_Caption);
+                            OseResources.Properties.Resources.IDS_Caption);
 
             // but if we find nothing once, then just start over wherever it makes sense 
             //  next time
@@ -328,123 +329,55 @@ namespace OneStoryProjectEditor
                 Show(TheSE);
         }
 
-        public class SearchLookInProperties
+        public void ReadFromConfig(ref VerseData.SearchLookInProperties sp, SearchForm form)
         {
-            public bool ViewLookInOptions { get; set; }
-            public bool StoryLanguage { get; set; }
-            public bool NationalBT { get; set; }
-            public bool EnglishBT { get; set; }
-            public bool ConsultantNotes { get; set; }
-            public bool CoachNotes { get; set; }
-            public bool Retellings { get; set; }
-            public bool TestQnA { get; set; }
-            public bool SearchAll { get; set; }
-            public bool UseRegex { get; set; }
+            sp.ViewLookInOptions = form.checkBoxLookInExpander.Checked = Properties.Settings.Default.LookInExpander;
+            sp.StoryLanguage = form.checkBoxLookInStoryLanguage.Checked = Properties.Settings.Default.LookInStoryLanguage;
+            sp.NationalBT = form.checkBoxLookInNationalBT.Checked = Properties.Settings.Default.LookInNationalBT;
+            sp.EnglishBT = form.checkBoxLookInEnglishBT.Checked = Properties.Settings.Default.LookInEnglishBT;
+            sp.ConsultantNotes = form.checkBoxLookInConsultantNotes.Checked = Properties.Settings.Default.LookInConsultantNotes;
+            sp.CoachNotes = form.checkBoxLookInCoachNotes.Checked = Properties.Settings.Default.LookInCoachNotes;
+            sp.Retellings = form.checkBoxLookInRetellings.Checked = Properties.Settings.Default.LookInRetellings;
+            sp.TestQnA = form.checkBoxLookInTestQnA.Checked = Properties.Settings.Default.LookInTestQnA;
+            sp.SearchAll = form.checkBoxAllStories.Checked = Properties.Settings.Default.LookInAllStories;
+            sp.UseRegex = form.checkBoxUseRegex.Checked = Properties.Settings.Default.UseRegEx;
 
-            public void ReadFromConfig(SearchForm form)
-            {
-                ViewLookInOptions = form.checkBoxLookInExpander.Checked = Properties.Settings.Default.LookInExpander;
-                StoryLanguage = form.checkBoxLookInStoryLanguage.Checked = Properties.Settings.Default.LookInStoryLanguage;
-                NationalBT = form.checkBoxLookInNationalBT.Checked = Properties.Settings.Default.LookInNationalBT;
-                EnglishBT = form.checkBoxLookInEnglishBT.Checked = Properties.Settings.Default.LookInEnglishBT;
-                ConsultantNotes = form.checkBoxLookInConsultantNotes.Checked = Properties.Settings.Default.LookInConsultantNotes;
-                CoachNotes = form.checkBoxLookInCoachNotes.Checked = Properties.Settings.Default.LookInCoachNotes;
-                Retellings = form.checkBoxLookInRetellings.Checked = Properties.Settings.Default.LookInRetellings;
-                TestQnA = form.checkBoxLookInTestQnA.Checked = Properties.Settings.Default.LookInTestQnA;
-                SearchAll = form.checkBoxAllStories.Checked = Properties.Settings.Default.LookInAllStories;
-                UseRegex = form.checkBoxUseRegex.Checked = Properties.Settings.Default.UseRegEx;
+            if (Properties.Settings.Default.RecentFindWhat != null)
+                foreach (var item in Properties.Settings.Default.RecentFindWhat)
+                    form.comboBoxFindWhat.Items.Add(item);
+            else
+                Properties.Settings.Default.RecentFindWhat = new StringCollection();
 
-                if (Properties.Settings.Default.RecentFindWhat != null)
-                    foreach (var item in Properties.Settings.Default.RecentFindWhat)
-                        form.comboBoxFindWhat.Items.Add(item);
-                else
-                    Properties.Settings.Default.RecentFindWhat = new StringCollection();
-
-                if (Properties.Settings.Default.RecentReplaceWith != null)
-                    foreach (var item in Properties.Settings.Default.RecentReplaceWith)
-                        form.comboBoxReplaceWith.Items.Add(item);
-                else
-                    Properties.Settings.Default.RecentReplaceWith = new StringCollection();
-            }
-
-            public void WriteToConfig(SearchForm form)
-            {
-                Properties.Settings.Default.LookInExpander = form.checkBoxLookInExpander.Checked;
-                Properties.Settings.Default.LookInStoryLanguage = form.checkBoxLookInStoryLanguage.Checked;
-                Properties.Settings.Default.LookInNationalBT = form.checkBoxLookInNationalBT.Checked;
-                Properties.Settings.Default.LookInEnglishBT = form.checkBoxLookInEnglishBT.Checked;
-                Properties.Settings.Default.LookInConsultantNotes = form.checkBoxLookInConsultantNotes.Checked;
-                Properties.Settings.Default.LookInCoachNotes = form.checkBoxLookInCoachNotes.Checked;
-                Properties.Settings.Default.LookInRetellings = form.checkBoxLookInRetellings.Checked;
-                Properties.Settings.Default.LookInTestQnA = form.checkBoxLookInTestQnA.Checked;
-                Properties.Settings.Default.LookInAllStories = form.checkBoxAllStories.Checked;
-                Properties.Settings.Default.UseRegEx = form.checkBoxUseRegex.Checked;
-                
-                // keep the 15 most recent find whats and replace withs
-                Properties.Settings.Default.RecentFindWhat.Clear();
-                for (int i = 0; i < Math.Min(15, form.comboBoxFindWhat.Items.Count); i++)
-                    Properties.Settings.Default.RecentFindWhat.Add((string)form.comboBoxFindWhat.Items[i]);
-
-                Properties.Settings.Default.RecentReplaceWith.Clear();
-                for (int i = 0; i < Math.Min(15, form.comboBoxReplaceWith.Items.Count); i++)
-                    Properties.Settings.Default.RecentReplaceWith.Add((string)form.comboBoxReplaceWith.Items[i]);
-                    
-                Properties.Settings.Default.Save();
-            }
+            if (Properties.Settings.Default.RecentReplaceWith != null)
+                foreach (var item in Properties.Settings.Default.RecentReplaceWith)
+                    form.comboBoxReplaceWith.Items.Add(item);
+            else
+                Properties.Settings.Default.RecentReplaceWith = new StringCollection();
         }
 
-        public class VerseString
+        public void WriteToConfig(SearchForm form)
         {
-            public StringTransfer StringTransfer { get; set; }
-            public VerseData.ViewItemToInsureOn ViewToInsureIsOn { get; set; }
+            Properties.Settings.Default.LookInExpander = form.checkBoxLookInExpander.Checked;
+            Properties.Settings.Default.LookInStoryLanguage = form.checkBoxLookInStoryLanguage.Checked;
+            Properties.Settings.Default.LookInNationalBT = form.checkBoxLookInNationalBT.Checked;
+            Properties.Settings.Default.LookInEnglishBT = form.checkBoxLookInEnglishBT.Checked;
+            Properties.Settings.Default.LookInConsultantNotes = form.checkBoxLookInConsultantNotes.Checked;
+            Properties.Settings.Default.LookInCoachNotes = form.checkBoxLookInCoachNotes.Checked;
+            Properties.Settings.Default.LookInRetellings = form.checkBoxLookInRetellings.Checked;
+            Properties.Settings.Default.LookInTestQnA = form.checkBoxLookInTestQnA.Checked;
+            Properties.Settings.Default.LookInAllStories = form.checkBoxAllStories.Checked;
+            Properties.Settings.Default.UseRegEx = form.checkBoxUseRegex.Checked;
 
-            public VerseString(StringTransfer strStringTransfer,
-                VerseData.ViewItemToInsureOn viewItemToInsureOn)
-            {
-                StringTransfer = strStringTransfer;
-                ViewToInsureIsOn = viewItemToInsureOn;
-            }
-        }
+            // keep the 15 most recent find whats and replace withs
+            Properties.Settings.Default.RecentFindWhat.Clear();
+            for (int i = 0; i < Math.Min(15, form.comboBoxFindWhat.Items.Count); i++)
+                Properties.Settings.Default.RecentFindWhat.Add((string)form.comboBoxFindWhat.Items[i]);
 
-        public class StringTransferSearchIndex : List<VerseString>
-        {
-            public string StoryName { get; set; }
+            Properties.Settings.Default.RecentReplaceWith.Clear();
+            for (int i = 0; i < Math.Min(15, form.comboBoxReplaceWith.Items.Count); i++)
+                Properties.Settings.Default.RecentReplaceWith.Add((string)form.comboBoxReplaceWith.Items[i]);
 
-            public StringTransferSearchIndex(string strStoryName)
-            {
-                StoryName = strStoryName;
-            }
-
-            public VerseString AddNewVerseString(StringTransfer strStringTransfer, 
-                VerseData.ViewItemToInsureOn viewItemToInsureOn)
-            {
-                var vs = new VerseString(strStringTransfer, viewItemToInsureOn);
-                Add(vs);
-                return vs;
-            }
-        }
-
-        public class StorySearchIndex : List<StringTransferSearchIndex>
-        {
-            public StringTransferSearchIndex GetNewStorySearchIndex(string strStoryName)
-            {
-                var stsi = new StringTransferSearchIndex(strStoryName);
-                Add(stsi);
-                return stsi;
-            }
-
-            public StringTransferSearchIndex this[string strStoryName]
-            {
-                get
-                {
-                    foreach (StringTransferSearchIndex stsi in this)
-                        if (stsi.StoryName == strStoryName)
-                            return stsi;
-                    
-                    System.Diagnostics.Debug.Assert(false);
-                    return null;
-                }
-            }
+            Properties.Settings.Default.Save();
         }
 
         private bool ChangeCheckedState(CheckBox checkBox)
@@ -623,7 +556,7 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, Properties.Resources.IDS_Caption);
+                MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
             }
         }
 
@@ -634,7 +567,7 @@ namespace OneStoryProjectEditor
             string strFindWhat = UpdateComboBox(comboBoxFindWhat);
             if (String.IsNullOrEmpty(strFindWhat))
             {
-                MessageBox.Show(Properties.Resources.IDS_NoSearchString, Properties.Resources.IDS_Caption);
+                MessageBox.Show(Properties.Resources.IDS_NoSearchString, OseResources.Properties.Resources.IDS_Caption);
                 return;
             }
 

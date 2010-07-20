@@ -5,6 +5,7 @@ using System.Xml;
 using System.Xml.XPath;
 using System.IO;
 using System.Windows.Forms;
+using OseResources;
 
 namespace OneStoryProjectEditor
 {
@@ -81,10 +82,33 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert(stateTransitions != null);
         }
 
+        // these states (on the lhs) were purged in 1.4 in favor of those on the rhs.
+        static readonly Dictionary<string, string> mapStageNameFixups = new Dictionary<string, string>
+        {
+            { "ConsultantReviseRound2Notes", "ConsultantCauseRevisionAfterUnsTest" },
+            { "BackTranslatorTranslateConNotes2", "BackTranslatorTranslateConNotesAfterUnsTest" },
+            { "ProjFacReviseBasedOnRound2Notes", "ProjFacReviseBasedOnRound1Notes" },
+            { "ProjFacOnlineReview2WithConsultant", "ProjFacOnlineReview1WithConsultant" },
+            { "ProjFacReadyForTest2", "ProjFacReadyForTest1" },
+            { "ProjFacEnterRetellingOfTest2", "ProjFacEnterRetellingOfTest1" },
+            { "ProjFacEnterAnswersToStoryQuestionsOfTest2", "ProjFacEnterAnswersToStoryQuestionsOfTest1" },
+            { "BackTranslatorTypeInternationalBTTest2", "BackTranslatorTranslateConNotesAfterUnsTest" },
+            { "FirstPassMentorReviewTest2", "FirstPassMentorCheck2" },
+            { "ConsultantReviewTest2", "ConsultantCauseRevisionAfterUnsTest" },
+            { "CoachReviewTest2Notes", "CoachReviewRound2Notes" }
+        };
+
         protected ProjectStages GetProjectStageFromString(string strProjectStageString)
         {
-            System.Diagnostics.Debug.Assert(CmapStageStringToEnumType.ContainsKey(strProjectStageString));
-            return CmapStageStringToEnumType[strProjectStageString];
+            try
+            {
+                return CmapStageStringToEnumType[strProjectStageString];
+            }
+            catch
+            {
+                strProjectStageString = mapStageNameFixups[strProjectStageString];
+                return CmapStageStringToEnumType[strProjectStageString];
+            }
         }
 
         public bool IsChangeOfStateAllowed(TeamMemberData loggedOnMember)
@@ -94,9 +118,9 @@ namespace OneStoryProjectEditor
 
             if (!bRet)
                 MessageBox.Show(
-                    String.Format(Properties.Resources.IDS_WhichUserEdits,
+                    String.Format(OseResources.Properties.Resources.IDS_WhichUserEdits,
                                   TeamMemberData.GetMemberTypeAsDisplayString(MemberTypeWithEditToken)),
-                    Properties.Resources.IDS_Caption);
+                    OseResources.Properties.Resources.IDS_Caption);
 
             return bRet;
         }
@@ -110,7 +134,7 @@ namespace OneStoryProjectEditor
         {
             get {
                 return
-                    new ApplicationException(String.Format(Properties.Resources.IDS_WhichUserEdits,
+                    new ApplicationException(String.Format(OseResources.Properties.Resources.IDS_WhichUserEdits,
                                                            TeamMemberData.GetMemberTypeAsDisplayString(
                                                                MemberTypeWithEditToken))); }
         }

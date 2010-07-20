@@ -70,14 +70,14 @@ namespace OneStoryProjectEditor
                     {
                         DialogResult res =
                             MessageBox.Show(String.Format(Properties.Resources.IDS_OverwriteProject, ProjectName),
-                                            Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+                                            OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
                         if (res != DialogResult.Yes)
                             return;
 
                         RemoveProject(strFilename, ProjectName);
                     }
 
-                    ProjSettings = new ProjectSettings(null, ProjectName);
+                    ProjSettings = new ProjectSettings((string)null, ProjectName);
 
                     // make sure the 'new' folder exists
                     Directory.CreateDirectory(ProjSettings.ProjectFolder);
@@ -328,7 +328,7 @@ namespace OneStoryProjectEditor
             {
                 tabControl.SelectedTab = ex.Tab;
                 ex.Control.Focus();
-                MessageBox.Show(ex.Message, Properties.Resources.IDS_Caption);
+                MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
             }
             finally
             {
@@ -354,7 +354,7 @@ namespace OneStoryProjectEditor
             {
                 tabControl.SelectedTab = ex.Tab;
                 ex.Control.Focus();
-                MessageBox.Show(ex.Message, Properties.Resources.IDS_Caption);
+                MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
             }
             finally
             {
@@ -397,7 +397,7 @@ namespace OneStoryProjectEditor
                     && (strKeyboard != li.DefaultKeyboard))
                 {
                     DialogResult res = MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmOverride,
-                        li.LangName, "keyboard", LoggedInMember.Name), Properties.Resources.IDS_Caption,
+                        li.LangName, "keyboard", LoggedInMember.Name), OseResources.Properties.Resources.IDS_Caption,
                         MessageBoxButtons.YesNoCancel);
 
                     if (res == DialogResult.Yes)
@@ -419,7 +419,7 @@ namespace OneStoryProjectEditor
                 if (li.DefaultRtl != cbRtl.Checked)
                 {
                     DialogResult res = MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmOverride,
-                        "Right-to-left", "value", LoggedInMember.Name), Properties.Resources.IDS_Caption,
+                        "Right-to-left", "value", LoggedInMember.Name), OseResources.Properties.Resources.IDS_Caption,
                         MessageBoxButtons.YesNoCancel);
 
                     if (res == DialogResult.Yes)
@@ -714,7 +714,7 @@ namespace OneStoryProjectEditor
                             && (fontDialog.Font.Name != li.DefaultFontName))
                         {
                             DialogResult res = MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmOverride,
-                                li.DefaultFontName, "font", LoggedInMember.Name), Properties.Resources.IDS_Caption,
+                                li.DefaultFontName, "font", LoggedInMember.Name), OseResources.Properties.Resources.IDS_Caption,
                                 MessageBoxButtons.YesNoCancel);
 
                             if (res == DialogResult.Yes)
@@ -748,7 +748,7 @@ namespace OneStoryProjectEditor
             catch (Exception ex)
             {
                 if (ex.Message == "Only TrueType fonts are supported. This is not a TrueType font.")
-                    MessageBox.Show("Since you just added this font, you have to restart the program for it to work", Properties.Resources.IDS_Caption);
+                    MessageBox.Show("Since you just added this font, you have to restart the program for it to work", OseResources.Properties.Resources.IDS_Caption);
             }
         }
 

@@ -28,7 +28,7 @@ namespace OneStoryProjectEditor
             {
                 MessageBox.Show(
                     "You have to enter at least a name and indicate your role (even if you're 'just looking')!",
-                     Properties.Resources.IDS_Caption);
+                     OseResources.Properties.Resources.IDS_Caption);
                 return;
             }
 
@@ -142,7 +142,7 @@ namespace OneStoryProjectEditor
 
         private void radioButtonEnglishBackTranslator_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(Properties.Resources.IDS_AreYouSureYouWantToHaveAnEnglishBter, Properties.Resources.IDS_Caption);
+            MessageBox.Show(Properties.Resources.IDS_AreYouSureYouWantToHaveAnEnglishBter, OseResources.Properties.Resources.IDS_Caption);
         }
     }
 }

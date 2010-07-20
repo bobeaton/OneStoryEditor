@@ -161,7 +161,7 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message,  Properties.Resources.IDS_Caption);
+                MessageBox.Show(ex.Message,  OseResources.Properties.Resources.IDS_Caption);
                 return false;
             }
 
@@ -192,8 +192,8 @@ namespace OneStoryProjectEditor
                     if (!String.IsNullOrEmpty(_projSettings.Vernacular.DefaultKeyboard)
                         && (strKeyboard != _projSettings.Vernacular.DefaultKeyboard))
                     {
-                        DialogResult res = MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmKeyboardOverride,
-                            _projSettings.Vernacular.LangName, _tmdLastMember.Name), Properties.Resources.IDS_Caption,
+                        DialogResult res = MessageBox.Show(String.Format(OseResources.Properties.Resources.IDS_ConfirmKeyboardOverride,
+                            _projSettings.Vernacular.LangName, _tmdLastMember.Name), OseResources.Properties.Resources.IDS_Caption,
                             MessageBoxButtons.YesNoCancel);
 
                         if (res == DialogResult.Yes)
@@ -233,8 +233,8 @@ namespace OneStoryProjectEditor
                     if(!String.IsNullOrEmpty(_projSettings.NationalBT.DefaultKeyboard)
                         && (strKeyboard != _projSettings.NationalBT.DefaultKeyboard))
                     {
-                        DialogResult res = MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmKeyboardOverride,
-                            _projSettings.Vernacular.LangName, _tmdLastMember.Name), Properties.Resources.IDS_Caption,
+                        DialogResult res = MessageBox.Show(String.Format(OseResources.Properties.Resources.IDS_ConfirmKeyboardOverride,
+                            _projSettings.Vernacular.LangName, _tmdLastMember.Name), OseResources.Properties.Resources.IDS_Caption,
                             MessageBoxButtons.YesNoCancel);
 
                         if (res == DialogResult.Yes)
@@ -312,7 +312,7 @@ namespace OneStoryProjectEditor
                         || String.IsNullOrEmpty(textBoxNationalBTSentFullStop.Text))))
             {
                 tabControlProjectMetaData.SelectedTab = tabPageLanguageInfo;
-                MessageBox.Show("Configure the Project and Language Name information as well.",  Properties.Resources.IDS_Caption);
+                MessageBox.Show("Configure the Project and Language Name information as well.",  OseResources.Properties.Resources.IDS_Caption);
                 return;
             }
             */
@@ -320,7 +320,7 @@ namespace OneStoryProjectEditor
             TeamMemberData theMember = _dataTeamMembers[SelectedMember];
             if ((theMember.MemberType == TeamMemberData.UserTypes.eUNS) && (buttonOK.Text == CstrDefaultOKLabel))
             {
-                MessageBox.Show("You may have added a UNS in order to identify, for example, which UNS did the back translation or a particular test. However, you as the crafter should still be logged in to enter the UNS's comments. So select your *crafter* member name and click 'Login' again",  Properties.Resources.IDS_Caption);
+                MessageBox.Show("You may have added a UNS in order to identify, for example, which UNS did the back translation or a particular test. However, you as the crafter should still be logged in to enter the UNS's comments. So select your *crafter* member name and click 'Login' again",  OseResources.Properties.Resources.IDS_Caption);
                 return;
             }
 
@@ -490,7 +490,7 @@ namespace OneStoryProjectEditor
             catch (Exception ex)
             {
                 if (ex.Message == "Only TrueType fonts are supported. This is not a TrueType font.")
-                    MessageBox.Show("Since you just added this font, you have to restart the program for it to work", Properties.Resources.IDS_Caption);
+                    MessageBox.Show("Since you just added this font, you have to restart the program for it to work", OseResources.Properties.Resources.IDS_Caption);
             }
         }
 
@@ -513,7 +513,7 @@ namespace OneStoryProjectEditor
             catch (Exception ex)
             {
                 if (ex.Message == "Only TrueType fonts are supported. This is not a TrueType font.")
-                    MessageBox.Show("Since you just added this font, you have to restart the program for it to work", Properties.Resources.IDS_Caption);
+                    MessageBox.Show("Since you just added this font, you have to restart the program for it to work", OseResources.Properties.Resources.IDS_Caption);
             }
         }
 
@@ -534,7 +534,7 @@ namespace OneStoryProjectEditor
             catch (Exception ex)
             {
                 if (ex.Message == "Only TrueType fonts are supported. This is not a TrueType font.")
-                    MessageBox.Show("Since you just added this font, you have to restart the program for it to work", Properties.Resources.IDS_Caption);
+                    MessageBox.Show("Since you just added this font, you have to restart the program for it to work", OseResources.Properties.Resources.IDS_Caption);
             }
         }
         */

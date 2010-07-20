@@ -61,7 +61,7 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(String.Format(Properties.Resources.IDS_NeedToReboot, Environment.NewLine, ex.Message), Properties.Resources.IDS_Caption);
+                MessageBox.Show(String.Format(Properties.Resources.IDS_NeedToReboot, Environment.NewLine, ex.Message), OseResources.Properties.Resources.IDS_Caption);
             }
 
             try
@@ -81,7 +81,7 @@ namespace OneStoryProjectEditor
 
             if (Modified)
             {
-                DialogResult res = MessageBox.Show(Properties.Resources.IDS_SaveChanges, Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+                DialogResult res = MessageBox.Show(Properties.Resources.IDS_SaveChanges, OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
                 if (res == DialogResult.Yes)
                 {
                     SaveClicked();
@@ -103,7 +103,7 @@ namespace OneStoryProjectEditor
 
         internal bool IsInStoriesSet
         {
-            get { return (_strStoriesSet != Properties.Resources.IDS_ObsoleteStoriesSet); }
+            get { return (_strStoriesSet != OseResources.Properties.Resources.IDS_ObsoleteStoriesSet); }
         }
 
         internal ApplicationException CantEditOldStoriesEx
@@ -145,9 +145,9 @@ namespace OneStoryProjectEditor
                         string strFilename = ProjectSettings.GetDefaultProjectFilePath(strProjectName);
                         if (File.Exists(strFilename))
                         {
-                            DialogResult res = MessageBox.Show(String.Format(Properties.Resources.IDS_OverwriteProject, strProjectName), Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+                            DialogResult res = MessageBox.Show(String.Format(Properties.Resources.IDS_OverwriteProject, strProjectName), OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
                             if (res != DialogResult.Yes)
-                                throw StoryEditor.BackOutWithNoUI;
+                                throw StoryProjectData.BackOutWithNoUI;
 
                             NewProjectWizard.RemoveProject(strFilename, strProjectName);
                         }
@@ -157,7 +157,7 @@ namespace OneStoryProjectEditor
                     OpenProject(projSettings);
                 }
             }
-            catch (BackOutWithNoUIException)
+            catch (StoryProjectData.BackOutWithNoUIException)
             {
                 // sub-routine has taken care of the UI, just exit without doing anything
             }
@@ -166,7 +166,7 @@ namespace OneStoryProjectEditor
                 string strErrorMsg = String.Format(Properties.Resources.IDS_UnableToOpenProjectFile,
                     Environment.NewLine, strProjectName,
                     ((ex.InnerException != null) ? ex.InnerException.Message : ""), ex.Message);
-                MessageBox.Show(strErrorMsg, Properties.Resources.IDS_Caption);
+                MessageBox.Show(strErrorMsg, OseResources.Properties.Resources.IDS_Caption);
                 return;
             }
         }
@@ -192,7 +192,7 @@ namespace OneStoryProjectEditor
                 {
                     string strErrorMsg = String.Format(Properties.Resources.IDS_NoProjectFromInternet,
                                                        Environment.NewLine, dlg.ThreadSafeUrl);
-                    MessageBox.Show(strErrorMsg, Properties.Resources.IDS_Caption);
+                    MessageBox.Show(strErrorMsg, OseResources.Properties.Resources.IDS_Caption);
                 }
             }
         }
@@ -218,13 +218,13 @@ namespace OneStoryProjectEditor
                     else
                     {
                         MessageBox.Show(Properties.Resources.IDS_MustBeCloneRepo,
-                                        Properties.Resources.IDS_Caption);
+                                        OseResources.Properties.Resources.IDS_Caption);
                     }
                 }
                 else
                 {
                     MessageBox.Show(Properties.Resources.IDS_CantPushToTheLocalRepo,
-                                    Properties.Resources.IDS_Caption);
+                                    OseResources.Properties.Resources.IDS_Caption);
                 }
             }
         }
@@ -301,18 +301,6 @@ namespace OneStoryProjectEditor
             }
         }
 
-        // routines can use this exception to back out of creating a new project without UI 
-        //  (presumably, because they've already done so--e.g. "are you sure you want to 
-        //  overwrite this project + user Cancel)
-        internal class BackOutWithNoUIException : ApplicationException
-        {
-        }
-
-        internal static BackOutWithNoUIException BackOutWithNoUI
-        {
-            get { return new BackOutWithNoUIException(); }
-        }
-
         protected bool InitNewStoryProjectObject()
         {
             Debug.Assert(StoryProject == null);
@@ -330,7 +318,7 @@ namespace OneStoryProjectEditor
                 buttonPrevState.Enabled = toolNextStateLabel.Enabled = true;
                 return true;
             }
-            catch (BackOutWithNoUIException)
+            catch (StoryProjectData.BackOutWithNoUIException)
             {
                 // sub-routine has taken care of the UI, just exit without doing anything
                 StoryProject = null;
@@ -338,7 +326,7 @@ namespace OneStoryProjectEditor
             catch (Exception ex)
             {
                 MessageBox.Show(String.Format(Properties.Resources.IDS_UnableToOpenMemberList,
-                    Environment.NewLine, ex.Message), Properties.Resources.IDS_Caption);
+                    Environment.NewLine, ex.Message), OseResources.Properties.Resources.IDS_Caption);
             }
 
             return false;
@@ -371,7 +359,7 @@ namespace OneStoryProjectEditor
 
                 buttonPrevState.Enabled = toolNextStateLabel.Enabled = true;
             }
-            catch (BackOutWithNoUIException)
+            catch (StoryProjectData.BackOutWithNoUIException)
             {
             }
         }
@@ -499,7 +487,7 @@ namespace OneStoryProjectEditor
                     Text = String.Format(Properties.Resources.IDS_MainFrameTitleOldStories, StoryProject.ProjSettings.ProjectName);
                 }
             }
-            catch (BackOutWithNoUIException)
+            catch (StoryProjectData.BackOutWithNoUIException)
             {
                 // sub-routine has taken care of the UI, just exit without doing anything
             }
@@ -508,7 +496,7 @@ namespace OneStoryProjectEditor
                 string strErrorMsg = String.Format(Properties.Resources.IDS_UnableToOpenProjectFile,
                     Environment.NewLine, projSettings.ProjectName,
                     ((ex.InnerException != null) ? ex.InnerException.Message : ""), ex.Message);
-                MessageBox.Show(strErrorMsg, Properties.Resources.IDS_Caption);
+                MessageBox.Show(strErrorMsg, OseResources.Properties.Resources.IDS_Caption);
             }
         }
 
@@ -548,7 +536,7 @@ namespace OneStoryProjectEditor
             Debug.Assert(LoggedOnMember != null);
             if ((LoggedOnMember == null) || (LoggedOnMember.MemberType != TeamMemberData.UserTypes.eProjectFacilitator))
             {
-                MessageBox.Show(Properties.Resources.IDS_LogInAsProjFac, Properties.Resources.IDS_Caption);
+                MessageBox.Show(Properties.Resources.IDS_LogInAsProjFac, OseResources.Properties.Resources.IDS_Caption);
                 return false;
             }
             return true;
@@ -564,7 +552,7 @@ namespace OneStoryProjectEditor
             }
 
             // ask the user for what story they want to add (i.e. the name)
-            strStoryName = Microsoft.VisualBasic.Interaction.InputBox(Properties.Resources.IDS_EnterStoryToAdd, Properties.Resources.IDS_Caption, null, 300, 200);
+            strStoryName = Microsoft.VisualBasic.Interaction.InputBox(Properties.Resources.IDS_EnterStoryToAdd, OseResources.Properties.Resources.IDS_Caption, null, 300, 200);
             if (!String.IsNullOrEmpty(strStoryName))
             {
                 if (TheCurrentStoriesSet.Count > 0)
@@ -644,7 +632,7 @@ namespace OneStoryProjectEditor
 
                 if (theStory == null)
                 {
-                    if (MessageBox.Show(String.Format(Properties.Resources.IDS_UnableToFindStoryAdd, strStoryToLoad), Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+                    if (MessageBox.Show(String.Format(Properties.Resources.IDS_UnableToFindStoryAdd, strStoryToLoad), OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
                     {
                         Debug.Assert(!comboBoxStorySelector.Items.Contains(strStoryToLoad));
                         InsertNewStory(strStoryToLoad, nInsertIndex);
@@ -670,7 +658,7 @@ namespace OneStoryProjectEditor
 
             string strCrafterGuid = dlg.SelectedMember.MemberGuid;
 
-            DialogResult res = MessageBox.Show(Properties.Resources.IDS_IsThisStoryFromTheBible, Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+            DialogResult res = MessageBox.Show(Properties.Resources.IDS_IsThisStoryFromTheBible, OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
             if (res == DialogResult.Cancel)
                 return;
 
@@ -762,7 +750,7 @@ namespace OneStoryProjectEditor
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message, Properties.Resources.IDS_Caption);
+                        MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
                     }
                 }
                 else if ((LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
@@ -770,7 +758,7 @@ namespace OneStoryProjectEditor
                     && (!String.IsNullOrEmpty(theCurrentStory.CraftingInfo.ProjectFacilitatorMemberID)))
                 {
                     MessageBox.Show(Properties.Resources.IDS_NotTheRightProjFac,
-                                    Properties.Resources.IDS_Caption);
+                                    OseResources.Properties.Resources.IDS_Caption);
                 }
             }
         }
@@ -1305,7 +1293,7 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(String.Format(Properties.Resources.IDS_UnableToContinue, ex.Message), Properties.Resources.IDS_Caption);
+                MessageBox.Show(String.Format(Properties.Resources.IDS_UnableToContinue, ex.Message), OseResources.Properties.Resources.IDS_Caption);
                 return;
             }
         }
@@ -1474,7 +1462,7 @@ namespace OneStoryProjectEditor
                 // it's annoying that the keyboard doesn't deactivate so I can just type 'y' for "Yes"
                 KeyboardController.DeactivateKeyboard();    // ... do it manually
 
-                DialogResult res = MessageBox.Show(Properties.Resources.IDS_SaveChanges, Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+                DialogResult res = MessageBox.Show(Properties.Resources.IDS_SaveChanges, OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
                 if (res == DialogResult.Cancel)
                     return false;
                 if (res == DialogResult.No)
@@ -1583,7 +1571,7 @@ namespace OneStoryProjectEditor
             }
             catch (UnauthorizedAccessException)
             {
-                MessageBox.Show(String.Format(Properties.Resources.IDS_FileLockedMessage, strFilename), Properties.Resources.IDS_Caption);
+                MessageBox.Show(String.Format(Properties.Resources.IDS_FileLockedMessage, strFilename), OseResources.Properties.Resources.IDS_Caption);
                 return;
             }
             catch (Exception ex)
@@ -1785,11 +1773,11 @@ namespace OneStoryProjectEditor
                 Properties.Settings.Default.RecentProjects.RemoveAt(nIndex);
                 Properties.Settings.Default.RecentProjectPaths.RemoveAt(nIndex);
                 Properties.Settings.Default.Save();
-                MessageBox.Show(ex.Message, Properties.Resources.IDS_Caption);
+                MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, Properties.Resources.IDS_Caption);
+                MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
             }
         }
 
@@ -1890,7 +1878,7 @@ namespace OneStoryProjectEditor
                                 String.Format(Properties.Resources.IDS_TerminalTransitionMessage,
                                 TeamMemberData.GetMemberTypeAsDisplayString(theNewST.MemberTypeWithEditToken),
                                 theNewST.StageDisplayString),
-                             Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
+                             OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
                             return;
 
                     theCurrentStory.ProjStage.ProjectStage = theNewST.CurrentStage;
@@ -1956,7 +1944,7 @@ namespace OneStoryProjectEditor
                             String.Format(Properties.Resources.IDS_TerminalTransitionMessage,
                                 TeamMemberData.GetMemberTypeAsDisplayString(stNext.MemberTypeWithEditToken),
                                 stNext.StageDisplayString),
-                             Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
+                             OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
                         return false;
                     bReqSave = true;  // request a save if we've just done a terminal transition
                 }
@@ -2019,13 +2007,13 @@ namespace OneStoryProjectEditor
             {
                 /*
                 if (StoryProject.ProjSettings.Vernacular.HasData)
-                    exportStoryToolStripMenuItem.Text = String.Format(Properties.Resources.IDS_FromStoryForDiscourseCharting, StoryProject.ProjSettings.Vernacular.LangName);
+                    exportStoryToolStripMenuItem.Text = String.Format(OseResources.Properties.Resources.IDS_FromStoryForDiscourseCharting, StoryProject.ProjSettings.Vernacular.LangName);
                 else
                     exportStoryToolStripMenuItem.Visible = false;
 
                 // do the Hindi to English glossing (but only makes sense if we have both languages...
                 if (StoryProject.ProjSettings.NationalBT.HasData && StoryProject.ProjSettings.InternationalBT.HasData)
-                    exportNationalBacktranslationToolStripMenuItem.Text = String.Format(Properties.Resources.IDS_FromNatlLanguage, StoryProject.ProjSettings.NationalBT.LangName);
+                    exportNationalBacktranslationToolStripMenuItem.Text = String.Format(OseResources.Properties.Resources.IDS_FromNatlLanguage, StoryProject.ProjSettings.NationalBT.LangName);
                 else
                     exportNationalBacktranslationToolStripMenuItem.Visible = false;
 
@@ -2108,7 +2096,7 @@ namespace OneStoryProjectEditor
 
             // make sure the user really wants to do this
             if (MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmDeleteStory,
-                theCurrentStory.Name), Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel)
+                theCurrentStory.Name), OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel)
                 != DialogResult.Yes)
                 return;
 
@@ -2132,7 +2120,7 @@ namespace OneStoryProjectEditor
         {
             if (Modified)
             {
-                DialogResult res = MessageBox.Show(Properties.Resources.IDS_SaveChanges, Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+                DialogResult res = MessageBox.Show(Properties.Resources.IDS_SaveChanges, OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
                 if (res == DialogResult.Cancel)
                 {
                     e.Cancel = true;
@@ -2213,7 +2201,7 @@ namespace OneStoryProjectEditor
         private void editAddTestResultsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show(Properties.Resources.IDS_AreAllTestingQuestionsEnteredQuery, 
-                                Properties.Resources.IDS_Caption, 
+                                OseResources.Properties.Resources.IDS_Caption, 
                                 MessageBoxButtons.OKCancel) == DialogResult.Cancel)
                 return;
 
@@ -2234,7 +2222,7 @@ namespace OneStoryProjectEditor
                 foreach (string strGuid in theCurrentStory.CraftingInfo.Testors)
                     if (strGuid == strUnsGuid)
                     {
-                        DialogResult res = MessageBox.Show("You can't use the same UNS for two different tests of the same story. Please select a different UNS.", Properties.Resources.IDS_Caption, MessageBoxButtons.OKCancel);
+                        DialogResult res = MessageBox.Show("You can't use the same UNS for two different tests of the same story. Please select a different UNS.", OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.OKCancel);
                         if (res == DialogResult.Cancel)
                             return false;
                         strUnsGuid = null;
@@ -2273,7 +2261,7 @@ namespace OneStoryProjectEditor
         private void OnRemoveTest(object sender, EventArgs e)
         {
             ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
-            if (MessageBox.Show("Are you sure you want to remove all of the results from " + tsmi.Text, Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+            if (MessageBox.Show("Are you sure you want to remove all of the results from " + tsmi.Text, OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
             {
                 int nTestNum = (int)tsmi.Tag;
                 Debug.Assert((nTestNum >= 0) && (nTestNum < theCurrentStory.CraftingInfo.Testors.Count));
@@ -2412,7 +2400,7 @@ namespace OneStoryProjectEditor
                 string strErrorMsg = String.Format(Properties.Resources.IDS_UnableToCopyText,
                     Environment.NewLine, ex.Message,
                     ((ex.InnerException != null) ? ex.InnerException.Message : ""));
-                MessageBox.Show(strErrorMsg, Properties.Resources.IDS_Caption);
+                MessageBox.Show(strErrorMsg, OseResources.Properties.Resources.IDS_Caption);
             }
         }
 
@@ -2457,7 +2445,7 @@ namespace OneStoryProjectEditor
             ToolStripItem tsi = sender as ToolStripItem;
             if (tsi != null)
                 if (MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmDeleteAllVerseLines,
-                                                  tsi.Text.Replace("&", null)), Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+                                                  tsi.Text.Replace("&", null)), OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
                 {
                     foreach (VerseData aVerse in theCurrentStory.Verses)
                         aVerse.VernacularText.SetValue(null);
@@ -2473,7 +2461,7 @@ namespace OneStoryProjectEditor
             ToolStripItem tsi = sender as ToolStripItem;
             if (tsi != null)
                 if (MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmDeleteAllVerseLines,
-                                                  tsi.Text.Replace("&", null)), Properties.Resources.IDS_Caption,
+                                                  tsi.Text.Replace("&", null)), OseResources.Properties.Resources.IDS_Caption,
                                     MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
                 {
                     foreach (VerseData aVerse in theCurrentStory.Verses)
@@ -2490,7 +2478,7 @@ namespace OneStoryProjectEditor
             ToolStripItem tsi = sender as ToolStripItem;
             if (tsi != null)
                 if (MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmDeleteAllVerseLines,
-                                                  tsi.Text.Replace("&", null)), Properties.Resources.IDS_Caption,
+                                                  tsi.Text.Replace("&", null)), OseResources.Properties.Resources.IDS_Caption,
                                     MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
                 {
                     foreach (VerseData aVerse in theCurrentStory.Verses)
@@ -2523,8 +2511,8 @@ namespace OneStoryProjectEditor
             DialogResult res = DialogResult.Yes;
             if (File.Exists(strAdaptationFilespec))
             {
-                res = MessageBox.Show(String.Format(Properties.Resources.IDS_AdaptItFileAlreadyExists,
-                    strProjectName, theCurrentStory.Name), Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+                res = MessageBox.Show(String.Format(OseResources.Properties.Resources.IDS_AdaptItFileAlreadyExists,
+                    strProjectName, theCurrentStory.Name), OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
 
                 if (res == DialogResult.Cancel)
                     return;
@@ -2628,18 +2616,18 @@ namespace OneStoryProjectEditor
                     (eGlossType == AdaptItGlossing.GlossType.eNationalToEnglish) ?
                     null : "/frm");
 
-                string strMessage = String.Format(Properties.Resources.IDS_AdaptationInstructions,
+                string strMessage = String.Format(OseResources.Properties.Resources.IDS_AdaptationInstructions,
                         Environment.NewLine, strProjectName, theCurrentStory.Name);
                 MessageBoxButtons mbb = MessageBoxButtons.OK;
 
                 if (eGlossType == AdaptItGlossing.GlossType.eNationalToEnglish)
                 {
-                    strMessage += String.Format(Properties.Resources.IDS_AdaptationInstructionsContinue,
+                    strMessage += String.Format(OseResources.Properties.Resources.IDS_AdaptationInstructionsContinue,
                         Environment.NewLine);
                     mbb = MessageBoxButtons.YesNoCancel;
                 }
 
-                res = MessageBox.Show(strMessage, Properties.Resources.IDS_Caption, mbb);
+                res = MessageBox.Show(strMessage, OseResources.Properties.Resources.IDS_Caption, mbb);
 
                 if (res != DialogResult.Yes)
                     return;
@@ -2684,12 +2672,12 @@ namespace OneStoryProjectEditor
                         {
                             string strSourceKey = xpIterator.Current.GetAttribute("k", navigator.NamespaceURI);
                             if (strSourceKey != strSourceWord)
-                                throw new ApplicationException(String.Format(Properties.Resources.IDS_ErrorInAdaptation,
+                                throw new ApplicationException(String.Format(OseResources.Properties.Resources.IDS_ErrorInAdaptation,
                                     Environment.NewLine, StoryProject.ProjSettings.NationalBT.LangName, nVerseNum + 1, strSourceKey, strSourceWord));
 
                             string strTargetKey = xpIterator.Current.GetAttribute("a", navigator.NamespaceURI);
                             if ((strTargetWord.IndexOf('%') == -1) && (strTargetWord != strTargetKey))
-                                throw new ApplicationException(String.Format(Properties.Resources.IDS_ErrorInAdaptation,
+                                throw new ApplicationException(String.Format(OseResources.Properties.Resources.IDS_ErrorInAdaptation,
                                     Environment.NewLine, StoryProject.ProjSettings.NationalBT.LangName, nVerseNum + 1, strTargetKey, strTargetWord));
 
                             strTargetWord = xpIterator.Current.GetAttribute("t", navigator.NamespaceURI);
@@ -2710,7 +2698,7 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, Properties.Resources.IDS_Caption);
+                MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
             }
         }
         */
@@ -2854,10 +2842,10 @@ namespace OneStoryProjectEditor
 
             if (IsInStoriesSet && (StoryProject != null))
             {
-                if (StoryProject[Properties.Resources.IDS_ObsoleteStoriesSet] != null)
+                if (StoryProject[OseResources.Properties.Resources.IDS_ObsoleteStoriesSet] != null)
                 {
                     viewOldStoriesToolStripMenuItem.DropDownItems.Clear();
-                    foreach (StoryData aStory in StoryProject[Properties.Resources.IDS_ObsoleteStoriesSet])
+                    foreach (StoryData aStory in StoryProject[OseResources.Properties.Resources.IDS_ObsoleteStoriesSet])
                         viewOldStoriesToolStripMenuItem.DropDownItems.Add(aStory.Name, null, onClickViewOldStory).ToolTipText =
                             "View older (obsolete) versions of the stories (that were earlier stored in the 'Old Stories' list from the 'Panorama View' window--see 'Panorama' menu, 'Show' command)";
                 }
@@ -2869,7 +2857,7 @@ namespace OneStoryProjectEditor
         private void onClickViewOldStory(object sender, EventArgs e)
         {
             ToolStripItem tsi = sender as ToolStripItem;
-            StoryEditor theOldStoryEditor = new StoryEditor(Properties.Resources.IDS_ObsoleteStoriesSet);
+            StoryEditor theOldStoryEditor = new StoryEditor(OseResources.Properties.Resources.IDS_ObsoleteStoriesSet);
             theOldStoryEditor.StoryProject = StoryProject;
             theOldStoryEditor.LoggedOnMember = LoggedOnMember;
             theOldStoryEditor.Show();
@@ -3181,7 +3169,7 @@ namespace OneStoryProjectEditor
                           {
                               Description =
                                   String.Format("Browse to the folder where you want the program to create the '{0}' folder",
-                                                Properties.Settings.Default.DefMyDocsSubfolder)
+                                                OseResources.Properties.Resources.DefMyDocsSubfolder)
                           };
             if (dlg.ShowDialog() == DialogResult.OK)
             {
@@ -3209,7 +3197,7 @@ namespace OneStoryProjectEditor
 
                 string strMessage = String.Format(Properties.Resources.IDS_MoveProjectsToNewProjectFolder,
                                                   ProjectSettings.OneStoryProjectFolderRoot, strOldProjectPath);
-                MessageBox.Show(strMessage, Properties.Resources.IDS_Caption);
+                MessageBox.Show(strMessage, OseResources.Properties.Resources.IDS_Caption);
             }
         }
 
@@ -3266,7 +3254,7 @@ namespace OneStoryProjectEditor
 #if DEBUG
                 string strXslt = File.ReadAllText(@"C:\src\StoryEditor\StoryEditor\Resources\oneStory2storyingBT.xsl");
 #else
-                string strXslt = Properties.Resources.oneStory2storyingBT;
+                string strXslt = OseResources.Properties.Resources.oneStory2storyingBT;
 #endif
                 // the 'document()' function in this Xslt needs the full path to the 
                 //  running folder
@@ -3286,7 +3274,7 @@ namespace OneStoryProjectEditor
 #if DEBUG
                 strXslt = File.ReadAllText(@"C:\src\StoryEditor\StoryEditor\Resources\oneStory2storyingRetelling.xsl");
 #else
-                strXslt = Properties.Resources.oneStory2storyingRetelling;
+                strXslt = OseResources.Properties.Resources.oneStory2storyingRetelling;
 #endif
                 ExportToToolbox(strXslt, streamData,
                     GetTbxDestPath("TestRetellings.txt"), null);
@@ -3294,7 +3282,7 @@ namespace OneStoryProjectEditor
 #if DEBUG
                 strXslt = File.ReadAllText(@"C:\src\StoryEditor\StoryEditor\Resources\oneStory2ConNotes.xsl");
 #else
-                strXslt = Properties.Resources.oneStory2ConNotes;
+                strXslt = OseResources.Properties.Resources.oneStory2ConNotes;
 #endif
                 ExportToToolbox(strXslt, streamData,
                     GetTbxDestPath("ProjectConNotes.txt"), null);
@@ -3302,7 +3290,7 @@ namespace OneStoryProjectEditor
 #if DEBUG
                 strXslt = File.ReadAllText(@"C:\src\StoryEditor\StoryEditor\Resources\oneStory2CoachNotes.xsl");
 #else
-                strXslt = Properties.Resources.oneStory2CoachNotes;
+                strXslt = OseResources.Properties.Resources.oneStory2CoachNotes;
 #endif
                 ExportToToolbox(strXslt, streamData,
                     GetTbxDestPath("CoachingNotes.txt"), null);
@@ -3320,7 +3308,7 @@ namespace OneStoryProjectEditor
 #if DEBUG
                     strXslt = File.ReadAllText(@"C:\src\StoryEditor\StoryEditor\Resources\oneStory2KeyTerms.xsl");
 #else
-                    strXslt = Properties.Resources.oneStory2KeyTerms;
+                    strXslt = OseResources.Properties.Resources.oneStory2KeyTerms;
 #endif
                     // the 'document()' function in this Xslt needs the full path to the 
                     //  running folder
@@ -3340,7 +3328,7 @@ namespace OneStoryProjectEditor
                 string strErrorMsg = String.Format(Properties.Resources.IDS_CantExport,
                     ex.Message,
                     ((ex.InnerException != null) ? ex.InnerException.Message : ""));
-                MessageBox.Show(strErrorMsg, Properties.Resources.IDS_Caption);
+                MessageBox.Show(strErrorMsg, OseResources.Properties.Resources.IDS_Caption);
             }
 
             Cursor = Cursors.Default;
@@ -3409,7 +3397,7 @@ namespace OneStoryProjectEditor
 
             DialogResult res = MessageBox.Show(String.Format(Properties.Resources.IDS_ExportedToolboxMessage,
                                                              StoryProject.ProjSettings.ProjectFolder),
-                                               Properties.Resources.IDS_Caption,
+                                               OseResources.Properties.Resources.IDS_Caption,
                                                MessageBoxButtons.YesNoCancel);
 
             if (res == DialogResult.Yes)
@@ -3592,7 +3580,6 @@ namespace OneStoryProjectEditor
         }
 
         private const string CstrFirstVerse = "Story (Ln: 0)";
-        internal const string CstrHiddenVerseSuffix = " (Hidden)";
 
         private void contextMenuStripVerseList_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -3608,7 +3595,7 @@ namespace OneStoryProjectEditor
                     VerseData aVerse = theCurrentStory.Verses[i];
                     string strMenuText = "Ln: " + (i + 1);
                     if (!aVerse.IsVisible)
-                        strMenuText += CstrHiddenVerseSuffix;
+                        strMenuText += VersesData.CstrHiddenVerseSuffix;
                     contextMenuStripVerseList.Items.Add(strMenuText, null, 
                         onClickVerseNumber);
                 }
@@ -3623,9 +3610,9 @@ namespace OneStoryProjectEditor
                 nVerseNumber = 0;
             else
             {
-                if (strMenuText.IndexOf(CstrHiddenVerseSuffix) > 0)
+                if (strMenuText.IndexOf(VersesData.CstrHiddenVerseSuffix) > 0)
                 {
-                    strMenuText = strMenuText.Substring(0, strMenuText.Length - CstrHiddenVerseSuffix.Length);
+                    strMenuText = strMenuText.Substring(0, strMenuText.Length - VersesData.CstrHiddenVerseSuffix.Length);
                     hiddenVersesToolStripMenuItem.Checked = true;
                 }
                 int nIndex = strMenuText.IndexOf(' ');
@@ -3650,7 +3637,7 @@ namespace OneStoryProjectEditor
         private void viewStoryBtInHtmlToolStripMenuItem_Click(object sender, EventArgs e)
         {
             HtmlDisplayForm dlg = new HtmlDisplayForm(this, theCurrentStory);
-            dlg.ShowDialog();
+            dlg.Show();
         }
     }
 }

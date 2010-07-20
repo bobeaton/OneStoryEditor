@@ -2,37 +2,42 @@
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryEditor", "StoryEditor\StoryEditor.csproj", "{EE63B2ED-1488-491F-990A-3FA16E2DB135}"
+	ProjectSection(ProjectDependencies) = postProject
+		{86B3D598-7291-4B61-BAF1-625C7DBD2BD8} = {86B3D598-7291-4B61-BAF1-625C7DBD2BD8}
+	EndProjectSection
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup OneStory Editor", "Setup OneStory Editor\Setup OneStory Editor.vdproj", "{C80B2478-A312-432B-98E7-90550C718A33}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryEditorData", "StoryEditorData\StoryEditorData.csproj", "{1B469E19-18AD-41DE-811C-EA1396D728DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OseResources", "OseResources\OseResources.csproj", "{86B3D598-7291-4B61-BAF1-625C7DBD2BD8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixupOneStoryFile", "FixupOneStoryFile\FixupOneStoryFile.csproj", "{FC05C46A-8F22-4127-8098-108F7E8AA999}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Debug|Mixed Platforms = Debug|Mixed Platforms
 		Debug|x86 = Debug|x86
-		Release|Any CPU = Release|Any CPU
-		Release|Mixed Platforms = Release|Mixed Platforms
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EE63B2ED-1488-491F-990A-3FA16E2DB135}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{EE63B2ED-1488-491F-990A-3FA16E2DB135}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{EE63B2ED-1488-491F-990A-3FA16E2DB135}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{EE63B2ED-1488-491F-990A-3FA16E2DB135}.Debug|x86.ActiveCfg = Debug|x86
 		{EE63B2ED-1488-491F-990A-3FA16E2DB135}.Debug|x86.Build.0 = Debug|x86
-		{EE63B2ED-1488-491F-990A-3FA16E2DB135}.Release|Any CPU.ActiveCfg = Release|x86
-		{EE63B2ED-1488-491F-990A-3FA16E2DB135}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{EE63B2ED-1488-491F-990A-3FA16E2DB135}.Release|Mixed Platforms.Build.0 = Release|x86
 		{EE63B2ED-1488-491F-990A-3FA16E2DB135}.Release|x86.ActiveCfg = Release|x86
 		{EE63B2ED-1488-491F-990A-3FA16E2DB135}.Release|x86.Build.0 = Release|x86
-		{C80B2478-A312-432B-98E7-90550C718A33}.Debug|Any CPU.ActiveCfg = Debug
-		{C80B2478-A312-432B-98E7-90550C718A33}.Debug|Mixed Platforms.ActiveCfg = Debug
 		{C80B2478-A312-432B-98E7-90550C718A33}.Debug|x86.ActiveCfg = Debug
-		{C80B2478-A312-432B-98E7-90550C718A33}.Release|Any CPU.ActiveCfg = Release
-		{C80B2478-A312-432B-98E7-90550C718A33}.Release|Mixed Platforms.ActiveCfg = Release
-		{C80B2478-A312-432B-98E7-90550C718A33}.Release|Mixed Platforms.Build.0 = Release
 		{C80B2478-A312-432B-98E7-90550C718A33}.Release|x86.ActiveCfg = Release
 		{C80B2478-A312-432B-98E7-90550C718A33}.Release|x86.Build.0 = Release
+		{1B469E19-18AD-41DE-811C-EA1396D728DA}.Debug|x86.ActiveCfg = Debug|x86
+		{1B469E19-18AD-41DE-811C-EA1396D728DA}.Release|x86.ActiveCfg = Release|x86
+		{1B469E19-18AD-41DE-811C-EA1396D728DA}.Release|x86.Build.0 = Release|x86
+		{86B3D598-7291-4B61-BAF1-625C7DBD2BD8}.Debug|x86.ActiveCfg = Debug|x86
+		{86B3D598-7291-4B61-BAF1-625C7DBD2BD8}.Debug|x86.Build.0 = Debug|x86
+		{86B3D598-7291-4B61-BAF1-625C7DBD2BD8}.Release|x86.ActiveCfg = Release|x86
+		{86B3D598-7291-4B61-BAF1-625C7DBD2BD8}.Release|x86.Build.0 = Release|x86
+		{FC05C46A-8F22-4127-8098-108F7E8AA999}.Debug|x86.ActiveCfg = Debug|x86
+		{FC05C46A-8F22-4127-8098-108F7E8AA999}.Debug|x86.Build.0 = Debug|x86
+		{FC05C46A-8F22-4127-8098-108F7E8AA999}.Release|x86.ActiveCfg = Release|x86
+		{FC05C46A-8F22-4127-8098-108F7E8AA999}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
