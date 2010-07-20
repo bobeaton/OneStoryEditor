@@ -39,21 +39,21 @@ namespace FixupOneStoryFile
                     Path.GetFileName(strFilename));
 
                 // if it doesn't, then we can go ahead and fix this one up
-                if (!File.Exists(strNewFilename))
-                {
-                    XDocument doc = XDocument.Load(strFilename);
-                    bool bFound = false;
+                XDocument doc = XDocument.Load(strFilename);
+                bool bFound = false;
 
-                    FixupAddressToBioData(doc, ref bFound);
-                    FixupCrafterToProjFac(doc, ref bFound);
-                    FixupCrafterToConNoteDirection(doc, ref bFound);
-                    FixupProjectName(doc, ref bFound);
-                    FixupEmbedStories(doc, ref bFound);
-                    FixupGuidAdditions(doc, ref bFound);
+                FixupStageNames(doc, ref bFound);
+                /*
+                FixupAddressToBioData(doc, ref bFound);
+                FixupCrafterToProjFac(doc, ref bFound);
+                FixupCrafterToConNoteDirection(doc, ref bFound);
+                FixupProjectName(doc, ref bFound);
+                FixupEmbedStories(doc, ref bFound);
+                FixupGuidAdditions(doc, ref bFound);
+                */
 
-                    if (bFound)
-                        doc.Save(strNewFilename);
-                }
+                if (bFound)
+                    doc.Save(strNewFilename);
             }
             catch (Exception ex)
             {
@@ -61,6 +61,41 @@ namespace FixupOneStoryFile
             }
         }
 
+        static readonly Dictionary<string, string> mapStageNameFixups = new Dictionary<string, string>
+        {
+            { "ConsultantReviseRound2Notes", "ConsultantCauseRevisionAfterUnsTest" },
+            { "BackTranslatorTranslateConNotes2", "BackTranslatorTranslateConNotesAfterUnsTest" },
+            { "ProjFacReviseBasedOnRound2Notes", "ProjFacReviseBasedOnRound1Notes" },
+            { "ProjFacOnlineReview2WithConsultant", "ProjFacOnlineReview1WithConsultant" },
+            { "ProjFacReadyForTest2", "ProjFacReadyForTest1" },
+            { "ProjFacEnterRetellingOfTest2", "ProjFacEnterRetellingOfTest1" },
+            { "ProjFacEnterAnswersToStoryQuestionsOfTest2", "ProjFacEnterAnswersToStoryQuestionsOfTest1" },
+            { "BackTranslatorTypeInternationalBTTest2", "BackTranslatorTranslateConNotesAfterUnsTest" },
+            { "FirstPassMentorReviewTest2", "FirstPassMentorCheck2" },
+            { "ConsultantReviewTest2", "ConsultantCauseRevisionAfterUnsTest" },
+            { "CoachReviewTest2Notes", "CoachReviewRound2Notes" }
+        };
+
+        private static void FixupStageNames(XDocument doc, ref bool bFound)
+        {
+            // first fixup any Members with an 'address' to have a 'bioData' instead
+            foreach (XElement elem in doc.XPathSelectElements("/StoryProject/stories/story[@stage]"))
+            {
+                XAttribute attr = elem.Attribute("stage");
+                if (attr != null)
+                {
+                    string value = attr.Value;
+                    string strNewName;
+                    if (mapStageNameFixups.TryGetValue(value, out strNewName))
+                    {
+                        attr.Value = strNewName;
+                        bFound = true;
+                    }
+                }
+            }
+        }
+
+        /*
         static void FixupGuidAdditions(XDocument doc, ref bool bFound)
         {
             foreach (XElement elem in doc.XPathSelectElements("//ConsultantNotes/ConsultantConversation[not(@guid)]"))
@@ -188,6 +223,7 @@ namespace FixupOneStoryFile
                 elem.SetAttributeValue("bioData", value);
             }
         }
+        */
 
         protected const string OneStoryHiveRoot = @"Software\SIL\OneStory";
         protected const string CstrRootDirKey = "RootDir";
