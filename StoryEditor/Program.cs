@@ -55,7 +55,7 @@ namespace OneStoryProjectEditor
                     bPretendOpening = true; // this triggers minimal Sync UI
                 }
                 else
-                    Application.Run(new StoryEditor(Properties.Resources.IDS_MainStoriesSet));
+                    Application.Run(new StoryEditor(OseResources.Properties.Resources.IDS_MainStoriesSet));
 
                 foreach (string strProjectFolder in _astrProjectForSync)
                 {
@@ -83,12 +83,21 @@ namespace OneStoryProjectEditor
                 string strMessage = String.Format("Error occurred:{0}{0}{1}", Environment.NewLine, ex.Message);
                 if (ex.InnerException != null)
                     strMessage += String.Format("{0}{1}", Environment.NewLine, ex.InnerException.Message);
-                MessageBox.Show(strMessage, Properties.Resources.IDS_Caption);
+                MessageBox.Show(strMessage, OseResources.Properties.Resources.IDS_Caption);
             }
         }
 
         public static void InitializeLocalSettingsCollections()
         {
+            // see if this is perhaps an upgrade from a previous version (i.e. when we change from 1.3.5.* to 1.4.0.*
+            //  then we lose the user settings file which is stored in: 
+            //  C:\Documents and Settings\Bob\Local Settings\Application Data\SIL\StoryEditor...\1.3.5.0\user.config
+            if (Properties.Settings.Default.UpgradeSettings)
+            {
+                Properties.Settings.Default.Upgrade();
+                Properties.Settings.Default.UpgradeSettings = false;
+            }
+
             if (Properties.Settings.Default.RecentProjects == null)
                 Properties.Settings.Default.RecentProjects = new StringCollection();
             if (Properties.Settings.Default.RecentProjectPaths == null)
@@ -161,7 +170,7 @@ namespace OneStoryProjectEditor
                 string strMessage = String.Format("Error occurred:{0}{0}{1}", Environment.NewLine, ex.Message);
                 if (ex.InnerException != null)
                     strMessage += String.Format("{0}{1}", Environment.NewLine, ex.InnerException.Message);
-                MessageBox.Show(strMessage, Properties.Resources.IDS_Caption);
+                MessageBox.Show(strMessage, OseResources.Properties.Resources.IDS_Caption);
             }
         }
 
@@ -231,7 +240,7 @@ namespace OneStoryProjectEditor
                     var repo = new HgRepository(strProjectFolder, nullProgress);
                     if (!repo.GetCanConnectToRemote(strRepoUrl, nullProgress))
                         if (MessageBox.Show(Properties.Resources.IDS_ConnectToInternet,
-                                             Properties.Resources.IDS_Caption,
+                                             OseResources.Properties.Resources.IDS_Caption,
                                              MessageBoxButtons.OKCancel) ==
                              DialogResult.Cancel)
                         {
