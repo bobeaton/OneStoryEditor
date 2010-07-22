@@ -32,6 +32,10 @@
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPageSelectReportOptions = new System.Windows.Forms.TabPage();
             this.tableLayoutPanelSettings = new System.Windows.Forms.TableLayoutPanel();
+            this.groupBoxRevisionsBy = new System.Windows.Forms.GroupBox();
+            this.radioButtonShowAllRevisions = new System.Windows.Forms.RadioButton();
+            this.radioButtonRevsByChangeOfState = new System.Windows.Forms.RadioButton();
+            this.groupBoxViewOptions = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.checkBoxLangVernacular = new System.Windows.Forms.CheckBox();
             this.checkBoxLangNationalBT = new System.Windows.Forms.CheckBox();
@@ -39,19 +43,15 @@
             this.checkBoxAnchors = new System.Windows.Forms.CheckBox();
             this.checkBoxStoryTestingQuestions = new System.Windows.Forms.CheckBox();
             this.checkBoxRetellings = new System.Windows.Forms.CheckBox();
-            this.groupBoxRevisionsBy = new System.Windows.Forms.GroupBox();
-            this.radioButtonShowAllRevisions = new System.Windows.Forms.RadioButton();
-            this.radioButtonRevsByChangeOfState = new System.Windows.Forms.RadioButton();
             this.tabPageDisplayChangeReport = new System.Windows.Forms.TabPage();
-            this.groupBoxViewOptions = new System.Windows.Forms.GroupBox();
             this.htmlStoryBtControl = new OneStoryProjectEditor.HtmlStoryBtControl();
             this.tabControl.SuspendLayout();
             this.tabPageSelectReportOptions.SuspendLayout();
             this.tableLayoutPanelSettings.SuspendLayout();
-            this.flowLayoutPanel1.SuspendLayout();
             this.groupBoxRevisionsBy.SuspendLayout();
-            this.tabPageDisplayChangeReport.SuspendLayout();
             this.groupBoxViewOptions.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
+            this.tabPageDisplayChangeReport.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl
@@ -64,6 +64,7 @@
             this.tabControl.SelectedIndex = 0;
             this.tabControl.Size = new System.Drawing.Size(737, 585);
             this.tabControl.TabIndex = 1;
+            this.tabControl.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControl_Selected);
             // 
             // tabPageSelectReportOptions
             // 
@@ -92,6 +93,51 @@
             this.tableLayoutPanelSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanelSettings.Size = new System.Drawing.Size(723, 553);
             this.tableLayoutPanelSettings.TabIndex = 0;
+            // 
+            // groupBoxRevisionsBy
+            // 
+            this.groupBoxRevisionsBy.Controls.Add(this.radioButtonShowAllRevisions);
+            this.groupBoxRevisionsBy.Controls.Add(this.radioButtonRevsByChangeOfState);
+            this.groupBoxRevisionsBy.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBoxRevisionsBy.Location = new System.Drawing.Point(3, 3);
+            this.groupBoxRevisionsBy.Name = "groupBoxRevisionsBy";
+            this.groupBoxRevisionsBy.Size = new System.Drawing.Size(223, 92);
+            this.groupBoxRevisionsBy.TabIndex = 0;
+            this.groupBoxRevisionsBy.TabStop = false;
+            this.groupBoxRevisionsBy.Text = "Show Revisions By";
+            // 
+            // radioButtonShowAllRevisions
+            // 
+            this.radioButtonShowAllRevisions.AutoSize = true;
+            this.radioButtonShowAllRevisions.Location = new System.Drawing.Point(139, 38);
+            this.radioButtonShowAllRevisions.Name = "radioButtonShowAllRevisions";
+            this.radioButtonShowAllRevisions.Size = new System.Drawing.Size(66, 17);
+            this.radioButtonShowAllRevisions.TabIndex = 1;
+            this.radioButtonShowAllRevisions.Text = "Show &All";
+            this.radioButtonShowAllRevisions.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonRevsByChangeOfState
+            // 
+            this.radioButtonRevsByChangeOfState.AutoSize = true;
+            this.radioButtonRevsByChangeOfState.Checked = true;
+            this.radioButtonRevsByChangeOfState.Location = new System.Drawing.Point(17, 38);
+            this.radioButtonRevsByChangeOfState.Name = "radioButtonRevsByChangeOfState";
+            this.radioButtonRevsByChangeOfState.Size = new System.Drawing.Size(100, 17);
+            this.radioButtonRevsByChangeOfState.TabIndex = 0;
+            this.radioButtonRevsByChangeOfState.TabStop = true;
+            this.radioButtonRevsByChangeOfState.Text = "&Change of state";
+            this.radioButtonRevsByChangeOfState.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxViewOptions
+            // 
+            this.groupBoxViewOptions.Controls.Add(this.flowLayoutPanel1);
+            this.groupBoxViewOptions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBoxViewOptions.Location = new System.Drawing.Point(232, 3);
+            this.groupBoxViewOptions.Name = "groupBoxViewOptions";
+            this.groupBoxViewOptions.Size = new System.Drawing.Size(488, 92);
+            this.groupBoxViewOptions.TabIndex = 1;
+            this.groupBoxViewOptions.TabStop = false;
+            this.groupBoxViewOptions.Text = "Include in report";
             // 
             // flowLayoutPanel1
             // 
@@ -180,40 +226,6 @@
             this.checkBoxRetellings.Text = "&Retellings";
             this.checkBoxRetellings.UseVisualStyleBackColor = true;
             // 
-            // groupBoxRevisionsBy
-            // 
-            this.groupBoxRevisionsBy.Controls.Add(this.radioButtonShowAllRevisions);
-            this.groupBoxRevisionsBy.Controls.Add(this.radioButtonRevsByChangeOfState);
-            this.groupBoxRevisionsBy.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBoxRevisionsBy.Location = new System.Drawing.Point(3, 3);
-            this.groupBoxRevisionsBy.Name = "groupBoxRevisionsBy";
-            this.groupBoxRevisionsBy.Size = new System.Drawing.Size(223, 92);
-            this.groupBoxRevisionsBy.TabIndex = 0;
-            this.groupBoxRevisionsBy.TabStop = false;
-            this.groupBoxRevisionsBy.Text = "Show Revisions By";
-            // 
-            // radioButtonShowAllRevisions
-            // 
-            this.radioButtonShowAllRevisions.AutoSize = true;
-            this.radioButtonShowAllRevisions.Location = new System.Drawing.Point(139, 38);
-            this.radioButtonShowAllRevisions.Name = "radioButtonShowAllRevisions";
-            this.radioButtonShowAllRevisions.Size = new System.Drawing.Size(66, 17);
-            this.radioButtonShowAllRevisions.TabIndex = 1;
-            this.radioButtonShowAllRevisions.Text = "Show &All";
-            this.radioButtonShowAllRevisions.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonRevsByChangeOfState
-            // 
-            this.radioButtonRevsByChangeOfState.AutoSize = true;
-            this.radioButtonRevsByChangeOfState.Checked = true;
-            this.radioButtonRevsByChangeOfState.Location = new System.Drawing.Point(17, 38);
-            this.radioButtonRevsByChangeOfState.Name = "radioButtonRevsByChangeOfState";
-            this.radioButtonRevsByChangeOfState.Size = new System.Drawing.Size(100, 17);
-            this.radioButtonRevsByChangeOfState.TabIndex = 0;
-            this.radioButtonRevsByChangeOfState.TabStop = true;
-            this.radioButtonRevsByChangeOfState.Text = "&Change of state";
-            this.radioButtonRevsByChangeOfState.UseVisualStyleBackColor = true;
-            // 
             // tabPageDisplayChangeReport
             // 
             this.tabPageDisplayChangeReport.Controls.Add(this.htmlStoryBtControl);
@@ -224,17 +236,6 @@
             this.tabPageDisplayChangeReport.TabIndex = 1;
             this.tabPageDisplayChangeReport.Text = "View changes";
             this.tabPageDisplayChangeReport.UseVisualStyleBackColor = true;
-            // 
-            // groupBoxViewOptions
-            // 
-            this.groupBoxViewOptions.Controls.Add(this.flowLayoutPanel1);
-            this.groupBoxViewOptions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBoxViewOptions.Location = new System.Drawing.Point(232, 3);
-            this.groupBoxViewOptions.Name = "groupBoxViewOptions";
-            this.groupBoxViewOptions.Size = new System.Drawing.Size(488, 92);
-            this.groupBoxViewOptions.TabIndex = 1;
-            this.groupBoxViewOptions.TabStop = false;
-            this.groupBoxViewOptions.Text = "Include in report";
             // 
             // htmlStoryBtControl
             // 
@@ -261,12 +262,12 @@
             this.tabControl.ResumeLayout(false);
             this.tabPageSelectReportOptions.ResumeLayout(false);
             this.tableLayoutPanelSettings.ResumeLayout(false);
-            this.flowLayoutPanel1.ResumeLayout(false);
-            this.flowLayoutPanel1.PerformLayout();
             this.groupBoxRevisionsBy.ResumeLayout(false);
             this.groupBoxRevisionsBy.PerformLayout();
-            this.tabPageDisplayChangeReport.ResumeLayout(false);
             this.groupBoxViewOptions.ResumeLayout(false);
+            this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.PerformLayout();
+            this.tabPageDisplayChangeReport.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

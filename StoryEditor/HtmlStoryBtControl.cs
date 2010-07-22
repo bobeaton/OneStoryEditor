@@ -16,6 +16,7 @@ namespace OneStoryProjectEditor
         public VerseData.ViewItemToInsureOn ViewItemsToInsureOn { get; set; }
         public TeamMembersData MembersData { get; set; }
         public TeamMemberData LoggedOnMember { get; set; }
+        public StoryData ParentStory { get; set; }
 
         public HtmlStoryBtControl()
         {
@@ -68,7 +69,14 @@ namespace OneStoryProjectEditor
             dom.LoadXml(strXml);
             StoryData sd = new StoryData(dom.FirstChild);
             */
-            string strHtml = StoryData.PresentationHtml(TheSE.StoryProject.ProjSettings, TheSE.StoryProject.TeamMembers, null);
+            string strHtml;
+            if (ParentStory != null)
+            {
+                StoryData child = new StoryData(StoryData);
+                strHtml = ParentStory.PresentationHtml(TheSE.StoryProject.ProjSettings, TheSE.StoryProject.TeamMembers, child);
+            }
+            else
+                strHtml = StoryData.PresentationHtml(TheSE.StoryProject.ProjSettings, TheSE.StoryProject.TeamMembers, null);
 
             DocumentText = strHtml;
             // LineNumberLink.Visible = true;

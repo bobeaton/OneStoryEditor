@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Xml;
 using Chorus.UI.Review;
 using Chorus.UI.Review.RevisionsInRepository;
 using Chorus.Utilities;
@@ -44,6 +45,7 @@ namespace OneStoryProjectEditor
 
             try
             {
+                _revisionSelectedEvent.Subscribe(SetRevision);
                 _repository = HgRepository.CreateOrLocate(theSE.StoryProject.ProjSettings.ProjectFolder, new NullProgress());
                 _revisionInRepositoryModel = new RevisionInRepositoryModel(_repository, _revisionSelectedEvent);
                 _revisionsInRepositoryView = new RevisionsInRepositoryView(_revisionInRepositoryModel);
@@ -61,20 +63,53 @@ namespace OneStoryProjectEditor
             
             htmlStoryBtControl.TheSE = theSE;
             htmlStoryBtControl.StoryData = storyData;
-            htmlStoryBtControl.ViewItemsToInsureOn = VerseData.SetItemsToInsureOn(
-                    theSE.viewVernacularLangFieldMenuItem.Checked,
-                    theSE.viewNationalLangFieldMenuItem.Checked,
-                    theSE.viewEnglishBTFieldMenuItem.Checked,
-                    theSE.viewAnchorFieldMenuItem.Checked,
-                    theSE.viewStoryTestingQuestionFieldMenuItem.Checked,
-                    theSE.viewRetellingFieldMenuItem.Checked,
-                    theSE.viewConsultantNoteFieldMenuItem.Checked,
-                    theSE.viewCoachNotesFieldMenuItem.Checked,
-                    theSE.viewNetBibleMenuItem.Checked);
-
             htmlStoryBtControl.MembersData = theSE.StoryProject.TeamMembers;
             htmlStoryBtControl.LoggedOnMember = theSE.LoggedOnMember;
             // htmlStoryBtControl.LoadDocument();
+        }
+
+        private void tabControl_Selected(object sender, TabControlEventArgs e)
+        {
+            if (e.TabPage == tabPageDisplayChangeReport)
+            {
+                htmlStoryBtControl.ViewItemsToInsureOn = VerseData.SetItemsToInsureOn(
+                    checkBoxLangVernacular.Checked,
+                    checkBoxLangNationalBT.Checked,
+                    checkBoxLangInternationalBT.Checked,
+                    checkBoxAnchors.Checked,
+                    checkBoxStoryTestingQuestions.Checked,
+                    checkBoxRetellings.Checked,
+                    false,  // theSE.viewConsultantNoteFieldMenuItem.Checked,
+                    false,  // theSE.viewCoachNotesFieldMenuItem.Checked,
+                    false); // theSE.viewNetBibleMenuItem.Checked
+
+                htmlStoryBtControl.LoadDocument();
+            }
+        }
+
+        private void SetRevision(Revision descriptor)
+        {
+            Cursor.Current = Cursors.WaitCursor;
+            if (descriptor != null)
+            {
+                FileInRevision firParent = new FileInRevision(descriptor.Number.LocalRevisionNumber,
+                    htmlStoryBtControl.TheSE.StoryProject.ProjSettings.ProjectFilePath, FileInRevision.Action.Unknown);
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(firParent.GetFileContents(_repository));
+                string strXPath = String.Format("/StoryProject/stories[@SetName = 'Stories']/story[@name = '{0}']", 
+                    htmlStoryBtControl.StoryData.Name);
+                XmlNode parentStoryNode = doc.SelectSingleNode(strXPath);
+                if (parentStoryNode != null)
+                {
+                    StoryData parentStory = new StoryData(parentStoryNode);
+                    htmlStoryBtControl.ParentStory = parentStory;
+                }
+            }
+            else
+            {
+                htmlStoryBtControl.ParentStory = null;
+            }
+            Cursor.Current = Cursors.Default;
         }
     }
 }
