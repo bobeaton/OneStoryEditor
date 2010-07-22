@@ -202,11 +202,11 @@ namespace OneStoryProjectEditor
 
                 // if we didn't find it, then
                 if (!bFound)
-                    strButtonLabel = Diff.HtmlDiff(JumpTarget, null);   // show as deleted
+                    strButtonLabel = Diff.HtmlDiff(JumpTarget, null, true);   // show as deleted
                 else
                 {
                     // otherwise, if we did find it, see if there's any difference to the tooltip
-                    strToolTipText = Diff.HtmlDiff(ToolTipText, strToolTipText);
+                    strToolTipText = Diff.HtmlDiff(ToolTipText, strToolTipText, true);
                     if (strToolTipText != JumpTarget)
                         astrExegeticalHelpNotes.Add(strToolTipText);
                 }
@@ -216,9 +216,9 @@ namespace OneStoryProjectEditor
                 // the only time we call this method without a value for childAnchorsData is when
                 //  we're processing the new stuff (i.e. what's in the child)
                 //  so show it with 'addition' markup
-                strButtonLabel = Diff.HtmlDiff(null, JumpTarget);
+                strButtonLabel = Diff.HtmlDiff(null, JumpTarget, true);
                 if (JumpTarget != ToolTipText)
-                    astrExegeticalHelpNotes.Add(Diff.HtmlDiff(null, ToolTipText));
+                    astrExegeticalHelpNotes.Add(Diff.HtmlDiff(null, ToolTipText, true));
 
                 ExegeticalHelpNotes.PresentationHtml(null, ref astrExegeticalHelpNotes);
             }
@@ -373,15 +373,17 @@ namespace OneStoryProjectEditor
                                                          strHtmlCell));
 
             // add exegetical comments as their own rows
-            foreach (string strExegeticalHelpNote in astrExegeticalHelpNotes)
+            for (int i = 0; i < astrExegeticalHelpNotes.Count; i++)
             {
+                string strExegeticalHelpNote = astrExegeticalHelpNotes[i];
+                string strHtmlElementId = String.Format("paragraphExHelp{0}_{1}", nVerseIndex, i);
                 strHtml += String.Format(OseResources.Properties.Resources.HTML_TableRow,
                                          String.Format("{0}{1}",
                                                        String.Format(OseResources.Properties.Resources.HTML_TableCell, "cn:"),
                                                        String.Format(OseResources.Properties.Resources.HTML_TableCellWidth,
                                                                      100,
                                                                      String.Format(OseResources.Properties.Resources.HTML_ParagraphText,
-                                                                                   strExegeticalHelpNote,
+                                                                                   strHtmlElementId,
                                                                                    StoryData.
                                                                                        CstrLangInternationalBtStyleClassName,
                                                                                    strExegeticalHelpNote))));

@@ -189,7 +189,7 @@ namespace OneStoryProjectEditor
             if (String.IsNullOrEmpty(strChildValue))
                 strName = strParentValue;
             else
-                strName = Diff.HtmlDiff(strParentValue, strChildValue);
+                strName = Diff.HtmlDiff(strParentValue, strChildValue, true);
 
             return String.Format(OseResources.Properties.Resources.HTML_TableRow,
                                  String.Format("{0}{1}",
@@ -198,7 +198,7 @@ namespace OneStoryProjectEditor
                                                String.Format(OseResources.Properties.Resources.HTML_TableCellWidth,
                                                              100,
                                                              String.Format(OseResources.Properties.Resources.HTML_ParagraphText,
-                                                                           strLabel + strName,
+                                                                           strLabel,
                                                                            StoryData.
                                                                               CstrLangInternationalBtStyleClassName,
                                                                            strName))));
@@ -437,12 +437,12 @@ namespace OneStoryProjectEditor
                 string strParent = teamMembers.GetNameFromMemberId(strParentMemberId);
                 strName = (String.IsNullOrEmpty(strChildMemberId))
                     ? strParent
-                    : Diff.HtmlDiff(strParent, teamMembers.GetNameFromMemberId(strChildMemberId));
+                    : Diff.HtmlDiff(strParent, teamMembers.GetNameFromMemberId(strChildMemberId), true);
             }
             else if (String.IsNullOrEmpty(strChildMemberId))
                 strName = strParentMemberId;
             else
-                strName = Diff.HtmlDiff(strParentMemberId, strChildMemberId);
+                strName = Diff.HtmlDiff(strParentMemberId, strChildMemberId, true);
 
             return String.Format(OseResources.Properties.Resources.HTML_TableRow,
                                  String.Format("{0}{1}",
