@@ -3254,7 +3254,7 @@ namespace OneStoryProjectEditor
 #if DEBUG
                 string strXslt = File.ReadAllText(@"C:\src\StoryEditor\StoryEditor\Resources\oneStory2storyingBT.xsl");
 #else
-                string strXslt = OseResources.Properties.Resources.oneStory2storyingBT;
+                string strXslt = Properties.Resources.oneStory2storyingBT;
 #endif
                 // the 'document()' function in this Xslt needs the full path to the 
                 //  running folder
@@ -3274,7 +3274,7 @@ namespace OneStoryProjectEditor
 #if DEBUG
                 strXslt = File.ReadAllText(@"C:\src\StoryEditor\StoryEditor\Resources\oneStory2storyingRetelling.xsl");
 #else
-                strXslt = OseResources.Properties.Resources.oneStory2storyingRetelling;
+                strXslt = Properties.Resources.oneStory2storyingRetelling;
 #endif
                 ExportToToolbox(strXslt, streamData,
                     GetTbxDestPath("TestRetellings.txt"), null);
@@ -3282,7 +3282,7 @@ namespace OneStoryProjectEditor
 #if DEBUG
                 strXslt = File.ReadAllText(@"C:\src\StoryEditor\StoryEditor\Resources\oneStory2ConNotes.xsl");
 #else
-                strXslt = OseResources.Properties.Resources.oneStory2ConNotes;
+                strXslt = Properties.Resources.oneStory2ConNotes;
 #endif
                 ExportToToolbox(strXslt, streamData,
                     GetTbxDestPath("ProjectConNotes.txt"), null);
@@ -3290,7 +3290,7 @@ namespace OneStoryProjectEditor
 #if DEBUG
                 strXslt = File.ReadAllText(@"C:\src\StoryEditor\StoryEditor\Resources\oneStory2CoachNotes.xsl");
 #else
-                strXslt = OseResources.Properties.Resources.oneStory2CoachNotes;
+                strXslt = Properties.Resources.oneStory2CoachNotes;
 #endif
                 ExportToToolbox(strXslt, streamData,
                     GetTbxDestPath("CoachingNotes.txt"), null);
@@ -3308,7 +3308,7 @@ namespace OneStoryProjectEditor
 #if DEBUG
                     strXslt = File.ReadAllText(@"C:\src\StoryEditor\StoryEditor\Resources\oneStory2KeyTerms.xsl");
 #else
-                    strXslt = OseResources.Properties.Resources.oneStory2KeyTerms;
+                    strXslt = Properties.Resources.oneStory2KeyTerms;
 #endif
                     // the 'document()' function in this Xslt needs the full path to the 
                     //  running folder
