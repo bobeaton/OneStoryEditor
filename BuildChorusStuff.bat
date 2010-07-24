@@ -1,0 +1,7 @@
+rem "C:\Program Files\Microsoft\ILMerge\ILMerge.exe" /out:C:\src\StoryEditor\StoryEditor\OtherStuff.dll /keyfile:C:\src\StoryEditor\FieldWorks.snk "C:\Program Files\Microsoft Visual Studio 9.0\Visual Studio Tools for Office\PIA\Office11\Microsoft.mshtml.dll" "C:\Code\palaso\lib\net2.0\Keyman7Interop.dll" "C:\Code\palaso\lib\net2.0\KeymanLink.dll" "C:\src\StoryEditor\StoryEditor\HtmlEditor.dll" "C:\src\StoryEditor\StoryEditor\NetLoc.dll" "C:\src\StoryEditor\StoryEditor\Utilities.dll"
+rem "C:\Program Files\Microsoft SDKs\Windows\v6.0A\bin\mt.exe" -manifest C:\src\StoryEditor\StoryEditor\OtherStuff.dll.manifest -outputresource:C:\src\StoryEditor\StoryEditor\OtherStuff.dll
+rem "C:\Program Files\Microsoft SDKs\Windows\v6.0A\bin\sn.exe" -R C:\src\StoryEditor\StoryEditor\OtherStuff.dll C:\src\StoryEditor\FieldWorks.snk
+
+"C:\Program Files\Microsoft\ILMerge\ILMerge.exe" /out:C:\src\StoryEditor\StoryEditor\ChorusStuff.exe /keyfile:C:\src\StoryEditor\FieldWorks.snk C:\Code\chorus\src\Chorus\bin\x86\Release\Chorus.exe C:\Code\chorus\src\Chorus\bin\x86\Release\LibChorus.dll
+"C:\Program Files\Microsoft SDKs\Windows\v6.0A\bin\mt.exe" -manifest C:\src\StoryEditor\StoryEditor\ChorusStuff.exe.manifest -outputresource:C:\src\StoryEditor\StoryEditor\ChorusStuff.exe
+"C:\Program Files\Microsoft SDKs\Windows\v6.0A\bin\sn.exe" -R C:\src\StoryEditor\StoryEditor\ChorusStuff.exe C:\src\StoryEditor\FieldWorks.snk
