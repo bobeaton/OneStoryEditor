@@ -54,7 +54,7 @@ namespace OneStoryProjectEditor
             set { _ProjectStage = value; }
         }
 
-        public StoryStageLogic(ProjectSettings projSettings)
+        public StoryStageLogic(ProjectSettings projSettings, bool bHasIndependentConsultant)
         {
             System.Diagnostics.Debug.Assert(projSettings.Vernacular.HasData 
                 || projSettings.NationalBT.HasData
@@ -65,7 +65,9 @@ namespace OneStoryProjectEditor
             ProjectStage = (projSettings.Vernacular.HasData) ? ProjectStages.eProjFacTypeVernacular : 
                 (projSettings.NationalBT.HasData) ? ProjectStages.eProjFacTypeNationalBT : ProjectStages.eProjFacTypeInternationalBT;
 
-            System.Diagnostics.Debug.Assert(stateTransitions != null);
+            if ((stateTransitions == null)
+             || (stateTransitions.RewroteCitAsIndependentConsultant != bHasIndependentConsultant))
+                stateTransitions = new StateTransitions(bHasIndependentConsultant);
         }
 
         public StoryStageLogic(string strProjectStage, bool bHasIndependentConsultant)
