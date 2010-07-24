@@ -172,7 +172,7 @@ the status bar to go to the next stage in the process.
       <AllowableBackwardsTransition RequiresUsingNationalBT="true">eProjFacTypeNationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="false">eProjFacTypeInternationalBT</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
-    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="true" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="true" />
+    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eProjFacAddStoryQuestions" MemberTypeWithEditToken="eProjectFacilitator" NextState="eConsultantCheckStoryInfo" RequiresBiblicalStory="true">
     <StageDisplayString>Project Facilitator adds story testing questions</StageDisplayString>
@@ -227,7 +227,7 @@ status bar to go to the next stage in the process.
       <AllowableBackwardsTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="false">eProjFacTypeInternationalBT</AllowableBackwardsTransition>
       <AllowableBackwardsTransition RequiresBiblicalStory="true">eProjFacAddAnchors</AllowableBackwardsTransition>
     </AllowableBackwardsTransitions>
-    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="true" />
+    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eProjFacRevisesBeforeUnsTest" MemberTypeWithEditToken="eProjectFacilitator" NextState="eConsultantCheckStoryInfo">
     <StageDisplayString>Project Facilitator revises the story (before UNS test)</StageDisplayString>
@@ -657,7 +657,7 @@ stage in the process.
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eProjFacOnlineReview1WithConsultant" MemberTypeWithEditToken="eProjectFacilitator" NextState="eProjFacReadyForTest1" RequiresBiblicalStory="true">
-    <StageDisplayString>Project Facilitator has online review with consultant</StageDisplayString>
+    <StageDisplayString>Project Facilitator has optional online review with consultant</StageDisplayString>
     <StageInstructions>
 In this stage, you (the Project Facilitator) will arrange a time to get online at the same time as the 
 consultant so that you can discuss the feedback he or she gave. If your team has a First Pass Mentor, 
@@ -679,15 +679,29 @@ which you will do your first (formal) UNS test.
   <StateTransition stage="eProjFacReadyForTest1" MemberTypeWithEditToken="eProjectFacilitator" NextState="eProjFacEnterRetellingOfTest1" RequiresBiblicalStory="true">
     <StageDisplayString>Project Facilitator is ready for a UNS test</StageDisplayString>
     <StageInstructions>
-In this stage, you (the Project Facilitator) will arrange for a UNS test (typically, with two different
-UNSs). Each full UNS test includes:
+In this stage, you (the Project Facilitator) will do a UNS test (typically, with two different UNSs).
+Each UNS test includes:
 
-    UNS retelling
-    (optional UNS National language back-translation)
-    UNS inference testing questions
+  Retelling
+    - play the recording of the story for the UNS a few times
+    - ask the UNS to tell the story in his or her own words, but trying not to leave anything out
+    - play the recording again and ask UNS to compare what they said with the recording (to correct it)
+    - ask for another retelling and this time record it (repeat as necessary)
 
-When you are finished, then click the 'Next Stage' button in the left-hand side of the status bar to go 
-to the next stage in the process.
+  English/National language back-translation
+    - with a 2nd recording devicing recording, play short portions of the original story (i.e. phrase-
+      by-phrase or line-by-line) and ask the UNS to give the translation of each portion into English
+      or the national language
+
+  Inference testing questions
+    - play the portion of the original story recording upto a line in the story that has one or more
+      inference testing questions ('tst:' lines). Stop the play back and with another recorder recording
+      ask the question to the UNS and get their response.
+
+When you are finished, then click the 'Next Stage' button in the left-hand side of the status bar to go
+to the next stage in the process, where you will listen to the three recordings you have made above (i.e.
+Retelling, the back-translation, and the answers to the testing questions) to enter the UNS's responses
+into the documentation.
     </StageInstructions>
     <AllowableBackwardsTransitions>
       <AllowableBackwardsTransition>eProjFacReviseBasedOnRound1Notes</AllowableBackwardsTransition>
