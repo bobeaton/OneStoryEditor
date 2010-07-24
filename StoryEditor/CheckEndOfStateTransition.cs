@@ -499,7 +499,7 @@ namespace OneStoryProjectEditor
 
             if (res == DialogResult.Yes)
             {
-                theSE.AddTest();
+                // theSE.AddTest();
                 eProposedNextState = StoryStageLogic.ProjectStages.eProjFacReadyForTest1;
             }
             else if (theStoryProjectData.TeamMembers.HasOutsideEnglishBTer)
