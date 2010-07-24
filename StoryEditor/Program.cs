@@ -8,6 +8,7 @@ using Chorus.UI.Sync;
 using Chorus.Utilities;
 using Chorus.VcsDrivers;
 using Chorus.VcsDrivers.Mercurial;
+using devX;
 using Palaso.Reporting;
 
 namespace OneStoryProjectEditor
@@ -21,25 +22,35 @@ namespace OneStoryProjectEditor
         static void Main(string[] args)
         {
             SetupErrorHandling();
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-
-            InitializeLocalSettingsCollections();
-            
-            bool bNeedToSave = false;
-            System.Diagnostics.Debug.Assert(Properties.Settings.Default.RecentProjects.Count == Properties.Settings.Default.RecentProjectPaths.Count);
-            if (Properties.Settings.Default.RecentProjects.Count != Properties.Settings.Default.RecentProjectPaths.Count)
-            {
-                Properties.Settings.Default.RecentProjects.Clear();
-                Properties.Settings.Default.RecentProjectPaths.Clear();
-                bNeedToSave = true;
-            }
-
-            if (bNeedToSave)
-                Properties.Settings.Default.Save();
 
             try
             {
+                // do auto-upgrade handling
+                InitializeLocalSettingsCollections();
+                
+                // make sure we have HG (or we can't really do much)
+                HgSanityCheck();
+
+                AutoUpgrade autoUpgrade = AutoUpgrade.Create(Properties.Resources.IDS_OSEUpgradeServer);
+                if (autoUpgrade.IsUpgradeAvailable(true))
+                    return;
+
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+
+                
+                bool bNeedToSave = false;
+                System.Diagnostics.Debug.Assert(Properties.Settings.Default.RecentProjects.Count == Properties.Settings.Default.RecentProjectPaths.Count);
+                if (Properties.Settings.Default.RecentProjects.Count != Properties.Settings.Default.RecentProjectPaths.Count)
+                {
+                    Properties.Settings.Default.RecentProjects.Clear();
+                    Properties.Settings.Default.RecentProjectPaths.Clear();
+                    bNeedToSave = true;
+                }
+
+                if (bNeedToSave)
+                    Properties.Settings.Default.Save();
+
                 ProjectSettings.InsureOneStoryProjectFolderRootExists();
 
                 bool bPretendOpening = false;
@@ -85,6 +96,13 @@ namespace OneStoryProjectEditor
                     strMessage += String.Format("{0}{1}", Environment.NewLine, ex.InnerException.Message);
                 MessageBox.Show(strMessage, OseResources.Properties.Resources.IDS_Caption);
             }
+        }
+
+        private static void HgSanityCheck()
+        {
+            var msg = HgRepository.GetEnvironmentReadinessMessage("en");
+            if (!string.IsNullOrEmpty(msg))
+                throw new ApplicationException("It looks like you don't have TortoiseHg installed. Please install that first before trying to use the OneStory Editor");
         }
 
         public static void InitializeLocalSettingsCollections()

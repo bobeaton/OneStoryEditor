@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="AutoUpgrade" nillable="true" type="AutoUpgrade" />
+  <xs:complexType name="AutoUpgrade">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="UpgradeFiles" type="ArrayOfFile" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ApplicationName" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ManifestFiles" type="ArrayOfFile" />
+      <xs:element minOccurs="0" maxOccurs="1" name="SourcePath" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ApplicationExecutable" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="FullUpgradeFileName" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ApplicationBasePath" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ArrayOfFile">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="File" nillable="true" type="File" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="File">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="version" type="xs:string" />
+        <xs:attribute name="name" type="xs:string" />
+        <xs:attribute name="action" type="UpgradeAction" />
+        <xs:attribute name="optional" type="xs:boolean" />
+        <xs:attribute name="registration" type="RegistrationMethod" />
+        <xs:attribute name="method" type="CompareMethod" />
+        <xs:attribute name="size" type="xs:long" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:simpleType name="UpgradeAction">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="copy" />
+      <xs:enumeration value="full" />
+      <xs:enumeration value="delete" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="RegistrationMethod">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="none" />
+      <xs:enumeration value="GAC" />
+      <xs:enumeration value="COM" />
+      <xs:enumeration value="RegASM" />
+      <xs:enumeration value="RegASMAndGAC" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="CompareMethod">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="version" />
+      <xs:enumeration value="date" />
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

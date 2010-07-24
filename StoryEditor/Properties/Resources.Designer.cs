@@ -191,7 +191,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Would you like to enter the results of a UNS test now (click &apos;Yes&apos;) or have your consultant check the story and testing questions first (click &apos;No&apos;)?.
+        ///   Looks up a localized string similar to Would you like to do one or more UNS tests now (click &apos;Yes&apos;) or have your consultant check the story and testing questions first (click &apos;No&apos;)?.
         /// </summary>
         internal static string IDS_CheckForSkipToUnsCheck {
             get {
@@ -533,6 +533,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_NotTheRightProjFac {
             get {
                 return ResourceManager.GetString("IDS_NotTheRightProjFac", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to http://palaso.org/install/onestory/OseUpdates/StoryEditor.exe.manifest.xml.
+        /// </summary>
+        internal static string IDS_OSEUpgradeServer {
+            get {
+                return ResourceManager.GetString("IDS_OSEUpgradeServer", resourceCulture);
             }
         }
         

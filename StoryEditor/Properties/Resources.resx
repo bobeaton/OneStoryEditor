@@ -1793,9 +1793,12 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
     <value>Have you entered all of your testing questions? If not, then click 'Cancel' and finish entering all of the testing questions first (or you won't get answer boxes for questions added later). Or click 'OK' to add boxes for the UNS's retelling and answers to the testing quetsions.</value>
   </data>
   <data name="IDS_CheckForSkipToUnsCheck" xml:space="preserve">
-    <value>Would you like to enter the results of a UNS test now (click 'Yes') or have your consultant check the story and testing questions first (click 'No')?</value>
+    <value>Would you like to do one or more UNS tests now (click 'Yes') or have your consultant check the story and testing questions first (click 'No')?</value>
   </data>
   <data name="gradient" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\gradient.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IDS_OSEUpgradeServer" xml:space="preserve">
+    <value>http://palaso.org/install/onestory/OseUpdates/StoryEditor.exe.manifest.xml</value>
   </data>
 </root>
