@@ -38,6 +38,9 @@ namespace OneStoryProjectEditor
         protected void InitGrid()
         {
             dataGridViewPanorama.Rows.Clear();
+            if (_stories == null)
+                return;
+
             foreach (StoryData aSD in _stories)
             {
                 TimeSpan ts = DateTime.Now - aSD.StageTimeStamp;
