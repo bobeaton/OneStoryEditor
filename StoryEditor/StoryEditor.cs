@@ -663,7 +663,12 @@ namespace OneStoryProjectEditor
                 return;
 
             Debug.Assert(LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator);
-            StoryData theNewStory = new StoryData(strStoryName, strCrafterGuid, LoggedOnMember.MemberGuid, (res == DialogResult.Yes), StoryProject.ProjSettings);
+            Debug.Assert(StoryProject.TeamMembers != null);
+            StoryData theNewStory = new StoryData(strStoryName, strCrafterGuid, 
+                LoggedOnMember.MemberGuid, 
+                (res == DialogResult.Yes),
+                StoryProject.TeamMembers.HasIndependentConsultant,
+                StoryProject.ProjSettings);
             InsertNewStoryAdjustComboBox(theNewStory, nIndexToInsert);
         }
 
@@ -1315,7 +1320,9 @@ namespace OneStoryProjectEditor
         internal void SetViewBasedOnProjectStage(StoryStageLogic.ProjectStages eStage,
             bool bDisableReInits)
         {
+            Debug.Assert(StoryStageLogic.stateTransitions != null);
             StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[eStage];
+            Debug.Assert(st != null);
 
             // in case the caller is just about to call InitAllPanes anyway, we don't
             //  want the screen to thrash, so have the ability to disable the thrashing.
@@ -3634,7 +3641,7 @@ namespace OneStoryProjectEditor
             BiblicalTermsList.SelectTermsList();
         }
 
-        private void viewStoryBtInHtmlToolStripMenuItem_Click(object sender, EventArgs e)
+        private void historicalDifferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             HtmlDisplayForm dlg = new HtmlDisplayForm(this, theCurrentStory);
             dlg.Show();

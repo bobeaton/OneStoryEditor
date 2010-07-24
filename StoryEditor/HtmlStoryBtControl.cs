@@ -14,8 +14,6 @@ namespace OneStoryProjectEditor
         public const string CstrFieldNameInternationalBt = "InternationalBT";
 
         public VerseData.ViewItemToInsureOn ViewItemsToInsureOn { get; set; }
-        public TeamMembersData MembersData { get; set; }
-        public TeamMemberData LoggedOnMember { get; set; }
         public StoryData ParentStory { get; set; }
 
         public HtmlStoryBtControl()
@@ -25,61 +23,15 @@ namespace OneStoryProjectEditor
 
         public override void LoadDocument()
         {
-            /*
-            string strHtml = StoryData.VersesHtml(TheSE.StoryProject.ProjSettings,
-                                                  TheSE.hiddenVersesToolStripMenuItem.Checked,
-                                                  MembersData, LoggedOnMember,
-                                                  ViewItemsToInsureOn);
-            string strXml = @"<story name=""Jesus invited to dinner"" stage=""ConsultantCheckStoryInfo"" guid=""0e2e37a9-de08-4a4d-ad09-d3d99b44306a"" stageDateTimeStamp=""2009-11-13T18:12:43.0863848"">
-      <CraftingInfo NonBiblicalStory=""false"">
-        <StoryCrafter memberID=""mem-4f3fd25c-827a-4ce8-ab07-7286bd1980e1"" />
-        <StoryPurpose>purpose</StoryPurpose>
-        <ResourcesUsed>resources</ResourcesUsed>
-        <BackTranslator memberID=""mem-73324703-2f5c-42d3-b28e-13d0f77694be"" />
-      </CraftingInfo>
-      <verses>
-        <verse guid=""d26d41b5-472b-45b2-8db3-79290d3ff478"">
-          <Vernacular>किसे शहुकार माह़णू दे दुईं कर्जदार थी।</Vernacular>
-          <NationalBT>किसी अमीर मानू के दो ही कर्ज़दार।</NationalBT>
-          <InternationalBT>A rich fellow had only two debtor.</InternationalBT>
-          <anchors keyTermChecked=""false"">
-            <anchor jumpTarget=""Luke 7:41"">
-              <toolTip>Luke 7:42</toolTip>
-            </anchor>
-          </anchors>
-        </verse>
-        <verse guid=""e627fd0d-5d38-4331-98d1-f51ae8493fef"">
-          <Vernacular>उना कल इन्‍नी हिम्‍मत नेई नेई सी के ओह़ अपने मालिक दा कर्जा दे सकह़न।</Vernacular>
-          <NationalBT>उनके पोस इतनी हिम्‍मत नही थी कि नही थी वे अपने मालिक का कर्ज़ा दे सकें।</NationalBT>
-          <InternationalBT>they did not have enough enough courage that they could pay their master.</InternationalBT>
-          <anchors keyTermChecked=""false"">
-            <anchor jumpTarget=""Luke 7:42"">
-              <toolTip>Luke 7:43</toolTip>
-            </anchor>
-          </anchors>
-          <TestQuestions>
-            <TestQuestion visible=""true"" guid=""d2644a8f-4c7d-48c7-9f91-3bb9c63af5d4"">
-              <TQInternationalBT>Why didn't they have courage?</TQInternationalBT>
-            </TestQuestion>
-          </TestQuestions>
-        </verse>
-      </verses>
-    </story>";
-            var dom = new XmlDocument();
-            dom.LoadXml(strXml);
-            StoryData sd = new StoryData(dom.FirstChild);
-            */
-            string strHtml;
+            string strHtml = null;
             if (ParentStory != null)
-            {
-                StoryData child = new StoryData(StoryData);
-                strHtml = ParentStory.PresentationHtml(TheSE.StoryProject.ProjSettings, TheSE.StoryProject.TeamMembers, child);
-            }
-            else
-                strHtml = StoryData.PresentationHtml(TheSE.StoryProject.ProjSettings, TheSE.StoryProject.TeamMembers, null);
+                strHtml = ParentStory.PresentationHtml(ViewItemsToInsureOn, 
+                    TheSE.StoryProject.ProjSettings, TheSE.StoryProject.TeamMembers, StoryData);
+            else if (StoryData != null)
+                strHtml = StoryData.PresentationHtml(ViewItemsToInsureOn, 
+                    TheSE.StoryProject.ProjSettings, TheSE.StoryProject.TeamMembers, null);
 
             DocumentText = strHtml;
-            // LineNumberLink.Visible = true;
         }
 
         public void InsertNewVerseBefore(int nVerseIndex)

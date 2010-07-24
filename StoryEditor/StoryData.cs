@@ -18,13 +18,13 @@ namespace OneStoryProjectEditor
         public VersesData Verses;
 
         public StoryData(string strStoryName, string strCrafterMemberGuid, 
-            string strLoggedOnMemberGuid, bool bIsBiblicalStory,
+            string strLoggedOnMemberGuid, bool bIsBiblicalStory, bool bHasIndependentConsultant,
             ProjectSettings projSettings)
         {
             Name = strStoryName;
             guid = Guid.NewGuid().ToString();
             StageTimeStamp = DateTime.Now;
-            ProjStage = new StoryStageLogic(projSettings);
+            ProjStage = new StoryStageLogic(projSettings, bHasIndependentConsultant);
             CraftingInfo = new CraftingInfoData(strCrafterMemberGuid, strLoggedOnMemberGuid, bIsBiblicalStory);
             Verses = new VersesData();
             Verses.CreateFirstVerse();
@@ -141,11 +141,42 @@ namespace OneStoryProjectEditor
                 strHtml);
         }
 
-        public string PresentationHtml(ProjectSettings projSettings, TeamMembersData teamMembers, StoryData child)
+        // remotely accessible one from Chorus
+        public string GetPresentationHtmlForChorus(XmlNode nodeProjectFile, string strProjectPath, XmlNode parentStory, XmlNode childStory)
         {
-            bool bShowVernacular = projSettings.Vernacular.HasData;
-            bool bShowNationalBT = projSettings.NationalBT.HasData;
-            bool bShowEnglishBT = projSettings.InternationalBT.HasData;
+            ProjectSettings projSettings = new ProjectSettings(nodeProjectFile, strProjectPath);
+            TeamMembersData teamMembers = new TeamMembersData(nodeProjectFile);
+            StoryData ParentStory = null, ChildStory = null;
+            if (parentStory != null)
+                ParentStory = new StoryData(parentStory);
+            if (childStory != null)
+                ChildStory = new StoryData(childStory);
+            VerseData.ViewItemToInsureOn viewItemsToInsureOn = VerseData.SetItemsToInsureOn(
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                false,  // theSE.viewConsultantNoteFieldMenuItem.Checked,
+                false,  // theSE.viewCoachNotesFieldMenuItem.Checked,
+                false); // theSE.viewNetBibleMenuItem.Checked
+
+            string strHtml = null;
+            if (ParentStory != null)
+                strHtml = ParentStory.PresentationHtml(viewItemsToInsureOn,
+                    projSettings, teamMembers, ChildStory);
+            else if (ChildStory != null)
+                strHtml = ChildStory.PresentationHtml(viewItemsToInsureOn,
+                    projSettings, teamMembers, null);
+            return strHtml;
+        }
+
+        public string PresentationHtml(VerseData.ViewItemToInsureOn viewSettings, ProjectSettings projSettings, TeamMembersData teamMembers, StoryData child)
+        {
+            bool bShowVernacular = VerseData.IsViewItemOn(viewSettings, VerseData.ViewItemToInsureOn.eVernacularLangField);
+            bool bShowNationalBT = VerseData.IsViewItemOn(viewSettings, VerseData.ViewItemToInsureOn.eNationalLangField);
+            bool bShowEnglishBT = VerseData.IsViewItemOn(viewSettings, VerseData.ViewItemToInsureOn.eEnglishBTField);
 
             int nNumCols = 0;
             if (bShowVernacular) nNumCols++;
@@ -175,7 +206,7 @@ namespace OneStoryProjectEditor
                                                                 strHtml)));
 
             strHtml += Verses.PresentationHtml((child != null) ? child.CraftingInfo : CraftingInfo, 
-                (child != null) ? child.Verses : null, nNumCols, bShowVernacular, bShowNationalBT, bShowEnglishBT);
+                (child != null) ? child.Verses : null, nNumCols, viewSettings);
 
             return String.Format(OseResources.Properties.Resources.HTML_HeaderPresentation,
                 StylePrefix(projSettings),
@@ -444,6 +475,8 @@ namespace OneStoryProjectEditor
             else
                 strName = Diff.HtmlDiff(strParentMemberId, strChildMemberId, true);
 
+            if (String.IsNullOrEmpty(strName))
+                strName = "-";  // so it's not nothing (or the HTML shows without a cell frame)
             return String.Format(OseResources.Properties.Resources.HTML_TableRow,
                                  String.Format("{0}{1}",
                                                String.Format(OseResources.Properties.Resources.HTML_TableCellNoWrap,
@@ -451,7 +484,7 @@ namespace OneStoryProjectEditor
                                                String.Format(OseResources.Properties.Resources.HTML_TableCellWidth,
                                                              100,
                                                              String.Format(OseResources.Properties.Resources.HTML_ParagraphText,
-                                                                           strLabel + strName,
+                                                                           strLabel,
                                                                            StoryData.
                                                                               CstrLangInternationalBtStyleClassName,
                                                                            strName))));

@@ -19,8 +19,9 @@
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <SignManifests>false</SignManifests>
-    <ManifestCertificateThumbprint>0AC50EC9A7431D20DF6CFEF4BBB333F11494C65D</ManifestCertificateThumbprint>
-    <ManifestKeyFile>StoryEditor_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestCertificateThumbprint>F914C1BEB491538EA349EAE5263186515C1947D4</ManifestCertificateThumbprint>
+    <ManifestKeyFile>
+    </ManifestKeyFile>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>StoryEditor_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
     <PublishUrl>C:\Media\New\Jaars\OneStory Releases\OneClick\</PublishUrl>
@@ -33,14 +34,14 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>\\BOB-STUDIOXPS\OneClick\</InstallUrl>
+    <InstallUrl>\\Kids-pc\Public\Documents\OneClick\</InstallUrl>
     <SupportUrl>http://projects.palaso.org/projects/show/onestory</SupportUrl>
     <ErrorReportUrl>http://projects.palaso.org/projects/show/onestory</ErrorReportUrl>
     <TargetCulture>en</TargetCulture>
     <ProductName>OneStory Editor</ProductName>
     <PublisherName>SIL</PublisherName>
     <SuiteName>OneStory</SuiteName>
-    <ApplicationRevision>12</ApplicationRevision>
+    <ApplicationRevision>26</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -67,30 +68,23 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\src\FW_6.0\Lib\release\AIGuesserEC.dll</HintPath>
     </Reference>
-    <Reference Include="Chorus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=x86">
+    <Reference Include="AutoUpgrade.Lib, Version=1.0.3856.32058, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Code\chorus\output\Debug\Chorus.exe</HintPath>
+      <HintPath>..\AutoUpgrade\code\AutoUpgrade.App\bin\x86\Release\AutoUpgrade.Lib.dll</HintPath>
     </Reference>
-    <Reference Include="ChorusMerge, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=x86">
+    <Reference Include="ChorusStuff, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Code\chorus\output\Debug\ChorusMerge.exe</HintPath>
+      <HintPath>.\ChorusStuff.exe</HintPath>
     </Reference>
-    <Reference Include="ECInterfaces, Version=3.0.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=x86">
+    <Reference Include="ECInterfaces, Version=3.1.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\src\FW_6.0\Lib\release\ECInterfaces.dll</HintPath>
+      <HintPath>..\..\WW\Lib\release\ECInterfaces.dll</HintPath>
     </Reference>
     <Reference Include="HtmlEditor, Version=7.0.100.5147, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\HtmlEditor.dll</HintPath>
     </Reference>
-    <Reference Include="LibChorus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Code\chorus\output\Debug\LibChorus.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Program Files (x86)\Microsoft.NET\Primary Interop Assemblies\Microsoft.mshtml.dll</HintPath>
-    </Reference>
+    <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="NetLoc, Version=7.0.100.5029, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -116,9 +110,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\SharedScrUtils.dll</HintPath>
     </Reference>
-    <Reference Include="SilEncConverters30, Version=3.0.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=x86">
+    <Reference Include="SilEncConverters30, Version=3.1.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\src\FW_6.0\Lib\release\SilEncConverters30.dll</HintPath>
+      <HintPath>..\..\WW\Lib\release\SilEncConverters30.dll</HintPath>
     </Reference>
     <Reference Include="SwigSword, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -494,13 +488,27 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="BiblicalTerms\BiblicalTerms.xml" />
-    <Content Include="BiblicalTerms\BiblicalTermsEn.xml" />
-    <Content Include="BiblicalTerms\MyBiblicalTerms.xml" />
-    <Content Include="BiblicalTerms\StatHasErrDenied.gif" />
-    <Content Include="BiblicalTerms\StatHasErrors.gif" />
-    <Content Include="BiblicalTerms\StatHasNoErrors.gif" />
-    <Content Include="BiblicalTerms\Term.PNG" />
+    <Content Include="BiblicalTerms\BiblicalTerms.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="BiblicalTerms\BiblicalTermsEn.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="BiblicalTerms\MyBiblicalTerms.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="BiblicalTerms\StatHasErrDenied.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="BiblicalTerms\StatHasErrors.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="BiblicalTerms\StatHasNoErrors.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="BiblicalTerms\Term.PNG">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="LanguageCodes.tab" />
     <None Include="OneStory.ico" />
     <None Include="..\Setup OneStory Editor\SetSwordPath.wxs">
@@ -511,7 +519,7 @@
     <None Include="Resources\BuilderDialog_movedown.PNG" />
     <None Include="Resources\CopyHS.png" />
     <None Include="Resources\Hyperlink.bmp" />
-    <None Include="StageTransitions.xml" />
+    <Content Include="StageTransitions.xml" />
     <None Include="Properties\app.manifest" />
     <None Include="Resources\DragDropHandle.bmp" />
     <None Include="StoryEditor_TemporaryKey.pfx" />
@@ -529,57 +537,204 @@
     <None Include="Resources\oneStory2storyingBT.xsl" />
     <None Include="Resources\oneStory2storyingRetelling.xsl" />
     <None Include="Resources\gradient.gif">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Content Include="SWORD\mods.d\xnr.conf" />
-    <Content Include="SWORD\modules\texts\rawtext\xnr\nt" />
-    <Content Include="SWORD\modules\texts\rawtext\xnr\nt.vss" />
-    <Content Include="SWORD\modules\texts\rawtext\xnr\ot" />
-    <Content Include="SWORD\modules\texts\rawtext\xnr\ot.vss" />
-    <Content Include="SWORD\mods.d\net.conf" />
-    <Content Include="SWORD\modules\texts\ztext\net\nt.bzs" />
-    <Content Include="SWORD\modules\texts\ztext\net\nt.bzv" />
-    <Content Include="SWORD\modules\texts\ztext\net\nt.bzz" />
-    <Content Include="SWORD\modules\texts\ztext\net\ot.bzs" />
-    <Content Include="SWORD\modules\texts\ztext\net\ot.bzv" />
-    <Content Include="SWORD\modules\texts\ztext\net\ot.bzz" />
-    <Content Include="SWORD\modules\texts\ztext\bbe\bbe.doc" />
-    <Content Include="SWORD\modules\texts\ztext\bbe\nt.bzs" />
-    <Content Include="SWORD\modules\texts\ztext\bbe\nt.bzv" />
-    <Content Include="SWORD\modules\texts\ztext\bbe\nt.bzz" />
-    <Content Include="SWORD\modules\texts\ztext\bbe\ot.bzs" />
-    <Content Include="SWORD\modules\texts\ztext\bbe\ot.bzv" />
-    <Content Include="SWORD\modules\texts\ztext\bbe\ot.bzz" />
-    <Content Include="SWORD\modules\texts\ztext\bwe\nt.bzs" />
-    <Content Include="SWORD\modules\texts\ztext\bwe\nt.bzv" />
-    <Content Include="SWORD\modules\texts\ztext\bwe\nt.bzz" />
-    <Content Include="SWORD\modules\texts\ztext\farsiopv\errata" />
-    <Content Include="SWORD\modules\texts\ztext\farsiopv\nt.bzs" />
-    <Content Include="SWORD\modules\texts\ztext\farsiopv\nt.bzv" />
-    <Content Include="SWORD\modules\texts\ztext\farsiopv\nt.bzz" />
-    <Content Include="SWORD\modules\texts\ztext\farsiopv\ot.bzs" />
-    <Content Include="SWORD\modules\texts\ztext\farsiopv\ot.bzv" />
-    <Content Include="SWORD\modules\texts\ztext\farsiopv\ot.bzz" />
+    <Content Include="Toolbox\BookReferences.lng">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Toolbox\Date.lng">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Toolbox\Default.lng">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Toolbox\English.lng">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Toolbox\InternationalBT.lng">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Toolbox\NationalBT.lng">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Toolbox\PathFixup\LCNote.typ">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Toolbox\PathFixup\StoryBT.typ">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Toolbox\PathFixup\StoryingProject.prj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Toolbox\PathFixup\StoryNotes.typ">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Toolbox\Retellings.typ">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Toolbox\Scriptur.typ">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Toolbox\Vernacular.lng">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\mods.d\xnr.conf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\modules\texts\rawtext\xnr\nt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\modules\texts\rawtext\xnr\nt.vss">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\modules\texts\rawtext\xnr\ot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\modules\texts\rawtext\xnr\ot.vss">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\mods.d\net.conf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\modules\texts\ztext\net\nt.bzs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\modules\texts\ztext\net\nt.bzv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\modules\texts\ztext\net\nt.bzz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\modules\texts\ztext\net\ot.bzs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\modules\texts\ztext\net\ot.bzv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\modules\texts\ztext\net\ot.bzz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\modules\texts\ztext\bbe\bbe.doc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\modules\texts\ztext\bbe\nt.bzs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\modules\texts\ztext\bbe\nt.bzv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\modules\texts\ztext\bbe\nt.bzz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\modules\texts\ztext\bbe\ot.bzs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\modules\texts\ztext\bbe\ot.bzv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\modules\texts\ztext\bbe\ot.bzz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\modules\texts\ztext\bwe\nt.bzs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\modules\texts\ztext\bwe\nt.bzv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\modules\texts\ztext\bwe\nt.bzz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\modules\texts\ztext\farsiopv\errata">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\modules\texts\ztext\farsiopv\nt.bzs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\modules\texts\ztext\farsiopv\nt.bzv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\modules\texts\ztext\farsiopv\nt.bzz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\modules\texts\ztext\farsiopv\ot.bzs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\modules\texts\ztext\farsiopv\ot.bzv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\modules\texts\ztext\farsiopv\ot.bzz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="libsword.dll" />
     <Content Include="libsword_csharpsword.dll" />
-    <Content Include="SWORD\modules\texts\ztext\hindi\nt.bzs" />
-    <Content Include="SWORD\modules\texts\ztext\hindi\nt.bzv" />
-    <Content Include="SWORD\modules\texts\ztext\hindi\nt.bzz" />
-    <Content Include="SWORD\modules\texts\ztext\hindi\ot.bzs" />
-    <Content Include="SWORD\modules\texts\ztext\hindi\ot.bzv" />
-    <Content Include="SWORD\modules\texts\ztext\hindi\ot.bzz" />
-    <Content Include="SWORD\modules\texts\ztext\netfree\nt.bzs" />
-    <Content Include="SWORD\modules\texts\ztext\netfree\nt.bzv" />
-    <Content Include="SWORD\modules\texts\ztext\netfree\nt.bzz" />
-    <Content Include="SWORD\modules\texts\ztext\netfree\ot.bzs" />
-    <Content Include="SWORD\modules\texts\ztext\netfree\ot.bzv" />
-    <Content Include="SWORD\modules\texts\ztext\netfree\ot.bzz" />
-    <Content Include="SWORD\mods.d\globals.conf" />
-    <Content Include="SWORD\mods.d\hindi.conf" />
-    <Content Include="SWORD\mods.d\netfree.conf" />
-    <Content Include="SWORD\mods.d\bbe.conf" />
-    <Content Include="SWORD\mods.d\bwe.conf" />
-    <Content Include="SWORD\mods.d\farsiopv.conf" />
+    <Content Include="SWORD\modules\texts\ztext\hindi\nt.bzs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\modules\texts\ztext\hindi\nt.bzv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\modules\texts\ztext\hindi\nt.bzz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\modules\texts\ztext\hindi\ot.bzs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\modules\texts\ztext\hindi\ot.bzv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\modules\texts\ztext\hindi\ot.bzz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\modules\texts\ztext\netfree\nt.bzs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\modules\texts\ztext\netfree\nt.bzv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\modules\texts\ztext\netfree\nt.bzz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\modules\texts\ztext\netfree\ot.bzs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\modules\texts\ztext\netfree\ot.bzv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\modules\texts\ztext\netfree\ot.bzz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\mods.d\globals.conf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\mods.d\hindi.conf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\mods.d\netfree.conf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\mods.d\bbe.conf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\mods.d\bwe.conf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SWORD\mods.d\farsiopv.conf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Toolbox\BibleBookCodes.TXT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Toolbox\chap00 Sample Set.TXT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Toolbox\chap000 Sample Story.TXT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Toolbox\toolbox helps.TXT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Toolbox\toolbox helps2.TXT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -627,13 +782,15 @@
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
   </ItemGroup>
   <ItemGroup>
-    <PublishFile Include="Chorus">
+  </ItemGroup>
+  <ItemGroup>
+    <PublishFile Include="Microsoft.mshtml">
       <Visible>False</Visible>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>Include</PublishState>
+      <PublishState>Exclude</PublishState>
       <IncludeHash>True</IncludeHash>
       <FileType>Assembly</FileType>
     </PublishFile>

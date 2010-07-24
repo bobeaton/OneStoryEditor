@@ -358,7 +358,7 @@ namespace OneStoryProjectEditor
 
         // Html that shows the data in the StoryBt file, but in a fully read-only manner
         public string PresentationHtml(int nVerseIndex, int nNumCols, CraftingInfoData craftingInfo,
-            bool bShowVernacular, bool bShowNationalBT, bool bShowEnglishBT, VersesData child)
+            ViewItemToInsureOn viewSettings, VersesData child)
         {
             VerseData theChildVerse = null;
             if (child != null)
@@ -370,7 +370,7 @@ namespace OneStoryProjectEditor
                     }
 
             string strRow = null;
-            if (bShowVernacular)
+            if (IsViewItemOn(viewSettings, ViewItemToInsureOn.eVernacularLangField))
             {
                 string str = (theChildVerse != null) 
                     ? Diff.HtmlDiff(VernacularText, theChildVerse.VernacularText) 
@@ -383,7 +383,7 @@ namespace OneStoryProjectEditor
                                                       str));
             }
 
-            if (bShowNationalBT)
+            if (IsViewItemOn(viewSettings, ViewItemToInsureOn.eNationalLangField))
             {
                 string str = (theChildVerse != null)
                     ? Diff.HtmlDiff(NationalBTText, theChildVerse.NationalBTText)
@@ -396,7 +396,7 @@ namespace OneStoryProjectEditor
                                                       str));
             }
 
-            if (bShowEnglishBT)
+            if (IsViewItemOn(viewSettings, ViewItemToInsureOn.eEnglishBTField))
             {
                 string str = (theChildVerse != null)
                     ? Diff.HtmlDiff(InternationalBTText, theChildVerse.InternationalBTText)
@@ -412,15 +412,15 @@ namespace OneStoryProjectEditor
             string strStoryLineRow = String.Format(OseResources.Properties.Resources.HTML_TableRow,
                                                    strRow);
 
-            if (Anchors.Count > 0)
+            if (IsViewItemOn(viewSettings, ViewItemToInsureOn.eAnchorFields) && (Anchors.Count > 0))
                 strStoryLineRow += Anchors.PresentationHtml(nVerseIndex, nNumCols, 
                     (theChildVerse != null) ? theChildVerse.Anchors : null);
 
-            if (Retellings.Count > 0)
+            if (IsViewItemOn(viewSettings, ViewItemToInsureOn.eRetellingFields) && (Retellings.Count > 0))
                 strStoryLineRow += Retellings.PresentationHtml(nVerseIndex, nNumCols,
                     craftingInfo.Testors, (theChildVerse != null) ? theChildVerse.Retellings : null);
 
-            if (TestQuestions.Count > 0)
+            if (IsViewItemOn(viewSettings, ViewItemToInsureOn.eStoryTestingQuestionFields) && (TestQuestions.Count > 0))
                 strStoryLineRow += TestQuestions.PresentationHtml(nVerseIndex, nNumCols,
                     craftingInfo.Testors, (theChildVerse != null) ? theChildVerse.TestQuestions : null);
 
@@ -579,7 +579,7 @@ namespace OneStoryProjectEditor
         }
 
         public string PresentationHtml(CraftingInfoData craftingInfo, VersesData child, int nNumCols,
-            bool bShowVernacular, bool bShowNationalBT, bool bShowEnglishBT)
+            VerseData.ViewItemToInsureOn viewSettings)
         {
             string strHtml = null;
             for (int i = 1; i <= Count; i++)
@@ -590,7 +590,7 @@ namespace OneStoryProjectEditor
                     strHtml += GetHeaderRow("Ln: " + i, i, aVerseData.IsVisible, false, nNumCols);
 
                     strHtml += aVerseData.PresentationHtml(i, nNumCols, craftingInfo,
-                        bShowVernacular, bShowNationalBT, bShowEnglishBT, child);
+                        viewSettings, child);
                 }
             }
 
