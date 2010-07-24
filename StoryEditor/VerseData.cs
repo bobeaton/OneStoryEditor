@@ -412,15 +412,15 @@ namespace OneStoryProjectEditor
             string strStoryLineRow = String.Format(OseResources.Properties.Resources.HTML_TableRow,
                                                    strRow);
 
-            if (IsViewItemOn(viewSettings, ViewItemToInsureOn.eAnchorFields) && (Anchors.Count > 0))
+            if (IsViewItemOn(viewSettings, ViewItemToInsureOn.eAnchorFields))
                 strStoryLineRow += Anchors.PresentationHtml(nVerseIndex, nNumCols, 
                     (theChildVerse != null) ? theChildVerse.Anchors : null);
 
-            if (IsViewItemOn(viewSettings, ViewItemToInsureOn.eRetellingFields) && (Retellings.Count > 0))
+            if (IsViewItemOn(viewSettings, ViewItemToInsureOn.eRetellingFields))
                 strStoryLineRow += Retellings.PresentationHtml(nVerseIndex, nNumCols,
                     craftingInfo.Testors, (theChildVerse != null) ? theChildVerse.Retellings : null);
 
-            if (IsViewItemOn(viewSettings, ViewItemToInsureOn.eStoryTestingQuestionFields) && (TestQuestions.Count > 0))
+            if (IsViewItemOn(viewSettings, ViewItemToInsureOn.eStoryTestingQuestionFields))
                 strStoryLineRow += TestQuestions.PresentationHtml(nVerseIndex, nNumCols,
                     craftingInfo.Testors, (theChildVerse != null) ? theChildVerse.TestQuestions : null);
 

@@ -175,6 +175,8 @@ namespace OneStoryProjectEditor
             {
                 for (int j = 0; j < child.Count; j++)
                 {
+                    string strMemberId = child.MemberIDs[j];
+                    nTestNum = astrTestors.IndexOf(strMemberId);
                     string str = Diff.HtmlDiff(null, child[j]);
                     strRow += PresentationHtmlRow(nVerseIndex, nTestNum, str);
                 }

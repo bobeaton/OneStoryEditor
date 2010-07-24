@@ -189,6 +189,7 @@ namespace OneStoryProjectEditor
                     if (aTQ.guid == guid)
                     {
                         theChildTQ = aTQ;
+                        child.Remove(aTQ);
                         break;
                     }
 
@@ -351,9 +352,11 @@ namespace OneStoryProjectEditor
 
         public string PresentationHtml(int nVerseIndex, int nNumCols, List<string> astrTestors, TestQuestionsData child)
         {
+            // return nothing if there's nothing to do
+            if ((!HasData && ((child == null) || !child.HasData)))
+                return null;
+
             // just get the column count from the first question (in case there are multiple)
-            System.Diagnostics.Debug.Assert(Count > 0);
-            
             bool bShowVernacular = false;
             bool bShowNationalBT = false;
             bool bShowEnglishBT = false;
@@ -384,6 +387,14 @@ namespace OneStoryProjectEditor
                 strRow += testQuestionData.PresentationHtml(nVerseIndex, i, nNumTestQuestionCols,
                     bShowVernacular, bShowNationalBT, bShowEnglishBT, astrTestors, child);
             }
+
+            if (child != null)
+                for (int i = 0; i < child.Count; i++)
+                {
+                    TestQuestionData testQuestionData = child[i];
+                    strRow += testQuestionData.PresentationHtml(nVerseIndex, i, nNumTestQuestionCols,
+                        bShowVernacular, bShowNationalBT, bShowEnglishBT, astrTestors, null);
+                }
 
             // make a sub-table out of all this
             strRow = String.Format(OseResources.Properties.Resources.HTML_TableRow,

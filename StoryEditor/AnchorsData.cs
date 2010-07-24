@@ -208,7 +208,10 @@ namespace OneStoryProjectEditor
                     // otherwise, if we did find it, see if there's any difference to the tooltip
                     strToolTipText = Diff.HtmlDiff(ToolTipText, strToolTipText, true);
                     if (strToolTipText != JumpTarget)
+                    {
+                        strButtonLabel += CstrTooltipIndicator;
                         astrExegeticalHelpNotes.Add(strToolTipText);
+                    }
                 }
             }
             else if (bProcessingChild)
@@ -218,7 +221,10 @@ namespace OneStoryProjectEditor
                 //  so show it with 'addition' markup
                 strButtonLabel = Diff.HtmlDiff(null, JumpTarget, true);
                 if (JumpTarget != ToolTipText)
+                {
+                    strButtonLabel += CstrTooltipIndicator;
                     astrExegeticalHelpNotes.Add(Diff.HtmlDiff(null, ToolTipText, true));
+                }
 
                 ExegeticalHelpNotes.PresentationHtml(null, ref astrExegeticalHelpNotes);
             }

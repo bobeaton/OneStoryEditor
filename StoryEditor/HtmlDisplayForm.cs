@@ -35,7 +35,7 @@ namespace OneStoryProjectEditor
                                                             theSE.StoryProject.ProjSettings.Vernacular.LangName);
             }
             else
-                checkBoxLangVernacular.Visible = false;
+                checkBoxLangVernacular.Checked = checkBoxLangVernacular.Visible = false;
 
             if (theSE.StoryProject.ProjSettings.NationalBT.HasData)
             {
@@ -43,9 +43,11 @@ namespace OneStoryProjectEditor
                                                             theSE.StoryProject.ProjSettings.NationalBT.LangName);
             }
             else
-                checkBoxLangNationalBT.Visible = false;
+                checkBoxLangNationalBT.Checked = checkBoxLangNationalBT.Visible = false;
 
-            checkBoxLangInternationalBT.Visible = theSE.StoryProject.ProjSettings.InternationalBT.HasData;
+            checkBoxLangInternationalBT.Checked = 
+                checkBoxLangInternationalBT.Visible = 
+                theSE.StoryProject.ProjSettings.InternationalBT.HasData;
 
             try
             {
