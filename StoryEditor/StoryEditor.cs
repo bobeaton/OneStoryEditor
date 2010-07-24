@@ -1891,6 +1891,7 @@ namespace OneStoryProjectEditor
                     theCurrentStory.ProjStage.ProjectStage = theNewST.CurrentStage;
                     theCurrentStory.StageTimeStamp = DateTime.Now;
                     SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage, true);
+                    tmLastSync = DateTime.Now - tsBackupTime;   // triggers a repository story when we ask if they want to save
                     Modified = true;
                     break;
                 }
@@ -1957,6 +1958,7 @@ namespace OneStoryProjectEditor
                 }
                 theCurrentStory.ProjStage.ProjectStage = eProposedNextState;  // if we are ready, then go ahead and transition
                 theCurrentStory.StageTimeStamp = DateTime.Now;
+                tmLastSync = DateTime.Now - tsBackupTime;   // triggers a repository story when we ask if they want to save
                 Modified = true;
 
                 // if this new state has special buttons, then set those
