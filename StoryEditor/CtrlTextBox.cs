@@ -17,6 +17,7 @@ namespace OneStoryProjectEditor
         protected ThrowIfNotCorrectEditor _delegateRequiredEditorCheck;
         protected TeamMemberData.UserTypes _eRequiredEditor = TeamMemberData.UserTypes.eUndefined;
 
+        /* old method for MultiLine and 'cn' lines, but it wasn't working well
         public CtrlTextBox(string strName, VerseControl ctrlVerseParent, Font font,
             ResizableControl ctrlParent, StringTransfer stData, string strLabel)
         {
@@ -31,7 +32,7 @@ namespace OneStoryProjectEditor
             _ctrlVerseParent = ctrlVerseParent;
         }
 
-        /* was used by the ConNotes, which are now done differently
+        // was used by the ConNotes, which are now done differently
         public CtrlTextBox(string strName, VerseControl ctrlVerseParent, ResizableControl ctrlParent, StringTransfer stData,
             ThrowIfNotCorrectEditor delegateRequiredEditorCheck, TeamMemberData.UserTypes eRequiredEditor)
         {
@@ -60,6 +61,7 @@ namespace OneStoryProjectEditor
             if (li.DoRtl)
                 RightToLeft = RightToLeft.Yes;
             stData.SetAssociation(this);
+            Size = GetPreferredSize(Size);
             TextChanged += ctrlParent.textBox_TextChanged;
             System.Diagnostics.Debug.Assert(ctrlParent.StageLogic != null);
             _stageLogic = ctrlParent.StageLogic;

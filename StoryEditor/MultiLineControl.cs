@@ -11,7 +11,7 @@ namespace OneStoryProjectEditor
     public partial class MultiLineControl : ResizableControl
     {
         public MultiLineControl(VerseControl ctrlVerse, StoryStageLogic storyStageLogic, 
-            MultipleLineDataConverter aMLDC, Font font, List<string> astrTestors)
+            MultipleLineDataConverter aMLDC, ProjectSettings.LanguageInfo li, List<string> astrTestors)
             : base(storyStageLogic)
         {
             InitializeComponent();
@@ -31,7 +31,7 @@ namespace OneStoryProjectEditor
                 string strUnsGui = aMLDC.MemberIDs[i];
                 System.Diagnostics.Debug.Assert(astrTestors.Contains(strUnsGui));
                 int nTest = astrTestors.IndexOf(strUnsGui) + 1;
-                InitRow(ctrlVerse, aMLDC.LabelTextFormat, font, strRowData, nTest, ref nNumRows);
+                InitRow(ctrlVerse, aMLDC.LabelTextFormat, li, strRowData, nTest, ref nNumRows);
             }
 
             tableLayoutPanel.ResumeLayout(false);
@@ -39,7 +39,7 @@ namespace OneStoryProjectEditor
         }
 
         protected void InitRow(VerseControl ctrlVerse, string strLabelTextFormat, 
-            Font font, StringTransfer strRowData, int nTest, ref int nNumRows)
+            ProjectSettings.LanguageInfo li, StringTransfer strRowData, int nTest, ref int nNumRows)
         {
             Label label = new Label
                               {
@@ -50,8 +50,8 @@ namespace OneStoryProjectEditor
                               };
 
             CtrlTextBox tb = new CtrlTextBox(
-                strLabelTextFormat + CstrSuffixTextBox + nTest, ctrlVerse, font, this, strRowData, 
-                label.Text);
+                strLabelTextFormat + CstrSuffixTextBox + nTest, ctrlVerse, this, strRowData,
+                li, label.Text);
 
             // add the label and tool strip as a new row to the table layout panel
             int nLayoutRow = nNumRows++;

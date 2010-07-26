@@ -82,7 +82,7 @@ namespace OneStoryProjectEditor
                 AnchorsData anAnchorsData = _verseData.Anchors;
                 if (anAnchorsData != null)
                 {
-                    InitAnchors(anAnchorsData, nNumRows, TheSE.StoryProject.ProjSettings.InternationalBT.FontToUse);
+                    InitAnchors(anAnchorsData, nNumRows, TheSE.StoryProject.ProjSettings.InternationalBT);
                     nNumRows++;
                 }
             }
@@ -92,7 +92,7 @@ namespace OneStoryProjectEditor
                 if (_verseData.Retellings.Count > 0)
                 {
                     InitRetellings(_verseData.Retellings, nNumRows, theSE.theCurrentStory.CraftingInfo.Testors,
-                        TheSE.StoryProject.ProjSettings.InternationalBT.FontToUse);
+                        TheSE.StoryProject.ProjSettings.InternationalBT);
                     nNumRows++;
                 }
             }
@@ -128,10 +128,10 @@ namespace OneStoryProjectEditor
             tableLayoutPanel.Controls.Add(aStoryLineCtrl, 0, nLayoutRow);
         }
 
-        protected void InitAnchors(AnchorsData anAnchorsData, int nLayoutRow, Font font)
+        protected void InitAnchors(AnchorsData anAnchorsData, int nLayoutRow, ProjectSettings.LanguageInfo li)
         {
             System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(CstrFieldNameAnchors));
-            AnchorControl anAnchorCtrl = new AnchorControl(this, StageLogic, anAnchorsData, font);
+            AnchorControl anAnchorCtrl = new AnchorControl(this, StageLogic, anAnchorsData, li);
             anAnchorCtrl.Name = CstrFieldNameAnchors;
             anAnchorCtrl.ParentControl = this;
             
@@ -141,11 +141,11 @@ namespace OneStoryProjectEditor
         }
 
         protected void InitRetellings(RetellingsData aRetellingsData, int nLayoutRow,
-            List<string> astrTestors, Font font)
+            List<string> astrTestors, ProjectSettings.LanguageInfo li)
         {
             System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(CstrFieldNameRetellings));
             MultiLineControl aRetellingsCtrl = new MultiLineControl(this, StageLogic, 
-                aRetellingsData, font, astrTestors);
+                aRetellingsData, li, astrTestors);
             aRetellingsCtrl.Name = CstrFieldNameRetellings;
             aRetellingsCtrl.ParentControl = this;
 

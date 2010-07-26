@@ -92,7 +92,7 @@ namespace OneStoryProjectEditor
             {
                 System.Diagnostics.Debug.Assert(theSE.theCurrentStory.CraftingInfo.Testors.Count >= _aTQData.Answers.Count);
                 MultiLineControl aAnswersCtrl = new MultiLineControl(ctrlVerse, StageLogic,
-                    _aTQData.Answers, theSE.StoryProject.ProjSettings.InternationalBT.FontToUse,
+                    _aTQData.Answers, theSE.StoryProject.ProjSettings.InternationalBT,
                     theSE.theCurrentStory.CraftingInfo.Testors);
                 aAnswersCtrl.Name = CstrFieldNameAnswers;
                 aAnswersCtrl.ParentControl = this;

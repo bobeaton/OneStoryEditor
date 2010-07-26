@@ -14,16 +14,16 @@ namespace OneStoryProjectEditor
         protected int m_nNumRows = 1;
         protected VerseControl _ctrlVerse = null;
         protected AnchorsData _myAnchorsData = null;
-        protected Font _font;
+        protected ProjectSettings.LanguageInfo _li;
         protected Dictionary<ToolStripButton, List<TextBox>> _mapAnchorsToTextBoxes = new Dictionary<ToolStripButton, List<TextBox>>();
 
         public AnchorControl(VerseControl ctrlVerse, StoryStageLogic storyStageLogic,
-            AnchorsData anAnchorsData, Font font)
+            AnchorsData anAnchorsData, ProjectSettings.LanguageInfo li)
             : base(storyStageLogic)
         {
             _ctrlVerse = ctrlVerse;
             _myAnchorsData = anAnchorsData;
-            _font = font;
+            _li = li;
             InitializeComponent();
 
             tableLayoutPanel.SuspendLayout();
@@ -39,7 +39,7 @@ namespace OneStoryProjectEditor
                 ToolStripButton theAnchorButton = InitAnchorButton(toolStripAnchors, anAnchorData);
 
                 if (anAnchorData.ExegeticalHelpNotes.Count > 0)
-                    InitExegeticalHelpsRow(ctrlVerse, theAnchorButton, anAnchorData.ExegeticalHelpNotes, ref m_nNumRows);
+                    InitExegeticalHelpsRow(ctrlVerse, theAnchorButton, anAnchorData.ExegeticalHelpNotes, li, ref m_nNumRows);
             }
 
             tableLayoutPanel.ResumeLayout(false);
@@ -72,7 +72,7 @@ namespace OneStoryProjectEditor
 
         void aButton_MouseDown(object sender, MouseEventArgs e)
         {
-            System.Diagnostics.Debug.Assert(sender is ToolStripButton);
+            Debug.Assert(sender is ToolStripButton);
             if (e.Button == MouseButtons.Right)
                 m_theLastButtonClicked = (ToolStripButton)sender;
         }
@@ -102,7 +102,7 @@ namespace OneStoryProjectEditor
         }
 
         protected void SetExegeticalHelpControls(VerseControl ctrlVerse, 
-            ToolStripButton theAnchorButton, Font font, StringTransfer strQuote, ref int nNumRows)
+            ToolStripButton theAnchorButton, ProjectSettings.LanguageInfo li, StringTransfer strQuote, ref int nNumRows)
         {
             int nLayoutRow = nNumRows++;
 
@@ -115,8 +115,8 @@ namespace OneStoryProjectEditor
                                             };
 
             CtrlTextBox tb = new CtrlTextBox(
-                CstrFieldNameExegeticalHelp + nLayoutRow, ctrlVerse, font, this, strQuote,
-                labelExegeticalHelp.Text);
+                CstrFieldNameExegeticalHelp + nLayoutRow, ctrlVerse, this, strQuote,
+                li, labelExegeticalHelp.Text);
 
             // add the label and tool strip as a new row to the table layout panel
             InsertRow(nLayoutRow);
@@ -137,10 +137,10 @@ namespace OneStoryProjectEditor
 
         protected void InitExegeticalHelpsRow(VerseControl ctrlVerse, 
             ToolStripButton theAnchorButton, ExegeticalHelpNotesData anExHelpsNoteData, 
-            ref int nNumRows)
+            ProjectSettings.LanguageInfo li, ref int nNumRows)
         {
             foreach (ExegeticalHelpNoteData anExHelpNoteData in anExHelpsNoteData)
-                SetExegeticalHelpControls(ctrlVerse, theAnchorButton, _font, anExHelpNoteData, ref nNumRows);
+                SetExegeticalHelpControls(ctrlVerse, theAnchorButton, li, anExHelpNoteData, ref nNumRows);
         }
 
         private void toolStripAnchors_DragEnter(object sender, DragEventArgs e)
@@ -271,10 +271,10 @@ namespace OneStoryProjectEditor
                 if (!CheckForProperEditToken(out theSE))
                     return;
 
-                System.Diagnostics.Debug.Assert(m_theLastButtonClicked.Tag is AnchorData);
+                Debug.Assert(m_theLastButtonClicked.Tag is AnchorData);
                 AnchorData theAnchorData = (AnchorData)m_theLastButtonClicked.Tag;
                 ExegeticalHelpNoteData anEHN = theAnchorData.ExegeticalHelpNotes.AddExegeticalHelpNote("Re: " + m_theLastButtonClicked.Text);
-                SetExegeticalHelpControls(_ctrlVerse, m_theLastButtonClicked, _font, anEHN, ref m_nNumRows);
+                SetExegeticalHelpControls(_ctrlVerse, m_theLastButtonClicked, _li, anEHN, ref m_nNumRows);
                 AdjustHeightWithSuspendLayout(null);
                 theSE.Modified = true;
             }
@@ -304,7 +304,7 @@ namespace OneStoryProjectEditor
 
                 if (m_dlgKeyTerms == null)
                 {
-                    System.Diagnostics.Debug.Assert(theSE.StoryProject.ProjSettings.Vernacular.HasData
+                    Debug.Assert(theSE.StoryProject.ProjSettings.Vernacular.HasData
                         || theSE.StoryProject.ProjSettings.NationalBT.HasData
                         || theSE.StoryProject.ProjSettings.InternationalBT.HasData);
 
