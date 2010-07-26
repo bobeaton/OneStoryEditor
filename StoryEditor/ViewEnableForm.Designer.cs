@@ -41,6 +41,7 @@
             this.checkBoxBibleViewer = new System.Windows.Forms.CheckBox();
             this.buttonOK = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
+            this.checkBoxUseForAllStories = new System.Windows.Forms.CheckBox();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -61,7 +62,7 @@
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(13, 13);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(206, 231);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(206, 227);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // checkBoxLangVernacular
@@ -141,7 +142,7 @@
             this.checkBoxCoachNotes.Name = "checkBoxCoachNotes";
             this.checkBoxCoachNotes.Size = new System.Drawing.Size(86, 17);
             this.checkBoxCoachNotes.TabIndex = 7;
-            this.checkBoxCoachNotes.Text = "Coac&h notes";
+            this.checkBoxCoachNotes.Text = "Coach &notes";
             this.checkBoxCoachNotes.UseVisualStyleBackColor = true;
             // 
             // checkBoxBibleViewer
@@ -157,7 +158,7 @@
             // buttonOK
             // 
             this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonOK.Location = new System.Drawing.Point(31, 257);
+            this.buttonOK.Location = new System.Drawing.Point(31, 276);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(75, 23);
             this.buttonOK.TabIndex = 1;
@@ -169,12 +170,22 @@
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(124, 257);
+            this.buttonCancel.Location = new System.Drawing.Point(124, 276);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 2;
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxUseForAllStories
+            // 
+            this.checkBoxUseForAllStories.AutoSize = true;
+            this.checkBoxUseForAllStories.Location = new System.Drawing.Point(16, 246);
+            this.checkBoxUseForAllStories.Name = "checkBoxUseForAllStories";
+            this.checkBoxUseForAllStories.Size = new System.Drawing.Size(174, 17);
+            this.checkBoxUseForAllStories.TabIndex = 8;
+            this.checkBoxUseForAllStories.Text = "&Use these settings for all stories";
+            this.checkBoxUseForAllStories.UseVisualStyleBackColor = true;
             // 
             // ViewEnableForm
             // 
@@ -182,10 +193,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(231, 292);
+            this.ClientSize = new System.Drawing.Size(231, 311);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOK);
             this.Controls.Add(this.flowLayoutPanel1);
+            this.Controls.Add(this.checkBoxUseForAllStories);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -194,6 +206,7 @@
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -211,5 +224,6 @@
         private System.Windows.Forms.CheckBox checkBoxBibleViewer;
         private System.Windows.Forms.Button buttonOK;
         private System.Windows.Forms.Button buttonCancel;
+        private System.Windows.Forms.CheckBox checkBoxUseForAllStories;
     }
 }

@@ -11,8 +11,7 @@ namespace OneStoryProjectEditor
 {
     public partial class ViewEnableForm : Form
     {
-        public ViewEnableForm(StoryEditor theSE, 
-            ProjectSettings projSettings, StoryData theCurrentStory)
+        public ViewEnableForm(ProjectSettings projSettings, StoryData theCurrentStory, bool bUseForAllStories)
         {
             InitializeComponent();
             if (projSettings.Vernacular.HasData)
@@ -58,6 +57,14 @@ namespace OneStoryProjectEditor
 
             checkBoxConsultantNotes.Enabled =
                 checkBoxCoachNotes.Enabled = (theCurrentStory != null);
+
+            checkBoxUseForAllStories.Checked = bUseForAllStories;
+        }
+
+        public bool UseForAllStories
+        {
+            get;
+            set;
         }
 
         public VerseData.ViewItemToInsureOn ItemsToInsureAreOn
@@ -101,6 +108,7 @@ namespace OneStoryProjectEditor
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
+            UseForAllStories = checkBoxUseForAllStories.Checked;
             DialogResult = DialogResult.OK;
             Close();
         }

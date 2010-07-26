@@ -55,6 +55,7 @@ namespace OneStoryProjectEditor
             InitializeComponent();
 
             panoramaToolStripMenuItem.Visible = IsInStoriesSet;
+            useSameSettingsForAllStoriesToolStripMenuItem.Checked = Properties.Settings.Default.LastUseForAllStories;
 
             try
             {
@@ -1325,11 +1326,14 @@ namespace OneStoryProjectEditor
             StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[eStage];
             Debug.Assert(st != null);
 
-            // in case the caller is just about to call InitAllPanes anyway, we don't
-            //  want the screen to thrash, so have the ability to disable the thrashing.
-            _bDisableReInitVerseControls = bDisableReInits;
-            st.SetView(this);
-            _bDisableReInitVerseControls = false;
+            if (!useSameSettingsForAllStoriesToolStripMenuItem.Checked)
+            {
+                // in case the caller is just about to call InitAllPanes anyway, we don't
+                //  want the screen to thrash, so have the ability to disable the thrashing.
+                _bDisableReInitVerseControls = bDisableReInits;
+                st.SetView(this);
+                _bDisableReInitVerseControls = false;
+            }
 
             helpProvider.SetHelpString(this, st.StageInstructions);
             SetStatusBar(String.Format(Properties.Resources.IDS_PressF1ForInstructions, st.StageDisplayString));
@@ -2774,7 +2778,8 @@ namespace OneStoryProjectEditor
 
         private void showHideFieldsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ViewEnableForm dlg = new ViewEnableForm(this, StoryProject.ProjSettings, theCurrentStory);
+            ViewEnableForm dlg = new ViewEnableForm(StoryProject.ProjSettings, theCurrentStory, 
+                useSameSettingsForAllStoriesToolStripMenuItem.Checked);
             dlg.ItemsToInsureAreOn = VerseData.SetItemsToInsureOn(
                 viewVernacularLangFieldMenuItem.Checked,
                 viewNationalLangFieldMenuItem.Checked,
@@ -2788,7 +2793,10 @@ namespace OneStoryProjectEditor
 
             if (dlg.ShowDialog() == DialogResult.OK)
             {
+                // have to turn this off, or these new settings won't work
+                useSameSettingsForAllStoriesToolStripMenuItem.Checked = false;
                 NavigateTo(theCurrentStory.Name, dlg.ItemsToInsureAreOn, true, CtrlTextBox._inTextBox);
+                useSameSettingsForAllStoriesToolStripMenuItem.Checked = dlg.UseForAllStories;
             }
         }
 
@@ -3652,6 +3660,12 @@ namespace OneStoryProjectEditor
                     SetNextState(dlg.NextState, true);
                 }
             }
+        }
+
+        private void useSameSettingsForAllStoriesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.LastUseForAllStories = useSameSettingsForAllStoriesToolStripMenuItem.Checked;
+            Properties.Settings.Default.Save();
         }
     }
 }

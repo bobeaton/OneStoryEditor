@@ -439,5 +439,17 @@ namespace OneStoryProjectEditor.Properties {
                 this["UpgradeSettings"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool LastUseForAllStories {
+            get {
+                return ((bool)(this["LastUseForAllStories"]));
+            }
+            set {
+                this["LastUseForAllStories"] = value;
+            }
+        }
     }
 }
