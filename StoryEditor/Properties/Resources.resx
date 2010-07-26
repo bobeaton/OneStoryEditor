@@ -1357,7 +1357,7 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
     <value>Are you sure you want to delete the {0}?</value>
   </data>
   <data name="IDS_UseStoryCollapse" xml:space="preserve">
-    <value>Verse number '{0}' has multiple sentences in the {1} column. Use the "Story" menu, "Collapse into 1 line" command in combination with the "Story" menu, "Split into Lines" command to correctly break the story and back-translations into lines</value>
+    <value>Verse number '{0}' has multiple sentences in the {1} column. Use the "Story" menu, "Collapse into 1 line" command followed by the "Split into Lines" command to break the story (and any back-translations) into lines based on sentence final punctuation (see "Project", "Settings" and any of the "Language" tabs to configure sentence final punctuation). The command "Story", "Re-align story lines" can also be used, which calls both of the above commands in one click</value>
   </data>
   <data name="IDS_NoProjectFromInternet" xml:space="preserve">
     <value>No project file was found at the internet repository: {0}{0}{1}{0}{0}Are you sure it there is one in the repository yet?</value>

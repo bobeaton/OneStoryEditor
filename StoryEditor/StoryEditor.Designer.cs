@@ -742,7 +742,7 @@ namespace OneStoryProjectEditor
             // enterTheReasonThisStoryIsInTheSetToolStripMenuItem
             // 
             this.enterTheReasonThisStoryIsInTheSetToolStripMenuItem.Name = "enterTheReasonThisStoryIsInTheSetToolStripMenuItem";
-            this.enterTheReasonThisStoryIsInTheSetToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.enterTheReasonThisStoryIsInTheSetToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
             this.enterTheReasonThisStoryIsInTheSetToolStripMenuItem.Text = "S&tory Information";
             this.enterTheReasonThisStoryIsInTheSetToolStripMenuItem.ToolTipText = "Enter information about this story, such as the reason it\'s in the set, the resou" +
                 "rces used, etc.";
@@ -751,7 +751,7 @@ namespace OneStoryProjectEditor
             // deleteStoryToolStripMenuItem
             // 
             this.deleteStoryToolStripMenuItem.Name = "deleteStoryToolStripMenuItem";
-            this.deleteStoryToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.deleteStoryToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
             this.deleteStoryToolStripMenuItem.Text = "&Delete story";
             this.deleteStoryToolStripMenuItem.ToolTipText = "Click to delete the story currently shown";
             this.deleteStoryToolStripMenuItem.Click += new System.EventHandler(this.deleteStoryToolStripMenuItem_Click);
@@ -759,7 +759,7 @@ namespace OneStoryProjectEditor
             // storyCopyWithNewNameToolStripMenuItem
             // 
             this.storyCopyWithNewNameToolStripMenuItem.Name = "storyCopyWithNewNameToolStripMenuItem";
-            this.storyCopyWithNewNameToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.storyCopyWithNewNameToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
             this.storyCopyWithNewNameToolStripMenuItem.Text = "&Copy with new name";
             this.storyCopyWithNewNameToolStripMenuItem.ToolTipText = "Click to make a duplicate copy of the current story with a new name";
             this.storyCopyWithNewNameToolStripMenuItem.Click += new System.EventHandler(this.storyCopyWithNewNameToolStripMenuItem_Click);
@@ -767,7 +767,7 @@ namespace OneStoryProjectEditor
             // splitIntoLinesToolStripMenuItem
             // 
             this.splitIntoLinesToolStripMenuItem.Name = "splitIntoLinesToolStripMenuItem";
-            this.splitIntoLinesToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.splitIntoLinesToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
             this.splitIntoLinesToolStripMenuItem.Text = "S&plit into Lines";
             this.splitIntoLinesToolStripMenuItem.Click += new System.EventHandler(this.splitIntoLinesToolStripMenuItem_Click);
             // 
@@ -775,8 +775,8 @@ namespace OneStoryProjectEditor
             // 
             this.realignStoryVersesToolStripMenuItem.Name = "realignStoryVersesToolStripMenuItem";
             this.realignStoryVersesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F5)));
-            this.realignStoryVersesToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
-            this.realignStoryVersesToolStripMenuItem.Text = "&Re-align story verses";
+            this.realignStoryVersesToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
+            this.realignStoryVersesToolStripMenuItem.Text = "&Re-align story lines";
             this.realignStoryVersesToolStripMenuItem.Click += new System.EventHandler(this.realignStoryVersesToolStripMenuItem_Click);
             // 
             // panoramaToolStripMenuItem

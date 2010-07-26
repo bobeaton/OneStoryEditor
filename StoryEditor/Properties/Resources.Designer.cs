@@ -761,7 +761,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Verse number &apos;{0}&apos; has multiple sentences in the {1} column. Use the &quot;Story&quot; menu, &quot;Collapse into 1 line&quot; command in combination with the &quot;Story&quot; menu, &quot;Split into Lines&quot; command to correctly break the story and back-translations into lines.
+        ///   Looks up a localized string similar to Verse number &apos;{0}&apos; has multiple sentences in the {1} column. Use the &quot;Story&quot; menu, &quot;Collapse into 1 line&quot; command followed by the &quot;Split into Lines&quot; command to break the story (and any back-translations) into lines based on sentence final punctuation (see &quot;Project&quot;, &quot;Settings&quot; and any of the &quot;Language&quot; tabs to configure sentence final punctuation). The command &quot;Story&quot;, &quot;Re-align story lines&quot; can also be used, which calls both of the above commands in one click.
         /// </summary>
         internal static string IDS_UseStoryCollapse {
             get {

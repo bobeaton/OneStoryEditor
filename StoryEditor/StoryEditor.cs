@@ -1326,8 +1326,19 @@ namespace OneStoryProjectEditor
             StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[eStage];
             Debug.Assert(st != null);
 
-            if (!useSameSettingsForAllStoriesToolStripMenuItem.Checked)
+            // see if we're supposed to use the same settings as always... 
+            //  but not for PFs who are in the early stages
+            bool bProjFacInEarlyState = (((int)eStage <= (int)StoryStageLogic.ProjectStages.eProjFacAddStoryQuestions)
+                &&  (LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator));
+
+            if (!useSameSettingsForAllStoriesToolStripMenuItem.Checked
+                || bProjFacInEarlyState)
             {
+                // if we are overriding the value because of a PF in the early state, then
+                //  clear the flag so it doesn't continue thru the states.
+                if (bProjFacInEarlyState)
+                    useSameSettingsForAllStoriesToolStripMenuItem.Checked = false;
+
                 // in case the caller is just about to call InitAllPanes anyway, we don't
                 //  want the screen to thrash, so have the ability to disable the thrashing.
                 _bDisableReInitVerseControls = bDisableReInits;
@@ -1947,13 +1958,13 @@ namespace OneStoryProjectEditor
                 return false;
 
             StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[theCurrentStory.ProjStage.ProjectStage];
-            StoryStageLogic.ProjectStages eProposedNextState = stateToSet;
-            bool bRet = st.IsReadyForTransition(this, StoryProject, theCurrentStory, ref eProposedNextState);
+            bool bRet = st.IsReadyForTransition(this, StoryProject, theCurrentStory);
             if (bRet)
             {
-                StoryStageLogic.StateTransition stNext = StoryStageLogic.stateTransitions[eProposedNextState];
+                StoryStageLogic.ProjectStages eNextState = stateToSet;
+                StoryStageLogic.StateTransition stNext = StoryStageLogic.stateTransitions[eNextState];
                 bool bReqSave = false;
-                if (theCurrentStory.ProjStage.IsTerminalTransition(eProposedNextState))
+                if (theCurrentStory.ProjStage.IsTerminalTransition(eNextState))
                 {
                     if (MessageBox.Show(
                             String.Format(Properties.Resources.IDS_TerminalTransitionMessage,
@@ -1963,7 +1974,7 @@ namespace OneStoryProjectEditor
                         return false;
                     bReqSave = true;  // request a save if we've just done a terminal transition
                 }
-                theCurrentStory.ProjStage.ProjectStage = eProposedNextState;  // if we are ready, then go ahead and transition
+                theCurrentStory.ProjStage.ProjectStage = eNextState;  // if we are ready, then go ahead and transition
                 theCurrentStory.StageTimeStamp = DateTime.Now;
                 tmLastSync = DateTime.Now - tsBackupTime;   // triggers a repository story when we ask if they want to save
                 Modified = true;
@@ -2811,7 +2822,7 @@ namespace OneStoryProjectEditor
                 if (StoryProject.ProjSettings.Vernacular.HasData)
                     viewVernacularLangFieldMenuItem.Text = String.Format(Properties.Resources.IDS_LanguageFields, StoryProject.ProjSettings.Vernacular.LangName);
                 else
-                    viewVernacularLangFieldMenuItem.Visible = false;
+                    viewVernacularLangFieldMenuItem.Checked = viewVernacularLangFieldMenuItem.Visible = false;
 
                 if (StoryProject.ProjSettings.NationalBT.HasData)
                 {
@@ -2823,13 +2834,14 @@ namespace OneStoryProjectEditor
                                                                  >= (int)StoryStageLogic.ProjectStages.eProjFacTypeNationalBT));
                 }
                 else
-                    viewNationalLangFieldMenuItem.Visible = false;
+                    viewNationalLangFieldMenuItem.Checked = viewNationalLangFieldMenuItem.Visible = false;
 
-                viewEnglishBTFieldMenuItem.Visible = (StoryProject.ProjSettings.InternationalBT.HasData);
                 viewEnglishBTFieldMenuItem.Enabled = ((theCurrentStory != null)
                                                              && (((int)theCurrentStory.ProjStage.ProjectStage)
                                                                  >= (int)StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT));
 
+                viewEnglishBTFieldMenuItem.Checked = viewEnglishBTFieldMenuItem.Visible = (StoryProject.ProjSettings.InternationalBT.HasData);
+                
                 viewAnchorFieldMenuItem.Enabled = ((theCurrentStory != null)
                                                              && (((int)theCurrentStory.ProjStage.ProjectStage)
                                                                  >= (int)StoryStageLogic.ProjectStages.eProjFacAddAnchors));
