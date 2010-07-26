@@ -2785,6 +2785,13 @@ namespace OneStoryProjectEditor
                     && (StoryProject.ProjSettings != null)
                     && (theCurrentStory != null)
                     && (theCurrentStory.Verses.Count > 0));
+
+            if ((StoryProject != null) && (StoryProject.ProjSettings != null))
+            {
+                viewVernacularLangFieldMenuItem.Visible = StoryProject.ProjSettings.Vernacular.HasData;
+                viewNationalLangFieldMenuItem.Visible = StoryProject.ProjSettings.NationalBT.HasData;
+                viewEnglishBTFieldMenuItem.Visible = StoryProject.ProjSettings.InternationalBT.HasData;
+            }
         }
 
         private void showHideFieldsToolStripMenuItem_Click(object sender, EventArgs e)
