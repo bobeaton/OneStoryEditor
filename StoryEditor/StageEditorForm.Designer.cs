@@ -59,6 +59,7 @@
             this.dataGridViewStates.RowHeadersVisible = false;
             this.dataGridViewStates.Size = new System.Drawing.Size(867, 326);
             this.dataGridViewStates.TabIndex = 1;
+            this.dataGridViewStates.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.dataGridViewStates_PreviewKeyDown);
             this.dataGridViewStates.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewStates_CellContentClick);
             // 
             // ColumnProjectFacilitatorStages

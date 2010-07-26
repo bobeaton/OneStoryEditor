@@ -139,6 +139,9 @@ namespace OneStoryProjectEditor
                     || (stateTransition.RequiresUsingVernacular && !_storyProjectData.ProjSettings.Vernacular.HasData)
                     || (stateTransition.RequiresUsingNationalBT && !_storyProjectData.ProjSettings.NationalBT.HasData)
                     || (stateTransition.RequiresUsingEnglishBT && !_storyProjectData.ProjSettings.InternationalBT.HasData)
+                    || (stateTransition.HasUsingOtherEnglishBTer &&
+                        (stateTransition.RequiresUsingOtherEnglishBTer != _storyProjectData.TeamMembers.HasOutsideEnglishBTer))
+                    || (stateTransition.RequiresFirstPassMentor && !_storyProjectData.TeamMembers.HasFirstPassMentor)
                     )
                     continue;
 
@@ -183,7 +186,8 @@ namespace OneStoryProjectEditor
             int nIndex = dataGridViewStates.Rows.Add();
             var dgb = dataGridViewStates.Rows[nIndex].Cells[strColumnName] as DataGridViewButtonCell;
             dgb.Value = stateTransition.StageDisplayString;
-            dgb.ToolTipText = stateTransition.StageInstructions;
+            dgb.ToolTipText = String.Format("{1}:{0}{2}",
+                Environment.NewLine, stateTransition.StageDisplayString, stateTransition.StageInstructions);
             _mapStatesToButtons.Add(stateTransition.CurrentStage, dgb);
         }
 
@@ -222,6 +226,15 @@ namespace OneStoryProjectEditor
             {
                 NextState = st.CurrentStage;
                 DialogResult = DialogResult.OK;
+                Close();
+            }
+        }
+
+        private void dataGridViewStates_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                NextState = StoryStageLogic.ProjectStages.eUndefined;
                 Close();
             }
         }

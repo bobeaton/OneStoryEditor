@@ -282,6 +282,15 @@ namespace OneStoryProjectEditor
                         bool bRequiresUsingEnglishBT =
                             (xpStageTransition.Current.GetAttribute("RequiresUsingEnglishBT", navigator.NamespaceURI) ==
                              "true");
+
+                        string strRequiresUsingOtherEnglishBTer = xpStageTransition.Current.GetAttribute("RequiresUsingOtherEnglishBTer", 
+                            navigator.NamespaceURI);
+                        bool bHasUsingOtherEnglishBTer = !String.IsNullOrEmpty(strRequiresUsingOtherEnglishBTer);
+                        bool bRequiresUsingOtherEnglishBTer = (strRequiresUsingOtherEnglishBTer == "true");
+                        
+                        bool bRequiresFirstPassMentor =
+                            (xpStageTransition.Current.GetAttribute("RequiresFirstPassMentor", navigator.NamespaceURI) ==
+                             "true");
                         bool bRequiresBiblicalStory =
                             (xpStageTransition.Current.GetAttribute("RequiresBiblicalStory", navigator.NamespaceURI) ==
                              "true");
@@ -350,6 +359,9 @@ namespace OneStoryProjectEditor
                                 RequiresUsingVernacular = bRequiresUsingVernacular,
                                 RequiresUsingNationalBT = bRequiresUsingNationalBT,
                                 RequiresUsingEnglishBT = bRequiresUsingEnglishBT,
+                                HasUsingOtherEnglishBTer = bHasUsingOtherEnglishBTer,
+                                RequiresUsingOtherEnglishBTer = bRequiresUsingOtherEnglishBTer,
+                                RequiresFirstPassMentor = bRequiresFirstPassMentor,
                                 RequiresBiblicalStory = bRequiresBiblicalStory,
                                 RequiresNonBiblicalStory = bRequiresNonBiblicalStory,
                                 RequiresManageWithCoaching = bRequiresManageWithCoaching
@@ -494,6 +506,9 @@ namespace OneStoryProjectEditor
             internal bool RequiresUsingVernacular { get; set; }
             internal bool RequiresUsingNationalBT { get; set; }
             internal bool RequiresUsingEnglishBT { get; set; }
+            internal bool HasUsingOtherEnglishBTer { get; set; }
+            internal bool RequiresUsingOtherEnglishBTer { get; set; }
+            internal bool RequiresFirstPassMentor { get; set; }
             internal bool RequiresBiblicalStory { get; set; }
             internal bool RequiresNonBiblicalStory { get; set; }
             internal bool RequiresManageWithCoaching { get; set; }
