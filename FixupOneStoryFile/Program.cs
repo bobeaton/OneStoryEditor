@@ -63,16 +63,16 @@ namespace FixupOneStoryFile
 
         static readonly Dictionary<string, string> mapStageNameFixups = new Dictionary<string, string>
         {
-            { "ConsultantReviseRound2Notes", "ConsultantCauseRevisionAfterUnsTest" },
-            { "BackTranslatorTranslateConNotes2", "BackTranslatorTranslateConNotesAfterUnsTest" },
+            { "ConsultantReviseRound2Notes", "ConsultantReviseRound1Notes" },
+            { "BackTranslatorTranslateConNotes2", "BackTranslatorTranslateConNotes" },
             { "ProjFacReviseBasedOnRound2Notes", "ProjFacReviseBasedOnRound1Notes" },
             { "ProjFacOnlineReview2WithConsultant", "ProjFacOnlineReview1WithConsultant" },
             { "ProjFacReadyForTest2", "ProjFacReadyForTest1" },
             { "ProjFacEnterRetellingOfTest2", "ProjFacEnterRetellingOfTest1" },
             { "ProjFacEnterAnswersToStoryQuestionsOfTest2", "ProjFacEnterAnswersToStoryQuestionsOfTest1" },
-            { "BackTranslatorTypeInternationalBTTest2", "BackTranslatorTranslateConNotesAfterUnsTest" },
+            { "BackTranslatorTypeInternationalBTTest2", "BackTranslatorTypeInternationalBTTest1" },
             { "FirstPassMentorReviewTest2", "FirstPassMentorCheck2" },
-            { "ConsultantReviewTest2", "ConsultantCauseRevisionAfterUnsTest" },
+            { "ConsultantReviewTest2", "ConsultantCheck2" },
             { "CoachReviewTest2Notes", "CoachReviewRound2Notes" }
         };
 

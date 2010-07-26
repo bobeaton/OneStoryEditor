@@ -393,11 +393,12 @@ pane and send it back to the Project Facilitator for revision (i.e. before spend
 checking it further and/or passing it along to the Consultant). To send it back to the Project 
 Facilitator for such changes, click the "Select State" button and choose the previous (red) state 
 'Project Facilitator revises the story before returning it to the Consultant'. Then close the editor 
-and the file will be uploaded to the internet where it can be downloaded by the project facilitator
-for changes.
+(or reload the project file -- i.e. "Project", "Recent Projects", "{project name}") and the 
+project file will be uploaded to the internet where it can be downloaded by the project facilitator
+to work on changes.
 
-Otherwise, when you are finished reviewing the Story and putting any consultant notes you have in
-the 'Consultant Notes' pane, then click the "Select State" button to move to the next (green) state.
+Otherwise, when you are finished reviewing the Story and adding consultant notes in the 'Consultant 
+Notes' pane, then click the "Select State" button to move to the next (green) state.
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition>eConsultantCheckStoryInfo</AllowableTransition>
@@ -426,13 +427,14 @@ If there are major problems with the flow and/or thematic focus (e.g. it's too l
 really support the purpose mentioned), you can add a few consultant notes in the 'cons:' fields 
 in the 'Consultant Notes' pane and send it back to the Project Facilitator for revision (i.e. 
 before spending a lot of time checking it further). To send it back to the Project Facilitator 
-for such revisions, click on the small downward arrow to the right-hand side of the 'Next Stage' 
-button in the lower left corner of the screen. This will bring up a pop-up list of the previous 
-stages. Just select the previous stage to go back to and then upload the file (happens 
-automatically when you exit the editor).
+for such revisions, click the "Select State" button and choose the previous (red) state 'Project 
+Facilitator revises the story before returning it to the Consultant'. Then close the editor (or 
+reload the project file -- i.e. "Project", "Recent Projects", "{project name}") and the project 
+file will be uploaded to the internet where it can be downloaded by the project facilitator to 
+work on changes.
 
-Otherwise, when you are finished reviewing the Story Information, then click the 'Next Stage' 
-button in the left-hand side of the status bar to go to the next stage in the process.
+Otherwise, when you are finished reviewing the Story Information, then click the "Select State" 
+button to move to the next (green) state.
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition>eConsultantCheckAnchors</AllowableTransition>
@@ -451,13 +453,14 @@ button in the left-hand side of the status bar to go to the next stage in the pr
   <StateTransition stage="eConsultantCheckAnchors" MemberTypeWithEditToken="eConsultantInTraining" RequiresBiblicalStory="true">
     <StageDisplayString>Consultant checks the story anchors (pre-UNS test)</StageDisplayString>
     <StageInstructions>
-In this stage, you (the consultant) need to check the anchors added by the crafter(s) for each verse of the story.
+In this stage, you (the consultant) will check the anchors added by the project facilitator for each line of the 
+story.
 
-The anchors shown in the Story pane are actually buttons, which if you click, will jump to the passage in the 
-Bible pane. You need to make sure that all the information in each story line is covered by the anchored verse(s). 
-If the story verse has information which is not in the anchored passages, it's okay for you to add further anchors 
-if you can think of a scripture passage which supports what the story crafter is trying say (or add a consultant 
-note for the crafter to look up the passage and add the anchor themselves).
+The anchors shown in the Story pane are actually buttons. If you click on one, it will jump to the referenced 
+passage in the Bible pane. You need to make sure that all the information in each story line is covered by the 
+anchored verse(s). If the story line has information which is not in the anchored passages, it's okay for you 
+to add further anchors if you can think of a scripture passage which supports what the story crafter is trying 
+say (or add a consultant note for the project facilitator to look up the passage and add the anchor themselves).
 
 As you evaluate whether the story verse is a valid interpretation of the anchored verses, in addition to the 
 text in the Bible pane, it is recommended that you look in Translator's Workplace exegetical resources. If you 
@@ -469,8 +472,14 @@ and paste it into an exegetical comment line (right-click on an anchor button in
 As you look up passages in the Bible pane, you can right-click on the book name combo box to move to other books 
 in the Bible or click the up/down arrows to shift to the next/previous verse, chapter or book.
 
-When you are finished checking all the anchors, then click the 'Next Stage' button in the left-hand side of the 
-status bar to go to the next stage in the process.
+Just as you can "drag/drop" the anchor buttons from the Bible pane to the Anchor bar in the Story pane of the 
+editor, you can also drag/drop anchor buttons to a red-outlined (editable) box in the Consultant Notes pane as 
+well. This will copy the Bible reference into your consultant note and then when the project facilitator sees 
+that reference in the Consultant Note, it will be displayed as a hyperlink so that they can just click on it to 
+jump to it from the Consultant Notes pane as well.
+
+When you are finished checking all the anchors, then click the "Select State" button to move to the next (green) 
+state.
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition>eConsultantCheckStoryQuestions</AllowableTransition>
@@ -489,7 +498,8 @@ status bar to go to the next stage in the process.
   <StateTransition stage="eConsultantCheckStoryQuestions" MemberTypeWithEditToken="eConsultantInTraining" RequiresBiblicalStory="true">
     <StageDisplayString>Consultant checks the story testing questions (pre-UNS test)</StageDisplayString>
     <StageInstructions>
-In this stage, you (the consultant) need to check the story testing questions added by the crafter(s).
+In this stage, you (the consultant) need to check the story testing questions added by the project
+facilitator.
 
 As you consider the story testing questions (STQs), keep in mind that their function is to test the 
 implications of the story. The best kind of STQ are those that invite the UNS to speculate on "Why" 
@@ -506,6 +516,10 @@ be answered from the story itself (e.g. if the story line was, "Jesus and three 
 went up on a hill..." Then it wouldn't be as useful to ask questions like, "How many disciples went 
 up on the hill with Jesus?" or "Where did Jesus go?" Such questions are known as "closed questions",
 because the answer is in the story itself, and they do not make good questions for testing the story.
+However, such questions can be useful if the story itself is ambiguous. For example, if the story 
+line were, "He said to Eve...", since there are two possible referents of 'He' (the snake and Adam), 
+you could ask "Who do you think said this to Eve?" to make sure that the UNS understood the correct 
+reference.
 
 Also, story testing questions shouldn’t be "yes-no" questions (questions for which the answer is either 
 "yes" or "no"). For example, a question like, "Did Joseph reveal himself to his brothers before they 
@@ -524,17 +538,17 @@ For example, a question like, "In your opinion can a person stay in a cattle she
 of what answer the UNS gives.
 
 If you feel that any particular question is not a good question, then add a note to the Consultant Note
-pane for that line recommending that the Crafting team make a change to the question. It is important
-to indicate why the question is not a good one so that they can learn what our goal is in asking the
-questions. And also, be sure to offer an alternative suggestion.
+pane for that line recommending that the project facilitator make a change to the question. It is 
+important to indicate why the question is not a good one so that they can learn what our goal is in asking 
+the questions. And also, be sure to offer an alternative suggestion.
 
-When you are finished adding these testing questions, then click the 'Next Stage' button in the left-hand 
-side of the status bar to go to the next stage in the process. In the next state, the Coach will evaluate 
-your feedback and possibly put comments in the Coach Notes pane, which you will respond to before your 
-feedback goes back to the Crafting team. If you have a question about your feedback prior to passing your 
-comments on to the coach, you can add a question to the Coach Notes pane ("View" menu, "Coach notes field" 
-command) by right-clicking on the small button to the right-hand side of the appropriate line number and 
-choose "Add Note".
+When you are finished adding these testing questions, then click the "Select State" button to move to the 
+next (green) state. If this project is configured for 'Consultant-in-Training with Coaching' (see "Project",
+"Settings" and on the "Team Members" tab), then the next state will be for your Coach to evaluate your 
+feedback and possibly put comments in the Coach Notes pane. If you have a question about your feedback prior 
+to passing your comments on to the coach, you can add a question to the Coach Notes pane directly (click 
+"View" menu, "Coach notes field" command to display the Coach Notes pane if it isn't visible). Then click 
+the "Add Note" button to add a note (at the relevant line).
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition RequiresManageWithCoaching="true">eCoachReviewRound1Notes</AllowableTransition>
@@ -554,21 +568,19 @@ choose "Add Note".
     <StageDisplayString>Consultant revises feedback based on Coach feedback (going backwards prior to UNS testing)</StageDisplayString>
     <StageInstructions>
 In this stage, you (the consultant) will go through the feedback given by the coach in the Coach Notes
-pane and, if necessary, modify or add to your feedback to the crafting team.
+pane and, if necessary, modify or add to your feedback to the project facilitator.
 
 For each comment by the coach (the comments in the "coch:" lines in the Coach Notes pane), you should
 give some response to close the loop on the conversation (even just "done" is fine). If you have further
 questions, it's okay to ask for clarification in another line.
 
-You can add another line for additional comments by right-clicking on the small button and choosing
-"Add Note" if one is not already visible.
+You can add another line for additional questions/comments by clicking the "Add Note" button if needed.
 
-If in this state, it is likely because the Coach is not satisfied with something about the story, which
-will require the Project Facilitator and Crafter to revise the story (before doing a UNS test). So when
-you are finished, you probably want to go back to a previous state (e.g. 'Project Facilitator revises the 
-story (before UNS test)') for the Project Facilitator/Crafter to revise/correct the story. So you will 
-want to click the 'Send back for revision' button (in the left-hand side of the status bar) or choose one 
-of the previous states.
+If you are in this state, it is likely because the Coach was not satisfied with something about the story, 
+which will require the Project Facilitator and Crafter to correct the story (before going on to do a UNS 
+test). So when you are finished updating your feedback, click the 'Select State' button and you will want 
+to go back to a previous (red) state (e.g. 'Project Facilitator revises the story (before UNS test)') for 
+the Project Facilitator/Crafter to correct the story.
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition>eCoachReviewRound1Notes</AllowableTransition>
@@ -583,19 +595,23 @@ of the previous states.
   <StateTransition stage="eCoachReviewRound1Notes" MemberTypeWithEditToken="eCoach" RequiresBiblicalStory="true" RequiresManageWithCoaching="true">
     <StageDisplayString>Coach reviews story/CIT feedback (pre-UNS testing)</StageDisplayString>
     <StageInstructions>
-In this stage, you (the coach) will check the consultant notes added by the consultant-in-training 
-(and possibly the first-pass mentor) in the Consultant Notes pane. Any feedback you have can be put into 
-a note in the "Coach Notes" pane. You can click on the "Add Note" button to create a box for entering a 
-comment, which will be labeled, "coch:"
+In this stage, you (the coach) will check the story and the consultant notes added by the 
+consultant-in-training (and possibly the first-pass mentor) in the Consultant Notes pane. 
+Any feedback you have can be put into a note in the "Coach Notes" pane. Click on the "Add 
+Note" button to create a box for entering a comment, which will be labeled, "coch:"
 
-If you are satisfied that the story is ready for a UNS test (after your feedback is processed), then 
-click the 'Send forward for UNS test' button, which will put it in the CIT's state to process your 
-feedback before sending it on to the Project Facilitator to make final revisions before the UNS test.
+If you are satisfied that the story is ready for a UNS test (after your feedback is 
+processed), then click the 'Select State' button and choose the forward (green) state 
+button for the 'Consultant revises pre-UNS test notes based on Coach's feedback' state. 
+This will put the story into the CIT's state to process your feedback before sending it on 
+to the Project Facilitator to make final revisions before the UNS test.
 
-If you would like the story or testing questions revised AND you want to see the new version of the
-story before allowing it to go on for a UNS test, then click the 'Send back for revision' button. This
-will send it back to the CIT who will update his/her comments before sending it back to the team for
-revisions/corrections. Eventually then, you will see it again before the UNS test is done.
+If you would like the story or testing questions revised AND you want to see the new version 
+of the story before allowing it to go on for a UNS test, then click the 'Select State' button 
+and choose the previous (red) state button for the 'Consultant revises feedback based on Coach 
+feedback (going backwards prior to UNS testing)' state. This will send the story back to the 
+CIT who will update his/her comments before sending it backwards to the team for revisions/
+corrections. Eventually then, you will see the story again before the UNS test is done.
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition>eConsultantReviseRound1Notes</AllowableTransition>
@@ -606,7 +622,7 @@ revisions/corrections. Eventually then, you will see it again before the UNS tes
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="false" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eConsultantReviseRound1Notes" MemberTypeWithEditToken="eConsultantInTraining" RequiresBiblicalStory="true" RequiresManageWithCoaching="true">
-    <StageDisplayString>Consultant revises pre-UNS test notes based on Coach's feedback</StageDisplayString>
+    <StageDisplayString>Consultant revises notes based on Coach's feedback</StageDisplayString>
     <StageInstructions>
 In this stage, you (the consultant) will go through the feedback given by the coach in the Coach Notes
 pane and, if necessary, modify or add to your feedback to the crafting team.
@@ -615,11 +631,9 @@ For each comment by the coach (the comments in the "coch:" lines in the Coach No
 give some response to close the loop on the conversation (even just "done" is fine). If you have further
 questions, it's okay to ask for clarification in another line.
 
-You can add another line for additional comments by right-clicking on the small button and choosing
-"Add Note" if one is not already visible.
+You can add another line for additional comments by clicking on the "Add Note" button if needed.
 
-When you are finished, then click the 'Next Stage' button in the left-hand side of the status bar to go 
-to the next stage in the process.
+When you are finished, then click the "Select State" button to move to the next (green) state.
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotes</AllowableTransition>
@@ -640,8 +654,7 @@ team.
 You can just type the translation into the same box as the original consultant note, though you'll have
 to manually turn on the proper keyboard as needed.
 
-When you are finished, then click the 'Next Stage' button in the left-hand side of the status bar to go 
-to the next stage in the process.
+When you are finished, then click the "Select State" button to move to the next (green) state.
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition>eProjFacReviseBasedOnRound1Notes</AllowableTransition>
@@ -658,34 +671,34 @@ to the next stage in the process.
 In this stage, you (the project facilitator) will go through the feedback given by the consultant in the Consultant 
 Notes pane and revise your story accordingly. 
 
-[Before making any changes, however, it is recommended that you keep a copy of the older version of the story so that 
-that consultant or others can see what changes were made. To make a copy, click the 'Panorama' menu, 'Show' command 
-to launch the Panorama View window. Then select the story you want to make a copy of and click the 3rd button own on 
-the right-hand side whose tooltip says, "Copy the selected story to the "Old Stories" list..." This will make a copy 
-of the story in the "Old Stories" list and you can refer to the older version of the story by using the 'View' menu, 
-'Old Stories' drop down list.]
-
 As you process the consultant's comments, decide on the appropriate change for each comment and if it's a small change, 
-you can simply record just that changed part and splice the new recording over the old one in the original story 
-recording. It's okay that this will create an odd sounding recording with portions from different recording sessions. 
+you can record just that changed part and splice the new recording over the old one in the original story recording. 
+It's okay that this will create an odd sounding recording with portions from different recording sessions. 
 
 For example, suppose that the back-translation of your story says that some character in the Bible story said something 
 which they didn't really say--something which is not anchorable. And the consultant points out that the person really 
-said something else instead. Then you would make a recording of the something else (revised) version and overwrite the 
+said something else instead. Then you would make a recording of the something else (corrected) version and overwrite the 
 quote from the original recording.
 
 If you make your revisions/corrections in this manner (i.e. splicing the revisions in the old recording), then you can 
 also update the story line text boxes with the change as well as the national language and English back-translations. 
 But remember, the *change* is to the story *recording*; not the back-translations. The documentation of the story and 
-its back-translations are just reflections of the change to the story recording which is the ultimate product.
+its back-translations are just reflections of the change to the story recording.
 
-For each comment by the consultant (in the 'cons:' field of the 'Consultant Notes' pane), you should type in some 
-response in the boxes labeled 'prfc:' (for Project Facilitator) to close the loop on the conversation (even just "done" 
-is fine). If you have further questions, it's okay to ask for clarification in another line. You can add another line 
-for additional comments by right-clicking on the small button and choosing "Add Note" if one is not already visible.
+For more significant changes, discuss each of them with the crafter and get them to retell the whole story with the
+requested changes. The crafter should avoid looking at the documentation while you discuss the changes with them, so 
+it doesn't prejudice them towards a particular way of saying it. Your job as project facilitator is to make sure the 
+requested changes make it into the crafter's new version of the story. If they leave out one of the requested changes,
+then have them retell it again (or splice in the missing piece). This might take several iterations to get all of the 
+requested changes.
 
-When you are finished, then click the 'Next Stage' button in the left-hand side of the status bar to go to the next 
-stage in the process.
+In addition to updating the story documentation for the new version, you should also type in some response to each of
+the comments by the consultant (i.e. the 'cons:' fields from the 'Consultant Notes' pane). Your responses will go in
+the boxes labeled 'prfc:' (for Project Facilitator) to close the loop on the conversation (even just "done" is fine). 
+If you have further questions, it's okay to ask for clarification in another line. You can add another line for 
+additional comments by clicking the "Add Note" button if needed.
+
+When you are finished, then click the "Select State" button to move to the next (green) state.
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition>eProjFacOnlineReview1WithConsultant</AllowableTransition>
@@ -701,15 +714,15 @@ stage in the process.
   <StateTransition stage="eProjFacOnlineReview1WithConsultant" MemberTypeWithEditToken="eProjectFacilitator" RequiresBiblicalStory="true">
     <StageDisplayString>Project Facilitator has optional online review with consultant</StageDisplayString>
     <StageInstructions>
-In this stage, you (the Project Facilitator) will arrange a time to get online at the same time as the 
+In this stage, you (the Project Facilitator) can arrange a time to get online at the same time as the 
 consultant so that you can discuss the feedback he or she gave. If your team has a First Pass Mentor, 
 that person should also be involved in this discussion so they can learn as well. Finally, if the team
-itself is a team that doesn't know English, it might also be necessary to have the person on your team 
-who does the English Back-translation also be present on-line, so that he or she can translate between 
-the team and the consultant.
+and the consultant don't share a common language, it might also be necessary to have the person who 
+does the English Back-translation be present on-line as well to translate between the team and the 
+consultant.
 
-Once all of the issues and their resolutions are discussed, you can transition to the next state during
-which you will do your first (formal) UNS test. 
+Once all of the issues and their resolutions are discussed, then click the "Select State" button to move
+to the next (green) state where you will do a UNS test. 
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition>eProjFacReadyForTest1</AllowableTransition>
@@ -741,13 +754,12 @@ Each UNS test includes:
 
   Inference testing questions
     - play the portion of the original story recording upto a line in the story that has one or more
-      inference testing questions ('tst:' lines). Stop the play back and with another recorder recording
-      ask the question to the UNS and get their response.
+      inference testing questions ('tst:' lines). Stop the play back, ask the UNS the question(s), 
+      and with another recording device record their response(s).
 
-When you are finished, then click the 'Next Stage' button in the left-hand side of the status bar to go
-to the next stage in the process, where you will listen to the three recordings you have made above (i.e.
-Retelling, the back-translation, and the answers to the testing questions) to enter the UNS's responses
-into the documentation.
+When you are finished, then click the "Select State" button to move to the next (green) state, where 
+you will listen to the three recordings you have made above (i.e. the Retelling, the back-translation, 
+and the answers to the testing questions) to enter the UNS's responses into the story documentation.
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition>eProjFacEnterRetellingOfTest1</AllowableTransition>
@@ -766,15 +778,21 @@ into the documentation.
 In this stage, you (the Project Facilitator) will enter the back-translation of the UNS's retelling 
 of the story.
 
-It is normally the case that you will run the test twice with two different UNSs, so you will have two 
-sets of responses to back-translate into English and enter. Entering this state will cause one set of 
-'retelling' boxes to appear below the story line boxes in which you can enter the retelling from the UNS.
+When you enter this state, you will be asked if you want to add boxes for the test results. If you 
+click 'Yes', then one set of 'retelling' boxes will appear below the story line boxes in which you 
+can enter the retelling from the UNS.
 
-When you are finished entering the retelling, then click the 'Next Stage' button in the left-hand side 
-of the status bar and to go to the next stage in the process, which is for entering the answers to the 
-inference testing questions or this same UNS. Once you have finished entering in the test results for
-one UNS, then when you click 'Select State' again, you will be given the opportunity to add a 2nd set
-of boxes for the 2nd UNS test results.
+It is normally the case that you will do a UNS test with two different UNSs. So ultimately you will 
+need two sets of responses to back-translate into English and enter. However, the program will want 
+to get all of the responses from the first UNS first (here for his or her 'retelling' and in the 
+next state, the answers to the testing questions). This way, all the responses can be associated 
+with the same UNS. Once you finish entering the retelling and (in the next state) the answers to the 
+testing questions, then you will want to come back to this state again, click 'Yes' to add a 2nd set
+of boxes and enter the results from the 2nd UNS.
+
+When you are finished entering the retelling, then click the "Select State" button to move to the 
+next (green) state, which is for entering the answers to the inference testing questions of this 
+same UNS.
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition>eProjFacEnterAnswersToStoryQuestionsOfTest1</AllowableTransition>
@@ -792,21 +810,16 @@ of boxes for the 2nd UNS test results.
 In this stage, you (the Project Facilitator) will enter the UNS's responses to the inference testing 
 questions.
 
-It is normally the case that you will run the test twice with two different UNSs, so you will have two 
-sets of responses to back-translate into English and enter. Entering this state will cause one set of 
-'answer' boxes to appear underneath the testing questions in which you can enter the response from the 
-first UNS.
+Entering this state will cause one set of 'answer' boxes to appear underneath the testing questions 
+in which you can enter the response from the UNS.
 
-You can click the 'Select State' button to go to the next state (where you can enter the retelling 
-responses from the next UNS). If you click the 'Select State' button again--and you've only entered in
-one UNS's responses, this state will be repeated for you to enter the responses for the second UNS.
+After you are finished, if you want to enter the results (i.e. retelling and answers) for a 2nd UNS 
+test, then click the 'Select State' button and click on the previous (red) state button, 'Project 
+Facilitator enters retelling back-translation'. You will be asked if you want to add a set of boxes 
+for the UNS's responses (you will want to click 'Yes').
 
-Alternately, you can add the other test results even before leaving this state by clicking 'Edit' menu,
-'Add test results' command, which will add text boxes for both UNS's answers to the inference testing 
-questions as well as both retelling tests.
-
-When you are finished, then click the 'Next Stage' button in the left-hand side of the status bar to 
-go to the next stage in the process.
+Otherwise, if you're finished entering in UNS test results, then click the "Select State" button to 
+move to the next (green) state.
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition>eProjFacEnterRetellingOfTest1</AllowableTransition>
@@ -826,17 +839,18 @@ go to the next stage in the process.
     <StageDisplayString>English back-translator enters the English back-translation of UNS Test results</StageDisplayString>
     <StageInstructions>
 In this stage, someone typically outside of the crafting team will translate the responses from the
-UNS tests (and the latest version of the story) from the National language back translation into 
-English (or from the story language if not using the national language back-translation). 
+UNS tests (and update the latest version of the story BT) from the National language into English 
+(or from the story language if not using the national language back-translation).
 
-This stage only occurs if you have an "English Back-translator" member on your team and it occurs
-after all the Project Facilitator states are finished and just before the story goes to the consultant. 
+This stage only occurs if you have an "Outside English Back-translator" member on your team (see
+"Project", "Settings" and the "Team Members" tab). This state occurs after all the Project Facilitator 
+states are finished and just before the story goes to the consultant. 
 
 There are not separate boxes for the English back-translation of the test responses, so you can just
 add the English BT to the same boxes that have the vernacular or national language responses.
 
-When you are finished entering the English back translation, then click the 'Next Stage' button in the
-left-hand side of the status bar to go to the next stage in the process.
+When you are finished entering the English back translation, then click the "Select State" button to 
+move to the next (green) state.
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition RequiresFirstPassMentor="true">eFirstPassMentorCheck2</AllowableTransition>
@@ -850,30 +864,6 @@ left-hand side of the status bar to go to the next stage in the process.
       <AllowableTransition>eProjFacReviseBasedOnRound1Notes</AllowableTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
-  </StateTransition>
-  <StateTransition stage="eBackTranslatorTranslateConNotesAfterUnsTest" MemberTypeWithEditToken="eEnglishBacktranslator" RequiresBiblicalStory="true" RequiresUsingEnglishBT="true">
-    <StageDisplayString>English back-translator translates Consultant Notes for Project Facilitator (going backwards after UNS testing)</StageDisplayString>
-    <StageInstructions>
-In this stage, you (the English back-translator) will go through the feedback given by the consultant in
-the Consultant Notes pane and translate it into the national language for the project facilitator.
-
-You can just type the translation into the same box as the original consultant note, though you'll have
-to manually turn on the proper keyboard as needed.
-
-This state is used when the consultant is returning the story to the team for revision after UNS testing
-has been done. When you are finished translating the feedback or the Project Facilitator, you will go 
-backwards to the 'Project Facilitator revises story based on Consultant's feedback' state. You can do 
-this by clicking the 'Send back for revision' button (in the left-hand side of the status bar) or 
-click the down arrow to choose a different, previous state.
-    </StageInstructions>
-    <AllowableForewardsTransitions>
-      <AllowableTransition RequiresFirstPassMentor="true">eFirstPassMentorCheck2</AllowableTransition>
-      <AllowableTransition>eConsultantCheck2</AllowableTransition>
-    </AllowableForewardsTransitions>
-    <AllowableBackwardsTransitions>
-      <AllowableTransition>eProjFacReviseBasedOnRound1Notes</AllowableTransition>
-    </AllowableBackwardsTransitions>
-    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
   <StateTransition stage="eFirstPassMentorCheck2" MemberTypeWithEditToken="eFirstPassMentor" RequiresBiblicalStory="true">
     <StageDisplayString>First-pass mentor checks UNS test results</StageDisplayString>
@@ -919,7 +909,7 @@ bar to go to the next stage in the process.
       <AllowableTransition>eConsultantCheck2</AllowableTransition>
     </AllowableForewardsTransitions>
     <AllowableBackwardsTransitions>
-      <AllowableTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotesAfterUnsTest</AllowableTransition>
+      <AllowableTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotes</AllowableTransition>
       <AllowableTransition>eProjFacReviseBasedOnRound1Notes</AllowableTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
@@ -970,42 +960,11 @@ bar to go to the next stage in the process.
     </AllowableForewardsTransitions>
     <AllowableBackwardsTransitions>
       <AllowableTransition RequiresFirstPassMentor="true">eFirstPassMentorCheck2</AllowableTransition>
-      <AllowableTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotesAfterUnsTest</AllowableTransition>
+      <AllowableTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotes</AllowableTransition>
       <AllowableTransition>eProjFacReviseBasedOnRound1Notes</AllowableTransition>
     </AllowableBackwardsTransitions>
     <BackwardsProcessing ButtonLabel="Send back for revision">eProjFacReviseBasedOnRound1Notes</BackwardsProcessing>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
-  </StateTransition>
-  <StateTransition stage="eConsultantCauseRevisionAfterUnsTest" MemberTypeWithEditToken="eConsultantInTraining" RequiresBiblicalStory="true" RequiresManageWithCoaching="true">
-    <StageDisplayString>Consultant revises feedback based on Coach feedback (going backwards after UNS testing)</StageDisplayString>
-    <StageInstructions>
-In this stage, you (the consultant) will go through the feedback given by the coach in the Coach Notes
-pane and, if necessary, modify or add to your feedback to the crafting team.
-
-For each comment by the coach (the comments in the "coch:" lines in the Coach Notes pane), you should
-give some response to close the loop on the conversation (even just "done" is fine). If you have further
-questions, it's okay to ask for clarification in another line.
-
-You can add another line for additional comments by right-clicking on the small button and choosing
-"Add Note" if one is not already visible.
-
-If in this state, it is likely because the Coach is not satisfied with something about the story, which
-will require the Project Facilitator and Crafter to revise the story (and do another UNS test). So when
-you are finished, you probably want to go back to a previous state (e.g. Project Facilitator revises
-story based on Consultant's feedback) for the Project Facilitator/Crafter to revise/correct the story.
-So you will want to click the 'Send back for revision' button (in the left-hand side of the status bar)
-or choose one of the other previous states.
-    </StageInstructions>
-    <AllowableForewardsTransitions>
-      <AllowableTransition>eCoachReviewRound2Notes</AllowableTransition>
-      <AllowableTransition>eTeamComplete</AllowableTransition>
-    </AllowableForewardsTransitions>
-    <AllowableBackwardsTransitions>
-      <AllowableTransition RequiresFirstPassMentor="true">eFirstPassMentorCheck2</AllowableTransition>
-      <AllowableTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotesAfterUnsTest</AllowableTransition>
-      <AllowableTransition>eProjFacReviseBasedOnRound1Notes</AllowableTransition>
-    </AllowableBackwardsTransitions>
-    <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eCoachReviewRound2Notes" MemberTypeWithEditToken="eCoach" RequiresBiblicalStory="true" RequiresManageWithCoaching="true">
     <StageDisplayString>Coach reviews story/CIT feedback (including UNS testing results)</StageDisplayString>
@@ -1029,7 +988,7 @@ to make revisions.
       <AllowableTransition>eTeamComplete</AllowableTransition>
     </AllowableForewardsTransitions>
     <AllowableBackwardsTransitions>
-      <AllowableTransition>eConsultantCauseRevisionAfterUnsTest</AllowableTransition>
+      <AllowableTransition>eConsultantReviseRound1Notes</AllowableTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="false" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
   </StateTransition>
@@ -1047,9 +1006,9 @@ to the 'First-pass mentor checks test 2 results' state), which sends it to them 
     </StageInstructions>
     <AllowableBackwardsTransitions>
       <AllowableTransition RequiresManageWithCoaching="true">eCoachReviewRound2Notes</AllowableTransition>
-      <AllowableTransition RequiresManageWithCoaching="true">eConsultantCauseRevisionAfterUnsTest</AllowableTransition>
+      <AllowableTransition RequiresManageWithCoaching="true">eConsultantReviseRound1Notes</AllowableTransition>
       <AllowableTransition RequiresFirstPassMentor="true">eFirstPassMentorCheck2</AllowableTransition>
-      <AllowableTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotesAfterUnsTest</AllowableTransition>
+      <AllowableTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotes</AllowableTransition>
       <AllowableTransition>eProjFacReviseBasedOnRound1Notes</AllowableTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />

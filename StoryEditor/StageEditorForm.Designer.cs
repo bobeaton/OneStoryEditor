@@ -57,7 +57,7 @@
             this.dataGridViewStates.MultiSelect = false;
             this.dataGridViewStates.Name = "dataGridViewStates";
             this.dataGridViewStates.RowHeadersVisible = false;
-            this.dataGridViewStates.Size = new System.Drawing.Size(782, 326);
+            this.dataGridViewStates.Size = new System.Drawing.Size(867, 326);
             this.dataGridViewStates.TabIndex = 1;
             this.dataGridViewStates.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewStates_CellContentClick);
             // 
@@ -95,7 +95,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(782, 326);
+            this.ClientSize = new System.Drawing.Size(867, 326);
             this.Controls.Add(this.dataGridViewStates);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

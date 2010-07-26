@@ -40,10 +40,8 @@ namespace OneStoryProjectEditor
             eProjFacEnterRetellingOfTest1,
             eProjFacEnterAnswersToStoryQuestionsOfTest1,
             eBackTranslatorTypeInternationalBTTest1,
-            eBackTranslatorTranslateConNotesAfterUnsTest,
             eFirstPassMentorCheck2,
             eConsultantCheck2,
-            eConsultantCauseRevisionAfterUnsTest,
             eCoachReviewRound2Notes,
             eTeamComplete
         }
@@ -87,16 +85,16 @@ namespace OneStoryProjectEditor
         // these states (on the lhs) were purged in 1.4 in favor of those on the rhs.
         static readonly Dictionary<string, string> mapStageNameFixups = new Dictionary<string, string>
         {
-            { "ConsultantReviseRound2Notes", "ConsultantCauseRevisionAfterUnsTest" },
-            { "BackTranslatorTranslateConNotes2", "BackTranslatorTranslateConNotesAfterUnsTest" },
+            { "ConsultantReviseRound2Notes", "ConsultantReviseRound1Notes" },
+            { "BackTranslatorTranslateConNotes2", "BackTranslatorTranslateConNotes" },
             { "ProjFacReviseBasedOnRound2Notes", "ProjFacReviseBasedOnRound1Notes" },
             { "ProjFacOnlineReview2WithConsultant", "ProjFacOnlineReview1WithConsultant" },
             { "ProjFacReadyForTest2", "ProjFacReadyForTest1" },
             { "ProjFacEnterRetellingOfTest2", "ProjFacEnterRetellingOfTest1" },
             { "ProjFacEnterAnswersToStoryQuestionsOfTest2", "ProjFacEnterAnswersToStoryQuestionsOfTest1" },
-            { "BackTranslatorTypeInternationalBTTest2", "BackTranslatorTranslateConNotesAfterUnsTest" },
+            { "BackTranslatorTypeInternationalBTTest2", "BackTranslatorTypeInternationalBTTest1" },
             { "FirstPassMentorReviewTest2", "FirstPassMentorCheck2" },
-            { "ConsultantReviewTest2", "ConsultantCauseRevisionAfterUnsTest" },
+            { "ConsultantReviewTest2", "ConsultantCheck2" },
             { "CoachReviewTest2Notes", "CoachReviewRound2Notes" }
         };
 
@@ -188,10 +186,8 @@ namespace OneStoryProjectEditor
             { "ProjFacEnterRetellingOfTest1", ProjectStages.eProjFacEnterRetellingOfTest1 },
             { "ProjFacEnterAnswersToStoryQuestionsOfTest1", ProjectStages.eProjFacEnterAnswersToStoryQuestionsOfTest1 },
             { "BackTranslatorTypeInternationalBTTest1", ProjectStages.eBackTranslatorTypeInternationalBTTest1 },
-            { "BackTranslatorTranslateConNotesAfterUnsTest", ProjectStages.eBackTranslatorTranslateConNotesAfterUnsTest },
             { "FirstPassMentorCheck2", ProjectStages.eFirstPassMentorCheck2 },
             { "ConsultantCheck2", ProjectStages.eConsultantCheck2 },
-            { "ConsultantCauseRevisionAfterUnsTest", ProjectStages.eConsultantCauseRevisionAfterUnsTest },
             { "CoachReviewRound2Notes", ProjectStages.eCoachReviewRound2Notes },
             { "TeamComplete", ProjectStages.eTeamComplete }};
 
