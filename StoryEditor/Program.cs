@@ -30,10 +30,11 @@ namespace OneStoryProjectEditor
                 
                 // make sure we have HG (or we can't really do much)
                 HgSanityCheck();
-
+#if !DEBUG
                 AutoUpgrade autoUpgrade = AutoUpgrade.Create(Properties.Resources.IDS_OSEUpgradeServer);
                 if (autoUpgrade.IsUpgradeAvailable(true))
                     return;
+#endif
 
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
