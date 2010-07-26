@@ -1,4 +1,7 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
 {
@@ -10,12 +13,20 @@ namespace OneStoryProjectEditor
 
         protected StoryProjectData _storyProjectData;
         protected StoryData _theCurrentStory;
-        public StageEditorForm(StoryProjectData storyProjectData, StoryData theCurrentStory)
+
+        protected long _ticksSinceShow;
+
+        protected Dictionary<StoryStageLogic.ProjectStages, DataGridViewButtonCell> _mapStatesToButtons
+            = new Dictionary<StoryStageLogic.ProjectStages, DataGridViewButtonCell>();
+
+        public StageEditorForm(StoryProjectData storyProjectData, StoryData theCurrentStory, Point ptStatusBar)
         {
             InitializeComponent();
+
             _storyProjectData = storyProjectData;
             _theCurrentStory = theCurrentStory;
 
+#if ShowViewStateWithDialog
             if (!storyProjectData.TeamMembers.HasOutsideEnglishBTer)
                 ColumnEnglishBackTranslator.Visible = false;
             else
@@ -34,8 +45,84 @@ namespace OneStoryProjectEditor
             }
             else
                 radioButtonManageWithCoaching.Checked = true;
+#else
+            ColumnEnglishBackTranslator.Visible = storyProjectData.TeamMembers.HasOutsideEnglishBTer;
+            ColumnFirstPassMentor.Visible = storyProjectData.TeamMembers.HasFirstPassMentor;
 
+            if (storyProjectData.TeamMembers.HasIndependentConsultant)
+            {
+                ColumnConsultantInTraining.HeaderText = TeamMemberData.CstrIndependentConsultantDisplay;
+                ColumnCoach.Visible = false;
+            }
+            else
+            {
+                ColumnConsultantInTraining.HeaderText = TeamMemberData.CstrConsultantInTrainingDisplay;
+                ColumnCoach.Visible = true;
+            }
+#endif
             InitGrid();
+
+            // set the background of the special ones (i.e. the current one, and all valid next and prev states
+            System.Diagnostics.Debug.Assert(StateTransitions.ContainsKey(theCurrentStory.ProjStage.ProjectStage));
+            StoryStageLogic.StateTransition st = StateTransitions[theCurrentStory.ProjStage.ProjectStage];
+            if (st != null)
+            {
+                // current state
+                DataGridViewButtonCell dgbc;
+                System.Diagnostics.Debug.Assert(_mapStatesToButtons.ContainsKey(st.CurrentStage));
+                if (_mapStatesToButtons.TryGetValue(st.CurrentStage, out dgbc))
+                {
+                    dgbc.Value += " (current state)";
+                    Font font = new Font(dataGridViewStates.Font, FontStyle.Bold);
+                    dgbc.Style.Font = font;
+                    dgbc.FlatStyle = FlatStyle.Popup;
+                    dgbc.Style.BackColor = Color.Yellow;
+                    dgbc.Tag = st;
+                }
+
+                // check allowable next state
+                CheckAllowableTransitions(storyProjectData, theCurrentStory, st.AllowableForewardsTransitions, Color.LightGreen);
+
+                // allowed previous states
+                CheckAllowableTransitions(storyProjectData, theCurrentStory, st.AllowableBackwardsTransitions, Color.Red);
+            }
+
+            Height = dataGridViewStates.PreferredSize.Height;
+            Location = new Point(ptStatusBar.X, ptStatusBar.Y - Height);
+            _ticksSinceShow = DateTime.Now.Ticks;
+        }
+
+        protected void CheckAllowableTransitions(StoryProjectData storyProjectData, StoryData theCurrentStory, 
+            StoryStageLogic.AllowableTransitions allowableTransitions, Color clr)
+        {
+            // allowed previous states
+            foreach (StoryStageLogic.AllowableTransition aps in allowableTransitions)
+            {
+                // put the allowable transitions into the DropDown list
+                if (aps.IsThisStateAllow(storyProjectData, theCurrentStory))
+                {
+                    System.Diagnostics.Debug.Assert(StateTransitions.ContainsKey(aps.ProjectStage));
+                    StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[aps.ProjectStage];
+                    System.Diagnostics.Debug.Assert(_mapStatesToButtons.ContainsKey(st.CurrentStage));
+                    
+                    DataGridViewButtonCell dgbc;
+                    if (_mapStatesToButtons.TryGetValue(st.CurrentStage, out dgbc))
+                    {
+                        Font font = new Font(dataGridViewStates.Font, FontStyle.Bold);
+                        dgbc.Style.Font = font;
+                        dgbc.FlatStyle = FlatStyle.Popup;
+                        dgbc.Style.BackColor = clr;
+                        dgbc.Tag = st;
+                    }
+                }
+            }
+        }
+
+        protected StoryStageLogic.ProjectStages _nextState = StoryStageLogic.ProjectStages.eUndefined;
+        public StoryStageLogic.ProjectStages NextState
+        {
+            get { return _nextState; }
+            set { _nextState = value; }
         }
 
         protected void InitGrid()
@@ -47,36 +134,41 @@ namespace OneStoryProjectEditor
             foreach (StoryStageLogic.StateTransition stateTransition in StateTransitions.Values)
             {
                 if ((stateTransition.RequiresBiblicalStory && !_theCurrentStory.CraftingInfo.IsBiblicalStory)
-                    || (stateTransition.RequiresNonBiblicalStory && _theCurrentStory.CraftingInfo.IsBiblicalStory))
+                    || (stateTransition.RequiresNonBiblicalStory && _theCurrentStory.CraftingInfo.IsBiblicalStory)
+                    || (stateTransition.RequiresManageWithCoaching && _storyProjectData.TeamMembers.HasIndependentConsultant)
+                    || (stateTransition.RequiresUsingVernacular && !_storyProjectData.ProjSettings.Vernacular.HasData)
+                    || (stateTransition.RequiresUsingNationalBT && !_storyProjectData.ProjSettings.NationalBT.HasData)
+                    || (stateTransition.RequiresUsingEnglishBT && !_storyProjectData.ProjSettings.InternationalBT.HasData)
+                    )
                     continue;
 
                 switch (stateTransition.MemberTypeWithEditToken)
                 {
                     case TeamMemberData.UserTypes.eProjectFacilitator:
-                        InitComboBox(stateTransition, ColumnProjectFacilitatorStages.Name);
+                        InitButton(stateTransition, ColumnProjectFacilitatorStages.Name);
                         break;
                     case TeamMemberData.UserTypes.eEnglishBacktranslator:
                         if (ColumnEnglishBackTranslator.Visible)
                         {
-                            InitComboBox(stateTransition, ColumnEnglishBackTranslator.Name);
+                            InitButton(stateTransition, ColumnEnglishBackTranslator.Name);
                         }
                         break;
                     case TeamMemberData.UserTypes.eFirstPassMentor:
                         if (ColumnFirstPassMentor.Visible)
                         {
-                            InitComboBox(stateTransition, ColumnFirstPassMentor.Name);
+                            InitButton(stateTransition, ColumnFirstPassMentor.Name);
                         }
                         break;
                     case TeamMemberData.UserTypes.eConsultantInTraining:
-                        InitComboBox(stateTransition, ColumnConsultantInTraining.Name);
+                        InitButton(stateTransition, ColumnConsultantInTraining.Name);
                         break;
                     case TeamMemberData.UserTypes.eIndependentConsultant:
-                        InitComboBox(stateTransition, ColumnConsultantInTraining.Name);
+                        InitButton(stateTransition, ColumnConsultantInTraining.Name);
                         break;
                     case TeamMemberData.UserTypes.eCoach:
                         if (ColumnCoach.Visible)
                         {
-                            InitComboBox(stateTransition, ColumnCoach.Name);
+                            InitButton(stateTransition, ColumnCoach.Name);
                         }
                         break;
                     default:
@@ -85,17 +177,14 @@ namespace OneStoryProjectEditor
                 }
             }
         }
-        protected void InitComboBox(StoryStageLogic.StateTransition stateTransition,
+        protected void InitButton(StoryStageLogic.StateTransition stateTransition,
             string strColumnName)
         {
             int nIndex = dataGridViewStates.Rows.Add();
-            var dgcb = (DataGridViewComboBoxCell)
-                dataGridViewStates.Rows[nIndex].Cells[strColumnName];
-            dgcb.Items.Add(stateTransition.StageDisplayString);
-            dgcb.Items.Add(CstrEditState);
-            dgcb.Items.Add(CstrDeleteState);
-            dgcb.Items.Add(CstrAddState);
-            dgcb.Value = stateTransition.StageDisplayString;
+            var dgb = dataGridViewStates.Rows[nIndex].Cells[strColumnName] as DataGridViewButtonCell;
+            dgb.Value = stateTransition.StageDisplayString;
+            dgb.ToolTipText = stateTransition.StageInstructions;
+            _mapStatesToButtons.Add(stateTransition.CurrentStage, dgb);
         }
 
         protected StoryStageLogic.StateTransitions StateTransitions
@@ -106,6 +195,38 @@ namespace OneStoryProjectEditor
             }
         }
 
+        const long m_ticksMinForClick = 3000000;
+
+        private void dataGridViewStates_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // make sure we have something reasonable
+            if (((e.ColumnIndex < 0) || (e.ColumnIndex >= dataGridViewStates.Columns.Count))
+                || (e.RowIndex < 0) || (e.RowIndex >= dataGridViewStates.Rows.Count))
+                return;
+
+            // also make sure enough time has passed (because we seem to be getting this from the mouse
+            //  up of having launched this dialog
+            long lTickDiff = DateTime.Now.Ticks - _ticksSinceShow;
+            System.Diagnostics.Debug.WriteLine(String.Format("Ticks since launch: {0}", lTickDiff));
+            if (lTickDiff < m_ticksMinForClick)
+                return;
+
+            DataGridViewRow theRow = dataGridViewStates.Rows[e.RowIndex];
+            DataGridViewButtonCell theCell = theRow.Cells[e.ColumnIndex] as DataGridViewButtonCell;
+            if (theCell == null)
+                return;
+
+            // only those that were legitimate next or previous states will have their .Tag set
+            StoryStageLogic.StateTransition st = theCell.Tag as StoryStageLogic.StateTransition;
+            if (st != null)
+            {
+                NextState = st.CurrentStage;
+                DialogResult = DialogResult.OK;
+                Close();
+            }
+        }
+
+#if ShowViewStateWithDialog
         private void checkBoxOutsideEnglishBackTranslator_CheckedChanged(object sender, System.EventArgs e)
         {
             if (checkBoxOutsideEnglishBackTranslator.Checked 
@@ -169,20 +290,6 @@ namespace OneStoryProjectEditor
 
             InitGrid();
         }
-
-        private void dataGridViewStates_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void dataGridViewStates_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void dataGridViewStates_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
+#endif
     }
 }

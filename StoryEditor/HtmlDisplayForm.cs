@@ -232,7 +232,7 @@ namespace OneStoryProjectEditor
         {
             // make sure we have something reasonable
             if (((e.ColumnIndex < ColumnOldParent.Index) || (e.ColumnIndex > ColumnNewChild.Index))
-                || (e.RowIndex < 0) || (e.RowIndex > dataGridViewRevisions.Rows.Count))
+                || (e.RowIndex < 0) || (e.RowIndex >= dataGridViewRevisions.Rows.Count))
                 return;
 
             if (e.ColumnIndex == ColumnOldParent.Index)

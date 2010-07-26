@@ -661,9 +661,6 @@ namespace OneStoryProjectEditor
         {
             Console.WriteLine(String.Format("Checking if stage 'ConsultantCheckStoryQuestions' work is finished: Name: {0}", theCurrentStory.Name));
 
-            System.Diagnostics.Debug.Assert(eProposedNextState ==
-                StoryStageLogic.ProjectStages.eCoachReviewRound1Notes);
-
             // before going to the Coach, let's make sure that if the coach had made 
             //  a comment, that the CIT answered it. (this only occurs if the coach
             //  had earlier checked the story and gone backwards)
@@ -679,6 +676,10 @@ namespace OneStoryProjectEditor
                 else
                     eProposedNextState = StoryStageLogic.ProjectStages.eProjFacReviseBasedOnRound1Notes;
             }
+            else
+                System.Diagnostics.Debug.Assert(eProposedNextState ==
+                    StoryStageLogic.ProjectStages.eCoachReviewRound1Notes);
+
             return true;
         }
 
@@ -686,14 +687,14 @@ namespace OneStoryProjectEditor
         {
             Console.WriteLine(String.Format("Checking if stage 'ConsultantCauseRevisionBeforeUnsTest' work is finished: Name: {0}", theCurrentStory.Name));
 
-            System.Diagnostics.Debug.Assert(eProposedNextState ==
-                StoryStageLogic.ProjectStages.eCoachReviewRound1Notes);
-
             // before going to the Coach, let's make sure that if the coach had made 
             //  a comment, that the CIT answered it. (this only occurs if the coach
             //  had earlier checked the story and gone backwards)
             if (!CheckThatCITRespondedToCoachQuestions(theSE, theCurrentStory))
                 return false;
+
+            System.Diagnostics.Debug.Assert(eProposedNextState ==
+                StoryStageLogic.ProjectStages.eCoachReviewRound1Notes);
 
             return true;
         }
@@ -1076,15 +1077,15 @@ namespace OneStoryProjectEditor
             if (!CheckThatCITAnsweredPFsQuestions(theSE, theCurrentStory))
                 return false;
 
-            System.Diagnostics.Debug.Assert(eProposedNextState == 
-                StoryStageLogic.ProjectStages.eCoachReviewRound2Notes);
-
             // if we have an independent consultant, then the next state is TeamComplete
             if (theStoryProjectData.TeamMembers.HasIndependentConsultant
              && theSE.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eIndependentConsultant)
             {
                 eProposedNextState = StoryStageLogic.ProjectStages.eTeamComplete;
             }
+            else
+                System.Diagnostics.Debug.Assert(eProposedNextState ==
+                    StoryStageLogic.ProjectStages.eCoachReviewRound2Notes);
 
             return true;
         }
@@ -1098,15 +1099,15 @@ namespace OneStoryProjectEditor
             if (!CheckThatCITAnsweredPFsQuestions(theSE, theCurrentStory))
                 return false;
 
-            System.Diagnostics.Debug.Assert(eProposedNextState ==
-                StoryStageLogic.ProjectStages.eCoachReviewRound2Notes);
-
             // if we have an independent consultant, then the next state is Team Complete
             if (theStoryProjectData.TeamMembers.HasIndependentConsultant
              && theSE.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eIndependentConsultant)
             {
                 eProposedNextState = StoryStageLogic.ProjectStages.eTeamComplete;
             }
+            else
+                System.Diagnostics.Debug.Assert(eProposedNextState ==
+                    StoryStageLogic.ProjectStages.eCoachReviewRound2Notes);
 
             return true;
         }

@@ -277,13 +277,23 @@ namespace OneStoryProjectEditor
                             && bHasIndependentConsultant)
                             eMemberType = TeamMemberData.UserTypes.eIndependentConsultant;
 
-                        ProjectStages eNextStage = (ProjectStages)Enum.Parse(typeof(ProjectStages), xpStageTransition.Current.GetAttribute("NextState", navigator.NamespaceURI));
-
+                        bool bRequiresUsingVernacular =
+                            (xpStageTransition.Current.GetAttribute("RequiresUsingVernacular", navigator.NamespaceURI) ==
+                             "true");
+                        bool bRequiresUsingNationalBT =
+                            (xpStageTransition.Current.GetAttribute("RequiresUsingNationalBT", navigator.NamespaceURI) ==
+                             "true");
+                        bool bRequiresUsingEnglishBT =
+                            (xpStageTransition.Current.GetAttribute("RequiresUsingEnglishBT", navigator.NamespaceURI) ==
+                             "true");
                         bool bRequiresBiblicalStory =
                             (xpStageTransition.Current.GetAttribute("RequiresBiblicalStory", navigator.NamespaceURI) ==
                              "true");
                         bool bRequiresNonBiblicalStory =
                             (xpStageTransition.Current.GetAttribute("RequiresNonBiblicalStory", navigator.NamespaceURI) ==
+                             "true");
+                        bool bRequiresManageWithCoaching = 
+                            (xpStageTransition.Current.GetAttribute("RequiresManageWithCoaching", navigator.NamespaceURI) == 
                              "true");
 
                         XPathNodeIterator xpNextElement = xpStageTransition.Current.Select("StageDisplayString");
@@ -300,11 +310,29 @@ namespace OneStoryProjectEditor
 
                         System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(strStageInstructions));
 
-                        xpNextElement = xpStageTransition.Current.Select("AllowableBackwardsTransitions/AllowableBackwardsTransition");
-                        List<AllowablePreviousStateWithConditions> lstAllowableBackwardsStages = new List<AllowablePreviousStateWithConditions>();
+                        xpNextElement = xpStageTransition.Current.Select("AllowableForewardsTransitions/AllowableTransition");
+                        List<AllowableTransition> lstAllowableForewardsStages = new List<AllowableTransition>();
                         while (xpNextElement.MoveNext())
                         {
-                            AllowablePreviousStateWithConditions aps = new AllowablePreviousStateWithConditions
+                            AllowableTransition aps = new AllowableTransition
+                            {
+                                ProjectStage = (ProjectStages)Enum.Parse(typeof(ProjectStages), xpNextElement.Current.Value),
+                                RequiresUsingVernacular = (xpNextElement.Current.GetAttribute("RequiresUsingVernacular", navigator.NamespaceURI) == "true"),
+                                RequiresUsingNationalBT = (xpNextElement.Current.GetAttribute("RequiresUsingNationalBT", navigator.NamespaceURI) == "true"),
+                                RequiresUsingEnglishBT = (xpNextElement.Current.GetAttribute("RequiresUsingEnglishBT", navigator.NamespaceURI) == "true"),
+                                UsingOtherEnglishBTer = xpNextElement.Current.GetAttribute("RequiresUsingOtherEnglishBTer", navigator.NamespaceURI),
+                                RequiresBiblicalStory = (xpNextElement.Current.GetAttribute("RequiresBiblicalStory", navigator.NamespaceURI) == "true"),
+                                RequiresFirstPassMentor = (xpNextElement.Current.GetAttribute("RequiresFirstPassMentor", navigator.NamespaceURI) == "true"),
+                                RequiresManageWithCoaching = (xpNextElement.Current.GetAttribute("RequiresManageWithCoaching", navigator.NamespaceURI) == "true")
+                            };
+                            lstAllowableForewardsStages.Add(aps);
+                        }
+
+                        xpNextElement = xpStageTransition.Current.Select("AllowableBackwardsTransitions/AllowableTransition");
+                        List<AllowableTransition> lstAllowableBackwardsStages = new List<AllowableTransition>();
+                        while (xpNextElement.MoveNext())
+                        {
+                            AllowableTransition aps = new AllowableTransition
                             {
                                 ProjectStage = (ProjectStages)Enum.Parse(typeof(ProjectStages), xpNextElement.Current.Value),
                                 RequiresUsingVernacular = (xpNextElement.Current.GetAttribute("RequiresUsingVernacular", navigator.NamespaceURI) == "true"),
@@ -318,30 +346,18 @@ namespace OneStoryProjectEditor
                             lstAllowableBackwardsStages.Add(aps);
                         }
 
-                        StateTransition st = new StateTransition(eThisStage, eNextStage, 
-                            eMemberType, strStageDisplayString, strStageInstructions,
-                            lstAllowableBackwardsStages, bRequiresBiblicalStory,
-                            bRequiresNonBiblicalStory);
-
-                        /*
-    <BackwardsProcessing ButtonLabel="Send back for revision">eConsultantCauseRevisionBeforeUnsTest</BackwardsProcessing>
-    <ForwardsProceessing ButtonLabel="Send forward for UNS test">eConsultantReviseRound1Notes</ForwardsProceessing>
-                        */
-                        xpNextElement = xpStageTransition.Current.Select("BackwardsProcessing");
-                        if (xpNextElement.MoveNext())
-                        {
-                            st.PreviousStateButtonLabel = xpNextElement.Current.GetAttribute("ButtonLabel",
-                                                                                             navigator.NamespaceURI);
-                            st.PreviousButtonState = (ProjectStages)Enum.Parse(typeof(ProjectStages), xpNextElement.Current.Value);
-                        }
-
-                        xpNextElement = xpStageTransition.Current.Select("ForwardsProceessing");
-                        if (xpNextElement.MoveNext())
-                        {
-                            st.NextStateButtonLabel = xpNextElement.Current.GetAttribute("ButtonLabel",
-                                                                                         navigator.NamespaceURI);
-                            System.Diagnostics.Debug.Assert(st.NextState == (ProjectStages)Enum.Parse(typeof(ProjectStages), xpNextElement.Current.Value));
-                        }
+                        StateTransition st = new StateTransition(eThisStage, lstAllowableForewardsStages, lstAllowableBackwardsStages)
+                            {
+                                MemberTypeWithEditToken = eMemberType,
+                                StageDisplayString = strStageDisplayString,
+                                StageInstructions = strStageInstructions,
+                                RequiresUsingVernacular = bRequiresUsingVernacular,
+                                RequiresUsingNationalBT = bRequiresUsingNationalBT,
+                                RequiresUsingEnglishBT = bRequiresUsingEnglishBT,
+                                RequiresBiblicalStory = bRequiresBiblicalStory,
+                                RequiresNonBiblicalStory = bRequiresNonBiblicalStory,
+                                RequiresManageWithCoaching = bRequiresManageWithCoaching
+                            };
 
                         xpNextElement = xpStageTransition.Current.Select("ViewSettings");
                         if (xpNextElement.MoveNext())
@@ -367,7 +383,30 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public class AllowablePreviousStateWithConditions
+        public class AllowableTransitions : List<AllowableTransition>
+        {
+            private string ElementLabel { get; set; }
+
+            public AllowableTransitions(string strElementName)
+            {
+                ElementLabel = strElementName;
+            }
+
+            public XElement GetXml
+            {
+                get
+                {
+                    System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(ElementLabel));
+                    XElement elemAllowableTransition = new XElement(ElementLabel);
+                    foreach (AllowableTransition allowed in this)
+                    {
+                        elemAllowableTransition.Add(allowed.GetXml);
+                    }
+                    return elemAllowableTransition;
+                }
+            }
+        }
+        public class AllowableTransition
         {
             public ProjectStages ProjectStage { get; set; }
             public bool RequiresUsingVernacular { get; set; }
@@ -393,13 +432,48 @@ namespace OneStoryProjectEditor
                     }
                 }
             }
+
+            public bool IsThisStateAllow(StoryProjectData storyProjectData, StoryData theCurrentStory)
+            {
+                    // put the allowable transitions into the DropDown list
+                return ((!RequiresUsingVernacular || storyProjectData.ProjSettings.Vernacular.HasData)
+                        && (!RequiresUsingNationalBT || storyProjectData.ProjSettings.NationalBT.HasData)
+                        && (!RequiresUsingEnglishBT || storyProjectData.ProjSettings.InternationalBT.HasData)
+                        && (!RequiresBiblicalStory || theCurrentStory.CraftingInfo.IsBiblicalStory)
+                        && (!RequiresFirstPassMentor || storyProjectData.TeamMembers.HasOutsideEnglishBTer)
+                        && (!HasUsingOtherEnglishBTer
+                            || (RequiresUsingOtherEnglishBTer ==
+                                storyProjectData.TeamMembers.HasOutsideEnglishBTer))
+                        && (!RequiresManageWithCoaching || !storyProjectData.TeamMembers.HasIndependentConsultant)
+                        );
+            }
+
+            public XElement GetXml
+            {
+                get
+                {
+                    XElement elemAPS = new XElement("AllowableTransition");
+                    if (RequiresUsingVernacular)
+                        elemAPS.Add(new XAttribute("RequiresUsingVernacular", true));
+                    if (RequiresBiblicalStory)
+                        elemAPS.Add(new XAttribute("RequiresBiblicalStory", true));
+                    if (RequiresUsingEnglishBT)
+                        elemAPS.Add(new XAttribute("RequiresUsingEnglishBT", true));
+                    if (HasUsingOtherEnglishBTer)
+                        elemAPS.Add(new XAttribute("RequiresUsingOtherEnglishBTer", RequiresUsingOtherEnglishBTer));
+                    if (RequiresUsingNationalBT)
+                        elemAPS.Add(new XAttribute("RequiresUsingNationalBT", true));
+                    elemAPS.Add(this);
+                    return elemAPS;
+                }
+            }
         }
 
         public class StateTransition
         {
             internal ProjectStages CurrentStage = ProjectStages.eUndefined;
-            internal ProjectStages NextState = ProjectStages.eUndefined;
-            internal List<AllowablePreviousStateWithConditions> AllowableBackwardsTransitions = new List<AllowablePreviousStateWithConditions>();
+            internal AllowableTransitions AllowableForewardsTransitions = new AllowableTransitions("AllowableForewardsTransitions");
+            internal AllowableTransitions AllowableBackwardsTransitions = new AllowableTransitions("AllowableBackwardsTransitions");
             internal TeamMemberData.UserTypes MemberTypeWithEditToken = TeamMemberData.UserTypes.eUndefined;
             internal string StageDisplayString;
             internal string StageInstructions;
@@ -421,26 +495,22 @@ namespace OneStoryProjectEditor
             internal ProjectStages PreviousButtonState { get; set; }
             internal string NextStateButtonLabel { get; set; }
 
+            internal bool RequiresUsingVernacular { get; set; }
+            internal bool RequiresUsingNationalBT { get; set; }
+            internal bool RequiresUsingEnglishBT { get; set; }
             internal bool RequiresBiblicalStory { get; set; }
             internal bool RequiresNonBiblicalStory { get; set; }
+            internal bool RequiresManageWithCoaching { get; set; }
 
             public StateTransition
                 (
-                    ProjectStages thisStage,
-                    ProjectStages theNextStage,
-                    TeamMemberData.UserTypes eMemberTypeWithEditToken,
-                    string strDisplayString,
-                    string strInstructions,
-                    List<AllowablePreviousStateWithConditions> lstAllowableBackwardsStages,
-                    bool bRequiresBiblicalStory,
-                    bool bRequiresNonBiblicalStory
+                ProjectStages thisStage,
+                IEnumerable<AllowableTransition> lstAllowableForewardsStages,
+                IEnumerable<AllowableTransition> lstAllowableBackwardsStages
                 )
             {
                 CurrentStage = thisStage;
-                NextState = theNextStage;
-                MemberTypeWithEditToken = eMemberTypeWithEditToken;
-                StageDisplayString = strDisplayString;
-                StageInstructions = strInstructions;
+                AllowableForewardsTransitions.AddRange(lstAllowableForewardsStages);
                 AllowableBackwardsTransitions.AddRange(lstAllowableBackwardsStages);
                 string strMethodName = thisStage.ToString().Substring(1);
 
@@ -449,13 +519,11 @@ namespace OneStoryProjectEditor
                     typeof(CheckEndOfStateTransition.CheckForValidEndOfState), 
                     typeof(CheckEndOfStateTransition), strMethodName);
 #endif
-                RequiresBiblicalStory = bRequiresBiblicalStory;
-                RequiresNonBiblicalStory = bRequiresNonBiblicalStory;
             }
 
             public bool IsTransitionValid(ProjectStages eToStage)
             {
-                foreach (AllowablePreviousStateWithConditions aps in AllowableBackwardsTransitions)
+                foreach (AllowableTransition aps in AllowableBackwardsTransitions)
                     if (aps.ProjectStage == eToStage)
                         return true;
                 return false;
@@ -498,41 +566,42 @@ namespace OneStoryProjectEditor
             {
                 get
                 {
-                    XElement elemAllowableBackwardsTransition = new XElement("AllowableBackwardsTransitions");
-                    foreach (AllowablePreviousStateWithConditions ps in AllowableBackwardsTransitions)
-                    {
-                        XElement elemAPS = new XElement("AllowableBackwardsTransition");
-                        if (ps.RequiresUsingVernacular)
-                            elemAPS.Add(new XAttribute("RequiresUsingVernacular", true));
-                        if (ps.RequiresBiblicalStory)
-                            elemAPS.Add(new XAttribute("RequiresBiblicalStory", true));
-                        if (ps.RequiresUsingEnglishBT)
-                            elemAPS.Add(new XAttribute("RequiresUsingEnglishBT", true));
-                        if (ps.HasUsingOtherEnglishBTer)
-                            elemAPS.Add(new XAttribute("RequiresUsingOtherEnglishBTer", ps.RequiresUsingOtherEnglishBTer));
-                        if (ps.RequiresUsingNationalBT)
-                            elemAPS.Add(new XAttribute("RequiresUsingNationalBT", true));
-                        elemAPS.Add(ps);
-                        elemAllowableBackwardsTransition.Add(elemAPS);
-                    }
-
                     XElement elem = new XElement("StateTransition", 
                         new XAttribute("stage", CurrentStage),
-                        new XAttribute("MemberTypeWithEditToken", MemberTypeWithEditToken),
-                        new XAttribute("NextState", NextState),
-                        new XElement("StageDisplayString", StageDisplayString),
-                        new XElement("StageInstructions", StageInstructions),
-                        elemAllowableBackwardsTransition,
-                        new XElement("ViewSettings",
-                            new XAttribute("viewVernacularLangFieldMenuItem", IsVernacularVisible),
-                            new XAttribute("viewNationalLangFieldMenuItem", IsNationalBTVisible),
-                            new XAttribute("viewEnglishBTFieldMenuItem", IsEnglishBTVisible),
-                            new XAttribute("viewAnchorFieldMenuItem", IsAnchorVisible),
-                            new XAttribute("viewStoryTestingQuestionFieldMenuItem", IsStoryTestingQuestion),
-                            new XAttribute("viewRetellingFieldMenuItem", IsRetellingVisible),
-                            new XAttribute("viewConsultantNoteFieldMenuItem", IsConsultantNotesVisible),
-                            new XAttribute("viewCoachNotesFieldMenuItem", IsCoachNotesVisible),
-                            new XAttribute("viewNetBibleMenuItem", IsNetBibleVisible)));
+                        new XAttribute("MemberTypeWithEditToken", MemberTypeWithEditToken));
+
+                    if (RequiresUsingVernacular)
+                        elem.Add(new XAttribute("RequiresUsingVernacular", RequiresUsingVernacular));
+
+                    if (RequiresUsingNationalBT)
+                        elem.Add(new XAttribute("RequiresUsingNationalBT", RequiresUsingNationalBT));
+
+                    if (RequiresUsingEnglishBT)
+                        elem.Add(new XAttribute("RequiresUsingEnglishBT", RequiresUsingEnglishBT));
+
+                    if (RequiresBiblicalStory)
+                        elem.Add(new XAttribute("RequiresBiblicalStory", RequiresBiblicalStory));
+
+                    if (RequiresNonBiblicalStory)
+                        elem.Add(new XAttribute("RequiresNonBiblicalStory", RequiresNonBiblicalStory));
+
+                    if (RequiresManageWithCoaching)
+                        elem.Add(new XAttribute("RequiresManageWithCoaching", RequiresManageWithCoaching));
+
+                    elem.Add(new XElement("StageDisplayString", StageDisplayString),
+                             new XElement("StageInstructions", StageInstructions),
+                             AllowableForewardsTransitions.GetXml,
+                             AllowableBackwardsTransitions.GetXml,
+                             new XElement("ViewSettings",
+                                new XAttribute("viewVernacularLangFieldMenuItem", IsVernacularVisible),
+                                new XAttribute("viewNationalLangFieldMenuItem", IsNationalBTVisible),
+                                new XAttribute("viewEnglishBTFieldMenuItem", IsEnglishBTVisible),
+                                new XAttribute("viewAnchorFieldMenuItem", IsAnchorVisible),
+                                new XAttribute("viewStoryTestingQuestionFieldMenuItem", IsStoryTestingQuestion),
+                                new XAttribute("viewRetellingFieldMenuItem", IsRetellingVisible),
+                                new XAttribute("viewConsultantNoteFieldMenuItem", IsConsultantNotesVisible),
+                                new XAttribute("viewCoachNotesFieldMenuItem", IsCoachNotesVisible),
+                                new XAttribute("viewNetBibleMenuItem", IsNetBibleVisible)));
 
                     return elem;
                 }
