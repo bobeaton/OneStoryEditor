@@ -118,138 +118,183 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="BuilderDialog_movedown1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BuilderDialog_movedown.PNG;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="oneStory2ConNotes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\oneStory2ConNotes.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="BuilderDialog_moveup1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BuilderDialog_moveup.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="IDS_MustBeCloneRepo" xml:space="preserve">
+    <value>The network repository must be identical (a "clone") of the repository in the local machine. Contact your workshop advisor.</value>
   </data>
-  <data name="DeleteHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DeleteHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="DragDropHandle" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DragDropHandle.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Hyperlink" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Hyperlink.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IDS_AdaptationInstructionsContinue" xml:space="preserve">
-    <value>{0}5) When you're finished, return to this window and click the 'Yes' button to re-import the translated English text back into the English fields.{0}{0}Have you finished translating the story to English and are ready to import it into the English fields?</value>
-  </data>
-  <data name="IDS_AdaptItFileAlreadyExists" xml:space="preserve">
-    <value>The Adapt It file for the project '{0}', story '{1}' already exists. If you want to delete that file and do the English translation of the story all over again, then click 'Yes'. If you just want to try to import the existing file again, choose 'No'. Otherwise, click 'Cancel' to stop this command.</value>
-  </data>
-  <data name="IDS_ChooseTheStoryCrafter" xml:space="preserve">
-    <value>Choose the Story Crafter</value>
-  </data>
-  <data name="IDS_EnterProjectName" xml:space="preserve">
-    <value>Enter the name you want to give this project (e.g. the language name).</value>
-  </data>
-  <data name="IDS_EnterStoryName" xml:space="preserve">
-    <value>&lt;type the name of a story to create and hit Enter&gt;</value>
-    <comment>&lt;नई कहानी का नाम यहीं टाइप करके 'ऐटर' बटन दबाओ&gt;</comment>
-  </data>
-  <data name="IDS_EnterStoryToAdd" xml:space="preserve">
-    <value>Enter the name of the story to add</value>
-    <comment>नई कहानी का नाम यहीं टाइप करके 'ऐटर' बटन दबाओ</comment>
-  </data>
-  <data name="IDS_ErrorInAdaptation" xml:space="preserve">
-    <value>"The data from Adapt It doesn't appear to match what's in the story.{0}In verse number {2}, I was expecting \"{3}\", but got \"{4}\" instead.{0}If you've made changes in the story or the {1} back-translation, then you need to re-export the story or {1} back-translation to Adapt It,{0}re-process the file there, and then try to import again."</value>
-  </data>
-  <data name="IDS_FileLockedMessage" xml:space="preserve">
-    <value>The project file '{0}' is locked. Is it read-only? Or opened in some other program? Unlock it and try again. Or try to save it as a different name.</value>
-  </data>
-  <data name="IDS_FromNatlLanguage" xml:space="preserve">
-    <value>&amp;From {0}</value>
-  </data>
-  <data name="IDS_FromStoryForDiscourseCharting" xml:space="preserve">
-    <value>&amp;From {0} (for Discourse Charting)</value>
-  </data>
-  <data name="IDS_IsThisStoryFromTheBible" xml:space="preserve">
-    <value>Is this a story from the Bible?</value>
-    <comment>क्‍या यह कहानी बाइबल से है?</comment>
-  </data>
-  <data name="IDS_LanguageFields" xml:space="preserve">
-    <value>{0} &amp;language fields</value>
-  </data>
-  <data name="IDS_LocatedInFolder" xml:space="preserve">
-    <value>Located in folder '{0}'</value>
-    <comment>जो '{0}' फ़ोलडर में है</comment>
-  </data>
-  <data name="IDS_LogInAsProjFac" xml:space="preserve">
-    <value>You have to be logged in as a 'Project Facilitator' to add stories. To login, click 'Project', 'Login'</value>
-  </data>
-  <data name="IDS_MainFrameTitle" xml:space="preserve">
-    <value>OneStory Editor -- {0} Story Project</value>
-  </data>
-  <data name="IDS_NationalBtOfStory" xml:space="preserve">
-    <value>{0} back-translation of the story to the clipboard</value>
-  </data>
-  <data name="IDS_NeedToReboot" xml:space="preserve">
-    <value>Problem initializing Sword (the Net Bible viewer):{0}{0}{1}</value>
-  </data>
-  <data name="IDS_OverwriteProject" xml:space="preserve">
-    <value>You already have a project with the name, '{0}'. Do you want to delete the existing one?</value>
-  </data>
-  <data name="IDS_PressF1ForInstructions" xml:space="preserve">
-    <value>{0}  Press F1 for instructions</value>
-    <comment>{0}  निर्देश मिलने के लिए 'F1' बटन दबाओ</comment>
-  </data>
-  <data name="IDS_SaveChanges" xml:space="preserve">
-    <value>Would you like to save changes?</value>
-    <comment>क्‍या परिवर्तन सेव किया जाए?</comment>
-  </data>
-  <data name="IDS_Story" xml:space="preserve">
-    <value>Story</value>
-    <comment>कहानी</comment>
-  </data>
-  <data name="IDS_StoryColon" xml:space="preserve">
-    <value>Story: </value>
-    <comment>कहानी: </comment>
-  </data>
-  <data name="IDS_StoryLanguageField" xml:space="preserve">
-    <value>&amp;{0} back-translation field</value>
-  </data>
-  <data name="IDS_StoryText" xml:space="preserve">
-    <value>{0} story lines to the clipboard</value>
-  </data>
-  <data name="IDS_UnableToContinue" xml:space="preserve">
-    <value>Unable to continue! Cause: {0}</value>
-  </data>
-  <data name="IDS_UnableToCopyText" xml:space="preserve">
-    <value>Unable to copy text to the clipboard!{0}{0}{1}{0}{0}{2}</value>
-  </data>
-  <data name="IDS_UnableToFindStoryAdd" xml:space="preserve">
-    <value>Unable to find the story '{0}'. Would you like to add a new story with that name?</value>
-    <comment>'{0}' नामक कहानी नहीं है। क्‍या उस नाम की नई कहानी जोड़ दिया जाए?</comment>
-  </data>
-  <data name="IDS_UnableToOpenMemberList" xml:space="preserve">
-    <value>Unable to open the member list{0}{0}{1}{0}{0}Contact bob_eaton@sall.com for help</value>
-  </data>
-  <data name="IDS_UnableToOpenProjectFile" xml:space="preserve">
-    <value>Unable to open project '{1}'{0}{0}{2}{0}{0}{3}{0}{0}Send the project file along with the error message to bob_eaton@sall.com for help</value>
-  </data>
-  <data name="IDS_UnableToSave" xml:space="preserve">
-    <value>Unable to save the project file '{1}'{0}{0}{2}</value>
-  </data>
-  <data name="IDS_AboutToStrandProject" xml:space="preserve">
-    <value>You already have a project with the name '{1}' that is in another location. If you create this new project with the same name, then you won't be able to access the earlier project that is located in the '{2}' folder.{0}{0}Do you want to continue creating the new project and lose the reference to the earlier project (it won't be deleted if you do)?</value>
-    <comment>'{1}' नाम का एक प्रजैक्ट दूसरे फ़ोल्‍डर में हो चुका है। अगर यह नया प्रोजैक्ट इसी नाम के साथ बनता है, तब दूसरा प्रोजैक्‍ट नहीं खोल पाएगा, जो '{2}' फ़ोल्‍डर में है।{0}{0}क्‍या आप नया प्रोजैक्ट फिर भी बनाना चाहते हैं?</comment>
-  </data>
-  <data name="IDS_UnableToCreateProjectWithoutName" xml:space="preserve">
-    <value>Unable to create a project without a project name!</value>
-    <comment>प्रोजैक्ट नाम के बिना नया प्रोजैक्ट नहीं बन सकता है!</comment>
+  <data name="IDS_FindStringNotFound" xml:space="preserve">
+    <value>String not found!</value>
   </data>
   <data name="IDS_TerminalTransitionMessage" xml:space="preserve">
     <value>If you change to this state, then you won't be able to edit the story further until it is your turn again (after the {0} has finished his or her changes). Are you sure you want to change to the '{1}' state?</value>
     <comment>अगर इस स्‍टेट में जाएं, तो इसके बाद आप इस कहानी को तब तक नहीं बदल सकते हैं, जब तक {0} अपने काम इस पर पूरा नहीं किया। क्‍या आप पक्‍का हैं कि अगले स्‍टेट (अनिकि '{1}' स्‍टेट) में जाएँ?</comment>
   </data>
+  <data name="Hyperlink" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Hyperlink.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IDS_AdaptItFileAlreadyExists" xml:space="preserve">
+    <value>The Adapt It file for the project '{0}', story '{1}' already exists. If you want to delete that file and do the English translation of the story all over again, then click 'Yes'. If you just want to try to import the existing file again, choose 'No'. Otherwise, click 'Cancel' to stop this command.</value>
+  </data>
+  <data name="IDS_NoteNotEmptyHideQuery" xml:space="preserve">
+    <value>This conversation isn't empty! Instead of deleting it, it would be better to just hide it so it will be left around for history. Would you like to hide it instead?</value>
+  </data>
+  <data name="IDS_MainFrameTitleOldStories" xml:space="preserve">
+    <value>OneStory Editor -- {0} Story Project -- Viewing Old Stories</value>
+  </data>
+  <data name="IDS_TbxFile_EmptyLnC" xml:space="preserve">
+    <value>\_sh v3.0  374  LnC Note
+\_DateStampHasFourDigitYear
+
+\r
+\wrd
+\co</value>
+  </data>
+  <data name="IDS_AdaptationInstructionsContinue" xml:space="preserve">
+    <value>{0}5) When you're finished, return to this window and click the 'Yes' button to re-import the translated English text back into the English fields.{0}{0}Have you finished translating the story to English and are ready to import it into the English fields?</value>
+  </data>
   <data name="IDS_KeyTermsProblem" xml:space="preserve">
     <value>Unable to process Key Terms: cause: {0}{0}{1}</value>
+  </data>
+  <data name="IDS_UnableToContinue" xml:space="preserve">
+    <value>Unable to continue! Cause: {0}</value>
+  </data>
+  <data name="IDS_AboutToStrandProject" xml:space="preserve">
+    <value>You already have a project with the name '{1}' that is in another location. If you create this new project with the same name, then you won't be able to access the earlier project that is located in the '{2}' folder.{0}{0}Do you want to continue creating the new project and lose the reference to the earlier project (it won't be deleted if you do)?</value>
+    <comment>'{1}' नाम का एक प्रजैक्ट दूसरे फ़ोल्‍डर में हो चुका है। अगर यह नया प्रोजैक्ट इसी नाम के साथ बनता है, तब दूसरा प्रोजैक्‍ट नहीं खोल पाएगा, जो '{2}' फ़ोल्‍डर में है।{0}{0}क्‍या आप नया प्रोजैक्ट फिर भी बनाना चाहते हैं?</comment>
+  </data>
+  <data name="IDS_CreateMyBiblicalTermsQuery" xml:space="preserve">
+    <value>In order to add or edit key terms, you have to begin using a local copy of one of the existing key terms list (i.e. a copy generated, for example, from the Paratext "Major Key Terms" or "All Key Terms" lists or one customized by your entity). At this point, you may want to click 'Cancel' here and then click the "Select Key Terms List" button to select one of the other, existing key terms lists to see if the term you want is present in one of them. If not, then select the key terms list (Major or All) that you want to use to generate a local copy and then click this button again and click 'OK' to merge (or overwrite, if desired) the 'My Biblical Terms' list with the selected list.</value>
+  </data>
+  <data name="IDS_CantExport" xml:space="preserve">
+    <value>Unable to export to Toolbox! Cause: {0} {1}</value>
+  </data>
+  <data name="oneStory2storyingBT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\oneStory2storyingBT.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="IDS_CheckOnKeyTerms" xml:space="preserve">
+    <value>Are there any key terms in this story that you should check? To check key terms, right-click on an anchor button and choose the 'Edit Key Terms' command. Click the "Retry" button to continue on to the next state. Click the 'Cancel' button to stay in this state to look for key terms to check.</value>
+  </data>
+  <data name="IDS_NeedToReboot" xml:space="preserve">
+    <value>Problem initializing Sword (the Net Bible viewer):{0}{0}{1}</value>
+  </data>
+  <data name="IDS_FileLockedMessage" xml:space="preserve">
+    <value>The project file '{0}' is locked. Is it read-only? Or opened in some other program? Unlock it and try again. Or try to save it as a different name.</value>
+  </data>
+  <data name="IDS_ConnectToInternet" xml:space="preserve">
+    <value>You should connect to the internet now so we can download the latest version of the file (in case some of your team made changes)</value>
+  </data>
+  <data name="oneStory2storyingRetelling" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\oneStory2storyingRetelling.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="IDS_StoryColon" xml:space="preserve">
+    <value>Story: </value>
+    <comment>कहानी: </comment>
+  </data>
+  <data name="IDS_OSEUpgradeServer" xml:space="preserve">
+    <value>http://palaso.org/install/onestory/OseUpdates/StoryEditor.exe.manifest.xml</value>
+  </data>
+  <data name="IDS_NoSearchString" xml:space="preserve">
+    <value>Nothing to search for!</value>
+  </data>
+  <data name="IDS_ConfirmDeleteStory" xml:space="preserve">
+    <value>Are you sure you want to delete the '{0}' story?</value>
+  </data>
+  <data name="IDS_ErrorInAdaptation" xml:space="preserve">
+    <value>"The data from Adapt It doesn't appear to match what's in the story.{0}In verse number {2}, I was expecting \"{3}\", but got \"{4}\" instead.{0}If you've made changes in the story or the {1} back-translation, then you need to re-export the story or {1} back-translation to Adapt It,{0}re-process the file there, and then try to import again."</value>
+  </data>
+  <data name="IDS_NoProjectFromInternet" xml:space="preserve">
+    <value>No project file was found at the internet repository: {0}{0}{1}{0}{0}Are you sure it there is one in the repository yet?</value>
+  </data>
+  <data name="IDS_AddTestQuery" xml:space="preserve">
+    <value>Do you want to add boxes for the retelling and testing question answers?</value>
+  </data>
+  <data name="IDS_NotTheRightProjFac" xml:space="preserve">
+    <value>WARNING: You are not the Project Facilitator that originally entered this story. If you make any changes, it is very likely that they will conflict with any changes done by the other Project Facilitator. Proceed with caution (e.g. say "No" if you are asked if you want to Save Changes while on this story)</value>
+  </data>
+  <data name="IDS_UseStoryCollapse" xml:space="preserve">
+    <value>Verse number '{0}' has multiple sentences in the {1} column. Use the "Story" menu, "Collapse into 1 line" command followed by the "Split into Lines" command to break the story (and any back-translations) into lines based on sentence final punctuation (see "Project", "Settings" and any of the "Language" tabs to configure sentence final punctuation). The command "Story", "Re-align story lines" can also be used, which calls both of the above commands in one click</value>
+  </data>
+  <data name="IDS_ConfirmDeleteAllVerseLines" xml:space="preserve">
+    <value>Are you sure you want to delete the {0}?</value>
+  </data>
+  <data name="DeleteHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DeleteHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IDS_PressF1ForInstructions" xml:space="preserve">
+    <value>{0}  Press F1 for instructions</value>
+    <comment>{0}  निर्देश मिलने के लिए 'F1' बटन दबाओ</comment>
+  </data>
+  <data name="IDS_EnterProjectName" xml:space="preserve">
+    <value>Enter the name you want to give this project (e.g. the language name).</value>
+  </data>
+  <data name="IDS_ExportedToolboxMessage" xml:space="preserve">
+    <value>The project has been exported to the folder '{0}\Toolbox'. Click 'Yes' to launch Toolbox and open that project.</value>
+  </data>
+  <data name="BuilderDialog_moveup1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BuilderDialog_moveup.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IDS_ChooseTheStoryCrafter" xml:space="preserve">
+    <value>Choose the Story Crafter</value>
+  </data>
+  <data name="IDS_UnableToCreateProjectWithoutName" xml:space="preserve">
+    <value>Unable to create a project without a project name!</value>
+    <comment>प्रोजैक्ट नाम के बिना नया प्रोजैक्ट नहीं बन सकता है!</comment>
+  </data>
+  <data name="IDS_LanguageFields" xml:space="preserve">
+    <value>{0} &amp;language fields</value>
+  </data>
+  <data name="CopyHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CopyHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IDS_AddAnotherTestQuery" xml:space="preserve">
+    <value>If you want to enter the results for another UNS test, click 'Cancel' and go to "Project Facilitator enters retelling back-translation" state instead. Otherwise, click 'OK' to move forward to the next state.</value>
+  </data>
+  <data name="EditInformationHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EditInformationHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IDS_EnterStoryName" xml:space="preserve">
+    <value>&lt;type the name of a story to create and hit Enter&gt;</value>
+    <comment>&lt;नई कहानी का नाम यहीं टाइप करके 'ऐटर' बटन दबाओ&gt;</comment>
+  </data>
+  <data name="IDS_UnableToOpenMemberList" xml:space="preserve">
+    <value>Unable to open the member list{0}{0}{1}{0}{0}Contact bob_eaton@sall.com for help</value>
+  </data>
+  <data name="IDS_DeleteVerseQuery" xml:space="preserve">
+    <value>Are you sure you want to delete this verse (and all associated consultant notes, etc)?</value>
+  </data>
+  <data name="RegexHelpProgram" xml:space="preserve">
+    <value>http://msdn2.microsoft.com/en-us/library/az24scfc.aspx</value>
+  </data>
+  <data name="EditTableHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EditTableHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IDS_UnableToOpenProjectFile" xml:space="preserve">
+    <value>Unable to open project '{1}'{0}{0}{2}{0}{0}{3}{0}{0}Send the project file along with the error message to bob_eaton@sall.com for help</value>
   </data>
   <data name="IDS_SaveKeyTermsPrompt" xml:space="preserve">
     <value>A key term or its status has changed. Do you wish to save these changes?</value>
     <comment>ख़ास शब्‍द या उसका स्टैटस बदल गया है। इन परिवर्तनों को सेव किया जाए?</comment>
+  </data>
+  <data name="oneStory2KeyTerms" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\oneStory2KeyTerms.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="IDS_UnableToFindStoryAdd" xml:space="preserve">
+    <value>Unable to find the story '{0}'. Would you like to add a new story with that name?</value>
+    <comment>'{0}' नामक कहानी नहीं है। क्‍या उस नाम की नई कहानी जोड़ दिया जाए?</comment>
+  </data>
+  <data name="IDS_OverwriteProject" xml:space="preserve">
+    <value>You already have a project with the name, '{0}'. Do you want to delete the existing one?</value>
+  </data>
+  <data name="AddTableHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AddTableHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IDS_DefaultRepoBasePath" xml:space="preserve">
+    <value>http://hg-private.languagedepot.org</value>
+  </data>
+  <data name="IDS_StoryLanguageField" xml:space="preserve">
+    <value>&amp;{0} back-translation field</value>
   </data>
   <data name="IDS_CopyrightInfo" xml:space="preserve">
     <value>&lt;head&gt;
@@ -670,6 +715,39 @@ for more extensive study materials.&lt;/p&gt;
 &lt;/body&gt;
 
 &lt;/html&gt;</value>
+  </data>
+  <data name="IDS_StoryText" xml:space="preserve">
+    <value>{0} story lines to the clipboard</value>
+  </data>
+  <data name="IDS_CheckForSkipToUnsCheck" xml:space="preserve">
+    <value>Would you like to do one or more UNS tests now (click 'Yes') or have your consultant check the story and testing questions first (click 'No')?</value>
+  </data>
+  <data name="IDS_CantPushToTheLocalRepo" xml:space="preserve">
+    <value>You chose the local project folder. You have to browse for the network drive on which the associated project is present.</value>
+  </data>
+  <data name="IDS_MoveProjectsToNewProjectFolder" xml:space="preserve">
+    <value>The '{0}' folder is now the root folder for OneStory Editor projects. You can use Windows Explorer to move the projects (sub-folders) in '{1}' to '{0}'. Then click the "Project" menu and choose the "Browse for project file" command to re-load your projects from the new location.</value>
+  </data>
+  <data name="DragDropHandle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DragDropHandle.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IDS_AreYouSureYouWantToHaveAnEnglishBter" xml:space="preserve">
+    <value>Talk with your project consultant before creating an 'Outside English back-translator' member on your team. The role of 'Outside English back-translator' is only used when the team doesn't have anyone to do an English back-translation and they arrange with some other team to do their English BT for them. If your team is doing its own English back-translations, then don't create an 'Outside English back-translator' member (you would do it as the Project Facilitator). </value>
+  </data>
+  <data name="IDS_IsThisStoryFromTheBible" xml:space="preserve">
+    <value>Is this a story from the Bible?</value>
+    <comment>क्‍या यह कहानी बाइबल से है?</comment>
+  </data>
+  <data name="IDS_MustHaveAtLeastOneLanguage" xml:space="preserve">
+    <value>A project must have at least one language selected</value>
+  </data>
+  <data name="IDS_EnterStoryToAdd" xml:space="preserve">
+    <value>Enter the name of the story to add</value>
+    <comment>नई कहानी का नाम यहीं टाइप करके 'ऐटर' बटन दबाओ</comment>
+  </data>
+  <data name="IDS_Story" xml:space="preserve">
+    <value>Story</value>
+    <comment>कहानी</comment>
   </data>
   <data name="IDS_NetBibleDonateMessage" xml:space="preserve">
     <value>&lt;html xmlns:v="urn:schemas-microsoft-com:vml"
@@ -1311,99 +1389,6 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
 
 &lt;/html&gt;</value>
   </data>
-  <data name="CopyHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CopyHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IDS_MainFrameTitleOldStories" xml:space="preserve">
-    <value>OneStory Editor -- {0} Story Project -- Viewing Old Stories</value>
-  </data>
-  <data name="IDS_ConfirmOverride" xml:space="preserve">
-    <value>Click 'Yes' to override the '{0}' {1} for yourself ('{2}') only. Click 'No' to make this change apply to every member of the team (if you all are switching to a new {1}).</value>
-  </data>
-  <data name="IDS_StartFromBeginning" xml:space="preserve">
-    <value>Would you like to start searching from the beginning of the story?</value>
-  </data>
-  <data name="IDS_ConnectToInternet" xml:space="preserve">
-    <value>You should connect to the internet now so we can download the latest version of the file (in case some of your team made changes)</value>
-  </data>
-  <data name="RegexHelpProgram" xml:space="preserve">
-    <value>http://msdn2.microsoft.com/en-us/library/az24scfc.aspx</value>
-  </data>
-  <data name="IDS_FindStringNotFound" xml:space="preserve">
-    <value>String not found!</value>
-  </data>
-  <data name="IDS_NoSearchString" xml:space="preserve">
-    <value>Nothing to search for!</value>
-  </data>
-  <data name="IDS_MoveProjectsToNewProjectFolder" xml:space="preserve">
-    <value>The '{0}' folder is now the root folder for OneStory Editor projects. You can use Windows Explorer to move the projects (sub-folders) in '{1}' to '{0}'. Then click the "Project" menu and choose the "Browse for project file" command to re-load your projects from the new location.</value>
-  </data>
-  <data name="IDS_CantPushToTheLocalRepo" xml:space="preserve">
-    <value>You chose the local project folder. You have to browse for the network drive on which the associated project is present.</value>
-  </data>
-  <data name="IDS_MustBeCloneRepo" xml:space="preserve">
-    <value>The network repository must be identical (a "clone") of the repository in the local machine. Contact your workshop advisor.</value>
-  </data>
-  <data name="IDS_ConfirmDeleteStory" xml:space="preserve">
-    <value>Are you sure you want to delete the '{0}' story?</value>
-  </data>
-  <data name="IDS_CheckOnKeyTerms" xml:space="preserve">
-    <value>Are there any key terms in this story that you should check? To check key terms, right-click on an anchor button and choose the 'Edit Key Terms' command. Click the "Retry" button to continue on to the next state. Click the 'Cancel' button to stay in this state to look for key terms to check.</value>
-  </data>
-  <data name="IDS_AreYouSureYouWantToHaveAnEnglishBter" xml:space="preserve">
-    <value>Talk with your project consultant before creating an 'Outside English back-translator' member on your team. The role of 'Outside English back-translator' is only used when the team doesn't have anyone to do an English back-translation and they arrange with some other team to do their English BT for them. If your team is doing its own English back-translations, then don't create an 'Outside English back-translator' member (you would do it as the Project Facilitator). </value>
-  </data>
-  <data name="IDS_ConfirmDeleteAllVerseLines" xml:space="preserve">
-    <value>Are you sure you want to delete the {0}?</value>
-  </data>
-  <data name="IDS_UseStoryCollapse" xml:space="preserve">
-    <value>Verse number '{0}' has multiple sentences in the {1} column. Use the "Story" menu, "Collapse into 1 line" command followed by the "Split into Lines" command to break the story (and any back-translations) into lines based on sentence final punctuation (see "Project", "Settings" and any of the "Language" tabs to configure sentence final punctuation). The command "Story", "Re-align story lines" can also be used, which calls both of the above commands in one click</value>
-  </data>
-  <data name="IDS_NoProjectFromInternet" xml:space="preserve">
-    <value>No project file was found at the internet repository: {0}{0}{1}{0}{0}Are you sure it there is one in the repository yet?</value>
-  </data>
-  <data name="IDS_NotTheRightProjFac" xml:space="preserve">
-    <value>WARNING: You are not the Project Facilitator that originally entered this story. If you make any changes, it is very likely that they will conflict with any changes done by the other Project Facilitator. Proceed with caution (e.g. say "No" if you are asked if you want to Save Changes while on this story)</value>
-  </data>
-  <data name="IDS_DefaultRepoBasePath" xml:space="preserve">
-    <value>http://hg-private.languagedepot.org</value>
-  </data>
-  <data name="IDS_MustHaveAtLeastOneLanguage" xml:space="preserve">
-    <value>A project must have at least one language selected</value>
-  </data>
-  <data name="IDS_AddTestQuery" xml:space="preserve">
-    <value>Do you want to add boxes for the retelling and testing question answers?</value>
-  </data>
-  <data name="IDS_VerseNotEmptyHideQuery" xml:space="preserve">
-    <value>This verse isn't empty! Instead of deleting it, it would be better to just hide it so it will be left around to know what it used to be. Would you like to hide it instead?</value>
-  </data>
-  <data name="IDS_DeleteVerseQuery" xml:space="preserve">
-    <value>Are you sure you want to delete this verse (and all associated consultant notes, etc)?</value>
-  </data>
-  <data name="IDS_NoteNotEmptyHideQuery" xml:space="preserve">
-    <value>This conversation isn't empty! Instead of deleting it, it would be better to just hide it so it will be left around for history. Would you like to hide it instead?</value>
-  </data>
-  <data name="IDS_CantExport" xml:space="preserve">
-    <value>Unable to export to Toolbox! Cause: {0} {1}</value>
-  </data>
-  <data name="oneStory2CoachNotes" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\oneStory2CoachNotes.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="oneStory2ConNotes" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\oneStory2ConNotes.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="oneStory2storyingBT" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\oneStory2storyingBT.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="oneStory2storyingRetelling" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\oneStory2storyingRetelling.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="IDS_ExportedToolboxMessage" xml:space="preserve">
-    <value>The project has been exported to the folder '{0}\Toolbox'. Click 'Yes' to launch Toolbox and open that project.</value>
-  </data>
-  <data name="oneStory2KeyTerms" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\oneStory2KeyTerms.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
   <data name="IDS_TbxFile_StoryBT" xml:space="preserve">
     <value>\+DatabaseType StoryBT
 \ver 5.0
@@ -1778,27 +1763,60 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
 \HideFields
 \-DatabaseType</value>
   </data>
-  <data name="IDS_TbxFile_EmptyLnC" xml:space="preserve">
-    <value>\_sh v3.0  374  LnC Note
-\_DateStampHasFourDigitYear
-
-\r
-\wrd
-\co</value>
+  <data name="IDS_LocatedInFolder" xml:space="preserve">
+    <value>Located in folder '{0}'</value>
+    <comment>जो '{0}' फ़ोलडर में है</comment>
+  </data>
+  <data name="IDS_StartFromBeginning" xml:space="preserve">
+    <value>Would you like to start searching from the beginning of the story?</value>
+  </data>
+  <data name="IDS_FromStoryForDiscourseCharting" xml:space="preserve">
+    <value>&amp;From {0} (for Discourse Charting)</value>
+  </data>
+  <data name="IDS_NationalBtOfStory" xml:space="preserve">
+    <value>{0} back-translation of the story to the clipboard</value>
+  </data>
+  <data name="oneStory2CoachNotes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\oneStory2CoachNotes.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="IDS_AreAllTestingQuestionsEnteredQuery" xml:space="preserve">
     <value>Have you entered all of your testing questions? If not, then click 'Cancel' and finish entering all of the testing questions first (or you won't get answer boxes for questions added later). Or click 'OK' to add boxes for the UNS's retelling and answers to the testing quetsions.</value>
   </data>
-  <data name="IDS_CheckForSkipToUnsCheck" xml:space="preserve">
-    <value>Would you like to do one or more UNS tests now (click 'Yes') or have your consultant check the story and testing questions first (click 'No')?</value>
+  <data name="IDS_ConfirmOverride" xml:space="preserve">
+    <value>Click 'Yes' to override the '{0}' {1} for yourself ('{2}') only. Click 'No' to make this change apply to every member of the team (if you all are switching to a new {1}).</value>
+  </data>
+  <data name="IDS_UnableToSave" xml:space="preserve">
+    <value>Unable to save the project file '{1}'{0}{0}{2}</value>
+  </data>
+  <data name="IDS_FromNatlLanguage" xml:space="preserve">
+    <value>&amp;From {0}</value>
+  </data>
+  <data name="BuilderDialog_movedown1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BuilderDialog_movedown.PNG;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IDS_MainFrameTitle" xml:space="preserve">
+    <value>OneStory Editor -- {0} Story Project</value>
   </data>
   <data name="gradient" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\gradient.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="IDS_OSEUpgradeServer" xml:space="preserve">
-    <value>http://palaso.org/install/onestory/OseUpdates/StoryEditor.exe.manifest.xml</value>
+  <data name="IDS_UnableToCopyText" xml:space="preserve">
+    <value>Unable to copy text to the clipboard!{0}{0}{1}{0}{0}{2}</value>
   </data>
-  <data name="IDS_AddAnotherTestQuery" xml:space="preserve">
-    <value>If you want to enter the results for another UNS test, click 'Cancel' and go to "Project Facilitator enters retelling back-translation" state instead. Otherwise, click 'OK' to move forward to the next state.</value>
+  <data name="IDS_VerseNotEmptyHideQuery" xml:space="preserve">
+    <value>This verse isn't empty! Instead of deleting it, it would be better to just hide it so it will be left around to know what it used to be. Would you like to hide it instead?</value>
+  </data>
+  <data name="IDS_SaveChanges" xml:space="preserve">
+    <value>Would you like to save changes?</value>
+    <comment>क्‍या परिवर्तन सेव किया जाए?</comment>
+  </data>
+  <data name="IDS_LogInAsProjFac" xml:space="preserve">
+    <value>You have to be logged in as a 'Project Facilitator' to add stories. To login, click 'Project', 'Login'</value>
+  </data>
+  <data name="OpenSelectedItemHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\OpenSelectedItemHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IDS_VerifyOverwriteMyBiblicalTerms" xml:space="preserve">
+    <value>Click 'Ignore' to overwrite the existing 'My Biblical Terms' list with the contents of the '{0}' list. Otherwise, click 'Retry' to merge the contents of the '{0}' list into the existing 'My Biblical Terms' list.</value>
   </data>
 </root>

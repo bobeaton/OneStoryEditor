@@ -244,7 +244,7 @@ namespace OneStoryProjectEditor
         }
 
         private static BiblicalTermsList biblicalTerms = null;  // Singleton instance of this class.
-        private static string biblicalTermsPath = Properties.Settings.Default.BiblicalTermsPath;
+        public static string biblicalTermsPath = Properties.Settings.Default.BiblicalTermsPath;
 
         public static void SelectTermsList()
         {
@@ -265,20 +265,30 @@ namespace OneStoryProjectEditor
 
             dialog.Dispose();
         }
-        /* rde
 
         public static void SelectAllBiblicalTermsList()
         {
             ForceReloadOfTerms();
             biblicalTermsPath = Path.Combine(
-                Path.Combine(Program.DataPath, "BiblicalTerms"),
+                Path.Combine(StoryProjectData.GetRunningFolder, "BiblicalTerms"),
                 "AllBiblicalTerms.xml");
 
             Properties.Settings.Default.BiblicalTermsPath = biblicalTermsPath;
 
             OnBiblicalTermsListChanged();
         }
-        */
+
+        public static void SelectMyBiblicalTermsList()
+        {
+            ForceReloadOfTerms();
+            biblicalTermsPath = Path.Combine(
+                Path.Combine(StoryProjectData.GetRunningFolder, "BiblicalTerms"),
+                "MyBiblicalTerms.xml");
+
+            Properties.Settings.Default.BiblicalTermsPath = biblicalTermsPath;
+
+            OnBiblicalTermsListChanged();
+        }
 
         private static void ForceReloadOfTerms()
         {

@@ -35,6 +35,11 @@
             this.ColumnStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnGlossEnglish = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnRenderings = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButtonAddKeyTerm = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonEditKeyTerm = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonEditRenderings = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonSelectKeyTermsList = new System.Windows.Forms.ToolStripButton();
             this.progressBarLoadingKeyTerms = new System.Windows.Forms.ProgressBar();
             this.webBrowser = new onlyconnect.HtmlEditor();
             this.helpProvider = new System.Windows.Forms.HelpProvider();
@@ -43,6 +48,7 @@
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewKeyTerms)).BeginInit();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -57,6 +63,7 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.dataGridViewKeyTerms);
+            this.splitContainer1.Panel1.Controls.Add(this.toolStrip1);
             // 
             // splitContainer1.Panel2
             // 
@@ -82,14 +89,14 @@
             this.dataGridViewKeyTerms.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewKeyTerms.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.helpProvider.SetHelpString(this.dataGridViewKeyTerms, resources.GetString("dataGridViewKeyTerms.HelpString"));
-            this.dataGridViewKeyTerms.Location = new System.Drawing.Point(0, 0);
+            this.dataGridViewKeyTerms.Location = new System.Drawing.Point(0, 25);
             this.dataGridViewKeyTerms.MultiSelect = false;
             this.dataGridViewKeyTerms.Name = "dataGridViewKeyTerms";
             this.dataGridViewKeyTerms.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dataGridViewKeyTerms.RowHeadersVisible = false;
             this.dataGridViewKeyTerms.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.helpProvider.SetShowHelp(this.dataGridViewKeyTerms, true);
-            this.dataGridViewKeyTerms.Size = new System.Drawing.Size(602, 163);
+            this.dataGridViewKeyTerms.Size = new System.Drawing.Size(602, 138);
             this.dataGridViewKeyTerms.TabIndex = 0;
             this.dataGridViewKeyTerms.VirtualMode = true;
             this.dataGridViewKeyTerms.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewKeyTerms_CellDoubleClick);
@@ -122,6 +129,63 @@
             this.ColumnRenderings.HeaderText = "Renderings";
             this.ColumnRenderings.Name = "ColumnRenderings";
             this.ColumnRenderings.ReadOnly = true;
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButtonEditRenderings,
+            this.toolStripButtonSelectKeyTermsList,
+            this.toolStripButtonAddKeyTerm,
+            this.toolStripButtonEditKeyTerm});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(602, 25);
+            this.toolStrip1.TabIndex = 1;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripButtonAddKeyTerm
+            // 
+            this.toolStripButtonAddKeyTerm.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonAddKeyTerm.Image = global::OneStoryProjectEditor.Properties.Resources.AddTableHS;
+            this.toolStripButtonAddKeyTerm.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonAddKeyTerm.Name = "toolStripButtonAddKeyTerm";
+            this.toolStripButtonAddKeyTerm.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonAddKeyTerm.Text = "Add Key Term";
+            this.toolStripButtonAddKeyTerm.ToolTipText = "Click this button to add a new key term";
+            this.toolStripButtonAddKeyTerm.Click += new System.EventHandler(this.toolStripButtonAddKeyTerm_Click);
+            // 
+            // toolStripButtonEditKeyTerm
+            // 
+            this.toolStripButtonEditKeyTerm.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonEditKeyTerm.Image = global::OneStoryProjectEditor.Properties.Resources.EditTableHS;
+            this.toolStripButtonEditKeyTerm.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonEditKeyTerm.Name = "toolStripButtonEditKeyTerm";
+            this.toolStripButtonEditKeyTerm.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonEditKeyTerm.Text = "Edit Key Term";
+            this.toolStripButtonEditKeyTerm.ToolTipText = "Click this button to edit the selected key term (e.g. to add references to it)";
+            this.toolStripButtonEditKeyTerm.Click += new System.EventHandler(this.toolStripButtonEditKeyTerm_Click);
+            // 
+            // toolStripButtonEditRenderings
+            // 
+            this.toolStripButtonEditRenderings.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonEditRenderings.Image = global::OneStoryProjectEditor.Properties.Resources.EditInformationHS;
+            this.toolStripButtonEditRenderings.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonEditRenderings.Name = "toolStripButtonEditRenderings";
+            this.toolStripButtonEditRenderings.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonEditRenderings.Text = "Edit Renderings";
+            this.toolStripButtonEditRenderings.ToolTipText = "Click this button to edit the renderings for the selected key term";
+            this.toolStripButtonEditRenderings.Click += new System.EventHandler(this.toolStripButtonEditRenderings_Click);
+            // 
+            // toolStripButtonSelectKeyTermsList
+            // 
+            this.toolStripButtonSelectKeyTermsList.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonSelectKeyTermsList.Image = global::OneStoryProjectEditor.Properties.Resources.OpenSelectedItemHS;
+            this.toolStripButtonSelectKeyTermsList.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonSelectKeyTermsList.Name = "toolStripButtonSelectKeyTermsList";
+            this.toolStripButtonSelectKeyTermsList.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonSelectKeyTermsList.Text = "Select Key Terms List";
+            this.toolStripButtonSelectKeyTermsList.ToolTipText = "Click this button to select which key terms list you want to use";
+            this.toolStripButtonSelectKeyTermsList.Click += new System.EventHandler(this.toolStripButtonSelectKeyTermsList_Click);
             // 
             // progressBarLoadingKeyTerms
             // 
@@ -183,9 +247,12 @@
             this.Text = "Key Terms";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BiblicalKeyTermsForm_FormClosing);
             this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewKeyTerms)).EndInit();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -203,6 +270,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnRenderings;
         private System.Windows.Forms.HelpProvider helpProvider;
         private System.Windows.Forms.TextBox textBoxInstructions;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton toolStripButtonAddKeyTerm;
+        private System.Windows.Forms.ToolStripButton toolStripButtonEditRenderings;
+        private System.Windows.Forms.ToolStripButton toolStripButtonEditKeyTerm;
+        private System.Windows.Forms.ToolStripButton toolStripButtonSelectKeyTermsList;
 
     }
 }

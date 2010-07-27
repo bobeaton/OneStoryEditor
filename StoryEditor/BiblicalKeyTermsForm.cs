@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using NetLoc;
@@ -26,7 +27,7 @@ namespace OneStoryProjectEditor
         internal ProjectSettings.LanguageInfo MainLang;
         internal ProjectSettings _projSettings;
         readonly BiblicalTermsHTMLBuilder htmlBuilder;  // Class used to build references window text as html
-        readonly BiblicalTermsList _biblicalTerms;   // All Biblical terms
+        protected BiblicalTermsList _biblicalTerms;   // All Biblical terms
 
         public BiblicalKeyTermsForm(StoryEditor theSE, ProjectSettings projSettings, ProjectSettings.LanguageInfo liMainLang)
         {
@@ -37,14 +38,21 @@ namespace OneStoryProjectEditor
             _biblicalTerms = BiblicalTermsList.GetBiblicalTerms();
             htmlBuilder = new BiblicalTermsHTMLBuilder(projSettings);
 
-            // TODO: temporary hack. If we are using the Hindi 'MyKeyTerms' db, then
-            // change the 'English Gloss' column header to Hindi and change the font
-            if (_biblicalTerms.IsMyBiblicalTerms)
-            {
-                ColumnGlossEnglish.HeaderText = "Gloss";
-                ColumnGlossEnglish.DefaultCellStyle.Font = new Font("Arial Unicode MS", 12);
-            }
+            BiblicalTermsList.BiblicalTermsListChanged += BiblicalTermsList_BiblicalTermsListChanged;
         }
+
+        void BiblicalTermsList_BiblicalTermsListChanged(object sender, EventArgs e)
+        {
+            GetBiblicalTerms();
+            ShowPartTwo();
+        }
+
+        private void GetBiblicalTerms()
+        {
+            _biblicalTerms = BiblicalTermsList.GetBiblicalTerms();
+        }
+
+        private List<string> _lstRefs;
 
         public void Show(AnchorsData theAnchors, StoryProjectData theStoryProject)
         {
@@ -68,46 +76,17 @@ namespace OneStoryProjectEditor
                 }
 #endif
 
-                List<string> lstRefs = new List<string>();
+                _lstRefs = new List<string>();
                 foreach (AnchorData anAnchor in theAnchors)
                 {
                     VerseRef verseRef = new VerseRef(anAnchor.AnchorAsVerseRef);
-                    lstRefs.Add(verseRef.BBBCCCVVV());
+                    _lstRefs.Add(verseRef.BBBCCCVVV());
                 }
 
-                visibleTerms.Clear();
-                progressBarLoadingKeyTerms.Maximum = _biblicalTerms.Terms.Count;
-                progressBarLoadingKeyTerms.Value = 0;
-                foreach (Term term in _biblicalTerms.Terms)
-                {
-                    foreach (Verse aVerseReference in term.References)
-                        if (lstRefs.Contains(aVerseReference.VerseRef.BBBCCCVVV()))
-                        {
-                            visibleTerms.Add(term);
-                            break;
-                        }
-                    progressBarLoadingKeyTerms.Value++;
-                }
+                ShowPartTwo();
 
                 // indicate that we've checked the key terms here.
                 theAnchors.IsKeyTermChecked = true;
-
-                if (visibleTerms.Count == 0)
-                {
-                    MessageBox.Show(Localizer.Str("There are no Biblical Terms in this verse(s)."));
-                    return;
-                }
-
-                renderings = TermRenderingsList.GetTermRenderings(_projSettings.ProjectFolder, MainLang.LangCode);
-                termLocalizations = TermLocalizations.Localizations;
-
-                ColumnTermLemma.DefaultCellStyle.Font = new Font("Charis SIL", 12);
-                ColumnStatus.DefaultCellStyle.Font = new Font("Wingdings", 11);
-                ColumnRenderings.DefaultCellStyle.Font = MainLang.FontToUse;
-                ColumnRenderings.DefaultCellStyle.ForeColor = MainLang.FontColor;
-
-                termIndexRequested = -1;
-                LoadTermsList();
             }
             catch (Exception ex)
             {
@@ -119,6 +98,53 @@ namespace OneStoryProjectEditor
             {
                 Cursor = curCursor;
             }
+        }
+
+        private void ShowPartTwo()
+        {
+            visibleTerms.Clear();
+            progressBarLoadingKeyTerms.Visible = true;
+            progressBarLoadingKeyTerms.Maximum = _biblicalTerms.Terms.Count;
+            progressBarLoadingKeyTerms.Value = 0;
+            foreach (Term term in _biblicalTerms.Terms)
+            {
+                foreach (Verse aVerseReference in term.References)
+                    if (_lstRefs.Contains(aVerseReference.VerseRef.BBBCCCVVV()))
+                    {
+                        visibleTerms.Add(term);
+                        break;
+                    }
+                progressBarLoadingKeyTerms.Value++;
+            }
+
+            Text = String.Format("Key Terms -- {0}", _biblicalTerms.Caption);
+            termIndexRequested = -1;
+            dataGridViewKeyTerms.Rows.Clear();  // just in case we exit next
+
+            if (visibleTerms.Count == 0)
+            {
+                progressBarLoadingKeyTerms.Visible = false;
+                MessageBox.Show(Localizer.Str("There are no Biblical Terms in this verse(s)."));
+                return;
+            }
+
+            renderings = TermRenderingsList.GetTermRenderings(_projSettings.ProjectFolder, MainLang.LangCode);
+            termLocalizations = TermLocalizations.Localizations;
+
+            // TODO: temporary hack. If we are using the Hindi 'MyKeyTerms' db, then
+            // change the 'English Gloss' column header to Hindi and change the font
+            if (_biblicalTerms.IsMyBiblicalTerms)
+            {
+                ColumnGlossEnglish.HeaderText = "Gloss";
+                ColumnGlossEnglish.DefaultCellStyle.Font = new Font("Arial Unicode MS", 12);
+            }
+
+            ColumnTermLemma.DefaultCellStyle.Font = new Font("Charis SIL", 12);
+            ColumnStatus.DefaultCellStyle.Font = new Font("Wingdings", 11);
+            ColumnRenderings.DefaultCellStyle.Font = MainLang.FontToUse;
+            ColumnRenderings.DefaultCellStyle.ForeColor = MainLang.FontColor;
+
+            LoadTermsList();
         }
 
         private void dataGridViewKeyTerms_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -592,6 +618,80 @@ namespace OneStoryProjectEditor
         {
             if (renderings != null)
                 renderings.PromptForSave(_projSettings.ProjectFolder);
+        }
+
+        private void toolStripButtonEditRenderings_Click(object sender, EventArgs e)
+        {
+            EditRenderings();
+        }
+
+        private void toolStripButtonAddKeyTerm_Click(object sender, EventArgs e)
+        {
+            EditKeyTerm(null);
+        }
+
+        private void EditKeyTerm(Term term)
+        {
+            // first see if we're using the 'my biblical terms' which is the only list that is editable.
+            if (!_biblicalTerms.IsMyBiblicalTerms)
+            {
+                DialogResult res = MessageBox.Show(Properties.Resources.IDS_CreateMyBiblicalTermsQuery,
+                    OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.OKCancel);
+                if (res == DialogResult.Cancel)
+                    return;
+
+                string strListToCopyFrom = _biblicalTerms.Caption;
+                res = MessageBox.Show(String.Format(Properties.Resources.IDS_VerifyOverwriteMyBiblicalTerms,
+                    strListToCopyFrom), OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.AbortRetryIgnore);
+                if (res == DialogResult.Abort)
+                    return;
+
+                if (res == DialogResult.Ignore)
+                {
+                    // clobber the existing 'My Biblical Terms'
+                    string fileName = Path.Combine(
+                        Path.Combine(StoryProjectData.GetRunningFolder, "BiblicalTerms"), 
+                        "MyBiblicalTerms.xml");
+                    File.Delete(fileName);
+                }
+
+                // now get a new one (if needed) to merge with
+                BiblicalTermsList mbt = BiblicalTermsList.GetMyBiblicalTermsList();
+
+                foreach (Term termInList in _biblicalTerms.Terms)
+                {
+                    if (mbt.GetIfPresent(termInList.Id) == null)
+                        mbt.Add(termInList);
+                }
+
+                mbt.Save();
+                BiblicalTermsList.SelectMyBiblicalTermsList();
+                System.Diagnostics.Debug.Assert(_biblicalTerms.IsMyBiblicalTerms);
+            }
+
+            // otherwise, if we now have an editable list...
+            Paratext.BiblicalTerms.EditBiblicalTermForm form = new Paratext.BiblicalTerms.EditBiblicalTermForm(term);
+
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                LoadReferencesDisplay(false);
+                NotifyRenderingsChanged();
+            }
+
+            form.Dispose();
+        }
+
+        private void toolStripButtonEditKeyTerm_Click(object sender, EventArgs e)
+        {
+            if (SelectedTerm == null)
+                return;
+
+            EditKeyTerm(SelectedTerm);
+        }
+
+        private void toolStripButtonSelectKeyTermsList_Click(object sender, EventArgs e)
+        {
+            BiblicalTermsList.SelectTermsList();
         }
     }
 }

@@ -60,6 +60,13 @@ namespace OneStoryProjectEditor.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap AddTableHS {
+            get {
+                object obj = ResourceManager.GetObject("AddTableHS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap BuilderDialog_movedown1 {
             get {
                 object obj = ResourceManager.GetObject("BuilderDialog_movedown1", resourceCulture);
@@ -91,6 +98,20 @@ namespace OneStoryProjectEditor.Properties {
         internal static System.Drawing.Bitmap DragDropHandle {
             get {
                 object obj = ResourceManager.GetObject("DragDropHandle", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap EditInformationHS {
+            get {
+                object obj = ResourceManager.GetObject("EditInformationHS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap EditTableHS {
+            get {
+                object obj = ResourceManager.GetObject("EditTableHS", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -270,6 +291,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_CopyrightInfo {
             get {
                 return ResourceManager.GetString("IDS_CopyrightInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In order to add or edit key terms, you have to begin using a local copy of one of the existing key terms list (i.e. a copy generated, for example, from the Paratext &quot;Major Key Terms&quot; or &quot;All Key Terms&quot; lists or one customized by your entity). At this point, you may want to click &apos;Cancel&apos; here and then click the &quot;Select Key Terms List&quot; button to select one of the other, existing key terms lists to see if the term you want is present in one of them. If not, then select the key terms list (Major or All) that y [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string IDS_CreateMyBiblicalTermsQuery {
+            get {
+                return ResourceManager.GetString("IDS_CreateMyBiblicalTermsQuery", resourceCulture);
             }
         }
         
@@ -770,6 +800,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Click &apos;Ignore&apos; to overwrite the existing &apos;My Biblical Terms&apos; list with the contents of the &apos;{0}&apos; list. Otherwise, click &apos;Retry&apos; to merge the contents of the &apos;{0}&apos; list into the existing &apos;My Biblical Terms&apos; list..
+        /// </summary>
+        internal static string IDS_VerifyOverwriteMyBiblicalTerms {
+            get {
+                return ResourceManager.GetString("IDS_VerifyOverwriteMyBiblicalTerms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This verse isn&apos;t empty! Instead of deleting it, it would be better to just hide it so it will be left around to know what it used to be. Would you like to hide it instead?.
         /// </summary>
         internal static string IDS_VerseNotEmptyHideQuery {
@@ -889,6 +928,13 @@ namespace OneStoryProjectEditor.Properties {
         internal static string oneStory2storyingRetelling {
             get {
                 return ResourceManager.GetString("oneStory2storyingRetelling", resourceCulture);
+            }
+        }
+        
+        internal static System.Drawing.Bitmap OpenSelectedItemHS {
+            get {
+                object obj = ResourceManager.GetObject("OpenSelectedItemHS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
