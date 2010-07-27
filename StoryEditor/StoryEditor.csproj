@@ -94,7 +94,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\OseResources\bin\Debug\OseResources.dll</HintPath>
     </Reference>
-    <Reference Include="Palaso, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=x86">
+    <Reference Include="Palaso, Version=1.2.490.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\Palaso.dll</HintPath>
     </Reference>
