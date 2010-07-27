@@ -75,10 +75,12 @@ namespace OneStoryProjectEditor
                     checkBoxLangInternationalBT.Checked,
                     checkBoxAnchors.Checked,
                     checkBoxStoryTestingQuestions.Checked,
+                    checkBoxAnswers.Checked,
                     checkBoxRetellings.Checked,
                     false,  // theSE.viewConsultantNoteFieldMenuItem.Checked,
                     false,  // theSE.viewCoachNotesFieldMenuItem.Checked,
-                    false); // theSE.viewNetBibleMenuItem.Checked
+                    false,  // theSE.viewNetBibleMenuItem.Checked
+                    checkBoxFrontMatter.Checked);
 
 
                 htmlStoryBtControl.ParentStory = GetStoryForPresentation(_nParentIndex);

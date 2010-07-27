@@ -97,7 +97,7 @@ namespace OneStoryProjectEditor
                 }
             }
 
-            if (theSE.viewStoryTestingQuestionFieldMenuItem.Checked)
+            if (theSE.viewStoryTestingQuestionMenuItem.Checked || theSE.viewStoryTestingQuestionAnswerMenuItem.Checked)
             {
                 if (_verseData.TestQuestions.Count > 0)
                 {
@@ -215,8 +215,8 @@ namespace OneStoryProjectEditor
                 return;
 
             _verseData.TestQuestions.AddTestQuestion();
-            if (!theSE.viewStoryTestingQuestionFieldMenuItem.Checked)
-                theSE.viewStoryTestingQuestionFieldMenuItem.Checked = true;
+            if (!theSE.viewStoryTestingQuestionMenuItem.Checked)
+                theSE.viewStoryTestingQuestionMenuItem.Checked = true;
             else
                 UpdateViewOfThisVerse(theSE);
         }
@@ -254,7 +254,7 @@ namespace OneStoryProjectEditor
             if (theSE.viewRetellingFieldMenuItem.Checked)
                 AddRemoveRetellingSubmenus(_verseData.Retellings);
             */
-            if (theSE.viewStoryTestingQuestionFieldMenuItem.Checked)
+            if (theSE.viewStoryTestingQuestionMenuItem.Checked)
                 AddRemoveTestQuestionsAndAnswersSubmenus(_verseData.TestQuestions);
 
             removeToolStripMenuItem.Enabled = (removeToolStripMenuItem.DropDown.Items.Count > 0);

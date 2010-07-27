@@ -1776,6 +1776,8 @@ namespace OneStoryProjectEditor
                     projectSettingsToolStripMenuItem.Enabled =
                     projectLoginToolStripMenuItem.Enabled = false;
             }
+
+            printPreviewToolStripMenuItem.Enabled = (StoryProject != null);
         }
 
         private void recentProjectsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2804,11 +2806,13 @@ namespace OneStoryProjectEditor
                 viewNationalLangFieldMenuItem.Checked,
                 viewEnglishBTFieldMenuItem.Checked,
                 viewAnchorFieldMenuItem.Checked,
-                viewStoryTestingQuestionFieldMenuItem.Checked,
+                viewStoryTestingQuestionMenuItem.Checked,
+                viewStoryTestingQuestionAnswerMenuItem.Checked,
                 viewRetellingFieldMenuItem.Checked,
                 viewConsultantNoteFieldMenuItem.Checked,
                 viewCoachNotesFieldMenuItem.Checked,
-                viewNetBibleMenuItem.Checked);
+                viewNetBibleMenuItem.Checked,
+                true);
 
             if (dlg.ShowDialog() == DialogResult.OK)
             {
@@ -2854,9 +2858,10 @@ namespace OneStoryProjectEditor
                                                              && (((int)theCurrentStory.ProjStage.ProjectStage)
                                                                  >= (int)StoryStageLogic.ProjectStages.eProjFacAddAnchors));
 
-                viewStoryTestingQuestionFieldMenuItem.Enabled = ((theCurrentStory != null)
-                                                             && (((int)theCurrentStory.ProjStage.ProjectStage)
-                                                                 > (int)StoryStageLogic.ProjectStages.eProjFacAddStoryQuestions));
+                viewStoryTestingQuestionMenuItem.Enabled = 
+                    viewStoryTestingQuestionMenuItem.Enabled = ((theCurrentStory != null)
+                                                                 && (((int)theCurrentStory.ProjStage.ProjectStage)
+                                                                     > (int)StoryStageLogic.ProjectStages.eProjFacAddStoryQuestions));
 
                 viewConsultantNoteFieldMenuItem.Enabled =
                     viewCoachNotesFieldMenuItem.Enabled = (theCurrentStory != null);
@@ -3092,10 +3097,15 @@ namespace OneStoryProjectEditor
                                                VerseData.IsViewItemOn(viewItemToInsureOn,
                                                                       VerseData.ViewItemToInsureOn.eAnchorFields),
                                                bDoOffToo);
-            bSomethingChanged |= InsureVisible(viewStoryTestingQuestionFieldMenuItem,
+            bSomethingChanged |= InsureVisible(viewStoryTestingQuestionMenuItem,
                                                VerseData.IsViewItemOn(viewItemToInsureOn,
                                                                       VerseData.ViewItemToInsureOn.
-                                                                          eStoryTestingQuestionFields),
+                                                                          eStoryTestingQuestions),
+                                               bDoOffToo);
+            bSomethingChanged |= InsureVisible(viewStoryTestingQuestionAnswerMenuItem,
+                                               VerseData.IsViewItemOn(viewItemToInsureOn,
+                                                                      VerseData.ViewItemToInsureOn.
+                                                                          eStoryTestingQuestionAnswers),
                                                bDoOffToo);
             bSomethingChanged |= InsureVisible(viewRetellingFieldMenuItem,
                                                VerseData.IsViewItemOn(viewItemToInsureOn,
@@ -3642,12 +3652,6 @@ namespace OneStoryProjectEditor
             FocusOnVerse(nVerseNumber, true, true);
         }
 
-        private void resetStoredInformationToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Properties.Settings.Default.Reset();
-            Program.InitializeLocalSettingsCollections();
-        }
-
         private void selectAlternateKeyTermDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AnchorControl.m_dlgKeyTerms = null; // forget we had the dialog to requiry
@@ -3685,6 +3689,18 @@ namespace OneStoryProjectEditor
         private void useSameSettingsForAllStoriesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.LastUseForAllStories = useSameSettingsForAllStoriesToolStripMenuItem.Checked;
+            Properties.Settings.Default.Save();
+        }
+
+        private void printPreviewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PrintForm dlg = new PrintForm(this);
+            dlg.Show();
+        }
+
+        private void resetStoredInformationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.Reset();
             Properties.Settings.Default.Save();
         }
     }

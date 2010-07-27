@@ -365,7 +365,8 @@ namespace OneStoryProjectEditor
                             st.IsNationalBTVisible = (xpNextElement.Current.GetAttribute("viewNationalLangField", navigator.NamespaceURI) == "true");
                             st.IsEnglishBTVisible = (xpNextElement.Current.GetAttribute("viewEnglishBTField", navigator.NamespaceURI) == "true");
                             st.IsAnchorVisible = (xpNextElement.Current.GetAttribute("viewAnchorField", navigator.NamespaceURI) == "true");
-                            st.IsStoryTestingQuestion = (xpNextElement.Current.GetAttribute("viewStoryTestingQuestionField", navigator.NamespaceURI) == "true");
+                            st.IsStoryTestingQuestionVisible = (xpNextElement.Current.GetAttribute("viewStoryTestingQuestions", navigator.NamespaceURI) == "true");
+                            st.IsStoryTestingQuestionAnswersVisible = (xpNextElement.Current.GetAttribute("viewStoryTestingAnswers", navigator.NamespaceURI) == "true");
                             st.IsRetellingVisible = (xpNextElement.Current.GetAttribute("viewRetellingField", navigator.NamespaceURI) == "true");
                             st.IsConsultantNotesVisible = (xpNextElement.Current.GetAttribute("viewConsultantNoteField", navigator.NamespaceURI) == "true");
                             st.IsCoachNotesVisible = (xpNextElement.Current.GetAttribute("viewCoachNotesField", navigator.NamespaceURI) == "true");
@@ -444,7 +445,8 @@ namespace OneStoryProjectEditor
             internal bool IsNationalBTVisible { get; set; }
             internal bool IsEnglishBTVisible { get; set; }
             internal bool IsAnchorVisible { get; set; }
-            internal bool IsStoryTestingQuestion { get; set; }
+            internal bool IsStoryTestingQuestionVisible { get; set; }
+            internal bool IsStoryTestingQuestionAnswersVisible { get; set; }
             internal bool IsRetellingVisible { get; set; }
             internal bool IsConsultantNotesVisible { get; set; }
             internal bool IsCoachNotesVisible { get; set; }
@@ -531,7 +533,8 @@ namespace OneStoryProjectEditor
                         && !theSE.StoryProject.ProjSettings.NationalBT.HasData)));
 
                 theSE.viewAnchorFieldMenuItem.Checked = IsAnchorVisible;
-                theSE.viewStoryTestingQuestionFieldMenuItem.Checked = IsStoryTestingQuestion;
+                theSE.viewStoryTestingQuestionMenuItem.Checked = IsStoryTestingQuestionVisible;
+                theSE.viewStoryTestingQuestionAnswerMenuItem.Checked = IsStoryTestingQuestionAnswersVisible;
                 theSE.viewRetellingFieldMenuItem.Checked = IsRetellingVisible;
                 theSE.viewConsultantNoteFieldMenuItem.Checked = IsConsultantNotesVisible;
                 theSE.viewCoachNotesFieldMenuItem.Checked = IsCoachNotesVisible;
@@ -574,7 +577,8 @@ namespace OneStoryProjectEditor
                                 new XAttribute("viewNationalLangFieldMenuItem", IsNationalBTVisible),
                                 new XAttribute("viewEnglishBTFieldMenuItem", IsEnglishBTVisible),
                                 new XAttribute("viewAnchorFieldMenuItem", IsAnchorVisible),
-                                new XAttribute("viewStoryTestingQuestionFieldMenuItem", IsStoryTestingQuestion),
+                                new XAttribute("viewStoryTestingQuestions", IsStoryTestingQuestionVisible),
+                                new XAttribute("viewStoryTestingAnswers", IsStoryTestingQuestionAnswersVisible),
                                 new XAttribute("viewRetellingFieldMenuItem", IsRetellingVisible),
                                 new XAttribute("viewConsultantNoteFieldMenuItem", IsConsultantNotesVisible),
                                 new XAttribute("viewCoachNotesFieldMenuItem", IsCoachNotesVisible),

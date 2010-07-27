@@ -338,7 +338,8 @@ namespace OneStoryProjectEditor
             sp.ConsultantNotes = form.checkBoxLookInConsultantNotes.Checked = Properties.Settings.Default.LookInConsultantNotes;
             sp.CoachNotes = form.checkBoxLookInCoachNotes.Checked = Properties.Settings.Default.LookInCoachNotes;
             sp.Retellings = form.checkBoxLookInRetellings.Checked = Properties.Settings.Default.LookInRetellings;
-            sp.TestQnA = form.checkBoxLookInTestQnA.Checked = Properties.Settings.Default.LookInTestQnA;
+            sp.TestQs = form.checkBoxLookInTestQs.Checked = Properties.Settings.Default.LookInTestQs;
+            sp.TestAs = form.checkBoxLookInTestAs.Checked = Properties.Settings.Default.LookInTestAs;
             sp.SearchAll = form.checkBoxAllStories.Checked = Properties.Settings.Default.LookInAllStories;
             sp.UseRegex = form.checkBoxUseRegex.Checked = Properties.Settings.Default.UseRegEx;
 
@@ -364,7 +365,8 @@ namespace OneStoryProjectEditor
             Properties.Settings.Default.LookInConsultantNotes = form.checkBoxLookInConsultantNotes.Checked;
             Properties.Settings.Default.LookInCoachNotes = form.checkBoxLookInCoachNotes.Checked;
             Properties.Settings.Default.LookInRetellings = form.checkBoxLookInRetellings.Checked;
-            Properties.Settings.Default.LookInTestQnA = form.checkBoxLookInTestQnA.Checked;
+            Properties.Settings.Default.LookInTestQs = form.checkBoxLookInTestQs.Checked;
+            Properties.Settings.Default.LookInTestAs = form.checkBoxLookInTestAs.Checked;
             Properties.Settings.Default.LookInAllStories = form.checkBoxAllStories.Checked;
             Properties.Settings.Default.UseRegEx = form.checkBoxUseRegex.Checked;
 
@@ -411,9 +413,14 @@ namespace OneStoryProjectEditor
             FindProperties.CoachNotes = ChangeCheckedState(sender as CheckBox);
         }
 
-        private void checkBoxLookInTestQnA_CheckedChanged(object sender, EventArgs e)
+        private void checkBoxLookInTestQs_CheckedChanged(object sender, EventArgs e)
         {
-            FindProperties.TestQnA = ChangeCheckedState(sender as CheckBox);
+            FindProperties.TestQs = ChangeCheckedState(sender as CheckBox);
+        }
+
+        void checkBoxLookInTestAs_CheckedChanged(object sender, EventArgs e)
+        {
+            FindProperties.TestAs = ChangeCheckedState(sender as CheckBox);
         }
 
         private void checkBoxLookInRetellings_CheckedChanged(object sender, EventArgs e)

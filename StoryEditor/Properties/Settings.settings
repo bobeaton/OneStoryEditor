@@ -175,7 +175,7 @@ DoAdaptingBeforeGlossing_InVerticalEdit	1</Value>
     <Setting Name="LookInRetellings" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="LookInTestQnA" Type="System.Boolean" Scope="User">
+    <Setting Name="LookInTestQs" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="LookInAllStories" Type="System.Boolean" Scope="User">
@@ -207,6 +207,9 @@ DoAdaptingBeforeGlossing_InVerticalEdit	1</Value>
     </Setting>
     <Setting Name="LastUseForAllStories" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="LookInTestAs" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -54,8 +54,8 @@ namespace OneStoryProjectEditor
                                                      && (((int) theCurrentStory.ProjStage.ProjectStage)
                                                          > (int) StoryStageLogic.ProjectStages.eProjFacAddStoryQuestions));
 
-
-            checkBoxConsultantNotes.Enabled =
+            checkBoxAnswers.Enabled = 
+                checkBoxConsultantNotes.Enabled =
                 checkBoxCoachNotes.Enabled = (theCurrentStory != null);
 
             checkBoxUseForAllStories.Checked = bUseForAllStories;
@@ -79,8 +79,10 @@ namespace OneStoryProjectEditor
                     checkBoxLangInternationalBT.Checked = true;
                 if (VerseData.IsViewItemOn(value, VerseData.ViewItemToInsureOn.eAnchorFields))
                     checkBoxAnchors.Checked = true;
-                if (VerseData.IsViewItemOn(value, VerseData.ViewItemToInsureOn.eStoryTestingQuestionFields))
+                if (VerseData.IsViewItemOn(value, VerseData.ViewItemToInsureOn.eStoryTestingQuestions))
                     checkBoxStoryTestingQuestions.Checked = true;
+                if (VerseData.IsViewItemOn(value, VerseData.ViewItemToInsureOn.eStoryTestingQuestionAnswers))
+                    checkBoxAnswers.Checked = true;
                 if (VerseData.IsViewItemOn(value, VerseData.ViewItemToInsureOn.eRetellingFields))
                     checkBoxRetellings.Checked = true;
                 if (VerseData.IsViewItemOn(value, VerseData.ViewItemToInsureOn.eConsultantNoteFields))
@@ -99,10 +101,12 @@ namespace OneStoryProjectEditor
                     checkBoxLangInternationalBT.Checked,
                     checkBoxAnchors.Checked,
                     checkBoxStoryTestingQuestions.Checked,
+                    checkBoxAnswers.Checked,
                     checkBoxRetellings.Checked,
                     checkBoxConsultantNotes.Checked,
                     checkBoxCoachNotes.Checked,
-                    checkBoxBibleViewer.Checked);
+                    checkBoxBibleViewer.Checked,
+                    true);
             }
         }
 

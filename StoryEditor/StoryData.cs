@@ -94,6 +94,19 @@ namespace OneStoryProjectEditor
             }
         }
 
+        /// <summary>
+        /// Returns the number of (unhidden) lines in the story
+        /// </summary>
+        public int NumOfLines
+        {
+            get { return Verses.NumOfLines; }
+        }
+
+        public string NumOfWords(ProjectSettings projSettings)
+        {
+            return Verses.NumOfWords(projSettings);
+        }
+
         public void IndexSearch(VerseData.SearchLookInProperties findProperties,
             ref VerseData.StringTransferSearchIndex lstBoxesToSearch)
         {
@@ -158,9 +171,11 @@ namespace OneStoryProjectEditor
                 true,
                 true,
                 true,
+                true,
                 false,  // theSE.viewConsultantNoteFieldMenuItem.Checked,
                 false,  // theSE.viewCoachNotesFieldMenuItem.Checked,
-                false); // theSE.viewNetBibleMenuItem.Checked
+                false,  // theSE.viewNetBibleMenuItem.Checked
+                true);  // story front matter
 
             string strHtml = null;
             if (ParentStory != null)
@@ -174,6 +189,20 @@ namespace OneStoryProjectEditor
 
         public string PresentationHtml(VerseData.ViewItemToInsureOn viewSettings, ProjectSettings projSettings, TeamMembersData teamMembers, StoryData child)
         {
+            string strHtml = PresentationHtmlWithoutHtmlDocOutside(viewSettings, projSettings, teamMembers, child);
+            return AddHtmlHtmlDocOutside(strHtml, projSettings);
+        }
+
+        public static string AddHtmlHtmlDocOutside(string strHtmlInside, ProjectSettings projSettings)
+        {
+            return String.Format(OseResources.Properties.Resources.HTML_HeaderPresentation,
+                                 StylePrefix(projSettings),
+                                 OseResources.Properties.Resources.HTML_DOM_PrefixPresentation,
+                                 strHtmlInside);
+        }
+
+        public string PresentationHtmlWithoutHtmlDocOutside(VerseData.ViewItemToInsureOn viewSettings, ProjectSettings projSettings, TeamMembersData teamMembers, StoryData child)
+        {
             bool bShowVernacular = VerseData.IsViewItemOn(viewSettings, VerseData.ViewItemToInsureOn.eVernacularLangField);
             bool bShowNationalBT = VerseData.IsViewItemOn(viewSettings, VerseData.ViewItemToInsureOn.eNationalLangField);
             bool bShowEnglishBT = VerseData.IsViewItemOn(viewSettings, VerseData.ViewItemToInsureOn.eEnglishBTField);
@@ -184,20 +213,23 @@ namespace OneStoryProjectEditor
             if (bShowEnglishBT) nNumCols++;
 
             string strHtml = null;
-            strHtml += PresentationHtmlRow("Story Name", Name, (child != null) ? child.Name : null);
-
-            // for stage, it's a bit more complicated
-            StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[ProjStage.ProjectStage];
-            string strParentStage = st.StageDisplayString;
-            string strChildStage = null;
-            if (child != null)
+            if (VerseData.IsViewItemOn(viewSettings, VerseData.ViewItemToInsureOn.eStoryFrontMatter))
             {
-                st = StoryStageLogic.stateTransitions[child.ProjStage.ProjectStage];
-                strChildStage = st.StageDisplayString;
-            }
-            strHtml += PresentationHtmlRow("Story Stage", strParentStage, strChildStage);
+                strHtml += PresentationHtmlRow("Story Name", Name, (child != null) ? child.Name : null);
 
-            strHtml += CraftingInfo.PresentationHtml(teamMembers, (child != null) ? child.CraftingInfo : null);
+                // for stage, it's a bit more complicated
+                StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[ProjStage.ProjectStage];
+                string strParentStage = st.StageDisplayString;
+                string strChildStage = null;
+                if (child != null)
+                {
+                    st = StoryStageLogic.stateTransitions[child.ProjStage.ProjectStage];
+                    strChildStage = st.StageDisplayString;
+                }
+                strHtml += PresentationHtmlRow("Story Stage", strParentStage, strChildStage);
+
+                strHtml += CraftingInfo.PresentationHtml(teamMembers, (child != null) ? child.CraftingInfo : null);
+            }
 
             // make a sub-table out of all this
             strHtml = String.Format(OseResources.Properties.Resources.HTML_TableRow,
@@ -205,13 +237,10 @@ namespace OneStoryProjectEditor
                                                   String.Format(OseResources.Properties.Resources.HTML_Table,
                                                                 strHtml)));
 
-            strHtml += Verses.PresentationHtml((child != null) ? child.CraftingInfo : CraftingInfo, 
+            strHtml += Verses.PresentationHtml((child != null) ? child.CraftingInfo : CraftingInfo,
                 (child != null) ? child.Verses : null, nNumCols, viewSettings);
 
-            return String.Format(OseResources.Properties.Resources.HTML_HeaderPresentation,
-                StylePrefix(projSettings),
-                OseResources.Properties.Resources.HTML_DOM_PrefixPresentation,
-                strHtml);
+            return strHtml;
         }
 
         protected string PresentationHtmlRow(string strLabel, string strParentValue, string strChildValue)
@@ -239,7 +268,7 @@ namespace OneStoryProjectEditor
         public const string CstrLangNationalBtStyleClassName = "LangNationalBT";
         public const string CstrLangInternationalBtStyleClassName = "LangInternationalBT";
 
-        public string StylePrefix(ProjectSettings projSettings)
+        public static string StylePrefix(ProjectSettings projSettings)
         {
             string strLangStyles = null;
             if (projSettings.Vernacular.HasData)
@@ -633,7 +662,7 @@ namespace OneStoryProjectEditor
         public TeamMembersData TeamMembers;
         public ProjectSettings ProjSettings;
         public string PanoramaFrontMatter;
-        public string XmlDataVersion = "1.2";
+        public string XmlDataVersion = "1.3";
 
         /// <summary>
         /// This version of the constructor should *always* be followed by a call to InitializeProjectSettings()

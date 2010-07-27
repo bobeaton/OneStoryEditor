@@ -326,12 +326,12 @@ namespace OneStoryProjectEditor.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool LookInTestQnA {
+        public bool LookInTestQs {
             get {
-                return ((bool)(this["LookInTestQnA"]));
+                return ((bool)(this["LookInTestQs"]));
             }
             set {
-                this["LookInTestQnA"] = value;
+                this["LookInTestQs"] = value;
             }
         }
         
@@ -449,6 +449,18 @@ namespace OneStoryProjectEditor.Properties {
             }
             set {
                 this["LastUseForAllStories"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool LookInTestAs {
+            get {
+                return ((bool)(this["LookInTestAs"]));
+            }
+            set {
+                this["LookInTestAs"] = value;
             }
         }
     }

@@ -98,7 +98,8 @@ namespace OneStoryProjectEditor
             public bool ConsultantNotes { get; set; }
             public bool CoachNotes { get; set; }
             public bool Retellings { get; set; }
-            public bool TestQnA { get; set; }
+            public bool TestQs { get; set; }
+            public bool TestAs { get; set; }
             public bool SearchAll { get; set; }
             public bool UseRegex { get; set; }
         }
@@ -169,7 +170,7 @@ namespace OneStoryProjectEditor
             if (InternationalBTText.HasData && findProperties.EnglishBT)
                 lstBoxesToSearch.AddNewVerseString(InternationalBTText,
                     ViewItemToInsureOn.eEnglishBTField);
-            if (TestQuestions.HasData && findProperties.TestQnA)
+            if (TestQuestions.HasData && (findProperties.TestQs || findProperties.TestAs))
                 TestQuestions.IndexSearch(findProperties, ref lstBoxesToSearch);
             if (Retellings.HasData && findProperties.Retellings)
                 Retellings.IndexSearch(findProperties, ref lstBoxesToSearch);
@@ -236,7 +237,7 @@ namespace OneStoryProjectEditor
 
         public static bool IsViewItemOn(ViewItemToInsureOn eValue, ViewItemToInsureOn eFlag)
         {
-            return ((eValue & eFlag) == eFlag);
+            return ((eValue & eFlag) != ViewItemToInsureOn.eUndefined);
         }
 
         public static ViewItemToInsureOn SetItemsToInsureOn
@@ -246,10 +247,12 @@ namespace OneStoryProjectEditor
             bool bLangInternationalBT,
             bool bAnchors,
             bool bStoryTestingQuestions,
+            bool bStoryTestingQuestionAnswers,
             bool bRetellings,
             bool bConsultantNotes,
             bool bCoachNotes,
-            bool bBibleViewer
+            bool bBibleViewer,
+            bool bStoryFrontMatter
             )
         {
             ViewItemToInsureOn items = 0;
@@ -262,7 +265,9 @@ namespace OneStoryProjectEditor
             if (bAnchors)
                 items |= ViewItemToInsureOn.eAnchorFields;
             if (bStoryTestingQuestions)
-                items |= ViewItemToInsureOn.eStoryTestingQuestionFields;
+                items |= ViewItemToInsureOn.eStoryTestingQuestions;
+            if (bStoryTestingQuestionAnswers)
+                items |= ViewItemToInsureOn.eStoryTestingQuestionAnswers;
             if (bRetellings)
                 items |= ViewItemToInsureOn.eRetellingFields;
             if (bConsultantNotes)
@@ -271,6 +276,8 @@ namespace OneStoryProjectEditor
                 items |= ViewItemToInsureOn.eCoachNotesFields;
             if (bBibleViewer)
                 items |= ViewItemToInsureOn.eBibleViewer;
+            if (bStoryFrontMatter)
+                items |= ViewItemToInsureOn.eStoryFrontMatter;
             return items;
         }
 
@@ -283,15 +290,18 @@ namespace OneStoryProjectEditor
         [Flags]
         public enum ViewItemToInsureOn
         {
+            eUndefined = 0,
             eVernacularLangField = 1,
             eNationalLangField = 2,
             eEnglishBTField = 4,
             eAnchorFields = 8,
-            eStoryTestingQuestionFields = 16,
-            eRetellingFields = 32,
-            eConsultantNoteFields = 64,
-            eCoachNotesFields = 128,
-            eBibleViewer = 256
+            eStoryTestingQuestions = 16,
+            eStoryTestingQuestionAnswers = 32,
+            eRetellingFields = 64,
+            eConsultantNoteFields = 128,
+            eCoachNotesFields = 256,
+            eBibleViewer = 512,
+            eStoryFrontMatter = 1024
         }
 
         public static string TextareaId(int nVerseIndex, string strTextElementName)
@@ -347,7 +357,7 @@ namespace OneStoryProjectEditor
                 && (Retellings.Count > 0))
                 strStoryLineRow += Retellings.Html(nVerseIndex, nNumCols);
 
-            if (IsViewItemOn(viewItemToInsureOn, ViewItemToInsureOn.eStoryTestingQuestionFields)
+            if (IsViewItemOn(viewItemToInsureOn, ViewItemToInsureOn.eStoryTestingQuestions | ViewItemToInsureOn.eStoryTestingQuestionAnswers)
                 && (TestQuestions.Count > 0))
                 strStoryLineRow += TestQuestions.Html(projectSettings, viewItemToInsureOn,
                     stageLogic, loggedOnMember, nVerseIndex, nNumCols, 
@@ -420,8 +430,8 @@ namespace OneStoryProjectEditor
                     craftingInfo.Testors, (theChildVerse != null) ? theChildVerse.Retellings : null,
                     bProcessingWithChild);
 
-            if (IsViewItemOn(viewSettings, ViewItemToInsureOn.eStoryTestingQuestionFields))
-                strStoryLineRow += TestQuestions.PresentationHtml(nVerseIndex, nNumCols,
+            if (IsViewItemOn(viewSettings, ViewItemToInsureOn.eStoryTestingQuestions | ViewItemToInsureOn.eStoryTestingQuestionAnswers))
+                strStoryLineRow += TestQuestions.PresentationHtml(nVerseIndex, nNumCols, viewSettings,
                     craftingInfo.Testors, (theChildVerse != null) ? theChildVerse.TestQuestions : null,
                     bProcessingWithChild);
 
@@ -531,6 +541,41 @@ namespace OneStoryProjectEditor
 
                 return elemVerses;
             }
+        }
+
+        public int NumOfLines
+        {
+            get
+            {
+                int nCount = 0;
+                foreach (VerseData aVerse in this)
+                    if (aVerse.IsVisible)
+                        nCount++;
+                return nCount;
+            }
+        }
+
+        public string NumOfWords(ProjectSettings projSettings)
+        {
+            string strCount = null;
+            if (projSettings.Vernacular.HasData)
+                strCount = GetWordCount(projSettings.Vernacular);
+            else if (projSettings.NationalBT.HasData)
+                strCount = GetWordCount(projSettings.NationalBT);
+            else if (projSettings.InternationalBT.HasData)
+                strCount = GetWordCount(projSettings.InternationalBT);
+            return strCount;
+        }
+
+        protected string GetWordCount(ProjectSettings.LanguageInfo li)
+        {
+            int nCount = 0;
+            string strCharsToIgnore = "\r\n " + CheckEndOfStateTransition.achQuotes + li.FullStop;
+            char[] achToIgnore = strCharsToIgnore.ToCharArray();
+            foreach (VerseData aVerse in this)
+                if (aVerse.IsVisible)
+                    nCount += aVerse.VernacularText.NumOfWords(achToIgnore);
+            return String.Format("{0} (in {1})", nCount, li.LangName);
         }
 
         protected int CalculateColumns(VerseData.ViewItemToInsureOn viewItemToInsureOn)

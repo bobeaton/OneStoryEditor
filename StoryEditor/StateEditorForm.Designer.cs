@@ -31,15 +31,14 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StateEditorForm));
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.buttonOK = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.buttonOK = new System.Windows.Forms.Button();
             this.textBoxStateName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.textBoxInstructions = new System.Windows.Forms.TextBox();
             this.flowLayoutPanelViews = new System.Windows.Forms.FlowLayoutPanel();
             this.checkBoxVernacular = new System.Windows.Forms.CheckBox();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.checkBoxNationalBT = new System.Windows.Forms.CheckBox();
             this.checkBoxEnglishBT = new System.Windows.Forms.CheckBox();
             this.checkBoxAnchors = new System.Windows.Forms.CheckBox();
@@ -48,12 +47,17 @@
             this.checkBoxConsultantNotes = new System.Windows.Forms.CheckBox();
             this.checkBoxCoachNotes = new System.Windows.Forms.CheckBox();
             this.checkBoxBiblePane = new System.Windows.Forms.CheckBox();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.checkBoxStoryTestingQuestionAnswers = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel.SuspendLayout();
             this.flowLayoutPanelViews.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel
             // 
+            this.tableLayoutPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel.ColumnCount = 3;
             this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -72,25 +76,14 @@
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel.Size = new System.Drawing.Size(638, 360);
+            this.tableLayoutPanel.Size = new System.Drawing.Size(638, 399);
             this.tableLayoutPanel.TabIndex = 0;
-            // 
-            // buttonOK
-            // 
-            this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonOK.Location = new System.Drawing.Point(277, 334);
-            this.buttonOK.Name = "buttonOK";
-            this.buttonOK.Size = new System.Drawing.Size(75, 23);
-            this.buttonOK.TabIndex = 0;
-            this.buttonOK.Text = "&OK";
-            this.buttonOK.UseVisualStyleBackColor = true;
-            this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
             // 
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(358, 334);
+            this.buttonCancel.Location = new System.Drawing.Point(358, 373);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 1;
@@ -106,6 +99,17 @@
             this.label1.Size = new System.Drawing.Size(66, 13);
             this.label1.TabIndex = 2;
             this.label1.Text = "State &Name:";
+            // 
+            // buttonOK
+            // 
+            this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonOK.Location = new System.Drawing.Point(277, 373);
+            this.buttonOK.Name = "buttonOK";
+            this.buttonOK.Size = new System.Drawing.Size(75, 23);
+            this.buttonOK.TabIndex = 0;
+            this.buttonOK.Text = "&OK";
+            this.buttonOK.UseVisualStyleBackColor = true;
+            this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
             // 
             // textBoxStateName
             // 
@@ -133,7 +137,7 @@
             this.textBoxInstructions.Location = new System.Drawing.Point(75, 29);
             this.textBoxInstructions.Multiline = true;
             this.textBoxInstructions.Name = "textBoxInstructions";
-            this.textBoxInstructions.Size = new System.Drawing.Size(560, 216);
+            this.textBoxInstructions.Size = new System.Drawing.Size(560, 236);
             this.textBoxInstructions.TabIndex = 5;
             // 
             // flowLayoutPanelViews
@@ -144,15 +148,16 @@
             this.flowLayoutPanelViews.Controls.Add(this.checkBoxEnglishBT);
             this.flowLayoutPanelViews.Controls.Add(this.checkBoxAnchors);
             this.flowLayoutPanelViews.Controls.Add(this.checkBoxStoryTestingQuestions);
+            this.flowLayoutPanelViews.Controls.Add(this.checkBoxStoryTestingQuestionAnswers);
             this.flowLayoutPanelViews.Controls.Add(this.checkBoxRetelling);
             this.flowLayoutPanelViews.Controls.Add(this.checkBoxConsultantNotes);
             this.flowLayoutPanelViews.Controls.Add(this.checkBoxCoachNotes);
             this.flowLayoutPanelViews.Controls.Add(this.checkBoxBiblePane);
             this.flowLayoutPanelViews.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanelViews.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanelViews.Location = new System.Drawing.Point(75, 251);
+            this.flowLayoutPanelViews.Location = new System.Drawing.Point(75, 271);
             this.flowLayoutPanelViews.Name = "flowLayoutPanelViews";
-            this.flowLayoutPanelViews.Size = new System.Drawing.Size(560, 77);
+            this.flowLayoutPanelViews.Size = new System.Drawing.Size(560, 96);
             this.flowLayoutPanelViews.TabIndex = 6;
             // 
             // checkBoxVernacular
@@ -193,7 +198,7 @@
             // checkBoxAnchors
             // 
             this.checkBoxAnchors.AutoSize = true;
-            this.checkBoxAnchors.Location = new System.Drawing.Point(166, 3);
+            this.checkBoxAnchors.Location = new System.Drawing.Point(3, 72);
             this.checkBoxAnchors.Name = "checkBoxAnchors";
             this.checkBoxAnchors.Size = new System.Drawing.Size(95, 17);
             this.checkBoxAnchors.TabIndex = 3;
@@ -204,7 +209,7 @@
             // checkBoxStoryTestingQuestions
             // 
             this.checkBoxStoryTestingQuestions.AutoSize = true;
-            this.checkBoxStoryTestingQuestions.Location = new System.Drawing.Point(166, 26);
+            this.checkBoxStoryTestingQuestions.Location = new System.Drawing.Point(166, 3);
             this.checkBoxStoryTestingQuestions.Name = "checkBoxStoryTestingQuestions";
             this.checkBoxStoryTestingQuestions.Size = new System.Drawing.Size(168, 17);
             this.checkBoxStoryTestingQuestions.TabIndex = 4;
@@ -227,7 +232,7 @@
             // checkBoxConsultantNotes
             // 
             this.checkBoxConsultantNotes.AutoSize = true;
-            this.checkBoxConsultantNotes.Location = new System.Drawing.Point(340, 3);
+            this.checkBoxConsultantNotes.Location = new System.Drawing.Point(166, 72);
             this.checkBoxConsultantNotes.Name = "checkBoxConsultantNotes";
             this.checkBoxConsultantNotes.Size = new System.Drawing.Size(137, 17);
             this.checkBoxConsultantNotes.TabIndex = 6;
@@ -238,7 +243,7 @@
             // checkBoxCoachNotes
             // 
             this.checkBoxCoachNotes.AutoSize = true;
-            this.checkBoxCoachNotes.Location = new System.Drawing.Point(340, 26);
+            this.checkBoxCoachNotes.Location = new System.Drawing.Point(378, 3);
             this.checkBoxCoachNotes.Name = "checkBoxCoachNotes";
             this.checkBoxCoachNotes.Size = new System.Drawing.Size(118, 17);
             this.checkBoxCoachNotes.TabIndex = 7;
@@ -249,7 +254,7 @@
             // checkBoxBiblePane
             // 
             this.checkBoxBiblePane.AutoSize = true;
-            this.checkBoxBiblePane.Location = new System.Drawing.Point(340, 49);
+            this.checkBoxBiblePane.Location = new System.Drawing.Point(378, 26);
             this.checkBoxBiblePane.Name = "checkBoxBiblePane";
             this.checkBoxBiblePane.Size = new System.Drawing.Size(107, 17);
             this.checkBoxBiblePane.TabIndex = 8;
@@ -257,13 +262,25 @@
             this.toolTip.SetToolTip(this.checkBoxBiblePane, "Check this box to have the Bible pane visible when in this state");
             this.checkBoxBiblePane.UseVisualStyleBackColor = true;
             // 
+            // checkBoxStoryTestingQuestionAnswers
+            // 
+            this.checkBoxStoryTestingQuestionAnswers.AutoSize = true;
+            this.checkBoxStoryTestingQuestionAnswers.Location = new System.Drawing.Point(166, 26);
+            this.checkBoxStoryTestingQuestionAnswers.Name = "checkBoxStoryTestingQuestionAnswers";
+            this.checkBoxStoryTestingQuestionAnswers.Size = new System.Drawing.Size(206, 17);
+            this.checkBoxStoryTestingQuestionAnswers.TabIndex = 9;
+            this.checkBoxStoryTestingQuestionAnswers.Text = "Show Story Testing Question &Answers";
+            this.toolTip.SetToolTip(this.checkBoxStoryTestingQuestionAnswers, "Check this box to have the story (inference) testing questions visible when in th" +
+                    "is state");
+            this.checkBoxStoryTestingQuestionAnswers.UseVisualStyleBackColor = true;
+            // 
             // StateEditorForm
             // 
             this.AcceptButton = this.buttonOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(662, 384);
+            this.ClientSize = new System.Drawing.Size(662, 423);
             this.Controls.Add(this.tableLayoutPanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "StateEditorForm";
@@ -296,5 +313,6 @@
         private System.Windows.Forms.CheckBox checkBoxConsultantNotes;
         private System.Windows.Forms.CheckBox checkBoxCoachNotes;
         private System.Windows.Forms.CheckBox checkBoxBiblePane;
+        private System.Windows.Forms.CheckBox checkBoxStoryTestingQuestionAnswers;
     }
 }

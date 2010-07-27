@@ -34,61 +34,65 @@ namespace OneStoryProjectEditor
             while (tableLayoutPanel.ColumnCount > 1)
                 RemoveColumn(tableLayoutPanel.ColumnCount - 1);
 
-            // show the row label
-            Label label = new Label
+            int nNumColumns = 0;
+            if (theSE.viewStoryTestingQuestionMenuItem.Checked)
             {
-                Anchor = AnchorStyles.Left,
-                AutoSize = true,
-                Name = CstrFieldNameTestQuestionsLabel,
-                Text = CstrTestQuestionsLabelFormat
-            };
-            tableLayoutPanel.Controls.Add(label, 0, 1);
-
-            int nNumColumns = 1;
-
-            // insert the vernacular representation of the testing question
-            if (theSE.viewVernacularLangFieldMenuItem.Checked)
-            {
-                InsertColumn(nNumColumns);
-                if (bShowHeader)
-                    InitColumnLabel(theSE.StoryProject.ProjSettings.Vernacular.LangName, nNumColumns);
-                _aTQData.QuestionVernacular.Transliterator = ctrlVerse.TransliteratorVernacular;
-                InitTextBox(ctrlVerse, CstrFieldNameVernacular, _aTQData.QuestionVernacular, 
-                    theSE.StoryProject.ProjSettings.Vernacular, nNumColumns);
+                // show the row label
+                Label label = new Label
+                {
+                    Anchor = AnchorStyles.Left,
+                    AutoSize = true,
+                    Name = CstrFieldNameTestQuestionsLabel,
+                    Text = CstrTestQuestionsLabelFormat
+                };
+                tableLayoutPanel.Controls.Add(label, 0, 1);
                 nNumColumns++;
-            }
 
-            // the only time we show the National BT is if there's an "other" English BTr (who will
-            //  do the EnglishBT from the NationalBT) OR there's no vernacular
-            if (theSE.StoryProject.ProjSettings.NationalBT.HasData && 
-                (theSE.StoryProject.TeamMembers.HasOutsideEnglishBTer
-                ||  (theSE.viewNationalLangFieldMenuItem.Checked && !theSE.StoryProject.ProjSettings.Vernacular.HasData)))
-            {
-                InsertColumn(nNumColumns);
-                if (bShowHeader)
-                    InitColumnLabel(theSE.StoryProject.ProjSettings.NationalBT.LangName, nNumColumns);
-                _aTQData.QuestionNationalBT.Transliterator = ctrlVerse.TransliteratorNationalBT;
-                InitTextBox(ctrlVerse, CstrFieldNameNationalBt, _aTQData.QuestionNationalBT,
-                    theSE.StoryProject.ProjSettings.NationalBT, nNumColumns);
-                nNumColumns++;
-            }
+                // insert the vernacular representation of the testing question
+                if (theSE.viewVernacularLangFieldMenuItem.Checked)
+                {
+                    InsertColumn(nNumColumns);
+                    if (bShowHeader)
+                        InitColumnLabel(theSE.StoryProject.ProjSettings.Vernacular.LangName, nNumColumns);
+                    _aTQData.QuestionVernacular.Transliterator = ctrlVerse.TransliteratorVernacular;
+                    InitTextBox(ctrlVerse, CstrFieldNameVernacular, _aTQData.QuestionVernacular,
+                        theSE.StoryProject.ProjSettings.Vernacular, nNumColumns);
+                    nNumColumns++;
+                }
 
-            if (theSE.viewEnglishBTFieldMenuItem.Checked
-                && (!theSE.StoryProject.TeamMembers.HasOutsideEnglishBTer
-                    || (StageLogic.MemberTypeWithEditToken !=
-                            TeamMemberData.UserTypes.eProjectFacilitator)
-                            || (theSE.LoggedOnMember.MemberType != TeamMemberData.UserTypes.eProjectFacilitator)))
-            {
-                InsertColumn(nNumColumns);
-                if (bShowHeader)
-                    InitColumnLabel(theSE.StoryProject.ProjSettings.InternationalBT.LangName, nNumColumns);
-                InitTextBox(ctrlVerse, CstrFieldNameVernacular, _aTQData.QuestionInternationalBT, 
-                    theSE.StoryProject.ProjSettings.InternationalBT, nNumColumns);
-                nNumColumns++;
+                // the only time we show the National BT is if there's an "other" English BTr (who will
+                //  do the EnglishBT from the NationalBT) OR there's no vernacular
+                if (theSE.StoryProject.ProjSettings.NationalBT.HasData 
+                    && theSE.StoryProject.TeamMembers.HasOutsideEnglishBTer
+                    && theSE.viewNationalLangFieldMenuItem.Checked)
+                {
+                    InsertColumn(nNumColumns);
+                    if (bShowHeader)
+                        InitColumnLabel(theSE.StoryProject.ProjSettings.NationalBT.LangName, nNumColumns);
+                    _aTQData.QuestionNationalBT.Transliterator = ctrlVerse.TransliteratorNationalBT;
+                    InitTextBox(ctrlVerse, CstrFieldNameNationalBt, _aTQData.QuestionNationalBT,
+                        theSE.StoryProject.ProjSettings.NationalBT, nNumColumns);
+                    nNumColumns++;
+                }
+
+                if (theSE.viewEnglishBTFieldMenuItem.Checked
+                    && (!theSE.StoryProject.TeamMembers.HasOutsideEnglishBTer
+                        || (StageLogic.MemberTypeWithEditToken !=
+                                TeamMemberData.UserTypes.eProjectFacilitator)
+                                || (theSE.LoggedOnMember.MemberType != TeamMemberData.UserTypes.eProjectFacilitator)))
+                {
+                    InsertColumn(nNumColumns);
+                    if (bShowHeader)
+                        InitColumnLabel(theSE.StoryProject.ProjSettings.InternationalBT.LangName, nNumColumns);
+                    InitTextBox(ctrlVerse, CstrFieldNameVernacular, _aTQData.QuestionInternationalBT,
+                        theSE.StoryProject.ProjSettings.InternationalBT, nNumColumns);
+                    nNumColumns++;
+                }
             }
 
             // add a row so we can display a multiple line control with the answers
-            if ((_aTQData.Answers != null) && (_aTQData.Answers.Count > 0))
+            if (theSE.viewStoryTestingQuestionAnswerMenuItem.Checked 
+                && (_aTQData.Answers != null) && (_aTQData.Answers.Count > 0))
             {
                 System.Diagnostics.Debug.Assert(theSE.theCurrentStory.CraftingInfo.Testors.Count >= _aTQData.Answers.Count);
                 MultiLineControl aAnswersCtrl = new MultiLineControl(ctrlVerse, StageLogic,

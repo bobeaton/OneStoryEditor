@@ -321,7 +321,7 @@ namespace OneStoryProjectEditor
 
         protected override VerseData.ViewItemToInsureOn AssociatedViewMenu
         {
-            get { return VerseData.ViewItemToInsureOn.eStoryTestingQuestionFields; }
+            get { return VerseData.ViewItemToInsureOn.eStoryTestingQuestionAnswers; }
         }
     }
 }
