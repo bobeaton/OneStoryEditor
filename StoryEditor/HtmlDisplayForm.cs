@@ -1,18 +1,11 @@
-﻿#define LaunchWinDiffToCompare
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
-using Chorus.UI.Review;
-using Chorus.UI.Review.RevisionsInRepository;
 using Chorus.Utilities;
 using Chorus.VcsDrivers.Mercurial;
 
@@ -22,8 +15,6 @@ namespace OneStoryProjectEditor
     {
         HgRepository _repository;
         List<Revision> _lstRevisions;
-        // RevisionInRepositoryModel _revisionInRepositoryModel;
-        // RevisionSelectedEvent _revisionSelectedEvent = new RevisionSelectedEvent();
         string _strStoryToDiff, _strLastState;
 
         public HtmlDisplayForm(StoryEditor theSE, StoryData storyData)
@@ -55,21 +46,10 @@ namespace OneStoryProjectEditor
             {
                 NullProgress np = new NullProgress();
                 _repository = HgRepository.CreateOrLocate(theSE.StoryProject.ProjSettings.ProjectFolder, np);
-                /*
-                _revisionInRepositoryModel = new RevisionInRepositoryModel(_repository, _revisionSelectedEvent);
-                _revisionInRepositoryModel.ProgressDisplay = np;
-                */
                 _lstRevisions = _repository.GetAllRevisions();  // _revisionInRepositoryModel.GetHistoryItems();
                 progressBar.Value = 0;
                 progressBar.Visible = true;
                 backgroundWorkerCheckRevisions.RunWorkerAsync(this);
-                /*
-                _revisionSelectedEvent.Subscribe(SetRevision);
-                _revisionsInRepositoryView = new RevisionsInRepositoryView(_revisionInRepositoryModel);
-                _revisionsInRepositoryView.Dock = DockStyle.Fill;
-                tableLayoutPanelSettings.Controls.Add(_revisionsInRepositoryView, 0, 1);
-                tableLayoutPanelSettings.SetColumnSpan(_revisionsInRepositoryView, 2);
-                */
             }
             catch (Exception ex)
             {
@@ -104,7 +84,8 @@ namespace OneStoryProjectEditor
                 htmlStoryBtControl.ParentStory = GetStoryForPresentation(_nParentIndex);
                 htmlStoryBtControl.StoryData = GetStoryForPresentation(_nChildIndex);
 
-#if LaunchWinDiffToCompare
+#if DEBUG
+                // throw the results into a file that I can use WinCmp to compare
                 File.WriteAllText(@"C:\src\StoryEditor\XMLFile1.xml", htmlStoryBtControl.ParentStory.GetXml.ToString(), Encoding.UTF8);
                 File.WriteAllText(@"C:\src\StoryEditor\XMLFile2.xml", htmlStoryBtControl.StoryData.GetXml.ToString(), Encoding.UTF8);
 #endif
