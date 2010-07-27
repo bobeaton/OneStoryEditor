@@ -137,7 +137,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Do you want to add another set of boxes for another test?.
+        ///   Looks up a localized string similar to If you want to enter the results for another UNS test, click &apos;Cancel&apos; and go to &quot;Project Facilitator enters retelling back-translation&quot; state instead. Otherwise, click &apos;OK&apos; to move forward to the next state..
         /// </summary>
         internal static string IDS_AddAnotherTestQuery {
             get {

@@ -1383,9 +1383,6 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
   <data name="IDS_NoteNotEmptyHideQuery" xml:space="preserve">
     <value>This conversation isn't empty! Instead of deleting it, it would be better to just hide it so it will be left around for history. Would you like to hide it instead?</value>
   </data>
-  <data name="IDS_AddAnotherTestQuery" xml:space="preserve">
-    <value>Do you want to add another set of boxes for another test?</value>
-  </data>
   <data name="IDS_CantExport" xml:space="preserve">
     <value>Unable to export to Toolbox! Cause: {0} {1}</value>
   </data>
@@ -1800,5 +1797,8 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
   </data>
   <data name="IDS_OSEUpgradeServer" xml:space="preserve">
     <value>http://palaso.org/install/onestory/OseUpdates/StoryEditor.exe.manifest.xml</value>
+  </data>
+  <data name="IDS_AddAnotherTestQuery" xml:space="preserve">
+    <value>If you want to enter the results for another UNS test, click 'Cancel' and go to "Project Facilitator enters retelling back-translation" state instead. Otherwise, click 'OK' to move forward to the next state.</value>
   </data>
 </root>
