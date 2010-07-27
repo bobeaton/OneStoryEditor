@@ -34,6 +34,7 @@
             this.tabPageSelectReportOptions = new System.Windows.Forms.TabPage();
             this.tableLayoutPanelSettings = new System.Windows.Forms.TableLayoutPanel();
             this.groupBoxRevisionsBy = new System.Windows.Forms.GroupBox();
+            this.radioButtonShowAllWithState = new System.Windows.Forms.RadioButton();
             this.radioButtonShowAllRevisions = new System.Windows.Forms.RadioButton();
             this.radioButtonRevsByChangeOfState = new System.Windows.Forms.RadioButton();
             this.groupBoxViewOptions = new System.Windows.Forms.GroupBox();
@@ -45,17 +46,17 @@
             this.checkBoxStoryTestingQuestions = new System.Windows.Forms.CheckBox();
             this.checkBoxRetellings = new System.Windows.Forms.CheckBox();
             this.dataGridViewRevisions = new System.Windows.Forms.DataGridView();
-            this.progressBar = new System.Windows.Forms.ProgressBar();
-            this.tabPageDisplayChangeReport = new System.Windows.Forms.TabPage();
-            this.backgroundWorkerCheckRevisions = new System.ComponentModel.BackgroundWorker();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.ColumnOldParent = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.ColumnNewChild = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.ColumnRevNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnPerson = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnState = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.progressBar = new System.Windows.Forms.ProgressBar();
+            this.tabPageDisplayChangeReport = new System.Windows.Forms.TabPage();
             this.htmlStoryBtControl = new OneStoryProjectEditor.HtmlStoryBtControl();
+            this.backgroundWorkerCheckRevisions = new System.ComponentModel.BackgroundWorker();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tabControl.SuspendLayout();
             this.tabPageSelectReportOptions.SuspendLayout();
             this.tableLayoutPanelSettings.SuspendLayout();
@@ -111,6 +112,7 @@
             // 
             // groupBoxRevisionsBy
             // 
+            this.groupBoxRevisionsBy.Controls.Add(this.radioButtonShowAllWithState);
             this.groupBoxRevisionsBy.Controls.Add(this.radioButtonShowAllRevisions);
             this.groupBoxRevisionsBy.Controls.Add(this.radioButtonRevsByChangeOfState);
             this.groupBoxRevisionsBy.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -121,24 +123,36 @@
             this.groupBoxRevisionsBy.TabStop = false;
             this.groupBoxRevisionsBy.Text = "Show Revisions By";
             // 
+            // radioButtonShowAllWithState
+            // 
+            this.radioButtonShowAllWithState.AutoSize = true;
+            this.radioButtonShowAllWithState.Location = new System.Drawing.Point(6, 64);
+            this.radioButtonShowAllWithState.Name = "radioButtonShowAllWithState";
+            this.radioButtonShowAllWithState.Size = new System.Drawing.Size(174, 17);
+            this.radioButtonShowAllWithState.TabIndex = 1;
+            this.radioButtonShowAllWithState.Text = "&Show All (with state information)";
+            this.toolTip.SetToolTip(this.radioButtonShowAllWithState, resources.GetString("radioButtonShowAllWithState.ToolTip"));
+            this.radioButtonShowAllWithState.UseVisualStyleBackColor = true;
+            this.radioButtonShowAllWithState.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
+            // 
             // radioButtonShowAllRevisions
             // 
             this.radioButtonShowAllRevisions.AutoSize = true;
-            this.radioButtonShowAllRevisions.Location = new System.Drawing.Point(139, 38);
+            this.radioButtonShowAllRevisions.Location = new System.Drawing.Point(6, 41);
             this.radioButtonShowAllRevisions.Name = "radioButtonShowAllRevisions";
             this.radioButtonShowAllRevisions.Size = new System.Drawing.Size(66, 17);
             this.radioButtonShowAllRevisions.TabIndex = 1;
             this.radioButtonShowAllRevisions.Text = "Show &All";
             this.toolTip.SetToolTip(this.radioButtonShowAllRevisions, "This options lists all versions of the project file whether the story was actuall" +
-                    "y changed or not. The \'State\' column indictes what state the story was in when t" +
-                    "he revision snapshot was taken");
+                    "y changed or not.");
             this.radioButtonShowAllRevisions.UseVisualStyleBackColor = true;
+            this.radioButtonShowAllRevisions.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
             // 
             // radioButtonRevsByChangeOfState
             // 
             this.radioButtonRevsByChangeOfState.AutoSize = true;
             this.radioButtonRevsByChangeOfState.Checked = true;
-            this.radioButtonRevsByChangeOfState.Location = new System.Drawing.Point(17, 38);
+            this.radioButtonRevsByChangeOfState.Location = new System.Drawing.Point(6, 19);
             this.radioButtonRevsByChangeOfState.Name = "radioButtonRevsByChangeOfState";
             this.radioButtonRevsByChangeOfState.Size = new System.Drawing.Size(100, 17);
             this.radioButtonRevsByChangeOfState.TabIndex = 0;
@@ -146,6 +160,7 @@
             this.radioButtonRevsByChangeOfState.Text = "&Change of state";
             this.toolTip.SetToolTip(this.radioButtonRevsByChangeOfState, resources.GetString("radioButtonRevsByChangeOfState.ToolTip"));
             this.radioButtonRevsByChangeOfState.UseVisualStyleBackColor = true;
+            this.radioButtonRevsByChangeOfState.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
             // 
             // groupBoxViewOptions
             // 
@@ -276,35 +291,6 @@
             this.dataGridViewRevisions.TabIndex = 2;
             this.dataGridViewRevisions.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewRevisions_CellClick);
             // 
-            // progressBar
-            // 
-            this.tableLayoutPanelSettings.SetColumnSpan(this.progressBar, 2);
-            this.progressBar.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.progressBar.Location = new System.Drawing.Point(3, 536);
-            this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(717, 14);
-            this.progressBar.TabIndex = 3;
-            this.progressBar.Visible = false;
-            // 
-            // tabPageDisplayChangeReport
-            // 
-            this.tabPageDisplayChangeReport.Controls.Add(this.htmlStoryBtControl);
-            this.tabPageDisplayChangeReport.Location = new System.Drawing.Point(4, 22);
-            this.tabPageDisplayChangeReport.Name = "tabPageDisplayChangeReport";
-            this.tabPageDisplayChangeReport.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageDisplayChangeReport.Size = new System.Drawing.Size(729, 559);
-            this.tabPageDisplayChangeReport.TabIndex = 1;
-            this.tabPageDisplayChangeReport.Text = "View changes";
-            this.tabPageDisplayChangeReport.UseVisualStyleBackColor = true;
-            // 
-            // backgroundWorkerCheckRevisions
-            // 
-            this.backgroundWorkerCheckRevisions.WorkerReportsProgress = true;
-            this.backgroundWorkerCheckRevisions.WorkerSupportsCancellation = true;
-            this.backgroundWorkerCheckRevisions.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerCheckRevisions_DoWork);
-            this.backgroundWorkerCheckRevisions.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorkerCheckRevisions_RunWorkerCompleted);
-            this.backgroundWorkerCheckRevisions.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorkerCheckRevisions_ProgressChanged);
-            // 
             // ColumnOldParent
             // 
             this.ColumnOldParent.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
@@ -346,6 +332,27 @@
             this.ColumnState.HeaderText = "State";
             this.ColumnState.Name = "ColumnState";
             // 
+            // progressBar
+            // 
+            this.tableLayoutPanelSettings.SetColumnSpan(this.progressBar, 2);
+            this.progressBar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.progressBar.Location = new System.Drawing.Point(3, 536);
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Size = new System.Drawing.Size(717, 14);
+            this.progressBar.TabIndex = 3;
+            this.progressBar.Visible = false;
+            // 
+            // tabPageDisplayChangeReport
+            // 
+            this.tabPageDisplayChangeReport.Controls.Add(this.htmlStoryBtControl);
+            this.tabPageDisplayChangeReport.Location = new System.Drawing.Point(4, 22);
+            this.tabPageDisplayChangeReport.Name = "tabPageDisplayChangeReport";
+            this.tabPageDisplayChangeReport.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageDisplayChangeReport.Size = new System.Drawing.Size(729, 559);
+            this.tabPageDisplayChangeReport.TabIndex = 1;
+            this.tabPageDisplayChangeReport.Text = "View changes";
+            this.tabPageDisplayChangeReport.UseVisualStyleBackColor = true;
+            // 
             // htmlStoryBtControl
             // 
             this.htmlStoryBtControl.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -357,6 +364,14 @@
             this.htmlStoryBtControl.StoryData = null;
             this.htmlStoryBtControl.TabIndex = 0;
             this.htmlStoryBtControl.TheSE = null;
+            // 
+            // backgroundWorkerCheckRevisions
+            // 
+            this.backgroundWorkerCheckRevisions.WorkerReportsProgress = true;
+            this.backgroundWorkerCheckRevisions.WorkerSupportsCancellation = true;
+            this.backgroundWorkerCheckRevisions.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerCheckRevisions_DoWork);
+            this.backgroundWorkerCheckRevisions.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorkerCheckRevisions_RunWorkerCompleted);
+            this.backgroundWorkerCheckRevisions.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorkerCheckRevisions_ProgressChanged);
             // 
             // HtmlDisplayForm
             // 
@@ -391,6 +406,7 @@
         private System.Windows.Forms.GroupBox groupBoxRevisionsBy;
         private System.Windows.Forms.RadioButton radioButtonRevsByChangeOfState;
         private System.Windows.Forms.RadioButton radioButtonShowAllRevisions;
+        private System.Windows.Forms.RadioButton radioButtonShowAllWithState;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.CheckBox checkBoxLangVernacular;
         private System.Windows.Forms.CheckBox checkBoxLangNationalBT;

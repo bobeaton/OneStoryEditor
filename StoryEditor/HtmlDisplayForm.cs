@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define LaunchWinDiffToCompare
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -101,7 +103,12 @@ namespace OneStoryProjectEditor
 
                 htmlStoryBtControl.ParentStory = GetStoryForPresentation(_nParentIndex);
                 htmlStoryBtControl.StoryData = GetStoryForPresentation(_nChildIndex);
-                
+
+#if LaunchWinDiffToCompare
+                File.WriteAllText(@"C:\src\StoryEditor\XMLFile1.xml", htmlStoryBtControl.ParentStory.GetXml.ToString(), Encoding.UTF8);
+                File.WriteAllText(@"C:\src\StoryEditor\XMLFile2.xml", htmlStoryBtControl.StoryData.GetXml.ToString(), Encoding.UTF8);
+#endif
+
                 htmlStoryBtControl.LoadDocument();
             }
         }
@@ -193,7 +200,8 @@ namespace OneStoryProjectEditor
                 rev.Number.LocalRevisionNumber,
                 _strStoryToDiff, 
                 strThisState));
-            if (strThisState == _strLastState)
+
+            if ((strThisState == _strLastState) && !radioButtonShowAllWithState.Checked)
                 return false;
             _strLastState = strThisState;
             return true;
@@ -245,6 +253,24 @@ namespace OneStoryProjectEditor
                 dataGridViewRevisions.Rows[_nChildIndex].Cells[ColumnNewChild.Index].Value = false;
                 _nChildIndex = e.RowIndex;
             }
+        }
+
+        private void radioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (backgroundWorkerCheckRevisions.IsBusy)
+                backgroundWorkerCheckRevisions.CancelAsync();
+
+            dataGridViewRevisions.Rows.Clear();
+            
+            progressBar.Value = 0;
+            progressBar.Visible = true;
+            while (backgroundWorkerCheckRevisions.IsBusy)
+                Application.DoEvents();
+
+            // only show the state column if we've actually looked into the file
+            ColumnState.Visible = (radioButtonRevsByChangeOfState.Checked
+                || radioButtonShowAllWithState.Checked);
+            backgroundWorkerCheckRevisions.RunWorkerAsync(this);
         }
 
         /*
