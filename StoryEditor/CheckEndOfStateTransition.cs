@@ -302,7 +302,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        protected static char[] achQuotes = new [] { '"', '\'', '\u2018', '\u2019', '\u201B', 
+        internal static char[] achQuotes = new [] { '"', '\'', '\u2018', '\u2019', '\u201B', 
             '\u201C', '\u201d', '\u201E', '\u201F' };
 
         public static bool GetListOfSentences(StringTransfer stParagraph, string strSentenceFinalPunct, out List<string> lstSentences)

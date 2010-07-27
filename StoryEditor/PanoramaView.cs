@@ -58,7 +58,9 @@ namespace OneStoryProjectEditor
                     aSD.CraftingInfo.StoryPurpose, 
                     TeamMemberData.GetMemberTypeAsDisplayString(aSD.ProjStage.MemberTypeWithEditToken), 
                     st.StageDisplayString, 
-                    strTimeInState
+                    strTimeInState,
+                    aSD.NumOfLines,
+                    aSD.NumOfWords(_storyProject.ProjSettings)
                 };
                 int nRowIndex = dataGridViewPanorama.Rows.Add(aObs);
                 DataGridViewRow aRow = dataGridViewPanorama.Rows[nRowIndex];
