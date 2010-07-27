@@ -181,7 +181,8 @@ namespace OneStoryProjectEditor
         }
 
         public string PresentationHtml(int nVerseIndex, int nTQNum, int nNumTestQuestionCols,
-            bool bShowVernacular, bool bShowNationalBT, bool bShowEnglishBT, List<string> astrTestors, TestQuestionsData child)
+            bool bShowVernacular, bool bShowNationalBT, bool bShowEnglishBT, List<string> astrTestors,
+            TestQuestionsData child, bool bProcessingWithChild)
         {
             TestQuestionData theChildTQ = null;
             if (child != null)
@@ -197,8 +198,10 @@ namespace OneStoryProjectEditor
                                           CstrTestQuestionsLabelFormat);
             if (bShowVernacular)
             {
-                string str = (theChildTQ != null)
-                    ? Diff.HtmlDiff(QuestionVernacular, theChildTQ.QuestionVernacular)
+                string str = (bProcessingWithChild)
+                    ? (child != null) 
+                        ? Diff.HtmlDiff(QuestionVernacular, (theChildTQ != null) ? theChildTQ.QuestionVernacular : null)
+                        : Diff.HtmlDiff(null, QuestionVernacular)
                     : QuestionVernacular.ToString();
 
                 strRow += PresentationHtmlCell(nVerseIndex, nTQNum, nNumTestQuestionCols, 
@@ -207,8 +210,10 @@ namespace OneStoryProjectEditor
 
             if (bShowNationalBT)
             {
-                string str = (theChildTQ != null)
-                    ? Diff.HtmlDiff(QuestionNationalBT, theChildTQ.QuestionNationalBT)
+                string str = (bProcessingWithChild)
+                    ? (child != null)
+                        ? Diff.HtmlDiff(QuestionNationalBT, (theChildTQ != null) ? theChildTQ.QuestionNationalBT : null)
+                        : Diff.HtmlDiff(null, QuestionNationalBT)
                     : QuestionNationalBT.ToString();
 
                 strRow += PresentationHtmlCell(nVerseIndex, nTQNum, nNumTestQuestionCols,
@@ -217,8 +222,10 @@ namespace OneStoryProjectEditor
 
             if (bShowEnglishBT)
             {
-                string str = (theChildTQ != null)
-                    ? Diff.HtmlDiff(QuestionInternationalBT, theChildTQ.QuestionInternationalBT)
+                string str = (bProcessingWithChild)
+                    ? (child != null)
+                        ? Diff.HtmlDiff(QuestionInternationalBT, (theChildTQ != null) ? theChildTQ.QuestionInternationalBT : null)
+                        : Diff.HtmlDiff(null, QuestionInternationalBT)
                     : QuestionInternationalBT.ToString();
 
                 strRow += PresentationHtmlCell(nVerseIndex, nTQNum, nNumTestQuestionCols,
@@ -230,7 +237,7 @@ namespace OneStoryProjectEditor
 
             // add 1 to the number of columns so it spans properly (including the 'tst:' label)
             strTQRow += Answers.PresentationHtml(nVerseIndex, nNumTestQuestionCols + 1, astrTestors,
-                (theChildTQ != null) ? theChildTQ.Answers : null);
+                (theChildTQ != null) ? theChildTQ.Answers : null, bProcessingWithChild);
 
             return strTQRow;
         }
@@ -350,7 +357,8 @@ namespace OneStoryProjectEditor
             return strRow;
         }
 
-        public string PresentationHtml(int nVerseIndex, int nNumCols, List<string> astrTestors, TestQuestionsData child)
+        public string PresentationHtml(int nVerseIndex, int nNumCols, List<string> astrTestors,
+            TestQuestionsData child, bool bProcessingWithChild)
         {
             // return nothing if there's nothing to do
             if ((!HasData && ((child == null) || !child.HasData)))
@@ -385,7 +393,7 @@ namespace OneStoryProjectEditor
             {
                 TestQuestionData testQuestionData = this[i];
                 strRow += testQuestionData.PresentationHtml(nVerseIndex, i, nNumTestQuestionCols,
-                    bShowVernacular, bShowNationalBT, bShowEnglishBT, astrTestors, child);
+                    bShowVernacular, bShowNationalBT, bShowEnglishBT, astrTestors, child, bProcessingWithChild);
             }
 
             if (child != null)
@@ -393,7 +401,7 @@ namespace OneStoryProjectEditor
                 {
                     TestQuestionData testQuestionData = child[i];
                     strRow += testQuestionData.PresentationHtml(nVerseIndex, i, nNumTestQuestionCols,
-                        bShowVernacular, bShowNationalBT, bShowEnglishBT, astrTestors, null);
+                        bShowVernacular, bShowNationalBT, bShowEnglishBT, astrTestors, null, true);
                 }
 
             // make a sub-table out of all this

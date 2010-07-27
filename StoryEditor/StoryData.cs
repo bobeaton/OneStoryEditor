@@ -449,15 +449,90 @@ namespace OneStoryProjectEditor
                 (child != null)
                 ? child.BackTranslatorMemberID
                 : null);
-            for (int i = 0; i < Testors.Count; i++)
+
+            int nInsertCount = 0;
+            int i = 1;
+            while (i <= Testors.Count)
             {
-                string strTestor = Testors[i];
-                strRow += PresentationHtmlRow(teamMembers, String.Format("Testor {0}", i), strTestor,
-                    ((child != null) && (child.Testors.Count > i))
-                    ? child.Testors[i]
-                    : null);
+                int nTestNumber = i + nInsertCount;
+                string strTestor = Testors[i - 1];
+
+                // get the child tests that match this one
+                string strChildMatch = FindChildEquivalent(strTestor, child);
+
+                // see if there were any child verses that weren't processed
+                if (!String.IsNullOrEmpty(strChildMatch))
+                {
+                    bool bFoundOne = false;
+                    for (int j = i; j <= child.Testors.IndexOf(strChildMatch); j++)
+                    {
+                        string strChildPassedBy = child.Testors[j - 1];
+                        strRow += PresentationHtmlRow(teamMembers, String.Format("Testor {0}", nTestNumber), strChildPassedBy, true);
+                        bFoundOne = true;
+                        nInsertCount++;
+                    }
+
+                    if (bFoundOne)
+                        continue;
+                }
+
+                strRow += PresentationHtmlRow(teamMembers, String.Format("Testor {0}", nTestNumber), strTestor, false);
+
+                // if there is a child, but we couldn't find the equivalent testor...
+                if ((child != null) && String.IsNullOrEmpty(strChildMatch) && (child.Testors.Count >= i))
+                {
+                    // this means the original testor (which we just showed as deleted) 
+                    //  was replaced by whatever is the same verse in the child collection
+                    strChildMatch = child.Testors[i - 1];
+                    strRow += PresentationHtmlRow(teamMembers, String.Format("Testor {0}", nTestNumber), strChildMatch, true);
+                }
+
+                i++;    // do this here in case we redo one (from 'continue' above)
             }
+
+            if (child != null)
+                while (i <= child.Testors.Count)
+                {
+                    string strChildTestor = child.Testors[i - 1];
+                    int nTestNumber = i + nInsertCount;
+                    strRow += PresentationHtmlRow(teamMembers, String.Format("Testor {0}", nTestNumber), strChildTestor, true);
+                    i++;
+                }
             return strRow;
+        }
+
+        private string FindChildEquivalent(string strTestor, CraftingInfoData child)
+        {
+            if (child != null)
+                if (child.Testors.Contains(strTestor))
+                    return strTestor;
+            return null;
+        }
+
+        protected string PresentationHtmlRow(TeamMembersData teamMembers, string strLabel, string strMemberId, bool bFromChild)
+        {
+            string strName = null;
+            if ((teamMembers != null) && !String.IsNullOrEmpty(strMemberId))
+            {
+                strName = teamMembers.GetNameFromMemberId(strMemberId);
+                if (bFromChild)
+                    strName = Diff.HtmlDiff(null, strName, true);
+            }
+
+            if (String.IsNullOrEmpty(strName))
+                strName = "-";  // so it's not nothing (or the HTML shows without a cell frame)
+
+            return String.Format(OseResources.Properties.Resources.HTML_TableRow,
+                                 String.Format("{0}{1}",
+                                               String.Format(OseResources.Properties.Resources.HTML_TableCellNoWrap,
+                                                             strLabel),
+                                               String.Format(OseResources.Properties.Resources.HTML_TableCellWidth,
+                                                             100,
+                                                             String.Format(OseResources.Properties.Resources.HTML_ParagraphText,
+                                                                           strLabel,
+                                                                           StoryData.
+                                                                              CstrLangInternationalBtStyleClassName,
+                                                                           strName))));
         }
 
         protected string PresentationHtmlRow(TeamMembersData teamMembers, string strLabel, string strParentMemberId, string strChildMemberId)
@@ -465,7 +540,10 @@ namespace OneStoryProjectEditor
             string strName;
             if (teamMembers != null)
             {
-                string strParent = teamMembers.GetNameFromMemberId(strParentMemberId);
+                string strParent = null;
+                if (!String.IsNullOrEmpty(strParentMemberId))
+                    strParent = teamMembers.GetNameFromMemberId(strParentMemberId);
+
                 strName = (String.IsNullOrEmpty(strChildMemberId))
                     ? strParent
                     : Diff.HtmlDiff(strParent, teamMembers.GetNameFromMemberId(strChildMemberId), true);

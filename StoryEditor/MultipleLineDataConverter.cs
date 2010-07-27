@@ -129,7 +129,8 @@ namespace OneStoryProjectEditor
             return strRow;
         }
 
-        public string PresentationHtml(int nVerseIndex, int nNumCols, List<string> astrTestors, MultipleLineDataConverter child)
+        public string PresentationHtml(int nVerseIndex, int nNumCols, List<string> astrTestors,
+            MultipleLineDataConverter child, bool bProcessingWithChild)
         {
             string strRow = null;
             int nTestNum = 0;
@@ -164,6 +165,9 @@ namespace OneStoryProjectEditor
                     str = Diff.HtmlDiff(stParent, null);    // then the parent was deleted.
 
                 // otherwise, if there was no child (e.g. just doing a print preview of one version)...
+                else if (bProcessingWithChild)
+                    str = Diff.HtmlDiff(null, stParent);
+                
                 else
                     str = stParent.ToString();  // then the parent's value is the value
 
@@ -182,11 +186,14 @@ namespace OneStoryProjectEditor
                 }
             }
 
-            // make a sub-table out of all this
-            strRow = String.Format(OseResources.Properties.Resources.HTML_TableRow,
-                                    String.Format(OseResources.Properties.Resources.HTML_TableCellWithSpan, nNumCols,
-                                                  String.Format(OseResources.Properties.Resources.HTML_Table,
-                                                                strRow)));
+            if (!String.IsNullOrEmpty(strRow))
+            {
+                // make a sub-table out of all this
+                strRow = String.Format(OseResources.Properties.Resources.HTML_TableRow,
+                                        String.Format(OseResources.Properties.Resources.HTML_TableCellWithSpan, nNumCols,
+                                                      String.Format(OseResources.Properties.Resources.HTML_Table,
+                                                                    strRow)));
+            }
             return strRow;
         }
 

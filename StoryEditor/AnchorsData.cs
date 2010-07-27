@@ -354,17 +354,22 @@ namespace OneStoryProjectEditor
             return strHtml;
         }
 
-        public string PresentationHtml(int nVerseIndex, int nNumCols, AnchorsData childAnchorsData)
+        public string PresentationHtml(int nVerseIndex, int nNumCols, AnchorsData childAnchorsData,
+            bool bProcessingWithChild)
         {
             List<string> astrExegeticalHelpNotes = new List<string>();
             string strRow = null;
             foreach (AnchorData anchorData in this)
-                strRow += anchorData.PresentationHtml(childAnchorsData, false, ref astrExegeticalHelpNotes);
+                strRow += anchorData.PresentationHtml(childAnchorsData, bProcessingWithChild, ref astrExegeticalHelpNotes);
             
             // now put the anchors that are in the child (as additions)
             if (childAnchorsData != null)
                 foreach (AnchorData anchorData in childAnchorsData)
-                    strRow += anchorData.PresentationHtml(null, true, ref astrExegeticalHelpNotes);
+                    strRow += anchorData.PresentationHtml(null, bProcessingWithChild, ref astrExegeticalHelpNotes);
+
+            // stop if there was nothing
+            if (String.IsNullOrEmpty(strRow))
+                return strRow;
 
             // make a cell out of the buttons
             string strHtmlCell = String.Format(OseResources.Properties.Resources.HTML_TableCellWidth,

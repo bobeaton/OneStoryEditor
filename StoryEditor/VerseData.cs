@@ -356,24 +356,19 @@ namespace OneStoryProjectEditor
             return strStoryLineRow;
         }
 
+        public bool IsDiffProcessed;
+
         // Html that shows the data in the StoryBt file, but in a fully read-only manner
         public string PresentationHtml(int nVerseIndex, int nNumCols, CraftingInfoData craftingInfo,
-            ViewItemToInsureOn viewSettings, VersesData child)
+            ViewItemToInsureOn viewSettings, VersesData child, VerseData theChildVerse, bool bProcessingWithChild)
         {
-            VerseData theChildVerse = null;
-            if (child != null)
-                foreach (VerseData aVerse in child)
-                    if (aVerse.guid == guid)
-                    {
-                        theChildVerse = aVerse;
-                        break;
-                    }
-
             string strRow = null;
             if (IsViewItemOn(viewSettings, ViewItemToInsureOn.eVernacularLangField))
             {
-                string str = (theChildVerse != null) 
-                    ? Diff.HtmlDiff(VernacularText, theChildVerse.VernacularText) 
+                string str = (bProcessingWithChild)
+                    ? (child != null) 
+                        ? Diff.HtmlDiff(VernacularText, (theChildVerse != null) ? theChildVerse.VernacularText : null)
+                        : Diff.HtmlDiff(null, VernacularText) 
                     : VernacularText.ToString();
 
                 strRow += String.Format(OseResources.Properties.Resources.HTML_TableCellWidthAlignTop, 100 / nNumCols,
@@ -385,8 +380,10 @@ namespace OneStoryProjectEditor
 
             if (IsViewItemOn(viewSettings, ViewItemToInsureOn.eNationalLangField))
             {
-                string str = (theChildVerse != null)
-                    ? Diff.HtmlDiff(NationalBTText, theChildVerse.NationalBTText)
+                string str = (bProcessingWithChild)
+                    ? (child != null)
+                        ? Diff.HtmlDiff(NationalBTText, (theChildVerse != null) ? theChildVerse.NationalBTText : null)
+                        : Diff.HtmlDiff(null, NationalBTText)
                     : NationalBTText.ToString();
 
                 strRow += String.Format(OseResources.Properties.Resources.HTML_TableCellWidthAlignTop, 100 / nNumCols,
@@ -398,8 +395,10 @@ namespace OneStoryProjectEditor
 
             if (IsViewItemOn(viewSettings, ViewItemToInsureOn.eEnglishBTField))
             {
-                string str = (theChildVerse != null)
-                    ? Diff.HtmlDiff(InternationalBTText, theChildVerse.InternationalBTText)
+                string str = (bProcessingWithChild)
+                    ? (child != null)
+                        ? Diff.HtmlDiff(InternationalBTText, (theChildVerse != null) ? theChildVerse.InternationalBTText : null)
+                        : Diff.HtmlDiff(null, InternationalBTText)
                     : InternationalBTText.ToString();
 
                 strRow += String.Format(OseResources.Properties.Resources.HTML_TableCellWidthAlignTop, 100 / nNumCols,
@@ -414,16 +413,20 @@ namespace OneStoryProjectEditor
 
             if (IsViewItemOn(viewSettings, ViewItemToInsureOn.eAnchorFields))
                 strStoryLineRow += Anchors.PresentationHtml(nVerseIndex, nNumCols, 
-                    (theChildVerse != null) ? theChildVerse.Anchors : null);
+                    (theChildVerse != null) ? theChildVerse.Anchors : null, bProcessingWithChild);
 
             if (IsViewItemOn(viewSettings, ViewItemToInsureOn.eRetellingFields))
                 strStoryLineRow += Retellings.PresentationHtml(nVerseIndex, nNumCols,
-                    craftingInfo.Testors, (theChildVerse != null) ? theChildVerse.Retellings : null);
+                    craftingInfo.Testors, (theChildVerse != null) ? theChildVerse.Retellings : null,
+                    bProcessingWithChild);
 
             if (IsViewItemOn(viewSettings, ViewItemToInsureOn.eStoryTestingQuestionFields))
                 strStoryLineRow += TestQuestions.PresentationHtml(nVerseIndex, nNumCols,
-                    craftingInfo.Testors, (theChildVerse != null) ? theChildVerse.TestQuestions : null);
+                    craftingInfo.Testors, (theChildVerse != null) ? theChildVerse.TestQuestions : null,
+                    bProcessingWithChild);
 
+            // indicate that we've done this one
+            IsDiffProcessed = true;
             return strStoryLineRow;
         }
     }
@@ -578,21 +581,85 @@ namespace OneStoryProjectEditor
             return String.Format(OseResources.Properties.Resources.HTML_Table, strHtml);
         }
 
+        protected VerseData FindChildEquivalent(VerseData theParentVerse, VersesData child)
+        {
+            if (child != null)
+                foreach (VerseData aVerse in child)
+                    if (aVerse.guid == theParentVerse.guid)
+                    {
+                        aVerse.IsDiffProcessed = true;
+                        return aVerse;
+                    }
+            return null;
+        }
+
         public string PresentationHtml(CraftingInfoData craftingInfo, VersesData child, int nNumCols,
             VerseData.ViewItemToInsureOn viewSettings)
         {
             string strHtml = null;
-            for (int i = 1; i <= Count; i++)
+            int nInsertCount = 0;
+            int i = 1;
+            while (i <= Count)
             {
                 VerseData aVerseData = this[i - 1];
                 if (aVerseData.IsVisible && !aVerseData.IsFirstVerse)
                 {
-                    strHtml += GetHeaderRow("Ln: " + i, i, aVerseData.IsVisible, false, nNumCols);
+                    int nLineIndex = i + nInsertCount;
+                    strHtml += GetHeaderRow("Ln: " + nLineIndex, nLineIndex, aVerseData.IsVisible, false, nNumCols);
 
-                    strHtml += aVerseData.PresentationHtml(i, nNumCols, craftingInfo,
-                        viewSettings, child);
+                    // get the child verse that matches this one...
+                    VerseData theChildVerse = FindChildEquivalent(aVerseData, child);
+                    if (theChildVerse != null)
+                    {
+                        // see if there were any child verses that weren't processed
+                        bool bFoundOne = false;
+                        for (int j = i; j <= child.IndexOf(theChildVerse); j++)
+                        {
+                            VerseData aPassedByChild = child[j - 1];
+                            if (!aPassedByChild.IsDiffProcessed)
+                            {
+                                strHtml += aPassedByChild.PresentationHtml(nLineIndex, nNumCols, craftingInfo,
+                                    viewSettings, null, null, true);
+                                bFoundOne = true;
+                                nInsertCount++;
+                            }
+                        }
+
+                        if (bFoundOne)
+                            continue;
+                    }
+
+                    strHtml += aVerseData.PresentationHtml(nLineIndex, nNumCols, craftingInfo,
+                        viewSettings, child, theChildVerse, (child != null));
+
+                    // if there is a child, but we couldn't find the equivalent verse...
+                    if ((child != null) && (theChildVerse == null) && (child.Count >= i))
+                    {
+                        // this means the original verse (which we just showed as deleted) 
+                        //  was replaced by whatever is the same verse in the child collection
+                        theChildVerse = child[i - 1];
+                        strHtml += theChildVerse.PresentationHtml(nLineIndex, nNumCols, craftingInfo,
+                            viewSettings, null, null, true);
+                    }
                 }
+
+                i++;    // do this here in case we redo one (from 'continue' above)
             }
+
+            if (child != null)
+                while (i <= child.Count)
+                {
+                    VerseData aVerseData = child[i - 1];
+                    if (!aVerseData.IsDiffProcessed)
+                    {
+                        int nLineIndex = i + nInsertCount;
+                        strHtml += GetHeaderRow("Ln: " + nLineIndex, nLineIndex, aVerseData.IsVisible, false, nNumCols);
+
+                        strHtml += aVerseData.PresentationHtml(nLineIndex, nNumCols, craftingInfo,
+                            viewSettings, null, null, true);
+                    }
+                    i++;
+                }
 
             return String.Format(OseResources.Properties.Resources.HTML_Table, strHtml);
         }
