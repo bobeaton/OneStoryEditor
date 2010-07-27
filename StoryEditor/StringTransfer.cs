@@ -73,6 +73,15 @@ namespace OneStoryProjectEditor
             get { return !String.IsNullOrEmpty(Value); }
         }
 
+        public int NumOfWords(char[] achToIgnore)
+        {
+            if (!HasData)
+                return 0;
+
+            string[] astr = Value.Split(achToIgnore, StringSplitOptions.RemoveEmptyEntries);
+            return astr.Length;
+        }
+
         public void ExtractSelectedText(out string strSelectedText)
         {
 #if !DataDllBuild
