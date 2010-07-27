@@ -28,11 +28,11 @@ does it fit with the theme of your panorama? You will also enter the list of res
 crafting the story (audio recordings of Bibles, videos, etc).
     </StageInstructions>
     <AllowableForewardsTransitions>
-      <AllowableTransition RequiresUsingNationalBT="true">eProjFacTypeNationalBT</AllowableTransition>
-      <AllowableTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="false">eProjFacTypeInternationalBT</AllowableTransition>
-      <AllowableTransition RequiresBiblicalStory="true">eProjFacAddAnchors</AllowableTransition>
-      <AllowableTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotesBeforeUnsTest</AllowableTransition>
-      <AllowableTransition RequiresBiblicalStory="false">eConsultantCheckNonBiblicalStory</AllowableTransition>
+      <AllowableTransition>eProjFacTypeNationalBT</AllowableTransition>
+      <AllowableTransition>eProjFacTypeInternationalBT</AllowableTransition>
+      <AllowableTransition>eProjFacAddAnchors</AllowableTransition>
+      <AllowableTransition>eBackTranslatorTranslateConNotesBeforeUnsTest</AllowableTransition>
+      <AllowableTransition>eConsultantCheckNonBiblicalStory</AllowableTransition>
     </AllowableForewardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="false" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
@@ -58,13 +58,13 @@ also access this and other story information by clicking, "Story", and then "Sto
 item.
     </StageInstructions>
     <AllowableForewardsTransitions>
-      <AllowableTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="false">eProjFacTypeInternationalBT</AllowableTransition>
-      <AllowableTransition RequiresBiblicalStory="true">eProjFacAddAnchors</AllowableTransition>
-      <AllowableTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotesBeforeUnsTest</AllowableTransition>
-      <AllowableTransition RequiresBiblicalStory="false">eConsultantCheckNonBiblicalStory</AllowableTransition>
+      <AllowableTransition>eProjFacTypeInternationalBT</AllowableTransition>
+      <AllowableTransition>eProjFacAddAnchors</AllowableTransition>
+      <AllowableTransition>eBackTranslatorTranslateConNotesBeforeUnsTest</AllowableTransition>
+      <AllowableTransition>eConsultantCheckNonBiblicalStory</AllowableTransition>
     </AllowableForewardsTransitions>
     <AllowableBackwardsTransitions>
-      <AllowableTransition RequiresUsingVernacular="true">eProjFacTypeVernacular</AllowableTransition>
+      <AllowableTransition>eProjFacTypeVernacular</AllowableTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
@@ -95,12 +95,12 @@ When you are finished entering the English back-translation, then click the "Sel
 move to the next (green) state. 
     </StageInstructions>
     <AllowableForewardsTransitions>
-      <AllowableTransition RequiresBiblicalStory="true">eProjFacAddAnchors</AllowableTransition>
-      <AllowableTransition RequiresBiblicalStory="false">eConsultantCheckNonBiblicalStory</AllowableTransition>
+      <AllowableTransition>eProjFacAddAnchors</AllowableTransition>
+      <AllowableTransition>eConsultantCheckNonBiblicalStory</AllowableTransition>
     </AllowableForewardsTransitions>
     <AllowableBackwardsTransitions>
-      <AllowableTransition RequiresUsingVernacular="true">eProjFacTypeVernacular</AllowableTransition>
-      <AllowableTransition RequiresUsingNationalBT="true">eProjFacTypeNationalBT</AllowableTransition>
+      <AllowableTransition>eProjFacTypeVernacular</AllowableTransition>
+      <AllowableTransition>eProjFacTypeNationalBT</AllowableTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
@@ -110,11 +110,6 @@ move to the next (green) state.
 In this stage, you (the project facilitator) will go through the story verse-by-verse and look up one or more Bible 
 references in the Bible pane that supports the information in the verse. These Bible references are known as "Anchors", 
 because they tie the story verse to the Bible.
-
-For example, if your story verse were, "First of all, God made heaven and earth", then you could use the reference 
-"Gen 1:1" as the anchor, which in the NetBible says, "In the beginning God created the heavens and the earth". You could 
-also include another anchor like "Col 1:16", which says, "for all things in heaven and on earth were created by him..."
-Both of these passages support the idea that "First of all, God made heaven and earth".
 
 When you find a supporting Bible passage in the "Bible" pane (lower-left pane of the OneStory editor), then click and 
 hold down the left mouse button on the button to the left of the verse in the Bible pane. Then while the left mouse button 
@@ -127,13 +122,6 @@ on the anchor button for other options, like adding a comment to the anchor (e.g
 be displayed when you hover the mouse over an anchor button (and in historical difference and print preview versions of the 
 story). You can also add a cultural or exegetical note about the anchor by right-clicking on the anchor button and choosing 
 "Add Exegetical/Cultural Note". Such notes can help the consultant understand why you chose the Bible reference that you did.
-
-In the Bible pane, by default the NetBible version of the Bible will be displayed. In the upper portion of that pane, there 
-are several small "radio buttons" with labels like "NETfree" (which refers to the NetBible) and "Other". Click on the "Other" 
-button to view different Bible text resources that may be installed on your computer, such as a Hindi Bible translation or an 
-Easy English version of the Bible. Talk with your workshop advisor for other options available.
-
-Remember that each verse must have at least one anchor. If you can't find an anchor, perhaps the story line doesn't belong.
 
 In this stage, you can also select the key terms that are in the story line. To do this, right-click on the Anchor bar and 
 choose "Edit Key Terms". This will bring up the Key Terms dialog box which will show you all the Key biblical terms associated 
@@ -174,9 +162,9 @@ the status bar to go to the next stage in the process.
       <AllowableTransition>eProjFacAddStoryQuestions</AllowableTransition>
     </AllowableForewardsTransitions>
     <AllowableBackwardsTransitions>
-      <AllowableTransition RequiresUsingVernacular="true">eProjFacTypeVernacular</AllowableTransition>
-      <AllowableTransition RequiresUsingNationalBT="true">eProjFacTypeNationalBT</AllowableTransition>
-      <AllowableTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="false">eProjFacTypeInternationalBT</AllowableTransition>
+      <AllowableTransition>eProjFacTypeVernacular</AllowableTransition>
+      <AllowableTransition>eProjFacTypeNationalBT</AllowableTransition>
+      <AllowableTransition>eProjFacTypeInternationalBT</AllowableTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
@@ -232,15 +220,15 @@ questions) from a UNS test (click 'Yes') or whether you want to the story and qu
 consultant first for pre-UNS test checking (click 'No'). Discuss with your consultant which one you should choose.
     </StageInstructions>
     <AllowableForewardsTransitions>
-      <AllowableTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotesBeforeUnsTest</AllowableTransition>
-      <AllowableTransition RequiresFirstPassMentor="true">eFirstPassMentorCheck1</AllowableTransition>
+      <AllowableTransition>eBackTranslatorTranslateConNotesBeforeUnsTest</AllowableTransition>
+      <AllowableTransition>eFirstPassMentorCheck1</AllowableTransition>
       <AllowableTransition>eConsultantCheckStoryInfo</AllowableTransition>
       <AllowableTransition>eProjFacReadyForTest1</AllowableTransition>
     </AllowableForewardsTransitions>
     <AllowableBackwardsTransitions>
-      <AllowableTransition RequiresUsingVernacular="true">eProjFacTypeVernacular</AllowableTransition>
-      <AllowableTransition RequiresUsingNationalBT="true">eProjFacTypeNationalBT</AllowableTransition>
-      <AllowableTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="false">eProjFacTypeInternationalBT</AllowableTransition>
+      <AllowableTransition>eProjFacTypeVernacular</AllowableTransition>
+      <AllowableTransition>eProjFacTypeNationalBT</AllowableTransition>
+      <AllowableTransition>eProjFacTypeInternationalBT</AllowableTransition>
       <AllowableTransition>eProjFacAddAnchors</AllowableTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="true" />
@@ -267,17 +255,10 @@ for additional comments by right-clicking on the small button and choosing "Add 
 When you are finished, then click the "Select State" button to move to the next (green) state.
     </StageInstructions>
     <AllowableForewardsTransitions>
-      <AllowableTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotesBeforeUnsTest</AllowableTransition>
-      <AllowableTransition RequiresFirstPassMentor="true">eFirstPassMentorCheck1</AllowableTransition>
-      <AllowableTransition RequiresBiblicalStory="true">eConsultantCheckStoryInfo</AllowableTransition>
+      <AllowableTransition>eBackTranslatorTranslateConNotesBeforeUnsTest</AllowableTransition>
+      <AllowableTransition>eFirstPassMentorCheck1</AllowableTransition>
+      <AllowableTransition>eConsultantCheckStoryInfo</AllowableTransition>
     </AllowableForewardsTransitions>
-    <AllowableBackwardsTransitions>
-      <AllowableTransition RequiresUsingVernacular="true">eProjFacTypeVernacular</AllowableTransition>
-      <AllowableTransition RequiresUsingNationalBT="true">eProjFacTypeNationalBT</AllowableTransition>
-      <AllowableTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="false">eProjFacTypeInternationalBT</AllowableTransition>
-      <AllowableTransition RequiresBiblicalStory="true">eProjFacAddAnchors</AllowableTransition>
-      <AllowableTransition RequiresBiblicalStory="true">eProjFacAddStoryQuestions</AllowableTransition>
-    </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eBackTranslatorTypeInternationalBT" MemberTypeWithEditToken="eEnglishBacktranslator" RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">
@@ -298,9 +279,9 @@ When you are finished entering the English back translation, then click the "Sel
 to move to the next (green) state.
     </StageInstructions>
     <AllowableForewardsTransitions>
-      <AllowableTransition RequiresBiblicalStory="false">eConsultantCheckNonBiblicalStory</AllowableTransition>
-      <AllowableTransition RequiresFirstPassMentor="true">eFirstPassMentorCheck1</AllowableTransition>
-      <AllowableTransition RequiresBiblicalStory="true">eConsultantCheckStoryInfo</AllowableTransition>
+      <AllowableTransition>eConsultantCheckNonBiblicalStory</AllowableTransition>
+      <AllowableTransition>eFirstPassMentorCheck1</AllowableTransition>
+      <AllowableTransition>eConsultantCheckStoryInfo</AllowableTransition>
     </AllowableForewardsTransitions>
     <AllowableBackwardsTransitions>
       <AllowableTransition>eProjFacRevisesBeforeUnsTest</AllowableTransition>
@@ -308,7 +289,7 @@ to move to the next (green) state.
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
   <StateTransition stage="eBackTranslatorTranslateConNotesBeforeUnsTest" MemberTypeWithEditToken="eEnglishBacktranslator" RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">
-    <StageDisplayString>English back-translator translates Consultant Notes for Project Facilitator (going backwards prior to UNS testing)</StageDisplayString>
+    <StageDisplayString>English back-translator translates Consult. Notes for PF (before UNS test)</StageDisplayString>
     <StageInstructions>
 In this stage, you (the English back-translator) will go through the feedback given by the consultant in
 the Consultant Notes pane and translate it into the national language for the project facilitator.
@@ -323,9 +304,9 @@ story before returning it to the Consultant'. Then close the editor and the file
 the internet where it can be downloaded by the project facilitator for changes.
     </StageInstructions>
     <AllowableForewardsTransitions>
-      <AllowableTransition RequiresBiblicalStory="false">eConsultantCheckNonBiblicalStory</AllowableTransition>
-      <AllowableTransition RequiresFirstPassMentor="true">eFirstPassMentorCheck1</AllowableTransition>
-      <AllowableTransition RequiresBiblicalStory="true">eConsultantCheckStoryInfo</AllowableTransition>
+      <AllowableTransition>eConsultantCheckNonBiblicalStory</AllowableTransition>
+      <AllowableTransition>eFirstPassMentorCheck1</AllowableTransition>
+      <AllowableTransition>eConsultantCheckStoryInfo</AllowableTransition>
     </AllowableForewardsTransitions>
     <AllowableBackwardsTransitions>
       <AllowableTransition>eProjFacRevisesBeforeUnsTest</AllowableTransition>
@@ -348,7 +329,7 @@ Discourse Chart Helper' program for details.
 This is the final stage of the process for this non-biblical story.
     </StageInstructions>
     <AllowableBackwardsTransitions>
-      <AllowableTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotesBeforeUnsTest</AllowableTransition>
+      <AllowableTransition>eBackTranslatorTranslateConNotesBeforeUnsTest</AllowableTransition>
       <AllowableTransition>eProjFacRevisesBeforeUnsTest</AllowableTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
@@ -404,7 +385,7 @@ Notes' pane, then click the "Select State" button to move to the next (green) st
       <AllowableTransition>eConsultantCheckStoryInfo</AllowableTransition>
     </AllowableForewardsTransitions>
     <AllowableBackwardsTransitions>
-      <AllowableTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotesBeforeUnsTest</AllowableTransition>
+      <AllowableTransition>eBackTranslatorTranslateConNotesBeforeUnsTest</AllowableTransition>
       <AllowableTransition>eProjFacRevisesBeforeUnsTest</AllowableTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
@@ -439,13 +420,13 @@ button to move to the next (green) state.
     <AllowableForewardsTransitions>
       <AllowableTransition>eConsultantCheckAnchors</AllowableTransition>
       <AllowableTransition>eConsultantCheckStoryQuestions</AllowableTransition>
-      <AllowableTransition RequiresManageWithCoaching="true">eCoachReviewRound1Notes</AllowableTransition>
-      <AllowableTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotes</AllowableTransition>
+      <AllowableTransition>eCoachReviewRound1Notes</AllowableTransition>
+      <AllowableTransition>eBackTranslatorTranslateConNotes</AllowableTransition>
       <AllowableTransition>eProjFacReviseBasedOnRound1Notes</AllowableTransition>
     </AllowableForewardsTransitions>
     <AllowableBackwardsTransitions>
-      <AllowableTransition RequiresFirstPassMentor="true">eFirstPassMentorCheck1</AllowableTransition>
-      <AllowableTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotesBeforeUnsTest</AllowableTransition>
+      <AllowableTransition>eFirstPassMentorCheck1</AllowableTransition>
+      <AllowableTransition>eBackTranslatorTranslateConNotesBeforeUnsTest</AllowableTransition>
       <AllowableTransition>eProjFacRevisesBeforeUnsTest</AllowableTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="false" />
@@ -483,14 +464,14 @@ state.
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition>eConsultantCheckStoryQuestions</AllowableTransition>
-      <AllowableTransition RequiresManageWithCoaching="true">eCoachReviewRound1Notes</AllowableTransition>
-      <AllowableTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotes</AllowableTransition>
+      <AllowableTransition>eCoachReviewRound1Notes</AllowableTransition>
+      <AllowableTransition>eBackTranslatorTranslateConNotes</AllowableTransition>
       <AllowableTransition>eProjFacReviseBasedOnRound1Notes</AllowableTransition>
     </AllowableForewardsTransitions>
     <AllowableBackwardsTransitions>
       <AllowableTransition>eConsultantCheckStoryInfo</AllowableTransition>
-      <AllowableTransition RequiresFirstPassMentor="true">eFirstPassMentorCheck1</AllowableTransition>
-      <AllowableTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotesBeforeUnsTest</AllowableTransition>
+      <AllowableTransition>eFirstPassMentorCheck1</AllowableTransition>
+      <AllowableTransition>eBackTranslatorTranslateConNotesBeforeUnsTest</AllowableTransition>
       <AllowableTransition>eProjFacRevisesBeforeUnsTest</AllowableTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="false" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
@@ -551,15 +532,15 @@ to passing your comments on to the coach, you can add a question to the Coach No
 the "Add Note" button to add a note (at the relevant line).
     </StageInstructions>
     <AllowableForewardsTransitions>
-      <AllowableTransition RequiresManageWithCoaching="true">eCoachReviewRound1Notes</AllowableTransition>
-      <AllowableTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotes</AllowableTransition>
+      <AllowableTransition>eCoachReviewRound1Notes</AllowableTransition>
+      <AllowableTransition>eBackTranslatorTranslateConNotes</AllowableTransition>
       <AllowableTransition>eProjFacReviseBasedOnRound1Notes</AllowableTransition>
     </AllowableForewardsTransitions>
     <AllowableBackwardsTransitions>
       <AllowableTransition>eConsultantCheckAnchors</AllowableTransition>
       <AllowableTransition>eConsultantCheckStoryInfo</AllowableTransition>
-      <AllowableTransition RequiresFirstPassMentor="true">eFirstPassMentorCheck1</AllowableTransition>
-      <AllowableTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotesBeforeUnsTest</AllowableTransition>
+      <AllowableTransition>eFirstPassMentorCheck1</AllowableTransition>
+      <AllowableTransition>eBackTranslatorTranslateConNotesBeforeUnsTest</AllowableTransition>
       <AllowableTransition>eProjFacRevisesBeforeUnsTest</AllowableTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
@@ -586,8 +567,8 @@ the Project Facilitator/Crafter to correct the story.
       <AllowableTransition>eCoachReviewRound1Notes</AllowableTransition>
     </AllowableForewardsTransitions>
     <AllowableBackwardsTransitions>
-      <AllowableTransition RequiresFirstPassMentor="true">eFirstPassMentorCheck1</AllowableTransition>
-      <AllowableTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotesBeforeUnsTest</AllowableTransition>
+      <AllowableTransition>eFirstPassMentorCheck1</AllowableTransition>
+      <AllowableTransition>eBackTranslatorTranslateConNotesBeforeUnsTest</AllowableTransition>
       <AllowableTransition>eProjFacRevisesBeforeUnsTest</AllowableTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
@@ -636,7 +617,7 @@ You can add another line for additional comments by clicking on the "Add Note" b
 When you are finished, then click the "Select State" button to move to the next (green) state.
     </StageInstructions>
     <AllowableForewardsTransitions>
-      <AllowableTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotes</AllowableTransition>
+      <AllowableTransition>eBackTranslatorTranslateConNotes</AllowableTransition>
       <AllowableTransition>eProjFacReviseBasedOnRound1Notes</AllowableTransition>
     </AllowableForewardsTransitions>
     <AllowableBackwardsTransitions>
@@ -660,7 +641,7 @@ When you are finished, then click the "Select State" button to move to the next 
       <AllowableTransition>eProjFacReviseBasedOnRound1Notes</AllowableTransition>
     </AllowableForewardsTransitions>
     <AllowableBackwardsTransitions>
-      <AllowableTransition RequiresManageWithCoaching="true">eConsultantReviseRound1Notes</AllowableTransition>
+      <AllowableTransition>eConsultantReviseRound1Notes</AllowableTransition>
       <AllowableTransition>eConsultantCheckStoryQuestions</AllowableTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
@@ -701,12 +682,12 @@ additional comments by clicking the "Add Note" button if needed.
 When you are finished, then click the "Select State" button to move to the next (green) state.
     </StageInstructions>
     <AllowableForewardsTransitions>
-      <AllowableTransition>eProjFacOnlineReview1WithConsultant</AllowableTransition>
+      <AllowableTransition AllowToSkip="true">eProjFacOnlineReview1WithConsultant</AllowableTransition>
       <AllowableTransition>eProjFacReadyForTest1</AllowableTransition>
     </AllowableForewardsTransitions>
     <AllowableBackwardsTransitions>
-      <AllowableTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotes</AllowableTransition>
-      <AllowableTransition RequiresManageWithCoaching="true">eConsultantReviseRound1Notes</AllowableTransition>
+      <AllowableTransition>eBackTranslatorTranslateConNotes</AllowableTransition>
+      <AllowableTransition>eConsultantReviseRound1Notes</AllowableTransition>
       <AllowableTransition>eConsultantCheckStoryQuestions</AllowableTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
@@ -729,8 +710,8 @@ to the next (green) state where you will do a UNS test.
     </AllowableForewardsTransitions>
     <AllowableBackwardsTransitions>
       <AllowableTransition>eProjFacReviseBasedOnRound1Notes</AllowableTransition>
-      <AllowableTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotes</AllowableTransition>
-      <AllowableTransition RequiresManageWithCoaching="true">eConsultantReviseRound1Notes</AllowableTransition>
+      <AllowableTransition>eBackTranslatorTranslateConNotes</AllowableTransition>
+      <AllowableTransition>eConsultantReviseRound1Notes</AllowableTransition>
       <AllowableTransition>eConsultantCheckStoryQuestions</AllowableTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
@@ -767,7 +748,6 @@ and the answers to the testing questions) to enter the UNS's responses into the 
     <AllowableBackwardsTransitions>
       <AllowableTransition>eProjFacOnlineReview1WithConsultant</AllowableTransition>
       <AllowableTransition>eProjFacReviseBasedOnRound1Notes</AllowableTransition>
-      <AllowableTransition>eProjFacRevisesBeforeUnsTest</AllowableTransition>
       <AllowableTransition>eProjFacAddStoryQuestions</AllowableTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
@@ -798,9 +778,9 @@ same UNS.
       <AllowableTransition>eProjFacEnterAnswersToStoryQuestionsOfTest1</AllowableTransition>
     </AllowableForewardsTransitions>
     <AllowableBackwardsTransitions>
+      <AllowableTransition>eProjFacReadyForTest1</AllowableTransition>
       <AllowableTransition>eProjFacOnlineReview1WithConsultant</AllowableTransition>
       <AllowableTransition>eProjFacReviseBasedOnRound1Notes</AllowableTransition>
-      <AllowableTransition>eProjFacReadyForTest1</AllowableTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="false" viewRetellingField="true" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
@@ -822,9 +802,8 @@ Otherwise, if you're finished entering in UNS test results, then click the "Sele
 move to the next (green) state.
     </StageInstructions>
     <AllowableForewardsTransitions>
-      <AllowableTransition>eProjFacEnterRetellingOfTest1</AllowableTransition>
-      <AllowableTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTypeInternationalBTTest1</AllowableTransition>
-      <AllowableTransition RequiresFirstPassMentor="true">eFirstPassMentorCheck2</AllowableTransition>
+      <AllowableTransition>eBackTranslatorTypeInternationalBTTest1</AllowableTransition>
+      <AllowableTransition>eFirstPassMentorCheck2</AllowableTransition>
       <AllowableTransition>eConsultantCheck2</AllowableTransition>
     </AllowableForewardsTransitions>
     <AllowableBackwardsTransitions>
@@ -836,7 +815,7 @@ move to the next (green) state.
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
   <StateTransition stage="eBackTranslatorTypeInternationalBTTest1" MemberTypeWithEditToken="eEnglishBacktranslator" RequiresBiblicalStory="true" RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">
-    <StageDisplayString>English back-translator enters the English back-translation of UNS Test results</StageDisplayString>
+    <StageDisplayString>English back-translator enters the English BT of the UNS test results</StageDisplayString>
     <StageInstructions>
 In this stage, someone typically outside of the crafting team will translate the responses from the
 UNS tests (and update the latest version of the story BT) from the National language into English 
@@ -853,14 +832,10 @@ When you are finished entering the English back translation, then click the "Sel
 move to the next (green) state.
     </StageInstructions>
     <AllowableForewardsTransitions>
-      <AllowableTransition RequiresFirstPassMentor="true">eFirstPassMentorCheck2</AllowableTransition>
+      <AllowableTransition>eFirstPassMentorCheck2</AllowableTransition>
       <AllowableTransition>eConsultantCheck2</AllowableTransition>
     </AllowableForewardsTransitions>
     <AllowableBackwardsTransitions>
-      <AllowableTransition>eProjFacEnterAnswersToStoryQuestionsOfTest1</AllowableTransition>
-      <AllowableTransition>eProjFacEnterRetellingOfTest1</AllowableTransition>
-      <AllowableTransition>eProjFacReadyForTest1</AllowableTransition>
-      <AllowableTransition>eProjFacOnlineReview1WithConsultant</AllowableTransition>
       <AllowableTransition>eProjFacReviseBasedOnRound1Notes</AllowableTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestionField="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
@@ -909,7 +884,7 @@ bar to go to the next stage in the process.
       <AllowableTransition>eConsultantCheck2</AllowableTransition>
     </AllowableForewardsTransitions>
     <AllowableBackwardsTransitions>
-      <AllowableTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotes</AllowableTransition>
+      <AllowableTransition>eBackTranslatorTranslateConNotes</AllowableTransition>
       <AllowableTransition>eProjFacReviseBasedOnRound1Notes</AllowableTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
@@ -955,12 +930,12 @@ When you are finished reviewing the Story and putting any consultant notes you h
 bar to go to the next stage in the process.
     </StageInstructions>
     <AllowableForewardsTransitions>
-      <AllowableTransition RequiresManageWithCoaching="true">eCoachReviewRound2Notes</AllowableTransition>
+      <AllowableTransition>eCoachReviewRound2Notes</AllowableTransition>
       <AllowableTransition>eTeamComplete</AllowableTransition>
     </AllowableForewardsTransitions>
     <AllowableBackwardsTransitions>
-      <AllowableTransition RequiresFirstPassMentor="true">eFirstPassMentorCheck2</AllowableTransition>
-      <AllowableTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotes</AllowableTransition>
+      <AllowableTransition>eFirstPassMentorCheck2</AllowableTransition>
+      <AllowableTransition>eBackTranslatorTranslateConNotes</AllowableTransition>
       <AllowableTransition>eProjFacReviseBasedOnRound1Notes</AllowableTransition>
     </AllowableBackwardsTransitions>
     <BackwardsProcessing ButtonLabel="Send back for revision">eProjFacReviseBasedOnRound1Notes</BackwardsProcessing>
@@ -992,7 +967,7 @@ to make revisions.
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="false" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
   </StateTransition>
-  <StateTransition stage="eTeamComplete" MemberTypeWithEditToken="eProjectFacilitator">
+  <StateTransition stage="eTeamComplete" MemberTypeWithEditToken="eProjectFacilitator" RequiresBiblicalStory="true">
     <StageDisplayString>Story testing complete (waiting for panorama completion review)</StageDisplayString>
     <StageInstructions>
 In this stage the story has preliminary approval to be used in a Story Fellowship Group (SFG) for its final testing 
@@ -1005,10 +980,10 @@ want to return to (either the 'Consultant reviews test 2 results' state, or if y
 to the 'First-pass mentor checks test 2 results' state), which sends it to them for another consultant check.
     </StageInstructions>
     <AllowableBackwardsTransitions>
-      <AllowableTransition RequiresManageWithCoaching="true">eCoachReviewRound2Notes</AllowableTransition>
-      <AllowableTransition RequiresManageWithCoaching="true">eConsultantReviseRound1Notes</AllowableTransition>
-      <AllowableTransition RequiresFirstPassMentor="true">eFirstPassMentorCheck2</AllowableTransition>
-      <AllowableTransition RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">eBackTranslatorTranslateConNotes</AllowableTransition>
+      <AllowableTransition>eCoachReviewRound2Notes</AllowableTransition>
+      <AllowableTransition>eConsultantReviseRound1Notes</AllowableTransition>
+      <AllowableTransition>eFirstPassMentorCheck2</AllowableTransition>
+      <AllowableTransition>eBackTranslatorTranslateConNotes</AllowableTransition>
       <AllowableTransition>eProjFacReviseBasedOnRound1Notes</AllowableTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestionField="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />

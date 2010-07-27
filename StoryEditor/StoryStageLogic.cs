@@ -322,13 +322,11 @@ namespace OneStoryProjectEditor
                             AllowableTransition aps = new AllowableTransition
                             {
                                 ProjectStage = (ProjectStages)Enum.Parse(typeof(ProjectStages), xpNextElement.Current.Value),
-                                RequiresUsingVernacular = (xpNextElement.Current.GetAttribute("RequiresUsingVernacular", navigator.NamespaceURI) == "true"),
-                                RequiresUsingNationalBT = (xpNextElement.Current.GetAttribute("RequiresUsingNationalBT", navigator.NamespaceURI) == "true"),
-                                RequiresUsingEnglishBT = (xpNextElement.Current.GetAttribute("RequiresUsingEnglishBT", navigator.NamespaceURI) == "true"),
-                                UsingOtherEnglishBTer = xpNextElement.Current.GetAttribute("RequiresUsingOtherEnglishBTer", navigator.NamespaceURI),
-                                RequiresBiblicalStory = (xpNextElement.Current.GetAttribute("RequiresBiblicalStory", navigator.NamespaceURI) == "true"),
-                                RequiresFirstPassMentor = (xpNextElement.Current.GetAttribute("RequiresFirstPassMentor", navigator.NamespaceURI) == "true"),
-                                RequiresManageWithCoaching = (xpNextElement.Current.GetAttribute("RequiresManageWithCoaching", navigator.NamespaceURI) == "true")
+
+                                // forward transitions have an 'AllowToSkip' attribute, which allows the user to possibly
+                                //  jump forward two states (e.g. PF can jump over 'Project Facilitator has optional online 
+                                //  review with consultant' if they have nothing to say.
+                                AllowToSkip = (xpNextElement.Current.GetAttribute("AllowToSkip", navigator.NamespaceURI) == "true")
                             };
                             lstAllowableForewardsStages.Add(aps);
                         }
@@ -339,14 +337,7 @@ namespace OneStoryProjectEditor
                         {
                             AllowableTransition aps = new AllowableTransition
                             {
-                                ProjectStage = (ProjectStages)Enum.Parse(typeof(ProjectStages), xpNextElement.Current.Value),
-                                RequiresUsingVernacular = (xpNextElement.Current.GetAttribute("RequiresUsingVernacular", navigator.NamespaceURI) == "true"),
-                                RequiresUsingNationalBT = (xpNextElement.Current.GetAttribute("RequiresUsingNationalBT", navigator.NamespaceURI) == "true"),
-                                RequiresUsingEnglishBT = (xpNextElement.Current.GetAttribute("RequiresUsingEnglishBT", navigator.NamespaceURI) == "true"),
-                                UsingOtherEnglishBTer = xpNextElement.Current.GetAttribute("RequiresUsingOtherEnglishBTer", navigator.NamespaceURI),
-                                RequiresBiblicalStory = (xpNextElement.Current.GetAttribute("RequiresBiblicalStory", navigator.NamespaceURI) == "true"),
-                                RequiresFirstPassMentor = (xpNextElement.Current.GetAttribute("RequiresFirstPassMentor", navigator.NamespaceURI) == "true"),
-                                RequiresManageWithCoaching = (xpNextElement.Current.GetAttribute("RequiresManageWithCoaching", navigator.NamespaceURI) == "true")
+                                ProjectStage = (ProjectStages)Enum.Parse(typeof(ProjectStages), xpNextElement.Current.Value)
                             };
                             lstAllowableBackwardsStages.Add(aps);
                         }
@@ -417,62 +408,22 @@ namespace OneStoryProjectEditor
         public class AllowableTransition
         {
             public ProjectStages ProjectStage { get; set; }
-            public bool RequiresUsingVernacular { get; set; }
-            public bool RequiresUsingNationalBT { get; set; }
-            public bool RequiresUsingEnglishBT { get; set; }
-            public bool HasUsingOtherEnglishBTer { get; set; }
-            public bool RequiresUsingOtherEnglishBTer { get; set; }
-            public bool RequiresBiblicalStory { get; set; }
-            public bool RequiresFirstPassMentor { get; set; }
-            public bool RequiresManageWithCoaching { get; set; }
-
-            public object UsingOtherEnglishBTer
-            {
-                set
-                {
-                    string strValue = (string)value;
-                    if (String.IsNullOrEmpty(strValue))
-                        HasUsingOtherEnglishBTer = false;
-                    else
-                    {
-                        HasUsingOtherEnglishBTer = true;
-                        RequiresUsingOtherEnglishBTer = (strValue == "true");
-                    }
-                }
-            }
+            public bool AllowToSkip { get; set; }
 
             public bool IsThisStateAllow(StoryProjectData storyProjectData, StoryData theCurrentStory)
             {
-                    // put the allowable transitions into the DropDown list
-                return ((!RequiresUsingVernacular || storyProjectData.ProjSettings.Vernacular.HasData)
-                        && (!RequiresUsingNationalBT || storyProjectData.ProjSettings.NationalBT.HasData)
-                        && (!RequiresUsingEnglishBT || storyProjectData.ProjSettings.InternationalBT.HasData)
-                        && (!RequiresBiblicalStory || theCurrentStory.CraftingInfo.IsBiblicalStory)
-                        && (!RequiresFirstPassMentor || storyProjectData.TeamMembers.HasOutsideEnglishBTer)
-                        && (!HasUsingOtherEnglishBTer
-                            || (RequiresUsingOtherEnglishBTer ==
-                                storyProjectData.TeamMembers.HasOutsideEnglishBTer))
-                        && (!RequiresManageWithCoaching || !storyProjectData.TeamMembers.HasIndependentConsultant)
-                        );
+                StateTransition st = stateTransitions[ProjectStage];
+                return st.IsThisStateAllow(storyProjectData, theCurrentStory);
             }
 
             public XElement GetXml
             {
                 get
                 {
-                    XElement elemAPS = new XElement("AllowableTransition");
-                    if (RequiresUsingVernacular)
-                        elemAPS.Add(new XAttribute("RequiresUsingVernacular", true));
-                    if (RequiresBiblicalStory)
-                        elemAPS.Add(new XAttribute("RequiresBiblicalStory", true));
-                    if (RequiresUsingEnglishBT)
-                        elemAPS.Add(new XAttribute("RequiresUsingEnglishBT", true));
-                    if (HasUsingOtherEnglishBTer)
-                        elemAPS.Add(new XAttribute("RequiresUsingOtherEnglishBTer", RequiresUsingOtherEnglishBTer));
-                    if (RequiresUsingNationalBT)
-                        elemAPS.Add(new XAttribute("RequiresUsingNationalBT", true));
-                    elemAPS.Add(this);
-                    return elemAPS;
+                    XElement elem = new XElement("AllowableTransition", ProjectStage);
+                    if (AllowToSkip)
+                        elem.Add(new XAttribute("AllowToSkip", AllowToSkip));
+                    return elem;
                 }
             }
         }
@@ -538,6 +489,21 @@ namespace OneStoryProjectEditor
                     if (aps.ProjectStage == eToStage)
                         return true;
                 return false;
+            }
+
+            public bool IsThisStateAllow(StoryProjectData storyProjectData, StoryData theCurrentStory)
+            {
+                return ((!RequiresUsingVernacular || storyProjectData.ProjSettings.Vernacular.HasData)
+                        && (!RequiresUsingNationalBT || storyProjectData.ProjSettings.NationalBT.HasData)
+                        && (!RequiresUsingEnglishBT || storyProjectData.ProjSettings.InternationalBT.HasData)
+                        && (!RequiresBiblicalStory || theCurrentStory.CraftingInfo.IsBiblicalStory)
+                        && (!RequiresNonBiblicalStory || !theCurrentStory.CraftingInfo.IsBiblicalStory)
+                        && (!RequiresFirstPassMentor || storyProjectData.TeamMembers.HasOutsideEnglishBTer)
+                        && (!HasUsingOtherEnglishBTer
+                            || (RequiresUsingOtherEnglishBTer ==
+                                storyProjectData.TeamMembers.HasOutsideEnglishBTer))
+                        && (!RequiresManageWithCoaching || !storyProjectData.TeamMembers.HasIndependentConsultant)
+                        );
             }
 
 #if !DataDllBuild

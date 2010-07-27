@@ -273,6 +273,7 @@ namespace OneStoryProjectEditor
             ClearFlowControls();
             CtrlTextBox._inTextBox = null;
             theCurrentStory = null;
+            StoryStageLogic.stateTransitions = null;
             comboBoxStorySelector.Items.Clear();
             comboBoxStorySelector.Text = Properties.Resources.IDS_EnterStoryName;
             textBoxStoryVerse.Text = Properties.Resources.IDS_Story;
@@ -1958,7 +1959,7 @@ namespace OneStoryProjectEditor
                 return false;
 
             StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[theCurrentStory.ProjStage.ProjectStage];
-            bool bRet = st.IsReadyForTransition(this, StoryProject, theCurrentStory);
+            bool bRet = st.IsReadyForTransition(this, StoryProject, theCurrentStory, stateToSet);
             if (bRet)
             {
                 StoryStageLogic.ProjectStages eNextState = stateToSet;

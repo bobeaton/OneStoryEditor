@@ -81,10 +81,10 @@ namespace OneStoryProjectEditor
                 }
 
                 // check allowable next state
-                CheckAllowableTransitions(storyProjectData, theCurrentStory, st.AllowableForewardsTransitions, Color.LightGreen);
+                CheckAllowableTransitions(storyProjectData, theCurrentStory, st.AllowableForewardsTransitions, Color.LightGreen, true);
 
                 // allowed previous states
-                CheckAllowableTransitions(storyProjectData, theCurrentStory, st.AllowableBackwardsTransitions, Color.Red);
+                CheckAllowableTransitions(storyProjectData, theCurrentStory, st.AllowableBackwardsTransitions, Color.Red, false);
             }
 
             Height = dataGridViewStates.PreferredSize.Height;
@@ -93,7 +93,7 @@ namespace OneStoryProjectEditor
         }
 
         protected void CheckAllowableTransitions(StoryProjectData storyProjectData, StoryData theCurrentStory, 
-            StoryStageLogic.AllowableTransitions allowableTransitions, Color clr)
+            StoryStageLogic.AllowableTransitions allowableTransitions, Color clr, bool bForwardTransition)
         {
             // allowed previous states
             foreach (StoryStageLogic.AllowableTransition aps in allowableTransitions)
@@ -113,6 +113,11 @@ namespace OneStoryProjectEditor
                         dgbc.FlatStyle = FlatStyle.Popup;
                         dgbc.Style.BackColor = clr;
                         dgbc.Tag = st;
+
+                        // for the forward transitions, we only need one to succeed (we don't really want
+                        //  users to skip any)
+                        if (bForwardTransition && !aps.AllowToSkip)
+                            break;  // we only need one forward
                     }
                 }
             }
@@ -133,16 +138,7 @@ namespace OneStoryProjectEditor
             // now populate the grid from the StateTransitions (whether default or specialized)
             foreach (StoryStageLogic.StateTransition stateTransition in StateTransitions.Values)
             {
-                if ((stateTransition.RequiresBiblicalStory && !_theCurrentStory.CraftingInfo.IsBiblicalStory)
-                    || (stateTransition.RequiresNonBiblicalStory && _theCurrentStory.CraftingInfo.IsBiblicalStory)
-                    || (stateTransition.RequiresManageWithCoaching && _storyProjectData.TeamMembers.HasIndependentConsultant)
-                    || (stateTransition.RequiresUsingVernacular && !_storyProjectData.ProjSettings.Vernacular.HasData)
-                    || (stateTransition.RequiresUsingNationalBT && !_storyProjectData.ProjSettings.NationalBT.HasData)
-                    || (stateTransition.RequiresUsingEnglishBT && !_storyProjectData.ProjSettings.InternationalBT.HasData)
-                    || (stateTransition.HasUsingOtherEnglishBTer &&
-                        (stateTransition.RequiresUsingOtherEnglishBTer != _storyProjectData.TeamMembers.HasOutsideEnglishBTer))
-                    || (stateTransition.RequiresFirstPassMentor && !_storyProjectData.TeamMembers.HasFirstPassMentor)
-                    )
+                if (!stateTransition.IsThisStateAllow(_storyProjectData, _theCurrentStory))
                     continue;
 
                 switch (stateTransition.MemberTypeWithEditToken)
