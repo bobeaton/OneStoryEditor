@@ -79,12 +79,12 @@
             this.checkBoxLookInConsultantNotes = new System.Windows.Forms.CheckBox();
             this.checkBoxLookInCoachNotes = new System.Windows.Forms.CheckBox();
             this.checkBoxLookInTestQs = new System.Windows.Forms.CheckBox();
+            this.checkBoxLookInTestAs = new System.Windows.Forms.CheckBox();
             this.checkBoxLookInRetellings = new System.Windows.Forms.CheckBox();
             this.checkBoxAllStories = new System.Windows.Forms.CheckBox();
             this.checkBoxUseRegex = new System.Windows.Forms.CheckBox();
             this.buttonFindNext = new System.Windows.Forms.Button();
             this.buttonReplace = new System.Windows.Forms.Button();
-            this.checkBoxLookInTestAs = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel.SuspendLayout();
             this.contextMenuStripExprBuilder.SuspendLayout();
             this.contextMenuStripReplaceWithExprBuilder.SuspendLayout();
@@ -125,7 +125,7 @@
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel.Size = new System.Drawing.Size(272, 426);
+            this.tableLayoutPanel.Size = new System.Drawing.Size(272, 431);
             this.tableLayoutPanel.TabIndex = 0;
             // 
             // checkBoxEnableFind
@@ -144,7 +144,7 @@
             this.checkBoxEnableFind.Text = "Find";
             this.checkBoxEnableFind.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.checkBoxEnableFind.UseVisualStyleBackColor = false;
-            this.checkBoxEnableFind.Click += new System.EventHandler(this.checkBoxEnableFind_Click);
+            this.checkBoxEnableFind.CheckedChanged += new System.EventHandler(this.checkBoxEnableFind_CheckedChanged);
             // 
             // checkBoxEnableReplace
             // 
@@ -160,7 +160,7 @@
             this.checkBoxEnableReplace.Text = "Replace";
             this.checkBoxEnableReplace.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.checkBoxEnableReplace.UseVisualStyleBackColor = false;
-            this.checkBoxEnableReplace.Click += new System.EventHandler(this.checkBoxEnableReplace_Click);
+            this.checkBoxEnableReplace.CheckedChanged += new System.EventHandler(this.checkBoxEnableReplace_CheckedChanged);
             // 
             // labelFindWhat
             // 
@@ -471,6 +471,8 @@
             // 
             // flowLayoutPanelLookIn
             // 
+            this.flowLayoutPanelLookIn.AutoSize = true;
+            this.flowLayoutPanelLookIn.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.tableLayoutPanel.SetColumnSpan(this.flowLayoutPanelLookIn, 2);
             this.flowLayoutPanelLookIn.Controls.Add(this.checkBoxLookInStoryLanguage);
             this.flowLayoutPanelLookIn.Controls.Add(this.checkBoxLookInNationalBT);
@@ -486,8 +488,9 @@
             this.flowLayoutPanelLookIn.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanelLookIn.Location = new System.Drawing.Point(35, 149);
             this.flowLayoutPanelLookIn.Name = "flowLayoutPanelLookIn";
-            this.flowLayoutPanelLookIn.Size = new System.Drawing.Size(206, 245);
+            this.flowLayoutPanelLookIn.Size = new System.Drawing.Size(206, 250);
             this.flowLayoutPanelLookIn.TabIndex = 7;
+            this.flowLayoutPanelLookIn.WrapContents = false;
             // 
             // checkBoxLookInStoryLanguage
             // 
@@ -564,7 +567,7 @@
             this.checkBoxLookInTestAs.TabIndex = 16;
             this.checkBoxLookInTestAs.Text = "&Testing Answers";
             this.checkBoxLookInTestAs.UseVisualStyleBackColor = true;
-            this.checkBoxLookInTestAs.CheckedChanged += new System.EventHandler(checkBoxLookInTestAs_CheckedChanged);
+            this.checkBoxLookInTestAs.CheckedChanged += new System.EventHandler(this.checkBoxLookInTestAs_CheckedChanged);
             // 
             // checkBoxLookInRetellings
             // 
@@ -602,7 +605,7 @@
             // buttonFindNext
             // 
             this.buttonFindNext.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonFindNext.Location = new System.Drawing.Point(35, 400);
+            this.buttonFindNext.Location = new System.Drawing.Point(35, 405);
             this.buttonFindNext.Name = "buttonFindNext";
             this.buttonFindNext.Size = new System.Drawing.Size(100, 23);
             this.buttonFindNext.TabIndex = 6;
@@ -614,7 +617,7 @@
             // 
             this.buttonReplace.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonReplace.Enabled = false;
-            this.buttonReplace.Location = new System.Drawing.Point(141, 400);
+            this.buttonReplace.Location = new System.Drawing.Point(141, 405);
             this.buttonReplace.Name = "buttonReplace";
             this.buttonReplace.Size = new System.Drawing.Size(100, 23);
             this.buttonReplace.TabIndex = 16;
@@ -628,7 +631,7 @@
             this.AcceptButton = this.buttonFindNext;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(296, 450);
+            this.ClientSize = new System.Drawing.Size(296, 455);
             this.Controls.Add(this.tableLayoutPanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -636,7 +639,6 @@
             this.Name = "SearchForm";
             this.ShowInTaskbar = false;
             this.Text = "Find";
-            this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SearchForm_FormClosing);
             this.tableLayoutPanel.ResumeLayout(false);
             this.tableLayoutPanel.PerformLayout();

@@ -17,6 +17,10 @@ namespace OneStoryProjectEditor
             InitializeComponent();
 
             ReadFromConfig(ref FindProperties, this);
+
+#if !DEBUG
+            TopMost = true;
+#endif
         }
 
         private void SearchForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -42,10 +46,19 @@ namespace OneStoryProjectEditor
             checkBoxLookInEnglishBT.Visible =
                 TheSE.StoryProject.ProjSettings.InternationalBT.HasData;
 
+            // if the checkboxes are already set as desire, the 'checked changed' event isn't raised... 
+            //  so do it manually
+            bool bCheckNotChanged = (checkBoxEnableFind.Checked == bShowFind);
+
             checkBoxEnableFind.Checked = bShowFind;
             checkBoxEnableReplace.Checked = !bShowFind;
 
             Show();
+
+            // if we didn't change the value of the Find/Replace button, then we might have
+            //  to adjust the size based on whether the replace stuff is visible or not
+            if (bCheckNotChanged && (checkBoxEnableReplace.Checked != comboBoxReplaceWith.Visible))
+                UpdateReplaceControls(checkBoxEnableReplace.Checked);
         }
 
         private void buttonFindNext_Click(object sender, EventArgs e)
@@ -153,8 +166,7 @@ namespace OneStoryProjectEditor
             return regex;
         }
 
-        Regex regex = null;
-
+        Regex regex;
         public void DoFindNext()
         {
             string strToSearchFor = UpdateComboBox(comboBoxFindWhat);
@@ -246,6 +258,7 @@ namespace OneStoryProjectEditor
                         // The navigation process should make it visible as well.
                         if (stringTransfer.TextBox != null)
                         {
+                            stringTransfer.TextBox.Focus();
                             stringTransfer.TextBox.Select(nFoundIndex, nLengthToSelect);
                             LastCharIndex = CaptureNextStartingCharIndex(stringTransfer.TextBox);
                         }
@@ -512,14 +525,13 @@ namespace OneStoryProjectEditor
             Height -= (comboBoxReplaceWith.Height + labelReplaceWith.Height);
         }
 
-        private void checkBoxEnableFind_Click(object sender, EventArgs e)
+        private void checkBoxEnableFind_CheckedChanged(object sender, EventArgs e)
         {
             var cb = (CheckBox)sender;
             checkBoxEnableReplace.Checked = !cb.Checked;
-            UpdateReplaceControls(!cb.Checked);
         }
 
-        private void checkBoxEnableReplace_Click(object sender, EventArgs e)
+        private void checkBoxEnableReplace_CheckedChanged(object sender, EventArgs e)
         {
             var cb = (CheckBox)sender;
             checkBoxEnableFind.Checked = !cb.Checked;
