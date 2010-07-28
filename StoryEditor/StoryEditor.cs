@@ -3704,6 +3704,7 @@ namespace OneStoryProjectEditor
         private void resetStoredInformationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.Reset();
+            Program.InitializeLocalSettingsCollections(false);
             Properties.Settings.Default.Save();
         }
     }

@@ -26,7 +26,7 @@ namespace OneStoryProjectEditor
             try
             {
                 // do auto-upgrade handling
-                InitializeLocalSettingsCollections();
+                InitializeLocalSettingsCollections(true);
                 
                 // make sure we have HG (or we can't really do much)
                 HgSanityCheck();
@@ -106,12 +106,12 @@ namespace OneStoryProjectEditor
                 throw new ApplicationException("It looks like you don't have TortoiseHg installed. Please install that first before trying to use the OneStory Editor");
         }
 
-        public static void InitializeLocalSettingsCollections()
+        public static void InitializeLocalSettingsCollections(bool bDoUpgrade)
         {
             // see if this is perhaps an upgrade from a previous version (i.e. when we change from 1.3.5.* to 1.4.0.*
             //  then we lose the user settings file which is stored in: 
             //  C:\Documents and Settings\Bob\Local Settings\Application Data\SIL\StoryEditor...\1.3.5.0\user.config
-            if (Properties.Settings.Default.UpgradeSettings)
+            if (bDoUpgrade && Properties.Settings.Default.UpgradeSettings)
             {
                 Properties.Settings.Default.Upgrade();
                 Properties.Settings.Default.UpgradeSettings = false;
@@ -121,6 +121,12 @@ namespace OneStoryProjectEditor
                 Properties.Settings.Default.RecentProjects = new StringCollection();
             if (Properties.Settings.Default.RecentProjectPaths == null)
                 Properties.Settings.Default.RecentProjectPaths = new StringCollection();
+            if (Properties.Settings.Default.SwordModulesUsed == null)
+                Properties.Settings.Default.SwordModulesUsed = new StringCollection();
+            if (Properties.Settings.Default.RecentFindWhat == null)
+                Properties.Settings.Default.RecentFindWhat = new StringCollection();
+            if (Properties.Settings.Default.RecentReplaceWith == null)
+                Properties.Settings.Default.RecentReplaceWith = new StringCollection();
             if (Properties.Settings.Default.ProjectNameToHgUrl == null)
                 Properties.Settings.Default.ProjectNameToHgUrl = new StringCollection();
             _mapProjectNameToHgHttpUrl = ArrayToDictionary(Properties.Settings.Default.ProjectNameToHgUrl);
