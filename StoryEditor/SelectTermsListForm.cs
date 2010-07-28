@@ -35,7 +35,7 @@ namespace Paratext.BiblicalTerms
             }
         }
 
-        public SelectTermsListForm(string biblicalTermsPath)
+        public SelectTermsListForm(string biblicalTermsPath, string strProjectFolder)
         {
             InitializeComponent();
             Localizer.Ctrl(this);
@@ -44,7 +44,7 @@ namespace Paratext.BiblicalTerms
 
             AddIfPresent(path1, "BiblicalTerms.xml", biblicalTermsPath);
             AddIfPresent(path1, "AllBiblicalTerms.xml", biblicalTermsPath);
-            AddIfPresent(path1, "MyBiblicalTerms.xml", biblicalTermsPath);
+            AddIfPresent(strProjectFolder, "MyBiblicalTerms.xml", biblicalTermsPath);
         }
 
         private SelectTermsListForm()

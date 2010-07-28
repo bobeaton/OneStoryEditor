@@ -33,6 +33,7 @@
             this.cmdOK = new System.Windows.Forms.Button();
             this.cmdCancel = new System.Windows.Forms.Button();
             this.biblicalTermsListBox = new System.Windows.Forms.ListBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -47,6 +48,7 @@
             this.tableLayoutPanel1.Controls.Add(this.cmdOK, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.cmdCancel, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.biblicalTermsListBox, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 1);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 13);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -95,6 +97,19 @@
             this.biblicalTermsListBox.TabIndex = 25;
             this.biblicalTermsListBox.DoubleClick += new System.EventHandler(this.biblicalTermsListBox_DoubleClick);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.tableLayoutPanel1.SetColumnSpan(this.label1, 2);
+            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label1.Location = new System.Drawing.Point(3, 235);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(519, 94);
+            this.label1.TabIndex = 26;
+            this.label1.Text = "Select Biblical Terms list to use. This list will be used in both the Biblical Te" +
+                "rms Tool and the Biblical Terms Renderings window.";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // SelectTermsListForm
             // 
             this.AcceptButton = this.cmdOK;
@@ -119,5 +134,6 @@
         private System.Windows.Forms.Button cmdOK;
         private System.Windows.Forms.Button cmdCancel;
         private System.Windows.Forms.ListBox biblicalTermsListBox;
+        private System.Windows.Forms.Label label1;
     }
 }

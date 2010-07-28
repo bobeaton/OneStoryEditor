@@ -3658,12 +3658,6 @@ namespace OneStoryProjectEditor
             FocusOnVerse(nVerseNumber, true, true);
         }
 
-        private void selectAlternateKeyTermDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AnchorControl.m_dlgKeyTerms = null; // forget we had the dialog to requiry
-            BiblicalTermsList.SelectTermsList();
-        }
-
         private void historicalDifferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             HtmlDisplayForm dlg = new HtmlDisplayForm(this, theCurrentStory);

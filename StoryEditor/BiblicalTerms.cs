@@ -23,11 +23,11 @@ namespace OneStoryProjectEditor
 	{
 		private List<Term> terms;  // list in order found in file
 		private Dictionary<string,int> idToIndexDictionary;
-	    private string termsFileName;
 	    private string caption = "";
 
         public static event EventHandler BiblicalTermsListChanged = null;
-
+        public string FileNameTerms;
+	    
         private static void OnBiblicalTermsListChanged()
         {
             EventHandler handler = BiblicalTermsListChanged;
@@ -69,7 +69,7 @@ namespace OneStoryProjectEditor
                 return Localizer.Str("All Biblical Terms");
 
             if (fileName.EndsWith("\\MyBiblicalTerms.xml"))
-                return Localizer.Str("My Biblical Terms");
+                return Localizer.Str("My Biblical Terms (in project folder)");
 
             return Path.GetFileNameWithoutExtension(fileName);
 	    }
@@ -106,7 +106,7 @@ namespace OneStoryProjectEditor
         {
             // The standard file BiblicalTerms.xml and the test version of this file have glosses present
             // in the BiblicalTermsZZ.xml files (where ZZ is the language code, "xx" for testing
-            if (termsFileName.EndsWith("\\BiblicalTerms.xml") || termsFileName.EndsWith("\\TestBiblicalTerms.xml"))
+            if (FileNameTerms.EndsWith("\\BiblicalTerms.xml") || FileNameTerms.EndsWith("\\TestBiblicalTerms.xml"))
                 containsGlosses = 1;
 
             else if (containsGlosses == -1)
@@ -131,7 +131,7 @@ namespace OneStoryProjectEditor
             get
             {
                 if (string.IsNullOrEmpty(caption))
-                    caption = GetCaptionFromFileName(termsFileName);
+                    caption = GetCaptionFromFileName(FileNameTerms);
 
                 return caption;
             }
@@ -143,7 +143,7 @@ namespace OneStoryProjectEditor
         /// </summary>
 	    public bool IsMyBiblicalTerms
 	    {
-            get { return termsFileName != null && termsFileName.EndsWith(("\\MyBiblicalTerms.xml")); }
+            get { return !String.IsNullOrEmpty(FileNameTerms) && FileNameTerms.EndsWith(("\\MyBiblicalTerms.xml")); }
 	    }
 
         public List<Term> TermsInRange(VerseRef firstReference, VerseRef lastReference)
@@ -184,7 +184,6 @@ namespace OneStoryProjectEditor
 
 		    return chapterCache.Get(vref.ToString());
 		}
-        */
 
         /// <summary>
         /// Return all the terms in the specified chapter
@@ -201,8 +200,9 @@ namespace OneStoryProjectEditor
 
             return terms.Where(term => term.HasReferencesInRange(firstBCV, lastBCV)).ToList();
         }
+        */
 
-		/// <summary>
+        /// <summary>
 		/// Get the term with the specified id.
 		/// </summary>
 		/// <param name="id"></param>
@@ -243,12 +243,12 @@ namespace OneStoryProjectEditor
             idToIndexDictionary[term.Id] = Terms.Count - 1;
         }
 
-        private static BiblicalTermsList biblicalTerms = null;  // Singleton instance of this class.
+        private static BiblicalTermsList biblicalTerms;  // Singleton instance of this class.
         public static string biblicalTermsPath = Properties.Settings.Default.BiblicalTermsPath;
 
-        public static void SelectTermsList()
+        public static void SelectTermsList(string strProjectFolder)
         {
-            var dialog = new SelectTermsListForm(biblicalTermsPath);
+            var dialog = new SelectTermsListForm(biblicalTermsPath, strProjectFolder);
             DialogResult dialogResult = dialog.ShowDialog();
 
             if (dialogResult != DialogResult.OK)
@@ -302,7 +302,7 @@ namespace OneStoryProjectEditor
 		/// List is found in "BiblicalTerms.xml" in Paratext executable directory.
 		/// </summary>
 		/// <returns></returns>
-		public static BiblicalTermsList GetBiblicalTerms()
+        public static BiblicalTermsList GetBiblicalTerms(string strProjectFolder)
 		{
 			if (biblicalTerms != null)
 				return biblicalTerms;
@@ -313,7 +313,7 @@ namespace OneStoryProjectEditor
             }
 
             if (biblicalTermsPath.EndsWith("\\MyBiblicalTerms.xml"))
-                return GetMyBiblicalTermsList();
+                return GetMyBiblicalTermsList(strProjectFolder);
 
             biblicalTerms = GetBiblicalTermsLocal(biblicalTermsPath);
             if (biblicalTerms == null && biblicalTermsPath != DefaultBiblicalTermsFileName)
@@ -349,12 +349,16 @@ namespace OneStoryProjectEditor
         /// Create an empty list if this does not exist yet.
         /// </summary>
         /// <returns></returns>
-        public static BiblicalTermsList GetMyBiblicalTermsList()
+        public static BiblicalTermsList GetMyBiblicalTermsList(string strProjectFolder)
         {
             if (myBiblicalTermsList != null)
                 return myBiblicalTermsList;
 
-            string fileName = Path.Combine(Path.Combine(StoryProjectData.GetRunningFolder, "BiblicalTerms"), "MyBiblicalTerms.xml");
+            string fileName = Path.Combine(strProjectFolder, "MyBiblicalTerms.xml");
+            /*
+            if (!File.Exists(fileName))
+                fileName = Path.Combine(Path.Combine(StoryProjectData.GetRunningFolder, "BiblicalTerms"), "MyBiblicalTerms.xml");
+            */
             myBiblicalTermsList = GetBiblicalTermsLocal(fileName);
 
             if (myBiblicalTermsList != null)
@@ -364,7 +368,7 @@ namespace OneStoryProjectEditor
             }
 
             myBiblicalTermsList = new BiblicalTermsList();
-            myBiblicalTermsList.termsFileName = fileName;
+            myBiblicalTermsList.FileNameTerms = Path.Combine(strProjectFolder, "MyBiblicalTerms.xml");
             CreateIndexDictionary(myBiblicalTermsList);
 
             return myBiblicalTermsList;
@@ -412,7 +416,7 @@ namespace OneStoryProjectEditor
             }
 
             btl.Terms.ForEach(term => term.Versification = btl.Versification );
-            btl.termsFileName = path;
+            btl.FileNameTerms = path;
             return btl;
         }
 
@@ -434,7 +438,7 @@ namespace OneStoryProjectEditor
         public void Save()
         {
             XmlSerializer xser = Utilities.Memento.CreateXmlSerializer(typeof(BiblicalTermsList));
-            TextWriter writer = new StreamWriter(termsFileName);
+            TextWriter writer = new StreamWriter(FileNameTerms);
             using (writer)
             {
                 xser.Serialize(writer, this);
@@ -462,6 +466,12 @@ namespace OneStoryProjectEditor
 		private List<Verse> references;
 		private string origID;
 		private int index;
+
+        public override string ToString()
+        {
+            return String.Format("Id = '{0}', Gloss = '{1}'",
+                Lemma, (String.IsNullOrEmpty(LocalGloss)) ? Gloss : LocalGloss);
+        }
 
 		public static readonly string[] AllCategoryIds = 
 			{   "KT" /*Keyterm*/, 

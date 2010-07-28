@@ -36,14 +36,20 @@
             this.ColumnGlossEnglish = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnRenderings = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButtonAddRendering = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonEditRenderings = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButtonSelectKeyTermsList = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonAddKeyTerm = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonEditKeyTerm = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonEditRenderings = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonSelectKeyTermsList = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonShowAllTerms = new System.Windows.Forms.ToolStripButton();
             this.progressBarLoadingKeyTerms = new System.Windows.Forms.ProgressBar();
             this.webBrowser = new onlyconnect.HtmlEditor();
             this.helpProvider = new System.Windows.Forms.HelpProvider();
             this.textBoxInstructions = new System.Windows.Forms.TextBox();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButtonDeleteKeyTerm = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -69,8 +75,8 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.progressBarLoadingKeyTerms);
             this.splitContainer1.Panel2.Controls.Add(this.webBrowser);
-            this.splitContainer1.Size = new System.Drawing.Size(602, 327);
-            this.splitContainer1.SplitterDistance = 163;
+            this.splitContainer1.Size = new System.Drawing.Size(768, 428);
+            this.splitContainer1.SplitterDistance = 165;
             this.splitContainer1.TabIndex = 1;
             // 
             // dataGridViewKeyTerms
@@ -96,7 +102,7 @@
             this.dataGridViewKeyTerms.RowHeadersVisible = false;
             this.dataGridViewKeyTerms.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.helpProvider.SetShowHelp(this.dataGridViewKeyTerms, true);
-            this.dataGridViewKeyTerms.Size = new System.Drawing.Size(602, 138);
+            this.dataGridViewKeyTerms.Size = new System.Drawing.Size(768, 140);
             this.dataGridViewKeyTerms.TabIndex = 0;
             this.dataGridViewKeyTerms.VirtualMode = true;
             this.dataGridViewKeyTerms.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewKeyTerms_CellDoubleClick);
@@ -133,20 +139,70 @@
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButtonAddRendering,
             this.toolStripButtonEditRenderings,
+            this.toolStripSeparator1,
             this.toolStripButtonSelectKeyTermsList,
+            this.toolStripSeparator2,
             this.toolStripButtonAddKeyTerm,
-            this.toolStripButtonEditKeyTerm});
+            this.toolStripButtonEditKeyTerm,
+            this.toolStripButtonDeleteKeyTerm,
+            this.toolStripSeparator3,
+            this.toolStripButtonShowAllTerms});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(602, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(768, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripButtonAddRendering
+            // 
+            this.toolStripButtonAddRendering.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonAddRendering.Image = global::OneStoryProjectEditor.Properties.Resources.AddTableHS;
+            this.toolStripButtonAddRendering.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonAddRendering.Name = "toolStripButtonAddRendering";
+            this.toolStripButtonAddRendering.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonAddRendering.Text = "Add Rendering";
+            this.toolStripButtonAddRendering.ToolTipText = "Click this button to add the selected word as a rendering for the selected key te" +
+                "rm";
+            this.toolStripButtonAddRendering.Click += new System.EventHandler(this.toolStripButtonAddRendering_Click);
+            // 
+            // toolStripButtonEditRenderings
+            // 
+            this.toolStripButtonEditRenderings.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonEditRenderings.Image = global::OneStoryProjectEditor.Properties.Resources.EditInformationHS;
+            this.toolStripButtonEditRenderings.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonEditRenderings.Name = "toolStripButtonEditRenderings";
+            this.toolStripButtonEditRenderings.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonEditRenderings.Text = "Edit Renderings";
+            this.toolStripButtonEditRenderings.ToolTipText = "Click this button to edit the renderings for the selected key term";
+            this.toolStripButtonEditRenderings.Click += new System.EventHandler(this.toolStripButtonEditRenderings_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButtonSelectKeyTermsList
+            // 
+            this.toolStripButtonSelectKeyTermsList.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonSelectKeyTermsList.Image = global::OneStoryProjectEditor.Properties.Resources.OpenSelectedItemHS;
+            this.toolStripButtonSelectKeyTermsList.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonSelectKeyTermsList.Name = "toolStripButtonSelectKeyTermsList";
+            this.toolStripButtonSelectKeyTermsList.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonSelectKeyTermsList.Text = "Select Key Terms List";
+            this.toolStripButtonSelectKeyTermsList.ToolTipText = "Click this button to select which key terms list you want to use";
+            this.toolStripButtonSelectKeyTermsList.Click += new System.EventHandler(this.toolStripButtonSelectKeyTermsList_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // toolStripButtonAddKeyTerm
             // 
             this.toolStripButtonAddKeyTerm.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonAddKeyTerm.Image = global::OneStoryProjectEditor.Properties.Resources.AddTableHS;
+            this.toolStripButtonAddKeyTerm.Image = global::OneStoryProjectEditor.Properties.Resources.AddToFavoritesHS;
             this.toolStripButtonAddKeyTerm.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonAddKeyTerm.Name = "toolStripButtonAddKeyTerm";
             this.toolStripButtonAddKeyTerm.Size = new System.Drawing.Size(23, 22);
@@ -165,34 +221,25 @@
             this.toolStripButtonEditKeyTerm.ToolTipText = "Click this button to edit the selected key term (e.g. to add references to it)";
             this.toolStripButtonEditKeyTerm.Click += new System.EventHandler(this.toolStripButtonEditKeyTerm_Click);
             // 
-            // toolStripButtonEditRenderings
+            // toolStripButtonShowAllTerms
             // 
-            this.toolStripButtonEditRenderings.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonEditRenderings.Image = global::OneStoryProjectEditor.Properties.Resources.EditInformationHS;
-            this.toolStripButtonEditRenderings.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonEditRenderings.Name = "toolStripButtonEditRenderings";
-            this.toolStripButtonEditRenderings.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButtonEditRenderings.Text = "Edit Renderings";
-            this.toolStripButtonEditRenderings.ToolTipText = "Click this button to edit the renderings for the selected key term";
-            this.toolStripButtonEditRenderings.Click += new System.EventHandler(this.toolStripButtonEditRenderings_Click);
-            // 
-            // toolStripButtonSelectKeyTermsList
-            // 
-            this.toolStripButtonSelectKeyTermsList.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonSelectKeyTermsList.Image = global::OneStoryProjectEditor.Properties.Resources.OpenSelectedItemHS;
-            this.toolStripButtonSelectKeyTermsList.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonSelectKeyTermsList.Name = "toolStripButtonSelectKeyTermsList";
-            this.toolStripButtonSelectKeyTermsList.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButtonSelectKeyTermsList.Text = "Select Key Terms List";
-            this.toolStripButtonSelectKeyTermsList.ToolTipText = "Click this button to select which key terms list you want to use";
-            this.toolStripButtonSelectKeyTermsList.Click += new System.EventHandler(this.toolStripButtonSelectKeyTermsList_Click);
+            this.toolStripButtonShowAllTerms.CheckOnClick = true;
+            this.toolStripButtonShowAllTerms.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonShowAllTerms.Image = global::OneStoryProjectEditor.Properties.Resources.ShowAllCommentsHS;
+            this.toolStripButtonShowAllTerms.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonShowAllTerms.Name = "toolStripButtonShowAllTerms";
+            this.toolStripButtonShowAllTerms.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonShowAllTerms.Text = "Show All Terms";
+            this.toolStripButtonShowAllTerms.ToolTipText = "Click this button to toggle between showing only those key terms used in the anch" +
+                "ored verses vs. showing all key terms in the selected key term list";
+            this.toolStripButtonShowAllTerms.Click += new System.EventHandler(this.toolStripButtonShowAllTerms_Click);
             // 
             // progressBarLoadingKeyTerms
             // 
             this.progressBarLoadingKeyTerms.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.progressBarLoadingKeyTerms.Location = new System.Drawing.Point(0, 137);
+            this.progressBarLoadingKeyTerms.Location = new System.Drawing.Point(0, 236);
             this.progressBarLoadingKeyTerms.Name = "progressBarLoadingKeyTerms";
-            this.progressBarLoadingKeyTerms.Size = new System.Drawing.Size(602, 23);
+            this.progressBarLoadingKeyTerms.Size = new System.Drawing.Size(768, 23);
             this.progressBarLoadingKeyTerms.TabIndex = 1;
             // 
             // webBrowser
@@ -215,7 +262,7 @@
             this.webBrowser.SelectionForeColor = System.Drawing.Color.Empty;
             this.webBrowser.SelectionNumbering = false;
             this.helpProvider.SetShowHelp(this.webBrowser, true);
-            this.webBrowser.Size = new System.Drawing.Size(602, 160);
+            this.webBrowser.Size = new System.Drawing.Size(768, 259);
             this.webBrowser.TabIndex = 0;
             this.webBrowser.BeforeNavigate += new onlyconnect.BeforeNavigateEventHandler(this.webBrowser_BeforeNavigate);
             this.webBrowser.MouseMove += new System.Windows.Forms.MouseEventHandler(this.webBrowser_MouseMove);
@@ -225,18 +272,34 @@
             // textBoxInstructions
             // 
             this.textBoxInstructions.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.textBoxInstructions.Location = new System.Drawing.Point(0, 333);
+            this.textBoxInstructions.Location = new System.Drawing.Point(0, 428);
             this.textBoxInstructions.Multiline = true;
             this.textBoxInstructions.Name = "textBoxInstructions";
-            this.textBoxInstructions.Size = new System.Drawing.Size(602, 75);
+            this.textBoxInstructions.Size = new System.Drawing.Size(768, 112);
             this.textBoxInstructions.TabIndex = 2;
             this.textBoxInstructions.Text = resources.GetString("textBoxInstructions.Text");
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButtonDeleteKeyTerm
+            // 
+            this.toolStripButtonDeleteKeyTerm.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonDeleteKeyTerm.Image = global::OneStoryProjectEditor.Properties.Resources.DeleteHS;
+            this.toolStripButtonDeleteKeyTerm.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonDeleteKeyTerm.Name = "toolStripButtonDeleteKeyTerm";
+            this.toolStripButtonDeleteKeyTerm.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonDeleteKeyTerm.Text = "Delete Selected Key Term";
+            this.toolStripButtonDeleteKeyTerm.ToolTipText = "Click this button to delete the selected key term";
+            this.toolStripButtonDeleteKeyTerm.Click += new System.EventHandler(this.toolStripButtonDeleteKeyTerm_Click);
             // 
             // BiblicalKeyTermsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(602, 408);
+            this.ClientSize = new System.Drawing.Size(768, 540);
             this.Controls.Add(this.textBoxInstructions);
             this.Controls.Add(this.splitContainer1);
             this.HelpButton = true;
@@ -275,6 +338,12 @@
         private System.Windows.Forms.ToolStripButton toolStripButtonEditRenderings;
         private System.Windows.Forms.ToolStripButton toolStripButtonEditKeyTerm;
         private System.Windows.Forms.ToolStripButton toolStripButtonSelectKeyTermsList;
+        private System.Windows.Forms.ToolStripButton toolStripButtonAddRendering;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripButton toolStripButtonShowAllTerms;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripButton toolStripButtonDeleteKeyTerm;
 
     }
 }

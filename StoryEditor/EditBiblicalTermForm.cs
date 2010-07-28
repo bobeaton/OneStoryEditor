@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using NetLoc;
-using OneStoryProjectEditor;
+using Paratext;
 
-namespace Paratext.BiblicalTerms
+namespace OneStoryProjectEditor
 {
     public partial class EditBiblicalTermForm : Form
     {
         // True if adding new term, false if editing existing term
-        public bool AddingTerm = true;
+        protected bool AddingTerm = true;
 
         Font greekFont = new Font("Galatia SIL", 10);
         Font hebrewFont = new Font("Ezra SIL", 10);
@@ -22,12 +19,12 @@ namespace Paratext.BiblicalTerms
         private BiblicalTermsList biblicalTermsList;
         private Term biblicalTerm;
 
-        public EditBiblicalTermForm(Term term)
+        public EditBiblicalTermForm(Term term, string strProjectFolder)
         {
             InitializeComponent();
             Localizer.Ctrl(this);
 
-            biblicalTermsList = BiblicalTermsList.GetMyBiblicalTermsList();
+            biblicalTermsList = BiblicalTermsList.GetMyBiblicalTermsList(strProjectFolder);
 
             if (term != null)
             {
@@ -36,7 +33,10 @@ namespace Paratext.BiblicalTerms
                 Transliteration = term.Transliteration;
                 CategoryIds = term.CategoryIds;
                 References = term.VerseRefs().ToList();
+                AddingTerm = false;
             }
+            else
+                AddingTerm = true;
         }
 
         private EditBiblicalTermForm()

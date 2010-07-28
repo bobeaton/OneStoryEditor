@@ -35,7 +35,7 @@ namespace OneStoryProjectEditor
             MainLang = liMainLang;
             _projSettings = projSettings;
             InitializeComponent();
-            _biblicalTerms = BiblicalTermsList.GetBiblicalTerms();
+            _biblicalTerms = BiblicalTermsList.GetBiblicalTerms(projSettings.ProjectFolder);
             htmlBuilder = new BiblicalTermsHTMLBuilder(projSettings);
 
             BiblicalTermsList.BiblicalTermsListChanged += BiblicalTermsList_BiblicalTermsListChanged;
@@ -49,7 +49,7 @@ namespace OneStoryProjectEditor
 
         private void GetBiblicalTerms()
         {
-            _biblicalTerms = BiblicalTermsList.GetBiblicalTerms();
+            _biblicalTerms = BiblicalTermsList.GetBiblicalTerms(_projSettings.ProjectFolder);
         }
 
         private List<string> _lstRefs;
@@ -108,12 +108,15 @@ namespace OneStoryProjectEditor
             progressBarLoadingKeyTerms.Value = 0;
             foreach (Term term in _biblicalTerms.Terms)
             {
-                foreach (Verse aVerseReference in term.References)
-                    if (_lstRefs.Contains(aVerseReference.VerseRef.BBBCCCVVV()))
-                    {
-                        visibleTerms.Add(term);
-                        break;
-                    }
+                if (toolStripButtonShowAllTerms.Checked)
+                    visibleTerms.Add(term);
+                else
+                    foreach (Verse aVerseReference in term.References)
+                        if (_lstRefs.Contains(aVerseReference.VerseRef.BBBCCCVVV()))
+                        {
+                            visibleTerms.Add(term);
+                            break;
+                        }
                 progressBarLoadingKeyTerms.Value++;
             }
 
@@ -632,7 +635,7 @@ namespace OneStoryProjectEditor
 
         private void EditKeyTerm(Term term)
         {
-            // first see if we're using the 'my biblical terms' which is the only list that is editable.
+            // first see if we're using the 'my biblical terms' (in the project folder), which is the only list that is editable.
             if (!_biblicalTerms.IsMyBiblicalTerms)
             {
                 DialogResult res = MessageBox.Show(Properties.Resources.IDS_CreateMyBiblicalTermsQuery,
@@ -643,20 +646,20 @@ namespace OneStoryProjectEditor
                 string strListToCopyFrom = _biblicalTerms.Caption;
                 res = MessageBox.Show(String.Format(Properties.Resources.IDS_VerifyOverwriteMyBiblicalTerms,
                     strListToCopyFrom), OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.AbortRetryIgnore);
+
                 if (res == DialogResult.Abort)
                     return;
 
                 if (res == DialogResult.Ignore)
                 {
-                    // clobber the existing 'My Biblical Terms'
-                    string fileName = Path.Combine(
-                        Path.Combine(StoryProjectData.GetRunningFolder, "BiblicalTerms"), 
-                        "MyBiblicalTerms.xml");
-                    File.Delete(fileName);
+                    // clobber any existing 'My Biblical Terms'
+                    string fileName = Path.Combine(_projSettings.ProjectFolder, "MyBiblicalTerms.xml");
+                    if (File.Exists(fileName))
+                        File.Delete(fileName);
                 }
 
                 // now get a new one (if needed) to merge with
-                BiblicalTermsList mbt = BiblicalTermsList.GetMyBiblicalTermsList();
+                BiblicalTermsList mbt = BiblicalTermsList.GetMyBiblicalTermsList(_projSettings.ProjectFolder);
 
                 foreach (Term termInList in _biblicalTerms.Terms)
                 {
@@ -668,10 +671,11 @@ namespace OneStoryProjectEditor
                 BiblicalTermsList.SelectMyBiblicalTermsList();
                 System.Diagnostics.Debug.Assert(_biblicalTerms.IsMyBiblicalTerms);
             }
+            
+            System.Diagnostics.Debug.Assert(_biblicalTerms.FileNameTerms.Contains(_projSettings.ProjectFolder));
 
             // otherwise, if we now have an editable list...
-            Paratext.BiblicalTerms.EditBiblicalTermForm form = new Paratext.BiblicalTerms.EditBiblicalTermForm(term);
-
+            EditBiblicalTermForm form = new EditBiblicalTermForm(term, _projSettings.ProjectFolder);
             if (form.ShowDialog() == DialogResult.OK)
             {
                 LoadReferencesDisplay(false);
@@ -691,7 +695,42 @@ namespace OneStoryProjectEditor
 
         private void toolStripButtonSelectKeyTermsList_Click(object sender, EventArgs e)
         {
-            BiblicalTermsList.SelectTermsList();
+            BiblicalTermsList.SelectTermsList(_projSettings.ProjectFolder);
+        }
+
+        private void toolStripButtonAddRendering_Click(object sender, EventArgs e)
+        {
+            AddRendering(SelectedText, SelectedTermIndex);
+        }
+
+        private void toolStripButtonShowAllTerms_Click(object sender, EventArgs e)
+        {
+            BiblicalTermsList_BiblicalTermsListChanged(sender, e);
+        }
+
+        private void toolStripButtonDeleteKeyTerm_Click(object sender, EventArgs e)
+        {
+            if (!_biblicalTerms.IsMyBiblicalTerms)
+            {
+                DialogResult res = MessageBox.Show(Properties.Resources.IDS_CanDeleteOnlyFromMyBiblicalTerms,
+                    OseResources.Properties.Resources.IDS_Caption);
+                return;
+            }
+
+            var term = SelectedTerm;
+            if (term == null)
+                return;
+
+            if (MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmDeleteKeyTerm,
+                Environment.NewLine, term), OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) 
+                == DialogResult.Yes)
+            {
+                _biblicalTerms.Terms.Remove(term);
+                _biblicalTerms.Save();
+
+                LoadTermsList();
+                LoadReferencesDisplay(false);
+            }
         }
     }
 }

@@ -67,6 +67,13 @@ namespace OneStoryProjectEditor.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap AddToFavoritesHS {
+            get {
+                object obj = ResourceManager.GetObject("AddToFavoritesHS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap BuilderDialog_movedown1 {
             get {
                 object obj = ResourceManager.GetObject("BuilderDialog_movedown1", resourceCulture);
@@ -194,6 +201,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You can only delete a key term from the editable key term (i.e. &quot;My Biblical Terms&quot;) list, which is not currently selected..
+        /// </summary>
+        internal static string IDS_CanDeleteOnlyFromMyBiblicalTerms {
+            get {
+                return ResourceManager.GetString("IDS_CanDeleteOnlyFromMyBiblicalTerms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to export to Toolbox! Cause: {0} {1}.
         /// </summary>
         internal static string IDS_CantExport {
@@ -248,6 +264,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete the key term:{0}{1}.
+        /// </summary>
+        internal static string IDS_ConfirmDeleteKeyTerm {
+            get {
+                return ResourceManager.GetString("IDS_ConfirmDeleteKeyTerm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to delete the &apos;{0}&apos; story?.
         /// </summary>
         internal static string IDS_ConfirmDeleteStory {
@@ -295,7 +320,11 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to In order to add or edit key terms, you have to begin using a local copy of one of the existing key terms list (i.e. a copy generated, for example, from the Paratext &quot;Major Key Terms&quot; or &quot;All Key Terms&quot; lists or one customized by your entity). At this point, you may want to click &apos;Cancel&apos; here and then click the &quot;Select Key Terms List&quot; button to select one of the other, existing key terms lists to see if the term you want is present in one of them. If not, then select the key terms list (Major or All) that y [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to In order to add or edit key terms, you have to begin using a local copy of one of the existing key terms list 
+        ///(i.e. a copy generated, for example, from the Paratext &quot;Major Key Terms&quot; or &quot;All Key Terms&quot; lists or one 
+        ///customized by your entity). At this point, you may want to click &apos;Cancel&apos; here and then click the 
+        ///&quot;Select Key Terms List&quot; button to select one of the other, existing key terms lists to see if the term you want 
+        ///is present in one of them. If you don&apos;t find the term in one of those lists and [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string IDS_CreateMyBiblicalTermsQuery {
             get {
@@ -944,6 +973,13 @@ namespace OneStoryProjectEditor.Properties {
         internal static string RegexHelpProgram {
             get {
                 return ResourceManager.GetString("RegexHelpProgram", resourceCulture);
+            }
+        }
+        
+        internal static System.Drawing.Bitmap ShowAllCommentsHS {
+            get {
+                object obj = ResourceManager.GetObject("ShowAllCommentsHS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

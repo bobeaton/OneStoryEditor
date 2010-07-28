@@ -1,4 +1,4 @@
-﻿namespace Paratext.BiblicalTerms
+﻿namespace OneStoryProjectEditor
 {
     partial class EditBiblicalTermForm
     {
@@ -38,6 +38,7 @@
             this.txtLemma = new System.Windows.Forms.TextBox();
             this.txtGloss = new System.Windows.Forms.TextBox();
             this.txtReferences = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -59,6 +60,7 @@
             this.tableLayoutPanel1.Controls.Add(this.txtLemma, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.txtGloss, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.txtReferences, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.label4, 1, 3);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 11);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -103,7 +105,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(50, 15);
+            this.label1.Size = new System.Drawing.Size(41, 13);
             this.label1.TabIndex = 25;
             this.label1.Text = "Lemma";
             // 
@@ -112,7 +114,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(3, 30);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(38, 15);
+            this.label2.Size = new System.Drawing.Size(33, 13);
             this.label2.TabIndex = 26;
             this.label2.Text = "Gloss";
             // 
@@ -121,14 +123,14 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(3, 60);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(70, 15);
+            this.label3.Size = new System.Drawing.Size(62, 13);
             this.label3.TabIndex = 27;
             this.label3.Text = "References";
             // 
             // txtLemma
             // 
             this.tableLayoutPanel1.SetColumnSpan(this.txtLemma, 3);
-            this.txtLemma.Location = new System.Drawing.Point(79, 3);
+            this.txtLemma.Location = new System.Drawing.Point(71, 3);
             this.txtLemma.Name = "txtLemma";
             this.txtLemma.Size = new System.Drawing.Size(365, 20);
             this.txtLemma.TabIndex = 28;
@@ -137,7 +139,7 @@
             // txtGloss
             // 
             this.tableLayoutPanel1.SetColumnSpan(this.txtGloss, 3);
-            this.txtGloss.Location = new System.Drawing.Point(79, 33);
+            this.txtGloss.Location = new System.Drawing.Point(71, 33);
             this.txtGloss.Name = "txtGloss";
             this.txtGloss.Size = new System.Drawing.Size(525, 20);
             this.txtGloss.TabIndex = 29;
@@ -145,12 +147,25 @@
             // txtReferences
             // 
             this.tableLayoutPanel1.SetColumnSpan(this.txtReferences, 3);
-            this.txtReferences.Location = new System.Drawing.Point(79, 63);
+            this.txtReferences.Location = new System.Drawing.Point(71, 63);
             this.txtReferences.Multiline = true;
             this.txtReferences.Name = "txtReferences";
             this.txtReferences.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtReferences.Size = new System.Drawing.Size(525, 288);
             this.txtReferences.TabIndex = 30;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.tableLayoutPanel1.SetColumnSpan(this.label4, 3);
+            this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label4.Location = new System.Drawing.Point(71, 354);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(533, 117);
+            this.label4.TabIndex = 31;
+            this.label4.Text = "The Lemma field is a unique name for this item. References should be entered one " +
+                "per line in the form GEN 3:11.";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // EditBiblicalTermForm
             // 
@@ -179,5 +194,6 @@
         private System.Windows.Forms.TextBox txtLemma;
         private System.Windows.Forms.TextBox txtGloss;
         private System.Windows.Forms.TextBox txtReferences;
+        private System.Windows.Forms.Label label4;
     }
 }
