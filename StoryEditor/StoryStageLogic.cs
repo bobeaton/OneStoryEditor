@@ -52,7 +52,7 @@ namespace OneStoryProjectEditor
             set { _ProjectStage = value; }
         }
 
-        public StoryStageLogic(ProjectSettings projSettings, bool bHasIndependentConsultant)
+        public StoryStageLogic(ProjectSettings projSettings)
         {
             System.Diagnostics.Debug.Assert(projSettings.Vernacular.HasData 
                 || projSettings.NationalBT.HasData
@@ -63,17 +63,15 @@ namespace OneStoryProjectEditor
             ProjectStage = (projSettings.Vernacular.HasData) ? ProjectStages.eProjFacTypeVernacular : 
                 (projSettings.NationalBT.HasData) ? ProjectStages.eProjFacTypeNationalBT : ProjectStages.eProjFacTypeInternationalBT;
 
-            if ((stateTransitions == null)
-             || (stateTransitions.RewroteCitAsIndependentConsultant != bHasIndependentConsultant))
-                stateTransitions = new StateTransitions(bHasIndependentConsultant, projSettings.ProjectFolder);
+            if (stateTransitions == null)
+                stateTransitions = new StateTransitions(projSettings.ProjectFolder);
         }
 
-        public StoryStageLogic(string strProjectFolder, string strProjectStage, bool bHasIndependentConsultant)
+        public StoryStageLogic(string strProjectFolder, string strProjectStage)
         {
             ProjectStage = GetProjectStageFromString(strProjectStage);
-            if ((stateTransitions == null) 
-             || (stateTransitions.RewroteCitAsIndependentConsultant != bHasIndependentConsultant))
-                stateTransitions = new StateTransitions(bHasIndependentConsultant, strProjectFolder);
+            if (stateTransitions == null) 
+                stateTransitions = new StateTransitions(strProjectFolder);
         }
 
         public StoryStageLogic(StoryStageLogic rhs)
@@ -196,13 +194,10 @@ namespace OneStoryProjectEditor
             protected const string CstrStateTransitionsXmlFilename = "StageTransitions.xml";
             protected string _strProjectFolder;
 
-            public bool RewroteCitAsIndependentConsultant;
-
-            public StateTransitions(bool bHasIndependentConsultant, string strProjectFolder)
+            public StateTransitions(string strProjectFolder)
             {
-                RewroteCitAsIndependentConsultant = bHasIndependentConsultant;
                 _strProjectFolder = strProjectFolder;
-                InitStateTransitionsFromXml(bHasIndependentConsultant, _strProjectFolder);
+                InitStateTransitionsFromXml(_strProjectFolder);
             }
 
             protected string DefaultPathToXmlFile
@@ -265,7 +260,7 @@ namespace OneStoryProjectEditor
                 manager = new XmlNamespaceManager(navigator.NameTable);
             }
 
-            protected void InitStateTransitionsFromXml(bool bHasIndependentConsultant, string strProjectFolder)
+            protected void InitStateTransitionsFromXml(string strProjectFolder)
             {
                 try
                 {
@@ -281,10 +276,7 @@ namespace OneStoryProjectEditor
                     {
                         ProjectStages eThisStage = (ProjectStages)Enum.Parse(typeof(ProjectStages), xpStageTransition.Current.GetAttribute(StateTransition.CstrAttributeLabelStage, navigator.NamespaceURI));
                         TeamMemberData.UserTypes eMemberType = (TeamMemberData.UserTypes)Enum.Parse(typeof(TeamMemberData.UserTypes), xpStageTransition.Current.GetAttribute(StateTransition.CstrAttributeLabelMemberTypeWithEditToken, navigator.NamespaceURI));
-                        if (eMemberType == TeamMemberData.UserTypes.eConsultantInTraining
-                            && bHasIndependentConsultant)
-                            eMemberType = TeamMemberData.UserTypes.eIndependentConsultant;
-
+                        
                         bool bRequiresUsingVernacular =
                             (xpStageTransition.Current.GetAttribute(StateTransition.CstrAttributeLabelRequiresUsingVernacular, navigator.NamespaceURI) ==
                              "true");
@@ -426,7 +418,16 @@ namespace OneStoryProjectEditor
             public ProjectStages ProjectStage { get; set; }
             public bool AllowToSkip { get; set; }
 
-            public bool IsThisStateAllow(StoryProjectData storyProjectData, StoryData theCurrentStory)
+            /// <summary>
+            /// This method can be used to indicate whether this supposed alloweable transition is
+            /// actually allowed given our current project configuration. e.g. the state eProjFacTypeInternationalBT
+            /// is generally allowed after the state eProjFacTypeVernacular, but not if we have an 'outside English
+            /// back-translator'
+            /// </summary>
+            /// <param name="storyProjectData"></param>
+            /// <param name="theCurrentStory"></param>
+            /// <returns></returns>
+            public bool IsThisTransitionAllow(StoryProjectData storyProjectData, StoryData theCurrentStory)
             {
                 StateTransition st = stateTransitions[ProjectStage];
                 return st.IsThisStateAllow(storyProjectData, theCurrentStory);
@@ -500,14 +501,14 @@ namespace OneStoryProjectEditor
 #endif
             }
 
-            public bool IsTransitionValid(ProjectStages eToStage)
-            {
-                foreach (AllowableTransition aps in AllowableBackwardsTransitions)
-                    if (aps.ProjectStage == eToStage)
-                        return true;
-                return false;
-            }
-
+            /// <summary>
+            /// This method indicates whether the CurrentState is legitimate (i.e. to show in the 
+            /// Select State form) based on the current configuration. e.g. the state eCoachReviewRound2Notes
+            /// is only allowed if current configuration is that there's no IndependentConsultant.
+            /// </summary>
+            /// <param name="storyProjectData">project configuration information</param>
+            /// <param name="theCurrentStory">current story configuration (e.g. is biblical story or not)</param>
+            /// <returns></returns>
             public bool IsThisStateAllow(StoryProjectData storyProjectData, StoryData theCurrentStory)
             {
                 return ((!RequiresUsingVernacular || storyProjectData.ProjSettings.Vernacular.HasData)
@@ -524,6 +525,10 @@ namespace OneStoryProjectEditor
             }
 
 #if !DataDllBuild
+            /// <summary>
+            /// This method will set the view menu items to on or off depending on the defaults for the given state
+            /// </summary>
+            /// <param name="theSE"></param>
             public void SetView(StoryEditor theSE)
             {
                 // the vern should be visible if it is configured and either it's supposed to be visible (based on the

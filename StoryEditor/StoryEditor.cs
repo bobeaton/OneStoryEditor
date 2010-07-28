@@ -353,8 +353,7 @@ namespace OneStoryProjectEditor
                         //  configuration (e.g. there might now be a FPM)
                         Debug.Assert(StoryProject.TeamMembers != null);
                         StoryStageLogic.stateTransitions =
-                            new StoryStageLogic.StateTransitions(StoryProject.TeamMembers.HasIndependentConsultant, 
-                                StoryProject.ProjSettings.ProjectFolder);
+                            new StoryStageLogic.StateTransitions(StoryProject.ProjSettings.ProjectFolder);
                         ReInitMenuVisibility();
                         SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage, true);
                         InitAllPanes(); // just in case e.g. the font or RTL value changed
@@ -671,7 +670,6 @@ namespace OneStoryProjectEditor
             StoryData theNewStory = new StoryData(strStoryName, strCrafterGuid, 
                 LoggedOnMember.MemberGuid, 
                 (res == DialogResult.Yes),
-                StoryProject.TeamMembers.HasIndependentConsultant,
                 StoryProject.ProjSettings);
             InsertNewStoryAdjustComboBox(theNewStory, nIndexToInsert);
         }
@@ -1344,7 +1342,14 @@ namespace OneStoryProjectEditor
                 // in case the caller is just about to call InitAllPanes anyway, we don't
                 //  want the screen to thrash, so have the ability to disable the thrashing.
                 _bDisableReInitVerseControls = bDisableReInits;
-                st.SetView(this);
+
+                // if the user is pressing the control key (e.g. while changing state or 
+                //  selecting another story), then don't change the view settings
+                if ((ModifierKeys & Keys.Control) != Keys.Control)
+                {
+                    st.SetView(this);
+                }
+                
                 _bDisableReInitVerseControls = false;
             }
 

@@ -95,11 +95,11 @@ namespace OneStoryProjectEditor
         protected void CheckAllowableTransitions(StoryProjectData storyProjectData, StoryData theCurrentStory, 
             StoryStageLogic.AllowableTransitions allowableTransitions, Color clr, bool bForwardTransition)
         {
-            // allowed previous states
+            // allowed transition states (could be previous or forward)
             foreach (StoryStageLogic.AllowableTransition aps in allowableTransitions)
             {
-                // put the allowable transitions into the DropDown list
-                if (aps.IsThisStateAllow(storyProjectData, theCurrentStory))
+                // see if this transition is allowed from our current situation
+                if (aps.IsThisTransitionAllow(storyProjectData, theCurrentStory))
                 {
                     System.Diagnostics.Debug.Assert(StateTransitions.ContainsKey(aps.ProjectStage));
                     StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[aps.ProjectStage];
@@ -140,6 +140,8 @@ namespace OneStoryProjectEditor
             // now populate the grid from the StateTransitions (whether default or specialized)
             foreach (StoryStageLogic.StateTransition stateTransition in StateTransitions.Values)
             {
+                // see if this state is allowed (whether it's a valid transition or not) given
+                //  our current configuration
                 if (!stateTransition.IsThisStateAllow(_storyProjectData, _theCurrentStory))
                     continue;
 
@@ -161,9 +163,9 @@ namespace OneStoryProjectEditor
                         }
                         break;
                     case TeamMemberData.UserTypes.eConsultantInTraining:
-                        InitButton(stateTransition, ColumnConsultantInTraining.Name);
-                        break;
-                    case TeamMemberData.UserTypes.eIndependentConsultant:
+                        // could be an independent consultant as well (because that invalid case of
+                        //  the state being for a CIT while having no "manage with coaching" in
+                        //  the project settings was already excluded by the call to IsThisStateAllow above)
                         InitButton(stateTransition, ColumnConsultantInTraining.Name);
                         break;
                     case TeamMemberData.UserTypes.eCoach:

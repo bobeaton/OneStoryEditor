@@ -18,13 +18,12 @@ namespace OneStoryProjectEditor
         public VersesData Verses;
 
         public StoryData(string strStoryName, string strCrafterMemberGuid, 
-            string strLoggedOnMemberGuid, bool bIsBiblicalStory, bool bHasIndependentConsultant,
-            ProjectSettings projSettings)
+            string strLoggedOnMemberGuid, bool bIsBiblicalStory, ProjectSettings projSettings)
         {
             Name = strStoryName;
             guid = Guid.NewGuid().ToString();
             StageTimeStamp = DateTime.Now;
-            ProjStage = new StoryStageLogic(projSettings, bHasIndependentConsultant);
+            ProjStage = new StoryStageLogic(projSettings);
             CraftingInfo = new CraftingInfoData(strCrafterMemberGuid, strLoggedOnMemberGuid, bIsBiblicalStory);
             Verses = new VersesData();
             Verses.CreateFirstVerse();
@@ -37,20 +36,19 @@ namespace OneStoryProjectEditor
             
             // the last param isn't really false, but this ctor is only called when that doesn't matter
             //  (during Chorus diff presentation)
-            ProjStage = new StoryStageLogic(strProjectFolder, node.Attributes[CstrAttributeStage].Value, false);
+            ProjStage = new StoryStageLogic(strProjectFolder, node.Attributes[CstrAttributeStage].Value);
             guid = node.Attributes[CstrAttributeGuid].Value;
             StageTimeStamp = DateTime.Parse(node.Attributes[CstrAttributeTimeStamp].Value);
             CraftingInfo = new CraftingInfoData(node.SelectSingleNode("CraftingInfo"));
             Verses = new VersesData(node.SelectSingleNode("verses"));
         }
 
-        public StoryData(NewDataSet.storyRow theStoryRow, NewDataSet projFile,
-            bool bHasIndependentConsultant, string strProjectFolder)
+        public StoryData(NewDataSet.storyRow theStoryRow, NewDataSet projFile, string strProjectFolder)
         {
             Name = theStoryRow.name;
             guid = theStoryRow.guid;
             StageTimeStamp = (theStoryRow.IsstageDateTimeStampNull()) ? DateTime.Now : theStoryRow.stageDateTimeStamp;
-            ProjStage = new StoryStageLogic(strProjectFolder, theStoryRow.stage, bHasIndependentConsultant);
+            ProjStage = new StoryStageLogic(strProjectFolder, theStoryRow.stage);
             CraftingInfo = new CraftingInfoData(theStoryRow);
             Verses = new VersesData(theStoryRow, projFile);
         }
@@ -607,14 +605,13 @@ namespace OneStoryProjectEditor
             SetName = strSetName;
         }
 
-        public StoriesData(NewDataSet.storiesRow theStoriesRow, NewDataSet projFile,
-            bool bHasIndependentConsultant, string strProjectFolder)
+        public StoriesData(NewDataSet.storiesRow theStoriesRow, NewDataSet projFile, string strProjectFolder)
         {
             SetName = theStoriesRow.SetName;
 
             // finally, if it's not new, then it might (should) have stories as well
             foreach (NewDataSet.storyRow aStoryRow in theStoriesRow.GetstoryRows())
-                Add(new StoryData(aStoryRow, projFile, bHasIndependentConsultant, strProjectFolder));
+                Add(new StoryData(aStoryRow, projFile, strProjectFolder));
         }
 
         public new bool Contains(StoryData theSD)
@@ -712,7 +709,6 @@ namespace OneStoryProjectEditor
             foreach (NewDataSet.storiesRow aStoriesRow in projFile.StoryProject[0].GetstoriesRows())
                 Add(aStoriesRow.SetName, new StoriesData(aStoriesRow, 
                                                          projFile,
-                                                         TeamMembers.HasIndependentConsultant, 
                                                          ProjSettings.ProjectFolder));
         }
 
