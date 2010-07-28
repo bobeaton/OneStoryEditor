@@ -65,15 +65,15 @@ namespace OneStoryProjectEditor
 
             if ((stateTransitions == null)
              || (stateTransitions.RewroteCitAsIndependentConsultant != bHasIndependentConsultant))
-                stateTransitions = new StateTransitions(bHasIndependentConsultant);
+                stateTransitions = new StateTransitions(bHasIndependentConsultant, projSettings.ProjectFolder);
         }
 
-        public StoryStageLogic(string strProjectStage, bool bHasIndependentConsultant)
+        public StoryStageLogic(string strProjectFolder, string strProjectStage, bool bHasIndependentConsultant)
         {
             ProjectStage = GetProjectStageFromString(strProjectStage);
             if ((stateTransitions == null) 
              || (stateTransitions.RewroteCitAsIndependentConsultant != bHasIndependentConsultant))
-                stateTransitions = new StateTransitions(bHasIndependentConsultant);
+                stateTransitions = new StateTransitions(bHasIndependentConsultant, strProjectFolder);
         }
 
         public StoryStageLogic(StoryStageLogic rhs)
@@ -194,15 +194,18 @@ namespace OneStoryProjectEditor
         public class StateTransitions : Dictionary<ProjectStages, StateTransition>
         {
             protected const string CstrStateTransitionsXmlFilename = "StageTransitions.xml";
+            protected string _strProjectFolder;
+
             public bool RewroteCitAsIndependentConsultant;
 
-            public StateTransitions(bool bHasIndependentConsultant)
+            public StateTransitions(bool bHasIndependentConsultant, string strProjectFolder)
             {
                 RewroteCitAsIndependentConsultant = bHasIndependentConsultant;
-                InitStateTransitionsFromXml(bHasIndependentConsultant);
+                _strProjectFolder = strProjectFolder;
+                InitStateTransitionsFromXml(bHasIndependentConsultant, _strProjectFolder);
             }
 
-            protected string PathToXmlFile
+            protected string DefaultPathToXmlFile
             {
                 get
                 {
@@ -220,8 +223,7 @@ namespace OneStoryProjectEditor
                 }
             }
             
-            /* rde: this code works just fine, it's just that we don't ever write this file anymore
-            public void SaveStates(string strFilename)
+            public void SaveCustomStateTransitionsXmlFile()
             {
                 // create the root portions of the XML document and tack on the fragment we've been building
                 XDocument doc = new XDocument(
@@ -229,7 +231,8 @@ namespace OneStoryProjectEditor
                     GetXml);
 
                 // save it with an extra extn.
-                doc.Save(strFilename);
+                string strCustomFile = Path.Combine(_strProjectFolder, CstrStateTransitionsXmlFilename);;
+                doc.Save(strCustomFile);
             }
 
             protected XElement GetXml
@@ -244,71 +247,80 @@ namespace OneStoryProjectEditor
                     return elem;
                 }
             }
-            */
             
             // these are for reading the file
-            protected void GetXmlDocument(out XmlDocument doc, out XPathNavigator navigator, out XmlNamespaceManager manager)
+            protected void GetXmlDocument(string strProjectFolder, 
+                out XmlDocument doc, out XPathNavigator navigator, out XmlNamespaceManager manager)
             {
                 doc = new XmlDocument();
-                doc.Load(PathToXmlFile);
+
+                // first see if we have a customized version of the StateTransitions.xml in the project folder
+                string strCustomFile = Path.Combine(strProjectFolder, CstrStateTransitionsXmlFilename);
+                if (File.Exists(strCustomFile))
+                    doc.Load(strCustomFile);
+                else
+                    doc.Load(DefaultPathToXmlFile);
+
                 navigator = doc.CreateNavigator();
                 manager = new XmlNamespaceManager(navigator.NameTable);
             }
 
-            protected void InitStateTransitionsFromXml(bool bHasIndependentConsultant)
+            protected void InitStateTransitionsFromXml(bool bHasIndependentConsultant, string strProjectFolder)
             {
                 try
                 {
                     XmlDocument doc;
                     XPathNavigator navigator;
                     XmlNamespaceManager manager;
-                    GetXmlDocument(out doc, out navigator, out manager);
+                    GetXmlDocument(strProjectFolder, out doc, out navigator, out manager);
 
-                    XPathNodeIterator xpStageTransition = navigator.Select("/ProjectStates/StateTransition", manager);
+                    XPathNodeIterator xpStageTransition = navigator.Select(String.Format("/{0}/{1}", 
+                        StateTransition.CstrElementLabelProjectStates, StateTransition.CstrElementLabelStateTransition), manager);
+
                     while (xpStageTransition.MoveNext())
                     {
-                        ProjectStages eThisStage = (ProjectStages)Enum.Parse(typeof(ProjectStages), xpStageTransition.Current.GetAttribute("stage", navigator.NamespaceURI));
-                        TeamMemberData.UserTypes eMemberType = (TeamMemberData.UserTypes)Enum.Parse(typeof(TeamMemberData.UserTypes), xpStageTransition.Current.GetAttribute("MemberTypeWithEditToken", navigator.NamespaceURI));
+                        ProjectStages eThisStage = (ProjectStages)Enum.Parse(typeof(ProjectStages), xpStageTransition.Current.GetAttribute(StateTransition.CstrAttributeLabelStage, navigator.NamespaceURI));
+                        TeamMemberData.UserTypes eMemberType = (TeamMemberData.UserTypes)Enum.Parse(typeof(TeamMemberData.UserTypes), xpStageTransition.Current.GetAttribute(StateTransition.CstrAttributeLabelMemberTypeWithEditToken, navigator.NamespaceURI));
                         if (eMemberType == TeamMemberData.UserTypes.eConsultantInTraining
                             && bHasIndependentConsultant)
                             eMemberType = TeamMemberData.UserTypes.eIndependentConsultant;
 
                         bool bRequiresUsingVernacular =
-                            (xpStageTransition.Current.GetAttribute("RequiresUsingVernacular", navigator.NamespaceURI) ==
+                            (xpStageTransition.Current.GetAttribute(StateTransition.CstrAttributeLabelRequiresUsingVernacular, navigator.NamespaceURI) ==
                              "true");
                         bool bRequiresUsingNationalBT =
-                            (xpStageTransition.Current.GetAttribute("RequiresUsingNationalBT", navigator.NamespaceURI) ==
+                            (xpStageTransition.Current.GetAttribute(StateTransition.CstrAttributeLabelRequiresUsingNationalBT, navigator.NamespaceURI) ==
                              "true");
                         bool bRequiresUsingEnglishBT =
-                            (xpStageTransition.Current.GetAttribute("RequiresUsingEnglishBT", navigator.NamespaceURI) ==
+                            (xpStageTransition.Current.GetAttribute(StateTransition.CstrAttributeLabelRequiresUsingEnglishBT, navigator.NamespaceURI) ==
                              "true");
 
-                        string strRequiresUsingOtherEnglishBTer = xpStageTransition.Current.GetAttribute("RequiresUsingOtherEnglishBTer", 
+                        string strRequiresUsingOtherEnglishBTer = xpStageTransition.Current.GetAttribute(StateTransition.CstrAttributeLableRequiresUsingOtherEnglishBTer, 
                             navigator.NamespaceURI);
                         bool bHasUsingOtherEnglishBTer = !String.IsNullOrEmpty(strRequiresUsingOtherEnglishBTer);
                         bool bRequiresUsingOtherEnglishBTer = (strRequiresUsingOtherEnglishBTer == "true");
                         
                         bool bRequiresFirstPassMentor =
-                            (xpStageTransition.Current.GetAttribute("RequiresFirstPassMentor", navigator.NamespaceURI) ==
+                            (xpStageTransition.Current.GetAttribute(StateTransition.CstrAttributeLableRequiresFirstPassMentor, navigator.NamespaceURI) ==
                              "true");
                         bool bRequiresBiblicalStory =
-                            (xpStageTransition.Current.GetAttribute("RequiresBiblicalStory", navigator.NamespaceURI) ==
+                            (xpStageTransition.Current.GetAttribute(StateTransition.CstrAttributeLabelRequiresBiblicalStory, navigator.NamespaceURI) ==
                              "true");
                         bool bRequiresNonBiblicalStory =
-                            (xpStageTransition.Current.GetAttribute("RequiresNonBiblicalStory", navigator.NamespaceURI) ==
+                            (xpStageTransition.Current.GetAttribute(StateTransition.CstrAttributeLabelRequiresNonBiblicalStory, navigator.NamespaceURI) ==
                              "true");
                         bool bRequiresManageWithCoaching = 
-                            (xpStageTransition.Current.GetAttribute("RequiresManageWithCoaching", navigator.NamespaceURI) == 
+                            (xpStageTransition.Current.GetAttribute(StateTransition.CstrAttributeLabelRequiresManageWithCoaching, navigator.NamespaceURI) == 
                              "true");
 
-                        XPathNodeIterator xpNextElement = xpStageTransition.Current.Select("StageDisplayString");
+                        XPathNodeIterator xpNextElement = xpStageTransition.Current.Select(StateTransition.CstrElementLabelStageDisplayString);
                         string strStageDisplayString = null;
                         if (xpNextElement.MoveNext())
                             strStageDisplayString = xpNextElement.Current.Value;
 
                         System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(strStageDisplayString));
 
-                        xpNextElement = xpStageTransition.Current.Select("StageInstructions");
+                        xpNextElement = xpStageTransition.Current.Select(StateTransition.CstrElementLabelStageInstructions);
                         string strStageInstructions = null;
                         if (xpNextElement.MoveNext())
                             strStageInstructions = xpNextElement.Current.Value;
@@ -358,19 +370,19 @@ namespace OneStoryProjectEditor
                                 RequiresManageWithCoaching = bRequiresManageWithCoaching
                             };
 
-                        xpNextElement = xpStageTransition.Current.Select("ViewSettings");
+                        xpNextElement = xpStageTransition.Current.Select(StateTransition.CstrElementLabelViewSettings);
                         if (xpNextElement.MoveNext())
                         {
-                            st.IsVernacularVisible = (xpNextElement.Current.GetAttribute("viewVernacularLangField", navigator.NamespaceURI) == "true");
-                            st.IsNationalBTVisible = (xpNextElement.Current.GetAttribute("viewNationalLangField", navigator.NamespaceURI) == "true");
-                            st.IsEnglishBTVisible = (xpNextElement.Current.GetAttribute("viewEnglishBTField", navigator.NamespaceURI) == "true");
-                            st.IsAnchorVisible = (xpNextElement.Current.GetAttribute("viewAnchorField", navigator.NamespaceURI) == "true");
-                            st.IsStoryTestingQuestionVisible = (xpNextElement.Current.GetAttribute("viewStoryTestingQuestions", navigator.NamespaceURI) == "true");
-                            st.IsStoryTestingQuestionAnswersVisible = (xpNextElement.Current.GetAttribute("viewStoryTestingAnswers", navigator.NamespaceURI) == "true");
-                            st.IsRetellingVisible = (xpNextElement.Current.GetAttribute("viewRetellingField", navigator.NamespaceURI) == "true");
-                            st.IsConsultantNotesVisible = (xpNextElement.Current.GetAttribute("viewConsultantNoteField", navigator.NamespaceURI) == "true");
-                            st.IsCoachNotesVisible = (xpNextElement.Current.GetAttribute("viewCoachNotesField", navigator.NamespaceURI) == "true");
-                            st.IsNetBibleVisible = (xpNextElement.Current.GetAttribute("viewNetBible", navigator.NamespaceURI) == "true");
+                            st.IsVernacularVisible = (xpNextElement.Current.GetAttribute(StateTransition.CstrAttributeLabelViewVernacularLangField, navigator.NamespaceURI) == "true");
+                            st.IsNationalBTVisible = (xpNextElement.Current.GetAttribute(StateTransition.CstrAttributeLabelViewNationalLangField, navigator.NamespaceURI) == "true");
+                            st.IsEnglishBTVisible = (xpNextElement.Current.GetAttribute(StateTransition.CstrAttributeLabelViewEnglishBTField, navigator.NamespaceURI) == "true");
+                            st.IsAnchorVisible = (xpNextElement.Current.GetAttribute(StateTransition.CstrAttributeLabelViewAnchorField, navigator.NamespaceURI) == "true");
+                            st.IsStoryTestingQuestionVisible = (xpNextElement.Current.GetAttribute(StateTransition.CstrAttributeLabelViewStoryTestingQuestions, navigator.NamespaceURI) == "true");
+                            st.IsStoryTestingQuestionAnswersVisible = (xpNextElement.Current.GetAttribute(StateTransition.CstrAttributeLabelViewStoryTestingAnswers, navigator.NamespaceURI) == "true");
+                            st.IsRetellingVisible = (xpNextElement.Current.GetAttribute(StateTransition.CstrAttributeLabelViewRetellingField, navigator.NamespaceURI) == "true");
+                            st.IsConsultantNotesVisible = (xpNextElement.Current.GetAttribute(StateTransition.CstrAttributeLabelViewConsultantNoteField, navigator.NamespaceURI) == "true");
+                            st.IsCoachNotesVisible = (xpNextElement.Current.GetAttribute(StateTransition.CstrAttributeLabelViewCoachNotesField, navigator.NamespaceURI) == "true");
+                            st.IsNetBibleVisible = (xpNextElement.Current.GetAttribute(StateTransition.CstrAttributeLabelViewNetBible, navigator.NamespaceURI) == "true");
                         }
 
                         Add(eThisStage, st);
@@ -397,6 +409,9 @@ namespace OneStoryProjectEditor
                 get
                 {
                     System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(ElementLabel));
+                    if (this.Count == 0)
+                        return null;
+
                     XElement elemAllowableTransition = new XElement(ElementLabel);
                     foreach (AllowableTransition allowed in this)
                     {
@@ -541,48 +556,79 @@ namespace OneStoryProjectEditor
                 theSE.viewNetBibleMenuItem.Checked = IsNetBibleVisible;
             }
 #endif
+            public const string CstrElementLabelProjectStates = "ProjectStates";
+            public const string CstrElementLabelStateTransition = "StateTransition";
+            public const string CstrAttributeLabelStage = "stage";
+            public const string CstrAttributeLabelMemberTypeWithEditToken = "MemberTypeWithEditToken";
+            public const string CstrAttributeLabelRequiresUsingVernacular = "RequiresUsingVernacular";
+            public const string CstrAttributeLabelRequiresUsingNationalBT = "RequiresUsingNationalBT";
+            public const string CstrAttributeLabelRequiresUsingEnglishBT = "RequiresUsingEnglishBT";
+            public const string CstrAttributeLableRequiresUsingOtherEnglishBTer = "RequiresUsingOtherEnglishBTer";
+            public const string CstrAttributeLableRequiresFirstPassMentor = "RequiresFirstPassMentor";
+            public const string CstrAttributeLabelRequiresBiblicalStory = "RequiresBiblicalStory";
+            public const string CstrAttributeLabelRequiresNonBiblicalStory = "RequiresNonBiblicalStory";
+            public const string CstrAttributeLabelRequiresManageWithCoaching = "RequiresManageWithCoaching";
+            public const string CstrElementLabelStageDisplayString = "StageDisplayString";
+            public const string CstrElementLabelStageInstructions = "StageInstructions";
+            public const string CstrElementLabelViewSettings = "ViewSettings";
+            public const string CstrAttributeLabelViewVernacularLangField = "viewVernacularLangField";
+            public const string CstrAttributeLabelViewNationalLangField = "viewNationalLangField";
+            public const string CstrAttributeLabelViewEnglishBTField = "viewEnglishBTField";
+            public const string CstrAttributeLabelViewAnchorField = "viewAnchorField";
+            public const string CstrAttributeLabelViewStoryTestingQuestions = "viewStoryTestingQuestions";
+            public const string CstrAttributeLabelViewStoryTestingAnswers = "viewStoryTestingAnswers";
+            public const string CstrAttributeLabelViewRetellingField = "viewRetellingField";
+            public const string CstrAttributeLabelViewConsultantNoteField = "viewConsultantNoteField";
+            public const string CstrAttributeLabelViewCoachNotesField = "viewCoachNotesField";
+            public const string CstrAttributeLabelViewNetBible = "viewNetBible";
 
             public XElement GetXml
             {
                 get
                 {
-                    XElement elem = new XElement("StateTransition", 
-                        new XAttribute("stage", CurrentStage),
-                        new XAttribute("MemberTypeWithEditToken", MemberTypeWithEditToken));
+                    XElement elem = new XElement(CstrElementLabelStateTransition,
+                        new XAttribute(CstrAttributeLabelStage, CurrentStage),
+                        new XAttribute(CstrAttributeLabelMemberTypeWithEditToken, MemberTypeWithEditToken));
 
                     if (RequiresUsingVernacular)
-                        elem.Add(new XAttribute("RequiresUsingVernacular", RequiresUsingVernacular));
+                        elem.Add(new XAttribute(CstrAttributeLabelRequiresUsingVernacular, RequiresUsingVernacular));
 
                     if (RequiresUsingNationalBT)
-                        elem.Add(new XAttribute("RequiresUsingNationalBT", RequiresUsingNationalBT));
+                        elem.Add(new XAttribute(CstrAttributeLabelRequiresUsingNationalBT, RequiresUsingNationalBT));
 
                     if (RequiresUsingEnglishBT)
-                        elem.Add(new XAttribute("RequiresUsingEnglishBT", RequiresUsingEnglishBT));
+                        elem.Add(new XAttribute(CstrAttributeLabelRequiresUsingEnglishBT, RequiresUsingEnglishBT));
+
+                    if (HasUsingOtherEnglishBTer)
+                        elem.Add(new XAttribute(CstrAttributeLableRequiresUsingOtherEnglishBTer, RequiresUsingOtherEnglishBTer));
+
+                    if (RequiresFirstPassMentor)
+                        elem.Add(new XAttribute(CstrAttributeLableRequiresFirstPassMentor, RequiresFirstPassMentor));
 
                     if (RequiresBiblicalStory)
-                        elem.Add(new XAttribute("RequiresBiblicalStory", RequiresBiblicalStory));
+                        elem.Add(new XAttribute(CstrAttributeLabelRequiresBiblicalStory, RequiresBiblicalStory));
 
                     if (RequiresNonBiblicalStory)
-                        elem.Add(new XAttribute("RequiresNonBiblicalStory", RequiresNonBiblicalStory));
+                        elem.Add(new XAttribute(CstrAttributeLabelRequiresNonBiblicalStory, RequiresNonBiblicalStory));
 
                     if (RequiresManageWithCoaching)
-                        elem.Add(new XAttribute("RequiresManageWithCoaching", RequiresManageWithCoaching));
+                        elem.Add(new XAttribute(CstrAttributeLabelRequiresManageWithCoaching, RequiresManageWithCoaching));
 
-                    elem.Add(new XElement("StageDisplayString", StageDisplayString),
-                             new XElement("StageInstructions", StageInstructions),
+                    elem.Add(new XElement(CstrElementLabelStageDisplayString, StageDisplayString),
+                             new XElement(CstrElementLabelStageInstructions, StageInstructions),
                              AllowableForewardsTransitions.GetXml,
                              AllowableBackwardsTransitions.GetXml,
-                             new XElement("ViewSettings",
-                                new XAttribute("viewVernacularLangFieldMenuItem", IsVernacularVisible),
-                                new XAttribute("viewNationalLangFieldMenuItem", IsNationalBTVisible),
-                                new XAttribute("viewEnglishBTFieldMenuItem", IsEnglishBTVisible),
-                                new XAttribute("viewAnchorFieldMenuItem", IsAnchorVisible),
-                                new XAttribute("viewStoryTestingQuestions", IsStoryTestingQuestionVisible),
-                                new XAttribute("viewStoryTestingAnswers", IsStoryTestingQuestionAnswersVisible),
-                                new XAttribute("viewRetellingFieldMenuItem", IsRetellingVisible),
-                                new XAttribute("viewConsultantNoteFieldMenuItem", IsConsultantNotesVisible),
-                                new XAttribute("viewCoachNotesFieldMenuItem", IsCoachNotesVisible),
-                                new XAttribute("viewNetBibleMenuItem", IsNetBibleVisible)));
+                             new XElement(CstrElementLabelViewSettings,
+                                new XAttribute(CstrAttributeLabelViewVernacularLangField, IsVernacularVisible),
+                                new XAttribute(CstrAttributeLabelViewNationalLangField, IsNationalBTVisible),
+                                new XAttribute(CstrAttributeLabelViewEnglishBTField, IsEnglishBTVisible),
+                                new XAttribute(CstrAttributeLabelViewAnchorField, IsAnchorVisible),
+                                new XAttribute(CstrAttributeLabelViewStoryTestingQuestions, IsStoryTestingQuestionVisible),
+                                new XAttribute(CstrAttributeLabelViewStoryTestingAnswers, IsStoryTestingQuestionAnswersVisible),
+                                new XAttribute(CstrAttributeLabelViewRetellingField, IsRetellingVisible),
+                                new XAttribute(CstrAttributeLabelViewConsultantNoteField, IsConsultantNotesVisible),
+                                new XAttribute(CstrAttributeLabelViewCoachNotesField, IsCoachNotesVisible),
+                                new XAttribute(CstrAttributeLabelViewNetBible, IsNetBibleVisible)));
 
                     return elem;
                 }

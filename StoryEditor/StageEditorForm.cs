@@ -18,6 +18,7 @@ namespace OneStoryProjectEditor
 
         protected Dictionary<StoryStageLogic.ProjectStages, DataGridViewButtonCell> _mapStatesToButtons
             = new Dictionary<StoryStageLogic.ProjectStages, DataGridViewButtonCell>();
+        protected List<DataGridViewButtonCell> _lstOfAllowedTransitions = new List<DataGridViewButtonCell>();
 
         public StageEditorForm(StoryProjectData storyProjectData, StoryData theCurrentStory, Point ptStatusBar)
         {
@@ -77,7 +78,6 @@ namespace OneStoryProjectEditor
                     dgbc.Style.Font = font;
                     dgbc.FlatStyle = FlatStyle.Popup;
                     dgbc.Style.BackColor = Color.Yellow;
-                    dgbc.Tag = st;
                 }
 
                 // check allowable next state
@@ -112,7 +112,7 @@ namespace OneStoryProjectEditor
                         dgbc.Style.Font = font;
                         dgbc.FlatStyle = FlatStyle.Popup;
                         dgbc.Style.BackColor = clr;
-                        dgbc.Tag = st;
+                        _lstOfAllowedTransitions.Add(dgbc);
 
                         // for the forward transitions, we only need one to succeed (we don't really want
                         //  users to skip any)
@@ -129,6 +129,8 @@ namespace OneStoryProjectEditor
             get { return _nextState; }
             set { _nextState = value; }
         }
+
+        public bool ViewStateChanged { get; set; }
 
         protected void InitGrid()
         {
@@ -180,11 +182,19 @@ namespace OneStoryProjectEditor
             string strColumnName)
         {
             int nIndex = dataGridViewStates.Rows.Add();
-            var dgb = dataGridViewStates.Rows[nIndex].Cells[strColumnName] as DataGridViewButtonCell;
-            dgb.Value = stateTransition.StageDisplayString;
-            dgb.ToolTipText = String.Format("{1}:{0}{2}",
-                Environment.NewLine, stateTransition.StageDisplayString, stateTransition.StageInstructions);
-            _mapStatesToButtons.Add(stateTransition.CurrentStage, dgb);
+            var dgbc = dataGridViewStates.Rows[nIndex].Cells[strColumnName] as DataGridViewButtonCell;
+            InitCellFromStateTransition(dgbc, stateTransition);
+            dgbc.Tag = stateTransition;
+            _mapStatesToButtons.Add(stateTransition.CurrentStage, dgbc);
+        }
+
+        protected void InitCellFromStateTransition(DataGridViewButtonCell theCell, StoryStageLogic.StateTransition stateTransition)
+        {
+            theCell.Value = stateTransition.StageDisplayString;
+            theCell.ToolTipText = String.Format("{1}:{0}{2}",
+                                                Environment.NewLine, 
+                                                stateTransition.StageDisplayString, 
+                                                stateTransition.StageInstructions);
         }
 
         protected StoryStageLogic.StateTransitions StateTransitions
@@ -195,9 +205,18 @@ namespace OneStoryProjectEditor
             }
         }
 
+        private void dataGridViewStates_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                NextState = StoryStageLogic.ProjectStages.eUndefined;
+                Close();
+            }
+        }
+
         const long m_ticksMinForClick = 3000000;
 
-        private void dataGridViewStates_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void dataGridViewStates_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
             // make sure we have something reasonable
             if (((e.ColumnIndex < 0) || (e.ColumnIndex >= dataGridViewStates.Columns.Count))
@@ -216,22 +235,34 @@ namespace OneStoryProjectEditor
             if (theCell == null)
                 return;
 
-            // only those that were legitimate next or previous states will have their .Tag set
-            StoryStageLogic.StateTransition st = theCell.Tag as StoryStageLogic.StateTransition;
-            if (st != null)
+            if (e.Button == MouseButtons.Left)
             {
-                NextState = st.CurrentStage;
-                DialogResult = DialogResult.OK;
-                Close();
+                // only those that were legitimate next or previous states will be in the _lstOfAllowedTransitions
+                if (_lstOfAllowedTransitions.Contains(theCell))
+                {
+                    StoryStageLogic.StateTransition st = theCell.Tag as StoryStageLogic.StateTransition;
+                    if (st != null)
+                    {
+                        NextState = st.CurrentStage;
+                        DialogResult = DialogResult.OK;
+                        Close();
+                    }
+                }
             }
-        }
-
-        private void dataGridViewStates_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-        {
-            if (e.KeyCode == Keys.Escape)
+            else if (e.Button == MouseButtons.Right)
             {
-                NextState = StoryStageLogic.ProjectStages.eUndefined;
-                Close();
+                // right-click means edit the state information
+                StoryStageLogic.StateTransition st = theCell.Tag as StoryStageLogic.StateTransition;
+                if (st != null)
+                {
+                    StateEditorForm dlg = new StateEditorForm(st);
+                    if (dlg.ShowDialog() == DialogResult.OK)
+                    {
+                        ViewStateChanged |= dlg.ViewStateChanged;
+                        InitCellFromStateTransition(theCell, st);
+                        StoryStageLogic.stateTransitions.SaveCustomStateTransitionsXmlFile();
+                    }
+                }
             }
         }
 

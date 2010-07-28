@@ -334,7 +334,7 @@ This is the final stage of the process for this non-biblical story.
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestions="false" viewStoryTestingAnswers="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
-  <StateTransition stage="eFirstPassMentorCheck1" MemberTypeWithEditToken="eFirstPassMentor" RequiresBiblicalStory="true" RequiresFirstPassMentor="true">
+  <StateTransition stage="eFirstPassMentorCheck1" MemberTypeWithEditToken="eFirstPassMentor" RequiresFirstPassMentor="true" RequiresBiblicalStory="true">
     <StageDisplayString>First-pass mentor checks the story (pre-UNS test)</StageDisplayString>
     <StageInstructions>
 In this stage, you (the first-pass mentor) will check the story and make any suggestions you can
@@ -625,7 +625,7 @@ When you are finished, then click the "Select State" button to move to the next 
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestions="true" viewStoryTestingAnswers="false" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
   </StateTransition>
-  <StateTransition stage="eBackTranslatorTranslateConNotes" MemberTypeWithEditToken="eEnglishBacktranslator" RequiresBiblicalStory="true" RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">
+  <StateTransition stage="eBackTranslatorTranslateConNotes" MemberTypeWithEditToken="eEnglishBacktranslator" RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true" RequiresBiblicalStory="true">
     <StageDisplayString>English back-translator translates Consultant Notes for Project Facilitator</StageDisplayString>
     <StageInstructions>
 In this stage, you (the English back-translator) will go through the feedback given by the consultant in 
@@ -814,7 +814,7 @@ move to the next (green) state.
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewAnchorField="false" viewStoryTestingQuestions="true" viewStoryTestingAnswers="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
-  <StateTransition stage="eBackTranslatorTypeInternationalBTTest1" MemberTypeWithEditToken="eEnglishBacktranslator" RequiresBiblicalStory="true" RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true">
+  <StateTransition stage="eBackTranslatorTypeInternationalBTTest1" MemberTypeWithEditToken="eEnglishBacktranslator" RequiresUsingEnglishBT="true" RequiresUsingOtherEnglishBTer="true" RequiresBiblicalStory="true">
     <StageDisplayString>English back-translator enters the English BT of the UNS test results</StageDisplayString>
     <StageInstructions>
 In this stage, someone typically outside of the crafting team will translate the responses from the
@@ -840,7 +840,7 @@ move to the next (green) state.
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="false" viewStoryTestingQuestions="true" viewStoryTestingAnswers="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
-  <StateTransition stage="eFirstPassMentorCheck2" MemberTypeWithEditToken="eFirstPassMentor" RequiresBiblicalStory="true" RequiresFirstPassMentor="true">
+  <StateTransition stage="eFirstPassMentorCheck2" MemberTypeWithEditToken="eFirstPassMentor" RequiresFirstPassMentor="true" RequiresBiblicalStory="true">
     <StageDisplayString>First-pass mentor checks UNS test results</StageDisplayString>
     <StageInstructions>
 In this stage, you (the first-pass mentor) will check the story again now that you have the answers
@@ -938,7 +938,6 @@ bar to go to the next stage in the process.
       <AllowableTransition>eBackTranslatorTranslateConNotes</AllowableTransition>
       <AllowableTransition>eProjFacReviseBasedOnRound1Notes</AllowableTransition>
     </AllowableBackwardsTransitions>
-    <BackwardsProcessing ButtonLabel="Send back for revision">eProjFacReviseBasedOnRound1Notes</BackwardsProcessing>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestions="true" viewStoryTestingAnswers="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eCoachReviewRound2Notes" MemberTypeWithEditToken="eCoach" RequiresBiblicalStory="true" RequiresManageWithCoaching="true">

@@ -353,7 +353,8 @@ namespace OneStoryProjectEditor
                         //  configuration (e.g. there might now be a FPM)
                         Debug.Assert(StoryProject.TeamMembers != null);
                         StoryStageLogic.stateTransitions =
-                            new StoryStageLogic.StateTransitions(StoryProject.TeamMembers.HasIndependentConsultant);
+                            new StoryStageLogic.StateTransitions(StoryProject.TeamMembers.HasIndependentConsultant, 
+                                StoryProject.ProjSettings.ProjectFolder);
                         ReInitMenuVisibility();
                         SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage, true);
                         InitAllPanes(); // just in case e.g. the font or RTL value changed
@@ -3684,6 +3685,9 @@ namespace OneStoryProjectEditor
                     SetNextState(dlg.NextState, true);
                 }
             }
+
+            if (dlg.ViewStateChanged)
+                SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage, false);
         }
 
         private void useSameSettingsForAllStoriesToolStripMenuItem_Click(object sender, EventArgs e)

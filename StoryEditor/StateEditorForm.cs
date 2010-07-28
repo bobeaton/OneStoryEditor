@@ -50,5 +50,12 @@ namespace OneStoryProjectEditor
             _stateTransition.IsCoachNotesVisible = checkBoxCoachNotes.Checked;
             _stateTransition.IsNetBibleVisible = checkBoxBiblePane.Checked;
         }
+
+        private void checkBox_CheckedChanged(object sender, EventArgs e)
+        {
+            ViewStateChanged = true;
+        }
+
+        public bool ViewStateChanged { get; set; }
     }
 }

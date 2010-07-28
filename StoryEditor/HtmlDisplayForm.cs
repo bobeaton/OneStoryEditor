@@ -15,13 +15,15 @@ namespace OneStoryProjectEditor
     {
         HgRepository _repository;
         List<Revision> _lstRevisions;
-        string _strStoryToDiff, _strLastState;
+        string _strStoryToDiff, _strLastState, _strProjectFolder;
 
         public HtmlDisplayForm(StoryEditor theSE, StoryData storyData)
         {
             InitializeComponent();
 
             _strStoryToDiff = storyData.Name;
+            _strProjectFolder = theSE.StoryProject.ProjSettings.ProjectFolder;
+
             if (theSE.StoryProject.ProjSettings.Vernacular.HasData)
             {
                 checkBoxLangVernacular.Text = String.Format(Properties.Resources.IDS_LanguageFields,
@@ -102,7 +104,7 @@ namespace OneStoryProjectEditor
             {
                 RevisionInfo ri = dataGridViewRevisions.Rows[nIndex].Tag as RevisionInfo;
                 if ((ri != null) && (ri.StoryProjectNode != null))
-                    return new StoryData(ri.StoryProjectNode);
+                    return new StoryData(ri.StoryProjectNode, _strProjectFolder);
             }
             return null;
         }

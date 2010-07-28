@@ -43,12 +43,12 @@
             this.checkBoxEnglishBT = new System.Windows.Forms.CheckBox();
             this.checkBoxAnchors = new System.Windows.Forms.CheckBox();
             this.checkBoxStoryTestingQuestions = new System.Windows.Forms.CheckBox();
+            this.checkBoxStoryTestingQuestionAnswers = new System.Windows.Forms.CheckBox();
             this.checkBoxRetelling = new System.Windows.Forms.CheckBox();
             this.checkBoxConsultantNotes = new System.Windows.Forms.CheckBox();
             this.checkBoxCoachNotes = new System.Windows.Forms.CheckBox();
             this.checkBoxBiblePane = new System.Windows.Forms.CheckBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.checkBoxStoryTestingQuestionAnswers = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel.SuspendLayout();
             this.flowLayoutPanelViews.SuspendLayout();
             this.SuspendLayout();
@@ -170,6 +170,7 @@
             this.checkBoxVernacular.Text = "Show &story language";
             this.toolTip.SetToolTip(this.checkBoxVernacular, "Check this box to have the story language boxes visible when in this state");
             this.checkBoxVernacular.UseVisualStyleBackColor = true;
+            this.checkBoxVernacular.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
             // 
             // checkBoxNationalBT
             // 
@@ -182,6 +183,7 @@
             this.toolTip.SetToolTip(this.checkBoxNationalBT, "Check this box to have the national language back-translation boxes visible when " +
                     "in this state");
             this.checkBoxNationalBT.UseVisualStyleBackColor = true;
+            this.checkBoxNationalBT.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
             // 
             // checkBoxEnglishBT
             // 
@@ -194,6 +196,7 @@
             this.toolTip.SetToolTip(this.checkBoxEnglishBT, "Check this box to have the English language back-translation boxes visible when i" +
                     "n this state");
             this.checkBoxEnglishBT.UseVisualStyleBackColor = true;
+            this.checkBoxEnglishBT.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
             // 
             // checkBoxAnchors
             // 
@@ -205,6 +208,7 @@
             this.checkBoxAnchors.Text = "Show &Anchors";
             this.toolTip.SetToolTip(this.checkBoxAnchors, "Check this box to have the Anchors visible when in this state");
             this.checkBoxAnchors.UseVisualStyleBackColor = true;
+            this.checkBoxAnchors.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
             // 
             // checkBoxStoryTestingQuestions
             // 
@@ -217,50 +221,7 @@
             this.toolTip.SetToolTip(this.checkBoxStoryTestingQuestions, "Check this box to have the story (inference) testing questions visible when in th" +
                     "is state");
             this.checkBoxStoryTestingQuestions.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxRetelling
-            // 
-            this.checkBoxRetelling.AutoSize = true;
-            this.checkBoxRetelling.Location = new System.Drawing.Point(166, 49);
-            this.checkBoxRetelling.Name = "checkBoxRetelling";
-            this.checkBoxRetelling.Size = new System.Drawing.Size(102, 17);
-            this.checkBoxRetelling.TabIndex = 5;
-            this.checkBoxRetelling.Text = "Show &Retellings";
-            this.toolTip.SetToolTip(this.checkBoxRetelling, "Check this box to have the retelling boxes visible when in this state");
-            this.checkBoxRetelling.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxConsultantNotes
-            // 
-            this.checkBoxConsultantNotes.AutoSize = true;
-            this.checkBoxConsultantNotes.Location = new System.Drawing.Point(166, 72);
-            this.checkBoxConsultantNotes.Name = "checkBoxConsultantNotes";
-            this.checkBoxConsultantNotes.Size = new System.Drawing.Size(137, 17);
-            this.checkBoxConsultantNotes.TabIndex = 6;
-            this.checkBoxConsultantNotes.Text = "Show &Consultant Notes";
-            this.toolTip.SetToolTip(this.checkBoxConsultantNotes, "Check this box to have the consultant notes pane visible when in this state");
-            this.checkBoxConsultantNotes.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxCoachNotes
-            // 
-            this.checkBoxCoachNotes.AutoSize = true;
-            this.checkBoxCoachNotes.Location = new System.Drawing.Point(378, 3);
-            this.checkBoxCoachNotes.Name = "checkBoxCoachNotes";
-            this.checkBoxCoachNotes.Size = new System.Drawing.Size(118, 17);
-            this.checkBoxCoachNotes.TabIndex = 7;
-            this.checkBoxCoachNotes.Text = "Show Co&ach Notes";
-            this.toolTip.SetToolTip(this.checkBoxCoachNotes, "Check this box to have the coach notes pane visible when in this state");
-            this.checkBoxCoachNotes.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxBiblePane
-            // 
-            this.checkBoxBiblePane.AutoSize = true;
-            this.checkBoxBiblePane.Location = new System.Drawing.Point(378, 26);
-            this.checkBoxBiblePane.Name = "checkBoxBiblePane";
-            this.checkBoxBiblePane.Size = new System.Drawing.Size(107, 17);
-            this.checkBoxBiblePane.TabIndex = 8;
-            this.checkBoxBiblePane.Text = "Show &Bible Pane";
-            this.toolTip.SetToolTip(this.checkBoxBiblePane, "Check this box to have the Bible pane visible when in this state");
-            this.checkBoxBiblePane.UseVisualStyleBackColor = true;
+            this.checkBoxStoryTestingQuestions.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
             // 
             // checkBoxStoryTestingQuestionAnswers
             // 
@@ -273,6 +234,55 @@
             this.toolTip.SetToolTip(this.checkBoxStoryTestingQuestionAnswers, "Check this box to have the story (inference) testing questions visible when in th" +
                     "is state");
             this.checkBoxStoryTestingQuestionAnswers.UseVisualStyleBackColor = true;
+            this.checkBoxStoryTestingQuestionAnswers.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
+            // 
+            // checkBoxRetelling
+            // 
+            this.checkBoxRetelling.AutoSize = true;
+            this.checkBoxRetelling.Location = new System.Drawing.Point(166, 49);
+            this.checkBoxRetelling.Name = "checkBoxRetelling";
+            this.checkBoxRetelling.Size = new System.Drawing.Size(102, 17);
+            this.checkBoxRetelling.TabIndex = 5;
+            this.checkBoxRetelling.Text = "Show &Retellings";
+            this.toolTip.SetToolTip(this.checkBoxRetelling, "Check this box to have the retelling boxes visible when in this state");
+            this.checkBoxRetelling.UseVisualStyleBackColor = true;
+            this.checkBoxRetelling.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
+            // 
+            // checkBoxConsultantNotes
+            // 
+            this.checkBoxConsultantNotes.AutoSize = true;
+            this.checkBoxConsultantNotes.Location = new System.Drawing.Point(166, 72);
+            this.checkBoxConsultantNotes.Name = "checkBoxConsultantNotes";
+            this.checkBoxConsultantNotes.Size = new System.Drawing.Size(137, 17);
+            this.checkBoxConsultantNotes.TabIndex = 6;
+            this.checkBoxConsultantNotes.Text = "Show &Consultant Notes";
+            this.toolTip.SetToolTip(this.checkBoxConsultantNotes, "Check this box to have the consultant notes pane visible when in this state");
+            this.checkBoxConsultantNotes.UseVisualStyleBackColor = true;
+            this.checkBoxConsultantNotes.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
+            // 
+            // checkBoxCoachNotes
+            // 
+            this.checkBoxCoachNotes.AutoSize = true;
+            this.checkBoxCoachNotes.Location = new System.Drawing.Point(378, 3);
+            this.checkBoxCoachNotes.Name = "checkBoxCoachNotes";
+            this.checkBoxCoachNotes.Size = new System.Drawing.Size(118, 17);
+            this.checkBoxCoachNotes.TabIndex = 7;
+            this.checkBoxCoachNotes.Text = "Show Co&ach Notes";
+            this.toolTip.SetToolTip(this.checkBoxCoachNotes, "Check this box to have the coach notes pane visible when in this state");
+            this.checkBoxCoachNotes.UseVisualStyleBackColor = true;
+            this.checkBoxCoachNotes.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
+            // 
+            // checkBoxBiblePane
+            // 
+            this.checkBoxBiblePane.AutoSize = true;
+            this.checkBoxBiblePane.Location = new System.Drawing.Point(378, 26);
+            this.checkBoxBiblePane.Name = "checkBoxBiblePane";
+            this.checkBoxBiblePane.Size = new System.Drawing.Size(107, 17);
+            this.checkBoxBiblePane.TabIndex = 8;
+            this.checkBoxBiblePane.Text = "Show &Bible Pane";
+            this.toolTip.SetToolTip(this.checkBoxBiblePane, "Check this box to have the Bible pane visible when in this state");
+            this.checkBoxBiblePane.UseVisualStyleBackColor = true;
+            this.checkBoxBiblePane.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
             // 
             // StateEditorForm
             // 

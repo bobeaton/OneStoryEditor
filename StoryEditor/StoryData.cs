@@ -30,27 +30,27 @@ namespace OneStoryProjectEditor
             Verses.CreateFirstVerse();
         }
 
-        public StoryData(XmlNode node)
+        public StoryData(XmlNode node, string strProjectFolder)
         {
             XmlAttribute attr;
             Name = ((attr = node.Attributes[CstrAttributeName]) != null) ? attr.Value : null;
             
             // the last param isn't really false, but this ctor is only called when that doesn't matter
             //  (during Chorus diff presentation)
-            ProjStage = new StoryStageLogic(node.Attributes[CstrAttributeStage].Value, false);
+            ProjStage = new StoryStageLogic(strProjectFolder, node.Attributes[CstrAttributeStage].Value, false);
             guid = node.Attributes[CstrAttributeGuid].Value;
             StageTimeStamp = DateTime.Parse(node.Attributes[CstrAttributeTimeStamp].Value);
             CraftingInfo = new CraftingInfoData(node.SelectSingleNode("CraftingInfo"));
             Verses = new VersesData(node.SelectSingleNode("verses"));
         }
 
-        public StoryData(NewDataSet.storyRow theStoryRow, NewDataSet projFile, 
-            bool bHasIndependentConsultant)
+        public StoryData(NewDataSet.storyRow theStoryRow, NewDataSet projFile,
+            bool bHasIndependentConsultant, string strProjectFolder)
         {
             Name = theStoryRow.name;
             guid = theStoryRow.guid;
             StageTimeStamp = (theStoryRow.IsstageDateTimeStampNull()) ? DateTime.Now : theStoryRow.stageDateTimeStamp;
-            ProjStage = new StoryStageLogic(theStoryRow.stage, bHasIndependentConsultant);
+            ProjStage = new StoryStageLogic(strProjectFolder, theStoryRow.stage, bHasIndependentConsultant);
             CraftingInfo = new CraftingInfoData(theStoryRow);
             Verses = new VersesData(theStoryRow, projFile);
         }
@@ -161,9 +161,9 @@ namespace OneStoryProjectEditor
             TeamMembersData teamMembers = new TeamMembersData(nodeProjectFile);
             StoryData ParentStory = null, ChildStory = null;
             if (parentStory != null)
-                ParentStory = new StoryData(parentStory);
+                ParentStory = new StoryData(parentStory, strProjectPath);
             if (childStory != null)
-                ChildStory = new StoryData(childStory);
+                ChildStory = new StoryData(childStory, strProjectPath);
             VerseData.ViewItemToInsureOn viewItemsToInsureOn = VerseData.SetItemsToInsureOn(
                 true,
                 true,
@@ -608,13 +608,13 @@ namespace OneStoryProjectEditor
         }
 
         public StoriesData(NewDataSet.storiesRow theStoriesRow, NewDataSet projFile,
-            bool bHasIndependentConsultant)
+            bool bHasIndependentConsultant, string strProjectFolder)
         {
             SetName = theStoriesRow.SetName;
 
             // finally, if it's not new, then it might (should) have stories as well
             foreach (NewDataSet.storyRow aStoryRow in theStoriesRow.GetstoryRows())
-                Add(new StoryData(aStoryRow, projFile, bHasIndependentConsultant));
+                Add(new StoryData(aStoryRow, projFile, bHasIndependentConsultant, strProjectFolder));
         }
 
         public new bool Contains(StoryData theSD)
@@ -710,8 +710,10 @@ namespace OneStoryProjectEditor
 
             // finally, if it's not new, then it might (should) have stories as well
             foreach (NewDataSet.storiesRow aStoriesRow in projFile.StoryProject[0].GetstoriesRows())
-                Add(aStoriesRow.SetName, new StoriesData(aStoriesRow, projFile,
-                                                         TeamMembers.HasIndependentConsultant));
+                Add(aStoriesRow.SetName, new StoriesData(aStoriesRow, 
+                                                         projFile,
+                                                         TeamMembers.HasIndependentConsultant, 
+                                                         ProjSettings.ProjectFolder));
         }
 
         // if this is "new", then we won't have a project name yet, so query the user for it

@@ -59,8 +59,8 @@
             this.dataGridViewStates.RowHeadersVisible = false;
             this.dataGridViewStates.Size = new System.Drawing.Size(867, 326);
             this.dataGridViewStates.TabIndex = 1;
+            this.dataGridViewStates.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewStates_CellMouseUp);
             this.dataGridViewStates.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.dataGridViewStates_PreviewKeyDown);
-            this.dataGridViewStates.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewStates_CellContentClick);
             // 
             // ColumnProjectFacilitatorStages
             // 
@@ -108,8 +108,7 @@
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "To go forward, click a green state button. To go backwards (for revisions), click" +
-                " a red state button";
-            this.TopMost = true;
+                " a red state button. Right-click to edit instructions";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStates)).EndInit();
             this.ResumeLayout(false);
 
