@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
 using System.Text;
@@ -360,6 +361,84 @@ namespace OneStoryProjectEditor
 
                 return eleMember;
             }
+        }
+
+        public void CheckIfThisAnAcceptableEditorForThisStory(StoryData theCurrentStory)
+        {
+            System.Diagnostics.Debug.Assert(theCurrentStory != null);
+            
+            // technically speaking the 'just looking' isn't an acceptable editor, but it's handled elsewhere.
+            if (MemberType == UserTypes.eJustLooking)
+                return;
+
+            UserTypes eMemberWithEditToken = theCurrentStory.ProjStage.MemberTypeWithEditToken;
+            switch(eMemberWithEditToken)
+            {
+                case UserTypes.eIndependentConsultant:
+                case UserTypes.eConsultantInTraining:
+                    // this is a special case where both the CIT and Independant Consultant are acceptable
+                    if ((MemberType != UserTypes.eConsultantInTraining)
+                        && (MemberType != UserTypes.eIndependentConsultant))
+                    {
+                        MessageBox.Show(String.Format(OseResources.Properties.Resources.IDS_WhichUserEdits,
+                            CstrIndependentConsultantDisplay), OseResources.Properties.Resources.IDS_Caption);
+                    }
+                    break;
+
+                case UserTypes.eProjectFacilitator:
+                    if (MemberType != UserTypes.eProjectFacilitator)
+                    {
+                        MessageBox.Show(String.Format(OseResources.Properties.Resources.IDS_WhichUserEdits,
+                            CstrProjectFacilitatorDisplay), OseResources.Properties.Resources.IDS_Caption);
+                    }
+                    else if ((MemberGuid != theCurrentStory.CraftingInfo.ProjectFacilitatorMemberID)
+                        && !String.IsNullOrEmpty(theCurrentStory.CraftingInfo.ProjectFacilitatorMemberID))
+                    {
+                        MessageBox.Show(Properties.Resources.IDS_NotTheRightProjFac,
+                                OseResources.Properties.Resources.IDS_Caption);
+                    }
+                    break;
+
+                default:
+                    if (MemberType != eMemberWithEditToken)
+                    {
+                        MessageBox.Show(GetWrongMemberTypeWarning(eMemberWithEditToken),
+                                        OseResources.Properties.Resources.IDS_Caption);
+                    }
+                    break;
+            }
+        }
+
+        public void ThrowIfEditIsntAllowed(UserTypes eMemberTypeWithEditToken)
+        {
+            if (!IsEditAllowed(eMemberTypeWithEditToken))
+                throw WrongMemberTypeException(eMemberTypeWithEditToken);
+        }
+
+        public bool IsEditAllowed(UserTypes eMemberTypeWithEditToken)
+        {
+            switch (eMemberTypeWithEditToken)
+            {
+                case UserTypes.eConsultantInTraining:
+                case UserTypes.eIndependentConsultant:
+                    // special case where either role is allowed to edit
+                    return ((MemberType == UserTypes.eConsultantInTraining)
+                        || (MemberType == UserTypes.eIndependentConsultant));
+
+                default:
+                    return (MemberType == eMemberTypeWithEditToken);
+            }
+        }
+
+        public static string GetWrongMemberTypeWarning(UserTypes eMemberTypeWithEditToken)
+        {
+            return String.Format(OseResources.Properties.Resources.IDS_WhichUserEdits,
+                                 GetMemberTypeAsDisplayString(eMemberTypeWithEditToken));
+        }
+
+        public static ApplicationException WrongMemberTypeException(UserTypes eMemberTypeWithEditToken)
+        {
+            return new ApplicationException(GetWrongMemberTypeWarning(eMemberTypeWithEditToken));
         }
     }
 

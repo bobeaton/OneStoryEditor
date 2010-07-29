@@ -123,20 +123,6 @@ namespace OneStoryProjectEditor
             return bRet;
         }
 
-        public bool IsEditAllowed(TeamMemberData.UserTypes loggedOnMemberType)
-        {
-            return (MemberTypeWithEditToken == loggedOnMemberType);
-        }
-
-        public ApplicationException WrongMemberTypeEx
-        {
-            get {
-                return
-                    new ApplicationException(String.Format(OseResources.Properties.Resources.IDS_WhichUserEdits,
-                                                           TeamMemberData.GetMemberTypeAsDisplayString(
-                                                               MemberTypeWithEditToken))); }
-        }
-
         // this isn't 100% effective. Sometimes a particular stage can have a single (but varied) editors
         //  (e.g. the Online consult could either be the ProjFac or the consultant)
         public TeamMemberData.UserTypes MemberTypeWithEditToken
