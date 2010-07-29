@@ -94,7 +94,7 @@
             this.tableLayoutPanel.SetRowSpan(this.textBoxWordsToSearchFor, 2);
             this.helpProvider.SetShowHelp(this.textBoxWordsToSearchFor, true);
             this.textBoxWordsToSearchFor.Size = new System.Drawing.Size(616, 91);
-            this.textBoxWordsToSearchFor.TabIndex = 3;
+            this.textBoxWordsToSearchFor.TabIndex = 0;
             this.textBoxWordsToSearchFor.Text = "word1, word2, \"phrase 3\"";
             this.toolTip.SetToolTip(this.textBoxWordsToSearchFor, "Enter the word(s) to search. Press F1 for further instructions on how to enter da" +
                     "ta in this field.");
@@ -111,12 +111,13 @@
             // 
             // buttonBeginSearch
             // 
+            this.buttonBeginSearch.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.helpProvider.SetHelpString(this.buttonBeginSearch, "Click here to begin searching");
-            this.buttonBeginSearch.Location = new System.Drawing.Point(3, 84);
+            this.buttonBeginSearch.Location = new System.Drawing.Point(44, 93);
             this.buttonBeginSearch.Name = "buttonBeginSearch";
             this.helpProvider.SetShowHelp(this.buttonBeginSearch, true);
             this.buttonBeginSearch.Size = new System.Drawing.Size(75, 23);
-            this.buttonBeginSearch.TabIndex = 4;
+            this.buttonBeginSearch.TabIndex = 1;
             this.buttonBeginSearch.Text = "&Search";
             this.toolTip.SetToolTip(this.buttonBeginSearch, "Click here to begin searching");
             this.buttonBeginSearch.UseVisualStyleBackColor = true;
@@ -217,6 +218,7 @@
             // 
             // ConcordanceForm
             // 
+            this.AcceptButton = this.buttonBeginSearch;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(768, 468);

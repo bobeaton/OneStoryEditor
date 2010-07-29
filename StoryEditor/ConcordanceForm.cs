@@ -69,6 +69,9 @@ namespace OneStoryProjectEditor
                 {
                     radioButtonSearchInternationalBT.Checked = true;
                 }
+
+                // since we've chosen which language to use, put the cursor right there in case they want to edit
+                textBoxWordsToSearchFor.Focus();
             }
             else
             {
