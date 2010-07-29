@@ -11,6 +11,7 @@ namespace OneStoryProjectEditor
     {
         protected StoryEditor TheSE;
         protected VerseData.SearchLookInProperties FindProperties = new VerseData.SearchLookInProperties();
+        public static StringTransfer LastStringTransferSearched;
 
         public SearchForm()
         {
@@ -184,7 +185,7 @@ namespace OneStoryProjectEditor
             int nLastStoryIndex, nLastCtxBoxIndex, nLastCharIndex;
             InitSearchList(ref BoxesToSearch, out nLastStoryIndex, out nLastCtxBoxIndex, out nLastCharIndex);
 
-            CtrlTextBox ctbStopWhereWeStarted = null;
+            object ctbStopWhereWeStarted = null;
             int nStoryIndex = nLastStoryIndex;
             int nCtxBoxIndex = nLastCtxBoxIndex;
             while (nStoryIndex < BoxesToSearch.Count)
@@ -203,7 +204,7 @@ namespace OneStoryProjectEditor
                     // note: that it's possible that this stringTransfer
                     //  does not have a TextBox (e.g. if it isn't visible) OR
                     //  if its in the ConNotes panes (which are HTML thingys)
-                    CtrlTextBox ctrlTextBox = stringTransfer.TextBox;
+                    object ctrlTextBox = stringTransfer.TextBox;
 
                     // get the index *after* the selected text (our starting index
                     //  of the search)
@@ -213,7 +214,7 @@ namespace OneStoryProjectEditor
                         // if the length of the text in the text box is not the same
                         //  length as the text in the StringTransfer, then this 
                         //  assumption is probably no good
-                        System.Diagnostics.Debug.Assert(ctrlTextBox.TextLength == strValue.Length);
+                        System.Diagnostics.Debug.Assert((ctrlTextBox as CtrlTextBox).TextLength == strValue.Length);
 
                         if (ctbStopWhereWeStarted == ctrlTextBox)
                         {
@@ -225,7 +226,24 @@ namespace OneStoryProjectEditor
                         if (nLastCharIndex != 0)
                         {
                             nLastCharIndex = 0; // only do that once
-                            ctrlTextBox.Select(0,0);    // don't leave it selected
+                            (ctrlTextBox as CtrlTextBox).Select(0, 0);    // don't leave it selected
+                        }
+                    }
+                    else if (!String.IsNullOrEmpty((string)(ctrlTextBox = stringTransfer.HtmlElementId)))
+                    {
+                        // dealing with the ConNote panes
+                        if (ctbStopWhereWeStarted == ctrlTextBox)
+                        {
+                            ShowNotFound();
+                            return;
+                        }
+
+                        nStartIndex = nLastCharIndex;
+                        if (nLastCharIndex != 0)
+                        {
+                            nLastCharIndex = 0; // only do that once
+                            HtmlConNoteControl ctrl = stringTransfer.HtmlConNoteCtrl as HtmlConNoteControl;
+                            ctrl.ClearSelection(stringTransfer);
                         }
                     }
 
@@ -265,11 +283,12 @@ namespace OneStoryProjectEditor
                         else if (stringTransfer.HtmlConNoteCtrl != null)
                         {
                             HtmlConNoteControl ctrl = stringTransfer.HtmlConNoteCtrl as HtmlConNoteControl;
-                            ctrl.SelectFoundText(stringTransfer.HtmlElementId, nFoundIndex,
-                                                                           nLengthToSelect);
+                            if (ctrl != null)
+                                ctrl.SetSelection(stringTransfer, nFoundIndex, nLengthToSelect);
                             LastCharIndex = nFoundIndex + nLengthToSelect;
                         }
 
+                        LastStringTransferSearched = stringTransfer;
                         LastStoryIndex = nStoryIndex;
                         LastCtxBoxIndex = nCtxBoxIndex;
                         buttonReplace.Enabled = true;
@@ -546,7 +565,7 @@ namespace OneStoryProjectEditor
             {
                 checkBoxLookInExpander.Text = " —";
                 flowLayoutPanelLookIn.Visible = true;
-                Height += flowLayoutPanelLookIn.GetPreferredSize(new Size(0, 1000)).Height;
+                Height += flowLayoutPanelLookIn.GetPreferredSize(new Size(0, 1000)).Height + 20;    // just a touch more
             }
             else
             {
@@ -591,7 +610,11 @@ namespace OneStoryProjectEditor
             }
 
             string strReplaceWith = UpdateComboBox(comboBoxReplaceWith);
-            if (CtrlTextBox._inTextBox != null)
+
+            if (LastStringTransferSearched == null)
+                return;
+
+            if (LastStringTransferSearched.TextBox != null)
             {
                 if (regex == null)
                 {
@@ -612,6 +635,49 @@ namespace OneStoryProjectEditor
                         CtrlTextBox._inTextBox.SelectedText = strReplacedText;
                         LastCharIndex = CaptureNextStartingCharIndex(CtrlTextBox._inTextBox);
                         TheSE.Modified = true;
+                    }
+                }
+            }
+            else if (!String.IsNullOrEmpty(LastStringTransferSearched.HtmlElementId))
+            {
+                HtmlConNoteControl ctrl = LastStringTransferSearched.HtmlConNoteCtrl as HtmlConNoteControl;
+                if (ctrl != null)
+                {
+                    if (ctrl.IsParagraphElement(LastStringTransferSearched.HtmlElementId))
+                    {
+                        // paragraphs are not replaceable
+                        MessageBox.Show(Properties.Resources.IDS_CanOnlyChangeConNoteTextareas,
+                            OseResources.Properties.Resources.IDS_Caption);
+                        return;
+                    }
+
+                    int nLastCharIndex;
+                    string strSelectedText = ctrl.GetSelectedText(LastStringTransferSearched);
+                    if (regex == null)
+                    {
+                        if (strSelectedText == strFindWhat)
+                        {
+
+                            if (ctrl.SetSelectedText(LastStringTransferSearched, strReplaceWith, out nLastCharIndex))
+                            {
+                                LastCharIndex = nLastCharIndex;
+                                TheSE.Modified = true;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Match match = regex.Match(strSelectedText);
+                        if (match.Success)
+                        {
+                            string strReplacedText =
+                                regex.Replace(strSelectedText, strReplaceWith);
+                            if (ctrl.SetSelectedText(LastStringTransferSearched, strReplacedText, out nLastCharIndex))
+                            {
+                                LastCharIndex = nLastCharIndex;
+                                TheSE.Modified = true;
+                            }
+                        }
                     }
                 }
             }

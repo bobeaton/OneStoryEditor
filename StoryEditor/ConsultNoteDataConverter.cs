@@ -116,7 +116,7 @@ namespace OneStoryProjectEditor
         }
 
         public void InsureExtraBox(StoryStageLogic theStoryStage, 
-            TeamMemberData.UserTypes eLoggedOnMember, 
+            TeamMemberData LoggedOnMember, 
             TeamMemberData.UserTypes eMentorType, TeamMemberData.UserTypes eMenteeType,
             string strValue)
         {
@@ -127,9 +127,10 @@ namespace OneStoryProjectEditor
                     RemoveAt(Count - 1);
 
             // don't bother, though, if the user has ended the conversation
-            if (IsFinished || !theStoryStage.IsEditAllowed(eLoggedOnMember))
+            if (IsFinished || !LoggedOnMember.IsEditAllowed(theStoryStage.MemberTypeWithEditToken))
                 return;
 
+            TeamMemberData.UserTypes eLoggedOnMember = LoggedOnMember.MemberType;
             if (((eLoggedOnMember & eMentorType) == eLoggedOnMember) && ((Count == 0) || (this[Count - 1].Direction == MenteeDirection)))
                 Add(new CommInstance(strValue, MentorDirection, null, DateTime.Now));
             else if (((eLoggedOnMember & eMenteeType) == eLoggedOnMember) && ((Count == 0) || (this[Count - 1].Direction == MentorDirection)))
@@ -238,14 +239,18 @@ namespace OneStoryProjectEditor
             }
         }
 
+        public const string CstrTextAreaPrefix = "ta";
+        public const string CstrParagraphPrefix = "tp";
+        public const string CstrButtonPrefix = "btn";
+
         public static string TextareaId(int nVerseIndex, int nConversationIndex)
         {
-            return String.Format("ta_{0}_{1}", nVerseIndex, nConversationIndex);
+            return String.Format("{0}_{1}_{2}", CstrTextAreaPrefix, nVerseIndex, nConversationIndex);
         }
 
         public static string TextParagraphId(int nVerseIndex, int nConversationIndex, int nCommentIndex)
         {
-            return String.Format("tp_{0}_{1}_{2}", nVerseIndex, nConversationIndex, nCommentIndex);
+            return String.Format("{0}_{1}_{2}_{3}", CstrParagraphPrefix, nVerseIndex, nConversationIndex, nCommentIndex);
         }
 
         public static string TextareaRowId(int nVerseIndex, int nConversationIndex)
@@ -260,7 +265,7 @@ namespace OneStoryProjectEditor
 
         public static string ButtonId(int nVerseIndex, int nConversationIndex, int nBtnIndex)
         {
-            return String.Format("btn_{0}_{1}_{2}", nVerseIndex, nConversationIndex, nBtnIndex);
+            return String.Format("{0}_{1}_{2}_{3}", CstrButtonPrefix, nVerseIndex, nConversationIndex, nBtnIndex);
         }
 
         public const int CnBtnIndexDelete = 0;
@@ -287,8 +292,8 @@ namespace OneStoryProjectEditor
             TeamMemberData LoggedOnMember, CommInstance aCI)
         {
             return (i == (Count - 1))
-                   && !IsFinished 
-                   && theStoryStage.IsEditAllowed(LoggedOnMember.MemberType)
+                   && !IsFinished
+                   && LoggedOnMember.IsEditAllowed(theStoryStage.MemberTypeWithEditToken)
                    && ((IsFromMentor(aCI) && !IsWrongEditor(LoggedOnMember.MemberType, MentorRequiredEditor))
                        || (!IsFromMentor(aCI) && !IsWrongEditor(LoggedOnMember.MemberType, MenteeRequiredEditor)));
         }
@@ -483,12 +488,12 @@ namespace OneStoryProjectEditor
         }
 
         public ConsultantNoteData(int nRound, StoryStageLogic theStoryStage, 
-            TeamMemberData.UserTypes eLoggedOnMember,
+            TeamMemberData LoggedOnMember,
             TeamMemberData.UserTypes eMentorType, TeamMemberData.UserTypes eMenteeType,
             string strValue)
             : base(nRound)
         {
-            InsureExtraBox(theStoryStage, eLoggedOnMember, eMentorType, eMenteeType, strValue);
+            InsureExtraBox(theStoryStage, LoggedOnMember, eMentorType, eMenteeType, strValue);
         }
 
         public ConsultantNoteData(ConsultNoteDataConverter rhs)
@@ -627,12 +632,12 @@ namespace OneStoryProjectEditor
         }
 
         public CoachNoteData(int nRound, StoryStageLogic theStoryStage, 
-            TeamMemberData.UserTypes eLoggedOnMember,
+            TeamMemberData LoggedOnMember,
             TeamMemberData.UserTypes eMentorType, TeamMemberData.UserTypes eMenteeType,
             string strValue)
             : base (nRound)
         {
-            InsureExtraBox(theStoryStage, eLoggedOnMember, eMentorType, eMenteeType, strValue);
+            InsureExtraBox(theStoryStage, LoggedOnMember, eMentorType, eMenteeType, strValue);
         }
 
         public CoachNoteData(ConsultNoteDataConverter rhs)
@@ -701,9 +706,9 @@ namespace OneStoryProjectEditor
         }
 
         public void InsureExtraBox(ConsultNoteDataConverter aCNDC, 
-            StoryStageLogic theStoryStage, TeamMemberData.UserTypes eLoggedOnMemberType)
+            StoryStageLogic theStoryStage, TeamMemberData LoggedOnMemberType)
         {
-            aCNDC.InsureExtraBox(theStoryStage, eLoggedOnMemberType, MentorType, MenteeType, null);
+            aCNDC.InsureExtraBox(theStoryStage, LoggedOnMemberType, MentorType, MenteeType, null);
         }
 
         public delegate void UpdateStatusBar(string strStatus);
@@ -730,7 +735,7 @@ namespace OneStoryProjectEditor
         }
 
         public abstract ConsultNoteDataConverter Add(int nRound,
-            StoryStageLogic theStoryStage, TeamMemberData.UserTypes eLoggedOnMember, 
+            StoryStageLogic theStoryStage, TeamMemberData LoggedOnMember, 
             string strValue);
         protected abstract TeamMemberData.UserTypes MentorType { get; }
         protected abstract TeamMemberData.UserTypes MenteeType { get; }
@@ -817,7 +822,7 @@ namespace OneStoryProjectEditor
         }
 
         public override ConsultNoteDataConverter Add(int nRound,
-            StoryStageLogic theStoryStage, TeamMemberData.UserTypes eLoggedOnMember, 
+            StoryStageLogic theStoryStage, TeamMemberData LoggedOnMember, 
             string strValue)
         {
             /*
@@ -827,8 +832,8 @@ namespace OneStoryProjectEditor
             else if (eLoggedOnMember == TeamMemberData.UserTypes.eIndependentConsultant)
                 eMentorType = TeamMemberData.UserTypes.eIndependentConsultant;
             */
-            ConsultNoteDataConverter theNewCN = new ConsultantNoteData(nRound, 
-                theStoryStage, eLoggedOnMember, MentorType, MenteeType, strValue);
+            ConsultNoteDataConverter theNewCN = new ConsultantNoteData(nRound,
+                theStoryStage, LoggedOnMember, MentorType, MenteeType, strValue);
             Add(theNewCN);
             return theNewCN;
         }
@@ -912,12 +917,12 @@ namespace OneStoryProjectEditor
         }
 
         public override ConsultNoteDataConverter Add(int nRound,
-            StoryStageLogic theStoryStage, TeamMemberData.UserTypes eLoggedOnMember, 
+            StoryStageLogic theStoryStage, TeamMemberData LoggedOnMember, 
             string strValue)
         {
             // always add closest to the verse label
             ConsultNoteDataConverter theNewCN = new CoachNoteData(nRound, 
-                theStoryStage, eLoggedOnMember, MentorType, MenteeType, strValue);
+                theStoryStage, LoggedOnMember, MentorType, MenteeType, strValue);
             Add(theNewCN);
             return theNewCN;
         }

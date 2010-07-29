@@ -30,7 +30,7 @@ namespace OneStoryProjectEditor
                     ConsultNotesDataConverter aCNsDC = DataConverter(i);
                     foreach (ConsultNoteDataConverter dc in aCNsDC)
                         aCNsDC.InsureExtraBox(dc, TheSE.theCurrentStory.ProjStage, 
-                                TheSE.LoggedOnMember.MemberType);
+                                TheSE.LoggedOnMember);
                 }
             }
         }
@@ -212,7 +212,7 @@ namespace OneStoryProjectEditor
             {
                 // just in case we need to have an open box now
                 theCNsDC.InsureExtraBox(theCNDC, TheSE.theCurrentStory.ProjStage, 
-                    TheSE.LoggedOnMember.MemberType);
+                    TheSE.LoggedOnMember);
             }
 
             if (theCNDC.IsEditable(TheSE.theCurrentStory.ProjStage, theCNDC.Count - 1, TheSE.LoggedOnMember,
@@ -254,8 +254,8 @@ namespace OneStoryProjectEditor
         
         public void CopyScriptureReference(string strId)
         {
-            int nVerseIndex, nConversationIndex;
-            if (!GetIndicesFromId(strId, out nVerseIndex, out nConversationIndex))
+            int nVerseIndex, nConversationIndex, nDontCare;
+            if (!GetIndicesFromId(strId, out nVerseIndex, out nConversationIndex, out nDontCare))
                 return;
 
             ConsultNoteDataConverter theCNDC = DataConverter(nVerseIndex, nConversationIndex);
@@ -282,8 +282,8 @@ namespace OneStoryProjectEditor
             if (!CheckForProperEditToken(out theSE))
                 return false;
 
-            int nVerseIndex, nConversationIndex;
-            if (!GetIndicesFromId(strId, out nVerseIndex, out nConversationIndex))
+            int nVerseIndex, nConversationIndex, nDontCare;
+            if (!GetIndicesFromId(strId, out nVerseIndex, out nConversationIndex, out nDontCare))
                 return false;
 
             ConsultNoteDataConverter theCNDC = DataConverter(nVerseIndex, nConversationIndex);
@@ -307,7 +307,8 @@ namespace OneStoryProjectEditor
             theCNsDC = null;
             theCNDC = null;
 
-            if (!GetIndicesFromId(strId, out nVerseIndex, out nConversationIndex))
+            int nDontCare;
+            if (!GetIndicesFromId(strId, out nVerseIndex, out nConversationIndex, out nDontCare))
                 return false;
 
             StoryEditor theSE;
@@ -350,7 +351,7 @@ namespace OneStoryProjectEditor
 
             ConsultNoteDataConverter cndc =
                 aCNsDC.Add(round, theSE.theCurrentStory.ProjStage, 
-                    theSE.LoggedOnMember.MemberType, strNote);
+                    theSE.LoggedOnMember, strNote);
             System.Diagnostics.Debug.Assert(cndc.Count == 1);
 
             LoadDocument();
@@ -360,32 +361,165 @@ namespace OneStoryProjectEditor
             return cndc;
         }
 
-        public void SelectFoundText(string strHtmlElementId,
+        public void DoFind(string strId)
+        {
+            int nVerseIndex, nConversationIndex, nCommentIndex;
+            if (!GetIndicesFromId(strId, out nVerseIndex, out nConversationIndex, out nCommentIndex))
+                return;
+
+            ConsultNotesDataConverter theCNsDC = DataConverter(nVerseIndex);
+            System.Diagnostics.Debug.Assert((theCNsDC != null) && (theCNsDC.Count > nConversationIndex));
+            ConsultNoteDataConverter theCNDC = theCNsDC[nConversationIndex];
+            System.Diagnostics.Debug.Assert((theCNDC != null) && (theCNDC.Count > nCommentIndex));
+            SearchForm.LastStringTransferSearched = theCNDC[nCommentIndex];
+            TheSE.LaunchSearchForm();
+        }
+
+        private const string CstrParagraphHighlightBegin = "<span style=\"background-color:Blue; color: White\">";
+        private const string CstrParagraphHighlightEnd = "</span>";
+
+        public void SetSelection(StringTransfer stringTransfer,
             int nFoundIndex, int nLengthToSelect)
         {
+            System.Diagnostics.Debug.Assert(stringTransfer.HasData && !String.IsNullOrEmpty(stringTransfer.HtmlElementId));
             if (Document != null)
             {
                 HtmlDocument doc = Document;
-                object[] oaParams = new object[] {strHtmlElementId, nFoundIndex, nLengthToSelect};
-                // doc.InvokeScript("textboxSelect", oaParams);
-                doc.InvokeScript("paragraphSelect", oaParams);
+                if (IsTextareaElement(stringTransfer.HtmlElementId))
+                {
+                    object[] oaParams = new object[] { stringTransfer.HtmlElementId, nFoundIndex, nLengthToSelect };
+                    doc.InvokeScript("textboxSetSelection", oaParams);
+                }
+                else if (IsParagraphElement(stringTransfer.HtmlElementId))
+                {
+                    HtmlElement elem = doc.GetElementById(stringTransfer.HtmlElementId);
+                    if (elem != null)
+                    {
+                        string str = stringTransfer.ToString();
+                        str = str.Insert(nFoundIndex + nLengthToSelect, CstrParagraphHighlightEnd);
+                        str = str.Insert(nFoundIndex, CstrParagraphHighlightBegin);
+                        System.Diagnostics.Debug.WriteLine(str);
+                        elem.InnerHtml = str;
+                    }
+                    else
+                        System.Diagnostics.Debug.Assert(false, "unexpected element id in HTML");
+                }
+            }
+        }
+
+        public bool IsParagraphElement(string strHtmlId)
+        {
+            return strHtmlId.Contains(ConsultNoteDataConverter.CstrParagraphPrefix);
+        }
+
+        public bool IsTextareaElement(string strHtmlId)
+        {
+            return strHtmlId.Contains(ConsultNoteDataConverter.CstrTextAreaPrefix);
+        }
+
+        public string GetSelectedText(StringTransfer stringTransfer)
+        {
+            // this isn't allowed for paragraphs (it could be, but this is only currently called
+            //  when we want to do 'replace', which isn't allowed for paragraphs (as opposed to textareas)
+            System.Diagnostics.Debug.Assert(IsTextareaElement(stringTransfer.HtmlElementId));
+            if (Document != null)
+            {
+                HtmlDocument doc = Document;
+                IHTMLDocument2 htmlDocument = doc.DomDocument as IHTMLDocument2;
+                if (htmlDocument != null)
+                {
+                    IHTMLSelectionObject selection = htmlDocument.selection;
+                    if (selection.type.ToLower() != "text")
+                    {
+                        MessageBox.Show(Properties.Resources.IDS_CanOnlyChangeConNoteTextareas,
+                            OseResources.Properties.Resources.IDS_Caption);
+                    }
+                    else
+                    {
+                        IHTMLTxtRange rangeSelection = selection.createRange() as IHTMLTxtRange;
+                        if (rangeSelection != null)
+                            return rangeSelection.text;
+                        // else otherwise nothing selected, so just return
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public bool SetSelectedText(StringTransfer stringTransfer, string strNewValue, out int nNewEndPoint)
+        {
+            // this isn't allowed for paragraphs (it could be, but this is only currently called
+            //  when we want to do 'replace', which isn't allowed for paragraphs (as opposed to textareas)
+            System.Diagnostics.Debug.Assert(IsTextareaElement(stringTransfer.HtmlElementId));
+            nNewEndPoint = 0;   // return of 0 means it didn't work.
+            if (Document != null)
+            {
+                HtmlDocument doc = Document;
+                IHTMLDocument2 htmlDocument = doc.DomDocument as IHTMLDocument2;
+                if (htmlDocument != null)
+                {
+                    object[] oaParams = new object[] { stringTransfer.HtmlElementId, strNewValue };
+                    nNewEndPoint = (int)doc.InvokeScript("textboxSetSelectionTextReturnEndPosition", oaParams);
+                    
+                    // zero return means it failed (e.g. the selected portion wasn't in the element thought)
+                    if (nNewEndPoint > 0)
+                    {
+                        // now we have to update the string transfer with the new value
+                        HtmlElement elem = doc.GetElementById(stringTransfer.HtmlElementId);
+                        if (elem != null)
+                            stringTransfer.SetValue(elem.InnerHtml);
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public void ClearSelection(StringTransfer stringTransfer)
+        {
+            System.Diagnostics.Debug.Assert(stringTransfer.HasData && !String.IsNullOrEmpty(stringTransfer.HtmlElementId));
+            if (Document != null)
+            {
+                HtmlDocument doc = Document;
+                if (IsTextareaElement(stringTransfer.HtmlElementId))
+                {
+                    IHTMLDocument2 htmlDocument = doc.DomDocument as IHTMLDocument2;
+                    if (htmlDocument != null)
+                    {
+                        IHTMLSelectionObject selection = htmlDocument.selection;
+                        selection.empty();
+                    }
+                }
+                else if (IsParagraphElement(stringTransfer.HtmlElementId))
+                {
+                    HtmlElement elem = doc.GetElementById(stringTransfer.HtmlElementId);
+                    if (elem != null)
+                        elem.InnerHtml = stringTransfer.ToString();
+                    else
+                        System.Diagnostics.Debug.Assert(false, "unexpected element id in HTML");
+                }
             }
         }
 
         protected bool GetIndicesFromId(string strId,
-            out int nVerseIndex, out int nConversationIndex)
+            out int nVerseIndex, out int nConversationIndex, out int nCommentIndex)
         {
+            nCommentIndex = 0;
             try
             {
                 string[] aVerseConversationIndices = strId.Split(_achDelim);
                 System.Diagnostics.Debug.Assert(((aVerseConversationIndices.Length == 3) ||
                                                  (aVerseConversationIndices.Length == 4))
                                                 &&
-                                                ((aVerseConversationIndices[0] == "ta") ||
-                                                 (aVerseConversationIndices[0] == "btn")));
+                                                ((aVerseConversationIndices[0] == ConsultNoteDataConverter.CstrTextAreaPrefix) ||
+                                                 (aVerseConversationIndices[0] == ConsultNoteDataConverter.CstrParagraphPrefix) ||
+                                                 (aVerseConversationIndices[0] == ConsultNoteDataConverter.CstrButtonPrefix)));
 
                 nVerseIndex = Convert.ToInt32(aVerseConversationIndices[1]);
                 nConversationIndex = Convert.ToInt32(aVerseConversationIndices[2]);
+                if (aVerseConversationIndices.Length == 4)
+                    nCommentIndex = Convert.ToInt32(aVerseConversationIndices[3]);
             }
             catch
             {

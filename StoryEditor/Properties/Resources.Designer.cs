@@ -210,6 +210,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sorry, you can only modify editable text in consultant or coach notes!.
+        /// </summary>
+        internal static string IDS_CanOnlyChangeConNoteTextareas {
+            get {
+                return ResourceManager.GetString("IDS_CanOnlyChangeConNoteTextareas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to export to Toolbox! Cause: {0} {1}.
         /// </summary>
         internal static string IDS_CantExport {

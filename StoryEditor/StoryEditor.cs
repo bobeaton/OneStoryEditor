@@ -387,7 +387,7 @@ namespace OneStoryProjectEditor
                     if (theCurrentStory != null)
                     {
                         InitAllPanes(theCurrentStory.Verses);
-                        CheckForProperMemberType();
+                        WarnIfNotProperMemberType();
                     }
                 }
             }
@@ -733,7 +733,7 @@ namespace OneStoryProjectEditor
             InitAllPanes();
 
             if (IsInStoriesSet)
-                CheckForProperMemberType();
+                WarnIfNotProperMemberType();
 
             // get the focus off the combo box, so mouse scroll doesn't rip thru the stories!
             flowLayoutPanelVerses.Focus();
@@ -743,31 +743,11 @@ namespace OneStoryProjectEditor
                 m_frmFind.ResetSearchParameters();
         }
 
-        private void CheckForProperMemberType()
+        private void WarnIfNotProperMemberType()
         {
             // inform the user that they won't be able to edit this if they aren't the proper member type
             Debug.Assert((theCurrentStory != null) && (LoggedOnMember != null));
-            if (LoggedOnMember.MemberType != TeamMemberData.UserTypes.eJustLooking)
-            {
-                if (LoggedOnMember.MemberType != theCurrentStory.ProjStage.MemberTypeWithEditToken)
-                {
-                    try
-                    {
-                        throw theCurrentStory.ProjStage.WrongMemberTypeEx;
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
-                    }
-                }
-                else if ((LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
-                    && (LoggedOnMember.MemberGuid != theCurrentStory.CraftingInfo.ProjectFacilitatorMemberID)
-                    && (!String.IsNullOrEmpty(theCurrentStory.CraftingInfo.ProjectFacilitatorMemberID)))
-                {
-                    MessageBox.Show(Properties.Resources.IDS_NotTheRightProjFac,
-                                    OseResources.Properties.Resources.IDS_Caption);
-                }
-            }
+            LoggedOnMember.CheckIfThisAnAcceptableEditorForThisStory(theCurrentStory);
         }
 
         protected void InitAllPanes(VersesData theVerses)
@@ -1490,7 +1470,16 @@ namespace OneStoryProjectEditor
             if (Modified)
             {
                 // it's annoying that the keyboard doesn't deactivate so I can just type 'y' for "Yes"
-                KeyboardController.DeactivateKeyboard();    // ... do it manually
+                try
+                {
+                    KeyboardController.DeactivateKeyboard();    // ... do it manually
+                }
+                catch (System.IO.FileLoadException)
+                {
+#if !DEBUG
+                    throw;
+#endif
+                }
 
                 DialogResult res = MessageBox.Show(Properties.Resources.IDS_SaveChanges, OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
                 if (res == DialogResult.Cancel)
@@ -3174,6 +3163,15 @@ namespace OneStoryProjectEditor
         internal SearchForm m_frmFind = null;
         private void editFindToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // if this is called, it's very likely that CtrlTextBox._inTextBox has the first search box
+            //  (if the search form is launched from the ConNotes panes, then they handle this themselves
+            if (CtrlTextBox._inTextBox != null)
+                SearchForm.LastStringTransferSearched = CtrlTextBox._inTextBox.MyStringTransfer;
+            LaunchSearchForm();
+        }
+
+        internal void LaunchSearchForm()
+        {
             if (m_frmFind == null)
                 m_frmFind = new SearchForm();
 
@@ -3198,7 +3196,16 @@ namespace OneStoryProjectEditor
                 m_frmFind.ResetSearchParameters();
         }
 
-        internal void replaceToolStripMenuItem_Click(object sender, EventArgs e)
+        private void replaceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // if this is called, it's very likely that CtrlTextBox._inTextBox has the first search box
+            //  (if the search form is launched from the ConNotes panes, then they handle this themselves
+            if (CtrlTextBox._inTextBox != null)
+                SearchForm.LastStringTransferSearched = CtrlTextBox._inTextBox.MyStringTransfer;
+            LaunchReplaceForm();
+        }
+
+        internal void LaunchReplaceForm()
         {
             if (m_frmFind == null)
                 m_frmFind = new SearchForm();

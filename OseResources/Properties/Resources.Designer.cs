@@ -89,26 +89,20 @@ namespace OseResources.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;script&gt;
-        ///function OnBibRefJump(link)
-        ///{
-        ///  window.external.OnBibRefJump(link.name);
-        ///  return false; // cause the href navigation to not happen
-        ///}
-        ///function OnVerseLineJump(link)
-        ///{
-        ///  window.external.OnVerseLineJump(link.name);
-        ///  return false; // cause the href navigation to not happen
-        ///}
-        ///function OnKeyDown()
-        ///{
-        ///  if (window.event.keyCode == 116)
-        ///  {
-        ///    // let the form handle it
-        ///    window.external.LoadDocument();
+        ///    function OnBibRefJump(link) {
+        ///        window.external.OnBibRefJump(link.name);
+        ///        return false; // cause the href navigation to not happen
+        ///    }
+        ///    function OnVerseLineJump(link) {
+        ///        window.external.OnVerseLineJump(link.name);
+        ///        return false; // cause the href navigation to not happen
+        ///    }
+        ///    function OnKeyDown() {
+        ///        if (window.event.keyCode == 116) {
+        ///            // let the form handle it
+        ///            window.external.LoadDocument();
         ///
-        ///    // disable the propagation of the F5 event
-        ///    window.event.keyCode = 0;
-        ///    [rest of string was truncated]&quot;;.
+        ///            // disable [rest of string was truncated]&quot;;.
         /// </summary>
         public static string HTML_DOM_Prefix {
             get {
@@ -459,7 +453,7 @@ namespace OseResources.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;textarea id=&quot;{0}&quot; class=&quot;{1}&quot; onKeyUp=&quot;return window.external.TextareaOnKeyUp(this.id, this.value);&quot; ondragover=&quot;window.event.returnValue=false&quot; ondrop=&quot;window.external.CopyScriptureReference(this.id)&quot;&gt;{2}&lt;/textarea&gt;.
+        ///   Looks up a localized string similar to &lt;textarea id=&quot;{0}&quot; class=&quot;{1}&quot; onKeyUp=&quot;return window.external.TextareaOnKeyUp(this.id, this.value);&quot; ondragover=&quot;window.event.returnValue=false&quot; ondrop=&quot;window.external.CopyScriptureReference(this.id)&quot; onselect=&quot;this.focus();&quot;&gt;{2}&lt;/textarea&gt;.
         /// </summary>
         public static string HTML_TextareaWithRefDrop {
             get {

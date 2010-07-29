@@ -128,57 +128,60 @@
   </data>
   <data name="HTML_DOM_Prefix" xml:space="preserve">
     <value>&lt;script&gt;
-function OnBibRefJump(link)
-{
-  window.external.OnBibRefJump(link.name);
-  return false; // cause the href navigation to not happen
-}
-function OnVerseLineJump(link)
-{
-  window.external.OnVerseLineJump(link.name);
-  return false; // cause the href navigation to not happen
-}
-function OnKeyDown()
-{
-  if (window.event.keyCode == 116)
-  {
-    // let the form handle it
-    window.external.LoadDocument();
+    function OnBibRefJump(link) {
+        window.external.OnBibRefJump(link.name);
+        return false; // cause the href navigation to not happen
+    }
+    function OnVerseLineJump(link) {
+        window.external.OnVerseLineJump(link.name);
+        return false; // cause the href navigation to not happen
+    }
+    function OnKeyDown() {
+        if (window.event.keyCode == 116) {
+            // let the form handle it
+            window.external.LoadDocument();
 
-    // disable the propagation of the F5 event
-    window.event.keyCode = 0;
-    window.event.returnValue = false;
-    return false;
-  }
-}
-function paragraphSelect(strId, iStart, iLen)
-{
-  alert("before getElementById");
-  var oParagraph = document.getElementById(strId);
-  alert("before createRange");
-  var range = document.createRange();
-  alert("before setStart");
-  range.setStart(oParagraph, iStart);
-  alert("before setEnd");
-  range.setEnd(oParagraph, iStart + iLen);
-  alert("before select");
-  range.select();
-  alert("after select");
-}
-function textboxSelect(strId, iStart, iLen)
-{
-  alert("before getElementById");
-  var oTextbox = document.getElementById(strId);
-  alert("before createTextRange");
-  var oRange = oTextbox.createTextRange();
-  alert("before moveStart");
-  oRange.moveStart("character", iStart);
-  alert("before moveEnd");
-  oRange.moveEnd("character", -oTextbox.value.length + iStart + iLen);
-  alert("before select");
-  oRange.select();
-  alert("after select");
-}
+            // disable the propagation of the F5 event
+            window.event.keyCode = 0;
+            window.event.returnValue = false;
+            return false;
+        }
+        else if (window.event.ctrlKey &amp;&amp; (window.event.keyCode == 70)) {
+            if (window.event.stopPropagation) {
+                window.event.stopPropagation();
+            }
+            else {
+                window.event.cancelBubble = true;
+                window.event.returnValue = false;
+                window.event.keyCode = 0;
+            }
+            window.external.DoFind();
+            return false;
+        }
+    }
+    function textboxSetSelection(strId, iStart, iLen) {
+        var oTextbox = document.getElementById(strId);
+        var oRange = oTextbox.createTextRange();
+        oRange.moveStart("character", iStart);
+        oRange.moveEnd("character", -oTextbox.value.length + iStart + iLen);
+        oRange.select();
+    }
+    function textboxSetSelectionTextReturnEndPosition(strId, strNewValue) {
+        var oTextbox = document.getElementById(strId);
+        var rangeSelection = document.selection.createRange();
+        var rangeElement = rangeSelection.duplicate();
+        rangeElement.moveToElementText(oTextbox);
+        var nEndPoint = 0;
+        if (rangeElement.inRange(rangeSelection)) {
+            rangeSelection.text = strNewValue;
+            rangeSelection.select();
+            while (rangeElement.compareEndPoints('StartToEnd', rangeSelection) &lt; 0) {
+                rangeElement.moveStart('character', 1);
+                nEndPoint++;
+            }
+        }
+        return nEndPoint;
+    }
 &lt;/script&gt;</value>
   </data>
   <data name="HTML_DOM_PrefixPresentation" xml:space="preserve">
@@ -579,7 +582,7 @@ initContextMenu();
     <value>&lt;textarea id="{0}" class="{1}" onKeyUp="return window.external.TextareaOnKeyUp(this.id, this.value);"&gt;{2}&lt;/textarea&gt;</value>
   </data>
   <data name="HTML_TextareaWithRefDrop" xml:space="preserve">
-    <value>&lt;textarea id="{0}" class="{1}" onKeyUp="return window.external.TextareaOnKeyUp(this.id, this.value);" ondragover="window.event.returnValue=false" ondrop="window.external.CopyScriptureReference(this.id)"&gt;{2}&lt;/textarea&gt;</value>
+    <value>&lt;textarea id="{0}" class="{1}" onKeyUp="return window.external.TextareaOnKeyUp(this.id, this.value);" ondragover="window.event.returnValue=false" ondrop="window.external.CopyScriptureReference(this.id)" onselect="this.focus();"&gt;{2}&lt;/textarea&gt;</value>
   </data>
   <data name="IDS_AdaptationInstructions" xml:space="preserve">
     <value>Follow these steps to use the Adapt It program to translate the story into English:{0}{0}1) Switch to the Adapt It program using Alt+Tab keys{0}2) Select the '{1}' project and click the 'Next' button (if a file is already open in Adapt It, then choose the 'File' menu, 'Close Project' command and then the 'File' menu, 'Start Working' command first).{0}3) Select the '{2}.xls' document to open and press the 'Finished' button.{0}4) When you see this story in the adaptation window, then translate it into English.</value>

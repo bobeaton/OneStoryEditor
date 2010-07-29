@@ -130,8 +130,7 @@ namespace OneStoryProjectEditor
 
                     // finally, the last possible blockage is if the currently logged on member isn't the 
                     //  right editor for the state we are in (which has to do with who has the edit token)
-                    if (!_stageLogic.IsEditAllowed(theSE.LoggedOnMember.MemberType))
-                        throw _stageLogic.WrongMemberTypeEx;
+                    theSE.LoggedOnMember.ThrowIfEditIsntAllowed(_stageLogic.MemberTypeWithEditToken);
                 }
 
                 // if we get here, we're all good!
@@ -179,11 +178,11 @@ namespace OneStoryProjectEditor
                         _delegateRequiredEditorCheck(theSE.LoggedOnMember.MemberType, _eRequiredEditor);
                     }
 
+                    /* this was already done by CheckForProperEditToken above???
                     // finally, the last possible blockage is if the currently logged on member isn't the 
                     //  right editor for the state we are in (which has to do with who has the edit token)
-                    if (!_stageLogic.IsEditAllowed(theSE.LoggedOnMember.MemberType))
-                        throw _stageLogic.WrongMemberTypeEx;
-
+                    theSE.LoggedOnMember.ThrowIfEditIsntAllowed(_stageLogic.MemberTypeWithEditToken);
+                    */
                     drgevent.Effect = DragDropEffects.Copy;
                 }
                 catch { }   // noop
@@ -232,8 +231,18 @@ namespace OneStoryProjectEditor
         protected void KeepTrackOfLastTextBoxSelected()
         {
             _inTextBox = this;
-            if (!String.IsNullOrEmpty(_strKeyboardName))
-                KeyboardController.ActivateKeyboard(_strKeyboardName);
+            try
+            {
+                if (!String.IsNullOrEmpty(_strKeyboardName))
+                    KeyboardController.ActivateKeyboard(_strKeyboardName);
+            }
+            catch (System.IO.FileLoadException ex)
+            {
+#if !DEBUG
+                // I'm so sick of getting this while debugging... giving it up
+                throw ex;
+#endif
+            }
 
             if (_nLastVerse != _ctrlVerseParent.VerseNumber)
             {
@@ -247,7 +256,17 @@ namespace OneStoryProjectEditor
         protected override void OnLeave(EventArgs e)
         {
             _inTextBox = null;
-            KeyboardController.DeactivateKeyboard();
+            try
+            {
+                KeyboardController.DeactivateKeyboard();
+            }
+            catch (System.IO.FileLoadException ex)
+            {
+#if !DEBUG
+                // I'm so sick of getting this while debugging... giving it up
+                throw ex;
+#endif
+            }
             base.OnLeave(e);
         }
 
@@ -279,18 +298,25 @@ namespace OneStoryProjectEditor
 
             if (keyData == (Keys.Control | Keys.F)) // Find
             {
-                theSE.findNextToolStripMenuItem_Click(null, null);
+                theSE.LaunchSearchForm();
                 e.Handled = true;
                 return true;
             }
             
             if (keyData == (Keys.Control | Keys.H)) // Replace
             {
-                theSE.replaceToolStripMenuItem_Click(null, null);
+                theSE.LaunchReplaceForm();
                 e.Handled = true;
                 return true;
             }
-            
+
+            if (keyData == Keys.F3)
+            {
+                theSE.findNextToolStripMenuItem_Click(null, null);
+                e.Handled = true;
+                return true;
+            }
+
             if (keyData == Keys.F1)
                 return true;
 

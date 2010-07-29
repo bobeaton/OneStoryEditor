@@ -1846,4 +1846,7 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
   <data name="IDS_ConfirmDeleteKeyTerm" xml:space="preserve">
     <value>Are you sure you want to delete the key term:{0}{1}</value>
   </data>
+  <data name="IDS_CanOnlyChangeConNoteTextareas" xml:space="preserve">
+    <value>Sorry, you can only modify editable text in consultant or coach notes!</value>
+  </data>
 </root>

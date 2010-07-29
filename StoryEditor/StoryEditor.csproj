@@ -72,9 +72,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\AutoUpgrade\code\AutoUpgrade.App\bin\x86\Release\AutoUpgrade.Lib.dll</HintPath>
     </Reference>
-    <Reference Include="ChorusStuff, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=x86">
+    <Reference Include="Chorus, Version=1.1.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\ChorusStuff.exe</HintPath>
+      <HintPath>.\Chorus.exe</HintPath>
     </Reference>
     <Reference Include="ECInterfaces, Version=3.1.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
@@ -84,15 +84,19 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\HtmlEditor.dll</HintPath>
     </Reference>
+    <Reference Include="LibChorus, Version=1.1.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\LibChorus.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="NetLoc, Version=7.0.100.5029, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\NetLoc.dll</HintPath>
     </Reference>
-    <Reference Include="OseResources, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="OseResources, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\OseResources\bin\Debug\OseResources.dll</HintPath>
+      <HintPath>..\OseResources\bin\x86\Debug\OseResources.dll</HintPath>
     </Reference>
     <Reference Include="Palaso, Version=1.2.490.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
