@@ -732,9 +732,6 @@ namespace OneStoryProjectEditor
             // finally, initialize the verse controls
             InitAllPanes();
 
-            if (IsInStoriesSet)
-                WarnIfNotProperMemberType();
-
             // get the focus off the combo box, so mouse scroll doesn't rip thru the stories!
             flowLayoutPanelVerses.Focus();
 
@@ -743,11 +740,14 @@ namespace OneStoryProjectEditor
                 m_frmFind.ResetSearchParameters();
         }
 
+        private bool _bNagOnce = true;
         private void WarnIfNotProperMemberType()
         {
             // inform the user that they won't be able to edit this if they aren't the proper member type
             Debug.Assert((theCurrentStory != null) && (LoggedOnMember != null));
-            LoggedOnMember.CheckIfThisAnAcceptableEditorForThisStory(theCurrentStory);
+            if (_bNagOnce)
+                LoggedOnMember.CheckIfThisAnAcceptableEditorForThisStory(theCurrentStory);
+            _bNagOnce = false;
         }
 
         protected void InitAllPanes(VersesData theVerses)
@@ -2847,8 +2847,6 @@ namespace OneStoryProjectEditor
                                                              && (((int)theCurrentStory.ProjStage.ProjectStage)
                                                                  >= (int)StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT));
 
-                viewEnglishBTFieldMenuItem.Checked = viewEnglishBTFieldMenuItem.Visible = (StoryProject.ProjSettings.InternationalBT.HasData);
-                
                 viewAnchorFieldMenuItem.Enabled = ((theCurrentStory != null)
                                                              && (((int)theCurrentStory.ProjStage.ProjectStage)
                                                                  >= (int)StoryStageLogic.ProjectStages.eProjFacAddAnchors));
@@ -3061,7 +3059,8 @@ namespace OneStoryProjectEditor
         {
             Debug.Assert(comboBoxStorySelector.Items.Contains(strStoryName));
             comboBoxStorySelector.SelectedItem = strStoryName;
-            SetNetBibleVerse(strAnchor);
+            if (!String.IsNullOrEmpty(strAnchor))
+                SetNetBibleVerse(strAnchor);
             Debug.Assert(theCurrentStory.Verses.Count >= nLineIndex);
             FocusOnVerse(nLineIndex, true, true);
         }
@@ -3713,6 +3712,12 @@ namespace OneStoryProjectEditor
             Properties.Settings.Default.Reset();
             Program.InitializeLocalSettingsCollections(false);
             Properties.Settings.Default.Save();
+        }
+
+        internal void concordanceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ConcordanceForm dlg = new ConcordanceForm(this, CtrlTextBox._inTextBox);
+            dlg.Show();
         }
     }
 }
