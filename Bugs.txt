@@ -1,30 +1,12 @@
-When we change major version numbers, don't forget that there was an internet repository (i.e. save that info in the xml file itself)
-
-
-
-Find doesn't work for new HTML controls
-
 add 'hidden text' to the search dialog (don't search 'hidden' verses unless it's checked, and NavigateTo needs to unhide such a find)
 
 can we allow the retelling/answers/connotes be in some other lg?
 
 Add search to Bible pane as well
 
-Same with other kinds of "InitAllPanes" work (e.g. Deleting a verse, etc), adding panes, changing views... remember which control had the focus and make sure that control (in each pane) still has focus).
-
 From the Story Information dialog, add 'View member info' button
 
-Don't continue to nag about no purpose/resources used for CITs
-
-add steps after the first CIT to go back to the PF for the back-and-forth
-
-make the font for consultant notes modifiable
-
-Line 0 for each story for global con-notes
-
 Adjust the Instructions to fit a smaller screen better
-
-Can't seem to "Remove" a cultural note
 
 Make the testing question a different color
 
@@ -32,21 +14,7 @@ When you add a view (e.g. adding the Hindi when it's not normally shown), it wou
 
 When logged in as "Just Browsing", then disable Modified so we don't offer to save just by setting the logged in member.
 
-Can't go backwards from Coach to CIT state...
-
-Coach notes state isn't getting initials (when you right-click and choose "Add Note" on the ConNOte pane
-
- clicking 'Crafter' button in Story Information dialog should update the title of the dialog.
-
-Round number should be 1 until after the online review...
-
 Ask which UNS at the beginning rather than at hte end (if you're adding UNS #2 answers and you do 'Add New test results" before the question is asked, it'll think somethign else..dummty.
-
-When viewing "Old Stories", don't do Internet sync
-
-Resize on Biblical Terms dialog isn't working
-
-Ask Karan what his role is going to be on the Kinnauri project (does he need to do their English BTs?)
 
 Test whether two versions of the OSE can be run at the same time without problems. (at the very least, make sure it doesn't do sync and try to open the same project file, which it will by default).
 

@@ -31,6 +31,7 @@ namespace OneStoryProjectEditor
                 // make sure we have HG (or we can't really do much)
                 HgSanityCheck();
 #if !DEBUG
+                WarnForNoInternet();
                 AutoUpgrade autoUpgrade = AutoUpgrade.Create(Properties.Resources.IDS_OSEUpgradeServer);
                 if (autoUpgrade.IsUpgradeAvailable(true))
                     return;
@@ -229,6 +230,12 @@ namespace OneStoryProjectEditor
                         == ProjectSettings.OneStoryProjectFolderRoot));
         }
         */
+
+        private static void WarnForNoInternet()
+        {
+            if (!System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable())
+                MessageBox.Show(Properties.Resources.IDS_WarnAboutNoInternet, OseResources.Properties.Resources.IDS_Caption);
+        }
 
         public static void SetProjectForSyncage(string strProjectFolder)
         {

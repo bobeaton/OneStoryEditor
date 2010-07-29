@@ -856,6 +856,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This program uses the internet to update itself and download the latest versions of the project file(s). Please connect to the Internet..
+        /// </summary>
+        internal static string IDS_WarnAboutNoInternet {
+            get {
+                return ResourceManager.GetString("IDS_WarnAboutNoInternet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
         ///&lt;!DOCTYPE stylesheet [
         ///&lt;!ENTITY cr &quot;&amp;#xD;&amp;#xA;&quot;&gt;
