@@ -261,7 +261,7 @@ namespace OneStoryProjectEditor
             reference = reference.Replace("%20", " ");
             TermRendering termRendering = renderings.GetRendering(SelectedTerm.Id);
 
-            string strOneStoryDenialUrl = BiblicalTermsHTMLBuilder.ConstructUrlFromReference(_theSE, reference);
+            string strOneStoryDenialUrl = BiblicalTermsHTMLBuilder.ConstructUrlFromReference(_theSE.StoryProject, reference);
             if (doDeny)
             {
                 if (!termRendering.Denials.Contains(strOneStoryDenialUrl))
@@ -590,8 +590,9 @@ namespace OneStoryProjectEditor
             BiblicalTermStatus status;
 
             // Build HTML text for references display.
-            refererencesHtml = htmlBuilder.Build(_theSE, myTerm.Id,
-                _projSettings.ProjectFolder, progressBarLoadingKeyTerms, out status);
+            htmlBuilder.BuildRenderings(_projSettings.ProjectFolder, myTerm.Id);
+
+            refererencesHtml = htmlBuilder.Build(_theSE.StoryProject, progressBarLoadingKeyTerms, true, out status);
 
             TermRendering termRendering = renderings.GetRendering(myTerm.Id);
             if (termRendering.Status != status)  // If status has changed, updated it.

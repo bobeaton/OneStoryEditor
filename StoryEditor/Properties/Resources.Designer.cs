@@ -677,7 +677,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &amp;{0} back-translation field.
+        ///   Looks up a localized string similar to &amp;{0} back-translation fields.
         /// </summary>
         internal static string IDS_StoryLanguageField {
             get {

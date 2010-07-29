@@ -349,6 +349,7 @@ namespace OneStoryProjectEditor
 
         protected const string CstrAddNoteOnSelected = "&Add Note on Selected Text";
         protected const string CstrJumpToReference = "&Jump to Bible Reference";
+        protected const string CstrConcordanceSearch = "Concordance &Search";
         protected const string CstrCutSelected = "C&ut";
         protected const string CstrCopySelected = "&Copy";
         protected const string CstrPasteSelected = "&Paste";
@@ -359,6 +360,7 @@ namespace OneStoryProjectEditor
             _ctxMenu = new ContextMenuStrip();
             _ctxMenu.Items.Add(CstrAddNoteOnSelected, null, onAddNewNote);
             _ctxMenu.Items.Add(CstrJumpToReference, null, onJumpToBibleRef);
+            _ctxMenu.Items.Add(CstrConcordanceSearch, null, onConcordanceSearch);
             _ctxMenu.Items.Add(new ToolStripSeparator());
             _ctxMenu.Items.Add(CstrCutSelected, null, onCutSelectedText);
             _ctxMenu.Items.Add(CstrCopySelected, null, onCopySelectedText);
@@ -383,6 +385,12 @@ namespace OneStoryProjectEditor
         {
             System.Diagnostics.Debug.Assert((_ctrlVerseParent != null) && (_ctrlVerseParent.TheSE != null));
             _ctrlVerseParent.TheSE.SetNetBibleVerse(SelectedText);
+        }
+
+        private void onConcordanceSearch(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.Assert((_ctrlVerseParent != null) && (_ctrlVerseParent.TheSE != null));
+            _ctrlVerseParent.TheSE.concordanceToolStripMenuItem_Click(null, null);
         }
 
         void CtrlTextBox_MouseUp(object sender, MouseEventArgs e)

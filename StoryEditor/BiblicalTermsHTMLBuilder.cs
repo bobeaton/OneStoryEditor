@@ -152,8 +152,6 @@ namespace OneStoryProjectEditor
 			return dict;
 		}
 
-        protected static Regex SearchForRenderings = new Regex(@"\b([1-3a-zA-Z][a-zA-Z]{2})[ :\.](\d{1,3})[ \.](\d{1,3})", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
-        
         /// <summary>
 		/// Mark the renderings found in the text of a verse.
 		/// </summary>
@@ -171,29 +169,7 @@ namespace OneStoryProjectEditor
 
             foreach (string strRendering in termRendering.RenderingsList)
             {
-                if (strRendering.Length < 1)
-                    continue;
-                // build the regular expression for searching for the rendering. Possible values are:
-                //  *xyz if the word ends with "xyz"
-                //  xyz* if it begins with "xyz"
-                //  *xyz* if it contains "xyz"
-                // So... for each *, insert ".*"
-                char chFirst = strRendering[0];
-                char chLast = strRendering[strRendering.Length - 1];
-                
-                // replace an initial "*" with the proper RegEx for anything at the 
-                //  beginning of a word
-                string strSearch = String.Format(@"\b{0}{1}",
-                    (chFirst == '*') ? ".*?" : chFirst.ToString(),
-                    strRendering.Substring(1, strRendering.Length - 1));
-
-                // replace a final "*" with the proper RegEx for anything at the end
-                //  of a word
-                strSearch = String.Format(@"{0}{1}\b",
-                                          strSearch.Substring(0, strSearch.Length - 1),
-                                          (chLast == '*') ? @".*?" : chLast.ToString());
-
-                Regex regexRendering = new Regex(strSearch, RegexOptions.CultureInvariant | RegexOptions.Singleline);
+                Regex regexRendering = RegexForMatch(strRendering);
                 string strBoldedText = regexRendering.Replace(text, SearchForRendering);
                 if (strBoldedText != text)
                 {
@@ -216,8 +192,8 @@ namespace OneStoryProjectEditor
 		/// <summary>
 		/// Setup the template variables related to a single verse of a single project
 		/// </summary>
-        private void setupReferenceVars(StoryEditor theSE, int projectNum, string strVerseReference,
-			out bool renderingFound, out bool renderingDenied)
+        private void setupReferenceVars(StoryProjectData theSPD, int projectNum, string strVerseReference,
+			bool bShowStatusBmp, out bool renderingFound, out bool renderingDenied)
 		{
 			referenceVariables = new Dictionary<string, string>();
 
@@ -232,27 +208,27 @@ namespace OneStoryProjectEditor
             TermRendering termRendering = termRenderingsList[0];
             if (!renderingFound)
             {
-                string strOneStoryUrl = ConstructUrlFromReference(theSE, strVerseReference);
+                string strOneStoryUrl = ConstructUrlFromReference(theSPD, strVerseReference);
                 renderingDenied = termRendering.Denials.Contains(strOneStoryUrl);
             }
             referenceVariables["Text"] = text;
 
-            if (projectNum == 0)
+            if (bShowStatusBmp && projectNum == 0)
                 referenceVariables["StatusBMP"] = RenderingStatus(renderingFound, renderingDenied, strVerseReference);
             else
                 referenceVariables["StatusBMP"] = "";
         }
 
-        internal static string ConstructUrlFromReference(StoryEditor theSE, string reference)
+        internal static string ConstructUrlFromReference(StoryProjectData theSPD, string reference)
         {
             string strStoryName, strAnchor;
             int nLineNum;
             ParseReference(reference, out strStoryName, out nLineNum, out strAnchor);
 
-            StoryData theStory = theSE.TheCurrentStoriesSet.GetStoryFromName(strStoryName);
+            StoryData theStory = theSPD[OseResources.Properties.Resources.IDS_MainStoriesSet].GetStoryFromName(strStoryName);
             System.Diagnostics.Debug.Assert((theStory != null) && ((nLineNum - 1) < theStory.Verses.Count));
             return OneStoryUrlBuilder.Url(
-                                   theSE.StoryProject.ProjSettings.ProjectName,
+                                   theSPD.ProjSettings.ProjectName,
                                    theStory.guid,
                                    theStory.Verses[nLineNum - 1].guid,
                                    OneStoryUrlBuilder.FieldType.eAnchorFields, strAnchor, strAnchor);
@@ -268,18 +244,28 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert(strReference.IndexOf(CstrStoryPortion) == 0);
             int nIndexStoryName = CstrStoryPortion.Length;
             int nIndexLineNumber = strReference.IndexOf(CstrLinePortion, nIndexStoryName) + CstrLinePortion.Length;
-            int nIndexAnchor = strReference.IndexOf(CstrAnchorPortion, nIndexLineNumber) + CstrAnchorPortion.Length;
-
             strStoryName = strReference.Substring(nIndexStoryName, nIndexLineNumber - nIndexStoryName - CstrLinePortion.Length);
-            string strLineNumber = strReference.Substring(nIndexLineNumber, nIndexAnchor - nIndexLineNumber - CstrAnchorPortion.Length);
+
+            int nIndexOfAnchorPortion = strReference.IndexOf(CstrAnchorPortion, nIndexLineNumber);
+            string strLineNumber;
+            if (nIndexOfAnchorPortion != -1)
+            {
+                int nIndexAnchor = nIndexOfAnchorPortion + CstrAnchorPortion.Length;
+                strLineNumber = strReference.Substring(nIndexLineNumber, nIndexAnchor - nIndexLineNumber - CstrAnchorPortion.Length);
+                strAnchor = strReference.Substring(nIndexAnchor);
+            }
+            else
+            {
+                strLineNumber = strReference.Substring(nIndexLineNumber);
+                strAnchor = null;
+            }
+
             nLineNumber = 1;
             try
             {
                 nLineNumber = Convert.ToInt32(strLineNumber);
             }
             catch { }
-
-            strAnchor = strReference.Substring(nIndexAnchor);
         }
 
         private static string RenderingStatus(bool renderingFound, bool renderingDenied, string reference)
@@ -315,7 +301,141 @@ namespace OneStoryProjectEditor
 			return result;
 		}
 
-		/// <summary>
+        private static Regex RegexForMatch(string strRendering)
+        {
+            if (strRendering.Length < 1)
+                return null;
+
+            strRendering = strRendering.Trim(CheckEndOfStateTransition.achQuotes);
+
+            // build the regular expression for searching for the rendering. Possible values are:
+            //  *xyz if the word ends with "xyz"
+            //  xyz* if it begins with "xyz"
+            //  *xyz* if it contains "xyz"
+            // So... for each *, insert ".*"
+            char chFirst = strRendering[0];
+            char chLast = strRendering[strRendering.Length - 1];
+
+            // replace an initial "*" with the proper RegEx for anything at the 
+            //  beginning of a word
+            string strSearch = String.Format(@"\b{0}{1}",
+                (chFirst == '*') ? ".*?" : chFirst.ToString(),
+                strRendering.Substring(1, strRendering.Length - 1));
+
+            // replace a final "*" with the proper RegEx for anything at the end
+            //  of a word
+            strSearch = String.Format(@"{0}{1}\b",
+                                      strSearch.Substring(0, strSearch.Length - 1),
+                                      (chLast == '*') ? @".*?" : chLast.ToString());
+
+            return new Regex(strSearch, RegexOptions.CultureInvariant | RegexOptions.Singleline | RegexOptions.Compiled);
+        }
+
+        private static List<Regex> GetRegexs(TermRendering termRenderingOfSearchPatterns)
+        {
+            // get an array of RegEx searchers for each search string(s) in the list
+            List<Regex> aregexs = new List<Regex>();
+            foreach (string strSearchPattern in termRenderingOfSearchPatterns.RenderingsList)
+            {
+                Regex regex = RegexForMatch(strSearchPattern);
+                if (regex != null)
+                    aregexs.Add(regex);
+            }
+            return aregexs;
+        }
+
+        private void BuildFakeReferences(bool bSearchThis, int nColumnIndex, TermRendering termRenderingOfSearchPatterns)
+        {
+            TermRendering termRendering = (bSearchThis)
+                ? termRenderingOfSearchPatterns
+                : new TermRendering();
+            termRenderingsList.Add(termRendering);
+            projectVariablesList[nColumnIndex]["Renderings"] = termRendering.Renderings;
+        }
+
+        public void SearchVerseText(string strSearchPatterns, StoryProjectData theSPD, 
+            VerseData.SearchLookInProperties FindProperties, ProgressBar progressBarLoadingKeyTerms)
+        {
+            bool bShowVernacular = theSPD.ProjSettings.Vernacular.HasData;
+            bool bShowNationalBT = theSPD.ProjSettings.NationalBT.HasData;
+            bool bShowInternationalBT = theSPD.ProjSettings.InternationalBT.HasData;
+
+            termRenderingsList = new List<TermRendering>();
+            TermRendering termRenderingOfSearchPatterns = new TermRendering();
+            termRenderingOfSearchPatterns.Renderings = strSearchPatterns;
+            int nColumnIndex = 0;
+            if (bShowVernacular)
+                BuildFakeReferences(FindProperties.StoryLanguage, nColumnIndex++, termRenderingOfSearchPatterns);
+
+            if (bShowNationalBT)
+                BuildFakeReferences(FindProperties.NationalBT, nColumnIndex++, termRenderingOfSearchPatterns);
+            
+            if (bShowInternationalBT)
+                BuildFakeReferences(FindProperties.EnglishBT, nColumnIndex, termRenderingOfSearchPatterns);
+            
+            // get an array of RegEx searchers for each search string(s) in the list
+            List<Regex> aregexs = GetRegexs(termRenderingOfSearchPatterns);
+
+            mapReferenceToVerseTextList = new Dictionary<string, List<string>>();
+
+            // get the current stories only (not the obsolete ones)
+            StoriesData theStories = theSPD[OseResources.Properties.Resources.IDS_MainStoriesSet];
+            progressBarLoadingKeyTerms.Maximum = theStories.Count;
+            progressBarLoadingKeyTerms.Value = 0;
+            progressBarLoadingKeyTerms.Visible = true;  // in case we're repeating
+            
+            for (int nStoryNumber = 0; nStoryNumber < theStories.Count; nStoryNumber++)
+            {
+                StoryData aStory = theStories[nStoryNumber];
+                for (int nVerseNumber = 0; nVerseNumber < aStory.Verses.Count; nVerseNumber++)
+                {
+                    VerseData aVerse = aStory.Verses[nVerseNumber];
+                    if (aVerse.IsVisible)
+                    {
+                        string strVerseReference = String.Format("Story: '{0}' line: {1}",
+                                                                 aStory.Name, nVerseNumber + 1);
+
+                        string strTextToSearch;
+                        if (FindProperties.StoryLanguage)
+                        {
+                            strTextToSearch = aVerse.VernacularText.ToString();
+                        }
+                        else if (FindProperties.NationalBT)
+                        {
+                            strTextToSearch = aVerse.NationalBTText.ToString();
+                        }
+                        else
+                        {
+                            System.Diagnostics.Debug.Assert(FindProperties.EnglishBT);
+                            strTextToSearch = aVerse.InternationalBTText.ToString();
+                        }
+
+                        if (!String.IsNullOrEmpty(strTextToSearch))
+                            foreach (Regex regex in aregexs)
+                                if (SearchForHit(regex, strTextToSearch))
+                                {
+                                    List<string> astrVerseText = new List<string>(scrTextNames.Count);
+                                    if (bShowVernacular)
+                                        astrVerseText.Add(aVerse.VernacularText.ToString());
+                                    if (bShowNationalBT)
+                                        astrVerseText.Add(aVerse.NationalBTText.ToString());
+                                    if (bShowInternationalBT)
+                                        astrVerseText.Add(aVerse.InternationalBTText.ToString());
+                                    mapReferenceToVerseTextList.Add(strVerseReference, astrVerseText);
+                                    break;  // only once per line
+                                }
+                    }
+                }
+                progressBarLoadingKeyTerms.Value++;
+            }
+        }
+
+        private static bool SearchForHit(Regex regex, string strTextToSearch)
+        {
+            return regex.IsMatch(strTextToSearch);
+        }
+
+        /// <summary>
 		/// Build by project by reference array of verse text for this term
 		/// </summary>
         internal void ReadVerseText(Term myTerm, StoryProjectData theSPD, ProgressBar progressBarLoadingKeyTerms)
@@ -325,8 +445,6 @@ namespace OneStoryProjectEditor
             ArrayList vrefs = new ArrayList();
 		    foreach (var vref in myTerm.VerseRefs())
                 vrefs.Add(vref.BBBCCCVVVS());
-
-            // List<VerseRef> vrefs = new List<VerseRef>(myTerm.VerseRefs());
 
             // get the current stories only (not the obsolete ones)
             StoriesData theStories = theSPD[OseResources.Properties.Resources.IDS_MainStoriesSet];
@@ -395,7 +513,7 @@ namespace OneStoryProjectEditor
 			return val;
 		}
 
-		private void BuildRenderings(string strProjectFolder, string termId)
+		public void BuildRenderings(string strProjectFolder, string termId)
 		{
 			termRenderingsList = new List<TermRendering>();
 			int projectNum = 0;
@@ -430,14 +548,11 @@ namespace OneStoryProjectEditor
 		/// <param name="status">summary status over all references</param>
 		/// <returns>html for references</returns>
 		public string Build(
-            StoryEditor theSE,
-			string termId,
-            string strProjectFolder, 
+            StoryProjectData theSPD,
             ProgressBar progressBarLoadingKeyTerms,
+            bool bShowStatusBmp,
 			out BiblicalTermStatus status)
 		{
-            BuildRenderings(strProjectFolder, termId);
-
 			builder.Clear();
 
 			// Output the per project stylesheet info
@@ -474,7 +589,7 @@ namespace OneStoryProjectEditor
 
 				    bool renderingFound;
 				    bool renderingDenied;
-                    setupReferenceVars(theSE, projectNum, strVerseReference, 
+                    setupReferenceVars(theSPD, projectNum, strVerseReference, bShowStatusBmp,
                         out renderingFound, out renderingDenied);
 				    builder.SetDictionary(referenceVariables);
 

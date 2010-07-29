@@ -657,7 +657,6 @@ namespace OneStoryProjectEditor
                     {
                         if (strSelectedText == strFindWhat)
                         {
-
                             if (ctrl.SetSelectedText(LastStringTransferSearched, strReplaceWith, out nLastCharIndex))
                             {
                                 LastCharIndex = nLastCharIndex;

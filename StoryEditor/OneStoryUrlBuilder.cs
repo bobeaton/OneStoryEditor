@@ -27,9 +27,15 @@ namespace OneStoryProjectEditor
             string strStoryGuid, string strVerseGuid, FieldType eFieldType,
             string strItemId, string strPhrase)
         {
-            string strUrl = String.Format("onestory://{0}?StoryId={1}&LineId={2}&Type={3}&TypeId={4}&TypeValue={5}",
-                strProjectName, strStoryGuid, strVerseGuid,
-                eFieldType, strItemId, strPhrase);
+            string strUrl;
+            if (!String.IsNullOrEmpty(strItemId))
+                strUrl = String.Format("onestory://{0}?StoryId={1}&LineId={2}&Type={3}&TypeId={4}&TypeValue={5}",
+                                       strProjectName, strStoryGuid, strVerseGuid,
+                                       eFieldType, strItemId, strPhrase);
+            else
+                strUrl = String.Format("onestory://{0}?StoryId={1}&LineId={2}&Type={3}",
+                                       strProjectName, strStoryGuid, strVerseGuid,
+                                       eFieldType);
 
             var parse = System.Web.HttpUtility.ParseQueryString(strUrl);
             Debug.Assert(parse.AllKeys[0] == CstrOneStoryUrlHeader + strProjectName + "?" + CstrStoryId);
@@ -38,11 +44,14 @@ namespace OneStoryProjectEditor
             Debug.Assert(parse.GetValues(CstrLineId)[0] == strVerseGuid);
             Debug.Assert(parse.AllKeys[2] == CstrType);
             Debug.Assert(parse.GetValues(CstrType)[0] == eFieldType.ToString());
-            Debug.Assert(parse.AllKeys[3] == CstrTypeId);
-            Debug.Assert(parse.GetValues(CstrTypeId)[0] == strItemId);
-            Debug.Assert(parse.AllKeys[4] == CstrTypeValue);
-            Debug.Assert(parse.GetValues(CstrTypeValue)[0] == strPhrase);
-
+            if (!String.IsNullOrEmpty(strItemId))
+            {
+                Debug.Assert(parse.AllKeys[3] == CstrTypeId);
+                Debug.Assert(parse.GetValues(CstrTypeId)[0] == strItemId);
+                Debug.Assert(parse.AllKeys[4] == CstrTypeValue);
+                Debug.Assert(parse.GetValues(CstrTypeValue)[0] == strPhrase);
+            }
+            /*
 #if DEBUG
             string strTestProjectName, strTestStoryGuid, strTestVerseGuid;
             List<FieldInfo> lstFields;
@@ -55,9 +64,10 @@ namespace OneStoryProjectEditor
             Debug.Assert(lstFields[0].ItemId == strItemId);
             Debug.Assert(lstFields[0].Phrase == strPhrase);
 #endif
+            */
             return strUrl;
         }
-
+        /*
         public static bool ParseOneStoryUrl(string strUrl, out string strProjectName,
             out string strStoryGuid, out string strVerseGuid, out List<FieldInfo> lstFields)
         {
@@ -97,6 +107,7 @@ namespace OneStoryProjectEditor
             lstFields = null;
             return false;
         }
+        */
 
         // this method is for constructing multiple FieldInfo items
         public static string Url(string strProjectName,

@@ -1776,7 +1776,7 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
 \-DatabaseType</value>
   </data>
   <data name="IDS_StoryLanguageField" xml:space="preserve">
-    <value>&amp;{0} back-translation field</value>
+    <value>&amp;{0} back-translation fields</value>
   </data>
   <data name="IDS_LocatedInFolder" xml:space="preserve">
     <value>Located in folder '{0}'</value>
