@@ -95,13 +95,6 @@ namespace OneStoryProjectEditor.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap gradient {
-            get {
-                object obj = ResourceManager.GetObject("gradient", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         /// <summary>
         ///   Looks up a localized string similar to &lt;button id=&quot;{0}&quot; onClick=&quot;{1}&quot;&gt;{2}&lt;/button&gt;.
         /// </summary>

@@ -2326,9 +2326,6 @@ function textboxSelect(strId, iStart, iLen)
   <data name="HTML_Textarea" xml:space="preserve">
     <value>&lt;textarea id="{0}" class="{1}" onKeyUp="return window.external.TextareaOnKeyUp(this.id, this.value);"&gt;{2}&lt;/textarea&gt;</value>
   </data>
-  <data name="gradient" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\gradient.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="HTML_ButtonRightAlignCtxMenu" xml:space="preserve">
     <value>&lt;button id="{0}" style="position:relative; left:20px; height:20px; width:20px;" oncontextmenu="return showContextMenu(this);"&gt;{1}&lt;/button&gt;</value>
   </data>
