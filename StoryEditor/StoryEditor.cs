@@ -3716,7 +3716,36 @@ namespace OneStoryProjectEditor
 
         internal void concordanceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ConcordanceForm dlg = new ConcordanceForm(this, CtrlTextBox._inTextBox);
+            string strVernacular = null, strNationalBT = null, strInternationalBT = null;
+            if ((CtrlTextBox._inTextBox != null) && (CtrlTextBox._nLastVerse > 0))
+            {
+                Control ctrl = flowLayoutPanelVerses.GetControlAtVerseIndex(CtrlTextBox._nLastVerse);
+                if (ctrl != null)
+                {
+                    Debug.Assert(ctrl is VerseBtControl);
+                    VerseBtControl theVerse = ctrl as VerseBtControl;
+                    if (theVerse != null)
+                    {
+                        if (viewVernacularLangFieldMenuItem.Checked)
+                        {
+                            Debug.Assert(theVerse._verseData.VernacularText.TextBox != null);
+                            strVernacular = theVerse._verseData.VernacularText.TextBox.SelectedText;
+                        }
+                        if (viewNationalLangFieldMenuItem.Checked)
+                        {
+                            Debug.Assert(theVerse._verseData.NationalBTText.TextBox != null);
+                            strNationalBT = theVerse._verseData.NationalBTText.TextBox.SelectedText;
+                        }
+                        if (viewEnglishBTFieldMenuItem.Checked)
+                        {
+                            Debug.Assert(theVerse._verseData.InternationalBTText.TextBox != null);
+                            strInternationalBT = theVerse._verseData.InternationalBTText.TextBox.SelectedText;
+                        }
+                    }
+                }
+            }
+
+            ConcordanceForm dlg = new ConcordanceForm(this, strVernacular, strNationalBT, strInternationalBT);
             dlg.Show();
         }
     }

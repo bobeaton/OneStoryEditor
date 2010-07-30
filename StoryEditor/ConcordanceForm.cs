@@ -17,82 +17,30 @@ namespace OneStoryProjectEditor
         Dictionary<string, List<string>> _mapReferenceToVerseTextList;
         readonly BiblicalTermsHTMLBuilder htmlBuilder;  // Class used to build references window text as html
 
-        public ConcordanceForm(StoryEditor theSE, TextBoxBase ctxBox)
+        public ConcordanceForm(StoryEditor theSE, 
+            string strToSearchForVernacular, string strToSearchForNationalBT, string strToSearchForInternationalBT)
         {
             InitializeComponent();
             _theSE = theSE;
             _storyProject = theSE.StoryProject;
 
-            if (_storyProject.ProjSettings.Vernacular.HasData)
-            {
-                radioButtonSearchVernacular.Visible = true;
-                radioButtonSearchVernacular.Text = String.Format(Properties.Resources.IDS_LanguageFields, 
-                                                                 _storyProject.ProjSettings.Vernacular.LangName);
-            }
-            else
-                radioButtonSearchVernacular.Visible = false;
-
-            if (_storyProject.ProjSettings.NationalBT.HasData)
-            {
-                radioButtonSearchNationalBT.Visible = true;
-                radioButtonSearchNationalBT.Text = String.Format(Properties.Resources.IDS_StoryLanguageField,
-                                                                 _storyProject.ProjSettings.NationalBT.LangName);
-            }
-            else
-                radioButtonSearchNationalBT.Visible = false;
-            
-            // if we only *have* EnglishBT, then don't need to bother showing anything
-            flowLayoutPanelLanguageChoice.Visible = 
-                labelLanguageToSearchIn.Visible =
-                radioButtonSearchInternationalBT.Visible = (_storyProject.ProjSettings.Vernacular.HasData
-                || _storyProject.ProjSettings.NationalBT.HasData);
-
-            ProjectSettings.LanguageInfo liToUse;
-            if (ctxBox != null)
-            {
-                textBoxWordsToSearchFor.Text = ctxBox.SelectedText.Trim();
-
-                // try to figure out which language we're using
-                if ((liToUse = _storyProject.ProjSettings.Vernacular).HasData
-                    && (ctxBox.Font == liToUse.FontToUse)
-                    && (ctxBox.ForeColor == liToUse.FontColor))
-                {
-                    radioButtonSearchVernacular.Checked = true;
-                }
-                else if ((liToUse = _storyProject.ProjSettings.NationalBT).HasData
-                    &&  (ctxBox.Font == liToUse.FontToUse)
-                    && (ctxBox.ForeColor == liToUse.FontColor))
-                {
-                    radioButtonSearchNationalBT.Checked = true;
-                }
-                else
-                {
-                    radioButtonSearchInternationalBT.Checked = true;
-                }
-
-                // since we've chosen which language to use, put the cursor right there in case they want to edit
-                textBoxWordsToSearchFor.Focus();
-            }
-            else
-            {
-                radioButtonSearchInternationalBT.Checked = true;
-            }
+            InitSearchBoxes(_storyProject.ProjSettings.Vernacular, strToSearchForVernacular, 
+                labelVernacular, textBoxWordsToSearchForVernacular);
+            InitSearchBoxes(_storyProject.ProjSettings.NationalBT, strToSearchForNationalBT,
+                labelNationalBT, textBoxWordsToSearchForNationalBT);
+            InitSearchBoxes(_storyProject.ProjSettings.InternationalBT, strToSearchForInternationalBT,
+                labelInternationalBT, textBoxWordsToSearchForInternationalBT);
 
             htmlBuilder = new BiblicalTermsHTMLBuilder(_storyProject.ProjSettings);
         }
 
         private void buttonBeginSearch_Click(object sender, EventArgs e)
         {
-            VerseData.SearchLookInProperties FindProperties = new VerseData.SearchLookInProperties();
-            if (radioButtonSearchInternationalBT.Checked)
-                FindProperties.EnglishBT = true;
-            else if (radioButtonSearchNationalBT.Checked)
-                FindProperties.NationalBT = true;
-            else if (radioButtonSearchVernacular.Checked)
-                FindProperties.StoryLanguage = true;
-
-            htmlBuilder.SearchVerseText(textBoxWordsToSearchFor.Text, _storyProject, 
-                FindProperties, progressBarLoadingKeyTerms);
+            htmlBuilder.SearchVerseText(_storyProject, progressBarLoadingKeyTerms, 
+                _theSE.hiddenVersesToolStripMenuItem.Checked,   // if the user is *showing* hidden verses, then search in them
+                textBoxWordsToSearchForVernacular.Text, 
+                textBoxWordsToSearchForNationalBT.Text,
+                textBoxWordsToSearchForInternationalBT.Text);
 
             BiblicalTermStatus dontcare;
             string strHtml = htmlBuilder.Build(_storyProject, progressBarLoadingKeyTerms, false, out dontcare);
@@ -100,26 +48,25 @@ namespace OneStoryProjectEditor
             progressBarLoadingKeyTerms.Visible = false;
         }
 
-        private void InitSearchBoxes(ProjectSettings.LanguageInfo li, string strToStartWith)
+        private int _nColumnIndex = 0;
+        private void InitSearchBoxes(ProjectSettings.LanguageInfo li, string strToStartWith, Control lbl, Control tb)
         {
-            textBoxWordsToSearchFor.Font = li.FontToUse;
-            textBoxWordsToSearchFor.ForeColor = li.FontColor;
-            textBoxWordsToSearchFor.Text = strToStartWith;
-        }
-
-        private void radioButtonSearchVernacular_CheckedChanged(object sender, EventArgs e)
-        {
-            InitSearchBoxes(_storyProject.ProjSettings.Vernacular, textBoxWordsToSearchFor.Text);
-        }
-
-        private void radioButtonSearchNationalBT_CheckedChanged(object sender, EventArgs e)
-        {
-            InitSearchBoxes(_storyProject.ProjSettings.NationalBT, textBoxWordsToSearchFor.Text);
-        }
-
-        private void radioButtonSearchInternationalBT_CheckedChanged(object sender, EventArgs e)
-        {
-            InitSearchBoxes(_storyProject.ProjSettings.InternationalBT, textBoxWordsToSearchFor.Text);
+            _nColumnIndex++;
+            if (li.HasData)
+            {
+                lbl.Visible = tb.Visible = true;
+                lbl.Text = String.Format(Properties.Resources.IDS_LanguageFields,
+                                         li.LangName);
+                tb.Font = li.FontToUse;
+                tb.ForeColor = li.FontColor;
+                tb.Text = !String.IsNullOrEmpty(strToStartWith) ? strToStartWith.Trim() : null;
+            }
+            else
+            {
+                // change it so that this column is invisible and the others fill the gaps
+                lbl.Visible = tb.Visible = false;
+                tableLayoutPanel.ColumnStyles[_nColumnIndex] = new ColumnStyle(SizeType.Absolute, 0);
+            }
         }
 
         private void webBrowser_BeforeNavigate(object s, onlyconnect.BeforeNavigateEventArgs e)

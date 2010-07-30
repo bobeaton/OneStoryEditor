@@ -677,8 +677,10 @@ namespace OneStoryProjectEditor
 
         protected void SetKeyboard(string strKeybaordToSet)
         {
+#if !DEBUG
             if (!String.IsNullOrEmpty(strKeybaordToSet))
                 KeyboardController.ActivateKeyboard(strKeybaordToSet);
+#endif
         }
 
         private void textBoxSentFullStopVernacular_Enter(object sender, EventArgs e)
@@ -793,7 +795,9 @@ namespace OneStoryProjectEditor
 
         private void textBoxSentFullStop_Leave(object sender, EventArgs e)
         {
+#if !DEBUG
             KeyboardController.DeactivateKeyboard();
+#endif
         }
 
         private void comboBoxKeyboard_SelectionChangeCommitted(object sender, EventArgs e)

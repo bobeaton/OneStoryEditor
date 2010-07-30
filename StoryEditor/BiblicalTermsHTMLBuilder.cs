@@ -331,53 +331,55 @@ namespace OneStoryProjectEditor
             return new Regex(strSearch, RegexOptions.CultureInvariant | RegexOptions.Singleline | RegexOptions.Compiled);
         }
 
-        private static List<Regex> GetRegexs(TermRendering termRenderingOfSearchPatterns)
+        private static List<Regex> GetRegexs(TermRendering termRendering)
         {
             // get an array of RegEx searchers for each search string(s) in the list
-            List<Regex> aregexs = new List<Regex>();
-            foreach (string strSearchPattern in termRenderingOfSearchPatterns.RenderingsList)
+            //  (may be none)
+            if (termRendering.RenderingsList.Count == 0)
+                return null;
+
+            List<Regex> arrRegexs = new List<Regex>();
+            foreach (string strSearchPattern in termRendering.RenderingsList)
             {
                 Regex regex = RegexForMatch(strSearchPattern);
                 if (regex != null)
-                    aregexs.Add(regex);
+                    arrRegexs.Add(regex);
             }
-            return aregexs;
+
+            return arrRegexs;
         }
 
-        private void BuildFakeReferences(bool bSearchThis, int nColumnIndex, TermRendering termRenderingOfSearchPatterns)
+        private TermRendering BuildFakeReferences(int nColumnIndex, string strSearchPatterns)
         {
-            TermRendering termRendering = (bSearchThis)
-                ? termRenderingOfSearchPatterns
-                : new TermRendering();
+            TermRendering termRendering = new TermRendering {Renderings = strSearchPatterns.Trim()};
             termRenderingsList.Add(termRendering);
             projectVariablesList[nColumnIndex]["Renderings"] = termRendering.Renderings;
+            return termRendering;
         }
 
-        public void SearchVerseText(string strSearchPatterns, StoryProjectData theSPD, 
-            VerseData.SearchLookInProperties FindProperties, ProgressBar progressBarLoadingKeyTerms)
+        public void SearchVerseText(StoryProjectData theSPD, ProgressBar progressBarLoadingKeyTerms, bool bSearchHidden,
+            string strSearchPatternsVernacular, string strSearchPatternsNationalBT, string strSearchPatternsInternationalBT)
         {
+            // to *have* them, is to show them.
             bool bShowVernacular = theSPD.ProjSettings.Vernacular.HasData;
             bool bShowNationalBT = theSPD.ProjSettings.NationalBT.HasData;
             bool bShowInternationalBT = theSPD.ProjSettings.InternationalBT.HasData;
 
+            mapReferenceToVerseTextList = new Dictionary<string, List<string>>();
             termRenderingsList = new List<TermRendering>();
-            TermRendering termRenderingOfSearchPatterns = new TermRendering();
-            termRenderingOfSearchPatterns.Renderings = strSearchPatterns;
             int nColumnIndex = 0;
+            List<Regex> arrRegexVernacular = null;
+            List<Regex> arrRegexNationalBT = null;
+            List<Regex> arrRegexInternationalBT = null;
             if (bShowVernacular)
-                BuildFakeReferences(FindProperties.StoryLanguage, nColumnIndex++, termRenderingOfSearchPatterns);
+                arrRegexVernacular = GetRegexs(BuildFakeReferences(nColumnIndex++, strSearchPatternsVernacular));
 
             if (bShowNationalBT)
-                BuildFakeReferences(FindProperties.NationalBT, nColumnIndex++, termRenderingOfSearchPatterns);
-            
+                arrRegexNationalBT = GetRegexs(BuildFakeReferences(nColumnIndex++, strSearchPatternsNationalBT));
+
             if (bShowInternationalBT)
-                BuildFakeReferences(FindProperties.EnglishBT, nColumnIndex, termRenderingOfSearchPatterns);
+                arrRegexInternationalBT = GetRegexs(BuildFakeReferences(nColumnIndex, strSearchPatternsInternationalBT));
             
-            // get an array of RegEx searchers for each search string(s) in the list
-            List<Regex> aregexs = GetRegexs(termRenderingOfSearchPatterns);
-
-            mapReferenceToVerseTextList = new Dictionary<string, List<string>>();
-
             // get the current stories only (not the obsolete ones)
             StoriesData theStories = theSPD[OseResources.Properties.Resources.IDS_MainStoriesSet];
             progressBarLoadingKeyTerms.Maximum = theStories.Count;
@@ -389,45 +391,43 @@ namespace OneStoryProjectEditor
                 StoryData aStory = theStories[nStoryNumber];
                 for (int nVerseNumber = 0; nVerseNumber < aStory.Verses.Count; nVerseNumber++)
                 {
+                    string strVerseReference = String.Format("Story: '{0}' line: {1}",
+                                                             aStory.Name, nVerseNumber + 1);
+
                     VerseData aVerse = aStory.Verses[nVerseNumber];
-                    if (aVerse.IsVisible)
+                    if (!aVerse.IsVisible && !bSearchHidden)
+                        continue;
+
+                    // don't need to continue checking the others if we find a hit earlier
+                    if ((bShowVernacular && SearchForHit(arrRegexVernacular, aVerse.VernacularText.ToString()))
+                        ||  (bShowNationalBT && SearchForHit(arrRegexNationalBT, aVerse.NationalBTText.ToString()))
+                        ||  (bShowInternationalBT && SearchForHit(arrRegexInternationalBT, aVerse.InternationalBTText.ToString())))
                     {
-                        string strVerseReference = String.Format("Story: '{0}' line: {1}",
-                                                                 aStory.Name, nVerseNumber + 1);
-
-                        string strTextToSearch;
-                        if (FindProperties.StoryLanguage)
-                        {
-                            strTextToSearch = aVerse.VernacularText.ToString();
-                        }
-                        else if (FindProperties.NationalBT)
-                        {
-                            strTextToSearch = aVerse.NationalBTText.ToString();
-                        }
-                        else
-                        {
-                            System.Diagnostics.Debug.Assert(FindProperties.EnglishBT);
-                            strTextToSearch = aVerse.InternationalBTText.ToString();
-                        }
-
-                        if (!String.IsNullOrEmpty(strTextToSearch))
-                            foreach (Regex regex in aregexs)
-                                if (SearchForHit(regex, strTextToSearch))
-                                {
-                                    List<string> astrVerseText = new List<string>(scrTextNames.Count);
-                                    if (bShowVernacular)
-                                        astrVerseText.Add(aVerse.VernacularText.ToString());
-                                    if (bShowNationalBT)
-                                        astrVerseText.Add(aVerse.NationalBTText.ToString());
-                                    if (bShowInternationalBT)
-                                        astrVerseText.Add(aVerse.InternationalBTText.ToString());
-                                    mapReferenceToVerseTextList.Add(strVerseReference, astrVerseText);
-                                    break;  // only once per line
-                                }
+                        List<string> astrVerseText = new List<string>(scrTextNames.Count);
+                        if (bShowVernacular)
+                            astrVerseText.Add(aVerse.VernacularText.ToString());
+                        if (bShowNationalBT)
+                            astrVerseText.Add(aVerse.NationalBTText.ToString());
+                        if (bShowInternationalBT)
+                            astrVerseText.Add(aVerse.InternationalBTText.ToString());
+                        mapReferenceToVerseTextList.Add(strVerseReference, astrVerseText);
                     }
                 }
                 progressBarLoadingKeyTerms.Value++;
             }
+        }
+
+        private static bool SearchForHit(IEnumerable<Regex> arrRegex, string strTextToSearch)
+        {
+            bool bFoundMatch = false;
+            if (!String.IsNullOrEmpty(strTextToSearch) && (arrRegex != null))
+                foreach (Regex regex in arrRegex)
+                    if (SearchForHit(regex, strTextToSearch))
+                    {
+                        bFoundMatch = true;
+                        break;
+                    }
+            return bFoundMatch;
         }
 
         private static bool SearchForHit(Regex regex, string strTextToSearch)
