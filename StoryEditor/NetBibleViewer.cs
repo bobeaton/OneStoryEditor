@@ -377,7 +377,7 @@ namespace OneStoryProjectEditor
                 bJustUpdated = true;
             }
 
-            if (nVerse != m_nVerse)
+            // if (nVerse != m_nVerse)
             {
                 strIdToScrollTo = nVerse.ToString();
                 if (!bJustUpdated)
