@@ -37,9 +37,9 @@
             this.textBoxWordsToSearchForVernacular = new System.Windows.Forms.TextBox();
             this.textBoxWordsToSearchForNationalBT = new System.Windows.Forms.TextBox();
             this.textBoxWordsToSearchForInternationalBT = new System.Windows.Forms.TextBox();
-            this.buttonBeginSearch = new System.Windows.Forms.Button();
             this.webBrowser = new onlyconnect.HtmlEditor();
             this.progressBarLoadingKeyTerms = new System.Windows.Forms.ProgressBar();
+            this.buttonBeginSearch = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.helpProvider = new System.Windows.Forms.HelpProvider();
             this.tableLayoutPanel.SuspendLayout();
@@ -81,7 +81,7 @@
             this.labelVernacular.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelVernacular.Location = new System.Drawing.Point(84, 0);
             this.labelVernacular.Name = "labelVernacular";
-            this.labelVernacular.Size = new System.Drawing.Size(214, 13);
+            this.labelVernacular.Size = new System.Drawing.Size(215, 13);
             this.labelVernacular.TabIndex = 7;
             this.labelVernacular.Text = "Vernacular";
             this.labelVernacular.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -90,9 +90,9 @@
             // 
             this.labelNationalBT.AutoSize = true;
             this.labelNationalBT.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelNationalBT.Location = new System.Drawing.Point(304, 0);
+            this.labelNationalBT.Location = new System.Drawing.Point(305, 0);
             this.labelNationalBT.Name = "labelNationalBT";
-            this.labelNationalBT.Size = new System.Drawing.Size(214, 13);
+            this.labelNationalBT.Size = new System.Drawing.Size(215, 13);
             this.labelNationalBT.TabIndex = 7;
             this.labelNationalBT.Text = "National BT";
             this.labelNationalBT.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -101,9 +101,9 @@
             // 
             this.labelInternationalBT.AutoSize = true;
             this.labelInternationalBT.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelInternationalBT.Location = new System.Drawing.Point(524, 0);
+            this.labelInternationalBT.Location = new System.Drawing.Point(526, 0);
             this.labelInternationalBT.Name = "labelInternationalBT";
-            this.labelInternationalBT.Size = new System.Drawing.Size(217, 13);
+            this.labelInternationalBT.Size = new System.Drawing.Size(215, 13);
             this.labelInternationalBT.TabIndex = 7;
             this.labelInternationalBT.Text = "English";
             this.labelInternationalBT.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -116,7 +116,7 @@
             this.textBoxWordsToSearchForVernacular.Location = new System.Drawing.Point(84, 16);
             this.textBoxWordsToSearchForVernacular.Name = "textBoxWordsToSearchForVernacular";
             this.helpProvider.SetShowHelp(this.textBoxWordsToSearchForVernacular, true);
-            this.textBoxWordsToSearchForVernacular.Size = new System.Drawing.Size(214, 20);
+            this.textBoxWordsToSearchForVernacular.Size = new System.Drawing.Size(215, 20);
             this.textBoxWordsToSearchForVernacular.TabIndex = 0;
             this.textBoxWordsToSearchForVernacular.Text = "word1, word2, \"phrase 3\"";
             this.toolTip.SetToolTip(this.textBoxWordsToSearchForVernacular, "Enter the word(s) to search. Press F1 for further instructions on how to enter da" +
@@ -127,10 +127,10 @@
             this.textBoxWordsToSearchForNationalBT.AcceptsReturn = true;
             this.textBoxWordsToSearchForNationalBT.Dock = System.Windows.Forms.DockStyle.Fill;
             this.helpProvider.SetHelpString(this.textBoxWordsToSearchForNationalBT, resources.GetString("textBoxWordsToSearchForNationalBT.HelpString"));
-            this.textBoxWordsToSearchForNationalBT.Location = new System.Drawing.Point(304, 16);
+            this.textBoxWordsToSearchForNationalBT.Location = new System.Drawing.Point(305, 16);
             this.textBoxWordsToSearchForNationalBT.Name = "textBoxWordsToSearchForNationalBT";
             this.helpProvider.SetShowHelp(this.textBoxWordsToSearchForNationalBT, true);
-            this.textBoxWordsToSearchForNationalBT.Size = new System.Drawing.Size(214, 20);
+            this.textBoxWordsToSearchForNationalBT.Size = new System.Drawing.Size(215, 20);
             this.textBoxWordsToSearchForNationalBT.TabIndex = 0;
             this.textBoxWordsToSearchForNationalBT.Text = "word1, word2, \"phrase 3\"";
             this.toolTip.SetToolTip(this.textBoxWordsToSearchForNationalBT, "Enter the word(s) to search. Press F1 for further instructions on how to enter da" +
@@ -141,28 +141,14 @@
             this.textBoxWordsToSearchForInternationalBT.AcceptsReturn = true;
             this.textBoxWordsToSearchForInternationalBT.Dock = System.Windows.Forms.DockStyle.Fill;
             this.helpProvider.SetHelpString(this.textBoxWordsToSearchForInternationalBT, resources.GetString("textBoxWordsToSearchForInternationalBT.HelpString"));
-            this.textBoxWordsToSearchForInternationalBT.Location = new System.Drawing.Point(524, 16);
+            this.textBoxWordsToSearchForInternationalBT.Location = new System.Drawing.Point(526, 16);
             this.textBoxWordsToSearchForInternationalBT.Name = "textBoxWordsToSearchForInternationalBT";
             this.helpProvider.SetShowHelp(this.textBoxWordsToSearchForInternationalBT, true);
-            this.textBoxWordsToSearchForInternationalBT.Size = new System.Drawing.Size(217, 20);
+            this.textBoxWordsToSearchForInternationalBT.Size = new System.Drawing.Size(215, 20);
             this.textBoxWordsToSearchForInternationalBT.TabIndex = 0;
             this.textBoxWordsToSearchForInternationalBT.Text = "word1, word2, \"phrase 3\"";
             this.toolTip.SetToolTip(this.textBoxWordsToSearchForInternationalBT, "Enter the word(s) to search. Press F1 for further instructions on how to enter da" +
                     "ta in this field.");
-            // 
-            // buttonBeginSearch
-            // 
-            this.buttonBeginSearch.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.helpProvider.SetHelpString(this.buttonBeginSearch, "Click here to begin searching");
-            this.buttonBeginSearch.Location = new System.Drawing.Point(3, 16);
-            this.buttonBeginSearch.Name = "buttonBeginSearch";
-            this.helpProvider.SetShowHelp(this.buttonBeginSearch, true);
-            this.buttonBeginSearch.Size = new System.Drawing.Size(75, 23);
-            this.buttonBeginSearch.TabIndex = 1;
-            this.buttonBeginSearch.Text = "&Search";
-            this.toolTip.SetToolTip(this.buttonBeginSearch, "Click here to begin searching");
-            this.buttonBeginSearch.UseVisualStyleBackColor = true;
-            this.buttonBeginSearch.Click += new System.EventHandler(this.buttonBeginSearch_Click);
             // 
             // webBrowser
             // 
@@ -199,6 +185,20 @@
             this.progressBarLoadingKeyTerms.Size = new System.Drawing.Size(738, 23);
             this.progressBarLoadingKeyTerms.TabIndex = 6;
             this.progressBarLoadingKeyTerms.Visible = false;
+            // 
+            // buttonBeginSearch
+            // 
+            this.buttonBeginSearch.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.helpProvider.SetHelpString(this.buttonBeginSearch, "Click here to begin searching");
+            this.buttonBeginSearch.Location = new System.Drawing.Point(3, 16);
+            this.buttonBeginSearch.Name = "buttonBeginSearch";
+            this.helpProvider.SetShowHelp(this.buttonBeginSearch, true);
+            this.buttonBeginSearch.Size = new System.Drawing.Size(75, 23);
+            this.buttonBeginSearch.TabIndex = 1;
+            this.buttonBeginSearch.Text = "&Search";
+            this.toolTip.SetToolTip(this.buttonBeginSearch, "Click here to begin searching");
+            this.buttonBeginSearch.UseVisualStyleBackColor = true;
+            this.buttonBeginSearch.Click += new System.EventHandler(this.buttonBeginSearch_Click);
             // 
             // ConcordanceForm
             // 

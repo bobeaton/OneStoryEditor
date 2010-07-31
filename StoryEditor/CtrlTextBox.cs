@@ -236,11 +236,11 @@ namespace OneStoryProjectEditor
                 if (!String.IsNullOrEmpty(_strKeyboardName))
                     KeyboardController.ActivateKeyboard(_strKeyboardName);
             }
-            catch (System.IO.FileLoadException ex)
+            catch (System.IO.FileLoadException)
             {
 #if !DEBUG
                 // I'm so sick of getting this while debugging... giving it up
-                throw ex;
+                throw;
 #endif
             }
 
@@ -260,11 +260,11 @@ namespace OneStoryProjectEditor
             {
                 KeyboardController.DeactivateKeyboard();
             }
-            catch (System.IO.FileLoadException ex)
+            catch (System.IO.FileLoadException)
             {
 #if !DEBUG
                 // I'm so sick of getting this while debugging... giving it up
-                throw ex;
+                throw;
 #endif
             }
             base.OnLeave(e);

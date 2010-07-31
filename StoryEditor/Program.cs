@@ -27,20 +27,14 @@ namespace OneStoryProjectEditor
             {
                 // do auto-upgrade handling
                 InitializeLocalSettingsCollections(true);
-                
+
                 // make sure we have HG (or we can't really do much)
                 HgSanityCheck();
-#if !DEBUG
-                WarnForNoInternet();
-                AutoUpgrade autoUpgrade = AutoUpgrade.Create(Properties.Resources.IDS_OSEUpgradeServer);
-                if (autoUpgrade.IsUpgradeAvailable(true))
-                    return;
-#endif
 
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 
-                
+
                 bool bNeedToSave = false;
                 System.Diagnostics.Debug.Assert(Properties.Settings.Default.RecentProjects.Count == Properties.Settings.Default.RecentProjectPaths.Count);
                 if (Properties.Settings.Default.RecentProjects.Count != Properties.Settings.Default.RecentProjectPaths.Count)
@@ -61,7 +55,7 @@ namespace OneStoryProjectEditor
                     foreach (string strProjectName in _mapProjectNameToHgHttpUrl.Keys)
                     {
                         string strProjectPath = Path.Combine(
-                            ProjectSettings.OneStoryProjectFolderRoot, 
+                            ProjectSettings.OneStoryProjectFolderRoot,
                             strProjectName);
                         _astrProjectForSync.Add(strProjectPath);
                     }
@@ -72,24 +66,16 @@ namespace OneStoryProjectEditor
 
                 foreach (string strProjectFolder in _astrProjectForSync)
                 {
-                    string strOneStoryFileSpec = Path.Combine(strProjectFolder, 
+                    string strOneStoryFileSpec = Path.Combine(strProjectFolder,
                         ProjectSettings.OneStoryFileName(Path.GetFileNameWithoutExtension(strProjectFolder)));
 
-                    try
-                    {
-                        System.Diagnostics.Debug.Assert(File.Exists(strOneStoryFileSpec));
-                        SyncWithRepository(strProjectFolder, bPretendOpening);
-                    }
-                    catch (Exception ex)
-                    {
-                        string strMessage = String.Format("Error occurred trying to Send/Receive to the Internet:{0}{0}{1}", Environment.NewLine, ex.Message);
-                        if (ex.InnerException != null)
-                            strMessage += String.Format("{0}{1}", Environment.NewLine, ex.InnerException.Message);
-                        strMessage += String.Format("{0}Please click the 'Send Email' button to get support help", 
-                            Environment.NewLine, strOneStoryFileSpec);
-                        ErrorReport.ReportNonFatalException(new Exception(strMessage));
-                    }
+                    System.Diagnostics.Debug.Assert(File.Exists(strOneStoryFileSpec));
+                    SyncWithRepository(strProjectFolder, bPretendOpening);
                 }
+            }
+            catch (RestartException)
+            {
+                return;
             }
             catch (Exception ex)
             {
@@ -100,11 +86,15 @@ namespace OneStoryProjectEditor
             }
         }
 
+        public class RestartException : Exception
+        {
+        }
+
         private static void HgSanityCheck()
         {
             var msg = HgRepository.GetEnvironmentReadinessMessage("en");
             if (!string.IsNullOrEmpty(msg))
-                throw new ApplicationException("It looks like you don't have TortoiseHg installed. Please install that first before trying to use the OneStory Editor");
+                throw new ApplicationException("It looks like you don't have TortoiseHg installed. Please install that first before trying to use the OneStory Editor (if you did install it, perhaps you need to reboot)");
         }
 
         public static void InitializeLocalSettingsCollections(bool bDoUpgrade)
@@ -231,18 +221,17 @@ namespace OneStoryProjectEditor
         }
         */
 
-        private static void WarnForNoInternet()
-        {
-            if (!System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable())
-                MessageBox.Show(Properties.Resources.IDS_WarnAboutNoInternet, OseResources.Properties.Resources.IDS_Caption);
-        }
-
         public static void SetProjectForSyncage(string strProjectFolder)
         {
             // add it to the list to be sync'd, but only if it is in the OneStory data folder
             if (!_astrProjectForSync.Contains(strProjectFolder))
                 _astrProjectForSync.Add(strProjectFolder);
         }
+
+#if !DEBUG
+        // when try, we check for an update when we get the internet
+        private static bool _bCheckForUpdate = true;
+#endif
 
         // e.g. http://bobeaton:helpmepld@hg-private.languagedepot.org/snwmtn-test
         // or \\Bob-StudioXPS\Backup\Storying\snwmtn-test
@@ -280,6 +269,24 @@ namespace OneStoryProjectEditor
                             if (String.IsNullOrEmpty(strSharedNetworkUrl))
                                 return;
                         }
+
+#if !DEBUG
+                    if (_bCheckForUpdate)
+                    {
+                        _bCheckForUpdate = false;   // just check once
+
+                        // since we expect to have internet at this point, check for program updates as well
+                        AutoUpgrade autoUpgrade = AutoUpgrade.Create(Properties.Resources.IDS_OSEUpgradeServer);
+                        if (autoUpgrade.IsUpgradeAvailable(false))
+                            if (MessageBox.Show(Properties.Resources.IDS_QueryAboutUpdateProgram,
+                                OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel)
+                                == DialogResult.Yes)
+                            {
+                                autoUpgrade.StartUpgradeStub();
+                                throw new RestartException();
+                            }
+                    }
+#endif
                 }
 
                 // for when we launch the program, just do a quick & dirty send/receive, 
