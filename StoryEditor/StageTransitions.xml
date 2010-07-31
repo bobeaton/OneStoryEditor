@@ -107,56 +107,47 @@ move to the next (green) state.
   <StateTransition stage="eProjFacAddAnchors" MemberTypeWithEditToken="eProjectFacilitator" RequiresBiblicalStory="true">
     <StageDisplayString>Project Facilitator adds biblical anchors</StageDisplayString>
     <StageInstructions>
-In this stage, you (the project facilitator) will go through the story verse-by-verse and look up one or more Bible 
-references in the Bible pane that supports the information in the verse. These Bible references are known as "Anchors", 
-because they tie the story verse to the Bible.
+In this stage, you (the project facilitator) will go through the story verse-by-verse and look up one or more Bible references in the Bible pane that supports the information
+n the verse. These Bible references are known as "Anchors", because they tie the story verse to the Bible.
 
-When you find a supporting Bible passage in the "Bible" pane (lower-left pane of the OneStory editor), then click and 
-hold down the left mouse button on the button to the left of the verse in the Bible pane. Then while the left mouse button 
-is held down, drag the mouse onto the line in the story verse area above with the label, "anc:". This is the anchor bar 
-for the verse. When the mouse is over the anchor bar, release the left mouse button and a new "anchor button" will appear 
-on the anchor bar for that passage.
+When you find a supporting Bible passage in the "Bible" pane (lower-left pane of the OneStory editor), then click and hold down the left mouse button on the button to the left
+of the verse in the Bible pane. Then while the left mouse button is held down, drag the mouse onto the line in the story verse area above with the label, "anc:". This is the 
+anchor bar for the verse. When the mouse is over the anchor bar, release the left mouse button and a new "anchor button" will appear on the anchor bar for that passage.
 
-Once anchor buttons are in the anchor bar, you can click on them to jump to the referenced verse. You can also right-click 
-on the anchor button for other options, like adding a comment to the anchor (e.g. "implied by ..."). These comments will 
-be displayed when you hover the mouse over an anchor button (and in historical difference and print preview versions of the 
-story). You can also add a cultural or exegetical note about the anchor by right-clicking on the anchor button and choosing 
-"Add Exegetical/Cultural Note". Such notes can help the consultant understand why you chose the Bible reference that you did.
+Once anchor buttons are in the anchor bar, you can click on them to jump to the referenced verse. You can also right-click on the anchor button for other options, like adding 
+a comment to the anchor (e.g. "implied by ..."). These comments will be displayed when you hover the mouse over an anchor button (and in historical difference and print 
+preview versions of the story). You can also add a cultural or exegetical note about the anchor by right-clicking on the anchor button and choosing "Add Exegetical/Cultural 
+Note". Such notes can help the consultant understand why you chose the Bible reference that you did.
 
-In this stage, you can also select the key terms that are in the story line. To do this, right-click on the Anchor bar and 
-choose "Edit Key Terms". This will bring up the Key Terms dialog box which will show you all the Key biblical terms associated 
-with your anchored bible references. It will also list all the story verses in your project which use the same key term as 
-those in the anchored scripture passages. This is so that you can make sure that you are using the same term in each place 
-where the same underlying Greek or Hebrew key term is used.
+In this stage, you can also select the key terms that are in the story line. To do this, right-click on the Anchor bar and choose "Edit Key Terms". This will bring up the Key 
+Terms dialog box which will show you all the Key biblical terms associated with your anchored bible references. It will also list all the story verses in your project which 
+use the same key term as those in the anchored scripture passages. This is so that you can make sure that you are using the same term in each place where the same underlying 
+Greek or Hebrew key term is used.
 
-To work on the key terms, you first select one of the key terms shown in the table at the top of the Key Terms dialog box 
-(for example, "אֱלֹהִים", which means 'god; gods; God'). Then in the lower portion of the Key Terms dialog box will be listed 
-all the story verses where the same key term is used (based on the anchors of all the story verses in the project). 
+To work on the key terms, you first select one of the key terms shown in the table at the top of the Key Terms dialog box (for example, "אֱלֹהִים", which means 'god; gods; 
+God'). Then in the lower portion of the Key Terms dialog box will be listed all the story verses where the same key term is used (based on the anchors of all the story verses 
+in the project). 
 
-To indicate which word in the (lower portion) story line corresponds to the key term (in the upper portion), double-click on 
-the word in the lower portion of the screen to select it. Once the proper term is selected in the story language column, 
-then press the "+" key to add the selected word to the list of "Renderings" shown in the fourth column of the table.
+To indicate which word in the (lower portion) story line corresponds to the key term (in the upper portion), double-click on the word in the lower portion of the screen to 
+select it. Once the proper term is selected in the story language column, then press the "+" key to add the selected word to the list of "Renderings" shown in the fourth column
+of the table.
 
-You can also edit the renderings by double-clicking on that cell in the table. This brings up the Edit Renderings dialog box. 
-All renderings of the same key term must be separated by a comma and a space. In this dialog box, you can also enter notes 
-about the key term (why you chose it, whether it has any special cultural significance, what other terms you've tried, but 
-rejected, etc).
+You can also edit the renderings by double-clicking on that cell in the table. This brings up the Edit Renderings dialog box. All renderings of the same key term must be 
+separated by a comma and a space. In this dialog box, you can also enter notes about the key term (why you chose it, whether it has any special cultural significance, what 
+other terms you've tried, but rejected, etc).
 
-All of the verses in all of your stories that have the same key term will be displayed in the lower portion of the screen. 
-You'll want to go through all the lines one by one and either make sure the rendering of the key term is in bold (which means 
-it matches one of the already existing renderings) or if the word for the key term doesn't exist, then click the box with the 
-red 'X' in it. This says that that the key term doesn't show up in this verse of the story. This might happen, for example, 
-if instead of using the title 'God' in some particular story line, you use a pronoun instead. The pronoun shouldn't be listed 
-as a rendering of the key term, so you can click the red 'X' to 'deny' that it's necessary for this particular verse. It might 
-also happen that an anchor is used for only one portion of the underlying scripture passage, so while in a scripture 
+All of the verses in all of your stories that have the same key term will be displayed in the lower portion of the screen. You'll want to go through all the lines one by one 
+and either make sure the rendering of the key term is in bold (which means it matches one of the already existing renderings) or if the word for the key term doesn't exist, 
+then click the box with the red 'X' in it. This says that that the key term doesn't show up in this verse of the story. This might happen, for example, if instead of using the 
+title 'God' in some particular story line, you use a pronoun instead. The pronoun shouldn't be listed as a rendering of the key term, so you can click the red 'X' to 'deny' 
+that it's necessary for this particular verse. It might also happen that an anchor is used for only one portion of the underlying scripture passage, so while in a scripture 
 translation, the key term may be necessary, it's possible that in a story, some portion of that scripture verse may be left out. 
 
-When all the stories have either a check mark (indicating that the rendering of the key term is in that verse) or have been 
-'denied', then you can click the 'X' in the upper right corner of the Key Terms dialog box to dismiss it. You will be asked if 
-you want to save the changes and you should say "yes".
+When all the stories have either a check mark (indicating that the rendering of the key term is in that verse) or have been 'denied', then you can click the 'X' in the upper
+right corner of the Key Terms dialog box to dismiss it. You will be asked if you want to save the changes and you should say "yes".
 
-When you are finished adding one or more anchors for each verse, then click the 'Next Stage' button in the left-hand side of 
-the status bar to go to the next stage in the process.
+When you are finished adding one or more anchors for each verse, then click the 'Next Stage' button in the left-hand side of the status bar to go to the next stage in the 
+process.
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition>eProjFacAddStoryQuestions</AllowableTransition>

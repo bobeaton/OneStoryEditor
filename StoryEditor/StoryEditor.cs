@@ -299,7 +299,6 @@ namespace OneStoryProjectEditor
             if (StoryProject != null)
             {
                 UpdateRecentlyUsedLists(StoryProject.ProjSettings);
-                btnSelectState.Enabled = true;
                 UpdateUIMenusWithShortCuts();
             }
         }
@@ -318,7 +317,6 @@ namespace OneStoryProjectEditor
                 if (Modified)
                     SaveClicked();
 
-                btnSelectState.Enabled = true;
                 return true;
             }
             catch (StoryProjectData.BackOutWithNoUIException)
@@ -359,8 +357,6 @@ namespace OneStoryProjectEditor
                         InitAllPanes(); // just in case e.g. the font or RTL value changed
                     }
                 }
-
-                btnSelectState.Enabled = true;
             }
             catch (StoryProjectData.BackOutWithNoUIException)
             {
@@ -456,9 +452,6 @@ namespace OneStoryProjectEditor
 
                 // get the data into another structure that we use internally (more flexible)
                 StoryProject = GetOldStoryProjectData(projFile, projSettings);
-
-                // enable the button
-                btnSelectState.Enabled = true;
 
                 string strStoryToLoad = null;
                 if (TheCurrentStoriesSet.Count > 0)
@@ -1795,6 +1788,10 @@ namespace OneStoryProjectEditor
                 Properties.Settings.Default.RecentProjectPaths.RemoveAt(nIndex);
                 Properties.Settings.Default.Save();
                 MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
+            }
+            catch (Program.RestartException)
+            {
+                throw;
             }
             catch (Exception ex)
             {
@@ -3515,7 +3512,7 @@ namespace OneStoryProjectEditor
                 // update the status bar (in case we previously put an error there
                 StoryStageLogic.StateTransition st =
                     StoryStageLogic.stateTransitions[theCurrentStory.ProjStage.ProjectStage];
-                SetStatusBar(String.Format("{0}  Press F1 for instructions", st.StageDisplayString));
+                SetStatusBar(String.Format(Properties.Resources.IDS_PressF1ForInstructions, st.StageDisplayString));
             }
         }
 
@@ -3670,31 +3667,6 @@ namespace OneStoryProjectEditor
             dlg.Show();
         }
 
-        private void toolStripSelectStateButton_DropDownOpening(object sender, EventArgs e)
-        {
-            if ((StoryProject == null) || (theCurrentStory == null))
-                return;
-
-            // locate the window near the cursor...
-            Point ptTooltip = Cursor.Position;
-
-            // ptTooltip.Offset(-ClientRectangle.Location.X, -ClientRectangle.Location.Y);
-
-            StageEditorForm dlg = new StageEditorForm(StoryProject, theCurrentStory, ptTooltip);
-            if (dlg.ShowDialog() == DialogResult.OK)
-            {
-                Debug.Assert(dlg.NextState != StoryStageLogic.ProjectStages.eUndefined);
-                if (theCurrentStory.ProjStage.ProjectStage != dlg.NextState)
-                {
-                    StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[dlg.NextState];
-                    SetNextState(dlg.NextState, true);
-                }
-            }
-
-            if (dlg.ViewStateChanged)
-                SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage, false);
-        }
-
         private void useSameSettingsForAllStoriesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.LastUseForAllStories = useSameSettingsForAllStoriesToolStripMenuItem.Checked;
@@ -3747,6 +3719,28 @@ namespace OneStoryProjectEditor
 
             ConcordanceForm dlg = new ConcordanceForm(this, strVernacular, strNationalBT, strInternationalBT);
             dlg.Show();
+        }
+
+        private void toolStripMenuItemSelectState_Click(object sender, EventArgs e)
+        {
+            if ((StoryProject == null) || (theCurrentStory == null))
+                return;
+
+            // locate the window near the cursor...
+            Point ptTooltip = Cursor.Position;
+            StageEditorForm dlg = new StageEditorForm(StoryProject, theCurrentStory, ptTooltip);
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                Debug.Assert(dlg.NextState != StoryStageLogic.ProjectStages.eUndefined);
+                if (theCurrentStory.ProjStage.ProjectStage != dlg.NextState)
+                {
+                    StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[dlg.NextState];
+                    SetNextState(dlg.NextState, true);
+                }
+            }
+
+            if (dlg.ViewStateChanged)
+                SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage, false);
         }
     }
 }

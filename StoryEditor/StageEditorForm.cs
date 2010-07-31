@@ -87,8 +87,24 @@ namespace OneStoryProjectEditor
                 CheckAllowableTransitions(storyProjectData, theCurrentStory, st.AllowableBackwardsTransitions, Color.Red, false);
             }
 
-            Height = dataGridViewStates.PreferredSize.Height;
-            Location = new Point(ptStatusBar.X, ptStatusBar.Y - Height);
+            // locate the window near the cursor...
+            // but make sure it doesn't go off the edge
+            Point ptTooltip = Cursor.Position;
+            Rectangle rectScreen = Screen.GetBounds(ptTooltip);
+            if (Width > rectScreen.Width - ptStatusBar.X)
+            {
+                if (Width < rectScreen.Width)
+                    ptStatusBar.X = rectScreen.Width - Width;   // move it more left to fit
+                else
+                    ptStatusBar.X = 0;  // make it go all the way to the left
+                Width = Math.Min(Width, rectScreen.Width);
+            }
+
+            Height = Math.Min(dataGridViewStates.PreferredSize.Height 
+                + statusStrip.Height 
+                + SystemInformation.HorizontalScrollBarHeight,
+                rectScreen.Height - ptStatusBar.Y);
+            Location = ptStatusBar;
             _ticksSinceShow = DateTime.Now.Ticks;
         }
 
@@ -186,17 +202,14 @@ namespace OneStoryProjectEditor
             int nIndex = dataGridViewStates.Rows.Add();
             var dgbc = dataGridViewStates.Rows[nIndex].Cells[strColumnName] as DataGridViewButtonCell;
             InitCellFromStateTransition(dgbc, stateTransition);
-            dgbc.Tag = stateTransition;
             _mapStatesToButtons.Add(stateTransition.CurrentStage, dgbc);
         }
 
         protected void InitCellFromStateTransition(DataGridViewButtonCell theCell, StoryStageLogic.StateTransition stateTransition)
         {
             theCell.Value = stateTransition.StageDisplayString;
-            theCell.ToolTipText = String.Format("{1}:{0}{2}",
-                                                Environment.NewLine, 
-                                                stateTransition.StageDisplayString, 
-                                                stateTransition.StageInstructions);
+            theCell.ToolTipText = stateTransition.StageDisplayString;
+            theCell.Tag = stateTransition;
         }
 
         protected StoryStageLogic.StateTransitions StateTransitions
@@ -268,70 +281,58 @@ namespace OneStoryProjectEditor
             }
         }
 
-#if ShowViewStateWithDialog
-        private void checkBoxOutsideEnglishBackTranslator_CheckedChanged(object sender, System.EventArgs e)
+        private void dataGridViewStates_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
         {
-            if (checkBoxOutsideEnglishBackTranslator.Checked 
-                && !_storyProjectData.IsASeparateEnglishBackTranslator)
+            // make sure we have something reasonable
+            if (((e.ColumnIndex < 0) || (e.ColumnIndex >= dataGridViewStates.Columns.Count))
+                || (e.RowIndex < 0) || (e.RowIndex >= dataGridViewStates.Rows.Count))
+                return;
+
+            DataGridViewRow theRow = dataGridViewStates.Rows[e.RowIndex];
+            DataGridViewButtonCell theCell = theRow.Cells[e.ColumnIndex] as DataGridViewButtonCell;
+            if (theCell == null)
+                return;
+
+            // update the status bar with the state and F1 instructions
+            StoryStageLogic.StateTransition st = theCell.Tag as StoryStageLogic.StateTransition;
+            if (st != null)
             {
-                // if this user is saying that there's an external BTer, but there doesn't
-                //  appear to be one, then query for it.
-                var dlg = new MemberPicker(_storyProjectData, TeamMemberData.UserTypes.eEnglishBacktranslator)
-                                       {
-                                           Text = "Choose the member that will do English BTs"
-                                       };
-                if (dlg.ShowDialog() != DialogResult.OK)
-                {
-                    checkBoxOutsideEnglishBackTranslator.Checked = false;
-                    return;
-                }
+                System.Diagnostics.Debug.WriteLine(String.Format("dataGridViewStates_CellMouseEnter: cell: {0}.{1}: {2}",
+                    theCell.ColumnIndex, theCell.RowIndex, st.StageDisplayString));
 
-                // noop
+                toolStripStatusLabel.Text = String.Format(Properties.Resources.IDS_PressF1ForInstructions,
+                    st.StageDisplayString);
             }
-
-            ColumnEnglishBackTranslator.Visible = checkBoxOutsideEnglishBackTranslator.Checked;
-            InitGrid();
         }
 
-        private void checkBoxFirstPassMentor_CheckedChanged(object sender, System.EventArgs e)
+        private void dataGridViewStates_HelpRequested(object sender, HelpEventArgs hlpevent)
         {
-            if (checkBoxFirstPassMentor.Checked
-                && !_storyProjectData.TeamMembers.IsThereAFirstPassMentor)
+            Point ptMousePosition = dataGridViewStates.PointToClient(hlpevent.MousePos);
+            DataGridView.HitTestInfo hti = dataGridViewStates.HitTest(ptMousePosition.X, ptMousePosition.Y);
+
+            // make sure we have something reasonable
+            if (((hti.ColumnIndex < 0) || (hti.ColumnIndex >= dataGridViewStates.Columns.Count))
+                || (hti.RowIndex < 0) || (hti.RowIndex >= dataGridViewStates.Rows.Count))
+                return;
+
+            DataGridViewRow theRow = dataGridViewStates.Rows[hti.RowIndex];
+            DataGridViewButtonCell theCell = theRow.Cells[hti.ColumnIndex] as DataGridViewButtonCell;
+            if (theCell == null)
+                return;
+
+            // update the status bar with the state and F1 instructions
+            StoryStageLogic.StateTransition st = theCell.Tag as StoryStageLogic.StateTransition;
+            if (st != null)
             {
-                // if this user is saying that there's a first pass mentor, but there doesn't
-                //  appear to be one, then query for it.
-                var dlg = new MemberPicker(_storyProjectData, TeamMemberData.UserTypes.eFirstPassMentor)
-                {
-                    Text = "Choose the member that is the first-pass mentor"
-                };
-                if (dlg.ShowDialog() != DialogResult.OK)
-                {
-                    checkBoxFirstPassMentor.Checked = false;
-                    return;
-                }
+                System.Diagnostics.Debug.WriteLine(String.Format("dataGridViewStates_HelpRequested: cell: {0}.{1}: {2}",
+                    theCell.ColumnIndex, theCell.RowIndex, st.StageDisplayString));
 
-                // noop
+                helpProvider.ResetShowHelp(dataGridViewStates);
+                Help.ShowPopup(dataGridViewStates, String.Format("{1}{0}{2}{0}{3}", Environment.NewLine,
+                    st.StageDisplayString, st.StageInstructions, Properties.Resources.IDS_EscapeToDismiss), 
+                    hlpevent.MousePos);
+                hlpevent.Handled = true;
             }
-
-            ColumnFirstPassMentor.Visible = checkBoxFirstPassMentor.Checked;
-            InitGrid();
         }
-
-        private void radioButtonManageWithCoaching_CheckedChanged(object sender, System.EventArgs e)
-        {
-            if (radioButtonManageWithCoaching.Checked)
-            {
-                ColumnConsultantInTraining.HeaderText = TeamMemberData.CstrConsultantInTrainingDisplay;
-                ColumnCoach.Visible = true;
-            }
-            else
-            {
-                ColumnConsultantInTraining.HeaderText = TeamMemberData.CstrIndependentConsultantDisplay;
-                ColumnCoach.Visible = false;
-            }
-
-            InitGrid();
-        }
-#endif
     }
 }

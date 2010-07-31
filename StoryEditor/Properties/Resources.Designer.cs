@@ -396,6 +396,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to (Press the Esc key to dismiss this help window).
+        /// </summary>
+        internal static string IDS_EscapeToDismiss {
+            get {
+                return ResourceManager.GetString("IDS_EscapeToDismiss", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The project has been exported to the folder &apos;{0}\Toolbox&apos;. Click &apos;Yes&apos; to launch Toolbox and open that project..
         /// </summary>
         internal static string IDS_ExportedToolboxMessage {
@@ -628,6 +637,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_PressF1ForInstructions {
             get {
                 return ResourceManager.GetString("IDS_PressF1ForInstructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An update to the OneStory Editor has just been downloaded. Would you like to install it now? (recommended).
+        /// </summary>
+        internal static string IDS_QueryAboutUpdateProgram {
+            get {
+                return ResourceManager.GetString("IDS_QueryAboutUpdateProgram", resourceCulture);
             }
         }
         

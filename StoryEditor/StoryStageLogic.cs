@@ -438,7 +438,25 @@ namespace OneStoryProjectEditor
             internal AllowableTransitions AllowableBackwardsTransitions = new AllowableTransitions("AllowableBackwardsTransitions");
             internal TeamMemberData.UserTypes MemberTypeWithEditToken = TeamMemberData.UserTypes.eUndefined;
             internal string StageDisplayString;
-            internal string StageInstructions;
+            private string _strStageInstructions;
+            public string StageInstructions
+            {
+                get
+                {
+                    return _strStageInstructions;
+                }
+                set
+                {
+#if LetHelpDoSizing
+                    // strip out the single instances of \r\n
+                    _strStageInstructions = value.Replace("\r\n\r\n", "\u001f") // replace double-instances (which we want to keep)
+                        .Replace("\r\n", null)  // strip out single instances
+                        .Replace("\u001f", "\r\n\r\n"); // replace the double-instances
+#else
+                    _strStageInstructions = value;
+#endif
+                }
+            }
 #if !DataDllBuild
             public CheckEndOfStateTransition.CheckForValidEndOfState IsReadyForTransition;
 #endif

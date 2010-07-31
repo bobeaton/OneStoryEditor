@@ -1852,4 +1852,10 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
   <data name="IDS_WarnAboutNoInternet" xml:space="preserve">
     <value>This program uses the internet to update itself and download the latest versions of the project file(s). Please connect to the Internet.</value>
   </data>
+  <data name="IDS_QueryAboutUpdateProgram" xml:space="preserve">
+    <value>An update to the OneStory Editor has just been downloaded. Would you like to install it now? (recommended)</value>
+  </data>
+  <data name="IDS_EscapeToDismiss" xml:space="preserve">
+    <value>(Press the Esc key to dismiss this help window)</value>
+  </data>
 </root>

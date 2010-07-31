@@ -53,6 +53,7 @@ namespace OneStoryProjectEditor
             this.printPreviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemSelectState = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editCopySelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -91,6 +92,7 @@ namespace OneStoryProjectEditor
             this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.historicalDifferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.concordanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewOldStoriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.hiddenVersesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -99,7 +101,6 @@ namespace OneStoryProjectEditor
             this.viewTransliteratorVernacularConfigureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewTransliterationNationalBT = new System.Windows.Forms.ToolStripMenuItem();
             this.viewTransliteratorNationalBTConfigureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.concordanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.comboBoxStorySelector = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripTextBoxChooseStory = new System.Windows.Forms.ToolStripTextBox();
             this.storyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -129,7 +130,6 @@ namespace OneStoryProjectEditor
             this.linkLabelCoachNotes = new System.Windows.Forms.LinkLabel();
             this.textBoxCoachNotes = new System.Windows.Forms.TextBox();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
-            this.btnSelectState = new System.Windows.Forms.ToolStripDropDownButton();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.helpProvider = new System.Windows.Forms.HelpProvider();
             this.flowLayoutPanelVerses = new OneStoryProjectEditor.VerseBtLineFlowLayoutPanel();
@@ -153,6 +153,7 @@ namespace OneStoryProjectEditor
             // 
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.projectToolStripMenuItem,
+            this.toolStripMenuItemSelectState,
             this.editToolStripMenuItem,
             this.viewToolStripMenuItem,
             this.comboBoxStorySelector,
@@ -163,7 +164,7 @@ namespace OneStoryProjectEditor
             this.aboutToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(895, 25);
+            this.menuStrip.Size = new System.Drawing.Size(881, 25);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -312,6 +313,13 @@ namespace OneStoryProjectEditor
             this.exitToolStripMenuItem.Text = "&Exit";
             this.exitToolStripMenuItem.ToolTipText = "Click to exit the program and synchronize with the internet repository";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItemSelectState
+            // 
+            this.toolStripMenuItemSelectState.Name = "toolStripMenuItemSelectState";
+            this.toolStripMenuItemSelectState.Size = new System.Drawing.Size(77, 21);
+            this.toolStripMenuItemSelectState.Text = "Select S&tate";
+            this.toolStripMenuItemSelectState.Click += new System.EventHandler(this.toolStripMenuItemSelectState_Click);
             // 
             // editToolStripMenuItem
             // 
@@ -679,6 +687,15 @@ namespace OneStoryProjectEditor
                 "of this story";
             this.historicalDifferencesToolStripMenuItem.Click += new System.EventHandler(this.historicalDifferencesToolStripMenuItem_Click);
             // 
+            // concordanceToolStripMenuItem
+            // 
+            this.concordanceToolStripMenuItem.Name = "concordanceToolStripMenuItem";
+            this.concordanceToolStripMenuItem.Size = new System.Drawing.Size(262, 22);
+            this.concordanceToolStripMenuItem.Text = "Concor&dance";
+            this.concordanceToolStripMenuItem.ToolTipText = "Click to launch the Concordance dialog to search for the occurrances of words in " +
+                "the story";
+            this.concordanceToolStripMenuItem.Click += new System.EventHandler(this.concordanceToolStripMenuItem_Click);
+            // 
             // viewOldStoriesToolStripMenuItem
             // 
             this.viewOldStoriesToolStripMenuItem.Name = "viewOldStoriesToolStripMenuItem";
@@ -744,15 +761,6 @@ namespace OneStoryProjectEditor
             this.viewTransliteratorNationalBTConfigureToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.viewTransliteratorNationalBTConfigureToolStripMenuItem.Text = "&Configure";
             this.viewTransliteratorNationalBTConfigureToolStripMenuItem.Click += new System.EventHandler(this.viewTransliteratorNationalBTConfigureToolStripMenuItem_Click);
-            // 
-            // concordanceToolStripMenuItem
-            // 
-            this.concordanceToolStripMenuItem.Name = "concordanceToolStripMenuItem";
-            this.concordanceToolStripMenuItem.Size = new System.Drawing.Size(262, 22);
-            this.concordanceToolStripMenuItem.Text = "Concor&dance";
-            this.concordanceToolStripMenuItem.ToolTipText = "Click to launch the Concordance dialog to search for the occurrances of words in " +
-                "the story";
-            this.concordanceToolStripMenuItem.Click += new System.EventHandler(this.concordanceToolStripMenuItem_Click);
             // 
             // comboBoxStorySelector
             // 
@@ -923,8 +931,8 @@ namespace OneStoryProjectEditor
             // 
             this.splitContainerLeftRight.Panel2.Controls.Add(this.splitContainerMentorNotes);
             this.splitContainerLeftRight.Panel2.SizeChanged += new System.EventHandler(this.splitContainerLeftRight_Panel2_SizeChanged);
-            this.splitContainerLeftRight.Size = new System.Drawing.Size(895, 475);
-            this.splitContainerLeftRight.SplitterDistance = 523;
+            this.splitContainerLeftRight.Size = new System.Drawing.Size(881, 476);
+            this.splitContainerLeftRight.SplitterDistance = 514;
             this.splitContainerLeftRight.TabIndex = 2;
             // 
             // splitContainerUpDown
@@ -944,7 +952,7 @@ namespace OneStoryProjectEditor
             // splitContainerUpDown.Panel2
             // 
             this.splitContainerUpDown.Panel2.Controls.Add(this.netBibleViewer);
-            this.splitContainerUpDown.Size = new System.Drawing.Size(523, 475);
+            this.splitContainerUpDown.Size = new System.Drawing.Size(514, 476);
             this.splitContainerUpDown.SplitterDistance = 271;
             this.splitContainerUpDown.TabIndex = 2;
             // 
@@ -979,7 +987,7 @@ namespace OneStoryProjectEditor
             this.textBoxStoryVerse.Location = new System.Drawing.Point(0, 0);
             this.textBoxStoryVerse.Name = "textBoxStoryVerse";
             this.textBoxStoryVerse.ReadOnly = true;
-            this.textBoxStoryVerse.Size = new System.Drawing.Size(521, 29);
+            this.textBoxStoryVerse.Size = new System.Drawing.Size(512, 29);
             this.textBoxStoryVerse.TabIndex = 3;
             this.textBoxStoryVerse.TabStop = false;
             this.textBoxStoryVerse.Text = "Story";
@@ -1004,7 +1012,7 @@ namespace OneStoryProjectEditor
             this.splitContainerMentorNotes.Panel2.Controls.Add(this.linkLabelCoachNotes);
             this.splitContainerMentorNotes.Panel2.Controls.Add(this.htmlCoachNotesControl);
             this.splitContainerMentorNotes.Panel2.Controls.Add(this.textBoxCoachNotes);
-            this.splitContainerMentorNotes.Size = new System.Drawing.Size(368, 475);
+            this.splitContainerMentorNotes.Size = new System.Drawing.Size(363, 476);
             this.splitContainerMentorNotes.SplitterDistance = 279;
             this.splitContainerMentorNotes.TabIndex = 0;
             // 
@@ -1033,7 +1041,7 @@ namespace OneStoryProjectEditor
             this.textBoxConsultantNotesTable.Location = new System.Drawing.Point(0, 0);
             this.textBoxConsultantNotesTable.Name = "textBoxConsultantNotesTable";
             this.textBoxConsultantNotesTable.ReadOnly = true;
-            this.textBoxConsultantNotesTable.Size = new System.Drawing.Size(366, 29);
+            this.textBoxConsultantNotesTable.Size = new System.Drawing.Size(361, 29);
             this.textBoxConsultantNotesTable.TabIndex = 1;
             this.textBoxConsultantNotesTable.TabStop = false;
             this.textBoxConsultantNotesTable.Text = "Consultant Notes";
@@ -1064,7 +1072,7 @@ namespace OneStoryProjectEditor
             this.textBoxCoachNotes.Location = new System.Drawing.Point(0, 0);
             this.textBoxCoachNotes.Name = "textBoxCoachNotes";
             this.textBoxCoachNotes.ReadOnly = true;
-            this.textBoxCoachNotes.Size = new System.Drawing.Size(366, 29);
+            this.textBoxCoachNotes.Size = new System.Drawing.Size(361, 29);
             this.textBoxCoachNotes.TabIndex = 2;
             this.textBoxCoachNotes.TabStop = false;
             this.textBoxCoachNotes.Text = "Coach Notes";
@@ -1073,21 +1081,12 @@ namespace OneStoryProjectEditor
             // statusStrip
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnSelectState,
             this.statusLabel});
-            this.statusStrip.Location = new System.Drawing.Point(0, 500);
+            this.statusStrip.Location = new System.Drawing.Point(0, 501);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(895, 22);
+            this.statusStrip.Size = new System.Drawing.Size(881, 22);
             this.statusStrip.TabIndex = 1;
             this.statusStrip.Text = "statusStrip1";
-            // 
-            // btnSelectState
-            // 
-            this.btnSelectState.Enabled = false;
-            this.btnSelectState.Name = "btnSelectState";
-            this.btnSelectState.Size = new System.Drawing.Size(78, 20);
-            this.btnSelectState.Text = "Select State";
-            this.btnSelectState.DropDownOpening += new System.EventHandler(this.toolStripSelectStateButton_DropDownOpening);
             // 
             // statusLabel
             // 
@@ -1096,7 +1095,7 @@ namespace OneStoryProjectEditor
             this.statusLabel.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken;
             this.statusLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(802, 17);
+            this.statusLabel.Size = new System.Drawing.Size(835, 17);
             this.statusLabel.Spring = true;
             this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.statusLabel.Click += new System.EventHandler(this.statusLabel_Click);
@@ -1112,7 +1111,7 @@ namespace OneStoryProjectEditor
             this.flowLayoutPanelVerses.LineNumberLink = null;
             this.flowLayoutPanelVerses.Location = new System.Drawing.Point(0, 29);
             this.flowLayoutPanelVerses.Name = "flowLayoutPanelVerses";
-            this.flowLayoutPanelVerses.Size = new System.Drawing.Size(521, 242);
+            this.flowLayoutPanelVerses.Size = new System.Drawing.Size(512, 242);
             this.flowLayoutPanelVerses.TabIndex = 1;
             this.flowLayoutPanelVerses.WrapContents = false;
             // 
@@ -1124,7 +1123,7 @@ namespace OneStoryProjectEditor
             this.netBibleViewer.Margin = new System.Windows.Forms.Padding(0);
             this.netBibleViewer.Name = "netBibleViewer";
             this.netBibleViewer.ScriptureReference = "gen 1:1";
-            this.netBibleViewer.Size = new System.Drawing.Size(521, 198);
+            this.netBibleViewer.Size = new System.Drawing.Size(512, 199);
             this.netBibleViewer.TabIndex = 0;
             // 
             // htmlConsultantNotesControl
@@ -1134,7 +1133,7 @@ namespace OneStoryProjectEditor
             this.htmlConsultantNotesControl.Location = new System.Drawing.Point(0, 29);
             this.htmlConsultantNotesControl.MinimumSize = new System.Drawing.Size(20, 20);
             this.htmlConsultantNotesControl.Name = "htmlConsultantNotesControl";
-            this.htmlConsultantNotesControl.Size = new System.Drawing.Size(366, 248);
+            this.htmlConsultantNotesControl.Size = new System.Drawing.Size(361, 248);
             this.htmlConsultantNotesControl.StoryData = null;
             this.htmlConsultantNotesControl.TabIndex = 2;
             this.htmlConsultantNotesControl.TheSE = null;
@@ -1146,7 +1145,7 @@ namespace OneStoryProjectEditor
             this.htmlCoachNotesControl.Location = new System.Drawing.Point(0, 29);
             this.htmlCoachNotesControl.MinimumSize = new System.Drawing.Size(20, 20);
             this.htmlCoachNotesControl.Name = "htmlCoachNotesControl";
-            this.htmlCoachNotesControl.Size = new System.Drawing.Size(366, 161);
+            this.htmlCoachNotesControl.Size = new System.Drawing.Size(361, 162);
             this.htmlCoachNotesControl.StoryData = null;
             this.htmlCoachNotesControl.TabIndex = 3;
             this.htmlCoachNotesControl.TheSE = null;
@@ -1155,7 +1154,7 @@ namespace OneStoryProjectEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(895, 522);
+            this.ClientSize = new System.Drawing.Size(881, 523);
             this.Controls.Add(this.splitContainerLeftRight);
             this.Controls.Add(this.menuStrip);
             this.Controls.Add(this.statusStrip);
@@ -1163,6 +1162,7 @@ namespace OneStoryProjectEditor
             this.MainMenuStrip = this.menuStrip;
             this.Name = "StoryEditor";
             this.Text = "OneStory Editor";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.StoryEditor_FormClosing);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
@@ -1281,13 +1281,13 @@ namespace OneStoryProjectEditor
         private ContextMenuStrip contextMenuStripVerseList;
         private ToolStripMenuItem resetStoredInformationToolStripMenuItem;
         private ToolStripMenuItem historicalDifferencesToolStripMenuItem;
-        private ToolStripDropDownButton btnSelectState;
         private ToolStripStatusLabel statusLabel;
         private ToolStripMenuItem useSameSettingsForAllStoriesToolStripMenuItem;
         private ToolStripMenuItem printPreviewToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator12;
         internal ToolStripMenuItem viewStoryTestingQuestionAnswerMenuItem;
         private ToolStripMenuItem concordanceToolStripMenuItem;
+        private ToolStripMenuItem toolStripMenuItemSelectState;
     }
 
 #if UsingHtmlDisplayForConNotes

@@ -35,7 +35,11 @@
             this.ColumnFirstPassMentor = new System.Windows.Forms.DataGridViewButtonColumn();
             this.ColumnConsultantInTraining = new System.Windows.Forms.DataGridViewButtonColumn();
             this.ColumnCoach = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.helpProvider = new System.Windows.Forms.HelpProvider();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStates)).BeginInit();
+            this.statusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridViewStates
@@ -57,10 +61,14 @@
             this.dataGridViewStates.MultiSelect = false;
             this.dataGridViewStates.Name = "dataGridViewStates";
             this.dataGridViewStates.RowHeadersVisible = false;
-            this.dataGridViewStates.Size = new System.Drawing.Size(867, 326);
+            this.dataGridViewStates.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.helpProvider.SetShowHelp(this.dataGridViewStates, true);
+            this.dataGridViewStates.Size = new System.Drawing.Size(867, 304);
             this.dataGridViewStates.TabIndex = 1;
             this.dataGridViewStates.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewStates_CellMouseUp);
             this.dataGridViewStates.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.dataGridViewStates_PreviewKeyDown);
+            this.dataGridViewStates.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewStates_CellMouseEnter);
+            this.dataGridViewStates.HelpRequested += new System.Windows.Forms.HelpEventHandler(this.dataGridViewStates_HelpRequested);
             // 
             // ColumnProjectFacilitatorStages
             // 
@@ -92,13 +100,30 @@
             this.ColumnCoach.Name = "ColumnCoach";
             this.ColumnCoach.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             // 
+            // statusStrip
+            // 
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel});
+            this.statusStrip.Location = new System.Drawing.Point(0, 304);
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Size = new System.Drawing.Size(867, 22);
+            this.statusStrip.TabIndex = 2;
+            this.statusStrip.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel
+            // 
+            this.toolStripStatusLabel.Name = "toolStripStatusLabel";
+            this.toolStripStatusLabel.Size = new System.Drawing.Size(125, 17);
+            this.toolStripStatusLabel.Text = "Press F1 for Instructions";
+            // 
             // StageEditorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(867, 326);
             this.Controls.Add(this.dataGridViewStates);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+            this.Controls.Add(this.statusStrip);
+            this.HelpButton = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -110,7 +135,10 @@
             this.Text = "To go forward, click a green state button. To go backwards (for revisions), click" +
                 " a red state button. Right-click to edit instructions";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStates)).EndInit();
+            this.statusStrip.ResumeLayout(false);
+            this.statusStrip.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -122,5 +150,8 @@
         private System.Windows.Forms.DataGridViewButtonColumn ColumnFirstPassMentor;
         private System.Windows.Forms.DataGridViewButtonColumn ColumnConsultantInTraining;
         private System.Windows.Forms.DataGridViewButtonColumn ColumnCoach;
+        private System.Windows.Forms.HelpProvider helpProvider;
+        private System.Windows.Forms.StatusStrip statusStrip;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
     }
 }
