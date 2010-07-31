@@ -36,12 +36,6 @@
             this.tabPagePanorama = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.dataGridViewPanorama = new System.Windows.Forms.DataGridView();
-            this.buttonMoveUp = new System.Windows.Forms.Button();
-            this.buttonDelete = new System.Windows.Forms.Button();
-            this.buttonCopyToOldStories = new System.Windows.Forms.Button();
-            this.buttonMoveDown = new System.Windows.Forms.Button();
-            this.tabPageObsolete = new System.Windows.Forms.TabPage();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -49,6 +43,12 @@
             this.ColumnTimeInState = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnLineCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnWordCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.buttonMoveUp = new System.Windows.Forms.Button();
+            this.buttonDelete = new System.Windows.Forms.Button();
+            this.buttonCopyToOldStories = new System.Windows.Forms.Button();
+            this.buttonMoveDown = new System.Windows.Forms.Button();
+            this.tabPageObsolete = new System.Windows.Forms.TabPage();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tabControlSets.SuspendLayout();
             this.tabPageFrontMatter.SuspendLayout();
             this.tabPagePanorama.SuspendLayout();
@@ -61,7 +61,7 @@
             this.richTextBoxPanoramaFrontMatter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBoxPanoramaFrontMatter.Location = new System.Drawing.Point(3, 3);
             this.richTextBoxPanoramaFrontMatter.Name = "richTextBoxPanoramaFrontMatter";
-            this.richTextBoxPanoramaFrontMatter.Size = new System.Drawing.Size(880, 482);
+            this.richTextBoxPanoramaFrontMatter.Size = new System.Drawing.Size(848, 468);
             this.richTextBoxPanoramaFrontMatter.TabIndex = 0;
             this.richTextBoxPanoramaFrontMatter.Text = "";
             this.richTextBoxPanoramaFrontMatter.TextChanged += new System.EventHandler(this.richTextBoxPanoramaFrontMatter_TextChanged);
@@ -75,7 +75,7 @@
             this.tabControlSets.Location = new System.Drawing.Point(0, 0);
             this.tabControlSets.Name = "tabControlSets";
             this.tabControlSets.SelectedIndex = 0;
-            this.tabControlSets.Size = new System.Drawing.Size(894, 514);
+            this.tabControlSets.Size = new System.Drawing.Size(862, 500);
             this.tabControlSets.TabIndex = 4;
             this.tabControlSets.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControlSets_Selected);
             // 
@@ -85,7 +85,7 @@
             this.tabPageFrontMatter.Location = new System.Drawing.Point(4, 22);
             this.tabPageFrontMatter.Name = "tabPageFrontMatter";
             this.tabPageFrontMatter.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageFrontMatter.Size = new System.Drawing.Size(886, 488);
+            this.tabPageFrontMatter.Size = new System.Drawing.Size(854, 474);
             this.tabPageFrontMatter.TabIndex = 0;
             this.tabPageFrontMatter.Text = "Front Matter";
             this.tabPageFrontMatter.UseVisualStyleBackColor = true;
@@ -151,6 +151,50 @@
             this.dataGridViewPanorama.TabIndex = 0;
             this.dataGridViewPanorama.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewPanorama_CellEndEdit);
             // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.HeaderText = "Story Name";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.HeaderText = "Purpose";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.HeaderText = "Who Edits";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            this.dataGridViewTextBoxColumn4.HeaderText = "Stage";
+            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            this.dataGridViewTextBoxColumn4.ReadOnly = true;
+            this.dataGridViewTextBoxColumn4.ToolTipText = "Right-click to change state";
+            // 
+            // ColumnTimeInState
+            // 
+            this.ColumnTimeInState.HeaderText = "Time in Stage";
+            this.ColumnTimeInState.Name = "ColumnTimeInState";
+            this.ColumnTimeInState.ReadOnly = true;
+            // 
+            // ColumnLineCount
+            // 
+            this.ColumnLineCount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.ColumnLineCount.HeaderText = "# of Lines";
+            this.ColumnLineCount.Name = "ColumnLineCount";
+            this.ColumnLineCount.ReadOnly = true;
+            this.ColumnLineCount.Width = 79;
+            // 
+            // ColumnWordCount
+            // 
+            this.ColumnWordCount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.ColumnWordCount.HeaderText = "# of Words";
+            this.ColumnWordCount.Name = "ColumnWordCount";
+            this.ColumnWordCount.Width = 79;
+            // 
             // buttonMoveUp
             // 
             this.buttonMoveUp.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
@@ -211,55 +255,11 @@
             this.tabPageObsolete.Text = "Old Stories";
             this.tabPageObsolete.UseVisualStyleBackColor = true;
             // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.HeaderText = "Story Name";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.HeaderText = "Purpose";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            this.dataGridViewTextBoxColumn3.HeaderText = "Who Edits";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            this.dataGridViewTextBoxColumn3.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn4
-            // 
-            this.dataGridViewTextBoxColumn4.HeaderText = "Stage";
-            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            this.dataGridViewTextBoxColumn4.ReadOnly = true;
-            this.dataGridViewTextBoxColumn4.ToolTipText = "Right-click to change state";
-            // 
-            // ColumnTimeInState
-            // 
-            this.ColumnTimeInState.HeaderText = "Time in Stage";
-            this.ColumnTimeInState.Name = "ColumnTimeInState";
-            this.ColumnTimeInState.ReadOnly = true;
-            // 
-            // ColumnLineCount
-            // 
-            this.ColumnLineCount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.ColumnLineCount.HeaderText = "# of Lines";
-            this.ColumnLineCount.Name = "ColumnLineCount";
-            this.ColumnLineCount.ReadOnly = true;
-            this.ColumnLineCount.Width = 79;
-            // 
-            // ColumnWordCount
-            // 
-            this.ColumnWordCount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.ColumnWordCount.HeaderText = "# of Words";
-            this.ColumnWordCount.Name = "ColumnWordCount";
-            this.ColumnWordCount.Width = 85;
-            // 
             // PanoramaView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(894, 514);
+            this.ClientSize = new System.Drawing.Size(862, 500);
             this.Controls.Add(this.tabControlSets);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "PanoramaView";

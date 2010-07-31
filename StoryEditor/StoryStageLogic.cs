@@ -109,22 +109,9 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public bool IsChangeOfStateAllowed(TeamMemberData loggedOnMember)
-        {
-            bool bRet = ((loggedOnMember.MemberType == TeamMemberData.UserTypes.eJustLooking)
-                || (loggedOnMember.MemberType == MemberTypeWithEditToken));
-
-            if (!bRet)
-                MessageBox.Show(
-                    String.Format(OseResources.Properties.Resources.IDS_WhichUserEdits,
-                                  TeamMemberData.GetMemberTypeAsDisplayString(MemberTypeWithEditToken)),
-                    OseResources.Properties.Resources.IDS_Caption);
-
-            return bRet;
-        }
-
         // this isn't 100% effective. Sometimes a particular stage can have a single (but varied) editors
-        //  (e.g. the Online consult could either be the ProjFac or the consultant)
+        //  (e.g. the Online consult could either be the ProjFac or the consultant). But this is mostly
+        //  used in the TeamsMemberData class which knows of these details.
         public TeamMemberData.UserTypes MemberTypeWithEditToken
         {
             get

@@ -432,6 +432,9 @@ namespace OneStoryProjectEditor
 
         public static string GetWrongMemberTypeWarning(UserTypes eMemberTypeWithEditToken)
         {
+            // rewrite the name so it applies for either type of consultant
+            if (eMemberTypeWithEditToken == UserTypes.eConsultantInTraining)
+                eMemberTypeWithEditToken = UserTypes.eIndependentConsultant;
             return String.Format(OseResources.Properties.Resources.IDS_WhichUserEdits,
                                  GetMemberTypeAsDisplayString(eMemberTypeWithEditToken));
         }

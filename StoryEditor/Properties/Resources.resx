@@ -252,22 +252,25 @@
     <value>If you want to enter the results for another UNS test, click 'Cancel' and go to "Project Facilitator enters retelling back-translation" state instead. Otherwise, click 'OK' to move forward to the next state.</value>
   </data>
   <data name="IDS_CreateMyBiblicalTermsQuery" xml:space="preserve">
-    <value>In order to add or edit key terms, you have to begin using a local copy of one of the existing key terms list 
-(i.e. a copy generated, for example, from the Paratext "Major Key Terms" or "All Key Terms" lists or one 
-customized by your entity). At this point, you may want to click 'Cancel' here and then click the 
-"Select Key Terms List" button to select one of the other, existing key terms lists to see if the term you want 
-is present in one of them. If you don't find the term in one of those lists and you want to make an editable 
-key terms list that you can add it to, then select the key terms list that you want to start with (i.e. the 
-"Major" or "All" terms list). Once you've chosen a list to start with, then click this button again to merge 
-(or overwrite, if desired) a new version of the 'My Biblical Terms' list that you will be able to edit.
+    <value>In order to add or edit key terms, you have to begin using a local copy of one of the existing key
+terms list (i.e. a copy generated, for example, from the Paratext "Major Key Terms" or "All Key 
+Terms" lists or one customized by your entity). At this point, you may want to click 'Cancel' 
+here and then click the "Select Key Terms List" button to select one of the other, existing key 
+terms lists to see if the term you want is present in one of them. If you don't find the term in 
+one of those lists and you want to make an editable key terms list that you can add it to, then 
+select the key terms list that you want to start with (i.e. the "Major" or "All" terms list). 
+Once you've chosen a list to start with, then click this button again to merge (or overwrite, 
+if desired) a new version of the 'My Biblical Terms' list that you will be able to edit.
 
-Beware, though, that the local copy of the key terms list will be stored in your project folder and shared with 
-the other team members (so all members have access and can see the key terms you've added). This means that it 
-will be synchronized to the Internet, which may take a long time the first time (for e.g., the 'All Terms' list 
-is 8MB, the 'Major Terms' list is 4MB). Thereafter, it will only synchronize whatever changes you make, so it 
-won't always be time-consuming, but the first time after creating the local copy will. Also, beware that if you 
-overwrite the editable copy of the 'My Biblical Terms' list, you may be overwriting data that another team member
-has created and added to. So be sure that you discuss this with the rest of the team before overwriting a list</value>
+Beware, though, that the local copy of the key terms list will be stored in your project folder 
+and shared with the other team members (so all members have access and can see the key terms 
+you've added). This means that it will be synchronized to the Internet, which may take a long 
+time the first time (for e.g., the 'All Terms' list is 8MB, the 'Major Terms' list is 4MB). 
+Thereafter, it will only synchronize whatever changes you make, so it won't always be time-
+consuming, but the first time after creating the local copy will. Also, beware that if you 
+overwrite the editable copy of the 'My Biblical Terms' list, you may be overwriting data that 
+another team member has created and added to. So be sure that you discuss this with the rest 
+of the team before overwriting a list</value>
   </data>
   <data name="IDS_EnterStoryName" xml:space="preserve">
     <value>&lt;type the name of a story to create and hit Enter&gt;</value>

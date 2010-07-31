@@ -21,11 +21,14 @@ to enter the plain (most common) 'full stop' punctuation character as the first 
 spaces between the characters. This (first) character will be used for any sentences that don't 
 have a full stop (i.e. if you forget one, then it will be added to the sentence).
 
-When you are finished, click on the "Select State" button to move to the next (green) state. If 
-this is a story from the Bible, then a dialog window will be displayed asking you to type in the 
-purpose that this story is in the set; that is, why have you chosen this particular story? How 
-does it fit with the theme of your panorama? You will also enter the list of resources used in 
-crafting the story (audio recordings of Bibles, videos, etc).
+When you are finished, click on the "Select State" menu item to bring up the list of states for
+this story. To move forward (which is the only possible direction in this state), click the (green) 
+state button. 
+
+If this is a story from the Bible, then a dialog window will be displayed asking you to type in 
+the purpose that this story is in the set; that is, why have you chosen this particular story? 
+How does it fit with the theme of your panorama? You will also enter the list of resources used 
+in crafting the story (audio recordings of Bibles, videos, etc).
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition>eProjFacTypeNationalBT</AllowableTransition>
@@ -52,10 +55,10 @@ be split into lines accurately. This will insure that you have the proper punctu
 the story lines and in the National language back-translation lines.
 
 When you are finished entering the national language back-translation, then click the 
-"Select State" button to move to the next (green) state. When you do, a dialog window will be 
-displayed in which you will be asked to identify the UNS that did the back-translation. You can 
-also access this and other story information by clicking, "Story", and then "Story Information" 
-item.
+"Select State" menu item and in the resulting window click on the next (green) state button. 
+When you do, another window will be displayed in which you will be asked to identify the UNS 
+that did the back-translation. You can also access this and other story information by clicking, 
+"Story", and then "Story Information" item.
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition>eProjFacTypeInternationalBT</AllowableTransition>
@@ -91,8 +94,8 @@ But first, discuss with your consultant whether an English back-translation is e
 it can be done by someone else. As long as the first back-translation is done by a UNS, then it's okay 
 to add an 'Outside English back-translator' team member to do the English back-translation. 
 
-When you are finished entering the English back-translation, then click the "Select State" button to 
-move to the next (green) state. 
+When you are finished entering the English back-translation, then click the "Select State" menu item 
+and in the resulting window click on the next (green) state. 
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition>eProjFacAddAnchors</AllowableTransition>
@@ -107,47 +110,27 @@ move to the next (green) state.
   <StateTransition stage="eProjFacAddAnchors" MemberTypeWithEditToken="eProjectFacilitator" RequiresBiblicalStory="true">
     <StageDisplayString>Project Facilitator adds biblical anchors</StageDisplayString>
     <StageInstructions>
-In this stage, you (the project facilitator) will go through the story verse-by-verse and look up one or more Bible references in the Bible pane that supports the information
-n the verse. These Bible references are known as "Anchors", because they tie the story verse to the Bible.
+In this stage, you (the project facilitator) will go through the story verse-by-verse and look up one or more Bible references in the Bible pane 
+that supports the information in the verse. These Bible references are known as "Anchors", because they tie the story verse to the Bible.
 
-When you find a supporting Bible passage in the "Bible" pane (lower-left pane of the OneStory editor), then click and hold down the left mouse button on the button to the left
-of the verse in the Bible pane. Then while the left mouse button is held down, drag the mouse onto the line in the story verse area above with the label, "anc:". This is the 
-anchor bar for the verse. When the mouse is over the anchor bar, release the left mouse button and a new "anchor button" will appear on the anchor bar for that passage.
+When you find a supporting Bible passage in the "Bible" pane (lower-left pane of the OneStory editor), then click and hold down the left mouse 
+button on the button to the left of the verse text. Then while the left mouse button is held down, drag the mouse onto the line in the story 
+verse area above with the label, "anc:". This is the anchor bar for the verse. When the mouse is over the anchor bar, release the left mouse 
+button and a new "anchor button" will appear on the anchor bar for that passage.
 
-Once anchor buttons are in the anchor bar, you can click on them to jump to the referenced verse. You can also right-click on the anchor button for other options, like adding 
-a comment to the anchor (e.g. "implied by ..."). These comments will be displayed when you hover the mouse over an anchor button (and in historical difference and print 
-preview versions of the story). You can also add a cultural or exegetical note about the anchor by right-clicking on the anchor button and choosing "Add Exegetical/Cultural 
-Note". Such notes can help the consultant understand why you chose the Bible reference that you did.
+Once anchor buttons are in the anchor bar, you can click on them to jump to the referenced verse. You can also right-click on the anchor button 
+for other options, like adding a comment to the anchor (e.g. "implied by ..."). These comments will be displayed when you hover the mouse over 
+an anchor button (and in historical difference and print preview versions of the story). You can also add a cultural or exegetical note about 
+the anchor by right-clicking on the anchor button and choosing "Add Exegetical/Cultural Note". Such notes can help the consultant understand 
+why you chose the Bible reference that you did.
 
-In this stage, you can also select the key terms that are in the story line. To do this, right-click on the Anchor bar and choose "Edit Key Terms". This will bring up the Key 
-Terms dialog box which will show you all the Key biblical terms associated with your anchored bible references. It will also list all the story verses in your project which 
-use the same key term as those in the anchored scripture passages. This is so that you can make sure that you are using the same term in each place where the same underlying 
-Greek or Hebrew key term is used.
+In this stage, you can also select the key terms that are in the story line. To do this, right-click on the Anchor bar and choose "Edit Key 
+Terms". This will bring up the Key Terms dialog box which will show you all the Key biblical terms associated with your anchored bible 
+references. It will also list all the story verses in your project which use the same key term as those in the anchored scripture passages. 
+This is so that you can make sure that you are using the same term in each place where the same underlying Greek or Hebrew key term is used.
 
-To work on the key terms, you first select one of the key terms shown in the table at the top of the Key Terms dialog box (for example, "אֱלֹהִים", which means 'god; gods; 
-God'). Then in the lower portion of the Key Terms dialog box will be listed all the story verses where the same key term is used (based on the anchors of all the story verses 
-in the project). 
-
-To indicate which word in the (lower portion) story line corresponds to the key term (in the upper portion), double-click on the word in the lower portion of the screen to 
-select it. Once the proper term is selected in the story language column, then press the "+" key to add the selected word to the list of "Renderings" shown in the fourth column
-of the table.
-
-You can also edit the renderings by double-clicking on that cell in the table. This brings up the Edit Renderings dialog box. All renderings of the same key term must be 
-separated by a comma and a space. In this dialog box, you can also enter notes about the key term (why you chose it, whether it has any special cultural significance, what 
-other terms you've tried, but rejected, etc).
-
-All of the verses in all of your stories that have the same key term will be displayed in the lower portion of the screen. You'll want to go through all the lines one by one 
-and either make sure the rendering of the key term is in bold (which means it matches one of the already existing renderings) or if the word for the key term doesn't exist, 
-then click the box with the red 'X' in it. This says that that the key term doesn't show up in this verse of the story. This might happen, for example, if instead of using the 
-title 'God' in some particular story line, you use a pronoun instead. The pronoun shouldn't be listed as a rendering of the key term, so you can click the red 'X' to 'deny' 
-that it's necessary for this particular verse. It might also happen that an anchor is used for only one portion of the underlying scripture passage, so while in a scripture 
-translation, the key term may be necessary, it's possible that in a story, some portion of that scripture verse may be left out. 
-
-When all the stories have either a check mark (indicating that the rendering of the key term is in that verse) or have been 'denied', then you can click the 'X' in the upper
-right corner of the Key Terms dialog box to dismiss it. You will be asked if you want to save the changes and you should say "yes".
-
-When you are finished adding one or more anchors for each verse, then click the 'Next Stage' button in the left-hand side of the status bar to go to the next stage in the 
-process.
+When you are finished adding one or more anchors for each verse, then click the 'Next Stage' button in the left-hand side of the status bar 
+to go to the next stage in the process.
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition>eProjFacAddStoryQuestions</AllowableTransition>
@@ -162,53 +145,47 @@ process.
   <StateTransition stage="eProjFacAddStoryQuestions" MemberTypeWithEditToken="eProjectFacilitator" RequiresBiblicalStory="true">
     <StageDisplayString>Project Facilitator adds story testing questions</StageDisplayString>
     <StageInstructions>
-In this stage, you (the project facilitator) will go through the story and add "Story Testing Questions" (STQs). These are 
-questions that you will eventually ask an uninitiated native speaker (UNS) in order to test the implications of the story.
+In this stage, you (the project facilitator) will go through the story and add "Story Testing Questions" (STQs). These are questions that you will eventually ask an 
+uninitiated native speaker (UNS) in order to test the implications of the story.
 
-The best kind of STQs are those that invite the UNS to speculate on "Why" or "How" of what is going on in the story. Or
-questions that ask, "What kinds of things might be an example of this?" are also useful. They should be based on the 
-story, but you should try to get the UNS to speculate beyond what the story itself says. For example, suppose that the
-story had a verse like, "And the people took baptism and left their sins". You could ask a question like, "Why
-(or how) do you think they took baptism?" or "How (or why) do you think they left their sins?" These would be good 
-questions, because the answer isn't in the story and based on what the UNS thinks, it might be necessary to change the 
-story to avoid a wrong understanding. 
+The best kind of STQs are those that invite the UNS to speculate on "Why" or "How" of what is going on in the story. Or questions that ask, "What kinds of 
+things might be an example of this?" are also useful. They should be based on the story, but you should try to get the UNS to speculate beyond what the story 
+itself says. For example, suppose that the story had a verse like, "And the people took baptism and left their sins". You could ask a question like, "Why (or 
+how) do you think they took baptism?" or "How (or why) do you think they left their sins?" These would be good questions, because the answer isn't in the story 
+and based on what the UNS thinks, it might be necessary to change the story to avoid a wrong understanding. 
 
-Other kinds of questions that begin with "What", "Who", "When", "Where", are usually not as good, especially if they can 
-be answered from the story itself. For example, suppose the story verse says, "Jesus and three of his disciples went up 
-on a hill..." Then the question, "How many disciples went up on the hill with Jesus?" would not be a good question, 
-because the answer was just mentioned in the story. Such questions are known as "closed questions" and are not good 
-questions to test the story. However, such questions can be useful if the story itself is ambiguous. For example, if the 
-story line were, "He said to Eve...", since there are two possible referents of 'He' (the snake and Adam), you could ask
-"Who do you think said this to Eve?" to make sure that the UNS understood the correct reference.
+Other kinds of questions that begin with "What", "Who", "When", "Where", are usually not as good, especially if they can be answered from the story itself. For 
+example, suppose the story verse says, "Jesus and three of his disciples went up on a hill..." Then the question, "How many disciples went up on the hill with 
+Jesus?" would not be a good question, because the answer was just mentioned in the story. Such questions are known as "closed questions" and are not good 
+questions to test the story. However, such questions can be useful if the story itself is ambiguous. For example, if the story line were, "He said to Eve...", 
+since there are two possible referents of 'He' (the snake and Adam), you could ask "Who do you think said this to Eve?" to make sure that the UNS understood 
+the correct reference.
 
-Also, story testing questions shouldn’t be questions for which the answer is either "yes" or "no". For example, a
-question like, "Did Joseph reveal himself to his brothers before they left?" Also, questions about what something means 
-are not good questions. For example, "What does the phrase "sabt din" mean?". These are examples of questions that are 
-not good story testing questions.
+Also, story testing questions shouldn’t be questions for which the answer is either "yes" or "no". For example, a question like, "Did Joseph reveal himself to 
+his brothers before they left?" Also, questions about what something means are not good questions. For example, "What does the phrase "sabt din" mean?". 
+These are examples of questions that are not good story testing questions.
 
-Also, they also shouldn’t be questions which ask the UNS for their personal beliefs or theological opinion (e.g. "Do you 
-think that God could really have created the world in 6 days?") or questions which can't really help the story regardless 
-of the answer (e.g. "In your opinion can a person stay in a cattle shed?"). Besides being a "yes-no" question, this one 
-can't possibly help correct any misinterpretation from the story, regardless of what answer is given.
+Also, they also shouldn’t be questions which ask the UNS for their personal beliefs or theological opinion (e.g. "Do you think that God could really have 
+created the world in 6 days?") or questions which can't really help the story regardless of the answer (e.g. "In your opinion can a person stay in a cattle 
+shed?"). Besides being a "yes-no" question, this one can't possibly help correct any misinterpretation from the story, regardless of what answer is given.
 
-When you think of questions to ask, keep in mind what kind of answer you might get from the UNS. If the answer could show 
-that they misunderstood the situation in the story, then it's probably a good question.
+When you think of questions to ask, keep in mind what kind of answer you might get from the UNS. If the answer could show that they misunderstood the 
+situation in the story, then it's probably a good question.
 
-Depending on what agreement you make with your consultant and coach, you may need to translate the testing questions you 
-create into English so the consultant and coach can review them. However, remember that these questions should always be 
-asked and answered with the UNS in the story language itself; not the national language, nor in English. And they should
-use the exact same wording as in the story itself. So, for example, if the story said, "Adam was given the fruit and he 
-ate.", then don't word the question as, "Why do you think Eve gave the fruit to Adam to eat?" (since the story verse
-didn't mention Eve, you shouldn't add her to the question).
+Depending on what agreement you make with your consultant and coach, you may need to translate the testing questions you create into English so the 
+consultant and coach can review them. However, remember that these questions should always be asked and answered with the UNS in the story language itself; 
+not the national language, nor in English. And they should use the exact same wording as in the story itself. So, for example, if the story said, "Adam was 
+given the fruit and he ate.", then don't word the question as, "Why do you think Eve gave the fruit to Adam to eat?" (since the story verse didn't mention 
+Eve, you shouldn't add her to the question).
 
-You should have at least half as many story testing questions as verses in the story. So if your story is 20 verses long, 
-then you need to have at least 10 questions, and don't forget that it's okay if some verses have multiple questions. If 
-you have trouble coming up with enough questions, then contact your consultant for some suggestions.
+You should have at least half as many story testing questions as verses in the story. So if your story is 20 verses long, then you need to have at least 10 
+questions, and don't forget that it's okay if some verses have multiple questions. If you have trouble coming up with enough questions, then contact your 
+consultant for some suggestions.
 
-When you are finished adding these testing questions, then click the "Select State" button to move to the next (green) 
-state. At that time, you will be asked whether you want to enter the results (retelling and answers to the testing
-questions) from a UNS test (click 'Yes') or whether you want to the story and questions as they are passed by the 
-consultant first for pre-UNS test checking (click 'No'). Discuss with your consultant which one you should choose.
+When you are finished adding these testing questions, then click the "Select State" menu item and in the resulting window click on the next (green) state. 
+At that time, you will be asked whether you want to enter the results (retelling and answers to the testing questions) from a UNS test (click 'Yes') or 
+whether you want to the story and questions as they are passed by the consultant first for pre-UNS test checking (click 'No'). Discuss with your consultant 
+which one you should choose.
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition>eBackTranslatorTranslateConNotesBeforeUnsTest</AllowableTransition>
@@ -243,7 +220,8 @@ response in the boxes labeled 'prfc:' (for Project Facilitator) to close the loo
 is fine). If you have further questions, it's okay to ask for clarification in another line. You can add another line 
 for additional comments by right-clicking on the small button and choosing "Add Note" if one is not already visible.
 
-When you are finished, then click the "Select State" button to move to the next (green) state.
+When you are finished, then click the "Select State" menu item and in the resulting window click on the next (green) 
+state.
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition>eBackTranslatorTranslateConNotesBeforeUnsTest</AllowableTransition>
@@ -266,8 +244,8 @@ occurs after all the Project Facilitator states are finished and just before the
 consultant. During this stage, you, the outside English back-translator will translate the story 
 from the National back-translation as well as the story testing questions into English.
 
-When you are finished entering the English back translation, then click the "Select State" button 
-to move to the next (green) state.
+When you are finished entering the English back translation, then click the "Select State" menu item 
+and in the resulting window click on the next (green) state.
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition>eConsultantCheckNonBiblicalStory</AllowableTransition>
@@ -290,9 +268,9 @@ to manually turn on the proper keyboard as needed.
 
 This state is used when the consultant is returning the story to the team for revision *before* going
 on to the UNS test. So when you are finished translating the feedback for the Project Facilitator, then 
-click the "Select State" button and choose the previous (red) state 'Project Facilitator revises the 
-story before returning it to the Consultant'. Then close the editor and the file will be uploaded to 
-the internet where it can be downloaded by the project facilitator for changes.
+click the "Select State" menu item and in the resulting window click on the previous (red) state 'Project 
+Facilitator revises the story before returning it to the Consultant'. Then close the editor and the file 
+will be uploaded to the internet where it can be downloaded by the project facilitator for changes.
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition>eConsultantCheckNonBiblicalStory</AllowableTransition>
@@ -328,49 +306,41 @@ This is the final stage of the process for this non-biblical story.
   <StateTransition stage="eFirstPassMentorCheck1" MemberTypeWithEditToken="eFirstPassMentor" RequiresFirstPassMentor="true" RequiresBiblicalStory="true">
     <StageDisplayString>First-pass mentor checks the story (pre-UNS test)</StageDisplayString>
     <StageInstructions>
-In this stage, you (the first-pass mentor) will check the story and make any suggestions you can
-think of that would make the story more accurate, clear, and natural. You will put your suggestions
-in the 'Consultant Notes' pane of the editor in the boxes labeled 'cons:'
+In this stage, you (the first-pass mentor) will check the story and make any suggestions you can think of that would make the story more 
+accurate, clear, and natural. You will put your suggestions in the 'Consultant Notes' pane of the editor in the boxes labeled 'cons:'
 
 You can make comments related to any of the following issues:
 
-Anchors: are the lines of the story supported by the anchored verses, or has the story crafter mis-
-    interpreted something?
+Anchors: are the lines of the story supported by the anchored verses, or has the story crafter mis-interpreted something?
 
 Story Flow: does the story flow nicely?
 
 Story Length: is the length of the story nice? Does it seem re-tellable?
 
-Translation issues: are any words translated in a way that makes you think it might be mis-
-    translated?
+Translation issues: are any words translated in a way that makes you think it might be mis-translated?
 
-Story matches the stated purpose: does the story seem to support the purpose for which it was 
-    created? (see 'Story' menu, 'Story Information' to see the 'Purpose'). The redemptive theme
-    is also supposed to be written up in the first tab of the 'Show Panorama' command.
+Story matches the stated purpose: does the story seem to support the purpose for which it was created? (see 'Story' menu, 'Story 
+    Information' to see the 'Purpose'). The redemptive theme is also supposed to be written up in the first tab of the 'Show Panorama' 
+    command.
     
-Were enough resources used: look in 'Story' menu, 'Story Information' again to see the list of
-    resources used in crafting the story. Where possible, there should be at least two Bible 
-    versions and two visual resources (video and pictures) used when crafting a story.
+Were enough resources used: look in 'Story' menu, 'Story Information' again to see the list of resources used in crafting the story. 
+    Where possible, there should be at least two Bible versions and two visual resources (video and pictures) used when crafting a story.
 
-Story Testing Questions: are the story testing questions appropriate for the kind of testing that 
-    we want in a Storying project? e.g. do they cause the UNS to think outside of the text--"why" 
-    and "how" questions are better than "what", "who", "where", "when" kind of questions)? Have 
-    the they avoided questions whose answers are "yes" and "no" or questions which ask what 
-    something means? Is there a answer to the question which would be beneficial for checking the 
-    inferences of the story?
+Story Testing Questions: are the story testing questions appropriate for the kind of testing that we want in a Storying project? e.g. do 
+    they cause the UNS to think outside of the text--"why" and "how" questions are better than "what", "who", "where", "when" kind of 
+    questions)? Have the they avoided questions whose answers are "yes" and "no" or questions which ask what something means? Is there a 
+    answer to the question which would be beneficial for checking the inferences of the story?
 
-If there are major problems with the flow and/or thematic focus (e.g. it's too long, or doesn't
-really support the purpose mentioned), you can add a few consultant notes in the Consultant Notes 
-pane and send it back to the Project Facilitator for revision (i.e. before spending a lot of time
-checking it further and/or passing it along to the Consultant). To send it back to the Project 
-Facilitator for such changes, click the "Select State" button and choose the previous (red) state 
-'Project Facilitator revises the story before returning it to the Consultant'. Then close the editor 
-(or reload the project file -- i.e. "Project", "Recent Projects", "{project name}") and the 
-project file will be uploaded to the internet where it can be downloaded by the project facilitator
-to work on changes.
+If there are major problems with the flow and/or thematic focus (e.g. it's too long, or doesn't really support the purpose mentioned), 
+you can add a few consultant notes in the Consultant Notes pane and send it back to the Project Facilitator for revision (i.e. before 
+spending a lot of time checking it further and/or passing it along to the Consultant). To send it back to the Project Facilitator for 
+such changes, click the "Select State" menu item and in the resulting window click on the previous (red) state 'Project Facilitator 
+revises the story before returning it to the Consultant'. Then close the editor (or reload the project file -- i.e. "Project", 
+"Recent Projects", "{project name}") and the project file will be uploaded to the internet where it can be downloaded by the project 
+facilitator to work on changes.
 
-Otherwise, when you are finished reviewing the Story and adding consultant notes in the 'Consultant 
-Notes' pane, then click the "Select State" button to move to the next (green) state.
+Otherwise, when you are finished reviewing the Story and adding consultant notes in the 'Consultant Notes' pane, then click the "Select 
+State" menu item and choose the next (green) state.
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition>eConsultantCheckStoryInfo</AllowableTransition>
@@ -399,14 +369,14 @@ If there are major problems with the flow and/or thematic focus (e.g. it's too l
 really support the purpose mentioned), you can add a few consultant notes in the 'cons:' fields 
 in the 'Consultant Notes' pane and send it back to the Project Facilitator for revision (i.e. 
 before spending a lot of time checking it further). To send it back to the Project Facilitator 
-for such revisions, click the "Select State" button and choose the previous (red) state 'Project 
-Facilitator revises the story before returning it to the Consultant'. Then close the editor (or 
-reload the project file -- i.e. "Project", "Recent Projects", "{project name}") and the project 
-file will be uploaded to the internet where it can be downloaded by the project facilitator to 
-work on changes.
+for such revisions, click the "Select State" menu item and in the resulting window click on the 
+previous (red) state 'Project Facilitator revises the story before returning it to the 
+Consultant'. Then close the editor (or reload the project file -- i.e. "Project", "Recent Projects", 
+"{project name}") and the project file will be uploaded to the internet where it can be downloaded 
+by the project facilitator to work on changes.
 
 Otherwise, when you are finished reviewing the Story Information, then click the "Select State" 
-button to move to the next (green) state.
+menu item and and choose the next (green) state.
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition>eConsultantCheckAnchors</AllowableTransition>
@@ -450,8 +420,8 @@ well. This will copy the Bible reference into your consultant note and then when
 that reference in the Consultant Note, it will be displayed as a hyperlink so that they can just click on it to 
 jump to it from the Consultant Notes pane as well.
 
-When you are finished checking all the anchors, then click the "Select State" button to move to the next (green) 
-state.
+When you are finished checking all the anchors, then click the "Select State" menu item and in the resulting 
+window click on the next (green) state.
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition>eConsultantCheckStoryQuestions</AllowableTransition>
@@ -470,57 +440,43 @@ state.
   <StateTransition stage="eConsultantCheckStoryQuestions" MemberTypeWithEditToken="eConsultantInTraining" RequiresBiblicalStory="true">
     <StageDisplayString>Consultant checks the story testing questions (pre-UNS test)</StageDisplayString>
     <StageInstructions>
-In this stage, you (the consultant) need to check the story testing questions added by the project
-facilitator.
+In this stage, you (the consultant) need to check the story testing questions added by the project facilitator.
 
-As you consider the story testing questions (STQs), keep in mind that their function is to test the 
-implications of the story. The best kind of STQ are those that invite the UNS to speculate on "Why" 
-or "How" of what is going on in the story. Or questions that ask, "What kinds of things might be an 
-example of this?" are also useful. They should be based on the story, but you should try to get the 
-UNS to speculate beyond what the story itself says. For example, suppose that the story had a verse 
-like, "And the people took baptism and left their sins". A good question would be, "Why (or how) do 
-you think they took baptism?" or "How (or why) do you think they left their sins?" These would be 
-good questions, because the answer isn't in the story and based on what answer the UNS gives, it 
-might indicate that the story is giving a wrong understanding.
+As you consider the story testing questions (STQs), keep in mind that their function is to test the implications of the story. The best kind of STQ are those 
+that invite the UNS to speculate on "Why" or "How" of what is going on in the story. Or questions that ask, "What kinds of things might be an example of this?" 
+are also useful. They should be based on the story, but you should try to get the UNS to speculate beyond what the story itself says. For example, suppose that 
+the story had a verse like, "And the people took baptism and left their sins". A good question would be, "Why (or how) do you think they took baptism?" or 
+"How (or why) do you think they left their sins?" These would be good questions, because the answer isn't in the story and based on what answer the UNS gives, 
+it might indicate that the story is giving a wrong understanding.
 
-Less useful are content-questions that begin with "What", "Who", "When", "Where", which can usually 
-be answered from the story itself (e.g. if the story line was, "Jesus and three of his disciples 
-went up on a hill..." Then it wouldn't be as useful to ask questions like, "How many disciples went 
-up on the hill with Jesus?" or "Where did Jesus go?" Such questions are known as "closed questions",
-because the answer is in the story itself, and they do not make good questions for testing the story.
-However, such questions can be useful if the story itself is ambiguous. For example, if the story 
-line were, "He said to Eve...", since there are two possible referents of 'He' (the snake and Adam), 
-you could ask "Who do you think said this to Eve?" to make sure that the UNS understood the correct 
-reference.
+Less useful are content-questions that begin with "What", "Who", "When", "Where", which can usually be answered from the story itself (e.g. if the story line 
+was, "Jesus and three of his disciples went up on a hill..." Then it wouldn't be as useful to ask questions like, "How many disciples went up on the hill with 
+Jesus?" or "Where did Jesus go?" Such questions are known as "closed questions", because the answer is in the story itself, and they do not make good questions 
+for testing the story. However, such questions can be useful if the story itself is ambiguous. For example, if the story line were, "He said to Eve...", since 
+there are two possible referents of 'He' (the snake and Adam), you could ask "Who do you think said this to Eve?" to make sure that the UNS understood the 
+correct reference.
 
-Also, story testing questions shouldn’t be "yes-no" questions (questions for which the answer is either 
-"yes" or "no"). For example, a question like, "Did Joseph reveal himself to his brothers before they 
-left?" Also, questions about what something means are not good questions. For example, "What does the 
-phrase "sabt din" mean?". These are examples of questions that are not good story testing questions.
+Also, story testing questions shouldn’t be "yes-no" questions (questions for which the answer is either "yes" or "no"). For example, a question like, "Did 
+Joseph reveal himself to his brothers before they left?" Also, questions about what something means are not good questions. For example, "What does the phrase 
+"sabt din" mean?". These are examples of questions that are not good story testing questions.
 
-Also, they also shouldn’t be questions which ask the UNS for their personal beliefs or theological 
-opinion (e.g. "Do you think that God could really have created the world in 6 days?"). While they might
-have an interesting answer to such a question and it may help you learn about their culture better, any
-answer they give to such a question won't help test the implications of the story.
+Also, they also shouldn’t be questions which ask the UNS for their personal beliefs or theological opinion (e.g. "Do you think that God could really have 
+created the world in 6 days?"). While they might have an interesting answer to such a question and it may help you learn about their culture better, any answer 
+they give to such a question won't help test the implications of the story.
 
-Finally, as you evaluate a question always be thinking about what kind of answer a UNS might give. If
-the answer can't really help the story regardless of what the answer is, then it is not a good question.
-For example, a question like, "In your opinion can a person stay in a cattle shed?". Besides being a 
-"yes-no" question, this one can't possibly help correct any misinterpretation from the story, regardless 
-of what answer the UNS gives.
+Finally, as you evaluate a question always be thinking about what kind of answer a UNS might give. If the answer can't really help the story regardless of what 
+the answer is, then it is not a good question. For example, a question like, "In your opinion can a person stay in a cattle shed?". Besides being a "yes-no" 
+question, this one can't possibly help correct any misinterpretation from the story, regardless of what answer the UNS gives.
 
-If you feel that any particular question is not a good question, then add a note to the Consultant Note
-pane for that line recommending that the project facilitator make a change to the question. It is 
-important to indicate why the question is not a good one so that they can learn what our goal is in asking 
+If you feel that any particular question is not a good question, then add a note to the Consultant Note pane for that line recommending that the project 
+facilitator make a change to the question. It is important to indicate why the question is not a good one so that they can learn what our goal is in asking 
 the questions. And also, be sure to offer an alternative suggestion.
 
-When you are finished adding these testing questions, then click the "Select State" button to move to the 
-next (green) state. If this project is configured for 'Consultant-in-Training with Coaching' (see "Project",
-"Settings" and on the "Team Members" tab), then the next state will be for your Coach to evaluate your 
-feedback and possibly put comments in the Coach Notes pane. If you have a question about your feedback prior 
-to passing your comments on to the coach, you can add a question to the Coach Notes pane directly (click 
-"View" menu, "Coach notes field" command to display the Coach Notes pane if it isn't visible). Then click 
-the "Add Note" button to add a note (at the relevant line).
+When you are finished adding these testing questions, then click the "Select State" menu item and in the resulting window click on the next (green) state. If 
+this project is configured for 'Consultant-in-Training with Coaching' (see "Project", "Settings" and on the "Team Members" tab), then the next state will be 
+for your Coach to evaluate your feedback and possibly put comments in the Coach Notes pane. If you have a question about your feedback prior to passing your 
+comments on to the coach, you can add a question to the Coach Notes pane directly (click "View" menu, "Coach notes field" command to display the Coach Notes 
+pane if it isn't visible). Then click the "Add Note" button to add a note (at the relevant line).
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition>eCoachReviewRound1Notes</AllowableTransition>
@@ -605,7 +561,8 @@ questions, it's okay to ask for clarification in another line.
 
 You can add another line for additional comments by clicking on the "Add Note" button if needed.
 
-When you are finished, then click the "Select State" button to move to the next (green) state.
+When you are finished, then click the "Select State" menu item and in the resulting window click on the 
+next (green) state.
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition>eBackTranslatorTranslateConNotes</AllowableTransition>
@@ -626,7 +583,8 @@ team.
 You can just type the translation into the same box as the original consultant note, though you'll have
 to manually turn on the proper keyboard as needed.
 
-When you are finished, then click the "Select State" button to move to the next (green) state.
+When you are finished, then click the "Select State" menu item and in the resulting window click on the 
+next (green) state.
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition>eProjFacReviseBasedOnRound1Notes</AllowableTransition>
@@ -640,37 +598,33 @@ When you are finished, then click the "Select State" button to move to the next 
   <StateTransition stage="eProjFacReviseBasedOnRound1Notes" MemberTypeWithEditToken="eProjectFacilitator" RequiresBiblicalStory="true">
     <StageDisplayString>Project Facilitator revises story based on Consultant's feedback</StageDisplayString>
     <StageInstructions>
-In this stage, you (the project facilitator) will go through the feedback given by the consultant in the Consultant 
-Notes pane and revise your story accordingly. 
+In this stage, you (the project facilitator) will go through the feedback given by the consultant in the Consultant Notes pane and revise your 
+story accordingly. 
 
-As you process the consultant's comments, decide on the appropriate change for each comment and if it's a small change, 
-you can record just that changed part and splice the new recording over the old one in the original story recording. 
-It's okay that this will create an odd sounding recording with portions from different recording sessions. 
+As you process the consultant's comments, decide on the appropriate change for each comment and if it's a small change, you can record just that 
+changed part and splice the new recording over the old one in the original story recording. It's okay that this will create an odd sounding 
+recording with portions from different recording sessions. 
 
-For example, suppose that the back-translation of your story says that some character in the Bible story said something 
-which they didn't really say--something which is not anchorable. And the consultant points out that the person really 
-said something else instead. Then you would make a recording of the something else (corrected) version and overwrite the 
-quote from the original recording.
+For example, suppose that the back-translation of your story says that some character in the Bible story said something which they didn't really 
+say--something which is not anchorable. And the consultant points out that the person really said something else instead. Then you would make a 
+recording of the something else (corrected) version and overwrite the quote from the original recording.
 
-If you make your revisions/corrections in this manner (i.e. splicing the revisions in the old recording), then you can 
-also update the story line text boxes with the change as well as the national language and English back-translations. 
-But remember, the *change* is to the story *recording*; not the back-translations. The documentation of the story and 
-its back-translations are just reflections of the change to the story recording.
+If you make your revisions/corrections in this manner (i.e. splicing the revisions in the old recording), then you can also update the story line 
+text boxes with the change as well as the national language and English back-translations. But remember, the *change* is to the story *recording*; 
+not the back-translations. The documentation of the story and its back-translations are just reflections of the change to the story recording.
 
-For more significant changes, discuss each of them with the crafter and get them to retell the whole story with the
-requested changes. The crafter should avoid looking at the documentation while you discuss the changes with them, so 
-it doesn't prejudice them towards a particular way of saying it. Your job as project facilitator is to make sure the 
-requested changes make it into the crafter's new version of the story. If they leave out one of the requested changes,
-then have them retell it again (or splice in the missing piece). This might take several iterations to get all of the 
+For more significant changes, discuss each of them with the crafter and get them to retell the whole story with the requested changes. The crafter 
+should avoid looking at the documentation while you discuss the changes with them, so it doesn't prejudice them towards a particular way of saying 
+it. Your job as project facilitator is to make sure the requested changes make it into the crafter's new version of the story. If they leave out 
+one of the requested changes, then have them retell it again (or splice in the missing piece). This might take several iterations to get all of the 
 requested changes.
 
-In addition to updating the story documentation for the new version, you should also type in some response to each of
-the comments by the consultant (i.e. the 'cons:' fields from the 'Consultant Notes' pane). Your responses will go in
-the boxes labeled 'prfc:' (for Project Facilitator) to close the loop on the conversation (even just "done" is fine). 
-If you have further questions, it's okay to ask for clarification in another line. You can add another line for 
-additional comments by clicking the "Add Note" button if needed.
+In addition to updating the story documentation for the new version, you should also type in some response to each of the comments by the consultant 
+(i.e. the 'cons:' fields from the 'Consultant Notes' pane). Your responses will go in the boxes labeled 'prfc:' (for Project Facilitator) to close 
+the loop on the conversation (even just "done" is fine). If you have further questions, it's okay to ask for clarification in another line. You can 
+add another line for additional comments by clicking the "Add Note" button if needed.
 
-When you are finished, then click the "Select State" button to move to the next (green) state.
+When you are finished, then click the "Select State" menu item and in the resulting window click on the next (green) state.
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition AllowToSkip="true">eProjFacOnlineReview1WithConsultant</AllowableTransition>
@@ -693,8 +647,8 @@ and the consultant don't share a common language, it might also be necessary to 
 does the English Back-translation be present on-line as well to translate between the team and the 
 consultant.
 
-Once all of the issues and their resolutions are discussed, then click the "Select State" button to move
-to the next (green) state where you will do a UNS test. 
+Once all of the issues and their resolutions are discussed, then click the "Select State" menu item 
+and in the resulting window click on the next (green) state where you will do a UNS test. 
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition>eProjFacReadyForTest1</AllowableTransition>
@@ -729,9 +683,10 @@ Each UNS test includes:
       inference testing questions ('tst:' lines). Stop the play back, ask the UNS the question(s), 
       and with another recording device record their response(s).
 
-When you are finished, then click the "Select State" button to move to the next (green) state, where 
-you will listen to the three recordings you have made above (i.e. the Retelling, the back-translation, 
-and the answers to the testing questions) to enter the UNS's responses into the story documentation.
+When you are finished, then click the "Select State" menu item and in the resulting window click on the 
+next (green) state, where you will listen to the three recordings you have made above (i.e. the 
+Retelling, the back-translation, and the answers to the testing questions) to enter the UNS's responses 
+into the story documentation.
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition>eProjFacEnterRetellingOfTest1</AllowableTransition>
@@ -761,9 +716,9 @@ with the same UNS. Once you finish entering the retelling and (in the next state
 testing questions, then you will want to come back to this state again, click 'Yes' to add a 2nd set
 of boxes and enter the results from the 2nd UNS.
 
-When you are finished entering the retelling, then click the "Select State" button to move to the 
-next (green) state, which is for entering the answers to the inference testing questions of this 
-same UNS.
+When you are finished entering the retelling, then click the "Select State" menu item and in the 
+resulting window click on the next (green) state, which is for entering the answers to the inference 
+testing questions of this same UNS.
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition>eProjFacEnterAnswersToStoryQuestionsOfTest1</AllowableTransition>
@@ -789,8 +744,8 @@ test, then click the 'Select State' button and click on the previous (red) state
 Facilitator enters retelling back-translation'. You will be asked if you want to add a set of boxes 
 for the UNS's responses (you will want to click 'Yes').
 
-Otherwise, if you're finished entering in UNS test results, then click the "Select State" button to 
-move to the next (green) state.
+Otherwise, if you're finished entering in UNS test results, then click the "Select State" menu item 
+and in the resulting window click on the next (green) state.
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition>eBackTranslatorTypeInternationalBTTest1</AllowableTransition>
@@ -819,8 +774,8 @@ states are finished and just before the story goes to the consultant.
 There are not separate boxes for the English back-translation of the test responses, so you can just
 add the English BT to the same boxes that have the vernacular or national language responses.
 
-When you are finished entering the English back translation, then click the "Select State" button to 
-move to the next (green) state.
+When you are finished entering the English back translation, then click the "Select State" menu item 
+and in the resulting window click on the next (green) state.
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition>eFirstPassMentorCheck2</AllowableTransition>
@@ -834,42 +789,34 @@ move to the next (green) state.
   <StateTransition stage="eFirstPassMentorCheck2" MemberTypeWithEditToken="eFirstPassMentor" RequiresFirstPassMentor="true" RequiresBiblicalStory="true">
     <StageDisplayString>First-pass mentor checks UNS test results</StageDisplayString>
     <StageInstructions>
-In this stage, you (the first-pass mentor) will check the story again now that you have the answers
-to the story testing questions and the retelling testing by two different UNSs. You should make any 
-suggestions you think would help make the story more accurate, clear, and natural. You will put your 
-suggestions in the 'Consultant Notes' pane of the editor in the boxes labeled 'cons:'
+In this stage, you (the first-pass mentor) will check the story again now that you have the answers to the story testing questions 
+and the retelling testing from the UNS(s). You should make any suggestions you think would help make the story more accurate, 
+clear, and natural. You will put your suggestions in the 'Consultant Notes' pane of the editor in the boxes labeled 'cons:'
 
 As before, you can make comments related to any of the following issues:
 
-Anchors: are the lines of the story supported by the anchored verses, or has the story crafter mis-
-    interpreted something?
+Anchors: are the lines of the story supported by the anchored verses, or has the story crafter misinterpreted something?
 
 Story Flow: does the story flow nicely?
 
 Story Length: is the length of the story nice? Does it seem re-tellable?
 
-Translation issues: are any words translated in a way that makes you think it might be mis-
-    translated?
+Translation issues: are any words translated in a way that makes you think it might be mis-translated?
 
-Story matches the stated purpose: does the story seem to support the purpose for which it was 
-    created? (see 'Story' menu, 'Story Information' to see the 'Purpose'). The redemptive theme
-    is also supposed to be written up in the first tab of the 'Show Panorama' command.
+Story matches the stated purpose: does the story seem to support the purpose for which it was created? (see 'Story' menu, 'Story 
+    Information' to see the 'Purpose'). The redemptive theme is also supposed to be written up in the first tab of the 'Show 
+    Panorama' command.
 
-Additionally, during this state you will have UNS responses to the Testing Questions and 
-retellings of the story from the one or two UNS checks. 
+Additionally, during this state you will have UNS responses to the Testing Questions and retellings of the story from the UNS 
+test(s). Review the answers that the UNS gave to the story and see if any of the answers suggest that the story is unclear or 
+misleading at any point. If so, then be sure to make a comment about it in the consultant notes pane.
 
-Review the answers that the UNS gave to the story and see if any of the answers suggest that 
-the story is unclear or misleading at any point. If so, then be sure to make a comment about it
-in the consultant notes pane.
+Also, look at the retelling and if it is significantly different from the original story and especially if it seems more natural 
+to you, then make a suggestion about that to the crafting team as well (i.e. to consider whether the retelling is a more natural 
+way to say it and therefore perhaps the original story ought to be changed).
 
-Also, look at the retelling and if it is significantly different from the original story and 
-especially if it seems more natural to you, then make a suggestion about that to the crafting
-team as well (i.e. to consider whether the retelling is a more natural way to say it and there-
-fore perhaps the original story ought to be changed.
-
-When you are finished reviewing the Story and putting any consultant notes you have in the 
-'Consultant Notes' pane, then click the 'Next Stage' button in the left-hand side of the status 
-bar to go to the next stage in the process.
+When you are finished reviewing the Story and putting any consultant notes you have in the 'Consultant Notes' pane, then click 
+the "Select State" menu item and in the resulting window click on the next (green) state.
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition>eConsultantCheck2</AllowableTransition>
@@ -883,42 +830,33 @@ bar to go to the next stage in the process.
   <StateTransition stage="eConsultantCheck2" MemberTypeWithEditToken="eConsultantInTraining" RequiresBiblicalStory="true">
     <StageDisplayString>Consultant checks story after UNS test</StageDisplayString>
     <StageInstructions>
-In this stage, you (the consultant) will check the story again now that you have the answers
-to the story testing questions and the retelling testing by one or more UNSs. You should make any 
-suggestions you think would help make the story more accurate, clear, and natural. You will put your 
+In this stage, you (the consultant) will check the story again now that you have the answers to the story testing questions and the retelling 
+from the UNS(s). You should make any suggestions you think would help make the story more accurate, clear, and natural. You will put your 
 suggestions in the 'Consultant Notes' pane of the editor in the boxes labeled 'cons:'
 
 As before, you can make comments related to any of the following issues:
 
-Anchors: are the lines of the story supported by the anchored verses, or has the story crafter mis-
-    interpreted something?
+Anchors: are the lines of the story supported by the anchored verses, or has the story crafter misinterpreted something?
 
 Story Flow: does the story flow nicely?
 
 Story Length: is the length of the story nice? Does it seem re-tellable?
 
-Translation issues: are any words translated in a way that makes you think it might be mis-
-    translated?
+Translation issues: are any words translated in a way that makes you think it might be mis-translated?
 
-Story matches the stated purpose: does the story seem to support the purpose for which it was 
-    created? (see 'Story' menu, 'Story Information' to see the 'Purpose'). The redemptive theme
-    is also supposed to be written up in the first tab of the 'Show Panorama' command.
+Story matches the stated purpose: does the story seem to support the purpose for which it was created? (see 'Story' menu, 'Story Information' 
+    to see the 'Purpose'). The redemptive theme is also supposed to be written up in the first tab of the 'Show Panorama' command.
 
-Additionally, during this state you will have UNS responses to the Testing Questions and 
-retellings of the story from the one or two UNS checks. 
+Additionally, during this state you will have UNS responses to the Testing Questions and retellings of the story from the UNS test(s). Review 
+the answers the UNS gave to the story and see if any of the answers suggest that the story is unclear or misleading at any point. If so, then 
+be sure to make a comment about it in the consultant notes pane.
 
-Review the answers that the UNS gave to the story and see if any of the answers suggest that 
-the story is unclear or misleading at any point. If so, then be sure to make a comment about it
-in the consultant notes pane.
+Also, look at the retelling and if it is significantly different from the original story and especially if it seems more natural to you, then 
+make a suggestion about that to the crafting team as well (i.e. to consider whether the retelling is a more natural way to say it and therefore 
+perhaps the original story ought to be changed.
 
-Also, look at the retelling and if it is significantly different from the original story and 
-especially if it seems more natural to you, then make a suggestion about that to the crafting
-team as well (i.e. to consider whether the retelling is a more natural way to say it and there-
-fore perhaps the original story ought to be changed.
-
-When you are finished reviewing the Story and putting any consultant notes you have in the 
-'Consultant Notes' pane, then click the 'Next Stage' button in the left-hand side of the status 
-bar to go to the next stage in the process.
+When you are finished reviewing the Story and putting any consultant notes you have in the 'Consultant Notes' pane, then click the "Select 
+State" button to move to the next (green) state.
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition>eCoachReviewRound2Notes</AllowableTransition>
@@ -937,17 +875,18 @@ bar to go to the next stage in the process.
 In this stage, you (the coach) will check the UNS test results and the consultant notes added by the
 consultant-in-training (and possibly the first-pass mentor) in the Consultant Notes pane.
 
-Any feedback you have can be put into a note in the "Coach Notes" pane. You can right-click on the small
-button to the right-hand side of the appropriate line number and choose "Add Note" to enter the comment
-you have in the line labeled, "coch:"
+Any feedback you have can be put into a note in the "Coach Notes" pane. You can click on the "Add 
+Note" button to enter the comment you have in the line labeled, "coch:".
 
-If you are satisfied that the story is ready to go on to 'Story Fellowship Group' testing, then click the
-'Next Stage' button in the left-hand side of the status bar to go to the 'Story testing complete (waiting for panorama completion review)' 
-state.
+If you are satisfied that the story is ready to go on to 'Story Fellowship Group' testing, then click 
+the "Select State" menu item and in the resulting window click on the next and final (green) state, 
+"Story testing complete (waiting for panorama completion review)"
 
-If you are not satisfied with the story and would like further revisions, then indicate what changes you
-want in the Coach Notes pane and click the 'Send back for revision' button to send it back to the CIT
-to make revisions.
+If you are not satisfied with the story and would like further revisions and/or UNS tests, then indicate 
+what changes you want in the Coach Notes pane and click the "Select State" menu item and in the resulting 
+window click on the previous (red) state, "Consultant revises notes based on Coach's feedback". This will 
+put the story in the state where the CIT can revise his or her feedback and send it back to the project 
+facilitator for changes.
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition>eTeamComplete</AllowableTransition>
@@ -964,10 +903,10 @@ In this stage the story has preliminary approval to be used in a Story Fellowshi
 (i.e. whether any revisions were necessary based on how it worked in the SFG).
 
 If you have any changes as a result of the SFG, then you can make your edits to the story and return it to one of 
-the previous states for either the first-pass mentor or consultant to review. To return to one of these previous
-states, click on the down arrow on the right-hand side of the 'Select State' button and choose the state you
-want to return to (either the 'Consultant reviews test 2 results' state, or if your team has a first-pass mentor, 
-to the 'First-pass mentor checks test 2 results' state), which sends it to them for another consultant check.
+the previous states for either the first-pass mentor or consultant to review. 
+
+To return to one of these previous states, click on the "Select State" menu item and choose the state you want to 
+return to shown in red.
     </StageInstructions>
     <AllowableBackwardsTransitions>
       <AllowableTransition>eCoachReviewRound2Notes</AllowableTransition>

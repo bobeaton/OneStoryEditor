@@ -1949,9 +1949,16 @@ namespace OneStoryProjectEditor
 
         protected bool SetNextStateIfReady(StoryStageLogic.ProjectStages stateToSet)
         {
-            if (!theCurrentStory.ProjStage.IsChangeOfStateAllowed(LoggedOnMember))
+            try
+            {
+                LoggedOnMember.ThrowIfEditIsntAllowed(theCurrentStory.ProjStage.MemberTypeWithEditToken);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
                 return false;
-
+            }
+            
             StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[theCurrentStory.ProjStage.ProjectStage];
             bool bRet = st.IsReadyForTransition(this, StoryProject, theCurrentStory, stateToSet);
             if (bRet)

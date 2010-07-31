@@ -329,11 +329,12 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to In order to add or edit key terms, you have to begin using a local copy of one of the existing key terms list 
-        ///(i.e. a copy generated, for example, from the Paratext &quot;Major Key Terms&quot; or &quot;All Key Terms&quot; lists or one 
-        ///customized by your entity). At this point, you may want to click &apos;Cancel&apos; here and then click the 
-        ///&quot;Select Key Terms List&quot; button to select one of the other, existing key terms lists to see if the term you want 
-        ///is present in one of them. If you don&apos;t find the term in one of those lists and [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to In order to add or edit key terms, you have to begin using a local copy of one of the existing key
+        ///terms list (i.e. a copy generated, for example, from the Paratext &quot;Major Key Terms&quot; or &quot;All Key 
+        ///Terms&quot; lists or one customized by your entity). At this point, you may want to click &apos;Cancel&apos; 
+        ///here and then click the &quot;Select Key Terms List&quot; button to select one of the other, existing key 
+        ///terms lists to see if the term you want is present in one of them. If you don&apos;t find the term in 
+        ///one of those lists an [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string IDS_CreateMyBiblicalTermsQuery {
             get {
@@ -766,7 +767,8 @@ namespace OneStoryProjectEditor.Properties {
         ///
         ///\+mkr ans
         ///\nam Answers
-        ///\lng InternationalBT        /// [rest of string was truncated]&quot;;.
+        ///\lng InternationalBT
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string IDS_TbxFile_StoryBT {
             get {
@@ -896,7 +898,8 @@ namespace OneStoryProjectEditor.Properties {
         ///    &lt;!-- oneStory2CoachNotes.xsl         
         ///        create by Bob Eaton based on Jim Albright&apos;s script for storyingBT 
         ///        (to handle conversion of onestory to sfm)
-        ///        2010-04-05        /// [rest of string was truncated]&quot;;.
+        ///        2010-04-05
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string oneStory2CoachNotes {
             get {

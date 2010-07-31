@@ -53,7 +53,7 @@ namespace OneStoryProjectEditor
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdCancel.AutoSize = true;
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(693, 540);
+            this.cmdCancel.Location = new System.Drawing.Point(640, 497);
             this.cmdCancel.Margin = new System.Windows.Forms.Padding(2);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(91, 27);
@@ -66,7 +66,7 @@ namespace OneStoryProjectEditor
             // 
             this.cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdOK.AutoSize = true;
-            this.cmdOK.Location = new System.Drawing.Point(598, 540);
+            this.cmdOK.Location = new System.Drawing.Point(545, 497);
             this.cmdOK.Margin = new System.Windows.Forms.Padding(2);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(91, 27);
@@ -84,11 +84,11 @@ namespace OneStoryProjectEditor
             this.groupBox1.Controls.Add(this.textNotes);
             this.groupBox1.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.groupBox1.Location = new System.Drawing.Point(2, 313);
+            this.groupBox1.Location = new System.Drawing.Point(2, 288);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox1.Size = new System.Drawing.Size(782, 167);
+            this.groupBox1.Size = new System.Drawing.Size(729, 150);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Notes";
@@ -104,7 +104,7 @@ namespace OneStoryProjectEditor
             this.textNotes.Multiline = true;
             this.textNotes.Name = "textNotes";
             this.textNotes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textNotes.Size = new System.Drawing.Size(773, 146);
+            this.textNotes.Size = new System.Drawing.Size(720, 129);
             this.textNotes.TabIndex = 1;
             // 
             // tableLayoutPanel1
@@ -132,7 +132,7 @@ namespace OneStoryProjectEditor
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(786, 569);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(733, 526);
             this.tableLayoutPanel1.TabIndex = 22;
             // 
             // groupBox3
@@ -148,7 +148,7 @@ namespace OneStoryProjectEditor
             this.groupBox3.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox3.Size = new System.Drawing.Size(782, 81);
+            this.groupBox3.Size = new System.Drawing.Size(729, 73);
             this.groupBox3.TabIndex = 23;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Term Definition";
@@ -164,7 +164,7 @@ namespace OneStoryProjectEditor
             this.txtTermDefinition.Multiline = true;
             this.txtTermDefinition.Name = "txtTermDefinition";
             this.txtTermDefinition.ReadOnly = true;
-            this.txtTermDefinition.Size = new System.Drawing.Size(768, 60);
+            this.txtTermDefinition.Size = new System.Drawing.Size(715, 52);
             this.txtTermDefinition.TabIndex = 24;
             this.txtTermDefinition.TabStop = false;
             // 
@@ -177,11 +177,11 @@ namespace OneStoryProjectEditor
             this.groupBox2.Controls.Add(this.textRenderings);
             this.groupBox2.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.groupBox2.Location = new System.Drawing.Point(2, 142);
+            this.groupBox2.Location = new System.Drawing.Point(2, 134);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox2.Size = new System.Drawing.Size(782, 167);
+            this.groupBox2.Size = new System.Drawing.Size(729, 150);
             this.groupBox2.TabIndex = 22;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Renderings";
@@ -194,7 +194,7 @@ namespace OneStoryProjectEditor
             this.textRenderings.Multiline = true;
             this.textRenderings.Name = "textRenderings";
             this.textRenderings.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textRenderings.Size = new System.Drawing.Size(778, 150);
+            this.textRenderings.Size = new System.Drawing.Size(725, 133);
             this.textRenderings.TabIndex = 0;
             // 
             // groupBox4
@@ -206,9 +206,9 @@ namespace OneStoryProjectEditor
             this.groupBox4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.tableLayoutPanel1.SetColumnSpan(this.groupBox4, 2);
             this.groupBox4.Controls.Add(this.textTag);
-            this.groupBox4.Location = new System.Drawing.Point(3, 88);
+            this.groupBox4.Location = new System.Drawing.Point(3, 80);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(780, 49);
+            this.groupBox4.Size = new System.Drawing.Size(727, 49);
             this.groupBox4.TabIndex = 25;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Tag";
@@ -221,7 +221,7 @@ namespace OneStoryProjectEditor
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.textTag.Location = new System.Drawing.Point(7, 27);
             this.textTag.Name = "textTag";
-            this.textTag.Size = new System.Drawing.Size(768, 20);
+            this.textTag.Size = new System.Drawing.Size(715, 20);
             this.textTag.TabIndex = 0;
             this.textTag.TabStop = false;
             // 
@@ -230,9 +230,9 @@ namespace OneStoryProjectEditor
             this.labelInstructions.AutoSize = true;
             this.tableLayoutPanel1.SetColumnSpan(this.labelInstructions, 2);
             this.labelInstructions.Font = new System.Drawing.Font("Arial Unicode MS", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelInstructions.Location = new System.Drawing.Point(3, 482);
+            this.labelInstructions.Location = new System.Drawing.Point(3, 440);
             this.labelInstructions.Name = "labelInstructions";
-            this.labelInstructions.Size = new System.Drawing.Size(758, 54);
+            this.labelInstructions.Size = new System.Drawing.Size(727, 54);
             this.labelInstructions.TabIndex = 26;
             this.labelInstructions.Text = resources.GetString("labelInstructions.Text");
             // 
@@ -242,7 +242,7 @@ namespace OneStoryProjectEditor
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(792, 574);
+            this.ClientSize = new System.Drawing.Size(739, 531);
             this.Controls.Add(this.tableLayoutPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

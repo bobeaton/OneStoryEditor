@@ -43,13 +43,13 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonAddKeyTerm = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonEditKeyTerm = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonDeleteKeyTerm = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonShowAllTerms = new System.Windows.Forms.ToolStripButton();
             this.progressBarLoadingKeyTerms = new System.Windows.Forms.ProgressBar();
             this.webBrowser = new onlyconnect.HtmlEditor();
             this.helpProvider = new System.Windows.Forms.HelpProvider();
             this.textBoxInstructions = new System.Windows.Forms.TextBox();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButtonDeleteKeyTerm = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -75,8 +75,8 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.progressBarLoadingKeyTerms);
             this.splitContainer1.Panel2.Controls.Add(this.webBrowser);
-            this.splitContainer1.Size = new System.Drawing.Size(768, 428);
-            this.splitContainer1.SplitterDistance = 165;
+            this.splitContainer1.Size = new System.Drawing.Size(768, 418);
+            this.splitContainer1.SplitterDistance = 161;
             this.splitContainer1.TabIndex = 1;
             // 
             // dataGridViewKeyTerms
@@ -102,7 +102,7 @@
             this.dataGridViewKeyTerms.RowHeadersVisible = false;
             this.dataGridViewKeyTerms.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.helpProvider.SetShowHelp(this.dataGridViewKeyTerms, true);
-            this.dataGridViewKeyTerms.Size = new System.Drawing.Size(768, 140);
+            this.dataGridViewKeyTerms.Size = new System.Drawing.Size(768, 136);
             this.dataGridViewKeyTerms.TabIndex = 0;
             this.dataGridViewKeyTerms.VirtualMode = true;
             this.dataGridViewKeyTerms.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewKeyTerms_CellDoubleClick);
@@ -221,6 +221,22 @@
             this.toolStripButtonEditKeyTerm.ToolTipText = "Click this button to edit the selected key term (e.g. to add references to it)";
             this.toolStripButtonEditKeyTerm.Click += new System.EventHandler(this.toolStripButtonEditKeyTerm_Click);
             // 
+            // toolStripButtonDeleteKeyTerm
+            // 
+            this.toolStripButtonDeleteKeyTerm.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonDeleteKeyTerm.Image = global::OneStoryProjectEditor.Properties.Resources.DeleteHS;
+            this.toolStripButtonDeleteKeyTerm.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonDeleteKeyTerm.Name = "toolStripButtonDeleteKeyTerm";
+            this.toolStripButtonDeleteKeyTerm.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonDeleteKeyTerm.Text = "Delete Selected Key Term";
+            this.toolStripButtonDeleteKeyTerm.ToolTipText = "Click this button to delete the selected key term";
+            this.toolStripButtonDeleteKeyTerm.Click += new System.EventHandler(this.toolStripButtonDeleteKeyTerm_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
             // toolStripButtonShowAllTerms
             // 
             this.toolStripButtonShowAllTerms.CheckOnClick = true;
@@ -237,7 +253,7 @@
             // progressBarLoadingKeyTerms
             // 
             this.progressBarLoadingKeyTerms.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.progressBarLoadingKeyTerms.Location = new System.Drawing.Point(0, 236);
+            this.progressBarLoadingKeyTerms.Location = new System.Drawing.Point(0, 230);
             this.progressBarLoadingKeyTerms.Name = "progressBarLoadingKeyTerms";
             this.progressBarLoadingKeyTerms.Size = new System.Drawing.Size(768, 23);
             this.progressBarLoadingKeyTerms.TabIndex = 1;
@@ -262,7 +278,7 @@
             this.webBrowser.SelectionForeColor = System.Drawing.Color.Empty;
             this.webBrowser.SelectionNumbering = false;
             this.helpProvider.SetShowHelp(this.webBrowser, true);
-            this.webBrowser.Size = new System.Drawing.Size(768, 259);
+            this.webBrowser.Size = new System.Drawing.Size(768, 253);
             this.webBrowser.TabIndex = 0;
             this.webBrowser.BeforeNavigate += new onlyconnect.BeforeNavigateEventHandler(this.webBrowser_BeforeNavigate);
             this.webBrowser.MouseMove += new System.Windows.Forms.MouseEventHandler(this.webBrowser_MouseMove);
@@ -272,34 +288,18 @@
             // textBoxInstructions
             // 
             this.textBoxInstructions.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.textBoxInstructions.Location = new System.Drawing.Point(0, 428);
+            this.textBoxInstructions.Location = new System.Drawing.Point(0, 418);
             this.textBoxInstructions.Multiline = true;
             this.textBoxInstructions.Name = "textBoxInstructions";
             this.textBoxInstructions.Size = new System.Drawing.Size(768, 112);
             this.textBoxInstructions.TabIndex = 2;
             this.textBoxInstructions.Text = resources.GetString("textBoxInstructions.Text");
             // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripButtonDeleteKeyTerm
-            // 
-            this.toolStripButtonDeleteKeyTerm.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonDeleteKeyTerm.Image = global::OneStoryProjectEditor.Properties.Resources.DeleteHS;
-            this.toolStripButtonDeleteKeyTerm.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonDeleteKeyTerm.Name = "toolStripButtonDeleteKeyTerm";
-            this.toolStripButtonDeleteKeyTerm.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButtonDeleteKeyTerm.Text = "Delete Selected Key Term";
-            this.toolStripButtonDeleteKeyTerm.ToolTipText = "Click this button to delete the selected key term";
-            this.toolStripButtonDeleteKeyTerm.Click += new System.EventHandler(this.toolStripButtonDeleteKeyTerm_Click);
-            // 
             // BiblicalKeyTermsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(768, 540);
+            this.ClientSize = new System.Drawing.Size(768, 530);
             this.Controls.Add(this.textBoxInstructions);
             this.Controls.Add(this.splitContainer1);
             this.HelpButton = true;
