@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using Palaso.UI.WindowsForms.Keyboarding;
@@ -11,6 +10,7 @@ namespace OneStoryProjectEditor
         protected const string CstrDefaultFontTooltip =
                     "Click here to choose the font, size, and color of the font to use for this language{0}Currently, Font: {1}, Size: {2}, {3}";
         protected const string CstrFinishButtonText = "&Finish";
+        protected const string CstrNextButtonText = "&Next";
 
         protected StoryProjectData _storyProjectData;
         public TeamMemberData LoggedInMember;
@@ -159,8 +159,11 @@ namespace OneStoryProjectEditor
                     _storyProjectData.TeamMembers.HasOutsideEnglishBTer = 
                         ProjSettings.InternationalBT.HasData = false;
 
-                // can't have an outside english bter, if we don't have an English BT
-                checkBoxOutsideEnglishBackTranslator.Enabled = checkBoxEnglishBT.Checked;
+                // can't have an outside english bter, if we don't have an English BT or only an English BT
+                //  (the PF has to put something in!)
+                checkBoxOutsideEnglishBackTranslator.Enabled = (checkBoxEnglishBT.Checked 
+                    && (checkBoxNationalBT.Checked || checkBoxStoryLanguage.Checked));
+
                 checkBoxOutsideEnglishBackTranslator.Checked = _storyProjectData.TeamMembers.HasOutsideEnglishBTer;
                 checkBoxFirstPassMentor.Checked = _storyProjectData.TeamMembers.HasFirstPassMentor;
                 radioButtonIndependentConsultant.Checked = _storyProjectData.TeamMembers.HasIndependentConsultant;
@@ -333,6 +336,8 @@ namespace OneStoryProjectEditor
             finally
             {
                 _bEnableTabSelection = false;
+                if (tabControl.SelectedIndex != (tabControl.TabPages.Count - 1))
+                    buttonNext.Text = CstrNextButtonText;   // just in case we're going backwards from the last tab
             }
         }
 
