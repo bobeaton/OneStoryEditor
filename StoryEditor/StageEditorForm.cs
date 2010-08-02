@@ -158,10 +158,9 @@ namespace OneStoryProjectEditor
             {
                 // see if this state is allowed (whether it's a valid transition or not) given
                 //  our current configuration
-                /*
-                 * if (!stateTransition.IsThisStateAllow(_storyProjectData, _theCurrentStory))
+                if (!stateTransition.IsThisStateAllow(_storyProjectData, _theCurrentStory))
                     continue;
-                */
+
                 switch (stateTransition.MemberTypeWithEditToken)
                 {
                     case TeamMemberData.UserTypes.eProjectFacilitator:
