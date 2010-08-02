@@ -31,6 +31,21 @@ namespace OneStoryProjectEditor
                 // make sure we have HG (or we can't really do much)
                 HgSanityCheck();
 
+                // since we expect to have internet at this point, check for program updates as well
+                AutoUpgrade autoUpgrade = AutoUpgrade.Create(Properties.Resources.IDS_OSEUpgradeServer);
+                 if (autoUpgrade.IsUpgradeAvailable(true))
+                     return;
+                /*
+                AutoUpgrade autoUpgrade = AutoUpgrade.Create(Properties.Resources.IDS_OSEUpgradeServer);
+                if (autoUpgrade.IsUpgradeAvailable(false))
+                    if (MessageBox.Show(Properties.Resources.IDS_QueryAboutUpdateProgram,
+                        OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel)
+                        == DialogResult.Yes)
+                    {
+                        autoUpgrade.StartUpgradeStub();
+                        throw new RestartException();
+                    }
+                */
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 
@@ -228,11 +243,12 @@ namespace OneStoryProjectEditor
                 _astrProjectForSync.Add(strProjectFolder);
         }
 
+/*
 #if !DEBUG
         // when try, we check for an update when we get the internet
         private static bool _bCheckForUpdate = true;
 #endif
-
+*/
         // e.g. http://bobeaton:helpmepld@hg-private.languagedepot.org/snwmtn-test
         // or \\Bob-StudioXPS\Backup\Storying\snwmtn-test
         public static void SyncWithRepository(string strProjectFolder, bool bIsOpening)
@@ -270,6 +286,7 @@ namespace OneStoryProjectEditor
                                 return;
                         }
 
+                    /*
 #if !DEBUG
                     if (_bCheckForUpdate)
                     {
@@ -287,6 +304,7 @@ namespace OneStoryProjectEditor
                             }
                     }
 #endif
+                    */
                 }
 
                 // for when we launch the program, just do a quick & dirty send/receive, 
