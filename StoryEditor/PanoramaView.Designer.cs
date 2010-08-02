@@ -48,12 +48,19 @@
             this.buttonCopyToOldStories = new System.Windows.Forms.Button();
             this.buttonMoveDown = new System.Windows.Forms.Button();
             this.tabPageObsolete = new System.Windows.Forms.TabPage();
+            this.tabPageKeyTerms = new System.Windows.Forms.TabPage();
+            this.dataGridViewKeyTerms = new System.Windows.Forms.DataGridView();
+            this.ColumnGloss = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnRenderings = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnNotes = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tabControlSets.SuspendLayout();
             this.tabPageFrontMatter.SuspendLayout();
             this.tabPagePanorama.SuspendLayout();
             this.tableLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPanorama)).BeginInit();
+            this.tabPageKeyTerms.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewKeyTerms)).BeginInit();
             this.SuspendLayout();
             // 
             // richTextBoxPanoramaFrontMatter
@@ -71,6 +78,7 @@
             this.tabControlSets.Controls.Add(this.tabPageFrontMatter);
             this.tabControlSets.Controls.Add(this.tabPagePanorama);
             this.tabControlSets.Controls.Add(this.tabPageObsolete);
+            this.tabControlSets.Controls.Add(this.tabPageKeyTerms);
             this.tabControlSets.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControlSets.Location = new System.Drawing.Point(0, 0);
             this.tabControlSets.Name = "tabControlSets";
@@ -96,7 +104,7 @@
             this.tabPagePanorama.Location = new System.Drawing.Point(4, 22);
             this.tabPagePanorama.Name = "tabPagePanorama";
             this.tabPagePanorama.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPagePanorama.Size = new System.Drawing.Size(886, 488);
+            this.tabPagePanorama.Size = new System.Drawing.Size(854, 474);
             this.tabPagePanorama.TabIndex = 1;
             this.tabPagePanorama.Text = "Stories";
             this.tabPagePanorama.UseVisualStyleBackColor = true;
@@ -119,7 +127,7 @@
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel.Size = new System.Drawing.Size(880, 482);
+            this.tableLayoutPanel.Size = new System.Drawing.Size(848, 468);
             this.tableLayoutPanel.TabIndex = 2;
             // 
             // dataGridViewPanorama
@@ -141,13 +149,12 @@
             this.dataGridViewPanorama.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewPanorama.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
             this.dataGridViewPanorama.Location = new System.Drawing.Point(3, 3);
-            this.dataGridViewPanorama.MultiSelect = false;
             this.dataGridViewPanorama.Name = "dataGridViewPanorama";
             this.dataGridViewPanorama.RowHeadersWidth = 25;
             this.dataGridViewPanorama.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.tableLayoutPanel.SetRowSpan(this.dataGridViewPanorama, 4);
             this.dataGridViewPanorama.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridViewPanorama.Size = new System.Drawing.Size(842, 476);
+            this.dataGridViewPanorama.Size = new System.Drawing.Size(810, 462);
             this.dataGridViewPanorama.TabIndex = 0;
             this.dataGridViewPanorama.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewPanorama_CellEndEdit);
             // 
@@ -199,7 +206,7 @@
             // 
             this.buttonMoveUp.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.buttonMoveUp.Image = global::OneStoryProjectEditor.Properties.Resources.BuilderDialog_moveup1;
-            this.buttonMoveUp.Location = new System.Drawing.Point(851, 186);
+            this.buttonMoveUp.Location = new System.Drawing.Point(819, 179);
             this.buttonMoveUp.Name = "buttonMoveUp";
             this.buttonMoveUp.Size = new System.Drawing.Size(26, 23);
             this.buttonMoveUp.TabIndex = 1;
@@ -211,7 +218,7 @@
             // 
             this.buttonDelete.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.buttonDelete.Image = global::OneStoryProjectEditor.Properties.Resources.DeleteHS;
-            this.buttonDelete.Location = new System.Drawing.Point(851, 215);
+            this.buttonDelete.Location = new System.Drawing.Point(819, 208);
             this.buttonDelete.Name = "buttonDelete";
             this.buttonDelete.Size = new System.Drawing.Size(26, 23);
             this.buttonDelete.TabIndex = 2;
@@ -223,7 +230,7 @@
             // 
             this.buttonCopyToOldStories.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.buttonCopyToOldStories.Image = global::OneStoryProjectEditor.Properties.Resources.CopyHS;
-            this.buttonCopyToOldStories.Location = new System.Drawing.Point(851, 244);
+            this.buttonCopyToOldStories.Location = new System.Drawing.Point(819, 237);
             this.buttonCopyToOldStories.Name = "buttonCopyToOldStories";
             this.buttonCopyToOldStories.Size = new System.Drawing.Size(26, 23);
             this.buttonCopyToOldStories.TabIndex = 3;
@@ -237,7 +244,7 @@
             // 
             this.buttonMoveDown.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.buttonMoveDown.Image = global::OneStoryProjectEditor.Properties.Resources.BuilderDialog_movedown1;
-            this.buttonMoveDown.Location = new System.Drawing.Point(851, 273);
+            this.buttonMoveDown.Location = new System.Drawing.Point(819, 266);
             this.buttonMoveDown.Name = "buttonMoveDown";
             this.buttonMoveDown.Size = new System.Drawing.Size(25, 23);
             this.buttonMoveDown.TabIndex = 4;
@@ -250,10 +257,59 @@
             this.tabPageObsolete.Location = new System.Drawing.Point(4, 22);
             this.tabPageObsolete.Name = "tabPageObsolete";
             this.tabPageObsolete.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageObsolete.Size = new System.Drawing.Size(886, 488);
+            this.tabPageObsolete.Size = new System.Drawing.Size(854, 474);
             this.tabPageObsolete.TabIndex = 2;
             this.tabPageObsolete.Text = "Old Stories";
             this.tabPageObsolete.UseVisualStyleBackColor = true;
+            // 
+            // tabPageKeyTerms
+            // 
+            this.tabPageKeyTerms.Controls.Add(this.dataGridViewKeyTerms);
+            this.tabPageKeyTerms.Location = new System.Drawing.Point(4, 22);
+            this.tabPageKeyTerms.Name = "tabPageKeyTerms";
+            this.tabPageKeyTerms.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageKeyTerms.Size = new System.Drawing.Size(854, 474);
+            this.tabPageKeyTerms.TabIndex = 3;
+            this.tabPageKeyTerms.Text = "Key Terms";
+            this.tabPageKeyTerms.UseVisualStyleBackColor = true;
+            // 
+            // dataGridViewKeyTerms
+            // 
+            this.dataGridViewKeyTerms.AllowUserToAddRows = false;
+            this.dataGridViewKeyTerms.AllowUserToOrderColumns = true;
+            this.dataGridViewKeyTerms.AllowUserToResizeRows = false;
+            this.dataGridViewKeyTerms.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridViewKeyTerms.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Sunken;
+            this.dataGridViewKeyTerms.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewKeyTerms.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ColumnGloss,
+            this.ColumnRenderings,
+            this.ColumnNotes});
+            this.dataGridViewKeyTerms.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridViewKeyTerms.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
+            this.dataGridViewKeyTerms.Location = new System.Drawing.Point(3, 3);
+            this.dataGridViewKeyTerms.MultiSelect = false;
+            this.dataGridViewKeyTerms.Name = "dataGridViewKeyTerms";
+            this.dataGridViewKeyTerms.RowHeadersWidth = 25;
+            this.dataGridViewKeyTerms.Size = new System.Drawing.Size(848, 468);
+            this.dataGridViewKeyTerms.TabIndex = 0;
+            this.dataGridViewKeyTerms.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewKeyTerms_CellMouseDoubleClick);
+            // 
+            // ColumnGloss
+            // 
+            this.ColumnGloss.HeaderText = "Gloss";
+            this.ColumnGloss.Name = "ColumnGloss";
+            this.ColumnGloss.ReadOnly = true;
+            // 
+            // ColumnRenderings
+            // 
+            this.ColumnRenderings.HeaderText = "Renderings";
+            this.ColumnRenderings.Name = "ColumnRenderings";
+            // 
+            // ColumnNotes
+            // 
+            this.ColumnNotes.HeaderText = "Notes";
+            this.ColumnNotes.Name = "ColumnNotes";
             // 
             // PanoramaView
             // 
@@ -264,11 +320,14 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "PanoramaView";
             this.Text = "Panorama View";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PanoramaView_FormClosing);
             this.tabControlSets.ResumeLayout(false);
             this.tabPageFrontMatter.ResumeLayout(false);
             this.tabPagePanorama.ResumeLayout(false);
             this.tableLayoutPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPanorama)).EndInit();
+            this.tabPageKeyTerms.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewKeyTerms)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -294,5 +353,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnTimeInState;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnLineCount;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnWordCount;
+        private System.Windows.Forms.TabPage tabPageKeyTerms;
+        private System.Windows.Forms.DataGridView dataGridViewKeyTerms;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnGloss;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnRenderings;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnNotes;
     }
 }
