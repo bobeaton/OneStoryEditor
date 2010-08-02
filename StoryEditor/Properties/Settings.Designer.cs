@@ -463,5 +463,40 @@ namespace OneStoryProjectEditor.Properties {
                 this["LookInTestAs"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Drawing.Point BiblicalTermsDlgLocation {
+            get {
+                return ((global::System.Drawing.Point)(this["BiblicalTermsDlgLocation"]));
+            }
+            set {
+                this["BiblicalTermsDlgLocation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int BiblicalTermsDlgHeight {
+            get {
+                return ((int)(this["BiblicalTermsDlgHeight"]));
+            }
+            set {
+                this["BiblicalTermsDlgHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int BiblicalTermsDlgWidth {
+            get {
+                return ((int)(this["BiblicalTermsDlgWidth"]));
+            }
+            set {
+                this["BiblicalTermsDlgWidth"] = value;
+            }
+        }
     }
 }

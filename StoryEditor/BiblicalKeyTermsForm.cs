@@ -56,6 +56,13 @@ namespace OneStoryProjectEditor
 
         public void Show(AnchorsData theAnchors, StoryProjectData theStoryProject)
         {
+            if (Properties.Settings.Default.BiblicalTermsDlgHeight != 0)
+            {
+                Bounds = new Rectangle(Properties.Settings.Default.BiblicalTermsDlgLocation,
+                    new Size(Properties.Settings.Default.BiblicalTermsDlgWidth,
+                        Properties.Settings.Default.BiblicalTermsDlgHeight));
+            }
+
             Show();
             Cursor curCursor = Cursor;
             Cursor = Cursors.WaitCursor;
@@ -622,6 +629,11 @@ namespace OneStoryProjectEditor
         {
             if (renderings != null)
                 renderings.PromptForSave(_projSettings.ProjectFolder);
+
+            Properties.Settings.Default.BiblicalTermsDlgLocation = Location;
+            Properties.Settings.Default.BiblicalTermsDlgHeight = Bounds.Height;
+            Properties.Settings.Default.BiblicalTermsDlgWidth = Bounds.Width;
+            Properties.Settings.Default.Save();
         }
 
         private void toolStripButtonEditRenderings_Click(object sender, EventArgs e)
