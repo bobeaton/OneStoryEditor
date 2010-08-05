@@ -2,6 +2,9 @@ Imports System.Runtime.InteropServices
 Imports System
 Imports System.Xml.Serialization
 Imports System.Net
+Imports System.Security.Cryptography.X509Certificates
+Imports System.Security.Policy
+Imports System.Net.Security
 
 Namespace devX
 
@@ -141,6 +144,21 @@ Namespace devX
             Return wsClient.Create(strManifestPath)
         End Function
 
+        Private Shared Function MyCertValidationCb(ByVal sender As Object, ByVal certificate As X509Certificate, _
+                                            ByVal chain As X509Chain, ByVal sslPolicyErrors As System.Net.Security.SslPolicyErrors) As Boolean
+            Return True
+        End Function
+
+        Private Shared Function GetFtpWebRequest(ByVal strFilename As String) As FtpWebRequest
+            ServicePointManager.ServerCertificateValidationCallback = AddressOf MyCertValidationCb
+            Dim ftpWebRequest As FtpWebRequest = System.Net.WebRequest.Create(strFilename)
+            ftpWebRequest.KeepAlive = False
+            ftpWebRequest.EnableSsl = True
+            ftpWebRequest.UsePassive = True
+            ftpWebRequest.UseBinary = True
+            GetFtpWebRequest = ftpWebRequest
+        End Function
+
         Public Shared Function Create(ByVal strManifestPath As String) As AutoUpgrade
             ' Get the manifest file from the specified Uri, create and return a new 
             ' instance of AutoUpgrade, and deserialize the object model.
@@ -152,8 +170,10 @@ Namespace devX
             Dim manifestStream As System.IO.Stream
 
             Try
-                wbrManifestfile = System.Net.WebRequest.Create(strManifestPath)
-                manifestStream = wbrManifestfile.GetResponse.GetResponseStream
+                Dim ftpWebRequest As FtpWebRequest = GetFtpWebRequest(strManifestPath)
+                manifestStream = ftpWebRequest.GetResponse.GetResponseStream
+                ' wbrManifestfile = System.Net.WebRequest.Create(strManifestPath)
+                ' manifestStream = wbrManifestfile.GetResponse.GetResponseStream
 
                 Try
                     ' Read properties from webrequest stream (from path specified
@@ -172,7 +192,7 @@ Namespace devX
                     If upgInstance.SourcePath.Length = 0 Then
                         upgInstance.SourcePath = _
                          strManifestPath.Substring(0, Len(strManifestPath) - Len(IO.Path.GetFileName(strManifestPath)))
-                        upgInstance.SourcePath = IO.Path.Combine(upgInstance.SourcePath, "client")
+                        ' upgInstance.SourcePath = IO.Path.Combine(upgInstance.SourcePath, "client")
                     End If
 
                     ' If the manifest file did not contain an application base path (which it
@@ -202,6 +222,7 @@ Namespace devX
                 Return New AutoUpgrade()
             End Try
         End Function
+
 
         Public Property ApplicationBasePath() As String
             ' Base directory of application (where the upgraded files get 
@@ -359,14 +380,16 @@ Namespace devX
                                     ' Compare last write time.  Allow a variance of one minute in case
                                     ' the user doesn't specify milliseconds (and because on Win2k, the
                                     ' SetFileWriteTime call seems to round to the nearest minute)
-                                    datDownloadedFileTime = IO.File.GetLastWriteTime(IO.Path.Combine(Me.UpgradeDirectory, manCurrentAutoUpgradeFile.Name))
+                                    Dim fi As IO.FileInfo = New IO.FileInfo(IO.Path.Combine(Me.UpgradeDirectory, manCurrentAutoUpgradeFile.Name))
+                                    datDownloadedFileTime = fi.LastWriteTimeUtc
+                                    ' datDownloadedFileTime = IO.File.GetLastWriteTime(IO.Path.Combine(Me.UpgradeDirectory, manCurrentAutoUpgradeFile.Name))
                                     If System.Math.Abs(DateDiff(DateInterval.Minute, datDownloadedFileTime, CType(manCurrentAutoUpgradeFile.Version, System.DateTime))) > 1 Then
-                                        Throw New ApplicationException("The date on the downloaded file '" & manCurrentAutoUpgradeFile.Name & " - [" & datDownloadedFileTime.ToString & "]' does not match the manifest file date - [" & CType(manCurrentAutoUpgradeFile.Version, System.DateTime).ToString & "].")
+                                        RaiseEvent UpgradeProgress("The date on the downloaded file '" & manCurrentAutoUpgradeFile.Name & " - [" & datDownloadedFileTime.ToString & "]' does not match the manifest file date - [" & CType(manCurrentAutoUpgradeFile.Version, System.DateTime).ToString & "].", manCurrentAutoUpgradeFile.Name, 0, 0, mblnCancel)
                                     End If
                                 Case AutoUpgrade.File.CompareMethod.version
                                     With System.Diagnostics.FileVersionInfo.GetVersionInfo(IO.Path.Combine(Me.UpgradeDirectory, manCurrentAutoUpgradeFile.Name))
                                         If .FileVersion <> manCurrentAutoUpgradeFile.Version Then
-                                            Throw New ApplicationException("The version of the downloaded file '" & manCurrentAutoUpgradeFile.Name & "' - [" & .FileVersion & "] does not match the manifest file - [" & manCurrentAutoUpgradeFile.Version & "].")
+                                            RaiseEvent UpgradeProgress("The version of the downloaded file '" & manCurrentAutoUpgradeFile.Name & "' - [" & .FileVersion & "] does not match the manifest file - [" & manCurrentAutoUpgradeFile.Version & "].", manCurrentAutoUpgradeFile.Name, 0, 0, mblnCancel)
                                         End If
                                     End With
                             End Select
@@ -381,7 +404,8 @@ Namespace devX
         Public Sub DownloadSingleFile(ByVal strFileName As String, Optional ByVal strDescription As String = "")
             ' Download a single file from the source to the staging directory in
             ' 16k chunks, raising UpgradeProgress events to indicate progress.
-            Dim reqFile As System.Net.WebRequest
+            ' Dim reqFile As System.Net.WebRequest
+            Dim reqFile As FtpWebRequest
             Dim strSourceFilePath As String
             Dim strLocalPath As String
             Dim dlBuffer(BUFFERSIZE) As Byte
@@ -389,7 +413,8 @@ Namespace devX
             Dim lngBytesRead As Long
 
             strSourceFilePath = Me.SourcePath & "\" & strFileName
-            reqFile = System.Net.WebRequest.Create(strSourceFilePath)
+            ' reqFile = System.Net.WebRequest.Create(strSourceFilePath)
+            reqFile = GetFtpWebRequest(strSourceFilePath)
             strLocalPath = IO.Path.Combine(Me.UpgradeDirectory, strFileName)
 
             Try
@@ -430,8 +455,15 @@ Namespace devX
 
                 If Not mblnCancel Then
                     ' Set the date on the downloaded file to the date of the source
-                    Dim resp As WebResponse = reqFile.GetResponse()
-                    Dim strLstModified As String = resp.Headers("Last-Modified")
+                    'Dim resp As WebResponse = reqFile.GetResponse()
+                    'Dim strLstModified As String = resp.Headers("Last-Modified")
+                    reqFile.GetResponse.Close()
+                    reqFile = GetFtpWebRequest(strSourceFilePath)
+                    reqFile.Method = WebRequestMethods.Ftp.GetDateTimestamp
+                    Dim strLstModified As String
+                    Using resp As FtpWebResponse = reqFile.GetResponse
+                        strLstModified = resp.LastModified
+                    End Using
                     If Not String.IsNullOrEmpty(strLstModified) Then
                         Dim dateLastModified As Date = Date.Parse(strLstModified)
                         IO.File.SetLastWriteTime(strLocalPath, dateLastModified)
@@ -525,7 +557,9 @@ Namespace devX
 
                     ' If version info was found, mark method as version, else date
                     If String.IsNullOrEmpty(newFileEntry.Version) Then
-                        newFileEntry.Version = IO.File.GetLastWriteTime(strFile).ToLongDateString & " " & IO.File.GetLastWriteTime(strFile).ToLongTimeString
+                        Dim fi As IO.FileInfo = New IO.FileInfo(strFile)
+                        newFileEntry.Version = fi.LastWriteTimeUtc.ToLongDateString & " " & fi.LastWriteTimeUtc.ToLongTimeString
+                        ' newFileEntry.Version = IO.File.GetLastWriteTime(strFile).ToLongDateString & " " & IO.File.GetLastWriteTime(strFile).ToLongTimeString
                         ' only store date if no version is available
                         newFileEntry.Method = AutoUpgrade.File.CompareMethod.date
                     Else
@@ -608,13 +642,20 @@ Namespace devX
                                 ' for files that do not have a version resource (help files, 
                                 ' Data files, etc)
                                 If IO.File.Exists(manFile.Name) Then
-                                    datLocalFileDate = IO.File.GetLastWriteTime(manFile.Name)
+                                    Dim fi As IO.FileInfo = New IO.FileInfo(manFile.Name)
+                                    datLocalFileDate = fi.LastWriteTimeUtc
+                                    ' datLocalFileDate = IO.File.GetLastWriteTime(manFile.Name)
                                     datManifestFileDate = manFile.Version
 
                                     ' Allow a variance of one minute in case the user doesn't specify 
                                     ' milliseconds (and because on Win2k, the SetFileWriteTime call 
                                     ' seems to round to the nearest minute)
                                     If System.Math.Abs(DateDiff(DateInterval.Minute, datLocalFileDate, datManifestFileDate)) > 1 Then
+#If DEBUG Then
+                                        Dim strMsg As String = String.Format("4: name: '{0}', datLocalFileDate: '{1}', datManifestFileDate: '{2}'", _
+                                                                             manFile.Name, datLocalFileDate, datManifestFileDate)
+                                        System.Windows.Forms.MessageBox.Show(strMsg)
+#End If
                                         blnUpgrade = True
                                     End If
                                 Else

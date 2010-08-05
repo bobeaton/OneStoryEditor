@@ -52,7 +52,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>..\..\..\StoryEditor\bin\x86\Debug\</OutputPath>
+    <OutputPath>bin\x86\Debug\</OutputPath>
     <BaseAddress>285212672</BaseAddress>
     <DocumentationFile>AutoUpgrade.Lib.xml</DocumentationFile>
     <WarningLevel>1</WarningLevel>
@@ -80,6 +80,7 @@
     <Reference Include="System.Web.Services">
       <Name>System.Web.Services</Name>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
