@@ -19,15 +19,15 @@ namespace OneStoryProjectEditor
         protected const int CnColumnRenderings = 3;
 
         protected List<Term> visibleTerms = new List<Term>();
-        TermRenderingsList renderings;   // Rendering info for terms in target language
-        TermLocalizations termLocalizations;   // Term info unique to UI language
+        internal TermRenderingsList renderings;   // Rendering info for terms in target language
+        internal TermLocalizations termLocalizations;   // Term info unique to UI language
         string refererencesHtml;  // text loaded into html references browser
         string idToScrollTo = null;		// Set this to scroll to an elementid when loaded
         protected StoryEditor _theSE;
         internal ProjectSettings.LanguageInfo MainLang;
         internal ProjectSettings _projSettings;
         readonly BiblicalTermsHTMLBuilder htmlBuilder;  // Class used to build references window text as html
-        protected BiblicalTermsList _biblicalTerms;   // All Biblical terms
+        internal BiblicalTermsList _biblicalTerms;   // All Biblical terms
 
         public BiblicalKeyTermsForm(StoryEditor theSE, ProjectSettings projSettings, ProjectSettings.LanguageInfo liMainLang)
         {
