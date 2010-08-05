@@ -50,10 +50,10 @@
             this.tabPageObsolete = new System.Windows.Forms.TabPage();
             this.tabPageKeyTerms = new System.Windows.Forms.TabPage();
             this.dataGridViewKeyTerms = new System.Windows.Forms.DataGridView();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.ColumnGloss = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnRenderings = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnNotes = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tabControlSets.SuspendLayout();
             this.tabPageFrontMatter.SuspendLayout();
             this.tabPagePanorama.SuspendLayout();
@@ -294,17 +294,22 @@
             this.dataGridViewKeyTerms.Size = new System.Drawing.Size(848, 468);
             this.dataGridViewKeyTerms.TabIndex = 0;
             this.dataGridViewKeyTerms.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewKeyTerms_CellMouseDoubleClick);
+            this.dataGridViewKeyTerms.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewKeyTerms_CellMouseDoubleClick);
             // 
             // ColumnGloss
             // 
+            this.ColumnGloss.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.ColumnGloss.HeaderText = "Gloss";
             this.ColumnGloss.Name = "ColumnGloss";
             this.ColumnGloss.ReadOnly = true;
+            this.ColumnGloss.Width = 58;
             // 
             // ColumnRenderings
             // 
+            this.ColumnRenderings.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.ColumnRenderings.HeaderText = "Renderings";
             this.ColumnRenderings.Name = "ColumnRenderings";
+            this.ColumnRenderings.Width = 86;
             // 
             // ColumnNotes
             // 

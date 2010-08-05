@@ -220,5 +220,14 @@ DoAdaptingBeforeGlossing_InVerticalEdit	1</Value>
     <Setting Name="BiblicalTermsDlgWidth" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
+    <Setting Name="PanoramaViewDlgHeight" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="PanoramaViewDlgWidth" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="PanoramaViewDlgLocation" Type="System.Drawing.Point" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

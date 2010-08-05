@@ -498,5 +498,40 @@ namespace OneStoryProjectEditor.Properties {
                 this["BiblicalTermsDlgWidth"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int PanoramaViewDlgHeight {
+            get {
+                return ((int)(this["PanoramaViewDlgHeight"]));
+            }
+            set {
+                this["PanoramaViewDlgHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int PanoramaViewDlgWidth {
+            get {
+                return ((int)(this["PanoramaViewDlgWidth"]));
+            }
+            set {
+                this["PanoramaViewDlgWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Drawing.Point PanoramaViewDlgLocation {
+            get {
+                return ((global::System.Drawing.Point)(this["PanoramaViewDlgLocation"]));
+            }
+            set {
+                this["PanoramaViewDlgLocation"] = value;
+            }
+        }
     }
 }

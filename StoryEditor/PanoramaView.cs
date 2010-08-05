@@ -46,6 +46,17 @@ namespace OneStoryProjectEditor
                 MainLang = _storyProject.ProjSettings.InternationalBT;
         }
 
+        public new DialogResult ShowDialog()
+        {
+            if (Properties.Settings.Default.PanoramaViewDlgHeight != 0)
+            {
+                Bounds = new Rectangle(Properties.Settings.Default.PanoramaViewDlgLocation,
+                    new Size(Properties.Settings.Default.PanoramaViewDlgWidth,
+                        Properties.Settings.Default.PanoramaViewDlgHeight));
+            }
+            return base.ShowDialog();
+        }
+
         public bool Modified = false;
 
         protected void InitGrid()
@@ -165,19 +176,36 @@ namespace OneStoryProjectEditor
             if (dataGridViewPanorama.SelectedCells.Count != 1)
                 return;
 
+            if (tabControlSets.SelectedTab == tabPagePanorama)
+            {
+                // copy it to the 'old stories' set
+                CopyStoryToOtherStoriesSet(OseResources.Properties.Resources.IDS_ObsoleteStoriesSet);
+            }
+            else if (tabControlSets.SelectedTab == tabPageObsolete)
+            {
+                // copy it back!
+                CopyStoryToOtherStoriesSet(OseResources.Properties.Resources.IDS_MainStoriesSet);
+            }
+        }
+
+        private void CopyStoryToOtherStoriesSet(string strDestSet)
+        {
+            System.Diagnostics.Debug.Assert((strDestSet == OseResources.Properties.Resources.IDS_ObsoleteStoriesSet)
+                || (strDestSet == OseResources.Properties.Resources.IDS_MainStoriesSet));
+
             int nSelectedRowIndex = dataGridViewPanorama.SelectedCells[0].RowIndex;
             if (nSelectedRowIndex <= dataGridViewPanorama.Rows.Count - 1)
             {
                 StoryData theSD = new StoryData(_stories[nSelectedRowIndex]);
                 int n = 1;
-                if (_storyProject[OseResources.Properties.Resources.IDS_ObsoleteStoriesSet].Contains(theSD))
+                if (_storyProject[strDestSet].Contains(theSD))
                 {
                     string strName = theSD.Name;
-                    while (_storyProject[OseResources.Properties.Resources.IDS_ObsoleteStoriesSet].Contains(theSD))
+                    while (_storyProject[strDestSet].Contains(theSD))
                         theSD.Name = String.Format("{0}.{1}", strName, n++);
                     theSD.guid = Guid.NewGuid().ToString();
                 }
-                _storyProject[OseResources.Properties.Resources.IDS_ObsoleteStoriesSet].Add(theSD);
+                _storyProject[strDestSet].Add(theSD);
                 Modified = true;
             }
         }
@@ -220,23 +248,47 @@ namespace OneStoryProjectEditor
                 if ((tab == tabPagePanorama) || (tab == tabPageObsolete))
                 {
                     if (tab == tabPagePanorama)
+                    {
                         _stories = _storyProject[OseResources.Properties.Resources.IDS_MainStoriesSet];
+                        toolTip.SetToolTip(buttonCopyToOldStories, Properties.Resources.IDS_PanoramaViewCopyToOldStories);
+                    }
                     else if (tab == tabPageObsolete)
+                    {
                         _stories = _storyProject[OseResources.Properties.Resources.IDS_ObsoleteStoriesSet];
+                        toolTip.SetToolTip(buttonCopyToOldStories, Properties.Resources.IDS_PanoramaViewCopyBackToStories);
+                    }
                     InitParentTab(tab);
                     InitGrid();
                 }
                 else if (tab == tabPageKeyTerms)
                 {
+                    Cursor = Cursors.WaitCursor;
                     if (_biblicalTerms == null)
                     {
-                        _biblicalTerms = BiblicalTermsList.GetBiblicalTerms(_storyProject.ProjSettings.ProjectFolder);
+                        if (AnchorControl.m_dlgKeyTerms != null)
+                        {
+                            if (AnchorControl.m_dlgKeyTerms._biblicalTerms != null)
+                                _biblicalTerms = AnchorControl.m_dlgKeyTerms._biblicalTerms;
+                                
+                            if (AnchorControl.m_dlgKeyTerms.renderings != null)
+                                renderings = AnchorControl.m_dlgKeyTerms.renderings;
+
+                            if (AnchorControl.m_dlgKeyTerms.termLocalizations != null)
+                                termLocalizations = AnchorControl.m_dlgKeyTerms.termLocalizations;
+                        }
+
                         dataGridViewKeyTerms.Columns[CnColumnRenderings].DefaultCellStyle.Font = MainLang.FontToUse;
                     }
 
-                    renderings = TermRenderingsList.GetTermRenderings(_storyProject.ProjSettings.ProjectFolder, 
-                        MainLang.LangCode);
-                    termLocalizations = TermLocalizations.Localizations;
+                    if (_biblicalTerms == null)
+                        _biblicalTerms = BiblicalTermsList.GetBiblicalTerms(_storyProject.ProjSettings.ProjectFolder);
+
+                    if (renderings == null)
+                        renderings = TermRenderingsList.GetTermRenderings(_storyProject.ProjSettings.ProjectFolder, 
+                                                                          MainLang.LangCode);
+
+                    if (termLocalizations == null)
+                        termLocalizations = TermLocalizations.Localizations;
 
                     dataGridViewKeyTerms.Rows.Clear();
                     foreach (TermRendering tr in renderings.Renderings)
@@ -251,9 +303,11 @@ namespace OneStoryProjectEditor
 
                                 int nRow = dataGridViewKeyTerms.Rows.Add(new[] { term.Gloss, tr.Renderings, tr.Notes });
                                 dataGridViewKeyTerms.Rows[nRow].Tag = tr.Id;
+                                dataGridViewKeyTerms.Rows[nRow].Cells[CnColumnNotes].ToolTipText = "Click on the row header or double-click here to edit the renderings and/or notes for the selected key term";
                             }
                         }
                     }
+                    Cursor = Cursors.Default;
                 }
             }
         }
@@ -261,7 +315,7 @@ namespace OneStoryProjectEditor
         protected void InitParentTab(TabPage tab)
         {
             tableLayoutPanel.Parent = tab;
-            buttonCopyToOldStories.Enabled = (tab != tabPageObsolete);
+            // buttonCopyToOldStories.Enabled = (tab != tabPageObsolete);
         }
 
         private void richTextBoxPanoramaFrontMatter_TextChanged(object sender, EventArgs e)
@@ -307,8 +361,7 @@ namespace OneStoryProjectEditor
         private void dataGridViewKeyTerms_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             // make sure we have something reasonable
-            if (((e.ColumnIndex < 0) || (e.ColumnIndex >= dataGridViewKeyTerms.Columns.Count))
-                || (e.RowIndex < 0) || (e.RowIndex >= dataGridViewKeyTerms.Rows.Count))
+            if ((e.RowIndex < 0) || (e.RowIndex >= dataGridViewKeyTerms.Rows.Count))
                 return;
 
             DataGridViewRow theRow = dataGridViewKeyTerms.Rows[e.RowIndex];
@@ -320,6 +373,11 @@ namespace OneStoryProjectEditor
         {
             if (renderings != null)
                 renderings.PromptForSave(_storyProject.ProjSettings.ProjectFolder);
+
+            Properties.Settings.Default.PanoramaViewDlgLocation = Location;
+            Properties.Settings.Default.PanoramaViewDlgHeight = Bounds.Height;
+            Properties.Settings.Default.PanoramaViewDlgWidth = Bounds.Width;
+            Properties.Settings.Default.Save();
         }
 
         #region obsolete code
