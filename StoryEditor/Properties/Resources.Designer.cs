@@ -615,7 +615,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://palaso.org/install/onestory/OseUpdates/OSE1.4.0/StoryEditor.exe.manifest.xml.
+        ///   Looks up a localized string similar to ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE1.4.0/StoryEditor.exe.manifest.xml.
         /// </summary>
         internal static string IDS_OSEUpgradeServer {
             get {
@@ -629,6 +629,24 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_OverwriteProject {
             get {
                 return ResourceManager.GetString("IDS_OverwriteProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy the selected story back to the &quot;Stories&quot; tab list.
+        /// </summary>
+        internal static string IDS_PanoramaViewCopyBackToStories {
+            get {
+                return ResourceManager.GetString("IDS_PanoramaViewCopyBackToStories", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy the selected story to the &quot;Old Stories&quot; tab list. Then you can use the &apos;View&apos; menu, &apos;View Old Stories&apos; command (from the main window) to view stories in the &apos;Old Stories&apos; list..
+        /// </summary>
+        internal static string IDS_PanoramaViewCopyToOldStories {
+            get {
+                return ResourceManager.GetString("IDS_PanoramaViewCopyToOldStories", resourceCulture);
             }
         }
         
@@ -1016,6 +1034,13 @@ namespace OneStoryProjectEditor.Properties {
         internal static System.Drawing.Bitmap ShowAllCommentsHS {
             get {
                 object obj = ResourceManager.GetObject("ShowAllCommentsHS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap SplashScreenImage {
+            get {
+                object obj = ResourceManager.GetObject("SplashScreenImage", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

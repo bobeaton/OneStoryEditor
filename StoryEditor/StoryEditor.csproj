@@ -15,7 +15,7 @@
     <ApplicationIcon>OneStory.ico</ApplicationIcon>
     <TargetFrameworkSubset>Full</TargetFrameworkSubset>
     <TargetZone>Custom</TargetZone>
-    <GenerateManifests>true</GenerateManifests>
+    <GenerateManifests>false</GenerateManifests>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <SignManifests>false</SignManifests>
@@ -64,13 +64,8 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AIGuesserEC, Version=3.0.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=x86">
+    <Reference Include="AutoUpgrade.Lib, Version=1.0.3869.15306, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\src\FW_6.0\Lib\release\AIGuesserEC.dll</HintPath>
-    </Reference>
-    <Reference Include="AutoUpgrade.Lib, Version=1.0.3856.32058, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\AutoUpgrade\code\AutoUpgrade.App\bin\x86\Release\AutoUpgrade.Lib.dll</HintPath>
     </Reference>
     <Reference Include="Chorus, Version=1.1.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
@@ -292,6 +287,12 @@
     <Compile Include="SelectTermsListForm.designer.cs">
       <DependentUpon>SelectTermsListForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="SplashScreenForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SplashScreenForm.Designer.cs">
+      <DependentUpon>SplashScreenForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="StageEditorForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -406,6 +407,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SelectTermsListForm.resx">
       <DependentUpon>SelectTermsListForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SplashScreenForm.resx">
+      <DependentUpon>SplashScreenForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="StageEditorForm.resx">
       <DependentUpon>StageEditorForm.cs</DependentUpon>
@@ -559,6 +563,7 @@
     <None Include="Resources\OpenSelectedItemHS.png" />
     <None Include="Resources\AddToFavoritesHS.png" />
     <None Include="Resources\ShowAllCommentsHS.png" />
+    <None Include="Resources\SplashScreenImage.jpg" />
     <Content Include="StageTransitions.xml" />
     <None Include="Properties\app.manifest" />
     <None Include="Resources\DragDropHandle.bmp" />
@@ -704,8 +709,6 @@
     <Content Include="SWORD\modules\texts\ztext\farsiopv\ot.bzz">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="libsword.dll" />
-    <Content Include="libsword_csharpsword.dll" />
     <Content Include="SWORD\modules\texts\ztext\hindi\nt.bzs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
