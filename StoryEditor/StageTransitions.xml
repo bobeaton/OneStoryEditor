@@ -379,7 +379,7 @@ Otherwise, when you are finished reviewing the Story Information, then click the
 menu item and and choose the next (green) state.
     </StageInstructions>
     <AllowableForewardsTransitions>
-      <AllowableTransition>eConsultantCheckAnchors</AllowableTransition>
+      <AllowableTransition AllowToSkip="true">eConsultantCheckAnchors</AllowableTransition>
       <AllowableTransition>eConsultantCheckStoryQuestions</AllowableTransition>
       <AllowableTransition>eCoachReviewRound1Notes</AllowableTransition>
       <AllowableTransition>eBackTranslatorTranslateConNotes</AllowableTransition>
