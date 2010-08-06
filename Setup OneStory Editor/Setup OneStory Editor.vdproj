@@ -1262,7 +1262,7 @@
             "PromptEnabled" = "11:TRUE"
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
-            "ComponentsUrl" = "8:"
+            "ComponentsUrl" = "8:http://palaso.org/install/onestory/OSE1.4.0/vs90_piaredist.exe"
                 "Items"
                 {
                     "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Net.Framework.3.5.SP1"
@@ -1274,6 +1274,11 @@
                     {
                     "Name" = "8:Windows Installer 3.1"
                     "ProductCode" = "8:Microsoft.Windows.Installer.3.1"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:vs_piaredist"
+                    {
+                    "Name" = "8:vs90_piaredist"
+                    "ProductCode" = "8:vs_piaredist"
                     }
                 }
             }
@@ -2678,7 +2683,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:AutoUpgrade.Lib, Version=1.0.3868.34242, Culture=neutral, processorArchitecture=x86"
+            "AssemblyAsmDisplayName" = "8:AutoUpgrade.Lib, Version=1.0.3870.15840, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
                     "_7169C2B1756BBD1FADA474714D9A17D1"
@@ -4857,7 +4862,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:OneStory Editor"
         "ProductCode" = "8:{69CFBC6D-9AC0-4CB5-94EB-1ED7FFABCBBA}"
-        "PackageCode" = "8:{0FD2FACE-7144-4D4A-ABD6-DACC5F8A4316}"
+        "PackageCode" = "8:{4BCF8493-50C6-4C3C-989F-CC8565A7555E}"
         "UpgradeCode" = "8:{92A9B369-3609-4129-A09D-5BB5BBE30AAB}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"

@@ -1,0 +1,18 @@
+<VSBootstrapperManifest>
+  <ProjectProperties ProjectName="vs_piaredist" BuildLocation="PackagesDir" BuildDirectory="C:\Program Files\Microsoft SDKs\Windows\v6.0A\Bootstrapper\Packages\New Project" DefaultLanguage="en" />
+  <UIPackage ProductCode="vs_piaredist">
+    <UIChecks />
+    <Relationships />
+    <CustomSchedules />
+  </UIPackage>
+  <UIInstallFile FileName="C:\Program Files\Common Files\Merge Modules\vs90_piaredist.exe" DisplayName="vs90_piaredist" Arguments="" Reboot="" HomeSiteURL="http://palaso.org/install/onestory/OSE1.4.0/vs90_piaredist.exe" PublicKey="3082010A0282010100A2DB0A8DCFC2C1499BCDAA3A34AD23596BDB6CBE2122B794C8EAAEBFC6D526C232118BBCDA5D2CFB36561E152BAE8F0DDD14A36E284C7F163F41AC8D40B146880DD98194AD9706D05744765CEAF1FC0EE27F74A333CB74E5EFE361A17E03B745FFD53E12D5B0CA5E0DD07BF2B7130DFC606A2885758CB7ADBC85E817B490BEF516B6625DED11DF3AEE215B8BAF8073C345E3958977609BE7AD77C1378D33142F13DB62C9AE1AA94F9867ADD420393071E08D6746E2C61CF40D5074412FE805246A216B49B092C4B239C742A56D5C184AAB8FD78E833E780A47D8A4B28423C3E2F27B66B14A74BD26414B9C6114604E30C882F3D00B707CEE554D77D2085576810203010001" IncludePublicKey="True" FileHash="E7B981F76892F2D44A1C645307F6A3D2B0D6FC46" Locale="neutral">
+    <UIChecks>
+      <FileCheck Property="MSHTML_INSTALLED" FileName="Microsoft.mshtml.dll" Depth="0" StartInSpecialFolder="True" SpecialFolder="ProgramFilesFolder" SearchPath="Microsoft.NET\Primary Interop Assemblies" />
+    </UIChecks>
+    <UIInstallConditions>
+      <UIInstallCondition Type="ByPassIf" Property="MSHTML_INSTALLED" Operator="Exists" Value="N/A for ValueExists and ValueNotExists" Message="" />
+    </UIInstallConditions>
+    <UIExitCodes />
+    <LooseFiles />
+  </UIInstallFile>
+</VSBootstrapperManifest>
