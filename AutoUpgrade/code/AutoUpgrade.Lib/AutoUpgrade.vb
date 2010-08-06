@@ -29,6 +29,7 @@ Namespace devX
         Private mtimStartTime As System.DateTime
         Private mlngTotalBytesRead As Long = 0
         Private mstrFullUpgradeName As String = ""
+        Private mtsOffsetToUCT As DateTimeOffset = New DateTimeOffset(DateTime.Now)
         Private mstrApplicationBasePath As String = ""
         Private mstrApplicationExecutable As String = ""
 #End Region
@@ -380,9 +381,12 @@ Namespace devX
                                     ' Compare last write time.  Allow a variance of one minute in case
                                     ' the user doesn't specify milliseconds (and because on Win2k, the
                                     ' SetFileWriteTime call seems to round to the nearest minute)
+#If USE_UTC Then
                                     Dim fi As IO.FileInfo = New IO.FileInfo(IO.Path.Combine(Me.UpgradeDirectory, manCurrentAutoUpgradeFile.Name))
                                     datDownloadedFileTime = fi.LastWriteTimeUtc
-                                    ' datDownloadedFileTime = IO.File.GetLastWriteTime(IO.Path.Combine(Me.UpgradeDirectory, manCurrentAutoUpgradeFile.Name))
+#Else
+                                    datDownloadedFileTime = MyGetLastWriteTime(IO.Path.Combine(Me.UpgradeDirectory, manCurrentAutoUpgradeFile.Name))
+#End If
                                     If System.Math.Abs(DateDiff(DateInterval.Minute, datDownloadedFileTime, CType(manCurrentAutoUpgradeFile.Version, System.DateTime))) > 1 Then
                                         RaiseEvent UpgradeProgress("The date on the downloaded file '" & manCurrentAutoUpgradeFile.Name & " - [" & datDownloadedFileTime.ToString & "]' does not match the manifest file date - [" & CType(manCurrentAutoUpgradeFile.Version, System.DateTime).ToString & "].", manCurrentAutoUpgradeFile.Name, 0, 0, mblnCancel)
                                     End If
@@ -466,7 +470,17 @@ Namespace devX
                     End Using
                     If Not String.IsNullOrEmpty(strLstModified) Then
                         Dim dateLastModified As Date = Date.Parse(strLstModified)
-                        IO.File.SetLastWriteTime(strLocalPath, dateLastModified)
+
+                        ' this has to be adjusted based on how far we are now from when this was created
+                        Dim nowOffset As DateTimeOffset = New DateTimeOffset(DateTime.Now)
+                        Dim thenOffset As DateTimeOffset = DateTimeOffset.Parse(Me.OffsetFromUctWhereManifestWasOriginallyCreated)
+                        dateLastModified -= nowOffset.Offset - thenOffset.Offset
+#If DEBUG Then
+                        Dim strMsg As String = String.Format("file: '{0}': LastModified timestamp from server: '{1}', but current offset here is '{2}' GMT and offset when created is: '{3}' GMT, so we're setting it to: '{4}'", _
+                                     strSourceFilePath, strLstModified, nowOffset.Offset, thenOffset.Offset, dateLastModified)
+                        System.Windows.Forms.MessageBox.Show(strMsg)
+#End If
+                        MySetLastWriteTime(strLocalPath, dateLastModified)
                     Else
                         Throw New ApplicationException(String.Format("Unable to get Last-Modified date on file: {0}", localFile))
                     End If
@@ -520,6 +534,41 @@ Namespace devX
             End Set
         End Property
 
+        Public Property OffsetFromUctWhereManifestWasOriginallyCreated() As String
+            Get
+                Return mtsOffsetToUCT.ToString()
+            End Get
+            Set(ByVal value As String)
+                ' e.g. 8/6/2010 9:17:27 AM -05:00
+                mtsOffsetToUCT = DateTimeOffset.Parse(value)
+            End Set
+        End Property
+
+        ' a different implementation of GetLastWriteTime which takes differences in DST into account
+        ' (problem was that the manifest was putting the wrong timestamp on the file by one hour
+        ' if there was a difference between the DST flag of "now" vs. when the file was saved
+        Public Shared Function MyGetLastWriteTime(ByVal strFilePath As String) As DateTime
+            Dim time As DateTime = IO.File.GetLastWriteTime(strFilePath)
+            Dim now As DateTime = DateTime.Now
+            Dim offset As TimeSpan = New TimeSpan(1, 0, 0)
+            If (now.IsDaylightSavingTime() And Not time.IsDaylightSavingTime()) Then
+                time += offset
+            ElseIf (Not now.IsDaylightSavingTime() And time.IsDaylightSavingTime()) Then
+                time -= offset
+            End If
+            MyGetLastWriteTime = time
+        End Function
+        Public Shared Sub MySetLastWriteTime(ByVal strFilePath As String, ByVal time As DateTime)
+            Dim now As DateTime = DateTime.Now
+            Dim offset As TimeSpan = New TimeSpan(1, 0, 0)
+            If (now.IsDaylightSavingTime() And Not time.IsDaylightSavingTime()) Then
+                time -= offset
+            ElseIf (Not now.IsDaylightSavingTime() And time.IsDaylightSavingTime()) Then
+                time += offset
+            End If
+            IO.File.SetLastWriteTime(strFilePath, time)
+        End Sub
+
         Public Sub GenerateManifest(ByVal strPath As String, Optional ByVal strRootPath As String = "")
             ' Generates the entire manifest, given a io.Path.  Use this function to
             ' automatically create a manifest.  This method creates entries for
@@ -557,9 +606,12 @@ Namespace devX
 
                     ' If version info was found, mark method as version, else date
                     If String.IsNullOrEmpty(newFileEntry.Version) Then
+#If USE_UTC Then
                         Dim fi As IO.FileInfo = New IO.FileInfo(strFile)
                         newFileEntry.Version = fi.LastWriteTimeUtc.ToLongDateString & " " & fi.LastWriteTimeUtc.ToLongTimeString
-                        ' newFileEntry.Version = IO.File.GetLastWriteTime(strFile).ToLongDateString & " " & IO.File.GetLastWriteTime(strFile).ToLongTimeString
+#Else
+                        newFileEntry.Version = MyGetLastWriteTime(strFile).ToLongDateString & " " & MyGetLastWriteTime(strFile).ToLongTimeString
+#End If
                         ' only store date if no version is available
                         newFileEntry.Method = AutoUpgrade.File.CompareMethod.date
                     Else
@@ -642,9 +694,12 @@ Namespace devX
                                 ' for files that do not have a version resource (help files, 
                                 ' Data files, etc)
                                 If IO.File.Exists(manFile.Name) Then
+#If USE_UTC Then
                                     Dim fi As IO.FileInfo = New IO.FileInfo(manFile.Name)
                                     datLocalFileDate = fi.LastWriteTimeUtc
-                                    ' datLocalFileDate = IO.File.GetLastWriteTime(manFile.Name)
+#Else
+                                    datLocalFileDate = MyGetLastWriteTime(manFile.Name)
+#End If
                                     datManifestFileDate = manFile.Version
 
                                     ' Allow a variance of one minute in case the user doesn't specify 

@@ -37,8 +37,12 @@ namespace OneStoryProjectEditor
                 // since we expect to have internet at this point, check for program updates as well
 #if !DEBUG
                 AutoUpgrade autoUpgrade = AutoUpgrade.Create(Properties.Resources.IDS_OSEUpgradeServer);
-                 if (autoUpgrade.IsUpgradeAvailable(true))
-                     return;
+                if (autoUpgrade.IsUpgradeAvailable(false))
+                {
+                    splashScreen.Close();
+                    autoUpgrade.StartUpgradeStub();
+                    return;
+                }
 #endif
                 // make sure we have HG (or we can't really do much)
                 HgSanityCheck();
