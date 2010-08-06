@@ -39,8 +39,9 @@ namespace OneStoryProjectEditor
                 AutoUpgrade autoUpgrade = AutoUpgrade.Create(Properties.Resources.IDS_OSEUpgradeServer);
                 if (autoUpgrade.IsUpgradeAvailable(false))
                 {
-                    splashScreen.Close();
+                    splashScreen.StartTimer();
                     autoUpgrade.StartUpgradeStub();
+                    splashScreen.Close();   // if it isn't already closed by now
                     return;
                 }
 #endif

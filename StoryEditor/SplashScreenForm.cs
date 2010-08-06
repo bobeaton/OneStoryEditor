@@ -26,8 +26,14 @@ namespace OneStoryProjectEditor
             labelVersion.Parent = pictureBox;
         }
 
+        public void StartTimer()
+        {
+            timer.Start();
+        }
+
         private void timer_Tick(object sender, EventArgs e)
         {
+            timer.Stop();
             Close();
         }
     }
