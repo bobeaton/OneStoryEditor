@@ -113,8 +113,9 @@
             // toolStripStatusLabel
             // 
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
-            this.toolStripStatusLabel.Size = new System.Drawing.Size(125, 17);
-            this.toolStripStatusLabel.Text = "Press F1 for Instructions";
+            this.toolStripStatusLabel.Size = new System.Drawing.Size(397, 17);
+            this.toolStripStatusLabel.Text = "Press F1 for Instructions (with the mouse cursor hovering over the desired state)" +
+                "";
             // 
             // StageEditorForm
             // 
