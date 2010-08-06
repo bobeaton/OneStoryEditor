@@ -74,11 +74,19 @@ namespace OneStoryProjectEditor
         //  selected so that when we eventually do Focus, we can set the selected text again.
         protected static int _SelectionStart, _SelectionLength;
 
+        protected bool HasStringTransfer
+        {
+            get
+            {
+                return (Tag != null) && (Tag is StringTransfer);
+            }
+        }
+
         public StringTransfer MyStringTransfer
         {
             get
             {
-                System.Diagnostics.Debug.Assert((Tag != null) && (Tag is StringTransfer));
+                System.Diagnostics.Debug.Assert(HasStringTransfer);
                 _SelectionStart = SelectionStart;
                 _SelectionLength = SelectionLength;
                 return (StringTransfer) Tag;
@@ -352,6 +360,7 @@ namespace OneStoryProjectEditor
         protected const string CstrConcordanceSearch = "Concordance &Search";
         protected const string CstrCutSelected = "C&ut";
         protected const string CstrCopySelected = "&Copy";
+        protected const string CstrCopyOriginalSelected = "Copy &Original Text (before transliteration)";
         protected const string CstrPasteSelected = "&Paste";
         protected const string CstrUndo = "U&ndo";
 
@@ -364,16 +373,28 @@ namespace OneStoryProjectEditor
             _ctxMenu.Items.Add(new ToolStripSeparator());
             _ctxMenu.Items.Add(CstrCutSelected, null, onCutSelectedText);
             _ctxMenu.Items.Add(CstrCopySelected, null, onCopySelectedText);
+            _ctxMenu.Items.Add(CstrCopyOriginalSelected, null, onCopyOriginalText);
             _ctxMenu.Items.Add(CstrPasteSelected, null, onPasteSelectedText);
             _ctxMenu.Items.Add(CstrUndo, null, onUndo);
-
+            _ctxMenu.Opening += _ctxMenu_Opening;
             ContextMenuStrip = _ctxMenu;
             Multiline = true;
             Dock = DockStyle.Fill;
             HideSelection = false;
             AllowDrop = true;
-            MouseUp += new MouseEventHandler(CtrlTextBox_MouseUp);
-            MouseWheel += new MouseEventHandler(CtrlTextBox_MouseWheel);
+            MouseUp += CtrlTextBox_MouseUp;
+            MouseWheel += CtrlTextBox_MouseWheel;
+        }
+
+        void _ctxMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            // don't ask... I'm not sure why Items.ContainsKey isn't finding this...
+            foreach (ToolStripItem x in _ctxMenu.Items)
+                if (x.Text == CstrCopyOriginalSelected)
+                {
+                    x.Enabled = (HasStringTransfer && (MyStringTransfer.Transliterator != null));
+                    break;
+                }
         }
 
         void CtrlTextBox_MouseWheel(object sender, MouseEventArgs e)
@@ -420,6 +441,20 @@ namespace OneStoryProjectEditor
         private static void onCopySelectedText(object sender, EventArgs e)
         {
             if (_inTextBox != null) _inTextBox.Copy();
+        }
+
+        private void onCopyOriginalText(object sender, EventArgs e)
+        {
+            if (HasStringTransfer && (MyStringTransfer.Transliterator != null))
+            {
+                try
+                {
+                    Clipboard.SetText(MyStringTransfer.ToString(), TextDataFormat.UnicodeText);
+                }
+                catch { }   // sometimes it's just busy... just ignore it
+            }
+            else
+                onCopySelectedText(sender, e);
         }
 
         private static void onPasteSelectedText(object sender, EventArgs e)
