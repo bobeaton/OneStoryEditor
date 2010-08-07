@@ -15,7 +15,7 @@
     <ApplicationIcon>OneStory.ico</ApplicationIcon>
     <TargetFrameworkSubset>Full</TargetFrameworkSubset>
     <TargetZone>Custom</TargetZone>
-    <GenerateManifests>true</GenerateManifests>
+    <GenerateManifests>false</GenerateManifests>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <SignManifests>false</SignManifests>
