@@ -118,11 +118,20 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="DataContainer_MoveNextHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DataContainer_MoveNextHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IDS_EscapeToDismiss" xml:space="preserve">
+    <value>(Press the Esc key to dismiss this help window)</value>
+  </data>
   <data name="oneStory2ConNotes" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\oneStory2ConNotes.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="IDS_MustBeCloneRepo" xml:space="preserve">
     <value>The network repository must be identical (a "clone") of the repository in the local machine. Contact your workshop advisor.</value>
+  </data>
+  <data name="IDS_CanDeleteOnlyFromMyBiblicalTerms" xml:space="preserve">
+    <value>You can only delete a key term from the editable key term (i.e. "My Biblical Terms") list, which is not currently selected.</value>
   </data>
   <data name="IDS_FindStringNotFound" xml:space="preserve">
     <value>String not found!</value>
@@ -139,6 +148,9 @@
   </data>
   <data name="IDS_NoteNotEmptyHideQuery" xml:space="preserve">
     <value>This conversation isn't empty! Instead of deleting it, it would be better to just hide it so it will be left around for history. Would you like to hide it instead?</value>
+  </data>
+  <data name="IDS_QueryAboutUpdateProgram" xml:space="preserve">
+    <value>An update to the OneStory Editor has just been downloaded. Would you like to install it now? (recommended)</value>
   </data>
   <data name="IDS_MainFrameTitleOldStories" xml:space="preserve">
     <value>OneStory Editor -- {0} Story Project -- Viewing Old Stories</value>
@@ -188,6 +200,9 @@
   <data name="oneStory2storyingRetelling" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\oneStory2storyingRetelling.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="IDS_PanoramaViewCopyToOldStories" xml:space="preserve">
+    <value>Copy the selected story to the "Old Stories" tab list. Then you can use the 'View' menu, 'View Old Stories' command (from the main window) to view stories in the 'Old Stories' list.</value>
+  </data>
   <data name="IDS_StoryColon" xml:space="preserve">
     <value>Story: </value>
     <comment>कहानी: </comment>
@@ -218,9 +233,6 @@
   </data>
   <data name="IDS_ConfirmDeleteAllVerseLines" xml:space="preserve">
     <value>Are you sure you want to delete the {0}?</value>
-  </data>
-  <data name="DeleteHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DeleteHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="IDS_PressF1ForInstructions" xml:space="preserve">
     <value>{0}  Press F1 for instructions</value>
@@ -282,6 +294,9 @@ of the team before overwriting a list</value>
   <data name="IDS_DeleteVerseQuery" xml:space="preserve">
     <value>Are you sure you want to delete this verse (and all associated consultant notes, etc)?</value>
   </data>
+  <data name="IDS_WarnAboutNoInternet" xml:space="preserve">
+    <value>This program uses the internet to update itself and download the latest versions of the project file(s). Please connect to the Internet.</value>
+  </data>
   <data name="RegexHelpProgram" xml:space="preserve">
     <value>http://msdn2.microsoft.com/en-us/library/az24scfc.aspx</value>
   </data>
@@ -291,8 +306,14 @@ of the team before overwriting a list</value>
   <data name="IDS_UnableToOpenProjectFile" xml:space="preserve">
     <value>Unable to open project '{1}'{0}{0}{2}{0}{0}{3}{0}{0}Send the project file along with the error message to bob_eaton@sall.com for help</value>
   </data>
+  <data name="ShowAllCommentsHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ShowAllCommentsHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="oneStory2KeyTerms" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\oneStory2KeyTerms.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="DataContainer_MoveFirstHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DataContainer_MoveFirstHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="IDS_UnableToFindStoryAdd" xml:space="preserve">
     <value>Unable to find the story '{0}'. Would you like to add a new story with that name?</value>
@@ -760,9 +781,15 @@ for more extensive study materials.&lt;/p&gt;
     <value>Enter the name of the story to add</value>
     <comment>नई कहानी का नाम यहीं टाइप करके 'ऐटर' बटन दबाओ</comment>
   </data>
+  <data name="IDS_PanoramaViewCopyBackToStories" xml:space="preserve">
+    <value>Copy the selected story back to the "Stories" tab list</value>
+  </data>
   <data name="IDS_Story" xml:space="preserve">
     <value>Story</value>
     <comment>कहानी</comment>
+  </data>
+  <data name="IDS_CanOnlyChangeConNoteTextareas" xml:space="preserve">
+    <value>Sorry, you can only modify editable text in consultant or coach notes!</value>
   </data>
   <data name="IDS_NetBibleDonateMessage" xml:space="preserve">
     <value>&lt;html xmlns:v="urn:schemas-microsoft-com:vml"
@@ -1785,6 +1812,9 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
     <value>Located in folder '{0}'</value>
     <comment>जो '{0}' फ़ोलडर में है</comment>
   </data>
+  <data name="DataContainer_MovePreviousHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DataContainer_MovePreviousHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="IDS_StartFromBeginning" xml:space="preserve">
     <value>Would you like to start searching from the beginning of the story?</value>
   </data>
@@ -1803,11 +1833,17 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
   <data name="IDS_ConfirmOverride" xml:space="preserve">
     <value>Click 'Yes' to override the '{0}' {1} for yourself ('{2}') only. Click 'No' to make this change apply to every member of the team (if you all are switching to a new {1}).</value>
   </data>
+  <data name="IDS_FromNatlLanguage" xml:space="preserve">
+    <value>&amp;From {0}</value>
+  </data>
+  <data name="IDS_ConfirmDeleteKeyTerm" xml:space="preserve">
+    <value>Are you sure you want to delete the key term:{0}{1}</value>
+  </data>
   <data name="IDS_UnableToSave" xml:space="preserve">
     <value>Unable to save the project file '{1}'{0}{0}{2}</value>
   </data>
-  <data name="IDS_FromNatlLanguage" xml:space="preserve">
-    <value>&amp;From {0}</value>
+  <data name="IDS_UnableToCopyText" xml:space="preserve">
+    <value>Unable to copy text to the clipboard!{0}{0}{1}{0}{0}{2}</value>
   </data>
   <data name="EditInformationHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\EditInformationHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -1821,11 +1857,14 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
   <data name="gradient" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\gradient.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="IDS_UnableToCopyText" xml:space="preserve">
-    <value>Unable to copy text to the clipboard!{0}{0}{1}{0}{0}{2}</value>
+  <data name="DeleteHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DeleteHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="OpenSelectedItemHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\OpenSelectedItemHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SplashScreenImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SplashScreenImage.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="IDS_VerifyOverwriteMyBiblicalTerms" xml:space="preserve">
     <value>Click 'Ignore' to overwrite the existing 'My Biblical Terms' list with the contents of the '{0}' list. Otherwise, click 'Retry' to merge the contents of the '{0}' list into the existing 'My Biblical Terms' list.</value>
@@ -1840,34 +1879,7 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
   <data name="IDS_LogInAsProjFac" xml:space="preserve">
     <value>You have to be logged in as a 'Project Facilitator' to add stories. To login, click 'Project', 'Login'</value>
   </data>
-  <data name="ShowAllCommentsHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ShowAllCommentsHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IDS_CanDeleteOnlyFromMyBiblicalTerms" xml:space="preserve">
-    <value>You can only delete a key term from the editable key term (i.e. "My Biblical Terms") list, which is not currently selected.</value>
-  </data>
-  <data name="IDS_ConfirmDeleteKeyTerm" xml:space="preserve">
-    <value>Are you sure you want to delete the key term:{0}{1}</value>
-  </data>
-  <data name="IDS_CanOnlyChangeConNoteTextareas" xml:space="preserve">
-    <value>Sorry, you can only modify editable text in consultant or coach notes!</value>
-  </data>
-  <data name="IDS_WarnAboutNoInternet" xml:space="preserve">
-    <value>This program uses the internet to update itself and download the latest versions of the project file(s). Please connect to the Internet.</value>
-  </data>
-  <data name="IDS_QueryAboutUpdateProgram" xml:space="preserve">
-    <value>An update to the OneStory Editor has just been downloaded. Would you like to install it now? (recommended)</value>
-  </data>
-  <data name="IDS_EscapeToDismiss" xml:space="preserve">
-    <value>(Press the Esc key to dismiss this help window)</value>
-  </data>
-  <data name="IDS_PanoramaViewCopyBackToStories" xml:space="preserve">
-    <value>Copy the selected story back to the "Stories" tab list</value>
-  </data>
-  <data name="IDS_PanoramaViewCopyToOldStories" xml:space="preserve">
-    <value>Copy the selected story to the "Old Stories" tab list. Then you can use the 'View' menu, 'View Old Stories' command (from the main window) to view stories in the 'Old Stories' list.</value>
-  </data>
-  <data name="SplashScreenImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SplashScreenImage.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="DataContainer_MoveLastHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DataContainer_MoveLastHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

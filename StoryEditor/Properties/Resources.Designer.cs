@@ -95,6 +95,34 @@ namespace OneStoryProjectEditor.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap DataContainer_MoveFirstHS {
+            get {
+                object obj = ResourceManager.GetObject("DataContainer_MoveFirstHS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap DataContainer_MoveLastHS {
+            get {
+                object obj = ResourceManager.GetObject("DataContainer_MoveLastHS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap DataContainer_MoveNextHS {
+            get {
+                object obj = ResourceManager.GetObject("DataContainer_MoveNextHS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap DataContainer_MovePreviousHS {
+            get {
+                object obj = ResourceManager.GetObject("DataContainer_MovePreviousHS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap DeleteHS {
             get {
                 object obj = ResourceManager.GetObject("DeleteHS", resourceCulture);

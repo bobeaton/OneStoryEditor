@@ -70,14 +70,13 @@ namespace OneStoryProjectEditor
             {
                 // current state
                 DataGridViewButtonCell dgbc;
-                System.Diagnostics.Debug.Assert(_mapStatesToButtons.ContainsKey(st.CurrentStage));
                 if (_mapStatesToButtons.TryGetValue(st.CurrentStage, out dgbc))
                 {
                     dgbc.Value += " (current state)";
                     Font font = new Font(dataGridViewStates.Font, FontStyle.Bold);
                     dgbc.Style.Font = font;
                     dgbc.FlatStyle = FlatStyle.Popup;
-                    dgbc.Style.BackColor = Color.Yellow;
+                    dgbc.Style.SelectionBackColor = dgbc.Style.BackColor = Color.Yellow;
                 }
 
                 // check allowable next state
@@ -108,6 +107,11 @@ namespace OneStoryProjectEditor
             _ticksSinceShow = DateTime.Now.Ticks;
         }
 
+        public new DialogResult ShowDialog()
+        {
+            return base.ShowDialog();
+        }
+
         protected void CheckAllowableTransitions(StoryProjectData storyProjectData, StoryData theCurrentStory, 
             StoryStageLogic.AllowableTransitions allowableTransitions, Color clr, bool bForwardTransition)
         {
@@ -127,7 +131,7 @@ namespace OneStoryProjectEditor
                         Font font = new Font(dataGridViewStates.Font, FontStyle.Bold);
                         dgbc.Style.Font = font;
                         dgbc.FlatStyle = FlatStyle.Popup;
-                        dgbc.Style.BackColor = clr;
+                        dgbc.Style.SelectionBackColor = dgbc.Style.BackColor = clr;
                         _lstOfAllowedTransitions.Add(dgbc);
 
                         // for the forward transitions, we only need one to succeed (we don't really want

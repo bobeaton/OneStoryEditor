@@ -18,20 +18,23 @@ namespace OneStoryProjectEditor
 
         public static bool ProjFacTypeVernacular(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
         {
-            System.Diagnostics.Debug.Assert(theStoryProjectData.ProjSettings.Vernacular.HasData);
             Console.WriteLine(String.Format("Checking if stage 'ProjFacTypeVernacular' work is finished: Name: {0}", theCurrentStory.Name));
 
-            // if there are no verses, then just quit (before we get into an infinite loop)
-            if (theCurrentStory.Verses.Count == 0)
-            {
-                ShowError(theSE, "Error: No verses in the story!");
-                return false;
-            }
+            // this can happen if the person has a story in this state, but then gets rid of the Vernacular (so just allow it)
+            if (!theStoryProjectData.ProjSettings.Vernacular.HasData)
+                return true;
 
             // make sure that each verse has only one sentence
             bool bRepeatAfterMe = false;
             do
             {
+                // if there are no verses, then just quit (before we get into an infinite loop)
+                if (theCurrentStory.Verses.Count == 0)
+                {
+                    ShowError(theSE, "Error: No verses in the story!");
+                    return false;
+                }
+
                 int nVerseNumber = 1;   // this wants to be 1, because it's dealing with the
                                         // VerseBT pane, which starts at 1.
                 foreach (VerseData aVerseData in theCurrentStory.Verses)
@@ -119,8 +122,11 @@ namespace OneStoryProjectEditor
 
         public static bool ProjFacTypeNationalBT(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
         {
-            System.Diagnostics.Debug.Assert(theStoryProjectData.ProjSettings.NationalBT.HasData);
             Console.WriteLine(String.Format("Checking if stage 'ProjFacTypeNationalBT' work is finished: Name: {0}", theCurrentStory.Name));
+            
+            // this can happen if the person has a story in this state, but then gets rid of the NationalBT (so just allow it)
+            if (!theStoryProjectData.ProjSettings.NationalBT.HasData)
+                return true;
 
             // if going backwards, we don't have anything to check
             if (IsGoingBackwards(theCurrentStory, eProposedNextState))
@@ -129,17 +135,17 @@ namespace OneStoryProjectEditor
                 return true;
             }
 
-            // if there are no verses, then just quit (before we get into an infinite loop)
-            if (theCurrentStory.Verses.Count == 0)
-            {
-                ShowError(theSE, "Error: No verses in the story!");
-                return false;
-            }
-
             // make sure that each verse has only one sentence
             bool bRepeatAfterMe = false;
             do
             {
+                // if there are no verses, then just quit (before we get into an infinite loop)
+                if (theCurrentStory.Verses.Count == 0)
+                {
+                    ShowError(theSE, "Error: No verses in the story!");
+                    return false;
+                }
+
                 int nVerseNumber = 1;
                 foreach (VerseData aVerseData in theCurrentStory.Verses)
                 {
@@ -215,9 +221,12 @@ namespace OneStoryProjectEditor
 
         public static bool ProjFacTypeInternationalBT(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
         {
-            System.Diagnostics.Debug.Assert(theStoryProjectData.ProjSettings.InternationalBT.HasData);
             Console.WriteLine(String.Format("Checking if stage 'ProjFacTypeInternationalBT' work is finished: Name: {0}", theCurrentStory.Name));
 
+            // this can happen if the person has a story in this state, but then gets rid of the EnglishBT (so just allow it)
+            if (!theStoryProjectData.ProjSettings.InternationalBT.HasData)
+                return true;
+            
             // if going backwards, we don't have anything to check
             if (IsGoingBackwards(theCurrentStory, eProposedNextState))
             {
@@ -226,17 +235,17 @@ namespace OneStoryProjectEditor
                 return true;
             }
 
-            // if there are no verses, then just quit (before we get into an infinite loop)
-            if (theCurrentStory.Verses.Count == 0)
-            {
-                ShowError(theSE, "Error: No verses in the story!");
-                return false;
-            }
-
             // make sure that each verse has only one sentence
             bool bRepeatAfterMe = false;
             do
             {
+                // if there are no verses, then just quit (before we get into an infinite loop)
+                if (theCurrentStory.Verses.Count == 0)
+                {
+                    ShowError(theSE, "Error: No verses in the story!");
+                    return false;
+                }
+
                 // now go thru the English BT parts and make sure that there's only one sentence/verse.
                 // make sure that each verse has only one sentence
                 int nVerseNumber = 1;
@@ -387,9 +396,12 @@ namespace OneStoryProjectEditor
 
         public static bool ProjFacAddAnchors(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
         {
-            System.Diagnostics.Debug.Assert(theCurrentStory.CraftingInfo.IsBiblicalStory);
             Console.WriteLine(String.Format("Checking if stage 'ProjFacAddAnchors' work is finished: Name: {0}", theCurrentStory.Name));
 
+            // this can happen if the person has a story in this state, but then changes it to be a non-biblical story
+            if (!theCurrentStory.CraftingInfo.IsBiblicalStory)
+                return true;
+            
             // if going backwards, we don't have anything to check
             if (IsGoingBackwards(theCurrentStory, eProposedNextState))
             {
@@ -440,8 +452,11 @@ namespace OneStoryProjectEditor
 
         public static bool ProjFacAddStoryQuestions(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
         {
-            System.Diagnostics.Debug.Assert(theCurrentStory.CraftingInfo.IsBiblicalStory);
             Console.WriteLine(String.Format("Checking if stage 'ProjFacAddStoryQuestions' work is finished: Name: {0}", theCurrentStory.Name));
+
+            // this can happen if the person has a story in this state, but then changes it to be a non-biblical story
+            if (!theCurrentStory.CraftingInfo.IsBiblicalStory)
+                return true;
 
             // if going backwards, we don't have anything to check
             if (IsGoingBackwards(theCurrentStory, eProposedNextState))
@@ -502,8 +517,11 @@ namespace OneStoryProjectEditor
 
         public static bool ProjFacRevisesBeforeUnsTest(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
         {
-            System.Diagnostics.Debug.Assert(theCurrentStory.CraftingInfo.IsBiblicalStory);
             Console.WriteLine(String.Format("Checking if stage 'ProjFacRevisesBeforeUnsTest' work is finished: Name: {0}", theCurrentStory.Name));
+
+            // this can happen if the person has a story in this state, but then changes it to be a non-biblical story
+            if (!theCurrentStory.CraftingInfo.IsBiblicalStory)
+                return true;
 
             // before going to the CIT, let's make sure that if the CIT had made 
             //  a comment, that the PF answered it. (this only occurs if the CIT
@@ -526,9 +544,12 @@ namespace OneStoryProjectEditor
 
         public static bool BackTranslatorTypeInternationalBT(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
         {
-            System.Diagnostics.Debug.Assert(theStoryProjectData.ProjSettings.InternationalBT.HasData);
             Console.WriteLine(String.Format("Checking if stage 'BackTranslatorTypeInternationalBT' work is finished: Name: {0}", theCurrentStory.Name));
 
+            // this can happen if the person has a story in this state, but then gets rid of the EnglishBT (so just allow it)
+            if (!theStoryProjectData.ProjSettings.InternationalBT.HasData)
+                return true;
+            
             // if going backwards, we don't have anything to check
             if (IsGoingBackwards(theCurrentStory, eProposedNextState))
             {
@@ -1271,9 +1292,12 @@ namespace OneStoryProjectEditor
 
         public static bool BackTranslatorTypeInternationalBTTest1(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
         {
-            System.Diagnostics.Debug.Assert(theStoryProjectData.ProjSettings.InternationalBT.HasData);
             Console.WriteLine(String.Format("Checking if stage 'BackTranslatorTypeInternationalBTTest1' work is finished: Name: {0}", theCurrentStory.Name));
 
+            // this can happen if the person has a story in this state, but then gets rid of the EnglishBT (so just allow it)
+            if (!theStoryProjectData.ProjSettings.InternationalBT.HasData)
+                return true;
+            
             // if going backwards...
             if (IsGoingBackwards(theCurrentStory, eProposedNextState))
             {
@@ -1551,7 +1575,6 @@ namespace OneStoryProjectEditor
 
         public static bool BackTranslatorTypeInternationalBTTest2(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
         {
-            System.Diagnostics.Debug.Assert(theStoryProjectData.ProjSettings.InternationalBT.HasData);
             Console.WriteLine(String.Format("Checking if stage 'BackTranslatorTypeInternationalBTTest2' work is finished: Name: {0}", theCurrentStory.Name));
 
             // if there are no verses, then just quit (before we get into an infinite loop)

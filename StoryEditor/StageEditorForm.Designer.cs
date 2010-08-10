@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StageEditorForm));
             this.dataGridViewStates = new System.Windows.Forms.DataGridView();
             this.ColumnProjectFacilitatorStages = new System.Windows.Forms.DataGridViewButtonColumn();
@@ -56,12 +57,21 @@
             this.ColumnFirstPassMentor,
             this.ColumnConsultantInTraining,
             this.ColumnCoach});
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewStates.DefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridViewStates.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewStates.Location = new System.Drawing.Point(0, 0);
             this.dataGridViewStates.MultiSelect = false;
             this.dataGridViewStates.Name = "dataGridViewStates";
             this.dataGridViewStates.RowHeadersVisible = false;
             this.dataGridViewStates.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.dataGridViewStates.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.helpProvider.SetShowHelp(this.dataGridViewStates, true);
             this.dataGridViewStates.Size = new System.Drawing.Size(867, 304);
             this.dataGridViewStates.TabIndex = 1;
