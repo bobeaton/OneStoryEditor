@@ -277,6 +277,9 @@ namespace OneStoryProjectEditor
                         bool bRequiresManageWithCoaching = 
                             (xpStageTransition.Current.GetAttribute(StateTransition.CstrAttributeLabelRequiresManageWithCoaching, navigator.NamespaceURI) == 
                              "true");
+                        bool bDontShowTilPast =
+                            (xpStageTransition.Current.GetAttribute(StateTransition.CstrAttributeLabelDontShowTilPast, navigator.NamespaceURI) ==
+                             "true");
 
                         XPathNodeIterator xpNextElement = xpStageTransition.Current.Select(StateTransition.CstrElementLabelStageDisplayString);
                         string strStageDisplayString = null;
@@ -332,7 +335,8 @@ namespace OneStoryProjectEditor
                                 RequiresFirstPassMentor = bRequiresFirstPassMentor,
                                 RequiresBiblicalStory = bRequiresBiblicalStory,
                                 RequiresNonBiblicalStory = bRequiresNonBiblicalStory,
-                                RequiresManageWithCoaching = bRequiresManageWithCoaching
+                                RequiresManageWithCoaching = bRequiresManageWithCoaching,
+                                DontShowTilPast = bDontShowTilPast
                             };
 
                         xpNextElement = xpStageTransition.Current.Select(StateTransition.CstrElementLabelViewSettings);
@@ -472,6 +476,7 @@ namespace OneStoryProjectEditor
             internal bool RequiresBiblicalStory { get; set; }
             internal bool RequiresNonBiblicalStory { get; set; }
             internal bool RequiresManageWithCoaching { get; set; }
+            internal bool DontShowTilPast { get; set; }
 
             public StateTransition
                 (
@@ -512,6 +517,7 @@ namespace OneStoryProjectEditor
                             || (RequiresUsingOtherEnglishBTer ==
                                 storyProjectData.TeamMembers.HasOutsideEnglishBTer))
                         && (!RequiresManageWithCoaching || !storyProjectData.TeamMembers.HasIndependentConsultant)
+                        && (!DontShowTilPast || ((int)theCurrentStory.ProjStage.ProjectStage > (int)CurrentStage))
                         );
             }
 
@@ -564,6 +570,7 @@ namespace OneStoryProjectEditor
             public const string CstrAttributeLabelRequiresBiblicalStory = "RequiresBiblicalStory";
             public const string CstrAttributeLabelRequiresNonBiblicalStory = "RequiresNonBiblicalStory";
             public const string CstrAttributeLabelRequiresManageWithCoaching = "RequiresManageWithCoaching";
+            public const string CstrAttributeLabelDontShowTilPast = "DontShowTilPast";
             public const string CstrElementLabelStageDisplayString = "StageDisplayString";
             public const string CstrElementLabelStageInstructions = "StageInstructions";
             public const string CstrElementLabelViewSettings = "ViewSettings";
@@ -609,6 +616,9 @@ namespace OneStoryProjectEditor
 
                     if (RequiresManageWithCoaching)
                         elem.Add(new XAttribute(CstrAttributeLabelRequiresManageWithCoaching, RequiresManageWithCoaching));
+
+                    if (DontShowTilPast)
+                        elem.Add(new XAttribute(CstrAttributeLabelDontShowTilPast, DontShowTilPast));
 
                     elem.Add(new XElement(CstrElementLabelStageDisplayString, StageDisplayString),
                              new XElement(CstrElementLabelStageInstructions, StageInstructions),
