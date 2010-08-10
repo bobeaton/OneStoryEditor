@@ -1106,9 +1106,9 @@ namespace OneStoryProjectEditor
             this.toolStripButtonPrevious,
             this.toolStripButtonNext,
             this.toolStripButtonLast});
-            this.toolStripRecordNavigation.Location = new System.Drawing.Point(494, 0);
+            this.toolStripRecordNavigation.Location = new System.Drawing.Point(463, 0);
             this.toolStripRecordNavigation.Name = "toolStripRecordNavigation";
-            this.toolStripRecordNavigation.Size = new System.Drawing.Size(95, 25);
+            this.toolStripRecordNavigation.Size = new System.Drawing.Size(126, 25);
             this.toolStripRecordNavigation.TabIndex = 3;
             this.toolStripRecordNavigation.Text = "toolStrip1";
             // 
@@ -1120,7 +1120,8 @@ namespace OneStoryProjectEditor
             this.toolStripButtonFirst.Name = "toolStripButtonFirst";
             this.toolStripButtonFirst.Size = new System.Drawing.Size(23, 22);
             this.toolStripButtonFirst.Text = "First Story";
-            this.toolStripButtonFirst.ToolTipText = "Click to go to the first story";
+            this.toolStripButtonFirst.ToolTipText = "Click to go to the first story (hold down the Ctrl key and click to keep the same" +
+                " fields visible)";
             this.toolStripButtonFirst.Click += new System.EventHandler(this.toolStripButtonFirst_Click);
             // 
             // toolStripButtonPrevious
@@ -1131,7 +1132,8 @@ namespace OneStoryProjectEditor
             this.toolStripButtonPrevious.Name = "toolStripButtonPrevious";
             this.toolStripButtonPrevious.Size = new System.Drawing.Size(23, 22);
             this.toolStripButtonPrevious.Text = "Previous Story";
-            this.toolStripButtonPrevious.ToolTipText = "Click to go to the previous story";
+            this.toolStripButtonPrevious.ToolTipText = "Click to go to the previous story (hold down the Ctrl key and click to keep the s" +
+                "ame fields visible)";
             this.toolStripButtonPrevious.Click += new System.EventHandler(this.toolStripButtonPrevious_Click);
             // 
             // toolStripButtonNext
@@ -1142,7 +1144,8 @@ namespace OneStoryProjectEditor
             this.toolStripButtonNext.Name = "toolStripButtonNext";
             this.toolStripButtonNext.Size = new System.Drawing.Size(23, 22);
             this.toolStripButtonNext.Text = "Next Story";
-            this.toolStripButtonNext.ToolTipText = "Click to go to the next story";
+            this.toolStripButtonNext.ToolTipText = "Click to go to the next story (hold down the Ctrl key and click to keep the same " +
+                "fields visible)";
             this.toolStripButtonNext.Click += new System.EventHandler(this.toolStripButtonNext_Click);
             // 
             // toolStripButtonLast
@@ -1153,7 +1156,8 @@ namespace OneStoryProjectEditor
             this.toolStripButtonLast.Name = "toolStripButtonLast";
             this.toolStripButtonLast.Size = new System.Drawing.Size(23, 22);
             this.toolStripButtonLast.Text = "Last Story";
-            this.toolStripButtonLast.ToolTipText = "Click to go to the last story";
+            this.toolStripButtonLast.ToolTipText = "Click to go to the last story (hold down the Ctrl key and click to keep the same " +
+                "fields visible)";
             this.toolStripButtonLast.Click += new System.EventHandler(this.toolStripButtonLast_Click);
             // 
             // flowLayoutPanelVerses
