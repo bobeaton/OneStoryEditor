@@ -3749,5 +3749,29 @@ namespace OneStoryProjectEditor
             if (dlg.ViewStateChanged)
                 SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage, false);
         }
+
+        private void toolStripButtonFirst_Click(object sender, EventArgs e)
+        {
+            comboBoxStorySelector.SelectedIndex = 0;
+        }
+
+        private void toolStripButtonPrevious_Click(object sender, EventArgs e)
+        {
+            int nIndex = TheCurrentStoriesSet.IndexOf(theCurrentStory);
+            if (nIndex > 0)
+                comboBoxStorySelector.SelectedIndex = --nIndex;
+        }
+
+        private void toolStripButtonNext_Click(object sender, EventArgs e)
+        {
+            int nIndex = TheCurrentStoriesSet.IndexOf(theCurrentStory);
+            if (nIndex < (TheCurrentStoriesSet.Count - 1))
+                comboBoxStorySelector.SelectedIndex = ++nIndex;
+        }
+
+        private void toolStripButtonLast_Click(object sender, EventArgs e)
+        {
+            comboBoxStorySelector.SelectedIndex = (TheCurrentStoriesSet.Count - 1);
+        }
     }
 }

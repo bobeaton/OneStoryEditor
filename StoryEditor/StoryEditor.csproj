@@ -23,7 +23,8 @@
     <ManifestKeyFile>
     </ManifestKeyFile>
     <SignAssembly>false</SignAssembly>
-    <AssemblyOriginatorKeyFile>StoryEditor_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
     <PublishUrl>C:\Media\New\Jaars\OneStory Releases\OneClick\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Unc</InstallFrom>
@@ -568,10 +569,13 @@
     <None Include="Resources\AddToFavoritesHS.png" />
     <None Include="Resources\ShowAllCommentsHS.png" />
     <None Include="Resources\SplashScreenImage.jpg" />
+    <None Include="Resources\DataContainer_MoveFirstHS.png" />
+    <None Include="Resources\DataContainer_MovePreviousHS.png" />
+    <None Include="Resources\DataContainer_MoveNextHS.png" />
+    <None Include="Resources\DataContainer_MoveLastHS.png" />
     <Content Include="StageTransitions.xml" />
     <None Include="Properties\app.manifest" />
     <None Include="Resources\DragDropHandle.bmp" />
-    <None Include="StoryEditor_TemporaryKey.pfx" />
     <None Include="StoryProject.onestory" />
     <None Include="StoryProject.xsd">
       <Generator>MSDataSetGenerator</Generator>
