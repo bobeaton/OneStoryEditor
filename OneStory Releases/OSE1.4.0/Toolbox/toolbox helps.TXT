@@ -1,0 +1,81 @@
+\c 97
+\t ONESTORY TOOLBOX HELPS
+\co TO ADD A NEW STORY RECORD: 
+\co2 1. place the cursor in the story BT window, click on Database / Insert Record. 
+\co2 2. It will ask you for the Record you want to insert--so you should write a new chapter number (be sure to insert a zero
+before single digit numbers)--try to estimate where the story will come in your story set. 
+\co2 3. Click ok. 
+\co2 4. A new record will open and you can begin to key in the story and anchors. 
+\co2 4. The template will automatically give you 30 linenumbers. You can change them from "02.xx" to whatever chapter
+number you gave, by using Edit / Replace. Make sure that you leave the period after the number.  
+\co2 5. Choose the "replace all" button. Hit "ok".
+
+\co TO SEE YOUR WHOLE LIST OF STORIES
+\co2 1. If you want to see titles as well as chapter numbers, click on View / Browse Fields.  A window will open up with a list of
+all available fields. Highlight "t" and click "last" to move it to the right. 
+\co2 2. Click "ok"
+\co2 3. Click on the three-column icon above to see an index of your stories -- both chapter numbers and titles.
+
+\co TO ADD A FIELD:  
+\co2 1. Click on Enter, and then "\"-- this brings up a list of Standard Format markers that this window can use. 
+\co2 2. Click on the marker you want, hit space and your cursor will be back in the window you can write in.
+
+\co TO DELETE A RECORD:  
+\co2 1. VERY IMPORTANT:  Click in the window of the record you want to delete.  
+\co2 2. Click on Database / Delete record
+\co2 3. Select "yes"
+
+\co TO ARRANGE YOUR WINDOWS:  
+\co2 1. Click on Window
+\co2 2. Choose the type of arrangement you want for your windows (cascade, tile, tile side by side) -- OR just drag each
+window to where you want it, and then resize it to fit. 
+
+\co TO SEND A BACKTRANSLATION RECORD TO A CONSULTANT:  
+\co2 1. Click in the back-translation window 
+\co2 2. Click on File / Export - select "standard format" and select "show properties dialog box on export" 
+\co2 3. Click on the "export" button - another window will open.  If the "consistent changes" field has anything in it, make it
+blank. 
+\co2 4. Hit the "browse" button on the "output file" field - another window will open 
+\co2 5. Give your file a name with a ".txt" extension and hit save. 
+\co2 6. Go to your email program and create a new email to your consultant.  Attach the file that you just exported from
+Toolbox.
+
+\co TO ADD A RECORD FROM A CONSULTANT:  
+\co2 1. Double-click on e-mail attachment to open it.  
+\co2 2. Select all the text in the document.  
+\co2 3. Copy the highlighted text. 
+\co2 4. Click in the Consultant Notes window in Toolbox 
+\co2 5. Go to the record number that you are working with - highlight the entire record. 
+\co2 6. Paste to replace the old copy of the file with the new updated one.
+
+\co TO SEND A CONSULTANT NOTES FILE BACK TO THE CONSULTANT (with your answers in it)
+\co2 1. Click in the ConNotes window
+\co2 2. Hit "file", then "export" - select "standard format" and select "show properties dialog box on export" 
+\co2 3. Hit the "export" button - another window will open.  Make the "consistent changes" field blank. 
+\co2 4. Hit the "browse" button on the "output file" field - another window will open 
+\co2 6. Go to your email program and create a new email to your consultant.  Attach the file that you just exported from
+Toolbox.
+
+\ln line number--this should match the line number in the ConNotes file, use the format xx.xx   
+\ln To JUMP from the \ln field in this window to the equivalent \ln field in the ConNotes window, rightclick on
+the number.
+\bt backtranslation (keep your lines fairly short)
+\bt to JUMP: From this line you can jump to records you have made in the keyterms database. For
+example, if this line had the word "God" in it, and if you have made a keyterm record called
+"God", then a rightclick on the word "God" will immediately bring up the record in the keyterms
+database.
+\anc anchor ref -- If you are working with a language for which there is translated scripture with a backtraslation, it would be
+helpful to your consultant for you to paste the BT of the appropriate vss. 
+\anc to JUMP from anc to NETBIBLE rightclick on the reference here (eg. Gen.01:01) and your cursor will immediately bring up
+the verse in the Netbible window
+\cn Crafting note -- put cultural info here, or reasons why you crafted the story in a certain way, or information about this line
+from your testing groups.  
+\cn to JUMP: From this line you can also reference records you have made of Cultural observations. For example, if this line of
+the story is about the Wedding at Cana, and you have made observations about weddings in the group you work with, A
+rightclick on the word Wedding will jump to the "Wedding" record in the Cultural notes database. (Note that in order for the
+jump to work, the Cultural Notes database needs to be sorted by \r)
+\tst testing question -- prepare testing questions ahead of time.  Then put the response here also.
+\old A preivous version of this line of this line of the story.  As you proceed through testing and editing of the story you
+occasionally decide to delete a line or to make major changes. If you do that, we'd like for you to keep old versions of
+each line--especially if there have been consultant comments about it.
+\dt 18/Jan/2007

@@ -1,0 +1,236 @@
+<?xml version="1.0"?>
+<AutoUpgrade xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.devx.com/schemas/autoupgrade/1.0">
+  <ApplicationBasePath />
+  <ApplicationExecutable />
+  <ApplicationName>AutoUpgrade</ApplicationName>
+  <FullUpgradeFileName />
+  <OffsetFromUctWhereManifestWasOriginallyCreated>8/10/2010 2:44:24 PM -05:00</OffsetFromUctWhereManifestWasOriginallyCreated>
+  <ManifestFiles>
+    <File name="AutoUpgrade.Lib.dll" method="version" action="copy" version="1.0.3870.15840" optional="false" size="24064">AutoUpgrade Lib</File>
+    <File name="Chorus.exe" method="version" action="copy" version="1.1.0.0" optional="false" size="501248">Chorus</File>
+    <File name="HtmlEditor.dll" method="version" action="copy" version="7.0.100.5147" optional="false" size="180224"> </File>
+    <File name="Keyman7Interop.dll" method="version" action="copy" version="1.4.0.0" optional="false" size="40960"> </File>
+    <File name="KeymanLink.dll" method="version" action="copy" version="1.0.0.0" optional="false" size="28672">KeymanLink</File>
+    <File name="LanguageCodes.tab" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="144868" />
+    <File name="LibChorus.dll" method="version" action="copy" version="1.1.0.0" optional="false" size="252416">Chorus</File>
+    <File name="libsword.dll" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:28 AM" optional="false" size="655360" />
+    <File name="libsword_csharpsword.dll" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:28 AM" optional="false" size="180224" />
+    <File name="NetLoc.dll" method="version" action="copy" version="7.0.100.5029" optional="false" size="81920">NetLoc</File>
+    <File name="OneStory.ico" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="1078" />
+    <File name="OseResources.dll" method="version" action="copy" version="1.0.0.0" optional="false" size="49152">OseResources</File>
+    <File name="Palaso.dll" method="version" action="copy" version="1.0.0.0" optional="false" size="454656">Palaso</File>
+    <File name="PalasoUIWindowsForms.dll" method="version" action="copy" version="1.0.0.0" optional="false" size="211456">PalasoUIWindowsForms</File>
+    <File name="ParatextShared.dll" method="version" action="copy" version="7.0.100.5029" optional="false" size="966656">ParatextShared</File>
+    <File name="SharedScrUtils.dll" method="version" action="copy" version="1.0.0.0" optional="false" size="47104">SharedScrUtils</File>
+    <File name="StageTransitions.xml" method="date" action="copy" version="Monday, August 09, 2010 5:50:05 PM" optional="false" size="73497" />
+    <File name="StoryEditor.exe" method="version" action="copy" version="1.4.0.5" optional="false" size="982528">OneStory Editor</File>
+    <File name="StoryEditor.exe.config" method="date" action="copy" version="Thursday, August 05, 2010 11:49:00 AM" optional="false" size="9047" />
+    <File name="SwigSword.dll" method="version" action="copy" version="0.0.0.0" optional="false" size="143360"> </File>
+    <File name="Utilities.dll" method="version" action="copy" version="7.0.100.5029" optional="false" size="172032"> </File>
+    <File name="BiblicalTerms\AllBiblicalTerms.xml" method="date" action="copy" version="Thursday, July 23, 2009 1:14:14 PM" optional="false" size="8059937" />
+    <File name="BiblicalTerms\BiblicalTerms.xml" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="4265937" />
+    <File name="BiblicalTerms\BiblicalTermsEn.xml" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="912021" />
+    <File name="BiblicalTerms\MyBiblicalTerms.xml" method="date" action="copy" version="Saturday, July 17, 2010 6:09:42 AM" optional="false" size="536044" />
+    <File name="BiblicalTerms\StatHasErrDenied.gif" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="138" />
+    <File name="BiblicalTerms\StatHasErrors.gif" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="866" />
+    <File name="BiblicalTerms\StatHasNoErrors.gif" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="122" />
+    <File name="BiblicalTerms\Term.PNG" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="138" />
+    <File name="mercurial\hg.exe" method="version" action="copy" version="1.5.1" optional="false" size="24936">Scalable distributed SCM</File>
+    <File name="mercurial\library.zip" method="date" action="copy" version="Thursday, April 01, 2010 6:44:12 PM" optional="false" size="10568578" />
+    <File name="mercurial\python26.dll" method="version" action="copy" version="2.6.4" optional="false" size="2149888">Python Core</File>
+    <File name="mercurial\ReadMe.html" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="4737" />
+    <File name="mercurial\hgrc.d\Mercurial.rc" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="3090" />
+    <File name="mercurial\hgrc.d\MergeTools.rc" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="2963" />
+    <File name="mercurial\templates\map-cmdline.changelog" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="842" />
+    <File name="mercurial\templates\map-cmdline.compact" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="372" />
+    <File name="mercurial\templates\map-cmdline.default" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="1208" />
+    <File name="mercurial\templates\map-cmdline.xml" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="1516" />
+    <File name="mercurial\templates\template-vars.txt" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="1367" />
+    <File name="mercurial\templates\atom\changelog.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="252" />
+    <File name="mercurial\templates\atom\changelogentry.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="514" />
+    <File name="mercurial\templates\atom\error.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="457" />
+    <File name="mercurial\templates\atom\filelog.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="245" />
+    <File name="mercurial\templates\atom\header.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="86" />
+    <File name="mercurial\templates\atom\map" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="332" />
+    <File name="mercurial\templates\atom\tagentry.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="286" />
+    <File name="mercurial\templates\atom\tags.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="323" />
+    <File name="mercurial\templates\coal\header.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="356" />
+    <File name="mercurial\templates\coal\map" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="7071" />
+    <File name="mercurial\templates\gitweb\branches.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="1011" />
+    <File name="mercurial\templates\gitweb\changelog.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="1182" />
+    <File name="mercurial\templates\gitweb\changelogentry.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="529" />
+    <File name="mercurial\templates\gitweb\changeset.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="1817" />
+    <File name="mercurial\templates\gitweb\error.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="963" />
+    <File name="mercurial\templates\gitweb\fileannotate.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="2218" />
+    <File name="mercurial\templates\gitweb\filediff.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="1855" />
+    <File name="mercurial\templates\gitweb\filelog.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="1404" />
+    <File name="mercurial\templates\gitweb\filerevision.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="2177" />
+    <File name="mercurial\templates\gitweb\footer.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="207" />
+    <File name="mercurial\templates\gitweb\graph.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="3690" />
+    <File name="mercurial\templates\gitweb\header.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="427" />
+    <File name="mercurial\templates\gitweb\index.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="655" />
+    <File name="mercurial\templates\gitweb\manifest.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="1488" />
+    <File name="mercurial\templates\gitweb\map" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="10780" />
+    <File name="mercurial\templates\gitweb\notfound.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="407" />
+    <File name="mercurial\templates\gitweb\search.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="1208" />
+    <File name="mercurial\templates\gitweb\shortlog.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="1242" />
+    <File name="mercurial\templates\gitweb\summary.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="1960" />
+    <File name="mercurial\templates\gitweb\tags.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="1004" />
+    <File name="mercurial\templates\monoblue\branches.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="1419" />
+    <File name="mercurial\templates\monoblue\changelog.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="1487" />
+    <File name="mercurial\templates\monoblue\changelogentry.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="490" />
+    <File name="mercurial\templates\monoblue\changeset.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="2288" />
+    <File name="mercurial\templates\monoblue\error.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="1444" />
+    <File name="mercurial\templates\monoblue\fileannotate.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="2622" />
+    <File name="mercurial\templates\monoblue\filediff.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="2239" />
+    <File name="mercurial\templates\monoblue\filelog.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="2002" />
+    <File name="mercurial\templates\monoblue\filerevision.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="2597" />
+    <File name="mercurial\templates\monoblue\footer.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="632" />
+    <File name="mercurial\templates\monoblue\graph.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="4309" />
+    <File name="mercurial\templates\monoblue\header.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="390" />
+    <File name="mercurial\templates\monoblue\index.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="1085" />
+    <File name="mercurial\templates\monoblue\manifest.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="1994" />
+    <File name="mercurial\templates\monoblue\map" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="9456" />
+    <File name="mercurial\templates\monoblue\notfound.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="1594" />
+    <File name="mercurial\templates\monoblue\search.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="1459" />
+    <File name="mercurial\templates\monoblue\shortlog.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="1488" />
+    <File name="mercurial\templates\monoblue\summary.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="2335" />
+    <File name="mercurial\templates\monoblue\tags.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="1408" />
+    <File name="mercurial\templates\paper\branches.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="1192" />
+    <File name="mercurial\templates\paper\changeset.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="1860" />
+    <File name="mercurial\templates\paper\error.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="1023" />
+    <File name="mercurial\templates\paper\fileannotate.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="2299" />
+    <File name="mercurial\templates\paper\filediff.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="2086" />
+    <File name="mercurial\templates\paper\filelog.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="2397" />
+    <File name="mercurial\templates\paper\filelogentry.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="323" />
+    <File name="mercurial\templates\paper\filerevision.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="2242" />
+    <File name="mercurial\templates\paper\footer.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="24" />
+    <File name="mercurial\templates\paper\graph.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="3933" />
+    <File name="mercurial\templates\paper\header.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="357" />
+    <File name="mercurial\templates\paper\index.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="672" />
+    <File name="mercurial\templates\paper\manifest.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="1549" />
+    <File name="mercurial\templates\paper\map" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="6891" />
+    <File name="mercurial\templates\paper\notfound.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="252" />
+    <File name="mercurial\templates\paper\search.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="1396" />
+    <File name="mercurial\templates\paper\shortlog.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="1849" />
+    <File name="mercurial\templates\paper\shortlogentry.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="323" />
+    <File name="mercurial\templates\paper\tags.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="1174" />
+    <File name="mercurial\templates\raw\changeset.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="124" />
+    <File name="mercurial\templates\raw\error.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="24" />
+    <File name="mercurial\templates\raw\fileannotate.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="44" />
+    <File name="mercurial\templates\raw\filediff.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="27" />
+    <File name="mercurial\templates\raw\index.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="30" />
+    <File name="mercurial\templates\raw\manifest.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="58" />
+    <File name="mercurial\templates\raw\map" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="764" />
+    <File name="mercurial\templates\raw\notfound.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="44" />
+    <File name="mercurial\templates\rss\changelog.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="155" />
+    <File name="mercurial\templates\rss\changelogentry.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="300" />
+    <File name="mercurial\templates\rss\error.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="244" />
+    <File name="mercurial\templates\rss\filelog.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="174" />
+    <File name="mercurial\templates\rss\filelogentry.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="299" />
+    <File name="mercurial\templates\rss\header.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="139" />
+    <File name="mercurial\templates\rss\map" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="266" />
+    <File name="mercurial\templates\rss\tagentry.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="208" />
+    <File name="mercurial\templates\rss\tags.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="154" />
+    <File name="mercurial\templates\spartan\branches.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="855" />
+    <File name="mercurial\templates\spartan\changelog.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="1323" />
+    <File name="mercurial\templates\spartan\changelogentry.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="700" />
+    <File name="mercurial\templates\spartan\changeset.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="1298" />
+    <File name="mercurial\templates\spartan\error.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="174" />
+    <File name="mercurial\templates\spartan\fileannotate.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="1478" />
+    <File name="mercurial\templates\spartan\filediff.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="1123" />
+    <File name="mercurial\templates\spartan\filelog.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="1199" />
+    <File name="mercurial\templates\spartan\filelogentry.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="797" />
+    <File name="mercurial\templates\spartan\filerevision.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="1407" />
+    <File name="mercurial\templates\spartan\footer.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="173" />
+    <File name="mercurial\templates\spartan\graph.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="2763" />
+    <File name="mercurial\templates\spartan\header.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="261" />
+    <File name="mercurial\templates\spartan\index.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="448" />
+    <File name="mercurial\templates\spartan\manifest.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="862" />
+    <File name="mercurial\templates\spartan\map" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="7017" />
+    <File name="mercurial\templates\spartan\notfound.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="252" />
+    <File name="mercurial\templates\spartan\search.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="819" />
+    <File name="mercurial\templates\spartan\shortlog.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="1326" />
+    <File name="mercurial\templates\spartan\shortlogentry.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="264" />
+    <File name="mercurial\templates\spartan\tags.tmpl" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="828" />
+    <File name="mercurial\templates\static\background.png" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="603" />
+    <File name="mercurial\templates\static\coal-file.png" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="273" />
+    <File name="mercurial\templates\static\coal-folder.png" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="284" />
+    <File name="mercurial\templates\static\excanvas.js" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="9464" />
+    <File name="mercurial\templates\static\graph.js" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="3475" />
+    <File name="mercurial\templates\static\hgicon.png" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="792" />
+    <File name="mercurial\templates\static\hglogo.png" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="4123" />
+    <File name="mercurial\templates\static\style-coal.css" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="4624" />
+    <File name="mercurial\templates\static\style-gitweb.css" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="3989" />
+    <File name="mercurial\templates\static\style-monoblue.css" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="8008" />
+    <File name="mercurial\templates\static\style-paper.css" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="4285" />
+    <File name="mercurial\templates\static\style.css" method="date" action="copy" version="Wednesday, March 31, 2010 12:22:48 AM" optional="false" size="2297" />
+    <File name="SWORD\mods.d\bbe.conf" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="1411" />
+    <File name="SWORD\mods.d\bwe.conf" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="1292" />
+    <File name="SWORD\mods.d\farsiopv.conf" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="1582" />
+    <File name="SWORD\mods.d\globals.conf" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="35" />
+    <File name="SWORD\mods.d\hindi.conf" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="805" />
+    <File name="SWORD\mods.d\net.conf" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="4888" />
+    <File name="SWORD\mods.d\netfree.conf" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="4972" />
+    <File name="SWORD\mods.d\xnr.conf" method="date" action="copy" version="Friday, May 28, 2010 8:10:34 AM" optional="false" size="449" />
+    <File name="SWORD\modules\texts\rawtext\xnr\nt" method="date" action="copy" version="Friday, May 28, 2010 8:10:34 AM" optional="false" size="1080613" />
+    <File name="SWORD\modules\texts\rawtext\xnr\nt.vss" method="date" action="copy" version="Friday, May 28, 2010 8:10:34 AM" optional="false" size="49488" />
+    <File name="SWORD\modules\texts\rawtext\xnr\ot" method="date" action="copy" version="Friday, May 28, 2010 8:10:34 AM" optional="false" size="262962" />
+    <File name="SWORD\modules\texts\rawtext\xnr\ot.vss" method="date" action="copy" version="Friday, May 28, 2010 8:10:34 AM" optional="false" size="144690" />
+    <File name="SWORD\modules\texts\ztext\bbe\bbe.doc" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="3855" />
+    <File name="SWORD\modules\texts\ztext\bbe\nt.bzs" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="324" />
+    <File name="SWORD\modules\texts\ztext\bbe\nt.bzv" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="82460" />
+    <File name="SWORD\modules\texts\ztext\bbe\nt.bzz" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="340753" />
+    <File name="SWORD\modules\texts\ztext\bbe\ot.bzs" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="468" />
+    <File name="SWORD\modules\texts\ztext\bbe\ot.bzv" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="241150" />
+    <File name="SWORD\modules\texts\ztext\bbe\ot.bzz" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="966413" />
+    <File name="SWORD\modules\texts\ztext\bwe\nt.bzs" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="324" />
+    <File name="SWORD\modules\texts\ztext\bwe\nt.bzv" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="82460" />
+    <File name="SWORD\modules\texts\ztext\bwe\nt.bzz" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="356310" />
+    <File name="SWORD\modules\texts\ztext\farsiopv\errata" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="7527" />
+    <File name="SWORD\modules\texts\ztext\farsiopv\nt.bzs" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="648" />
+    <File name="SWORD\modules\texts\ztext\farsiopv\nt.bzv" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="82460" />
+    <File name="SWORD\modules\texts\ztext\farsiopv\nt.bzz" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="435377" />
+    <File name="SWORD\modules\texts\ztext\farsiopv\ot.bzs" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="900" />
+    <File name="SWORD\modules\texts\ztext\farsiopv\ot.bzv" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="241150" />
+    <File name="SWORD\modules\texts\ztext\farsiopv\ot.bzz" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="1130984" />
+    <File name="SWORD\modules\texts\ztext\hindi\nt.bzs" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="336" />
+    <File name="SWORD\modules\texts\ztext\hindi\nt.bzv" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="82460" />
+    <File name="SWORD\modules\texts\ztext\hindi\nt.bzz" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="464081" />
+    <File name="SWORD\modules\texts\ztext\hindi\ot.bzs" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="480" />
+    <File name="SWORD\modules\texts\ztext\hindi\ot.bzv" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="241150" />
+    <File name="SWORD\modules\texts\ztext\hindi\ot.bzz" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="1386391" />
+    <File name="SWORD\modules\texts\ztext\net\nt.bzs" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="324" />
+    <File name="SWORD\modules\texts\ztext\net\nt.bzv" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="82460" />
+    <File name="SWORD\modules\texts\ztext\net\nt.bzz" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="1692590" />
+    <File name="SWORD\modules\texts\ztext\net\ot.bzs" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="468" />
+    <File name="SWORD\modules\texts\ztext\net\ot.bzv" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="241150" />
+    <File name="SWORD\modules\texts\ztext\net\ot.bzz" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="4415295" />
+    <File name="SWORD\modules\texts\ztext\netfree\nt.bzs" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:26 AM" optional="false" size="324" />
+    <File name="SWORD\modules\texts\ztext\netfree\nt.bzv" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:28 AM" optional="false" size="82460" />
+    <File name="SWORD\modules\texts\ztext\netfree\nt.bzz" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:28 AM" optional="false" size="876580" />
+    <File name="SWORD\modules\texts\ztext\netfree\ot.bzs" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:28 AM" optional="false" size="468" />
+    <File name="SWORD\modules\texts\ztext\netfree\ot.bzv" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:28 AM" optional="false" size="241150" />
+    <File name="SWORD\modules\texts\ztext\netfree\ot.bzz" method="date" action="copy" version="Tuesday, December 01, 2009 8:44:28 AM" optional="false" size="2423140" />
+    <File name="Toolbox\BibleBookCodes.TXT" method="date" action="copy" version="Friday, May 28, 2010 8:10:36 AM" optional="false" size="1393" />
+    <File name="Toolbox\BookReferences.lng" method="date" action="copy" version="Friday, May 28, 2010 8:10:36 AM" optional="false" size="1334" />
+    <File name="Toolbox\chap00 Sample Set.TXT" method="date" action="copy" version="Friday, May 28, 2010 8:10:36 AM" optional="false" size="538" />
+    <File name="Toolbox\chap000 Sample Story.TXT" method="date" action="copy" version="Friday, May 28, 2010 8:10:36 AM" optional="false" size="7513" />
+    <File name="Toolbox\Date.lng" method="date" action="copy" version="Friday, May 28, 2010 8:10:36 AM" optional="false" size="1301" />
+    <File name="Toolbox\Default.lng" method="date" action="copy" version="Friday, May 28, 2010 8:10:36 AM" optional="false" size="1310" />
+    <File name="Toolbox\English.lng" method="date" action="copy" version="Friday, May 28, 2010 8:10:36 AM" optional="false" size="1310" />
+    <File name="Toolbox\InternationalBT.lng" method="date" action="copy" version="Friday, May 28, 2010 8:10:36 AM" optional="false" size="1337" />
+    <File name="Toolbox\NationalBT.lng" method="date" action="copy" version="Friday, May 28, 2010 8:10:36 AM" optional="false" size="1322" />
+    <File name="Toolbox\Retellings.typ" method="date" action="copy" version="Friday, May 28, 2010 8:10:36 AM" optional="false" size="2811" />
+    <File name="Toolbox\Scriptur.typ" method="date" action="copy" version="Friday, May 28, 2010 8:10:36 AM" optional="false" size="3780" />
+    <File name="Toolbox\toolbox helps.TXT" method="date" action="copy" version="Friday, May 28, 2010 8:10:36 AM" optional="false" size="5405" />
+    <File name="Toolbox\toolbox helps2.TXT" method="date" action="copy" version="Friday, May 28, 2010 8:10:36 AM" optional="false" size="6001" />
+    <File name="Toolbox\Vernacular.lng" method="date" action="copy" version="Friday, May 28, 2010 8:10:36 AM" optional="false" size="1320" />
+    <File name="Toolbox\PathFixup\LCNote.typ" method="date" action="copy" version="Friday, May 28, 2010 8:10:36 AM" optional="false" size="1921" />
+    <File name="Toolbox\PathFixup\StoryBT.typ" method="date" action="copy" version="Friday, May 28, 2010 8:10:36 AM" optional="false" size="4677" />
+    <File name="Toolbox\PathFixup\StoryingProject.prj" method="date" action="copy" version="Friday, May 28, 2010 8:10:36 AM" optional="false" size="4509" />
+    <File name="Toolbox\PathFixup\StoryNotes.typ" method="date" action="copy" version="Friday, May 28, 2010 8:10:36 AM" optional="false" size="3428" />
+  </ManifestFiles>
+  <SourcePath />
+  <UpgradeFiles />
+</AutoUpgrade>

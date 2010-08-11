@@ -1,0 +1,73 @@
+\c 98
+\t BIBLE BOOK 3-LETTER CODES 
+\co OLD TESTAMENT
+\bt Genesis - GEN
+\bt Exodus - EXO
+\bt Leviticus - LEV
+\bt Numbers - NUM
+\bt Deuteronomy - DEU
+\bt Joshua - JOS
+\bt Judges - JDG
+\bt Ruth - RUT
+\bt 1 Samuel - 1SA
+\bt 2 Samuel - 2SA
+\bt 1 Kings - 1KI
+\bt 2 Kings - 2KI
+\bt 1 Chronicles - 1CH
+\bt 2 Chronicles - 2CH
+\bt Ezra - EZR
+\bt Nehemiah - NEH
+\bt Esther - EST
+\bt Job - JOB
+\bt Psalms - PSA
+\bt Proverbs - PRO
+\bt Ecclesiastes - ECC
+\bt Song of Songs - SNG
+\bt Isaiah - ISA
+\bt Jeremiah - JER
+\bt Lamentations - LAM
+\bt Ezekiel - EZK
+\bt Daniel - DAN
+\bt Hosea - HOS
+\bt Joel - JOL
+\bt Amos - AMO
+\bt Obadiah - OBA
+\bt Jonah - JON
+\bt Micah - MIC
+\bt Nahum - NAM
+\bt Habakkuk - HAB
+\bt Zephaniah - ZEP
+\bt Haggai - HAG
+\bt Zechariah - ZEC
+\bt Malachi - MAL
+\co
+\co NEW TESTAMENT:  
+\bt Matthew - MAT
+\bt Mark - MRK
+\bt Luke - LUK
+\bt John - JHN
+\bt Acts - ACT
+\bt Romans - ROM
+\bt 1 Corinthians - 1CO
+\bt 2 Corinthians - 2CO
+\bt Galatians - GAL
+\bt Ephesians - EPH
+\bt Philippians - PHP
+\bt Colossians - COL
+\bt 1 Thessalonians  - 1TH
+\bt 2 Thessalonians  - 2TH
+\bt 1 Timothy - 1TI
+\bt 2 Timothy - 2TI
+\bt Titus - TIT
+\bt Philemon - PHM
+\bt Hebrews - HEB
+\bt James - JAS
+\bt 1 Peter - 1PE
+\bt 2 Peter - 2PE
+\bt 1 John - 1JN
+\bt 2 John - 2JN
+\bt 3 John - 3JN
+\bt Jude - JUD
+\bt Revelation - REV
+
+\dt 10/Oct/2006

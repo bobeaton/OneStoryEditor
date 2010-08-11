@@ -1,0 +1,26 @@
+\c 00 (SAMPLE SET)
+\t Project Story Set
+
+\bt Redemptive Theme
+\co (Which theme you chose and why)
+
+\bt Info about team (gender, age, education, believer?, etc.)
+\co Mini-bio about Crafter 
+\co Mini-bio about Bactranslator 
+\co Mini-bios about Testers 
+
+\bt Story set (example from Animist set)
+\co 1. Creation
+\co 2. Fall
+\co 3. Elijah
+\co 4. Zechariah
+\co 5. Birth
+\co 6. Wheat & Weeds
+\co 7. Faith
+\co 8. Strong Man
+\co 9. Judas's Betrayal
+\co 10. Death
+\co 11. Resurrection 
+\co 12. Sorcerer
+
+\dt 20/Jun/2008
