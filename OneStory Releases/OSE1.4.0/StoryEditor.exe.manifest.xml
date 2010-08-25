@@ -4,7 +4,7 @@
   <ApplicationExecutable />
   <ApplicationName>AutoUpgrade</ApplicationName>
   <FullUpgradeFileName />
-  <OffsetFromUctWhereManifestWasOriginallyCreated>8/25/2010 9:56:31 AM -05:00</OffsetFromUctWhereManifestWasOriginallyCreated>
+  <OffsetFromUctWhereManifestWasOriginallyCreated>8/25/2010 10:01:29 AM -05:00</OffsetFromUctWhereManifestWasOriginallyCreated>
   <ManifestFiles>
     <File name="AutoUpgrade.Lib.dll" method="version" action="copy" version="1.0.3889.12875" optional="false" size="24576">AutoUpgrade Lib</File>
     <File name="OseResources.dll" method="version" action="copy" version="1.0.0.0" optional="false" size="49152">OseResources</File>
