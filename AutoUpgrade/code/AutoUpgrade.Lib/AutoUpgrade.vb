@@ -131,15 +131,12 @@ Namespace devX
             End If
         End Function
 
-        Public Shared Function Create(ByVal strManifestPath As String, ByVal blnWebService As Boolean) As AutoUpgrade
+        Public Shared Function Create(ByVal strManifestPath As String) As AutoUpgrade
             ' Get the manifest file from a web service.  strManifest must point to
             ' a full http path - i.e. http://localhost/AutoUpgrade.web/manifest.asmx
             '
             ' The web service must contain a method called Create() with no parameters
             '
-            ' The blnWebService argument serves as a marker to differentiate this
-            ' Create() from the following one (which also has a strManifestPath arg)
-
             Dim wsClient As New devX.AutoUpgrade.WebServiceClient()
 
             Return wsClient.Create(strManifestPath)
@@ -150,17 +147,21 @@ Namespace devX
             Return True
         End Function
 
-        Private Shared Function GetFtpWebRequest(ByVal strFilename As String) As FtpWebRequest
-            ServicePointManager.ServerCertificateValidationCallback = AddressOf MyCertValidationCb
-            Dim ftpWebRequest As FtpWebRequest = System.Net.WebRequest.Create(strFilename)
-            ftpWebRequest.KeepAlive = False
-            ftpWebRequest.EnableSsl = True
-            ftpWebRequest.UsePassive = True
-            ftpWebRequest.UseBinary = True
-            GetFtpWebRequest = ftpWebRequest
+        Private Shared Function GetWebRequest(ByVal strFilename As String) As WebRequest
+            If (strFilename.Substring(0, 4) <> "ftp:") Then
+                GetWebRequest = System.Net.WebRequest.Create(strFilename)
+            Else
+                ServicePointManager.ServerCertificateValidationCallback = AddressOf MyCertValidationCb
+                Dim ftpWebRequest As FtpWebRequest = System.Net.WebRequest.Create(strFilename)
+                ftpWebRequest.KeepAlive = False
+                ftpWebRequest.EnableSsl = True
+                ftpWebRequest.UsePassive = True
+                ftpWebRequest.UseBinary = True
+                GetWebRequest = ftpWebRequest
+            End If
         End Function
 
-        Public Shared Function Create(ByVal strManifestPath As String) As AutoUpgrade
+        Public Shared Function Create(ByVal strManifestPath As String, ByVal bThrowErrors As Boolean) As AutoUpgrade
             ' Get the manifest file from the specified Uri, create and return a new 
             ' instance of AutoUpgrade, and deserialize the object model.
             ' This version of create is for use by applications that want this class
@@ -171,10 +172,8 @@ Namespace devX
             Dim manifestStream As System.IO.Stream
 
             Try
-                Dim ftpWebRequest As FtpWebRequest = GetFtpWebRequest(strManifestPath)
-                manifestStream = ftpWebRequest.GetResponse.GetResponseStream
-                ' wbrManifestfile = System.Net.WebRequest.Create(strManifestPath)
-                ' manifestStream = wbrManifestfile.GetResponse.GetResponseStream
+                wbrManifestfile = GetWebRequest(strManifestPath)
+                manifestStream = wbrManifestfile.GetResponse.GetResponseStream
 
                 Try
                     ' Read properties from webrequest stream (from path specified
@@ -192,7 +191,7 @@ Namespace devX
 
                     If upgInstance.SourcePath.Length = 0 Then
                         upgInstance.SourcePath = _
-                         strManifestPath.Substring(0, Len(strManifestPath) - Len(IO.Path.GetFileName(strManifestPath)))
+                         strManifestPath.Substring(0, Len(strManifestPath) - Len(IO.Path.GetFileName(strManifestPath)) - 1)
                         ' upgInstance.SourcePath = IO.Path.Combine(upgInstance.SourcePath, "client")
                     End If
 
@@ -204,7 +203,9 @@ Namespace devX
                         upgInstance.ApplicationBasePath = AppDomain.CurrentDomain.BaseDirectory
                     End If
 
+                    manifestStream.Close()
                     manifestStream = Nothing
+                    wbrManifestfile.GetResponse.Close()
                     wbrManifestfile = Nothing
                     xmlSerializer = Nothing
                     Return upgInstance
@@ -220,6 +221,9 @@ Namespace devX
                 ' return an object with no entries in ManifestFiles, which will return 
                 ' false for IsUpgradeAvailable and allow the calling application to 
                 ' continue
+                If (bThrowErrors) Then
+                    Throw exc
+                End If
                 Return New AutoUpgrade()
             End Try
         End Function
@@ -405,11 +409,13 @@ Namespace devX
             End If
         End Sub
 
+        Private Shared Function IsFtp(ByVal resp As WebRequest) As Boolean
+            IsFtp = TypeOf (resp) Is FtpWebRequest
+        End Function
+
         Public Sub DownloadSingleFile(ByVal strFileName As String, Optional ByVal strDescription As String = "")
             ' Download a single file from the source to the staging directory in
             ' 16k chunks, raising UpgradeProgress events to indicate progress.
-            ' Dim reqFile As System.Net.WebRequest
-            Dim reqFile As FtpWebRequest
             Dim strSourceFilePath As String
             Dim strLocalPath As String
             Dim dlBuffer(BUFFERSIZE) As Byte
@@ -417,8 +423,7 @@ Namespace devX
             Dim lngBytesRead As Long
 
             strSourceFilePath = Me.SourcePath & "\" & strFileName
-            ' reqFile = System.Net.WebRequest.Create(strSourceFilePath)
-            reqFile = GetFtpWebRequest(strSourceFilePath)
+            Dim reqFile As System.Net.WebRequest = GetWebRequest(strSourceFilePath)
             strLocalPath = IO.Path.Combine(Me.UpgradeDirectory, strFileName)
 
             Try
@@ -459,15 +464,18 @@ Namespace devX
 
                 If Not mblnCancel Then
                     ' Set the date on the downloaded file to the date of the source
-                    'Dim resp As WebResponse = reqFile.GetResponse()
-                    'Dim strLstModified As String = resp.Headers("Last-Modified")
-                    reqFile.GetResponse.Close()
-                    reqFile = GetFtpWebRequest(strSourceFilePath)
-                    reqFile.Method = WebRequestMethods.Ftp.GetDateTimestamp
                     Dim strLstModified As String
-                    Using resp As FtpWebResponse = reqFile.GetResponse
-                        strLstModified = resp.LastModified
-                    End Using
+                    If (IsFtp(reqFile)) Then
+                        reqFile.GetResponse.Close()
+                        reqFile = GetWebRequest(strSourceFilePath)
+                        reqFile.Method = WebRequestMethods.Ftp.GetDateTimestamp
+                        Using resp As FtpWebResponse = reqFile.GetResponse
+                            strLstModified = resp.LastModified
+                        End Using
+                    Else
+                        Dim resp As WebResponse = reqFile.GetResponse()
+                        strLstModified = resp.Headers("Last-Modified")
+                    End If
                     If Not String.IsNullOrEmpty(strLstModified) Then
                         Dim dateLastModified As Date = Date.Parse(strLstModified)
 
@@ -919,17 +927,18 @@ Namespace devX
         End Sub
 
         Public Shared ReadOnly Property UpgradeDirectory() As String
-            ' return the path of the upgrade directory.  This is either the BaseDirectory
-            ' with upgrade-cache appended (when AutoUpgrade.Lib is instantiated from an
-            ' application), or just the base directory (when AutoUpgrade.Lib is 
-            ' instantiated from a the AutoUpgrade.EXE stub)
+            ' return the path of the upgrade directory.  This is either a writable folder
+            ' (e.g. AppData with 'upgrade-cache' appended)...(when AutoUpgrade.Lib is 
+            ' instantiated from an application), or just the base directory (when 
+            ' AutoUpgrade.Lib is instantiated from a the AutoUpgrade.EXE stub)
             Get
                 If StrComp(System.Reflection.Assembly.GetEntryAssembly.GetName.Name, "AutoUpgrade", CompareMethod.Text) = 0 Then
                     ' Caller is AutoUpgrade.exe (which is run from the cache dir), use BaseDirectory
                     Return AppDomain.CurrentDomain.BaseDirectory
                 Else
                     ' Caller is an application, append "upgrade-cache" to BaseDirectory
-                    Return IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "upgrade-cache")
+                    ' Return IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "upgrade-cache")
+                    Return IO.Path.Combine(System.Windows.Forms.Application.UserAppDataPath, "upgrade-cache")
                 End If
             End Get
         End Property
