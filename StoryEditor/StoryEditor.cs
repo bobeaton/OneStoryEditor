@@ -2805,26 +2805,32 @@ namespace OneStoryProjectEditor
 
         private void showHideFieldsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ViewEnableForm dlg = new ViewEnableForm(StoryProject.ProjSettings, theCurrentStory, 
-                useSameSettingsForAllStoriesToolStripMenuItem.Checked);
-            dlg.ItemsToInsureAreOn = VerseData.SetItemsToInsureOn(
-                viewVernacularLangFieldMenuItem.Checked,
-                viewNationalLangFieldMenuItem.Checked,
-                viewEnglishBTFieldMenuItem.Checked,
-                viewAnchorFieldMenuItem.Checked,
-                viewStoryTestingQuestionMenuItem.Checked,
-                viewStoryTestingQuestionAnswerMenuItem.Checked,
-                viewRetellingFieldMenuItem.Checked,
-                viewConsultantNoteFieldMenuItem.Checked,
-                viewCoachNotesFieldMenuItem.Checked,
-                viewNetBibleMenuItem.Checked,
-                true);
+            ViewEnableForm dlg = new ViewEnableForm(this, StoryProject.ProjSettings, theCurrentStory,
+                                                    useSameSettingsForAllStoriesToolStripMenuItem.Checked)
+                                     {
+                                         ViewSettings = new VerseData.ViewSettings
+                                             (
+                                             viewVernacularLangFieldMenuItem.Checked,
+                                             viewNationalLangFieldMenuItem.Checked,
+                                             viewEnglishBTFieldMenuItem.Checked,
+                                             viewAnchorFieldMenuItem.Checked,
+                                             viewStoryTestingQuestionMenuItem.Checked,
+                                             viewStoryTestingQuestionAnswerMenuItem.Checked,
+                                             viewRetellingFieldMenuItem.Checked,
+                                             viewConsultantNoteFieldMenuItem.Checked,
+                                             viewCoachNotesFieldMenuItem.Checked,
+                                             viewNetBibleMenuItem.Checked,
+                                             true,
+                                             null,
+                                             null
+                                             )
+                                     };
 
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 // have to turn this off, or these new settings won't work
                 useSameSettingsForAllStoriesToolStripMenuItem.Checked = false;
-                NavigateTo(theCurrentStory.Name, dlg.ItemsToInsureAreOn, true, CtrlTextBox._inTextBox);
+                NavigateTo(theCurrentStory.Name, dlg.ViewSettings, true, CtrlTextBox._inTextBox);
                 useSameSettingsForAllStoriesToolStripMenuItem.Checked = dlg.UseForAllStories;
             }
         }
@@ -3077,7 +3083,7 @@ namespace OneStoryProjectEditor
         }
 
         public void NavigateTo(string strStoryName,
-            VerseData.ViewItemToInsureOn viewItemToInsureOn, bool bDoOffToo, 
+            VerseData.ViewSettings viewItemToInsureOn, bool bDoOffToo, 
             CtrlTextBox ctbToFocus)
         {
             Debug.Assert(comboBoxStorySelector.Items.Contains(strStoryName));
@@ -3087,46 +3093,54 @@ namespace OneStoryProjectEditor
             bool bSomethingChanged = false;
             _bDisableReInitVerseControls = true;
             bSomethingChanged |= InsureVisible(viewVernacularLangFieldMenuItem,
-                                               VerseData.IsViewItemOn(viewItemToInsureOn,
-                                                                      VerseData.ViewItemToInsureOn.eVernacularLangField),
+                                               viewItemToInsureOn.IsViewItemOn(
+                                                   VerseData.ViewSettings.ItemToInsureOn.VernacularLangField),
+                                               bDoOffToo);
+            bSomethingChanged |= InsureVisible(viewTransliterationVernacular,
+                                               viewItemToInsureOn.IsViewItemOn(
+                                                   VerseData.ViewSettings.ItemToInsureOn.VernacularTransliterationField),
                                                bDoOffToo);
             bSomethingChanged |= InsureVisible(viewNationalLangFieldMenuItem,
-                                               VerseData.IsViewItemOn(viewItemToInsureOn,
-                                                                      VerseData.ViewItemToInsureOn.eNationalLangField),
+                                               viewItemToInsureOn.IsViewItemOn(
+                                                   VerseData.ViewSettings.ItemToInsureOn.NationalBTLangField),
+                                               bDoOffToo);
+            bSomethingChanged |= InsureVisible(viewTransliterationNationalBT,
+                                               viewItemToInsureOn.IsViewItemOn(
+                                                   VerseData.ViewSettings.ItemToInsureOn.NationalBTTransliterationField),
                                                bDoOffToo);
             bSomethingChanged |= InsureVisible(viewEnglishBTFieldMenuItem,
-                                               VerseData.IsViewItemOn(viewItemToInsureOn,
-                                                                      VerseData.ViewItemToInsureOn.eEnglishBTField),
+                                               viewItemToInsureOn.IsViewItemOn(
+                                                   VerseData.ViewSettings.ItemToInsureOn.EnglishBTField),
                                                bDoOffToo);
             bSomethingChanged |= InsureVisible(viewAnchorFieldMenuItem,
-                                               VerseData.IsViewItemOn(viewItemToInsureOn,
-                                                                      VerseData.ViewItemToInsureOn.eAnchorFields),
+                                               viewItemToInsureOn.IsViewItemOn(
+                                                   VerseData.ViewSettings.ItemToInsureOn.AnchorFields),
                                                bDoOffToo);
             bSomethingChanged |= InsureVisible(viewStoryTestingQuestionMenuItem,
-                                               VerseData.IsViewItemOn(viewItemToInsureOn,
-                                                                      VerseData.ViewItemToInsureOn.
-                                                                          eStoryTestingQuestions),
+                                               viewItemToInsureOn.IsViewItemOn(
+                                                   VerseData.ViewSettings.ItemToInsureOn.
+                                                       StoryTestingQuestions),
                                                bDoOffToo);
             bSomethingChanged |= InsureVisible(viewStoryTestingQuestionAnswerMenuItem,
-                                               VerseData.IsViewItemOn(viewItemToInsureOn,
-                                                                      VerseData.ViewItemToInsureOn.
-                                                                          eStoryTestingQuestionAnswers),
+                                               viewItemToInsureOn.IsViewItemOn(
+                                                   VerseData.ViewSettings.ItemToInsureOn.
+                                                       StoryTestingQuestionAnswers),
                                                bDoOffToo);
             bSomethingChanged |= InsureVisible(viewRetellingFieldMenuItem,
-                                               VerseData.IsViewItemOn(viewItemToInsureOn,
-                                                                      VerseData.ViewItemToInsureOn.eRetellingFields),
+                                               viewItemToInsureOn.IsViewItemOn(
+                                                   VerseData.ViewSettings.ItemToInsureOn.RetellingFields),
                                                bDoOffToo);
             bSomethingChanged |= InsureVisible(viewConsultantNoteFieldMenuItem,
-                                               VerseData.IsViewItemOn(viewItemToInsureOn,
-                                                                      VerseData.ViewItemToInsureOn.eConsultantNoteFields),
+                                               viewItemToInsureOn.IsViewItemOn(
+                                                   VerseData.ViewSettings.ItemToInsureOn.ConsultantNoteFields),
                                                bDoOffToo);
             bSomethingChanged |= InsureVisible(viewCoachNotesFieldMenuItem,
-                                               VerseData.IsViewItemOn(viewItemToInsureOn,
-                                                                      VerseData.ViewItemToInsureOn.eCoachNotesFields),
+                                               viewItemToInsureOn.IsViewItemOn(
+                                                   VerseData.ViewSettings.ItemToInsureOn.CoachNotesFields),
                                                bDoOffToo);
             bSomethingChanged |= InsureVisible(viewNetBibleMenuItem,
-                                               VerseData.IsViewItemOn(viewItemToInsureOn,
-                                                                      VerseData.ViewItemToInsureOn.eBibleViewer),
+                                               viewItemToInsureOn.IsViewItemOn(
+                                                   VerseData.ViewSettings.ItemToInsureOn.BibleViewer),
                                                bDoOffToo);
 
             _bDisableReInitVerseControls = false;
@@ -3793,7 +3807,19 @@ namespace OneStoryProjectEditor
         {
             try
             {
+                // save changes before checking (so we can close rapidly if need be)
+                if (!CheckForSaveDirtyFile())
+                    return;
+
                 Program.CheckForProgramUpdate(true);
+
+                // if it returns here without throwing an exception, it means there were no updates
+                MessageBox.Show(Properties.Resources.IDS_NoProgramUpdates,
+                    OseResources.Properties.Resources.IDS_Caption);
+            }
+            catch (Program.RestartException)
+            {
+                Close();
             }
             catch (Exception ex)
             {

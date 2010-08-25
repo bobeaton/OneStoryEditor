@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Linq;
+using SilEncConverters31;
 
 namespace OneStoryProjectEditor
 {
@@ -111,16 +112,16 @@ namespace OneStoryProjectEditor
             {
                 if (QuestionVernacular.HasData && findProperties.StoryLanguage)
                     lstBoxesToSearch.AddNewVerseString(QuestionVernacular,
-                        VerseData.ViewItemToInsureOn.eStoryTestingQuestions |
-                        VerseData.ViewItemToInsureOn.eVernacularLangField);
+                        VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestions |
+                        VerseData.ViewSettings.ItemToInsureOn.VernacularLangField);
                 if (QuestionNationalBT.HasData && findProperties.NationalBT)
                     lstBoxesToSearch.AddNewVerseString(QuestionNationalBT,
-                        VerseData.ViewItemToInsureOn.eStoryTestingQuestions |
-                        VerseData.ViewItemToInsureOn.eNationalLangField);
+                        VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestions |
+                        VerseData.ViewSettings.ItemToInsureOn.NationalBTLangField);
                 if (QuestionInternationalBT.HasData && findProperties.EnglishBT)
                     lstBoxesToSearch.AddNewVerseString(QuestionInternationalBT,
-                        VerseData.ViewItemToInsureOn.eStoryTestingQuestions |
-                        VerseData.ViewItemToInsureOn.eEnglishBTField);
+                        VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestions |
+                        VerseData.ViewSettings.ItemToInsureOn.EnglishBTField);
             }
 
             if (Answers.HasData && findProperties.TestAs)
@@ -186,7 +187,7 @@ namespace OneStoryProjectEditor
         }
 
         public string PresentationHtml(int nVerseIndex, int nTQNum, int nNumTestQuestionCols, 
-            VerseData.ViewItemToInsureOn viewSettings, bool bShowVernacular, bool bShowNationalBT, bool bShowEnglishBT, 
+            VerseData.ViewSettings viewSettings, bool bShowVernacular, bool bShowNationalBT, bool bShowEnglishBT, 
             List<string> astrTestors, TestQuestionsData child, bool bProcessingWithChild)
         {
             TestQuestionData theChildTQ = null;
@@ -200,17 +201,18 @@ namespace OneStoryProjectEditor
                     }
 
             string strTQRow = null;
-            if (VerseData.IsViewItemOn(viewSettings, VerseData.ViewItemToInsureOn.eStoryTestingQuestions))
+            if (viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestions))
             {
                 string strRow = String.Format(OseResources.Properties.Resources.HTML_TableCell,
                                               CstrTestQuestionsLabelFormat);
                 if (bShowVernacular)
                 {
+                    DirectableEncConverter transliterator = viewSettings.TransliteratorVernacular;
                     string str = (bProcessingWithChild)
                         ? (child != null)
-                            ? Diff.HtmlDiff(QuestionVernacular, (theChildTQ != null) ? theChildTQ.QuestionVernacular : null)
-                            : Diff.HtmlDiff(null, QuestionVernacular)
-                        : QuestionVernacular.ToString();
+                            ? Diff.HtmlDiff(transliterator, QuestionVernacular, (theChildTQ != null) ? theChildTQ.QuestionVernacular : null)
+                            : Diff.HtmlDiff(transliterator, null, QuestionVernacular)
+                        : QuestionVernacular.GetValue(transliterator);
 
                     strRow += PresentationHtmlCell(nVerseIndex, nTQNum, nNumTestQuestionCols,
                         StoryData.CstrLangVernacularStyleClassName, str);
@@ -218,11 +220,12 @@ namespace OneStoryProjectEditor
 
                 if (bShowNationalBT)
                 {
+                    DirectableEncConverter transliterator = viewSettings.TransliteratorNationalBT;
                     string str = (bProcessingWithChild)
                         ? (child != null)
-                            ? Diff.HtmlDiff(QuestionNationalBT, (theChildTQ != null) ? theChildTQ.QuestionNationalBT : null)
-                            : Diff.HtmlDiff(null, QuestionNationalBT)
-                        : QuestionNationalBT.ToString();
+                            ? Diff.HtmlDiff(transliterator, QuestionNationalBT, (theChildTQ != null) ? theChildTQ.QuestionNationalBT : null)
+                            : Diff.HtmlDiff(transliterator, null, QuestionNationalBT)
+                        : QuestionNationalBT.GetValue(transliterator);
 
                     strRow += PresentationHtmlCell(nVerseIndex, nTQNum, nNumTestQuestionCols,
                         StoryData.CstrLangNationalBtStyleClassName, str);
@@ -244,7 +247,7 @@ namespace OneStoryProjectEditor
                                                        strRow);
             }
 
-            if (VerseData.IsViewItemOn(viewSettings, VerseData.ViewItemToInsureOn.eStoryTestingQuestionAnswers))
+            if (viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers))
             {
                 // add 1 to the number of columns so it spans properly (including the 'tst:' label)
                 strTQRow += Answers.PresentationHtml(nVerseIndex, nNumTestQuestionCols + 1, astrTestors,
@@ -328,19 +331,19 @@ namespace OneStoryProjectEditor
         }
 
         public string Html(ProjectSettings projectSettings, 
-            VerseData.ViewItemToInsureOn viewItemToInsureOn, 
+            VerseData.ViewSettings viewItemToInsureOn, 
             StoryStageLogic stageLogic, TeamMemberData loggedOnMember,
             int nVerseIndex, int nNumCols, bool bHasOutsideEnglishBTer)
         {
             int nNumTestQuestionCols = 0;
             bool bShowVernacular =
-                (VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eVernacularLangField));
+                (viewItemToInsureOn.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.VernacularLangField));
             bool bShowNationalBT = (projectSettings.NationalBT.HasData
-                                  && bHasOutsideEnglishBTer
-                                  && VerseData.IsViewItemOn(viewItemToInsureOn,
-                                                              VerseData.ViewItemToInsureOn.eNationalLangField));
-            bool bShowEnglishBT = (VerseData.IsViewItemOn(viewItemToInsureOn,
-                                                          VerseData.ViewItemToInsureOn.eEnglishBTField)
+                                    && bHasOutsideEnglishBTer
+                                    &&
+                                    viewItemToInsureOn.IsViewItemOn(
+                                        VerseData.ViewSettings.ItemToInsureOn.NationalBTLangField));
+            bool bShowEnglishBT = (viewItemToInsureOn.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.EnglishBTField)
                                    && (!bHasOutsideEnglishBTer
                                        || (stageLogic.MemberTypeWithEditToken !=
                                            TeamMemberData.UserTypes.eProjectFacilitator)
@@ -367,7 +370,7 @@ namespace OneStoryProjectEditor
             return strRow;
         }
 
-        public string PresentationHtml(int nVerseIndex, int nNumCols, VerseData.ViewItemToInsureOn viewSettings,
+        public string PresentationHtml(int nVerseIndex, int nNumCols, VerseData.ViewSettings viewSettings,
             List<string> astrTestors, TestQuestionsData child, bool bProcessingWithChild)
         {
             // return nothing if there's nothing to do

@@ -24,6 +24,18 @@ namespace OneStoryProjectEditor
             Value = strValue;
         }
 
+        public string GetValue(DirectableEncConverter transliterator)
+        {
+            string str = Value;
+            if (transliterator != null)
+                try
+                {
+                    str = transliterator.Convert(Value);
+                }
+                catch { }
+
+            return str;
+        }
 #if !DataDllBuild
         public void SetAssociation(CtrlTextBox tb)
         {

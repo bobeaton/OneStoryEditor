@@ -197,7 +197,7 @@ namespace OneStoryProjectEditor
             get;
         }
 
-        protected abstract VerseData.ViewItemToInsureOn AssociatedPane { get; }
+        protected abstract VerseData.ViewSettings.ItemToInsureOn AssociatedPane { get; }
 
         public bool HasData
         {
@@ -609,9 +609,9 @@ namespace OneStoryProjectEditor
             get { return TeamMemberData.UserTypes.eProjectFacilitator; }
         }
 
-        protected override VerseData.ViewItemToInsureOn AssociatedPane
+        protected override VerseData.ViewSettings.ItemToInsureOn AssociatedPane
         {
-            get { return VerseData.ViewItemToInsureOn.eConsultantNoteFields; }
+            get { return VerseData.ViewSettings.ItemToInsureOn.ConsultantNoteFields; }
         }
     }
 
@@ -685,9 +685,9 @@ namespace OneStoryProjectEditor
             get { return TeamMemberData.UserTypes.eConsultantInTraining; }
         }
 
-        protected override VerseData.ViewItemToInsureOn AssociatedPane
+        protected override VerseData.ViewSettings.ItemToInsureOn AssociatedPane
         {
-            get { return VerseData.ViewItemToInsureOn.eCoachNotesFields; }
+            get { return VerseData.ViewSettings.ItemToInsureOn.CoachNotesFields; }
         }
     }
 

@@ -5,6 +5,7 @@ using System.Collections;
 using System.Text;
 using System.Text.RegularExpressions;
 using Rainbow.HtmlDiffEngine;
+using SilEncConverters31;
 
 namespace OneStoryProjectEditor
 {
@@ -240,6 +241,12 @@ namespace OneStoryProjectEditor
         {
             return HtmlDiff((stOrig != null) ? stOrig.ToString() : null, 
                 (stNew != null) ? stNew.ToString() : null, false);
+        }
+
+        public static string HtmlDiff(DirectableEncConverter transliterator, StringTransfer stOrig, StringTransfer stNew)
+        {
+            return HtmlDiff((stOrig != null) ? stOrig.GetValue(transliterator) : null,
+                (stNew != null) ? stNew.GetValue(transliterator) : null, false);
         }
 
         /// <summary>

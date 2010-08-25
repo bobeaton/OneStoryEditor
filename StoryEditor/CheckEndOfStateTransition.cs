@@ -837,8 +837,9 @@ namespace OneStoryProjectEditor
                 if (!CheckThatMentorAnsweredMenteesQuestions(theSE, theSE.htmlCoachNotesControl,
                     theCurrentStory.Verses.FirstVerse.CoachNotes, ref nVerseNumber))
                 {
+                    var viewSettings = new VerseData.ViewSettings(VerseData.ViewSettings.ItemToInsureOn.CoachNotesFields);
                     theSE.NavigateTo(theCurrentStory.Name,
-                                     VerseData.ViewItemToInsureOn.eCoachNotesFields,
+                                     viewSettings,
                                      false,
                                      null);
                     return false;
@@ -851,8 +852,9 @@ namespace OneStoryProjectEditor
                     if (!CheckThatMentorAnsweredMenteesQuestions(theSE, theSE.htmlCoachNotesControl,
                         aVerseData.CoachNotes, ref nVerseNumber))
                     {
+                        var viewSettings = new VerseData.ViewSettings(VerseData.ViewSettings.ItemToInsureOn.CoachNotesFields);
                         theSE.NavigateTo(theCurrentStory.Name,
-                                         VerseData.ViewItemToInsureOn.eCoachNotesFields,
+                                         viewSettings,
                                          false,
                                          null);
                         return false;
@@ -869,8 +871,9 @@ namespace OneStoryProjectEditor
                 if (!CheckThatMentorAnsweredMenteesQuestions(theSE, theSE.htmlConsultantNotesControl,
                     theCurrentStory.Verses.FirstVerse.ConsultantNotes, ref nVerseNumber))
                 {
+                    var viewSettings = new VerseData.ViewSettings(VerseData.ViewSettings.ItemToInsureOn.ConsultantNoteFields);
                     theSE.NavigateTo(theCurrentStory.Name,
-                                     VerseData.ViewItemToInsureOn.eConsultantNoteFields,
+                                     viewSettings,
                                      false,
                                      null);
                     return false;
@@ -883,8 +886,9 @@ namespace OneStoryProjectEditor
                     if (!CheckThatMentorAnsweredMenteesQuestions(theSE, theSE.htmlConsultantNotesControl,
                         aVerseData.ConsultantNotes, ref nVerseNumber))
                     {
+                        var viewSettings = new VerseData.ViewSettings(VerseData.ViewSettings.ItemToInsureOn.ConsultantNoteFields);
                         theSE.NavigateTo(theCurrentStory.Name,
-                                         VerseData.ViewItemToInsureOn.eConsultantNoteFields,
+                                         viewSettings,
                                          false,
                                          null);
                         return false;
@@ -900,7 +904,7 @@ namespace OneStoryProjectEditor
             if (theCurrentStory.Verses.FirstVerse.IsVisible)
                 if (!CheckThatMenteeAnsweredMentorsQuestions(theSE,
                         theSE.htmlCoachNotesControl, theCurrentStory.Verses.FirstVerse.CoachNotes, 
-                        theCurrentStory.Name, VerseData.ViewItemToInsureOn.eCoachNotesFields, 
+                        theCurrentStory.Name, VerseData.ViewSettings.ItemToInsureOn.CoachNotesFields, 
                         ref nVerseNumber))
                     return false;
 
@@ -910,7 +914,7 @@ namespace OneStoryProjectEditor
                 if (aVerseData.IsVisible)
                     if (!CheckThatMenteeAnsweredMentorsQuestions(theSE, theSE.htmlCoachNotesControl,
                         aVerseData.CoachNotes, theCurrentStory.Name, 
-                        VerseData.ViewItemToInsureOn.eCoachNotesFields, ref nVerseNumber))
+                        VerseData.ViewSettings.ItemToInsureOn.CoachNotesFields, ref nVerseNumber))
                         return false;
                 nVerseNumber++;
             }
@@ -923,7 +927,7 @@ namespace OneStoryProjectEditor
             if (theCurrentStory.Verses.FirstVerse.IsVisible)
                 if (!CheckThatMenteeAnsweredMentorsQuestions(theSE, theSE.htmlConsultantNotesControl,
                     theCurrentStory.Verses.FirstVerse.ConsultantNotes, theCurrentStory.Name,
-                    VerseData.ViewItemToInsureOn.eConsultantNoteFields, ref nVerseNumber))
+                    VerseData.ViewSettings.ItemToInsureOn.ConsultantNoteFields, ref nVerseNumber))
                     return false;
 
             nVerseNumber++;
@@ -932,7 +936,7 @@ namespace OneStoryProjectEditor
                 if (aVerseData.IsVisible)
                     if (!CheckThatMenteeAnsweredMentorsQuestions(theSE, theSE.htmlConsultantNotesControl,
                         aVerseData.ConsultantNotes, theCurrentStory.Name,
-                    VerseData.ViewItemToInsureOn.eConsultantNoteFields, ref nVerseNumber))
+                    VerseData.ViewSettings.ItemToInsureOn.ConsultantNoteFields, ref nVerseNumber))
                         return false;
 
                 nVerseNumber++;
@@ -967,7 +971,7 @@ namespace OneStoryProjectEditor
 
         static bool CheckThatMenteeAnsweredMentorsQuestions(StoryEditor theSE, 
             HtmlConNoteControl paneConNote, ConsultNotesDataConverter aCNsDC, 
-            string strCurrentStoryName, VerseData.ViewItemToInsureOn ePane,
+            string strCurrentStoryName, VerseData.ViewSettings.ItemToInsureOn ePane,
             ref int nVerseNumber)
         {
             foreach (ConsultNoteDataConverter aConNote in aCNsDC)
@@ -979,8 +983,9 @@ namespace OneStoryProjectEditor
                     if ((theLastCI.Direction == aConNote.MenteeDirection)
                         && !theLastCI.HasData)
                     {
+                        var viewSettings = new VerseData.ViewSettings(ePane);
                         theSE.NavigateTo(strCurrentStoryName,
-                                         ePane,
+                                         viewSettings,
                                          false,
                                          null);
                         ShowErrorFocus(theSE, paneConNote, nVerseNumber,

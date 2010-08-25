@@ -11,13 +11,18 @@ namespace OneStoryProjectEditor
 {
     public partial class ViewEnableForm : Form
     {
-        public ViewEnableForm(ProjectSettings projSettings, StoryData theCurrentStory, bool bUseForAllStories)
+        public ViewEnableForm(StoryEditor theSE, ProjectSettings projSettings, StoryData theCurrentStory, bool bUseForAllStories)
         {
             InitializeComponent();
             if (projSettings.Vernacular.HasData)
             {
                 checkBoxLangVernacular.Text = String.Format(Properties.Resources.IDS_LanguageFields,
                                                             projSettings.Vernacular.LangName);
+                checkBoxLangTransliterateVernacular.Visible = (theSE.viewTransliterationVernacular.Checked
+                                                               &&
+                                                               !String.IsNullOrEmpty(
+                                                                    theSE.LoggedOnMember.TransliteratorVernacular));
+                checkBoxLangTransliterateVernacular.Checked = theSE.viewTransliterationVernacular.Checked;
             }
             else
                 checkBoxLangVernacular.Visible = false;
@@ -30,6 +35,11 @@ namespace OneStoryProjectEditor
                 checkBoxLangNationalBT.Enabled = ((theCurrentStory != null)
                                                   && (((int) theCurrentStory.ProjStage.ProjectStage)
                                                       >= (int) StoryStageLogic.ProjectStages.eProjFacTypeNationalBT));
+                checkBoxLangTransliterateNationalBT.Visible = (theSE.viewTransliterationNationalBT.Checked
+                                                               &&
+                                                               !String.IsNullOrEmpty(
+                                                                    theSE.LoggedOnMember.TransliteratorNationalBT));
+                checkBoxLangTransliterateNationalBT.Checked = theSE.viewTransliterationNationalBT.Checked;
             }
             else
                 checkBoxLangNationalBT.Visible = false;
@@ -67,35 +77,38 @@ namespace OneStoryProjectEditor
             set;
         }
 
-        public VerseData.ViewItemToInsureOn ItemsToInsureAreOn
+        protected VerseData.ViewSettings _viewSettings;
+
+        public VerseData.ViewSettings ViewSettings
         {
             set
             {
-                if (VerseData.IsViewItemOn(value, VerseData.ViewItemToInsureOn.eVernacularLangField))
+                _viewSettings = value;
+                if (_viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.VernacularLangField))
                     checkBoxLangVernacular.Checked = true;
-                if (VerseData.IsViewItemOn(value, VerseData.ViewItemToInsureOn.eNationalLangField))
+                if (_viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBTLangField))
                     checkBoxLangNationalBT.Checked = true;
-                if (VerseData.IsViewItemOn(value, VerseData.ViewItemToInsureOn.eEnglishBTField))
+                if (_viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.EnglishBTField))
                     checkBoxLangInternationalBT.Checked = true;
-                if (VerseData.IsViewItemOn(value, VerseData.ViewItemToInsureOn.eAnchorFields))
+                if (_viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.AnchorFields))
                     checkBoxAnchors.Checked = true;
-                if (VerseData.IsViewItemOn(value, VerseData.ViewItemToInsureOn.eStoryTestingQuestions))
+                if (_viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestions))
                     checkBoxStoryTestingQuestions.Checked = true;
-                if (VerseData.IsViewItemOn(value, VerseData.ViewItemToInsureOn.eStoryTestingQuestionAnswers))
+                if (_viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers))
                     checkBoxAnswers.Checked = true;
-                if (VerseData.IsViewItemOn(value, VerseData.ViewItemToInsureOn.eRetellingFields))
+                if (_viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.RetellingFields))
                     checkBoxRetellings.Checked = true;
-                if (VerseData.IsViewItemOn(value, VerseData.ViewItemToInsureOn.eConsultantNoteFields))
+                if (_viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.ConsultantNoteFields))
                     checkBoxConsultantNotes.Checked = true;
-                if (VerseData.IsViewItemOn(value, VerseData.ViewItemToInsureOn.eCoachNotesFields))
+                if (_viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.CoachNotesFields))
                     checkBoxCoachNotes.Checked = true;
-                if (VerseData.IsViewItemOn(value, VerseData.ViewItemToInsureOn.eBibleViewer))
+                if (_viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.BibleViewer))
                     checkBoxBibleViewer.Checked = true;
             }
 
             get
             {
-                return VerseData.SetItemsToInsureOn(
+                _viewSettings.SetItemsToInsureOn(
                     checkBoxLangVernacular.Checked,
                     checkBoxLangNationalBT.Checked,
                     checkBoxLangInternationalBT.Checked,
@@ -107,6 +120,7 @@ namespace OneStoryProjectEditor
                     checkBoxCoachNotes.Checked,
                     checkBoxBibleViewer.Checked,
                     true);
+                return _viewSettings;
             }
         }
 

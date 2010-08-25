@@ -8,6 +8,8 @@ using System.Windows.Forms;
 using System.Xml;
 using Chorus.Utilities;
 using Chorus.VcsDrivers.Mercurial;
+using ECInterfaces;
+using SilEncConverters31;
 
 namespace OneStoryProjectEditor
 {
@@ -16,6 +18,8 @@ namespace OneStoryProjectEditor
         HgRepository _repository;
         List<Revision> _lstRevisions;
         string _strStoryToDiff, _strLastState, _strProjectFolder;
+        public DirectableEncConverter TransliteratorVernacular;
+        public DirectableEncConverter TransliteratorNationalBT;
 
         public HtmlDisplayForm(StoryEditor theSE, StoryData storyData)
         {
@@ -29,6 +33,16 @@ namespace OneStoryProjectEditor
             {
                 checkBoxLangVernacular.Text = String.Format(Properties.Resources.IDS_LanguageFields,
                                                             theSE.StoryProject.ProjSettings.Vernacular.LangName);
+                if (theSE.viewTransliterationVernacular.Checked
+                   && !String.IsNullOrEmpty(theSE.LoggedOnMember.TransliteratorVernacular))
+                {
+                    checkBoxLangTransliterateVernacular.Visible = 
+                        checkBoxLangTransliterateVernacular.Checked = true;
+                    TransliteratorVernacular = new DirectableEncConverter(theSE.LoggedOnMember.TransliteratorVernacular,
+                                                                          theSE.LoggedOnMember.
+                                                                              TransliteratorDirectionForwardVernacular,
+                                                                          NormalizeFlags.None);
+                }
             }
             else
                 checkBoxLangVernacular.Checked = checkBoxLangVernacular.Visible = false;
@@ -37,6 +51,16 @@ namespace OneStoryProjectEditor
             {
                 checkBoxLangNationalBT.Text = String.Format(Properties.Resources.IDS_StoryLanguageField,
                                                             theSE.StoryProject.ProjSettings.NationalBT.LangName);
+                if (theSE.viewTransliterationNationalBT.Checked
+                   && !String.IsNullOrEmpty(theSE.LoggedOnMember.TransliteratorNationalBT))
+                {
+                    checkBoxLangTransliterateNationalBT.Visible =
+                        checkBoxLangTransliterateNationalBT.Checked = true;
+                    TransliteratorNationalBT = new DirectableEncConverter(theSE.LoggedOnMember.TransliteratorNationalBT,
+                                                                          theSE.LoggedOnMember.
+                                                                              TransliteratorDirectionForwardNationalBT,
+                                                                          NormalizeFlags.None);
+                }
             }
             else
                 checkBoxLangNationalBT.Checked = checkBoxLangNationalBT.Visible = false;
@@ -69,11 +93,7 @@ namespace OneStoryProjectEditor
         {
             if (e.TabPage == tabPageDisplayChangeReport)
             {
-                /*
-                if (backgroundWorkerCheckRevisions.IsBusy)
-                    backgroundWorkerCheckRevisions.CancelAsync();
-                */
-                htmlStoryBtControl.ViewItemsToInsureOn = VerseData.SetItemsToInsureOn(
+                htmlStoryBtControl.ViewSettings = new VerseData.ViewSettings(
                     checkBoxLangVernacular.Checked,
                     checkBoxLangNationalBT.Checked,
                     checkBoxLangInternationalBT.Checked,
@@ -84,8 +104,13 @@ namespace OneStoryProjectEditor
                     false,  // theSE.viewConsultantNoteFieldMenuItem.Checked,
                     false,  // theSE.viewCoachNotesFieldMenuItem.Checked,
                     false,  // theSE.viewNetBibleMenuItem.Checked
-                    checkBoxFrontMatter.Checked);
-
+                    checkBoxFrontMatter.Checked,
+                    (checkBoxLangTransliterateVernacular.Checked)
+                        ? TransliteratorVernacular
+                        : null,
+                    (checkBoxLangTransliterateNationalBT.Checked)
+                        ? TransliteratorNationalBT
+                        : null);
 
                 htmlStoryBtControl.ParentStory = GetStoryForPresentation(_nParentIndex);
                 htmlStoryBtControl.StoryData = GetStoryForPresentation(_nChildIndex);

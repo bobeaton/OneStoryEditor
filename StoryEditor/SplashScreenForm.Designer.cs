@@ -70,6 +70,7 @@
             this.Controls.Add(this.pictureBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "SplashScreenForm";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SplashScreenForm";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();

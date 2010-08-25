@@ -5,6 +5,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Text;
 using System.Windows.Forms;
+using SilEncConverters31;
 
 namespace OneStoryProjectEditor
 {
@@ -141,7 +142,7 @@ namespace OneStoryProjectEditor
 
         public string VersesHtml(bool b, ProjectSettings projSettings, bool bViewHidden,
             TeamMembersData membersData, TeamMemberData loggedOnMember,
-            VerseData.ViewItemToInsureOn viewItemToInsureOn)
+            VerseData.ViewSettings viewItemToInsureOn)
         {
             string strHtml = Verses.StoryBtHtml(projSettings, bViewHidden, ProjStage, 
                 membersData, loggedOnMember, viewItemToInsureOn);
@@ -162,7 +163,7 @@ namespace OneStoryProjectEditor
                 ParentStory = new StoryData(parentStory, strProjectPath);
             if (childStory != null)
                 ChildStory = new StoryData(childStory, strProjectPath);
-            VerseData.ViewItemToInsureOn viewItemsToInsureOn = VerseData.SetItemsToInsureOn(
+            VerseData.ViewSettings viewSettings = new VerseData.ViewSettings(
                 true,
                 true,
                 true,
@@ -173,19 +174,21 @@ namespace OneStoryProjectEditor
                 false,  // theSE.viewConsultantNoteFieldMenuItem.Checked,
                 false,  // theSE.viewCoachNotesFieldMenuItem.Checked,
                 false,  // theSE.viewNetBibleMenuItem.Checked
-                true);  // story front matter
+                true,   // story front matter
+                null,
+                null);
 
             string strHtml = null;
             if (ParentStory != null)
-                strHtml = ParentStory.PresentationHtml(viewItemsToInsureOn,
+                strHtml = ParentStory.PresentationHtml(viewSettings,
                     projSettings, teamMembers, ChildStory);
             else if (ChildStory != null)
-                strHtml = ChildStory.PresentationHtml(viewItemsToInsureOn,
+                strHtml = ChildStory.PresentationHtml(viewSettings,
                     projSettings, teamMembers, null);
             return strHtml;
         }
 
-        public string PresentationHtml(VerseData.ViewItemToInsureOn viewSettings, ProjectSettings projSettings, TeamMembersData teamMembers, StoryData child)
+        public string PresentationHtml(VerseData.ViewSettings viewSettings, ProjectSettings projSettings, TeamMembersData teamMembers, StoryData child)
         {
             string strHtml = PresentationHtmlWithoutHtmlDocOutside(viewSettings, projSettings, teamMembers, child);
             return AddHtmlHtmlDocOutside(strHtml, projSettings);
@@ -199,11 +202,11 @@ namespace OneStoryProjectEditor
                                  strHtmlInside);
         }
 
-        public string PresentationHtmlWithoutHtmlDocOutside(VerseData.ViewItemToInsureOn viewSettings, ProjectSettings projSettings, TeamMembersData teamMembers, StoryData child)
+        public string PresentationHtmlWithoutHtmlDocOutside(VerseData.ViewSettings viewSettings, ProjectSettings projSettings, TeamMembersData teamMembers, StoryData child)
         {
-            bool bShowVernacular = VerseData.IsViewItemOn(viewSettings, VerseData.ViewItemToInsureOn.eVernacularLangField);
-            bool bShowNationalBT = VerseData.IsViewItemOn(viewSettings, VerseData.ViewItemToInsureOn.eNationalLangField);
-            bool bShowEnglishBT = VerseData.IsViewItemOn(viewSettings, VerseData.ViewItemToInsureOn.eEnglishBTField);
+            bool bShowVernacular = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.VernacularLangField);
+            bool bShowNationalBT = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBTLangField);
+            bool bShowEnglishBT = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.EnglishBTField);
 
             int nNumCols = 0;
             if (bShowVernacular) nNumCols++;
@@ -211,7 +214,7 @@ namespace OneStoryProjectEditor
             if (bShowEnglishBT) nNumCols++;
 
             string strHtml = null;
-            if (VerseData.IsViewItemOn(viewSettings, VerseData.ViewItemToInsureOn.eStoryFrontMatter))
+            if (viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryFrontMatter))
             {
                 strHtml += PresentationHtmlRow("Story Name", Name, (child != null) ? child.Name : null);
 

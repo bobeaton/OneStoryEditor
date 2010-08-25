@@ -12,7 +12,7 @@ namespace OneStoryProjectEditor
         public abstract string CollectionElementName { get; }
         protected abstract string InstanceElementName { get; }
         public abstract string LabelTextFormat { get; }
-        protected abstract VerseData.ViewItemToInsureOn AssociatedViewMenu { get; }
+        protected abstract VerseData.ViewSettings.ItemToInsureOn AssociatedViewMenu { get; }
 
         protected MultipleLineDataConverter(MultipleLineDataConverter rhs)
         {
@@ -264,9 +264,9 @@ namespace OneStoryProjectEditor
             get { return "ret {0}:"; }
         }
 
-        protected override VerseData.ViewItemToInsureOn AssociatedViewMenu
+        protected override VerseData.ViewSettings.ItemToInsureOn AssociatedViewMenu
         {
-            get { return VerseData.ViewItemToInsureOn.eRetellingFields; }
+            get { return VerseData.ViewSettings.ItemToInsureOn.RetellingFields; }
         }
     }
 
@@ -319,9 +319,9 @@ namespace OneStoryProjectEditor
             get { return "ans {0}:"; }
         }
 
-        protected override VerseData.ViewItemToInsureOn AssociatedViewMenu
+        protected override VerseData.ViewSettings.ItemToInsureOn AssociatedViewMenu
         {
-            get { return VerseData.ViewItemToInsureOn.eStoryTestingQuestionAnswers; }
+            get { return VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers; }
         }
     }
 }

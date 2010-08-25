@@ -13,7 +13,7 @@ namespace OneStoryProjectEditor
         public const string CstrFieldNameNationalBt = "NationalBT";
         public const string CstrFieldNameInternationalBt = "InternationalBT";
 
-        public VerseData.ViewItemToInsureOn ViewItemsToInsureOn { get; set; }
+        public VerseData.ViewSettings ViewSettings { get; set; }
         public StoryData ParentStory { get; set; }
 
         public HtmlStoryBtControl()
@@ -25,10 +25,10 @@ namespace OneStoryProjectEditor
         {
             string strHtml = null;
             if (ParentStory != null)
-                strHtml = ParentStory.PresentationHtml(ViewItemsToInsureOn, 
+                strHtml = ParentStory.PresentationHtml(ViewSettings, 
                     TheSE.StoryProject.ProjSettings, TheSE.StoryProject.TeamMembers, StoryData);
             else if (StoryData != null)
-                strHtml = StoryData.PresentationHtml(ViewItemsToInsureOn, 
+                strHtml = StoryData.PresentationHtml(ViewSettings, 
                     TheSE.StoryProject.ProjSettings, TheSE.StoryProject.TeamMembers, null);
 
             DocumentText = strHtml;

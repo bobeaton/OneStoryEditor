@@ -268,8 +268,9 @@ namespace OneStoryProjectEditor
                         // found a match!
                         VerseData.VerseString vs = stsi[nCtxBoxIndex];
                         System.Diagnostics.Debug.Assert(vs.StringTransfer == stringTransfer);
+                        VerseData.ViewSettings viewSettings = new VerseData.ViewSettings(vs.ViewToInsureIsOn);
                         TheSE.NavigateTo(stsi.StoryName,
-                                         vs.ViewToInsureIsOn,
+                                         viewSettings,
                                          false,
                                          stringTransfer.TextBox);
                         
