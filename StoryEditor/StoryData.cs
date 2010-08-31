@@ -494,7 +494,9 @@ namespace OneStoryProjectEditor
                 if (!String.IsNullOrEmpty(strChildMatch))
                 {
                     bool bFoundOne = false;
-                    for (int j = i; j <= child.Testors.IndexOf(strChildMatch); j++)
+                    // the <= in the test led us to an infinite loop
+                    // for (int j = i; j <= child.Testors.IndexOf(strChildMatch); j++)
+                    for (int j = i; j < child.Testors.IndexOf(strChildMatch); j++)
                     {
                         string strChildPassedBy = child.Testors[j - 1];
                         strRow += PresentationHtmlRow(teamMembers, String.Format("Testor {0}", nTestNumber), strChildPassedBy, true);
