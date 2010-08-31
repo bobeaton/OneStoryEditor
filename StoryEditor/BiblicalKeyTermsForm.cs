@@ -251,7 +251,7 @@ namespace OneStoryProjectEditor
             // Scroll the editor to this reference.
             else if (link.StartsWith("userclick:scripref"))
             {
-                string thisRef = link.Substring(19).Replace('_', ' ');
+                string thisRef = BiblicalTermsHTMLBuilder.DecodeAsHtmlId(link.Substring(19));
                 string strStoryName, strAnchor;
                 int nLineNumber;
                 BiblicalTermsHTMLBuilder.ParseReference(thisRef, out strStoryName, out nLineNumber, out strAnchor);

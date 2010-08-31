@@ -189,7 +189,22 @@ namespace OneStoryProjectEditor
             return String.Format("<b>{0}</b>", strRendering);
         }
 
-		/// <summary>
+        private static char chSpace = ' ';
+        private static char chUnderscore = '_';
+        private static char chDoubleQuote = '"';
+        private static char chNeverUsed = '\u000f';
+
+        public static string EncodeAsHtmlId(string str)
+        {
+            return str.Replace(chSpace, chUnderscore).Replace(chDoubleQuote, chNeverUsed);
+        }
+
+        public static string DecodeAsHtmlId(string str)
+        {
+            return str.Replace(chUnderscore, chSpace).Replace(chNeverUsed, chDoubleQuote);
+        }
+
+	    /// <summary>
 		/// Setup the template variables related to a single verse of a single project
 		/// </summary>
         private void setupReferenceVars(StoryProjectData theSPD, int projectNum, string strVerseReference,
@@ -197,9 +212,11 @@ namespace OneStoryProjectEditor
 		{
 			referenceVariables = new Dictionary<string, string>();
 
-            referenceVariables["ProjectClass"] = "project" + (projectNum + 1).ToString();
+            referenceVariables["ProjectClass"] = "project" + (projectNum + 1);
             referenceVariables["Reference"] = strVerseReference;
-            referenceVariables["ReferenceAsId"] = strVerseReference.Replace(' ', '_');
+
+            // html ids can't have spaces or double-quotes, so replace them in turn
+            referenceVariables["ReferenceAsId"] = EncodeAsHtmlId(strVerseReference);
 
             renderingDenied = false;
             string text = MarkRenderings(projectNum, mapReferenceToVerseTextList[strVerseReference][projectNum],
