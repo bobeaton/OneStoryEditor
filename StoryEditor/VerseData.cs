@@ -509,14 +509,7 @@ namespace OneStoryProjectEditor
             foreach (NewDataSet.verseRow aVerseRow in theVersesRow.GetverseRows())
                 Add(new VerseData(aVerseRow, projFile));
 
-            // the zeroth verse is special for global connotes
-            if ((Count > 0) && this[0].IsFirstVerse)
-            {
-                FirstVerse = this[0];
-                RemoveAt(0);
-            }
-            else
-                CreateFirstVerse();
+            AdjustmentForFirstVerse();
         }
 
         public VersesData(XmlNode node)
@@ -531,14 +524,7 @@ namespace OneStoryProjectEditor
             foreach (XmlNode nodeVerse in list)
                 Add(new VerseData(nodeVerse));
 
-            // the zeroth verse is special for global connotes
-            if ((Count > 0) && this[0].IsFirstVerse)
-            {
-                FirstVerse = this[0];
-                RemoveAt(0);
-            }
-            else
-                CreateFirstVerse();
+            AdjustmentForFirstVerse();
         }
 
         public VersesData(VersesData rhs)
@@ -550,6 +536,23 @@ namespace OneStoryProjectEditor
 
         public VersesData()
         {
+        }
+
+        private void AdjustmentForFirstVerse()
+        {
+            // the zeroth verse is special for global connotes
+            if ((Count > 0) && this[0].IsFirstVerse)
+            {
+                FirstVerse = this[0];
+                RemoveAt(0);
+            }
+            else
+                CreateFirstVerse();
+
+            // sometimes the others think they are first verse too... (not sure how this
+            //  happens)
+            foreach (var aVerse in this)
+                aVerse.IsFirstVerse = false;
         }
 
         public void CreateFirstVerse()
