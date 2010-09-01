@@ -51,12 +51,14 @@
             this.buttonClose = new System.Windows.Forms.Button();
             this.buttonPrint = new System.Windows.Forms.Button();
             this.htmlStoryBt = new OneStoryProjectEditor.HtmlStoryBtControl();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel.SuspendLayout();
             this.groupBoxViewOptions.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabPagePrintPreviewConfig.SuspendLayout();
             this.tabPagePrintPreview.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel
@@ -289,9 +291,7 @@
             // 
             // tabPagePrintPreview
             // 
-            this.tabPagePrintPreview.Controls.Add(this.buttonClose);
-            this.tabPagePrintPreview.Controls.Add(this.buttonPrint);
-            this.tabPagePrintPreview.Controls.Add(this.htmlStoryBt);
+            this.tabPagePrintPreview.Controls.Add(this.tableLayoutPanel1);
             this.tabPagePrintPreview.Location = new System.Drawing.Point(4, 22);
             this.tabPagePrintPreview.Name = "tabPagePrintPreview";
             this.tabPagePrintPreview.Padding = new System.Windows.Forms.Padding(3);
@@ -303,7 +303,8 @@
             // 
             // buttonClose
             // 
-            this.buttonClose.Location = new System.Drawing.Point(420, 408);
+            this.buttonClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonClose.Location = new System.Drawing.Point(411, 408);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
             this.buttonClose.TabIndex = 2;
@@ -313,7 +314,8 @@
             // 
             // buttonPrint
             // 
-            this.buttonPrint.Location = new System.Drawing.Point(328, 409);
+            this.buttonPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonPrint.Location = new System.Drawing.Point(330, 408);
             this.buttonPrint.Name = "buttonPrint";
             this.buttonPrint.Size = new System.Drawing.Size(75, 23);
             this.buttonPrint.TabIndex = 1;
@@ -323,17 +325,34 @@
             // 
             // htmlStoryBt
             // 
-            this.htmlStoryBt.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.SetColumnSpan(this.htmlStoryBt, 2);
+            this.htmlStoryBt.Dock = System.Windows.Forms.DockStyle.Fill;
             this.htmlStoryBt.Location = new System.Drawing.Point(3, 3);
             this.htmlStoryBt.MinimumSize = new System.Drawing.Size(20, 20);
             this.htmlStoryBt.Name = "htmlStoryBt";
             this.htmlStoryBt.ParentStory = null;
-            this.htmlStoryBt.Size = new System.Drawing.Size(817, 400);
+            this.htmlStoryBt.Size = new System.Drawing.Size(811, 399);
             this.htmlStoryBt.StoryData = null;
             this.htmlStoryBt.TabIndex = 0;
             this.htmlStoryBt.TheSE = null;
+            this.htmlStoryBt.ViewSettings = null;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.htmlStoryBt, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.buttonClose, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.buttonPrint, 0, 1);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(817, 434);
+            this.tableLayoutPanel1.TabIndex = 3;
             // 
             // PrintForm
             // 
@@ -352,6 +371,7 @@
             this.tabControl.ResumeLayout(false);
             this.tabPagePrintPreviewConfig.ResumeLayout(false);
             this.tabPagePrintPreview.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -380,5 +400,6 @@
         private System.Windows.Forms.CheckBox checkBoxSelectAllFields;
         private System.Windows.Forms.CheckBox checkBoxLangTransliterateVernacular;
         private System.Windows.Forms.CheckBox checkBoxLangTransliterateNationalBT;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
     }
 }
