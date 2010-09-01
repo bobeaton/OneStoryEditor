@@ -3813,6 +3813,9 @@ namespace OneStoryProjectEditor
 
                 Program.CheckForProgramUpdate(true);
 
+                // since the call to SaveDirty will have removed them all
+                InitAllPanes();
+
                 // if it returns here without throwing an exception, it means there were no updates
                 MessageBox.Show(Properties.Resources.IDS_NoProgramUpdates,
                     OseResources.Properties.Resources.IDS_Caption);
