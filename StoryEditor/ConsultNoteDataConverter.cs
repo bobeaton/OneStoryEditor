@@ -319,8 +319,11 @@ namespace OneStoryProjectEditor
 
             // r1: "Round: n"; "button"
             // r2-n: "Label:"; "value in textbox"
+            string strRound = String.Format("{0}{1}", CstrRoundLabel, RoundNum);
+            if (!Visible)
+                strRound += " (Hidden)";
             string strRow = String.Format(OseResources.Properties.Resources.HTML_TableCellWithSpanAndWidth, 100, 2,
-                String.Format("{0}{1}", CstrRoundLabel, RoundNum));
+                strRound);
 
             // only the initiator of a conversation gets the buttons to delete, hide or
             //  end conversation.
@@ -349,8 +352,14 @@ namespace OneStoryProjectEditor
                                                           : CstrButtonLabelConversationEnd));
             }
 
-            string strHtml = String.Format(OseResources.Properties.Resources.HTML_TableRowId,
+            // color changes if hidden
+            string strColor = "#FFFFFF";    // default white background
+            if (!Visible)
+                strColor = "#F0E68C";
+
+            string strHtml = String.Format(OseResources.Properties.Resources.HTML_TableRowIdColor,
                 ButtonRowId(nVerseIndex, nConversationIndex),
+                strColor,
                 strRow);
 
             string strHtmlTable = null;
@@ -373,7 +382,7 @@ namespace OneStoryProjectEditor
                     clrRow = ResponseColor;
                 }
 
-                string strColor = VerseData.HtmlColor(clrRow);
+                strColor = VerseData.HtmlColor(clrRow);
 
                 // only the last one is editable and then only if the right person is 
                 //  logged in
@@ -420,10 +429,13 @@ namespace OneStoryProjectEditor
 
             string strEmbeddedTable = String.Format(OseResources.Properties.Resources.HTML_Table,
                                                     strHtmlTable);
-
+            if (Visible)
+                strColor = "#CCFFAA";
+            else
+                strColor = "#F0E68C";
             strHtml += String.Format(OseResources.Properties.Resources.HTML_TableRowIdColor,
                                      ConversationTableRowId(nVerseIndex, nConversationIndex),
-                                     "#CCFFAA",
+                                     strColor,
                                      String.Format(OseResources.Properties.Resources.HTML_TableCellWithSpan, 5,
                                                    strEmbeddedTable));
 
