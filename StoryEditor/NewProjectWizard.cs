@@ -731,8 +731,8 @@ namespace OneStoryProjectEditor
                             }
                             else if (res == DialogResult.No)
                             {
-                                li.DefaultKeyboard = fontDialog.Font.Name;
-                                // strOverrideFont = null;   // if there was an override, it should go away
+                                li.DefaultFontName = fontDialog.Font.Name;
+                                li.DefaultFontSize = fontDialog.Font.Size;
                             }
                             else
                                 return;
@@ -740,11 +740,14 @@ namespace OneStoryProjectEditor
                         else
                         {
                             li.DefaultFontName = fontDialog.Font.Name;
-                            // strOverrideFont = null;   // if there was an override, it should go away
+                            li.DefaultFontSize = fontDialog.Font.Size;
                         }
                     }
                     else
+                    {
                         li.DefaultFontName = fontDialog.Font.Name;
+                        li.DefaultFontSize = fontDialog.Font.Size;
+                    }
 
                     li.FontColor = fontDialog.Color;
                     tb.Font = fontDialog.Font;
