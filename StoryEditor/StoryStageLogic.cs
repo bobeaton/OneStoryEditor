@@ -43,6 +43,7 @@ namespace OneStoryProjectEditor
             eFirstPassMentorCheck2,
             eConsultantCheck2,
             eCoachReviewRound2Notes,
+            eConsultantFinalCheck,
             eTeamComplete
         }
 
@@ -160,6 +161,7 @@ namespace OneStoryProjectEditor
             { "FirstPassMentorCheck2", ProjectStages.eFirstPassMentorCheck2 },
             { "ConsultantCheck2", ProjectStages.eConsultantCheck2 },
             { "CoachReviewRound2Notes", ProjectStages.eCoachReviewRound2Notes },
+            { "ConsultantFinalCheck", ProjectStages.eConsultantFinalCheck },
             { "TeamComplete", ProjectStages.eTeamComplete }};
 
         public class StateTransitions : Dictionary<ProjectStages, StateTransition>

@@ -1468,6 +1468,42 @@ namespace OneStoryProjectEditor
             return true;
         }
 
+        public static bool ConsultantFinalCheck(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        {
+            Console.WriteLine(String.Format("Checking if stage 'ConsultantFinalCheck' work is finished: Name: {0}", theCurrentStory.Name));
+
+            // if going backwards...
+            if (IsGoingBackwards(theCurrentStory, eProposedNextState))
+            {
+                System.Diagnostics.Debug.Assert((eProposedNextState == StoryStageLogic.ProjectStages.eFirstPassMentorCheck2)
+                    || (eProposedNextState == StoryStageLogic.ProjectStages.eBackTranslatorTranslateConNotes)
+                    || (eProposedNextState == StoryStageLogic.ProjectStages.eProjFacReviseBasedOnRound1Notes));
+
+                // if it's going to the PF, then...
+                if ((eProposedNextState == StoryStageLogic.ProjectStages.eBackTranslatorTranslateConNotes)
+                    || (eProposedNextState == StoryStageLogic.ProjectStages.eProjFacReviseBasedOnRound1Notes))
+                {
+                    // make sure that if the ProjectFac asked a question that the CIT responded to it.
+                    if (!CheckThatCITAnsweredPFsQuestions(theSE, theCurrentStory))
+                        return false;
+                }
+
+                return true;
+            }
+
+#if CheckProposedNextState
+            System.Diagnostics.Debug.Assert(eProposedNextState == 
+                StoryStageLogic.ProjectStages.eTeamComplete);
+#endif
+
+            // before finalizing it, make sure that if the consultant had initiated
+            //  a conversation, that the coach answered it.
+            if (!CheckThatCITRespondedToCoachQuestions(theSE, theCurrentStory))
+                return false;
+
+            return true;
+        }
+
         /*
         public static bool ConsultantReviseRound2Notes(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
         {
