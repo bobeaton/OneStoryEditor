@@ -86,8 +86,12 @@ namespace OneStoryProjectEditor
                 _viewSettings = value;
                 if (_viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.VernacularLangField))
                     checkBoxLangVernacular.Checked = true;
+                if (_viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.VernacularTransliterationField))
+                    checkBoxLangTransliterateVernacular.Checked = true;
                 if (_viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBTLangField))
                     checkBoxLangNationalBT.Checked = true;
+                if (_viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBTTransliterationField))
+                    checkBoxLangTransliterateNationalBT.Checked = true;
                 if (_viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.EnglishBTField))
                     checkBoxLangInternationalBT.Checked = true;
                 if (_viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.AnchorFields))
@@ -110,7 +114,9 @@ namespace OneStoryProjectEditor
             {
                 _viewSettings.SetItemsToInsureOn(
                     checkBoxLangVernacular.Checked,
+                    checkBoxLangTransliterateVernacular.Checked,
                     checkBoxLangNationalBT.Checked,
+                    checkBoxLangTransliterateNationalBT.Checked,
                     checkBoxLangInternationalBT.Checked,
                     checkBoxAnchors.Checked,
                     checkBoxStoryTestingQuestions.Checked,
