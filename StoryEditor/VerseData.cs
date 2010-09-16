@@ -290,7 +290,9 @@ namespace OneStoryProjectEditor
                 )
             {
                 SetItemsToInsureOn(bLangVernacular,
+                                   (decTransliteratorVernacular != null),
                                    bLangNationalBT,
+                                   (decTransliteratorNationalBT != null),
                                    bLangInternationalBT,
                                    bAnchors,
                                    bStoryTestingQuestions,
@@ -312,7 +314,9 @@ namespace OneStoryProjectEditor
             public void SetItemsToInsureOn
                 (
                 bool bLangVernacular,
+                bool bLangVernacularTransliterate,
                 bool bLangNationalBT,
+                bool bLangNationalBTTransliterate,
                 bool bLangInternationalBT,
                 bool bAnchors,
                 bool bStoryTestingQuestions,
@@ -327,8 +331,12 @@ namespace OneStoryProjectEditor
                 _itemToInsureOn = 0;
                 if (bLangVernacular)
                     _itemToInsureOn |= ItemToInsureOn.VernacularLangField;
+                if (bLangVernacularTransliterate)
+                    _itemToInsureOn |= ItemToInsureOn.VernacularTransliterationField;
                 if (bLangNationalBT)
                     _itemToInsureOn |= ItemToInsureOn.NationalBTLangField;
+                if (bLangNationalBTTransliterate)
+                    _itemToInsureOn |= ItemToInsureOn.NationalBTTransliterationField;
                 if (bLangInternationalBT)
                     _itemToInsureOn |= ItemToInsureOn.EnglishBTField;
                 if (bAnchors)
@@ -368,29 +376,21 @@ namespace OneStoryProjectEditor
             string strRow = null;
             if (viewItemToInsureOn.IsViewItemOn(ViewSettings.ItemToInsureOn.VernacularLangField))
             {
-                strRow += String.Format(OseResources.Properties.Resources.HTML_TableCellWidthAlignTop, 100 / nNumCols,
-                                        String.Format(OseResources.Properties.Resources.HTML_Textarea,
-                                                      TextareaId(nVerseIndex, CstrFieldNameVernacular),
-                                                      StoryData.CstrLangVernacularStyleClassName,
-                                                      VernacularText));
+                strRow += FormatLanguageColumn(nVerseIndex, nNumCols, CstrFieldNameVernacular,
+                                               StoryData.CstrLangVernacularStyleClassName, 
+                                               VernacularText.ToString());
             }
 
             if (viewItemToInsureOn.IsViewItemOn(ViewSettings.ItemToInsureOn.NationalBTLangField))
             {
-                strRow += String.Format(OseResources.Properties.Resources.HTML_TableCellWidthAlignTop, 100 / nNumCols,
-                                        String.Format(OseResources.Properties.Resources.HTML_Textarea,
-                                                      TextareaId(nVerseIndex, CstrFieldNameNationalBt),
-                                                      StoryData.CstrLangNationalBtStyleClassName,
-                                                      NationalBTText));
+                strRow += FormatLanguageColumn(nVerseIndex, nNumCols, CstrFieldNameNationalBt,
+                                               StoryData.CstrLangNationalBtStyleClassName, NationalBTText.ToString());
             }
 
             if (viewItemToInsureOn.IsViewItemOn(ViewSettings.ItemToInsureOn.EnglishBTField))
             {
-                strRow += String.Format(OseResources.Properties.Resources.HTML_TableCellWidthAlignTop, 100 / nNumCols,
-                                        String.Format(OseResources.Properties.Resources.HTML_Textarea,
-                                                      TextareaId(nVerseIndex, CstrFieldNameInternationalBt),
-                                                      StoryData.CstrLangInternationalBtStyleClassName,
-                                                      InternationalBTText));
+                strRow += FormatLanguageColumn(nVerseIndex, nNumCols, CstrFieldNameInternationalBt,
+                                               StoryData.CstrLangInternationalBtStyleClassName, InternationalBTText.ToString());
             }
 
             string strStoryLineRow = String.Format(OseResources.Properties.Resources.HTML_TableRow,
@@ -417,72 +417,123 @@ namespace OneStoryProjectEditor
         // Html that shows the data in the StoryBt file, but in a fully read-only manner
         public string PresentationHtml(int nVerseIndex, int nNumCols, CraftingInfoData craftingInfo,
             ViewSettings viewSettings, VersesData child, VerseData theChildVerse,
-            bool bProcessingWithChild)
+            bool bPrintPreview, bool bHasOutsideEnglishBTer)
         {
             string strRow = null;
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.VernacularLangField))
             {
                 DirectableEncConverter transliterator = viewSettings.TransliteratorVernacular;
-                string str = (bProcessingWithChild)
+                string str = (!bPrintPreview)
                     ? (child != null)
                         ? Diff.HtmlDiff(transliterator, VernacularText, (theChildVerse != null) ? theChildVerse.VernacularText : null)
                         : Diff.HtmlDiff(transliterator, null, VernacularText)
                     : VernacularText.GetValue(transliterator);
 
-                strRow += String.Format(OseResources.Properties.Resources.HTML_TableCellWidthAlignTop, 100 / nNumCols,
-                                        String.Format(OseResources.Properties.Resources.HTML_ParagraphText,
-                                                      TextareaId(nVerseIndex, CstrFieldNameVernacular),
-                                                      StoryData.CstrLangVernacularStyleClassName,
-                                                      str));
+                strRow += FormatLanguageColumn(nVerseIndex, nNumCols, CstrFieldNameVernacular,
+                                               StoryData.CstrLangVernacularStyleClassName, str);
             }
 
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.NationalBTLangField))
             {
                 DirectableEncConverter transliterator = viewSettings.TransliteratorNationalBT;
-                string str = (bProcessingWithChild)
+                string str = (!bPrintPreview)
                     ? (child != null)
                         ? Diff.HtmlDiff(transliterator, NationalBTText, (theChildVerse != null) ? theChildVerse.NationalBTText : null)
                         : Diff.HtmlDiff(transliterator, null, NationalBTText)
                     : NationalBTText.GetValue(transliterator);
 
-                strRow += String.Format(OseResources.Properties.Resources.HTML_TableCellWidthAlignTop, 100 / nNumCols,
-                                        String.Format(OseResources.Properties.Resources.HTML_ParagraphText,
-                                                      TextareaId(nVerseIndex, CstrFieldNameNationalBt),
-                                                      StoryData.CstrLangNationalBtStyleClassName,
-                                                      str));
+                strRow += FormatLanguageColumn(nVerseIndex, nNumCols, CstrFieldNameNationalBt,
+                                               StoryData.CstrLangNationalBtStyleClassName, str);
             }
 
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.EnglishBTField))
             {
-                string str = (bProcessingWithChild)
+                string str = (!bPrintPreview)
                     ? (child != null)
                         ? Diff.HtmlDiff(InternationalBTText, (theChildVerse != null) ? theChildVerse.InternationalBTText : null)
                         : Diff.HtmlDiff(null, InternationalBTText)
                     : InternationalBTText.ToString();
 
-                strRow += String.Format(OseResources.Properties.Resources.HTML_TableCellWidthAlignTop, 100 / nNumCols,
-                                        String.Format(OseResources.Properties.Resources.HTML_ParagraphText,
-                                                      TextareaId(nVerseIndex, CstrFieldNameInternationalBt),
-                                                      StoryData.CstrLangInternationalBtStyleClassName,
-                                                      str));
+                strRow += FormatLanguageColumn(nVerseIndex, nNumCols, CstrFieldNameInternationalBt,
+                                               StoryData.CstrLangInternationalBtStyleClassName, str);
             }
 
             string strStoryLineRow = String.Format(OseResources.Properties.Resources.HTML_TableRow,
                                                    strRow);
 
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.AnchorFields))
-                strStoryLineRow += Anchors.PresentationHtml(nVerseIndex, nNumCols, 
-                    (theChildVerse != null) ? theChildVerse.Anchors : null, bProcessingWithChild);
+                strStoryLineRow += Anchors.PresentationHtml(nVerseIndex, nNumCols,
+                    (theChildVerse != null) ? theChildVerse.Anchors : null, bPrintPreview);
 
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.RetellingFields))
                 strStoryLineRow += Retellings.PresentationHtml(nVerseIndex, nNumCols,
                     craftingInfo.Testors, (theChildVerse != null) ? theChildVerse.Retellings : null,
-                    bProcessingWithChild);
+                    bPrintPreview, false);
 
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.StoryTestingQuestions | ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers))
                 strStoryLineRow += TestQuestions.PresentationHtml(nVerseIndex, nNumCols, viewSettings,
                     craftingInfo.Testors, (theChildVerse != null) ? theChildVerse.TestQuestions : null,
-                    bProcessingWithChild);
+                    bPrintPreview, bHasOutsideEnglishBTer);
+
+            // indicate that we've done this one
+            IsDiffProcessed = true;
+            return strStoryLineRow;
+        }
+
+        private static string FormatLanguageColumn(int nVerseIndex, int nNumCols,
+            string strFieldName, string strLangStyleClassName, string strValue)
+        {
+            return String.Format(OseResources.Properties.Resources.HTML_TableCellWidthAlignTop, 100 / nNumCols,
+                                        String.Format(OseResources.Properties.Resources.HTML_ParagraphText,
+                                                      TextareaId(nVerseIndex, strFieldName),
+                                                      strLangStyleClassName,
+                                                      strValue));
+        }
+
+        // for use when the data is to be marked as an addition (i.e. yellow highlight)
+        public string PresentationHtmlAsAddition(int nVerseIndex, int nNumCols,
+            CraftingInfoData craftingInfo, ViewSettings viewSettings, bool bHasOutsideEnglishBTer)
+        {
+            string strRow = null;
+            if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.VernacularLangField))
+            {
+                DirectableEncConverter transliterator = viewSettings.TransliteratorVernacular;
+                string str = Diff.HtmlDiff(transliterator, null, VernacularText);
+
+                strRow += FormatLanguageColumn(nVerseIndex, nNumCols, CstrFieldNameVernacular, 
+                                               StoryData.CstrLangVernacularStyleClassName, str);
+            }
+
+            if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.NationalBTLangField))
+            {
+                DirectableEncConverter transliterator = viewSettings.TransliteratorNationalBT;
+                string str = Diff.HtmlDiff(transliterator, null, NationalBTText);
+
+                strRow += FormatLanguageColumn(nVerseIndex, nNumCols, CstrFieldNameNationalBt, 
+                                               StoryData.CstrLangNationalBtStyleClassName, str);
+            }
+
+            if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.EnglishBTField))
+            {
+                string str = Diff.HtmlDiff(null, InternationalBTText);
+
+                strRow += FormatLanguageColumn(nVerseIndex, nNumCols, CstrFieldNameInternationalBt,
+                                               StoryData.CstrLangInternationalBtStyleClassName, str);
+            }
+
+            string strStoryLineRow = String.Format(OseResources.Properties.Resources.HTML_TableRow,
+                                                   strRow);
+
+            if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.AnchorFields))
+                strStoryLineRow += Anchors.PresentationHtmlAsAddition(nVerseIndex, nNumCols);
+
+            if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.RetellingFields))
+                strStoryLineRow += Retellings.PresentationHtmlAsAddition(nVerseIndex, nNumCols, 
+                    craftingInfo.Testors);
+
+            if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.StoryTestingQuestions | ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers))
+                strStoryLineRow += TestQuestions.PresentationHtmlAsAddition(nVerseIndex, nNumCols, viewSettings,
+                    craftingInfo.Testors, bHasOutsideEnglishBTer);
 
             // indicate that we've done this one
             IsDiffProcessed = true;
@@ -691,7 +742,7 @@ namespace OneStoryProjectEditor
         }
 
         public string PresentationHtml(CraftingInfoData craftingInfo, VersesData child, int nNumCols,
-            VerseData.ViewSettings viewSettings)
+            VerseData.ViewSettings viewSettings, bool bHasOutsideEnglishBTer)
         {
             string strHtml = null;
             int nInsertCount = 0;
@@ -715,8 +766,8 @@ namespace OneStoryProjectEditor
                             VerseData aPassedByChild = child[j - 1];
                             if (!aPassedByChild.IsDiffProcessed)
                             {
-                                strHtml += aPassedByChild.PresentationHtml(nLineIndex, nNumCols, craftingInfo,
-                                    viewSettings, null, null, true);
+                                strHtml += aPassedByChild.PresentationHtmlAsAddition(nLineIndex, nNumCols,
+                                    craftingInfo, viewSettings, bHasOutsideEnglishBTer);
                                 bFoundOne = true;
                                 nInsertCount++;
                             }
@@ -727,7 +778,7 @@ namespace OneStoryProjectEditor
                     }
 
                     strHtml += aVerseData.PresentationHtml(nLineIndex, nNumCols, craftingInfo,
-                        viewSettings, child, theChildVerse, (child != null));
+                        viewSettings, child, theChildVerse, (child == null), bHasOutsideEnglishBTer);
 
                     // if there is a child, but we couldn't find the equivalent verse...
                     if ((child != null) && (theChildVerse == null) && (child.Count >= i))
@@ -735,8 +786,8 @@ namespace OneStoryProjectEditor
                         // this means the original verse (which we just showed as deleted) 
                         //  was replaced by whatever is the same verse in the child collection
                         theChildVerse = child[i - 1];
-                        strHtml += theChildVerse.PresentationHtml(nLineIndex, nNumCols, craftingInfo,
-                            viewSettings, null, null, true);
+                        strHtml += theChildVerse.PresentationHtmlAsAddition(nLineIndex, nNumCols,
+                            craftingInfo, viewSettings, bHasOutsideEnglishBTer);
                     }
                 }
 
@@ -752,8 +803,8 @@ namespace OneStoryProjectEditor
                         int nLineIndex = i + nInsertCount;
                         strHtml += GetHeaderRow("Ln: " + nLineIndex, nLineIndex, aVerseData.IsVisible, false, nNumCols);
 
-                        strHtml += aVerseData.PresentationHtml(nLineIndex, nNumCols, craftingInfo,
-                            viewSettings, null, null, true);
+                        strHtml += aVerseData.PresentationHtmlAsAddition(nLineIndex, nNumCols,
+                            craftingInfo, viewSettings, bHasOutsideEnglishBTer);
                     }
                     i++;
                 }
@@ -819,15 +870,15 @@ namespace OneStoryProjectEditor
         }
 
         public string ConsultantNotesHtml(object htmlConNoteCtrl, 
-            StoryStageLogic theStoryStage, TeamMemberData LoggedOnMember, 
-            bool bViewHidden)
+            StoryStageLogic theStoryStage, TeamMemberData LoggedOnMember,
+            bool bViewHidden, bool bShowOnlyOpenConversations)
         {
             string strHtml = null;
             strHtml += GetHeaderRow(CstrZerothLineName, 0, FirstVerse.IsVisible, 
                 FirstVerse.ConsultantNotes, LoggedOnMember);
 
-            strHtml += FirstVerse.ConsultantNotes.Html(htmlConNoteCtrl, theStoryStage, 
-                LoggedOnMember, bViewHidden, FirstVerse.IsVisible, 0);
+            strHtml += FirstVerse.ConsultantNotes.Html(htmlConNoteCtrl, theStoryStage,
+                LoggedOnMember, bViewHidden, FirstVerse.IsVisible, bShowOnlyOpenConversations, 0);
 
             for (int i = 1; i <= Count; i++)
             {
@@ -837,8 +888,8 @@ namespace OneStoryProjectEditor
                     strHtml += GetHeaderRow("Ln: " + i, i, aVerseData.IsVisible, 
                         aVerseData.ConsultantNotes, LoggedOnMember);
 
-                    strHtml += aVerseData.ConsultantNotes.Html(htmlConNoteCtrl, 
-                        theStoryStage, LoggedOnMember, bViewHidden, aVerseData.IsVisible, i);
+                    strHtml += aVerseData.ConsultantNotes.Html(htmlConNoteCtrl,
+                        theStoryStage, LoggedOnMember, bViewHidden, aVerseData.IsVisible, bShowOnlyOpenConversations, i);
                 }
             }
 
@@ -846,14 +897,15 @@ namespace OneStoryProjectEditor
         }
 
         public string CoachNotesHtml(object htmlConNoteCtrl, 
-            StoryStageLogic theStoryStage, TeamMemberData LoggedOnMember, bool bViewHidden)
+            StoryStageLogic theStoryStage, TeamMemberData LoggedOnMember,
+            bool bViewHidden, bool bShowOnlyOpenConversations)
         {
             string strHtml = null;
             strHtml += GetHeaderRow(CstrZerothLineName, 0, FirstVerse.IsVisible,
                 FirstVerse.CoachNotes, LoggedOnMember);
 
-            strHtml += FirstVerse.CoachNotes.Html(htmlConNoteCtrl, theStoryStage, 
-                LoggedOnMember, bViewHidden, FirstVerse.IsVisible, 0);
+            strHtml += FirstVerse.CoachNotes.Html(htmlConNoteCtrl, theStoryStage,
+                LoggedOnMember, bViewHidden, FirstVerse.IsVisible, bShowOnlyOpenConversations, 0);
 
             for (int i = 1; i <= Count; i++)
             {
@@ -863,8 +915,8 @@ namespace OneStoryProjectEditor
                     strHtml += GetHeaderRow("Ln: " + i, i, aVerseData.IsVisible,
                         aVerseData.CoachNotes, LoggedOnMember);
 
-                    strHtml += aVerseData.CoachNotes.Html(htmlConNoteCtrl, theStoryStage, 
-                        LoggedOnMember, bViewHidden, aVerseData.IsVisible, i);
+                    strHtml += aVerseData.CoachNotes.Html(htmlConNoteCtrl, theStoryStage,
+                        LoggedOnMember, bViewHidden, aVerseData.IsVisible, bShowOnlyOpenConversations, i);
                 }
             }
 

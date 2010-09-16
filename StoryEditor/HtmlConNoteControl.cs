@@ -539,7 +539,8 @@ namespace OneStoryProjectEditor
             string strHtml = StoryData.ConsultantNotesHtml(this, TheSE.theCurrentStory.ProjStage,
                                                            TheSE.StoryProject.ProjSettings,
                                                            TheSE.LoggedOnMember,
-                                                           TheSE.hiddenVersesToolStripMenuItem.Checked);
+                                                           TheSE.hiddenVersesToolStripMenuItem.Checked,
+                                                           TheSE.viewOnlyOpenConversationsMenu.Checked);
             DocumentText = strHtml;
             LineNumberLink.Visible = true;
         }
@@ -565,7 +566,8 @@ namespace OneStoryProjectEditor
             string strHtml = StoryData.CoachNotesHtml(this, TheSE.theCurrentStory.ProjStage,
                                                       TheSE.StoryProject.ProjSettings,
                                                       TheSE.LoggedOnMember,
-                                                      TheSE.hiddenVersesToolStripMenuItem.Checked);
+                                                      TheSE.hiddenVersesToolStripMenuItem.Checked,
+                                                      TheSE.viewOnlyOpenConversationsMenu.Checked);
             DocumentText = strHtml;
             LineNumberLink.Visible = true;
         }

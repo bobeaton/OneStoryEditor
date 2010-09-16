@@ -187,8 +187,8 @@ namespace OneStoryProjectEditor
         }
 
         public string PresentationHtml(int nVerseIndex, int nTQNum, int nNumTestQuestionCols, 
-            VerseData.ViewSettings viewSettings, bool bShowVernacular, bool bShowNationalBT, bool bShowEnglishBT, 
-            List<string> astrTestors, TestQuestionsData child, bool bProcessingWithChild)
+            VerseData.ViewSettings viewSettings, bool bShowVernacular, bool bShowNationalBT, bool bShowEnglishBT,
+            List<string> astrTestors, TestQuestionsData child, bool bPrintPreview, bool bProcessingTheChild)
         {
             TestQuestionData theChildTQ = null;
             if (child != null)
@@ -208,7 +208,7 @@ namespace OneStoryProjectEditor
                 if (bShowVernacular)
                 {
                     DirectableEncConverter transliterator = viewSettings.TransliteratorVernacular;
-                    string str = (bProcessingWithChild)
+                    string str = (!bPrintPreview)
                         ? (child != null)
                             ? Diff.HtmlDiff(transliterator, QuestionVernacular, (theChildTQ != null) ? theChildTQ.QuestionVernacular : null)
                             : Diff.HtmlDiff(transliterator, null, QuestionVernacular)
@@ -221,7 +221,7 @@ namespace OneStoryProjectEditor
                 if (bShowNationalBT)
                 {
                     DirectableEncConverter transliterator = viewSettings.TransliteratorNationalBT;
-                    string str = (bProcessingWithChild)
+                    string str = (!bPrintPreview)
                         ? (child != null)
                             ? Diff.HtmlDiff(transliterator, QuestionNationalBT, (theChildTQ != null) ? theChildTQ.QuestionNationalBT : null)
                             : Diff.HtmlDiff(transliterator, null, QuestionNationalBT)
@@ -233,7 +233,7 @@ namespace OneStoryProjectEditor
 
                 if (bShowEnglishBT)
                 {
-                    string str = (bProcessingWithChild)
+                    string str = (!bPrintPreview)
                         ? (child != null)
                             ? Diff.HtmlDiff(QuestionInternationalBT, (theChildTQ != null) ? theChildTQ.QuestionInternationalBT : null)
                             : Diff.HtmlDiff(null, QuestionInternationalBT)
@@ -251,7 +251,55 @@ namespace OneStoryProjectEditor
             {
                 // add 1 to the number of columns so it spans properly (including the 'tst:' label)
                 strTQRow += Answers.PresentationHtml(nVerseIndex, nNumTestQuestionCols + 1, astrTestors,
-                    (theChildTQ != null) ? theChildTQ.Answers : null, bProcessingWithChild);
+                    (theChildTQ != null) ? theChildTQ.Answers : null, bPrintPreview, bProcessingTheChild);
+            }
+
+            return strTQRow;
+        }
+
+        public string PresentationHtmlAsAddition(int nVerseIndex, int nTQNum, int nNumTestQuestionCols,
+            VerseData.ViewSettings viewSettings, bool bShowVernacular, bool bShowNationalBT, bool bShowEnglishBT,
+            List<string> astrTestors)
+        {
+            string strTQRow = null;
+            if (viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestions))
+            {
+                string strRow = String.Format(OseResources.Properties.Resources.HTML_TableCell,
+                                              CstrTestQuestionsLabelFormat);
+                if (bShowVernacular)
+                {
+                    DirectableEncConverter transliterator = viewSettings.TransliteratorVernacular;
+                    string str = Diff.HtmlDiff(transliterator, null, QuestionVernacular);
+
+                    strRow += PresentationHtmlCell(nVerseIndex, nTQNum, nNumTestQuestionCols,
+                        StoryData.CstrLangVernacularStyleClassName, str);
+                }
+
+                if (bShowNationalBT)
+                {
+                    DirectableEncConverter transliterator = viewSettings.TransliteratorNationalBT;
+                    string str = Diff.HtmlDiff(transliterator, null, QuestionNationalBT);
+
+                    strRow += PresentationHtmlCell(nVerseIndex, nTQNum, nNumTestQuestionCols,
+                        StoryData.CstrLangNationalBtStyleClassName, str);
+                }
+
+                if (bShowEnglishBT)
+                {
+                    string str = Diff.HtmlDiff(null, QuestionInternationalBT);
+
+                    strRow += PresentationHtmlCell(nVerseIndex, nTQNum, nNumTestQuestionCols,
+                        StoryData.CstrLangInternationalBtStyleClassName, str);
+                }
+
+                strTQRow = String.Format(OseResources.Properties.Resources.HTML_TableRow,
+                                                       strRow);
+            }
+
+            if (viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers))
+            {
+                // add 1 to the number of columns so it spans properly (including the 'tst:' label)
+                strTQRow += Answers.PresentationHtmlAsAddition(nVerseIndex, nNumTestQuestionCols + 1, astrTestors);
             }
 
             return strTQRow;
@@ -371,30 +419,16 @@ namespace OneStoryProjectEditor
         }
 
         public string PresentationHtml(int nVerseIndex, int nNumCols, VerseData.ViewSettings viewSettings,
-            List<string> astrTestors, TestQuestionsData child, bool bProcessingWithChild)
+            List<string> astrTestors, TestQuestionsData child, bool bPrintPreview, bool bHasOutsideEnglishBTer)
         {
             // return nothing if there's nothing to do
             if ((!HasData && ((child == null) || !child.HasData)))
                 return null;
 
             // just get the column count from the first question (in case there are multiple)
-            bool bShowVernacular = false;
-            bool bShowNationalBT = false;
-            bool bShowEnglishBT = false;
-            foreach (TestQuestionData aTQ in this)
-            {
-                bShowVernacular = bShowVernacular || aTQ.QuestionVernacular.HasData;
-                bShowNationalBT = bShowNationalBT || aTQ.QuestionNationalBT.HasData;
-                bShowEnglishBT = bShowEnglishBT || aTQ.QuestionInternationalBT.HasData;
-            }
-
-            if (child != null)
-                foreach (TestQuestionData aTQ in child)
-                {
-                    bShowVernacular = bShowVernacular || aTQ.QuestionVernacular.HasData;
-                    bShowNationalBT = bShowNationalBT || aTQ.QuestionNationalBT.HasData;
-                    bShowEnglishBT = bShowEnglishBT || aTQ.QuestionInternationalBT.HasData;
-                }
+            bool bShowVernacular = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.VernacularLangField);
+            bool bShowNationalBT = bHasOutsideEnglishBTer && viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBTLangField);
+            bool bShowEnglishBT = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.EnglishBTField);
 
             int nNumTestQuestionCols = 0;
             if (bShowVernacular) nNumTestQuestionCols++;
@@ -406,16 +440,49 @@ namespace OneStoryProjectEditor
             {
                 TestQuestionData testQuestionData = this[i];
                 strRow += testQuestionData.PresentationHtml(nVerseIndex, i, nNumTestQuestionCols, viewSettings,
-                    bShowVernacular, bShowNationalBT, bShowEnglishBT, astrTestors, child, bProcessingWithChild);
+                    bShowVernacular, bShowNationalBT, bShowEnglishBT, astrTestors, child, bPrintPreview, false);
             }
 
             if (child != null)
                 for (int i = 0; i < child.Count; i++)
                 {
                     TestQuestionData testQuestionData = child[i];
-                    strRow += testQuestionData.PresentationHtml(nVerseIndex, i, nNumTestQuestionCols, viewSettings,
-                        bShowVernacular, bShowNationalBT, bShowEnglishBT, astrTestors, null, true);
+                    strRow += testQuestionData.PresentationHtmlAsAddition(nVerseIndex, i, nNumTestQuestionCols, viewSettings,
+                        bShowVernacular, bShowNationalBT, bShowEnglishBT, astrTestors);
                 }
+
+            // make a sub-table out of all this
+            strRow = String.Format(OseResources.Properties.Resources.HTML_TableRow,
+                                    String.Format(OseResources.Properties.Resources.HTML_TableCellWithSpan, nNumCols,
+                                                  String.Format(OseResources.Properties.Resources.HTML_Table,
+                                                                strRow)));
+            return strRow;
+        }
+
+        public string PresentationHtmlAsAddition(int nVerseIndex, int nNumCols,
+            VerseData.ViewSettings viewSettings, List<string> astrTestors, bool bHasOutsideEnglishBTer)
+        {
+            // return nothing if there's nothing to do
+            if (!HasData)
+                return null;
+
+            // just get the column count from the first question (in case there are multiple)
+            bool bShowVernacular = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.VernacularLangField);
+            bool bShowNationalBT = bHasOutsideEnglishBTer && viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBTLangField);
+            bool bShowEnglishBT = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.EnglishBTField);
+
+            int nNumTestQuestionCols = 0;
+            if (bShowVernacular) nNumTestQuestionCols++;
+            if (bShowNationalBT) nNumTestQuestionCols++;
+            if (bShowEnglishBT) nNumTestQuestionCols++;
+
+            string strRow = null;
+            for (int i = 0; i < Count; i++)
+            {
+                TestQuestionData testQuestionData = this[i];
+                strRow += testQuestionData.PresentationHtmlAsAddition(nVerseIndex, i, nNumTestQuestionCols, viewSettings,
+                    bShowVernacular, bShowNationalBT, bShowEnglishBT, astrTestors);
+            }
 
             // make a sub-table out of all this
             strRow = String.Format(OseResources.Properties.Resources.HTML_TableRow,

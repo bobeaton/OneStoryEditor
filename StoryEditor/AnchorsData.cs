@@ -179,8 +179,8 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public string PresentationHtml(AnchorsData childAnchorsData, bool bProcessingChild,
-            ref List<string> astrExegeticalHelpNotes)
+        public string PresentationHtml(AnchorsData childAnchorsData, bool bPrintPreview,
+            bool bProcessingTheChild, ref List<string> astrExegeticalHelpNotes)
         {
             string strButtonLabel = JumpTarget;
             if (childAnchorsData != null)
@@ -202,7 +202,15 @@ namespace OneStoryProjectEditor
 
                 // if we didn't find it, then
                 if (!bFound)
+                {
                     strButtonLabel = Diff.HtmlDiff(JumpTarget, null, true);   // show as deleted
+                    if (ToolTipText != JumpTarget)
+                    {
+                        strToolTipText = Diff.HtmlDiff(ToolTipText, null, true);
+                        strButtonLabel += CstrTooltipIndicator;
+                        astrExegeticalHelpNotes.Add(strToolTipText);
+                    }
+                }
                 else
                 {
                     // otherwise, if we did find it, see if there's any difference to the tooltip
@@ -214,7 +222,20 @@ namespace OneStoryProjectEditor
                     }
                 }
             }
-            else if (bProcessingChild)
+            else if (!bPrintPreview && !bProcessingTheChild)
+            {
+                // this means a) we're processing with children (i.e. 2 way merge rather than just print
+                //  preview), b) but we don't *have* a child (because the original if case failed), and
+                //  c) but we're processing the parent record.
+                // So this means we're processing the parent which has no child, thus: deletion:
+                strButtonLabel = Diff.HtmlDiff(JumpTarget, null, true);
+                if (ToolTipText != JumpTarget)
+                {
+                    strButtonLabel += CstrTooltipIndicator;
+                    astrExegeticalHelpNotes.Add(Diff.HtmlDiff(ToolTipText, null, true));
+                }
+            }
+            else if (!bPrintPreview)
             {
                 // the only time we call this method without a value for childAnchorsData is when
                 //  we're processing the new stuff (i.e. what's in the child)
@@ -230,9 +251,7 @@ namespace OneStoryProjectEditor
             }
             else
             {
-                // the only time we call this method without a value for childAnchorsData is when
-                //  we're processing the new stuff (i.e. what's in the child)
-                //  so show it with 'addition' markup
+                // this means we're doing print preview, so just give the value without markup
                 strButtonLabel = JumpTarget;
                 if (JumpTarget != ToolTipText)
                 {
@@ -242,6 +261,27 @@ namespace OneStoryProjectEditor
 
                 ExegeticalHelpNotes.PresentationHtml(null, ref astrExegeticalHelpNotes);
             }
+
+            return String.Format(OseResources.Properties.Resources.HTML_Button,
+                                    JumpTarget,
+                                    "return OnBibRefJump(this);",
+                                    strButtonLabel);
+        }
+
+        public string PresentationHtmlAsAddition(ref List<string> astrExegeticalHelpNotes)
+        {
+            string strButtonLabel = JumpTarget;
+            // the only time we call this method without a value for childAnchorsData is when
+            //  we're processing the new stuff (i.e. what's in the child)
+            //  so show it with 'addition' markup
+            strButtonLabel = Diff.HtmlDiff(null, JumpTarget, true);
+            if (JumpTarget != ToolTipText)
+            {
+                strButtonLabel += CstrTooltipIndicator;
+                astrExegeticalHelpNotes.Add(Diff.HtmlDiff(null, ToolTipText, true));
+            }
+
+            ExegeticalHelpNotes.PresentationHtml(null, ref astrExegeticalHelpNotes);
 
             return String.Format(OseResources.Properties.Resources.HTML_Button,
                                     JumpTarget,
@@ -355,18 +395,34 @@ namespace OneStoryProjectEditor
         }
 
         public string PresentationHtml(int nVerseIndex, int nNumCols, AnchorsData childAnchorsData,
-            bool bProcessingWithChild)
+            bool bPrintPreview)
         {
             List<string> astrExegeticalHelpNotes = new List<string>();
             string strRow = null;
             foreach (AnchorData anchorData in this)
-                strRow += anchorData.PresentationHtml(childAnchorsData, bProcessingWithChild, ref astrExegeticalHelpNotes);
+                strRow += anchorData.PresentationHtml(childAnchorsData, bPrintPreview, false, ref astrExegeticalHelpNotes);
             
             // now put the anchors that are in the child (as additions)
             if (childAnchorsData != null)
                 foreach (AnchorData anchorData in childAnchorsData)
-                    strRow += anchorData.PresentationHtml(null, bProcessingWithChild, ref astrExegeticalHelpNotes);
+                    strRow += anchorData.PresentationHtmlAsAddition(ref astrExegeticalHelpNotes);
 
+            return FinishPresentationHtml(nVerseIndex, nNumCols, strRow, astrExegeticalHelpNotes);
+        }
+
+        public string PresentationHtmlAsAddition(int nVerseIndex, int nNumCols)
+        {
+            List<string> astrExegeticalHelpNotes = new List<string>();
+            string strRow = null;
+            foreach (AnchorData anchorData in this)
+                strRow += anchorData.PresentationHtmlAsAddition(ref astrExegeticalHelpNotes);
+
+            return FinishPresentationHtml(nVerseIndex, nNumCols, strRow, astrExegeticalHelpNotes);
+        }
+
+        protected string FinishPresentationHtml(int nVerseIndex, int nNumCols, 
+            string strRow, List<string> astrExegeticalHelpNotes)
+        {
             // stop if there was nothing
             if (String.IsNullOrEmpty(strRow))
                 return strRow;

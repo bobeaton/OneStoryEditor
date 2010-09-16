@@ -130,7 +130,7 @@ namespace OneStoryProjectEditor
         }
 
         public string PresentationHtml(int nVerseIndex, int nNumCols, List<string> astrTestors,
-            MultipleLineDataConverter child, bool bProcessingWithChild)
+            MultipleLineDataConverter child, bool bPrintPreview, bool bProcessingTheChild)
         {
             string strRow = null;
             int nTestNum = 0;
@@ -161,13 +161,16 @@ namespace OneStoryProjectEditor
                     str = Diff.HtmlDiff(stParent, stChild); // so diff them
 
                 // but if there was a child and yet we didn't find it...
-                else if (child != null)
-                    str = Diff.HtmlDiff(stParent, null);    // then the parent was deleted.
+                // OR if there wasn't a child, but there should have been (because we're processing with a child)
+                else if (((child != null) || !bPrintPreview) && !bProcessingTheChild)
+                    str = Diff.HtmlDiff(stParent, null);    // it means that the parent was deleted.
+
+                // this means there is a child and we're processing it here as if it were the parent
+                //  (so that implicitly means this is an addition)
+                else if (bProcessingTheChild)
+                    str = Diff.HtmlDiff(null, stParent);
 
                 // otherwise, if there was no child (e.g. just doing a print preview of one version)...
-                else if (bProcessingWithChild)
-                    str = Diff.HtmlDiff(null, stParent);
-                
                 else
                     str = stParent.ToString();  // then the parent's value is the value
 
@@ -184,6 +187,31 @@ namespace OneStoryProjectEditor
                     string str = Diff.HtmlDiff(null, child[j]);
                     strRow += PresentationHtmlRow(nVerseIndex, nTestNum, str);
                 }
+            }
+
+            if (!String.IsNullOrEmpty(strRow))
+            {
+                // make a sub-table out of all this
+                strRow = String.Format(OseResources.Properties.Resources.HTML_TableRow,
+                                        String.Format(OseResources.Properties.Resources.HTML_TableCellWithSpan, nNumCols,
+                                                      String.Format(OseResources.Properties.Resources.HTML_Table,
+                                                                    strRow)));
+            }
+            return strRow;
+        }
+
+
+        public string PresentationHtmlAsAddition(int nVerseIndex, int nNumCols, List<string> astrTestors)
+        {
+            string strRow = null;
+            int nTestNum = 0;
+            for (int i = 0; i < Count; i++)
+            {
+                string strMemberId = MemberIDs[i];
+                nTestNum = astrTestors.IndexOf(strMemberId);
+                StringTransfer stParent = this[i];
+                string str = Diff.HtmlDiff(null, stParent);
+                strRow += PresentationHtmlRow(nVerseIndex, nTestNum, str);
             }
 
             if (!String.IsNullOrEmpty(strRow))

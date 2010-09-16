@@ -202,7 +202,8 @@ namespace OneStoryProjectEditor
                                  strHtmlInside);
         }
 
-        public string PresentationHtmlWithoutHtmlDocOutside(VerseData.ViewSettings viewSettings, ProjectSettings projSettings, TeamMembersData teamMembers, StoryData child)
+        public string PresentationHtmlWithoutHtmlDocOutside(VerseData.ViewSettings viewSettings, 
+            ProjectSettings projSettings, TeamMembersData teamMembers, StoryData child)
         {
             bool bShowVernacular = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.VernacularLangField);
             bool bShowNationalBT = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBTLangField);
@@ -239,7 +240,7 @@ namespace OneStoryProjectEditor
                                                                 strHtml)));
 
             strHtml += Verses.PresentationHtml((child != null) ? child.CraftingInfo : CraftingInfo,
-                (child != null) ? child.Verses : null, nNumCols, viewSettings);
+                (child != null) ? child.Verses : null, nNumCols, viewSettings, teamMembers.HasOutsideEnglishBTer);
 
             return strHtml;
         }
@@ -285,11 +286,11 @@ namespace OneStoryProjectEditor
 
         public string ConsultantNotesHtml(object htmlConNoteCtrl, 
             StoryStageLogic theStoryStage, ProjectSettings projSettings, 
-            TeamMemberData LoggedOnMember, 
-            bool bViewHidden)
+            TeamMemberData LoggedOnMember,
+            bool bViewHidden, bool bShowOnlyOpenConversations)
         {
-            string strHtml = Verses.ConsultantNotesHtml(htmlConNoteCtrl, theStoryStage, 
-                LoggedOnMember, bViewHidden);
+            string strHtml = Verses.ConsultantNotesHtml(htmlConNoteCtrl, theStoryStage,
+                LoggedOnMember, bViewHidden, bShowOnlyOpenConversations);
             return String.Format(OseResources.Properties.Resources.HTML_Header,
                 StylePrefix(projSettings),
                 OseResources.Properties.Resources.HTML_DOM_Prefix, 
@@ -298,11 +299,11 @@ namespace OneStoryProjectEditor
 
         public string CoachNotesHtml(object htmlConNoteCtrl, 
             StoryStageLogic theStoryStage, ProjectSettings projSettings, 
-            TeamMemberData LoggedOnMember, 
-            bool bViewHidden)
+            TeamMemberData LoggedOnMember,
+            bool bViewHidden, bool bShowOnlyOpenConversations)
         {
-            string strHtml = Verses.CoachNotesHtml(htmlConNoteCtrl, theStoryStage, 
-                LoggedOnMember, bViewHidden);
+            string strHtml = Verses.CoachNotesHtml(htmlConNoteCtrl, theStoryStage,
+                LoggedOnMember, bViewHidden, bShowOnlyOpenConversations);
             return String.Format(OseResources.Properties.Resources.HTML_Header,
                 StylePrefix(projSettings),
                 OseResources.Properties.Resources.HTML_DOM_Prefix,
