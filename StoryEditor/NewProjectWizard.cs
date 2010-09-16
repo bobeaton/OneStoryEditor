@@ -225,9 +225,12 @@ namespace OneStoryProjectEditor
 
             // remove the existing references in the Recent lists too
             int nIndex = Properties.Settings.Default.RecentProjects.IndexOf(strProjectName);
-            Properties.Settings.Default.RecentProjects.RemoveAt(nIndex);
-            Properties.Settings.Default.RecentProjectPaths.RemoveAt(nIndex);
-            Properties.Settings.Default.Save();
+            if (nIndex != -1)
+            {
+                Properties.Settings.Default.RecentProjects.RemoveAt(nIndex);
+                Properties.Settings.Default.RecentProjectPaths.RemoveAt(nIndex);
+                Properties.Settings.Default.Save();
+            }
         }
 
         private void InitLanguageControls(Control tabPage, ProjectSettings.LanguageInfo languageInfo)
