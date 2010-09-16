@@ -54,7 +54,7 @@ namespace OneStoryProjectEditor
             checkBoxEnableFind.Checked = bShowFind;
             checkBoxEnableReplace.Checked = !bShowFind;
 
-            Show();
+            base.Show();
 
             // if we didn't change the value of the Find/Replace button, then we might have
             //  to adjust the size based on whether the replace stuff is visible or not
