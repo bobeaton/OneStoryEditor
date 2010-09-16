@@ -251,6 +251,9 @@ namespace OneStoryProjectEditor
             ClearState();
 
             ReInitMenuVisibility();
+
+            // restart the last sync timer whenever we switch projects
+            tmLastSync = DateTime.Now;
         }
 
         protected void ReInitMenuVisibility()
@@ -674,13 +677,23 @@ namespace OneStoryProjectEditor
             TheCurrentStoriesSet.Insert(nIndexToInsert, theCurrentStory);
             comboBoxStorySelector.SelectedItem = theNewStory.Name;
             Modified = true;
+            InitAllPanes();
         }
 
         private void comboBoxStorySelector_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // do nothing if we're already on this story:
+            if ((theCurrentStory != null) && (theCurrentStory.Name == (string)comboBoxStorySelector.SelectedItem))
+                return;
+
             // save the file before moving on.
             if (!CheckForSaveDirtyFile())
+            {
+                // if we're backing out, try to reset the combo box with the current story
+                if ((theCurrentStory != null) && (theCurrentStory.Name != (string)comboBoxStorySelector.SelectedItem))
+                    comboBoxStorySelector.SelectedItem = theCurrentStory.Name;
                 return;
+            }
 
             // if this happens, it means we didn't save or cleanup the document
             Debug.Assert(!Modified
@@ -3076,6 +3089,9 @@ namespace OneStoryProjectEditor
         {
             Debug.Assert(comboBoxStorySelector.Items.Contains(strStoryName));
             comboBoxStorySelector.SelectedItem = strStoryName;
+            if (strStoryName != theCurrentStory.Name)
+                return; // must have cancelled
+
             if (!String.IsNullOrEmpty(strAnchor))
                 SetNetBibleVerse(strAnchor);
             Debug.Assert(theCurrentStory.Verses.Count >= nLineIndex);
@@ -3831,6 +3847,11 @@ namespace OneStoryProjectEditor
                     strMessage += String.Format("{0}{1}", Environment.NewLine, ex.InnerException.Message);
                 MessageBox.Show(strMessage, OseResources.Properties.Resources.IDS_Caption);
             }
+        }
+
+        private void viewOnlyOpenConversationsMenu_CheckStateChanged(object sender, EventArgs e)
+        {
+            InitAllPanes();
         }
     }
 }

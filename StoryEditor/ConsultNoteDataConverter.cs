@@ -404,11 +404,15 @@ namespace OneStoryProjectEditor
                 else
                 {
                     strHtmlElementId = TextParagraphId(nVerseIndex, nConversationIndex, i);
-                    string strHyperlinkedText = aCI.ToString().Replace("\r\n", "<br />");   // regexParagraph.Replace(aCI.ToString(), ParagraphFound);
-                    strHyperlinkedText = regexBibRef.Replace(strHyperlinkedText, BibleReferenceFound);
-                    strHyperlinkedText = regexLineRef.Replace(strHyperlinkedText, LineReferenceFound);
-                    strHyperlinkedText = regexItalics.Replace(strHyperlinkedText, EmphasizedTextFound);
-                    strHyperlinkedText = regexHttpRef.Replace(strHyperlinkedText, HttpReferenceFound);
+                    string strHyperlinkedText = null;
+                    if (aCI.HasData)
+                    {
+                        strHyperlinkedText = aCI.ToString().Replace("\r\n", "<br />");   // regexParagraph.Replace(aCI.ToString(), ParagraphFound);
+                        strHyperlinkedText = regexBibRef.Replace(strHyperlinkedText, BibleReferenceFound);
+                        strHyperlinkedText = regexLineRef.Replace(strHyperlinkedText, LineReferenceFound);
+                        strHyperlinkedText = regexItalics.Replace(strHyperlinkedText, EmphasizedTextFound);
+                        strHyperlinkedText = regexHttpRef.Replace(strHyperlinkedText, HttpReferenceFound);
+                    }
 
                     strRow += String.Format(OseResources.Properties.Resources.HTML_TableCellWidth, 100,
                                             String.Format(OseResources.Properties.Resources.HTML_ParagraphText,
@@ -767,13 +771,13 @@ namespace OneStoryProjectEditor
 
         public string Html(object htmlConNoteCtrl, 
             StoryStageLogic theStoryStage, TeamMemberData LoggedOnMember, 
-            bool bViewHidden, bool bVerseVisible, int nVerseIndex)
+            bool bViewHidden, bool bVerseVisible, bool bShowOnlyOpenConversations, int nVerseIndex)
         {
             string strHtml = null;
             for (int i = 0; i < Count; i++)
             {
                 ConsultNoteDataConverter aCNDC = this[i];
-                if (aCNDC.Visible || bViewHidden)
+                if ((aCNDC.Visible || bViewHidden) && (!bShowOnlyOpenConversations || !aCNDC.IsFinished))
                     strHtml += aCNDC.Html(htmlConNoteCtrl, theStoryStage, LoggedOnMember, nVerseIndex, i);
             }
 
