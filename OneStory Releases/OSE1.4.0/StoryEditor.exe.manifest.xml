@@ -4,10 +4,11 @@
   <ApplicationExecutable />
   <ApplicationName>AutoUpgrade</ApplicationName>
   <FullUpgradeFileName />
-  <OffsetFromUctWhereManifestWasOriginallyCreated>9/1/2010 7:07:35 AM -05:00</OffsetFromUctWhereManifestWasOriginallyCreated>
+  <OffsetFromUctWhereManifestWasOriginallyCreated>9/17/2010 6:09:36 AM -05:00</OffsetFromUctWhereManifestWasOriginallyCreated>
   <ManifestFiles>
     <File name="AutoUpgrade.Lib.dll" method="version" action="copy" version="1.0.3889.12875" optional="false" size="24576">AutoUpgrade Lib</File>
-    <File name="StoryEditor.exe" method="version" action="copy" version="1.4.0.11" optional="false" size="990208">OneStory Editor</File>
+    <File name="StageTransitions.xml" method="date" action="copy" version="Friday, September 17, 2010 6:04:18 AM" optional="false" size="75753" />
+    <File name="StoryEditor.exe" method="version" action="copy" version="1.4.0.12" optional="false" size="993280">OneStory Editor</File>
   </ManifestFiles>
   <SourcePath />
   <UpgradeFiles />
