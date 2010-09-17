@@ -1,3 +1,13 @@
+Gray out the "Edit Key Terms" menu if it isn't going to launch it
+
+In Historical Differencing, when a verse is *now* hidden, it needs to be shown as that (but it's not)
+
+when I open a new project while the "View", "use for all stories" is checked, it always goes to showing just the VerseBT pane (whatever is default for a new project). It should probably uncheck that for each new project and let the new default reign (or make what it was before still true).
+
+add a "project history" element to CraftingInfo with:
+<stateHistory>
+  <stateEntered stage="" dateTimeEntered="" LoggedInMemberID=""/>
+</stateHistory>
 add 'hidden text' to the search dialog (don't search 'hidden' verses unless it's checked, and NavigateTo needs to unhide such a find)
 
 can we allow the retelling/answers/connotes be in some other lg?

@@ -380,7 +380,7 @@ menu item and and choose the next (green) state.
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition AllowToSkip="true">eConsultantCheckAnchors</AllowableTransition>
-      <AllowableTransition>eConsultantCheckStoryQuestions</AllowableTransition>
+      <AllowableTransition AllowToSkip="true">eConsultantCheckStoryQuestions</AllowableTransition>
       <AllowableTransition>eCoachReviewRound1Notes</AllowableTransition>
       <AllowableTransition>eBackTranslatorTranslateConNotes</AllowableTransition>
       <AllowableTransition>eProjFacReviseBasedOnRound1Notes</AllowableTransition>
@@ -424,7 +424,7 @@ When you are finished checking all the anchors, then click the "Select State" me
 window click on the next (green) state.
     </StageInstructions>
     <AllowableForewardsTransitions>
-      <AllowableTransition>eConsultantCheckStoryQuestions</AllowableTransition>
+      <AllowableTransition AllowToSkip="true">eConsultantCheckStoryQuestions</AllowableTransition>
       <AllowableTransition>eCoachReviewRound1Notes</AllowableTransition>
       <AllowableTransition>eBackTranslatorTranslateConNotes</AllowableTransition>
       <AllowableTransition>eProjFacReviseBasedOnRound1Notes</AllowableTransition>
@@ -889,10 +889,38 @@ put the story in the state where the CIT can revise his or her feedback and send
 facilitator for changes.
     </StageInstructions>
     <AllowableForewardsTransitions>
+      <AllowableTransition AllowToSkip="true">eConsultantFinalCheck</AllowableTransition>
       <AllowableTransition>eTeamComplete</AllowableTransition>
     </AllowableForewardsTransitions>
     <AllowableBackwardsTransitions>
       <AllowableTransition>eConsultantReviseRound1Notes</AllowableTransition>
+    </AllowableBackwardsTransitions>
+    <ViewSettings viewVernacularLangField="false" viewNationalLangField="false" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestions="true" viewStoryTestingAnswers="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
+  </StateTransition>
+  <StateTransition stage="eConsultantFinalCheck" MemberTypeWithEditToken="eConsultantInTraining" RequiresBiblicalStory="true" RequiresManageWithCoaching="true">
+    <StageDisplayString>Consultant does final work (after coach's final comments)</StageDisplayString>
+    <StageInstructions>
+In this stage, you (the consultant-in-training) will process any final comments by the coach, possibly
+sending it back to the project facilitator to implement further changes. Being in this state means the 
+coach is satisfied with the story (with possible feedback that might need to be processed).
+
+After processing the coach's feedback, if you are satisfied that the story is ready to go on to 
+'Story Fellowship Group' testing, then click the "Select State" menu item and in the resulting window 
+click on the next and final (green) state, "Story testing complete (waiting for panorama completion 
+review)"
+
+If you are not satisfied with the story and would like further revisions and/or another UNS test, then 
+indicate what changes you want in the Consultant Notes pane and click the "Select State" menu item and 
+in the resulting window click on the previous (red) state, "Project Facilitator revises story based on 
+Consultant's feedback". This will put the story in the state where the PF can do further changes.
+    </StageInstructions>
+    <AllowableForewardsTransitions>
+      <AllowableTransition>eTeamComplete</AllowableTransition>
+    </AllowableForewardsTransitions>
+    <AllowableBackwardsTransitions>
+      <AllowableTransition>eFirstPassMentorCheck2</AllowableTransition>
+      <AllowableTransition>eBackTranslatorTranslateConNotes</AllowableTransition>
+      <AllowableTransition>eProjFacReviseBasedOnRound1Notes</AllowableTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="false" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestions="true" viewStoryTestingAnswers="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
   </StateTransition>
