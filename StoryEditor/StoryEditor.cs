@@ -325,7 +325,7 @@ namespace OneStoryProjectEditor
             catch (StoryProjectData.BackOutWithNoUIException)
             {
                 // sub-routine has taken care of the UI, just exit without doing anything
-                StoryProject = null;
+                // why??? StoryProject = null;
             }
             catch (Exception ex)
             {
@@ -680,10 +680,13 @@ namespace OneStoryProjectEditor
             InitAllPanes();
         }
 
+        private bool _bCancellingChange = false;
         private void comboBoxStorySelector_SelectedIndexChanged(object sender, EventArgs e)
         {
             // do nothing if we're already on this story:
-            if ((theCurrentStory != null) && (theCurrentStory.Name == (string)comboBoxStorySelector.SelectedItem))
+            if (_bCancellingChange 
+                &&  (theCurrentStory != null) 
+                && (theCurrentStory.Name == (string)comboBoxStorySelector.SelectedItem))
                 return;
 
             // save the file before moving on.
@@ -691,7 +694,11 @@ namespace OneStoryProjectEditor
             {
                 // if we're backing out, try to reset the combo box with the current story
                 if ((theCurrentStory != null) && (theCurrentStory.Name != (string)comboBoxStorySelector.SelectedItem))
+                {
+                    _bCancellingChange = true;
                     comboBoxStorySelector.SelectedItem = theCurrentStory.Name;
+                    _bCancellingChange = false;
+                }
                 return;
             }
 
@@ -1996,6 +2003,9 @@ namespace OneStoryProjectEditor
                         return false;
                     bReqSave = true;  // request a save if we've just done a terminal transition
                 }
+                // a record to our history
+                theCurrentStory.TransitionHistory.Add(LoggedOnMember.MemberGuid, 
+                    theCurrentStory.ProjStage.ProjectStage, eNextState);
                 theCurrentStory.ProjStage.ProjectStage = eNextState;  // if we are ready, then go ahead and transition
                 theCurrentStory.StageTimeStamp = DateTime.Now;
                 tmLastSync = DateTime.Now - tsBackupTime;   // triggers a repository story when we ask if they want to save
