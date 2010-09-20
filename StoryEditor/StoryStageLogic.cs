@@ -97,7 +97,7 @@ namespace OneStoryProjectEditor
             { "CoachReviewTest2Notes", "CoachReviewRound2Notes" }
         };
 
-        protected ProjectStages GetProjectStageFromString(string strProjectStageString)
+        public static ProjectStages GetProjectStageFromString(string strProjectStageString)
         {
             try
             {
@@ -528,7 +528,7 @@ namespace OneStoryProjectEditor
                             || (RequiresUsingOtherEnglishBTer ==
                                 storyProjectData.TeamMembers.HasOutsideEnglishBTer))
                         && (!RequiresManageWithCoaching || !storyProjectData.TeamMembers.HasIndependentConsultant)
-                        && (!DontShowTilPast || ((int)theCurrentStory.ProjStage.ProjectStage > (int)CurrentStage))
+                        && (!DontShowTilPast || ((int)theCurrentStory.ProjStage.ProjectStage >= (int)CurrentStage))
                         );
             }
 

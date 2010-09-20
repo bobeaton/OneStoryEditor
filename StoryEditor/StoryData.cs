@@ -16,6 +16,7 @@ namespace OneStoryProjectEditor
         public DateTime StageTimeStamp;
         public StoryStageLogic ProjStage;
         public CraftingInfoData CraftingInfo;
+        public StoryStateTransitionHistory TransitionHistory;
         public VersesData Verses;
 
         public StoryData(string strStoryName, string strCrafterMemberGuid, 
@@ -26,6 +27,7 @@ namespace OneStoryProjectEditor
             StageTimeStamp = DateTime.Now;
             ProjStage = new StoryStageLogic(projSettings);
             CraftingInfo = new CraftingInfoData(strCrafterMemberGuid, strLoggedOnMemberGuid, bIsBiblicalStory);
+            TransitionHistory = new StoryStateTransitionHistory();
             Verses = new VersesData();
             Verses.CreateFirstVerse();
         }
@@ -41,6 +43,7 @@ namespace OneStoryProjectEditor
             guid = node.Attributes[CstrAttributeGuid].Value;
             StageTimeStamp = DateTime.Parse(node.Attributes[CstrAttributeTimeStamp].Value);
             CraftingInfo = new CraftingInfoData(node.SelectSingleNode("CraftingInfo"));
+            TransitionHistory = new StoryStateTransitionHistory(node.SelectSingleNode("TransitionHistory"));
             Verses = new VersesData(node.SelectSingleNode("verses"));
         }
 
@@ -51,6 +54,7 @@ namespace OneStoryProjectEditor
             StageTimeStamp = (theStoryRow.IsstageDateTimeStampNull()) ? DateTime.Now : theStoryRow.stageDateTimeStamp;
             ProjStage = new StoryStageLogic(strProjectFolder, theStoryRow.stage);
             CraftingInfo = new CraftingInfoData(theStoryRow);
+            TransitionHistory = new StoryStateTransitionHistory(theStoryRow);
             Verses = new VersesData(theStoryRow, projFile);
         }
 
@@ -64,6 +68,7 @@ namespace OneStoryProjectEditor
             StageTimeStamp = rhs.StageTimeStamp;
             ProjStage = new StoryStageLogic(rhs.ProjStage);
             CraftingInfo = new CraftingInfoData(rhs.CraftingInfo);
+            TransitionHistory = new StoryStateTransitionHistory();  // start from scratch
             Verses = new VersesData(rhs.Verses);
         }
 
@@ -85,6 +90,9 @@ namespace OneStoryProjectEditor
                         new XAttribute(CstrAttributeGuid, guid),
                         new XAttribute(CstrAttributeTimeStamp, StageTimeStamp.ToString("s")),
                         CraftingInfo.GetXml);
+
+                if (TransitionHistory.HasData)
+                    elemStory.Add(TransitionHistory.GetXml);
 
                 if (Verses.HasData)
                         elemStory.Add(Verses.GetXml);
@@ -308,6 +316,112 @@ namespace OneStoryProjectEditor
                 StylePrefix(projSettings),
                 OseResources.Properties.Resources.HTML_DOM_Prefix,
                 strHtml);
+        }
+    }
+
+    public class StoryStateTransitionHistory : List<StoryStateTransition>
+    {
+        public StoryStateTransitionHistory()
+        {
+        }
+
+        public StoryStateTransitionHistory(XmlNode node)
+        {
+            XmlNodeList list = node.SelectNodes(String.Format("{0}/{1}",
+                CstrElementLabelTransitionHistory, StoryStateTransition.CstrElemLabelStateTransition));
+            if (list != null)
+                foreach (XmlNode nodeStateTransition in list)
+                {
+                    Add(new StoryStateTransition(nodeStateTransition));
+                }
+            throw new NotImplementedException();
+        }
+
+        public StoryStateTransitionHistory(NewDataSet.storyRow theStoryRow)
+        {
+            NewDataSet.TransitionHistoryRow[] aTHRs = theStoryRow.GetTransitionHistoryRows();
+            if (aTHRs.Length == 1)
+            {
+                NewDataSet.TransitionHistoryRow theTHR = aTHRs[0];
+                foreach (NewDataSet.StateTransitionRow aSTR in theTHR.GetStateTransitionRows())
+                    Add(new StoryStateTransition(aSTR));
+            }
+        }
+
+        public void Add(string strMemberId, StoryStageLogic.ProjectStages fromState,
+            StoryStageLogic.ProjectStages toState)
+        {
+            Add(new StoryStateTransition
+                    {
+                        LoggedInMemberId = strMemberId,
+                        FromState = fromState,
+                        ToState = toState,
+                        TransitionDateTime = DateTime.Now
+                    });
+        }
+
+        public const string CstrElementLabelTransitionHistory = "TransitionHistory";
+
+        public XElement GetXml
+        {
+            get
+            {
+                var elem = new XElement(CstrElementLabelTransitionHistory);
+                foreach (var stateTransitionHistory in this)
+                {
+                    elem.Add(stateTransitionHistory.GetXml);
+                }
+                return elem;
+            }
+        }
+
+        public bool HasData
+        {
+            get { return (Count > 0); }
+        }
+    }
+
+    public class StoryStateTransition
+    {
+        public string LoggedInMemberId { get; set; }
+        public StoryStageLogic.ProjectStages FromState { get; set; }
+        public StoryStageLogic.ProjectStages ToState { get; set; }
+        public DateTime TransitionDateTime { get; set; }
+
+        public StoryStateTransition() {}
+
+        public StoryStateTransition(NewDataSet.StateTransitionRow theSTR)
+        {
+            LoggedInMemberId = theSTR.LoggedInMemberId;
+            FromState = StoryStageLogic.GetProjectStageFromString(theSTR.FromState);
+            ToState = StoryStageLogic.GetProjectStageFromString(theSTR.ToState);
+            TransitionDateTime = theSTR.TransitionDateTime;
+        }
+
+        public StoryStateTransition(XmlNode node)
+        {
+            LoggedInMemberId = node.Attributes[CstrAttrNameLoggedInMemberId].Value;
+            FromState = StoryStageLogic.GetProjectStageFromString(node.Attributes[CstrAttrNameFromState].Value);
+            ToState = StoryStageLogic.GetProjectStageFromString(node.Attributes[CstrAttrNameToState].Value);
+            TransitionDateTime = DateTime.Parse(node.Attributes[CstrAttrNameTransitionDateTime].Value);
+        }
+
+        public const string CstrElemLabelStateTransition = "StateTransition";
+        public const string CstrAttrNameLoggedInMemberId = "LoggedInMemberId";
+        public const string CstrAttrNameFromState = "FromState";
+        public const string CstrAttrNameToState = "ToState";
+        public const string CstrAttrNameTransitionDateTime = "TransitionDateTime";
+
+        public XElement GetXml
+        {
+            get
+            {
+                return new XElement(CstrElemLabelStateTransition,
+                                    new XAttribute(CstrAttrNameLoggedInMemberId, LoggedInMemberId),
+                                    new XAttribute(CstrAttrNameFromState, FromState.ToString().Substring(1)),
+                                    new XAttribute(CstrAttrNameToState, ToState.ToString().Substring(1)),
+                                    new XAttribute(CstrAttrNameTransitionDateTime, TransitionDateTime));
+            }
         }
     }
 

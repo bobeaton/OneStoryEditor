@@ -94,7 +94,21 @@
 												<xs:attribute name="NonBiblicalStory" type="xs:boolean" use="optional" />
 											</xs:complexType>
 										</xs:element>
-										<xs:element name="verses" minOccurs="1" maxOccurs="1">
+                    <xs:element name="TransitionHistory" minOccurs="0" maxOccurs="1">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="StateTransition" maxOccurs="unbounded">
+                            <xs:complexType>
+                              <xs:attribute name="LoggedInMemberId" type="xs:IDREF" use="required" />
+                              <xs:attribute name="FromState" type="ProjectStages" use="required" />
+                              <xs:attribute name="ToState" type="ProjectStages" use="required" />
+                              <xs:attribute name="TransitionDateTime" type="xs:dateTime" use="required" />
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="verses" minOccurs="1" maxOccurs="1">
 											<xs:complexType>
 												<xs:sequence>
 													<xs:element name="verse" maxOccurs="unbounded">

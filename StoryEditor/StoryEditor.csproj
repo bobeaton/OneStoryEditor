@@ -579,7 +579,7 @@
     <None Include="StoryProject.onestory" />
     <None Include="StoryProject.xsd">
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>StoryProject1.Designer.cs</LastGenOutput>
+      <LastGenOutput>StoryProject.Designer.cs</LastGenOutput>
     </None>
     <None Include="StoryProject.xsx">
       <DependentUpon>StoryProject.xsd</DependentUpon>
