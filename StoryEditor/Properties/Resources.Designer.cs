@@ -515,6 +515,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You have added a UNS in order to identify, for example, which UNS did the back translation or a particular test. However, you as the Project Facilitator should still be logged in to enter the UNS&apos;s comments. So select your *Project Facilitator* member name and click &apos;Login&apos; again.
+        /// </summary>
+        internal static string IDS_LoginAsProjectFacilitator {
+            get {
+                return ResourceManager.GetString("IDS_LoginAsProjectFacilitator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You have to be logged in as a &apos;Project Facilitator&apos; to add stories. To login, click &apos;Project&apos;, &apos;Login&apos;.
         /// </summary>
         internal static string IDS_LogInAsProjFac {
