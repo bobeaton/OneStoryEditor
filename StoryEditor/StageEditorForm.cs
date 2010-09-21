@@ -72,7 +72,6 @@ namespace OneStoryProjectEditor
                 DataGridViewButtonCell dgbc;
                 if (_mapStatesToButtons.TryGetValue(st.CurrentStage, out dgbc))
                 {
-                    dgbc.Value += " (current state)";
                     Font font = new Font(dataGridViewStates.Font, FontStyle.Bold);
                     dgbc.Style.Font = font;
                     dgbc.FlatStyle = FlatStyle.Popup;
