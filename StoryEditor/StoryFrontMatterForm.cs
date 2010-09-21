@@ -69,24 +69,42 @@ namespace OneStoryProjectEditor
             toolTip.SetToolTip(tb, tmd.BioData);
         }
 
-        private void buttonBrowserForProjectFacilitator_Click(object sender, EventArgs e)
+        private void buttonBrowserForProjectFacilitator_MouseUp(object sender, MouseEventArgs e)
         {
-            MemberPicker dlg = new MemberPicker(_theStoryProjectData, TeamMemberData.UserTypes.eProjectFacilitator);
-            if (dlg.ShowDialog() == DialogResult.OK)
-            {
-                textBoxProjectFacilitator.Tag = dlg.SelectedMember;
-                InitToolboxTextTip(dlg.SelectedMember, textBoxProjectFacilitator);
-            }
+            HandleMouseUp(e.Button == MouseButtons.Right, textBoxProjectFacilitator);
         }
 
-        private void buttonBrowseForStoryCrafter_Click(object sender, EventArgs e)
+        private void buttonBrowseForStoryCrafter_MouseUp(object sender, MouseEventArgs e)
         {
-            MemberPicker dlg = new MemberPicker(_theStoryProjectData, TeamMemberData.UserTypes.eCrafter);
-            if (dlg.ShowDialog() == DialogResult.OK)
+            HandleMouseUp(e.Button == MouseButtons.Right, textBoxStoryCrafter);
+        }
+
+        protected void HandleMouseUp(bool bRightButton, TextBox textBox)
+        {
+            TeamMemberData theTeamMember = null;
+            if (bRightButton)
             {
-                textBoxStoryCrafter.Tag = dlg.SelectedMember;
-                InitToolboxTextTip(dlg.SelectedMember, textBoxStoryCrafter);
+                MemberPicker dlg = new MemberPicker(_theStoryProjectData, TeamMemberData.UserTypes.eCrafter);
+                if (dlg.ShowDialog() != DialogResult.OK)
+                    return;
+                theTeamMember = dlg.SelectedMember;
             }
+            else
+            {
+                string strName = textBox.Text;
+                if (String.IsNullOrEmpty(strName))
+                    return;
+
+                theTeamMember = _theStoryProjectData.TeamMembers[strName];
+                if (theTeamMember == null)
+                    return;
+
+                if (_theStoryProjectData.TeamMembers.ShowEditDialog(theTeamMember) != DialogResult.OK)
+                    return;
+            }
+
+            textBox.Tag = theTeamMember;
+            InitToolboxTextTip(theTeamMember, textBox);
         }
 
         protected TeamMemberData SelectedUnsMember()
@@ -97,36 +115,52 @@ namespace OneStoryProjectEditor
             return null;
         }
 
-        private void buttonBrowseUNSBackTranslator_Click(object sender, EventArgs e)
+        private void buttonBrowseUNSBackTranslator_MouseUp(object sender, MouseEventArgs e)
         {
+            HandleMouseUp(e.Button == MouseButtons.Right, textBoxUnsBackTranslator);
+
+#if false   // obsolete (I think)
             TeamMemberData aUns = SelectedUnsMember();
             textBoxUnsBackTranslator.Tag = aUns;
             if (aUns != null)
                 InitToolboxTextTip(aUns, textBoxUnsBackTranslator);
+#endif
         }
 
-        private void buttonBrowseUnsTest1_Click(object sender, EventArgs e)
+        private void buttonBrowseUnsTest1_MouseUp(object sender, MouseEventArgs e)
         {
+            HandleMouseUp(false, textBoxUnsTest1);
+
+#if false   // obsolete (I think)
             TeamMemberData aUns = SelectedUnsMember();
             textBoxUnsTest1.Tag = aUns;
             if (aUns != null)
                 InitToolboxTextTip(aUns, textBoxUnsTest1);
+#endif
         }
 
-        private void buttonBrowseUnsTest2_Click(object sender, EventArgs e)
+        private void buttonBrowseUnsTest2_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
         {
+            HandleMouseUp(false, textBoxUnsTest2);
+
+#if false   // obsolete (I think)
             TeamMemberData aUns = SelectedUnsMember();
             textBoxUnsTest2.Tag = aUns;
             if (aUns != null)
                 InitToolboxTextTip(aUns, textBoxUnsTest2);
+#endif
         }
 
-        private void buttonBrowseUnsTest3_Click(object sender, EventArgs e)
+        private void buttonBrowseUnsTest3_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
         {
+            HandleMouseUp(false, textBoxUnsTest3);
+
+#if false   // obsolete (I think)
             TeamMemberData aUns = SelectedUnsMember();
             textBoxUnsTest3.Tag = aUns;
             if (aUns != null)
                 InitToolboxTextTip(aUns, textBoxUnsTest3);
+#endif
         }
 
         private void buttonOK_Click(object sender, EventArgs e)
