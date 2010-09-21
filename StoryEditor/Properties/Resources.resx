@@ -1888,4 +1888,7 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
   <data name="IDS_LoginAsProjectFacilitator" xml:space="preserve">
     <value>You have added a UNS in order to identify, for example, which UNS did the back translation or a particular test. However, you as the Project Facilitator should still be logged in to enter the UNS's comments. So select your *Project Facilitator* member name and click 'Login' again</value>
   </data>
+  <data name="IDS_NoTransitionHistory" xml:space="preserve">
+    <value>There is no state transition history for this story</value>
+  </data>
 </root>

@@ -50,10 +50,10 @@
             this.tabPageObsolete = new System.Windows.Forms.TabPage();
             this.tabPageKeyTerms = new System.Windows.Forms.TabPage();
             this.dataGridViewKeyTerms = new System.Windows.Forms.DataGridView();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.ColumnGloss = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnRenderings = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnNotes = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tabControlSets.SuspendLayout();
             this.tabPageFrontMatter.SuspendLayout();
             this.tabPagePanorama.SuspendLayout();
@@ -157,6 +157,7 @@
             this.dataGridViewPanorama.Size = new System.Drawing.Size(810, 462);
             this.dataGridViewPanorama.TabIndex = 0;
             this.dataGridViewPanorama.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewPanorama_CellEndEdit);
+            this.dataGridViewPanorama.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewPanorama_CellMouseDoubleClick);
             // 
             // dataGridViewTextBoxColumn1
             // 

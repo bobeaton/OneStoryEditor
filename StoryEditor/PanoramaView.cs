@@ -16,6 +16,8 @@ namespace OneStoryProjectEditor
         protected const int CnColumnStoryEditToken = 2;
         protected const int CnColumnStoryStage = 3;
         protected const int CnColumnStoryTimeInStage = 4;
+        protected const int CnColumnNumOfLines = 5;
+        protected const int CnColumnNumOfWords = 6;
 
         protected StoryProjectData _storyProject;
         protected StoriesData _stories;
@@ -378,6 +380,26 @@ namespace OneStoryProjectEditor
             Properties.Settings.Default.PanoramaViewDlgHeight = Bounds.Height;
             Properties.Settings.Default.PanoramaViewDlgWidth = Bounds.Width;
             Properties.Settings.Default.Save();
+        }
+
+        private void dataGridViewPanorama_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if ((e.RowIndex < 0) || (e.RowIndex >= dataGridViewPanorama.Rows.Count)
+                || ((e.ColumnIndex < CnColumnStoryEditToken) || e.ColumnIndex > CnColumnNumOfWords))
+                return;
+
+            DataGridViewRow theRow = dataGridViewPanorama.Rows[e.RowIndex];
+            StoryData theSD = _stories[theRow.Index];
+
+            if (!theSD.TransitionHistory.HasData)
+            {
+                MessageBox.Show(Properties.Resources.IDS_NoTransitionHistory,
+                                OseResources.Properties.Resources.IDS_Caption);
+                return;
+            }
+
+            var dlg = new TransitionHistoryForm(theSD.TransitionHistory, _storyProject.TeamMembers);
+            dlg.ShowDialog();
         }
 
         #region obsolete code

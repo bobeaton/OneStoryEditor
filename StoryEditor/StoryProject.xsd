@@ -100,6 +100,7 @@
                           <xs:element name="StateTransition" maxOccurs="unbounded">
                             <xs:complexType>
                               <xs:attribute name="LoggedInMemberId" type="xs:IDREF" use="required" />
+                              <xs:attribute name="WindowsUserName" type="xs:string" />
                               <xs:attribute name="FromState" type="ProjectStages" use="required" />
                               <xs:attribute name="ToState" type="ProjectStages" use="required" />
                               <xs:attribute name="TransitionDateTime" type="xs:dateTime" use="required" />
