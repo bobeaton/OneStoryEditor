@@ -662,22 +662,50 @@ namespace OneStoryProjectEditor
         {
             string strCount = null;
             if (projSettings.Vernacular.HasData)
-                strCount = GetWordCount(projSettings.Vernacular);
+                strCount = GetWordCountVernacular(projSettings);
             else if (projSettings.NationalBT.HasData)
-                strCount = GetWordCount(projSettings.NationalBT);
+                strCount = GetWordCountNationalBT(projSettings);
             else if (projSettings.InternationalBT.HasData)
-                strCount = GetWordCount(projSettings.InternationalBT);
+                strCount = GetWordCountInternationalBT(projSettings);
             return strCount;
         }
 
-        protected string GetWordCount(ProjectSettings.LanguageInfo li)
+        protected string GetWordCountVernacular(ProjectSettings projSettings)
         {
+            ProjectSettings.LanguageInfo li = projSettings.Vernacular;
             int nCount = 0;
-            string strCharsToIgnore = "\r\n " + CheckEndOfStateTransition.achQuotes + li.FullStop;
+            string strCharsToIgnore = "\r\n " + li.FullStop + CheckEndOfStateTransition.QuoteCharsAsString;
             char[] achToIgnore = strCharsToIgnore.ToCharArray();
+            
             foreach (VerseData aVerse in this)
                 if (aVerse.IsVisible)
                     nCount += aVerse.VernacularText.NumOfWords(achToIgnore);
+            return String.Format("{0} (in {1})", nCount, li.LangName);
+        }
+
+        protected string GetWordCountNationalBT(ProjectSettings projSettings)
+        {
+            ProjectSettings.LanguageInfo li = projSettings.NationalBT;
+            int nCount = 0;
+            string strCharsToIgnore = "\r\n " + li.FullStop + CheckEndOfStateTransition.QuoteCharsAsString;
+            char[] achToIgnore = strCharsToIgnore.ToCharArray();
+
+            foreach (VerseData aVerse in this)
+                if (aVerse.IsVisible)
+                    nCount += aVerse.NationalBTText.NumOfWords(achToIgnore);
+            return String.Format("{0} (in {1})", nCount, li.LangName);
+        }
+
+        protected string GetWordCountInternationalBT(ProjectSettings projSettings)
+        {
+            ProjectSettings.LanguageInfo li = projSettings.InternationalBT;
+            int nCount = 0;
+            string strCharsToIgnore = "\r\n " + li.FullStop + CheckEndOfStateTransition.QuoteCharsAsString;
+            char[] achToIgnore = strCharsToIgnore.ToCharArray();
+
+            foreach (VerseData aVerse in this)
+                if (aVerse.IsVisible)
+                    nCount += aVerse.InternationalBTText.NumOfWords(achToIgnore);
             return String.Format("{0} (in {1})", nCount, li.LangName);
         }
 
