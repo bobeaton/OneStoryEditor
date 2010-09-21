@@ -61,7 +61,7 @@ namespace OneStoryProjectEditor
             XmlAttribute attr;
             guid = ((attr = node.Attributes[CstrAttributeGuid]) != null) ? attr.Value : null;   // can't really happen
             IsFirstVerse = ((attr = node.Attributes[CstrAttributeFirstVerse]) != null) ? (attr.Value == "true") : false;
-
+            IsVisible = ((attr = node.Attributes[CstrAttributeVisible]) != null) ? (attr.Value == "true") : true;
             XmlNode elem;
             VernacularText = new StringTransfer(((elem = node.SelectSingleNode(CstrFieldNameVernacular)) != null) ? elem.InnerText : null);
             NationalBTText = new StringTransfer(((elem = node.SelectSingleNode(CstrFieldNameNationalBt)) != null) ? elem.InnerText : null);
@@ -424,8 +424,8 @@ namespace OneStoryProjectEditor
             {
                 DirectableEncConverter transliterator = viewSettings.TransliteratorVernacular;
                 string str = (!bPrintPreview)
-                    ? (child != null)
-                        ? Diff.HtmlDiff(transliterator, VernacularText, (theChildVerse != null) ? theChildVerse.VernacularText : null)
+                    ? ((child != null) && IsVisible)
+                        ? Diff.HtmlDiff(transliterator, VernacularText, ((theChildVerse != null) && theChildVerse.IsVisible) ? theChildVerse.VernacularText : null)
                         : Diff.HtmlDiff(transliterator, null, VernacularText)
                     : VernacularText.GetValue(transliterator);
 
@@ -437,8 +437,8 @@ namespace OneStoryProjectEditor
             {
                 DirectableEncConverter transliterator = viewSettings.TransliteratorNationalBT;
                 string str = (!bPrintPreview)
-                    ? (child != null)
-                        ? Diff.HtmlDiff(transliterator, NationalBTText, (theChildVerse != null) ? theChildVerse.NationalBTText : null)
+                    ? ((child != null) && IsVisible)
+                        ? Diff.HtmlDiff(transliterator, NationalBTText, ((theChildVerse != null) && theChildVerse.IsVisible) ? theChildVerse.NationalBTText : null)
                         : Diff.HtmlDiff(transliterator, null, NationalBTText)
                     : NationalBTText.GetValue(transliterator);
 
@@ -449,8 +449,8 @@ namespace OneStoryProjectEditor
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.EnglishBTField))
             {
                 string str = (!bPrintPreview)
-                    ? (child != null)
-                        ? Diff.HtmlDiff(InternationalBTText, (theChildVerse != null) ? theChildVerse.InternationalBTText : null)
+                    ? ((child != null) && IsVisible)
+                        ? Diff.HtmlDiff(InternationalBTText, ((theChildVerse != null) && theChildVerse.IsVisible) ? theChildVerse.InternationalBTText : null)
                         : Diff.HtmlDiff(null, InternationalBTText)
                     : InternationalBTText.ToString();
 
@@ -777,14 +777,25 @@ namespace OneStoryProjectEditor
             int i = 1;
             while (i <= Count)
             {
+                // get the parent and child verses that match
                 VerseData aVerseData = this[i - 1];
-                if (aVerseData.IsVisible && !aVerseData.IsFirstVerse)
-                {
-                    int nLineIndex = i + nInsertCount;
-                    strHtml += GetHeaderRow("Ln: " + nLineIndex, nLineIndex, aVerseData.IsVisible, false, nNumCols);
+                VerseData theChildVerse = FindChildEquivalent(aVerseData, child);
 
-                    // get the child verse that matches this one...
-                    VerseData theChildVerse = FindChildEquivalent(aVerseData, child);
+                // we don't want to process if it's the first verse or if both are hidden
+                bool bSkip = (aVerseData.IsFirstVerse
+                              || (!aVerseData.IsVisible
+                                  && ((theChildVerse != null) && !theChildVerse.IsVisible)));
+
+                if (!bSkip)
+                {
+                    // if parent was hidden and child is not, then say 'hidden', but show addition
+                    // if parent was visible and child is not, then say 'hidden', but show deletion
+                    // if both are visible, then say nothing (both can't be hidden, because we skip that
+                    bool bHidden = !aVerseData.IsVisible
+                                   || ((theChildVerse != null) && (!theChildVerse.IsVisible));
+                    int nLineIndex = i + nInsertCount;
+                    strHtml += GetHeaderRow("Ln: " + nLineIndex, nLineIndex, !bHidden, false, nNumCols);
+
                     if (theChildVerse != null)
                     {
                         // see if there were any child verses that weren't processed
@@ -814,8 +825,10 @@ namespace OneStoryProjectEditor
                         // this means the original verse (which we just showed as deleted) 
                         //  was replaced by whatever is the same verse in the child collection
                         theChildVerse = child[i - 1];
-                        strHtml += theChildVerse.PresentationHtmlAsAddition(nLineIndex, nNumCols,
-                            craftingInfo, viewSettings, bHasOutsideEnglishBTer);
+                        if (theChildVerse.IsVisible)
+                            strHtml += theChildVerse.PresentationHtmlAsAddition(nLineIndex, nNumCols,
+                                                                                craftingInfo, viewSettings,
+                                                                                bHasOutsideEnglishBTer);
                     }
                 }
 

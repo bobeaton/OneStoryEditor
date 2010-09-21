@@ -327,14 +327,13 @@ namespace OneStoryProjectEditor
 
         public StoryStateTransitionHistory(XmlNode node)
         {
+            if (node == null)
+                return;
             XmlNodeList list = node.SelectNodes(String.Format("{0}/{1}",
                 CstrElementLabelTransitionHistory, StoryStateTransition.CstrElemLabelStateTransition));
             if (list != null)
                 foreach (XmlNode nodeStateTransition in list)
-                {
                     Add(new StoryStateTransition(nodeStateTransition));
-                }
-            throw new NotImplementedException();
         }
 
         public StoryStateTransitionHistory(NewDataSet.storyRow theStoryRow)
@@ -370,9 +369,7 @@ namespace OneStoryProjectEditor
             {
                 var elem = new XElement(CstrElementLabelTransitionHistory);
                 foreach (var stateTransitionHistory in this)
-                {
                     elem.Add(stateTransitionHistory.GetXml);
-                }
                 return elem;
             }
         }
