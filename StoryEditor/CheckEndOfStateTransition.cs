@@ -314,6 +314,18 @@ namespace OneStoryProjectEditor
         internal static char[] achQuotes = new [] { '"', '\'', '\u2018', '\u2019', '\u201B', 
             '\u201C', '\u201d', '\u201E', '\u201F' };
 
+        internal static string QuoteCharsAsString
+        {
+            get
+            {
+                string str = null;
+                foreach (char ch in achQuotes)
+                {
+                    str += ch;
+                }
+                return str;
+            }
+        }
         public static bool GetListOfSentences(StringTransfer stParagraph, string strSentenceFinalPunct, out List<string> lstSentences)
         {
             lstSentences = new List<string>();

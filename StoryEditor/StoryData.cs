@@ -327,14 +327,13 @@ namespace OneStoryProjectEditor
 
         public StoryStateTransitionHistory(XmlNode node)
         {
+            if (node == null)
+                return;
             XmlNodeList list = node.SelectNodes(String.Format("{0}/{1}",
                 CstrElementLabelTransitionHistory, StoryStateTransition.CstrElemLabelStateTransition));
             if (list != null)
                 foreach (XmlNode nodeStateTransition in list)
-                {
                     Add(new StoryStateTransition(nodeStateTransition));
-                }
-            throw new NotImplementedException();
         }
 
         public StoryStateTransitionHistory(NewDataSet.storyRow theStoryRow)
@@ -351,12 +350,14 @@ namespace OneStoryProjectEditor
         public void Add(string strMemberId, StoryStageLogic.ProjectStages fromState,
             StoryStageLogic.ProjectStages toState)
         {
+            var user = System.Security.Principal.WindowsIdentity.GetCurrent();
             Add(new StoryStateTransition
                     {
                         LoggedInMemberId = strMemberId,
                         FromState = fromState,
                         ToState = toState,
-                        TransitionDateTime = DateTime.Now
+                        TransitionDateTime = DateTime.Now,
+                        WindowsUserName = (user != null) ? user.Name : null
                     });
         }
 
@@ -368,9 +369,7 @@ namespace OneStoryProjectEditor
             {
                 var elem = new XElement(CstrElementLabelTransitionHistory);
                 foreach (var stateTransitionHistory in this)
-                {
                     elem.Add(stateTransitionHistory.GetXml);
-                }
                 return elem;
             }
         }
@@ -387,8 +386,11 @@ namespace OneStoryProjectEditor
         public StoryStageLogic.ProjectStages FromState { get; set; }
         public StoryStageLogic.ProjectStages ToState { get; set; }
         public DateTime TransitionDateTime { get; set; }
+        public string WindowsUserName { get; set; } // beware, this one may be null
 
-        public StoryStateTransition() {}
+        public StoryStateTransition()
+        {
+        }
 
         public StoryStateTransition(NewDataSet.StateTransitionRow theSTR)
         {
@@ -396,11 +398,15 @@ namespace OneStoryProjectEditor
             FromState = StoryStageLogic.GetProjectStageFromString(theSTR.FromState);
             ToState = StoryStageLogic.GetProjectStageFromString(theSTR.ToState);
             TransitionDateTime = theSTR.TransitionDateTime;
+            if (!theSTR.IsWindowsUserNameNull())
+                WindowsUserName = theSTR.WindowsUserName;
         }
 
         public StoryStateTransition(XmlNode node)
         {
             LoggedInMemberId = node.Attributes[CstrAttrNameLoggedInMemberId].Value;
+            XmlAttribute attr;
+            WindowsUserName = ((attr = node.Attributes[CstrAttrNameWindowsUserName]) != null) ? attr.Value : null;
             FromState = StoryStageLogic.GetProjectStageFromString(node.Attributes[CstrAttrNameFromState].Value);
             ToState = StoryStageLogic.GetProjectStageFromString(node.Attributes[CstrAttrNameToState].Value);
             TransitionDateTime = DateTime.Parse(node.Attributes[CstrAttrNameTransitionDateTime].Value);
@@ -408,6 +414,7 @@ namespace OneStoryProjectEditor
 
         public const string CstrElemLabelStateTransition = "StateTransition";
         public const string CstrAttrNameLoggedInMemberId = "LoggedInMemberId";
+        public const string CstrAttrNameWindowsUserName = "WindowsUserName";
         public const string CstrAttrNameFromState = "FromState";
         public const string CstrAttrNameToState = "ToState";
         public const string CstrAttrNameTransitionDateTime = "TransitionDateTime";
@@ -416,11 +423,17 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                return new XElement(CstrElemLabelStateTransition,
-                                    new XAttribute(CstrAttrNameLoggedInMemberId, LoggedInMemberId),
-                                    new XAttribute(CstrAttrNameFromState, FromState.ToString().Substring(1)),
-                                    new XAttribute(CstrAttrNameToState, ToState.ToString().Substring(1)),
-                                    new XAttribute(CstrAttrNameTransitionDateTime, TransitionDateTime));
+                XElement elem = new XElement(CstrElemLabelStateTransition,
+                                             new XAttribute(CstrAttrNameLoggedInMemberId, LoggedInMemberId),
+                                             new XAttribute(CstrAttrNameFromState, FromState.ToString().Substring(1)),
+                                             new XAttribute(CstrAttrNameToState, ToState.ToString().Substring(1)),
+                                             new XAttribute(CstrAttrNameTransitionDateTime, TransitionDateTime));
+                
+                // this one might be null
+                if (!String.IsNullOrEmpty(WindowsUserName))
+                    elem.Add(new XAttribute(CstrAttrNameWindowsUserName, WindowsUserName));
+
+                return elem;
             }
         }
     }

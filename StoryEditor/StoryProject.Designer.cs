@@ -6626,6 +6626,8 @@ namespace OneStoryProjectEditor {
             
             private global::System.Data.DataColumn columnLoggedInMemberId;
             
+            private global::System.Data.DataColumn columnWindowsUserName;
+            
             private global::System.Data.DataColumn columnFromState;
             
             private global::System.Data.DataColumn columnToState;
@@ -6668,6 +6670,13 @@ namespace OneStoryProjectEditor {
             public global::System.Data.DataColumn LoggedInMemberIdColumn {
                 get {
                     return this.columnLoggedInMemberId;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn WindowsUserNameColumn {
+                get {
+                    return this.columnWindowsUserName;
                 }
             }
             
@@ -6728,16 +6737,17 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public StateTransitionRow AddStateTransitionRow(string LoggedInMemberId, string FromState, string ToState, System.DateTime TransitionDateTime, TransitionHistoryRow parentTransitionHistoryRowByTransitionHistory_StateTransition) {
+            public StateTransitionRow AddStateTransitionRow(string LoggedInMemberId, string WindowsUserName, string FromState, string ToState, System.DateTime TransitionDateTime, TransitionHistoryRow parentTransitionHistoryRowByTransitionHistory_StateTransition) {
                 StateTransitionRow rowStateTransitionRow = ((StateTransitionRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         LoggedInMemberId,
+                        WindowsUserName,
                         FromState,
                         ToState,
                         TransitionDateTime,
                         null};
                 if ((parentTransitionHistoryRowByTransitionHistory_StateTransition != null)) {
-                    columnValuesArray[4] = parentTransitionHistoryRowByTransitionHistory_StateTransition[0];
+                    columnValuesArray[5] = parentTransitionHistoryRowByTransitionHistory_StateTransition[0];
                 }
                 rowStateTransitionRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowStateTransitionRow);
@@ -6759,6 +6769,7 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
                 this.columnLoggedInMemberId = base.Columns["LoggedInMemberId"];
+                this.columnWindowsUserName = base.Columns["WindowsUserName"];
                 this.columnFromState = base.Columns["FromState"];
                 this.columnToState = base.Columns["ToState"];
                 this.columnTransitionDateTime = base.Columns["TransitionDateTime"];
@@ -6769,6 +6780,8 @@ namespace OneStoryProjectEditor {
             private void InitClass() {
                 this.columnLoggedInMemberId = new global::System.Data.DataColumn("LoggedInMemberId", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnLoggedInMemberId);
+                this.columnWindowsUserName = new global::System.Data.DataColumn("WindowsUserName", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnWindowsUserName);
                 this.columnFromState = new global::System.Data.DataColumn("FromState", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnFromState);
                 this.columnToState = new global::System.Data.DataColumn("ToState", typeof(string), null, global::System.Data.MappingType.Attribute);
@@ -6779,6 +6792,7 @@ namespace OneStoryProjectEditor {
                 base.Columns.Add(this.columnTransitionHistory_Id);
                 this.columnLoggedInMemberId.AllowDBNull = false;
                 this.columnLoggedInMemberId.Namespace = "";
+                this.columnWindowsUserName.Namespace = "";
                 this.columnFromState.AllowDBNull = false;
                 this.columnFromState.Namespace = "";
                 this.columnToState.AllowDBNull = false;
@@ -14064,6 +14078,21 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string WindowsUserName {
+                get {
+                    try {
+                        return ((string)(this[this.tableStateTransition.WindowsUserNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'WindowsUserName\' in table \'StateTransition\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableStateTransition.WindowsUserNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public string FromState {
                 get {
                     return ((string)(this[this.tableStateTransition.FromStateColumn]));
@@ -14117,6 +14146,16 @@ namespace OneStoryProjectEditor {
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["TransitionHistory_StateTransition"]);
                 }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsWindowsUserNameNull() {
+                return this.IsNull(this.tableStateTransition.WindowsUserNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetWindowsUserNameNull() {
+                this[this.tableStateTransition.WindowsUserNameColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

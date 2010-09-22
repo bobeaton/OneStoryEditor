@@ -5,10 +5,12 @@ namespace OneStoryProjectEditor
 {
     public partial class EditMemberForm : Form
     {
+        private TeamMemberData _theMemberData;
         public EditMemberForm(TeamMemberData theMemberData)
         {
             InitializeComponent();
 
+            _theMemberData = theMemberData;
             if (theMemberData == null) 
                 return;
 
@@ -22,6 +24,22 @@ namespace OneStoryProjectEditor
             textBoxBioData.Text = theMemberData.BioData;
         }
 
+        public DialogResult UpdateMember()
+        {
+            DialogResult res = ShowDialog();
+            if (res == DialogResult.OK)
+            {
+                _theMemberData.Name = MemberName;
+                _theMemberData.MemberType = MemberType;
+                _theMemberData.Email = Email;
+                _theMemberData.AltPhone = AltPhone;
+                _theMemberData.Phone = Phone;
+                _theMemberData.BioData = BioData;
+                _theMemberData.SkypeID = SkypeID;
+                _theMemberData.TeamViewerID = TeamViewerID;
+            }
+            return res;
+        }
         private void buttonOK_Click(object sender, EventArgs e)
         {
             if (String.IsNullOrEmpty(MemberName))

@@ -591,5 +591,23 @@ namespace OneStoryProjectEditor
                 return eleMembers;
             }
         }
+
+        public DialogResult ShowEditDialog(TeamMemberData theTeamMember)
+        {
+            string strName = theTeamMember.Name;
+            System.Diagnostics.Debug.Assert(ContainsKey(strName));
+ 
+            var dlg = new EditMemberForm(theTeamMember);
+            DialogResult res = dlg.UpdateMember();
+
+            // in case the name was changed
+            if ((res == DialogResult.OK) && (strName != theTeamMember.Name))
+            {
+                Remove(strName);
+                Add(theTeamMember.Name, theTeamMember);
+            }
+
+            return res;
+        }
     }
 }

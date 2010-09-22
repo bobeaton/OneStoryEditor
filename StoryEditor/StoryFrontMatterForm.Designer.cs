@@ -168,8 +168,9 @@
             this.buttonBrowseForStoryCrafter.Size = new System.Drawing.Size(24, 23);
             this.buttonBrowseForStoryCrafter.TabIndex = 9;
             this.buttonBrowseForStoryCrafter.Text = "...";
+            this.toolTip.SetToolTip(this.buttonBrowseForStoryCrafter, "Left-click to edit this team member; right-click to choose another team member");
             this.buttonBrowseForStoryCrafter.UseVisualStyleBackColor = true;
-            this.buttonBrowseForStoryCrafter.Click += new System.EventHandler(this.buttonBrowseForStoryCrafter_Click);
+            this.buttonBrowseForStoryCrafter.MouseUp += new System.Windows.Forms.MouseEventHandler(this.buttonBrowseForStoryCrafter_MouseUp);
             // 
             // labelBackTranslator
             // 
@@ -188,8 +189,9 @@
             this.buttonBrowseUNSBackTranslator.Size = new System.Drawing.Size(24, 23);
             this.buttonBrowseUNSBackTranslator.TabIndex = 12;
             this.buttonBrowseUNSBackTranslator.Text = "...";
+            this.toolTip.SetToolTip(this.buttonBrowseUNSBackTranslator, "Left-click to edit this team member; right-click to choose another team member");
             this.buttonBrowseUNSBackTranslator.UseVisualStyleBackColor = true;
-            this.buttonBrowseUNSBackTranslator.Click += new System.EventHandler(this.buttonBrowseUNSBackTranslator_Click);
+            this.buttonBrowseUNSBackTranslator.MouseUp += new System.Windows.Forms.MouseEventHandler(this.buttonBrowseUNSBackTranslator_MouseUp);
             // 
             // textBoxUnsBackTranslator
             // 
@@ -224,9 +226,10 @@
             this.buttonBrowseUnsTest1.Size = new System.Drawing.Size(24, 23);
             this.buttonBrowseUnsTest1.TabIndex = 15;
             this.buttonBrowseUnsTest1.Text = "...";
+            this.toolTip.SetToolTip(this.buttonBrowseUnsTest1, "Left-click to edit this team member");
             this.buttonBrowseUnsTest1.UseVisualStyleBackColor = true;
             this.buttonBrowseUnsTest1.Visible = false;
-            this.buttonBrowseUnsTest1.Click += new System.EventHandler(this.buttonBrowseUnsTest1_Click);
+            this.buttonBrowseUnsTest1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.buttonBrowseUnsTest1_MouseUp);
             // 
             // labelUnsTest2
             // 
@@ -253,9 +256,10 @@
             this.buttonBrowseUnsTest2.Size = new System.Drawing.Size(24, 23);
             this.buttonBrowseUnsTest2.TabIndex = 18;
             this.buttonBrowseUnsTest2.Text = "...";
+            this.toolTip.SetToolTip(this.buttonBrowseUnsTest2, "Left-click to edit this team member");
             this.buttonBrowseUnsTest2.UseVisualStyleBackColor = true;
             this.buttonBrowseUnsTest2.Visible = false;
-            this.buttonBrowseUnsTest2.Click += new System.EventHandler(this.buttonBrowseUnsTest2_Click);
+            this.buttonBrowseUnsTest2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.buttonBrowseUnsTest2_MouseUp);
             // 
             // labelUnsTest3
             // 
@@ -282,9 +286,10 @@
             this.buttonBrowseUnsTest3.Size = new System.Drawing.Size(24, 23);
             this.buttonBrowseUnsTest3.TabIndex = 21;
             this.buttonBrowseUnsTest3.Text = "...";
+            this.toolTip.SetToolTip(this.buttonBrowseUnsTest3, "Left-click to edit this team member");
             this.buttonBrowseUnsTest3.UseVisualStyleBackColor = true;
             this.buttonBrowseUnsTest3.Visible = false;
-            this.buttonBrowseUnsTest3.Click += new System.EventHandler(this.buttonBrowseUnsTest3_Click);
+            this.buttonBrowseUnsTest3.MouseUp += new System.Windows.Forms.MouseEventHandler(this.buttonBrowseUnsTest3_MouseUp);
             // 
             // labelProjectFacilitator
             // 
@@ -312,8 +317,9 @@
             this.buttonBrowserForProjectFacilitator.Size = new System.Drawing.Size(24, 23);
             this.buttonBrowserForProjectFacilitator.TabIndex = 6;
             this.buttonBrowserForProjectFacilitator.Text = "...";
+            this.toolTip.SetToolTip(this.buttonBrowserForProjectFacilitator, "Left-click to edit this team member; right-click to choose another team member");
             this.buttonBrowserForProjectFacilitator.UseVisualStyleBackColor = true;
-            this.buttonBrowserForProjectFacilitator.Click += new System.EventHandler(this.buttonBrowserForProjectFacilitator_Click);
+            this.buttonBrowserForProjectFacilitator.MouseUp += new System.Windows.Forms.MouseEventHandler(this.buttonBrowserForProjectFacilitator_MouseUp);
             // 
             // buttonOK
             // 

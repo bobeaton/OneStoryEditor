@@ -299,7 +299,7 @@ namespace OneStoryProjectEditor
             Debug.Assert(StoryProject == null);
             projectLoginToolStripMenuItem_Click(null, null);
 
-            if (StoryProject != null)
+            if ((StoryProject != null) && (StoryProject.ProjSettings != null))
             {
                 UpdateRecentlyUsedLists(StoryProject.ProjSettings);
                 UpdateUIMenusWithShortCuts();
@@ -2864,7 +2864,10 @@ namespace OneStoryProjectEditor
 
             if ((StoryProject != null) && (StoryProject.ProjSettings != null))
             {
-                showHideFieldsToolStripMenuItem.Enabled = (theCurrentStory != null);
+                showHideFieldsToolStripMenuItem.Enabled =
+                    historicalDifferencesToolStripMenuItem.Enabled =
+                    hiddenVersesToolStripMenuItem.Enabled =
+                    viewOnlyOpenConversationsMenu.Enabled = (theCurrentStory != null);
 
                 if (StoryProject.ProjSettings.Vernacular.HasData)
                     viewVernacularLangFieldMenuItem.Text = String.Format(Properties.Resources.IDS_LanguageFields, StoryProject.ProjSettings.Vernacular.LangName);
@@ -2897,13 +2900,21 @@ namespace OneStoryProjectEditor
                                                                      > (int)StoryStageLogic.ProjectStages.eProjFacAddStoryQuestions));
 
                 viewConsultantNoteFieldMenuItem.Enabled =
-                    viewCoachNotesFieldMenuItem.Enabled = (theCurrentStory != null);
+                    viewCoachNotesFieldMenuItem.Enabled =
+                    stateTransitionHistoryToolStripMenuItem.Enabled = (theCurrentStory != null);
 
                 viewTransliterationsToolStripMenuItem.Enabled = (StoryProject.ProjSettings.Vernacular.HasData || StoryProject.ProjSettings.NationalBT.HasData);
+
+                concordanceToolStripMenuItem.Enabled = true;
             }
             else
                 showHideFieldsToolStripMenuItem.Enabled = 
-                    viewTransliterationsToolStripMenuItem.Enabled = false;
+                    viewTransliterationsToolStripMenuItem.Enabled =
+                    stateTransitionHistoryToolStripMenuItem.Enabled =
+                    concordanceToolStripMenuItem.Enabled =
+                    historicalDifferencesToolStripMenuItem.Enabled =
+                    hiddenVersesToolStripMenuItem.Enabled =
+                    viewOnlyOpenConversationsMenu.Enabled = false;
 
             if (IsInStoriesSet && (StoryProject != null))
             {
@@ -3862,6 +3873,19 @@ namespace OneStoryProjectEditor
         private void viewOnlyOpenConversationsMenu_CheckStateChanged(object sender, EventArgs e)
         {
             InitAllPanes();
+        }
+
+        private void stateTransitionHistoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!theCurrentStory.TransitionHistory.HasData)
+            {
+                MessageBox.Show(Properties.Resources.IDS_NoTransitionHistory,
+                                OseResources.Properties.Resources.IDS_Caption);
+                return;
+            }
+
+            var dlg = new TransitionHistoryForm(theCurrentStory.TransitionHistory, StoryProject.TeamMembers);
+            dlg.ShowDialog();
         }
     }
 }
