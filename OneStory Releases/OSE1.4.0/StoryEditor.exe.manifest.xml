@@ -4,14 +4,14 @@
   <ApplicationExecutable />
   <ApplicationName>AutoUpgrade</ApplicationName>
   <FullUpgradeFileName />
-  <OffsetFromUctWhereManifestWasOriginallyCreated>9/22/2010 10:37:22 AM +05:30</OffsetFromUctWhereManifestWasOriginallyCreated>
+  <OffsetFromUctWhereManifestWasOriginallyCreated>9/22/2010 12:44:03 PM +05:30</OffsetFromUctWhereManifestWasOriginallyCreated>
   <ManifestFiles>
     <File name="AutoUpgrade.Lib.dll" method="version" action="copy" version="1.0.3889.12875" optional="false" size="24576">AutoUpgrade Lib</File>
     <File name="Chorus.exe" method="version" action="copy" version="1.1.0.1" optional="false" size="501248">Chorus</File>
     <File name="ChorusMerge.exe" method="version" action="copy" version="1.1.0.1" optional="false" size="5632">ChorusMerge</File>
     <File name="LibChorus.dll" method="version" action="copy" version="1.1.0.1" optional="false" size="252928">Chorus</File>
     <File name="StageTransitions.xml" method="date" action="copy" version="Friday, September 17, 2010 4:34:18 PM" optional="false" size="75753" />
-    <File name="StoryEditor.exe" method="version" action="copy" version="1.4.0.12" optional="false" size="1015808">OneStory Editor</File>
+    <File name="StoryEditor.exe" method="version" action="copy" version="1.4.0.13" optional="false" size="1016320">OneStory Editor</File>
   </ManifestFiles>
   <SourcePath />
   <UpgradeFiles />
