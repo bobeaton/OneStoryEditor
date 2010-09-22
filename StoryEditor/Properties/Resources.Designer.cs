@@ -328,6 +328,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to change this member&apos;s name? [If you are trying to add a new member, then do it through the &apos;Project&apos;, &apos;Login&apos; window instead. Clicking &apos;Yes&apos; here will permanently remove the record for &apos;{0}&apos; and replace it with this new information for &apos;{1}&apos;].
+        /// </summary>
+        internal static string IDS_ConfirmTeamMemberNameChange {
+            get {
+                return ResourceManager.GetString("IDS_ConfirmTeamMemberNameChange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You should connect to the internet now so we can download the latest version of the file (in case some of your team made changes).
         /// </summary>
         internal static string IDS_ConnectToInternet {

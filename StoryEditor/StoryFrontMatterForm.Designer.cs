@@ -228,7 +228,6 @@
             this.buttonBrowseUnsTest1.Text = "...";
             this.toolTip.SetToolTip(this.buttonBrowseUnsTest1, "Left-click to edit this team member");
             this.buttonBrowseUnsTest1.UseVisualStyleBackColor = true;
-            this.buttonBrowseUnsTest1.Visible = false;
             this.buttonBrowseUnsTest1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.buttonBrowseUnsTest1_MouseUp);
             // 
             // labelUnsTest2
@@ -258,7 +257,6 @@
             this.buttonBrowseUnsTest2.Text = "...";
             this.toolTip.SetToolTip(this.buttonBrowseUnsTest2, "Left-click to edit this team member");
             this.buttonBrowseUnsTest2.UseVisualStyleBackColor = true;
-            this.buttonBrowseUnsTest2.Visible = false;
             this.buttonBrowseUnsTest2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.buttonBrowseUnsTest2_MouseUp);
             // 
             // labelUnsTest3
@@ -288,7 +286,6 @@
             this.buttonBrowseUnsTest3.Text = "...";
             this.toolTip.SetToolTip(this.buttonBrowseUnsTest3, "Left-click to edit this team member");
             this.buttonBrowseUnsTest3.UseVisualStyleBackColor = true;
-            this.buttonBrowseUnsTest3.Visible = false;
             this.buttonBrowseUnsTest3.MouseUp += new System.Windows.Forms.MouseEventHandler(this.buttonBrowseUnsTest3_MouseUp);
             // 
             // labelProjectFacilitator
