@@ -2018,6 +2018,17 @@ namespace OneStoryProjectEditor
             return bRet;
         }
 
+        protected void SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages stateToSet)
+        {
+            // a record to our history
+            theCurrentStory.TransitionHistory.Add(LoggedOnMember.MemberGuid,
+                theCurrentStory.ProjStage.ProjectStage, stateToSet);
+            theCurrentStory.ProjStage.ProjectStage = stateToSet;  // if we are ready, then go ahead and transition
+            theCurrentStory.StageTimeStamp = DateTime.Now;
+            tmLastSync = DateTime.Now - tsBackupTime;   // triggers a repository story when we ask if they want to save
+            Modified = true;
+        }
+
         private void storyToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
             enterTheReasonThisStoryIsInTheSetToolStripMenuItem.Enabled = ((theCurrentStory != null) &&
@@ -3793,7 +3804,7 @@ namespace OneStoryProjectEditor
 
             // locate the window near the cursor...
             Point ptTooltip = Cursor.Position;
-            StageEditorForm dlg = new StageEditorForm(StoryProject, theCurrentStory, ptTooltip);
+            StageEditorForm dlg = new StageEditorForm(StoryProject, theCurrentStory, ptTooltip, false);
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 Debug.Assert(dlg.NextState != StoryStageLogic.ProjectStages.eUndefined);
@@ -3886,6 +3897,38 @@ namespace OneStoryProjectEditor
 
             var dlg = new TransitionHistoryForm(theCurrentStory.TransitionHistory, StoryProject.TeamMembers);
             dlg.ShowDialog();
+        }
+
+        private void changeStateWithoutChecksToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // locate the window near the cursor...
+            Point ptTooltip = Cursor.Position;
+
+            if (MessageBox.Show(Properties.Resources.IDS_ConfirmStateChangeOverride, 
+                OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
+                return;
+
+            StageEditorForm dlg = new StageEditorForm(StoryProject, theCurrentStory, ptTooltip, true);
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                Debug.Assert(dlg.NextState != StoryStageLogic.ProjectStages.eUndefined);
+                if (theCurrentStory.ProjStage.ProjectStage == dlg.NextState)
+                    return;
+
+                SetNextStateAdvancedOverride(dlg.NextState);
+                SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage, true);
+                Modified = true;
+            }
+
+            // even if we don't change the state, we might 
+            else if (dlg.ViewStateChanged)
+                SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage, false);
+            InitAllPanes(); // just in case there were changes
+        }
+
+        private void advancedToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            changeStateWithoutChecksToolStripMenuItem.Enabled = ((StoryProject != null) && (theCurrentStory != null));
         }
     }
 }

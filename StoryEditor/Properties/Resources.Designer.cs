@@ -328,6 +328,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to change the state of this story bypassing the normal checks (i.e. is the right person logged in, have they answered all their questions, etc). This is an advanced command and can easily result in a conflict if it&apos;s possible that two people will be editing the story at the same time. You should only use this command if you are sure that no one else will be editing this story prior to first synchronizing with the changes you are about to make..
+        /// </summary>
+        internal static string IDS_ConfirmStateChangeOverride {
+            get {
+                return ResourceManager.GetString("IDS_ConfirmStateChangeOverride", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to change this member&apos;s name? [If you are trying to add a new member, then do it through the &apos;Project&apos;, &apos;Login&apos; window instead. Clicking &apos;Yes&apos; here will permanently remove the record for &apos;{0}&apos; and replace it with this new information for &apos;{1}&apos;].
         /// </summary>
         internal static string IDS_ConfirmTeamMemberNameChange {

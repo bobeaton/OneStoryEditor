@@ -7,10 +7,6 @@ namespace OneStoryProjectEditor
 {
     public partial class StageEditorForm : Form
     {
-        protected const string CstrEditState = "Edit State";
-        protected const string CstrDeleteState = "Delete State";
-        protected const string CstrAddState = "Add New State";
-
         protected StoryProjectData _storyProjectData;
         protected StoryData _theCurrentStory;
 
@@ -20,7 +16,7 @@ namespace OneStoryProjectEditor
             = new Dictionary<StoryStageLogic.ProjectStages, DataGridViewButtonCell>();
         protected List<DataGridViewButtonCell> _lstOfAllowedTransitions = new List<DataGridViewButtonCell>();
 
-        public StageEditorForm(StoryProjectData storyProjectData, StoryData theCurrentStory, Point ptStatusBar)
+        public StageEditorForm(StoryProjectData storyProjectData, StoryData theCurrentStory, Point ptStatusBar, bool bBypassRestrictions)
         {
             InitializeComponent();
 
@@ -63,26 +59,39 @@ namespace OneStoryProjectEditor
 #endif
             InitGrid();
 
-            // set the background of the special ones (i.e. the current one, and all valid next and prev states
-            System.Diagnostics.Debug.Assert(StateTransitions.ContainsKey(theCurrentStory.ProjStage.ProjectStage));
-            StoryStageLogic.StateTransition st = StateTransitions[theCurrentStory.ProjStage.ProjectStage];
-            if (st != null)
+            // set the current state's cell to yellow for easy identification
+            DataGridViewButtonCell dgbc;
+            if (_mapStatesToButtons.TryGetValue(theCurrentStory.ProjStage.ProjectStage, out dgbc))
             {
-                // current state
-                DataGridViewButtonCell dgbc;
-                if (_mapStatesToButtons.TryGetValue(st.CurrentStage, out dgbc))
+                Font font = new Font(dataGridViewStates.Font, FontStyle.Bold);
+                dgbc.Style.Font = font;
+                dgbc.FlatStyle = FlatStyle.Popup;
+                dgbc.Style.SelectionBackColor = dgbc.Style.BackColor = Color.Yellow;
+            }
+
+            if (bBypassRestrictions)
+            {
+                // when bypassing restrictions, any cell is an allowed transition
+                foreach (DataGridViewButtonCell cell in _mapStatesToButtons.Values)
+                    _lstOfAllowedTransitions.Add(cell);
+            }
+            else
+            {
+                // otherwise, only set as allowed those which are allowed in StateTransitions.xml
+                // and set the background color of the special ones (i.e. all valid next as green
+                //  and all valid prev states as red)
+                System.Diagnostics.Debug.Assert(StateTransitions.ContainsKey(theCurrentStory.ProjStage.ProjectStage));
+                StoryStageLogic.StateTransition st = StateTransitions[theCurrentStory.ProjStage.ProjectStage];
+                if (st != null)
                 {
-                    Font font = new Font(dataGridViewStates.Font, FontStyle.Bold);
-                    dgbc.Style.Font = font;
-                    dgbc.FlatStyle = FlatStyle.Popup;
-                    dgbc.Style.SelectionBackColor = dgbc.Style.BackColor = Color.Yellow;
+                    // check allowable next state
+                    CheckAllowableTransitions(storyProjectData, theCurrentStory, st.AllowableForewardsTransitions,
+                                              Color.LightGreen, true);
+
+                    // allowed previous states
+                    CheckAllowableTransitions(storyProjectData, theCurrentStory, st.AllowableBackwardsTransitions,
+                                              Color.Red, false);
                 }
-
-                // check allowable next state
-                CheckAllowableTransitions(storyProjectData, theCurrentStory, st.AllowableForewardsTransitions, Color.LightGreen, true);
-
-                // allowed previous states
-                CheckAllowableTransitions(storyProjectData, theCurrentStory, st.AllowableBackwardsTransitions, Color.Red, false);
             }
 
             // locate the window near the cursor...
@@ -92,16 +101,17 @@ namespace OneStoryProjectEditor
             if (Width > rectScreen.Width - ptStatusBar.X)
             {
                 if (Width < rectScreen.Width)
-                    ptStatusBar.X = rectScreen.Width - Width;   // move it more left to fit
+                    ptStatusBar.X = rectScreen.Width - Width; // move it more left to fit
                 else
-                    ptStatusBar.X = 0;  // make it go all the way to the left
+                    ptStatusBar.X = 0; // make it go all the way to the left
                 Width = Math.Min(Width, rectScreen.Width);
             }
 
-            Height = Math.Min(dataGridViewStates.PreferredSize.Height 
-                + statusStrip.Height 
-                + SystemInformation.HorizontalScrollBarHeight,
-                rectScreen.Height - ptStatusBar.Y);
+            Height = Math.Min(dataGridViewStates.PreferredSize.Height
+                              + statusStrip.Height
+                              + SystemInformation.HorizontalScrollBarHeight + 3,
+                              rectScreen.Height - ptStatusBar.Y);
+
             Location = ptStatusBar;
             _ticksSinceShow = DateTime.Now.Ticks;
         }
