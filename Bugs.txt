@@ -1,3 +1,5 @@
+make it so that if we're only viewing open conversations, then have a button next to Add Note to 'Show All' (so we can temporarily override the viewing open conversations setting.
+
 Gray out the "Edit Key Terms" menu if it isn't going to launch it
 
 add 'hidden text' to the search dialog (don't search 'hidden' verses unless it's checked, and NavigateTo needs to unhide such a find)
