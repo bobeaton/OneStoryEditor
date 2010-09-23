@@ -198,6 +198,7 @@ namespace OneStoryProjectEditor
                 _theSE.Modified = true;
             }
 
+            /* we don't allow changes to UNSs
             if (textBoxUnsTest1.Tag != null)
                 AddOrInsertTestor(textBoxUnsTest1, 0);
 
@@ -206,6 +207,7 @@ namespace OneStoryProjectEditor
 
             if (textBoxUnsTest3.Tag != null)
                 AddOrInsertTestor(textBoxUnsTest3, 2);
+            */
 
             DialogResult = DialogResult.OK;
             Close();
