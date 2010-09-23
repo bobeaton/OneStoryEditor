@@ -886,16 +886,30 @@ namespace OneStoryProjectEditor
             return String.Format("ln_{0}", nVerseIndex);
         }
 
-        protected string GetHeaderRow(string strHeader, int nVerseIndex, bool bVerseVisible,
+        internal const string CstrShowOpenHideClosed = "Hide Closed";
+        internal const string CstrShowOpenShowAll = "Show All";
+
+        protected string GetHeaderRow(string strHeader, int nVerseIndex, 
+            bool bVerseVisible, bool bShowOnlyOpenConversations,
             ConsultNotesDataConverter theCNsDC, TeamMemberData LoggedOnMember)
         {
-            string strHtmlAddNoteButton = null;
+            string strHtmlButtons = null;
             if (theCNsDC.HasAddNotePrivilege(LoggedOnMember.MemberType))
-                strHtmlAddNoteButton = String.Format(OseResources.Properties.Resources.HTML_TableCell,
-                                                     String.Format(OseResources.Properties.Resources.HTML_Button,
-                                                                   nVerseIndex,
-                                                                   "return window.external.OnAddNote(this.id, null);",
-                                                                   "Add Note"));
+                strHtmlButtons = String.Format(OseResources.Properties.Resources.HTML_TableCell,
+                                               String.Format(OseResources.Properties.Resources.HTML_Button,
+                                                             nVerseIndex,
+                                                             "return window.external.OnAddNote(this.id, null);",
+                                                             "Add Note"));
+
+            if (bShowOnlyOpenConversations)
+                strHtmlButtons = String.Format(OseResources.Properties.Resources.HTML_TableCell,
+                                               String.Format(OseResources.Properties.Resources.HTML_Button,
+                                                             ButtonId(nVerseIndex),
+                                                             "return window.external.OnShowHideOpenConversations(this.id);",
+                                                             (theCNsDC.ShowOpenConversations)
+                                                                 ? CstrShowOpenHideClosed
+                                                                 : CstrShowOpenShowAll))
+                                                                 + strHtmlButtons;  // to have 'Add Note' come last
 
             string strLink = String.Format(OseResources.Properties.Resources.HTML_LinkJumpLine,
                                            nVerseIndex, strHeader);
@@ -907,7 +921,17 @@ namespace OneStoryProjectEditor
                                                              LineId(nVerseIndex),
                                                              100,
                                                              strLink),
-                                               strHtmlAddNoteButton));
+                                               strHtmlButtons));
+        }
+
+        public void ResetShowOpenConversationsFlags()
+        {
+            FirstVerse.ConsultantNotes.ShowOpenConversations =
+                FirstVerse.CoachNotes.ShowOpenConversations = false;
+
+            foreach (VerseData verseData in this)
+                verseData.ConsultantNotes.ShowOpenConversations =
+                    verseData.CoachNotes.ShowOpenConversations = false;
         }
 
         public string ConsultantNotesHtml(object htmlConNoteCtrl, 
@@ -916,7 +940,7 @@ namespace OneStoryProjectEditor
         {
             string strHtml = null;
             strHtml += GetHeaderRow(CstrZerothLineName, 0, FirstVerse.IsVisible, 
-                FirstVerse.ConsultantNotes, LoggedOnMember);
+                bShowOnlyOpenConversations, FirstVerse.ConsultantNotes, LoggedOnMember);
 
             strHtml += FirstVerse.ConsultantNotes.Html(htmlConNoteCtrl, theStoryStage,
                 LoggedOnMember, bViewHidden, FirstVerse.IsVisible, bShowOnlyOpenConversations, 0);
@@ -926,8 +950,8 @@ namespace OneStoryProjectEditor
                 VerseData aVerseData = this[i - 1];
                 if (aVerseData.IsVisible || bViewHidden)
                 {
-                    strHtml += GetHeaderRow("Ln: " + i, i, aVerseData.IsVisible, 
-                        aVerseData.ConsultantNotes, LoggedOnMember);
+                    strHtml += GetHeaderRow("Ln: " + i, i, aVerseData.IsVisible,
+                        bShowOnlyOpenConversations, aVerseData.ConsultantNotes, LoggedOnMember);
 
                     strHtml += aVerseData.ConsultantNotes.Html(htmlConNoteCtrl,
                         theStoryStage, LoggedOnMember, bViewHidden, aVerseData.IsVisible, bShowOnlyOpenConversations, i);
@@ -943,7 +967,7 @@ namespace OneStoryProjectEditor
         {
             string strHtml = null;
             strHtml += GetHeaderRow(CstrZerothLineName, 0, FirstVerse.IsVisible,
-                FirstVerse.CoachNotes, LoggedOnMember);
+                bShowOnlyOpenConversations, FirstVerse.CoachNotes, LoggedOnMember);
 
             strHtml += FirstVerse.CoachNotes.Html(htmlConNoteCtrl, theStoryStage,
                 LoggedOnMember, bViewHidden, FirstVerse.IsVisible, bShowOnlyOpenConversations, 0);
@@ -954,7 +978,7 @@ namespace OneStoryProjectEditor
                 if (aVerseData.IsVisible || bViewHidden)
                 {
                     strHtml += GetHeaderRow("Ln: " + i, i, aVerseData.IsVisible,
-                        aVerseData.CoachNotes, LoggedOnMember);
+                        bShowOnlyOpenConversations, aVerseData.CoachNotes, LoggedOnMember);
 
                     strHtml += aVerseData.CoachNotes.Html(htmlConNoteCtrl, theStoryStage,
                         LoggedOnMember, bViewHidden, aVerseData.IsVisible, bShowOnlyOpenConversations, i);

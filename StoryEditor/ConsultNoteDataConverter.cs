@@ -232,7 +232,7 @@ namespace OneStoryProjectEditor
                         eleNote.Add(new XElement(SubElementName,
                             new XAttribute("Direction", GetDirectionString(aCI.Direction)),
                             new XAttribute("guid", aCI.Guid),
-                            new XAttribute("timeStamp", aCI.TimeStamp),
+                            new XAttribute("timeStamp", aCI.TimeStamp.ToString("s")),
                             aCI.ToString()));
 
                 return eleNote;
@@ -709,7 +709,9 @@ namespace OneStoryProjectEditor
 
     public abstract class ConsultNotesDataConverter : List<ConsultNoteDataConverter>
     {
-        protected string CollectionElementName = null;
+        public bool ShowOpenConversations;
+
+        protected string CollectionElementName;
 
         protected ConsultNotesDataConverter(string strCollectionElementName)
         {
@@ -777,7 +779,10 @@ namespace OneStoryProjectEditor
             for (int i = 0; i < Count; i++)
             {
                 ConsultNoteDataConverter aCNDC = this[i];
-                if ((aCNDC.Visible || bViewHidden) && (!bShowOnlyOpenConversations || !aCNDC.IsFinished))
+                if ((aCNDC.Visible || bViewHidden) 
+                    && (!bShowOnlyOpenConversations 
+                        || !aCNDC.IsFinished 
+                        || ShowOpenConversations))
                     strHtml += aCNDC.Html(htmlConNoteCtrl, theStoryStage, LoggedOnMember, nVerseIndex, i);
             }
 
@@ -788,8 +793,12 @@ namespace OneStoryProjectEditor
             else
                 strColor = "#F0E68C";
 
+            int nSpan = 2;
+            if (bShowOnlyOpenConversations)
+                nSpan++;
+
             return String.Format(OseResources.Properties.Resources.HTML_TableRowColor, strColor,
-                    String.Format(OseResources.Properties.Resources.HTML_TableCellWithSpan, 2,
+                    String.Format(OseResources.Properties.Resources.HTML_TableCellWithSpan, nSpan,
                         String.Format(OseResources.Properties.Resources.HTML_TableNoBorder, strHtml)));
         }
 

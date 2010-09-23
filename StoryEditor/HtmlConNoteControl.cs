@@ -53,6 +53,23 @@ namespace OneStoryProjectEditor
             return true;
         }
 
+        public bool OnShowHideOpenConversations(string strButtonId)
+        {
+            string[] astrId = strButtonId.Split('_');
+            System.Diagnostics.Debug.Assert(astrId.Length ==2);
+            int nVerseIndex = Convert.ToInt32(astrId[1]);
+
+            // toggle state of 'Show All' or 'Hide Closed' button
+            ConsultNotesDataConverter aCNsDC = DataConverter(nVerseIndex);
+            aCNsDC.ShowOpenConversations = (aCNsDC.ShowOpenConversations) ? false : true;
+            
+            // brute force (no need to repaint the button since the reload will do it for us
+            LoadDocument();
+            Application.DoEvents();
+            ScrollToVerse(nVerseIndex);
+            return true;
+        }
+
         public bool OnClickDelete(string strId)
         {
             int nVerseIndex, nConversationIndex;

@@ -3853,6 +3853,9 @@ namespace OneStoryProjectEditor
 
         private void viewOnlyOpenConversationsMenu_CheckStateChanged(object sender, EventArgs e)
         {
+            if (viewOnlyOpenConversationsMenu.Checked)
+                theCurrentStory.Verses.ResetShowOpenConversationsFlags();
+
             InitAllPanes();
         }
 
