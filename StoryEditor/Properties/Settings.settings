@@ -229,5 +229,8 @@ DoAdaptingBeforeGlossing_InVerticalEdit	1</Value>
     <Setting Name="PanoramaViewDlgLocation" Type="System.Drawing.Point" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="AutoCheckForProgramUpdatesAtStartup" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -36,7 +36,8 @@ namespace OneStoryProjectEditor
 
 #if !DEBUG
                 // since we expect to have internet at this point, check for program updates as well
-                CheckForProgramUpdate(false);
+                if (Properties.Settings.Default.AutoCheckForProgramUpdatesAtStartup)
+                    CheckForProgramUpdate(false);
 #endif
 
                 // make sure we have HG (or we can't really do much)

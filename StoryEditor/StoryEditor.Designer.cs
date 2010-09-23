@@ -118,8 +118,10 @@ namespace OneStoryProjectEditor
             this.advancedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changeProjectFolderRootToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resetStoredInformationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.checkForProgramUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changeStateWithoutChecksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.programUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.automaticallyCheckAtStartupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkForProgramUpdatesNowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
@@ -127,15 +129,11 @@ namespace OneStoryProjectEditor
             this.splitContainerUpDown = new System.Windows.Forms.SplitContainer();
             this.linkLabelVerseBT = new System.Windows.Forms.LinkLabel();
             this.contextMenuStripVerseList = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.flowLayoutPanelVerses = new OneStoryProjectEditor.VerseBtLineFlowLayoutPanel();
             this.textBoxStoryVerse = new System.Windows.Forms.TextBox();
-            this.netBibleViewer = new OneStoryProjectEditor.NetBibleViewer();
             this.splitContainerMentorNotes = new System.Windows.Forms.SplitContainer();
             this.linkLabelConsultantNotes = new System.Windows.Forms.LinkLabel();
-            this.htmlConsultantNotesControl = new OneStoryProjectEditor.HtmlConsultantNotesControl();
             this.textBoxConsultantNotesTable = new System.Windows.Forms.TextBox();
             this.linkLabelCoachNotes = new System.Windows.Forms.LinkLabel();
-            this.htmlCoachNotesControl = new OneStoryProjectEditor.HtmlCoachNotesControl();
             this.textBoxCoachNotes = new System.Windows.Forms.TextBox();
             this.helpProvider = new System.Windows.Forms.HelpProvider();
             this.toolStripRecordNavigation = new System.Windows.Forms.ToolStrip();
@@ -146,6 +144,10 @@ namespace OneStoryProjectEditor
             this.buttonsStoryStage = new System.Windows.Forms.ToolStripSplitButton();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.flowLayoutPanelVerses = new OneStoryProjectEditor.VerseBtLineFlowLayoutPanel();
+            this.netBibleViewer = new OneStoryProjectEditor.NetBibleViewer();
+            this.htmlConsultantNotesControl = new OneStoryProjectEditor.HtmlConsultantNotesControl();
+            this.htmlCoachNotesControl = new OneStoryProjectEditor.HtmlCoachNotesControl();
             this.menuStrip.SuspendLayout();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
             this.splitContainerLeftRight.Panel2.SuspendLayout();
@@ -905,8 +907,8 @@ namespace OneStoryProjectEditor
             this.advancedToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.changeProjectFolderRootToolStripMenuItem,
             this.resetStoredInformationToolStripMenuItem,
-            this.checkForProgramUpdatesToolStripMenuItem,
-            this.changeStateWithoutChecksToolStripMenuItem});
+            this.changeStateWithoutChecksToolStripMenuItem,
+            this.programUpdatesToolStripMenuItem});
             this.advancedToolStripMenuItem.Name = "advancedToolStripMenuItem";
             this.advancedToolStripMenuItem.Size = new System.Drawing.Size(72, 23);
             this.advancedToolStripMenuItem.Text = "A&dvanced";
@@ -927,13 +929,6 @@ namespace OneStoryProjectEditor
             this.resetStoredInformationToolStripMenuItem.ToolTipText = resources.GetString("resetStoredInformationToolStripMenuItem.ToolTipText");
             this.resetStoredInformationToolStripMenuItem.Click += new System.EventHandler(this.resetStoredInformationToolStripMenuItem_Click);
             // 
-            // checkForProgramUpdatesToolStripMenuItem
-            // 
-            this.checkForProgramUpdatesToolStripMenuItem.Name = "checkForProgramUpdatesToolStripMenuItem";
-            this.checkForProgramUpdatesToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
-            this.checkForProgramUpdatesToolStripMenuItem.Text = "&Check for program updates";
-            this.checkForProgramUpdatesToolStripMenuItem.Click += new System.EventHandler(this.checkForProgramUpdatesToolStripMenuItem_Click);
-            // 
             // changeStateWithoutChecksToolStripMenuItem
             // 
             this.changeStateWithoutChecksToolStripMenuItem.Name = "changeStateWithoutChecksToolStripMenuItem";
@@ -941,6 +936,34 @@ namespace OneStoryProjectEditor
             this.changeStateWithoutChecksToolStripMenuItem.Text = "Change &State without checks";
             this.changeStateWithoutChecksToolStripMenuItem.ToolTipText = resources.GetString("changeStateWithoutChecksToolStripMenuItem.ToolTipText");
             this.changeStateWithoutChecksToolStripMenuItem.Click += new System.EventHandler(this.changeStateWithoutChecksToolStripMenuItem_Click);
+            // 
+            // programUpdatesToolStripMenuItem
+            // 
+            this.programUpdatesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.automaticallyCheckAtStartupToolStripMenuItem,
+            this.checkForProgramUpdatesNowToolStripMenuItem});
+            this.programUpdatesToolStripMenuItem.Name = "programUpdatesToolStripMenuItem";
+            this.programUpdatesToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
+            this.programUpdatesToolStripMenuItem.Text = "Program Updates";
+            this.programUpdatesToolStripMenuItem.DropDownOpening += new System.EventHandler(this.programUpdatesToolStripMenuItem_DropDownOpening);
+            // 
+            // automaticallyCheckAtStartupToolStripMenuItem
+            // 
+            this.automaticallyCheckAtStartupToolStripMenuItem.CheckOnClick = true;
+            this.automaticallyCheckAtStartupToolStripMenuItem.Name = "automaticallyCheckAtStartupToolStripMenuItem";
+            this.automaticallyCheckAtStartupToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.automaticallyCheckAtStartupToolStripMenuItem.Text = "&Automatically check at startup";
+            this.automaticallyCheckAtStartupToolStripMenuItem.ToolTipText = "Uncheck this menu to stop the program from automatically checking for program upd" +
+                "ates when the program is started (this can save startup time)";
+            this.automaticallyCheckAtStartupToolStripMenuItem.CheckStateChanged += new System.EventHandler(this.automaticallyCheckAtStartupToolStripMenuItem_CheckStateChanged);
+            // 
+            // checkForProgramUpdatesNowToolStripMenuItem
+            // 
+            this.checkForProgramUpdatesNowToolStripMenuItem.Name = "checkForProgramUpdatesNowToolStripMenuItem";
+            this.checkForProgramUpdatesNowToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.checkForProgramUpdatesNowToolStripMenuItem.Text = "&Check now";
+            this.checkForProgramUpdatesNowToolStripMenuItem.ToolTipText = "Click this menu to have the program manually check for program updates";
+            this.checkForProgramUpdatesNowToolStripMenuItem.Click += new System.EventHandler(this.checkForProgramUpdatesNowToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
@@ -1026,19 +1049,6 @@ namespace OneStoryProjectEditor
             this.contextMenuStripVerseList.Size = new System.Drawing.Size(61, 4);
             this.contextMenuStripVerseList.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripVerseList_Opening);
             // 
-            // flowLayoutPanelVerses
-            // 
-            this.flowLayoutPanelVerses.AutoScroll = true;
-            this.flowLayoutPanelVerses.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanelVerses.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanelVerses.LastControlIntoView = null;
-            this.flowLayoutPanelVerses.LineNumberLink = null;
-            this.flowLayoutPanelVerses.Location = new System.Drawing.Point(0, 29);
-            this.flowLayoutPanelVerses.Name = "flowLayoutPanelVerses";
-            this.flowLayoutPanelVerses.Size = new System.Drawing.Size(451, 237);
-            this.flowLayoutPanelVerses.TabIndex = 1;
-            this.flowLayoutPanelVerses.WrapContents = false;
-            // 
             // textBoxStoryVerse
             // 
             this.textBoxStoryVerse.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -1052,17 +1062,6 @@ namespace OneStoryProjectEditor
             this.textBoxStoryVerse.TabStop = false;
             this.textBoxStoryVerse.Text = "Story";
             this.textBoxStoryVerse.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // netBibleViewer
-            // 
-            this.netBibleViewer.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.netBibleViewer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.netBibleViewer.Location = new System.Drawing.Point(0, 0);
-            this.netBibleViewer.Margin = new System.Windows.Forms.Padding(0);
-            this.netBibleViewer.Name = "netBibleViewer";
-            this.netBibleViewer.ScriptureReference = "gen 1:1";
-            this.netBibleViewer.Size = new System.Drawing.Size(451, 200);
-            this.netBibleViewer.TabIndex = 0;
             // 
             // splitContainerMentorNotes
             // 
@@ -1104,18 +1103,6 @@ namespace OneStoryProjectEditor
             this.linkLabelConsultantNotes.Visible = false;
             this.linkLabelConsultantNotes.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelConsultantNotes_LinkClicked);
             // 
-            // htmlConsultantNotesControl
-            // 
-            this.htmlConsultantNotesControl.AllowWebBrowserDrop = false;
-            this.htmlConsultantNotesControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.htmlConsultantNotesControl.Location = new System.Drawing.Point(0, 29);
-            this.htmlConsultantNotesControl.MinimumSize = new System.Drawing.Size(20, 20);
-            this.htmlConsultantNotesControl.Name = "htmlConsultantNotesControl";
-            this.htmlConsultantNotesControl.Size = new System.Drawing.Size(422, 245);
-            this.htmlConsultantNotesControl.StoryData = null;
-            this.htmlConsultantNotesControl.TabIndex = 2;
-            this.htmlConsultantNotesControl.TheSE = null;
-            // 
             // textBoxConsultantNotesTable
             // 
             this.textBoxConsultantNotesTable.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -1146,18 +1133,6 @@ namespace OneStoryProjectEditor
             this.linkLabelCoachNotes.Text = "Story (Ln: 0)";
             this.linkLabelCoachNotes.Visible = false;
             this.linkLabelCoachNotes.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelCoachNotes_LinkClicked);
-            // 
-            // htmlCoachNotesControl
-            // 
-            this.htmlCoachNotesControl.AllowWebBrowserDrop = false;
-            this.htmlCoachNotesControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.htmlCoachNotesControl.Location = new System.Drawing.Point(0, 29);
-            this.htmlCoachNotesControl.MinimumSize = new System.Drawing.Size(20, 20);
-            this.htmlCoachNotesControl.Name = "htmlCoachNotesControl";
-            this.htmlCoachNotesControl.Size = new System.Drawing.Size(422, 163);
-            this.htmlCoachNotesControl.StoryData = null;
-            this.htmlCoachNotesControl.TabIndex = 3;
-            this.htmlCoachNotesControl.TheSE = null;
             // 
             // textBoxCoachNotes
             // 
@@ -1270,6 +1245,54 @@ namespace OneStoryProjectEditor
             this.statusStrip.Size = new System.Drawing.Size(881, 22);
             this.statusStrip.TabIndex = 1;
             this.statusStrip.Text = "statusStrip1";
+            // 
+            // flowLayoutPanelVerses
+            // 
+            this.flowLayoutPanelVerses.AutoScroll = true;
+            this.flowLayoutPanelVerses.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanelVerses.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanelVerses.LastControlIntoView = null;
+            this.flowLayoutPanelVerses.LineNumberLink = null;
+            this.flowLayoutPanelVerses.Location = new System.Drawing.Point(0, 29);
+            this.flowLayoutPanelVerses.Name = "flowLayoutPanelVerses";
+            this.flowLayoutPanelVerses.Size = new System.Drawing.Size(451, 237);
+            this.flowLayoutPanelVerses.TabIndex = 1;
+            this.flowLayoutPanelVerses.WrapContents = false;
+            // 
+            // netBibleViewer
+            // 
+            this.netBibleViewer.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.netBibleViewer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.netBibleViewer.Location = new System.Drawing.Point(0, 0);
+            this.netBibleViewer.Margin = new System.Windows.Forms.Padding(0);
+            this.netBibleViewer.Name = "netBibleViewer";
+            this.netBibleViewer.ScriptureReference = "gen 1:1";
+            this.netBibleViewer.Size = new System.Drawing.Size(451, 200);
+            this.netBibleViewer.TabIndex = 0;
+            // 
+            // htmlConsultantNotesControl
+            // 
+            this.htmlConsultantNotesControl.AllowWebBrowserDrop = false;
+            this.htmlConsultantNotesControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.htmlConsultantNotesControl.Location = new System.Drawing.Point(0, 29);
+            this.htmlConsultantNotesControl.MinimumSize = new System.Drawing.Size(20, 20);
+            this.htmlConsultantNotesControl.Name = "htmlConsultantNotesControl";
+            this.htmlConsultantNotesControl.Size = new System.Drawing.Size(422, 245);
+            this.htmlConsultantNotesControl.StoryData = null;
+            this.htmlConsultantNotesControl.TabIndex = 2;
+            this.htmlConsultantNotesControl.TheSE = null;
+            // 
+            // htmlCoachNotesControl
+            // 
+            this.htmlCoachNotesControl.AllowWebBrowserDrop = false;
+            this.htmlCoachNotesControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.htmlCoachNotesControl.Location = new System.Drawing.Point(0, 29);
+            this.htmlCoachNotesControl.MinimumSize = new System.Drawing.Size(20, 20);
+            this.htmlCoachNotesControl.Name = "htmlCoachNotesControl";
+            this.htmlCoachNotesControl.Size = new System.Drawing.Size(422, 163);
+            this.htmlCoachNotesControl.StoryData = null;
+            this.htmlCoachNotesControl.TabIndex = 3;
+            this.htmlCoachNotesControl.TheSE = null;
             // 
             // StoryEditor
             // 
@@ -1414,7 +1437,6 @@ namespace OneStoryProjectEditor
         private ToolStripButton toolStripButtonPrevious;
         private ToolStripButton toolStripButtonNext;
         private ToolStripButton toolStripButtonLast;
-        private ToolStripMenuItem checkForProgramUpdatesToolStripMenuItem;
         private ToolStripSplitButton buttonsStoryStage;
         private ToolStripStatusLabel statusLabel;
         private StatusStrip statusStrip;
@@ -1422,6 +1444,9 @@ namespace OneStoryProjectEditor
         internal ToolStripMenuItem viewOnlyOpenConversationsMenu;
         private ToolStripMenuItem stateTransitionHistoryToolStripMenuItem;
         private ToolStripMenuItem changeStateWithoutChecksToolStripMenuItem;
+        private ToolStripMenuItem programUpdatesToolStripMenuItem;
+        private ToolStripMenuItem automaticallyCheckAtStartupToolStripMenuItem;
+        private ToolStripMenuItem checkForProgramUpdatesNowToolStripMenuItem;
     }
 
 #if UsingHtmlDisplayForConNotes

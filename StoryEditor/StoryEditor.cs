@@ -3851,36 +3851,6 @@ namespace OneStoryProjectEditor
                 comboBoxStorySelector.SelectedIndex = (TheCurrentStoriesSet.Count - 1);
         }
 
-        private void checkForProgramUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                // save changes before checking (so we can close rapidly if need be)
-                if (!CheckForSaveDirtyFile())
-                    return;
-
-                Program.CheckForProgramUpdate(true);
-
-                // since the call to SaveDirty will have removed them all
-                InitAllPanes();
-
-                // if it returns here without throwing an exception, it means there were no updates
-                MessageBox.Show(Properties.Resources.IDS_NoProgramUpdates,
-                    OseResources.Properties.Resources.IDS_Caption);
-            }
-            catch (Program.RestartException)
-            {
-                Close();
-            }
-            catch (Exception ex)
-            {
-                string strMessage = String.Format("Error occurred:{0}{0}{1}", Environment.NewLine, ex.Message);
-                if (ex.InnerException != null)
-                    strMessage += String.Format("{0}{1}", Environment.NewLine, ex.InnerException.Message);
-                MessageBox.Show(strMessage, OseResources.Properties.Resources.IDS_Caption);
-            }
-        }
-
         private void viewOnlyOpenConversationsMenu_CheckStateChanged(object sender, EventArgs e)
         {
             InitAllPanes();
@@ -3929,6 +3899,49 @@ namespace OneStoryProjectEditor
         private void advancedToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
             changeStateWithoutChecksToolStripMenuItem.Enabled = ((StoryProject != null) && (theCurrentStory != null));
+        }
+
+        private void checkForProgramUpdatesNowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // save changes before checking (so we can close rapidly if need be)
+                if (!CheckForSaveDirtyFile())
+                    return;
+
+                Program.CheckForProgramUpdate(true);
+
+                // since the call to SaveDirty will have removed them all
+                InitAllPanes();
+
+                // if it returns here without throwing an exception, it means there were no updates
+                MessageBox.Show(Properties.Resources.IDS_NoProgramUpdates,
+                    OseResources.Properties.Resources.IDS_Caption);
+            }
+            catch (Program.RestartException)
+            {
+                Close();
+            }
+            catch (Exception ex)
+            {
+                string strMessage = String.Format("Error occurred:{0}{0}{1}", Environment.NewLine, ex.Message);
+                if (ex.InnerException != null)
+                    strMessage += String.Format("{0}{1}", Environment.NewLine, ex.InnerException.Message);
+                MessageBox.Show(strMessage, OseResources.Properties.Resources.IDS_Caption);
+            }
+        }
+
+        private void programUpdatesToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            automaticallyCheckAtStartupToolStripMenuItem.Checked =
+                Properties.Settings.Default.AutoCheckForProgramUpdatesAtStartup;
+        }
+
+        private void automaticallyCheckAtStartupToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.AutoCheckForProgramUpdatesAtStartup =
+                automaticallyCheckAtStartupToolStripMenuItem.Checked;
+            Properties.Settings.Default.Save();
         }
     }
 }
