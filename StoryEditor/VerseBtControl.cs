@@ -256,8 +256,17 @@ namespace OneStoryProjectEditor
             */
             if (theSE.viewStoryTestingQuestionMenuItem.Checked)
                 AddRemoveTestQuestionsAndAnswersSubmenus(_verseData.TestQuestions);
+            if (theSE.viewConsultantNoteFieldMenuItem.Checked)
+                AddRemoveConNoteSubmenus("Consultant Notes",
+                    _verseData.ConsultantNotes, remConNote_Click);
+            if (theSE.viewCoachNotesFieldMenuItem.Checked)
+                AddRemoveConNoteSubmenus("Coach Notes",
+                    _verseData.CoachNotes, remCoachNote_Click);
 
             removeToolStripMenuItem.Enabled = (removeToolStripMenuItem.DropDown.Items.Count > 0);
+            pasteTestingQuestionToolStripMenuItem.Enabled = (_myTQClipboard != null);
+            pasteConsultantNoteToolStripMenuItem.Enabled = (_myConNoteClipboard != null);
+            pasteCoachNoteToolStripMenuItem.Enabled = (_myCoachNoteClipboard != null);
 
             if (_verseData.IsVisible)
             {
@@ -272,9 +281,25 @@ namespace OneStoryProjectEditor
                 tableLayoutPanel.Controls.ContainsKey(CstrFieldNameStoryLine);
         }
 
+        protected void AddRemoveConNoteSubmenus(string strSubmenu,
+            ConsultNotesDataConverter theConNotes, EventHandler remConNoteClick)
+        {
+            if (theConNotes.Count == 0)
+                return;
+
+            ToolStripMenuItem tsm = AddHeadSubmenu(strSubmenu);
+            int nIndex = 0;
+            foreach (ConsultNoteDataConverter aConNote in theConNotes)
+                AddRemConNoteSubmenu(tsm, strSubmenu, remConNoteClick, 
+                    aConNote, nIndex++);
+        }
+
         protected void AddRemoveTestQuestionsAndAnswersSubmenus(TestQuestionsData theTQs)
         {
-            ToolStripMenuItem tsm = AddHeadSubmenu("Testing Question(s)");
+            if (theTQs.Count == 0)
+                return;
+
+            ToolStripMenuItem tsm = AddHeadSubmenu("Testing Question");
             int nIndex = 0;
             foreach (TestQuestionData aTQ in theTQs)
                 AddRemTQSubmenu(tsm, aTQ, nIndex++);
@@ -295,6 +320,61 @@ namespace OneStoryProjectEditor
             tsm.DropDown.Items.Add(tsmSub);
         }
 
+        protected void AddRemConNoteSubmenu(ToolStripMenuItem tsm, 
+            string strSubmenu, EventHandler remConNoteClick,
+            ConsultNoteDataConverter theConsultNote, int nIndex)
+        {
+            var tsmSub = new ToolStripMenuItem();
+            string str = theConsultNote[0].ToString();
+            tsmSub.Name = strSubmenu.Replace(" ", null) + nIndex;
+            int len = str.IndexOf(Environment.NewLine);
+            if (len == -1)
+                len = Math.Min(50, str.Length);
+            tsmSub.Text = str.Substring(0, len);
+            // tsmSub.ToolTipText = str;
+            tsmSub.Tag = theConsultNote;
+            tsmSub.Click += remConNoteClick;
+            tsm.DropDown.Items.Add(tsmSub);
+        }
+
+        protected static ConsultNoteDataConverter _myConNoteClipboard;
+
+        void remConNote_Click(object sender, EventArgs e)
+        {
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
+                return;
+
+            var tsm = (ToolStripMenuItem)sender;
+            var theConNote = (ConsultNoteDataConverter)tsm.Tag;
+            _myConNoteClipboard = theConNote;
+            _verseData.ConsultantNotes.Remove(theConNote);
+            theSE.htmlConsultantNotesControl.LoadDocument();
+            Application.DoEvents();
+            theSE.htmlConsultantNotesControl.ScrollToVerse(VerseNumber);
+            theSE.Modified = true;
+        }
+
+        protected static ConsultNoteDataConverter _myCoachNoteClipboard;
+
+        void remCoachNote_Click(object sender, EventArgs e)
+        {
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
+                return;
+
+            var tsm = (ToolStripMenuItem)sender;
+            var theConNote = (ConsultNoteDataConverter)tsm.Tag;
+            _myCoachNoteClipboard = theConNote;
+            _verseData.CoachNotes.Remove(theConNote);
+            theSE.htmlCoachNotesControl.LoadDocument();
+            Application.DoEvents();
+            theSE.htmlCoachNotesControl.ScrollToVerse(VerseNumber);
+            theSE.Modified = true;
+        }
+
+        protected static TestQuestionData _myTQClipboard;
+
         void remTQ_Click(object sender, EventArgs e)
         {
             StoryEditor theSE;
@@ -303,6 +383,7 @@ namespace OneStoryProjectEditor
 
             ToolStripMenuItem tsm = (ToolStripMenuItem)sender;
             TestQuestionData theTQD = (TestQuestionData)tsm.Tag;
+            _myTQClipboard = theTQD;
             _verseData.TestQuestions.Remove(theTQD);
             UpdateViewOfThisVerse(theSE);
         }
@@ -354,7 +435,6 @@ namespace OneStoryProjectEditor
             theSE.Modified = true;
         }
 
-        protected const string CstrAddAnswerPrefix = "For the question: ";
         protected ToolStripMenuItem AddHeadSubmenu(string strHeading)
         {
             ToolStripMenuItem tsm = new ToolStripMenuItem();
@@ -365,6 +445,7 @@ namespace OneStoryProjectEditor
         }
 
         /*
+        protected const string CstrAddAnswerPrefix = "For the question: ";
         protected void AddAnswerSubmenu(string strText, int nIndex)
         {
             ToolStripMenuItem tsm = new ToolStripMenuItem
@@ -429,9 +510,10 @@ namespace OneStoryProjectEditor
 
             // this is kind of sledge-hammer-y... but it works
             theSE.ReInitVerseControls();
-            *//*
-        }
-        */
+            */
+        /*
+  }
+  */
 
         private void deleteTheWholeVerseToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -606,6 +688,50 @@ namespace OneStoryProjectEditor
             theSE.VisiblizeVerse(_verseData, 
                 (_verseData.IsVisible) ? false : true   // toggle
                 );
+        }
+
+        private void pasteTestingQuestionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.Assert(_myTQClipboard != null);
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
+                return;
+
+            _verseData.TestQuestions.Add(_myTQClipboard);
+            UpdateViewOfThisVerse(theSE);
+            theSE.Modified = true;
+        }
+
+        private void pasteConsultantNoteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
+                return;
+
+            PasteConNote(_myConNoteClipboard, _verseData.ConsultantNotes,
+                theSE.htmlConsultantNotesControl);
+            theSE.Modified = true;
+        }
+
+        private void pasteCoachNoteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
+                return;
+
+            PasteConNote(_myCoachNoteClipboard, _verseData.CoachNotes,
+                theSE.htmlCoachNotesControl);
+            theSE.Modified = true;
+        }
+
+        private void PasteConNote(ConsultNoteDataConverter theCNDC, 
+            ICollection<ConsultNoteDataConverter> theCNsDC, HtmlConNoteControl ctrlHtml)
+        {
+            System.Diagnostics.Debug.Assert(theCNDC != null);
+            theCNsDC.Add(theCNDC);
+            ctrlHtml.LoadDocument();
+            Application.DoEvents();
+            ctrlHtml.ScrollToVerse(VerseNumber);
         }
     }
 }

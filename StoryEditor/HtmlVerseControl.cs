@@ -9,7 +9,7 @@ namespace OneStoryProjectEditor
     {
         internal LinkLabel LineNumberLink;
 
-        protected string StrIdToScrollTo;
+        internal string StrIdToScrollTo;
 
         public StoryEditor TheSE { get; set; }
         public virtual StoryData StoryData { get; set; }
