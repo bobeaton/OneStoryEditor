@@ -1126,6 +1126,15 @@ namespace OneStoryProjectEditor
                 return true;
             }
 
+            if ((eProposedNextState == StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBTTest1)
+                || (eProposedNextState == StoryStageLogic.ProjectStages.eFirstPassMentorCheck2)
+                || (eProposedNextState == StoryStageLogic.ProjectStages.eConsultantCheck2))
+            {
+                // make sure that if the PF answered the CIT 's comments.
+                if (!CheckThatPFRespondedToCITQuestions(theSE, theCurrentStory))
+                    return false;
+            }
+
 #if CheckProposedNextState
             System.Diagnostics.Debug.Assert(eProposedNextState ==
                 StoryStageLogic.ProjectStages.eProjFacOnlineReview1WithConsultant);

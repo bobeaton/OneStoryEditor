@@ -628,7 +628,10 @@ When you are finished, then click the "Select State" menu item and in the result
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition AllowToSkip="true">eProjFacOnlineReview1WithConsultant</AllowableTransition>
-      <AllowableTransition>eProjFacReadyForTest1</AllowableTransition>
+      <AllowableTransition AllowToSkip="true">eProjFacReadyForTest1</AllowableTransition>
+      <AllowableTransition>eBackTranslatorTypeInternationalBTTest1</AllowableTransition>
+      <AllowableTransition>eFirstPassMentorCheck2</AllowableTransition>
+      <AllowableTransition>eConsultantCheck2</AllowableTransition>
     </AllowableForewardsTransitions>
     <AllowableBackwardsTransitions>
       <AllowableTransition>eBackTranslatorTranslateConNotes</AllowableTransition>
@@ -651,7 +654,10 @@ Once all of the issues and their resolutions are discussed, then click the "Sele
 and in the resulting window click on the next (green) state where you will do a UNS test. 
     </StageInstructions>
     <AllowableForewardsTransitions>
-      <AllowableTransition>eProjFacReadyForTest1</AllowableTransition>
+      <AllowableTransition AllowToSkip="true">eProjFacReadyForTest1</AllowableTransition>
+      <AllowableTransition>eBackTranslatorTypeInternationalBTTest1</AllowableTransition>
+      <AllowableTransition>eFirstPassMentorCheck2</AllowableTransition>
+      <AllowableTransition>eConsultantCheck2</AllowableTransition>
     </AllowableForewardsTransitions>
     <AllowableBackwardsTransitions>
       <AllowableTransition>eProjFacReviseBasedOnRound1Notes</AllowableTransition>
