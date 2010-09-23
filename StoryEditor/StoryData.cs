@@ -427,7 +427,7 @@ namespace OneStoryProjectEditor
                                              new XAttribute(CstrAttrNameLoggedInMemberId, LoggedInMemberId),
                                              new XAttribute(CstrAttrNameFromState, FromState.ToString().Substring(1)),
                                              new XAttribute(CstrAttrNameToState, ToState.ToString().Substring(1)),
-                                             new XAttribute(CstrAttrNameTransitionDateTime, TransitionDateTime));
+                                             new XAttribute(CstrAttrNameTransitionDateTime, TransitionDateTime.ToString("s")));
                 
                 // this one might be null
                 if (!String.IsNullOrEmpty(WindowsUserName))
