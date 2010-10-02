@@ -174,6 +174,7 @@
             this.helpProvider.SetShowHelp(this.webBrowser, true);
             this.webBrowser.Size = new System.Drawing.Size(738, 367);
             this.webBrowser.TabIndex = 5;
+            this.webBrowser.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.webBrowser_KeyPress);
             this.webBrowser.BeforeNavigate += new onlyconnect.BeforeNavigateEventHandler(this.webBrowser_BeforeNavigate);
             // 
             // progressBarLoadingKeyTerms

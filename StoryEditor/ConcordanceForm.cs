@@ -76,5 +76,11 @@ namespace OneStoryProjectEditor
                 e.Cancel = true;
             }
         }
+
+        private void webBrowser_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 0x0003)    // reverse engineered
+                webBrowser.Copy();
+        }
     }
 }
