@@ -345,7 +345,7 @@ namespace OneStoryProjectEditor
                                       strSearch.Substring(0, strSearch.Length - 1),
                                       (chLast == '*') ? @".*?" : chLast.ToString());
 
-            return new Regex(strSearch, RegexOptions.CultureInvariant | RegexOptions.Singleline | RegexOptions.Compiled);
+            return new Regex(strSearch, RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Singleline | RegexOptions.Compiled);
         }
 
         private static List<Regex> GetRegexs(TermRendering termRendering)
