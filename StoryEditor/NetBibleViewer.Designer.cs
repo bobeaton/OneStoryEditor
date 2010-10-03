@@ -40,6 +40,7 @@
             this.numericUpDownVerseNumber = new System.Windows.Forms.NumericUpDown();
             this.textBoxNetFlixViewer = new System.Windows.Forms.TextBox();
             this.radioButtonShowOtherSwordResources = new System.Windows.Forms.RadioButton();
+            this.checkBoxAutoHide = new System.Windows.Forms.CheckBox();
             this.contextMenuStripBibleBooks = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanel.SuspendLayout();
@@ -68,6 +69,7 @@
             // 
             // webBrowserNetBible
             // 
+            this.tableLayoutPanel.SetColumnSpan(this.webBrowserNetBible, 2);
             this.webBrowserNetBible.Dock = System.Windows.Forms.DockStyle.Fill;
             this.webBrowserNetBible.Location = new System.Drawing.Point(3, 34);
             this.webBrowserNetBible.MinimumSize = new System.Drawing.Size(20, 20);
@@ -78,10 +80,12 @@
             // 
             // tableLayoutPanel
             // 
-            this.tableLayoutPanel.ColumnCount = 1;
+            this.tableLayoutPanel.ColumnCount = 2;
             this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel.Controls.Add(this.webBrowserNetBible, 0, 1);
             this.tableLayoutPanel.Controls.Add(this.tableLayoutPanelSpinControls, 0, 0);
+            this.tableLayoutPanel.Controls.Add(this.checkBoxAutoHide, 1, 0);
             this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
@@ -110,7 +114,7 @@
             this.tableLayoutPanelSpinControls.Name = "tableLayoutPanelSpinControls";
             this.tableLayoutPanelSpinControls.RowCount = 1;
             this.tableLayoutPanelSpinControls.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelSpinControls.Size = new System.Drawing.Size(577, 25);
+            this.tableLayoutPanelSpinControls.Size = new System.Drawing.Size(557, 25);
             this.tableLayoutPanelSpinControls.TabIndex = 2;
             // 
             // domainUpDownBookNames
@@ -234,7 +238,7 @@
             this.textBoxNetFlixViewer.Margin = new System.Windows.Forms.Padding(0);
             this.textBoxNetFlixViewer.Name = "textBoxNetFlixViewer";
             this.textBoxNetFlixViewer.ReadOnly = true;
-            this.textBoxNetFlixViewer.Size = new System.Drawing.Size(350, 22);
+            this.textBoxNetFlixViewer.Size = new System.Drawing.Size(330, 22);
             this.textBoxNetFlixViewer.TabIndex = 6;
             this.textBoxNetFlixViewer.TabStop = false;
             this.textBoxNetFlixViewer.Text = "Bible";
@@ -243,7 +247,7 @@
             // radioButtonShowOtherSwordResources
             // 
             this.radioButtonShowOtherSwordResources.AutoSize = true;
-            this.radioButtonShowOtherSwordResources.Location = new System.Drawing.Point(523, 3);
+            this.radioButtonShowOtherSwordResources.Location = new System.Drawing.Point(503, 3);
             this.radioButtonShowOtherSwordResources.Name = "radioButtonShowOtherSwordResources";
             this.radioButtonShowOtherSwordResources.Size = new System.Drawing.Size(51, 17);
             this.radioButtonShowOtherSwordResources.TabIndex = 7;
@@ -251,6 +255,21 @@
             this.radioButtonShowOtherSwordResources.Text = "Other";
             this.radioButtonShowOtherSwordResources.UseVisualStyleBackColor = true;
             this.radioButtonShowOtherSwordResources.CheckedChanged += new System.EventHandler(this.radioButtonShowOtherSwordResources_CheckedChanged);
+            // 
+            // checkBoxAutoHide
+            // 
+            this.checkBoxAutoHide.AutoSize = true;
+            this.checkBoxAutoHide.Checked = true;
+            this.checkBoxAutoHide.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxAutoHide.Location = new System.Drawing.Point(566, 3);
+            this.checkBoxAutoHide.Name = "checkBoxAutoHide";
+            this.checkBoxAutoHide.Size = new System.Drawing.Size(14, 14);
+            this.checkBoxAutoHide.TabIndex = 3;
+            this.toolTip.SetToolTip(this.checkBoxAutoHide, "Uncheck this box to cause the Bible Pane to automatically hide when you are typin" +
+                    "g (click an Anchor button to make it visible again)");
+            this.checkBoxAutoHide.UseMnemonic = false;
+            this.checkBoxAutoHide.UseVisualStyleBackColor = true;
+            this.checkBoxAutoHide.CheckStateChanged += new System.EventHandler(this.checkBoxAutoHide_CheckStateChanged);
             // 
             // contextMenuStripBibleBooks
             // 
@@ -267,6 +286,7 @@
             this.Name = "NetBibleViewer";
             this.Size = new System.Drawing.Size(583, 262);
             this.tableLayoutPanel.ResumeLayout(false);
+            this.tableLayoutPanel.PerformLayout();
             this.tableLayoutPanelSpinControls.ResumeLayout(false);
             this.tableLayoutPanelSpinControls.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownChapterNumber)).EndInit();
@@ -288,5 +308,6 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStripBibleBooks;
         private System.Windows.Forms.RadioButton radioButtonShowOtherSwordResources;
         private System.Windows.Forms.ToolTip toolTip;
+        internal System.Windows.Forms.CheckBox checkBoxAutoHide;
     }
 }

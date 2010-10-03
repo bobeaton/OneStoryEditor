@@ -113,6 +113,7 @@ namespace OneStoryProjectEditor
             InitDropDown("Epistles+", 43, 66);
 
             domainUpDownBookNames.ContextMenuStrip = contextMenuStripBibleBooks;
+            checkBoxAutoHide.Checked = Properties.Settings.Default.AutoHideBiblePane;
         }
 
         void InitDropDown(string strDropDownName, int nStart, int nEnd)
@@ -377,7 +378,7 @@ namespace OneStoryProjectEditor
                 bJustUpdated = true;
             }
 
-            if (nVerse != m_nVerse)
+            // if (nVerse != m_nVerse)
             {
                 strIdToScrollTo = nVerse.ToString();
                 if (!bJustUpdated)
@@ -386,8 +387,13 @@ namespace OneStoryProjectEditor
 
             Properties.Settings.Default.LastNetBibleReference = ScriptureReference;
 
-            // update the updown controls
-            UpdateUpDowns(keyVerse);
+            // sometimes this throws randomly
+            try
+            {
+                // update the updown controls
+                UpdateUpDowns(keyVerse);
+            }
+            catch { }
         }
 
         private string strIdToScrollTo = null;
@@ -567,6 +573,12 @@ namespace OneStoryProjectEditor
         private void webBrowserNetBible_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             ScrollToElement();
+        }
+
+        private void checkBoxAutoHide_CheckStateChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.AutoHideBiblePane = checkBoxAutoHide.Checked;
+            Properties.Settings.Default.Save();
         }
     }
 }
