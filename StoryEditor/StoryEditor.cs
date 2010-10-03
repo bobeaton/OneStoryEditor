@@ -1421,10 +1421,13 @@ namespace OneStoryProjectEditor
         {
             if (e.Data.GetDataPresent(typeof(VerseData)))
             {
-                VerseData aVerseData = (VerseData)e.Data.GetData(typeof(VerseData));
-                Debug.Assert(sender is Button);
-                int nInsertionIndex = (flowLayoutPanelVerses.Controls.IndexOf((Button)sender) / 2);
-                DoMove(nInsertionIndex, aVerseData);
+                var aVerseData = (VerseData)e.Data.GetData(typeof(VerseData));
+                var theDropTarget = sender as Button;
+                if (theDropTarget != null)
+                {
+                    var nInsertionIndex = (int)theDropTarget.Tag;    // (flowLayoutPanelVerses.Controls.IndexOf((Button)sender) / 2);
+                    DoMove(nInsertionIndex, aVerseData);
+                }
             }
         }
 
