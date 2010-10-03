@@ -64,7 +64,7 @@ namespace OneStoryProjectEditor
                         int nIndex = elemLnPrev.InnerText.IndexOf(' ');
                         System.Diagnostics.Debug.Assert(nIndex != -1);
                         string strLineNumber = elemLnPrev.InnerText.Substring(nIndex + 1);
-                        if ((nIndex = strLineNumber.IndexOf(VersesData.CstrHiddenVerseSuffix)) != -1)
+                        if ((nIndex = strLineNumber.IndexOf(OseResources.Properties.Resources.IDS_HiddenLabel)) != -1)
                             strLineNumber = strLineNumber.Substring(0, nIndex);
                         LineNumberLink.Tag = Convert.ToInt32(strLineNumber);
                     }

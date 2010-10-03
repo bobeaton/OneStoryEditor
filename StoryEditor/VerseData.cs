@@ -414,20 +414,51 @@ namespace OneStoryProjectEditor
 
         public bool IsDiffProcessed;
 
+        // figure out the logic of what to show for the language fields of the story line
+        //  this should never be called in the scenario where there it no *this*
+        protected bool TryStoryLineStringDiff(DirectableEncConverter transliterator,
+            bool bPrintPreview, VerseData theChildVerse, StringTransfer stringTransfer,
+            out string strValue)
+        {
+            strValue = null;
+            // if we're not comparing two verses (e.g. print preview)...
+            bool bNoDiff = bPrintPreview;
+            if (bNoDiff)
+            {
+                // then just return the value (possibly transliterated)
+                strValue = stringTransfer.GetValue(transliterator);
+                return true;
+            }
+
+            // otherwise, if this should be represented as a deletion
+            //  (e.g. there is not child verse corresponding to the parent)...
+            bool bShowAsDeletion = (theChildVerse == null);
+            if (bShowAsDeletion)
+            {
+                // then return it as a deletion
+                strValue = Diff.HtmlDiff(transliterator, stringTransfer, null);
+                return true;
+            }
+            return false;
+        }
+
         // Html that shows the data in the StoryBt file, but in a fully read-only manner
         public string PresentationHtml(int nVerseIndex, int nNumCols, CraftingInfoData craftingInfo,
-            ViewSettings viewSettings, VersesData child, VerseData theChildVerse,
+            ViewSettings viewSettings, VerseData theChildVerse, 
             bool bPrintPreview, bool bHasOutsideEnglishBTer)
         {
             string strRow = null;
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.VernacularLangField))
             {
                 DirectableEncConverter transliterator = viewSettings.TransliteratorVernacular;
-                string str = (!bPrintPreview)
-                    ? ((child != null) && IsVisible)
-                        ? Diff.HtmlDiff(transliterator, VernacularText, ((theChildVerse != null) && theChildVerse.IsVisible) ? theChildVerse.VernacularText : null)
-                        : Diff.HtmlDiff(transliterator, null, VernacularText)
-                    : VernacularText.GetValue(transliterator);
+                string str;
+                if (!TryStoryLineStringDiff(transliterator, bPrintPreview, theChildVerse,
+                    VernacularText, out str))
+                {
+                    // otherise, it must be compared
+                    str = Diff.HtmlDiff(transliterator, VernacularText, 
+                        theChildVerse.VernacularText);
+                }
 
                 strRow += FormatLanguageColumn(nVerseIndex, nNumCols, CstrFieldNameVernacular,
                                                StoryData.CstrLangVernacularStyleClassName, str);
@@ -436,11 +467,14 @@ namespace OneStoryProjectEditor
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.NationalBTLangField))
             {
                 DirectableEncConverter transliterator = viewSettings.TransliteratorNationalBT;
-                string str = (!bPrintPreview)
-                    ? ((child != null) && IsVisible)
-                        ? Diff.HtmlDiff(transliterator, NationalBTText, ((theChildVerse != null) && theChildVerse.IsVisible) ? theChildVerse.NationalBTText : null)
-                        : Diff.HtmlDiff(transliterator, null, NationalBTText)
-                    : NationalBTText.GetValue(transliterator);
+                string str;
+                if (!TryStoryLineStringDiff(transliterator, bPrintPreview, theChildVerse,
+                    NationalBTText, out str))
+                {
+                    // otherise, it must be compared
+                    str = Diff.HtmlDiff(transliterator, NationalBTText,
+                        theChildVerse.NationalBTText);
+                }
 
                 strRow += FormatLanguageColumn(nVerseIndex, nNumCols, CstrFieldNameNationalBt,
                                                StoryData.CstrLangNationalBtStyleClassName, str);
@@ -448,36 +482,76 @@ namespace OneStoryProjectEditor
 
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.EnglishBTField))
             {
-                string str = (!bPrintPreview)
-                    ? ((child != null) && IsVisible)
-                        ? Diff.HtmlDiff(InternationalBTText, ((theChildVerse != null) && theChildVerse.IsVisible) ? theChildVerse.InternationalBTText : null)
-                        : Diff.HtmlDiff(null, InternationalBTText)
-                    : InternationalBTText.ToString();
+                string str;
+                if (!TryStoryLineStringDiff(null, bPrintPreview, theChildVerse,
+                    InternationalBTText, out str))
+                {
+                    // otherise, it must be compared
+                    str = Diff.HtmlDiff(null, InternationalBTText,
+                        theChildVerse.InternationalBTText);
+                }
 
                 strRow += FormatLanguageColumn(nVerseIndex, nNumCols, CstrFieldNameInternationalBt,
                                                StoryData.CstrLangInternationalBtStyleClassName, str);
             }
 
-            string strStoryLineRow = String.Format(OseResources.Properties.Resources.HTML_TableRow,
-                                                   strRow);
-
+            string strHtml = null;
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.AnchorFields))
-                strStoryLineRow += Anchors.PresentationHtml(nVerseIndex, nNumCols,
-                    (theChildVerse != null) ? theChildVerse.Anchors : null, bPrintPreview);
+                strHtml += Anchors.PresentationHtml(nVerseIndex, nNumCols,
+                                                    (theChildVerse != null) ? theChildVerse.Anchors : null,
+                                                    bPrintPreview);
 
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.RetellingFields))
-                strStoryLineRow += Retellings.PresentationHtml(nVerseIndex, nNumCols,
-                    craftingInfo.Testors, (theChildVerse != null) ? theChildVerse.Retellings : null,
-                    bPrintPreview, false);
+                strHtml += Retellings.PresentationHtml(nVerseIndex, nNumCols,
+                                                       craftingInfo.Testors,
+                                                       (theChildVerse != null) ? theChildVerse.Retellings : null,
+                                                       bPrintPreview, false);
 
-            if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.StoryTestingQuestions | ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers))
-                strStoryLineRow += TestQuestions.PresentationHtml(nVerseIndex, nNumCols, viewSettings,
-                    craftingInfo.Testors, (theChildVerse != null) ? theChildVerse.TestQuestions : null,
-                    bPrintPreview, bHasOutsideEnglishBTer);
+            if (
+                viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.StoryTestingQuestions |
+                                          ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers))
+                strHtml += TestQuestions.PresentationHtml(nVerseIndex, nNumCols, viewSettings,
+                                                          craftingInfo.Testors,
+                                                          (theChildVerse != null) ? theChildVerse.TestQuestions : null,
+                                                          bPrintPreview, bHasOutsideEnglishBTer);
+            
+            // show the row as hidden if either we're in print preview (and it's hidden)
+            //  OR based on whether the child is hidden or not
+            bool bShowAsHidden = (bPrintPreview)
+                                     ? !IsVisible
+                                     : ((theChildVerse != null) && !theChildVerse.IsVisible)
+                                           ? true
+                                           : false;
+            return FinishPresentationHtml(strRow, strHtml, bShowAsHidden);
+        }
+
+        protected string FinishPresentationHtml(string strStoryLineRow, string strHtml, 
+            bool bChildIsHidden)
+        {
+            strHtml = String.Format(OseResources.Properties.Resources.HTML_TableRow,
+                                    String.Format(OseResources.Properties.Resources.HTML_TableCell,
+                                                  String.Format(
+                                                      OseResources.Properties.Resources.HTML_Table,
+                                                      strStoryLineRow))) + strHtml;
+
+            strStoryLineRow = String.Format(OseResources.Properties.Resources.HTML_TableCell,
+                                            String.Format(OseResources.Properties.Resources.HTML_TableNoBorder, strHtml));
+
+            // color changes if hidden
+            if (bChildIsHidden)
+            {
+                strHtml = String.Format(OseResources.Properties.Resources.HTML_TableRowColor,
+                                                "#F0E68C", strStoryLineRow);
+            }
+            else
+            {
+                strHtml = String.Format(OseResources.Properties.Resources.HTML_TableRow,
+                                                strStoryLineRow);
+            }
 
             // indicate that we've done this one
             IsDiffProcessed = true;
-            return strStoryLineRow;
+            return strHtml;
         }
 
         private static string FormatLanguageColumn(int nVerseIndex, int nNumCols,
@@ -492,7 +566,8 @@ namespace OneStoryProjectEditor
 
         // for use when the data is to be marked as an addition (i.e. yellow highlight)
         public string PresentationHtmlAsAddition(int nVerseIndex, int nNumCols,
-            CraftingInfoData craftingInfo, ViewSettings viewSettings, bool bHasOutsideEnglishBTer)
+            CraftingInfoData craftingInfo, ViewSettings viewSettings,
+            bool bHasOutsideEnglishBTer)
         {
             string strRow = null;
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.VernacularLangField))
@@ -500,7 +575,7 @@ namespace OneStoryProjectEditor
                 DirectableEncConverter transliterator = viewSettings.TransliteratorVernacular;
                 string str = Diff.HtmlDiff(transliterator, null, VernacularText);
 
-                strRow += FormatLanguageColumn(nVerseIndex, nNumCols, CstrFieldNameVernacular, 
+                strRow += FormatLanguageColumn(nVerseIndex, nNumCols, CstrFieldNameVernacular,
                                                StoryData.CstrLangVernacularStyleClassName, str);
             }
 
@@ -509,7 +584,7 @@ namespace OneStoryProjectEditor
                 DirectableEncConverter transliterator = viewSettings.TransliteratorNationalBT;
                 string str = Diff.HtmlDiff(transliterator, null, NationalBTText);
 
-                strRow += FormatLanguageColumn(nVerseIndex, nNumCols, CstrFieldNameNationalBt, 
+                strRow += FormatLanguageColumn(nVerseIndex, nNumCols, CstrFieldNameNationalBt,
                                                StoryData.CstrLangNationalBtStyleClassName, str);
             }
 
@@ -521,30 +596,26 @@ namespace OneStoryProjectEditor
                                                StoryData.CstrLangInternationalBtStyleClassName, str);
             }
 
-            string strStoryLineRow = String.Format(OseResources.Properties.Resources.HTML_TableRow,
-                                                   strRow);
-
+            string strHtml = null;
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.AnchorFields))
-                strStoryLineRow += Anchors.PresentationHtmlAsAddition(nVerseIndex, nNumCols);
+                strHtml += Anchors.PresentationHtmlAsAddition(nVerseIndex, nNumCols);
 
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.RetellingFields))
-                strStoryLineRow += Retellings.PresentationHtmlAsAddition(nVerseIndex, nNumCols, 
-                    craftingInfo.Testors);
+                strHtml += Retellings.PresentationHtmlAsAddition(nVerseIndex, nNumCols,
+                                                                 craftingInfo.Testors);
 
-            if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.StoryTestingQuestions | ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers))
-                strStoryLineRow += TestQuestions.PresentationHtmlAsAddition(nVerseIndex, nNumCols, viewSettings,
-                    craftingInfo.Testors, bHasOutsideEnglishBTer);
+            if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.StoryTestingQuestions |
+                                          ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers))
+                strHtml += TestQuestions.PresentationHtmlAsAddition(nVerseIndex, nNumCols, viewSettings,
+                                                                    craftingInfo.Testors, bHasOutsideEnglishBTer);
 
-            // indicate that we've done this one
-            IsDiffProcessed = true;
-            return strStoryLineRow;
+            return FinishPresentationHtml(strRow, strHtml, !IsVisible);
         }
     }
 
     public class VersesData : List<VerseData>
     {
         internal const string CstrZerothLineName = "Story:";
-        internal const string CstrHiddenVerseSuffix = " (Hidden)";
 
         public VerseData FirstVerse;
 
@@ -747,7 +818,11 @@ namespace OneStoryProjectEditor
                 VerseData aVerseData = this[i - 1];
                 if (aVerseData.IsVisible || bViewHidden)
                 {
-                    strHtml += GetHeaderRow("Ln: " + i, i, aVerseData.IsVisible, true, nColSpan);
+                    strHtml += GetHeaderRow("Ln: " + i,
+                                            (aVerseData.IsVisible)
+                                                ? null
+                                                : OseResources.Properties.Resources.IDS_HiddenLabel, i,
+                                            true, nColSpan);
 
                     strHtml += aVerseData.StoryBtHtml(projectSettings, membersData, 
                         stageLogic, loggedOnMember, i, viewItemToInsureOn, nColSpan);
@@ -779,22 +854,15 @@ namespace OneStoryProjectEditor
             {
                 // get the parent and child verses that match
                 VerseData aVerseData = this[i - 1];
+
                 VerseData theChildVerse = FindChildEquivalent(aVerseData, child);
 
-                // we don't want to process if it's the first verse or if both are hidden
-                bool bSkip = (aVerseData.IsFirstVerse
-                              || (!aVerseData.IsVisible
-                                  && ((theChildVerse != null) && !theChildVerse.IsVisible)));
-
-                if (!bSkip)
+                if (!aVerseData.IsFirstVerse)
                 {
-                    // if parent was hidden and child is not, then say 'hidden', but show addition
-                    // if parent was visible and child is not, then say 'hidden', but show deletion
-                    // if both are visible, then say nothing (both can't be hidden, because we skip that
-                    bool bHidden = !aVerseData.IsVisible
-                                   || ((theChildVerse != null) && (!theChildVerse.IsVisible));
+                    string strHeaderAdd = DetermineHiddenLabel(aVerseData.IsVisible, theChildVerse);
+
                     int nLineIndex = i + nInsertCount;
-                    strHtml += GetHeaderRow("Ln: " + nLineIndex, nLineIndex, !bHidden, false, nNumCols);
+                    strHtml += GetHeaderRow("Ln: " + nLineIndex, strHeaderAdd, nLineIndex, false, nNumCols);
 
                     if (theChildVerse != null)
                     {
@@ -805,8 +873,9 @@ namespace OneStoryProjectEditor
                             VerseData aPassedByChild = child[j - 1];
                             if (!aPassedByChild.IsDiffProcessed)
                             {
-                                strHtml += aPassedByChild.PresentationHtmlAsAddition(nLineIndex, nNumCols,
-                                    craftingInfo, viewSettings, bHasOutsideEnglishBTer);
+                                strHtml += aPassedByChild.PresentationHtmlAsAddition(nLineIndex, 
+                                    nNumCols, craftingInfo, viewSettings, 
+                                    bHasOutsideEnglishBTer);
                                 bFoundOne = true;
                                 nInsertCount++;
                             }
@@ -816,8 +885,8 @@ namespace OneStoryProjectEditor
                             continue;
                     }
 
-                    strHtml += aVerseData.PresentationHtml(nLineIndex, nNumCols, craftingInfo,
-                        viewSettings, child, theChildVerse, (child == null), bHasOutsideEnglishBTer);
+                    strHtml += aVerseData.PresentationHtml(nLineIndex, nNumCols, craftingInfo, 
+                        viewSettings, theChildVerse, (child == null), bHasOutsideEnglishBTer);
 
                     // if there is a child, but we couldn't find the equivalent verse...
                     if ((child != null) && (theChildVerse == null) && (child.Count >= i))
@@ -842,10 +911,12 @@ namespace OneStoryProjectEditor
                     if (!aVerseData.IsDiffProcessed)
                     {
                         int nLineIndex = i + nInsertCount;
-                        strHtml += GetHeaderRow("Ln: " + nLineIndex, nLineIndex, aVerseData.IsVisible, false, nNumCols);
+                        string strHeaderAdd = DetermineHiddenLabel(aVerseData.IsVisible, null);
+                        strHtml += GetHeaderRow("Ln: " + nLineIndex, strHeaderAdd, nLineIndex, false, nNumCols);
 
                         strHtml += aVerseData.PresentationHtmlAsAddition(nLineIndex, nNumCols,
-                            craftingInfo, viewSettings, bHasOutsideEnglishBTer);
+                                                                         craftingInfo, viewSettings,
+                                                                         bHasOutsideEnglishBTer);
                     }
                     i++;
                 }
@@ -853,17 +924,35 @@ namespace OneStoryProjectEditor
             return String.Format(OseResources.Properties.Resources.HTML_Table, strHtml);
         }
 
+        private static string DetermineHiddenLabel(bool isVisible, VerseData theChildVerse)
+        {
+            string str = null;
+            if (!isVisible || ((theChildVerse != null) && (!theChildVerse.IsVisible)))
+            {
+                if (theChildVerse != null)
+                {
+                    if (!isVisible && !theChildVerse.IsVisible)
+                        str = OseResources.Properties.Resources.IDS_HiddenLabel;
+                    else if (!isVisible)
+                        str = OseResources.Properties.Resources.IDS_WasHidden;
+                    else
+                        str = OseResources.Properties.Resources.IDS_NowIsHidden;
+                }
+                else
+                    str = OseResources.Properties.Resources.IDS_HiddenLabel;
+            }
+            return str;
+        }
+
         public static string ButtonId(int nVerseIndex)
         {
             return String.Format("btnLn_{0}", nVerseIndex);
         }
 
-        protected string GetHeaderRow(string strHeader, int nVerseIndex, bool bVerseVisible, bool bShowButton, int nColSpan)
+        protected string GetHeaderRow(string strHeader, string strHeaderAdd, int nVerseIndex, bool bShowButton, int nColSpan)
         {
             string strLink = String.Format(OseResources.Properties.Resources.HTML_LinkJumpLine,
-                                           nVerseIndex, strHeader);
-            if (!bVerseVisible)
-                strLink += CstrHiddenVerseSuffix;
+                                           nVerseIndex, strHeader) + strHeaderAdd;
 
             string strButton = null;
             if (bShowButton)
@@ -914,7 +1003,8 @@ namespace OneStoryProjectEditor
             string strLink = String.Format(OseResources.Properties.Resources.HTML_LinkJumpLine,
                                            nVerseIndex, strHeader);
             if (!bVerseVisible)
-                strLink += CstrHiddenVerseSuffix;
+                strLink += OseResources.Properties.Resources.IDS_HiddenLabel;
+
             return String.Format(OseResources.Properties.Resources.HTML_TableRowColor, "#AACCFF",
                                  String.Format("{0}{1}",
                                                String.Format(OseResources.Properties.Resources.HTML_TableCellWidthId,

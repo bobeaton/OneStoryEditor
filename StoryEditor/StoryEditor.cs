@@ -3774,7 +3774,7 @@ namespace OneStoryProjectEditor
                     VerseData aVerse = theCurrentStory.Verses[i];
                     string strMenuText = "Ln: " + (i + 1);
                     if (!aVerse.IsVisible)
-                        strMenuText += VersesData.CstrHiddenVerseSuffix;
+                        strMenuText += OseResources.Properties.Resources.IDS_HiddenLabel;
                     contextMenuStripVerseList.Items.Add(strMenuText, null, 
                         onClickVerseNumber);
                 }
@@ -3789,9 +3789,9 @@ namespace OneStoryProjectEditor
                 nVerseNumber = 0;
             else
             {
-                if (strMenuText.IndexOf(VersesData.CstrHiddenVerseSuffix) > 0)
+                if (strMenuText.IndexOf(OseResources.Properties.Resources.IDS_HiddenLabel) > 0)
                 {
-                    strMenuText = strMenuText.Substring(0, strMenuText.Length - VersesData.CstrHiddenVerseSuffix.Length);
+                    strMenuText = strMenuText.Substring(0, strMenuText.Length - OseResources.Properties.Resources.IDS_HiddenLabel.Length);
                     hiddenVersesToolStripMenuItem.Checked = true;
                 }
                 int nIndex = strMenuText.IndexOf(' ');

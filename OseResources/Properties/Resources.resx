@@ -703,11 +703,17 @@ eater Panorama
     <value>You have to log in to continue. Click 'Project', 'Login' and choose or add your name.</value>
     <comment>काम करने के लिए आपको लॉग-इन करना है। 'Project' मेनू, 'Login' पर क्‍लिक करो और अपना नाम चुनकर 'लॉग-इन' बटन दबाओ।</comment>
   </data>
+  <data name="IDS_HiddenLabel" xml:space="preserve">
+    <value> (Hidden)</value>
+  </data>
   <data name="IDS_IllFormedJumpTarget" xml:space="preserve">
     <value>The project file has an ill-formed Anchor! Wasn't expecting to see '{0}'. Contact bob_eaton@sall.com and mention which the project name.</value>
   </data>
   <data name="IDS_MainStoriesSet" xml:space="preserve">
     <value>Stories</value>
+  </data>
+  <data name="IDS_NowIsHidden" xml:space="preserve">
+    <value> was visible, but now is hidden</value>
   </data>
   <data name="IDS_ObsoleteStoriesSet" xml:space="preserve">
     <value>Old Stories</value>
@@ -717,6 +723,9 @@ eater Panorama
   </data>
   <data name="IDS_ProjectFileCorruptedNoCraftingInfo" xml:space="preserve">
     <value>The project file is corrupted. No 'CraftingInfo' record found. Send to bob_eaton@sall.com for help.</value>
+  </data>
+  <data name="IDS_WasHidden" xml:space="preserve">
+    <value> was hidden, but now is visible</value>
   </data>
   <data name="IDS_WhichUserEdits" xml:space="preserve">
     <value>Right now, only a '{0}' can change the state of this story. If you're a {0}, click 'Project', 'Login' to login. You can log in as a 'Just Looking' member to be able to transition to any state, but without edit privileges.</value>
