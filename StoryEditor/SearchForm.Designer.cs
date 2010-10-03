@@ -224,154 +224,154 @@
             this.toolStripSeparator3,
             this.regularExpressionHelpToolStripMenuItem});
             this.contextMenuStripExprBuilder.Name = "contextMenuStripExprBuilder";
-            this.contextMenuStripExprBuilder.Size = new System.Drawing.Size(351, 506);
+            this.contextMenuStripExprBuilder.Size = new System.Drawing.Size(378, 506);
             this.contextMenuStripExprBuilder.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.contextMenuStripExprBuilder_ItemClicked);
             // 
             // MatchAnyCharacterToolStripMenuItem
             // 
             this.MatchAnyCharacterToolStripMenuItem.Name = "MatchAnyCharacterToolStripMenuItem";
-            this.MatchAnyCharacterToolStripMenuItem.Size = new System.Drawing.Size(350, 22);
+            this.MatchAnyCharacterToolStripMenuItem.Size = new System.Drawing.Size(377, 22);
             this.MatchAnyCharacterToolStripMenuItem.Text = ". Match any single character";
             // 
             // match0OrMoreTimesAsManyAsPossibleToolStripMenuItem
             // 
             this.match0OrMoreTimesAsManyAsPossibleToolStripMenuItem.Name = "match0OrMoreTimesAsManyAsPossibleToolStripMenuItem";
-            this.match0OrMoreTimesAsManyAsPossibleToolStripMenuItem.Size = new System.Drawing.Size(350, 22);
+            this.match0OrMoreTimesAsManyAsPossibleToolStripMenuItem.Size = new System.Drawing.Size(377, 22);
             this.match0OrMoreTimesAsManyAsPossibleToolStripMenuItem.Text = "* Match 0 or more times, as many as possible";
             // 
             // match0Or1TimesButPreferOneTimeToolStripMenuItem
             // 
             this.match0Or1TimesButPreferOneTimeToolStripMenuItem.Name = "match0Or1TimesButPreferOneTimeToolStripMenuItem";
-            this.match0Or1TimesButPreferOneTimeToolStripMenuItem.Size = new System.Drawing.Size(350, 22);
+            this.match0Or1TimesButPreferOneTimeToolStripMenuItem.Size = new System.Drawing.Size(377, 22);
             this.match0Or1TimesButPreferOneTimeToolStripMenuItem.Text = "? Match 0 or 1 times, but prefer one time";
             // 
             // match0OrMoreTimesAsFewAsPossibleToolStripMenuItem
             // 
             this.match0OrMoreTimesAsFewAsPossibleToolStripMenuItem.Name = "match0OrMoreTimesAsFewAsPossibleToolStripMenuItem";
-            this.match0OrMoreTimesAsFewAsPossibleToolStripMenuItem.Size = new System.Drawing.Size(350, 22);
+            this.match0OrMoreTimesAsFewAsPossibleToolStripMenuItem.Size = new System.Drawing.Size(377, 22);
             this.match0OrMoreTimesAsFewAsPossibleToolStripMenuItem.Text = "*? Match 0 or more times, as few as possible";
             // 
             // match1OrMoreTimesAsManyAsPossibleToolStripMenuItem
             // 
             this.match1OrMoreTimesAsManyAsPossibleToolStripMenuItem.Name = "match1OrMoreTimesAsManyAsPossibleToolStripMenuItem";
-            this.match1OrMoreTimesAsManyAsPossibleToolStripMenuItem.Size = new System.Drawing.Size(350, 22);
+            this.match1OrMoreTimesAsManyAsPossibleToolStripMenuItem.Size = new System.Drawing.Size(377, 22);
             this.match1OrMoreTimesAsManyAsPossibleToolStripMenuItem.Text = "+ Match 1 or more times, as many as possible";
             // 
             // match1OrMoreTimesAsFewAsPossibleToolStripMenuItem
             // 
             this.match1OrMoreTimesAsFewAsPossibleToolStripMenuItem.Name = "match1OrMoreTimesAsFewAsPossibleToolStripMenuItem";
-            this.match1OrMoreTimesAsFewAsPossibleToolStripMenuItem.Size = new System.Drawing.Size(350, 22);
+            this.match1OrMoreTimesAsFewAsPossibleToolStripMenuItem.Size = new System.Drawing.Size(377, 22);
             this.match1OrMoreTimesAsFewAsPossibleToolStripMenuItem.Text = "+? Match 1 or more times, as few as possible";
             // 
             // nMatchExactlyNTimesToolStripMenuItem
             // 
             this.nMatchExactlyNTimesToolStripMenuItem.Name = "nMatchExactlyNTimesToolStripMenuItem";
-            this.nMatchExactlyNTimesToolStripMenuItem.Size = new System.Drawing.Size(350, 22);
+            this.nMatchExactlyNTimesToolStripMenuItem.Size = new System.Drawing.Size(377, 22);
             this.nMatchExactlyNTimesToolStripMenuItem.Text = "{n} Match exactly n times";
             // 
             // nmMatchBetweenNAndMTimesAsManyAsPossibleToolStripMenuItem
             // 
             this.nmMatchBetweenNAndMTimesAsManyAsPossibleToolStripMenuItem.Name = "nmMatchBetweenNAndMTimesAsManyAsPossibleToolStripMenuItem";
-            this.nmMatchBetweenNAndMTimesAsManyAsPossibleToolStripMenuItem.Size = new System.Drawing.Size(350, 22);
+            this.nmMatchBetweenNAndMTimesAsManyAsPossibleToolStripMenuItem.Size = new System.Drawing.Size(377, 22);
             this.nmMatchBetweenNAndMTimesAsManyAsPossibleToolStripMenuItem.Text = "{n,m} Match between n and m times, as many as possible";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(347, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(374, 6);
             // 
             // rParagraphCharacterToolStripMenuItem
             // 
             this.rParagraphCharacterToolStripMenuItem.Name = "rParagraphCharacterToolStripMenuItem";
-            this.rParagraphCharacterToolStripMenuItem.Size = new System.Drawing.Size(350, 22);
+            this.rParagraphCharacterToolStripMenuItem.Size = new System.Drawing.Size(377, 22);
             this.rParagraphCharacterToolStripMenuItem.Text = "\\r Matches a carriage return (\\u000D)";
             // 
             // matchAtTheBeginningOfALineToolStripMenuItem
             // 
             this.matchAtTheBeginningOfALineToolStripMenuItem.Name = "matchAtTheBeginningOfALineToolStripMenuItem";
-            this.matchAtTheBeginningOfALineToolStripMenuItem.Size = new System.Drawing.Size(350, 22);
+            this.matchAtTheBeginningOfALineToolStripMenuItem.Size = new System.Drawing.Size(377, 22);
             this.matchAtTheBeginningOfALineToolStripMenuItem.Text = "^ Match at the beginning of a line";
             // 
             // matchAtTheEndOfALineToolStripMenuItem
             // 
             this.matchAtTheEndOfALineToolStripMenuItem.Name = "matchAtTheEndOfALineToolStripMenuItem";
-            this.matchAtTheEndOfALineToolStripMenuItem.Size = new System.Drawing.Size(350, 22);
+            this.matchAtTheEndOfALineToolStripMenuItem.Size = new System.Drawing.Size(377, 22);
             this.matchAtTheEndOfALineToolStripMenuItem.Text = "$ Match at the end of a line";
             // 
             // bMatchIfTheCurrentPositionIsAWordBoundaryToolStripMenuItem
             // 
             this.bMatchIfTheCurrentPositionIsAWordBoundaryToolStripMenuItem.Name = "bMatchIfTheCurrentPositionIsAWordBoundaryToolStripMenuItem";
-            this.bMatchIfTheCurrentPositionIsAWordBoundaryToolStripMenuItem.Size = new System.Drawing.Size(350, 22);
+            this.bMatchIfTheCurrentPositionIsAWordBoundaryToolStripMenuItem.Size = new System.Drawing.Size(377, 22);
             this.bMatchIfTheCurrentPositionIsAWordBoundaryToolStripMenuItem.Text = "\\b Match if the current position is a word boundary";
             // 
             // bMatchIfTheCurrentPositionIsNotAWordBoundaryToolStripMenuItem
             // 
             this.bMatchIfTheCurrentPositionIsNotAWordBoundaryToolStripMenuItem.Name = "bMatchIfTheCurrentPositionIsNotAWordBoundaryToolStripMenuItem";
-            this.bMatchIfTheCurrentPositionIsNotAWordBoundaryToolStripMenuItem.Size = new System.Drawing.Size(350, 22);
+            this.bMatchIfTheCurrentPositionIsNotAWordBoundaryToolStripMenuItem.Size = new System.Drawing.Size(377, 22);
             this.bMatchIfTheCurrentPositionIsNotAWordBoundaryToolStripMenuItem.Text = "\\B Match if the current position is not a word boundary";
             // 
             // dMatchAnyNumberOrDecimalDigitToolStripMenuItem
             // 
             this.dMatchAnyNumberOrDecimalDigitToolStripMenuItem.Name = "dMatchAnyNumberOrDecimalDigitToolStripMenuItem";
-            this.dMatchAnyNumberOrDecimalDigitToolStripMenuItem.Size = new System.Drawing.Size(350, 22);
+            this.dMatchAnyNumberOrDecimalDigitToolStripMenuItem.Size = new System.Drawing.Size(377, 22);
             this.dMatchAnyNumberOrDecimalDigitToolStripMenuItem.Text = "\\d Match any number or decimal digit";
             // 
             // dMatchAnyCharacterThatIsNotADecimalDigitToolStripMenuItem
             // 
             this.dMatchAnyCharacterThatIsNotADecimalDigitToolStripMenuItem.Name = "dMatchAnyCharacterThatIsNotADecimalDigitToolStripMenuItem";
-            this.dMatchAnyCharacterThatIsNotADecimalDigitToolStripMenuItem.Size = new System.Drawing.Size(350, 22);
+            this.dMatchAnyCharacterThatIsNotADecimalDigitToolStripMenuItem.Size = new System.Drawing.Size(377, 22);
             this.dMatchAnyCharacterThatIsNotADecimalDigitToolStripMenuItem.Text = "\\D Match any character that is not a decimal digit";
             // 
             // sMatchAWhiteSpaceCharacterToolStripMenuItem
             // 
             this.sMatchAWhiteSpaceCharacterToolStripMenuItem.Name = "sMatchAWhiteSpaceCharacterToolStripMenuItem";
-            this.sMatchAWhiteSpaceCharacterToolStripMenuItem.Size = new System.Drawing.Size(350, 22);
+            this.sMatchAWhiteSpaceCharacterToolStripMenuItem.Size = new System.Drawing.Size(377, 22);
             this.sMatchAWhiteSpaceCharacterToolStripMenuItem.Text = "\\s Match a white space character";
             // 
             // sMatchANonwhiteSpaceCharacterToolStripMenuItem
             // 
             this.sMatchANonwhiteSpaceCharacterToolStripMenuItem.Name = "sMatchANonwhiteSpaceCharacterToolStripMenuItem";
-            this.sMatchANonwhiteSpaceCharacterToolStripMenuItem.Size = new System.Drawing.Size(350, 22);
+            this.sMatchANonwhiteSpaceCharacterToolStripMenuItem.Size = new System.Drawing.Size(377, 22);
             this.sMatchANonwhiteSpaceCharacterToolStripMenuItem.Text = "\\S Match a non-white space character";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(347, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(374, 6);
             // 
             // patternMatchAnyOneCharacterFromTheSetToolStripMenuItem
             // 
             this.patternMatchAnyOneCharacterFromTheSetToolStripMenuItem.Name = "patternMatchAnyOneCharacterFromTheSetToolStripMenuItem";
-            this.patternMatchAnyOneCharacterFromTheSetToolStripMenuItem.Size = new System.Drawing.Size(350, 22);
+            this.patternMatchAnyOneCharacterFromTheSetToolStripMenuItem.Size = new System.Drawing.Size(377, 22);
             this.patternMatchAnyOneCharacterFromTheSetToolStripMenuItem.Text = "[pattern] Match any one character from the set";
             // 
             // findWhatGroupToolStripMenuItem
             // 
             this.findWhatGroupToolStripMenuItem.Name = "findWhatGroupToolStripMenuItem";
-            this.findWhatGroupToolStripMenuItem.Size = new System.Drawing.Size(350, 22);
+            this.findWhatGroupToolStripMenuItem.Size = new System.Drawing.Size(377, 22);
             this.findWhatGroupToolStripMenuItem.Text = "() Match groups";
             // 
             // aBMatchesEitherAOrBToolStripMenuItem
             // 
             this.aBMatchesEitherAOrBToolStripMenuItem.Name = "aBMatchesEitherAOrBToolStripMenuItem";
-            this.aBMatchesEitherAOrBToolStripMenuItem.Size = new System.Drawing.Size(350, 22);
+            this.aBMatchesEitherAOrBToolStripMenuItem.Size = new System.Drawing.Size(377, 22);
             this.aBMatchesEitherAOrBToolStripMenuItem.Text = "| \'A|B\' matches either A or B";
             // 
             // uhhhhMatchTheCharacterWithTheHexValueHhhhToolStripMenuItem
             // 
             this.uhhhhMatchTheCharacterWithTheHexValueHhhhToolStripMenuItem.Name = "uhhhhMatchTheCharacterWithTheHexValueHhhhToolStripMenuItem";
-            this.uhhhhMatchTheCharacterWithTheHexValueHhhhToolStripMenuItem.Size = new System.Drawing.Size(350, 22);
+            this.uhhhhMatchTheCharacterWithTheHexValueHhhhToolStripMenuItem.Size = new System.Drawing.Size(377, 22);
             this.uhhhhMatchTheCharacterWithTheHexValueHhhhToolStripMenuItem.Text = "\\uhhhh Match the character with the hex value hhhh";
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(347, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(374, 6);
             // 
             // regularExpressionHelpToolStripMenuItem
             // 
             this.regularExpressionHelpToolStripMenuItem.Name = "regularExpressionHelpToolStripMenuItem";
-            this.regularExpressionHelpToolStripMenuItem.Size = new System.Drawing.Size(350, 22);
+            this.regularExpressionHelpToolStripMenuItem.Size = new System.Drawing.Size(377, 22);
             this.regularExpressionHelpToolStripMenuItem.Text = "Regular Expression &Help";
             this.regularExpressionHelpToolStripMenuItem.Click += new System.EventHandler(this.regularExpressionHelpToolStripMenuItem_Click);
             // 
@@ -417,31 +417,31 @@
             this.taggedExpression2ToolStripMenuItem,
             this.taggedExpression3ToolStripMenuItem});
             this.contextMenuStripReplaceWithExprBuilder.Name = "contextMenuStripReplaceWithExprBuilder";
-            this.contextMenuStripReplaceWithExprBuilder.Size = new System.Drawing.Size(153, 92);
+            this.contextMenuStripReplaceWithExprBuilder.Size = new System.Drawing.Size(160, 92);
             this.contextMenuStripReplaceWithExprBuilder.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.contextMenuStripReplaceWithExprBuilder_ItemClicked);
             // 
             // findWhatTextToolStripMenuItem
             // 
             this.findWhatTextToolStripMenuItem.Name = "findWhatTextToolStripMenuItem";
-            this.findWhatTextToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.findWhatTextToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.findWhatTextToolStripMenuItem.Text = "\'&Find What\' Text";
             // 
             // taggedExpression1ToolStripMenuItem
             // 
             this.taggedExpression1ToolStripMenuItem.Name = "taggedExpression1ToolStripMenuItem";
-            this.taggedExpression1ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.taggedExpression1ToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.taggedExpression1ToolStripMenuItem.Text = "Match Group &1";
             // 
             // taggedExpression2ToolStripMenuItem
             // 
             this.taggedExpression2ToolStripMenuItem.Name = "taggedExpression2ToolStripMenuItem";
-            this.taggedExpression2ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.taggedExpression2ToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.taggedExpression2ToolStripMenuItem.Text = "Match Group &2";
             // 
             // taggedExpression3ToolStripMenuItem
             // 
             this.taggedExpression3ToolStripMenuItem.Name = "taggedExpression3ToolStripMenuItem";
-            this.taggedExpression3ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.taggedExpression3ToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.taggedExpression3ToolStripMenuItem.Text = "Match Group &3";
             // 
             // checkBoxLookInExpander
@@ -637,7 +637,9 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SearchForm";
+            this.ShowInTaskbar = false;
             this.Text = "Find";
+            this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SearchForm_FormClosing);
             this.tableLayoutPanel.ResumeLayout(false);
             this.tableLayoutPanel.PerformLayout();

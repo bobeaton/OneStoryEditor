@@ -10,7 +10,6 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Windows.Forms;
 using System.IO;
-using System.Xml.XPath;                 // for XPathNavigator
 using System.Xml.Xsl;
 using ECInterfaces;
 using Palaso.UI.WindowsForms.Keyboarding;
@@ -38,6 +37,7 @@ namespace OneStoryProjectEditor
         internal Timer myFocusTimer = new Timer();
         protected Timer mySaveTimer = new Timer();
 
+        private const int CnIntervalBetweenAutoSaveReqs = 5*1000*60;
         protected DateTime tmLastSync = DateTime.Now;
         protected TimeSpan tsBackupTime = new TimeSpan(1, 0, 0);
 
@@ -46,16 +46,22 @@ namespace OneStoryProjectEditor
             myFocusTimer.Tick += TimeToSetFocus;
             myFocusTimer.Interval = 200;
 
-            mySaveTimer.Tick += TimeToSave;
-            mySaveTimer.Interval = 5 * 1000 * 60;
-            mySaveTimer.Start();
-
             _strStoriesSet = strStoriesSet;
 
             InitializeComponent();
 
             panoramaToolStripMenuItem.Visible = IsInStoriesSet;
             useSameSettingsForAllStoriesToolStripMenuItem.Checked = Properties.Settings.Default.LastUseForAllStories;
+            enabledToolStripMenuItem.Checked = Properties.Settings.Default.AutoSaveTimeoutEnabled;
+            asSilentlyAsPossibleToolStripMenuItem.Checked = Properties.Settings.Default.DoAutoSaveSilently;
+
+            if (enabledToolStripMenuItem.Checked)
+            {
+                //autosave timer goes off every 5 minutes.
+                mySaveTimer.Tick += TimeToSave;
+                mySaveTimer.Interval = CnIntervalBetweenAutoSaveReqs;
+                mySaveTimer.Start();
+            }
 
             try
             {
@@ -77,17 +83,47 @@ namespace OneStoryProjectEditor
             catch { }   // this was only a bene anyway, so just ignore it
         }
 
+        private const int CnSecondsToDelyLastKeyPress = 7;
+        private DateTime _tmLastKeyPressedTimeStamp;
+        internal DateTime LastKeyPressedTimeStamp
+        {
+            get { return _tmLastKeyPressedTimeStamp; }
+            set
+            {
+                _tmLastKeyPressedTimeStamp = value;
+
+                // if the Bible Pane's auto hide checkbox is unchecked, then 
+                //  hide it when typing
+                if (!netBibleViewer.checkBoxAutoHide.Checked)
+                    viewNetBibleMenuItem.Checked = false;   // hide the Bible pane while typing
+            }
+        }
+        protected TimeSpan tsLastKeyPressDelay = new TimeSpan(0, 0, CnSecondsToDelyLastKeyPress);
+        
         private void TimeToSave(object sender, EventArgs e)
         {
             mySaveTimer.Stop();
 
             if (Modified)
             {
-                DialogResult res = MessageBox.Show(Properties.Resources.IDS_SaveChanges, OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
-                if (res == DialogResult.Yes)
+                // don't do it *now* if the user is typing
+                if ((DateTime.Now - LastKeyPressedTimeStamp) < tsLastKeyPressDelay)
                 {
-                    SaveClicked();
-                    return;
+                    // wait at least 3 secs from the last key press
+                    mySaveTimer.Interval = CnSecondsToDelyLastKeyPress*1000;
+                }
+                else
+                {
+                    DialogResult res = DialogResult.Yes;
+
+                    if (!asSilentlyAsPossibleToolStripMenuItem.Checked)
+                        res = MessageBox.Show(Properties.Resources.IDS_SaveChanges, OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+
+                    if (res == DialogResult.Yes)
+                    {
+                        SaveClicked();
+                        return;
+                    }
                 }
             }
 
@@ -280,9 +316,13 @@ namespace OneStoryProjectEditor
             comboBoxStorySelector.Items.Clear();
             comboBoxStorySelector.Text = Properties.Resources.IDS_EnterStoryName;
             textBoxStoryVerse.Text = Properties.Resources.IDS_Story;
-            viewConsultantNoteFieldMenuItem.Checked = false;
-            viewCoachNotesFieldMenuItem.Checked = false;
-            viewNetBibleMenuItem.Checked = false;
+
+            if (!useSameSettingsForAllStoriesToolStripMenuItem.Checked)
+            {
+                viewConsultantNoteFieldMenuItem.Checked = 
+                    viewCoachNotesFieldMenuItem.Checked = 
+                    viewNetBibleMenuItem.Checked = false;
+            }
         }
 
         protected void NewProjectFile()
@@ -1539,22 +1579,33 @@ namespace OneStoryProjectEditor
         internal void SaveClicked()
         {
             mySaveTimer.Stop();
+            mySaveTimer.Interval = CnIntervalBetweenAutoSaveReqs;
             mySaveTimer.Start();
 
             if (!IsInStoriesSet || !Modified || (StoryProject == null) || (StoryProject.ProjSettings == null))
                 return;
 
             string strFilename = StoryProject.ProjSettings.ProjectFilePath;
-            SaveFile(strFilename);
 
-            if ((DateTime.Now - tmLastSync) > tsBackupTime)
+            bool bSaveThisSnapshotInRepo = (DateTime.Now - tmLastSync) > tsBackupTime;
+            SaveFile(strFilename, bSaveThisSnapshotInRepo);
+
+            if (bSaveThisSnapshotInRepo)
             {
-                Program.BackupInRepo(StoryProject.ProjSettings.ProjectFolder);
+                try
+                {
+                    Program.BackupInRepo(StoryProject.ProjSettings.ProjectFolder);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(String.Format(ex.Message, strFilename), OseResources.Properties.Resources.IDS_Caption);
+                    return;
+                }
                 tmLastSync = DateTime.Now;
             }
         }
 
-        protected void SaveXElement(XElement elem, string strFilename)
+        protected void SaveXElement(XElement elem, string strFilename, bool bDoReloadTest)
         {
             // create the root portions of the XML document and tack on the fragment we've been building
             XDocument doc = new XDocument(
@@ -1568,10 +1619,15 @@ namespace OneStoryProjectEditor
             string strTempFilename = strFilename + CstrExtraExtnToAvoidClobberingFilesWithFailedSaves;
             doc.Save(strTempFilename);
 
-            // now try to load the xml file. it'll throw if it's malformed 
-            //  (so we won't want to put it into the repo)
-            var projFile = new NewDataSet();
-            projFile.ReadXml(strTempFilename);
+            // this reload test is nice, but costly at the end of a project (where time
+            //  is of an essense... so just check this when we're storing in the repo
+            if (bDoReloadTest)
+            {
+                // now try to load the xml file. it'll throw if it's malformed 
+                //  (so we won't want to put it into the repo)
+                var projFile = new NewDataSet();
+                projFile.ReadXml(strTempFilename);
+            }
 
             // backup the last version to appdata
             // Note: doing File.Move leaves the old file security settings rather than replacing them
@@ -1592,7 +1648,7 @@ namespace OneStoryProjectEditor
             dlg.ShowDialog();
         }
 
-        protected void SaveFile(string strFilename)
+        protected void SaveFile(string strFilename, bool bDoReloadTest)
         {
             try
             {
@@ -1608,7 +1664,7 @@ namespace OneStoryProjectEditor
                         QueryStoryPurpose();
                 }
 
-                SaveXElement(GetXml, strFilename);
+                SaveXElement(GetXml, strFilename, bDoReloadTest);
             }
             catch (UnauthorizedAccessException)
             {
@@ -1985,7 +2041,15 @@ namespace OneStoryProjectEditor
                 MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
                 return false;
             }
-            
+
+            if ((theCurrentStory.ProjStage.ProjectStage == stateToSet)
+                && (stateToSet == StoryStageLogic.ProjectStages.eTeamComplete))
+            {
+                MessageBox.Show(Properties.Resources.IDS_GoBackwardsYoungMan,
+                                OseResources.Properties.Resources.IDS_Caption);
+                return false;
+            }
+
             StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[theCurrentStory.ProjStage.ProjectStage];
             bool bRet = st.IsReadyForTransition(this, StoryProject, theCurrentStory, stateToSet);
             if (bRet)
@@ -3944,6 +4008,24 @@ namespace OneStoryProjectEditor
         {
             Properties.Settings.Default.AutoCheckForProgramUpdatesAtStartup =
                 automaticallyCheckAtStartupToolStripMenuItem.Checked;
+            Properties.Settings.Default.Save();
+        }
+
+        private void enabledToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (enabledToolStripMenuItem.Checked)
+            {
+                //autosave timer goes off every 5 minutes.
+                mySaveTimer.Tick += TimeToSave;
+                mySaveTimer.Interval = CnIntervalBetweenAutoSaveReqs;
+                mySaveTimer.Start();
+            }
+            else
+            {
+                mySaveTimer.Stop();
+            }
+
+            Properties.Settings.Default.AutoSaveTimeoutEnabled = enabledToolStripMenuItem.Checked;
             Properties.Settings.Default.Save();
         }
     }

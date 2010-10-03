@@ -545,5 +545,41 @@ namespace OneStoryProjectEditor.Properties {
                 this["AutoCheckForProgramUpdatesAtStartup"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool AutoSaveTimeoutEnabled {
+            get {
+                return ((bool)(this["AutoSaveTimeoutEnabled"]));
+            }
+            set {
+                this["AutoSaveTimeoutEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DoAutoSaveSilently {
+            get {
+                return ((bool)(this["DoAutoSaveSilently"]));
+            }
+            set {
+                this["DoAutoSaveSilently"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool AutoHideBiblePane {
+            get {
+                return ((bool)(this["AutoHideBiblePane"]));
+            }
+            set {
+                this["AutoHideBiblePane"] = value;
+            }
+        }
     }
 }
