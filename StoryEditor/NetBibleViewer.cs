@@ -580,5 +580,22 @@ namespace OneStoryProjectEditor
             Properties.Settings.Default.AutoHideBiblePane = checkBoxAutoHide.Checked;
             Properties.Settings.Default.Save();
         }
+
+        private void checkBoxAutoHide_MouseUp(object sender, MouseEventArgs e)
+        {
+            // if clicked with the right mouse button, then hide it now
+            //   (triggered by setting theSE.LastKeyPressedTimeStamp)
+            if (!checkBoxAutoHide.Checked)
+            {
+                var theSE = FindForm() as StoryEditor;
+                if (theSE != null)
+                {
+                    if (theSE.splitContainerUpDown.IsMinimized)
+                        theSE.splitContainerUpDown.Restore();
+                    else
+                        theSE.splitContainerUpDown.Minimize();
+                }
+            }
+        }
     }
 }

@@ -244,6 +244,9 @@
     <Compile Include="LineFlowLayoutPanel.Designer.cs">
       <DependentUpon>LineFlowLayoutPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="MinimizableSplitterContainer.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="MultipleLineDataConverter.cs">
       <SubType>Code</SubType>
     </Compile>

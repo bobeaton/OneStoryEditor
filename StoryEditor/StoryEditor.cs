@@ -95,7 +95,7 @@ namespace OneStoryProjectEditor
                 // if the Bible Pane's auto hide checkbox is unchecked, then 
                 //  hide it when typing
                 if (!netBibleViewer.checkBoxAutoHide.Checked)
-                    viewNetBibleMenuItem.Checked = false;   // hide the Bible pane while typing
+                    splitContainerUpDown.Minimize();
             }
         }
         protected TimeSpan tsLastKeyPressDelay = new TimeSpan(0, 0, CnSecondsToDelyLastKeyPress);
@@ -1110,7 +1110,7 @@ namespace OneStoryProjectEditor
                 //  the scrolling since it's annoying that it jumps around when greater
                 //  than the height of the view).
                 if ((CtrlTextBox._inTextBox == null) || (CtrlTextBox._inTextBox._ctrlVerseParent != theVerse))
-                    flowLayoutPanelVerses.ScrollControlIntoView(theVerse);
+                    flowLayoutPanelVerses.ScrollIntoView(theVerse);
                 else
                     flowLayoutPanelVerses.LastControlIntoView = theVerse;
             }
