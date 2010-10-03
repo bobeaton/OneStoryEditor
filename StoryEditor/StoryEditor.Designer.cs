@@ -126,7 +126,7 @@ namespace OneStoryProjectEditor
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.splitContainerLeftRight = new System.Windows.Forms.SplitContainer();
-            this.splitContainerUpDown = new System.Windows.Forms.SplitContainer();
+            this.splitContainerUpDown = new MinimizableSplitterContainer();
             this.linkLabelVerseBT = new System.Windows.Forms.LinkLabel();
             this.contextMenuStripVerseList = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.flowLayoutPanelVerses = new OneStoryProjectEditor.VerseBtLineFlowLayoutPanel();
@@ -1378,7 +1378,7 @@ namespace OneStoryProjectEditor
         private SaveFileDialog saveFileDialog;
         internal VerseBtLineFlowLayoutPanel flowLayoutPanelVerses;
         private SplitContainer splitContainerLeftRight;
-        private SplitContainer splitContainerUpDown;
+        internal MinimizableSplitterContainer splitContainerUpDown;
         private ToolStripMenuItem viewToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator5;
         private ToolStripSeparator toolStripSeparator6;

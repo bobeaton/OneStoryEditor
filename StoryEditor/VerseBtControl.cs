@@ -116,6 +116,13 @@ namespace OneStoryProjectEditor
                 RemoveRow(tableLayoutPanel.RowCount - 1);
         }
 
+        public new bool Focus()
+        {
+            var slc = tableLayoutPanel.Controls[CstrFieldNameStoryLine] as StoryLineControl;
+            if (slc != null) return slc.Focus();
+            return false;
+        }
+
         protected void InitStoryLine(StoryEditor theSE, VerseData aVerseData, int nLayoutRow)
         {
             System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(CstrFieldNameStoryLine));

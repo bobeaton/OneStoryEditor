@@ -79,24 +79,38 @@ namespace OneStoryProjectEditor
                 }
 
                 if (ctrlNext != null)
-                    ScrollControlIntoView(ctrlNext);
+                {
+                    VerseBtControl ctrlLastNegative = ctrlNext as VerseBtControl;
+                    ScrollIntoView(ctrlLastNegative);
+                    SetLineNumberLink(ctrlLastNegative);
+                }
             }
+            else  // small or otherwise scrolling...
+            {
+                VerseBtControl ctrlLastNegative = VerseControlJustAboveDisplayRectange;
 
-            VerseControl ctrlLastNegative = VerseControlJustAboveDisplayRectange;
-            SetLineNumberLink(ctrlLastNegative);
+                // if the number is going to be changed, then let's *not* remember the last
+                //  control box that was clicked in (if the autosave timer expires and we've
+                //  been scrolling down the page, then when the save is done, it jumps back
+                //  up to the last one clicked in)
+                if (ctrlLastNegative.VerseNumber != (int) LineNumberLink.Tag)
+                    ScrollIntoView(ctrlLastNegative);
+
+                SetLineNumberLink(ctrlLastNegative);
+            }
         }
 
-        private VerseControl VerseControlJustAboveDisplayRectange
+        private VerseBtControl VerseControlJustAboveDisplayRectange
         {
             get
             {
-                VerseControl ctrlLastNegative = null;
+                VerseBtControl ctrlLastNegative = null;
                 foreach (Control control in Controls)
                 {
-                    if (control is VerseControl)
+                    if (control is VerseBtControl)
                     {
                         if (control.Bounds.Y <= 0)
-                            ctrlLastNegative = control as VerseControl;
+                            ctrlLastNegative = control as VerseBtControl;
                         else
                             break;
                     }
@@ -117,10 +131,11 @@ namespace OneStoryProjectEditor
 
         public Control LastControlIntoView { get; set; }
 
-        public new void ScrollControlIntoView(Control ctrl)
+        public void ScrollIntoView(VerseBtControl ctrl)
         {
             LastControlIntoView = ctrl;
-            base.ScrollControlIntoView(ctrl);
+            ScrollControlIntoView(ctrl);
+            ctrl.Focus();
 
             // technically, it may not have been moved much, so the given control
             //  may *not* be the one where the link label should point to

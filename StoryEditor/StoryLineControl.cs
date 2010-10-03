@@ -85,24 +85,17 @@ namespace OneStoryProjectEditor
             ResumeLayout(false);
         }
 
-        public bool Focus(StoryEditor theSE)
+        public new bool Focus()
         {
-            Focus();
-            if (theSE.viewVernacularLangFieldMenuItem.Checked)
-            {
-                System.Diagnostics.Debug.Assert((_aVerseData.VernacularText.TextBox != null) && _aVerseData.VernacularText.TextBox.Visible);
+            if (_aVerseData.VernacularText.TextBox != null)
                 _aVerseData.VernacularText.TextBox.Focus();
-            }
-            else if (theSE.viewNationalLangFieldMenuItem.Checked)
-            {
-                System.Diagnostics.Debug.Assert((_aVerseData.NationalBTText.TextBox != null) && _aVerseData.NationalBTText.TextBox.Visible);
+
+            else if (_aVerseData.NationalBTText.TextBox != null)
                 _aVerseData.NationalBTText.TextBox.Focus();
-            }
-            else if (theSE.viewEnglishBTFieldMenuItem.Checked)
-            {
-                System.Diagnostics.Debug.Assert((_aVerseData.InternationalBTText.TextBox != null) && _aVerseData.InternationalBTText.TextBox.Visible);
+
+            else if (_aVerseData.InternationalBTText.TextBox != null)
                 _aVerseData.InternationalBTText.TextBox.Focus();
-            }
+
             else
                 return false;
 
