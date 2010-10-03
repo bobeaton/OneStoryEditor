@@ -497,6 +497,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This story has already reached the final state. If you mean to go to some previous state, click the &apos;Select State&apos; menu at the top of the window and choose the previous state you want to go to..
+        /// </summary>
+        internal static string IDS_GoBackwardsYoungMan {
+            get {
+                return ResourceManager.GetString("IDS_GoBackwardsYoungMan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Is this a story from the Bible?.
         /// </summary>
         internal static string IDS_IsThisStoryFromTheBible {
@@ -872,6 +881,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_TerminalTransitionMessage {
             get {
                 return ResourceManager.GetString("IDS_TerminalTransitionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This story isn&apos;t in revision &apos;{0}&apos;.
+        /// </summary>
+        internal static string IDS_ThisStoryNotInThisRevision {
+            get {
+                return ResourceManager.GetString("IDS_ThisStoryNotInThisRevision", resourceCulture);
             }
         }
         
