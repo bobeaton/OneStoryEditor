@@ -149,6 +149,7 @@
             this.dataGridViewPanorama.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewPanorama.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
             this.dataGridViewPanorama.Location = new System.Drawing.Point(3, 3);
+            this.dataGridViewPanorama.MultiSelect = false;
             this.dataGridViewPanorama.Name = "dataGridViewPanorama";
             this.dataGridViewPanorama.RowHeadersWidth = 25;
             this.dataGridViewPanorama.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
