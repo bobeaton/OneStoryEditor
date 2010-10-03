@@ -144,6 +144,7 @@ namespace OneStoryProjectEditor
                 // if we get here, we're all good!
                 base.OnKeyDown(e);
                 theSE.Modified = true;  // to trigger save if exit.
+                theSE.LastKeyPressedTimeStamp = DateTime.Now;   // so we can delay the autosave while typing
 
                 // update the status bar (in case we previously put an error there
                 StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[_stageLogic.ProjectStage];

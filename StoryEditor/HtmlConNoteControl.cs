@@ -285,7 +285,6 @@ namespace OneStoryProjectEditor
                 HtmlElement elem = doc.GetElementById(strId);
                 if (elem != null)
                 {
-                    System.Diagnostics.Debug.Assert(elem.InnerText == aCI.ToString());
                     elem.InnerText += TheSE.GetNetBibleScriptureReference;
                     aCI.SetValue(elem.InnerText);
                     elem.Focus();
@@ -310,6 +309,7 @@ namespace OneStoryProjectEditor
 
             // indicate that the document has changed
             theSE.Modified = true;
+            theSE.LastKeyPressedTimeStamp = DateTime.Now;   // so we can delay the autosave while typing
 
             // update the status bar (in case we previously put an error there
             StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[theSE.theCurrentStory.ProjStage.ProjectStage];
