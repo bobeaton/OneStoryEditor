@@ -41,7 +41,9 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.checkBoxFrontMatter = new System.Windows.Forms.CheckBox();
             this.checkBoxLangVernacular = new System.Windows.Forms.CheckBox();
+            this.checkBoxLangTransliterateVernacular = new System.Windows.Forms.CheckBox();
             this.checkBoxLangNationalBT = new System.Windows.Forms.CheckBox();
+            this.checkBoxLangTransliterateNationalBT = new System.Windows.Forms.CheckBox();
             this.checkBoxLangInternationalBT = new System.Windows.Forms.CheckBox();
             this.checkBoxAnchors = new System.Windows.Forms.CheckBox();
             this.checkBoxStoryTestingQuestions = new System.Windows.Forms.CheckBox();
@@ -59,8 +61,6 @@
             this.htmlStoryBtControl = new OneStoryProjectEditor.HtmlStoryBtControl();
             this.backgroundWorkerCheckRevisions = new System.ComponentModel.BackgroundWorker();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.checkBoxLangTransliterateVernacular = new System.Windows.Forms.CheckBox();
-            this.checkBoxLangTransliterateNationalBT = new System.Windows.Forms.CheckBox();
             this.tabControl.SuspendLayout();
             this.tabPageSelectReportOptions.SuspendLayout();
             this.tableLayoutPanelSettings.SuspendLayout();
@@ -81,7 +81,7 @@
             this.tabControl.SelectedIndex = 0;
             this.tabControl.Size = new System.Drawing.Size(737, 585);
             this.tabControl.TabIndex = 1;
-            this.tabControl.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControl_Selected);
+            this.tabControl.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabControl_Selecting);
             // 
             // tabPageSelectReportOptions
             // 
@@ -222,6 +222,18 @@
             this.toolTip.SetToolTip(this.checkBoxLangVernacular, "Check this box to have the Vernacular language data shown in the report");
             this.checkBoxLangVernacular.UseVisualStyleBackColor = true;
             // 
+            // checkBoxLangTransliterateVernacular
+            // 
+            this.checkBoxLangTransliterateVernacular.AutoSize = true;
+            this.checkBoxLangTransliterateVernacular.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBoxLangTransliterateVernacular.Location = new System.Drawing.Point(3, 49);
+            this.checkBoxLangTransliterateVernacular.Name = "checkBoxLangTransliterateVernacular";
+            this.checkBoxLangTransliterateVernacular.Size = new System.Drawing.Size(84, 17);
+            this.checkBoxLangTransliterateVernacular.TabIndex = 11;
+            this.checkBoxLangTransliterateVernacular.Text = "Transliterate";
+            this.checkBoxLangTransliterateVernacular.UseVisualStyleBackColor = true;
+            this.checkBoxLangTransliterateVernacular.Visible = false;
+            // 
             // checkBoxLangNationalBT
             // 
             this.checkBoxLangNationalBT.AutoSize = true;
@@ -235,6 +247,18 @@
             this.toolTip.SetToolTip(this.checkBoxLangNationalBT, "Check this box to have the National language back-translation shown in the report" +
                     "");
             this.checkBoxLangNationalBT.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxLangTransliterateNationalBT
+            // 
+            this.checkBoxLangTransliterateNationalBT.AutoSize = true;
+            this.checkBoxLangTransliterateNationalBT.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBoxLangTransliterateNationalBT.Location = new System.Drawing.Point(3, 95);
+            this.checkBoxLangTransliterateNationalBT.Name = "checkBoxLangTransliterateNationalBT";
+            this.checkBoxLangTransliterateNationalBT.Size = new System.Drawing.Size(84, 17);
+            this.checkBoxLangTransliterateNationalBT.TabIndex = 12;
+            this.checkBoxLangTransliterateNationalBT.Text = "Transliterate";
+            this.checkBoxLangTransliterateNationalBT.UseVisualStyleBackColor = true;
+            this.checkBoxLangTransliterateNationalBT.Visible = false;
             // 
             // checkBoxLangInternationalBT
             // 
@@ -397,6 +421,7 @@
             this.htmlStoryBtControl.StoryData = null;
             this.htmlStoryBtControl.TabIndex = 0;
             this.htmlStoryBtControl.TheSE = null;
+            this.htmlStoryBtControl.ViewSettings = null;
             // 
             // backgroundWorkerCheckRevisions
             // 
@@ -405,30 +430,6 @@
             this.backgroundWorkerCheckRevisions.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerCheckRevisions_DoWork);
             this.backgroundWorkerCheckRevisions.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorkerCheckRevisions_RunWorkerCompleted);
             this.backgroundWorkerCheckRevisions.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorkerCheckRevisions_ProgressChanged);
-            // 
-            // checkBoxLangTransliterateVernacular
-            // 
-            this.checkBoxLangTransliterateVernacular.AutoSize = true;
-            this.checkBoxLangTransliterateVernacular.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxLangTransliterateVernacular.Location = new System.Drawing.Point(3, 49);
-            this.checkBoxLangTransliterateVernacular.Name = "checkBoxLangTransliterateVernacular";
-            this.checkBoxLangTransliterateVernacular.Size = new System.Drawing.Size(84, 17);
-            this.checkBoxLangTransliterateVernacular.TabIndex = 11;
-            this.checkBoxLangTransliterateVernacular.Text = "Transliterate";
-            this.checkBoxLangTransliterateVernacular.UseVisualStyleBackColor = true;
-            this.checkBoxLangTransliterateVernacular.Visible = false;
-            // 
-            // checkBoxLangTransliterateNationalBT
-            // 
-            this.checkBoxLangTransliterateNationalBT.AutoSize = true;
-            this.checkBoxLangTransliterateNationalBT.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxLangTransliterateNationalBT.Location = new System.Drawing.Point(3, 95);
-            this.checkBoxLangTransliterateNationalBT.Name = "checkBoxLangTransliterateNationalBT";
-            this.checkBoxLangTransliterateNationalBT.Size = new System.Drawing.Size(84, 17);
-            this.checkBoxLangTransliterateNationalBT.TabIndex = 12;
-            this.checkBoxLangTransliterateNationalBT.Text = "Transliterate";
-            this.checkBoxLangTransliterateNationalBT.UseVisualStyleBackColor = true;
-            this.checkBoxLangTransliterateNationalBT.Visible = false;
             // 
             // HtmlDisplayForm
             // 

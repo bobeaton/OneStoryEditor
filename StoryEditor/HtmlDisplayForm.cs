@@ -89,7 +89,7 @@ namespace OneStoryProjectEditor
             htmlStoryBtControl.TheSE = theSE;
         }
 
-        private void tabControl_Selected(object sender, TabControlEventArgs e)
+        private void tabControl_Selecting(object sender, TabControlCancelEventArgs e)
         {
             if (e.TabPage == tabPageDisplayChangeReport)
             {
@@ -115,6 +115,12 @@ namespace OneStoryProjectEditor
                 htmlStoryBtControl.ParentStory = GetStoryForPresentation(_nParentIndex);
                 htmlStoryBtControl.StoryData = GetStoryForPresentation(_nChildIndex);
 
+                if ((htmlStoryBtControl.ParentStory == null)
+                    || (htmlStoryBtControl.StoryData == null))
+                {
+                    e.Cancel = true;
+                    return;
+                }
 #if DEBUG
                 // throw the results into a file that I can use WinCmp to compare
                 File.WriteAllText(@"C:\src\StoryEditor\XMLFile1.xml", htmlStoryBtControl.ParentStory.GetXml.ToString(), Encoding.UTF8);
@@ -130,8 +136,26 @@ namespace OneStoryProjectEditor
             if ((nIndex >= 0) && (nIndex < dataGridViewRevisions.Rows.Count))
             {
                 RevisionInfo ri = dataGridViewRevisions.Rows[nIndex].Tag as RevisionInfo;
-                if ((ri != null) && (ri.StoryProjectNode != null))
-                    return new StoryData(ri.StoryProjectNode, _strProjectFolder);
+                if (ri != null)
+                {
+                    if (ri.StoryProjectNode != null)
+                        return new StoryData(ri.StoryProjectNode, _strProjectFolder);
+
+                    try
+                    {
+                        XmlNode nodeStoryProject;
+                        string strThisState;
+                        ReadRevisionFile(_repository, ri.Revision, out nodeStoryProject, out strThisState);
+                        return new StoryData(nodeStoryProject, _strProjectFolder);
+                    }
+                    catch
+                    {
+                        // throw means that story isn't in this revision
+                        MessageBox.Show(String.Format(Properties.Resources.IDS_ThisStoryNotInThisRevision,
+                            ri.Revision.Number.LocalRevisionNumber),
+                                        OseResources.Properties.Resources.IDS_Caption);
+                    }
+                }
             }
             return null;
         }
@@ -193,6 +217,18 @@ namespace OneStoryProjectEditor
             if (radioButtonShowAllRevisions.Checked)
                 return true;
 
+            string strThisState;
+            ReadRevisionFile(repository, rev, out nodeStoryProject, out strThisState);
+
+            if ((strThisState == _strLastState) && !radioButtonShowAllWithState.Checked)
+                return false;
+            _strLastState = strThisState;
+            return true;
+        }
+
+        private void ReadRevisionFile(HgRepository repository, Revision rev,
+            out XmlNode nodeStoryProject, out string strThisState)
+        {
             // determine the file we want to look in
             string strFileName = Path.GetFileName(repository.PathToRepo) + ".onestory";
 
@@ -207,16 +243,11 @@ namespace OneStoryProjectEditor
             if (nodeStoryProject == null)
                 throw new ApplicationException("done working");
 
-            string strThisState = nodeStoryProject.Attributes["stage"].Value;
+            strThisState = nodeStoryProject.Attributes["stage"].Value;
             System.Diagnostics.Debug.WriteLine(String.Format("In revision: {0}, story: {1}, State: {2}", 
                 rev.Number.LocalRevisionNumber,
                 _strStoryToDiff, 
                 strThisState));
-
-            if ((strThisState == _strLastState) && !radioButtonShowAllWithState.Checked)
-                return false;
-            _strLastState = strThisState;
-            return true;
         }
 
         private void backgroundWorkerCheckRevisions_ProgressChanged(object sender, ProgressChangedEventArgs e)
