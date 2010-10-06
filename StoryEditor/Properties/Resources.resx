@@ -225,9 +225,6 @@
   <data name="IDS_AddTestQuery" xml:space="preserve">
     <value>Do you want to add boxes for the retelling and testing question answers?</value>
   </data>
-  <data name="IDS_NotTheRightProjFac" xml:space="preserve">
-    <value>WARNING: You are not the Project Facilitator that originally entered this story. If you make any changes, it is very likely that they will conflict with any changes done by the other Project Facilitator. Proceed with caution (e.g. say "No" if you are asked if you want to Save Changes while on this story)</value>
-  </data>
   <data name="IDS_UseStoryCollapse" xml:space="preserve">
     <value>Verse number '{0}' has multiple sentences in the {1} column. Use the "Story" menu, "Collapse into 1 line" command followed by the "Split into Lines" command to break the story (and any back-translations) into lines based on sentence final punctuation (see "Project", "Settings" and any of the "Language" tabs to configure sentence final punctuation). The command "Story", "Re-align story lines" can also be used, which calls both of the above commands in one click</value>
   </data>

@@ -12,7 +12,7 @@
     <AssemblyName>StoryEditorData</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>FieldWorks.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -54,9 +54,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\WW\Lib\release\ECInterfaces.dll</HintPath>
     </Reference>
-    <Reference Include="LibChorus, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="LibChorus, Version=1.1.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Code\chorus\output\Release\LibChorus.dll</HintPath>
+      <HintPath>..\DepDLLs\LibChorus.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="OseResources, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">

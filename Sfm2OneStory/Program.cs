@@ -17,7 +17,7 @@ namespace OneStoryProjectEditor
         const string CstrBackTranslator = "Backtranslator to Hindi:";
         const string CstrTestor1 = "Testing 1:";
         const string CstrTestor2 = "Testing 2:";
-        const string CstrAnchorFormat = "{0}.{1}:{2}";
+        const string CstrAnchorFormat = "{0} {1}:{2}";
 
         // details about the project we're trying to convert
 #if DoKangri
@@ -39,13 +39,13 @@ namespace OneStoryProjectEditor
         const string CstrVernName = "Dogri";
         const string CstrVernCode = "doj";
         const string CstrVernCodeSfm = @"\doj";
-        const string CstrVernFullStop = "।";
+        const string CstrVernFullStop = "।!?:";
 #endif
 
         const string CstrNatlName = "Hindi";
         const string CstrNatlCode = "hi";
         const string CstrNatlCodeSfm = @"\hnd";
-        const string CstrNatlFullStop = "।";
+        const string CstrNatlFullStop = "।!?:";
         const string CstrIntlName = "English";
         const string CstrIntlCode = "en";
         const string CstrConsultantsInitials = "BE";
@@ -87,15 +87,16 @@ namespace OneStoryProjectEditor
             
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Title = "Browse for the existing version of the output file (so we can reuse the GUIDs)";
-            StoriesData theStories;
+            StoryProjectData theStories;
             bool bUsingStoryProject;
+            ProjectSettings projSettings;
             if (dlg.ShowDialog() == DialogResult.OK)
             {
-                StoryProject projFile = new StoryProject();
+                NewDataSet projFile = new NewDataSet();
                 projFile.ReadXml(dlg.FileName);
-                ProjectSettings projSettings = new ProjectSettings(Path.GetDirectoryName(dlg.FileName), Path.GetFileNameWithoutExtension(dlg.FileName));
+                projSettings = new ProjectSettings(Path.GetDirectoryName(dlg.FileName), Path.GetFileNameWithoutExtension(dlg.FileName));
 
-                theStories = new StoriesData(projFile, projSettings);
+                theStories = new StoryProjectData(projFile, projSettings);
                 
                 // import the member ids so we keep their same guids
                 foreach (TeamMemberData aTMD in theStories.TeamMembers.Values)
@@ -105,10 +106,15 @@ namespace OneStoryProjectEditor
             }
             else
             {
-                ProjectSettings projSettings = new ProjectSettings(Path.GetDirectoryName(CstrDefOutputFile), Path.GetFileNameWithoutExtension(CstrDefOutputFile));
-                theStories = new StoriesData(projSettings);
+                projSettings = new ProjectSettings(Path.GetDirectoryName(CstrDefOutputFile),
+                                                   Path.GetFileNameWithoutExtension(CstrDefOutputFile));
+                theStories = new StoryProjectData();
+                theStories.ProjSettings = projSettings;
                 bUsingStoryProject = false;
             }
+            var ssl = new StoryStageLogic(projSettings);
+            var lom = new TeamMemberData("dummy", TeamMemberData.UserTypes.eJustLooking,
+                                         null, null, null, null, null, null, null);
 
             // skip down to the title of the first story (in each file)
             int nIndexBt = 0, nIndexRet = 0, nIndexCon = 0, nIndexCoa = 0;
@@ -128,9 +134,9 @@ namespace OneStoryProjectEditor
                 string strStoryName = astrBt[nIndexBt].Substring(3);
                 StoryData story;
                 if (bUsingStoryProject)
-                    story = theStories[nStoryNumber++];
+                    story = theStories[OseResources.Properties.Resources.IDS_MainStoriesSet][nStoryNumber++];
                 else
-                    story = new StoryData(strStoryName, null);
+                    story = new StoryData(strStoryName, null, null, true, projSettings);
 
                 Console.WriteLine("Story: " + strStoryName);
 
@@ -169,15 +175,17 @@ namespace OneStoryProjectEditor
                     // now grab the consultant notes
                     if (SkipTo(@"\ln ", strRef, @"\c ", astrCon, ref nIndexCon))
                     {
-                        DoConsultData(astrCon, ref nIndexCon, bUsingStoryProject, verse.ConsultantNotes, @"\con", CstrConsultantsInitials,
-                            CastrConsultantMenteeSfms, ConsultNoteDataConverter.CommunicationDirections.eConsultantToCrafter,
-                            ConsultNoteDataConverter.CommunicationDirections.eCrafterToConsultant);
+                        DoConsultData(astrCon, ref nIndexCon, bUsingStoryProject,
+                            verse.ConsultantNotes, @"\con", ssl, lom, CstrConsultantsInitials,
+                            CastrConsultantMenteeSfms, ConsultNoteDataConverter.CommunicationDirections.eConsultantToProjFac,
+                            ConsultNoteDataConverter.CommunicationDirections.eProjFacToConsultant);
                     }
 
                     // now grab the coach notes
                     if (SkipTo(@"\ln ", strRef, @"\c ", astrCoa, ref nIndexCoa))
                     {
-                        DoConsultData(astrCoa, ref nIndexCoa, bUsingStoryProject, verse.CoachNotes, @"\cch", CstrCoachsInitials,
+                        DoConsultData(astrCoa, ref nIndexCoa, bUsingStoryProject,
+                            verse.CoachNotes, @"\cch", ssl, lom, CstrCoachsInitials,
                             CastrCoachMenteeSfms, ConsultNoteDataConverter.CommunicationDirections.eCoachToConsultant,
                             ConsultNoteDataConverter.CommunicationDirections.eConsultantToCoach);
                     }
@@ -205,9 +213,10 @@ namespace OneStoryProjectEditor
                     }
                 }
 
-                story.ProjStage.ProjectStage = StoryStageLogic.ProjectStages.eCoachReviewTest2Notes;
+                story.ProjStage.ProjectStage = StoryStageLogic.ProjectStages.eTeamComplete;
                 if (!bUsingStoryProject)
-                    theStories.Add(story);
+                    theStories[OseResources.Properties.Resources.IDS_MainStoriesSet].Add(story);
+
                 SkipTo(@"\t ", null, @"\t ", astrBt, ref nIndexBt);
                 SkipTo(@"\t ", null, @"\t ", astrRet, ref nIndexRet);
                 SkipTo(@"\t ", null, @"\t ", astrCon, ref nIndexCon);
@@ -222,10 +231,10 @@ namespace OneStoryProjectEditor
             theStories.ProjSettings.NationalBT.FullStop = CstrNatlFullStop;
             theStories.ProjSettings.InternationalBT.LangName = CstrIntlName;
             theStories.ProjSettings.InternationalBT.LangCode = CstrIntlCode;
-            SaveXElement(theStories.GetXml, theStories.ProjSettings.ProjectFileName);
+            SaveXElement(theStories.GetXml, theStories.ProjSettings.ProjectFilePath);
         }
 
-        private static void DoStoryFrontMatter(StoriesData theStories, StoryData story, string[] astrBt, ref int nIndexBt, 
+        private static void DoStoryFrontMatter(StoryProjectData theStories, StoryData story, string[] astrBt, ref int nIndexBt, 
             bool bUsingStoryProject, out string strTestorGuid)
         {
             strTestorGuid = null;
@@ -279,9 +288,9 @@ namespace OneStoryProjectEditor
                         {
                             strTestorGuid = MemberGuid(theStories.TeamMembers, strTestor1, TeamMemberData.UserTypes.eUNS);
                             if (bUsingStoryProject)
-                                System.Diagnostics.Debug.Assert(story.CraftingInfo.Testors[1] == strTestorGuid);
+                                System.Diagnostics.Debug.Assert(story.CraftingInfo.Testors[0] == strTestorGuid);
                             else
-                                story.CraftingInfo.Testors.Add(1, strTestorGuid);
+                                story.CraftingInfo.Testors.Add(strTestorGuid);
                         }
                     }
                     else if (BeginsWith(strData, CstrTestor2))
@@ -291,9 +300,9 @@ namespace OneStoryProjectEditor
                         {
                             strTestorGuid = MemberGuid(theStories.TeamMembers, strTestor2, TeamMemberData.UserTypes.eUNS);
                             if (bUsingStoryProject)
-                                System.Diagnostics.Debug.Assert(story.CraftingInfo.Testors[2] == strTestorGuid);
+                                System.Diagnostics.Debug.Assert(story.CraftingInfo.Testors[1] == strTestorGuid);
                             else
-                                story.CraftingInfo.Testors.Add(2, strTestorGuid);
+                                story.CraftingInfo.Testors.Add(strTestorGuid);
                         }
                     }
                 }
@@ -344,7 +353,7 @@ namespace OneStoryProjectEditor
                     verse.TestQuestions[++nTQIndex].QuestionVernacular.SetValue(strData);
                 }
                 else if (strMarker == @"\tst")
-                    verse.TestQuestions[nTQIndex].QuestionEnglish.SetValue(strData);
+                    verse.TestQuestions[nTQIndex].QuestionInternationalBT.SetValue(strData);
                 else if (strMarker == @"\ans")
                 {
                     if (nTQIndex >= 0)
@@ -375,9 +384,11 @@ namespace OneStoryProjectEditor
             return bVerseMarkerHasData;
         }
 
-        static void DoConsultData(string[] astrFile, ref int nIndexLine, bool bUsingStoryProject, 
-            ConsultNotesDataConverter theCNsD, string strMentorSfm, string strMentorInitials, List<string> astrMenteeSfms, 
-            ConsultNoteDataConverter.CommunicationDirections eMentorToMentee, ConsultNoteDataConverter.CommunicationDirections eMenteeToMentor)
+        static void DoConsultData(string[] astrFile, ref int nIndexLine, 
+            bool bUsingStoryProject, ConsultNotesDataConverter theCNsD, string strMentorSfm, 
+            StoryStageLogic ssl, TeamMemberData lom, string strMentorInitials, List<string> astrMenteeSfms, 
+            ConsultNoteDataConverter.CommunicationDirections eMentorToMentee, 
+            ConsultNoteDataConverter.CommunicationDirections eMenteeToMentor)
         {
             if (++nIndexLine >= astrFile.Length)
                 return;
@@ -405,7 +416,7 @@ namespace OneStoryProjectEditor
                     catch { }
 
                     if (con == null)
-                        con = theCNsD.AddEmpty(nRound);
+                        con = theCNsD.Add(nRound, ssl, lom, strData);
 
                     if (con.Count > nNoteNumber)
                     {
@@ -415,7 +426,7 @@ namespace OneStoryProjectEditor
                         aCI.Direction = eMentorToMentee;
                     }
                     else
-                        con.Add(new CommInstance(strData, eMentorToMentee, Guid.NewGuid().ToString()));
+                        con.Add(new CommInstance(strData, eMentorToMentee, Guid.NewGuid().ToString(), DateTime.Now));
                     
                     nNoteNumber++;
                 }
@@ -423,7 +434,7 @@ namespace OneStoryProjectEditor
                 {
                     // sometimes the CIT has a comment for the coach
                     if (con == null)
-                        con = theCNsD.AddEmpty(nRound);
+                        con = theCNsD.Add(nRound, ssl, lom, strData);
 
                     if (con.Count > nNoteNumber)
                     {
@@ -433,7 +444,7 @@ namespace OneStoryProjectEditor
                         aCI.Direction = eMenteeToMentor;
                     }
                     else
-                        con.Add(new CommInstance(strData, eMenteeToMentor, Guid.NewGuid().ToString()));
+                        con.Add(new CommInstance(strData, eMenteeToMentor, Guid.NewGuid().ToString(), DateTime.Now));
 
                     // for now, we just do two per conversation (or maybe 3 if the mentee started the conversation)
                     if (++nNoteNumber >= 2)
@@ -534,7 +545,7 @@ namespace OneStoryProjectEditor
         protected static Regex SearchRegExErrorsBad1stPunct = new Regex(@"\b([1-3a-zA-Z][a-zA-Z]{2})[ :](\d{1,3})[ :\.](\d{1,3})", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
         protected static Regex SearchRegExHyphenRangeOfAnchors = new Regex(@"([1-3a-zA-Z][a-zA-Z]{2}\.\d{2,3}\:)(\d{2}) ?- ?(\d{2})", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
         protected static Regex SearchRegExComma2ndAnchor = new Regex(@"([1-3a-zA-Z][a-zA-Z]{2}\.\d{2,3}\:)(\d{2}), ?(\d{2})", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
-        protected static Regex SearchRegExNormalAnchor = new Regex(@"[1-3a-zA-Z][a-zA-Z]{2}\.\d{2,3}\:\d{2}", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
+        protected static Regex SearchRegExNormalAnchor = new Regex(@"([1-3a-zA-Z][a-zA-Z]{2})\.(\d{2,3})\:(\d{2})", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
         private static readonly char[] achAnchorDelimiters = new [] { ';' };
 
         static Dictionary<string, string> GetListOfAnchors(string strParagraph)
@@ -548,93 +559,113 @@ namespace OneStoryProjectEditor
             foreach (string str in aStrSentences)
             {
                 string strTrimmed = str.Trim();
-                if (!String.IsNullOrEmpty(strTrimmed))
+                ProcessAnchors(strTrimmed, ref strPrefix, mapJt2Comment);
+            }
+            return mapJt2Comment;
+        }
+
+        private static void ProcessAnchors(string strTrimmed, ref string strPrefix, 
+            Dictionary<string, string> mapJt2Comment)
+        {
+            if (!String.IsNullOrEmpty(strTrimmed))
+            {
+                // look for things like "gen 02:01" or "gen:02:01" "psl:119:141" "1jn:01:01"
+                //  if you find something like this, in VS, you can find them (to fix them) via RegEx search with:
+                //  Find What: "{[1-3:c]:c^2}[ \:]{(:d^2|:d^3)}[ \.\:]{(:d^2|:d^3)}"
+                //  Replace with: "\1\.\2:\3"
+                MatchCollection mc = SearchRegExErrorsBad1stPunct.Matches(strTrimmed);
+                if (mc.Count > 0)
                 {
-                    // look for things like "gen 02:01" or "gen:02:01" "psl:119:141" "1jn:01:01"
-                    //  if you find something like this, in VS, you can find them (to fix them) via RegEx search with:
-                    //  Find What: "{[1-3:c]:c^2}[ \:]{(:d^2|:d^3)}[ \.\:]{(:d^2|:d^3)}"
-                    //  Replace with: "\1\.\2:\3"
-                    MatchCollection mc = SearchRegExErrorsBad1stPunct.Matches(strTrimmed);
-                    if (mc.Count > 0)
-                    {
-                        bool bAdded = false;
-                        foreach (Match match in mc)
-                            bAdded |= FixupAnchorError(strTrimmed, match, mapJt2Comment);
-                        if (bAdded)
-                            continue;
-                    }
+                    bool bAdded = false;
+                    foreach (Match match in mc)
+                        bAdded |= FixupAnchorError(strTrimmed, match, mapJt2Comment);
+                    if (bAdded)
+                        return;
+                }
 
-                    // look for things like "gen.02.01" or "gen.02 01" "psl:119 141" "1jn:01 01"
-                    //  if you find something like this, in VS, you can find them (to fix them) via RegEx search with:
-                    //  Find What: "{[1-3:c]:c^2}[ \.\:]{(:d^2|:d^3)}[ \.]{(:d^2|:d^3)}"
-                    //  Replace with: "\1\:\2"
-                    mc = SearchRegExErrorsBad2ndPunct.Matches(strTrimmed);
-                    if (mc.Count > 0)
-                    {
-                        bool bAdded = false;
-                        foreach (Match match in mc)
-                            bAdded |= FixupAnchorError(strTrimmed, match, mapJt2Comment);
-                        if (bAdded)
-                            continue;
-                    }
+                // look for things like "gen.02.01" or "gen.02 01" "psl:119 141" "1jn:01 01"
+                //  if you find something like this, in VS, you can find them (to fix them) via RegEx search with:
+                //  Find What: "{[1-3:c]:c^2}[ \.\:]{(:d^2|:d^3)}[ \.]{(:d^2|:d^3)}"
+                //  Replace with: "\1\:\2"
+                mc = SearchRegExErrorsBad2ndPunct.Matches(strTrimmed);
+                if (mc.Count > 0)
+                {
+                    bool bAdded = false;
+                    foreach (Match match in mc)
+                        bAdded |= FixupAnchorError(strTrimmed, match, mapJt2Comment);
+                    if (bAdded)
+                        return;
+                }
 
-                    // look for things like, "gen.03:21, 24". Turn this into two distinct anchors
-                    mc = SearchRegExComma2ndAnchor.Matches(strTrimmed);
-                    if (mc.Count > 0)
+                // look for things like, "gen.03:21, 24". Turn this into two distinct anchors
+                mc = SearchRegExComma2ndAnchor.Matches(strTrimmed);
+                if (mc.Count > 0)
+                {
+                    System.Diagnostics.Debug.Assert(mc.Count == 1); // otherwise, there's probably some assumption we're breaking
+                    foreach (Match match in mc)
                     {
-                        System.Diagnostics.Debug.Assert(mc.Count == 1); // otherwise, there's probably some assumption we're breaking
-                        foreach (Match match in mc)
-                        {
-                            string str1 = match.Groups[1].ToString();   // should be "gen.03:"
-                            string str2 = match.Groups[2].ToString();   // should be "21"
-                            string str3 = match.Groups[3].ToString();   // should be "24"
-                            mapJt2Comment.Add(str1 + str2, strTrimmed);
-                            mapJt2Comment.Add(str1 + str3, strTrimmed);
-                        }
-                        continue;
-                    }
-
-                    // look for things like, "gen.03:21 - 24". Turn this into a range of anchors
-                    mc = SearchRegExHyphenRangeOfAnchors.Matches(strTrimmed);
-                    if (mc.Count > 0)
-                    {
-                        System.Diagnostics.Debug.Assert(mc.Count == 1); // otherwise, there's probably some assumption we're breaking
-                        Match match = mc[0];
                         string str1 = match.Groups[1].ToString();   // should be "gen.03:"
                         string str2 = match.Groups[2].ToString();   // should be "21"
                         string str3 = match.Groups[3].ToString();   // should be "24"
-                        int nStart = Convert.ToInt32(str2);
-                        int nEnd = Convert.ToInt32(str3);
-                        System.Diagnostics.Debug.Assert(nEnd > nStart);
 
-                        for (int i = nStart; i <= nEnd; i++)
-                        {
-                            string strJT = String.Format("{0}{1:D2}", str1, i);
-                            mapJt2Comment.Add(strJT, strTrimmed);
-                        }
-                        continue;
+                        // these now have to be re-processed separately
+                        ProcessAnchors(str1 + str2, ref strPrefix, mapJt2Comment);
+                        ProcessAnchors(str1 + str3, ref strPrefix, mapJt2Comment);
+                        // mapJt2Comment.Add(str1 + str2, strTrimmed);
+                        // mapJt2Comment.Add(str1 + str3, strTrimmed);
                     }
+                    return;
+                }
 
-                    // otherwise, just look for normal things like, "gen.03:21".
-                    mc = SearchRegExNormalAnchor.Matches(strTrimmed);
-                    if (mc.Count > 0)
+                // look for things like, "gen.03:21 - 24". Turn this into a range of anchors
+                mc = SearchRegExHyphenRangeOfAnchors.Matches(strTrimmed);
+                if (mc.Count > 0)
+                {
+                    System.Diagnostics.Debug.Assert(mc.Count == 1); // otherwise, there's probably some assumption we're breaking
+                    Match match = mc[0];
+                    string str1 = match.Groups[1].ToString();   // should be "gen.03:"
+                    string str2 = match.Groups[2].ToString();   // should be "21"
+                    string str3 = match.Groups[3].ToString();   // should be "24"
+                    int nStart = Convert.ToInt32(str2);
+                    int nEnd = Convert.ToInt32(str3);
+                    System.Diagnostics.Debug.Assert(nEnd > nStart);
+
+                    for (int i = nStart; i <= nEnd; i++)
                     {
-                        foreach (Match match in mc)
-                        {
-                            strPrefix += strTrimmed;
-                            mapJt2Comment.Add(match.Value, strPrefix);
-                            strPrefix = null;
-                        }
+                        string strJT = String.Format("{0}{1:D2}", str1, i);
+                        mapJt2Comment.Add(strJT, strTrimmed);
                     }
-                    else
+                    return;
+                }
+
+                // otherwise, just look for normal things like, "gen.03:21".
+                mc = SearchRegExNormalAnchor.Matches(strTrimmed);
+                if (mc.Count > 0)
+                {
+                    foreach (Match match in mc)
                     {
-                        // this means that there wasn't an anchor here, so just attach it with
-                        //  the next one you find.
-                        strPrefix += strTrimmed + ',';
+                        // assuming gen:01.03...
+                        string str1 = match.Groups[1].ToString();   // ... this should be "gen"
+                        string str2 = match.Groups[2].ToString();   // ... this should be "01"
+                        string str3 = match.Groups[3].ToString();   // ... this should be "03"
+
+                        // trim zeros
+                        str2 = Convert.ToInt32(str2).ToString();
+                        str3 = Convert.ToInt32(str3).ToString();
+
+                        string strRepaired = String.Format(CstrAnchorFormat, str1, str2, str3);
+                        strPrefix += strTrimmed;
+                        mapJt2Comment.Add(strRepaired, strPrefix);
+                        strPrefix = null;
                     }
                 }
+                else
+                {
+                    // this means that there wasn't an anchor here, so just attach it with
+                    //  the next one you find.
+                    strPrefix += strTrimmed + ',';
+                }
             }
-            return mapJt2Comment;
         }
 
         static bool FixupAnchorError(string strTrimmed, Match match, Dictionary<string, string> mapJt2Comment)
@@ -676,10 +707,9 @@ namespace OneStoryProjectEditor
         static void SaveXElement(XElement elem, string strFilename)
         {
             // create the root portions of the XML document and tack on the fragment we've been building
-            XDocument doc = new XDocument(
+            var doc = new XDocument(
                 new XDeclaration("1.0", "utf-8", "yes"),
-                new XElement("StoryProject",
-                    elem));
+                elem);
 
             // save it with an extra extn.
             doc.Save(strFilename);

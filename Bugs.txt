@@ -1,19 +1,3 @@
-copy from engbt to retelling bund
-
-The drag-drop seems to be missing the hidden verses
-
-Up down buttons don't work in the Panorama window (moved a story from Old Stroies and tried to position it)
-
-When drag-drop verse (either direction?) it isn't inserting into the right position
-
-when scrolling down and the 5 minute timeout expires (and save is done), then don't refresh to the earlier box that had the cursor (find out which one is visible and jump to that
-
-Don't enter a transition record until the state *has* changed.
-
-try Historical Differences with "Show All"
-
-make it so that if we're only viewing open conversations, then have a button next to Add Note to 'Show All' (so we can temporarily override the viewing open conversations setting.
-
 Gray out the "Edit Key Terms" menu if it isn't going to launch it
 
 add 'hidden text' to the search dialog (don't search 'hidden' verses unless it's checked, and NavigateTo needs to unhide such a find)
@@ -21,10 +5,6 @@ add 'hidden text' to the search dialog (don't search 'hidden' verses unless it's
 can we allow the retelling/answers/connotes be in some other lg?
 
 Add search to Bible pane as well
-
-From the Story Information dialog, add 'View member info' button
-
-Adjust the Instructions to fit a smaller screen better
 
 Make the testing question a different color
 

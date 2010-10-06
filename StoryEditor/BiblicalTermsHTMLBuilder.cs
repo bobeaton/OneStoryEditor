@@ -323,7 +323,7 @@ namespace OneStoryProjectEditor
             if (strRendering.Length < 1)
                 return null;
 
-            strRendering = strRendering.Trim(CheckEndOfStateTransition.achQuotes);
+            strRendering = strRendering.Trim(VersesData.achQuotes);
 
             // build the regular expression for searching for the rendering. Possible values are:
             //  *xyz if the word ends with "xyz"

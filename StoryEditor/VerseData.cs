@@ -745,7 +745,7 @@ namespace OneStoryProjectEditor
         {
             ProjectSettings.LanguageInfo li = projSettings.Vernacular;
             int nCount = 0;
-            string strCharsToIgnore = "\r\n " + li.FullStop + CheckEndOfStateTransition.QuoteCharsAsString;
+            string strCharsToIgnore = "\r\n " + li.FullStop + QuoteCharsAsString;
             char[] achToIgnore = strCharsToIgnore.ToCharArray();
             
             foreach (VerseData aVerse in this)
@@ -758,7 +758,7 @@ namespace OneStoryProjectEditor
         {
             ProjectSettings.LanguageInfo li = projSettings.NationalBT;
             int nCount = 0;
-            string strCharsToIgnore = "\r\n " + li.FullStop + CheckEndOfStateTransition.QuoteCharsAsString;
+            string strCharsToIgnore = "\r\n " + li.FullStop + QuoteCharsAsString;
             char[] achToIgnore = strCharsToIgnore.ToCharArray();
 
             foreach (VerseData aVerse in this)
@@ -771,7 +771,7 @@ namespace OneStoryProjectEditor
         {
             ProjectSettings.LanguageInfo li = projSettings.InternationalBT;
             int nCount = 0;
-            string strCharsToIgnore = "\r\n " + li.FullStop + CheckEndOfStateTransition.QuoteCharsAsString;
+            string strCharsToIgnore = "\r\n " + li.FullStop + QuoteCharsAsString;
             char[] achToIgnore = strCharsToIgnore.ToCharArray();
 
             foreach (VerseData aVerse in this)
@@ -790,6 +790,22 @@ namespace OneStoryProjectEditor
             if (viewItemToInsureOn.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.EnglishBTField))
                 nColSpan++;
             return nColSpan;
+        }
+
+        internal static char[] achQuotes = new[] { '"', '\'', '\u2018', '\u2019', '\u201B', 
+            '\u201C', '\u201d', '\u201E', '\u201F' };
+
+        internal static string QuoteCharsAsString
+        {
+            get
+            {
+                string str = null;
+                foreach (char ch in achQuotes)
+                {
+                    str += ch;
+                }
+                return str;
+            }
         }
 
         public string StoryBtHtml(ProjectSettings projectSettings, bool bViewHidden,

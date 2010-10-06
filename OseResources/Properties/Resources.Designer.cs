@@ -535,6 +535,15 @@ namespace OseResources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to WARNING: You are not the Project Facilitator that originally entered this story. If you make any changes, it is very likely that they will conflict with any changes done by the other Project Facilitator. Proceed with caution (e.g. say &quot;No&quot; if you are asked if you want to Save Changes while on this story).
+        /// </summary>
+        public static string IDS_NotTheRightProjFac {
+            get {
+                return ResourceManager.GetString("IDS_NotTheRightProjFac", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to  was visible, but now is hidden.
         /// </summary>
         public static string IDS_NowIsHidden {

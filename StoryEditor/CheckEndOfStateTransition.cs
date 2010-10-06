@@ -311,21 +311,6 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        internal static char[] achQuotes = new [] { '"', '\'', '\u2018', '\u2019', '\u201B', 
-            '\u201C', '\u201d', '\u201E', '\u201F' };
-
-        internal static string QuoteCharsAsString
-        {
-            get
-            {
-                string str = null;
-                foreach (char ch in achQuotes)
-                {
-                    str += ch;
-                }
-                return str;
-            }
-        }
         public static bool GetListOfSentences(StringTransfer stParagraph, string strSentenceFinalPunct, out List<string> lstSentences)
         {
             lstSentences = new List<string>();
@@ -340,7 +325,7 @@ namespace OneStoryProjectEditor
             int nStartIndex = 0, nIndex;
             while ((nStartIndex < strParagraph.Length) && (nIndex = strParagraph.IndexOfAny(achSplitOn, nStartIndex)) != -1)
             {
-                if (((nIndex + 1) < strParagraph.Length) && (strParagraph.IndexOfAny(achQuotes, nIndex + 1, 1) != -1))
+                if (((nIndex + 1) < strParagraph.Length) && (strParagraph.IndexOfAny(VersesData.achQuotes, nIndex + 1, 1) != -1))
                     nIndex++;
 
                 string strLine = strParagraph.Substring(nStartIndex, nIndex - nStartIndex + 1).Trim();

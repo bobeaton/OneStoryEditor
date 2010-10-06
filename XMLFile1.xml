@@ -1,0 +1,35 @@
+﻿<story name="Abraham" stage="ProjFacRevisesBeforeUnsTest" guid="2aab0241-8ba5-4934-ba7e-0091b2aeca83" stageDateTimeStamp="2010-09-24T00:29:22">
+  <CraftingInfo NonBiblicalStory="false">
+    <StoryCrafter memberID="mem-eb859bf5-8531-49f7-b953-d80c27edf214" />
+    <ProjectFacilitator memberID="mem-87da71e1-766e-4dbc-9564-a85a37457f52" />
+    <StoryPurpose>asg</StoryPurpose>
+    <ResourcesUsed>sdg</ResourcesUsed>
+    <BackTranslator memberID="mem-34719c50-a00d-4910-846d-1c17b14ec973" />
+  </CraftingInfo>
+  <verses>
+    <verse guid="bd8494ab-4118-44d4-997b-eacc690db8cb" first="true" />
+    <verse guid="8ea91259-8346-4e84-8926-b9eed7706149">
+      <NationalBT>इस्राइली राजा परमेश्‍वर की आज्ञाओं को नहीं माना।</NationalBT>
+      <InternationalBT>Adam and his wife did not obey the God.</InternationalBT>
+      <anchors keyTermChecked="false">
+        <anchor jumpTarget="Judg 13:1">
+          <toolTip>Judg 13:1</toolTip>
+        </anchor>
+      </anchors>
+      <TestQuestions>
+        <TestQuestion visible="true" guid="96b9a33f-7250-4551-aa95-db9c81dbe84f">
+          <TQInternationalBT>Why do you think the Israelite kings didn't obey God's commands?</TQInternationalBT>
+        </TestQuestion>
+      </TestQuestions>
+    </verse>
+    <verse guid="818f46a5-c32e-49bb-8f79-51c804dbcf4c">
+      <NationalBT>इसलिए परमेश्‍वर पूरी इस्राइली जाति को मिस्र देश में गुलाम बना दिया।</NationalBT>
+      <InternationalBT>They became far from God.</InternationalBT>
+      <anchors keyTermChecked="false">
+        <anchor jumpTarget="Exod 1:11">
+          <toolTip>Exod 1:11</toolTip>
+        </anchor>
+      </anchors>
+    </verse>
+  </verses>
+</story>

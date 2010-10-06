@@ -688,15 +688,6 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to WARNING: You are not the Project Facilitator that originally entered this story. If you make any changes, it is very likely that they will conflict with any changes done by the other Project Facilitator. Proceed with caution (e.g. say &quot;No&quot; if you are asked if you want to Save Changes while on this story).
-        /// </summary>
-        internal static string IDS_NotTheRightProjFac {
-            get {
-                return ResourceManager.GetString("IDS_NotTheRightProjFac", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE1.4.0/StoryEditor.exe.manifest.xml.
         /// </summary>
         internal static string IDS_OSEUpgradeServer {

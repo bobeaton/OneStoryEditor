@@ -4,14 +4,17 @@
   <ApplicationExecutable />
   <ApplicationName>AutoUpgrade</ApplicationName>
   <FullUpgradeFileName />
-  <OffsetFromUctWhereManifestWasOriginallyCreated>9/30/2010 4:23:53 PM +05:30</OffsetFromUctWhereManifestWasOriginallyCreated>
+  <OffsetFromUctWhereManifestWasOriginallyCreated>10/3/2010 1:43:42 PM +05:30</OffsetFromUctWhereManifestWasOriginallyCreated>
   <ManifestFiles>
     <File name="AutoUpgrade.Lib.dll" method="version" action="copy" version="1.0.3889.12875" optional="false" size="24576">AutoUpgrade Lib</File>
-    <File name="Chorus.exe" method="version" action="copy" version="1.1.0.1" optional="false" size="501248">Chorus</File>
-    <File name="ChorusMerge.exe" method="version" action="copy" version="1.1.0.1" optional="false" size="5632">ChorusMerge</File>
-    <File name="LibChorus.dll" method="version" action="copy" version="1.1.0.1" optional="false" size="252928">Chorus</File>
+    <File name="Chorus.exe" method="version" action="copy" version="1.1.0.2" optional="false" size="496640">Chorus</File>
+    <File name="ChorusMerge.exe" method="version" action="copy" version="1.1.0.2" optional="false" size="5632">ChorusMerge</File>
+    <File name="LibChorus.dll" method="version" action="copy" version="1.1.0.2" optional="false" size="253440">Chorus</File>
+    <File name="OseResources.dll" method="version" action="copy" version="1.0.0.1" optional="false" size="49152">OseResources</File>
+    <File name="Palaso.dll" method="version" action="copy" version="1.0.0.0" optional="false" size="483840">Palaso</File>
+    <File name="PalasoUIWindowsForms.dll" method="version" action="copy" version="1.0.0.0" optional="false" size="231936">PalasoUIWindowsForms</File>
     <File name="StageTransitions.xml" method="date" action="copy" version="Thursday, September 23, 2010 10:20:29 AM" optional="false" size="76253" />
-    <File name="StoryEditor.exe" method="version" action="copy" version="1.4.0.16" optional="false" size="1027584">OneStory Editor</File>
+    <File name="StoryEditor.exe" method="version" action="copy" version="1.4.0.17" optional="false" size="1028096">OneStory Editor</File>
   </ManifestFiles>
   <SourcePath />
   <UpgradeFiles />

@@ -394,7 +394,7 @@ namespace OneStoryProjectEditor
                     else if ((MemberGuid != theCurrentStory.CraftingInfo.ProjectFacilitatorMemberID)
                         && !String.IsNullOrEmpty(theCurrentStory.CraftingInfo.ProjectFacilitatorMemberID))
                     {
-                        MessageBox.Show(Properties.Resources.IDS_NotTheRightProjFac,
+                        MessageBox.Show(OseResources.Properties.Resources.IDS_NotTheRightProjFac,
                                 OseResources.Properties.Resources.IDS_Caption);
                     }
                     break;
@@ -597,6 +597,7 @@ namespace OneStoryProjectEditor
             string strName = theTeamMember.Name;
             System.Diagnostics.Debug.Assert(ContainsKey(strName));
  
+#if !DataDllBuild
             var dlg = new EditMemberForm(theTeamMember);
             DialogResult res = dlg.UpdateMember();
 
@@ -608,6 +609,9 @@ namespace OneStoryProjectEditor
             }
 
             return res;
+#else
+            return DialogResult.OK;
+#endif
         }
     }
 }
