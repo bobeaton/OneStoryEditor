@@ -266,7 +266,7 @@
             this.checkBoxAutoHide.Size = new System.Drawing.Size(14, 14);
             this.checkBoxAutoHide.TabIndex = 3;
             this.toolTip.SetToolTip(this.checkBoxAutoHide, "Uncheck this box to have the Bible Pane automatically hide when you are typing. T" +
-                    "hen right-click to open and close");
+                    "hen you can right-click on the box to manually open and close the Bible Pane");
             this.checkBoxAutoHide.UseMnemonic = false;
             this.checkBoxAutoHide.UseVisualStyleBackColor = true;
             this.checkBoxAutoHide.CheckStateChanged += new System.EventHandler(this.checkBoxAutoHide_CheckStateChanged);

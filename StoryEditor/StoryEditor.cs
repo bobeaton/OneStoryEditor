@@ -41,7 +41,7 @@ namespace OneStoryProjectEditor
         protected DateTime tmLastSync = DateTime.Now;
         protected TimeSpan tsBackupTime = new TimeSpan(1, 0, 0);
 
-        public StoryEditor(string strStoriesSet)
+        public StoryEditor(string strStoriesSet, string strProjectFilePath)
         {
             myFocusTimer.Tick += TimeToSetFocus;
             myFocusTimer.Interval = 200;
@@ -72,15 +72,24 @@ namespace OneStoryProjectEditor
                 MessageBox.Show(String.Format(Properties.Resources.IDS_NeedToReboot, Environment.NewLine, ex.Message), OseResources.Properties.Resources.IDS_Caption);
             }
 
-            try
+            if (!String.IsNullOrEmpty(strProjectFilePath) && File.Exists(strProjectFilePath))
             {
-                if (String.IsNullOrEmpty(Properties.Settings.Default.LastUserType))
-                    NewProjectFile();
-                else if ((Properties.Settings.Default.LastUserType == TeamMemberData.CstrProjectFacilitator)
-                        && !String.IsNullOrEmpty(Properties.Settings.Default.LastProject))
-                    OpenProject(Properties.Settings.Default.LastProjectPath, Properties.Settings.Default.LastProject);
+                string strProjectPath = Path.GetDirectoryName(strProjectFilePath);
+                string strProjectName = Path.GetFileNameWithoutExtension(strProjectFilePath);
+                OpenProject(strProjectPath, strProjectName);
             }
-            catch { }   // this was only a bene anyway, so just ignore it
+            else
+            {
+                try
+                {
+                    if (String.IsNullOrEmpty(Properties.Settings.Default.LastUserType))
+                        NewProjectFile();
+                    else if ((Properties.Settings.Default.LastUserType == TeamMemberData.CstrProjectFacilitator)
+                            && !String.IsNullOrEmpty(Properties.Settings.Default.LastProject))
+                        OpenProject(Properties.Settings.Default.LastProjectPath, Properties.Settings.Default.LastProject);
+                }
+                catch { }   // this was only a bene anyway, so just ignore it
+            }
         }
 
         private const int CnSecondsToDelyLastKeyPress = 7;
@@ -1110,7 +1119,7 @@ namespace OneStoryProjectEditor
                 //  the scrolling since it's annoying that it jumps around when greater
                 //  than the height of the view).
                 if ((CtrlTextBox._inTextBox == null) || (CtrlTextBox._inTextBox._ctrlVerseParent != theVerse))
-                    flowLayoutPanelVerses.ScrollIntoView(theVerse);
+                    flowLayoutPanelVerses.ScrollIntoView(theVerse, false);
                 else
                     flowLayoutPanelVerses.LastControlIntoView = theVerse;
             }
@@ -1495,6 +1504,9 @@ namespace OneStoryProjectEditor
             if (splitContainerUpDown.Panel2Collapsed)
                 viewNetBibleMenuItem.Checked = true;
 
+            if (!netBibleViewer.checkBoxAutoHide.Checked && splitContainerUpDown.IsMinimized)
+                splitContainerUpDown.Restore();
+            
             netBibleViewer.DisplayVerses(strScriptureReference);
         }
 
@@ -3000,7 +3012,7 @@ namespace OneStoryProjectEditor
         private void onClickViewOldStory(object sender, EventArgs e)
         {
             ToolStripItem tsi = sender as ToolStripItem;
-            StoryEditor theOldStoryEditor = new StoryEditor(OseResources.Properties.Resources.IDS_ObsoleteStoriesSet);
+            StoryEditor theOldStoryEditor = new StoryEditor(OseResources.Properties.Resources.IDS_ObsoleteStoriesSet, null);
             theOldStoryEditor.StoryProject = StoryProject;
             theOldStoryEditor.LoggedOnMember = LoggedOnMember;
             theOldStoryEditor.Show();

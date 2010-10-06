@@ -72,7 +72,10 @@ namespace OneStoryProjectEditor
                 else
                 {
                     splashScreen.Close();
-                    Application.Run(new StoryEditor(OseResources.Properties.Resources.IDS_MainStoriesSet));
+                    string strFilePathToOpen = null;
+                    if (args.Length > 0)
+                        strFilePathToOpen = args[0];
+                    Application.Run(new StoryEditor(OseResources.Properties.Resources.IDS_MainStoriesSet, strFilePathToOpen));
                 }
 
                 foreach (string strProjectFolder in _astrProjectForSync)
