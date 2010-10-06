@@ -1840,6 +1840,15 @@ namespace OneStoryProjectEditor
                         && (LoggedOnMember != null));
 
                 projectLoginToolStripMenuItem.Enabled = (StoryProject != null);
+
+                if ((StoryProject != null)
+                        && (StoryProject.ProjSettings != null))
+                {
+                    string strDotHgFolder = StoryProject.ProjSettings.ProjectFolder + @"\.hg";
+                    sendReceiveToolStripMenuItem.Enabled = Directory.Exists(strDotHgFolder);
+                }
+                else
+                    sendReceiveToolStripMenuItem.Enabled = false;
             }
             else
             {
@@ -1850,7 +1859,8 @@ namespace OneStoryProjectEditor
                     saveToolStripMenuItem.Enabled =
                     browseForProjectToolStripMenuItem.Enabled =
                     projectSettingsToolStripMenuItem.Enabled =
-                    projectLoginToolStripMenuItem.Enabled = false;
+                    projectLoginToolStripMenuItem.Enabled =
+                    sendReceiveToolStripMenuItem.Enabled = false;
             }
 
             printPreviewToolStripMenuItem.Enabled = (StoryProject != null);
@@ -1858,33 +1868,12 @@ namespace OneStoryProjectEditor
 
         private void recentProjectsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ToolStripDropDownItem aRecentFile = (ToolStripDropDownItem)sender;
+            var aRecentFile = (ToolStripDropDownItem)sender;
             string strProjectName = aRecentFile.Text;
             Debug.Assert(Properties.Settings.Default.RecentProjects.Contains(strProjectName));
             int nIndexOfPath = Properties.Settings.Default.RecentProjects.IndexOf(strProjectName);
             string strProjectPath = Properties.Settings.Default.RecentProjectPaths[nIndexOfPath];
-            try
-            {
-                OpenProject(strProjectPath, strProjectName);
-            }
-            catch (ProjectSettings.ProjectFileNotFoundException ex)
-            {
-                // the file doesn't exist anymore, so remove it from the recent used list
-                int nIndex = Properties.Settings.Default.RecentProjects.IndexOf(strProjectName);
-                Debug.Assert(nIndex != -1);
-                Properties.Settings.Default.RecentProjects.RemoveAt(nIndex);
-                Properties.Settings.Default.RecentProjectPaths.RemoveAt(nIndex);
-                Properties.Settings.Default.Save();
-                MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
-            }
-            catch (Program.RestartException)
-            {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
-            }
+            DoReopen(strProjectPath, strProjectName);
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3395,6 +3384,7 @@ namespace OneStoryProjectEditor
             Debug.Assert(StoryProject.ProjSettings != null);
             Program.QueryHgRepoParameters(StoryProject.ProjSettings.ProjectFolder,
                                           StoryProject.ProjSettings.ProjectName);
+            Program.SyncWithRepository(StoryProject.ProjSettings.ProjectFolder, true);
         }
 
         private void storyCopyWithNewNameToolStripMenuItem_Click(object sender, EventArgs e)
@@ -4030,6 +4020,42 @@ namespace OneStoryProjectEditor
 
             Properties.Settings.Default.AutoSaveTimeoutEnabled = enabledToolStripMenuItem.Checked;
             Properties.Settings.Default.Save();
+        }
+
+        private void sendReceiveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // just pretend this is the same as a reload. (it'll take care of the rest)
+            string strProjectName = StoryProject.ProjSettings.ProjectName;
+            string strProjectPath = StoryProject.ProjSettings.ProjectFolder;
+            DoReopen(strProjectPath, strProjectName);
+        }
+
+        private void DoReopen(string strProjectPath, string strProjectName)
+        {
+            try
+            {
+                OpenProject(strProjectPath, strProjectName);
+            }
+            catch (ProjectSettings.ProjectFileNotFoundException ex)
+            {
+                // the file doesn't exist anymore, so remove it from the recent used list
+                int nIndex = Properties.Settings.Default.RecentProjects.IndexOf(strProjectName);
+                if (nIndex != -1)
+                {
+                    Properties.Settings.Default.RecentProjects.RemoveAt(nIndex);
+                    Properties.Settings.Default.RecentProjectPaths.RemoveAt(nIndex);
+                    Properties.Settings.Default.Save();
+                    MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
+                }
+            }
+            catch (Program.RestartException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
+            }
         }
     }
 }

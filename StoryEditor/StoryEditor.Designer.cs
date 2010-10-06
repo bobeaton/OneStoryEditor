@@ -122,11 +122,14 @@ namespace OneStoryProjectEditor
             this.programUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.automaticallyCheckAtStartupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkForProgramUpdatesNowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveTimeoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.enabledToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.asSilentlyAsPossibleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.splitContainerLeftRight = new System.Windows.Forms.SplitContainer();
-            this.splitContainerUpDown = new MinimizableSplitterContainer();
+            this.splitContainerUpDown = new OneStoryProjectEditor.MinimizableSplitterContainer();
             this.linkLabelVerseBT = new System.Windows.Forms.LinkLabel();
             this.contextMenuStripVerseList = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.flowLayoutPanelVerses = new OneStoryProjectEditor.VerseBtLineFlowLayoutPanel();
@@ -148,9 +151,7 @@ namespace OneStoryProjectEditor
             this.buttonsStoryStage = new System.Windows.Forms.ToolStripSplitButton();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
-            this.saveTimeoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.enabledToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.asSilentlyAsPossibleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sendReceiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
             this.splitContainerLeftRight.Panel2.SuspendLayout();
@@ -187,6 +188,7 @@ namespace OneStoryProjectEditor
             // 
             this.projectToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.recentProjectsToolStripMenuItem,
+            this.sendReceiveToolStripMenuItem,
             this.newToolStripMenuItem,
             this.saveToolStripMenuItem,
             this.toolStripSeparator1,
@@ -969,6 +971,34 @@ namespace OneStoryProjectEditor
             this.checkForProgramUpdatesNowToolStripMenuItem.ToolTipText = "Click this menu to have the program manually check for program updates";
             this.checkForProgramUpdatesNowToolStripMenuItem.Click += new System.EventHandler(this.checkForProgramUpdatesNowToolStripMenuItem_Click);
             // 
+            // saveTimeoutToolStripMenuItem
+            // 
+            this.saveTimeoutToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.enabledToolStripMenuItem,
+            this.asSilentlyAsPossibleToolStripMenuItem});
+            this.saveTimeoutToolStripMenuItem.Name = "saveTimeoutToolStripMenuItem";
+            this.saveTimeoutToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
+            this.saveTimeoutToolStripMenuItem.Text = "Save &Timeout";
+            // 
+            // enabledToolStripMenuItem
+            // 
+            this.enabledToolStripMenuItem.CheckOnClick = true;
+            this.enabledToolStripMenuItem.Name = "enabledToolStripMenuItem";
+            this.enabledToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.enabledToolStripMenuItem.Text = "&Enabled";
+            this.enabledToolStripMenuItem.ToolTipText = "This menu enables a 5 minute timeout to remind you to save (disable at your own r" +
+                "isk)";
+            this.enabledToolStripMenuItem.CheckStateChanged += new System.EventHandler(this.enabledToolStripMenuItem_CheckStateChanged);
+            // 
+            // asSilentlyAsPossibleToolStripMenuItem
+            // 
+            this.asSilentlyAsPossibleToolStripMenuItem.CheckOnClick = true;
+            this.asSilentlyAsPossibleToolStripMenuItem.Name = "asSilentlyAsPossibleToolStripMenuItem";
+            this.asSilentlyAsPossibleToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.asSilentlyAsPossibleToolStripMenuItem.Text = "&As silently as possible";
+            this.asSilentlyAsPossibleToolStripMenuItem.ToolTipText = "This menu indicates whether the program will query you (unchecked) or not (checke" +
+                "d) to do the save";
+            // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
@@ -1298,33 +1328,13 @@ namespace OneStoryProjectEditor
             this.statusStrip.TabIndex = 1;
             this.statusStrip.Text = "statusStrip1";
             // 
-            // saveTimeoutToolStripMenuItem
+            // sendReceiveToolStripMenuItem
             // 
-            this.saveTimeoutToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.enabledToolStripMenuItem,
-            this.asSilentlyAsPossibleToolStripMenuItem});
-            this.saveTimeoutToolStripMenuItem.Name = "saveTimeoutToolStripMenuItem";
-            this.saveTimeoutToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
-            this.saveTimeoutToolStripMenuItem.Text = "Save &Timeout";
-            // 
-            // enabledToolStripMenuItem
-            // 
-            this.enabledToolStripMenuItem.CheckOnClick = true;
-            this.enabledToolStripMenuItem.Name = "enabledToolStripMenuItem";
-            this.enabledToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
-            this.enabledToolStripMenuItem.Text = "&Enabled";
-            this.enabledToolStripMenuItem.ToolTipText = "This menu enables a 5 minute timeout to remind you to save (disable at your own r" +
-                "isk)";
-            this.enabledToolStripMenuItem.CheckStateChanged += new System.EventHandler(this.enabledToolStripMenuItem_CheckStateChanged);
-            // 
-            // asSilentlyAsPossibleToolStripMenuItem
-            // 
-            this.asSilentlyAsPossibleToolStripMenuItem.CheckOnClick = true;
-            this.asSilentlyAsPossibleToolStripMenuItem.Name = "asSilentlyAsPossibleToolStripMenuItem";
-            this.asSilentlyAsPossibleToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
-            this.asSilentlyAsPossibleToolStripMenuItem.Text = "&As silently as possible";
-            this.asSilentlyAsPossibleToolStripMenuItem.ToolTipText = "This menu indicates whether the program will query you (unchecked) or not (checke" +
-                "d) to do the save";
+            this.sendReceiveToolStripMenuItem.Name = "sendReceiveToolStripMenuItem";
+            this.sendReceiveToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
+            this.sendReceiveToolStripMenuItem.Text = "Sen&d/Receive";
+            this.sendReceiveToolStripMenuItem.ToolTipText = "Click to synchronize this project with the Internet (or thumbdrive) repository";
+            this.sendReceiveToolStripMenuItem.Click += new System.EventHandler(this.sendReceiveToolStripMenuItem_Click);
             // 
             // StoryEditor
             // 
@@ -1482,6 +1492,7 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem saveTimeoutToolStripMenuItem;
         private ToolStripMenuItem enabledToolStripMenuItem;
         private ToolStripMenuItem asSilentlyAsPossibleToolStripMenuItem;
+        private ToolStripMenuItem sendReceiveToolStripMenuItem;
     }
 
 #if UsingHtmlDisplayForConNotes
