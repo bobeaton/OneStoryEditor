@@ -91,9 +91,9 @@ namespace OneStoryProjectEditor
             {
                 VerseBtControl ctrlLastNegative = VerseControlJustAboveDisplayRectange;
 
-                // only do this next part if we're *not* thumb tracking (it's too annoying)
-                if ((e.Type == ScrollEventType.SmallIncrement)
-                    || (e.Type == ScrollEventType.SmallDecrement))
+                // only do this next part if we're *not* thumb tracking and not single-
+                //  stepping up the screen (it's too annoying)
+                if (e.Type == ScrollEventType.SmallIncrement)
                 {
                     // if the number is going to be changed, then let's *not* remember the last
                     //  control box that was clicked in (if the autosave timer expires and we've
