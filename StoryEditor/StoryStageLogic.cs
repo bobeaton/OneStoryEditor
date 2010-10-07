@@ -39,9 +39,11 @@ namespace OneStoryProjectEditor
             eProjFacReadyForTest1,
             eProjFacEnterRetellingOfTest1,
             eProjFacEnterAnswersToStoryQuestionsOfTest1,
+            eProjFacRevisesAfterUnsTest,
             eBackTranslatorTypeInternationalBTTest1,
             eFirstPassMentorCheck2,
             eConsultantCheck2,
+            eConsultantCauseRevisionAfterUnsTest,
             eCoachReviewRound2Notes,
             eConsultantFinalCheck,
             eTeamComplete
@@ -157,9 +159,11 @@ namespace OneStoryProjectEditor
             { "ProjFacReadyForTest1", ProjectStages.eProjFacReadyForTest1 },
             { "ProjFacEnterRetellingOfTest1", ProjectStages.eProjFacEnterRetellingOfTest1 },
             { "ProjFacEnterAnswersToStoryQuestionsOfTest1", ProjectStages.eProjFacEnterAnswersToStoryQuestionsOfTest1 },
+            { "ProjFacRevisesAfterUnsTest", ProjectStages.eProjFacRevisesAfterUnsTest },
             { "BackTranslatorTypeInternationalBTTest1", ProjectStages.eBackTranslatorTypeInternationalBTTest1 },
             { "FirstPassMentorCheck2", ProjectStages.eFirstPassMentorCheck2 },
             { "ConsultantCheck2", ProjectStages.eConsultantCheck2 },
+            { "ConsultantCauseRevisionAfterUnsTest", ProjectStages.eConsultantCauseRevisionAfterUnsTest },
             { "CoachReviewRound2Notes", ProjectStages.eCoachReviewRound2Notes },
             { "ConsultantFinalCheck", ProjectStages.eConsultantFinalCheck },
             { "TeamComplete", ProjectStages.eTeamComplete }};

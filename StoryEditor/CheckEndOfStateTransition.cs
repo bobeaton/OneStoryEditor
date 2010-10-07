@@ -1301,6 +1301,33 @@ namespace OneStoryProjectEditor
             return true;
         }
 
+        public static bool ProjFacRevisesAfterUnsTest(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        {
+            Console.WriteLine(String.Format("Checking if stage 'ProjFacRevisesAfterUnsTest' work is finished: Name: {0}", theCurrentStory.Name));
+
+            // this can happen if the person has a story in this state, but then changes it to be a non-biblical story
+            if (!theCurrentStory.CraftingInfo.IsBiblicalStory)
+                return true;
+
+            // before going to the CIT, let's make sure that if the CIT had made 
+            //  a comment, that the PF answered it. (this only occurs if the CIT
+            //  had earlier checked the story and gone backwards)
+            if (!CheckThatPFRespondedToCITQuestions(theSE, theCurrentStory))
+                return false;
+
+#if CheckProposedNextState
+            if (theStoryProjectData.TeamMembers.HasOutsideEnglishBTer)
+                eProposedNextState = StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT;
+            else if (theStoryProjectData.TeamMembers.HasFirstPassMentor)
+                eProposedNextState = StoryStageLogic.ProjectStages.eFirstPassMentorCheck1;
+            else
+                System.Diagnostics.Debug.Assert(eProposedNextState ==
+                                                StoryStageLogic.ProjectStages.eConsultantCheckStoryInfo);
+#endif
+
+            return true;
+        }
+
         public static bool BackTranslatorTypeInternationalBTTest1(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'BackTranslatorTypeInternationalBTTest1' work is finished: Name: {0}", theCurrentStory.Name));
@@ -1415,31 +1442,42 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        /*
         public static bool ConsultantCauseRevisionAfterUnsTest(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ConsultantCauseRevisionAfterUnsTest' work is finished: Name: {0}", theCurrentStory.Name));
 
-            // and if the ProjectFac asked a question that the CIT responded to it (so the 
-            //  coach can check the responses)
-            if (!CheckThatCITAnsweredPFsQuestions(theSE, theCurrentStory))
+            // if going backwards...
+            if (IsGoingBackwards(theCurrentStory, eProposedNextState))
+            {
+                System.Diagnostics.Debug.Assert((eProposedNextState == StoryStageLogic.ProjectStages.eFirstPassMentorCheck2)
+                    || (eProposedNextState == StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBTTest1)
+                    || (eProposedNextState == StoryStageLogic.ProjectStages.eProjFacRevisesAfterUnsTest));
+
+                if ((eProposedNextState == StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBTTest1)
+                    || (eProposedNextState == StoryStageLogic.ProjectStages.eProjFacRevisesAfterUnsTest))
+                {
+                    // make sure that if the ProjectFac asked a question that the CIT responded to it.
+                    if (!CheckThatCITAnsweredPFsQuestions(theSE, theCurrentStory))
+                        return false;
+                }
+
+                return true;
+            }
+
+            // before going to the Coach, let's make sure that if the coach had made 
+            //  a comment, that the CIT answered it. (this only occurs if the coach
+            //  had earlier checked the story and gone backwards)
+            if (!CheckThatCITRespondedToCoachQuestions(theSE, theCurrentStory))
                 return false;
 
 #if CheckProposedNextState
-            // if we have an independent consultant, then the next state is Team Complete
-            if (theStoryProjectData.TeamMembers.HasIndependentConsultant
-             && theSE.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eIndependentConsultant)
-            {
-                eProposedNextState = StoryStageLogic.ProjectStages.eTeamComplete;
-            }
-            else
-                System.Diagnostics.Debug.Assert(eProposedNextState ==
-                    StoryStageLogic.ProjectStages.eCoachReviewRound2Notes);
+            System.Diagnostics.Debug.Assert(eProposedNextState ==
+                StoryStageLogic.ProjectStages.eCoachReviewRound2Notes);
 #endif
 
             return true;
         }
-        */
+
 
         public static bool CoachReviewRound2Notes(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
         {
