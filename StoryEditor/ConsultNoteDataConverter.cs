@@ -306,7 +306,8 @@ namespace OneStoryProjectEditor
         readonly Regex regexBibRef = new Regex(@"\b(([a-zA-Z]{3,4}|[1-3][a-zA-Z]{2,5}) \d{1,3}:\d{1,3})\b", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
         readonly Regex regexLineRef = new Regex(@"\b((Ln|ln|line) ([1-9][0-9]?))\b", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
         readonly Regex regexItalics = new Regex(@"\*\b(.+?)\b\*", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
-        readonly Regex regexHttpRef = new Regex(@"\b(http://.*?) \b", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
+        // readonly Regex regexHttpRef = new Regex(@"\b(http://.*?)[ .!:)]", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
+        readonly Regex regexHttpRef = new Regex(@"((http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?)", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
 
         public string Html(object htmlConNoteCtrl, 
             StoryStageLogic theStoryStage, 
