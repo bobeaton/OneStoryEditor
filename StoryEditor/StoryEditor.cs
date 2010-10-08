@@ -113,7 +113,9 @@ namespace OneStoryProjectEditor
         {
             mySaveTimer.Stop();
 
-            if (Modified)
+            if (Modified 
+                && !((LoggedOnMember != null) 
+                        && (LoggedOnMember.MemberType == TeamMemberData.UserTypes.eJustLooking)))
             {
                 // don't do it *now* if the user is typing
                 if ((DateTime.Now - LastKeyPressedTimeStamp) < tsLastKeyPressDelay)
@@ -299,6 +301,9 @@ namespace OneStoryProjectEditor
 
             // restart the last sync timer whenever we switch projects
             tmLastSync = DateTime.Now;
+            
+            if (splitContainerUpDown.IsMinimized)
+                splitContainerUpDown.Restore();
         }
 
         protected void ReInitMenuVisibility()
@@ -2456,11 +2461,15 @@ namespace OneStoryProjectEditor
                 Debug.Assert((theCurrentStory != null)
                     && (theCurrentStory.Verses.Count > 0));
 
-                string strText = theCurrentStory.Verses[0].VernacularText.ToString();
+                VerseData aVerse = theCurrentStory.Verses[0];
+                string strText = null;
+                if (aVerse.IsVisible)
+                    strText = aVerse.VernacularText.ToString();
+
                 for (int i = 1; i < theCurrentStory.Verses.Count; i++)
                 {
-                    VerseData aVerse = theCurrentStory.Verses[i];
-                    if (aVerse.VernacularText.HasData)
+                    aVerse = theCurrentStory.Verses[i];
+                    if (aVerse.IsVisible && aVerse.VernacularText.HasData)
                         strText += ' ' + aVerse.VernacularText.ToString();
                 }
 
@@ -2475,11 +2484,15 @@ namespace OneStoryProjectEditor
                 Debug.Assert((theCurrentStory != null)
                     && (theCurrentStory.Verses.Count > 0));
 
-                string strText = theCurrentStory.Verses[0].NationalBTText.ToString();
+                VerseData aVerse = theCurrentStory.Verses[0];
+                string strText = null;
+                if (aVerse.IsVisible)
+                    strText = aVerse.NationalBTText.ToString();
+
                 for (int i = 1; i < theCurrentStory.Verses.Count; i++)
                 {
-                    VerseData aVerse = theCurrentStory.Verses[i];
-                    if (aVerse.NationalBTText.HasData)
+                    aVerse = theCurrentStory.Verses[i];
+                    if (aVerse.IsVisible && aVerse.NationalBTText.HasData)
                         strText += ' ' + aVerse.NationalBTText.ToString();
                 }
 
@@ -2494,11 +2507,15 @@ namespace OneStoryProjectEditor
                 Debug.Assert((theCurrentStory != null)
                     && (theCurrentStory.Verses.Count > 0));
 
-                string strText = theCurrentStory.Verses[0].InternationalBTText.ToString();
+                VerseData aVerse = theCurrentStory.Verses[0];
+                string strText = null;
+                if (aVerse.IsVisible)
+                    strText = aVerse.InternationalBTText.ToString();
+
                 for (int i = 1; i < theCurrentStory.Verses.Count; i++)
                 {
-                    VerseData aVerse = theCurrentStory.Verses[i];
-                    if (aVerse.InternationalBTText.HasData)
+                    aVerse = theCurrentStory.Verses[i];
+                    if (aVerse.IsVisible && aVerse.InternationalBTText.HasData)
                         strText += ' ' + aVerse.InternationalBTText.ToString();
                 }
 
