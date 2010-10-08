@@ -794,7 +794,7 @@ state.
     <AllowableForewardsTransitions>
       <AllowableTransition>eBackTranslatorTypeInternationalBTTest1</AllowableTransition>
       <AllowableTransition>eFirstPassMentorCheck2</AllowableTransition>
-      <AllowableTransition>eConsultantCauseRevisionAfterUnsTest</AllowableTransition>
+      <AllowableTransition>eConsultantCheck2</AllowableTransition>
     </AllowableForewardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestions="true" viewStoryTestingAnswers="false" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
@@ -903,6 +903,7 @@ State" button to move to the next (green) state.
     <AllowableBackwardsTransitions>
       <AllowableTransition>eFirstPassMentorCheck2</AllowableTransition>
       <AllowableTransition>eBackTranslatorTranslateConNotes</AllowableTransition>
+      <AllowableTransition>eProjFacRevisesAfterUnsTest</AllowableTransition>
       <AllowableTransition>eProjFacReviseBasedOnRound1Notes</AllowableTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestions="true" viewStoryTestingAnswers="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
