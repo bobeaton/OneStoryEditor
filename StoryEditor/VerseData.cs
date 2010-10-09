@@ -882,7 +882,7 @@ namespace OneStoryProjectEditor
                 // process this as long as it *isn't* the first verse and either it's visible
                 //  or we're showing hidden material
                 if (!aVerseData.IsFirstVerse
-                    && ((theChildVerse != null) ? theChildVerse.IsVisible : aVerseData.IsVisible 
+                    && (((theChildVerse != null) ? theChildVerse.IsVisible : aVerseData.IsVisible) 
                         || viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.HiddenStuff)))
                 {
                     string strHeaderAdd = DetermineHiddenLabel(aVerseData.IsVisible, theChildVerse);
