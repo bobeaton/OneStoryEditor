@@ -308,6 +308,7 @@
             this.MinimizeBox = false;
             this.Name = "BiblicalKeyTermsForm";
             this.Text = "Key Terms";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BiblicalKeyTermsForm_FormClosing);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();

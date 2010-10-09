@@ -370,8 +370,27 @@ namespace OneStoryProjectEditor
 
             if (dataGridViewKeyTerms.RowCount != visibleTerms.Count)
                 dataGridViewKeyTerms.RowCount = visibleTerms.Count;
+            /* now done as part of "SelectedTermIndex = i - 1;" below
             else
                 LoadReferencesDisplay(true);
+            */
+
+            // go through the rows added one-by-one and a) change the height to match the 
+            //  font for hte "main language" (the one in the left column, on which the renderings
+            //  are based) and b) select those rows one-by-one so that it triggers an update
+            //  of the 'status' display (e.g. if a new anchor was added and it becomes 
+            //  "SomeMissing" it'd be nice to see that up front).
+            for (int i = dataGridViewKeyTerms.Rows.Count - 1; i >= 0; i--)
+            {
+                DataGridViewRow aRow = dataGridViewKeyTerms.Rows[i];
+                aRow.Height = MainLang.FontToUse.Height;
+                SelectedTermIndex = i;
+            }
+
+            int nSplitterDistance = dataGridViewKeyTerms.ColumnHeadersHeight + toolStrip1.Height + 15;
+            int nMaxToShow = Math.Min(5, dataGridViewKeyTerms.Rows.Count);
+            nSplitterDistance += nMaxToShow * MainLang.FontToUse.Height;
+            splitContainer1.SplitterDistance = nSplitterDistance;
 
             dataGridViewKeyTerms.Invalidate();
         }
