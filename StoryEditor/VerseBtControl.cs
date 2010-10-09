@@ -256,11 +256,10 @@ namespace OneStoryProjectEditor
             */
 
             // add all the test questions to a drop down menu to allow removing them
-            removeToolStripMenuItem.DropDown.Items.Clear();
             /*
+            removeToolStripMenuItem.DropDown.Items.Clear();
             if (theSE.viewRetellingFieldMenuItem.Checked)
                 AddRemoveRetellingSubmenus(_verseData.Retellings);
-            */
             if (theSE.viewStoryTestingQuestionMenuItem.Checked)
                 AddRemoveTestQuestionsAndAnswersSubmenus(_verseData.TestQuestions);
             if (theSE.viewConsultantNoteFieldMenuItem.Checked)
@@ -274,6 +273,7 @@ namespace OneStoryProjectEditor
             pasteTestingQuestionToolStripMenuItem.Enabled = (_myTQClipboard != null);
             pasteConsultantNoteToolStripMenuItem.Enabled = (_myConNoteClipboard != null);
             pasteCoachNoteToolStripMenuItem.Enabled = (_myCoachNoteClipboard != null);
+            */
 
             if (_verseData.IsVisible)
             {
@@ -286,8 +286,28 @@ namespace OneStoryProjectEditor
 
             moveSelectedTextToANewLineToolStripMenuItem.Enabled =
                 tableLayoutPanel.Controls.ContainsKey(CstrFieldNameStoryLine);
+
+            moveItemsToolStripMenuItem.Enabled = (_verseData.TestQuestions.HasData ||
+                                                  _verseData.ConsultantNotes.HasData ||
+                                                  _verseData.CoachNotes.HasData);
         }
 
+        private void moveItemsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // the only function of the button here is to add a slot to type a con note
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
+                return;
+
+            var dlg = new CutItemPicker(_verseData, theSE.theCurrentStory.Verses);
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                theSE.Modified = true;
+                theSE.InitAllPanes();
+            }
+        }
+
+        /* can't think of a good reason to allow them to remove a retelling (at least not this way)
         protected void AddRemoveConNoteSubmenus(string strSubmenu,
             ConsultNotesDataConverter theConNotes, EventHandler remConNoteClick)
         {
@@ -395,7 +415,6 @@ namespace OneStoryProjectEditor
             UpdateViewOfThisVerse(theSE);
         }
         
-        /* can't think of a good reason to allow them to remove a retelling (at least not this way)
         protected void AddRemoveRetellingSubmenus(RetellingsData theRD)
         {
             ToolStripMenuItem tsm = AddHeadSubmenu("Retelling(s)");
@@ -442,16 +461,17 @@ namespace OneStoryProjectEditor
             theSE.Modified = true;
         }
 
-        protected ToolStripMenuItem AddHeadSubmenu(string strHeading)
+        /*
+        protected ToolStripMenuItem AddHeadSubmenu(string strHeading, EventHandler tsm_Click)
         {
             ToolStripMenuItem tsm = new ToolStripMenuItem();
             tsm.Name = strHeading;
             tsm.Text = strHeading;
+            tsm.Click += tsm_Click;
             removeToolStripMenuItem.DropDown.Items.Add(tsm);
             return tsm;
         }
 
-        /*
         protected const string CstrAddAnswerPrefix = "For the question: ";
         protected void AddAnswerSubmenu(string strText, int nIndex)
         {
@@ -520,6 +540,50 @@ namespace OneStoryProjectEditor
             */
         /*
   }
+
+        private void pasteTestingQuestionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.Assert(_myTQClipboard != null);
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
+                return;
+
+            _verseData.TestQuestions.Add(_myTQClipboard);
+            UpdateViewOfThisVerse(theSE);
+            theSE.Modified = true;
+        }
+
+        private void pasteConsultantNoteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
+                return;
+
+            PasteConNote(_myConNoteClipboard, _verseData.ConsultantNotes,
+                theSE.htmlConsultantNotesControl);
+            theSE.Modified = true;
+        }
+
+        private void pasteCoachNoteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
+                return;
+
+            PasteConNote(_myCoachNoteClipboard, _verseData.CoachNotes,
+                theSE.htmlCoachNotesControl);
+            theSE.Modified = true;
+        }
+
+        private void PasteConNote(ConsultNoteDataConverter theCNDC, 
+            ICollection<ConsultNoteDataConverter> theCNsDC, HtmlConNoteControl ctrlHtml)
+        {
+            System.Diagnostics.Debug.Assert(theCNDC != null);
+            theCNsDC.Add(theCNDC);
+            ctrlHtml.LoadDocument();
+            Application.DoEvents();
+            ctrlHtml.ScrollToVerse(VerseNumber);
+        }
   */
 
         private void deleteTheWholeVerseToolStripMenuItem_Click(object sender, EventArgs e)
@@ -605,12 +669,21 @@ namespace OneStoryProjectEditor
             //  obsolete comments)
             _verseData.AllowConNoteButtonsOverride();
 
-            copyVerseToClipboardToolStripMenuItem_Click(null, null);
-            _myClipboard.VernacularText.SetValue(strVernacular);
-            _myClipboard.NationalBTText.SetValue(strNationalBT);
-            _myClipboard.InternationalBTText.SetValue(strEnglishBT);
-            PasteVerseToIndex(VerseNumber);
-            // theSE.AddNewVerse(VerseNumber, strVernacular, strNationalBT, strEnglishBT);
+            // make a copy and clear out the stuff that we'll have them manually move later
+            VerseData verseNew = new VerseData(_verseData);
+            verseNew.TestQuestions.Clear();
+            verseNew.ConsultantNotes.Clear();
+            verseNew.CoachNotes.Clear();
+
+            // copyVerseToClipboardToolStripMenuItem_Click(null, null);
+            verseNew.VernacularText.SetValue(strVernacular);
+            verseNew.NationalBTText.SetValue(strNationalBT);
+            verseNew.InternationalBTText.SetValue(strEnglishBT);
+            theSE.DoPasteVerse(VerseNumber, verseNew);
+            // VerseData verseDest = PasteVerseToIndex(theSE, VerseNumber);
+            var dlg = new CutItemPicker(_verseData, verseNew, VerseNumber + 1);
+            dlg.ShowDialog();
+            theSE.InitAllPanes();
         }
 
         private void addNewVersesBeforeMenuItem_Click(object sender, EventArgs e)
@@ -645,45 +718,38 @@ namespace OneStoryProjectEditor
             }
         }
 
-        protected void PasteVerseToIndex(int nInsertionIndex)
+        protected VerseData PasteVerseToIndex(StoryEditor theSE, int nInsertionIndex)
+        {
+            if (_myClipboard != null)
+            {
+                var theNewVerse = new VerseData(_myClipboard);
+                theNewVerse.AllowConNoteButtonsOverride();
+                // make another copy, so that the guid is changed
+                theSE.DoPasteVerse(nInsertionIndex, theNewVerse);
+                return theNewVerse;
+            }
+            return null;
+        }
+        private void pasteVerseFromClipboardToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // the only function of the button here is to add a slot to type a con note
             StoryEditor theSE;
             if (!CheckForProperEditToken(out theSE))
                 return;
 
-            if (_myClipboard != null)
-            {
-                VerseData theNewVerse = new VerseData(_myClipboard);
-                theNewVerse.AllowConNoteButtonsOverride();
-                // make another copy, so that the guid is changed
-                theSE.DoPasteVerse(nInsertionIndex, theNewVerse);
-            }
-
-            /*
-            IDataObject myRetrievedObject = Clipboard.GetDataObject();
-
-            // Converts the IDataObject type to VerseData type.
-            if (myRetrievedObject != null)
-            {
-                if (myRetrievedObject.GetDataPresent(typeof(VerseData)))
-                {
-                    VerseData verseData = (VerseData)myRetrievedObject.GetData(typeof(VerseData));
-
-                    if (verseData != null)
-                        theSE.DoPasteVerse(nInsertionIndex, verseData);
-                }
-            }
-            */
-        }
-        private void pasteVerseFromClipboardToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            PasteVerseToIndex(VerseNumber - 1);
+            PasteVerseToIndex(theSE, VerseNumber - 1);
+            theSE.InitAllPanes();
         }
 
         private void pasteVerseFromClipboardAfterThisOneToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            PasteVerseToIndex(VerseNumber);
+            // the only function of the button here is to add a slot to type a con note
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
+                return;
+
+            PasteVerseToIndex(theSE, VerseNumber);
+            theSE.InitAllPanes();
         }
 
         private void hideVerseToolStripMenuItem_Click(object sender, EventArgs e)
@@ -695,50 +761,6 @@ namespace OneStoryProjectEditor
             theSE.VisiblizeVerse(_verseData, 
                 (_verseData.IsVisible) ? false : true   // toggle
                 );
-        }
-
-        private void pasteTestingQuestionToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            System.Diagnostics.Debug.Assert(_myTQClipboard != null);
-            StoryEditor theSE;
-            if (!CheckForProperEditToken(out theSE))
-                return;
-
-            _verseData.TestQuestions.Add(_myTQClipboard);
-            UpdateViewOfThisVerse(theSE);
-            theSE.Modified = true;
-        }
-
-        private void pasteConsultantNoteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            StoryEditor theSE;
-            if (!CheckForProperEditToken(out theSE))
-                return;
-
-            PasteConNote(_myConNoteClipboard, _verseData.ConsultantNotes,
-                theSE.htmlConsultantNotesControl);
-            theSE.Modified = true;
-        }
-
-        private void pasteCoachNoteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            StoryEditor theSE;
-            if (!CheckForProperEditToken(out theSE))
-                return;
-
-            PasteConNote(_myCoachNoteClipboard, _verseData.CoachNotes,
-                theSE.htmlCoachNotesControl);
-            theSE.Modified = true;
-        }
-
-        private void PasteConNote(ConsultNoteDataConverter theCNDC, 
-            ICollection<ConsultNoteDataConverter> theCNsDC, HtmlConNoteControl ctrlHtml)
-        {
-            System.Diagnostics.Debug.Assert(theCNDC != null);
-            theCNsDC.Add(theCNDC);
-            ctrlHtml.LoadDocument();
-            Application.DoEvents();
-            ctrlHtml.ScrollToVerse(VerseNumber);
         }
     }
 }

@@ -74,6 +74,13 @@ namespace OneStoryProjectEditor.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap Arrow {
+            get {
+                object obj = ResourceManager.GetObject("Arrow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap BuilderDialog_movedown1 {
             get {
                 object obj = ResourceManager.GetObject("BuilderDialog_movedown1", resourceCulture);

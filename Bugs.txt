@@ -1,3 +1,7 @@
+When inserting records, use 'a', 'b', etc, so we don't change the line numbers
+
+selectively show different tests
+
 Gray out the "Edit Key Terms" menu if it isn't going to launch it
 
 add 'hidden text' to the search dialog (don't search 'hidden' verses unless it's checked, and NavigateTo needs to unhide such a find)

@@ -1464,7 +1464,7 @@ namespace OneStoryProjectEditor
         internal void DoPasteVerse(int nInsertionIndex, VerseData theVerseToPaste)
         {
             theCurrentStory.Verses.Insert(nInsertionIndex, theVerseToPaste);
-            InitAllPanes();
+            // now done by callerInitAllPanes();
             Modified = true;
         }
 

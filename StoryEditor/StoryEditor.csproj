@@ -162,6 +162,12 @@
     <Compile Include="ConcordanceForm.Designer.cs">
       <DependentUpon>ConcordanceForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="CutItemPicker.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CutItemPicker.Designer.cs">
+      <DependentUpon>CutItemPicker.cs</DependentUpon>
+    </Compile>
     <Compile Include="Diff.cs" />
     <Compile Include="EditBiblicalTermForm.cs">
       <SubType>Form</SubType>
@@ -355,6 +361,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CtrlTextBox.resx">
       <DependentUpon>CtrlTextBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CutItemPicker.resx">
+      <DependentUpon>CutItemPicker.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditBiblicalTermForm.resx">
       <DependentUpon>EditBiblicalTermForm.cs</DependentUpon>
@@ -585,6 +594,7 @@
     <None Include="Resources\DataContainer_MovePreviousHS.png" />
     <None Include="Resources\DataContainer_MoveNextHS.png" />
     <None Include="Resources\DataContainer_MoveLastHS.png" />
+    <None Include="Resources\Arrow.jpg" />
     <Content Include="StageTransitions.xml" />
     <None Include="Properties\app.manifest" />
     <None Include="Resources\DragDropHandle.bmp" />

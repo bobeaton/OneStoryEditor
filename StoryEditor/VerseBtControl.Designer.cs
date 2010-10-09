@@ -56,11 +56,8 @@
             this.pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyVerseToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pasteTestingQuestionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.moveItemsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuAddTestQuestion = new System.Windows.Forms.ToolStripMenuItem();
-            this.pasteConsultantNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pasteCoachNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -91,6 +88,7 @@
             // 
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.moveSelectedTextToANewLineToolStripMenuItem,
+            this.moveItemsToolStripMenuItem,
             this.toolStripSeparator2,
             this.addANewVerseToolStripMenuItem,
             this.addNewVersesAfterToolStripMenuItem,
@@ -99,13 +97,9 @@
             this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem,
             this.pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem,
             this.copyVerseToClipboardToolStripMenuItem,
-            this.toolStripSeparator3,
-            this.removeToolStripMenuItem,
-            this.pasteTestingQuestionToolStripMenuItem,
-            this.pasteConsultantNoteToolStripMenuItem,
-            this.pasteCoachNoteToolStripMenuItem});
+            this.toolStripSeparator3});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(359, 302);
+            this.contextMenuStrip.Size = new System.Drawing.Size(359, 236);
             this.contextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Opening);
             // 
             // moveSelectedTextToANewLineToolStripMenuItem
@@ -290,18 +284,14 @@
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(355, 6);
             // 
-            // removeToolStripMenuItem
+            // moveItemsToolStripMenuItem
             // 
-            this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(358, 22);
-            this.removeToolStripMenuItem.Text = "C&ut";
-            // 
-            // pasteTestingQuestionToolStripMenuItem
-            // 
-            this.pasteTestingQuestionToolStripMenuItem.Name = "pasteTestingQuestionToolStripMenuItem";
-            this.pasteTestingQuestionToolStripMenuItem.Size = new System.Drawing.Size(358, 22);
-            this.pasteTestingQuestionToolStripMenuItem.Text = "Pa&ste Testing Question";
-            this.pasteTestingQuestionToolStripMenuItem.Click += new System.EventHandler(this.pasteTestingQuestionToolStripMenuItem_Click);
+            this.moveItemsToolStripMenuItem.Name = "moveItemsToolStripMenuItem";
+            this.moveItemsToolStripMenuItem.Size = new System.Drawing.Size(358, 22);
+            this.moveItemsToolStripMenuItem.Text = "&Move items";
+            this.moveItemsToolStripMenuItem.ToolTipText = "Click this menu to move Testing Questions, Consultant Notes and/or Coach Notes to" +
+                " another line";
+            this.moveItemsToolStripMenuItem.Click += new System.EventHandler(this.moveItemsToolStripMenuItem_Click);
             // 
             // menuAddTestQuestion
             // 
@@ -310,20 +300,6 @@
             this.menuAddTestQuestion.Text = "Add a story testing &question";
             this.menuAddTestQuestion.ToolTipText = "Click to add a Story Testing Question";
             this.menuAddTestQuestion.Click += new System.EventHandler(this.menuAddTestQuestion_Click);
-            // 
-            // pasteConsultantNoteToolStripMenuItem
-            // 
-            this.pasteConsultantNoteToolStripMenuItem.Name = "pasteConsultantNoteToolStripMenuItem";
-            this.pasteConsultantNoteToolStripMenuItem.Size = new System.Drawing.Size(358, 22);
-            this.pasteConsultantNoteToolStripMenuItem.Text = "Paste C&onsultant Note";
-            this.pasteConsultantNoteToolStripMenuItem.Click += new System.EventHandler(this.pasteConsultantNoteToolStripMenuItem_Click);
-            // 
-            // pasteCoachNoteToolStripMenuItem
-            // 
-            this.pasteCoachNoteToolStripMenuItem.Name = "pasteCoachNoteToolStripMenuItem";
-            this.pasteCoachNoteToolStripMenuItem.Size = new System.Drawing.Size(358, 22);
-            this.pasteCoachNoteToolStripMenuItem.Text = "Paste Coach &Note";
-            this.pasteCoachNoteToolStripMenuItem.Click += new System.EventHandler(this.pasteCoachNoteToolStripMenuItem_Click);
             // 
             // VerseBtControl
             // 
@@ -343,7 +319,6 @@
         private System.Windows.Forms.Button buttonDragDropHandle;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem menuAddTestQuestion;
-        private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteTheWholeVerseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addANewVerseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addNewVersesAfterToolStripMenuItem;
@@ -368,8 +343,6 @@
         private System.Windows.Forms.ToolStripMenuItem moveSelectedTextToANewLineToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripMenuItem pasteTestingQuestionToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem pasteConsultantNoteToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem pasteCoachNoteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem moveItemsToolStripMenuItem;
     }
 }
