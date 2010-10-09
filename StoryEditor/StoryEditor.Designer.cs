@@ -38,6 +38,7 @@ namespace OneStoryProjectEditor
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.projectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.recentProjectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sendReceiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -151,7 +152,6 @@ namespace OneStoryProjectEditor
             this.buttonsStoryStage = new System.Windows.Forms.ToolStripSplitButton();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
-            this.sendReceiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
             this.splitContainerLeftRight.Panel2.SuspendLayout();
@@ -216,6 +216,14 @@ namespace OneStoryProjectEditor
             this.recentProjectsToolStripMenuItem.Text = "&Recent projects";
             this.recentProjectsToolStripMenuItem.ToolTipText = "This shows the projects that have at one time or other been opened on this machin" +
                 "e";
+            // 
+            // sendReceiveToolStripMenuItem
+            // 
+            this.sendReceiveToolStripMenuItem.Name = "sendReceiveToolStripMenuItem";
+            this.sendReceiveToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
+            this.sendReceiveToolStripMenuItem.Text = "Sen&d/Receive";
+            this.sendReceiveToolStripMenuItem.ToolTipText = "Click to synchronize this project with the Internet (or thumbdrive) repository";
+            this.sendReceiveToolStripMenuItem.Click += new System.EventHandler(this.sendReceiveToolStripMenuItem_Click);
             // 
             // newToolStripMenuItem
             // 
@@ -811,6 +819,7 @@ namespace OneStoryProjectEditor
             this.comboBoxStorySelector.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.comboBoxStorySelector.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.comboBoxStorySelector.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxStorySelector.MaxDropDownItems = 30;
             this.comboBoxStorySelector.Name = "comboBoxStorySelector";
             this.comboBoxStorySelector.Size = new System.Drawing.Size(290, 23);
             this.comboBoxStorySelector.Text = "<to create a story, type its name here and hit Enter>";
@@ -1327,14 +1336,6 @@ namespace OneStoryProjectEditor
             this.statusStrip.Size = new System.Drawing.Size(881, 22);
             this.statusStrip.TabIndex = 1;
             this.statusStrip.Text = "statusStrip1";
-            // 
-            // sendReceiveToolStripMenuItem
-            // 
-            this.sendReceiveToolStripMenuItem.Name = "sendReceiveToolStripMenuItem";
-            this.sendReceiveToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
-            this.sendReceiveToolStripMenuItem.Text = "Sen&d/Receive";
-            this.sendReceiveToolStripMenuItem.ToolTipText = "Click to synchronize this project with the Internet (or thumbdrive) repository";
-            this.sendReceiveToolStripMenuItem.Click += new System.EventHandler(this.sendReceiveToolStripMenuItem_Click);
             // 
             // StoryEditor
             // 
