@@ -992,6 +992,8 @@ Consultant's feedback". This will put the story in the state where the PF can do
       <AllowableTransition>eFirstPassMentorCheck2</AllowableTransition>
       <AllowableTransition>eBackTranslatorTranslateConNotes</AllowableTransition>
       <AllowableTransition>eProjFacReviseBasedOnRound1Notes</AllowableTransition>
+      <AllowableTransition>eProjFacRevisesAfterUnsTest</AllowableTransition>
+      <AllowableTransition>eCoachReviewRound2Notes</AllowableTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="false" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestions="true" viewStoryTestingAnswers="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
   </StateTransition>
@@ -1013,6 +1015,7 @@ return to shown in red.
       <AllowableTransition>eFirstPassMentorCheck2</AllowableTransition>
       <AllowableTransition>eBackTranslatorTranslateConNotes</AllowableTransition>
       <AllowableTransition>eProjFacReviseBasedOnRound1Notes</AllowableTransition>
+      <AllowableTransition>eProjFacRevisesAfterUnsTest</AllowableTransition>
     </AllowableBackwardsTransitions>
     <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewAnchorField="true" viewStoryTestingQuestions="true" viewStoryTestingAnswers="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
   </StateTransition>

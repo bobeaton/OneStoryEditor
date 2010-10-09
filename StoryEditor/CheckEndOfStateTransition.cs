@@ -1521,7 +1521,9 @@ namespace OneStoryProjectEditor
             {
                 System.Diagnostics.Debug.Assert((eProposedNextState == StoryStageLogic.ProjectStages.eFirstPassMentorCheck2)
                     || (eProposedNextState == StoryStageLogic.ProjectStages.eBackTranslatorTranslateConNotes)
-                    || (eProposedNextState == StoryStageLogic.ProjectStages.eProjFacReviseBasedOnRound1Notes));
+                    || (eProposedNextState == StoryStageLogic.ProjectStages.eProjFacReviseBasedOnRound1Notes)
+                    || (eProposedNextState == StoryStageLogic.ProjectStages.eProjFacRevisesAfterUnsTest)
+                    || (eProposedNextState == StoryStageLogic.ProjectStages.eCoachReviewRound2Notes));
 
                 // if it's going to the PF, then...
                 if ((eProposedNextState == StoryStageLogic.ProjectStages.eBackTranslatorTranslateConNotes)
