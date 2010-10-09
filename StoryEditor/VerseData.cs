@@ -260,7 +260,8 @@ namespace OneStoryProjectEditor
                 ConsultantNoteFields = 512,
                 CoachNotesFields = 1024,
                 BibleViewer = 2048,
-                StoryFrontMatter = 4096
+                StoryFrontMatter = 4096,
+                HiddenStuff = 8192
             }
 
             public DirectableEncConverter TransliteratorVernacular { get; set; }
@@ -285,6 +286,7 @@ namespace OneStoryProjectEditor
                 bool bCoachNotes,
                 bool bBibleViewer,
                 bool bStoryFrontMatter,
+                bool bHiddenStuff,
                 DirectableEncConverter decTransliteratorVernacular,
                 DirectableEncConverter decTransliteratorNationalBT
                 )
@@ -301,7 +303,8 @@ namespace OneStoryProjectEditor
                                    bConsultantNotes,
                                    bCoachNotes,
                                    bBibleViewer,
-                                   bStoryFrontMatter);
+                                   bStoryFrontMatter,
+                                   bHiddenStuff);
                 TransliteratorVernacular = decTransliteratorVernacular;
                 TransliteratorNationalBT = decTransliteratorNationalBT;
             }
@@ -325,7 +328,8 @@ namespace OneStoryProjectEditor
                 bool bConsultantNotes,
                 bool bCoachNotes,
                 bool bBibleViewer,
-                bool bStoryFrontMatter
+                bool bStoryFrontMatter,
+                bool bHiddenStuff
                 )
             {
                 _itemToInsureOn = 0;
@@ -355,6 +359,8 @@ namespace OneStoryProjectEditor
                     _itemToInsureOn |= ItemToInsureOn.BibleViewer;
                 if (bStoryFrontMatter)
                     _itemToInsureOn |= ItemToInsureOn.StoryFrontMatter;
+                if (bHiddenStuff)
+                    _itemToInsureOn |= ItemToInsureOn.HiddenStuff;
             }
         }
 
@@ -873,7 +879,11 @@ namespace OneStoryProjectEditor
 
                 VerseData theChildVerse = FindChildEquivalent(aVerseData, child);
 
-                if (!aVerseData.IsFirstVerse)
+                // process this as long as it *isn't* the first verse and either it's visible
+                //  or we're showing hidden material
+                if (!aVerseData.IsFirstVerse
+                    && ((theChildVerse != null) ? theChildVerse.IsVisible : aVerseData.IsVisible 
+                        || viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.HiddenStuff)))
                 {
                     string strHeaderAdd = DetermineHiddenLabel(aVerseData.IsVisible, theChildVerse);
 

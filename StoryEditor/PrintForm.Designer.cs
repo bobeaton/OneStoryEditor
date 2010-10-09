@@ -44,14 +44,15 @@
             this.checkBoxStoryTestingQuestions = new System.Windows.Forms.CheckBox();
             this.checkBoxAnswers = new System.Windows.Forms.CheckBox();
             this.checkBoxRetellings = new System.Windows.Forms.CheckBox();
+            this.checkBoxShowHidden = new System.Windows.Forms.CheckBox();
             this.checkBoxSelectAll = new System.Windows.Forms.CheckBox();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPagePrintPreviewConfig = new System.Windows.Forms.TabPage();
             this.tabPagePrintPreview = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.htmlStoryBt = new OneStoryProjectEditor.HtmlStoryBtControl();
             this.buttonClose = new System.Windows.Forms.Button();
             this.buttonPrint = new System.Windows.Forms.Button();
-            this.htmlStoryBt = new OneStoryProjectEditor.HtmlStoryBtControl();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel.SuspendLayout();
             this.groupBoxViewOptions.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -125,6 +126,7 @@
             this.flowLayoutPanel1.Controls.Add(this.checkBoxStoryTestingQuestions);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxAnswers);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxRetellings);
+            this.flowLayoutPanel1.Controls.Add(this.checkBoxShowHidden);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 16);
@@ -252,6 +254,16 @@
             this.checkBoxRetellings.Text = "&Retellings";
             this.checkBoxRetellings.UseVisualStyleBackColor = true;
             // 
+            // checkBoxShowHidden
+            // 
+            this.checkBoxShowHidden.AutoSize = true;
+            this.checkBoxShowHidden.Location = new System.Drawing.Point(3, 233);
+            this.checkBoxShowHidden.Name = "checkBoxShowHidden";
+            this.checkBoxShowHidden.Size = new System.Drawing.Size(122, 17);
+            this.checkBoxShowHidden.TabIndex = 11;
+            this.checkBoxShowHidden.Text = "Show &hidden verses";
+            this.checkBoxShowHidden.UseVisualStyleBackColor = true;
+            // 
             // checkBoxSelectAll
             // 
             this.checkBoxSelectAll.AutoSize = true;
@@ -301,6 +313,37 @@
             this.tabPagePrintPreview.ToolTipText = "Click this tab to see the preview";
             this.tabPagePrintPreview.UseVisualStyleBackColor = true;
             // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.htmlStoryBt, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.buttonClose, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.buttonPrint, 0, 1);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(817, 434);
+            this.tableLayoutPanel1.TabIndex = 3;
+            // 
+            // htmlStoryBt
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.htmlStoryBt, 2);
+            this.htmlStoryBt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.htmlStoryBt.Location = new System.Drawing.Point(3, 3);
+            this.htmlStoryBt.MinimumSize = new System.Drawing.Size(20, 20);
+            this.htmlStoryBt.Name = "htmlStoryBt";
+            this.htmlStoryBt.ParentStory = null;
+            this.htmlStoryBt.Size = new System.Drawing.Size(811, 399);
+            this.htmlStoryBt.StoryData = null;
+            this.htmlStoryBt.TabIndex = 0;
+            this.htmlStoryBt.TheSE = null;
+            this.htmlStoryBt.ViewSettings = null;
+            // 
             // buttonClose
             // 
             this.buttonClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -322,37 +365,6 @@
             this.buttonPrint.Text = "&Print";
             this.buttonPrint.UseVisualStyleBackColor = true;
             this.buttonPrint.Click += new System.EventHandler(this.buttonPrint_Click);
-            // 
-            // htmlStoryBt
-            // 
-            this.tableLayoutPanel1.SetColumnSpan(this.htmlStoryBt, 2);
-            this.htmlStoryBt.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.htmlStoryBt.Location = new System.Drawing.Point(3, 3);
-            this.htmlStoryBt.MinimumSize = new System.Drawing.Size(20, 20);
-            this.htmlStoryBt.Name = "htmlStoryBt";
-            this.htmlStoryBt.ParentStory = null;
-            this.htmlStoryBt.Size = new System.Drawing.Size(811, 399);
-            this.htmlStoryBt.StoryData = null;
-            this.htmlStoryBt.TabIndex = 0;
-            this.htmlStoryBt.TheSE = null;
-            this.htmlStoryBt.ViewSettings = null;
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.htmlStoryBt, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.buttonClose, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.buttonPrint, 0, 1);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(817, 434);
-            this.tableLayoutPanel1.TabIndex = 3;
             // 
             // PrintForm
             // 
@@ -401,5 +413,6 @@
         private System.Windows.Forms.CheckBox checkBoxLangTransliterateVernacular;
         private System.Windows.Forms.CheckBox checkBoxLangTransliterateNationalBT;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.CheckBox checkBoxShowHidden;
     }
 }

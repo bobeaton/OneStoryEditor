@@ -69,6 +69,8 @@ namespace OneStoryProjectEditor
                 checkBoxCoachNotes.Enabled = (theCurrentStory != null);
 
             checkBoxUseForAllStories.Checked = bUseForAllStories;
+
+            checkBoxShowHidden.Checked = theSE.hiddenVersesToolStripMenuItem.Checked;
         }
 
         public bool UseForAllStories
@@ -108,6 +110,8 @@ namespace OneStoryProjectEditor
                     checkBoxCoachNotes.Checked = true;
                 if (_viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.BibleViewer))
                     checkBoxBibleViewer.Checked = true;
+                if (_viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.HiddenStuff))
+                    checkBoxShowHidden.Checked = true;
             }
 
             get
@@ -125,7 +129,8 @@ namespace OneStoryProjectEditor
                     checkBoxConsultantNotes.Checked,
                     checkBoxCoachNotes.Checked,
                     checkBoxBibleViewer.Checked,
-                    true);
+                    true,
+                    checkBoxShowHidden.Checked);
                 return _viewSettings;
             }
         }

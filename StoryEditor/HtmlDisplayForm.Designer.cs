@@ -61,6 +61,7 @@
             this.htmlStoryBtControl = new OneStoryProjectEditor.HtmlStoryBtControl();
             this.backgroundWorkerCheckRevisions = new System.ComponentModel.BackgroundWorker();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.checkBoxShowHidden = new System.Windows.Forms.CheckBox();
             this.tabControl.SuspendLayout();
             this.tabPageSelectReportOptions.SuspendLayout();
             this.tableLayoutPanelSettings.SuspendLayout();
@@ -79,7 +80,7 @@
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(737, 585);
+            this.tabControl.Size = new System.Drawing.Size(877, 585);
             this.tabControl.TabIndex = 1;
             this.tabControl.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabControl_Selecting);
             // 
@@ -89,7 +90,7 @@
             this.tabPageSelectReportOptions.Location = new System.Drawing.Point(4, 22);
             this.tabPageSelectReportOptions.Name = "tabPageSelectReportOptions";
             this.tabPageSelectReportOptions.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSelectReportOptions.Size = new System.Drawing.Size(729, 559);
+            this.tabPageSelectReportOptions.Size = new System.Drawing.Size(869, 559);
             this.tabPageSelectReportOptions.TabIndex = 0;
             this.tabPageSelectReportOptions.Text = "Settings";
             this.tabPageSelectReportOptions.UseVisualStyleBackColor = true;
@@ -97,8 +98,8 @@
             // tableLayoutPanelSettings
             // 
             this.tableLayoutPanelSettings.ColumnCount = 2;
-            this.tableLayoutPanelSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
-            this.tableLayoutPanelSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
+            this.tableLayoutPanelSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanelSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanelSettings.Controls.Add(this.groupBoxRevisionsBy, 0, 0);
             this.tableLayoutPanelSettings.Controls.Add(this.groupBoxViewOptions, 1, 0);
             this.tableLayoutPanelSettings.Controls.Add(this.dataGridViewRevisions, 0, 1);
@@ -110,7 +111,7 @@
             this.tableLayoutPanelSettings.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanelSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanelSettings.Size = new System.Drawing.Size(723, 553);
+            this.tableLayoutPanelSettings.Size = new System.Drawing.Size(863, 553);
             this.tableLayoutPanelSettings.TabIndex = 0;
             // 
             // groupBoxRevisionsBy
@@ -121,7 +122,7 @@
             this.groupBoxRevisionsBy.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBoxRevisionsBy.Location = new System.Drawing.Point(3, 3);
             this.groupBoxRevisionsBy.Name = "groupBoxRevisionsBy";
-            this.groupBoxRevisionsBy.Size = new System.Drawing.Size(283, 145);
+            this.groupBoxRevisionsBy.Size = new System.Drawing.Size(220, 145);
             this.groupBoxRevisionsBy.TabIndex = 0;
             this.groupBoxRevisionsBy.TabStop = false;
             this.groupBoxRevisionsBy.Text = "Show Revisions By";
@@ -169,9 +170,9 @@
             // 
             this.groupBoxViewOptions.Controls.Add(this.flowLayoutPanel1);
             this.groupBoxViewOptions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBoxViewOptions.Location = new System.Drawing.Point(292, 3);
+            this.groupBoxViewOptions.Location = new System.Drawing.Point(229, 3);
             this.groupBoxViewOptions.Name = "groupBoxViewOptions";
-            this.groupBoxViewOptions.Size = new System.Drawing.Size(428, 145);
+            this.groupBoxViewOptions.Size = new System.Drawing.Size(631, 145);
             this.groupBoxViewOptions.TabIndex = 1;
             this.groupBoxViewOptions.TabStop = false;
             this.groupBoxViewOptions.Text = "Include in report";
@@ -188,11 +189,12 @@
             this.flowLayoutPanel1.Controls.Add(this.checkBoxStoryTestingQuestions);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxAnswers);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxRetellings);
+            this.flowLayoutPanel1.Controls.Add(this.checkBoxShowHidden);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 16);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(422, 126);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(625, 126);
             this.flowLayoutPanel1.TabIndex = 3;
             // 
             // checkBoxFrontMatter
@@ -344,7 +346,7 @@
             this.dataGridViewRevisions.Location = new System.Drawing.Point(3, 154);
             this.dataGridViewRevisions.Name = "dataGridViewRevisions";
             this.dataGridViewRevisions.RowHeadersVisible = false;
-            this.dataGridViewRevisions.Size = new System.Drawing.Size(717, 376);
+            this.dataGridViewRevisions.Size = new System.Drawing.Size(857, 376);
             this.dataGridViewRevisions.TabIndex = 2;
             this.dataGridViewRevisions.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewRevisions_CellClick);
             // 
@@ -395,7 +397,7 @@
             this.progressBar.Dock = System.Windows.Forms.DockStyle.Fill;
             this.progressBar.Location = new System.Drawing.Point(3, 536);
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(717, 14);
+            this.progressBar.Size = new System.Drawing.Size(857, 14);
             this.progressBar.TabIndex = 3;
             this.progressBar.Visible = false;
             // 
@@ -431,11 +433,21 @@
             this.backgroundWorkerCheckRevisions.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorkerCheckRevisions_RunWorkerCompleted);
             this.backgroundWorkerCheckRevisions.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorkerCheckRevisions_ProgressChanged);
             // 
+            // checkBoxShowHidden
+            // 
+            this.checkBoxShowHidden.AutoSize = true;
+            this.checkBoxShowHidden.Location = new System.Drawing.Point(323, 3);
+            this.checkBoxShowHidden.Name = "checkBoxShowHidden";
+            this.checkBoxShowHidden.Size = new System.Drawing.Size(122, 17);
+            this.checkBoxShowHidden.TabIndex = 13;
+            this.checkBoxShowHidden.Text = "Show &hidden verses";
+            this.checkBoxShowHidden.UseVisualStyleBackColor = true;
+            // 
             // HtmlDisplayForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(737, 585);
+            this.ClientSize = new System.Drawing.Size(877, 585);
             this.Controls.Add(this.tabControl);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "HtmlDisplayForm";
@@ -488,5 +500,6 @@
         private System.Windows.Forms.CheckBox checkBoxAnswers;
         private System.Windows.Forms.CheckBox checkBoxLangTransliterateVernacular;
         private System.Windows.Forms.CheckBox checkBoxLangTransliterateNationalBT;
+        private System.Windows.Forms.CheckBox checkBoxShowHidden;
     }
 }

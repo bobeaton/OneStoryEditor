@@ -2940,6 +2940,7 @@ namespace OneStoryProjectEditor
                                              viewCoachNotesFieldMenuItem.Checked,
                                              viewNetBibleMenuItem.Checked,
                                              true,
+                                             hiddenVersesToolStripMenuItem.Checked,
                                              null,
                                              null
                                              )
@@ -3274,6 +3275,11 @@ namespace OneStoryProjectEditor
             bSomethingChanged |= InsureVisible(viewNetBibleMenuItem,
                                                viewItemToInsureOn.IsViewItemOn(
                                                    VerseData.ViewSettings.ItemToInsureOn.BibleViewer),
+                                               bDoOffToo);
+
+            bSomethingChanged |= InsureVisible(hiddenVersesToolStripMenuItem,
+                                               viewItemToInsureOn.IsViewItemOn(
+                                                   VerseData.ViewSettings.ItemToInsureOn.HiddenStuff),
                                                bDoOffToo);
 
             _bDisableReInitVerseControls = false;

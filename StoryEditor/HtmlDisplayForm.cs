@@ -69,6 +69,8 @@ namespace OneStoryProjectEditor
                 checkBoxLangInternationalBT.Visible = 
                 theSE.StoryProject.ProjSettings.InternationalBT.HasData;
 
+            checkBoxShowHidden.Checked = theSE.hiddenVersesToolStripMenuItem.Checked;
+
             try
             {
                 NullProgress np = new NullProgress();
@@ -105,6 +107,7 @@ namespace OneStoryProjectEditor
                     false,  // theSE.viewCoachNotesFieldMenuItem.Checked,
                     false,  // theSE.viewNetBibleMenuItem.Checked
                     checkBoxFrontMatter.Checked,
+                    checkBoxShowHidden.Checked,
                     (checkBoxLangTransliterateVernacular.Checked)
                         ? TransliteratorVernacular
                         : null,

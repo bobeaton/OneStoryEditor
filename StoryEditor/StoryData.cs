@@ -183,6 +183,7 @@ namespace OneStoryProjectEditor
                 false,  // theSE.viewCoachNotesFieldMenuItem.Checked,
                 false,  // theSE.viewNetBibleMenuItem.Checked
                 true,   // story front matter
+                false,  // hidden matter
                 null,
                 null);
 
@@ -198,6 +199,7 @@ namespace OneStoryProjectEditor
 
         public string PresentationHtml(VerseData.ViewSettings viewSettings, ProjectSettings projSettings, TeamMembersData teamMembers, StoryData child)
         {
+            Rainbow.HtmlDiffEngine.Added.BeginTag = "<span style=\"text-decoration: underline; color: orange\">"; 
             string strHtml = PresentationHtmlWithoutHtmlDocOutside(viewSettings, projSettings, teamMembers, child);
             return AddHtmlHtmlDocOutside(strHtml, projSettings);
         }

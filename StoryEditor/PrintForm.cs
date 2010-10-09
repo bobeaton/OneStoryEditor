@@ -64,6 +64,8 @@ namespace OneStoryProjectEditor
             checkBoxLangInternationalBT.Checked =
                 checkBoxLangInternationalBT.Visible =
                 _theSE.StoryProject.ProjSettings.InternationalBT.HasData;
+
+            checkBoxShowHidden.Checked = _theSE.hiddenVersesToolStripMenuItem.Checked;
         }
 
         private void tabControl_Selected(object sender, TabControlEventArgs e)
@@ -82,6 +84,7 @@ namespace OneStoryProjectEditor
                     false, // _theSE.viewCoachNotesFieldMenuItem.Checked,
                     false, // _theSE.viewNetBibleMenuItem.Checked
                     checkBoxFrontMatter.Checked,
+                    checkBoxShowHidden.Checked,
                     (checkBoxLangTransliterateVernacular.Checked)
                         ? TransliteratorVernacular
                         : null,
