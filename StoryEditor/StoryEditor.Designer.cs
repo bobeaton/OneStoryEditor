@@ -1313,7 +1313,7 @@ namespace OneStoryProjectEditor
             this.buttonsStoryStage.Size = new System.Drawing.Size(65, 20);
             this.buttonsStoryStage.Text = "Next State";
             this.buttonsStoryStage.ToolTipText = "Use the \'Select State\' menu to move to a previous state";
-            this.buttonsStoryStage.Click += new System.EventHandler(this.buttonsStoryStage_Click_1);
+            this.buttonsStoryStage.Click += new System.EventHandler(this.buttonsStoryStage_Click);
             // 
             // statusLabel
             // 

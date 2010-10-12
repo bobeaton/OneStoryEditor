@@ -41,6 +41,10 @@ namespace OneStoryProjectEditor
         protected DateTime tmLastSync = DateTime.Now;
         protected TimeSpan tsBackupTime = new TimeSpan(1, 0, 0);
 
+        private NoteForm m_dlgNotes;
+        private HtmlDisplayForm m_dlgHistDiffDlg;
+        private PrintForm m_dlgPrintForm;
+
         public StoryEditor(string strStoriesSet, string strProjectFilePath)
         {
             myFocusTimer.Tick += TimeToSetFocus;
@@ -295,6 +299,23 @@ namespace OneStoryProjectEditor
         {
             StoryProject = null;
             LoggedOnMember = null;
+            if (m_dlgNotes != null)
+            {
+                m_dlgNotes.Close();
+                m_dlgNotes = null;    
+            }
+            
+            if (m_dlgHistDiffDlg != null)
+            {
+                m_dlgHistDiffDlg.Close();
+                m_dlgHistDiffDlg = null;
+            }
+
+            if (m_dlgPrintForm != null)
+            {
+                m_dlgPrintForm.Close();
+                m_dlgPrintForm = null;
+            }
             ClearState();
 
             ReInitMenuVisibility();
@@ -539,6 +560,10 @@ namespace OneStoryProjectEditor
                 {
                     Text = String.Format(Properties.Resources.IDS_MainFrameTitleOldStories, StoryProject.ProjSettings.ProjectName);
                 }
+
+                // show the chorus notes at load time
+                m_dlgNotes = new NoteForm(projSettings);
+                m_dlgNotes.Show();
             }
             catch (StoryProjectData.BackOutWithNoUIException)
             {
@@ -2011,13 +2036,16 @@ namespace OneStoryProjectEditor
         }
         */
 
-        private void buttonsStoryStage_Click_1(object sender, EventArgs e)
+        internal bool _bByNextStateButton = false;
+        private void buttonsStoryStage_Click(object sender, EventArgs e)
         {
             if ((StoryProject == null) || (StoryProject.ProjSettings == null) || (theCurrentStory == null))
                 return;
 
             StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[theCurrentStory.ProjStage.ProjectStage];
+            _bByNextStateButton = true;
             SetNextState(st.DefaultNextState(StoryProject, theCurrentStory), true);
+            _bByNextStateButton = false;
         }
 
         protected bool SetNextState(StoryStageLogic.ProjectStages stateToSet, bool bDoUpdateCtrls)
@@ -2060,7 +2088,7 @@ namespace OneStoryProjectEditor
             }
 
             StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[theCurrentStory.ProjStage.ProjectStage];
-            bool bRet = st.IsReadyForTransition(this, StoryProject, theCurrentStory, stateToSet);
+            bool bRet = st.IsReadyForTransition(this, StoryProject, theCurrentStory, ref stateToSet);
             if (bRet)
             {
                 StoryStageLogic.ProjectStages eNextState = stateToSet;
@@ -2068,12 +2096,10 @@ namespace OneStoryProjectEditor
                 bool bReqSave = false;
                 if (theCurrentStory.ProjStage.IsTerminalTransition(eNextState))
                 {
-                    if (MessageBox.Show(
-                            String.Format(Properties.Resources.IDS_TerminalTransitionMessage,
-                                TeamMemberData.GetMemberTypeAsDisplayString(stNext.MemberTypeWithEditToken),
-                                stNext.StageDisplayString),
-                             OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
+                    if (MessageBox.Show(Properties.Resources.IDS_TerminalTransitionMessage,
+                                        OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
                         return false;
+
                     bReqSave = true;  // request a save if we've just done a terminal transition
                 }
                 // a record to our history
@@ -3831,8 +3857,8 @@ namespace OneStoryProjectEditor
 
         private void historicalDifferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            HtmlDisplayForm dlg = new HtmlDisplayForm(this, theCurrentStory);
-            dlg.Show();
+            m_dlgHistDiffDlg = new HtmlDisplayForm(this, theCurrentStory);
+            m_dlgHistDiffDlg.Show();
         }
 
         private void useSameSettingsForAllStoriesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3843,8 +3869,8 @@ namespace OneStoryProjectEditor
 
         private void printPreviewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            PrintForm dlg = new PrintForm(this);
-            dlg.Show();
+            m_dlgPrintForm = new PrintForm(this);
+            m_dlgPrintForm.Show();
         }
 
         private void resetStoredInformationToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3894,9 +3920,13 @@ namespace OneStoryProjectEditor
             if ((StoryProject == null) || (theCurrentStory == null))
                 return;
 
+#if !UseAdvancedStatePickerByDefault
+            SelectStateBasicForm dlg = new SelectStateBasicForm(StoryProject, theCurrentStory);
+#else
             // locate the window near the cursor...
             Point ptTooltip = Cursor.Position;
             StageEditorForm dlg = new StageEditorForm(StoryProject, theCurrentStory, ptTooltip, false);
+#endif
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 Debug.Assert(dlg.NextState != StoryStageLogic.ProjectStages.eUndefined);
