@@ -137,7 +137,7 @@
     <value>String not found!</value>
   </data>
   <data name="IDS_TerminalTransitionMessage" xml:space="preserve">
-    <value>If you change to this state, then you won't be able to edit the story further until it is your turn again (after the {0} has finished his or her changes). Are you sure you want to change to the '{1}' state?</value>
+    <value>Click 'Yes' to confirm. If you click 'Yes', then you won't be able to make further changes to the story until it is returned to you. If you want to make any change first, then click 'No'.</value>
     <comment>अगर इस स्‍टेट में जाएं, तो इसके बाद आप इस कहानी को तब तक नहीं बदल सकते हैं, जब तक {0} अपने काम इस पर पूरा नहीं किया। क्‍या आप पक्‍का हैं कि अगले स्‍टेट (अनिकि '{1}' स्‍टेट) में जाएँ?</comment>
   </data>
   <data name="Hyperlink" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -223,7 +223,7 @@
     <value>No project file was found at the internet repository: {0}{0}{1}{0}{0}Are you sure it there is one in the repository yet?</value>
   </data>
   <data name="IDS_AddTestQuery" xml:space="preserve">
-    <value>Do you want to add boxes for the retelling and testing question answers?</value>
+    <value>Click 'Yes' to add boxes for the retelling and testing question answers? Or click 'No' if you already have boxes.</value>
   </data>
   <data name="IDS_UseStoryCollapse" xml:space="preserve">
     <value>Verse number '{0}' has multiple sentences in the {1} column. Use the "Story" menu, "Collapse into 1 line" command followed by the "Split into Lines" command to break the story (and any back-translations) into lines based on sentence final punctuation (see "Project", "Settings" and any of the "Language" tabs to configure sentence final punctuation). The command "Story", "Re-align story lines" can also be used, which calls both of the above commands in one click</value>
@@ -258,7 +258,7 @@
     <value>..\Resources\CopyHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="IDS_AddAnotherTestQuery" xml:space="preserve">
-    <value>If you want to enter the results for another UNS test, click 'Cancel' and go to "Project Facilitator enters retelling back-translation" state instead. Otherwise, click 'OK' to move forward to the next state.</value>
+    <value>Click 'Yes' if you want to enter the results for another UNS test, or click 'No' to send to the consultant for checking</value>
   </data>
   <data name="IDS_CreateMyBiblicalTermsQuery" xml:space="preserve">
     <value>In order to add or edit key terms, you have to begin using a local copy of one of the existing key
@@ -753,7 +753,7 @@ for more extensive study materials.&lt;/p&gt;
     <value>{0} story lines to the clipboard</value>
   </data>
   <data name="IDS_CheckForSkipToUnsCheck" xml:space="preserve">
-    <value>Would you like to do one or more UNS tests now (click 'Yes') or have your consultant check the story and testing questions first (click 'No')?</value>
+    <value>Click 'Yes' to do a UNS test now or click 'No' to send the story to the consultant first for checking.</value>
   </data>
   <data name="IDS_CantPushToTheLocalRepo" xml:space="preserve">
     <value>You chose the local project folder. You have to browse for the network drive on which the associated project is present.</value>

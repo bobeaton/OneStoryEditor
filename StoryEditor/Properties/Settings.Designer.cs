@@ -581,5 +581,29 @@ namespace OneStoryProjectEditor.Properties {
                 this["AutoHideBiblePane"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Microsoft Sans Serif")]
+        public string StateTransitionFontName {
+            get {
+                return ((string)(this["StateTransitionFontName"]));
+            }
+            set {
+                this["StateTransitionFontName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("16")]
+        public float StateTransitionFontSize {
+            get {
+                return ((float)(this["StateTransitionFontSize"]));
+            }
+            set {
+                this["StateTransitionFontSize"] = value;
+            }
+        }
     }
 }

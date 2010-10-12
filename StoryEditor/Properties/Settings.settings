@@ -241,5 +241,11 @@ DoAdaptingBeforeGlossing_InVerticalEdit	1</Value>
     <Setting Name="AutoHideBiblePane" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="StateTransitionFontName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Microsoft Sans Serif</Value>
+    </Setting>
+    <Setting Name="StateTransitionFontSize" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">16</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -41,6 +41,7 @@ namespace OneStoryProjectEditor
             eProjFacEnterAnswersToStoryQuestionsOfTest1,
             eProjFacRevisesAfterUnsTest,
             eBackTranslatorTypeInternationalBTTest1,
+            eBackTranslatorTranslateConNotesAfterUnsTest,
             eFirstPassMentorCheck2,
             eConsultantCheck2,
             eConsultantCauseRevisionAfterUnsTest,
@@ -161,6 +162,7 @@ namespace OneStoryProjectEditor
             { "ProjFacEnterAnswersToStoryQuestionsOfTest1", ProjectStages.eProjFacEnterAnswersToStoryQuestionsOfTest1 },
             { "ProjFacRevisesAfterUnsTest", ProjectStages.eProjFacRevisesAfterUnsTest },
             { "BackTranslatorTypeInternationalBTTest1", ProjectStages.eBackTranslatorTypeInternationalBTTest1 },
+            { "BackTranslatorTranslateConNotesAfterUnsTest", ProjectStages.eBackTranslatorTranslateConNotesAfterUnsTest },
             { "FirstPassMentorCheck2", ProjectStages.eFirstPassMentorCheck2 },
             { "ConsultantCheck2", ProjectStages.eConsultantCheck2 },
             { "ConsultantCauseRevisionAfterUnsTest", ProjectStages.eConsultantCauseRevisionAfterUnsTest },
@@ -291,14 +293,18 @@ namespace OneStoryProjectEditor
                         string strStageDisplayString = null;
                         if (xpNextElement.MoveNext())
                             strStageDisplayString = xpNextElement.Current.Value;
-
                         System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(strStageDisplayString));
+
+                        xpNextElement = xpStageTransition.Current.Select(StateTransition.CstrElementLabelTransitionDisplayString);
+                        string strTransitionDisplayString = null;
+                        if (xpNextElement.MoveNext())
+                            strTransitionDisplayString = xpNextElement.Current.Value;
+                        System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(strTransitionDisplayString));
 
                         xpNextElement = xpStageTransition.Current.Select(StateTransition.CstrElementLabelStageInstructions);
                         string strStageInstructions = null;
                         if (xpNextElement.MoveNext())
                             strStageInstructions = xpNextElement.Current.Value;
-
                         System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(strStageInstructions));
 
                         xpNextElement = xpStageTransition.Current.Select("AllowableForewardsTransitions/AllowableTransition");
@@ -332,6 +338,7 @@ namespace OneStoryProjectEditor
                             {
                                 MemberTypeWithEditToken = eMemberType,
                                 StageDisplayString = strStageDisplayString,
+                                TransitionDisplayString = strTransitionDisplayString,
                                 StageInstructions = strStageInstructions,
                                 RequiresUsingVernacular = bRequiresUsingVernacular,
                                 RequiresUsingNationalBT = bRequiresUsingNationalBT,
@@ -435,6 +442,7 @@ namespace OneStoryProjectEditor
             internal AllowableTransitions AllowableBackwardsTransitions = new AllowableTransitions("AllowableBackwardsTransitions");
             internal TeamMemberData.UserTypes MemberTypeWithEditToken = TeamMemberData.UserTypes.eUndefined;
             internal string StageDisplayString;
+            internal string TransitionDisplayString;
             private string _strStageInstructions;
             public string StageInstructions
             {
@@ -527,7 +535,7 @@ namespace OneStoryProjectEditor
                         && (!RequiresUsingEnglishBT || storyProjectData.ProjSettings.InternationalBT.HasData)
                         && (!RequiresBiblicalStory || theCurrentStory.CraftingInfo.IsBiblicalStory)
                         && (!RequiresNonBiblicalStory || !theCurrentStory.CraftingInfo.IsBiblicalStory)
-                        && (!RequiresFirstPassMentor || storyProjectData.TeamMembers.HasOutsideEnglishBTer)
+                        && (!RequiresFirstPassMentor || storyProjectData.TeamMembers.HasFirstPassMentor)
                         && (!HasUsingOtherEnglishBTer
                             || (RequiresUsingOtherEnglishBTer ==
                                 storyProjectData.TeamMembers.HasOutsideEnglishBTer))
@@ -587,6 +595,7 @@ namespace OneStoryProjectEditor
             public const string CstrAttributeLabelRequiresManageWithCoaching = "RequiresManageWithCoaching";
             public const string CstrAttributeLabelDontShowTilPast = "DontShowTilPast";
             public const string CstrElementLabelStageDisplayString = "StageDisplayString";
+            public const string CstrElementLabelTransitionDisplayString = "TransitionDisplayString";
             public const string CstrElementLabelStageInstructions = "StageInstructions";
             public const string CstrElementLabelViewSettings = "ViewSettings";
             public const string CstrAttributeLabelViewVernacularLangField = "viewVernacularLangField";
@@ -636,6 +645,7 @@ namespace OneStoryProjectEditor
                         elem.Add(new XAttribute(CstrAttributeLabelDontShowTilPast, DontShowTilPast));
 
                     elem.Add(new XElement(CstrElementLabelStageDisplayString, StageDisplayString),
+                             new XElement(CstrElementLabelTransitionDisplayString, TransitionDisplayString),
                              new XElement(CstrElementLabelStageInstructions, StageInstructions),
                              AllowableForewardsTransitions.GetXml,
                              AllowableBackwardsTransitions.GetXml,

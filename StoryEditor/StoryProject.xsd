@@ -342,6 +342,7 @@
       <xs:enumeration value="ProjFacEnterAnswersToStoryQuestionsOfTest1" />
       <xs:enumeration value="ProjFacRevisesAfterUnsTest" />
       <xs:enumeration value="BackTranslatorTypeInternationalBTTest1" />
+      <xs:enumeration value="BackTranslatorTranslateConNotesAfterUnsTest" />
       <xs:enumeration value="FirstPassMentorCheck2" />
 			<xs:enumeration value="ConsultantCheck2" />
       <xs:enumeration value="ConsultantCauseRevisionAfterUnsTest" />

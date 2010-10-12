@@ -19,6 +19,7 @@ namespace OneStoryProjectEditor
 
             _stateTransition = stateTransition;
             textBoxStateName.Text = stateTransition.StageDisplayString;
+            textBoxTransitionDescription.Text = stateTransition.TransitionDisplayString;
             textBoxInstructions.Text = stateTransition.StageInstructions;
 
             checkBoxVernacular.Checked = stateTransition.IsVernacularVisible;
@@ -38,6 +39,7 @@ namespace OneStoryProjectEditor
             DialogResult = DialogResult.OK;
 
             _stateTransition.StageDisplayString = textBoxStateName.Text;
+            _stateTransition.TransitionDisplayString = textBoxTransitionDescription.Text;
             _stateTransition.StageInstructions = textBoxInstructions.Text;
             _stateTransition.IsVernacularVisible = checkBoxVernacular.Checked;
             _stateTransition.IsNationalBTVisible = checkBoxNationalBT.Checked;

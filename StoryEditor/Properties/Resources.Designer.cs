@@ -200,7 +200,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to If you want to enter the results for another UNS test, click &apos;Cancel&apos; and go to &quot;Project Facilitator enters retelling back-translation&quot; state instead. Otherwise, click &apos;OK&apos; to move forward to the next state..
+        ///   Looks up a localized string similar to Click &apos;Yes&apos; if you want to enter the results for another UNS test, or click &apos;No&apos; to send to the consultant for checking.
         /// </summary>
         internal static string IDS_AddAnotherTestQuery {
             get {
@@ -209,7 +209,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Do you want to add boxes for the retelling and testing question answers?.
+        ///   Looks up a localized string similar to Click &apos;Yes&apos; to add boxes for the retelling and testing question answers? Or click &apos;No&apos; if you already have boxes..
         /// </summary>
         internal static string IDS_AddTestQuery {
             get {
@@ -272,7 +272,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Would you like to do one or more UNS tests now (click &apos;Yes&apos;) or have your consultant check the story and testing questions first (click &apos;No&apos;)?.
+        ///   Looks up a localized string similar to Click &apos;Yes&apos; to do a UNS test now or click &apos;No&apos; to send the story to the consultant first for checking..
         /// </summary>
         internal static string IDS_CheckForSkipToUnsCheck {
             get {
@@ -874,7 +874,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to If you change to this state, then you won&apos;t be able to edit the story further until it is your turn again (after the {0} has finished his or her changes). Are you sure you want to change to the &apos;{1}&apos; state?.
+        ///   Looks up a localized string similar to Click &apos;Yes&apos; to confirm. If you click &apos;Yes&apos;, then you won&apos;t be able to make further changes to the story until it is returned to you. If you want to make any change first, then click &apos;No&apos;..
         /// </summary>
         internal static string IDS_TerminalTransitionMessage {
             get {

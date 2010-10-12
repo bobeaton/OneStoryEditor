@@ -49,6 +49,8 @@
             this.checkBoxCoachNotes = new System.Windows.Forms.CheckBox();
             this.checkBoxBiblePane = new System.Windows.Forms.CheckBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.label3 = new System.Windows.Forms.Label();
+            this.textBoxTransitionDescription = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel.SuspendLayout();
             this.flowLayoutPanelViews.SuspendLayout();
             this.SuspendLayout();
@@ -62,16 +64,19 @@
             this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel.Controls.Add(this.buttonCancel, 2, 3);
+            this.tableLayoutPanel.Controls.Add(this.buttonCancel, 2, 4);
             this.tableLayoutPanel.Controls.Add(this.label1, 0, 0);
-            this.tableLayoutPanel.Controls.Add(this.buttonOK, 1, 3);
+            this.tableLayoutPanel.Controls.Add(this.buttonOK, 1, 4);
             this.tableLayoutPanel.Controls.Add(this.textBoxStateName, 1, 0);
-            this.tableLayoutPanel.Controls.Add(this.label2, 0, 1);
-            this.tableLayoutPanel.Controls.Add(this.textBoxInstructions, 1, 1);
-            this.tableLayoutPanel.Controls.Add(this.flowLayoutPanelViews, 1, 2);
+            this.tableLayoutPanel.Controls.Add(this.textBoxInstructions, 1, 2);
+            this.tableLayoutPanel.Controls.Add(this.flowLayoutPanelViews, 1, 3);
+            this.tableLayoutPanel.Controls.Add(this.label3, 0, 1);
+            this.tableLayoutPanel.Controls.Add(this.label2, 0, 2);
+            this.tableLayoutPanel.Controls.Add(this.textBoxTransitionDescription, 1, 1);
             this.tableLayoutPanel.Location = new System.Drawing.Point(12, 12);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
-            this.tableLayoutPanel.RowCount = 4;
+            this.tableLayoutPanel.RowCount = 5;
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -83,7 +88,7 @@
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(358, 373);
+            this.buttonCancel.Location = new System.Drawing.Point(381, 373);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 1;
@@ -94,16 +99,16 @@
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 6);
+            this.label1.Location = new System.Drawing.Point(3, 11);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(66, 13);
+            this.label1.Size = new System.Drawing.Size(91, 13);
             this.label1.TabIndex = 2;
-            this.label1.Text = "State &Name:";
+            this.label1.Text = "State &Description:";
             // 
             // buttonOK
             // 
             this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonOK.Location = new System.Drawing.Point(277, 373);
+            this.buttonOK.Location = new System.Drawing.Point(300, 373);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(75, 23);
             this.buttonOK.TabIndex = 0;
@@ -115,17 +120,19 @@
             // 
             this.tableLayoutPanel.SetColumnSpan(this.textBoxStateName, 2);
             this.textBoxStateName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxStateName.Location = new System.Drawing.Point(75, 3);
+            this.textBoxStateName.Font = new System.Drawing.Font("Arial Unicode MS", 12F);
+            this.textBoxStateName.Location = new System.Drawing.Point(121, 3);
             this.textBoxStateName.Name = "textBoxStateName";
-            this.textBoxStateName.Size = new System.Drawing.Size(560, 20);
+            this.textBoxStateName.Size = new System.Drawing.Size(514, 29);
             this.textBoxStateName.TabIndex = 3;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 26);
+            this.label2.Location = new System.Drawing.Point(3, 70);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(64, 13);
+            this.label2.Padding = new System.Windows.Forms.Padding(3);
+            this.label2.Size = new System.Drawing.Size(70, 19);
             this.label2.TabIndex = 4;
             this.label2.Text = "Instructions:";
             // 
@@ -134,10 +141,10 @@
             this.textBoxInstructions.AcceptsReturn = true;
             this.tableLayoutPanel.SetColumnSpan(this.textBoxInstructions, 2);
             this.textBoxInstructions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxInstructions.Location = new System.Drawing.Point(75, 29);
+            this.textBoxInstructions.Location = new System.Drawing.Point(121, 73);
             this.textBoxInstructions.Multiline = true;
             this.textBoxInstructions.Name = "textBoxInstructions";
-            this.textBoxInstructions.Size = new System.Drawing.Size(560, 236);
+            this.textBoxInstructions.Size = new System.Drawing.Size(514, 192);
             this.textBoxInstructions.TabIndex = 5;
             // 
             // flowLayoutPanelViews
@@ -155,9 +162,9 @@
             this.flowLayoutPanelViews.Controls.Add(this.checkBoxBiblePane);
             this.flowLayoutPanelViews.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanelViews.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanelViews.Location = new System.Drawing.Point(75, 271);
+            this.flowLayoutPanelViews.Location = new System.Drawing.Point(121, 271);
             this.flowLayoutPanelViews.Name = "flowLayoutPanelViews";
-            this.flowLayoutPanelViews.Size = new System.Drawing.Size(560, 96);
+            this.flowLayoutPanelViews.Size = new System.Drawing.Size(514, 96);
             this.flowLayoutPanelViews.TabIndex = 6;
             // 
             // checkBoxVernacular
@@ -284,6 +291,26 @@
             this.checkBoxBiblePane.UseVisualStyleBackColor = true;
             this.checkBoxBiblePane.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
             // 
+            // label3
+            // 
+            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(3, 46);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(112, 13);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "&Transition Description:";
+            // 
+            // textBoxTransitionDescription
+            // 
+            this.tableLayoutPanel.SetColumnSpan(this.textBoxTransitionDescription, 2);
+            this.textBoxTransitionDescription.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxTransitionDescription.Font = new System.Drawing.Font("Arial Unicode MS", 12F);
+            this.textBoxTransitionDescription.Location = new System.Drawing.Point(121, 38);
+            this.textBoxTransitionDescription.Name = "textBoxTransitionDescription";
+            this.textBoxTransitionDescription.Size = new System.Drawing.Size(514, 29);
+            this.textBoxTransitionDescription.TabIndex = 3;
+            // 
             // StateEditorForm
             // 
             this.AcceptButton = this.buttonOK;
@@ -324,5 +351,7 @@
         private System.Windows.Forms.CheckBox checkBoxCoachNotes;
         private System.Windows.Forms.CheckBox checkBoxBiblePane;
         private System.Windows.Forms.CheckBox checkBoxStoryTestingQuestionAnswers;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox textBoxTransitionDescription;
     }
 }

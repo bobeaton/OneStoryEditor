@@ -65,6 +65,7 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=1.4.4.561, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL" />
     <Reference Include="AutoUpgrade.Lib, Version=1.0.3869.15306, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
@@ -274,6 +275,12 @@
     <Compile Include="NewProjectWizard.Designer.cs">
       <DependentUpon>NewProjectWizard.cs</DependentUpon>
     </Compile>
+    <Compile Include="NoteForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NoteForm.Designer.cs">
+      <DependentUpon>NoteForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="OneStoryUrlBuilder.cs" />
     <Compile Include="PanoramaView.cs">
       <SubType>Form</SubType>
@@ -294,6 +301,12 @@
     </Compile>
     <Compile Include="SearchForm.Designer.cs">
       <DependentUpon>SearchForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SelectStateBasicForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SelectStateBasicForm.Designer.cs">
+      <DependentUpon>SelectStateBasicForm.cs</DependentUpon>
     </Compile>
     <Compile Include="SelectTermsListForm.cs">
       <SubType>Form</SubType>
@@ -408,6 +421,9 @@
     <EmbeddedResource Include="NewProjectWizard.resx">
       <DependentUpon>NewProjectWizard.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="NoteForm.resx">
+      <DependentUpon>NoteForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PanoramaView.resx">
       <DependentUpon>PanoramaView.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -421,6 +437,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SearchForm.resx">
       <DependentUpon>SearchForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectStateBasicForm.resx">
+      <DependentUpon>SelectStateBasicForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SelectTermsListForm.resx">
       <DependentUpon>SelectTermsListForm.cs</DependentUpon>

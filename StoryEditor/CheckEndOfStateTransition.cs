@@ -14,9 +14,9 @@ namespace OneStoryProjectEditor
         /// <param name="theCurrentStory">The data of the story that we're to check</param>
         /// <param name="eProposedNextState">The state we're going to (so we can do specialized checking that everything is ok)</param>
         /// <returns></returns>
-        public delegate bool CheckForValidEndOfState(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState);
+        public delegate bool CheckForValidEndOfState(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState);
 
-        public static bool ProjFacTypeVernacular(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool ProjFacTypeVernacular(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ProjFacTypeVernacular' work is finished: Name: {0}", theCurrentStory.Name));
 
@@ -43,7 +43,32 @@ namespace OneStoryProjectEditor
                     {
                         string strSentenceFinalPunct = theStoryProjectData.ProjSettings.Vernacular.FullStop;
                         List<string> lstSentences;
-                        if (!GetListOfSentences(aVerseData.VernacularText, strSentenceFinalPunct, out lstSentences))
+                        if (GetListOfSentences(aVerseData.VernacularText, strSentenceFinalPunct, out lstSentences))
+                        {
+                            if (lstSentences.Count > 1)
+                            {
+                                if (
+                                    MessageBox.Show(
+                                        String.Format(
+                                            "Verse number '{0}' has multiple sentences. Click 'Yes' to have them separated into their own verses.",
+                                            nVerseNumber), OseResources.Properties.Resources.IDS_Caption,
+                                        MessageBoxButtons.YesNoCancel) !=
+                                    DialogResult.Yes)
+                                    return false;
+
+                                int nNewVerses = lstSentences.Count;
+                                while (nNewVerses-- > 1)
+                                {
+                                    string strSentence = lstSentences[nNewVerses];
+                                    theCurrentStory.Verses.InsertVerse(nVerseNumber, strSentence, null, null);
+                                }
+
+                                aVerseData.VernacularText.SetValue(lstSentences[nNewVerses]);
+                                bRepeatAfterMe = true;
+                                break; // we have to exit the loop since we've modified the collection
+                            }
+                        }
+                        else
                         {
                             if (!aVerseData.HasData)
                             {
@@ -51,27 +76,6 @@ namespace OneStoryProjectEditor
                                 bRepeatAfterMe = true;
                                 break; // we have to exit the loop since we've modified the collection
                             }
-                        }
-                        else if (lstSentences.Count > 1)
-                        {
-                            if (
-                                MessageBox.Show(
-                                    String.Format(
-                                        "Verse number '{0}' has multiple sentences. Click 'Yes' to have them separated into their own verses.",
-                                        nVerseNumber), OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) !=
-                                DialogResult.Yes)
-                                return false;
-
-                            int nNewVerses = lstSentences.Count;
-                            while (nNewVerses-- > 1)
-                            {
-                                string strSentence = lstSentences[nNewVerses];
-                                theCurrentStory.Verses.InsertVerse(nVerseNumber, strSentence, null, null);
-                            }
-
-                            aVerseData.VernacularText.SetValue(lstSentences[nNewVerses]);
-                            bRepeatAfterMe = true;
-                            break; // we have to exit the loop since we've modified the collection
                         }
                     }
 
@@ -120,7 +124,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public static bool ProjFacTypeNationalBT(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool ProjFacTypeNationalBT(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ProjFacTypeNationalBT' work is finished: Name: {0}", theCurrentStory.Name));
             
@@ -219,7 +223,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public static bool ProjFacTypeInternationalBT(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool ProjFacTypeInternationalBT(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ProjFacTypeInternationalBT' work is finished: Name: {0}", theCurrentStory.Name));
 
@@ -391,7 +395,7 @@ namespace OneStoryProjectEditor
             MessageBox.Show(strStatusMessage, OseResources.Properties.Resources.IDS_Caption);
         }
 
-        public static bool ProjFacAddAnchors(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool ProjFacAddAnchors(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ProjFacAddAnchors' work is finished: Name: {0}", theCurrentStory.Name));
 
@@ -447,7 +451,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public static bool ProjFacAddStoryQuestions(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool ProjFacAddStoryQuestions(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ProjFacAddStoryQuestions' work is finished: Name: {0}", theCurrentStory.Name));
 
@@ -488,18 +492,21 @@ namespace OneStoryProjectEditor
             // for the Payne approach, they want the first two UNS checks *before* the
             //  consultant sees it, so check if we should be skipping all the way to the 
             //  "after round 1 consultant checking do the UNS test" state
+            // only do this if the PF was using the Next State button (not if they selected the
+            //  state manually)
+            if (!theSE._bByNextStateButton)
+                return true;
+
             DialogResult res = MessageBox.Show(Properties.Resources.IDS_CheckForSkipToUnsCheck,
-                                           OseResources.Properties.Resources.IDS_Caption,
-                                           MessageBoxButtons.YesNoCancel);
+                                               OseResources.Properties.Resources.IDS_Caption,
+                                               MessageBoxButtons.YesNoCancel);
             if (res == DialogResult.Cancel)
                 return false;
 
-#if CheckProposedNextState
             if (res == DialogResult.Yes)
-            {
-                // theSE.AddTest();
                 eProposedNextState = StoryStageLogic.ProjectStages.eProjFacReadyForTest1;
-            }
+
+#if CheckProposedNextState
             else if (theStoryProjectData.TeamMembers.HasOutsideEnglishBTer)
                 eProposedNextState = StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT;
             else if (theStoryProjectData.TeamMembers.HasFirstPassMentor)
@@ -512,7 +519,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public static bool ProjFacRevisesBeforeUnsTest(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool ProjFacRevisesBeforeUnsTest(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ProjFacRevisesBeforeUnsTest' work is finished: Name: {0}", theCurrentStory.Name));
 
@@ -539,7 +546,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public static bool BackTranslatorTypeInternationalBT(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool BackTranslatorTypeInternationalBT(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'BackTranslatorTypeInternationalBT' work is finished: Name: {0}", theCurrentStory.Name));
 
@@ -614,7 +621,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public static bool BackTranslatorTranslateConNotesBeforeUnsTest(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool BackTranslatorTranslateConNotesBeforeUnsTest(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'BackTranslatorTranslateConNotesBeforeUnsTest' work is finished: Name: {0}", theCurrentStory.Name));
 
@@ -646,13 +653,13 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public static bool ConsultantCheckNonBiblicalStory(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool ConsultantCheckNonBiblicalStory(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ConsultantCheckNonBiblicalStory' work is finished: Name: {0}", theCurrentStory.Name));
             return true;
         }
 
-        public static bool FirstPassMentorCheck1(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool FirstPassMentorCheck1(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'FirstPassMentorCheck1' work is finished: Name: {0}", theCurrentStory.Name));
 
@@ -672,7 +679,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public static bool ConsultantCheckStoryInfo(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool ConsultantCheckStoryInfo(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ConsultantCheckStoryInfo' work is finished: Name: {0}", theCurrentStory.Name));
 
@@ -684,8 +691,7 @@ namespace OneStoryProjectEditor
                     || (eProposedNextState == StoryStageLogic.ProjectStages.eProjFacRevisesBeforeUnsTest));
 
                 // if it's going to the PF, then...
-                if ((eProposedNextState == StoryStageLogic.ProjectStages.eBackTranslatorTranslateConNotesBeforeUnsTest)
-                    || (eProposedNextState == StoryStageLogic.ProjectStages.eProjFacRevisesBeforeUnsTest))
+                if (eProposedNextState != StoryStageLogic.ProjectStages.eFirstPassMentorCheck1)
                 {
                     // make sure that if the ProjectFac asked a question that the CIT responded to it.
                     if (!CheckThatCITAnsweredPFsQuestions(theSE, theCurrentStory))
@@ -703,7 +709,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public static bool ConsultantCheckAnchors(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool ConsultantCheckAnchors(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ConsultantCheckAnchors' work is finished: Name: {0}", theCurrentStory.Name));
 
@@ -734,7 +740,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public static bool ConsultantCheckStoryQuestions(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool ConsultantCheckStoryQuestions(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ConsultantCheckStoryQuestions' work is finished: Name: {0}", theCurrentStory.Name));
 
@@ -791,15 +797,14 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public static bool ConsultantCauseRevisionBeforeUnsTest(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool ConsultantCauseRevisionBeforeUnsTest(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ConsultantCauseRevisionBeforeUnsTest' work is finished: Name: {0}", theCurrentStory.Name));
 
             // if going backwards...
             if (IsGoingBackwards(theCurrentStory, eProposedNextState))
             {
-                System.Diagnostics.Debug.Assert((eProposedNextState == StoryStageLogic.ProjectStages.eFirstPassMentorCheck1)
-                    || (eProposedNextState == StoryStageLogic.ProjectStages.eBackTranslatorTranslateConNotesBeforeUnsTest)
+                System.Diagnostics.Debug.Assert((eProposedNextState == StoryStageLogic.ProjectStages.eBackTranslatorTranslateConNotesBeforeUnsTest)
                     || (eProposedNextState == StoryStageLogic.ProjectStages.eProjFacRevisesBeforeUnsTest));
 
                 if ((eProposedNextState == StoryStageLogic.ProjectStages.eBackTranslatorTranslateConNotesBeforeUnsTest)
@@ -997,7 +1002,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public static bool CoachReviewRound1Notes(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool CoachReviewRound1Notes(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'CoachReviewRound1Notes' work is finished: Name: {0}", theCurrentStory.Name));
 
@@ -1030,7 +1035,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public static bool ConsultantReviseRound1Notes(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool ConsultantReviseRound1Notes(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ConsultantReviseRound1Notes' work is finished: Name: {0}", theCurrentStory.Name));
 
@@ -1068,7 +1073,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public static bool BackTranslatorTranslateConNotes(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool BackTranslatorTranslateConNotes(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'BackTranslatorTranslateConNotes' work is finished: Name: {0}", theCurrentStory.Name));
 
@@ -1076,7 +1081,7 @@ namespace OneStoryProjectEditor
             if (IsGoingBackwards(theCurrentStory, eProposedNextState))
             {
                 System.Diagnostics.Debug.Assert((eProposedNextState == StoryStageLogic.ProjectStages.eConsultantReviseRound1Notes)
-                    || (eProposedNextState == StoryStageLogic.ProjectStages.eConsultantCheckStoryQuestions));
+                    || (eProposedNextState == StoryStageLogic.ProjectStages.eConsultantCheckStoryInfo));
 
                 return true;
             }
@@ -1089,7 +1094,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public static bool ProjFacReviseBasedOnRound1Notes(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool ProjFacReviseBasedOnRound1Notes(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ProjFacReviseBasedOnRound1Notes' work is finished: Name: {0}", theCurrentStory.Name));
 
@@ -1098,10 +1103,10 @@ namespace OneStoryProjectEditor
             {
                 System.Diagnostics.Debug.Assert((eProposedNextState == StoryStageLogic.ProjectStages.eBackTranslatorTranslateConNotes)
                     ||  (eProposedNextState == StoryStageLogic.ProjectStages.eConsultantReviseRound1Notes)
-                    ||  (eProposedNextState == StoryStageLogic.ProjectStages.eConsultantCheckStoryQuestions));
+                    || (eProposedNextState == StoryStageLogic.ProjectStages.eConsultantCheckStoryInfo));
 
                 if ((eProposedNextState == StoryStageLogic.ProjectStages.eConsultantReviseRound1Notes)
-                    || (eProposedNextState == StoryStageLogic.ProjectStages.eConsultantCheckStoryQuestions))
+                    || (eProposedNextState == StoryStageLogic.ProjectStages.eConsultantCheckStoryInfo))
                 {
                     // make sure that if the PF answered the CIT 's comments.
                     if (!CheckThatPFRespondedToCITQuestions(theSE, theCurrentStory))
@@ -1128,7 +1133,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public static bool ProjFacOnlineReview1WithConsultant(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool ProjFacOnlineReview1WithConsultant(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ProjFacOnlineReview1WithConsultant' work is finished: Name: {0}", theCurrentStory.Name));
 
@@ -1138,10 +1143,10 @@ namespace OneStoryProjectEditor
                 System.Diagnostics.Debug.Assert((eProposedNextState == StoryStageLogic.ProjectStages.eProjFacReviseBasedOnRound1Notes)
                     ||  (eProposedNextState == StoryStageLogic.ProjectStages.eBackTranslatorTranslateConNotes)
                     ||  (eProposedNextState == StoryStageLogic.ProjectStages.eConsultantReviseRound1Notes)
-                    ||  (eProposedNextState == StoryStageLogic.ProjectStages.eConsultantCheckStoryQuestions));
+                    || (eProposedNextState == StoryStageLogic.ProjectStages.eConsultantCheckStoryInfo));
 
                 if ((eProposedNextState == StoryStageLogic.ProjectStages.eConsultantReviseRound1Notes)
-                    || (eProposedNextState == StoryStageLogic.ProjectStages.eConsultantCheckStoryQuestions))
+                    || (eProposedNextState == StoryStageLogic.ProjectStages.eConsultantCheckStoryInfo))
                 {
                     // make sure that if the PF answered the CIT 's comments.
                     if (!CheckThatPFRespondedToCITQuestions(theSE, theCurrentStory))
@@ -1163,7 +1168,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public static bool ProjFacReadyForTest1(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool ProjFacReadyForTest1(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ProjFacReadyForTest1' work is finished: Name: {0}", theCurrentStory.Name));
 
@@ -1171,7 +1176,6 @@ namespace OneStoryProjectEditor
             if (IsGoingBackwards(theCurrentStory, eProposedNextState))
             {
                 System.Diagnostics.Debug.Assert((eProposedNextState == StoryStageLogic.ProjectStages.eProjFacOnlineReview1WithConsultant)
-                    ||  (eProposedNextState == StoryStageLogic.ProjectStages.eProjFacReviseBasedOnRound1Notes)
                     || (eProposedNextState == StoryStageLogic.ProjectStages.eProjFacAddStoryQuestions));
 
                 return true;
@@ -1216,7 +1220,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public static bool ProjFacEnterRetellingOfTest1(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool ProjFacEnterRetellingOfTest1(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ProjFacEnterRetellingOfTest1' work is finished: Name: {0}", theCurrentStory.Name));
 
@@ -1238,7 +1242,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public static bool ProjFacEnterAnswersToStoryQuestionsOfTest1(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool ProjFacEnterAnswersToStoryQuestionsOfTest1(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ProjFacEnterAnswersToStoryQuestionsOfTest1' work is finished: Name: {0}", theCurrentStory.Name));
 
@@ -1265,27 +1269,29 @@ namespace OneStoryProjectEditor
             if (!CheckAnswersAnswered(theSE, theCurrentStory))
                 return false;
 
+            // if the user used the 'Select State' dialog, then we don't need to check whether
+            //  they want to enter another test.
+            if (!theSE._bByNextStateButton)
+                return true;
+
             // if they've only done one test, then ask them to do another (but don't force them)
             DialogResult res =
                 MessageBox.Show(
                     Properties.Resources.IDS_AddAnotherTestQuery,
-                    OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.OKCancel);
+                    OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
 
             if (res == DialogResult.Cancel)
                 return false;
 
-            /*
             if (res == DialogResult.Yes)
             {
                 theSE.AddTest();
 
-#if CheckProposedNextState
                 // this will go:
                 //  ProjFacEnterRetellingOfTest1 (to get answer from UNS_1), then
                 //  ProjFacEnterAnswersToStoryQuestionsOfTest1 (to get retelling from UNS_1), then (while Testor.Count < 2) back to:
                 //  ProjFacEnterRetellingOfTest1, etc.
                 eProposedNextState = StoryStageLogic.ProjectStages.eProjFacEnterRetellingOfTest1;
-#endif
             }
 #if CheckProposedNextState
             else if (theStoryProjectData.TeamMembers.HasOutsideEnglishBTer)
@@ -1296,12 +1302,11 @@ namespace OneStoryProjectEditor
                 System.Diagnostics.Debug.Assert(eProposedNextState ==
                     StoryStageLogic.ProjectStages.eConsultantCheck2);
 #endif
-            */
 
             return true;
         }
 
-        public static bool ProjFacRevisesAfterUnsTest(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool ProjFacRevisesAfterUnsTest(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ProjFacRevisesAfterUnsTest' work is finished: Name: {0}", theCurrentStory.Name));
 
@@ -1328,7 +1333,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public static bool BackTranslatorTypeInternationalBTTest1(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool BackTranslatorTypeInternationalBTTest1(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'BackTranslatorTypeInternationalBTTest1' work is finished: Name: {0}", theCurrentStory.Name));
 
@@ -1339,7 +1344,7 @@ namespace OneStoryProjectEditor
             // if going backwards...
             if (IsGoingBackwards(theCurrentStory, eProposedNextState))
             {
-                System.Diagnostics.Debug.Assert(eProposedNextState == StoryStageLogic.ProjectStages.eProjFacReviseBasedOnRound1Notes);
+                System.Diagnostics.Debug.Assert(eProposedNextState == StoryStageLogic.ProjectStages.eProjFacRevisesAfterUnsTest);
                 return true;
             }
 
@@ -1361,10 +1366,16 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        /*
-        public static bool BackTranslatorTranslateConNotesAfterUnsTest(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool BackTranslatorTranslateConNotesAfterUnsTest(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'BackTranslatorTranslateConNotesAfterUnsTest' work is finished: Name: {0}", theCurrentStory.Name));
+
+            // if going backwards, we don't have anything to check
+            if (IsGoingBackwards(theCurrentStory, eProposedNextState))
+            {
+                System.Diagnostics.Debug.Assert((eProposedNextState == StoryStageLogic.ProjectStages.eProjFacRevisesAfterUnsTest));
+                return true;
+            }
 
 #if CheckProposedNextState
             if (theStoryProjectData.TeamMembers.HasFirstPassMentor)
@@ -1376,16 +1387,15 @@ namespace OneStoryProjectEditor
 
             return true;
         }
-        */
 
-        public static bool FirstPassMentorCheck2(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool FirstPassMentorCheck2(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'FirstPassMentorCheck2' work is finished: Name: {0}", theCurrentStory.Name));
 
             // if going backwards...
             if (IsGoingBackwards(theCurrentStory, eProposedNextState))
             {
-                System.Diagnostics.Debug.Assert((eProposedNextState == StoryStageLogic.ProjectStages.eBackTranslatorTranslateConNotes)
+                System.Diagnostics.Debug.Assert((eProposedNextState == StoryStageLogic.ProjectStages.eBackTranslatorTranslateConNotesBeforeUnsTest)
                     ||  (eProposedNextState == StoryStageLogic.ProjectStages.eProjFacReviseBasedOnRound1Notes));
 
                 return true;
@@ -1399,7 +1409,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public static bool ConsultantCheck2(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool ConsultantCheck2(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ConsultantCheck2' work is finished: Name: {0}", theCurrentStory.Name));
 
@@ -1407,12 +1417,13 @@ namespace OneStoryProjectEditor
             if (IsGoingBackwards(theCurrentStory, eProposedNextState))
             {
                 System.Diagnostics.Debug.Assert((eProposedNextState == StoryStageLogic.ProjectStages.eFirstPassMentorCheck2)
-                    ||  (eProposedNextState == StoryStageLogic.ProjectStages.eBackTranslatorTranslateConNotes)
-                    ||  (eProposedNextState == StoryStageLogic.ProjectStages.eProjFacReviseBasedOnRound1Notes));
+                    || (eProposedNextState == StoryStageLogic.ProjectStages.eBackTranslatorTranslateConNotesAfterUnsTest)
+                    || (eProposedNextState == StoryStageLogic.ProjectStages.eBackTranslatorTranslateConNotes)
+                    || (eProposedNextState == StoryStageLogic.ProjectStages.eProjFacRevisesAfterUnsTest)
+                    || (eProposedNextState == StoryStageLogic.ProjectStages.eProjFacReviseBasedOnRound1Notes));
 
                 // if it's going to the PF, then...
-                if ((eProposedNextState == StoryStageLogic.ProjectStages.eBackTranslatorTranslateConNotes)
-                    || (eProposedNextState == StoryStageLogic.ProjectStages.eProjFacReviseBasedOnRound1Notes))
+                if (eProposedNextState != StoryStageLogic.ProjectStages.eFirstPassMentorCheck2)
                 {
                     // make sure that if the ProjectFac asked a question that the CIT responded to it.
                     if (!CheckThatCITAnsweredPFsQuestions(theSE, theCurrentStory))
@@ -1442,7 +1453,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public static bool ConsultantCauseRevisionAfterUnsTest(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool ConsultantCauseRevisionAfterUnsTest(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ConsultantCauseRevisionAfterUnsTest' work is finished: Name: {0}", theCurrentStory.Name));
 
@@ -1479,22 +1490,20 @@ namespace OneStoryProjectEditor
         }
 
 
-        public static bool CoachReviewRound2Notes(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool CoachReviewRound2Notes(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'CoachReviewRound2Notes' work is finished: Name: {0}", theCurrentStory.Name));
 
             // if going backwards...
             if (IsGoingBackwards(theCurrentStory, eProposedNextState))
             {
-                System.Diagnostics.Debug.Assert(eProposedNextState == StoryStageLogic.ProjectStages.eConsultantReviseRound1Notes);
+                System.Diagnostics.Debug.Assert((eProposedNextState == StoryStageLogic.ProjectStages.eConsultantReviseRound1Notes)
+                    || (eProposedNextState == StoryStageLogic.ProjectStages.eConsultantCauseRevisionAfterUnsTest));
 
                 // if it's going backwards...
-                if (eProposedNextState == StoryStageLogic.ProjectStages.eConsultantReviseRound1Notes)
-                {
-                    // make sure that if the CIT asked a question that the Coach responded to it.
-                    if (!CheckThatCoachAnsweredCITsQuestions(theSE, theCurrentStory))
-                        return false;
-                }
+                // make sure that if the CIT asked a question that the Coach responded to it.
+                if (!CheckThatCoachAnsweredCITsQuestions(theSE, theCurrentStory))
+                    return false;
 
                 return true;
             }
@@ -1512,7 +1521,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public static bool ConsultantFinalCheck(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool ConsultantFinalCheck(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ConsultantFinalCheck' work is finished: Name: {0}", theCurrentStory.Name));
 
@@ -1551,7 +1560,7 @@ namespace OneStoryProjectEditor
         }
 
         /*
-        public static bool ConsultantReviseRound2Notes(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool ConsultantReviseRound2Notes(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ConsultantReviseRound2Notes' work is finished: Name: {0}", theCurrentStory.Name));
 
@@ -1573,7 +1582,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public static bool BackTranslatorTranslateConNotes2(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool BackTranslatorTranslateConNotes2(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'BackTranslatorTranslateConNotes2' work is finished: Name: {0}", theCurrentStory.Name));
 
@@ -1583,7 +1592,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public static bool ProjFacReviseBasedOnRound2Notes(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool ProjFacReviseBasedOnRound2Notes(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ProjFacReviseBasedOnRound2Notes' work is finished: Name: {0}", theCurrentStory.Name));
 
@@ -1593,7 +1602,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public static bool ProjFacOnlineReview2WithConsultant(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool ProjFacOnlineReview2WithConsultant(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ProjFacOnlineReview2WithConsultant' work is finished: Name: {0}", theCurrentStory.Name));
             
@@ -1607,7 +1616,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public static bool ProjFacReadyForTest2(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool ProjFacReadyForTest2(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ProjFacReadyForTest2' work is finished: Name: {0}", theCurrentStory.Name));
 
@@ -1625,7 +1634,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public static bool ProjFacEnterRetellingOfTest2(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool ProjFacEnterRetellingOfTest2(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ProjFacEnterRetellingOfTest2' work is finished: Name: {0}", theCurrentStory.Name));
 
@@ -1635,7 +1644,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public static bool ProjFacEnterAnswersToStoryQuestionsOfTest2(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool ProjFacEnterAnswersToStoryQuestionsOfTest2(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ProjFacEnterAnswersToStoryQuestionsOfTest2' work is finished: Name: {0}", theCurrentStory.Name));
 
@@ -1660,7 +1669,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public static bool BackTranslatorTypeInternationalBTTest2(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool BackTranslatorTypeInternationalBTTest2(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'BackTranslatorTypeInternationalBTTest2' work is finished: Name: {0}", theCurrentStory.Name));
 
@@ -1680,7 +1689,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public static bool FirstPassMentorReviewTest2(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool FirstPassMentorReviewTest2(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'FirstPassMentorReviewTest2' work is finished: Name: {0}", theCurrentStory.Name));
 
@@ -1690,7 +1699,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public static bool ConsultantReviewTest2(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool ConsultantReviewTest2(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ConsultantReviewTest2' work is finished: Name: {0}", theCurrentStory.Name));
 
@@ -1706,7 +1715,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public static bool CoachReviewTest2Notes(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool CoachReviewTest2Notes(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'CoachReviewTest2Notes' work is finished: Name: {0}", theCurrentStory.Name));
 
@@ -1721,7 +1730,7 @@ namespace OneStoryProjectEditor
             return true;
         }
         */
-        public static bool TeamComplete(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, StoryStageLogic.ProjectStages eProposedNextState)
+        public static bool TeamComplete(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'TeamComplete' work is finished: Name: {0}", theCurrentStory.Name));
             return true;
