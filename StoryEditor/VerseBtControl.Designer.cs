@@ -33,6 +33,7 @@
             this.buttonDragDropHandle = new System.Windows.Forms.Button();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.moveSelectedTextToANewLineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.moveItemsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.addANewVerseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,7 +57,6 @@
             this.pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyVerseToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.moveItemsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuAddTestQuestion = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -90,14 +90,14 @@
             this.moveSelectedTextToANewLineToolStripMenuItem,
             this.moveItemsToolStripMenuItem,
             this.toolStripSeparator2,
+            this.toolStripSeparator3,
             this.addANewVerseToolStripMenuItem,
             this.addNewVersesAfterToolStripMenuItem,
             this.hideVerseToolStripMenuItem,
             this.deleteTheWholeVerseToolStripMenuItem,
             this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem,
             this.pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem,
-            this.copyVerseToClipboardToolStripMenuItem,
-            this.toolStripSeparator3});
+            this.copyVerseToClipboardToolStripMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip";
             this.contextMenuStrip.Size = new System.Drawing.Size(359, 236);
             this.contextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Opening);
@@ -110,6 +110,15 @@
             this.moveSelectedTextToANewLineToolStripMenuItem.ToolTipText = "This will take the selected text from the Story language, the National BT and the" +
                 " English BT boxes and move them into a new line following this line";
             this.moveSelectedTextToANewLineToolStripMenuItem.Click += new System.EventHandler(this.moveSelectedTextToANewLineToolStripMenuItem_Click);
+            // 
+            // moveItemsToolStripMenuItem
+            // 
+            this.moveItemsToolStripMenuItem.Name = "moveItemsToolStripMenuItem";
+            this.moveItemsToolStripMenuItem.Size = new System.Drawing.Size(358, 22);
+            this.moveItemsToolStripMenuItem.Text = "&Move items";
+            this.moveItemsToolStripMenuItem.ToolTipText = "Click this menu to move Testing Questions, Consultant Notes and/or Coach Notes to" +
+                " another line";
+            this.moveItemsToolStripMenuItem.Click += new System.EventHandler(this.moveItemsToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
@@ -283,15 +292,6 @@
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(355, 6);
-            // 
-            // moveItemsToolStripMenuItem
-            // 
-            this.moveItemsToolStripMenuItem.Name = "moveItemsToolStripMenuItem";
-            this.moveItemsToolStripMenuItem.Size = new System.Drawing.Size(358, 22);
-            this.moveItemsToolStripMenuItem.Text = "&Move items";
-            this.moveItemsToolStripMenuItem.ToolTipText = "Click this menu to move Testing Questions, Consultant Notes and/or Coach Notes to" +
-                " another line";
-            this.moveItemsToolStripMenuItem.Click += new System.EventHandler(this.moveItemsToolStripMenuItem_Click);
             // 
             // menuAddTestQuestion
             // 

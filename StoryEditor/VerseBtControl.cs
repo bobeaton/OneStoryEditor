@@ -234,7 +234,7 @@ namespace OneStoryProjectEditor
             StoryEditor theSE = (StoryEditor)FindForm();
             if (theSE.theCurrentStory.CraftingInfo.IsBiblicalStory)
             {
-                contextMenuStrip.Items.Insert(2, menuAddTestQuestion);
+                contextMenuStrip.Items.Insert(3, menuAddTestQuestion);
                 /* adding answer and retelling spots is now done during end-of-state processing for ProjFacReadyForTest1
                 contextMenuStrip.Items.Insert(3, addTestQuestionAnswerToolStripMenuItem);
                 contextMenuStrip.Items.Insert(4, addRetellingToolStripMenuItem);
