@@ -13,6 +13,9 @@ namespace OneStoryProjectEditor
 
         // tags in the SFM document to look for (hope everyone was consistent!)
         const string CstrReasonLable = "reason this story is in the set:";
+        const string CstrScripturePortion = "Scripture Portion:";
+        const string CstrTeachingPoint = "Teaching Point:";
+        const string CstrCPElements = "CP Elements:";
         const string CstrStoryCrafter = "Story crafter:";
         const string CstrBackTranslator = "Backtranslator to Hindi:";
         const string CstrTestor1 = "Testing 1:";
@@ -30,7 +33,7 @@ namespace OneStoryProjectEditor
         const string CstrVernCode = "xnr";
         const string CstrVernCodeSfm = @"\xnr";
         const string CstrVernFullStop = "।";
-#else
+#elif DoDogri
         const string CstrBtFile = @"L:\Pahari\Storying\Dogri\DogriStoriesBT.txt";
         const string CstrRetFile = @"L:\Pahari\Storying\Dogri\DogriTestRetellings.txt";
         const string CstrConFile = @"L:\Pahari\Storying\Dogri\ProjectConNotes.txt";
@@ -40,6 +43,17 @@ namespace OneStoryProjectEditor
         const string CstrVernCode = "doj";
         const string CstrVernCodeSfm = @"\doj";
         const string CstrVernFullStop = "।!?:";
+#else
+        const string CstrBtFile = @"L:\Pahari\Storying\Hindi\HindiStoriesBT.txt";
+        const string CstrRetFile = @"L:\Pahari\Storying\Hindi\HindiTestRetellings.txt";
+        const string CstrConFile = @"L:\Pahari\Storying\Hindi\ProjectConNotes.txt";
+        const string CstrCoaFile = @"L:\Pahari\Storying\Hindi\CoachingNotes.txt";
+        const string CstrDefOutputFile = @"C:\Users\Bob\Documents\OneStory Editor Projects\snwmtn-hindi-cpm\snwmtn-hindi-cpm.onestory";
+        const string CstrVernName = "Hindi";
+        const string CstrVernCode = "hin";
+        const string CstrVernCodeSfm = @"\hnd";
+        const string CstrVernFullStop = "।!?:";
+        private const bool CbDoVernacular = true;
 #endif
 
         const string CstrNatlName = "Hindi";
@@ -50,6 +64,7 @@ namespace OneStoryProjectEditor
         const string CstrIntlCode = "en";
         const string CstrConsultantsInitials = "BE";
         const string CstrCoachsInitials = "JP";
+        private const bool CbDoNatl = false;
 
 
         private static readonly List<string> CastrConsultantMenteeSfms = new List<string>
@@ -164,7 +179,7 @@ namespace OneStoryProjectEditor
                     else
                         verse = new VerseData();
 
-                    DoVerseData(verse, astrBt, strTestorGuid, ref nIndexBt);
+                    DoVerseData(strRef, verse, astrBt, strTestorGuid, ref nIndexBt);
 
                     // now grab the retelling
                     if (SkipTo(@"\ln ", strRef, @"\c ", astrRet, ref nIndexRet))
@@ -249,10 +264,32 @@ namespace OneStoryProjectEditor
                         string strStoryPurpose = strData.Substring(CstrReasonLable.Length).Trim();
                         if (String.IsNullOrEmpty(strStoryPurpose))
                             strStoryPurpose = null;
-                        if (bUsingStoryProject)
-                            System.Diagnostics.Debug.Assert(story.CraftingInfo.StoryPurpose == strStoryPurpose);
-                        else
-                            story.CraftingInfo.StoryPurpose = strStoryPurpose;
+                        if (!bUsingStoryProject)
+                            story.CraftingInfo.StoryPurpose += strStoryPurpose;
+                    }
+                    else if (BeginsWith(strData, CstrTeachingPoint))
+                    {
+                        string strStoryPurpose = strData.Trim();
+                        if (String.IsNullOrEmpty(strStoryPurpose))
+                            strStoryPurpose = null;
+                        if (!bUsingStoryProject)
+                            story.CraftingInfo.StoryPurpose += strStoryPurpose + Environment.NewLine;
+                    }
+                    else if (BeginsWith(strData, CstrCPElements))
+                    {
+                        string strStoryPurpose = strData.Trim();
+                        if (String.IsNullOrEmpty(strStoryPurpose))
+                            strStoryPurpose = null;
+                        if (!bUsingStoryProject)
+                            story.CraftingInfo.StoryPurpose += strStoryPurpose + Environment.NewLine;
+                    }
+                    else if (BeginsWith(strData, CstrScripturePortion))
+                    {
+                        string strStoryPurpose = strData.Trim();
+                        if (String.IsNullOrEmpty(strStoryPurpose))
+                            strStoryPurpose = null;
+                        if (!bUsingStoryProject)
+                            story.CraftingInfo.StoryPurpose += strStoryPurpose + Environment.NewLine;
                     }
                     else if (BeginsWith(strData, CstrStoryCrafter))
                     {
@@ -313,7 +350,8 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private static bool DoVerseData(VerseData verse, string[] astrBt, string strTestorGuid, ref int nIndexBt)
+        private static bool DoVerseData(string strRef, VerseData verse, 
+            string[] astrBt, string strTestorGuid, ref int nIndexBt)
         {
             int nTQIndex = -1;
             string strMarker, strData;
@@ -326,12 +364,12 @@ namespace OneStoryProjectEditor
             bool bVerseMarkerHasData = false;
             while ((strMarker != @"\ln") && (strMarker != @"\c"))   // until we hit the next line or the next chapter
             {
-                if (strMarker == CstrVernCodeSfm)
+                if (CbDoVernacular && (strMarker == CstrVernCodeSfm))
                 {
                     verse.VernacularText.SetValue(strData);
                     bVerseMarkerHasData = true;
                 }
-                else if (strMarker == CstrNatlCodeSfm)
+                else if (CbDoNatl && (strMarker == CstrNatlCodeSfm))
                 {
                     verse.NationalBTText.SetValue(strData);
                     bVerseMarkerHasData = true;
@@ -364,8 +402,10 @@ namespace OneStoryProjectEditor
                 }
                 else if (strMarker == @"\cn")
                 {
-                    System.Diagnostics.Debug.Assert(verse.Anchors.Count > 0);
-                    verse.Anchors[0].ExegeticalHelpNotes.AddExegeticalHelpNote(strData);
+                    System.Diagnostics.Debug.Assert(verse.Anchors.Count > 0, 
+                        String.Format(@"\cn line without an anchor at: {0}", strRef));
+                    if (verse.Anchors.Count > 0)
+                        verse.Anchors[0].ExegeticalHelpNotes.AddExegeticalHelpNote(strData);
                 }
                 else if (lstSfmsToIgnore.Contains(strMarker))
                 {
@@ -467,7 +507,8 @@ namespace OneStoryProjectEditor
             }
         }
 
-        static void DoRetellingData(string[] astrRet, ref int nIndexRet, VerseData verse, string strTestorGuid)
+        static void DoRetellingData(string[] astrRet, ref int nIndexRet, 
+            VerseData verse, string strTestorGuid)
         {
             string strMarker, strData;
             ParseLine(astrRet[++nIndexRet], out strMarker, out strData);
@@ -480,8 +521,11 @@ namespace OneStoryProjectEditor
                 }
                 else if (!String.IsNullOrEmpty(strMarker) && !String.IsNullOrEmpty(strData))
                     System.Diagnostics.Debug.Assert(false, String.Format("not handling the '{0}' marker", strMarker));
-
-                ParseLine(astrRet[++nIndexRet], out strMarker, out strData);
+                
+                if (++nIndexRet < astrRet.Length)
+                    ParseLine(astrRet[nIndexRet], out strMarker, out strData);
+                else
+                    return;
             }
         }
 
@@ -543,7 +587,7 @@ namespace OneStoryProjectEditor
         // set up some regex helpers to pick apart the anchors
         protected static Regex SearchRegExErrorsBad2ndPunct = new Regex(@"\b([1-3a-zA-Z][a-zA-Z]{2})[ :\.](\d{1,3})[ \.](\d{1,3})", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
         protected static Regex SearchRegExErrorsBad1stPunct = new Regex(@"\b([1-3a-zA-Z][a-zA-Z]{2})[ :](\d{1,3})[ :\.](\d{1,3})", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
-        protected static Regex SearchRegExHyphenRangeOfAnchors = new Regex(@"([1-3a-zA-Z][a-zA-Z]{2}\.\d{2,3}\:)(\d{2}) ?- ?(\d{2})", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
+        protected static Regex SearchRegExHyphenRangeOfAnchors = new Regex(@"([1-3a-zA-Z][a-zA-Z]{2}\.\d{2,3}[:.])(\d{2}) ?- ?(\d{2})", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
         protected static Regex SearchRegExComma2ndAnchor = new Regex(@"([1-3a-zA-Z][a-zA-Z]{2}\.\d{2,3}\:)(\d{2}), ?(\d{2})", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
         protected static Regex SearchRegExNormalAnchor = new Regex(@"([1-3a-zA-Z][a-zA-Z]{2})\.(\d{2,3})\:(\d{2})", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
         private static readonly char[] achAnchorDelimiters = new [] { ';' };
@@ -569,36 +613,8 @@ namespace OneStoryProjectEditor
         {
             if (!String.IsNullOrEmpty(strTrimmed))
             {
-                // look for things like "gen 02:01" or "gen:02:01" "psl:119:141" "1jn:01:01"
-                //  if you find something like this, in VS, you can find them (to fix them) via RegEx search with:
-                //  Find What: "{[1-3:c]:c^2}[ \:]{(:d^2|:d^3)}[ \.\:]{(:d^2|:d^3)}"
-                //  Replace with: "\1\.\2:\3"
-                MatchCollection mc = SearchRegExErrorsBad1stPunct.Matches(strTrimmed);
-                if (mc.Count > 0)
-                {
-                    bool bAdded = false;
-                    foreach (Match match in mc)
-                        bAdded |= FixupAnchorError(strTrimmed, match, mapJt2Comment);
-                    if (bAdded)
-                        return;
-                }
-
-                // look for things like "gen.02.01" or "gen.02 01" "psl:119 141" "1jn:01 01"
-                //  if you find something like this, in VS, you can find them (to fix them) via RegEx search with:
-                //  Find What: "{[1-3:c]:c^2}[ \.\:]{(:d^2|:d^3)}[ \.]{(:d^2|:d^3)}"
-                //  Replace with: "\1\:\2"
-                mc = SearchRegExErrorsBad2ndPunct.Matches(strTrimmed);
-                if (mc.Count > 0)
-                {
-                    bool bAdded = false;
-                    foreach (Match match in mc)
-                        bAdded |= FixupAnchorError(strTrimmed, match, mapJt2Comment);
-                    if (bAdded)
-                        return;
-                }
-
                 // look for things like, "gen.03:21, 24". Turn this into two distinct anchors
-                mc = SearchRegExComma2ndAnchor.Matches(strTrimmed);
+                MatchCollection mc = SearchRegExComma2ndAnchor.Matches(strTrimmed);
                 if (mc.Count > 0)
                 {
                     System.Diagnostics.Debug.Assert(mc.Count == 1); // otherwise, there's probably some assumption we're breaking
@@ -636,6 +652,34 @@ namespace OneStoryProjectEditor
                         mapJt2Comment.Add(strJT, strTrimmed);
                     }
                     return;
+                }
+
+                // look for things like "gen 02:01" or "gen:02:01" "psl:119:141" "1jn:01:01"
+                //  if you find something like this, in VS, you can find them (to fix them) via RegEx search with:
+                //  Find What: "{[1-3:c]:c^2}[ \:]{(:d^2|:d^3)}[ \.\:]{(:d^2|:d^3)}"
+                //  Replace with: "\1\.\2:\3"
+                mc = SearchRegExErrorsBad1stPunct.Matches(strTrimmed);
+                if (mc.Count > 0)
+                {
+                    bool bAdded = false;
+                    foreach (Match match in mc)
+                        bAdded |= FixupAnchorError(strTrimmed, match, mapJt2Comment);
+                    if (bAdded)
+                        return;
+                }
+
+                // look for things like "gen.02.01" or "gen.02 01" "psl:119 141" "1jn:01 01"
+                //  if you find something like this, in VS, you can find them (to fix them) via RegEx search with:
+                //  Find What: "{[1-3:c]:c^2}[ \.\:]{(:d^2|:d^3)}[ \.]{(:d^2|:d^3)}"
+                //  Replace with: "\1\:\2"
+                mc = SearchRegExErrorsBad2ndPunct.Matches(strTrimmed);
+                if (mc.Count > 0)
+                {
+                    bool bAdded = false;
+                    foreach (Match match in mc)
+                        bAdded |= FixupAnchorError(strTrimmed, match, mapJt2Comment);
+                    if (bAdded)
+                        return;
                 }
 
                 // otherwise, just look for normal things like, "gen.03:21".
