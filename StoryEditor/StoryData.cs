@@ -249,8 +249,23 @@ namespace OneStoryProjectEditor
                                                   String.Format(OseResources.Properties.Resources.HTML_Table,
                                                                 strHtml)));
 
-            strHtml += Verses.PresentationHtml((child != null) ? child.CraftingInfo : CraftingInfo,
-                (child != null) ? child.Verses : null, nNumCols, viewSettings, teamMembers.HasOutsideEnglishBTer);
+            // occasionally, we just want to print the header stuff (without lines)
+            if (viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.VernacularLangField)
+                || viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBTLangField)
+                || viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.EnglishBTField)
+                || viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.AnchorFields)
+                || viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.RetellingFields)
+                || viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestions)
+                || viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers))
+            {
+                strHtml += Verses.PresentationHtml((child != null) ? child.CraftingInfo : CraftingInfo,
+                                                   (child != null) ? child.Verses : null, nNumCols, viewSettings,
+                                                   teamMembers.HasOutsideEnglishBTer);
+            }
+            else
+            {
+                strHtml += String.Format("<p>{0}</p>", Environment.NewLine);
+            }
 
             return strHtml;
         }
