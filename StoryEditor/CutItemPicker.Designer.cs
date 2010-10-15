@@ -48,9 +48,9 @@
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel.ColumnCount = 3;
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
             this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
             this.tableLayoutPanel.Controls.Add(this.treeViewItems, 0, 0);
             this.tableLayoutPanel.Controls.Add(this.flowLayoutPanelLines, 2, 0);
             this.tableLayoutPanel.Controls.Add(this.pictureBox1, 1, 0);
@@ -58,7 +58,7 @@
             this.tableLayoutPanel.Name = "tableLayoutPanel";
             this.tableLayoutPanel.RowCount = 1;
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel.Size = new System.Drawing.Size(645, 344);
+            this.tableLayoutPanel.Size = new System.Drawing.Size(627, 344);
             this.tableLayoutPanel.TabIndex = 0;
             // 
             // treeViewItems
@@ -78,7 +78,7 @@
             treeNode2,
             treeNode3});
             this.treeViewItems.ShowRootLines = false;
-            this.treeViewItems.Size = new System.Drawing.Size(474, 338);
+            this.treeViewItems.Size = new System.Drawing.Size(340, 338);
             this.treeViewItems.TabIndex = 2;
             this.treeViewItems.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewItems_NodeMouseClick);
             // 
@@ -86,16 +86,16 @@
             // 
             this.flowLayoutPanelLines.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanelLines.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanelLines.Location = new System.Drawing.Point(533, 3);
+            this.flowLayoutPanelLines.Location = new System.Drawing.Point(399, 3);
             this.flowLayoutPanelLines.Name = "flowLayoutPanelLines";
-            this.flowLayoutPanelLines.Size = new System.Drawing.Size(109, 338);
+            this.flowLayoutPanelLines.Size = new System.Drawing.Size(225, 338);
             this.flowLayoutPanelLines.TabIndex = 3;
             // 
             // pictureBox1
             // 
             this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.Image = global::OneStoryProjectEditor.Properties.Resources.Arrow;
-            this.pictureBox1.Location = new System.Drawing.Point(483, 147);
+            this.pictureBox1.Location = new System.Drawing.Point(349, 147);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(44, 50);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -106,7 +106,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(670, 369);
+            this.ClientSize = new System.Drawing.Size(652, 369);
             this.Controls.Add(this.tableLayoutPanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;

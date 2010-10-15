@@ -30,7 +30,8 @@ namespace OneStoryProjectEditor
             // now list the verses in the current story
             string strLine = "Story (Ln 0)";
             AddLineButton(strLine, null, 0, theVerses.FirstVerse);
-            for (int i = 1; i <= theVerses.Count; i++)
+            int i = 1;
+            for (; i <= theVerses.Count; i++)
             {
                 VerseData aVerseData = theVerses[i - 1];
                 if (aVerseData == _verseSource)
@@ -40,6 +41,9 @@ namespace OneStoryProjectEditor
                 string strToolTip = StringForTooltip(aVerseData);
                 AddLineButton(strLine, strToolTip, i, aVerseData);
             }
+
+            // add one more for 'delete'
+            AddLineButton("Delete", null, ++i, null);
         }
 
         public CutItemPicker(VerseData verseSource, VerseData verseDest, int nIndex)
@@ -130,7 +134,12 @@ namespace OneStoryProjectEditor
 
             var verseDest = btn.Tag as VerseData;
             if (verseDest == null)
-                return;
+            {
+                // means delete... confirm
+                if (MessageBox.Show(Properties.Resources.IDS_ConfirmDeleteItems, 
+                    OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
+                    return;
+            }
 
             var nodeItems = treeViewItems.Nodes[CstrNodeTestingQuestions];
             if (nodeItems != null)
@@ -140,7 +149,8 @@ namespace OneStoryProjectEditor
                     select node.Tag as TestQuestionData)
                 {
                     _verseSource.TestQuestions.Remove(aTQ);
-                    verseDest.TestQuestions.Add(aTQ);
+                    if (verseDest != null)  // otherwise, it's just delete
+                        verseDest.TestQuestions.Add(aTQ);
                 }
 
             nodeItems = treeViewItems.Nodes[CstrNodeConsultantNotes];
@@ -151,7 +161,8 @@ namespace OneStoryProjectEditor
                     select node.Tag as ConsultNoteDataConverter)
                 {
                     _verseSource.ConsultantNotes.Remove(aConNote);
-                    verseDest.ConsultantNotes.Add(aConNote);
+                    if (verseDest != null)  // otherwise, it's just delete
+                        verseDest.ConsultantNotes.Add(aConNote);
                 }
 
             nodeItems = treeViewItems.Nodes[CstrNodeCoachNotes];
@@ -162,7 +173,8 @@ namespace OneStoryProjectEditor
                     select node.Tag as ConsultNoteDataConverter)
                 {
                     _verseSource.CoachNotes.Remove(aConNote);
-                    verseDest.CoachNotes.Add(aConNote);
+                    if (verseDest != null)  // otherwise, it's just delete
+                        verseDest.CoachNotes.Add(aConNote);
                 }
 
             DialogResult = DialogResult.OK;

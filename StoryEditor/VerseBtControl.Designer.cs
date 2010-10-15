@@ -35,6 +35,7 @@
             this.moveSelectedTextToANewLineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.moveItemsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.addANewVerseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,7 +57,6 @@
             this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyVerseToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.menuAddTestQuestion = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -115,7 +115,7 @@
             // 
             this.moveItemsToolStripMenuItem.Name = "moveItemsToolStripMenuItem";
             this.moveItemsToolStripMenuItem.Size = new System.Drawing.Size(358, 22);
-            this.moveItemsToolStripMenuItem.Text = "&Move items";
+            this.moveItemsToolStripMenuItem.Text = "&Move or Delete items";
             this.moveItemsToolStripMenuItem.ToolTipText = "Click this menu to move Testing Questions, Consultant Notes and/or Coach Notes to" +
                 " another line";
             this.moveItemsToolStripMenuItem.Click += new System.EventHandler(this.moveItemsToolStripMenuItem_Click);
@@ -124,6 +124,11 @@
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(355, 6);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(355, 6);
             // 
             // addANewVerseToolStripMenuItem
             // 
@@ -287,11 +292,6 @@
             this.copyVerseToClipboardToolStripMenuItem.Size = new System.Drawing.Size(358, 22);
             this.copyVerseToClipboardToolStripMenuItem.Text = "&Copy verse to clipboard";
             this.copyVerseToClipboardToolStripMenuItem.Click += new System.EventHandler(this.copyVerseToClipboardToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(355, 6);
             // 
             // menuAddTestQuestion
             // 

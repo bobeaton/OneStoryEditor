@@ -308,6 +308,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete the selected items?.
+        /// </summary>
+        internal static string IDS_ConfirmDeleteItems {
+            get {
+                return ResourceManager.GetString("IDS_ConfirmDeleteItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to delete the key term:{0}{1}.
         /// </summary>
         internal static string IDS_ConfirmDeleteKeyTerm {
