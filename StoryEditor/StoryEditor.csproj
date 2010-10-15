@@ -69,9 +69,8 @@
     <Reference Include="AutoUpgrade.Lib, Version=1.0.3869.15306, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="Chorus, Version=1.1.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\Chorus.exe</HintPath>
+    <Reference Include="Chorus, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <ExecutableExtension>.exe</ExecutableExtension>
     </Reference>
     <Reference Include="ECInterfaces, Version=3.1.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
@@ -81,10 +80,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\HtmlEditor.dll</HintPath>
     </Reference>
-    <Reference Include="LibChorus, Version=1.1.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\LibChorus.dll</HintPath>
-    </Reference>
+    <Reference Include="LibChorus, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Program Files\Microsoft.NET\Primary Interop Assemblies\Microsoft.mshtml.dll</HintPath>

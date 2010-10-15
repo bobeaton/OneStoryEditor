@@ -1109,6 +1109,7 @@ namespace OneStoryProjectEditor
             // 
             this.textBoxStoryVerse.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxStoryVerse.Dock = System.Windows.Forms.DockStyle.Top;
+            this.textBoxStoryVerse.Enabled = false;
             this.textBoxStoryVerse.Font = new System.Drawing.Font("Segoe UI", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxStoryVerse.Location = new System.Drawing.Point(0, 0);
             this.textBoxStoryVerse.Name = "textBoxStoryVerse";
@@ -1186,6 +1187,7 @@ namespace OneStoryProjectEditor
             // 
             this.textBoxConsultantNotesTable.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxConsultantNotesTable.Dock = System.Windows.Forms.DockStyle.Top;
+            this.textBoxConsultantNotesTable.Enabled = false;
             this.textBoxConsultantNotesTable.Font = new System.Drawing.Font("Segoe UI", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxConsultantNotesTable.Location = new System.Drawing.Point(0, 0);
             this.textBoxConsultantNotesTable.Name = "textBoxConsultantNotesTable";
@@ -1229,6 +1231,7 @@ namespace OneStoryProjectEditor
             // 
             this.textBoxCoachNotes.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxCoachNotes.Dock = System.Windows.Forms.DockStyle.Top;
+            this.textBoxCoachNotes.Enabled = false;
             this.textBoxCoachNotes.Font = new System.Drawing.Font("Segoe UI", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxCoachNotes.Location = new System.Drawing.Point(0, 0);
             this.textBoxCoachNotes.Name = "textBoxCoachNotes";

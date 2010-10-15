@@ -15,6 +15,11 @@ namespace OneStoryProjectEditor
         protected const string CstrTypeId = "TypeId";
         protected const string CstrTypeValue = "TypeValue";
 
+        public static string UrlProjectNote(string strProjectName)
+        {
+            return String.Format("{0}project?id={1}&label=Project%20Note", CstrOneStoryUrlHeader, strProjectName);
+        }
+
         // OneStory URL syntax
         // onestory://<projectname>?StoryId=<storyguid>&LineId=<verseguid>&Type=<fieldtype>&TypeId=<typeguid>&TypeValue=<string>
         // where:

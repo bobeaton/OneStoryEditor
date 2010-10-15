@@ -1,60 +1,55 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+﻿using System.Drawing;
 using System.Windows.Forms;
 using Chorus;
+using Chorus.UI.Notes.Bar;
 using Chorus.Utilities;
 
 namespace OneStoryProjectEditor
 {
     public partial class NoteForm : Form
     {
-        public NoteForm(ProjectSettings projSettings)
+        private ChorusSystem _chorusSystem;
+        private NotesBarView _notesBar;
+
+        public NoteForm(ProjectSettings projSettings, string strUsername)
         {
             InitializeComponent();
 
-            var chorus = new ChorusSystem(projSettings.ProjectFolder);
-            Chorus.UI.Notes.Browser.NotesBrowserPage browser = chorus.WinForms.CreateNotesBrowser(); 
-            NotesToRecordMapping mapping = SimpleForTest(); 
-            var bar = chorus.WinForms.CreateNotesBar(projSettings.ProjectFilePath,
-                mapping, new NullProgress());
-            bar.SetTargetObject(this);
-            bar.Dock = DockStyle.Fill;
-            // Controls.Add(bar);
-            // Point ptBrowser = new Point(0, bar.Size.Height);
-            // browser.Location = ptBrowser;
-            Controls.Add(browser);
-            
-            /*
-            // Chorus.UI.Notes.Browser.NotesBrowserPage browser = chorus.WinForms.CreateNotesBrowser();
-            // NotesToRecordMapping mapping = SimpleForTest();
-            Point ptBrowser = new Point(0, bar.Size.Height);
-            browser.Location = ptBrowser;
-            Controls.Add(browser);
-            ClientSize = browser.Bounds.Size + bar.Bounds.Size;
-             */
+            // create an object to tie notes to particular things. In our case, it's
+            //  just tied to the projectname
+            var notesToRecordMapping = new NotesToRecordMapping
+            {
+                FunctionToGetCurrentUrlForNewNotes = GetCurrentUrlForNewNotes,
+                FunctionToGoFromObjectToItsId = GetIdForObject
+            };
+
+            _chorusSystem = new ChorusSystem(projSettings.ProjectFolder, strUsername);
+            _notesBar = _chorusSystem.WinForms.CreateNotesBar(projSettings.ProjectFilePath,
+                notesToRecordMapping, new NullProgress());
+            _notesBar.Width = 60;
+            _notesBar.Dock = DockStyle.Right | DockStyle.Top;
+            _notesBar.SetTargetObject(projSettings);
+            _notesBar.Location = new Point(0, 0);
+            tableLayoutPanel.Controls.Add(_notesBar, 0, 0);
+
+            Chorus.UI.Notes.Browser.NotesBrowserPage browser = _chorusSystem.WinForms.CreateNotesBrowser();
+            browser.Location = new Point(0, _notesBar.Height);
+            Size sz = browser.Bounds.Size;
+            sz.Height += _notesBar.Height;
+            ClientSize = sz;
+            tableLayoutPanel.Controls.Add(browser, 0, 1);
         }
 
-        static internal NotesToRecordMapping SimpleForTest()
+        private static string GetIdForObject(object targetofannotation)
         {
-            var m = new NotesToRecordMapping();
-            m.FunctionToGoFromObjectToItsId = Bar;
-            m.FunctionToGetCurrentUrlForNewNotes = Foo;
-            return m;
+            var projSettings = targetofannotation as ProjectSettings;
+            return OneStoryUrlBuilder.UrlProjectNote(projSettings.ProjectName);
         }
 
-        static private string Foo(object target, string escapedId)
+        private static string GetCurrentUrlForNewNotes(object target, string escapedid)
         {
-            return "This is Foo";
-        }
-
-        static private string Bar(object targetOfAnnotation)
-        {
-            return "This is Bar";
+            var projSettings = target as ProjectSettings;
+            return OneStoryUrlBuilder.UrlProjectNote(projSettings.ProjectName);
         }
     }
 }

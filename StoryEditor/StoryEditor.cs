@@ -11,6 +11,7 @@ using System.Xml.Linq;
 using System.Windows.Forms;
 using System.IO;
 using System.Xml.Xsl;
+using Chorus.UI.Notes.Bar;
 using ECInterfaces;
 using Palaso.UI.WindowsForms.Keyboarding;
 using SilEncConverters31;
@@ -18,6 +19,8 @@ using System.Diagnostics;               // Process
 using Palaso.Reporting;
 using Control=System.Windows.Forms.Control;
 using Timer=System.Windows.Forms.Timer;
+using Chorus;
+using Chorus.Utilities;
 
 namespace OneStoryProjectEditor
 {
@@ -316,6 +319,7 @@ namespace OneStoryProjectEditor
                 m_dlgPrintForm.Close();
                 m_dlgPrintForm = null;
             }
+
             ClearState();
 
             ReInitMenuVisibility();
@@ -562,8 +566,7 @@ namespace OneStoryProjectEditor
                 }
 
                 // show the chorus notes at load time
-                m_dlgNotes = new NoteForm(projSettings);
-                m_dlgNotes.Show();
+                InitProjectNotes(projSettings, LoggedOnMember.Name);
             }
             catch (StoryProjectData.BackOutWithNoUIException)
             {
@@ -576,6 +579,12 @@ namespace OneStoryProjectEditor
                     ((ex.InnerException != null) ? ex.InnerException.Message : ""), ex.Message);
                 MessageBox.Show(strErrorMsg, OseResources.Properties.Resources.IDS_Caption);
             }
+        }
+
+        private void InitProjectNotes(ProjectSettings projSettings, string strUsername)
+        {
+            m_dlgNotes = new NoteForm(projSettings, strUsername);
+            m_dlgNotes.Show();
         }
 
         protected void LoadComboBox()
