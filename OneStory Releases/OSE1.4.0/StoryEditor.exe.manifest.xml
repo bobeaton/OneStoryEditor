@@ -4,17 +4,17 @@
   <ApplicationExecutable />
   <ApplicationName>AutoUpgrade</ApplicationName>
   <FullUpgradeFileName />
-  <OffsetFromUctWhereManifestWasOriginallyCreated>10/6/2010 1:56:39 PM +05:30</OffsetFromUctWhereManifestWasOriginallyCreated>
+  <OffsetFromUctWhereManifestWasOriginallyCreated>10/15/2010 7:40:05 AM +05:30</OffsetFromUctWhereManifestWasOriginallyCreated>
   <ManifestFiles>
     <File name="AutoUpgrade.Lib.dll" method="version" action="copy" version="1.0.3889.12875" optional="false" size="24576">AutoUpgrade Lib</File>
-    <File name="Chorus.exe" method="version" action="copy" version="1.1.0.3" optional="false" size="500736">Chorus</File>
-    <File name="ChorusMerge.exe" method="version" action="copy" version="1.1.0.3" optional="false" size="5632">ChorusMerge</File>
-    <File name="LibChorus.dll" method="version" action="copy" version="1.1.0.3" optional="false" size="253952">Chorus</File>
+    <File name="Chorus.exe" method="version" action="copy" version="1.1.0.4" optional="false" size="501248">Chorus</File>
+    <File name="ChorusMerge.exe" method="version" action="copy" version="1.1.0.4" optional="false" size="5632">ChorusMerge</File>
+    <File name="LibChorus.dll" method="version" action="copy" version="1.1.0.4" optional="false" size="253952">Chorus</File>
     <File name="OseResources.dll" method="version" action="copy" version="1.0.0.2" optional="false" size="50688">OseResources</File>
     <File name="Palaso.dll" method="version" action="copy" version="1.0.0.0" optional="false" size="483840">Palaso</File>
     <File name="PalasoUIWindowsForms.dll" method="version" action="copy" version="1.0.0.0" optional="false" size="231936">PalasoUIWindowsForms</File>
-    <File name="StageTransitions.xml" method="date" action="copy" version="Thursday, September 23, 2010 10:20:29 AM" optional="false" size="76253" />
-    <File name="StoryEditor.exe" method="version" action="copy" version="1.4.0.19" optional="false" size="1029632">OneStory Editor</File>
+    <File name="StageTransitions.xml" method="date" action="copy" version="Tuesday, October 12, 2010 9:27:14 PM" optional="false" size="84738" />
+    <File name="StoryEditor.exe" method="version" action="copy" version="1.4.0.20" optional="false" size="1049088">OneStory Editor</File>
   </ManifestFiles>
   <SourcePath />
   <UpgradeFiles />
