@@ -53,7 +53,7 @@ namespace OneStoryProjectEditor
             ResizableControl ctrlParent, StringTransfer stData, 
             ProjectSettings.LanguageInfo li, string strLabel)
         {
-            InitComponent();
+            InitComponent(false);
             Name = strName;
             _strLabel = strLabel;
             Font = li.FontToUse;
@@ -364,14 +364,20 @@ namespace OneStoryProjectEditor
         protected const string CstrCopyOriginalSelected = "Copy &Original Text (before transliteration)";
         protected const string CstrPasteSelected = "&Paste";
         protected const string CstrUndo = "U&ndo";
+        protected const string CstrAddAnswerBox = "Add Ans&wer Box";
 
-        protected void InitComponent()
+        protected void InitComponent(bool bAddAnswerBox)
         {
             _ctxMenu = new ContextMenuStrip();
             _ctxMenu.Items.Add(CstrAddNoteOnSelected, null, onAddNewNote);
             _ctxMenu.Items.Add(CstrJumpToReference, null, onJumpToBibleRef);
             _ctxMenu.Items.Add(CstrConcordanceSearch, null, onConcordanceSearch);
             _ctxMenu.Items.Add(new ToolStripSeparator());
+            if (bAddAnswerBox)
+            {
+                _ctxMenu.Items.Add(CstrAddAnswerBox, null, onAddAnswerBox);
+                _ctxMenu.Items.Add(new ToolStripSeparator());
+            }
             _ctxMenu.Items.Add(CstrCutSelected, null, onCutSelectedText);
             _ctxMenu.Items.Add(CstrCopySelected, null, onCopySelectedText);
             _ctxMenu.Items.Add(CstrCopyOriginalSelected, null, onCopyOriginalText);
@@ -413,6 +419,11 @@ namespace OneStoryProjectEditor
         {
             System.Diagnostics.Debug.Assert((_ctrlVerseParent != null) && (_ctrlVerseParent.TheSE != null));
             _ctrlVerseParent.TheSE.concordanceToolStripMenuItem_Click(null, null);
+        }
+
+        private void onAddAnswerBox(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.Assert((_ctrlVerseParent != null) && (_ctrlVerseParent.TheSE != null));
         }
 
         void CtrlTextBox_MouseUp(object sender, MouseEventArgs e)
