@@ -71,6 +71,8 @@ namespace OneStoryProjectEditor
             checkBoxUseForAllStories.Checked = bUseForAllStories;
 
             checkBoxShowHidden.Checked = theSE.hiddenVersesToolStripMenuItem.Checked;
+
+            checkBoxOpenConNotesOnly.Checked = theSE.viewOnlyOpenConversationsMenu.Checked;
         }
 
         public bool UseForAllStories
@@ -112,6 +114,8 @@ namespace OneStoryProjectEditor
                     checkBoxBibleViewer.Checked = true;
                 if (_viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.HiddenStuff))
                     checkBoxShowHidden.Checked = true;
+                if (_viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.OpenConNotesOnly))
+                    checkBoxOpenConNotesOnly.Checked = true;
             }
 
             get
@@ -130,7 +134,8 @@ namespace OneStoryProjectEditor
                     checkBoxCoachNotes.Checked,
                     checkBoxBibleViewer.Checked,
                     true,
-                    checkBoxShowHidden.Checked);
+                    checkBoxShowHidden.Checked,
+                    checkBoxOpenConNotesOnly.Checked);
                 return _viewSettings;
             }
         }

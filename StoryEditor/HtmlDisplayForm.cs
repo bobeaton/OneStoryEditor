@@ -108,6 +108,7 @@ namespace OneStoryProjectEditor
                     false,  // theSE.viewNetBibleMenuItem.Checked
                     checkBoxFrontMatter.Checked,
                     checkBoxShowHidden.Checked,
+                    false,  // only open conversations (doesn't apply here)
                     (checkBoxLangTransliterateVernacular.Checked)
                         ? TransliteratorVernacular
                         : null,

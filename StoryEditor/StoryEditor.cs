@@ -2976,6 +2976,7 @@ namespace OneStoryProjectEditor
                                              viewNetBibleMenuItem.Checked,
                                              true,
                                              hiddenVersesToolStripMenuItem.Checked,
+                                             viewOnlyOpenConversationsMenu.Checked,
                                              null,
                                              null
                                              )
@@ -3317,6 +3318,11 @@ namespace OneStoryProjectEditor
                                                    VerseData.ViewSettings.ItemToInsureOn.HiddenStuff),
                                                bDoOffToo);
 
+            bSomethingChanged |= InsureVisible(viewOnlyOpenConversationsMenu,
+                                               viewItemToInsureOn.IsViewItemOn(
+                                                   VerseData.ViewSettings.ItemToInsureOn.OpenConNotesOnly),
+                                               bDoOffToo);
+            
             _bDisableReInitVerseControls = false;
 
             if (bSomethingChanged)

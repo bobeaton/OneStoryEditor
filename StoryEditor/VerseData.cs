@@ -261,7 +261,8 @@ namespace OneStoryProjectEditor
                 CoachNotesFields = 1024,
                 BibleViewer = 2048,
                 StoryFrontMatter = 4096,
-                HiddenStuff = 8192
+                HiddenStuff = 8192,
+                OpenConNotesOnly = 16384
             }
 
             public DirectableEncConverter TransliteratorVernacular { get; set; }
@@ -287,6 +288,7 @@ namespace OneStoryProjectEditor
                 bool bBibleViewer,
                 bool bStoryFrontMatter,
                 bool bHiddenStuff,
+                bool bOpenConversationsOnly,
                 DirectableEncConverter decTransliteratorVernacular,
                 DirectableEncConverter decTransliteratorNationalBT
                 )
@@ -304,7 +306,8 @@ namespace OneStoryProjectEditor
                                    bCoachNotes,
                                    bBibleViewer,
                                    bStoryFrontMatter,
-                                   bHiddenStuff);
+                                   bHiddenStuff,
+                                   bOpenConversationsOnly);
                 TransliteratorVernacular = decTransliteratorVernacular;
                 TransliteratorNationalBT = decTransliteratorNationalBT;
             }
@@ -329,7 +332,8 @@ namespace OneStoryProjectEditor
                 bool bCoachNotes,
                 bool bBibleViewer,
                 bool bStoryFrontMatter,
-                bool bHiddenStuff
+                bool bHiddenStuff,
+                bool bOpenConNotesOnly
                 )
             {
                 _itemToInsureOn = 0;
@@ -361,6 +365,8 @@ namespace OneStoryProjectEditor
                     _itemToInsureOn |= ItemToInsureOn.StoryFrontMatter;
                 if (bHiddenStuff)
                     _itemToInsureOn |= ItemToInsureOn.HiddenStuff;
+                if (bOpenConNotesOnly)
+                    _itemToInsureOn |= ItemToInsureOn.OpenConNotesOnly;
             }
         }
 

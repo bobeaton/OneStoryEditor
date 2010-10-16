@@ -42,10 +42,11 @@
             this.checkBoxConsultantNotes = new System.Windows.Forms.CheckBox();
             this.checkBoxCoachNotes = new System.Windows.Forms.CheckBox();
             this.checkBoxBibleViewer = new System.Windows.Forms.CheckBox();
+            this.checkBoxShowHidden = new System.Windows.Forms.CheckBox();
             this.buttonOK = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.checkBoxUseForAllStories = new System.Windows.Forms.CheckBox();
-            this.checkBoxShowHidden = new System.Windows.Forms.CheckBox();
+            this.checkBoxOpenConNotesOnly = new System.Windows.Forms.CheckBox();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -65,12 +66,13 @@
             this.flowLayoutPanel1.Controls.Add(this.checkBoxRetellings);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxConsultantNotes);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxCoachNotes);
+            this.flowLayoutPanel1.Controls.Add(this.checkBoxOpenConNotesOnly);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxBibleViewer);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxShowHidden);
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(13, 13);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(206, 315);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(325, 331);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // checkBoxLangVernacular
@@ -190,17 +192,27 @@
             // checkBoxBibleViewer
             // 
             this.checkBoxBibleViewer.AutoSize = true;
-            this.checkBoxBibleViewer.Location = new System.Drawing.Point(3, 256);
+            this.checkBoxBibleViewer.Location = new System.Drawing.Point(3, 279);
             this.checkBoxBibleViewer.Name = "checkBoxBibleViewer";
             this.checkBoxBibleViewer.Size = new System.Drawing.Size(83, 17);
             this.checkBoxBibleViewer.TabIndex = 8;
             this.checkBoxBibleViewer.Text = "&Bible viewer";
             this.checkBoxBibleViewer.UseVisualStyleBackColor = true;
             // 
+            // checkBoxShowHidden
+            // 
+            this.checkBoxShowHidden.AutoSize = true;
+            this.checkBoxShowHidden.Location = new System.Drawing.Point(3, 302);
+            this.checkBoxShowHidden.Name = "checkBoxShowHidden";
+            this.checkBoxShowHidden.Size = new System.Drawing.Size(122, 17);
+            this.checkBoxShowHidden.TabIndex = 15;
+            this.checkBoxShowHidden.Text = "Show &hidden verses";
+            this.checkBoxShowHidden.UseVisualStyleBackColor = true;
+            // 
             // buttonOK
             // 
             this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonOK.Location = new System.Drawing.Point(31, 364);
+            this.buttonOK.Location = new System.Drawing.Point(181, 380);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(75, 23);
             this.buttonOK.TabIndex = 1;
@@ -212,7 +224,7 @@
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(124, 364);
+            this.buttonCancel.Location = new System.Drawing.Point(95, 380);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 2;
@@ -223,22 +235,23 @@
             // 
             this.checkBoxUseForAllStories.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.checkBoxUseForAllStories.AutoSize = true;
-            this.checkBoxUseForAllStories.Location = new System.Drawing.Point(16, 334);
+            this.checkBoxUseForAllStories.Location = new System.Drawing.Point(16, 350);
             this.checkBoxUseForAllStories.Name = "checkBoxUseForAllStories";
             this.checkBoxUseForAllStories.Size = new System.Drawing.Size(174, 17);
             this.checkBoxUseForAllStories.TabIndex = 8;
             this.checkBoxUseForAllStories.Text = "&Use these settings for all stories";
             this.checkBoxUseForAllStories.UseVisualStyleBackColor = true;
             // 
-            // checkBoxShowHidden
+            // checkBoxOpenConNotesOnly
             // 
-            this.checkBoxShowHidden.AutoSize = true;
-            this.checkBoxShowHidden.Location = new System.Drawing.Point(3, 279);
-            this.checkBoxShowHidden.Name = "checkBoxShowHidden";
-            this.checkBoxShowHidden.Size = new System.Drawing.Size(122, 17);
-            this.checkBoxShowHidden.TabIndex = 15;
-            this.checkBoxShowHidden.Text = "Show &hidden verses";
-            this.checkBoxShowHidden.UseVisualStyleBackColor = true;
+            this.checkBoxOpenConNotesOnly.AutoSize = true;
+            this.checkBoxOpenConNotesOnly.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBoxOpenConNotesOnly.Location = new System.Drawing.Point(3, 256);
+            this.checkBoxOpenConNotesOnly.Name = "checkBoxOpenConNotesOnly";
+            this.checkBoxOpenConNotesOnly.Size = new System.Drawing.Size(218, 17);
+            this.checkBoxOpenConNotesOnly.TabIndex = 16;
+            this.checkBoxOpenConNotesOnly.Text = "Show only &open consultant/coach notes";
+            this.checkBoxOpenConNotesOnly.UseVisualStyleBackColor = true;
             // 
             // ViewEnableForm
             // 
@@ -246,7 +259,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(231, 399);
+            this.ClientSize = new System.Drawing.Size(350, 415);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOK);
             this.Controls.Add(this.flowLayoutPanel1);
@@ -282,5 +295,6 @@
         private System.Windows.Forms.CheckBox checkBoxLangTransliterateVernacular;
         private System.Windows.Forms.CheckBox checkBoxLangTransliterateNationalBT;
         private System.Windows.Forms.CheckBox checkBoxShowHidden;
+        private System.Windows.Forms.CheckBox checkBoxOpenConNotesOnly;
     }
 }

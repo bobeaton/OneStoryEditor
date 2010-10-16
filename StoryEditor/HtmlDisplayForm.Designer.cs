@@ -49,6 +49,7 @@
             this.checkBoxStoryTestingQuestions = new System.Windows.Forms.CheckBox();
             this.checkBoxAnswers = new System.Windows.Forms.CheckBox();
             this.checkBoxRetellings = new System.Windows.Forms.CheckBox();
+            this.checkBoxShowHidden = new System.Windows.Forms.CheckBox();
             this.dataGridViewRevisions = new System.Windows.Forms.DataGridView();
             this.ColumnOldParent = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.ColumnNewChild = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -61,7 +62,6 @@
             this.htmlStoryBtControl = new OneStoryProjectEditor.HtmlStoryBtControl();
             this.backgroundWorkerCheckRevisions = new System.ComponentModel.BackgroundWorker();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.checkBoxShowHidden = new System.Windows.Forms.CheckBox();
             this.tabControl.SuspendLayout();
             this.tabPageSelectReportOptions.SuspendLayout();
             this.tableLayoutPanelSettings.SuspendLayout();
@@ -327,6 +327,16 @@
             this.toolTip.SetToolTip(this.checkBoxRetellings, "Check this box to have the Retelling fields (if available) shown in the report");
             this.checkBoxRetellings.UseVisualStyleBackColor = true;
             // 
+            // checkBoxShowHidden
+            // 
+            this.checkBoxShowHidden.AutoSize = true;
+            this.checkBoxShowHidden.Location = new System.Drawing.Point(323, 3);
+            this.checkBoxShowHidden.Name = "checkBoxShowHidden";
+            this.checkBoxShowHidden.Size = new System.Drawing.Size(122, 17);
+            this.checkBoxShowHidden.TabIndex = 13;
+            this.checkBoxShowHidden.Text = "Show &hidden verses";
+            this.checkBoxShowHidden.UseVisualStyleBackColor = true;
+            // 
             // dataGridViewRevisions
             // 
             this.dataGridViewRevisions.AllowUserToAddRows = false;
@@ -407,7 +417,7 @@
             this.tabPageDisplayChangeReport.Location = new System.Drawing.Point(4, 22);
             this.tabPageDisplayChangeReport.Name = "tabPageDisplayChangeReport";
             this.tabPageDisplayChangeReport.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageDisplayChangeReport.Size = new System.Drawing.Size(729, 559);
+            this.tabPageDisplayChangeReport.Size = new System.Drawing.Size(869, 559);
             this.tabPageDisplayChangeReport.TabIndex = 1;
             this.tabPageDisplayChangeReport.Text = "View changes";
             this.tabPageDisplayChangeReport.UseVisualStyleBackColor = true;
@@ -419,7 +429,7 @@
             this.htmlStoryBtControl.MinimumSize = new System.Drawing.Size(20, 20);
             this.htmlStoryBtControl.Name = "htmlStoryBtControl";
             this.htmlStoryBtControl.ParentStory = null;
-            this.htmlStoryBtControl.Size = new System.Drawing.Size(723, 553);
+            this.htmlStoryBtControl.Size = new System.Drawing.Size(863, 553);
             this.htmlStoryBtControl.StoryData = null;
             this.htmlStoryBtControl.TabIndex = 0;
             this.htmlStoryBtControl.TheSE = null;
@@ -432,16 +442,6 @@
             this.backgroundWorkerCheckRevisions.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerCheckRevisions_DoWork);
             this.backgroundWorkerCheckRevisions.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorkerCheckRevisions_RunWorkerCompleted);
             this.backgroundWorkerCheckRevisions.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorkerCheckRevisions_ProgressChanged);
-            // 
-            // checkBoxShowHidden
-            // 
-            this.checkBoxShowHidden.AutoSize = true;
-            this.checkBoxShowHidden.Location = new System.Drawing.Point(323, 3);
-            this.checkBoxShowHidden.Name = "checkBoxShowHidden";
-            this.checkBoxShowHidden.Size = new System.Drawing.Size(122, 17);
-            this.checkBoxShowHidden.TabIndex = 13;
-            this.checkBoxShowHidden.Text = "Show &hidden verses";
-            this.checkBoxShowHidden.UseVisualStyleBackColor = true;
             // 
             // HtmlDisplayForm
             // 

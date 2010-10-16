@@ -184,6 +184,7 @@ namespace OneStoryProjectEditor
                 false,  // theSE.viewNetBibleMenuItem.Checked
                 true,   // story front matter
                 false,  // hidden matter
+                false,  // only open conversations
                 null,
                 null);
 
