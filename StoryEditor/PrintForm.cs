@@ -21,6 +21,7 @@ namespace OneStoryProjectEditor
         {
             InitializeComponent();
             _theSE = theSE;
+            htmlStoryBt.TheSE = theSE;  // so it can do anchor jumps
 
             foreach (StoryData aStory in _theSE.TheCurrentStoriesSet)
                 checkedListBoxStories.Items.Add(aStory.Name, true);
