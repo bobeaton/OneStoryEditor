@@ -41,12 +41,12 @@
             this.checkBoxRetellings = new System.Windows.Forms.CheckBox();
             this.checkBoxConsultantNotes = new System.Windows.Forms.CheckBox();
             this.checkBoxCoachNotes = new System.Windows.Forms.CheckBox();
+            this.checkBoxOpenConNotesOnly = new System.Windows.Forms.CheckBox();
             this.checkBoxBibleViewer = new System.Windows.Forms.CheckBox();
             this.checkBoxShowHidden = new System.Windows.Forms.CheckBox();
             this.buttonOK = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.checkBoxUseForAllStories = new System.Windows.Forms.CheckBox();
-            this.checkBoxOpenConNotesOnly = new System.Windows.Forms.CheckBox();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -189,6 +189,17 @@
             this.checkBoxCoachNotes.Text = "Coach &notes";
             this.checkBoxCoachNotes.UseVisualStyleBackColor = true;
             // 
+            // checkBoxOpenConNotesOnly
+            // 
+            this.checkBoxOpenConNotesOnly.AutoSize = true;
+            this.checkBoxOpenConNotesOnly.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBoxOpenConNotesOnly.Location = new System.Drawing.Point(3, 256);
+            this.checkBoxOpenConNotesOnly.Name = "checkBoxOpenConNotesOnly";
+            this.checkBoxOpenConNotesOnly.Size = new System.Drawing.Size(218, 17);
+            this.checkBoxOpenConNotesOnly.TabIndex = 16;
+            this.checkBoxOpenConNotesOnly.Text = "Show only &open consultant/coach notes";
+            this.checkBoxOpenConNotesOnly.UseVisualStyleBackColor = true;
+            // 
             // checkBoxBibleViewer
             // 
             this.checkBoxBibleViewer.AutoSize = true;
@@ -212,7 +223,7 @@
             // buttonOK
             // 
             this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonOK.Location = new System.Drawing.Point(181, 380);
+            this.buttonOK.Location = new System.Drawing.Point(97, 380);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(75, 23);
             this.buttonOK.TabIndex = 1;
@@ -224,7 +235,7 @@
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(95, 380);
+            this.buttonCancel.Location = new System.Drawing.Point(178, 380);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 2;
@@ -241,17 +252,6 @@
             this.checkBoxUseForAllStories.TabIndex = 8;
             this.checkBoxUseForAllStories.Text = "&Use these settings for all stories";
             this.checkBoxUseForAllStories.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxOpenConNotesOnly
-            // 
-            this.checkBoxOpenConNotesOnly.AutoSize = true;
-            this.checkBoxOpenConNotesOnly.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxOpenConNotesOnly.Location = new System.Drawing.Point(3, 256);
-            this.checkBoxOpenConNotesOnly.Name = "checkBoxOpenConNotesOnly";
-            this.checkBoxOpenConNotesOnly.Size = new System.Drawing.Size(218, 17);
-            this.checkBoxOpenConNotesOnly.TabIndex = 16;
-            this.checkBoxOpenConNotesOnly.Text = "Show only &open consultant/coach notes";
-            this.checkBoxOpenConNotesOnly.UseVisualStyleBackColor = true;
             // 
             // ViewEnableForm
             // 

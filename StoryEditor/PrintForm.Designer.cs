@@ -50,9 +50,9 @@
             this.tabPagePrintPreviewConfig = new System.Windows.Forms.TabPage();
             this.tabPagePrintPreview = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.htmlStoryBt = new OneStoryProjectEditor.HtmlStoryBtControl();
             this.buttonClose = new System.Windows.Forms.Button();
             this.buttonPrint = new System.Windows.Forms.Button();
+            this.htmlStoryBt = new OneStoryProjectEditor.HtmlStoryBtControl();
             this.tableLayoutPanel.SuspendLayout();
             this.groupBoxViewOptions.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -66,7 +66,7 @@
             // 
             this.tableLayoutPanel.ColumnCount = 2;
             this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel.Controls.Add(this.checkBoxSelectAllFields, 1, 0);
             this.tableLayoutPanel.Controls.Add(this.checkedListBoxStories, 0, 1);
             this.tableLayoutPanel.Controls.Add(this.groupBoxViewOptions, 1, 1);
@@ -85,11 +85,12 @@
             this.checkBoxSelectAllFields.AutoSize = true;
             this.checkBoxSelectAllFields.Checked = true;
             this.checkBoxSelectAllFields.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxSelectAllFields.Location = new System.Drawing.Point(411, 3);
+            this.checkBoxSelectAllFields.Location = new System.Drawing.Point(367, 3);
             this.checkBoxSelectAllFields.Name = "checkBoxSelectAllFields";
             this.checkBoxSelectAllFields.Size = new System.Drawing.Size(82, 17);
             this.checkBoxSelectAllFields.TabIndex = 5;
             this.checkBoxSelectAllFields.Text = "&Deselect All";
+            this.checkBoxSelectAllFields.ThreeState = true;
             this.checkBoxSelectAllFields.UseVisualStyleBackColor = true;
             this.checkBoxSelectAllFields.CheckStateChanged += new System.EventHandler(this.checkBoxSelectAllFields_CheckStateChanged);
             // 
@@ -100,16 +101,16 @@
             this.checkedListBoxStories.FormattingEnabled = true;
             this.checkedListBoxStories.Location = new System.Drawing.Point(3, 26);
             this.checkedListBoxStories.Name = "checkedListBoxStories";
-            this.checkedListBoxStories.Size = new System.Drawing.Size(402, 394);
+            this.checkedListBoxStories.Size = new System.Drawing.Size(358, 394);
             this.checkedListBoxStories.TabIndex = 0;
             // 
             // groupBoxViewOptions
             // 
             this.groupBoxViewOptions.Controls.Add(this.flowLayoutPanel1);
             this.groupBoxViewOptions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBoxViewOptions.Location = new System.Drawing.Point(411, 26);
+            this.groupBoxViewOptions.Location = new System.Drawing.Point(367, 26);
             this.groupBoxViewOptions.Name = "groupBoxViewOptions";
-            this.groupBoxViewOptions.Size = new System.Drawing.Size(403, 405);
+            this.groupBoxViewOptions.Size = new System.Drawing.Size(447, 405);
             this.groupBoxViewOptions.TabIndex = 4;
             this.groupBoxViewOptions.TabStop = false;
             this.groupBoxViewOptions.Text = "Include in report";
@@ -131,7 +132,7 @@
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 16);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(397, 386);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(441, 386);
             this.flowLayoutPanel1.TabIndex = 3;
             // 
             // checkBoxFrontMatter
@@ -330,20 +331,6 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(817, 434);
             this.tableLayoutPanel1.TabIndex = 3;
             // 
-            // htmlStoryBt
-            // 
-            this.tableLayoutPanel1.SetColumnSpan(this.htmlStoryBt, 2);
-            this.htmlStoryBt.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.htmlStoryBt.Location = new System.Drawing.Point(3, 3);
-            this.htmlStoryBt.MinimumSize = new System.Drawing.Size(20, 20);
-            this.htmlStoryBt.Name = "htmlStoryBt";
-            this.htmlStoryBt.ParentStory = null;
-            this.htmlStoryBt.Size = new System.Drawing.Size(811, 399);
-            this.htmlStoryBt.StoryData = null;
-            this.htmlStoryBt.TabIndex = 0;
-            this.htmlStoryBt.TheSE = null;
-            this.htmlStoryBt.ViewSettings = null;
-            // 
             // buttonClose
             // 
             this.buttonClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -366,6 +353,20 @@
             this.buttonPrint.UseVisualStyleBackColor = true;
             this.buttonPrint.Click += new System.EventHandler(this.buttonPrint_Click);
             // 
+            // htmlStoryBt
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.htmlStoryBt, 2);
+            this.htmlStoryBt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.htmlStoryBt.Location = new System.Drawing.Point(3, 3);
+            this.htmlStoryBt.MinimumSize = new System.Drawing.Size(20, 20);
+            this.htmlStoryBt.Name = "htmlStoryBt";
+            this.htmlStoryBt.ParentStory = null;
+            this.htmlStoryBt.Size = new System.Drawing.Size(811, 399);
+            this.htmlStoryBt.StoryData = null;
+            this.htmlStoryBt.TabIndex = 0;
+            this.htmlStoryBt.TheSE = null;
+            this.htmlStoryBt.ViewSettings = null;
+            // 
             // PrintForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -375,6 +376,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "PrintForm";
             this.Text = "Print";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PrintForm_FormClosing);
             this.tableLayoutPanel.ResumeLayout(false);
             this.tableLayoutPanel.PerformLayout();
             this.groupBoxViewOptions.ResumeLayout(false);

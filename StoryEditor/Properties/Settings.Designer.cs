@@ -605,5 +605,17 @@ namespace OneStoryProjectEditor.Properties {
                 this["StateTransitionFontSize"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public long LastPrintSettings {
+            get {
+                return ((long)(this["LastPrintSettings"]));
+            }
+            set {
+                this["LastPrintSettings"] = value;
+            }
+        }
     }
 }

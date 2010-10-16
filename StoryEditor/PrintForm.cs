@@ -73,6 +73,23 @@ namespace OneStoryProjectEditor
         {
             if (e.TabPage == tabPagePrintPreview)
             {
+                string strHtml = null;
+                foreach (var aCheckedStoryName in checkedListBoxStories.CheckedItems)
+                {
+                    StoryData aStory = _theSE.TheCurrentStoriesSet.GetStoryFromName(aCheckedStoryName.ToString());
+                    if (aStory != null)
+                        strHtml += aStory.PresentationHtmlWithoutHtmlDocOutside(ViewSettings, _theSE.StoryProject.ProjSettings,
+                            _theSE.StoryProject.TeamMembers, null);
+                }
+
+                htmlStoryBt.DocumentText = StoryData.AddHtmlHtmlDocOutside(strHtml, _theSE.StoryProject.ProjSettings);
+            }
+        }
+
+        private VerseData.ViewSettings ViewSettings
+        {
+            get
+            {
                 VerseData.ViewSettings viewSettings = new VerseData.ViewSettings(
                     checkBoxLangVernacular.Checked,
                     checkBoxLangNationalBT.Checked,
@@ -93,18 +110,24 @@ namespace OneStoryProjectEditor
                     (checkBoxLangTransliterateNationalBT.Checked)
                         ? TransliteratorNationalBT
                         : null);
-
-                string strHtml = null;
-                foreach (var aCheckedStoryName in checkedListBoxStories.CheckedItems)
-                {
-                    StoryData aStory = _theSE.TheCurrentStoriesSet.GetStoryFromName(aCheckedStoryName.ToString());
-                    if (aStory != null)
-                        strHtml += aStory.PresentationHtmlWithoutHtmlDocOutside(viewSettings, _theSE.StoryProject.ProjSettings,
-                            _theSE.StoryProject.TeamMembers, null);
-                }
-
-                htmlStoryBt.DocumentText = StoryData.AddHtmlHtmlDocOutside(strHtml, _theSE.StoryProject.ProjSettings);
+                return viewSettings;
             }
+        }
+
+        private void SetViewSettings(long lSettings)
+        {
+            VerseData.ViewSettings viewSettings = new VerseData.ViewSettings(lSettings);
+            checkBoxLangVernacular.Checked = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.VernacularLangField);
+            checkBoxLangNationalBT.Checked = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBTLangField);
+            checkBoxLangInternationalBT.Checked = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.EnglishBTField);
+            checkBoxAnchors.Checked = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.AnchorFields);
+            checkBoxStoryTestingQuestions.Checked = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestions);
+            checkBoxAnswers.Checked = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers);
+            checkBoxRetellings.Checked = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.RetellingFields);
+            checkBoxFrontMatter.Checked = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryFrontMatter);
+            checkBoxShowHidden.Checked = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.HiddenStuff);
+            checkBoxLangTransliterateVernacular.Checked = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.VernacularTransliterationField);
+            checkBoxLangTransliterateNationalBT.Checked = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBTTransliterationField);
         }
 
         private void buttonPrint_Click(object sender, EventArgs e)
@@ -139,18 +162,33 @@ namespace OneStoryProjectEditor
             if (cb == null)
                 return;
 
-            checkBoxLangVernacular.Checked = 
-                checkBoxLangNationalBT.Checked = 
-                checkBoxLangInternationalBT.Checked = 
-                checkBoxAnchors.Checked = 
-                checkBoxStoryTestingQuestions.Checked = 
-                checkBoxAnswers.Checked =
-                checkBoxRetellings.Checked =
-                checkBoxFrontMatter.Checked = (cb.CheckState == CheckState.Checked);
+            if (cb.CheckState == CheckState.Indeterminate)
+            {
+                SetViewSettings(Properties.Settings.Default.LastPrintSettings);
+                checkBoxSelectAllFields.Text = "&Last Settings";
+            }
+            else
+            {
+                bool bIsChecked = (cb.CheckState == CheckState.Checked);
+                checkBoxLangVernacular.Checked =
+                    checkBoxLangNationalBT.Checked =
+                    checkBoxLangInternationalBT.Checked =
+                    checkBoxAnchors.Checked =
+                    checkBoxStoryTestingQuestions.Checked =
+                    checkBoxAnswers.Checked =
+                    checkBoxRetellings.Checked =
+                    checkBoxFrontMatter.Checked = bIsChecked;
 
-            checkBoxSelectAllFields.Text = (cb.CheckState == CheckState.Checked) 
-                ? "&Deselect All" 
-                : "&Select All";
+                checkBoxSelectAllFields.Text = (bIsChecked)
+                    ? "&Deselect All"
+                    : "&Select All";
+            }
+        }
+
+        private void PrintForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Properties.Settings.Default.LastPrintSettings = ViewSettings.LongValue;
+            Properties.Settings.Default.Save();
         }
     }
 }

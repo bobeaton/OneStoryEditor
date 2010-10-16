@@ -269,6 +269,24 @@ namespace OneStoryProjectEditor
             public DirectableEncConverter TransliteratorNationalBT { get; set; }
             protected ItemToInsureOn _itemToInsureOn;
 
+            public long LongValue
+            {
+                get
+                {
+                    return (long)_itemToInsureOn;
+                }
+
+                set
+                {
+                    _itemToInsureOn = (ItemToInsureOn)value;
+                }
+            }
+
+            public ViewSettings(long lSettings)
+            {
+                LongValue = lSettings;
+            }
+
             public ViewSettings(ItemToInsureOn itemToInsureOn)
             {
                 _itemToInsureOn = itemToInsureOn;
