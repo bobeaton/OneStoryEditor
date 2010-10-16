@@ -210,6 +210,7 @@
             0,
             0});
             this.numericUpDownChapterNumber.ValueChanged += new System.EventHandler(this.numericUpDownChapter_ValueChanged);
+            this.numericUpDownChapterNumber.Enter += new System.EventHandler(this.numericUpDownChapterNumber_Enter);
             // 
             // numericUpDownVerseNumber
             // 
@@ -228,6 +229,7 @@
             0,
             0});
             this.numericUpDownVerseNumber.ValueChanged += new System.EventHandler(this.numericUpDownVerse_ValueChanged);
+            this.numericUpDownVerseNumber.Enter += new System.EventHandler(this.numericUpDownVerseNumber_Enter);
             // 
             // textBoxNetFlixViewer
             // 

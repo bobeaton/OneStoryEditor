@@ -597,5 +597,15 @@ namespace OneStoryProjectEditor
                 }
             }
         }
+
+        private void numericUpDownChapterNumber_Enter(object sender, EventArgs e)
+        {
+            numericUpDownChapterNumber.Select(0, numericUpDownChapterNumber.Value.ToString().Length); 
+        }
+
+        private void numericUpDownVerseNumber_Enter(object sender, EventArgs e)
+        {
+            numericUpDownVerseNumber.Select(0, numericUpDownVerseNumber.Value.ToString().Length);
+        }
     }
 }
