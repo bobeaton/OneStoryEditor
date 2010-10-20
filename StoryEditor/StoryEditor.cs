@@ -19,8 +19,6 @@ using System.Diagnostics;               // Process
 using Palaso.Reporting;
 using Control=System.Windows.Forms.Control;
 using Timer=System.Windows.Forms.Timer;
-using Chorus;
-using Chorus.Utilities;
 
 namespace OneStoryProjectEditor
 {

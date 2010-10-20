@@ -10,7 +10,47 @@ using System.Xml;
 
 namespace OneStoryProjectEditor
 {
-	public partial class NetBibleFootnoteTooltip : Form
+    public partial class MinimalHtmlForm : Form
+    {
+        public MinimalHtmlForm()
+        {
+            InitializeComponent();
+        }
+
+        private void MinimalHtmlForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Hide();
+            e.Cancel = true;
+        }
+
+        private void webBrowser_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+                Close();
+        }
+
+        private void MinimalHtmlForm_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+                Close();
+        }
+    }
+
+    public class MoveConNoteTooltip : MinimalHtmlForm
+    {
+        public void SetDocumentText(ConsultNoteDataConverter aConNote, StoryEditor theSE,
+            Point ptLocation)
+        {
+            Location = ptLocation;
+            if (!theSE.splitContainerLeftRight.Panel2Collapsed)
+                Width = theSE.splitContainerLeftRight.Panel2.Size.Width;
+
+            webBrowser.DocumentText = aConNote.Html(null, theSE.theCurrentStory.ProjStage,
+                theSE.LoggedOnMember, 0, 0);
+        }
+    }
+
+	public class NetBibleFootnoteTooltip : MinimalHtmlForm
 	{
         SWMgr _manager;
         Dictionary<string, SWModule> _lstModules = new Dictionary<string, SWModule>();
@@ -19,7 +59,6 @@ namespace OneStoryProjectEditor
         public NetBibleFootnoteTooltip(SWMgr manager)
 		{
             _manager = manager;
-			InitializeComponent();
 		}
 
         public void ShowFootnote(string key, Point location)
@@ -127,27 +166,6 @@ namespace OneStoryProjectEditor
 			//Display text in a web browser so we get Greek/Hebrew, etc.
             webBrowser.DocumentText = text; // .Replace("<br>", "\r\n").Replace("<br />", "\r\n");
 		}
-
-        private void NetBibleFootnoteTooltip_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            System.Diagnostics.Debug.WriteLine("NetBibleFootnoteTooltip_FormClosing");
-            Hide();
-            e.Cancel = true;
-        }
-
-        private void webBrowser_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-        {
-            System.Diagnostics.Debug.WriteLine(String.Format("webBrowser_PreviewKeyDown: KeyCode: {0}", e.KeyCode));
-            if (e.KeyCode == Keys.Escape)
-                Close();
-        }
-
-        private void NetBibleFootnoteTooltip_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-        {
-            System.Diagnostics.Debug.WriteLine(String.Format("NetBibleFootnoteTooltip_PreviewKeyDown: KeyCode: {0}", e.KeyCode));
-            if (e.KeyCode == Keys.Escape)
-                Close();
-        }
 
         /*
 		private void ShowStrongsGreek(string value)

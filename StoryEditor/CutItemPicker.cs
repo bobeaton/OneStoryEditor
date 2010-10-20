@@ -19,11 +19,12 @@ namespace OneStoryProjectEditor
         private VerseData _verseDest;
         private VersesData _theVerses;
 
-        public CutItemPicker(VerseData verseSource, VersesData theVerses)
+        public CutItemPicker(VerseData verseSource, VersesData theVerses, StoryEditor theSE)
         {
             InitializeComponent();
             _verseSource = verseSource;
             _theVerses = theVerses;
+            TheSE = theSE;
 
             InitializeFromVerse(verseSource);
 
@@ -46,11 +47,12 @@ namespace OneStoryProjectEditor
             AddLineButton("Delete", null, ++i, null);
         }
 
-        public CutItemPicker(VerseData verseSource, VerseData verseDest, int nIndex)
+        public CutItemPicker(VerseData verseSource, VerseData verseDest, int nIndex, StoryEditor theSE)
         {
             InitializeComponent();
             _verseSource = verseSource;
             _verseDest = verseDest;
+            TheSE = theSE;
 
             InitializeFromVerse(verseSource);
 
@@ -210,7 +212,20 @@ namespace OneStoryProjectEditor
             if ((DateTime.Now - m_dtStarted) < m_timeMinStartup)
                 return;
 
-            if ((e.Node == treeViewItems.Nodes[CstrNodeTestingQuestions])
+            if (e.Button == MouseButtons.Right)
+            {
+                var node = e.Node;
+                if (node.Tag is ConsultNoteDataConverter)
+                {
+                    var aConNote = node.Tag as ConsultNoteDataConverter;
+                    if (_toolTip == null)
+                        _toolTip = new MoveConNoteTooltip();
+
+                    _toolTip.SetDocumentText(aConNote, TheSE, Cursor.Position);
+                    _toolTip.Show();
+                }
+            }
+            else if ((e.Node == treeViewItems.Nodes[CstrNodeTestingQuestions])
                 || (e.Node == treeViewItems.Nodes[CstrNodeConsultantNotes])
                 || (e.Node == treeViewItems.Nodes[CstrNodeCoachNotes]))
             {
@@ -237,5 +252,8 @@ namespace OneStoryProjectEditor
             foreach (TreeNode child in nodeParent.Nodes)
                 child.Checked = nodeParent.Checked;
         }
+
+        private StoryEditor TheSE;
+        private MoveConNoteTooltip _toolTip;
     }
 }

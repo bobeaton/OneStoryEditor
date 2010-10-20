@@ -50,9 +50,9 @@
             this.tabPagePrintPreviewConfig = new System.Windows.Forms.TabPage();
             this.tabPagePrintPreview = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.htmlStoryBt = new OneStoryProjectEditor.HtmlStoryBtControl();
             this.buttonClose = new System.Windows.Forms.Button();
             this.buttonPrint = new System.Windows.Forms.Button();
-            this.htmlStoryBt = new OneStoryProjectEditor.HtmlStoryBtControl();
             this.tableLayoutPanel.SuspendLayout();
             this.groupBoxViewOptions.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -331,6 +331,20 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(817, 434);
             this.tableLayoutPanel1.TabIndex = 3;
             // 
+            // htmlStoryBt
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.htmlStoryBt, 2);
+            this.htmlStoryBt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.htmlStoryBt.Location = new System.Drawing.Point(3, 3);
+            this.htmlStoryBt.MinimumSize = new System.Drawing.Size(20, 20);
+            this.htmlStoryBt.Name = "htmlStoryBt";
+            this.htmlStoryBt.ParentStory = null;
+            this.htmlStoryBt.Size = new System.Drawing.Size(811, 399);
+            this.htmlStoryBt.StoryData = null;
+            this.htmlStoryBt.TabIndex = 0;
+            this.htmlStoryBt.TheSE = null;
+            this.htmlStoryBt.ViewSettings = null;
+            // 
             // buttonClose
             // 
             this.buttonClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -352,20 +366,6 @@
             this.buttonPrint.Text = "&Print";
             this.buttonPrint.UseVisualStyleBackColor = true;
             this.buttonPrint.Click += new System.EventHandler(this.buttonPrint_Click);
-            // 
-            // htmlStoryBt
-            // 
-            this.tableLayoutPanel1.SetColumnSpan(this.htmlStoryBt, 2);
-            this.htmlStoryBt.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.htmlStoryBt.Location = new System.Drawing.Point(3, 3);
-            this.htmlStoryBt.MinimumSize = new System.Drawing.Size(20, 20);
-            this.htmlStoryBt.Name = "htmlStoryBt";
-            this.htmlStoryBt.ParentStory = null;
-            this.htmlStoryBt.Size = new System.Drawing.Size(811, 399);
-            this.htmlStoryBt.StoryData = null;
-            this.htmlStoryBt.TabIndex = 0;
-            this.htmlStoryBt.TheSE = null;
-            this.htmlStoryBt.ViewSettings = null;
             // 
             // PrintForm
             // 

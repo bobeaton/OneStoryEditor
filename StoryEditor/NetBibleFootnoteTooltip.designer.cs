@@ -1,6 +1,6 @@
 namespace OneStoryProjectEditor
 {
-	partial class NetBibleFootnoteTooltip
+	partial class MinimalHtmlForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -45,36 +45,37 @@ namespace OneStoryProjectEditor
             this.webBrowser.TabIndex = 0;
             this.webBrowser.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.webBrowser_PreviewKeyDown);
             // 
-            // NetBibleFootnoteTooltip
+            // MinimalHtmlForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.ClientSize = new System.Drawing.Size(392, 306);
+            this.ClientSize = new System.Drawing.Size(384, 306);
             this.Controls.Add(this.webBrowser);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(400, 800);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(50, 26);
-            this.Name = "NetBibleFootnoteTooltip";
+            this.MinimumSize = new System.Drawing.Size(50, 34);
+            this.Name = "MinimalHtmlForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.TopMost = true;
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.NetBibleFootnoteTooltip_FormClosing);
-            this.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.NetBibleFootnoteTooltip_PreviewKeyDown);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MinimalHtmlForm_FormClosing);
+            this.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.MinimalHtmlForm_PreviewKeyDown);
             this.ResumeLayout(false);
 
 		}
 
 		#endregion
 
-        private System.Windows.Forms.WebBrowser webBrowser;
+        protected System.Windows.Forms.WebBrowser webBrowser;
+
 
 
 

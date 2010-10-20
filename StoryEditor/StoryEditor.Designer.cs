@@ -1391,7 +1391,7 @@ namespace OneStoryProjectEditor
         private OpenFileDialog openFileDialog;
         private SaveFileDialog saveFileDialog;
         internal VerseBtLineFlowLayoutPanel flowLayoutPanelVerses;
-        private SplitContainer splitContainerLeftRight;
+        internal SplitContainer splitContainerLeftRight;
         internal MinimizableSplitterContainer splitContainerUpDown;
         private ToolStripMenuItem viewToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator5;

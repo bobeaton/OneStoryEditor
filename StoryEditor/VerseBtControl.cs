@@ -299,7 +299,7 @@ namespace OneStoryProjectEditor
             if (!CheckForProperEditToken(out theSE))
                 return;
 
-            var dlg = new CutItemPicker(_verseData, theSE.theCurrentStory.Verses);
+            var dlg = new CutItemPicker(_verseData, theSE.theCurrentStory.Verses, theSE);
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 theSE.Modified = true;
@@ -681,7 +681,7 @@ namespace OneStoryProjectEditor
             verseNew.InternationalBTText.SetValue(strEnglishBT);
             theSE.DoPasteVerse(VerseNumber, verseNew);
             // VerseData verseDest = PasteVerseToIndex(theSE, VerseNumber);
-            var dlg = new CutItemPicker(_verseData, verseNew, VerseNumber + 1);
+            var dlg = new CutItemPicker(_verseData, verseNew, VerseNumber + 1, theSE);
             dlg.ShowDialog();
             theSE.InitAllPanes();
         }
