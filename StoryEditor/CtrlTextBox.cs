@@ -61,7 +61,7 @@ namespace OneStoryProjectEditor
             if (li.DoRtl)
                 RightToLeft = RightToLeft.Yes;
             stData.SetAssociation(this);
-            Margin = new Padding(0);
+            Margin = new Padding(1, 0, 1, 0);
             Padding = new Padding(0);
             Size = GetPreferredSize(Size);
             TextChanged += ctrlParent.textBox_TextChanged;
