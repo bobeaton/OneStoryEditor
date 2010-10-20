@@ -130,7 +130,7 @@ namespace OneStoryProjectEditor
             StringTransfer strTbText, ProjectSettings.LanguageInfo li, int nLayoutColumn)
         {
             CtrlTextBox tb = new CtrlTextBox(strTbName + CstrSuffixTextBox, ctrlVerse, this,
-                strTbText, li, CstrTestQuestionsLabelFormat);
+                strTbText, li, CstrTestQuestionsLabelFormat, true);
             tableLayoutPanel.Controls.Add(tb, nLayoutColumn, 1);
         }
     }

@@ -2387,7 +2387,9 @@ namespace OneStoryProjectEditor
                 foreach (string strGuid in theCurrentStory.CraftingInfo.Testors)
                     if (strGuid == strUnsGuid)
                     {
-                        DialogResult res = MessageBox.Show("You can't use the same UNS for two different tests of the same story. Please select a different UNS.", OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.OKCancel);
+                        DialogResult res = MessageBox.Show(Properties.Resources.IDS_AddTestSameUNS,
+                                                           OseResources.Properties.Resources.IDS_Caption,
+                                                           MessageBoxButtons.OKCancel);
                         if (res == DialogResult.Cancel)
                             return false;
                         strUnsGuid = null;
@@ -2402,6 +2404,53 @@ namespace OneStoryProjectEditor
                     aTQ.Answers.AddNewLine(strUnsGuid).SetValue("");
                 aVerseData.Retellings.AddNewLine(strUnsGuid).SetValue("");
             }
+
+            Modified = true;
+            return true;
+        }
+
+        internal bool AddSingleTestResult(TestQuestionData theTQ)
+        {
+            // let's first just make sure that this isn't the wrong request
+            DialogResult res = MessageBox.Show(Properties.Resources.IDS_VerifyAddSingleTest,
+                                               OseResources.Properties.Resources.IDS_Caption,
+                                               MessageBoxButtons.YesNoCancel);
+
+            if (res == DialogResult.No)
+                return AddTest();
+            
+            if (res == DialogResult.Cancel)
+                return false;
+
+            // so they want to just add a single box for this TQ's answer for a new UNS.
+            // query for the UNSs that will be doing this test
+            string strUnsGuid = QueryForUnsTestor(StoryProject);
+            if (String.IsNullOrEmpty(strUnsGuid))
+                return false;
+
+            for (int i = 0; i < theTQ.Answers.MemberIDs.Count; i++)
+            {
+                if (theTQ.Answers.MemberIDs[i] != strUnsGuid)
+                    continue;
+
+                MessageBox.Show(String.Format(Properties.Resources.IDS_AddTestSameUNS,
+                                              String.Format(theTQ.Answers.LabelTextFormat, i + 1)),
+                                OseResources.Properties.Resources.IDS_Caption,
+                                MessageBoxButtons.OKCancel);
+                return false;
+            }
+
+            // okay, so the selected UNS doesn't already have an Answer entry for this
+            //  TQ. Now see if (s)he has been added to the story level list
+            if (theCurrentStory.CraftingInfo.Testors.IndexOf(strUnsGuid) == -1)
+            {
+                // this means that this UNS has never been added for this story. Add now
+                theCurrentStory.CraftingInfo.Testors.Add(strUnsGuid);
+            }
+
+            // by now, the user-chosen UNS *is* in the CraftingInfo list and *isn't* in
+            //  the Answer list for this particular TQ, so add it now.
+            theTQ.Answers.AddNewLine(strUnsGuid).SetValue("");
 
             Modified = true;
             return true;

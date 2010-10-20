@@ -218,7 +218,16 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Have you entered all of your testing questions? If not, then click &apos;Cancel&apos; and finish entering all of the testing questions first (or you won&apos;t get answer boxes for questions added later). Or click &apos;OK&apos; to add boxes for the UNS&apos;s retelling and answers to the testing quetsions..
+        ///   Looks up a localized string similar to You can&apos;t use the same UNS for two different tests of the same story. Please select a different UNS (or just put their results in the existing boxes for test &apos;{0}&apos;).
+        /// </summary>
+        internal static string IDS_AddTestSameUNS {
+            get {
+                return ResourceManager.GetString("IDS_AddTestSameUNS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Have you entered all of your testing questions? If not, then click &apos;Cancel&apos; and finish entering all of the testing questions first. Then click &apos;OK&apos; to add boxes for the retelling and answers to the testing questions..
         /// </summary>
         internal static string IDS_AreAllTestingQuestionsEnteredQuery {
             get {
@@ -969,6 +978,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_UseStoryCollapse {
             get {
                 return ResourceManager.GetString("IDS_UseStoryCollapse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Click &apos;Yes&apos; to add a single answer box for this testing question only. Click &apos;No&apos; to add answer and retelling boxes for all lines of the story. Click &apos;Cancel&apos; to do nothing..
+        /// </summary>
+        internal static string IDS_VerifyAddSingleTest {
+            get {
+                return ResourceManager.GetString("IDS_VerifyAddSingleTest", resourceCulture);
             }
         }
         

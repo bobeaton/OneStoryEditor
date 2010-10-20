@@ -51,9 +51,22 @@ namespace OneStoryProjectEditor
 
         public CtrlTextBox(string strName, VerseControl ctrlVerseParent, 
             ResizableControl ctrlParent, StringTransfer stData, 
+            ProjectSettings.LanguageInfo li, string strLabel, bool bAddTqFlag)
+        {
+            InitComponent(bAddTqFlag);
+            Init(strName, strLabel, li, stData, ctrlParent, ctrlVerseParent);
+        }
+
+        public CtrlTextBox(string strName, VerseControl ctrlVerseParent, 
+            ResizableControl ctrlParent, StringTransfer stData, 
             ProjectSettings.LanguageInfo li, string strLabel)
         {
             InitComponent(false);
+            Init(strName, strLabel, li, stData, ctrlParent, ctrlVerseParent);
+        }
+
+        private void Init(string strName, string strLabel, ProjectSettings.LanguageInfo li, StringTransfer stData, ResizableControl ctrlParent, VerseControl ctrlVerseParent)
+        {
             Name = strName;
             _strLabel = strLabel;
             Font = li.FontToUse;
@@ -426,6 +439,22 @@ namespace OneStoryProjectEditor
         private void onAddAnswerBox(object sender, EventArgs e)
         {
             System.Diagnostics.Debug.Assert((_ctrlVerseParent != null) && (_ctrlVerseParent.TheSE != null));
+            var theVerseCtrl = _ctrlVerseParent as VerseBtControl;
+            if (theVerseCtrl != null)
+            {
+                VerseData verseData = theVerseCtrl._verseData;
+                for (int i = 0; i < verseData.TestQuestions.Count; i++)
+                {
+                    var aTQ = verseData.TestQuestions[i];
+                    if ((aTQ.QuestionVernacular.ToString() == Text)
+                        || (aTQ.QuestionNationalBT.ToString() == Text)
+                        || (aTQ.QuestionInternationalBT.ToString() == Text))
+                    {
+                        if (_ctrlVerseParent.TheSE.AddSingleTestResult(aTQ))
+                            theVerseCtrl.UpdateViewOfThisVerse(_ctrlVerseParent.TheSE);
+                    }
+                }
+            }
         }
 
         void CtrlTextBox_MouseUp(object sender, MouseEventArgs e)
