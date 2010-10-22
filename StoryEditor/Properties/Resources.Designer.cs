@@ -335,6 +335,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete the term:{0}{1}.
+        /// </summary>
+        internal static string IDS_ConfirmDeleteLnCNote {
+            get {
+                return ResourceManager.GetString("IDS_ConfirmDeleteLnCNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to delete the &apos;{0}&apos; story?.
         /// </summary>
         internal static string IDS_ConfirmDeleteStory {
@@ -617,6 +626,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_MustBeCloneRepo {
             get {
                 return ResourceManager.GetString("IDS_MustBeCloneRepo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must enter the {0}.
+        /// </summary>
+        internal static string IDS_MustHave {
+            get {
+                return ResourceManager.GetString("IDS_MustHave", resourceCulture);
             }
         }
         
@@ -1144,6 +1162,13 @@ namespace OneStoryProjectEditor.Properties {
         internal static string RegexHelpProgram {
             get {
                 return ResourceManager.GetString("RegexHelpProgram", resourceCulture);
+            }
+        }
+        
+        internal static System.Drawing.Bitmap search {
+            get {
+                object obj = ResourceManager.GetObject("search", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

@@ -214,6 +214,7 @@
             this.MinimizeBox = false;
             this.Name = "ConcordanceForm";
             this.Text = "Concordance";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ConcordanceForm_FormClosing);
             this.tableLayoutPanel.ResumeLayout(false);
             this.tableLayoutPanel.PerformLayout();
             this.ResumeLayout(false);

@@ -144,6 +144,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddLnCNoteForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddLnCNoteForm.Designer.cs">
+      <DependentUpon>AddLnCNoteForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="BiblicalKeyTermsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -246,6 +252,13 @@
     </Compile>
     <Compile Include="LineFlowLayoutPanel.Designer.cs">
       <DependentUpon>LineFlowLayoutPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LnCNotesData.cs" />
+    <Compile Include="LnCNotesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LnCNotesForm.Designer.cs">
+      <DependentUpon>LnCNotesForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MinimizableSplitterContainer.cs">
       <SubType>Component</SubType>
@@ -361,6 +374,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AddLnCNoteForm.resx">
+      <DependentUpon>AddLnCNoteForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="BiblicalKeyTermsForm.resx">
       <DependentUpon>BiblicalKeyTermsForm.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -405,6 +421,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LineFlowLayoutPanel.resx">
       <DependentUpon>LineFlowLayoutPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LnCNotesForm.resx">
+      <DependentUpon>LnCNotesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NetBibleFootnoteTooltip.resx">
       <DependentUpon>NetBibleFootnoteTooltip.cs</DependentUpon>
@@ -610,6 +629,7 @@
     <None Include="Resources\DataContainer_MoveNextHS.png" />
     <None Include="Resources\DataContainer_MoveLastHS.png" />
     <None Include="Resources\Arrow.jpg" />
+    <None Include="Resources\search.png" />
     <Content Include="StageTransitions.xml" />
     <None Include="Properties\app.manifest" />
     <None Include="Resources\DragDropHandle.bmp" />

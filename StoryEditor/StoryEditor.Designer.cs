@@ -152,6 +152,7 @@ namespace OneStoryProjectEditor
             this.buttonsStoryStage = new System.Windows.Forms.ToolStripSplitButton();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.viewLnCNotesMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
             this.splitContainerLeftRight.Panel2.SuspendLayout();
@@ -532,6 +533,7 @@ namespace OneStoryProjectEditor
             this.refreshToolStripMenuItem,
             this.toolStripSeparator8,
             this.historicalDifferencesToolStripMenuItem,
+            this.viewLnCNotesMenu,
             this.concordanceToolStripMenuItem,
             this.stateTransitionHistoryToolStripMenuItem,
             this.viewOldStoriesToolStripMenuItem,
@@ -1340,6 +1342,13 @@ namespace OneStoryProjectEditor
             this.statusStrip.TabIndex = 1;
             this.statusStrip.Text = "statusStrip1";
             // 
+            // viewLnCNotesMenu
+            // 
+            this.viewLnCNotesMenu.Name = "viewLnCNotesMenu";
+            this.viewLnCNotesMenu.Size = new System.Drawing.Size(284, 22);
+            this.viewLnCNotesMenu.Text = "L && C Notes";
+            this.viewLnCNotesMenu.Click += new System.EventHandler(this.viewLnCNotesMenu_Click);
+            // 
             // StoryEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1497,6 +1506,7 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem enabledToolStripMenuItem;
         private ToolStripMenuItem asSilentlyAsPossibleToolStripMenuItem;
         private ToolStripMenuItem sendReceiveToolStripMenuItem;
+        private ToolStripMenuItem viewLnCNotesMenu;
     }
 
 #if UsingHtmlDisplayForConNotes

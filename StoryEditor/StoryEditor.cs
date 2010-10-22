@@ -33,7 +33,17 @@ namespace OneStoryProjectEditor
         protected string _strStoriesSet;
 
         // we keep a copy of this, because it ought to persist across multiple files
-        internal TeamMemberData LoggedOnMember;
+        private TeamMemberData _loggedOnMember;
+        internal TeamMemberData LoggedOnMember
+        {
+            get { return _loggedOnMember; }
+            set
+            {
+                _loggedOnMember = value;
+                if ((StoryProject != null) && (StoryProject.ProjSettings != null))
+                    InitProjectNotes(StoryProject.ProjSettings, value.Name);
+            }
+        }
         internal bool Modified;
         internal Timer myFocusTimer = new Timer();
         protected Timer mySaveTimer = new Timer();
@@ -581,6 +591,11 @@ namespace OneStoryProjectEditor
 
         private void InitProjectNotes(ProjectSettings projSettings, string strUsername)
         {
+            if (m_dlgNotes != null)
+            {
+                m_dlgNotes.Close();
+                m_dlgNotes = null;
+            }
             m_dlgNotes = new NoteForm(projSettings, strUsername);
             m_dlgNotes.Show();
         }
@@ -3085,12 +3100,14 @@ namespace OneStoryProjectEditor
 
                 viewTransliterationsToolStripMenuItem.Enabled = (StoryProject.ProjSettings.Vernacular.HasData || StoryProject.ProjSettings.NationalBT.HasData);
 
-                concordanceToolStripMenuItem.Enabled = true;
+                viewLnCNotesMenu.Enabled = 
+                    concordanceToolStripMenuItem.Enabled = true;
             }
             else
                 showHideFieldsToolStripMenuItem.Enabled = 
                     viewTransliterationsToolStripMenuItem.Enabled =
                     stateTransitionHistoryToolStripMenuItem.Enabled =
+                    viewLnCNotesMenu.Enabled =
                     concordanceToolStripMenuItem.Enabled =
                     historicalDifferencesToolStripMenuItem.Enabled =
                     hiddenVersesToolStripMenuItem.Enabled =
@@ -3945,6 +3962,13 @@ namespace OneStoryProjectEditor
         internal void concordanceToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string strVernacular = null, strNationalBT = null, strInternationalBT = null;
+            GetSelectedLanguageText(ref strVernacular, ref strNationalBT, ref strInternationalBT);
+            ConcordanceForm dlg = new ConcordanceForm(this, strVernacular, strNationalBT, strInternationalBT);
+            dlg.Show();
+        }
+
+        private void GetSelectedLanguageText(ref string strVernacular, ref string strNationalBT, ref string strInternationalBT)
+        {
             if ((CtrlTextBox._inTextBox != null) && (CtrlTextBox._nLastVerse > 0))
             {
                 Control ctrl = flowLayoutPanelVerses.GetControlAtVerseIndex(CtrlTextBox._nLastVerse);
@@ -3972,9 +3996,21 @@ namespace OneStoryProjectEditor
                     }
                 }
             }
+        }
 
-            ConcordanceForm dlg = new ConcordanceForm(this, strVernacular, strNationalBT, strInternationalBT);
+        private void viewLnCNotesMenu_Click(object sender, EventArgs e)
+        {
+            var dlg = new LnCNotesForm(this);
             dlg.Show();
+        }
+
+        internal void AddLnCNote()
+        {
+            string strVernacular = null, strNationalBT = null, strInternationalBT = null;
+            GetSelectedLanguageText(ref strVernacular, ref strNationalBT, ref strInternationalBT);
+            var dlg = new AddLnCNoteForm(this, strVernacular, strNationalBT, strInternationalBT);
+            if (dlg.ShowDialog() == DialogResult.OK)
+                StoryProject.LnCNotes.Add(dlg.TheLnCNote);
         }
 
         private void toolStripMenuItemSelectState_Click(object sender, EventArgs e)

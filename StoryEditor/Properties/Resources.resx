@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="IDS_AddTestSameUNS" xml:space="preserve">
+    <value>You can't use the same UNS for two different tests of the same story. Please select a different UNS (or just put their results in the existing boxes for test '{0}')</value>
+  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="DataContainer_MoveNextHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DataContainer_MoveNextHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -136,6 +139,9 @@
   <data name="IDS_FindStringNotFound" xml:space="preserve">
     <value>String not found!</value>
   </data>
+  <data name="IDS_NoTransitionHistory" xml:space="preserve">
+    <value>There is no state transition history for this story</value>
+  </data>
   <data name="IDS_TerminalTransitionMessage" xml:space="preserve">
     <value>Click 'Yes' to confirm. If you click 'Yes', then you won't be able to make further changes to the story until it is returned to you. If you want to make any change first, then click 'No'.</value>
     <comment>अगर इस स्‍टेट में जाएं, तो इसके बाद आप इस कहानी को तब तक नहीं बदल सकते हैं, जब तक {0} अपने काम इस पर पूरा नहीं किया। क्‍या आप पक्‍का हैं कि अगले स्‍टेट (अनिकि '{1}' स्‍टेट) में जाएँ?</comment>
@@ -148,9 +154,6 @@
   </data>
   <data name="IDS_NoteNotEmptyHideQuery" xml:space="preserve">
     <value>This conversation isn't empty! Instead of deleting it, it would be better to just hide it so it will be left around for history. Would you like to hide it instead?</value>
-  </data>
-  <data name="IDS_QueryAboutUpdateProgram" xml:space="preserve">
-    <value>An update to the OneStory Editor has just been downloaded. Would you like to install it now? (recommended)</value>
   </data>
   <data name="IDS_MainFrameTitleOldStories" xml:space="preserve">
     <value>OneStory Editor -- {0} Story Project -- Viewing Old Stories</value>
@@ -166,8 +169,14 @@
   <data name="IDS_AdaptationInstructionsContinue" xml:space="preserve">
     <value>{0}5) When you're finished, return to this window and click the 'Yes' button to re-import the translated English text back into the English fields.{0}{0}Have you finished translating the story to English and are ready to import it into the English fields?</value>
   </data>
+  <data name="IDS_VerifyAddSingleTest" xml:space="preserve">
+    <value>Click 'Yes' to add a single answer box for this testing question only. Click 'No' to add answer and retelling boxes for all lines of the story. Click 'Cancel' to do nothing.</value>
+  </data>
   <data name="AddToFavoritesHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AddToFavoritesHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IDS_ConfirmStateChangeOverride" xml:space="preserve">
+    <value>Are you sure you want to change the state of this story bypassing the normal checks (i.e. is the right person logged in, have they answered all their questions, etc). This is an advanced command and can easily result in a conflict if it's possible that two people will be editing the story at the same time. You should only use this command if you are sure that no one else will be editing this story prior to first synchronizing with the changes you are about to make.</value>
   </data>
   <data name="IDS_KeyTermsProblem" xml:space="preserve">
     <value>Unable to process Key Terms: cause: {0}{0}{1}</value>
@@ -179,11 +188,20 @@
     <value>You already have a project with the name '{1}' that is in another location. If you create this new project with the same name, then you won't be able to access the earlier project that is located in the '{2}' folder.{0}{0}Do you want to continue creating the new project and lose the reference to the earlier project (it won't be deleted if you do)?</value>
     <comment>'{1}' नाम का एक प्रजैक्ट दूसरे फ़ोल्‍डर में हो चुका है। अगर यह नया प्रोजैक्ट इसी नाम के साथ बनता है, तब दूसरा प्रोजैक्‍ट नहीं खोल पाएगा, जो '{2}' फ़ोल्‍डर में है।{0}{0}क्‍या आप नया प्रोजैक्ट फिर भी बनाना चाहते हैं?</comment>
   </data>
+  <data name="IDS_ConfirmDeleteItems" xml:space="preserve">
+    <value>Are you sure you want to delete the selected items?</value>
+  </data>
+  <data name="IDS_LoginAsProjectFacilitator" xml:space="preserve">
+    <value>You have added a UNS in order to identify, for example, which UNS did the back translation or a particular test. However, you as the Project Facilitator should still be logged in to enter the UNS's comments. So select your *Project Facilitator* member name and click 'Login' again</value>
+  </data>
   <data name="IDS_CantExport" xml:space="preserve">
     <value>Unable to export to Toolbox! Cause: {0} {1}</value>
   </data>
   <data name="oneStory2storyingBT" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\oneStory2storyingBT.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="DataContainer_MoveLastHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DataContainer_MoveLastHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="IDS_CheckOnKeyTerms" xml:space="preserve">
     <value>Are there any key terms in this story that you should check? To check key terms, right-click on an anchor button and choose the 'Edit Key Terms' command. Click the "Retry" button to continue on to the next state. Click the 'Cancel' button to stay in this state to look for key terms to check.</value>
@@ -203,6 +221,9 @@
   <data name="IDS_PanoramaViewCopyToOldStories" xml:space="preserve">
     <value>Copy the selected story to the "Old Stories" tab list. Then you can use the 'View' menu, 'View Old Stories' command (from the main window) to view stories in the 'Old Stories' list.</value>
   </data>
+  <data name="IDS_ThisStoryNotInThisRevision" xml:space="preserve">
+    <value>This story isn't in revision '{0}'</value>
+  </data>
   <data name="IDS_StoryColon" xml:space="preserve">
     <value>Story: </value>
     <comment>कहानी: </comment>
@@ -216,6 +237,9 @@
   <data name="IDS_ConfirmDeleteStory" xml:space="preserve">
     <value>Are you sure you want to delete the '{0}' story?</value>
   </data>
+  <data name="Arrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Arrow.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="IDS_ErrorInAdaptation" xml:space="preserve">
     <value>"The data from Adapt It doesn't appear to match what's in the story.{0}In verse number {2}, I was expecting \"{3}\", but got \"{4}\" instead.{0}If you've made changes in the story or the {1} back-translation, then you need to re-export the story or {1} back-translation to Adapt It,{0}re-process the file there, and then try to import again."</value>
   </data>
@@ -225,11 +249,17 @@
   <data name="IDS_AddTestQuery" xml:space="preserve">
     <value>Click 'Yes' to add boxes for the retelling and testing question answers? Or click 'No' if you already have boxes.</value>
   </data>
+  <data name="IDS_ConfirmTeamMemberNameChange" xml:space="preserve">
+    <value>Are you sure you want to change this member's name? [If you are trying to add a new member, then do it through the 'Project', 'Login' window instead. Clicking 'Yes' here will permanently remove the record for '{0}' and replace it with this new information for '{1}']</value>
+  </data>
   <data name="IDS_UseStoryCollapse" xml:space="preserve">
     <value>Verse number '{0}' has multiple sentences in the {1} column. Use the "Story" menu, "Collapse into 1 line" command followed by the "Split into Lines" command to break the story (and any back-translations) into lines based on sentence final punctuation (see "Project", "Settings" and any of the "Language" tabs to configure sentence final punctuation). The command "Story", "Re-align story lines" can also be used, which calls both of the above commands in one click</value>
   </data>
   <data name="IDS_ConfirmDeleteAllVerseLines" xml:space="preserve">
     <value>Are you sure you want to delete the {0}?</value>
+  </data>
+  <data name="DeleteHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DeleteHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="IDS_PressF1ForInstructions" xml:space="preserve">
     <value>{0}  Press F1 for instructions</value>
@@ -297,6 +327,9 @@ of the team before overwriting a list</value>
   <data name="RegexHelpProgram" xml:space="preserve">
     <value>http://msdn2.microsoft.com/en-us/library/az24scfc.aspx</value>
   </data>
+  <data name="IDS_NoProgramUpdates" xml:space="preserve">
+    <value>There are no program updates!</value>
+  </data>
   <data name="EditTableHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\EditTableHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -328,6 +361,9 @@ of the team before overwriting a list</value>
   <data name="IDS_SaveKeyTermsPrompt" xml:space="preserve">
     <value>A key term or its status has changed. Do you wish to save these changes?</value>
     <comment>ख़ास शब्‍द या उसका स्टैटस बदल गया है। इन परिवर्तनों को सेव किया जाए?</comment>
+  </data>
+  <data name="DataContainer_MovePreviousHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DataContainer_MovePreviousHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="IDS_CopyrightInfo" xml:space="preserve">
     <value>&lt;head&gt;
@@ -770,6 +806,9 @@ for more extensive study materials.&lt;/p&gt;
   <data name="IDS_IsThisStoryFromTheBible" xml:space="preserve">
     <value>Is this a story from the Bible?</value>
     <comment>क्‍या यह कहानी बाइबल से है?</comment>
+  </data>
+  <data name="IDS_GoBackwardsYoungMan" xml:space="preserve">
+    <value>This story has already reached the final state. If you mean to go to some previous state, click the 'Select State' menu at the top of the window and choose the previous state you want to go to.</value>
   </data>
   <data name="IDS_MustHaveAtLeastOneLanguage" xml:space="preserve">
     <value>A project must have at least one language selected</value>
@@ -1428,6 +1467,58 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
 
 &lt;/html&gt;</value>
   </data>
+  <data name="IDS_StoryLanguageField" xml:space="preserve">
+    <value>&amp;{0} back-translation fields</value>
+  </data>
+  <data name="IDS_LocatedInFolder" xml:space="preserve">
+    <value>Located in folder '{0}'</value>
+    <comment>जो '{0}' फ़ोलडर में है</comment>
+  </data>
+  <data name="IDS_QueryAboutUpdateProgram" xml:space="preserve">
+    <value>An update to the OneStory Editor has just been downloaded. Would you like to install it now? (recommended)</value>
+  </data>
+  <data name="IDS_StartFromBeginning" xml:space="preserve">
+    <value>Would you like to start searching from the beginning of the story?</value>
+  </data>
+  <data name="IDS_FromStoryForDiscourseCharting" xml:space="preserve">
+    <value>&amp;From {0} (for Discourse Charting)</value>
+  </data>
+  <data name="IDS_NationalBtOfStory" xml:space="preserve">
+    <value>{0} back-translation of the story to the clipboard</value>
+  </data>
+  <data name="oneStory2CoachNotes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\oneStory2CoachNotes.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="IDS_AreAllTestingQuestionsEnteredQuery" xml:space="preserve">
+    <value>Have you entered all of your testing questions? If not, then click 'Cancel' and finish entering all of the testing questions first. Then click 'OK' to add boxes for the retelling and answers to the testing questions.</value>
+  </data>
+  <data name="IDS_ConfirmOverride" xml:space="preserve">
+    <value>Click 'Yes' to override the '{0}' {1} for yourself ('{2}') only. Click 'No' to make this change apply to every member of the team (if you all are switching to a new {1}).</value>
+  </data>
+  <data name="IDS_UnableToCopyText" xml:space="preserve">
+    <value>Unable to copy text to the clipboard!{0}{0}{1}{0}{0}{2}</value>
+  </data>
+  <data name="IDS_ConfirmDeleteKeyTerm" xml:space="preserve">
+    <value>Are you sure you want to delete the key term:{0}{1}</value>
+  </data>
+  <data name="IDS_UnableToSave" xml:space="preserve">
+    <value>Unable to save the project file '{1}'{0}{0}{2}</value>
+  </data>
+  <data name="IDS_FromNatlLanguage" xml:space="preserve">
+    <value>&amp;From {0}</value>
+  </data>
+  <data name="EditInformationHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EditInformationHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BuilderDialog_movedown1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BuilderDialog_movedown.PNG;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IDS_MainFrameTitle" xml:space="preserve">
+    <value>OneStory Editor -- {0} Story Project</value>
+  </data>
+  <data name="gradient" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\gradient.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="IDS_TbxFile_StoryBT" xml:space="preserve">
     <value>\+DatabaseType StoryBT
 \ver 5.0
@@ -1802,61 +1893,6 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
 \HideFields
 \-DatabaseType</value>
   </data>
-  <data name="IDS_StoryLanguageField" xml:space="preserve">
-    <value>&amp;{0} back-translation fields</value>
-  </data>
-  <data name="IDS_LocatedInFolder" xml:space="preserve">
-    <value>Located in folder '{0}'</value>
-    <comment>जो '{0}' फ़ोलडर में है</comment>
-  </data>
-  <data name="DataContainer_MovePreviousHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DataContainer_MovePreviousHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IDS_StartFromBeginning" xml:space="preserve">
-    <value>Would you like to start searching from the beginning of the story?</value>
-  </data>
-  <data name="IDS_FromStoryForDiscourseCharting" xml:space="preserve">
-    <value>&amp;From {0} (for Discourse Charting)</value>
-  </data>
-  <data name="IDS_NationalBtOfStory" xml:space="preserve">
-    <value>{0} back-translation of the story to the clipboard</value>
-  </data>
-  <data name="oneStory2CoachNotes" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\oneStory2CoachNotes.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="IDS_AreAllTestingQuestionsEnteredQuery" xml:space="preserve">
-    <value>Have you entered all of your testing questions? If not, then click 'Cancel' and finish entering all of the testing questions first. Then click 'OK' to add boxes for the retelling and answers to the testing questions.</value>
-  </data>
-  <data name="IDS_ConfirmOverride" xml:space="preserve">
-    <value>Click 'Yes' to override the '{0}' {1} for yourself ('{2}') only. Click 'No' to make this change apply to every member of the team (if you all are switching to a new {1}).</value>
-  </data>
-  <data name="IDS_FromNatlLanguage" xml:space="preserve">
-    <value>&amp;From {0}</value>
-  </data>
-  <data name="IDS_ConfirmDeleteKeyTerm" xml:space="preserve">
-    <value>Are you sure you want to delete the key term:{0}{1}</value>
-  </data>
-  <data name="IDS_UnableToSave" xml:space="preserve">
-    <value>Unable to save the project file '{1}'{0}{0}{2}</value>
-  </data>
-  <data name="IDS_UnableToCopyText" xml:space="preserve">
-    <value>Unable to copy text to the clipboard!{0}{0}{1}{0}{0}{2}</value>
-  </data>
-  <data name="EditInformationHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\EditInformationHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BuilderDialog_movedown1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BuilderDialog_movedown.PNG;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IDS_MainFrameTitle" xml:space="preserve">
-    <value>OneStory Editor -- {0} Story Project</value>
-  </data>
-  <data name="gradient" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\gradient.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="DeleteHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DeleteHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="OpenSelectedItemHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\OpenSelectedItemHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -1876,40 +1912,13 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
   <data name="IDS_LogInAsProjFac" xml:space="preserve">
     <value>You have to be logged in as a 'Project Facilitator' to add stories. To login, click 'Project', 'Login'</value>
   </data>
-  <data name="DataContainer_MoveLastHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DataContainer_MoveLastHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="search" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\search.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="IDS_NoProgramUpdates" xml:space="preserve">
-    <value>There are no program updates!</value>
+  <data name="IDS_ConfirmDeleteLnCNote" xml:space="preserve">
+    <value>Are you sure you want to delete the term:{0}{1}</value>
   </data>
-  <data name="IDS_LoginAsProjectFacilitator" xml:space="preserve">
-    <value>You have added a UNS in order to identify, for example, which UNS did the back translation or a particular test. However, you as the Project Facilitator should still be logged in to enter the UNS's comments. So select your *Project Facilitator* member name and click 'Login' again</value>
-  </data>
-  <data name="IDS_NoTransitionHistory" xml:space="preserve">
-    <value>There is no state transition history for this story</value>
-  </data>
-  <data name="IDS_ConfirmStateChangeOverride" xml:space="preserve">
-    <value>Are you sure you want to change the state of this story bypassing the normal checks (i.e. is the right person logged in, have they answered all their questions, etc). This is an advanced command and can easily result in a conflict if it's possible that two people will be editing the story at the same time. You should only use this command if you are sure that no one else will be editing this story prior to first synchronizing with the changes you are about to make.</value>
-  </data>
-  <data name="IDS_ConfirmTeamMemberNameChange" xml:space="preserve">
-    <value>Are you sure you want to change this member's name? [If you are trying to add a new member, then do it through the 'Project', 'Login' window instead. Clicking 'Yes' here will permanently remove the record for '{0}' and replace it with this new information for '{1}']</value>
-  </data>
-  <data name="IDS_GoBackwardsYoungMan" xml:space="preserve">
-    <value>This story has already reached the final state. If you mean to go to some previous state, click the 'Select State' menu at the top of the window and choose the previous state you want to go to.</value>
-  </data>
-  <data name="IDS_ThisStoryNotInThisRevision" xml:space="preserve">
-    <value>This story isn't in revision '{0}'</value>
-  </data>
-  <data name="Arrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Arrow.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IDS_ConfirmDeleteItems" xml:space="preserve">
-    <value>Are you sure you want to delete the selected items?</value>
-  </data>
-  <data name="IDS_AddTestSameUNS" xml:space="preserve">
-    <value>You can't use the same UNS for two different tests of the same story. Please select a different UNS (or just put their results in the existing boxes for test '{0}')</value>
-  </data>
-  <data name="IDS_VerifyAddSingleTest" xml:space="preserve">
-    <value>Click 'Yes' to add a single answer box for this testing question only. Click 'No' to add answer and retelling boxes for all lines of the story. Click 'Cancel' to do nothing.</value>
+  <data name="IDS_MustHave" xml:space="preserve">
+    <value>You must enter the {0}</value>
   </data>
 </root>

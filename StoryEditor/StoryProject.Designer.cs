@@ -39,6 +39,10 @@ namespace OneStoryProjectEditor {
         
         private InternationalBTLangDataTable tableInternationalBTLang;
         
+        private LnCNotesDataTable tableLnCNotes;
+        
+        private LnCNoteDataTable tableLnCNote;
+        
         private storiesDataTable tablestories;
         
         private storyDataTable tablestory;
@@ -106,6 +110,10 @@ namespace OneStoryProjectEditor {
         private global::System.Data.DataRelation relationLanguages_NationalBTLang;
         
         private global::System.Data.DataRelation relationLanguages_InternationalBTLang;
+        
+        private global::System.Data.DataRelation relationStoryProject_LnCNotes;
+        
+        private global::System.Data.DataRelation relationLnCNotes_LnCNote;
         
         private global::System.Data.DataRelation relationStoryProject_stories;
         
@@ -209,6 +217,12 @@ namespace OneStoryProjectEditor {
                 }
                 if ((ds.Tables["InternationalBTLang"] != null)) {
                     base.Tables.Add(new InternationalBTLangDataTable(ds.Tables["InternationalBTLang"]));
+                }
+                if ((ds.Tables["LnCNotes"] != null)) {
+                    base.Tables.Add(new LnCNotesDataTable(ds.Tables["LnCNotes"]));
+                }
+                if ((ds.Tables["LnCNote"] != null)) {
+                    base.Tables.Add(new LnCNoteDataTable(ds.Tables["LnCNote"]));
                 }
                 if ((ds.Tables["stories"] != null)) {
                     base.Tables.Add(new storiesDataTable(ds.Tables["stories"]));
@@ -372,6 +386,24 @@ namespace OneStoryProjectEditor {
         public InternationalBTLangDataTable InternationalBTLang {
             get {
                 return this.tableInternationalBTLang;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public LnCNotesDataTable LnCNotes {
+            get {
+                return this.tableLnCNotes;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public LnCNoteDataTable LnCNote {
+            get {
+                return this.tableLnCNote;
             }
         }
         
@@ -707,6 +739,12 @@ namespace OneStoryProjectEditor {
                 if ((ds.Tables["InternationalBTLang"] != null)) {
                     base.Tables.Add(new InternationalBTLangDataTable(ds.Tables["InternationalBTLang"]));
                 }
+                if ((ds.Tables["LnCNotes"] != null)) {
+                    base.Tables.Add(new LnCNotesDataTable(ds.Tables["LnCNotes"]));
+                }
+                if ((ds.Tables["LnCNote"] != null)) {
+                    base.Tables.Add(new LnCNoteDataTable(ds.Tables["LnCNote"]));
+                }
                 if ((ds.Tables["stories"] != null)) {
                     base.Tables.Add(new storiesDataTable(ds.Tables["stories"]));
                 }
@@ -861,6 +899,18 @@ namespace OneStoryProjectEditor {
             if ((initTable == true)) {
                 if ((this.tableInternationalBTLang != null)) {
                     this.tableInternationalBTLang.InitVars();
+                }
+            }
+            this.tableLnCNotes = ((LnCNotesDataTable)(base.Tables["LnCNotes"]));
+            if ((initTable == true)) {
+                if ((this.tableLnCNotes != null)) {
+                    this.tableLnCNotes.InitVars();
+                }
+            }
+            this.tableLnCNote = ((LnCNoteDataTable)(base.Tables["LnCNote"]));
+            if ((initTable == true)) {
+                if ((this.tableLnCNote != null)) {
+                    this.tableLnCNote.InitVars();
                 }
             }
             this.tablestories = ((storiesDataTable)(base.Tables["stories"]));
@@ -1037,6 +1087,8 @@ namespace OneStoryProjectEditor {
             this.relationLanguages_VernacularLang = this.Relations["Languages_VernacularLang"];
             this.relationLanguages_NationalBTLang = this.Relations["Languages_NationalBTLang"];
             this.relationLanguages_InternationalBTLang = this.Relations["Languages_InternationalBTLang"];
+            this.relationStoryProject_LnCNotes = this.Relations["StoryProject_LnCNotes"];
+            this.relationLnCNotes_LnCNote = this.Relations["LnCNotes_LnCNote"];
             this.relationStoryProject_stories = this.Relations["StoryProject_stories"];
             this.relationstories_story = this.Relations["stories_story"];
             this.relationstory_CraftingInfo = this.Relations["story_CraftingInfo"];
@@ -1088,6 +1140,10 @@ namespace OneStoryProjectEditor {
             base.Tables.Add(this.tableNationalBTLang);
             this.tableInternationalBTLang = new InternationalBTLangDataTable();
             base.Tables.Add(this.tableInternationalBTLang);
+            this.tableLnCNotes = new LnCNotesDataTable();
+            base.Tables.Add(this.tableLnCNotes);
+            this.tableLnCNote = new LnCNoteDataTable();
+            base.Tables.Add(this.tableLnCNote);
             this.tablestories = new storiesDataTable();
             base.Tables.Add(this.tablestories);
             this.tablestory = new storyDataTable();
@@ -1184,6 +1240,20 @@ namespace OneStoryProjectEditor {
                         this.tableLanguages.Languages_IdColumn}, new global::System.Data.DataColumn[] {
                         this.tableInternationalBTLang.Languages_IdColumn});
             this.tableInternationalBTLang.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.Cascade;
+            fkc.UpdateRule = global::System.Data.Rule.Cascade;
+            fkc = new global::System.Data.ForeignKeyConstraint("StoryProject_LnCNotes", new global::System.Data.DataColumn[] {
+                        this.tableStoryProject.StoryProject_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableLnCNotes.StoryProject_IdColumn});
+            this.tableLnCNotes.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.Cascade;
+            fkc.UpdateRule = global::System.Data.Rule.Cascade;
+            fkc = new global::System.Data.ForeignKeyConstraint("LnCNotes_LnCNote", new global::System.Data.DataColumn[] {
+                        this.tableLnCNotes.LnCNotes_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableLnCNote.LnCNotes_IdColumn});
+            this.tableLnCNote.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
@@ -1413,6 +1483,16 @@ namespace OneStoryProjectEditor {
                         this.tableInternationalBTLang.Languages_IdColumn}, false);
             this.relationLanguages_InternationalBTLang.Nested = true;
             this.Relations.Add(this.relationLanguages_InternationalBTLang);
+            this.relationStoryProject_LnCNotes = new global::System.Data.DataRelation("StoryProject_LnCNotes", new global::System.Data.DataColumn[] {
+                        this.tableStoryProject.StoryProject_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableLnCNotes.StoryProject_IdColumn}, false);
+            this.relationStoryProject_LnCNotes.Nested = true;
+            this.Relations.Add(this.relationStoryProject_LnCNotes);
+            this.relationLnCNotes_LnCNote = new global::System.Data.DataRelation("LnCNotes_LnCNote", new global::System.Data.DataColumn[] {
+                        this.tableLnCNotes.LnCNotes_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableLnCNote.LnCNotes_IdColumn}, false);
+            this.relationLnCNotes_LnCNote.Nested = true;
+            this.Relations.Add(this.relationLnCNotes_LnCNote);
             this.relationStoryProject_stories = new global::System.Data.DataRelation("StoryProject_stories", new global::System.Data.DataColumn[] {
                         this.tableStoryProject.StoryProject_IdColumn}, new global::System.Data.DataColumn[] {
                         this.tablestories.StoryProject_IdColumn}, false);
@@ -1587,6 +1667,16 @@ namespace OneStoryProjectEditor {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         private bool ShouldSerializeInternationalBTLang() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private bool ShouldSerializeLnCNotes() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private bool ShouldSerializeLnCNote() {
             return false;
         }
         
@@ -1796,6 +1886,10 @@ namespace OneStoryProjectEditor {
         public delegate void NationalBTLangRowChangeEventHandler(object sender, NationalBTLangRowChangeEvent e);
         
         public delegate void InternationalBTLangRowChangeEventHandler(object sender, InternationalBTLangRowChangeEvent e);
+        
+        public delegate void LnCNotesRowChangeEventHandler(object sender, LnCNotesRowChangeEvent e);
+        
+        public delegate void LnCNoteRowChangeEventHandler(object sender, LnCNoteRowChangeEvent e);
         
         public delegate void storiesRowChangeEventHandler(object sender, storiesRowChangeEvent e);
         
@@ -4282,6 +4376,560 @@ namespace OneStoryProjectEditor {
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
                 attribute2.FixedValue = "InternationalBTLangDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class LnCNotesDataTable : global::System.Data.TypedTableBase<LnCNotesRow> {
+            
+            private global::System.Data.DataColumn columnLnCNotes_Id;
+            
+            private global::System.Data.DataColumn columnStoryProject_Id;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public LnCNotesDataTable() {
+                this.TableName = "LnCNotes";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal LnCNotesDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected LnCNotesDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn LnCNotes_IdColumn {
+                get {
+                    return this.columnLnCNotes_Id;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn StoryProject_IdColumn {
+                get {
+                    return this.columnStoryProject_Id;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public LnCNotesRow this[int index] {
+                get {
+                    return ((LnCNotesRow)(this.Rows[index]));
+                }
+            }
+            
+            public event LnCNotesRowChangeEventHandler LnCNotesRowChanging;
+            
+            public event LnCNotesRowChangeEventHandler LnCNotesRowChanged;
+            
+            public event LnCNotesRowChangeEventHandler LnCNotesRowDeleting;
+            
+            public event LnCNotesRowChangeEventHandler LnCNotesRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void AddLnCNotesRow(LnCNotesRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public LnCNotesRow AddLnCNotesRow(StoryProjectRow parentStoryProjectRowByStoryProject_LnCNotes) {
+                LnCNotesRow rowLnCNotesRow = ((LnCNotesRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        null,
+                        null};
+                if ((parentStoryProjectRowByStoryProject_LnCNotes != null)) {
+                    columnValuesArray[1] = parentStoryProjectRowByStoryProject_LnCNotes[3];
+                }
+                rowLnCNotesRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowLnCNotesRow);
+                return rowLnCNotesRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public override global::System.Data.DataTable Clone() {
+                LnCNotesDataTable cln = ((LnCNotesDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new LnCNotesDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal void InitVars() {
+                this.columnLnCNotes_Id = base.Columns["LnCNotes_Id"];
+                this.columnStoryProject_Id = base.Columns["StoryProject_Id"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            private void InitClass() {
+                this.columnLnCNotes_Id = new global::System.Data.DataColumn("LnCNotes_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnLnCNotes_Id);
+                this.columnStoryProject_Id = new global::System.Data.DataColumn("StoryProject_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnStoryProject_Id);
+                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
+                                this.columnLnCNotes_Id}, true));
+                this.columnLnCNotes_Id.AutoIncrement = true;
+                this.columnLnCNotes_Id.AllowDBNull = false;
+                this.columnLnCNotes_Id.Unique = true;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public LnCNotesRow NewLnCNotesRow() {
+                return ((LnCNotesRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new LnCNotesRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Type GetRowType() {
+                return typeof(LnCNotesRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.LnCNotesRowChanged != null)) {
+                    this.LnCNotesRowChanged(this, new LnCNotesRowChangeEvent(((LnCNotesRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.LnCNotesRowChanging != null)) {
+                    this.LnCNotesRowChanging(this, new LnCNotesRowChangeEvent(((LnCNotesRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.LnCNotesRowDeleted != null)) {
+                    this.LnCNotesRowDeleted(this, new LnCNotesRowChangeEvent(((LnCNotesRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.LnCNotesRowDeleting != null)) {
+                    this.LnCNotesRowDeleting(this, new LnCNotesRowChangeEvent(((LnCNotesRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void RemoveLnCNotesRow(LnCNotesRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                NewDataSet ds = new NewDataSet();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "LnCNotesDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class LnCNoteDataTable : global::System.Data.TypedTableBase<LnCNoteRow> {
+            
+            private global::System.Data.DataColumn columnguid;
+            
+            private global::System.Data.DataColumn columnVernacularRendering;
+            
+            private global::System.Data.DataColumn columnNationalBTRendering;
+            
+            private global::System.Data.DataColumn columnInternationalBTRendering;
+            
+            private global::System.Data.DataColumn columnKeyTermId;
+            
+            private global::System.Data.DataColumn columnLnCNote_text;
+            
+            private global::System.Data.DataColumn columnLnCNotes_Id;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public LnCNoteDataTable() {
+                this.TableName = "LnCNote";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal LnCNoteDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected LnCNoteDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn guidColumn {
+                get {
+                    return this.columnguid;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn VernacularRenderingColumn {
+                get {
+                    return this.columnVernacularRendering;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn NationalBTRenderingColumn {
+                get {
+                    return this.columnNationalBTRendering;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn InternationalBTRenderingColumn {
+                get {
+                    return this.columnInternationalBTRendering;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn KeyTermIdColumn {
+                get {
+                    return this.columnKeyTermId;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn LnCNote_textColumn {
+                get {
+                    return this.columnLnCNote_text;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn LnCNotes_IdColumn {
+                get {
+                    return this.columnLnCNotes_Id;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public LnCNoteRow this[int index] {
+                get {
+                    return ((LnCNoteRow)(this.Rows[index]));
+                }
+            }
+            
+            public event LnCNoteRowChangeEventHandler LnCNoteRowChanging;
+            
+            public event LnCNoteRowChangeEventHandler LnCNoteRowChanged;
+            
+            public event LnCNoteRowChangeEventHandler LnCNoteRowDeleting;
+            
+            public event LnCNoteRowChangeEventHandler LnCNoteRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void AddLnCNoteRow(LnCNoteRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public LnCNoteRow AddLnCNoteRow(string guid, string VernacularRendering, string NationalBTRendering, string InternationalBTRendering, string KeyTermId, string LnCNote_text, LnCNotesRow parentLnCNotesRowByLnCNotes_LnCNote) {
+                LnCNoteRow rowLnCNoteRow = ((LnCNoteRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        guid,
+                        VernacularRendering,
+                        NationalBTRendering,
+                        InternationalBTRendering,
+                        KeyTermId,
+                        LnCNote_text,
+                        null};
+                if ((parentLnCNotesRowByLnCNotes_LnCNote != null)) {
+                    columnValuesArray[6] = parentLnCNotesRowByLnCNotes_LnCNote[0];
+                }
+                rowLnCNoteRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowLnCNoteRow);
+                return rowLnCNoteRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public override global::System.Data.DataTable Clone() {
+                LnCNoteDataTable cln = ((LnCNoteDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new LnCNoteDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal void InitVars() {
+                this.columnguid = base.Columns["guid"];
+                this.columnVernacularRendering = base.Columns["VernacularRendering"];
+                this.columnNationalBTRendering = base.Columns["NationalBTRendering"];
+                this.columnInternationalBTRendering = base.Columns["InternationalBTRendering"];
+                this.columnKeyTermId = base.Columns["KeyTermId"];
+                this.columnLnCNote_text = base.Columns["LnCNote_text"];
+                this.columnLnCNotes_Id = base.Columns["LnCNotes_Id"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            private void InitClass() {
+                this.columnguid = new global::System.Data.DataColumn("guid", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnguid);
+                this.columnVernacularRendering = new global::System.Data.DataColumn("VernacularRendering", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnVernacularRendering);
+                this.columnNationalBTRendering = new global::System.Data.DataColumn("NationalBTRendering", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnNationalBTRendering);
+                this.columnInternationalBTRendering = new global::System.Data.DataColumn("InternationalBTRendering", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnInternationalBTRendering);
+                this.columnKeyTermId = new global::System.Data.DataColumn("KeyTermId", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnKeyTermId);
+                this.columnLnCNote_text = new global::System.Data.DataColumn("LnCNote_text", typeof(string), null, global::System.Data.MappingType.SimpleContent);
+                base.Columns.Add(this.columnLnCNote_text);
+                this.columnLnCNotes_Id = new global::System.Data.DataColumn("LnCNotes_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnLnCNotes_Id);
+                this.columnguid.AllowDBNull = false;
+                this.columnguid.Namespace = "";
+                this.columnVernacularRendering.Namespace = "";
+                this.columnNationalBTRendering.Namespace = "";
+                this.columnInternationalBTRendering.Namespace = "";
+                this.columnKeyTermId.Namespace = "";
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public LnCNoteRow NewLnCNoteRow() {
+                return ((LnCNoteRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new LnCNoteRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Type GetRowType() {
+                return typeof(LnCNoteRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.LnCNoteRowChanged != null)) {
+                    this.LnCNoteRowChanged(this, new LnCNoteRowChangeEvent(((LnCNoteRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.LnCNoteRowChanging != null)) {
+                    this.LnCNoteRowChanging(this, new LnCNoteRowChangeEvent(((LnCNoteRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.LnCNoteRowDeleted != null)) {
+                    this.LnCNoteRowDeleted(this, new LnCNoteRowChangeEvent(((LnCNoteRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.LnCNoteRowDeleting != null)) {
+                    this.LnCNoteRowDeleting(this, new LnCNoteRowChangeEvent(((LnCNoteRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void RemoveLnCNoteRow(LnCNoteRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                NewDataSet ds = new NewDataSet();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "LnCNoteDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -11803,6 +12451,16 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public LnCNotesRow[] GetLnCNotesRows() {
+                if ((this.Table.ChildRelations["StoryProject_LnCNotes"] == null)) {
+                    return new LnCNotesRow[0];
+                }
+                else {
+                    return ((LnCNotesRow[])(base.GetChildRows(this.Table.ChildRelations["StoryProject_LnCNotes"])));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public storiesRow[] GetstoriesRows() {
                 if ((this.Table.ChildRelations["StoryProject_stories"] == null)) {
                     return new storiesRow[0];
@@ -13210,6 +13868,261 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public void SetLanguages_IdNull() {
                 this[this.tableInternationalBTLang.Languages_IdColumn] = global::System.Convert.DBNull;
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public partial class LnCNotesRow : global::System.Data.DataRow {
+            
+            private LnCNotesDataTable tableLnCNotes;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal LnCNotesRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableLnCNotes = ((LnCNotesDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int LnCNotes_Id {
+                get {
+                    return ((int)(this[this.tableLnCNotes.LnCNotes_IdColumn]));
+                }
+                set {
+                    this[this.tableLnCNotes.LnCNotes_IdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int StoryProject_Id {
+                get {
+                    try {
+                        return ((int)(this[this.tableLnCNotes.StoryProject_IdColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'StoryProject_Id\' in table \'LnCNotes\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableLnCNotes.StoryProject_IdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public StoryProjectRow StoryProjectRow {
+                get {
+                    return ((StoryProjectRow)(this.GetParentRow(this.Table.ParentRelations["StoryProject_LnCNotes"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["StoryProject_LnCNotes"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsStoryProject_IdNull() {
+                return this.IsNull(this.tableLnCNotes.StoryProject_IdColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetStoryProject_IdNull() {
+                this[this.tableLnCNotes.StoryProject_IdColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public LnCNoteRow[] GetLnCNoteRows() {
+                if ((this.Table.ChildRelations["LnCNotes_LnCNote"] == null)) {
+                    return new LnCNoteRow[0];
+                }
+                else {
+                    return ((LnCNoteRow[])(base.GetChildRows(this.Table.ChildRelations["LnCNotes_LnCNote"])));
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public partial class LnCNoteRow : global::System.Data.DataRow {
+            
+            private LnCNoteDataTable tableLnCNote;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal LnCNoteRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableLnCNote = ((LnCNoteDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string guid {
+                get {
+                    return ((string)(this[this.tableLnCNote.guidColumn]));
+                }
+                set {
+                    this[this.tableLnCNote.guidColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string VernacularRendering {
+                get {
+                    try {
+                        return ((string)(this[this.tableLnCNote.VernacularRenderingColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'VernacularRendering\' in table \'LnCNote\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableLnCNote.VernacularRenderingColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string NationalBTRendering {
+                get {
+                    try {
+                        return ((string)(this[this.tableLnCNote.NationalBTRenderingColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'NationalBTRendering\' in table \'LnCNote\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableLnCNote.NationalBTRenderingColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string InternationalBTRendering {
+                get {
+                    try {
+                        return ((string)(this[this.tableLnCNote.InternationalBTRenderingColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'InternationalBTRendering\' in table \'LnCNote\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableLnCNote.InternationalBTRenderingColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string KeyTermId {
+                get {
+                    try {
+                        return ((string)(this[this.tableLnCNote.KeyTermIdColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'KeyTermId\' in table \'LnCNote\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableLnCNote.KeyTermIdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string LnCNote_text {
+                get {
+                    try {
+                        return ((string)(this[this.tableLnCNote.LnCNote_textColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'LnCNote_text\' in table \'LnCNote\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableLnCNote.LnCNote_textColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int LnCNotes_Id {
+                get {
+                    try {
+                        return ((int)(this[this.tableLnCNote.LnCNotes_IdColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'LnCNotes_Id\' in table \'LnCNote\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableLnCNote.LnCNotes_IdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public LnCNotesRow LnCNotesRow {
+                get {
+                    return ((LnCNotesRow)(this.GetParentRow(this.Table.ParentRelations["LnCNotes_LnCNote"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["LnCNotes_LnCNote"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsVernacularRenderingNull() {
+                return this.IsNull(this.tableLnCNote.VernacularRenderingColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetVernacularRenderingNull() {
+                this[this.tableLnCNote.VernacularRenderingColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsNationalBTRenderingNull() {
+                return this.IsNull(this.tableLnCNote.NationalBTRenderingColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetNationalBTRenderingNull() {
+                this[this.tableLnCNote.NationalBTRenderingColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsInternationalBTRenderingNull() {
+                return this.IsNull(this.tableLnCNote.InternationalBTRenderingColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetInternationalBTRenderingNull() {
+                this[this.tableLnCNote.InternationalBTRenderingColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsKeyTermIdNull() {
+                return this.IsNull(this.tableLnCNote.KeyTermIdColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetKeyTermIdNull() {
+                this[this.tableLnCNote.KeyTermIdColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsLnCNote_textNull() {
+                return this.IsNull(this.tableLnCNote.LnCNote_textColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetLnCNote_textNull() {
+                this[this.tableLnCNote.LnCNote_textColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsLnCNotes_IdNull() {
+                return this.IsNull(this.tableLnCNote.LnCNotes_IdColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetLnCNotes_IdNull() {
+                this[this.tableLnCNote.LnCNotes_IdColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -16256,6 +17169,68 @@ namespace OneStoryProjectEditor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public InternationalBTLangRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public class LnCNotesRowChangeEvent : global::System.EventArgs {
+            
+            private LnCNotesRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public LnCNotesRowChangeEvent(LnCNotesRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public LnCNotesRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public class LnCNoteRowChangeEvent : global::System.EventArgs {
+            
+            private LnCNoteRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public LnCNoteRowChangeEvent(LnCNoteRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public LnCNoteRow Row {
                 get {
                     return this.eventRow;
                 }

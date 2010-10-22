@@ -809,6 +809,7 @@ namespace OneStoryProjectEditor
     {
         public TeamMembersData TeamMembers;
         public ProjectSettings ProjSettings;
+        public LnCNotesData LnCNotes;
         public string PanoramaFrontMatter;
         public string XmlDataVersion = "1.3";
 
@@ -818,6 +819,7 @@ namespace OneStoryProjectEditor
         public StoryProjectData()
         {
             TeamMembers = new TeamMembersData();
+            LnCNotes = new LnCNotesData();
             PanoramaFrontMatter = OseResources.Properties.Resources.IDS_DefaultPanoramaFrontMatter;
 
             // start with to stories sets (the current one and the obsolete ones)
@@ -855,6 +857,7 @@ namespace OneStoryProjectEditor
 
             TeamMembers = new TeamMembersData(projFile);
             ProjSettings.SerializeProjectSettings(projFile);
+            LnCNotes = new LnCNotesData(projFile);
 
             // finally, if it's not new, then it might (should) have stories as well
             foreach (NewDataSet.storiesRow aStoriesRow in projFile.StoryProject[0].GetstoriesRows())
@@ -1110,7 +1113,8 @@ namespace OneStoryProjectEditor
                         new XAttribute(CstrAttributeProjectName, ProjSettings.ProjectName),
                         new XAttribute("PanoramaFrontMatter", PanoramaFrontMatter),
                         TeamMembers.GetXml,
-                        ProjSettings.GetXml);
+                        ProjSettings.GetXml,
+                        LnCNotes.GetXml);
 
                 foreach (StoriesData aSsD in Values)
                     elemStoryProject.Add(aSsD.GetXml);

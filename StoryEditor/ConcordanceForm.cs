@@ -9,21 +9,29 @@ namespace OneStoryProjectEditor
         readonly StoryProjectData _storyProject;
         readonly BiblicalTermsHTMLBuilder htmlBuilder;  // Class used to build references window text as html
 
+        public string VernacularForm { get; set; }
+        public string NationalForm { get; set; }
+        public string InternationalForm { get; set; }
+
         public ConcordanceForm(StoryEditor theSE, 
             string strToSearchForVernacular, string strToSearchForNationalBT, string strToSearchForInternationalBT)
         {
             InitializeComponent();
             _theSE = theSE;
             _storyProject = theSE.StoryProject;
+            VernacularForm = TrimIfNeeded(strToSearchForVernacular);
+            NationalForm = TrimIfNeeded(strToSearchForNationalBT);
+            InternationalForm = TrimIfNeeded(strToSearchForInternationalBT);
 
-            InitSearchBoxes(_storyProject.ProjSettings.Vernacular, strToSearchForVernacular, 
+            InitSearchBoxes(_storyProject.ProjSettings.Vernacular, VernacularForm,
                 labelVernacular, textBoxWordsToSearchForVernacular);
-            InitSearchBoxes(_storyProject.ProjSettings.NationalBT, strToSearchForNationalBT,
+            InitSearchBoxes(_storyProject.ProjSettings.NationalBT, NationalForm,
                 labelNationalBT, textBoxWordsToSearchForNationalBT);
-            InitSearchBoxes(_storyProject.ProjSettings.InternationalBT, strToSearchForInternationalBT,
+            InitSearchBoxes(_storyProject.ProjSettings.InternationalBT, InternationalForm,
                 labelInternationalBT, textBoxWordsToSearchForInternationalBT);
 
             htmlBuilder = new BiblicalTermsHTMLBuilder(_storyProject.ProjSettings);
+            buttonBeginSearch_Click(null, null);
         }
 
         private void buttonBeginSearch_Click(object sender, EventArgs e)
@@ -40,10 +48,16 @@ namespace OneStoryProjectEditor
             progressBarLoadingKeyTerms.Visible = false;
         }
 
+        private string TrimIfNeeded(string str)
+        {
+            return !String.IsNullOrEmpty(str) ? str.Trim() : null;
+        }
+
         private int _nColumnIndex = 0;
         private void InitSearchBoxes(ProjectSettings.LanguageInfo li, string strToStartWith, Control lbl, Control tb)
         {
             _nColumnIndex++;
+            tb.Text = strToStartWith;   // this wants to happen even if we're not going to show it
             if (li.HasData)
             {
                 lbl.Visible = tb.Visible = true;
@@ -51,7 +65,6 @@ namespace OneStoryProjectEditor
                                          li.LangName);
                 tb.Font = li.FontToUse;
                 tb.ForeColor = li.FontColor;
-                tb.Text = !String.IsNullOrEmpty(strToStartWith) ? strToStartWith.Trim() : null;
             }
             else
             {
@@ -81,6 +94,15 @@ namespace OneStoryProjectEditor
         {
             if (e.KeyChar == 0x0003)    // reverse engineered
                 webBrowser.Copy();
+        }
+
+        private void ConcordanceForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // save the current values in case a caller (e.g. L&C Notes) wants to update
+            //  from what they ended on searching for
+            VernacularForm = textBoxWordsToSearchForVernacular.Text;
+            NationalForm = textBoxWordsToSearchForNationalBT.Text;
+            InternationalForm = textBoxWordsToSearchForInternationalBT.Text;
         }
     }
 }

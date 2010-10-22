@@ -374,6 +374,7 @@ namespace OneStoryProjectEditor
         protected const string CstrAddNoteOnSelected = "&Add Note on Selected Text";
         protected const string CstrJumpToReference = "&Jump to Bible Reference";
         protected const string CstrConcordanceSearch = "Concordance &Search";
+        protected const string CstrAddLnCNote = "Add &L&&C Note";
         protected const string CstrCutSelected = "C&ut";
         protected const string CstrCopySelected = "&Copy";
         protected const string CstrCopyOriginalSelected = "Copy &Original Text (before transliteration)";
@@ -387,6 +388,7 @@ namespace OneStoryProjectEditor
             _ctxMenu.Items.Add(CstrAddNoteOnSelected, null, onAddNewNote);
             _ctxMenu.Items.Add(CstrJumpToReference, null, onJumpToBibleRef);
             _ctxMenu.Items.Add(CstrConcordanceSearch, null, onConcordanceSearch);
+            _ctxMenu.Items.Add(CstrAddLnCNote, null, onAddLnCNote);
             _ctxMenu.Items.Add(new ToolStripSeparator());
             if (bAddAnswerBox)
             {
@@ -406,6 +408,12 @@ namespace OneStoryProjectEditor
             AllowDrop = true;
             MouseUp += CtrlTextBox_MouseUp;
             MouseWheel += CtrlTextBox_MouseWheel;
+        }
+
+        private void onAddLnCNote(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.Assert((_ctrlVerseParent != null) && (_ctrlVerseParent.TheSE != null));
+            _ctrlVerseParent.TheSE.AddLnCNote();
         }
 
         void _ctxMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
