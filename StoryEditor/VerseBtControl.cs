@@ -637,15 +637,7 @@ namespace OneStoryProjectEditor
             if (!CheckForProperEditToken(out theSE))
                 return;
 
-            // if the user has selected some text from *this* control, then move those
-            //  data to the newly added row
-            if ((nNumNewVerses == 1) 
-                && tableLayoutPanel.Controls.ContainsKey(CstrFieldNameStoryLine))
-            {
-                MoveSelectedTextToANewLineToolStripMenuItem(theSE);
-            }
-            else
-                theSE.AddNewVerse(VerseNumber - 1, nNumNewVerses, true);
+            theSE.AddNewVerse(VerseNumber - 1, nNumNewVerses, true);
         }
 
         private void moveSelectedTextToANewLineToolStripMenuItem_Click(object sender, EventArgs e)
