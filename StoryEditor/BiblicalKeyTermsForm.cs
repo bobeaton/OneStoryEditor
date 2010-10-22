@@ -380,12 +380,18 @@ namespace OneStoryProjectEditor
             //  are based) and b) select those rows one-by-one so that it triggers an update
             //  of the 'status' display (e.g. if a new anchor was added and it becomes 
             //  "SomeMissing" it'd be nice to see that up front).
+            // BUT don't do that if we're showing *all* key terms, because that could be expensive
             for (int i = dataGridViewKeyTerms.Rows.Count - 1; i >= 0; i--)
             {
                 DataGridViewRow aRow = dataGridViewKeyTerms.Rows[i];
                 aRow.Height = MainLang.FontToUse.Height;
-                SelectedTermIndex = i;
+                if (!toolStripButtonShowAllTerms.Checked)
+                    SelectedTermIndex = i;
             }
+
+            // but if we are showing all, then we need to update on the first one.
+            if (toolStripButtonShowAllTerms.Checked)
+                LoadReferencesDisplay(true);
 
             int nSplitterDistance = dataGridViewKeyTerms.ColumnHeadersHeight + toolStrip1.Height + 15;
             int nMaxToShow = Math.Min(5, dataGridViewKeyTerms.Rows.Count);
