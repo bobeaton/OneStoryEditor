@@ -56,6 +56,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "NoteForm";
             this.Text = "Project Note";
+            this.Load += new System.EventHandler(this.NoteForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

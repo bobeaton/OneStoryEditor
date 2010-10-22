@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using Chorus;
 using Chorus.UI.Notes.Bar;
+using Chorus.UI.Notes.Browser;
 using Chorus.Utilities;
 
 namespace OneStoryProjectEditor
@@ -10,10 +11,14 @@ namespace OneStoryProjectEditor
     {
         private ChorusSystem _chorusSystem;
         private NotesBarView _notesBar;
+        private ProjectSettings _projSettings;
 
         public NoteForm(ProjectSettings projSettings, string strUsername)
         {
             InitializeComponent();
+            _projSettings = projSettings;
+
+            _chorusSystem = new ChorusSystem(projSettings.ProjectFolder, strUsername);
 
             // create an object to tie notes to particular things. In our case, it's
             //  just tied to the projectname
@@ -23,17 +28,13 @@ namespace OneStoryProjectEditor
                 FunctionToGoFromObjectToItsId = GetIdForObject
             };
 
-            _chorusSystem = new ChorusSystem(projSettings.ProjectFolder, strUsername);
             _notesBar = _chorusSystem.WinForms.CreateNotesBar(projSettings.ProjectFilePath,
                 notesToRecordMapping, new NullProgress());
-            _notesBar.Width = 60;
-            _notesBar.Dock = DockStyle.Right | DockStyle.Top;
-            _notesBar.SetTargetObject(projSettings);
-            _notesBar.Location = new Point(0, 0);
             tableLayoutPanel.Controls.Add(_notesBar, 0, 0);
 
-            Chorus.UI.Notes.Browser.NotesBrowserPage browser = _chorusSystem.WinForms.CreateNotesBrowser();
-            browser.Location = new Point(0, _notesBar.Height);
+            NotesBrowserPage browser = _chorusSystem.WinForms.CreateNotesBrowser();
+            browser.Dock = DockStyle.Fill;
+
             Size sz = browser.Bounds.Size;
             sz.Height += _notesBar.Height;
             ClientSize = sz;
@@ -50,6 +51,11 @@ namespace OneStoryProjectEditor
         {
             var projSettings = target as ProjectSettings;
             return OneStoryUrlBuilder.UrlProjectNote(projSettings.ProjectName);
+        }
+
+        private void NoteForm_Load(object sender, System.EventArgs e)
+        {
+            _notesBar.SetTargetObject(_projSettings);
         }
     }
 }
