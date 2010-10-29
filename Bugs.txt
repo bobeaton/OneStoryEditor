@@ -1,3 +1,9 @@
+DChartHelper: fix the repaint and add 'export all' feature
+
+Fix AdaptIt EncConverter to not allow zero lenght words/phrases and RS fields
+
+Fix Toolbox export to make a separate typ for coach notes (so we can have different 'next' fields for the two different filetypes)
+
 When inserting records, use 'a', 'b', etc, so we don't change the line numbers
 
 selectively show different tests
