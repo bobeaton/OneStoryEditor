@@ -46,8 +46,43 @@ namespace OneStoryProjectEditor
         public string VernacularRendering { get; set; }
         public string NationalBtRendering { get; set; }
         public string InternationalBtRendering { get; set; }
-        public string KeyTermId { get; set; }
         public string Notes { get; set; }
+
+        private List<string> astrKeyTermId = new List<string>();
+
+        private string KeyTermIds
+        {
+            get
+            {
+                return string.Join(", ", astrKeyTermId.ToArray());
+            }
+            set
+            {
+                astrKeyTermId.Clear();
+                string[] astr = value.Split(new [] {", "}, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var s in astr)
+                    astrKeyTermId.Add(s);
+            }
+        }
+
+        public List<Term> GetKeyTerms(BiblicalTermsList btl)
+        {
+            return astrKeyTermId.Select(s => btl.GetIfPresent(s)).ToList();
+        }
+
+        public string GetKeyTermsGlosses(BiblicalTermsList btl)
+        {
+            return String.Join(", ",
+                astrKeyTermId.Select(s => btl.GetIfPresent(s))
+                    .Select(term => term.Gloss).ToArray());
+        }
+
+        public void SetKeyTerms(List<Term> list)
+        {
+            astrKeyTermId.Clear();
+            foreach (Term term in list)
+                astrKeyTermId.Add(term.Id);
+        }
 
         public XElement GetXml
         {
@@ -65,8 +100,8 @@ namespace OneStoryProjectEditor
                 if (!String.IsNullOrEmpty(InternationalBtRendering))
                     elem.Add(new XAttribute("InternationalBTRendering", InternationalBtRendering));
 
-                if (!String.IsNullOrEmpty(KeyTermId))
-                    elem.Add(new XAttribute("KeyTermId", KeyTermId));
+                if (!String.IsNullOrEmpty(KeyTermIds))
+                    elem.Add(new XAttribute("KeyTermId", KeyTermIds));
 
                 return elem;
             }
@@ -89,8 +124,8 @@ namespace OneStoryProjectEditor
                 NationalBtRendering = theLnCNoteRow.NationalBTRendering;
             if (!theLnCNoteRow.IsInternationalBTRenderingNull())
                 InternationalBtRendering = theLnCNoteRow.InternationalBTRendering;
-            if (!theLnCNoteRow.IsKeyTermIdNull())
-                KeyTermId = theLnCNoteRow.KeyTermId;
+            if (!theLnCNoteRow.IsKeyTermIdsNull())
+                KeyTermIds = theLnCNoteRow.KeyTermIds;
         }
     }
 }

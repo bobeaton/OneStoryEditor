@@ -10,6 +10,7 @@ namespace OneStoryProjectEditor
 
         readonly StoryEditor _theSE;
         readonly StoryProjectData _storyProject;
+        BiblicalTermsList _btl;
 
         public AddLnCNoteForm(StoryEditor theSE, LnCNote theLnC)
         {
@@ -17,6 +18,7 @@ namespace OneStoryProjectEditor
             TheLnCNote = theLnC;
             _theSE = theSE;
             _storyProject = theSE.StoryProject;
+            _btl = BiblicalTermsList.GetBiblicalTerms(_storyProject.ProjSettings.ProjectFolder);
 
             if (theLnC == null)
                 return;
@@ -29,6 +31,7 @@ namespace OneStoryProjectEditor
                 labelInternationalBT, textBoxInternationalBT);
 
             textBoxNotes.Text = theLnC.Notes;
+            textBoxKeyTerms.Text = theLnC.GetKeyTermsGlosses(_btl);
         }
 
         public AddLnCNoteForm(StoryEditor theSE, string strToSearchForVernacular, 
@@ -38,6 +41,7 @@ namespace OneStoryProjectEditor
 
             _theSE = theSE;
             _storyProject = theSE.StoryProject;
+            TheLnCNote = new LnCNote();
 
             InitSearchBoxes(true, _storyProject.ProjSettings.Vernacular, strToSearchForVernacular,
                 labelVernacular, textBoxVernacular);
@@ -90,9 +94,6 @@ namespace OneStoryProjectEditor
                 return;
             }
 
-            if (TheLnCNote == null)
-                TheLnCNote = new LnCNote();
-
             TheLnCNote.VernacularRendering = textBoxVernacular.Text;
             TheLnCNote.NationalBtRendering = textBoxNationalBT.Text;
             TheLnCNote.InternationalBtRendering = textBoxInternationalBT.Text;
@@ -115,6 +116,19 @@ namespace OneStoryProjectEditor
         private void textBox_Leave(object sender, EventArgs e)
         {
             KeyboardController.DeactivateKeyboard();
+        }
+
+        private void buttonKeyTermSelect_Click(object sender, EventArgs e)
+        {
+            if (_btl == null)
+                _btl = BiblicalTermsList.GetBiblicalTerms(_storyProject.ProjSettings.ProjectFolder);
+
+            var dlg = new SelectKeyTerms(_btl, TheLnCNote.GetKeyTerms(_btl));
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                TheLnCNote.SetKeyTerms(dlg.SelectedTerms);
+                textBoxKeyTerms.Text = TheLnCNote.GetKeyTermsGlosses(_btl);
+            }
         }
     }
 }

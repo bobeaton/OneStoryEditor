@@ -4676,7 +4676,7 @@ namespace OneStoryProjectEditor {
             
             private global::System.Data.DataColumn columnInternationalBTRendering;
             
-            private global::System.Data.DataColumn columnKeyTermId;
+            private global::System.Data.DataColumn columnKeyTermIds;
             
             private global::System.Data.DataColumn columnLnCNote_text;
             
@@ -4741,9 +4741,9 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn KeyTermIdColumn {
+            public global::System.Data.DataColumn KeyTermIdsColumn {
                 get {
-                    return this.columnKeyTermId;
+                    return this.columnKeyTermIds;
                 }
             }
             
@@ -4790,14 +4790,14 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public LnCNoteRow AddLnCNoteRow(string guid, string VernacularRendering, string NationalBTRendering, string InternationalBTRendering, string KeyTermId, string LnCNote_text, LnCNotesRow parentLnCNotesRowByLnCNotes_LnCNote) {
+            public LnCNoteRow AddLnCNoteRow(string guid, string VernacularRendering, string NationalBTRendering, string InternationalBTRendering, string KeyTermIds, string LnCNote_text, LnCNotesRow parentLnCNotesRowByLnCNotes_LnCNote) {
                 LnCNoteRow rowLnCNoteRow = ((LnCNoteRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         guid,
                         VernacularRendering,
                         NationalBTRendering,
                         InternationalBTRendering,
-                        KeyTermId,
+                        KeyTermIds,
                         LnCNote_text,
                         null};
                 if ((parentLnCNotesRowByLnCNotes_LnCNote != null)) {
@@ -4826,7 +4826,7 @@ namespace OneStoryProjectEditor {
                 this.columnVernacularRendering = base.Columns["VernacularRendering"];
                 this.columnNationalBTRendering = base.Columns["NationalBTRendering"];
                 this.columnInternationalBTRendering = base.Columns["InternationalBTRendering"];
-                this.columnKeyTermId = base.Columns["KeyTermId"];
+                this.columnKeyTermIds = base.Columns["KeyTermIds"];
                 this.columnLnCNote_text = base.Columns["LnCNote_text"];
                 this.columnLnCNotes_Id = base.Columns["LnCNotes_Id"];
             }
@@ -4841,8 +4841,8 @@ namespace OneStoryProjectEditor {
                 base.Columns.Add(this.columnNationalBTRendering);
                 this.columnInternationalBTRendering = new global::System.Data.DataColumn("InternationalBTRendering", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnInternationalBTRendering);
-                this.columnKeyTermId = new global::System.Data.DataColumn("KeyTermId", typeof(string), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnKeyTermId);
+                this.columnKeyTermIds = new global::System.Data.DataColumn("KeyTermIds", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnKeyTermIds);
                 this.columnLnCNote_text = new global::System.Data.DataColumn("LnCNote_text", typeof(string), null, global::System.Data.MappingType.SimpleContent);
                 base.Columns.Add(this.columnLnCNote_text);
                 this.columnLnCNotes_Id = new global::System.Data.DataColumn("LnCNotes_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
@@ -4852,7 +4852,7 @@ namespace OneStoryProjectEditor {
                 this.columnVernacularRendering.Namespace = "";
                 this.columnNationalBTRendering.Namespace = "";
                 this.columnInternationalBTRendering.Namespace = "";
-                this.columnKeyTermId.Namespace = "";
+                this.columnKeyTermIds.Namespace = "";
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -14011,17 +14011,17 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string KeyTermId {
+            public string KeyTermIds {
                 get {
                     try {
-                        return ((string)(this[this.tableLnCNote.KeyTermIdColumn]));
+                        return ((string)(this[this.tableLnCNote.KeyTermIdsColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'KeyTermId\' in table \'LnCNote\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'KeyTermIds\' in table \'LnCNote\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableLnCNote.KeyTermIdColumn] = value;
+                    this[this.tableLnCNote.KeyTermIdsColumn] = value;
                 }
             }
             
@@ -14096,13 +14096,13 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsKeyTermIdNull() {
-                return this.IsNull(this.tableLnCNote.KeyTermIdColumn);
+            public bool IsKeyTermIdsNull() {
+                return this.IsNull(this.tableLnCNote.KeyTermIdsColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetKeyTermIdNull() {
-                this[this.tableLnCNote.KeyTermIdColumn] = global::System.Convert.DBNull;
+            public void SetKeyTermIdsNull() {
+                this[this.tableLnCNote.KeyTermIdsColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

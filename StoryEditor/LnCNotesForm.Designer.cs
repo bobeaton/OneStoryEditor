@@ -39,6 +39,7 @@
             this.toolStripButtonDeleteKeyTerm = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonSearch = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonKeyTermSearch = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLnCNotes)).BeginInit();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -92,7 +93,8 @@
             this.toolStripButtonEditLnCNote,
             this.toolStripButtonDeleteKeyTerm,
             this.toolStripSeparator1,
-            this.toolStripButtonSearch});
+            this.toolStripButtonSearch,
+            this.toolStripButtonKeyTermSearch});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(702, 25);
@@ -148,6 +150,18 @@
             this.toolStripButtonSearch.ToolTipText = "Click this button to search the stories for this term";
             this.toolStripButtonSearch.Click += new System.EventHandler(this.toolStripButtonSearch_Click);
             // 
+            // toolStripButtonKeyTermSearch
+            // 
+            this.toolStripButtonKeyTermSearch.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonKeyTermSearch.Image = global::OneStoryProjectEditor.Properties.Resources.search;
+            this.toolStripButtonKeyTermSearch.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonKeyTermSearch.Name = "toolStripButtonKeyTermSearch";
+            this.toolStripButtonKeyTermSearch.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonKeyTermSearch.Text = "Search";
+            this.toolStripButtonKeyTermSearch.ToolTipText = "Click this button to search the stories for this term";
+            this.toolStripButtonKeyTermSearch.Visible = false;
+            this.toolStripButtonKeyTermSearch.Click += new System.EventHandler(this.toolStripButtonKeyTermSearch_Click);
+            // 
             // LnCNotesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -180,5 +194,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton toolStripButtonSearch;
         private System.Windows.Forms.ToolStripButton toolStripButtonDeleteKeyTerm;
+        private System.Windows.Forms.ToolStripButton toolStripButtonKeyTermSearch;
     }
 }

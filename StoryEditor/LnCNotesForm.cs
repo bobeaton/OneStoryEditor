@@ -162,5 +162,22 @@ namespace OneStoryProjectEditor
                 */
             }
         }
+
+        private void toolStripButtonKeyTermSearch_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.Assert(dataGridViewLnCNotes.SelectedCells.Count < 2);   // 1 or 0
+            if (dataGridViewLnCNotes.SelectedCells.Count != 1)
+                return;
+
+            int nSelectedRowIndex = dataGridViewLnCNotes.SelectedCells[0].RowIndex;
+            if (nSelectedRowIndex <= dataGridViewLnCNotes.Rows.Count - 1)
+            {
+                DataGridViewRow theRow = dataGridViewLnCNotes.Rows[nSelectedRowIndex];
+                var theLnCNote = theRow.Tag as LnCNote;
+
+                var dlg = new KeyTermsSearchForm(_theSE, theLnCNote);
+                dlg.Show();
+            }
+        }
     }
 }

@@ -600,7 +600,7 @@ namespace OneStoryProjectEditor
         }
 
         protected Term _lastTerm = null;
-        
+
         /// <summary>
         /// Redraw the reference window.
         /// </summary>
@@ -615,7 +615,8 @@ namespace OneStoryProjectEditor
 
             if (_lastTerm != myTerm)
             {
-                htmlBuilder.ReadVerseText(myTerm, _theSE.StoryProject, progressBarLoadingKeyTerms);
+                var aTerms = new List<Term> {myTerm};
+                htmlBuilder.ReadVerseText(aTerms, _theSE.StoryProject, progressBarLoadingKeyTerms);
                 _lastTerm = myTerm;
             }
 

@@ -3089,10 +3089,14 @@ namespace OneStoryProjectEditor
                                                              && (((int)theCurrentStory.ProjStage.ProjectStage)
                                                                  >= (int)StoryStageLogic.ProjectStages.eProjFacAddAnchors));
 
-                viewStoryTestingQuestionMenuItem.Enabled = 
-                    viewStoryTestingQuestionMenuItem.Enabled = ((theCurrentStory != null)
-                                                                 && (((int)theCurrentStory.ProjStage.ProjectStage)
-                                                                     > (int)StoryStageLogic.ProjectStages.eProjFacAddStoryQuestions));
+                viewStoryTestingQuestionAnswerMenuItem.Enabled =
+                    viewStoryTestingQuestionMenuItem.Enabled =
+                    viewRetellingFieldMenuItem.Enabled = ((theCurrentStory != null)
+                                                          && (((int) theCurrentStory.ProjStage.ProjectStage)
+                                                              >
+                                                              (int)
+                                                              StoryStageLogic.ProjectStages.
+                                                                  eProjFacAddStoryQuestions));
 
                 viewConsultantNoteFieldMenuItem.Enabled =
                     viewCoachNotesFieldMenuItem.Enabled =

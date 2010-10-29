@@ -453,61 +453,68 @@ namespace OneStoryProjectEditor
         }
 
         /// <summary>
-		/// Build by project by reference array of verse text for this term
-		/// </summary>
-        internal void ReadVerseText(Term myTerm, StoryProjectData theSPD, ProgressBar progressBarLoadingKeyTerms)
+        /// Build by project by reference array of verse text for this term
+        /// </summary>
+        internal void ReadVerseText(List<Term> myTerms, StoryProjectData theSPD, ProgressBar progressBarLoadingKeyTerms)
         {
-            mapReferenceToVerseTextList = new Dictionary<string, List<string>>();
+            var vrefs = new ArrayList();
+            foreach (var myTerm in myTerms)
+                foreach (var vref in myTerm.VerseRefs())
+                    vrefs.Add(vref.BBBCCCVVVS());
 
-            ArrayList vrefs = new ArrayList();
-		    foreach (var vref in myTerm.VerseRefs())
-                vrefs.Add(vref.BBBCCCVVVS());
+            ProcessReferences(vrefs, theSPD, progressBarLoadingKeyTerms);
+        }
 
-            // get the current stories only (not the obsolete ones)
-            StoriesData theStories = theSPD[OseResources.Properties.Resources.IDS_MainStoriesSet];
-            progressBarLoadingKeyTerms.Maximum = theStories.Count;
-            progressBarLoadingKeyTerms.Value = 0;
+        private void ProcessReferences(ArrayList vrefs, StoryProjectData theSPD, 
+            ProgressBar progressBarLoadingKeyTerms)
+	    {
+	        mapReferenceToVerseTextList = new Dictionary<string, List<string>>();
 
-            for (int nStoryNumber = 0; nStoryNumber < theStories.Count; nStoryNumber++)
-            {
-                StoryData aStory = theStories[nStoryNumber];
-                for (int nVerseNumber = 0; nVerseNumber < aStory.Verses.Count; nVerseNumber++)
-                {
-                    VerseData aVerse = aStory.Verses[nVerseNumber];
-                    for (int nAnchorNumber = 0; nAnchorNumber < aVerse.Anchors.Count; nAnchorNumber++)
-                    {
-                        AnchorData anAnchor = aVerse.Anchors[nAnchorNumber];
-                        VerseRef theVerseRef = new VerseRef(anAnchor.AnchorAsVerseRef);
-                        int nIndex = vrefs.BinarySearch(theVerseRef.BBBCCCVVVS());
-                        if (nIndex < 0) continue;
+	        // get the current stories only (not the obsolete ones)
+	        StoriesData theStories = theSPD[OseResources.Properties.Resources.IDS_MainStoriesSet];
+	        progressBarLoadingKeyTerms.Maximum = theStories.Count;
+	        progressBarLoadingKeyTerms.Value = 0;
 
-                        string strVerseReference = String.Format("Story: '{0}' line: {1} anchor: {2}",
-                                                                 aStory.Name, nVerseNumber + 1, anAnchor.JumpTarget);
+	        for (int nStoryNumber = 0; nStoryNumber < theStories.Count; nStoryNumber++)
+	        {
+	            StoryData aStory = theStories[nStoryNumber];
+	            for (int nVerseNumber = 0; nVerseNumber < aStory.Verses.Count; nVerseNumber++)
+	            {
+	                VerseData aVerse = aStory.Verses[nVerseNumber];
+	                for (int nAnchorNumber = 0; nAnchorNumber < aVerse.Anchors.Count; nAnchorNumber++)
+	                {
+	                    AnchorData anAnchor = aVerse.Anchors[nAnchorNumber];
+	                    VerseRef theVerseRef = new VerseRef(anAnchor.AnchorAsVerseRef);
+	                    int nIndex = vrefs.BinarySearch(theVerseRef.BBBCCCVVVS());
+	                    if (nIndex < 0) continue;
+
+	                    string strVerseReference = String.Format("Story: '{0}' line: {1} anchor: {2}",
+	                                                             aStory.Name, nVerseNumber + 1, anAnchor.JumpTarget);
                             
-                        List<string> astrVerseText = new List<string>(projectVariablesList.Count);
-                        if (theSPD.ProjSettings.Vernacular.HasData)
-                            astrVerseText.Add(aVerse.VernacularText.ToString());
-                        if (theSPD.ProjSettings.NationalBT.HasData)
-                            astrVerseText.Add(aVerse.NationalBTText.ToString());
-                        if (theSPD.ProjSettings.InternationalBT.HasData)
-                            astrVerseText.Add(aVerse.InternationalBTText.ToString());
+	                    List<string> astrVerseText = new List<string>(projectVariablesList.Count);
+	                    if (theSPD.ProjSettings.Vernacular.HasData)
+	                        astrVerseText.Add(aVerse.VernacularText.ToString());
+	                    if (theSPD.ProjSettings.NationalBT.HasData)
+	                        astrVerseText.Add(aVerse.NationalBTText.ToString());
+	                    if (theSPD.ProjSettings.InternationalBT.HasData)
+	                        astrVerseText.Add(aVerse.InternationalBTText.ToString());
 
-                        // keep track of this verse and it's reference
-                        if (!mapReferenceToVerseTextList.ContainsKey(strVerseReference))
-                            mapReferenceToVerseTextList.Add(strVerseReference, astrVerseText);
+	                    // keep track of this verse and it's reference
+	                    if (!mapReferenceToVerseTextList.ContainsKey(strVerseReference))
+	                        mapReferenceToVerseTextList.Add(strVerseReference, astrVerseText);
 
-                        // we don't need to do any more anchors with this same line of the same story
-                        //  so set the anchor # to the number of anchors so the next outer for loop
-                        //  will think it's finished
-                        nAnchorNumber = aVerse.Anchors.Count;
-                        break;
-                    }
-                }
-                progressBarLoadingKeyTerms.Value++;
-            }
-		}
+	                    // we don't need to do any more anchors with this same line of the same story
+	                    //  so set the anchor # to the number of anchors so the next outer for loop
+	                    //  will think it's finished
+	                    nAnchorNumber = aVerse.Anchors.Count;
+	                    break;
+	                }
+	            }
+	            progressBarLoadingKeyTerms.Value++;
+	        }
+	    }
 
-		public static string FormattedNotes(TermRendering termRendering)
+	    public static string FormattedNotes(TermRendering termRendering)
 		{
 			string notes = termRendering.Notes.Trim();
 			string val = "";
