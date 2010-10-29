@@ -60,12 +60,13 @@ namespace OneStoryProjectEditor
                                        && (((int) theCurrentStory.ProjStage.ProjectStage)
                                            >= (int) StoryStageLogic.ProjectStages.eProjFacAddAnchors));
 
-            checkBoxStoryTestingQuestions.Enabled = ((theCurrentStory != null)
-                                                     && (((int) theCurrentStory.ProjStage.ProjectStage)
-                                                         > (int) StoryStageLogic.ProjectStages.eProjFacAddStoryQuestions));
+            checkBoxStoryTestingQuestions.Enabled =
+                checkBoxRetellings.Enabled = 
+                checkBoxAnswers.Enabled = ((theCurrentStory != null)
+                                           && (((int) theCurrentStory.ProjStage.ProjectStage)
+                                               > (int) StoryStageLogic.ProjectStages.eProjFacAddStoryQuestions));
 
-            checkBoxAnswers.Enabled = 
-                checkBoxConsultantNotes.Enabled =
+            checkBoxConsultantNotes.Enabled =
                 checkBoxCoachNotes.Enabled = (theCurrentStory != null);
 
             checkBoxUseForAllStories.Checked = bUseForAllStories;
