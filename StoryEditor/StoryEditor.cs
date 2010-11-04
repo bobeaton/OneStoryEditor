@@ -4061,7 +4061,10 @@ namespace OneStoryProjectEditor
 
         private void toolStripButtonNext_Click(object sender, EventArgs e)
         {
-            if ((TheCurrentStoriesSet == null) || (theCurrentStory == null))
+            if ((StoryProject == null) 
+                || String.IsNullOrEmpty(_strStoriesSet) 
+                || (StoryProject[_strStoriesSet] == null)
+                || (theCurrentStory == null))
                 return;
 
             int nIndex = TheCurrentStoriesSet.IndexOf(theCurrentStory);
@@ -4139,7 +4142,8 @@ namespace OneStoryProjectEditor
                 Program.CheckForProgramUpdate(true);
 
                 // since the call to SaveDirty will have removed them all
-                InitAllPanes();
+                if (theCurrentStory != null)
+                    InitAllPanes();
 
                 // if it returns here without throwing an exception, it means there were no updates
                 MessageBox.Show(Properties.Resources.IDS_NoProgramUpdates,
