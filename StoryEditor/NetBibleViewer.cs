@@ -577,6 +577,13 @@ namespace OneStoryProjectEditor
 
         private void checkBoxAutoHide_CheckStateChanged(object sender, EventArgs e)
         {
+            if (checkBoxAutoHide.Checked)
+            {
+                var theSE = FindForm() as StoryEditor;
+                if ((theSE != null) && (theSE.splitContainerUpDown.IsMinimized))
+                    theSE.splitContainerUpDown.Restore();
+            }
+
             Properties.Settings.Default.AutoHideBiblePane = checkBoxAutoHide.Checked;
             Properties.Settings.Default.Save();
         }
