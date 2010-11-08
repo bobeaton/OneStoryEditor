@@ -1,36 +1,306 @@
-﻿<story name="Abraham" stage="ProjFacAddStoryQuestions" guid="2aab0241-8ba5-4934-ba7e-0091b2aeca83" stageDateTimeStamp="2010-10-03T12:17:33">
+﻿<story name="2.मनुष्‍य की सृष्‍टि the creation of man" stage="ConsultantCheck2" guid="fc3fbe88-b87a-44e5-8b16-f9abd31bb848" stageDateTimeStamp="2010-10-24T00:18:39">
   <CraftingInfo NonBiblicalStory="false">
-    <StoryCrafter memberID="mem-eb859bf5-8531-49f7-b953-d80c27edf214" />
-    <ProjectFacilitator memberID="mem-87da71e1-766e-4dbc-9564-a85a37457f52" />
-    <StoryPurpose>asg</StoryPurpose>
-    <ResourcesUsed>sdg</ResourcesUsed>
-    <BackTranslator memberID="mem-34719c50-a00d-4910-846d-1c17b14ec973" />
+    <StoryCrafter memberID="mem-4793551e-4516-4aab-aa27-1f668362f6eb" />
+    <ProjectFacilitator memberID="mem-f7ac46cf-b440-4475-a32f-2cec762f3afd" />
+    <StoryPurpose>to show the creator and how it made by God.god made everything in six day ,and man creation was last so we want to show that man in this world is special creation.</StoryPurpose>
+    <ResourcesUsed>niv bible .</ResourcesUsed>
+    <BackTranslator memberID="mem-25c41b4e-2f22-46e9-a531-83799f1f81a3" />
   </CraftingInfo>
   <verses>
-    <verse guid="bd8494ab-4118-44d4-997b-eacc690db8cb" first="true" />
-    <verse guid="28b1ea4a-eb37-4b9e-9838-c3d67dd50772" />
-    <verse guid="8ea91259-8346-4e84-8926-b9eed7706149">
-      <NationalBT>इस्राइली राजा परमेश्‍वर की आज्ञाओं को नहीं माना।</NationalBT>
-      <InternationalBT>Adam and his wife did not obey the God.</InternationalBT>
+    <verse guid="993edb69-15b8-4a2b-a24c-ef9e0455f280" first="true" />
+    <verse guid="d6e2d6de-4042-4e93-aba4-39dd3c544aa9">
+      <Vernacular>जु मुलुको थदली दु होदो चेई भगवान निस ही टुयाया।</Vernacular>
+      <InternationalBT>in this whatever it is God made it .</InternationalBT>
       <anchors keyTermChecked="false">
-        <anchor jumpTarget="Judg 13:1">
-          <toolTip>Judg 13:1</toolTip>
+        <anchor jumpTarget="Gen 1:1">
+          <toolTip>Gen 1:1</toolTip>
+        </anchor>
+      </anchors>
+    </verse>
+    <verse guid="7d6718f8-3c32-4242-b4bf-dc0ff75eb947">
+      <Vernacular>जु धरती सोरगड जु कारौ युने नदियाँ पशु पक्षी बोठागौ लाधौ जु चेई भगवान निस ही टुयाया।</Vernacular>
+      <InternationalBT>this earth ,sky,moon,sun,ocean,animals,birds ,treeseverything God has made.</InternationalBT>
+      <anchors keyTermChecked="false">
+        <anchor jumpTarget="Gen 1:26">
+          <toolTip>Gen 1:26</toolTip>
+        </anchor>
+        <anchor jumpTarget="Gen 1:7">
+          <toolTip>Gen 1:7</toolTip>
+        </anchor>
+        <anchor jumpTarget="Gen 1:9">
+          <toolTip>Gen 1:9</toolTip>
+        </anchor>
+        <anchor jumpTarget="Gen 1:16">
+          <toolTip>Gen 1:16</toolTip>
+        </anchor>
+        <anchor jumpTarget="Gen 1:21">
+          <toolTip>Gen 1:21</toolTip>
+        </anchor>
+        <anchor jumpTarget="Gen 1:25">
+          <toolTip>Gen 1:25</toolTip>
+        </anchor>
+        <anchor jumpTarget="Gen 1:11">
+          <toolTip>Gen 1:11</toolTip>
         </anchor>
       </anchors>
       <TestQuestions>
-        <TestQuestion visible="true" guid="96b9a33f-7250-4551-aa95-db9c81dbe84f">
-          <TQInternationalBT>Why do you think the Israelite kings didn't obey God's commands?</TQInternationalBT>
+        <TestQuestion visible="true" guid="14c7a34a-e41f-42b1-bd89-2ca6c8e4faae">
+          <TQInternationalBT>how He made all these things?</TQInternationalBT>
         </TestQuestion>
       </TestQuestions>
     </verse>
-    <verse guid="818f46a5-c32e-49bb-8f79-51c804dbcf4c">
-      <NationalBT>इसलिए परमेश्‍वर पूरी इस्राइली जाति को मिस्र देश में बना दिया।</NationalBT>
-      <InternationalBT>They became far from God.</InternationalBT>
+    <verse guid="b9bdcde7-733f-4441-857a-f02e2efe3fca">
+      <Vernacular>आई जु चेई भगवान निस आनेनु बातस ही टुयाया।</Vernacular>
+      <InternationalBT>and everything god made by the words.</InternationalBT>
       <anchors keyTermChecked="false">
-        <anchor jumpTarget="Exod 1:11">
-          <toolTip>Exod 1:11</toolTip>
+        <anchor jumpTarget="Gen 1:3">
+          <toolTip>Gen 1:3</toolTip>
+        </anchor>
+        <anchor jumpTarget="Gen 1:6">
+          <toolTip>Gen 1:6</toolTip>
+        </anchor>
+        <anchor jumpTarget="Gen 1:9">
+          <toolTip>Gen 1:9</toolTip>
+        </anchor>
+        <anchor jumpTarget="Gen 1:8">
+          <toolTip>Gen 1:8</toolTip>
+        </anchor>
+        <anchor jumpTarget="Gen 1:11">
+          <toolTip>Gen 1:11</toolTip>
+        </anchor>
+        <anchor jumpTarget="Gen 1:14">
+          <toolTip>Gen 1:14</toolTip>
+        </anchor>
+        <anchor jumpTarget="Gen 1:20">
+          <toolTip>Gen 1:20</toolTip>
+        </anchor>
+        <anchor jumpTarget="Gen 1:24">
+          <toolTip>Gen 1:24</toolTip>
+        </anchor>
+        <anchor jumpTarget="Gen 1:26">
+          <toolTip>Gen 1:26</toolTip>
         </anchor>
       </anchors>
+    </verse>
+    <verse guid="e5609267-47df-4197-822b-987dd602360c">
+      <Vernacular>जु चेई बाताड निपी भगवान सुनचेसिद कि घ हुन ईद मि लानतक।</Vernacular>
+      <InternationalBT>after all these thing God thought that now i will make a man.</InternationalBT>
+      <anchors keyTermChecked="false">
+        <anchor jumpTarget="Gen 2:5">
+          <toolTip>Gen 2:5</toolTip>
+        </anchor>
+      </anchors>
+      <TestQuestions>
+        <TestQuestion visible="true" guid="4ffa7692-bc09-4c21-afb6-fb6ae4c2b62e">
+          <TQInternationalBT>why He thought to creat man?</TQInternationalBT>
+        </TestQuestion>
+      </TestQuestions>
+    </verse>
+    <verse guid="12e6b1c8-ece3-43b8-bce8-8a3d77507ade">
+      <Vernacular>होदो मियू गुण आड देसकी निचगया।</Vernacular>
+      <InternationalBT> his attribute should be like me.</InternationalBT>
+      <anchors keyTermChecked="false">
+        <anchor jumpTarget="Gen 1:27">
+          <toolTip>Gen 1:27</toolTip>
+        </anchor>
+      </anchors>
+      <TestQuestions>
+        <TestQuestion visible="true" guid="d984d203-9004-4557-ad2a-847b2a7ce056">
+          <TQInternationalBT>what kind of attribute you think in that man?</TQInternationalBT>
+        </TestQuestion>
+      </TestQuestions>
+    </verse>
+    <verse guid="8afef348-363c-4c90-ae4a-c956f9ed49e8">
+      <Vernacular>दोक भगवान निस माटिग डु. आदम यानि मिपड. टुयायाशिद।</Vernacular>
+      <InternationalBT>then God made adam or man from the earth (soil) .</InternationalBT>
+      <anchors keyTermChecked="false">
+        <anchor jumpTarget="Gen 2:7">
+          <toolTip>Gen 2:7</toolTip>
+        </anchor>
+        <anchor jumpTarget="Gen 2:20">
+          <toolTip>Gen 2:20</toolTip>
+        </anchor>
+      </anchors>
+      <TestQuestions>
+        <TestQuestion visible="true" guid="947845f0-8fa1-4b32-9462-2dbb19636e59">
+          <TQInternationalBT>hoe He made from the soil?</TQInternationalBT>
+        </TestQuestion>
+      </TestQuestions>
+    </verse>
+    <verse guid="fd96ea05-5fcd-42fa-a810-50779479341c">
+      <Vernacular>दोक होदोर जान छेछिद।</Vernacular>
+      <InternationalBT>them life given ot it.</InternationalBT>
+      <anchors keyTermChecked="false">
+        <anchor jumpTarget="Gen 2:7">
+          <toolTip>Gen 2:7</toolTip>
+        </anchor>
+      </anchors>
+      <TestQuestions>
+        <TestQuestion visible="true" guid="cfe2166e-4ffd-4c7d-b9c8-689cd4bf56b6">
+          <TQInternationalBT>how life is given?</TQInternationalBT>
+        </TestQuestion>
+      </TestQuestions>
+    </verse>
+    <verse guid="c2d9a345-6df3-4ad6-b947-1968d187b8bd">
+      <Vernacular>धोक भगवाननिस हर किस्‍म ऊ बोठांग शेशे ईद शारे देस रिम टुराशिद।</Vernacular>
+      <InternationalBT>then God made every kind of trees  one beautiful garden etc .</InternationalBT>
+      <anchors keyTermChecked="false">
+        <anchor jumpTarget="Gen 2:8">
+          <toolTip>Gen 2:8</toolTip>
+        </anchor>
+        <anchor jumpTarget="Gen 2:9">
+          <toolTip>Gen 2:9</toolTip>
+        </anchor>
+      </anchors>
+    </verse>
+    <verse guid="25b49947-5676-4b28-90fc-2b3c3254efd3">
+      <Vernacular>दोक होदो रिमु माजो भगवान  निश रूआङसा फोलङउ बौठांग छेछिद।</Vernacular>
+      <InternationalBT>then in the center of  this garden God put two  special kind of trees.</InternationalBT>
+      <anchors keyTermChecked="false">
+        <anchor jumpTarget="Gen 2:9">
+          <toolTip>Gen 2:9</toolTip>
+        </anchor>
+      </anchors>
+    </verse>
+    <verse guid="23bd2f4b-ee54-4979-9ec3-e74a4c783a23">
+      <Vernacular>दोपंग माजो ईदो फल दाम मारी गयान बच।</Vernacular>
+      <InternationalBT>by  eating it , then one fruit carry the knowledge of good and bad. </InternationalBT>
+      <anchors keyTermChecked="false">
+        <anchor jumpTarget="Gen 2:9">
+          <toolTip>Gen 2:9</toolTip>
+        </anchor>
+      </anchors>
+      <TestQuestions>
+        <TestQuestion visible="true" guid="9bab1c19-2cbf-4428-bad6-7d72c589da41">
+          <TQInternationalBT>how the knowledge of goood and bed carries?</TQInternationalBT>
+        </TestQuestion>
+      </TestQuestions>
+    </verse>
+    <verse guid="1d37ff20-b77e-44bd-af6c-8db2d51ff4a2">
+      <Vernacular>आइदु फल सा अन्‍नत जिन्‍दगी।</Vernacular>
+      <InternationalBT>and other kind of fruit are of eternal life.</InternationalBT>
+      <anchors keyTermChecked="false">
+        <anchor jumpTarget="Gen 2:9">
+          <toolTip>Gen 2:9</toolTip>
+        </anchor>
+      </anchors>
+    </verse>
+    <verse guid="b2c6b7f9-1031-450c-976d-cfa4962cd0ef">
+      <Vernacular>भगवानिस लोशिद कि हुयु रिम्‍मु चेई फोलांग कि निस जाचगया लेकिन होदो दाम मारीयु गयान केचा बोठांङु फल था जारिच।</Vernacular>
+      <InternationalBT>God said that you can  have every kind of fruits from this  garden but   the fruit  of good and bad knowledge is prohabited .</InternationalBT>
+      <anchors keyTermChecked="false">
+        <anchor jumpTarget="Gen 2:16">
+          <toolTip>Gen 2:16</toolTip>
+        </anchor>
+        <anchor jumpTarget="Gen 2:17">
+          <toolTip>Gen 2:17</toolTip>
+        </anchor>
+      </anchors>
+      <TestQuestions>
+        <TestQuestion visible="true" guid="53f35f07-4290-4038-a98f-3572931116eb">
+          <TQInternationalBT>why God restricted to eat the fruit of knowledge?</TQInternationalBT>
+        </TestQuestion>
+      </TestQuestions>
+    </verse>
+    <verse guid="e6fc0291-2476-46c1-8185-0db2a9d5cb83">
+      <Vernacular>दोक ली कास होदो फल जामा किनो शितिच।</Vernacular>
+      <InternationalBT>even though if you will eat this you will die.</InternationalBT>
+      <anchors keyTermChecked="false">
+        <anchor jumpTarget="Gen 2:17">
+          <toolTip>Gen 2:17</toolTip>
+        </anchor>
+      </anchors>
+      <TestQuestions>
+        <TestQuestion visible="true" guid="d391d902-babe-4955-aafa-ab50b3afb61c">
+          <TQInternationalBT>what kind of death this fruit carries?</TQInternationalBT>
+        </TestQuestion>
+      </TestQuestions>
+    </verse>
+    <verse guid="920317e1-f0cf-4adc-af22-6369e82b4375">
+      <Vernacular>दोक भगवानिस खयाशिद कि मी पंग एच्‍छी निमो ता दाम मादु।</Vernacular>
+      <InternationalBT>then God shaw that man is not good to be alone.</InternationalBT>
+      <anchors keyTermChecked="false">
+        <anchor jumpTarget="Gen 2:18">
+          <toolTip>Gen 2:18</toolTip>
+        </anchor>
+      </anchors>
+    </verse>
+    <verse guid="105bbb77-8cb4-4a8c-8c97-540ec3781869">
+      <Vernacular>होदो ताङेस रुकशिद ईद जीवन साथी जुराशिद।</Vernacular>
+      <InternationalBT>for that couse God made a resembling life  partner.</InternationalBT>
+      <anchors keyTermChecked="false">
+        <anchor jumpTarget="Gen 2:22">
+          <toolTip>Gen 2:22</toolTip>
+        </anchor>
+      </anchors>
+    </verse>
+    <verse guid="38089ea6-ace1-4669-a957-3f5bcdcbcf0d">
+      <Vernacular>आदमइस होदो मी पंग छेछेचसु नामाङ रानशिद।</Vernacular>
+      <InternationalBT>to that creation Adam named women.</InternationalBT>
+      <anchors keyTermChecked="false">
+        <anchor jumpTarget="Gen 2:23">
+          <toolTip>Gen 2:23</toolTip>
+        </anchor>
+      </anchors>
+      <TestQuestions>
+        <TestQuestion visible="true" guid="b5915762-dcdf-43c3-9ca3-c36535e015e1">
+          <TQInternationalBT>how woman is made of?</TQInternationalBT>
+        </TestQuestion>
+      </TestQuestions>
+    </verse>
+    <verse guid="73bc2cea-ac2d-4941-a0e4-41cff12213f1">
+      <Vernacular>दोक भगवानिस दो निसु चेई जीव- जन्‍तुओ तामो जिम्‍मदारी रानशिद।</Vernacular>
+      <InternationalBT>then God  gave them all autherity to be responsible for  keeping all the creature.</InternationalBT>
+      <anchors keyTermChecked="false">
+        <anchor jumpTarget="Gen 1:26">
+          <toolTip>Gen 1:26</toolTip>
+        </anchor>
+      </anchors>
+      <TestQuestions>
+        <TestQuestion visible="true" guid="55a01246-f83e-4b7f-8fca-d8c308123298">
+          <TQInternationalBT>what kind of  responsiblethey had,can you give an example?</TQInternationalBT>
+        </TestQuestion>
+      </TestQuestions>
+    </verse>
+    <verse guid="a99bc5fc-d427-4b0f-b963-1fa44467c193">
+      <Vernacular>भगवानिस चेई खयाखया लोशिद कि जु ता चेई दाम दु।</Vernacular>
+      <InternationalBT>God shaw all the things and said everythings  is good.</InternationalBT>
+      <anchors keyTermChecked="false">
+        <anchor jumpTarget="Gen 1:31">
+          <toolTip>Gen 1:31</toolTip>
+        </anchor>
+      </anchors>
+    </verse>
+    <verse guid="97166f5e-89c0-4582-83bd-30307b7c0ab0">
+      <Vernacular>दोक भगवानिस होदोगोनु आर्शिवाद रानशिद।</Vernacular>
+      <InternationalBT>then God blessed them.</InternationalBT>
+      <anchors keyTermChecked="false">
+        <anchor jumpTarget="Gen 2:16">
+          <toolTip>Gen 2:16</toolTip>
+        </anchor>
+      </anchors>
+      <TestQuestions>
+        <TestQuestion visible="true" guid="d0412a84-6115-4562-b863-1c89274610c8">
+          <TQInternationalBT>to whom Gods blessed?</TQInternationalBT>
+        </TestQuestion>
+      </TestQuestions>
+    </verse>
+    <verse guid="a1a8df5a-dd51-4124-841e-24472c88eefc">
+      <Vernacular>दोक होदोगो निशी भगवानु  रिश्‍ता लानलान निशित।</Vernacular>
+      <InternationalBT>then they  both lived in relationship with  God .</InternationalBT>
+      <anchors keyTermChecked="false">
+        <anchor jumpTarget="Gen 2:16">
+          <toolTip>Gen 2:16</toolTip>
+        </anchor>
+        <anchor jumpTarget="Ps 149:4">
+          <toolTip>Ps 149:4</toolTip>
+        </anchor>
+      </anchors>
+      <TestQuestions>
+        <TestQuestion visible="true" guid="7e2807d3-7776-4924-a176-f72310ac38a4">
+          <TQInternationalBT>what kind of relation they use to have with God?</TQInternationalBT>
+        </TestQuestion>
+      </TestQuestions>
     </verse>
   </verses>
 </story>

@@ -98,10 +98,11 @@
             // 
             this.checkedListBoxStories.CheckOnClick = true;
             this.checkedListBoxStories.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.checkedListBoxStories.Font = new System.Drawing.Font("Arial Unicode MS", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkedListBoxStories.FormattingEnabled = true;
             this.checkedListBoxStories.Location = new System.Drawing.Point(3, 26);
             this.checkedListBoxStories.Name = "checkedListBoxStories";
-            this.checkedListBoxStories.Size = new System.Drawing.Size(358, 394);
+            this.checkedListBoxStories.Size = new System.Drawing.Size(358, 400);
             this.checkedListBoxStories.TabIndex = 0;
             // 
             // groupBoxViewOptions
