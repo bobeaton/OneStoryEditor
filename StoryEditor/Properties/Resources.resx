@@ -1921,4 +1921,7 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
   <data name="IDS_MustHave" xml:space="preserve">
     <value>You must enter the {0}</value>
   </data>
+  <data name="IDS_ConfirmAutoUpgrade" xml:space="preserve">
+    <value>There's a new version of the program available. Would you like to upgrade now?</value>
+  </data>
 </root>

@@ -308,6 +308,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There&apos;s a new version of the program available. Would you like to upgrade now?.
+        /// </summary>
+        internal static string IDS_ConfirmAutoUpgrade {
+            get {
+                return ResourceManager.GetString("IDS_ConfirmAutoUpgrade", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to delete the {0}?.
         /// </summary>
         internal static string IDS_ConfirmDeleteAllVerseLines {

@@ -114,6 +114,14 @@ namespace OneStoryProjectEditor
             AutoUpgrade autoUpgrade = AutoUpgrade.Create(strManifestAddress, bThrowErrors);
             if (autoUpgrade.IsUpgradeAvailable(false))
             {
+                // if this is the automatic check at startup, then at 
+                //  least confirm this is what the user wants to do.
+                if (!bThrowErrors && (MessageBox.Show(Properties.Resources.IDS_ConfirmAutoUpgrade, 
+                        OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes))
+                {
+                    return;
+                }
+
                 autoUpgrade.StartUpgradeStub();
                 throw new RestartException();
             }
