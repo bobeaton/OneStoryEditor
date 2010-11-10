@@ -4,9 +4,10 @@
   <ApplicationExecutable />
   <ApplicationName>AutoUpgrade</ApplicationName>
   <FullUpgradeFileName />
-  <OffsetFromUctWhereManifestWasOriginallyCreated>11/8/2010 2:06:00 PM -06:00</OffsetFromUctWhereManifestWasOriginallyCreated>
+  <OffsetFromUctWhereManifestWasOriginallyCreated>11/9/2010 6:36:54 PM -06:00</OffsetFromUctWhereManifestWasOriginallyCreated>
   <ManifestFiles>
-    <File name="AutoUpgrade.Lib.dll" method="version" action="copy" version="1.0.3889.12875" optional="false" size="24576">AutoUpgrade Lib</File>
+    <File name="Autofac.dll" method="version" action="copy" version="1.4.4.561" optional="false" size="126976">Autofac</File>
+    <File name="AutoUpgrade.Lib.dll" method="version" action="copy" version="1.0.3965.33264" optional="false" size="24576">AutoUpgrade Lib</File>
     <File name="Chorus.exe" method="version" action="copy" version="1.1.0.5" optional="false" size="504320">Chorus</File>
     <File name="ChorusMerge.exe" method="version" action="copy" version="1.1.0.5" optional="false" size="5632">ChorusMerge</File>
     <File name="LibChorus.dll" method="version" action="copy" version="1.1.0.5" optional="false" size="254976">Chorus</File>

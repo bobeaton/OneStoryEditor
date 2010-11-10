@@ -108,6 +108,7 @@ namespace OneStoryProjectEditor
         {
             string strManifestAddress = Properties.Resources.IDS_OSEUpgradeServer;
             /*
+            strManifestAddress = @"ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/Testing/StoryEditor.exe.manifest.xml";
             strManifestAddress = 
                 @"\\StudioXPS-1340\src\StoryEditor\OneStory Releases\OSE1.4.0\StoryEditor.exe.manifest.xml";
             */
