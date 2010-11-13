@@ -35,7 +35,6 @@
             this.moveSelectedTextToANewLineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.moveItemsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.addANewVerseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,6 +57,8 @@
             this.pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyVerseToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuAddTestQuestion = new System.Windows.Forms.ToolStripMenuItem();
+            this.splitStoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -90,23 +91,24 @@
             this.moveSelectedTextToANewLineToolStripMenuItem,
             this.moveItemsToolStripMenuItem,
             this.toolStripSeparator2,
-            this.toolStripSeparator3,
             this.addANewVerseToolStripMenuItem,
             this.addNewVersesAfterToolStripMenuItem,
             this.hideVerseToolStripMenuItem,
             this.deleteTheWholeVerseToolStripMenuItem,
             this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem,
             this.pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem,
-            this.copyVerseToClipboardToolStripMenuItem});
+            this.copyVerseToClipboardToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.splitStoryToolStripMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(359, 236);
+            this.contextMenuStrip.Size = new System.Drawing.Size(359, 258);
             this.contextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Opening);
             // 
             // moveSelectedTextToANewLineToolStripMenuItem
             // 
             this.moveSelectedTextToANewLineToolStripMenuItem.Name = "moveSelectedTextToANewLineToolStripMenuItem";
             this.moveSelectedTextToANewLineToolStripMenuItem.Size = new System.Drawing.Size(358, 22);
-            this.moveSelectedTextToANewLineToolStripMenuItem.Text = "&Move selected text to a new line";
+            this.moveSelectedTextToANewLineToolStripMenuItem.Text = "Move &selected text to a new line";
             this.moveSelectedTextToANewLineToolStripMenuItem.ToolTipText = "This will take the selected text from the Story language, the National BT and the" +
                 " English BT boxes and move them into a new line following this line";
             this.moveSelectedTextToANewLineToolStripMenuItem.Click += new System.EventHandler(this.moveSelectedTextToANewLineToolStripMenuItem_Click);
@@ -124,11 +126,6 @@
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(355, 6);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(355, 6);
             // 
             // addANewVerseToolStripMenuItem
             // 
@@ -301,6 +298,19 @@
             this.menuAddTestQuestion.ToolTipText = "Click to add a Story Testing Question";
             this.menuAddTestQuestion.Click += new System.EventHandler(this.menuAddTestQuestion_Click);
             // 
+            // splitStoryToolStripMenuItem
+            // 
+            this.splitStoryToolStripMenuItem.Name = "splitStoryToolStripMenuItem";
+            this.splitStoryToolStripMenuItem.Size = new System.Drawing.Size(358, 22);
+            this.splitStoryToolStripMenuItem.Text = "Split st&ory";
+            this.splitStoryToolStripMenuItem.ToolTipText = "Move this and all following verses to a new story";
+            this.splitStoryToolStripMenuItem.Click += new System.EventHandler(this.splitStoryToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(355, 6);
+            // 
             // VerseBtControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -342,7 +352,8 @@
         private System.Windows.Forms.ToolStripMenuItem hideVerseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem moveSelectedTextToANewLineToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem moveItemsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem splitStoryToolStripMenuItem;
     }
 }

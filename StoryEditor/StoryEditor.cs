@@ -624,7 +624,7 @@ namespace OneStoryProjectEditor
         {
             string strStoryName;
             int nIndexOfCurrentStory = -1;
-            if (AddNewStoryGetIndex(ref nIndexOfCurrentStory, out strStoryName))
+            if (AddNewStoryGetIndex(ref nIndexOfCurrentStory, out strStoryName, true))
             {
                 Debug.Assert(nIndexOfCurrentStory != -1);
                 InsertNewStory(strStoryName, nIndexOfCurrentStory);
@@ -642,10 +642,11 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        protected bool AddNewStoryGetIndex(ref int nIndexForInsert, out string strStoryName)
+        protected bool AddNewStoryGetIndex(ref int nIndexForInsert, out string strStoryName,
+            bool bCheckThatProjFacIsLoggedIn)
         {
             Debug.Assert(LoggedOnMember != null);
-            if (!CheckForProjFac())
+            if (bCheckThatProjFacIsLoggedIn && !CheckForProjFac())
             {
                 strStoryName = null;
                 return false;
@@ -684,7 +685,7 @@ namespace OneStoryProjectEditor
         {
             string strStoryName;
             int nIndexOfCurrentStory = -1;
-            if (AddNewStoryGetIndex(ref nIndexOfCurrentStory, out strStoryName))
+            if (AddNewStoryGetIndex(ref nIndexOfCurrentStory, out strStoryName, true))
             {
                 Debug.Assert(nIndexOfCurrentStory != -1);
                 nIndexOfCurrentStory = Math.Min(nIndexOfCurrentStory + 1, TheCurrentStoriesSet.Count);
@@ -3537,7 +3538,7 @@ namespace OneStoryProjectEditor
 
             string strStoryName;
             int nIndexOfCurrentStory = -1;
-            if (AddNewStoryGetIndex(ref nIndexOfCurrentStory, out strStoryName))
+            if (AddNewStoryGetIndex(ref nIndexOfCurrentStory, out strStoryName, false))
             {
                 Debug.Assert(nIndexOfCurrentStory != -1);
                 nIndexOfCurrentStory = Math.Min(nIndexOfCurrentStory + 1, TheCurrentStoriesSet.Count);
@@ -4226,6 +4227,33 @@ namespace OneStoryProjectEditor
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
+            }
+        }
+
+        public void SplitStory(VerseData verseStart)
+        {
+            Debug.Assert(theCurrentStory != null);
+
+            string strStoryName;
+            int nIndexOfCurrentStory = -1;
+            if (AddNewStoryGetIndex(ref nIndexOfCurrentStory, out strStoryName, false))
+            {
+                Debug.Assert(nIndexOfCurrentStory != -1);
+                int nIndexToInsert = Math.Min(nIndexOfCurrentStory + 1, TheCurrentStoriesSet.Count);
+
+                StoryData theNewStory = new StoryData(strStoryName, 
+                    theCurrentStory.CraftingInfo.StoryCrafterMemberID,
+                    theCurrentStory.CraftingInfo.ProjectFacilitatorMemberID,
+                    theCurrentStory.CraftingInfo.IsBiblicalStory,
+                    StoryProject.ProjSettings);
+
+                // move this and all subsequent verses to the new story
+                int nIndex = theCurrentStory.Verses.IndexOf(verseStart);
+                int nNumberToMove = theCurrentStory.Verses.Count - nIndex;
+                List<VerseData> listToMove = theCurrentStory.Verses.GetRange(nIndex, nNumberToMove);
+                theNewStory.Verses.AddRange(listToMove);
+                theCurrentStory.Verses.RemoveRange(nIndex, nNumberToMove);
+                InsertNewStoryAdjustComboBox(theNewStory, nIndexToInsert);
             }
         }
     }

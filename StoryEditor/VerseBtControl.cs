@@ -754,5 +754,14 @@ namespace OneStoryProjectEditor
                 (_verseData.IsVisible) ? false : true   // toggle
                 );
         }
+
+        private void splitStoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
+                return;
+
+            theSE.SplitStory(_verseData);
+        }
     }
 }
