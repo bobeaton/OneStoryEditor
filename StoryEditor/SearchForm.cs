@@ -283,7 +283,8 @@ namespace OneStoryProjectEditor
                         }
                         else if (stringTransfer.HtmlConNoteCtrl != null)
                         {
-                            HtmlConNoteControl ctrl = stringTransfer.HtmlConNoteCtrl as HtmlConNoteControl;
+                            Application.DoEvents(); // give the html doc a chance to catch up
+                            var ctrl = stringTransfer.HtmlConNoteCtrl as HtmlConNoteControl;
                             if (ctrl != null)
                                 ctrl.SetSelection(stringTransfer, nFoundIndex, nLengthToSelect);
                             LastCharIndex = nFoundIndex + nLengthToSelect;
