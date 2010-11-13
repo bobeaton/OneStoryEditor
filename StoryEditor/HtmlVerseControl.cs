@@ -77,7 +77,7 @@ namespace OneStoryProjectEditor
         private void HtmlConNoteControl_DocumentCompleted(object sender, System.Windows.Forms.WebBrowserDocumentCompletedEventArgs e)
         {
             if (!String.IsNullOrEmpty(StrIdToScrollTo))
-                ScrollToElement(StrIdToScrollTo, false);
+                ScrollToElement(StrIdToScrollTo, true);
         }
 
         protected VerseData Verse(int nVerseIndex)
