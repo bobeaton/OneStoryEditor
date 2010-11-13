@@ -228,7 +228,7 @@ namespace OneStoryProjectEditor
                     eleNote.Add(new XAttribute("finished", true));
 
                 foreach (CommInstance aCI in this)
-                    if (aCI.HasData)
+                    if (aCI.IsSavable)
                         eleNote.Add(new XElement(SubElementName,
                             new XAttribute("Direction", GetDirectionString(aCI.Direction)),
                             new XAttribute("guid", aCI.Guid),

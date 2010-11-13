@@ -85,6 +85,11 @@ namespace OneStoryProjectEditor
             get { return !String.IsNullOrEmpty(Value); }
         }
 
+        public bool IsSavable
+        {
+            get { return HasData && !String.IsNullOrEmpty(Value.Trim()); }
+        }
+
         public int NumOfWords(char[] achToIgnore)
         {
             if (!HasData)
