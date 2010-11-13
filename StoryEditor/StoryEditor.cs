@@ -4241,17 +4241,14 @@ namespace OneStoryProjectEditor
                 Debug.Assert(nIndexOfCurrentStory != -1);
                 int nIndexToInsert = Math.Min(nIndexOfCurrentStory + 1, TheCurrentStoriesSet.Count);
 
-                StoryData theNewStory = new StoryData(strStoryName, 
-                    theCurrentStory.CraftingInfo.StoryCrafterMemberID,
-                    theCurrentStory.CraftingInfo.ProjectFacilitatorMemberID,
-                    theCurrentStory.CraftingInfo.IsBiblicalStory,
-                    StoryProject.ProjSettings);
+                // first clone the story... (so we get everything, including the state, etc)
+                var theNewStory = new StoryData(theCurrentStory) {Name = strStoryName};
 
-                // move this and all subsequent verses to the new story
+                // then, delete the latter verses from current story and the earlier verses
+                //  from the new one
                 int nIndex = theCurrentStory.Verses.IndexOf(verseStart);
                 int nNumberToMove = theCurrentStory.Verses.Count - nIndex;
-                List<VerseData> listToMove = theCurrentStory.Verses.GetRange(nIndex, nNumberToMove);
-                theNewStory.Verses.AddRange(listToMove);
+                theNewStory.Verses.RemoveRange(0, nIndex);
                 theCurrentStory.Verses.RemoveRange(nIndex, nNumberToMove);
                 InsertNewStoryAdjustComboBox(theNewStory, nIndexToInsert);
             }
