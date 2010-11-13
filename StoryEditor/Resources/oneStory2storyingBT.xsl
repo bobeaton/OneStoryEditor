@@ -203,6 +203,9 @@
     <xsl:template match="verse[not(@first)]">
       <xsl:param name="chapNo" />
       <xsl:text>&cr;\ln </xsl:text><xsl:number value="$chapNo" format="01" /><xsl:text>.</xsl:text><xsl:number value="position()-1" format="01" />
+      <xsl:if test="@visible = 'false'">
+        <xsl:text> (hidden)</xsl:text>
+      </xsl:if>
       <xsl:if test="Vernacular[text()] and preceding::Languages/VernacularLang[@code]">
         <xsl:text>&cr;\</xsl:text>
         <xsl:value-of select="preceding::Languages/VernacularLang/@code"/>
