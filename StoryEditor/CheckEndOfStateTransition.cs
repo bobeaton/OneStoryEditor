@@ -470,18 +470,8 @@ namespace OneStoryProjectEditor
             }
 
             // there should be at least half as many questions as there are verses.
-            int nNumOfVerses = 0;
-            foreach (VerseData aVerseData in theCurrentStory.Verses)
-                if (aVerseData.IsVisible)
-                    nNumOfVerses += aVerseData.TestQuestions.Count;
-
-            if (nNumOfVerses < (theCurrentStory.Verses.Count / 2))
-            {
-                int nNumLacking = (theCurrentStory.Verses.Count / 2) - nNumOfVerses;
-                ShowError(theSE,
-                    String.Format("Error: You should have at least half as many Story Testing Questions as verses in the story. Please add at least {0} more testing question(s). (right-click on the 'verse options' button and choose 'Add a story testing question')", nNumLacking));
+            if (!CheckForCountOfTestingQuestions(theCurrentStory, theSE))
                 return false;
-            }
 
             // before going to the CIT, let's make sure that if the CIT had made 
             //  a comment, that the PF answered it. (this only occurs if the CIT
@@ -519,6 +509,23 @@ namespace OneStoryProjectEditor
             return true;
         }
 
+        private static bool CheckForCountOfTestingQuestions(StoryData theCurrentStory, StoryEditor theSE)
+        {
+            int nNumOfVerses = 0;
+            foreach (VerseData aVerseData in theCurrentStory.Verses)
+                if (aVerseData.IsVisible)
+                    nNumOfVerses += aVerseData.TestQuestions.Count;
+
+            if (nNumOfVerses < (theCurrentStory.Verses.Count / 2))
+            {
+                int nNumLacking = (theCurrentStory.Verses.Count / 2) - nNumOfVerses;
+                ShowError(theSE,
+                          String.Format("Error: You should have at least half as many Story Testing Questions as verses in the story. Please add at least {0} more testing question(s). (right-click on the 'verse options' button and choose 'Add a story testing question')", nNumLacking));
+                return false;
+            }
+            return true;
+        }
+
         public static bool ProjFacRevisesBeforeUnsTest(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'ProjFacRevisesBeforeUnsTest' work is finished: Name: {0}", theCurrentStory.Name));
@@ -526,6 +533,10 @@ namespace OneStoryProjectEditor
             // this can happen if the person has a story in this state, but then changes it to be a non-biblical story
             if (!theCurrentStory.CraftingInfo.IsBiblicalStory)
                 return true;
+
+            // there should be at least half as many questions as there are verses.
+            if (!CheckForCountOfTestingQuestions(theCurrentStory, theSE))
+                return false;
 
             // before going to the CIT, let's make sure that if the CIT had made 
             //  a comment, that the PF answered it. (this only occurs if the CIT
@@ -1313,6 +1324,10 @@ namespace OneStoryProjectEditor
             // this can happen if the person has a story in this state, but then changes it to be a non-biblical story
             if (!theCurrentStory.CraftingInfo.IsBiblicalStory)
                 return true;
+
+            // there should be at least half as many questions as there are verses.
+            if (!CheckForCountOfTestingQuestions(theCurrentStory, theSE))
+                return false;
 
             // before going to the CIT, let's make sure that if the CIT had made 
             //  a comment, that the PF answered it. (this only occurs if the CIT
