@@ -4,7 +4,7 @@
   <ApplicationExecutable />
   <ApplicationName>AutoUpgrade</ApplicationName>
   <FullUpgradeFileName />
-  <OffsetFromUctWhereManifestWasOriginallyCreated>11/9/2010 6:36:54 PM -06:00</OffsetFromUctWhereManifestWasOriginallyCreated>
+  <OffsetFromUctWhereManifestWasOriginallyCreated>11/15/2010 3:26:20 AM -06:00</OffsetFromUctWhereManifestWasOriginallyCreated>
   <ManifestFiles>
     <File name="Autofac.dll" method="version" action="copy" version="1.4.4.561" optional="false" size="126976">Autofac</File>
     <File name="AutoUpgrade.Lib.dll" method="version" action="copy" version="1.0.3965.33264" optional="false" size="24576">AutoUpgrade Lib</File>
@@ -15,7 +15,7 @@
     <File name="Palaso.dll" method="version" action="copy" version="1.0.0.0" optional="false" size="483840">Palaso</File>
     <File name="PalasoUIWindowsForms.dll" method="version" action="copy" version="1.0.0.0" optional="false" size="231936">PalasoUIWindowsForms</File>
     <File name="StageTransitions.xml" method="date" action="copy" version="Tuesday, October 12, 2010 9:57:14 AM" optional="false" size="84738" />
-    <File name="StoryEditor.exe" method="version" action="copy" version="1.4.0.22" optional="false" size="1099776">OneStory Editor</File>
+    <File name="StoryEditor.exe" method="version" action="copy" version="1.4.0.23" optional="false" size="1100800">OneStory Editor</File>
   </ManifestFiles>
   <SourcePath />
   <UpgradeFiles />
