@@ -102,11 +102,11 @@ namespace OneStoryProjectEditor
 
                 InitLanguageControls(tabPageLanguageNationalBT, ProjSettings.NationalBT);
                 if ((LoggedInMember != null) && (!String.IsNullOrEmpty(LoggedInMember.OverrideNationalBTKeyboard)))
-                    comboBoxKeyboardVernacular.SelectedItem = LoggedInMember.OverrideNationalBTKeyboard;
+                    comboBoxKeyboardNationalBT.SelectedItem = LoggedInMember.OverrideNationalBTKeyboard;
 
                 InitLanguageControls(tabPageLanguageEnglishBT, ProjSettings.InternationalBT);
                 if ((LoggedInMember != null) && (!String.IsNullOrEmpty(LoggedInMember.OverrideInternationalBTKeyboard)))
-                    comboBoxKeyboardVernacular.SelectedItem = LoggedInMember.OverrideInternationalBTKeyboard;
+                    comboBoxKeyboardEnglishBT.SelectedItem = LoggedInMember.OverrideInternationalBTKeyboard;
 
                 tabControl.SelectedIndex++;
             }
