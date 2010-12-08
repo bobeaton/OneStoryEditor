@@ -1064,11 +1064,6 @@ namespace OneStoryProjectEditor
                 return true;
             }
 
-            // before handing it back to the Project Facilitator, let's make sure that if the coach had made 
-            //  a comment, that the CIT answered it.
-            if (!CheckThatCITRespondedToCoachQuestions(theSE, theCurrentStory))
-                return false;
-
             // and if the ProjectFac asked a question that the CIT responded to it.
             if (!CheckThatCITAnsweredPFsQuestions(theSE, theCurrentStory))
                 return false;
