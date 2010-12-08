@@ -88,7 +88,11 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                var elem = new XElement("LnCNote", Notes,
+                string strNote = "-";   // can't be null
+                if (!String.IsNullOrEmpty(Notes))
+                    strNote = Notes;
+
+                var elem = new XElement("LnCNote", strNote,
                     new XAttribute("guid", guid));
 
                 if (!String.IsNullOrEmpty(VernacularRendering))
