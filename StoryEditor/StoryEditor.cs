@@ -4015,7 +4015,10 @@ namespace OneStoryProjectEditor
             GetSelectedLanguageText(ref strVernacular, ref strNationalBT, ref strInternationalBT);
             var dlg = new AddLnCNoteForm(this, strVernacular, strNationalBT, strInternationalBT);
             if (dlg.ShowDialog() == DialogResult.OK)
+            {
                 StoryProject.LnCNotes.Add(dlg.TheLnCNote);
+                Modified = true;
+            }
         }
 
         private void toolStripMenuItemSelectState_Click(object sender, EventArgs e)
