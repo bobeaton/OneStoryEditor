@@ -1,4 +1,6 @@
-﻿#define TurnOffLabels
+﻿// rde: removing lable row to save pixels
+// #define ShowLabelRow
+
 using System;
 using System.Windows.Forms;
 using ECInterfaces;
@@ -23,7 +25,10 @@ namespace OneStoryProjectEditor
             // clobber the base class table layout panel's configuration. We're 'column-oriented' instead
             // first add another row so that we have two rows (row(0)=label, row(1)=text)
             System.Diagnostics.Debug.Assert(tableLayoutPanel.RowCount == 1, "otherwise, adjust assumption here: StoryLineControl.cs.30");
+
+#if ShowLabelRow
             InsertRow(1);
+#endif
 
             // remove the columns, because we're going to add them back as equal sizes.
             while (tableLayoutPanel.ColumnCount > 0)
@@ -33,8 +38,10 @@ namespace OneStoryProjectEditor
             if (aSE.viewVernacularLangFieldMenuItem.Checked)
             {
                 InsertColumn(nNumColumns);
+#if ShowLabelRow
                 if (ctrlVerse.VerseNumber == 1)
                     InitLabel(aSE.StoryProject.ProjSettings.Vernacular.LangName, nNumColumns);
+#endif
 
                 // if we're in the one of the states where the user is entering in the 
                 //  national or international BT, then disable the Vernacular as a tab stop.
@@ -53,8 +60,11 @@ namespace OneStoryProjectEditor
             if (aSE.viewNationalLangFieldMenuItem.Checked)
             {
                 InsertColumn(nNumColumns);
+
+#if ShowLabelRow
                 if (ctrlVerse.VerseNumber == 1)
                     InitLabel(aSE.StoryProject.ProjSettings.NationalBT.LangName, nNumColumns);
+#endif
 
                 // if we're in the one of the states where the user is entering in the 
                 //  international BT, then disable the National BT as a tab stop.
@@ -73,8 +83,11 @@ namespace OneStoryProjectEditor
             if (aSE.viewEnglishBTFieldMenuItem.Checked)
             {
                 InsertColumn(nNumColumns);
+
+#if ShowLabelRow
                 if (ctrlVerse.VerseNumber == 1)
                     InitLabel(aSE.StoryProject.ProjSettings.InternationalBT.LangName, nNumColumns);
+#endif
 
                 InitTextBox(ctrlVerse, VerseData.CstrFieldNameInternationalBt, _aVerseData.InternationalBTText, 
                     aSE.StoryProject.ProjSettings.InternationalBT, false, nNumColumns);
@@ -110,6 +123,7 @@ namespace OneStoryProjectEditor
             _aVerseData.InternationalBTText.ExtractSelectedText(out strEnglishBT);
         }
 
+#if ShowLabelRow
         protected void InitLabel(string strStoryLineLableName, int nLayoutColumn)
         {
             // add the row0 column label
@@ -124,6 +138,7 @@ namespace OneStoryProjectEditor
                             };
             tableLayoutPanel.Controls.Add(lbl, nLayoutColumn, 0);
         }
+#endif
 
         protected void InitTextBox(VerseControl ctrlVerse, string strTbName, StringTransfer strTbText, 
             ProjectSettings.LanguageInfo li, bool bDisableTabStop, int nLayoutColumn)
@@ -132,7 +147,11 @@ namespace OneStoryProjectEditor
             CtrlTextBox tb = new CtrlTextBox(strTbName + CstrSuffixTextBox, ctrlVerse, this, 
                 strTbText, li, li.LangCode);
             tb.TabStop = !bDisableTabStop;
+#if ShowLabelRow
             tableLayoutPanel.Controls.Add(tb, nLayoutColumn, 1);
+#else
+            tableLayoutPanel.Controls.Add(tb, nLayoutColumn, 0);
+#endif
         }
     }
 }
