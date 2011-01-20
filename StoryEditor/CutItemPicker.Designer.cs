@@ -29,9 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Testing Questions");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Consultant Notes");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Coach Notes");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Testing Questions (tst)");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Cultural and Exegetical Notes (cn)");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Consultant Notes");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Coach Notes");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CutItemPicker));
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.treeViewItems = new System.Windows.Forms.TreeView();
@@ -68,15 +69,18 @@
             this.treeViewItems.Location = new System.Drawing.Point(3, 3);
             this.treeViewItems.Name = "treeViewItems";
             treeNode1.Name = "TestingQuestions";
-            treeNode1.Text = "Testing Questions";
-            treeNode2.Name = "ConsultantNotes";
-            treeNode2.Text = "Consultant Notes";
-            treeNode3.Name = "CoachNotes";
-            treeNode3.Text = "Coach Notes";
+            treeNode1.Text = "Testing Questions (tst)";
+            treeNode2.Name = "CulturalNotes";
+            treeNode2.Text = "Cultural and Exegetical Notes (cn)";
+            treeNode3.Name = "ConsultantNotes";
+            treeNode3.Text = "Consultant Notes";
+            treeNode4.Name = "CoachNotes";
+            treeNode4.Text = "Coach Notes";
             this.treeViewItems.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1,
             treeNode2,
-            treeNode3});
+            treeNode3,
+            treeNode4});
             this.treeViewItems.ShowRootLines = false;
             this.treeViewItems.Size = new System.Drawing.Size(321, 338);
             this.treeViewItems.TabIndex = 2;

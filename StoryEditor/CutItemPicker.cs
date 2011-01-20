@@ -12,18 +12,16 @@ namespace OneStoryProjectEditor
     public partial class CutItemPicker : Form
     {
         private const string CstrNodeTestingQuestions = "TestingQuestions";
+        private const string CstrNodeCulturalNotes = "CulturalNotes";
         private const string CstrNodeConsultantNotes = "ConsultantNotes";
         private const string CstrNodeCoachNotes = "CoachNotes";
 
         private VerseData _verseSource;
-        private VerseData _verseDest;
-        private VersesData _theVerses;
 
         public CutItemPicker(VerseData verseSource, VersesData theVerses, StoryEditor theSE)
         {
             InitializeComponent();
             _verseSource = verseSource;
-            _theVerses = theVerses;
             TheSE = theSE;
 
             InitializeFromVerse(verseSource);
@@ -51,7 +49,6 @@ namespace OneStoryProjectEditor
         {
             InitializeComponent();
             _verseSource = verseSource;
-            _verseDest = verseDest;
             TheSE = theSE;
 
             InitializeFromVerse(verseSource);
@@ -65,9 +62,44 @@ namespace OneStoryProjectEditor
         private void InitializeFromVerse(VerseData verseSource)
         {
             TreeNode nodeItems = treeViewItems.Nodes[CstrNodeTestingQuestions];
-            if (verseSource.TestQuestions.HasData)
+            AddTestQuestionNodes(verseSource.TestQuestions, nodeItems);
+
+            nodeItems = treeViewItems.Nodes[CstrNodeCulturalNotes];
+            AddAnchorNodes(verseSource.Anchors, nodeItems);
+
+            nodeItems = treeViewItems.Nodes[CstrNodeConsultantNotes];
+            AddConNoteNodes(verseSource.ConsultantNotes, nodeItems);
+            
+            nodeItems = treeViewItems.Nodes[CstrNodeCoachNotes];
+            AddConNoteNodes(verseSource.CoachNotes, nodeItems);
+
+            treeViewItems.ExpandAll();
+        }
+
+        private static void AddAnchorNodes(AnchorsData theAnchors, TreeNode nodeItems)
+        {
+            if (theAnchors.HasData)
             {
-                foreach (TestQuestionData aTQ in verseSource.TestQuestions)
+                foreach (AnchorData anAnchor in theAnchors)
+                {
+                    string strPrimary = anAnchor.JumpTarget;
+                    string strSecondary = anAnchor.ToolTipText;
+                    TreeNode theAnchorNode = nodeItems.Nodes.Add(strPrimary);
+                    theAnchorNode.ToolTipText = strSecondary;
+                    theAnchorNode.Checked = true;
+                    theAnchorNode.Tag = anAnchor;
+                }
+                nodeItems.Checked = true;
+            }
+            else
+                nodeItems.Remove();
+        }
+
+        private static void AddTestQuestionNodes(TestQuestionsData theTestQuestions, TreeNode nodeItems)
+        {
+            if (theTestQuestions.HasData)
+            {
+                foreach (TestQuestionData aTQ in theTestQuestions)
                 {
                     string strPrimary = (aTQ.QuestionVernacular.HasData)
                                             ? aTQ.QuestionVernacular.ToString()
@@ -88,14 +120,6 @@ namespace OneStoryProjectEditor
             }
             else
                 nodeItems.Remove();
-
-            nodeItems = treeViewItems.Nodes[CstrNodeConsultantNotes];
-            AddConNoteNodes(verseSource.ConsultantNotes, nodeItems);
-            
-            nodeItems = treeViewItems.Nodes[CstrNodeCoachNotes];
-            AddConNoteNodes(verseSource.CoachNotes, nodeItems);
-
-            treeViewItems.ExpandAll();
         }
 
         private static string StringForTooltip(VerseData theVerse)
@@ -153,6 +177,18 @@ namespace OneStoryProjectEditor
                     _verseSource.TestQuestions.Remove(aTQ);
                     if (verseDest != null)  // otherwise, it's just delete
                         verseDest.TestQuestions.Add(aTQ);
+                }
+
+            nodeItems = treeViewItems.Nodes[CstrNodeCulturalNotes];
+            if (nodeItems != null)
+                foreach (var anAnchor in
+                    from TreeNode node in nodeItems.Nodes
+                    where node.Checked
+                    select node.Tag as AnchorData)
+                {
+                    _verseSource.Anchors.Remove(anAnchor);
+                    if (verseDest != null)  // otherwise, it's just delete
+                        verseDest.Anchors.Add(anAnchor);
                 }
 
             nodeItems = treeViewItems.Nodes[CstrNodeConsultantNotes];
@@ -226,6 +262,7 @@ namespace OneStoryProjectEditor
                 }
             }
             else if ((e.Node == treeViewItems.Nodes[CstrNodeTestingQuestions])
+                || (e.Node == treeViewItems.Nodes[CstrNodeCulturalNotes])
                 || (e.Node == treeViewItems.Nodes[CstrNodeConsultantNotes])
                 || (e.Node == treeViewItems.Nodes[CstrNodeCoachNotes]))
             {
