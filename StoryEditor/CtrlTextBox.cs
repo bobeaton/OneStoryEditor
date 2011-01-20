@@ -11,6 +11,7 @@ namespace OneStoryProjectEditor
         internal VerseControl _ctrlVerseParent = null;
         protected string _strKeyboardName = null;
         internal string _strLabel = null;
+        protected string _strLangName;
         protected ContextMenuStrip _ctxMenu = null;
 
         public delegate void ThrowIfNotCorrectEditor(TeamMemberData.UserTypes eLoggedInMember, TeamMemberData.UserTypes eRequiredEditor);
@@ -69,19 +70,31 @@ namespace OneStoryProjectEditor
         {
             Name = strName;
             _strLabel = strLabel;
+            _strLangName = li.LangName;
             Font = li.FontToUse;
             ForeColor = li.FontColor;
+            BorderStyle = BorderStyle.FixedSingle;
+            // BackColor = SystemColors.ButtonFace;
             if (li.DoRtl)
                 RightToLeft = RightToLeft.Yes;
             stData.SetAssociation(this);
-            Margin = new Padding(1, 0, 1, 0);
+            InsureLanguageNameLabel();
+            Margin = new Padding(1, 0, 0, 0);
             Padding = new Padding(0);
             Size = GetPreferredSize(Size);
             TextChanged += ctrlParent.textBox_TextChanged;
+            MouseMove += CtrlTextBox_MouseMove;
             System.Diagnostics.Debug.Assert(ctrlParent.StageLogic != null);
             _stageLogic = ctrlParent.StageLogic;
             _ctrlVerseParent = ctrlVerseParent;
             _strKeyboardName = li.Keyboard;
+        }
+
+        void CtrlTextBox_MouseMove(object sender, MouseEventArgs e)
+        {
+            var theSE = (StoryEditor)_ctrlVerseParent.FindForm();
+            if (theSE != null)
+                theSE.CheckBiblePaneCursorPosition();
         }
 
         // get the string transfer associated with this box (we do this when we're about
@@ -120,6 +133,35 @@ namespace OneStoryProjectEditor
             }
 
             return true;
+        }
+
+        public void InsureLanguageNameLabel()
+        {
+            if (!String.IsNullOrEmpty(Text) || (Controls.Count != 0))
+                return;
+
+            var label = new Label
+                            {
+                                AutoSize = true,
+                                ForeColor = SystemColors.AppWorkspace,
+                                Location = new Point(2, 3),
+                                Text = _strLangName,
+                                Name = Name + _strLangName
+                            };
+            label.MouseDown += LabelMouseDown;
+            Controls.Add(label);
+        }
+
+        static void LabelMouseDown(object sender, MouseEventArgs e)
+        {
+            System.Diagnostics.Debug.Assert(sender is Label);
+            var label = sender as Label;
+            if (label != null)
+            {
+                label.Hide();
+                System.Diagnostics.Debug.Assert((label.Parent != null) && (label.Parent is CtrlTextBox));
+                label.Parent.Focus();
+            }
         }
 
         protected override void OnKeyDown(KeyEventArgs e)
@@ -244,6 +286,12 @@ namespace OneStoryProjectEditor
         {
             KeepTrackOfLastTextBoxSelected();
             base.OnEnter(e);
+            if (Controls.Count > 0)
+            {
+                Control label = Controls[0];
+                if (label.Visible)
+                    Controls[0].Hide();
+            }
         }
 
         protected override void OnMouseDown(MouseEventArgs e)
@@ -282,6 +330,12 @@ namespace OneStoryProjectEditor
             _inTextBox = null;
             try
             {
+                if ((Controls.Count > 0) && String.IsNullOrEmpty(Text))
+                {
+                    Control label = Controls[0];
+                    if (!label.Visible)
+                        label.Show();
+                }
                 KeyboardController.DeactivateKeyboard();
             }
             catch (System.IO.FileLoadException)

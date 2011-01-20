@@ -81,6 +81,7 @@ namespace OneStoryProjectEditor
             // the 'Tag' of each text box contains a delegate to set the data item it is associated with
             var st = tb.MyStringTransfer;
             st.SetValue(tb.Text);
+            tb.InsureLanguageNameLabel();
         }
 
         protected void AdjustTextBoxHeight(CtrlTextBox tb)

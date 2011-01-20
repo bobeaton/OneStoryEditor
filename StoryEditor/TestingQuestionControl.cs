@@ -1,4 +1,7 @@
-﻿using System.Windows.Forms;
+﻿// rde: removing lable row to save pixels
+// #define ShowLabelRow
+
+using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
 {
@@ -28,7 +31,10 @@ namespace OneStoryProjectEditor
             // clobber the base class table layout panel's configuration. We're 'column-oriented' instead
             // first add another row so that we have two rows (row(0)=label, row(1)=text)
             System.Diagnostics.Debug.Assert(tableLayoutPanel.RowCount == 1, "otherwise, adjust assumption here: TestingQuestionControl.cs.34");
+
+#if ShowLabelRow
             InsertRow(1);
+#endif
 
             // remove all but the left-most (autosize) column, because we're going to add them back as equal sizes.
             while (tableLayoutPanel.ColumnCount > 1)
@@ -45,7 +51,12 @@ namespace OneStoryProjectEditor
                     Name = CstrFieldNameTestQuestionsLabel,
                     Text = CstrTestQuestionsLabelFormat
                 };
+#if ShowLabelRow
                 tableLayoutPanel.Controls.Add(label, 0, 1);
+#else
+                tableLayoutPanel.Controls.Add(label, 0, 0);
+                bShowHeader = false;
+#endif
                 nNumColumns++;
 
                 // insert the vernacular representation of the testing question
@@ -101,7 +112,11 @@ namespace OneStoryProjectEditor
                 aAnswersCtrl.Name = CstrFieldNameAnswers;
                 aAnswersCtrl.ParentControl = this;
 
+#if ShowLabelRow
                 const int nLayoutRow = 2;
+#else
+                const int nLayoutRow = 1;
+#endif
                 InsertRow(nLayoutRow);
                 if (nNumColumns > 2)
                     tableLayoutPanel.SetColumnSpan(aAnswersCtrl, nNumColumns - 1);
@@ -115,6 +130,9 @@ namespace OneStoryProjectEditor
 
         protected void InitColumnLabel(string strTestQuestionLangLableName, int nLayoutColumn)
         {
+#if !ShowLabelRow
+            System.Diagnostics.Debug.Assert(false);
+#endif
             // add the row0 column label
             Label lbl = new Label
                             {
@@ -131,7 +149,11 @@ namespace OneStoryProjectEditor
         {
             CtrlTextBox tb = new CtrlTextBox(strTbName + CstrSuffixTextBox, ctrlVerse, this,
                 strTbText, li, CstrTestQuestionsLabelFormat, true);
+#if ShowLabelRow
             tableLayoutPanel.Controls.Add(tb, nLayoutColumn, 1);
+#else
+            tableLayoutPanel.Controls.Add(tb, nLayoutColumn, 0);
+#endif
         }
     }
 }

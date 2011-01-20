@@ -32,6 +32,7 @@
             // 
             // TestingQuestionControl
             // 
+            this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "TestingQuestionControl";
             this.Size = new System.Drawing.Size(494, 197);
             this.ResumeLayout(false);
@@ -39,5 +40,8 @@
         }
 
         #endregion
+
+
+
     }
 }

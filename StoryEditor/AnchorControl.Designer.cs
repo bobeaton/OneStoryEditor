@@ -54,11 +54,12 @@
             // 
             this.toolStripAnchors.AllowDrop = true;
             this.toolStripAnchors.ContextMenuStrip = this.contextMenuStripAnchorOptions;
+            this.toolStripAnchors.GripMargin = new System.Windows.Forms.Padding(0);
             this.toolStripAnchors.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStripAnchors.Location = new System.Drawing.Point(34, 0);
-            this.toolStripAnchors.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.toolStripAnchors.Name = "toolStripAnchors";
-            this.toolStripAnchors.Size = new System.Drawing.Size(672, 25);
+            this.toolStripAnchors.Padding = new System.Windows.Forms.Padding(0);
+            this.toolStripAnchors.Size = new System.Drawing.Size(672, 20);
             this.toolStripAnchors.TabIndex = 0;
             this.toolStripAnchors.Text = "toolStripAnchors";
             this.toolStripAnchors.MouseUp += new System.Windows.Forms.MouseEventHandler(this.toolStripAnchors_MouseDown);
@@ -74,7 +75,7 @@
             this.addConsultantCoachNoteOnThisAnchorToolStripMenuItem,
             this.editKeyTermsToolStripMenuItem});
             this.contextMenuStripAnchorOptions.Name = "contextMenuStripAnchorOptions";
-            this.contextMenuStripAnchorOptions.Size = new System.Drawing.Size(307, 136);
+            this.contextMenuStripAnchorOptions.Size = new System.Drawing.Size(307, 114);
             // 
             // deleteToolStripMenuItem
             // 
@@ -115,6 +116,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "AnchorControl";
             this.Size = new System.Drawing.Size(706, 71);
             this.contextMenuStripAnchorOptions.ResumeLayout(false);

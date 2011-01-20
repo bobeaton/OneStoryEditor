@@ -55,16 +55,19 @@ namespace OneStoryProjectEditor
                 strText += AnchorData.CstrTooltipIndicator; // give an indication that there's a tooltip
             }
 
-            ToolStripButton aButton = new ToolStripButton();
-            aButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            aButton.Tag = theAnchorData;
-            aButton.Name = CstrFieldNameAnchor + theAnchorData.JumpTarget;
-            aButton.AutoSize = true;
-            aButton.Text = strText;
-            aButton.ToolTipText = theAnchorData.ToolTipText;
-            aButton.Click += new EventHandler(aButton_Click);
-            aButton.MouseDown += new MouseEventHandler(aButton_MouseDown);
+            var aButton = new ToolStripButton
+                              {
+                                  DisplayStyle = ToolStripItemDisplayStyle.Text,
+                                  Tag = theAnchorData,
+                                  Name = CstrFieldNameAnchor + theAnchorData.JumpTarget,
+                                  Text = strText,
+                                  ToolTipText = theAnchorData.ToolTipText,
+                                  Margin = new Padding(0)
+                              };
+            aButton.Click += aButton_Click;
+            aButton.MouseDown += aButton_MouseDown;
             ts.Items.Add(aButton);
+            aButton.Height = 18;
             return aButton;
         }
 

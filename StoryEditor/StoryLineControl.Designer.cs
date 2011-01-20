@@ -32,7 +32,7 @@
             // 
             // StoryLineControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "StoryLineControl";
             this.ResumeLayout(false);
 

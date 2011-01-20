@@ -28,7 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // MultiLineControl
+            // 
+            this.Margin = new System.Windows.Forms.Padding(0);
+            this.Name = "MultiLineControl";
+            this.ResumeLayout(false);
+
         }
 
         #endregion

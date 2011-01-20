@@ -440,6 +440,9 @@
     <EmbeddedResource Include="LnCNotesForm.resx">
       <DependentUpon>LnCNotesForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MultiLineControl.resx">
+      <DependentUpon>MultiLineControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="NetBibleFootnoteTooltip.resx">
       <DependentUpon>NetBibleFootnoteTooltip.cs</DependentUpon>
       <SubType>Designer</SubType>

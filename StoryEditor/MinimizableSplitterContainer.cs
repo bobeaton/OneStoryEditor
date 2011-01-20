@@ -31,6 +31,11 @@ namespace OneStoryProjectEditor
             get { return (SplitterDistance == MinimizedSplitterDistance); }
         }
 
+        public bool IsRestored
+        {
+            get { return (SplitterDistance == _originalSplitterDistance); }
+        }
+
         protected int MinimizedSplitterDistance
         {
             get { return DisplayRectangle.Height - CnNetBibleHiddenHeight; }
