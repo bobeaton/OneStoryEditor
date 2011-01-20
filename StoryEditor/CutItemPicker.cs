@@ -59,6 +59,8 @@ namespace OneStoryProjectEditor
             AddLineButton(strLine, strToolTip, nIndex, verseDest);
         }
 
+        public bool IsSomethingToMove { get; set; }
+
         private void InitializeFromVerse(VerseData verseSource)
         {
             TreeNode nodeItems = treeViewItems.Nodes[CstrNodeTestingQuestions];
@@ -76,7 +78,7 @@ namespace OneStoryProjectEditor
             treeViewItems.ExpandAll();
         }
 
-        private static void AddAnchorNodes(AnchorsData theAnchors, TreeNode nodeItems)
+        private void AddAnchorNodes(AnchorsData theAnchors, TreeNode nodeItems)
         {
             if (theAnchors.HasData)
             {
@@ -89,13 +91,14 @@ namespace OneStoryProjectEditor
                     theAnchorNode.Checked = true;
                     theAnchorNode.Tag = anAnchor;
                 }
-                nodeItems.Checked = true;
+                IsSomethingToMove = nodeItems.Checked = true;
             }
             else
                 nodeItems.Remove();
         }
 
-        private static void AddTestQuestionNodes(TestQuestionsData theTestQuestions, TreeNode nodeItems)
+        private void AddTestQuestionNodes(TestQuestionsData theTestQuestions, 
+            TreeNode nodeItems)
         {
             if (theTestQuestions.HasData)
             {
@@ -116,7 +119,7 @@ namespace OneStoryProjectEditor
                     theTQnode.Checked = true;
                     theTQnode.Tag = aTQ;
                 }
-                nodeItems.Checked = true;
+                IsSomethingToMove = nodeItems.Checked = true;
             }
             else
                 nodeItems.Remove();
@@ -219,7 +222,7 @@ namespace OneStoryProjectEditor
             Close();
         }
 
-        private static void AddConNoteNodes(IEnumerable<ConsultNoteDataConverter> theConNotes, TreeNode nodeItems)
+        private void AddConNoteNodes(IEnumerable<ConsultNoteDataConverter> theConNotes, TreeNode nodeItems)
         {
             if (theConNotes.Count() > 0)
             {
@@ -234,7 +237,7 @@ namespace OneStoryProjectEditor
                     theConNoteNode.Checked = true;
                     theConNoteNode.Tag = aConNote;
                 }
-                nodeItems.Checked = true;
+                IsSomethingToMove = nodeItems.Checked = true;
             }
             else
                 nodeItems.Remove();

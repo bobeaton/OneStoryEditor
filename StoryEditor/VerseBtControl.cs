@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using ECInterfaces;
-using SilEncConverters31;
+using SilEncConverters40;
 
 namespace OneStoryProjectEditor
 {
@@ -674,7 +674,8 @@ namespace OneStoryProjectEditor
             theSE.DoPasteVerse(VerseNumber, verseNew);
             // VerseData verseDest = PasteVerseToIndex(theSE, VerseNumber);
             var dlg = new CutItemPicker(_verseData, verseNew, VerseNumber + 1, theSE);
-            dlg.ShowDialog();
+            if (dlg.IsSomethingToMove)
+                dlg.ShowDialog();
             theSE.InitAllPanes();
         }
 
