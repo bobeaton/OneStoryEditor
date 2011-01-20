@@ -226,10 +226,12 @@ namespace OneStoryProjectEditor
                                      AutoSize = true,
                                      Name = CstrRadioButtonPrefix + strModuleName,
                                      Text = strModuleName,
-                                     UseVisualStyleBackColor = true
+                                     UseVisualStyleBackColor = true,
+                                     Margin = new Padding(0)
                                  };
             toolTip.SetToolTip(rb, strModuleDescription);
             rb.CheckedChanged += rb_CheckedChanged;
+            rb.MouseMove += CheckBiblePaneCursorPosition_MouseMove;
 
             int nIndex = tableLayoutPanelSpinControls.Controls.Count - 1;   // insert at the penultimate position
             tableLayoutPanelSpinControls.InsertColumn(nIndex, new ColumnStyle(SizeType.AutoSize));
@@ -498,6 +500,9 @@ namespace OneStoryProjectEditor
             m_bMouseDown = false;
             ScriptureReference = strScriptureReference;
             DisplayVerses();
+            var theSE = FindForm() as StoryEditor;
+            if (theSE != null)
+                theSE._bAutoHide = false;   // get it to stick if the user does this
         }
 
         protected NetBibleFootnoteTooltip _theFootnoteForm = null;
@@ -597,22 +602,39 @@ namespace OneStoryProjectEditor
                 var theSE = FindForm() as StoryEditor;
                 if (theSE != null)
                 {
+                    theSE.LastKeyPressedTimeStamp = DateTime.Now;
+                    /*
                     if (theSE.splitContainerUpDown.IsMinimized)
                         theSE.splitContainerUpDown.Restore();
                     else
                         theSE.splitContainerUpDown.Minimize();
+                    */
                 }
             }
         }
 
         private void numericUpDownChapterNumber_Enter(object sender, EventArgs e)
         {
-            numericUpDownChapterNumber.Select(0, numericUpDownChapterNumber.Value.ToString().Length); 
+            numericUpDownChapterNumber.Select(0, numericUpDownChapterNumber.Value.ToString().Length);
+            CheckBiblePaneCursorPosition_MouseMove(sender, null);
         }
 
         private void numericUpDownVerseNumber_Enter(object sender, EventArgs e)
         {
             numericUpDownVerseNumber.Select(0, numericUpDownVerseNumber.Value.ToString().Length);
+            CheckBiblePaneCursorPosition_MouseMove(sender, null);
+        }
+
+        private void CheckBiblePaneCursorPosition_MouseMove(object sender, MouseEventArgs e)
+        {
+            var theSE = FindForm() as StoryEditor;
+            if (theSE != null)
+                theSE.CheckBiblePaneCursorPosition();
+        }
+
+        private void textBoxNetFlixViewer_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

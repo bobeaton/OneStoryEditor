@@ -1085,7 +1085,7 @@ namespace OneStoryProjectEditor
             this.linkLabelVerseBT.ContextMenuStrip = this.contextMenuStripVerseList;
             this.helpProvider.SetHelpString(this.linkLabelVerseBT, "Click here to jump to the indicated line number. You can also right-click on this" +
                     " to get a list of all lines to jump to.");
-            this.linkLabelVerseBT.Location = new System.Drawing.Point(11, 8);
+            this.linkLabelVerseBT.Location = new System.Drawing.Point(11, 5);
             this.linkLabelVerseBT.Name = "linkLabelVerseBT";
             this.helpProvider.SetShowHelp(this.linkLabelVerseBT, true);
             this.linkLabelVerseBT.Size = new System.Drawing.Size(31, 13);
@@ -1109,25 +1109,26 @@ namespace OneStoryProjectEditor
             this.flowLayoutPanelVerses.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanelVerses.LastControlIntoView = null;
             this.flowLayoutPanelVerses.LineNumberLink = null;
-            this.flowLayoutPanelVerses.Location = new System.Drawing.Point(0, 29);
+            this.flowLayoutPanelVerses.Location = new System.Drawing.Point(0, 23);
             this.flowLayoutPanelVerses.Name = "flowLayoutPanelVerses";
-            this.flowLayoutPanelVerses.Size = new System.Drawing.Size(451, 234);
+            this.flowLayoutPanelVerses.Size = new System.Drawing.Size(451, 240);
             this.flowLayoutPanelVerses.TabIndex = 1;
             this.flowLayoutPanelVerses.WrapContents = false;
+            this.flowLayoutPanelVerses.MouseMove += new System.Windows.Forms.MouseEventHandler(this.CheckBiblePaneCursorPositionMouseMove);
             // 
             // textBoxStoryVerse
             // 
             this.textBoxStoryVerse.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxStoryVerse.Dock = System.Windows.Forms.DockStyle.Top;
             this.textBoxStoryVerse.Enabled = false;
-            this.textBoxStoryVerse.Font = new System.Drawing.Font("Segoe UI", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxStoryVerse.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxStoryVerse.Location = new System.Drawing.Point(0, 0);
             this.textBoxStoryVerse.Name = "textBoxStoryVerse";
             this.textBoxStoryVerse.ReadOnly = true;
-            this.textBoxStoryVerse.Size = new System.Drawing.Size(451, 29);
+            this.textBoxStoryVerse.Size = new System.Drawing.Size(451, 23);
             this.textBoxStoryVerse.TabIndex = 3;
             this.textBoxStoryVerse.TabStop = false;
-            this.textBoxStoryVerse.Text = "Story";
+            this.textBoxStoryVerse.Text = "Story/BT";
             this.textBoxStoryVerse.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // netBibleViewer
@@ -1170,7 +1171,7 @@ namespace OneStoryProjectEditor
             this.linkLabelConsultantNotes.ContextMenuStrip = this.contextMenuStripVerseList;
             this.helpProvider.SetHelpString(this.linkLabelConsultantNotes, "Click here to jump to the indicated line number. You can also right-click on this" +
                     " to get a list of all lines to jump to.");
-            this.linkLabelConsultantNotes.Location = new System.Drawing.Point(11, 8);
+            this.linkLabelConsultantNotes.Location = new System.Drawing.Point(11, 5);
             this.linkLabelConsultantNotes.Name = "linkLabelConsultantNotes";
             this.helpProvider.SetShowHelp(this.linkLabelConsultantNotes, true);
             this.linkLabelConsultantNotes.Size = new System.Drawing.Size(64, 13);
@@ -1185,10 +1186,10 @@ namespace OneStoryProjectEditor
             // 
             this.htmlConsultantNotesControl.AllowWebBrowserDrop = false;
             this.htmlConsultantNotesControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.htmlConsultantNotesControl.Location = new System.Drawing.Point(0, 29);
+            this.htmlConsultantNotesControl.Location = new System.Drawing.Point(0, 23);
             this.htmlConsultantNotesControl.MinimumSize = new System.Drawing.Size(20, 20);
             this.htmlConsultantNotesControl.Name = "htmlConsultantNotesControl";
-            this.htmlConsultantNotesControl.Size = new System.Drawing.Size(422, 242);
+            this.htmlConsultantNotesControl.Size = new System.Drawing.Size(422, 248);
             this.htmlConsultantNotesControl.StoryData = null;
             this.htmlConsultantNotesControl.TabIndex = 2;
             this.htmlConsultantNotesControl.TheSE = null;
@@ -1198,11 +1199,11 @@ namespace OneStoryProjectEditor
             this.textBoxConsultantNotesTable.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxConsultantNotesTable.Dock = System.Windows.Forms.DockStyle.Top;
             this.textBoxConsultantNotesTable.Enabled = false;
-            this.textBoxConsultantNotesTable.Font = new System.Drawing.Font("Segoe UI", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxConsultantNotesTable.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxConsultantNotesTable.Location = new System.Drawing.Point(0, 0);
             this.textBoxConsultantNotesTable.Name = "textBoxConsultantNotesTable";
             this.textBoxConsultantNotesTable.ReadOnly = true;
-            this.textBoxConsultantNotesTable.Size = new System.Drawing.Size(422, 29);
+            this.textBoxConsultantNotesTable.Size = new System.Drawing.Size(422, 23);
             this.textBoxConsultantNotesTable.TabIndex = 1;
             this.textBoxConsultantNotesTable.TabStop = false;
             this.textBoxConsultantNotesTable.Text = "Consultant Notes";
@@ -1214,7 +1215,7 @@ namespace OneStoryProjectEditor
             this.linkLabelCoachNotes.ContextMenuStrip = this.contextMenuStripVerseList;
             this.helpProvider.SetHelpString(this.linkLabelCoachNotes, "Click here to jump to the indicated line number. You can also right-click on this" +
                     " to get a list of all lines to jump to.");
-            this.linkLabelCoachNotes.Location = new System.Drawing.Point(11, 8);
+            this.linkLabelCoachNotes.Location = new System.Drawing.Point(11, 5);
             this.linkLabelCoachNotes.Name = "linkLabelCoachNotes";
             this.helpProvider.SetShowHelp(this.linkLabelCoachNotes, true);
             this.linkLabelCoachNotes.Size = new System.Drawing.Size(64, 13);
@@ -1229,10 +1230,10 @@ namespace OneStoryProjectEditor
             // 
             this.htmlCoachNotesControl.AllowWebBrowserDrop = false;
             this.htmlCoachNotesControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.htmlCoachNotesControl.Location = new System.Drawing.Point(0, 29);
+            this.htmlCoachNotesControl.Location = new System.Drawing.Point(0, 23);
             this.htmlCoachNotesControl.MinimumSize = new System.Drawing.Size(20, 20);
             this.htmlCoachNotesControl.Name = "htmlCoachNotesControl";
-            this.htmlCoachNotesControl.Size = new System.Drawing.Size(422, 162);
+            this.htmlCoachNotesControl.Size = new System.Drawing.Size(422, 168);
             this.htmlCoachNotesControl.StoryData = null;
             this.htmlCoachNotesControl.TabIndex = 3;
             this.htmlCoachNotesControl.TheSE = null;
@@ -1242,11 +1243,11 @@ namespace OneStoryProjectEditor
             this.textBoxCoachNotes.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxCoachNotes.Dock = System.Windows.Forms.DockStyle.Top;
             this.textBoxCoachNotes.Enabled = false;
-            this.textBoxCoachNotes.Font = new System.Drawing.Font("Segoe UI", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxCoachNotes.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxCoachNotes.Location = new System.Drawing.Point(0, 0);
             this.textBoxCoachNotes.Name = "textBoxCoachNotes";
             this.textBoxCoachNotes.ReadOnly = true;
-            this.textBoxCoachNotes.Size = new System.Drawing.Size(422, 29);
+            this.textBoxCoachNotes.Size = new System.Drawing.Size(422, 23);
             this.textBoxCoachNotes.TabIndex = 2;
             this.textBoxCoachNotes.TabStop = false;
             this.textBoxCoachNotes.Text = "Coach Notes";

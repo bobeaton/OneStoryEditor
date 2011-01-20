@@ -48,7 +48,7 @@ namespace OneStoryProjectEditor
         internal Timer myFocusTimer = new Timer();
         protected Timer mySaveTimer = new Timer();
 
-        private const int CnIntervalBetweenAutoSaveReqs = 5*1000*60;
+        private const int CnIntervalBetweenAutoSaveReqs = 5 * 1000 * 60;
         protected DateTime tmLastSync = DateTime.Now;
         protected TimeSpan tsBackupTime = new TimeSpan(1, 0, 0);
 
@@ -107,6 +107,7 @@ namespace OneStoryProjectEditor
             }
         }
 
+        internal bool _bAutoHide = false;
         private const int CnSecondsToDelyLastKeyPress = 7;
         private DateTime _tmLastKeyPressedTimeStamp;
         internal DateTime LastKeyPressedTimeStamp
@@ -119,24 +120,27 @@ namespace OneStoryProjectEditor
                 // if the Bible Pane's auto hide checkbox is unchecked, then 
                 //  hide it when typing
                 if (!netBibleViewer.checkBoxAutoHide.Checked)
+                {
+                    _bAutoHide = true;
                     splitContainerUpDown.Minimize();
+                }
             }
         }
         protected TimeSpan tsLastKeyPressDelay = new TimeSpan(0, 0, CnSecondsToDelyLastKeyPress);
-        
+
         private void TimeToSave(object sender, EventArgs e)
         {
             mySaveTimer.Stop();
 
-            if (Modified 
-                && !((LoggedOnMember != null) 
+            if (Modified
+                && !((LoggedOnMember != null)
                         && (LoggedOnMember.MemberType == TeamMemberData.UserTypes.eJustLooking)))
             {
                 // don't do it *now* if the user is typing
                 if ((DateTime.Now - LastKeyPressedTimeStamp) < tsLastKeyPressDelay)
                 {
                     // wait at least 3 secs from the last key press
-                    mySaveTimer.Interval = CnSecondsToDelyLastKeyPress*1000;
+                    mySaveTimer.Interval = CnSecondsToDelyLastKeyPress * 1000;
                 }
                 else
                 {
@@ -313,9 +317,9 @@ namespace OneStoryProjectEditor
             if (m_dlgNotes != null)
             {
                 m_dlgNotes.Close();
-                m_dlgNotes = null;    
+                m_dlgNotes = null;
             }
-            
+
             if (m_dlgHistDiffDlg != null)
             {
                 m_dlgHistDiffDlg.Close();
@@ -334,7 +338,7 @@ namespace OneStoryProjectEditor
 
             // restart the last sync timer whenever we switch projects
             tmLastSync = DateTime.Now;
-            
+
             if (splitContainerUpDown.IsMinimized)
                 splitContainerUpDown.Restore();
         }
@@ -351,7 +355,8 @@ namespace OneStoryProjectEditor
                 deleteTestToolStripMenuItem.Visible =
                 /* viewVernacularLangFieldMenuItem.Visible =
                 viewNationalLangFieldMenuItem.Visible =
-                viewEnglishBTFieldMenuItem.Visible = */ true;
+                viewEnglishBTFieldMenuItem.Visible = */
+                                                        true;
         }
 
         protected void ClearState()
@@ -366,8 +371,8 @@ namespace OneStoryProjectEditor
 
             if (!useSameSettingsForAllStoriesToolStripMenuItem.Checked)
             {
-                viewConsultantNoteFieldMenuItem.Checked = 
-                    viewCoachNotesFieldMenuItem.Checked = 
+                viewConsultantNoteFieldMenuItem.Checked =
+                    viewCoachNotesFieldMenuItem.Checked =
                     viewNetBibleMenuItem.Checked = false;
             }
         }
@@ -765,8 +770,8 @@ namespace OneStoryProjectEditor
 
             Debug.Assert(LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator);
             Debug.Assert(StoryProject.TeamMembers != null);
-            StoryData theNewStory = new StoryData(strStoryName, strCrafterGuid, 
-                LoggedOnMember.MemberGuid, 
+            StoryData theNewStory = new StoryData(strStoryName, strCrafterGuid,
+                LoggedOnMember.MemberGuid,
                 (res == DialogResult.Yes),
                 StoryProject.ProjSettings);
             InsertNewStoryAdjustComboBox(theNewStory, nIndexToInsert);
@@ -786,8 +791,8 @@ namespace OneStoryProjectEditor
         private void comboBoxStorySelector_SelectedIndexChanged(object sender, EventArgs e)
         {
             // do nothing if we're already on this story:
-            if (_bCancellingChange 
-                &&  (theCurrentStory != null) 
+            if (_bCancellingChange
+                && (theCurrentStory != null)
                 && (theCurrentStory.Name == (string)comboBoxStorySelector.SelectedItem))
                 return;
 
@@ -846,11 +851,11 @@ namespace OneStoryProjectEditor
 
             // forget things:
             CtrlTextBox._nLastVerse = -1;
-            
+
             if (m_frmFind != null)
                 // if the user switches stories, then we need to reindex the search
                 m_frmFind.ResetSearchParameters();
-            
+
             // finally, initialize the verse controls
             InitAllPanes();
 
@@ -1148,7 +1153,7 @@ namespace OneStoryProjectEditor
         /// <param name="nVerseIndex">corresponds to the line number (e.g. ln: 1 == 1), but could be 0 for ConNote panes</param>
         /// <param name="bDontSyncConsultantNotePane">Don't sync the Consultant Note pane</param>
         /// <param name="bDontSyncCoachNotePane">Don't sync the Coach Note pane</param>
-        public void FocusOnVerse(int nVerseIndex, bool bSyncConsultantNotePane, 
+        public void FocusOnVerse(int nVerseIndex, bool bSyncConsultantNotePane,
             bool bSyncCoachNotePane)
         {
             // if no box was actually ever selected, then this might be -1
@@ -1433,7 +1438,7 @@ namespace OneStoryProjectEditor
             // see if we're supposed to use the same settings as always... 
             //  but not for PFs who are in the early stages
             bool bProjFacInEarlyState = (((int)eStage <= (int)StoryStageLogic.ProjectStages.eProjFacAddStoryQuestions)
-                &&  (LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator));
+                && (LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator));
 
             if (!useSameSettingsForAllStoriesToolStripMenuItem.Checked
                 || bProjFacInEarlyState)
@@ -1453,7 +1458,7 @@ namespace OneStoryProjectEditor
                 {
                     st.SetView(this);
                 }
-                
+
                 _bDisableReInitVerseControls = false;
             }
 
@@ -1558,8 +1563,13 @@ namespace OneStoryProjectEditor
                 viewNetBibleMenuItem.Checked = true;
 
             if (!netBibleViewer.checkBoxAutoHide.Checked && splitContainerUpDown.IsMinimized)
+            {
+                // when the user clicks an anchor button, then turn off the auto hide until
+                //  they start typing again (see LastKeyPressedTimeStamp)
+                _bAutoHide = false;
                 splitContainerUpDown.Restore();
-            
+            }
+
             netBibleViewer.DisplayVerses(strScriptureReference);
         }
 
@@ -2126,7 +2136,7 @@ namespace OneStoryProjectEditor
                     bReqSave = true;  // request a save if we've just done a terminal transition
                 }
                 // a record to our history
-                theCurrentStory.TransitionHistory.Add(LoggedOnMember.MemberGuid, 
+                theCurrentStory.TransitionHistory.Add(LoggedOnMember.MemberGuid,
                     theCurrentStory.ProjStage.ProjectStage, eNextState);
                 theCurrentStory.ProjStage.ProjectStage = eNextState;  // if we are ready, then go ahead and transition
                 theCurrentStory.StageTimeStamp = DateTime.Now;
@@ -2381,8 +2391,8 @@ namespace OneStoryProjectEditor
 
         private void editAddTestResultsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show(Properties.Resources.IDS_AreAllTestingQuestionsEnteredQuery, 
-                                OseResources.Properties.Resources.IDS_Caption, 
+            if (MessageBox.Show(Properties.Resources.IDS_AreAllTestingQuestionsEnteredQuery,
+                                OseResources.Properties.Resources.IDS_Caption,
                                 MessageBoxButtons.OKCancel) == DialogResult.Cancel)
                 return;
 
@@ -2434,7 +2444,7 @@ namespace OneStoryProjectEditor
 
             if (res == DialogResult.No)
                 return AddTest();
-            
+
             if (res == DialogResult.Cancel)
                 return false;
 
@@ -3093,7 +3103,7 @@ namespace OneStoryProjectEditor
                 viewStoryTestingQuestionAnswerMenuItem.Enabled =
                     viewStoryTestingQuestionMenuItem.Enabled =
                     viewRetellingFieldMenuItem.Enabled = ((theCurrentStory != null)
-                                                          && (((int) theCurrentStory.ProjStage.ProjectStage)
+                                                          && (((int)theCurrentStory.ProjStage.ProjectStage)
                                                               >
                                                               (int)
                                                               StoryStageLogic.ProjectStages.
@@ -3105,11 +3115,11 @@ namespace OneStoryProjectEditor
 
                 viewTransliterationsToolStripMenuItem.Enabled = (StoryProject.ProjSettings.Vernacular.HasData || StoryProject.ProjSettings.NationalBT.HasData);
 
-                viewLnCNotesMenu.Enabled = 
+                viewLnCNotesMenu.Enabled =
                     concordanceToolStripMenuItem.Enabled = true;
             }
             else
-                showHideFieldsToolStripMenuItem.Enabled = 
+                showHideFieldsToolStripMenuItem.Enabled =
                     viewTransliterationsToolStripMenuItem.Enabled =
                     stateTransitionHistoryToolStripMenuItem.Enabled =
                     viewLnCNotesMenu.Enabled =
@@ -3322,7 +3332,7 @@ namespace OneStoryProjectEditor
         }
 
         public void NavigateTo(string strStoryName,
-            VerseData.ViewSettings viewItemToInsureOn, bool bDoOffToo, 
+            VerseData.ViewSettings viewItemToInsureOn, bool bDoOffToo,
             CtrlTextBox ctbToFocus)
         {
             Debug.Assert(comboBoxStorySelector.Items.Contains(strStoryName));
@@ -3391,7 +3401,7 @@ namespace OneStoryProjectEditor
                                                viewItemToInsureOn.IsViewItemOn(
                                                    VerseData.ViewSettings.ItemToInsureOn.OpenConNotesOnly),
                                                bDoOffToo);
-            
+
             _bDisableReInitVerseControls = false;
 
             if (bSomethingChanged)
@@ -3891,7 +3901,7 @@ namespace OneStoryProjectEditor
             var ll = sender as LinkLabel;
             if ((ll != null) && (e.Button == MouseButtons.Left))
             {
-                int nVerseIndex = (int) ll.Tag;
+                int nVerseIndex = (int)ll.Tag;
                 FocusOnVerse(nVerseIndex, true, true);
             }
         }
@@ -3913,7 +3923,7 @@ namespace OneStoryProjectEditor
                     string strMenuText = "Ln: " + (i + 1);
                     if (!aVerse.IsVisible)
                         strMenuText += OseResources.Properties.Resources.IDS_HiddenLabel;
-                    contextMenuStripVerseList.Items.Add(strMenuText, null, 
+                    contextMenuStripVerseList.Items.Add(strMenuText, null,
                         onClickVerseNumber);
                 }
             }
@@ -4057,7 +4067,7 @@ namespace OneStoryProjectEditor
         {
             if ((TheCurrentStoriesSet == null) || (theCurrentStory == null))
                 return;
-                
+
             int nIndex = TheCurrentStoriesSet.IndexOf(theCurrentStory);
             if (nIndex > 0)
                 comboBoxStorySelector.SelectedIndex = --nIndex;
@@ -4065,8 +4075,8 @@ namespace OneStoryProjectEditor
 
         private void toolStripButtonNext_Click(object sender, EventArgs e)
         {
-            if ((StoryProject == null) 
-                || String.IsNullOrEmpty(_strStoriesSet) 
+            if ((StoryProject == null)
+                || String.IsNullOrEmpty(_strStoriesSet)
                 || (StoryProject[_strStoriesSet] == null)
                 || (theCurrentStory == null))
                 return;
@@ -4108,7 +4118,7 @@ namespace OneStoryProjectEditor
             // locate the window near the cursor...
             Point ptTooltip = Cursor.Position;
 
-            if (MessageBox.Show(Properties.Resources.IDS_ConfirmStateChangeOverride, 
+            if (MessageBox.Show(Properties.Resources.IDS_ConfirmStateChangeOverride,
                 OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
                 return;
 
@@ -4245,7 +4255,7 @@ namespace OneStoryProjectEditor
                 int nIndexToInsert = Math.Min(nIndexOfCurrentStory + 1, TheCurrentStoriesSet.Count);
 
                 // first clone the story... (so we get everything, including the state, etc)
-                var theNewStory = new StoryData(theCurrentStory) {Name = strStoryName};
+                var theNewStory = new StoryData(theCurrentStory) { Name = strStoryName };
 
                 // then, delete the latter verses from current story and the earlier verses
                 //  from the new one
@@ -4255,6 +4265,27 @@ namespace OneStoryProjectEditor
                 theCurrentStory.Verses.RemoveRange(nIndex, nNumberToMove);
                 InsertNewStoryAdjustComboBox(theNewStory, nIndexToInsert);
             }
+        }
+
+        public void CheckBiblePaneCursorPosition()
+        {
+            if (!_bAutoHide)
+                return;
+
+            Point locationNetBibleViewer = netBibleViewer.PointToScreen(netBibleViewer.Location);
+            Rectangle rectangleNetBibleViewer = new Rectangle(locationNetBibleViewer, netBibleViewer.DisplayRectangle.Size);
+            if (rectangleNetBibleViewer.Contains(MousePosition))
+            {
+                if (splitContainerUpDown.IsMinimized)
+                    splitContainerUpDown.Restore();
+            }
+            else if (splitContainerUpDown.IsRestored && !netBibleViewer.checkBoxAutoHide.Checked)
+                splitContainerUpDown.Minimize();
+        }
+
+        private void CheckBiblePaneCursorPositionMouseMove(object sender, MouseEventArgs e)
+        {
+            CheckBiblePaneCursorPosition();
         }
     }
 }
