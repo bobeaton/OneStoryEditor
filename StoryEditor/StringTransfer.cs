@@ -1,5 +1,5 @@
 ﻿using System;
-using SilEncConverters31;
+using SilEncConverters40;
 
 namespace OneStoryProjectEditor
 {
@@ -95,8 +95,13 @@ namespace OneStoryProjectEditor
             if (!HasData)
                 return 0;
 
-            string[] astr = Value.Split(achToIgnore, StringSplitOptions.RemoveEmptyEntries);
+            string[] astr = GetWords(achToIgnore);
             return astr.Length;
+        }
+
+        public string[] GetWords(char[] achToIgnore)
+        {
+            return Value.Split(achToIgnore, StringSplitOptions.RemoveEmptyEntries);
         }
 
         public void ExtractSelectedText(out string strSelectedText)

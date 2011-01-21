@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Xml;
 using System.Xml.Linq;
 using System.Text;
-using SilEncConverters31;
+using SilEncConverters40;
 
 namespace OneStoryProjectEditor
 {
@@ -774,10 +774,9 @@ namespace OneStoryProjectEditor
         protected string GetWordCountVernacular(ProjectSettings projSettings)
         {
             ProjectSettings.LanguageInfo li = projSettings.Vernacular;
+            char[] achToIgnore = GetSplitChars(li.FullStop);
+
             int nCount = 0;
-            string strCharsToIgnore = "\r\n " + li.FullStop + QuoteCharsAsString;
-            char[] achToIgnore = strCharsToIgnore.ToCharArray();
-            
             foreach (VerseData aVerse in this)
                 if (aVerse.IsVisible)
                     nCount += aVerse.VernacularText.NumOfWords(achToIgnore);
@@ -787,10 +786,9 @@ namespace OneStoryProjectEditor
         protected string GetWordCountNationalBT(ProjectSettings projSettings)
         {
             ProjectSettings.LanguageInfo li = projSettings.NationalBT;
-            int nCount = 0;
-            string strCharsToIgnore = "\r\n " + li.FullStop + QuoteCharsAsString;
-            char[] achToIgnore = strCharsToIgnore.ToCharArray();
+            char[] achToIgnore = GetSplitChars(li.FullStop);
 
+            int nCount = 0;
             foreach (VerseData aVerse in this)
                 if (aVerse.IsVisible)
                     nCount += aVerse.NationalBTText.NumOfWords(achToIgnore);
@@ -800,14 +798,19 @@ namespace OneStoryProjectEditor
         protected string GetWordCountInternationalBT(ProjectSettings projSettings)
         {
             ProjectSettings.LanguageInfo li = projSettings.InternationalBT;
-            int nCount = 0;
-            string strCharsToIgnore = "\r\n " + li.FullStop + QuoteCharsAsString;
-            char[] achToIgnore = strCharsToIgnore.ToCharArray();
+            char[] achToIgnore = GetSplitChars(li.FullStop);
 
+            int nCount = 0;
             foreach (VerseData aVerse in this)
                 if (aVerse.IsVisible)
                     nCount += aVerse.InternationalBTText.NumOfWords(achToIgnore);
             return String.Format("{0} (in {1})", nCount, li.LangName);
+        }
+
+        public static char[] GetSplitChars(string strFullStop)
+        {
+            string strCharsToIgnore = CstrOtherPunctuation + strFullStop + QuoteCharsAsString + CstrWhiteSpace;
+            return strCharsToIgnore.ToCharArray();
         }
 
         protected int CalculateColumns(VerseData.ViewSettings viewItemToInsureOn)
@@ -837,6 +840,9 @@ namespace OneStoryProjectEditor
                 return str;
             }
         }
+
+        internal const string CstrWhiteSpace = "\r\n ";
+        private const string CstrOtherPunctuation = ",";
 
         public string StoryBtHtml(ProjectSettings projectSettings, bool bViewHidden,
             StoryStageLogic stageLogic, TeamMembersData membersData, TeamMemberData loggedOnMember,

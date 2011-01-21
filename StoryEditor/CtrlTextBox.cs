@@ -12,6 +12,7 @@ namespace OneStoryProjectEditor
         protected string _strKeyboardName = null;
         internal string _strLabel = null;
         protected string _strLangName;
+        protected string _strFullStop;
         protected ContextMenuStrip _ctxMenu = null;
 
         public delegate void ThrowIfNotCorrectEditor(TeamMemberData.UserTypes eLoggedInMember, TeamMemberData.UserTypes eRequiredEditor);
@@ -88,6 +89,7 @@ namespace OneStoryProjectEditor
             _stageLogic = ctrlParent.StageLogic;
             _ctrlVerseParent = ctrlVerseParent;
             _strKeyboardName = li.Keyboard;
+            _strFullStop = li.FullStop;
         }
 
         void CtrlTextBox_MouseMove(object sender, MouseEventArgs e)
@@ -435,6 +437,7 @@ namespace OneStoryProjectEditor
         protected const string CstrPasteSelected = "&Paste";
         protected const string CstrUndo = "U&ndo";
         protected const string CstrAddAnswerBox = "Add Ans&wer Box";
+        protected const string CstrReorderWords = "&Reorder words";
 
         protected void InitComponent(bool bAddAnswerBox)
         {
@@ -449,6 +452,8 @@ namespace OneStoryProjectEditor
                 _ctxMenu.Items.Add(CstrAddAnswerBox, null, onAddAnswerBox);
                 _ctxMenu.Items.Add(new ToolStripSeparator());
             }
+            _ctxMenu.Items.Add(CstrReorderWords, null, onReorderWords);
+            _ctxMenu.Items.Add(new ToolStripSeparator());
             _ctxMenu.Items.Add(CstrCutSelected, null, onCutSelectedText);
             _ctxMenu.Items.Add(CstrCopySelected, null, onCopySelectedText);
             _ctxMenu.Items.Add(CstrCopyOriginalSelected, null, onCopyOriginalText);
@@ -464,6 +469,16 @@ namespace OneStoryProjectEditor
             MouseWheel += CtrlTextBox_MouseWheel;
         }
 
+        private void onReorderWords(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.Assert(HasStringTransfer);
+            char[] achToIgnore = VersesData.GetSplitChars(_strFullStop);
+            string[] astrWords = MyStringTransfer.GetWords(achToIgnore);
+            var dlg = new ReorderWordsForm(astrWords, achToIgnore, Font);
+            if (dlg.ShowDialog() == DialogResult.OK)
+                Text = dlg.ReorderedText; // should trigger an update of MyStringTransfer
+        }
+
         private void onAddLnCNote(object sender, EventArgs e)
         {
             System.Diagnostics.Debug.Assert((_ctrlVerseParent != null) && (_ctrlVerseParent.TheSE != null));
@@ -477,7 +492,10 @@ namespace OneStoryProjectEditor
                 if (x.Text == CstrCopyOriginalSelected)
                 {
                     x.Enabled = (HasStringTransfer && (MyStringTransfer.Transliterator != null));
-                    break;
+                }
+                else if (x.Text == CstrReorderWords)
+                {
+                    x.Enabled = HasStringTransfer;
                 }
         }
 
