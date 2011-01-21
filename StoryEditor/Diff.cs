@@ -5,7 +5,7 @@ using System.Collections;
 using System.Text;
 using System.Text.RegularExpressions;
 using Rainbow.HtmlDiffEngine;
-using SilEncConverters31;
+using SilEncConverters40;
 
 namespace OneStoryProjectEditor
 {

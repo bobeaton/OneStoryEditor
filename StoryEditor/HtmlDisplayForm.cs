@@ -9,7 +9,7 @@ using System.Xml;
 using Chorus.Utilities;
 using Chorus.VcsDrivers.Mercurial;
 using ECInterfaces;
-using SilEncConverters31;
+using SilEncConverters40;
 
 namespace OneStoryProjectEditor
 {

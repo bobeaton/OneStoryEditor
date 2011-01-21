@@ -5,7 +5,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Text;
 using System.Windows.Forms;
-using SilEncConverters31;
+using SilEncConverters40;
 
 namespace OneStoryProjectEditor
 {

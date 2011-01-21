@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Linq;
-using SilEncConverters31;
+using SilEncConverters40;
 
 namespace OneStoryProjectEditor
 {

@@ -4,7 +4,7 @@
 using System;
 using System.Windows.Forms;
 using ECInterfaces;
-using SilEncConverters31;
+using SilEncConverters40;
 
 namespace OneStoryProjectEditor
 {
