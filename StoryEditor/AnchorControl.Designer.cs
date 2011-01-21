@@ -75,7 +75,7 @@
             this.addConsultantCoachNoteOnThisAnchorToolStripMenuItem,
             this.editKeyTermsToolStripMenuItem});
             this.contextMenuStripAnchorOptions.Name = "contextMenuStripAnchorOptions";
-            this.contextMenuStripAnchorOptions.Size = new System.Drawing.Size(307, 114);
+            this.contextMenuStripAnchorOptions.Size = new System.Drawing.Size(307, 136);
             // 
             // deleteToolStripMenuItem
             // 
@@ -110,6 +110,7 @@
             this.editKeyTermsToolStripMenuItem.Name = "editKeyTermsToolStripMenuItem";
             this.editKeyTermsToolStripMenuItem.Size = new System.Drawing.Size(306, 22);
             this.editKeyTermsToolStripMenuItem.Text = "Edit &Key Terms";
+            this.editKeyTermsToolStripMenuItem.Visible = false;
             this.editKeyTermsToolStripMenuItem.Click += new System.EventHandler(this.editKeyTermsToolStripMenuItem_Click);
             // 
             // AnchorControl

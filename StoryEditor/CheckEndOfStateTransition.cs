@@ -434,6 +434,7 @@ namespace OneStoryProjectEditor
                 nVerseNumber++;
             }
 
+            /* Not doing 'key terms' anymore. using L&C Notes instead
             if (!bHasAnyKeyTermBeenChecked)
             {
                 DialogResult res = MessageBox.Show(Properties.Resources.IDS_CheckOnKeyTerms,
@@ -442,7 +443,7 @@ namespace OneStoryProjectEditor
                 if (res == DialogResult.Cancel)
                     return false;
             }
-
+            */
 #if CheckProposedNextState
             System.Diagnostics.Debug.Assert(eProposedNextState ==
                 StoryStageLogic.ProjectStages.eProjFacAddStoryQuestions);
