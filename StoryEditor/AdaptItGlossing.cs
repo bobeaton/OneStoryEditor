@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using ECInterfaces;                 // for IEncConverter
-using SilEncConverters31;           // for AdaptItEncConverter
+using SilEncConverters40;           // for AdaptItEncConverter
 
 namespace OneStoryProjectEditor
 {
@@ -69,9 +69,10 @@ namespace OneStoryProjectEditor
                 strSourceLangName, strTargetLangName);
         }
 
-        public static AdaptItEncConverter InitLookupAdapter(ProjectSettings proj, GlossType eGlossType)
+        public static AdaptItEncConverter InitLookupAdapter(ProjectSettings proj, GlossType eGlossType, 
+            out string strSourceLangName, out string strTargetLangName)
         {
-            EncConverters aECs = new EncConverters();
+            var aECs = new EncConverters();
             string strName, strConverterSpec;
             ProjectSettings.LanguageInfo liSource, liTarget;
             switch (eGlossType)
@@ -101,6 +102,9 @@ namespace OneStoryProjectEditor
                     System.Diagnostics.Debug.Assert(false);
                     throw new ApplicationException("Wrong glossing type specified. Send to bob_eaton@sall.com for help");
             }
+
+            strSourceLangName = liSource.LangName;
+            strTargetLangName = liTarget.LangName;
 
             // just in case the project doesn't exist yet...
             WriteAdaptItProjectFiles(liSource, liTarget, proj.InternationalBT); // move this to AIGuesserEC project when it's mature.
@@ -133,16 +137,16 @@ namespace OneStoryProjectEditor
             {
                 string strFormat = Properties.Settings.Default.DefaultAIProjectFile;
                 string strProjectFileContents = String.Format(strFormat,
-                    liSource.LangFont.Name,
-                    liTarget.LangFont.Name,
-                    liNavigation.LangFont.Name,
+                    liSource.FontToUse.Name,
+                    liTarget.FontToUse.Name,
+                    liNavigation.FontToUse.Name,
                     liSource.LangName,
                     liTarget.LangName,
                     Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
                     AIPunctuation(liSource.FullStop),
                     AIPunctuation(liTarget.FullStop),
-                    (liSource.IsRTL) ? "1" : "0",
-                    (liTarget.IsRTL) ? "1" : "0");
+                    (liSource.DoRtl) ? "1" : "0",
+                    (liTarget.DoRtl) ? "1" : "0");
                 File.WriteAllText(AdaptItProjectFileSpec(liSource.LangName, liTarget.LangName), strProjectFileContents);
             }
 

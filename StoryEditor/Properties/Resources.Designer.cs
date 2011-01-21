@@ -182,6 +182,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Follow these steps to use the Adapt It program to translate the story from {1} into {2}:{0}{0}1) Switch to the Adapt It program using Alt+Tab keys{0}2) Select the &apos;{3}&apos; project and click the &apos;Next&apos; button (if a file is already open in Adapt It, then choose the &apos;File&apos; menu, &apos;Close Project&apos; command and then the &apos;File&apos; menu, &apos;Start Working&apos; command first).{0}3) Select the &apos;{4}.xls&apos; document to open and press the &apos;Finished&apos; button.{0}4) When you see the {1} in the adaptation window, then translate it into {2}.  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string IDS_AdaptationInstructions {
+            get {
+                return ResourceManager.GetString("IDS_AdaptationInstructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0}5) When you&apos;re finished, return to this window and click the &apos;Yes&apos; button to re-import the translated English text back into the English fields.{0}{0}Have you finished translating the story to English and are ready to import it into the English fields?.
         /// </summary>
         internal static string IDS_AdaptationInstructionsContinue {
@@ -196,6 +205,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_AdaptItFileAlreadyExists {
             get {
                 return ResourceManager.GetString("IDS_AdaptItFileAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to From &amp;{0} to {1}.
+        /// </summary>
+        internal static string IDS_AdaptItFromTo {
+            get {
+                return ResourceManager.GetString("IDS_AdaptItFromTo", resourceCulture);
             }
         }
         
@@ -477,7 +495,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &quot;The data from Adapt It doesn&apos;t appear to match what&apos;s in the story.{0}In verse number {2}, I was expecting \&quot;{3}\&quot;, but got \&quot;{4}\&quot; instead.{0}If you&apos;ve made changes in the story or the {1} back-translation, then you need to re-export the story or {1} back-translation to Adapt It,{0}re-process the file there, and then try to import again.&quot;.
+        ///   Looks up a localized string similar to &quot;The data from Adapt It doesn&apos;t appear to match what&apos;s in the story.{0}In verse number {3}, I was expecting \&quot;{4}\&quot;, but got \&quot;{5}\&quot; instead.{0}If you&apos;ve made changes in the {1} or the {2} back-translation, then you need to do the back-translation in Adapt It again.&quot;.
         /// </summary>
         internal static string IDS_ErrorInAdaptation {
             get {
@@ -518,15 +536,6 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_FindStringNotFound {
             get {
                 return ResourceManager.GetString("IDS_FindStringNotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &amp;From {0}.
-        /// </summary>
-        internal static string IDS_FromNatlLanguage {
-            get {
-                return ResourceManager.GetString("IDS_FromNatlLanguage", resourceCulture);
             }
         }
         
@@ -635,6 +644,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_MustBeCloneRepo {
             get {
                 return ResourceManager.GetString("IDS_MustBeCloneRepo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have to be in the state for entering the {0} back-translation to do this command. Click the &apos;Next State&apos; button until you get to that state and retry..
+        /// </summary>
+        internal static string IDS_MustBeInBTState {
+            get {
+                return ResourceManager.GetString("IDS_MustBeInBTState", resourceCulture);
             }
         }
         

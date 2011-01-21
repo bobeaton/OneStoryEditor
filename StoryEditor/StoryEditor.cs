@@ -10,11 +10,12 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Windows.Forms;
 using System.IO;
+using System.Xml.XPath;
 using System.Xml.Xsl;
 using Chorus.UI.Notes.Bar;
 using ECInterfaces;
 using Palaso.UI.WindowsForms.Keyboarding;
-using SilEncConverters31;
+using SilEncConverters40;
 using System.Diagnostics;               // Process
 using Palaso.Reporting;
 using Control=System.Windows.Forms.Control;
@@ -2194,26 +2195,35 @@ namespace OneStoryProjectEditor
                 splitIntoLinesToolStripMenuItem.Enabled =
                     realignStoryVersesToolStripMenuItem.Enabled = false;
 
-            if ((StoryProject != null) && (StoryProject.ProjSettings != null))
+            if ((StoryProject != null) 
+                && (StoryProject.ProjSettings != null)
+                && (theCurrentStory != null)
+                && (theCurrentStory.Verses.Count > 0))
             {
-                /*
-                if (StoryProject.ProjSettings.Vernacular.HasData)
-                    exportStoryToolStripMenuItem.Text = String.Format(OseResources.Properties.Resources.IDS_FromStoryForDiscourseCharting, StoryProject.ProjSettings.Vernacular.LangName);
+                useAdaptItForBacktranslationToolStripMenuItem.Enabled = true;
+                if (StoryProject.ProjSettings.Vernacular.HasData && StoryProject.ProjSettings.NationalBT.HasData)
+                    storyAdaptItVernacularToNationalMenuItem.Text = String.Format(Properties.Resources.IDS_AdaptItFromTo, 
+                        StoryProject.ProjSettings.Vernacular.LangName, 
+                        StoryProject.ProjSettings.NationalBT.LangName);
                 else
-                    exportStoryToolStripMenuItem.Visible = false;
+                    storyAdaptItVernacularToNationalMenuItem.Visible = false;
 
-                // do the Hindi to English glossing (but only makes sense if we have both languages...
+                if (StoryProject.ProjSettings.Vernacular.HasData && StoryProject.ProjSettings.InternationalBT.HasData)
+                    storyAdaptItVernacularToEnglishMenuItem.Text = String.Format(Properties.Resources.IDS_AdaptItFromTo, 
+                        StoryProject.ProjSettings.Vernacular.LangName, 
+                        StoryProject.ProjSettings.InternationalBT.LangName);
+                else
+                    storyAdaptItVernacularToEnglishMenuItem.Visible = false;
+
                 if (StoryProject.ProjSettings.NationalBT.HasData && StoryProject.ProjSettings.InternationalBT.HasData)
-                    exportNationalBacktranslationToolStripMenuItem.Text = String.Format(OseResources.Properties.Resources.IDS_FromNatlLanguage, StoryProject.ProjSettings.NationalBT.LangName);
+                    storyAdaptItNationalToEnglishMenuItem.Text = String.Format(Properties.Resources.IDS_AdaptItFromTo, 
+                        StoryProject.ProjSettings.NationalBT.LangName, 
+                        StoryProject.ProjSettings.InternationalBT.LangName);
                 else
-                    exportNationalBacktranslationToolStripMenuItem.Visible = false;
-
-                if (StoryProject.ProjSettings.InternationalBT.HasData)
-                    exportToAdaptItToolStripMenuItem.Enabled = ((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
-                else
-                    exportToAdaptItToolStripMenuItem.Visible = false;
-                */
+                    storyAdaptItNationalToEnglishMenuItem.Visible = false;
             }
+            else
+                useAdaptItForBacktranslationToolStripMenuItem.Enabled = false;
         }
 
         private void enterTheReasonThisStoryIsInTheSetToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2754,16 +2764,18 @@ namespace OneStoryProjectEditor
 
             GlossInAdaptIt(strStory, AdaptItGlossing.GlossType.eNationalToEnglish);
         }
+        */
 
         protected void GlossInAdaptIt(string strStoryText, AdaptItGlossing.GlossType eGlossType)
         {
-            AdaptItEncConverter theEC = AdaptItGlossing.InitLookupAdapter(StoryProject.ProjSettings, eGlossType);
+            string strSourceLangName, strTargetLangName;
+            AdaptItEncConverter theEC = AdaptItGlossing.InitLookupAdapter(StoryProject.ProjSettings, eGlossType, out strSourceLangName, out strTargetLangName);
             string strAdaptationFilespec = AdaptationFilespec(theEC.ConverterIdentifier, theCurrentStory.Name);
             string strProjectName = Path.GetFileNameWithoutExtension(theEC.ConverterIdentifier);
             DialogResult res = DialogResult.Yes;
             if (File.Exists(strAdaptationFilespec))
             {
-                res = MessageBox.Show(String.Format(OseResources.Properties.Resources.IDS_AdaptItFileAlreadyExists,
+                res = MessageBox.Show(String.Format(Properties.Resources.IDS_AdaptItFileAlreadyExists,
                     strProjectName, theCurrentStory.Name), OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
 
                 if (res == DialogResult.Cancel)
@@ -2864,22 +2876,17 @@ namespace OneStoryProjectEditor
                     if (aProcess.ProcessName == "Adapt_It_Unicode")
                         ReleaseProcess(aProcess);
 
+                // todo: this probably needs to be selectable
                 LaunchProgram(strAdaptIt,
-                    (eGlossType == AdaptItGlossing.GlossType.eNationalToEnglish) ?
-                    null : "/frm");
+                    // (eGlossType == AdaptItGlossing.GlossType.eNationalToEnglish) ?
+                    null 
+                    // : "/frm"
+                    );
 
-                string strMessage = String.Format(OseResources.Properties.Resources.IDS_AdaptationInstructions,
-                        Environment.NewLine, strProjectName, theCurrentStory.Name);
-                MessageBoxButtons mbb = MessageBoxButtons.OK;
-
-                if (eGlossType == AdaptItGlossing.GlossType.eNationalToEnglish)
-                {
-                    strMessage += String.Format(OseResources.Properties.Resources.IDS_AdaptationInstructionsContinue,
-                        Environment.NewLine);
-                    mbb = MessageBoxButtons.YesNoCancel;
-                }
-
-                res = MessageBox.Show(strMessage, OseResources.Properties.Resources.IDS_Caption, mbb);
+                res = MessageBox.Show(String.Format(Properties.Resources.IDS_AdaptationInstructions,
+                                                    Environment.NewLine, strSourceLangName, strTargetLangName,
+                                                    strProjectName, theCurrentStory.Name),
+                                      OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
 
                 if (res != DialogResult.Yes)
                     return;
@@ -2900,10 +2907,9 @@ namespace OneStoryProjectEditor
                 for (int nVerseNum = 0; nVerseNum < theCurrentStory.Verses.Count; nVerseNum++)
                 {
                     VerseData aVerse = theCurrentStory.Verses[nVerseNum];
-                    Debug.Assert((eGlossType == AdaptItGlossing.GlossType.eVernacularToEnglish)
-                        || (eGlossType == AdaptItGlossing.GlossType.eNationalToEnglish));
-                    string strStoryVerse = (eGlossType == AdaptItGlossing.GlossType.eVernacularToEnglish)
-                        ? aVerse.VernacularText.ToString() : aVerse.NationalBTText.ToString();
+                    string strStoryVerse = (eGlossType == AdaptItGlossing.GlossType.eNationalToEnglish)
+                                               ? aVerse.NationalBTText.ToString()
+                                               : aVerse.VernacularText.ToString();
                     if (String.IsNullOrEmpty(strStoryVerse))
                         continue;
 
@@ -2912,9 +2918,9 @@ namespace OneStoryProjectEditor
                     List<string> StringsInBetween;
                     theEC.SplitAndConvert(strStoryVerse, out SourceWords, out StringsInBetween, out TargetWords);
                     Debug.Assert((SourceWords.Count == TargetWords.Count)
-                        && (SourceWords.Count == (StringsInBetween.Count - 1)));
+                                 && (SourceWords.Count == (StringsInBetween.Count - 1)));
 
-                    string strEnglishBT = null;
+                    string strTargetBT = null;
                     for (int nWordNum = 0; nWordNum < SourceWords.Count; nWordNum++)
                     {
                         string strSourceWord = SourceWords[nWordNum];
@@ -2924,27 +2930,43 @@ namespace OneStoryProjectEditor
                         {
                             string strSourceKey = xpIterator.Current.GetAttribute("k", navigator.NamespaceURI);
                             if (strSourceKey != strSourceWord)
-                                throw new ApplicationException(String.Format(OseResources.Properties.Resources.IDS_ErrorInAdaptation,
-                                    Environment.NewLine, StoryProject.ProjSettings.NationalBT.LangName, nVerseNum + 1, strSourceKey, strSourceWord));
+                                throw new ApplicationException(String.Format(Properties.Resources.IDS_ErrorInAdaptation,
+                                                                             Environment.NewLine, strSourceLangName,
+                                                                             strTargetLangName, nVerseNum + 1, strSourceKey,
+                                                                             strSourceWord));
 
                             string strTargetKey = xpIterator.Current.GetAttribute("a", navigator.NamespaceURI);
                             if ((strTargetWord.IndexOf('%') == -1) && (strTargetWord != strTargetKey))
-                                throw new ApplicationException(String.Format(OseResources.Properties.Resources.IDS_ErrorInAdaptation,
-                                    Environment.NewLine, StoryProject.ProjSettings.NationalBT.LangName, nVerseNum + 1, strTargetKey, strTargetWord));
+                                throw new ApplicationException(String.Format(Properties.Resources.IDS_ErrorInAdaptation,
+                                                                             Environment.NewLine, strSourceLangName,
+                                                                             strTargetLangName, nVerseNum + 1, strTargetKey,
+                                                                             strTargetWord));
 
                             strTargetWord = xpIterator.Current.GetAttribute("t", navigator.NamespaceURI);
-                            strEnglishBT += strTargetWord + ' ';
+                            strTargetBT += strTargetWord + ' ';
                         }
                     }
 
-                    if (strEnglishBT != null)
-                        strEnglishBT = strEnglishBT.Remove(strEnglishBT.Length - 1);
-                    aVerse.InternationalBTText.SetValue(strEnglishBT);
+                    if (!String.IsNullOrEmpty(strTargetBT))
+                        strTargetBT = strTargetBT.Remove(strTargetBT.Length - 1);
+
+                    if (eGlossType == AdaptItGlossing.GlossType.eVernacularToNational)
+                        aVerse.NationalBTText.SetValue(strTargetBT);
+                    else
+                        aVerse.InternationalBTText.SetValue(strTargetBT);
                 }
 
                 Modified = true;
-                if (!viewEnglishBTFieldMenuItem.Checked)
+                if ((eGlossType == AdaptItGlossing.GlossType.eVernacularToNational)
+                    && !viewNationalLangFieldMenuItem.Checked)
+                {
+                    viewNationalLangFieldMenuItem.Checked = true;
+                }
+                else if ((eGlossType != AdaptItGlossing.GlossType.eVernacularToNational)
+                    && !viewEnglishBTFieldMenuItem.Checked)
+                {
                     viewEnglishBTFieldMenuItem.Checked = true;
+                }
                 else
                     ReInitVerseControls();
             }
@@ -2953,16 +2975,21 @@ namespace OneStoryProjectEditor
                 MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
             }
         }
-        */
 
         private static void ReleaseProcess(Process aProcess)
         {
-            aProcess.CloseMainWindow();
-            aProcess.Close();
-            int nloop = 0;
-            while (!aProcess.HasExited && (nloop++ < 5))
+            try
             {
-                Thread.Sleep(2000);
+                aProcess.CloseMainWindow();
+                aProcess.Close();
+                int nloop = 0;
+                while (!aProcess.HasExited && (nloop++ < 5))
+                {
+                    Thread.Sleep(2000);
+                }
+            }
+            catch   // sometimes this throws up, but I don't care
+            {
             }
         }
 
@@ -4286,6 +4313,60 @@ namespace OneStoryProjectEditor
         private void CheckBiblePaneCursorPositionMouseMove(object sender, MouseEventArgs e)
         {
             CheckBiblePaneCursorPosition();
+        }
+
+        private void storyAdaptItVernacularToNationalMenuItem_Click(object sender, EventArgs e)
+        {
+            // iterate thru the verses and copy them to the clipboard
+            Debug.Assert((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
+
+            if (((int)theCurrentStory.ProjStage.ProjectStage)
+                < (int)StoryStageLogic.ProjectStages.eProjFacTypeNationalBT)
+            {
+                MessageBox.Show(String.Format(Properties.Resources.IDS_MustBeInBTState,
+                                              StoryProject.ProjSettings.NationalBT.LangName),
+                                OseResources.Properties.Resources.IDS_Caption);
+                return;
+            }
+
+            string strStory = GetFullStoryContentsVernacular;
+            GlossInAdaptIt(strStory, AdaptItGlossing.GlossType.eVernacularToNational);
+        }
+
+        private void storyAdaptItVernacularToEnglishMenuItem_Click(object sender, EventArgs e)
+        {
+            // iterate thru the verses and copy them to the clipboard
+            Debug.Assert((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
+
+            if (((int)theCurrentStory.ProjStage.ProjectStage)
+                < (int)StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT)
+            {
+                MessageBox.Show(String.Format(Properties.Resources.IDS_MustBeInBTState,
+                                              StoryProject.ProjSettings.InternationalBT.LangName),
+                                OseResources.Properties.Resources.IDS_Caption);
+                return;
+            }
+
+            string strStory = GetFullStoryContentsVernacular;
+            GlossInAdaptIt(strStory, AdaptItGlossing.GlossType.eVernacularToEnglish);
+        }
+
+        private void storyAdaptItNationalToEnglishMenuItem_Click(object sender, EventArgs e)
+        {
+            // iterate thru the verses and copy them to the clipboard
+            Debug.Assert((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
+
+            if (((int)theCurrentStory.ProjStage.ProjectStage)
+                < (int)StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT)
+            {
+                MessageBox.Show(String.Format(Properties.Resources.IDS_MustBeInBTState,
+                                              StoryProject.ProjSettings.InternationalBT.LangName),
+                                OseResources.Properties.Resources.IDS_Caption);
+                return;
+            }
+
+            string strStory = GetFullStoryContentsNationalBTText;
+            GlossInAdaptIt(strStory, AdaptItGlossing.GlossType.eNationalToEnglish);
         }
     }
 }

@@ -241,7 +241,7 @@
     <value>..\Resources\Arrow.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="IDS_ErrorInAdaptation" xml:space="preserve">
-    <value>"The data from Adapt It doesn't appear to match what's in the story.{0}In verse number {2}, I was expecting \"{3}\", but got \"{4}\" instead.{0}If you've made changes in the story or the {1} back-translation, then you need to re-export the story or {1} back-translation to Adapt It,{0}re-process the file there, and then try to import again."</value>
+    <value>"The data from Adapt It doesn't appear to match what's in the story.{0}In verse number {3}, I was expecting \"{4}\", but got \"{5}\" instead.{0}If you've made changes in the {1} or the {2} back-translation, then you need to do the back-translation in Adapt It again."</value>
   </data>
   <data name="IDS_NoProjectFromInternet" xml:space="preserve">
     <value>No project file was found at the internet repository: {0}{0}{1}{0}{0}Are you sure it there is one in the repository yet?</value>
@@ -1504,8 +1504,8 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
   <data name="IDS_UnableToSave" xml:space="preserve">
     <value>Unable to save the project file '{1}'{0}{0}{2}</value>
   </data>
-  <data name="IDS_FromNatlLanguage" xml:space="preserve">
-    <value>&amp;From {0}</value>
+  <data name="IDS_AdaptItFromTo" xml:space="preserve">
+    <value>From &amp;{0} to {1}</value>
   </data>
   <data name="EditInformationHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\EditInformationHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -1923,5 +1923,11 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
   </data>
   <data name="IDS_ConfirmAutoUpgrade" xml:space="preserve">
     <value>There's a new version of the program available. Would you like to upgrade now?</value>
+  </data>
+  <data name="IDS_AdaptationInstructions" xml:space="preserve">
+    <value>Follow these steps to use the Adapt It program to translate the story from {1} into {2}:{0}{0}1) Switch to the Adapt It program using Alt+Tab keys{0}2) Select the '{3}' project and click the 'Next' button (if a file is already open in Adapt It, then choose the 'File' menu, 'Close Project' command and then the 'File' menu, 'Start Working' command first).{0}3) Select the '{4}.xls' document to open and press the 'Finished' button.{0}4) When you see the {1} in the adaptation window, then translate it into {2}. {0}5) When you're finished, return to this window and click the 'Yes' button to import the back-translated {2} text into the {2} fields.{0}{0}Have you finished back-translating the {1} to {2} in Adapt It, and are ready to import it back into the OneStory Editor?</value>
+  </data>
+  <data name="IDS_MustBeInBTState" xml:space="preserve">
+    <value>You have to be in the state for entering the {0} back-translation to do this command. Click the 'Next State' button until you get to that state and retry.</value>
   </data>
 </root>

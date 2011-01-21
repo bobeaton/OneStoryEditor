@@ -584,9 +584,6 @@ initContextMenu();
   <data name="HTML_TextareaWithRefDrop" xml:space="preserve">
     <value>&lt;textarea id="{0}" class="{1}" onKeyUp="return window.external.TextareaOnKeyUp(this.id, this.value);" ondragover="window.event.returnValue=false" ondrop="window.external.CopyScriptureReference(this.id)" onselect="this.focus();"&gt;{2}&lt;/textarea&gt;</value>
   </data>
-  <data name="IDS_AdaptationInstructions" xml:space="preserve">
-    <value>Follow these steps to use the Adapt It program to translate the story into English:{0}{0}1) Switch to the Adapt It program using Alt+Tab keys{0}2) Select the '{1}' project and click the 'Next' button (if a file is already open in Adapt It, then choose the 'File' menu, 'Close Project' command and then the 'File' menu, 'Start Working' command first).{0}3) Select the '{2}.xls' document to open and press the 'Finished' button.{0}4) When you see this story in the adaptation window, then translate it into English.</value>
-  </data>
   <data name="IDS_Caption" xml:space="preserve">
     <value>OneStory Project Editor</value>
     <comment>"एक-कहानी" प्रोजैक्‍ट ऐडिटर</comment>

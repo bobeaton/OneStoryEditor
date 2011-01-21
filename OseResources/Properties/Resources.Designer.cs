@@ -462,15 +462,6 @@ namespace OseResources.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Follow these steps to use the Adapt It program to translate the story into English:{0}{0}1) Switch to the Adapt It program using Alt+Tab keys{0}2) Select the &apos;{1}&apos; project and click the &apos;Next&apos; button (if a file is already open in Adapt It, then choose the &apos;File&apos; menu, &apos;Close Project&apos; command and then the &apos;File&apos; menu, &apos;Start Working&apos; command first).{0}3) Select the &apos;{2}.xls&apos; document to open and press the &apos;Finished&apos; button.{0}4) When you see this story in the adaptation window, then translate it into English [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string IDS_AdaptationInstructions {
-            get {
-                return ResourceManager.GetString("IDS_AdaptationInstructions", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to OneStory Project Editor.
         /// </summary>
         public static string IDS_Caption {
