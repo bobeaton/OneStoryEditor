@@ -7,13 +7,16 @@ namespace OneStoryProjectEditor
 {
     public class CtrlTextBox : TextBox
     {
-        protected StoryStageLogic _stageLogic = null;
-        internal VerseControl _ctrlVerseParent = null;
-        protected string _strKeyboardName = null;
-        internal string _strLabel = null;
+        protected StoryStageLogic _stageLogic;
+        internal VerseControl _ctrlVerseParent;
+        protected string _strKeyboardName;
+        internal string _strLabel;
         protected string _strLangName;
         protected string _strFullStop;
-        protected ContextMenuStrip _ctxMenu = null;
+        protected ContextMenuStrip _ctxMenu;
+        internal CtrlTextBox NationalBtSibling;
+        internal CtrlTextBox EnglishBtSibling;
+        private StoryEditor.TextFieldType _eFieldType;
 
         public delegate void ThrowIfNotCorrectEditor(TeamMemberData.UserTypes eLoggedInMember, TeamMemberData.UserTypes eRequiredEditor);
         protected ThrowIfNotCorrectEditor _delegateRequiredEditorCheck;
@@ -53,21 +56,25 @@ namespace OneStoryProjectEditor
 
         public CtrlTextBox(string strName, VerseControl ctrlVerseParent, 
             ResizableControl ctrlParent, StringTransfer stData, 
-            ProjectSettings.LanguageInfo li, string strLabel, bool bAddTqFlag)
+            ProjectSettings.LanguageInfo li, string strLabel, bool bAddTqFlag,
+            StoryEditor.TextFieldType eFieldType)
         {
             InitComponent(bAddTqFlag);
-            Init(strName, strLabel, li, stData, ctrlParent, ctrlVerseParent);
+            Init(strName, strLabel, li, stData, ctrlParent, ctrlVerseParent, eFieldType);
         }
 
         public CtrlTextBox(string strName, VerseControl ctrlVerseParent, 
-            ResizableControl ctrlParent, StringTransfer stData, 
-            ProjectSettings.LanguageInfo li, string strLabel)
+            ResizableControl ctrlParent, StringTransfer stData,
+            ProjectSettings.LanguageInfo li, string strLabel,
+            StoryEditor.TextFieldType eFieldType)
         {
             InitComponent(false);
-            Init(strName, strLabel, li, stData, ctrlParent, ctrlVerseParent);
+            Init(strName, strLabel, li, stData, ctrlParent, ctrlVerseParent, eFieldType);
         }
 
-        private void Init(string strName, string strLabel, ProjectSettings.LanguageInfo li, StringTransfer stData, ResizableControl ctrlParent, VerseControl ctrlVerseParent)
+        private void Init(string strName, string strLabel, ProjectSettings.LanguageInfo li, 
+            StringTransfer stData, ResizableControl ctrlParent, VerseControl ctrlVerseParent,
+            StoryEditor.TextFieldType eFieldType)
         {
             Name = strName;
             _strLabel = strLabel;
@@ -90,6 +97,7 @@ namespace OneStoryProjectEditor
             _ctrlVerseParent = ctrlVerseParent;
             _strKeyboardName = li.Keyboard;
             _strFullStop = li.FullStop;
+            _eFieldType = eFieldType;
         }
 
         void CtrlTextBox_MouseMove(object sender, MouseEventArgs e)
@@ -281,7 +289,7 @@ namespace OneStoryProjectEditor
             }
         }
 
-        internal static CtrlTextBox _inTextBox = null;
+        internal static CtrlTextBox _inTextBox;
         internal static int _nLastVerse = -1;
 
         protected override void OnEnter(EventArgs e)
@@ -438,6 +446,8 @@ namespace OneStoryProjectEditor
         protected const string CstrUndo = "U&ndo";
         protected const string CstrAddAnswerBox = "Add Ans&wer Box";
         protected const string CstrReorderWords = "&Reorder words";
+        protected const string CstrGlossTextToNational = "&Back-translate to National Language";
+        protected const string CstrGlossTextToEnglish = "Back-translate to &English";
 
         protected void InitComponent(bool bAddAnswerBox)
         {
@@ -452,6 +462,9 @@ namespace OneStoryProjectEditor
                 _ctxMenu.Items.Add(CstrAddAnswerBox, null, onAddAnswerBox);
                 _ctxMenu.Items.Add(new ToolStripSeparator());
             }
+
+            _ctxMenu.Items.Add(CstrGlossTextToNational, null, onGlossTextToNational);
+            _ctxMenu.Items.Add(CstrGlossTextToEnglish, null, onGlossTextToEnglish);
             _ctxMenu.Items.Add(CstrReorderWords, null, onReorderWords);
             _ctxMenu.Items.Add(new ToolStripSeparator());
             _ctxMenu.Items.Add(CstrCutSelected, null, onCutSelectedText);
@@ -467,6 +480,75 @@ namespace OneStoryProjectEditor
             AllowDrop = true;
             MouseUp += CtrlTextBox_MouseUp;
             MouseWheel += CtrlTextBox_MouseWheel;
+        }
+
+        private void onGlossTextToNational(object sender, EventArgs e)
+        {
+            try
+            {
+                System.Diagnostics.Debug.Assert((NationalBtSibling != null) && (_ctrlVerseParent != null)
+                    && (_eFieldType == StoryEditor.TextFieldType.eVernacular));
+                var dlg = new GlossingForm(_ctrlVerseParent.TheSE.StoryProject.ProjSettings, 
+                    MyStringTransfer.ToString(), StoryEditor.GlossType.eVernacularToNational);
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    NationalBtSibling.Text = dlg.TargetSentence;
+
+                    if (dlg.DoReorder)
+                    {
+                        char[] achToIgnore = VersesData.GetSplitChars(NationalBtSibling._strFullStop);
+                        string[] astrWords = NationalBtSibling.MyStringTransfer.GetWords(achToIgnore);
+                        var dlgReorder = new ReorderWordsForm(astrWords, achToIgnore, NationalBtSibling.Font);
+                        if (dlgReorder.ShowDialog() == DialogResult.OK)
+                        {
+                            NationalBtSibling.Text = dlgReorder.ReorderedText;
+                        }
+                    }
+                    
+                    NationalBtSibling.Focus();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
+            }
+        }
+
+        private void onGlossTextToEnglish(object sender, EventArgs e)
+        {
+            try
+            {
+                System.Diagnostics.Debug.Assert((EnglishBtSibling != null) && (_ctrlVerseParent != null)
+                                                &&
+                                                ((_eFieldType == StoryEditor.TextFieldType.eVernacular) ||
+                                                 (_eFieldType == StoryEditor.TextFieldType.eNational)));
+                StoryEditor.GlossType eGlossType = (_eFieldType == StoryEditor.TextFieldType.eVernacular)
+                                                       ? StoryEditor.GlossType.eVernacularToEnglish
+                                                       : StoryEditor.GlossType.eNationalToEnglish;
+                var dlg = new GlossingForm(_ctrlVerseParent.TheSE.StoryProject.ProjSettings,
+                    MyStringTransfer.ToString(), eGlossType);
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    EnglishBtSibling.Text = dlg.TargetSentence;
+
+                    if (dlg.DoReorder)
+                    {
+                        char[] achToIgnore = VersesData.GetSplitChars(EnglishBtSibling._strFullStop);
+                        string[] astrWords = EnglishBtSibling.MyStringTransfer.GetWords(achToIgnore);
+                        var dlgReorder = new ReorderWordsForm(astrWords, achToIgnore, EnglishBtSibling.Font);
+                        if (dlgReorder.ShowDialog() == DialogResult.OK)
+                        {
+                            EnglishBtSibling.Text = dlgReorder.ReorderedText;
+                        }
+                    }
+
+                    EnglishBtSibling.Focus();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
+            }
         }
 
         private void onReorderWords(object sender, EventArgs e)
@@ -496,6 +578,14 @@ namespace OneStoryProjectEditor
                 else if (x.Text == CstrReorderWords)
                 {
                     x.Enabled = HasStringTransfer;
+                }
+                else if (x.Text == CstrGlossTextToNational)
+                {
+                    x.Visible = (NationalBtSibling != null);
+                }
+                else if (x.Text == CstrGlossTextToEnglish)
+                {
+                    x.Visible = (EnglishBtSibling != null);
                 }
         }
 

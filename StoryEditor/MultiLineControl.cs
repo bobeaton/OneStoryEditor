@@ -39,7 +39,8 @@ namespace OneStoryProjectEditor
         }
 
         protected void InitRow(VerseControl ctrlVerse, string strLabelTextFormat, 
-            ProjectSettings.LanguageInfo li, StringTransfer strRowData, int nTest, ref int nNumRows)
+            ProjectSettings.LanguageInfo li, StringTransfer strRowData, int nTest, 
+            ref int nNumRows)
         {
             Label label = new Label
                               {
@@ -51,7 +52,7 @@ namespace OneStoryProjectEditor
 
             CtrlTextBox tb = new CtrlTextBox(
                 strLabelTextFormat + CstrSuffixTextBox + nTest, ctrlVerse, this, strRowData,
-                li, label.Text);
+                li, label.Text, StoryEditor.TextFieldType.eUndefined);
 
             // add the label and tool strip as a new row to the table layout panel
             int nLayoutRow = nNumRows++;

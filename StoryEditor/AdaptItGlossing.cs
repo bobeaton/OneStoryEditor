@@ -7,14 +7,6 @@ namespace OneStoryProjectEditor
 {
     public class AdaptItGlossing
     {
-        public enum GlossType
-        {
-            eUndefined = 0,
-            eVernacularToNational,  // use Vern -> Natl project
-            eVernacularToEnglish,   // use Vern -> Engl project
-            eNationalToEnglish      // use Natl -> Engl project (which can be shared by other clients)
-        }
-
         protected static string AdaptItGlossingLookupFileSpec(string strSourceLangName, string strTargetLangName)
         {
             return Path.Combine(AdaptItProjectFolder(strSourceLangName, strTargetLangName),
@@ -69,33 +61,32 @@ namespace OneStoryProjectEditor
                 strSourceLangName, strTargetLangName);
         }
 
-        public static AdaptItEncConverter InitLookupAdapter(ProjectSettings proj, GlossType eGlossType, 
-            out string strSourceLangName, out string strTargetLangName)
+        public static AdaptItEncConverter InitLookupAdapter(ProjectSettings proj, StoryEditor.GlossType eGlossType,
+            out ProjectSettings.LanguageInfo liSourceLang, out ProjectSettings.LanguageInfo liTargetLang)
         {
             var aECs = new EncConverters();
             string strName, strConverterSpec;
-            ProjectSettings.LanguageInfo liSource, liTarget;
             switch (eGlossType)
             {
-                case GlossType.eVernacularToNational:
+                case StoryEditor.GlossType.eVernacularToNational:
                     strName = AdaptItLookupConverterName(proj.Vernacular.LangName, proj.NationalBT.LangName);
                     strConverterSpec = AdaptItLookupFileSpec(proj.Vernacular.LangName, proj.NationalBT.LangName);
-                    liSource = proj.Vernacular;
-                    liTarget = proj.NationalBT;
+                    liSourceLang = proj.Vernacular;
+                    liTargetLang = proj.NationalBT;
                     break;
 
-                case GlossType.eVernacularToEnglish:    // the glossing KB for the Vern to Natl project
+                case StoryEditor.GlossType.eVernacularToEnglish:    // the glossing KB for the Vern to Natl project
                     strName = AdaptItLookupConverterName(proj.Vernacular.LangName, proj.InternationalBT.LangName);
                     strConverterSpec = AdaptItLookupFileSpec(proj.Vernacular.LangName, proj.InternationalBT.LangName);
-                    liSource = proj.Vernacular;
-                    liTarget = proj.InternationalBT; // this is still the national lg project (but the glossing KB)
+                    liSourceLang = proj.Vernacular;
+                    liTargetLang = proj.InternationalBT; // this is still the national lg project (but the glossing KB)
                     break;
 
-                case GlossType.eNationalToEnglish:
+                case StoryEditor.GlossType.eNationalToEnglish:
                     strName = AdaptItLookupConverterName(proj.NationalBT.LangName, proj.InternationalBT.LangName);
                     strConverterSpec = AdaptItLookupFileSpec(proj.NationalBT.LangName, proj.InternationalBT.LangName);
-                    liSource = proj.NationalBT;         // this is a whole nuther national to English project
-                    liTarget = proj.InternationalBT;
+                    liSourceLang = proj.NationalBT;         // this is a whole nuther national to English project
+                    liTargetLang = proj.InternationalBT;
                     break;
 
                 default:
@@ -103,11 +94,8 @@ namespace OneStoryProjectEditor
                     throw new ApplicationException("Wrong glossing type specified. Send to bob_eaton@sall.com for help");
             }
 
-            strSourceLangName = liSource.LangName;
-            strTargetLangName = liTarget.LangName;
-
             // just in case the project doesn't exist yet...
-            WriteAdaptItProjectFiles(liSource, liTarget, proj.InternationalBT); // move this to AIGuesserEC project when it's mature.
+            WriteAdaptItProjectFiles(liSourceLang, liTargetLang, proj.InternationalBT); // move this to AIGuesserEC project when it's mature.
 
             // if we don't have the converter already in the repository.
             if (!aECs.ContainsKey(strName))
@@ -125,44 +113,44 @@ namespace OneStoryProjectEditor
             return theLookupAdapter;
         }
 
-        protected static void WriteAdaptItProjectFiles(ProjectSettings.LanguageInfo liSource,
-            ProjectSettings.LanguageInfo liTarget, ProjectSettings.LanguageInfo liNavigation)
+        protected static void WriteAdaptItProjectFiles(ProjectSettings.LanguageInfo liSourceLang,
+            ProjectSettings.LanguageInfo liTargetLang, ProjectSettings.LanguageInfo liNavigation)
         {
             // create folders...
-            if (!Directory.Exists(AdaptItProjectAdaptationsFolder(liSource.LangName, liTarget.LangName)))
-                Directory.CreateDirectory(AdaptItProjectAdaptationsFolder(liSource.LangName, liTarget.LangName));
+            if (!Directory.Exists(AdaptItProjectAdaptationsFolder(liSourceLang.LangName, liTargetLang.LangName)))
+                Directory.CreateDirectory(AdaptItProjectAdaptationsFolder(liSourceLang.LangName, liTargetLang.LangName));
 
             // create Project file
-            if (!File.Exists(AdaptItProjectFileSpec(liSource.LangName, liTarget.LangName)))
+            if (!File.Exists(AdaptItProjectFileSpec(liSourceLang.LangName, liTargetLang.LangName)))
             {
                 string strFormat = Properties.Settings.Default.DefaultAIProjectFile;
                 string strProjectFileContents = String.Format(strFormat,
-                    liSource.FontToUse.Name,
-                    liTarget.FontToUse.Name,
+                    liSourceLang.FontToUse.Name,
+                    liTargetLang.FontToUse.Name,
                     liNavigation.FontToUse.Name,
-                    liSource.LangName,
-                    liTarget.LangName,
+                    liSourceLang.LangName,
+                    liTargetLang.LangName,
                     Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                    AIPunctuation(liSource.FullStop),
-                    AIPunctuation(liTarget.FullStop),
-                    (liSource.DoRtl) ? "1" : "0",
-                    (liTarget.DoRtl) ? "1" : "0");
-                File.WriteAllText(AdaptItProjectFileSpec(liSource.LangName, liTarget.LangName), strProjectFileContents);
+                    AIPunctuation(liSourceLang.FullStop),
+                    AIPunctuation(liTargetLang.FullStop),
+                    (liSourceLang.DoRtl) ? "1" : "0",
+                    (liTargetLang.DoRtl) ? "1" : "0");
+                File.WriteAllText(AdaptItProjectFileSpec(liSourceLang.LangName, liTargetLang.LangName), strProjectFileContents);
             }
 
             // create main KB
-            if (!File.Exists(AdaptItLookupFileSpec(liSource.LangName, liTarget.LangName)))
+            if (!File.Exists(AdaptItLookupFileSpec(liSourceLang.LangName, liTargetLang.LangName)))
             {
                 string strFormat = Properties.Settings.Default.DefaultAIKBFile;
-                string strKBContents = String.Format(strFormat, liSource.LangName, liTarget.LangName);
-                File.WriteAllText(AdaptItLookupFileSpec(liSource.LangName, liTarget.LangName), strKBContents);
+                string strKBContents = String.Format(strFormat, liSourceLang.LangName, liTargetLang.LangName);
+                File.WriteAllText(AdaptItLookupFileSpec(liSourceLang.LangName, liTargetLang.LangName), strKBContents);
             }
 
-            if (!File.Exists(AdaptItGlossingLookupFileSpec(liSource.LangName, liTarget.LangName)))
+            if (!File.Exists(AdaptItGlossingLookupFileSpec(liSourceLang.LangName, liTargetLang.LangName)))
             {
                 string strFormat = Properties.Settings.Default.DefaultAIKBFile;
-                string strKBContents = String.Format(strFormat, liSource.LangName, liTarget.LangName);
-                File.WriteAllText(AdaptItGlossingLookupFileSpec(liSource.LangName, liTarget.LangName), strKBContents);
+                string strKBContents = String.Format(strFormat, liSourceLang.LangName, liTargetLang.LangName);
+                File.WriteAllText(AdaptItGlossingLookupFileSpec(liSourceLang.LangName, liTargetLang.LangName), strKBContents);
             }
         }
 

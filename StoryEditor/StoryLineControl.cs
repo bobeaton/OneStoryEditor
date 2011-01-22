@@ -35,6 +35,7 @@ namespace OneStoryProjectEditor
                 RemoveColumn(tableLayoutPanel.ColumnCount - 1);
 
             int nNumColumns = 0;
+            CtrlTextBox ctrlTextBoxVernacular = null;
             if (aSE.viewVernacularLangFieldMenuItem.Checked)
             {
                 InsertColumn(nNumColumns);
@@ -51,12 +52,13 @@ namespace OneStoryProjectEditor
                     || (aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT));
 
                 _aVerseData.VernacularText.Transliterator = ctrlVerse.TransliteratorVernacular;
-                InitTextBox(ctrlVerse, VerseData.CstrFieldNameVernacular, _aVerseData.VernacularText, 
-                    aSE.StoryProject.ProjSettings.Vernacular, bDisableTabStopVernacular, 
-                    nNumColumns);
+                ctrlTextBoxVernacular = InitTextBox(ctrlVerse, VerseData.CstrFieldNameVernacular, _aVerseData.VernacularText, 
+                    aSE.StoryProject.ProjSettings.Vernacular, bDisableTabStopVernacular,
+                    nNumColumns, StoryEditor.TextFieldType.eVernacular);
                 nNumColumns++;
             }
 
+            CtrlTextBox ctrlTextBoxNationalBT = null;
             if (aSE.viewNationalLangFieldMenuItem.Checked)
             {
                 InsertColumn(nNumColumns);
@@ -73,11 +75,14 @@ namespace OneStoryProjectEditor
                     || (aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT));
 
                 _aVerseData.NationalBTText.Transliterator = ctrlVerse.TransliteratorNationalBT;
-                InitTextBox(ctrlVerse, VerseData.CstrFieldNameNationalBt, _aVerseData.NationalBTText, 
-                    aSE.StoryProject.ProjSettings.NationalBT, bDisableTabStopNationalBT, 
-                    nNumColumns);
+                ctrlTextBoxNationalBT = InitTextBox(ctrlVerse, VerseData.CstrFieldNameNationalBt, _aVerseData.NationalBTText, 
+                    aSE.StoryProject.ProjSettings.NationalBT, bDisableTabStopNationalBT,
+                    nNumColumns, StoryEditor.TextFieldType.eNational);
 
                 nNumColumns++;
+
+                if (ctrlTextBoxVernacular != null)
+                    ctrlTextBoxVernacular.NationalBtSibling = ctrlTextBoxNationalBT;
             }
 
             if (aSE.viewEnglishBTFieldMenuItem.Checked)
@@ -89,9 +94,16 @@ namespace OneStoryProjectEditor
                     InitLabel(aSE.StoryProject.ProjSettings.InternationalBT.LangName, nNumColumns);
 #endif
 
-                InitTextBox(ctrlVerse, VerseData.CstrFieldNameInternationalBt, _aVerseData.InternationalBTText, 
-                    aSE.StoryProject.ProjSettings.InternationalBT, false, nNumColumns);
+                CtrlTextBox ctrlTextBoxEnglishBT = InitTextBox(ctrlVerse, VerseData.CstrFieldNameInternationalBt, _aVerseData.InternationalBTText,
+                    aSE.StoryProject.ProjSettings.InternationalBT, false, nNumColumns,
+                    StoryEditor.TextFieldType.eInternational);
                 nNumColumns++;
+
+                if (ctrlTextBoxVernacular != null)
+                    ctrlTextBoxVernacular.EnglishBtSibling = ctrlTextBoxEnglishBT;
+
+                if (ctrlTextBoxNationalBT != null)
+                    ctrlTextBoxNationalBT.EnglishBtSibling = ctrlTextBoxEnglishBT;
             }
 
             tableLayoutPanel.ResumeLayout(false);
@@ -140,18 +152,20 @@ namespace OneStoryProjectEditor
         }
 #endif
 
-        protected void InitTextBox(VerseControl ctrlVerse, string strTbName, StringTransfer strTbText, 
-            ProjectSettings.LanguageInfo li, bool bDisableTabStop, int nLayoutColumn)
+        protected CtrlTextBox InitTextBox(VerseControl ctrlVerse, string strTbName, StringTransfer strTbText, 
+            ProjectSettings.LanguageInfo li, bool bDisableTabStop, int nLayoutColumn,
+            StoryEditor.TextFieldType eFieldType)
         {
             System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(strTbName + CstrSuffixTextBox), "otherwise, fix wrong assumption");
-            CtrlTextBox tb = new CtrlTextBox(strTbName + CstrSuffixTextBox, ctrlVerse, this, 
-                strTbText, li, li.LangCode);
+            CtrlTextBox tb = new CtrlTextBox(strTbName + CstrSuffixTextBox, ctrlVerse, this,
+                strTbText, li, li.LangCode, eFieldType);
             tb.TabStop = !bDisableTabStop;
 #if ShowLabelRow
             tableLayoutPanel.Controls.Add(tb, nLayoutColumn, 1);
 #else
             tableLayoutPanel.Controls.Add(tb, nLayoutColumn, 0);
 #endif
+            return tb;
         }
     }
 }

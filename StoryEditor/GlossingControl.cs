@@ -21,22 +21,22 @@ namespace OneStoryProjectEditor
 
             _strTargetKeyboard = liTarget.Keyboard;
 
-            if (liSource.IsRTL)
+            if (liSource.DoRtl)
                 this.tableLayoutPanel.RightToLeft = RightToLeft.Yes;
 
             string strFollowingSource = strInBetween.Trim();
             if (!String.IsNullOrEmpty(strFollowingSource))
                 buttonJoin.Visible = false;
 
-            textBoxSourceWord.Font = liSource.LangFont;
+            textBoxSourceWord.Font = liSource.FontToUse;
             textBoxSourceWord.ForeColor = liSource.FontColor;
-            if (liSource.IsRTL)
+            if (liSource.DoRtl)
                 textBoxSourceWord.RightToLeft = RightToLeft.Yes;
             textBoxSourceWord.Text = strSourceWord + strFollowingSource;
 
-            textBoxTargetWord.Font = liTarget.LangFont;
+            textBoxTargetWord.Font = liTarget.FontToUse;
             textBoxTargetWord.ForeColor = liTarget.FontColor;
-            if (liTarget.IsRTL)
+            if (liTarget.DoRtl)
                 textBoxTargetWord.RightToLeft = RightToLeft.Yes;
 
             MatchCollection mc = FindMultipleAmbiguities.Matches(strTargetWord);

@@ -119,7 +119,7 @@ namespace OneStoryProjectEditor
 
             CtrlTextBox tb = new CtrlTextBox(
                 CstrFieldNameExegeticalHelp + nLayoutRow, ctrlVerse, this, strQuote,
-                li, labelExegeticalHelp.Text);
+                li, labelExegeticalHelp.Text, StoryEditor.TextFieldType.eInternational);
 
             // add the label and tool strip as a new row to the table layout panel
             InsertRow(nLayoutRow);

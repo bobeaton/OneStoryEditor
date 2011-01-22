@@ -39,6 +39,8 @@ namespace OneStoryProjectEditor
                 btnPunctuation.PreviewKeyDown += BtnPreviewKeyDown;
                 flowLayoutPanelPunctuation.Controls.Add(btnPunctuation);
             }
+
+            textBoxReorderedText.Font = font;
         }
 
         void BtnPreviewKeyDown(object sender, PreviewKeyDownEventArgs e)

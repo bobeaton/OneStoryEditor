@@ -12,7 +12,6 @@ using System.Windows.Forms;
 using System.IO;
 using System.Xml.XPath;
 using System.Xml.Xsl;
-using Chorus.UI.Notes.Bar;
 using ECInterfaces;
 using Palaso.UI.WindowsForms.Keyboarding;
 using SilEncConverters40;
@@ -56,6 +55,22 @@ namespace OneStoryProjectEditor
         private NoteForm m_dlgNotes;
         private HtmlDisplayForm m_dlgHistDiffDlg;
         private PrintForm m_dlgPrintForm;
+
+        public enum TextFieldType
+        {
+            eUndefined = 0,
+            eVernacular,
+            eNational,
+            eInternational
+        }
+
+        public enum GlossType
+        {
+            eUndefined = 0,
+            eVernacularToNational,  // use Vern -> Natl project
+            eVernacularToEnglish,   // use Vern -> Engl project
+            eNationalToEnglish      // use Natl -> Engl project (which can be shared by other clients)
+        }
 
         public StoryEditor(string strStoriesSet, string strProjectFilePath)
         {
@@ -2766,10 +2781,10 @@ namespace OneStoryProjectEditor
         }
         */
 
-        protected void GlossInAdaptIt(string strStoryText, AdaptItGlossing.GlossType eGlossType)
+        protected void GlossInAdaptIt(string strStoryText, GlossType eGlossType)
         {
-            string strSourceLangName, strTargetLangName;
-            AdaptItEncConverter theEC = AdaptItGlossing.InitLookupAdapter(StoryProject.ProjSettings, eGlossType, out strSourceLangName, out strTargetLangName);
+            ProjectSettings.LanguageInfo liSourceLang, liTargetLang;
+            AdaptItEncConverter theEC = AdaptItGlossing.InitLookupAdapter(StoryProject.ProjSettings, eGlossType, out liSourceLang, out liTargetLang);
             string strAdaptationFilespec = AdaptationFilespec(theEC.ConverterIdentifier, theCurrentStory.Name);
             string strProjectName = Path.GetFileNameWithoutExtension(theEC.ConverterIdentifier);
             DialogResult res = DialogResult.Yes;
@@ -2800,8 +2815,7 @@ namespace OneStoryProjectEditor
                 Debug.Assert((SourceWords.Count == TargetWords.Count)
                     && (SourceWords.Count == (StringsInBetween.Count - 1)));
 
-                string strSourceSentFinalPunct = (eGlossType == AdaptItGlossing.GlossType.eNationalToEnglish) ?
-                    StoryProject.ProjSettings.NationalBT.FullStop : StoryProject.ProjSettings.Vernacular.FullStop;
+                string strSourceSentFinalPunct = liSourceLang.FullStop;
                 Debug.Assert(!String.IsNullOrEmpty(strSourceSentFinalPunct));
 
                 XElement elem = new XElement("AdaptItDoc");
@@ -2878,14 +2892,15 @@ namespace OneStoryProjectEditor
 
                 // todo: this probably needs to be selectable
                 LaunchProgram(strAdaptIt,
-                    // (eGlossType == AdaptItGlossing.GlossType.eNationalToEnglish) ?
+                    // (eGlossType == GlossType.eNationalToEnglish) ?
                     null 
                     // : "/frm"
                     );
 
                 res = MessageBox.Show(String.Format(Properties.Resources.IDS_AdaptationInstructions,
-                                                    Environment.NewLine, strSourceLangName, strTargetLangName,
-                                                    strProjectName, theCurrentStory.Name),
+                                                    Environment.NewLine, liSourceLang.LangName,
+                                                    liTargetLang.LangName, strProjectName, 
+                                                    theCurrentStory.Name),
                                       OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
 
                 if (res != DialogResult.Yes)
@@ -2907,7 +2922,7 @@ namespace OneStoryProjectEditor
                 for (int nVerseNum = 0; nVerseNum < theCurrentStory.Verses.Count; nVerseNum++)
                 {
                     VerseData aVerse = theCurrentStory.Verses[nVerseNum];
-                    string strStoryVerse = (eGlossType == AdaptItGlossing.GlossType.eNationalToEnglish)
+                    string strStoryVerse = (eGlossType == GlossType.eNationalToEnglish)
                                                ? aVerse.NationalBTText.ToString()
                                                : aVerse.VernacularText.ToString();
                     if (String.IsNullOrEmpty(strStoryVerse))
@@ -2931,15 +2946,15 @@ namespace OneStoryProjectEditor
                             string strSourceKey = xpIterator.Current.GetAttribute("k", navigator.NamespaceURI);
                             if (strSourceKey != strSourceWord)
                                 throw new ApplicationException(String.Format(Properties.Resources.IDS_ErrorInAdaptation,
-                                                                             Environment.NewLine, strSourceLangName,
-                                                                             strTargetLangName, nVerseNum + 1, strSourceKey,
+                                                                             Environment.NewLine, liSourceLang.LangName,
+                                                                             liTargetLang.LangName, nVerseNum + 1, strSourceKey,
                                                                              strSourceWord));
 
                             string strTargetKey = xpIterator.Current.GetAttribute("a", navigator.NamespaceURI);
                             if ((strTargetWord.IndexOf('%') == -1) && (strTargetWord != strTargetKey))
                                 throw new ApplicationException(String.Format(Properties.Resources.IDS_ErrorInAdaptation,
-                                                                             Environment.NewLine, strSourceLangName,
-                                                                             strTargetLangName, nVerseNum + 1, strTargetKey,
+                                                                             Environment.NewLine, liSourceLang.LangName,
+                                                                             liTargetLang.LangName, nVerseNum + 1, strTargetKey,
                                                                              strTargetWord));
 
                             strTargetWord = xpIterator.Current.GetAttribute("t", navigator.NamespaceURI);
@@ -2950,19 +2965,19 @@ namespace OneStoryProjectEditor
                     if (!String.IsNullOrEmpty(strTargetBT))
                         strTargetBT = strTargetBT.Remove(strTargetBT.Length - 1);
 
-                    if (eGlossType == AdaptItGlossing.GlossType.eVernacularToNational)
+                    if (eGlossType == GlossType.eVernacularToNational)
                         aVerse.NationalBTText.SetValue(strTargetBT);
                     else
                         aVerse.InternationalBTText.SetValue(strTargetBT);
                 }
 
                 Modified = true;
-                if ((eGlossType == AdaptItGlossing.GlossType.eVernacularToNational)
+                if ((eGlossType == GlossType.eVernacularToNational)
                     && !viewNationalLangFieldMenuItem.Checked)
                 {
                     viewNationalLangFieldMenuItem.Checked = true;
                 }
-                else if ((eGlossType != AdaptItGlossing.GlossType.eVernacularToNational)
+                else if ((eGlossType != GlossType.eVernacularToNational)
                     && !viewEnglishBTFieldMenuItem.Checked)
                 {
                     viewEnglishBTFieldMenuItem.Checked = true;
@@ -4330,7 +4345,7 @@ namespace OneStoryProjectEditor
             }
 
             string strStory = GetFullStoryContentsVernacular;
-            GlossInAdaptIt(strStory, AdaptItGlossing.GlossType.eVernacularToNational);
+            GlossInAdaptIt(strStory, GlossType.eVernacularToNational);
         }
 
         private void storyAdaptItVernacularToEnglishMenuItem_Click(object sender, EventArgs e)
@@ -4348,7 +4363,7 @@ namespace OneStoryProjectEditor
             }
 
             string strStory = GetFullStoryContentsVernacular;
-            GlossInAdaptIt(strStory, AdaptItGlossing.GlossType.eVernacularToEnglish);
+            GlossInAdaptIt(strStory, GlossType.eVernacularToEnglish);
         }
 
         private void storyAdaptItNationalToEnglishMenuItem_Click(object sender, EventArgs e)
@@ -4366,7 +4381,7 @@ namespace OneStoryProjectEditor
             }
 
             string strStory = GetFullStoryContentsNationalBTText;
-            GlossInAdaptIt(strStory, AdaptItGlossing.GlossType.eNationalToEnglish);
+            GlossInAdaptIt(strStory, GlossType.eNationalToEnglish);
         }
     }
 }

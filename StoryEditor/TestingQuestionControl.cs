@@ -60,44 +60,67 @@ namespace OneStoryProjectEditor
                 nNumColumns++;
 
                 // insert the vernacular representation of the testing question
+                CtrlTextBox ctrlTextBoxVernacular = null;
                 if (theSE.viewVernacularLangFieldMenuItem.Checked)
                 {
                     InsertColumn(nNumColumns);
                     if (bShowHeader)
                         InitColumnLabel(theSE.StoryProject.ProjSettings.Vernacular.LangName, nNumColumns);
                     _aTQData.QuestionVernacular.Transliterator = ctrlVerse.TransliteratorVernacular;
-                    InitTextBox(ctrlVerse, CstrFieldNameVernacular, _aTQData.QuestionVernacular,
-                        theSE.StoryProject.ProjSettings.Vernacular, nNumColumns);
+                    ctrlTextBoxVernacular = InitTextBox(ctrlVerse, CstrFieldNameVernacular, _aTQData.QuestionVernacular,
+                        theSE.StoryProject.ProjSettings.Vernacular, nNumColumns,
+                        StoryEditor.TextFieldType.eVernacular);
                     nNumColumns++;
                 }
 
+#if !LimitWhenToShow
+                CtrlTextBox ctrlTextBoxNationalBT = null;
+                if (theSE.viewNationalLangFieldMenuItem.Checked)
+#else
                 // the only time we show the National BT is if there's an "other" English BTr (who will
                 //  do the EnglishBT from the NationalBT) OR there's no vernacular
                 if (theSE.StoryProject.ProjSettings.NationalBT.HasData 
                     && theSE.StoryProject.TeamMembers.HasOutsideEnglishBTer
                     && theSE.viewNationalLangFieldMenuItem.Checked)
+#endif
                 {
                     InsertColumn(nNumColumns);
                     if (bShowHeader)
                         InitColumnLabel(theSE.StoryProject.ProjSettings.NationalBT.LangName, nNumColumns);
                     _aTQData.QuestionNationalBT.Transliterator = ctrlVerse.TransliteratorNationalBT;
-                    InitTextBox(ctrlVerse, CstrFieldNameNationalBt, _aTQData.QuestionNationalBT,
-                        theSE.StoryProject.ProjSettings.NationalBT, nNumColumns);
+                    ctrlTextBoxNationalBT = InitTextBox(ctrlVerse, CstrFieldNameNationalBt, 
+                        _aTQData.QuestionNationalBT, 
+                        theSE.StoryProject.ProjSettings.NationalBT, nNumColumns,
+                        StoryEditor.TextFieldType.eNational);
                     nNumColumns++;
+
+                    if (ctrlTextBoxVernacular != null)
+                        ctrlTextBoxVernacular.NationalBtSibling = ctrlTextBoxNationalBT;
                 }
 
+#if !LimitWhenToShow
+                if (theSE.viewEnglishBTFieldMenuItem.Checked)
+#else
                 if (theSE.viewEnglishBTFieldMenuItem.Checked
                     && (!theSE.StoryProject.TeamMembers.HasOutsideEnglishBTer
                         || (StageLogic.MemberTypeWithEditToken !=
                                 TeamMemberData.UserTypes.eProjectFacilitator)
                                 || (theSE.LoggedOnMember.MemberType != TeamMemberData.UserTypes.eProjectFacilitator)))
+#endif
                 {
                     InsertColumn(nNumColumns);
                     if (bShowHeader)
                         InitColumnLabel(theSE.StoryProject.ProjSettings.InternationalBT.LangName, nNumColumns);
-                    InitTextBox(ctrlVerse, CstrFieldNameVernacular, _aTQData.QuestionInternationalBT,
-                        theSE.StoryProject.ProjSettings.InternationalBT, nNumColumns);
+                    CtrlTextBox ctrlTextBoxEnglishBT = InitTextBox(ctrlVerse, CstrFieldNameVernacular, _aTQData.QuestionInternationalBT,
+                        theSE.StoryProject.ProjSettings.InternationalBT, nNumColumns,
+                        StoryEditor.TextFieldType.eInternational);
                     nNumColumns++;
+
+                    if (ctrlTextBoxVernacular != null)
+                        ctrlTextBoxVernacular.EnglishBtSibling = ctrlTextBoxEnglishBT;
+
+                    if (ctrlTextBoxNationalBT != null)
+                        ctrlTextBoxNationalBT.EnglishBtSibling = ctrlTextBoxEnglishBT;
                 }
             }
 
@@ -144,16 +167,18 @@ namespace OneStoryProjectEditor
             tableLayoutPanel.Controls.Add(lbl, nLayoutColumn, 0);
         }
 
-        protected void InitTextBox(VerseControl ctrlVerse, string strTbName, 
-            StringTransfer strTbText, ProjectSettings.LanguageInfo li, int nLayoutColumn)
+        protected CtrlTextBox InitTextBox(VerseControl ctrlVerse, string strTbName, 
+            StringTransfer strTbText, ProjectSettings.LanguageInfo li, int nLayoutColumn, 
+            StoryEditor.TextFieldType eFieldtype)
         {
-            CtrlTextBox tb = new CtrlTextBox(strTbName + CstrSuffixTextBox, ctrlVerse, this,
-                strTbText, li, CstrTestQuestionsLabelFormat, true);
+            var tb = new CtrlTextBox(strTbName + CstrSuffixTextBox, ctrlVerse, this,
+                strTbText, li, CstrTestQuestionsLabelFormat, true, eFieldtype);
 #if ShowLabelRow
             tableLayoutPanel.Controls.Add(tb, nLayoutColumn, 1);
 #else
             tableLayoutPanel.Controls.Add(tb, nLayoutColumn, 0);
 #endif
+            return tb;
         }
     }
 }

@@ -32,6 +32,7 @@
             this.flowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.buttonOK = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
+            this.buttonReorder = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // flowLayoutPanel
@@ -67,12 +68,25 @@
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
             // 
+            // buttonReorder
+            // 
+            this.buttonReorder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonReorder.Location = new System.Drawing.Point(509, 345);
+            this.buttonReorder.Name = "buttonReorder";
+            this.buttonReorder.Size = new System.Drawing.Size(75, 23);
+            this.buttonReorder.TabIndex = 2;
+            this.buttonReorder.Text = "&Reorder";
+            this.buttonReorder.UseVisualStyleBackColor = true;
+            this.buttonReorder.Click += new System.EventHandler(this.buttonReorder_Click);
+            // 
             // GlossingForm
             // 
+            this.AcceptButton = this.buttonOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
             this.ClientSize = new System.Drawing.Size(597, 381);
+            this.Controls.Add(this.buttonReorder);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOK);
             this.Controls.Add(this.flowLayoutPanel);
@@ -80,7 +94,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "GlossingForm";
-            this.Text = "Gloss Sentence";
+            this.Text = "Gloss Text";
             this.ResumeLayout(false);
 
         }
@@ -90,5 +104,6 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel;
         private System.Windows.Forms.Button buttonOK;
         private System.Windows.Forms.Button buttonCancel;
+        private System.Windows.Forms.Button buttonReorder;
     }
 }

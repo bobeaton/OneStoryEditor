@@ -4,75 +4,43 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using ECInterfaces;                 // for IEncConverter
-using SilEncConverters31;           // for AdaptItEncConverter
+using SilEncConverters40;           // for AdaptItEncConverter
 
 namespace OneStoryProjectEditor
 {
     public partial class GlossingForm : Form
     {
-        public enum GlossType
-        {
-            eUndefined = 0,
-            eVernacularToNational,  // use Vern -> Natl project
-            eVernacularToEnglish,   // use Vern -> Engl project
-            eNationalToEnglish      // use Natl -> Engl project (which can be shared by other clients)
-        }
-
         protected static char[] achWordDelimiters = new[] { ' ' };
-        private AdaptItEncConverter m_aEC = null;
+        private AdaptItEncConverter m_theEC = null;
         public List<string> TargetWords;
         public List<string> SourceWords;
         public List<string> StringsInBetween;
+        private Font _fontTarget;
 
-        public GlossingForm(ProjectSettings proj, string strSentence, GlossType eGlossType)
+        public GlossingForm(ProjectSettings projSettings, string strSentence, 
+            StoryEditor.GlossType eGlossType)
         {
             InitializeComponent();
-
-            m_aEC = InitLookupAdapter(proj, eGlossType);
-
-            ProjectSettings.LanguageInfo liSource;
-            ProjectSettings.LanguageInfo liTarget;
-            switch (eGlossType)
-            {
-                case GlossType.eVernacularToNational:
-                    liSource = proj.Vernacular;
-                    liTarget = proj.NationalBT;
-                    break;
-
-                case GlossType.eVernacularToEnglish:    // the glossing KB for the Vern to Natl project
-                    liSource = proj.Vernacular;
-                    liTarget = proj.InternationalBT;
-                    break;
-
-                case GlossType.eNationalToEnglish:
-                    liSource = proj.NationalBT;
-                    liTarget = proj.InternationalBT;
-                    break;
-
-                default:
-                    System.Diagnostics.Debug.Assert(false);
-                    throw new ApplicationException("Wrong glossing type specified. Send to bob_eaton@sall.com for help");
-            }
+            ProjectSettings.LanguageInfo liSourceLang, liTargetLang;
+            m_theEC = AdaptItGlossing.InitLookupAdapter(projSettings, eGlossType, out liSourceLang, out liTargetLang);
 
             // get the EncConverter to break apart the given sentence into bundles
-            m_aEC.SplitAndConvert(strSentence, out SourceWords, out StringsInBetween, out TargetWords);
+            m_theEC.SplitAndConvert(strSentence, out SourceWords, out StringsInBetween, out TargetWords);
             if (SourceWords.Count == 0)
                 throw new ApplicationException("No sentence to gloss!");
 
-            if (liSource.IsRTL)
+            if (liSourceLang.DoRtl)
                 flowLayoutPanel.FlowDirection = FlowDirection.RightToLeft;
+
+            _fontTarget = liTargetLang.FontToUse;
 
             System.Diagnostics.Debug.Assert(SourceWords.Count == TargetWords.Count);
             for (int i = 0; i < SourceWords.Count; i++)
             {
-                GlossingControl gc = new GlossingControl(this,
-                    liSource, SourceWords[i],
-                    liTarget, TargetWords[i],
+                var gc = new GlossingControl(this,
+                    liSourceLang, SourceWords[i],
+                    liTargetLang, TargetWords[i],
                     StringsInBetween[i + 1]);
-
-                // Bill Martin says that glossing KBs can't have Map greater than 1.
-                if (eGlossType == GlossType.eVernacularToEnglish)
-                    gc.DisableButton();
 
                 flowLayoutPanel.Controls.Add(gc);
             }
@@ -81,33 +49,28 @@ namespace OneStoryProjectEditor
             ((GlossingControl)flowLayoutPanel.Controls[flowLayoutPanel.Controls.Count - 1]).DisableButton();
         }
 
-        public string TargetSentence
-        {
-            get
-            {
-                System.Diagnostics.Debug.Assert(flowLayoutPanel.Controls.Count > 0);
-                string strTargetSentence = ((GlossingControl)flowLayoutPanel.Controls[0]).TargetWord;
-
-                for (int i = 1; i < flowLayoutPanel.Controls.Count; i++)
-                {
-                    GlossingControl aGC = (GlossingControl)flowLayoutPanel.Controls[i];
-                    strTargetSentence += " " + aGC.TargetWord;
-                }
-
-                return strTargetSentence;
-            }
-        }
+        public string TargetSentence { get; set; }
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
             foreach (GlossingControl aGC in flowLayoutPanel.Controls)
             {
                 // means we have to add it to the kb. The source word will get trimmed, but not the target
-                string strTargetWord = aGC.TargetWord.Trim(m_aEC.DelimitersReverse);
+                string strTargetWord = aGC.TargetWord.Trim(m_theEC.DelimitersReverse);
                 TargetWords.Add(strTargetWord);
-                m_aEC.AddEntryPair(aGC.SourceWord, strTargetWord);
+                m_theEC.AddEntryPair(aGC.SourceWord, strTargetWord);
             }
 
+            System.Diagnostics.Debug.Assert(flowLayoutPanel.Controls.Count > 0);
+            string strTargetSentence = ((GlossingControl)flowLayoutPanel.Controls[0]).TargetWord;
+
+            for (int i = 1; i < flowLayoutPanel.Controls.Count; i++)
+            {
+                GlossingControl aGC = (GlossingControl)flowLayoutPanel.Controls[i];
+                strTargetSentence += " " + aGC.TargetWord;
+            }
+
+            TargetSentence = strTargetSentence;
             DialogResult = DialogResult.OK;
             Close();
         }
@@ -128,6 +91,14 @@ namespace OneStoryProjectEditor
                     break;
                 }
             }
+        }
+
+        public bool DoReorder { get; set; }
+
+        private void buttonReorder_Click(object sender, EventArgs e)
+        {
+            DoReorder = true;
+            buttonOK_Click(sender, e);
         }
     }
 }
