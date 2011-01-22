@@ -1,3 +1,19 @@
+﻿Kingfisher IT 212 @ 2:45pm
+
+Make it so that AIEC does punctuation mapping as well (don't have /has।/)
+
+no horizontal scroll bar in ConNotes
+
+make sure 'use for all stories' works from startup
+
+make sure about testing questions before going into "do uns test" state
+
+make sure the 'transition' text is updated in the Select State dialog
+
+allow consult & coach to make edits to the ConNotes panes even when the story is in a PF state
+
+add ability to have one-sided conversations in the ConNote panes (Add Place Holders button? or Add Bookmark?) or "Add note to self"
+
 DChartHelper: fix the repaint and add 'export all' feature
 
 Fix AdaptIt EncConverter to not allow zero lenght words/phrases and RS fields
