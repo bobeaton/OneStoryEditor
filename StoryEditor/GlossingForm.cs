@@ -10,37 +10,35 @@ namespace OneStoryProjectEditor
 {
     public partial class GlossingForm : Form
     {
-        protected static char[] achWordDelimiters = new[] { ' ' };
+        internal static char[] achWordDelimiters = new[] { ' ' };
         private AdaptItEncConverter m_theEC = null;
-        public List<string> TargetWords;
         public List<string> SourceWords;
-        public List<string> StringsInBetween;
-        private Font _fontTarget;
+        public List<string> TargetWords;
+        public List<string> SourceStringsInBetween;
+        public List<string> TargetStringsInBetween;
+        protected ProjectSettings.LanguageInfo liSourceLang, liTargetLang;
 
         public GlossingForm(ProjectSettings projSettings, string strSentence, 
             StoryEditor.GlossType eGlossType)
         {
             InitializeComponent();
-            ProjectSettings.LanguageInfo liSourceLang, liTargetLang;
             m_theEC = AdaptItGlossing.InitLookupAdapter(projSettings, eGlossType, out liSourceLang, out liTargetLang);
 
             // get the EncConverter to break apart the given sentence into bundles
-            m_theEC.SplitAndConvert(strSentence, out SourceWords, out StringsInBetween, out TargetWords);
+            m_theEC.SplitAndConvert(strSentence, out SourceWords, out SourceStringsInBetween, 
+                out TargetWords, out TargetStringsInBetween);
             if (SourceWords.Count == 0)
                 throw new ApplicationException("No sentence to gloss!");
 
             if (liSourceLang.DoRtl)
                 flowLayoutPanel.FlowDirection = FlowDirection.RightToLeft;
 
-            _fontTarget = liTargetLang.FontToUse;
-
             System.Diagnostics.Debug.Assert(SourceWords.Count == TargetWords.Count);
             for (int i = 0; i < SourceWords.Count; i++)
             {
                 var gc = new GlossingControl(this,
-                    liSourceLang, SourceWords[i],
-                    liTargetLang, TargetWords[i],
-                    StringsInBetween[i + 1]);
+                    liSourceLang, SourceWords[i], SourceStringsInBetween[i + 1],
+                    liTargetLang, TargetWords[i], TargetStringsInBetween[i + 1]);
 
                 flowLayoutPanel.Controls.Add(gc);
             }
@@ -77,20 +75,36 @@ namespace OneStoryProjectEditor
 
         public void MergeWithNext(GlossingControl control)
         {
-            for (int i = 0; i < flowLayoutPanel.Controls.Count; i++ )
+            int nIndex = flowLayoutPanel.Controls.IndexOf(control);
+            // add the contents of this one to the next one
+            GlossingControl theNextGC = (GlossingControl)flowLayoutPanel.Controls[nIndex + 1];
+            theNextGC.SourceWord = String.Format("{0} {1}", control.SourceWord, theNextGC.SourceWord);
+
+            // as a general rule, the target form would just be the concatenation of the two
+            //  target forms. 
+            string strTargetPhrase = String.Format("{0} {1}", control.TargetWord, theNextGC.TargetWord);
+
+            // But by combining it, we should at least see if this would result
+            //  in a new form if it were converted. So let's check that.
+            string strConvertedTarget = SafeConvert(theNextGC.SourceWord);
+            if (strConvertedTarget != theNextGC.SourceWord)
+                strTargetPhrase = strConvertedTarget;   // means it was converted
+            theNextGC.TargetWord = strTargetPhrase;
+
+            flowLayoutPanel.Controls.Remove(control);
+            theNextGC.Focus();
+        }
+
+        protected string SafeConvert(string strInput)
+        {
+            try
             {
-                GlossingControl aGC = (GlossingControl)flowLayoutPanel.Controls[i];
-                if (aGC == control)
-                {
-                    // add the contents of this one to the next one
-                    GlossingControl theNextGC = (GlossingControl)flowLayoutPanel.Controls[i + 1];
-                    theNextGC.SourceWord = String.Format("{0} {1}", control.SourceWord, theNextGC.SourceWord);
-                    theNextGC.TargetWord = String.Format("{0} {1}", control.TargetWord, theNextGC.TargetWord);
-                    flowLayoutPanel.Controls.Remove(aGC);
-                    theNextGC.Focus();
-                    break;
-                }
+                return m_theEC.Convert(strInput);
             }
+            catch
+            {
+            }
+            return strInput;
         }
 
         public bool DoReorder { get; set; }
@@ -99,6 +113,32 @@ namespace OneStoryProjectEditor
         {
             DoReorder = true;
             buttonOK_Click(sender, e);
+        }
+
+        public void SplitMeUp(GlossingControl control)
+        {
+            System.Diagnostics.Debug.Assert(control.SourceWord.Split(achWordDelimiters).Length > 1);
+            int nIndex = flowLayoutPanel.Controls.IndexOf(control);
+
+            string[] astrSourceWords = control.SourceWord.Split(achWordDelimiters, StringSplitOptions.RemoveEmptyEntries);
+            control.SourceWord = astrSourceWords[0];
+
+            // since splitting can have unpredictable side effects (e.g. two source words
+            //  becoming a single word, just to name one), go ahead and reconvert the
+            //  split source words again.
+            control.TargetWord = SafeConvert(control.SourceWord);
+
+            for (int i = 1; i < astrSourceWords.Length; i++)
+            {
+                string strSourceWord = astrSourceWords[i];
+                string strTargetWord = SafeConvert(strSourceWord);
+                var gc = new GlossingControl(this,
+                    liSourceLang, strSourceWord, "",
+                    liTargetLang, strTargetWord, "");
+
+                flowLayoutPanel.Controls.Add(gc);
+                flowLayoutPanel.Controls.SetChildIndex(gc, ++nIndex);
+            }
         }
     }
 }

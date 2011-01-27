@@ -12,9 +12,8 @@ namespace OneStoryProjectEditor
         protected string strAmbiguitySeparator = "¦";
         protected string _strTargetKeyboard;
         public GlossingControl(GlossingForm parent, 
-            ProjectSettings.LanguageInfo liSource, string strSourceWord,
-            ProjectSettings.LanguageInfo liTarget, string strTargetWord,
-            string strInBetween)
+            ProjectSettings.LanguageInfo liSource, string strSourceWord, string strSourceInBetween,
+            ProjectSettings.LanguageInfo liTarget, string strTargetWord, string strTargetInBetween)
         {
             _parent = parent;
             InitializeComponent();
@@ -24,9 +23,11 @@ namespace OneStoryProjectEditor
             if (liSource.DoRtl)
                 this.tableLayoutPanel.RightToLeft = RightToLeft.Yes;
 
-            string strFollowingSource = strInBetween.Trim();
+            string strFollowingSource = strSourceInBetween.Trim();
             if (!String.IsNullOrEmpty(strFollowingSource))
                 buttonJoin.Visible = false;
+
+            string strFollowingTarget = strTargetInBetween.Trim();
 
             textBoxSourceWord.Font = liSource.FontToUse;
             textBoxSourceWord.ForeColor = liSource.FontColor;
@@ -46,7 +47,7 @@ namespace OneStoryProjectEditor
                 strTargetWord = strAmbiguityList.Replace("%", strAmbiguitySeparator);
             }
 
-            textBoxTargetWord.Text = strTargetWord + strFollowingSource.Replace(liSource.FullStop, liTarget.FullStop);
+            textBoxTargetWord.Text = strTargetWord + strFollowingTarget;
         }
 
         public string SourceWord
@@ -152,6 +153,19 @@ namespace OneStoryProjectEditor
                     SendKeys.Send("\t");
                 e.Handled = true;
             }
+        }
+
+        private void contextMenuStripForSplitting_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (String.IsNullOrEmpty(SourceWord))
+                return;
+
+            splitToolStripMenuItem.Visible = (SourceWord.Split(GlossingForm.achWordDelimiters).Length > 1);
+        }
+
+        private void splitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _parent.SplitMeUp(this);
         }
     }
 }

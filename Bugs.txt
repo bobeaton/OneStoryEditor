@@ -1,6 +1,18 @@
-﻿Kingfisher IT 212 @ 2:45pm
+﻿What the consultant should know
+1) translation philosophy
+2) linguistic facts
+3) target audience
+4) 
 
-Make it so that AIEC does punctuation mapping as well (don't have /has।/)
+1) what were good/bad practices
+2) what would you have done differently
+3) what are some cultural issues
+4) if you as consultant and the translator fail to agree, what should you do?
+5) if there are exegetical issues that take a while to discuss and the UNS doesn't understand the language, what should you do?
+
+properly check out C:\src\WW\Lib\src\EC\AIGuesserEC\AdaptItEncConverter.cs
+C:\src\WW\Lib\debug\AIGuesserEC.*
+C:\src\WW\Lib\src\EC\AIGuesserEC\AIGuesserEC.csproj
 
 no horizontal scroll bar in ConNotes
 
@@ -23,8 +35,6 @@ Fix Toolbox export to make a separate typ for coach notes (so we can have differ
 When inserting records, use 'a', 'b', etc, so we don't change the line numbers
 
 selectively show different tests
-
-Gray out the "Edit Key Terms" menu if it isn't going to launch it
 
 add 'hidden text' to the search dialog (don't search 'hidden' verses unless it's checked, and NavigateTo needs to unhide such a find)
 

@@ -488,6 +488,9 @@ namespace OneStoryProjectEditor
             {
                 System.Diagnostics.Debug.Assert((NationalBtSibling != null) && (_ctrlVerseParent != null)
                     && (_eFieldType == StoryEditor.TextFieldType.eVernacular));
+                if (!MyStringTransfer.HasData)
+                    return;
+
                 var dlg = new GlossingForm(_ctrlVerseParent.TheSE.StoryProject.ProjSettings, 
                     MyStringTransfer.ToString(), StoryEditor.GlossType.eVernacularToNational);
                 if (dlg.ShowDialog() == DialogResult.OK)
@@ -522,6 +525,8 @@ namespace OneStoryProjectEditor
                                                 &&
                                                 ((_eFieldType == StoryEditor.TextFieldType.eVernacular) ||
                                                  (_eFieldType == StoryEditor.TextFieldType.eNational)));
+                if (!MyStringTransfer.HasData)
+                    return;
                 StoryEditor.GlossType eGlossType = (_eFieldType == StoryEditor.TextFieldType.eVernacular)
                                                        ? StoryEditor.GlossType.eVernacularToEnglish
                                                        : StoryEditor.GlossType.eNationalToEnglish;
@@ -679,6 +684,11 @@ namespace OneStoryProjectEditor
                     return;
                 _inTextBox.Paste();
                 theSE.Modified = true;
+
+                // deal with label control (by pretending there was a mouse down, which
+                //  has the side effect we want)
+                if (_inTextBox.Controls.Count > 0)
+                    LabelMouseDown(_inTextBox.Controls[0], null);
             }
         }
 

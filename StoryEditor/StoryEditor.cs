@@ -2808,12 +2808,15 @@ namespace OneStoryProjectEditor
 
             if (res == DialogResult.Yes)
             {
-                List<string> TargetWords;
                 List<string> SourceWords;
-                List<string> StringsInBetween;
-                theEC.SplitAndConvert(strStoryText, out SourceWords, out StringsInBetween, out TargetWords);
+                List<string> TargetWords;
+                List<string> SourceStringsInBetween;
+                List<string> TargetStringsInBetween;
+                theEC.SplitAndConvert(strStoryText, out SourceWords, out SourceStringsInBetween,
+                    out TargetWords, out TargetStringsInBetween);
                 Debug.Assert((SourceWords.Count == TargetWords.Count)
-                    && (SourceWords.Count == (StringsInBetween.Count - 1)));
+                    && (SourceWords.Count == (SourceStringsInBetween.Count - 1))
+                    && (SourceStringsInBetween.Count == TargetStringsInBetween.Count));
 
                 string strSourceSentFinalPunct = liSourceLang.FullStop;
                 Debug.Assert(!String.IsNullOrEmpty(strSourceSentFinalPunct));
@@ -2833,13 +2836,14 @@ namespace OneStoryProjectEditor
                         {
                             string str = astrSourcePhraseWords[j];
                             SourceWords.Insert(i + j, str);
-                            StringsInBetween.Insert(i, "");
+                            SourceStringsInBetween.Insert(i, "");
+                            TargetStringsInBetween.Insert(i, "");
                         }
                     }
 
                     // if the stuff in between is ", ", then clearly it wants to go on the end
                     // but if it's like " (", then it wants to go on the next word
-                    string strBefore = StringsInBetween[i].Trim(), strAfter = StringsInBetween[i + 1];
+                    string strBefore = SourceStringsInBetween[i].Trim(), strAfter = SourceStringsInBetween[i + 1];
                     if (!String.IsNullOrEmpty(strAfter))
                     {
                         Debug.Assert(strAfter.Length > 0);  // should at least be a space
@@ -2849,7 +2853,7 @@ namespace OneStoryProjectEditor
                             string strBeforeNextWord = (nIndexOfSpace < strAfter.Length) ?
                                 strAfter.Substring(nIndexOfSpace) : null;
                             strAfter = (nIndexOfSpace > 0) ? strAfter.Substring(0, nIndexOfSpace).Trim() : null;
-                            StringsInBetween[i + 1] = strBeforeNextWord;
+                            SourceStringsInBetween[i + 1] = strBeforeNextWord;
                         }
                     }
 
@@ -2930,10 +2934,13 @@ namespace OneStoryProjectEditor
 
                     List<string> TargetWords;
                     List<string> SourceWords;
-                    List<string> StringsInBetween;
-                    theEC.SplitAndConvert(strStoryVerse, out SourceWords, out StringsInBetween, out TargetWords);
+                    List<string> SourceStringsInBetween;
+                    List<string> TargetStringsInBetween;
+                    theEC.SplitAndConvert(strStoryVerse, out SourceWords, out SourceStringsInBetween,
+                        out TargetWords, out TargetStringsInBetween);
                     Debug.Assert((SourceWords.Count == TargetWords.Count)
-                                 && (SourceWords.Count == (StringsInBetween.Count - 1)));
+                                 && (SourceWords.Count == (SourceStringsInBetween.Count - 1))
+                                 && (SourceStringsInBetween.Count == TargetStringsInBetween.Count));
 
                     string strTargetBT = null;
                     for (int nWordNum = 0; nWordNum < SourceWords.Count; nWordNum++)

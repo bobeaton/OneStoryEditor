@@ -32,9 +32,12 @@
             this.contextMenuStripAmbiguityPicker = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tableLayoutPanel = new OneStoryProjectEditor.DynamicTableLayoutPanel();
             this.textBoxSourceWord = new System.Windows.Forms.TextBox();
+            this.contextMenuStripForSplitting = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.splitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.textBoxTargetWord = new System.Windows.Forms.TextBox();
             this.buttonJoin = new System.Windows.Forms.Button();
             this.tableLayoutPanel.SuspendLayout();
+            this.contextMenuStripForSplitting.SuspendLayout();
             this.SuspendLayout();
             // 
             // contextMenuStripAmbiguityPicker
@@ -61,6 +64,7 @@
             // 
             // textBoxSourceWord
             // 
+            this.textBoxSourceWord.ContextMenuStrip = this.contextMenuStripForSplitting;
             this.textBoxSourceWord.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxSourceWord.Location = new System.Drawing.Point(3, 3);
             this.textBoxSourceWord.Name = "textBoxSourceWord";
@@ -69,6 +73,21 @@
             this.textBoxSourceWord.TabIndex = 3;
             this.textBoxSourceWord.TabStop = false;
             this.textBoxSourceWord.TextChanged += new System.EventHandler(this.textBox_TextChanged);
+            // 
+            // contextMenuStripForSplitting
+            // 
+            this.contextMenuStripForSplitting.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.splitToolStripMenuItem});
+            this.contextMenuStripForSplitting.Name = "contextMenuStripForSplitting";
+            this.contextMenuStripForSplitting.Size = new System.Drawing.Size(98, 26);
+            this.contextMenuStripForSplitting.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripForSplitting_Opening);
+            // 
+            // splitToolStripMenuItem
+            // 
+            this.splitToolStripMenuItem.Name = "splitToolStripMenuItem";
+            this.splitToolStripMenuItem.Size = new System.Drawing.Size(97, 22);
+            this.splitToolStripMenuItem.Text = "&Split";
+            this.splitToolStripMenuItem.Click += new System.EventHandler(this.splitToolStripMenuItem_Click);
             // 
             // textBoxTargetWord
             // 
@@ -108,6 +127,7 @@
             this.Size = new System.Drawing.Size(136, 93);
             this.tableLayoutPanel.ResumeLayout(false);
             this.tableLayoutPanel.PerformLayout();
+            this.contextMenuStripForSplitting.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -119,5 +139,7 @@
         private System.Windows.Forms.TextBox textBoxTargetWord;
         private System.Windows.Forms.Button buttonJoin;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripAmbiguityPicker;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripForSplitting;
+        private System.Windows.Forms.ToolStripMenuItem splitToolStripMenuItem;
     }
 }
