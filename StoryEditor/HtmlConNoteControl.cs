@@ -342,6 +342,36 @@ namespace OneStoryProjectEditor
             return true;
         }
 
+        protected new bool CheckForProperEditToken(out StoryEditor theSE)
+        {
+            theSE = TheSE;  // (StoryEditor)FindForm();
+            try
+            {
+                if (theSE == null)
+                    throw new ApplicationException(
+                        "Unable to edit the file! Restart the program and if it persists, contact bob_eaton@sall.com");
+
+                if (!theSE.IsInStoriesSet)
+                    throw theSE.CantEditOldStoriesEx;
+
+                if (((this is HtmlConsultantNotesControl) && (theSE.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eConsultantInTraining))
+                    || ((this is HtmlCoachNotesControl) && (theSE.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eCoach)))
+                {
+                    return true;
+                }
+
+                theSE.LoggedOnMember.ThrowIfEditIsntAllowed(theSE.theCurrentStory.ProjStage.MemberTypeWithEditToken);
+            }
+            catch (Exception ex)
+            {
+                if (theSE != null)
+                    theSE.SetStatusBar(String.Format("Error: {0}", ex.Message));
+                return false;
+            }
+
+            return true;
+        }
+
         public ConsultNoteDataConverter DoAddNote(string strNote,
             ConsultNotesDataConverter aCNsDC)
         {

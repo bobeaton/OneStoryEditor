@@ -127,8 +127,12 @@ namespace OneStoryProjectEditor
                     RemoveAt(Count - 1);
 
             // don't bother, though, if the user has ended the conversation
-            if (IsFinished || !LoggedOnMember.IsEditAllowed(theStoryStage.MemberTypeWithEditToken))
+            if (IsFinished ||
+                (!IsMentorLoggedOn(LoggedOnMember) &&
+                !LoggedOnMember.IsEditAllowed(theStoryStage.MemberTypeWithEditToken)))
+            {
                 return;
+            }
 
             TeamMemberData.UserTypes eLoggedOnMember = LoggedOnMember.MemberType;
             if (((eLoggedOnMember & eMentorType) == eLoggedOnMember) && ((Count == 0) || (this[Count - 1].Direction == MenteeDirection)))
@@ -136,6 +140,7 @@ namespace OneStoryProjectEditor
             else if (((eLoggedOnMember & eMenteeType) == eLoggedOnMember) && ((Count == 0) || (this[Count - 1].Direction == MentorDirection)))
                 Add(new CommInstance(strValue, MenteeDirection, null, DateTime.Now));
         }
+
         /*
         // do this here, because we need to sub-class it to allow for FirstPassMentor working as well in addition to CIT
         public virtual void ThrowIfWrongEditor(TeamMemberData.UserTypes eLoggedOnMember, TeamMemberData.UserTypes eRequiredEditor)
@@ -144,6 +149,8 @@ namespace OneStoryProjectEditor
                 throw new ApplicationException(String.Format("Only a '{0}' can edit this field", TeamMemberData.GetMemberTypeAsDisplayString(eRequiredEditor)));
         }
         */
+        protected abstract bool IsMentorLoggedOn(TeamMemberData loggedOnMember);
+
         protected virtual bool IsWrongEditor(TeamMemberData.UserTypes eLoggedOnMember, TeamMemberData.UserTypes eRequiredEditor)
         {
             return (eLoggedOnMember != eRequiredEditor);
@@ -293,9 +300,10 @@ namespace OneStoryProjectEditor
         {
             return (i == (Count - 1))
                    && !IsFinished
-                   && LoggedOnMember.IsEditAllowed(theStoryStage.MemberTypeWithEditToken)
-                   && ((IsFromMentor(aCI) && !IsWrongEditor(LoggedOnMember.MemberType, MentorRequiredEditor))
-                       || (!IsFromMentor(aCI) && !IsWrongEditor(LoggedOnMember.MemberType, MenteeRequiredEditor)));
+                   && (IsMentorLoggedOn(LoggedOnMember)
+                    || LoggedOnMember.IsEditAllowed(theStoryStage.MemberTypeWithEditToken)
+                       && ((IsFromMentor(aCI) && !IsWrongEditor(LoggedOnMember.MemberType, MentorRequiredEditor))
+                           || (!IsFromMentor(aCI) && !IsWrongEditor(LoggedOnMember.MemberType, MenteeRequiredEditor))));
         }
 
         public bool IsFromMentor(CommInstance aCI)
@@ -548,6 +556,12 @@ namespace OneStoryProjectEditor
             get { return "ConsultantNote"; }
         }
 
+        protected override bool IsMentorLoggedOn(TeamMemberData loggedOnMember)
+        {
+            return ((loggedOnMember.MemberType == TeamMemberData.UserTypes.eConsultantInTraining) ||
+                    (loggedOnMember.MemberType == TeamMemberData.UserTypes.eIndependentConsultant));
+        }
+
         protected override bool IsWrongEditor(TeamMemberData.UserTypes eLoggedOnMember, TeamMemberData.UserTypes eRequiredEditor)
         {
             // if it's the *mentor* that we're supposed to be checking for... (this will get called for the mentee check
@@ -665,6 +679,11 @@ namespace OneStoryProjectEditor
         public override CommunicationDirections MentorDirection
         {
             get { return CommunicationDirections.eCoachToConsultant; }
+        }
+
+        protected override bool IsMentorLoggedOn(TeamMemberData loggedOnMember)
+        {
+            return (loggedOnMember.MemberType == TeamMemberData.UserTypes.eCoach);
         }
 
         public override CommunicationDirections MenteeDirection
