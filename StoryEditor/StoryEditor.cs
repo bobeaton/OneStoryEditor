@@ -2438,7 +2438,9 @@ namespace OneStoryProjectEditor
                 foreach (string strGuid in theCurrentStory.CraftingInfo.Testors)
                     if (strGuid == strUnsGuid)
                     {
-                        DialogResult res = MessageBox.Show(Properties.Resources.IDS_AddTestSameUNS,
+                        string strError = String.Format(Properties.Resources.IDS_AddTestSameUNS,
+                                                        StoryProject.TeamMembers.GetNameFromMemberId(strGuid));
+                        DialogResult res = MessageBox.Show(strError,
                                                            OseResources.Properties.Resources.IDS_Caption,
                                                            MessageBoxButtons.OKCancel);
                         if (res == DialogResult.Cancel)
