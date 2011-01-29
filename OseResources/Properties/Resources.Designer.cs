@@ -276,23 +276,27 @@ namespace OseResources.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;style TYPE=&quot;text/css&quot;&gt;
+        ///  body    {{ margin:0 }}
         ///  textarea {{ 
         ///      width:100%; 
         ///      overflow:visible
         ///  }}
-        ///{0}
+        ///  table {{
+        ///   font-size: {0};
+        ///  }}
+        ///  button 
+        ///  {{
+        ///    font-size: {1};
+        ///    padding-bottom: 0;
+        ///    padding-top: 0;
+        ///  }}      
+        ///{2}
         ///  #contextMenu {{	/* The menu container */
         ///    border:1px solid #202867;	/* Border around the entire menu */
         ///    background-color:#FFF;	/* White background color of the menu */
         ///    margin:0px;
         ///    padding:0px;
-        ///    width:300px;	/* Width of context menu */
-        ///    font-family:arial;
-        ///    font-size:11px;
-        ///    background-image:url(&apos;gradient.gif&apos;);
-        ///    background-repeat:repeat-y;
-        ///    	
-        ///    /* Never change these t [rest of string was truncated]&quot;;.
+        ///    width:300px;	/* Width of context menu  [rest of string was truncated]&quot;;.
         /// </summary>
         public static string HTML_StyleDefinition {
             get {
@@ -301,7 +305,7 @@ namespace OseResources.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to   &lt;table style=&quot;width:100%;&quot; border=&quot;1&quot;&gt;
+        ///   Looks up a localized string similar to   &lt;table style=&quot;width:100%;&quot; border=&quot;1&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot;&gt;
         ///  {0}
         ///  &lt;/table&gt;.
         /// </summary>

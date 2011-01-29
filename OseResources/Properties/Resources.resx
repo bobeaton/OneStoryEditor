@@ -461,11 +461,21 @@ initContextMenu();
   </data>
   <data name="HTML_StyleDefinition" xml:space="preserve">
     <value>&lt;style TYPE="text/css"&gt;
+  body    {{ margin:0 }}
   textarea {{ 
       width:100%; 
       overflow:visible
   }}
-{0}
+  table {{
+   font-size: {0};
+  }}
+  button 
+  {{
+    font-size: {1};
+    padding-bottom: 0;
+    padding-top: 0;
+  }}      
+{2}
   #contextMenu {{	/* The menu container */
     border:1px solid #202867;	/* Border around the entire menu */
     background-color:#FFF;	/* White background color of the menu */
@@ -526,7 +536,7 @@ initContextMenu();
 &lt;/style&gt;</value>
   </data>
   <data name="HTML_Table" xml:space="preserve">
-    <value>  &lt;table style="width:100%;" border="1"&gt;
+    <value>  &lt;table style="width:100%;" border="1" cellspacing="0" cellpadding="0"&gt;
   {0}
   &lt;/table&gt;</value>
   </data>

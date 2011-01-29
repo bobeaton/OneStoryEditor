@@ -307,6 +307,8 @@ namespace OneStoryProjectEditor
                 strLangStyles += projSettings.InternationalBT.HtmlStyle(CstrLangInternationalBtStyleClassName);
 
             return String.Format(OseResources.Properties.Resources.HTML_StyleDefinition,
+                                 Properties.Settings.Default.ConNoteTableFontSize,
+                                 Properties.Settings.Default.ConNoteButtonFontSize,
                                  strLangStyles);
         }
 

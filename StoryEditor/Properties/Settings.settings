@@ -250,5 +250,11 @@ DoAdaptingBeforeGlossing_InVerticalEdit	1</Value>
     <Setting Name="LastPrintSettings" Type="System.Int64" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
+    <Setting Name="ConNoteTableFontSize" Type="System.String" Scope="User">
+      <Value Profile="(Default)">small</Value>
+    </Setting>
+    <Setting Name="ConNoteButtonFontSize" Type="System.String" Scope="User">
+      <Value Profile="(Default)">x-small</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

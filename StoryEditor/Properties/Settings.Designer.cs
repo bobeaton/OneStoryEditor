@@ -617,5 +617,29 @@ namespace OneStoryProjectEditor.Properties {
                 this["LastPrintSettings"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("small")]
+        public string ConNoteTableFontSize {
+            get {
+                return ((string)(this["ConNoteTableFontSize"]));
+            }
+            set {
+                this["ConNoteTableFontSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("x-small")]
+        public string ConNoteButtonFontSize {
+            get {
+                return ((string)(this["ConNoteButtonFontSize"]));
+            }
+            set {
+                this["ConNoteButtonFontSize"] = value;
+            }
+        }
     }
 }
