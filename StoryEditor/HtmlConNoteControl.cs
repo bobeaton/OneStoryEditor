@@ -46,8 +46,22 @@ namespace OneStoryProjectEditor
 
         public bool OnAddNote(int nVerseIndex, string strNote)
         {
+            return CallDoAddNote(nVerseIndex, strNote, false);
+        }
+
+        public bool OnAddNoteToSelf(string strButtonId, string strNote)
+        {
+            string[] astrId = strButtonId.Split('_');
+            System.Diagnostics.Debug.Assert(astrId.Length == 2);
+            int nVerseIndex = Convert.ToInt32(astrId[1]);
+
+            return CallDoAddNote(nVerseIndex, strNote, true);
+        }
+
+        private bool CallDoAddNote(int nVerseIndex, string strNote, bool bNoteToSelf)
+        {
             ConsultNotesDataConverter aCNsDC = DataConverter(nVerseIndex);
-            ConsultNoteDataConverter aCNDC = DoAddNote(strNote, aCNsDC);
+            ConsultNoteDataConverter aCNDC = DoAddNote(strNote, aCNsDC, bNoteToSelf);
             if (aCNDC != null)
                 StrIdToScrollTo = ConsultNoteDataConverter.TextareaId(nVerseIndex, aCNsDC.IndexOf(aCNDC));
             return true;
@@ -373,7 +387,7 @@ namespace OneStoryProjectEditor
         }
 
         public ConsultNoteDataConverter DoAddNote(string strNote,
-            ConsultNotesDataConverter aCNsDC)
+            ConsultNotesDataConverter aCNsDC, bool bNoteToSelf)
         {
             // the only function of the button here is to add a slot to type a con note
             StoryEditor theSE;
@@ -400,6 +414,8 @@ namespace OneStoryProjectEditor
                 aCNsDC.Add(round, theSE.theCurrentStory.ProjStage, 
                     theSE.LoggedOnMember, strNote);
             System.Diagnostics.Debug.Assert(cndc.Count == 1);
+            if (bNoteToSelf)
+                cndc[0].Direction = cndc.MentorToSelfDirection;
 
             LoadDocument();
             theSE.Modified = true;

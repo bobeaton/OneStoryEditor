@@ -37,17 +37,14 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                switch (Direction)
-                {
-                    case ConsultNoteDataConverter.CommunicationDirections.eProjFacToConsultant:
-                        return TeamMemberData.UserTypes.eProjectFacilitator;
+                if (Direction == ConsultNoteDataConverter.CommunicationDirections.eProjFacToConsultant)
+                    return TeamMemberData.UserTypes.eProjectFacilitator;
 
-                    case ConsultNoteDataConverter.CommunicationDirections.eCoachToConsultant:
-                        return TeamMemberData.UserTypes.eCoach;
-
-                    default:
-                        return TeamMemberData.UserTypes.eConsultantInTraining;
-                }
+                if ((Direction == ConsultNoteDataConverter.CommunicationDirections.eCoachToConsultant)
+                    || (Direction == ConsultNoteDataConverter.CommunicationDirections.eCoachToCoach))
+                    return TeamMemberData.UserTypes.eCoach;
+                
+                return TeamMemberData.UserTypes.eConsultantInTraining;
             }
         }
     }
@@ -65,7 +62,9 @@ namespace OneStoryProjectEditor
             eConsultantToProjFac,
             eProjFacToConsultant,
             eConsultantToCoach,
-            eCoachToConsultant
+            eCoachToConsultant,
+            eConsultantToConsultant,    // consultant's note to self
+            eCoachToCoach               // coach's note to self
         }
 
         protected ConsultNoteDataConverter(int nRoundNum)
@@ -101,7 +100,9 @@ namespace OneStoryProjectEditor
             { "ConsultantToProjFac", CommunicationDirections.eConsultantToProjFac },
             { "ProjFacToConsultant", CommunicationDirections.eProjFacToConsultant },
             { "ConsultantToCoach", CommunicationDirections.eConsultantToCoach },
-            { "CoachToConsultant", CommunicationDirections.eCoachToConsultant }
+            { "CoachToConsultant", CommunicationDirections.eCoachToConsultant },
+            { "ConsultantToConsultant", CommunicationDirections.eConsultantToConsultant },
+            { "CoachToCoach", CommunicationDirections.eCoachToCoach }
         };
 
         protected CommunicationDirections GetDirectionFromString(string strDirectionString)
@@ -163,6 +164,7 @@ namespace OneStoryProjectEditor
 
         public abstract CommunicationDirections MenteeDirection { get; }
         public abstract CommunicationDirections MentorDirection { get; }
+        public abstract CommunicationDirections MentorToSelfDirection { get; }
 
         public abstract string MentorLabel
         {
@@ -182,6 +184,11 @@ namespace OneStoryProjectEditor
         public Color ResponseColor
         {
             get { return Color.Cornsilk; /* LightCyan */ }
+        }
+
+        public Color NoteToSelfColor
+        {
+            get { return Color.DodgerBlue; }
         }
 
         protected abstract string InstanceElementName   // *Conversation
@@ -306,9 +313,20 @@ namespace OneStoryProjectEditor
                            || (!IsFromMentor(aCI) && !IsWrongEditor(LoggedOnMember.MemberType, MenteeRequiredEditor))));
         }
 
+        public bool IsNoteToSelf
+        {
+            get { return ((Count == 1) && IsMyNoteToSelf(this[0])); }
+        }
+
+        protected bool IsMyNoteToSelf(CommInstance aCI)
+        {
+            return (aCI.Direction == MentorToSelfDirection);
+        }
+
         public bool IsFromMentor(CommInstance aCI)
         {
-            return (aCI.Direction == MentorDirection);
+            // it is from the mentor if if it has the mentor's direction or is a note to self
+            return ((aCI.Direction == MentorDirection) || IsMyNoteToSelf(aCI));
         }
 
         readonly Regex regexBibRef = new Regex(@"\b(([a-zA-Z]{3,4}|[1-3][a-zA-Z]{2,5}) \d{1,3}:\d{1,3})\b", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
@@ -323,7 +341,8 @@ namespace OneStoryProjectEditor
             int nVerseIndex, int nConversationIndex)
         {
             System.Diagnostics.Debug.Assert(Count > 0);
-            if (Count == 0)
+            if ((Count == 0) || 
+                (IsNoteToSelf && !IsMentorLoggedOn(LoggedOnMember)))
                 return null;
 
             // r1: "Round: n"; "button"
@@ -378,7 +397,13 @@ namespace OneStoryProjectEditor
 
                 strRow = null;
                 Color clrRow;
-                if (IsFromMentor(aCI))
+                if (IsMyNoteToSelf(aCI))
+                {
+                    strRow += String.Format(OseResources.Properties.Resources.HTML_TableCell,
+                                            MentorLabel);
+                    clrRow = NoteToSelfColor;
+                }
+                else if (IsFromMentor(aCI))
                 {
                     strRow += String.Format(OseResources.Properties.Resources.HTML_TableCell,
                                             MentorLabel);
@@ -531,6 +556,11 @@ namespace OneStoryProjectEditor
             get { return CommunicationDirections.eConsultantToProjFac; }
         }
 
+        public override CommunicationDirections MentorToSelfDirection
+        {
+            get { return CommunicationDirections.eConsultantToConsultant; }
+        }
+
         public override CommunicationDirections MenteeDirection
         {
             get { return CommunicationDirections.eProjFacToConsultant; }
@@ -681,6 +711,11 @@ namespace OneStoryProjectEditor
             get { return CommunicationDirections.eCoachToConsultant; }
         }
 
+        public override CommunicationDirections MentorToSelfDirection
+        {
+            get { return CommunicationDirections.eCoachToCoach; }
+        }
+
         protected override bool IsMentorLoggedOn(TeamMemberData loggedOnMember)
         {
             return (loggedOnMember.MemberType == TeamMemberData.UserTypes.eCoach);
@@ -772,6 +807,11 @@ namespace OneStoryProjectEditor
                    ((eLoggedOnMember & MenteeType) == eLoggedOnMember);
         }
 
+        public bool HasAddNoteToSelfPrivilege(TeamMemberData.UserTypes eLoggedOnMember)
+        {
+            return ((eLoggedOnMember & MentorType) == eLoggedOnMember);
+        }
+
         public abstract ConsultNoteDataConverter Add(int nRound,
             StoryStageLogic theStoryStage, TeamMemberData LoggedOnMember, 
             string strValue);
@@ -813,7 +853,7 @@ namespace OneStoryProjectEditor
             else
                 strColor = "#F0E68C";
 
-            int nSpan = 2;
+            int nSpan = 3;
             if (bShowOnlyOpenConversations)
                 nSpan++;
 

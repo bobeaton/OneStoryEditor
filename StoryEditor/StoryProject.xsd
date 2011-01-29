@@ -387,7 +387,9 @@
 			<xs:enumeration value="ProjFacToConsultant" />
 			<xs:enumeration value="ConsultantToCoach" />
 			<xs:enumeration value="CoachToConsultant" />
-		</xs:restriction>
+      <xs:enumeration value="ConsultantToConsultant" />
+      <xs:enumeration value="CoachToCoach" />
+    </xs:restriction>
 	</xs:simpleType>
 	<xs:complexType name="Comment">
 		<xs:simpleContent>

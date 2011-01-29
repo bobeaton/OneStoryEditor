@@ -1005,6 +1005,11 @@ namespace OneStoryProjectEditor
             return String.Format("btnLn_{0}", nVerseIndex);
         }
 
+        public static string NoteToSelfButtonId(int nVerseIndex)
+        {
+            return String.Format("btnNoteToSelf_{0}", nVerseIndex);
+        }
+
         protected string GetHeaderRow(string strHeader, string strHeaderAdd, int nVerseIndex, bool bShowButton, int nColSpan)
         {
             string strLink = String.Format(OseResources.Properties.Resources.HTML_LinkJumpLine,
@@ -1040,11 +1045,22 @@ namespace OneStoryProjectEditor
         {
             string strHtmlButtons = null;
             if (theCNsDC.HasAddNotePrivilege(LoggedOnMember.MemberType))
+            {
                 strHtmlButtons = String.Format(OseResources.Properties.Resources.HTML_TableCell,
                                                String.Format(OseResources.Properties.Resources.HTML_Button,
                                                              nVerseIndex,
                                                              "return window.external.OnAddNote(this.id, null);",
                                                              "Add Note"));
+            }
+
+            if (theCNsDC.HasAddNoteToSelfPrivilege(LoggedOnMember.MemberType))
+            {
+                strHtmlButtons += String.Format(OseResources.Properties.Resources.HTML_TableCell,
+                                                String.Format(OseResources.Properties.Resources.HTML_Button,
+                                                              NoteToSelfButtonId(nVerseIndex),
+                                                              "return window.external.OnAddNoteToSelf(this.id, null);",
+                                                              "Add Note to Self"));
+            }
 
             if (bShowOnlyOpenConversations)
                 strHtmlButtons = String.Format(OseResources.Properties.Resources.HTML_TableCell,
