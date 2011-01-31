@@ -1,4 +1,6 @@
-﻿What the consultant should know
+﻿Allow user to select (and override) color 
+
+What the consultant should know
 1) translation philosophy
 2) linguistic facts
 3) target audience

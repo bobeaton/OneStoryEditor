@@ -56,6 +56,18 @@ namespace OneStoryProjectEditor
             else
                 checkBoxLangInternationalBT.Visible = false;
 
+            if (projSettings.FreeTranslation.HasData)
+            {
+                checkBoxLangFreeTranslation.Visible = true;
+                checkBoxLangFreeTranslation.Enabled = ((theCurrentStory != null)
+                                                       && (((int)theCurrentStory.ProjStage.ProjectStage)
+                                                           >=
+                                                           (int)
+                                                           StoryStageLogic.ProjectStages.eProjFacTypeFreeTranslation));
+            }
+            else
+                checkBoxLangFreeTranslation.Visible = false;
+
             checkBoxAnchors.Enabled = ((theCurrentStory != null)
                                        && (((int) theCurrentStory.ProjStage.ProjectStage)
                                            >= (int) StoryStageLogic.ProjectStages.eProjFacAddAnchors));
@@ -99,6 +111,8 @@ namespace OneStoryProjectEditor
                     checkBoxLangTransliterateNationalBT.Checked = true;
                 if (_viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.EnglishBTField))
                     checkBoxLangInternationalBT.Checked = true;
+                if (_viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.FreeTranslationField))
+                    checkBoxLangFreeTranslation.Checked = true;
                 if (_viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.AnchorFields))
                     checkBoxAnchors.Checked = true;
                 if (_viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestions))
@@ -127,6 +141,7 @@ namespace OneStoryProjectEditor
                     checkBoxLangNationalBT.Checked,
                     checkBoxLangTransliterateNationalBT.Checked,
                     checkBoxLangInternationalBT.Checked,
+                    checkBoxLangFreeTranslation.Checked,
                     checkBoxAnchors.Checked,
                     checkBoxStoryTestingQuestions.Checked,
                     checkBoxAnswers.Checked,

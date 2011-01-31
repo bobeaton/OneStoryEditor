@@ -51,6 +51,12 @@ namespace OneStoryProjectEditor
                 checkBoxEnglishBT.Checked = false;
                 tabControl.TabPages.Remove(tabPageLanguageEnglishBT);
             }
+
+            if ((_storyProjectData.ProjSettings == null)
+                || !_storyProjectData.ProjSettings.FreeTranslation.HasData)
+                tabControl.TabPages.Remove(tabPageLanguageFreeTranslation);
+            else
+                checkBoxFreeTranslation.Checked = true;
         }
 
         private void ProcessNext()
@@ -108,6 +114,10 @@ namespace OneStoryProjectEditor
                 if ((LoggedInMember != null) && (!String.IsNullOrEmpty(LoggedInMember.OverrideInternationalBTKeyboard)))
                     comboBoxKeyboardEnglishBT.SelectedItem = LoggedInMember.OverrideInternationalBTKeyboard;
 
+                InitLanguageControls(tabPageLanguageFreeTranslation, ProjSettings.FreeTranslation);
+                if ((LoggedInMember != null) && (!String.IsNullOrEmpty(LoggedInMember.OverrideFreeTranslationKeyboard)))
+                    comboBoxKeyboardFreeTranslation.SelectedItem = LoggedInMember.OverrideFreeTranslationKeyboard;
+
                 tabControl.SelectedIndex++;
             }
             else if (tabControl.SelectedTab == tabPageInternetRepository)
@@ -130,7 +140,8 @@ namespace OneStoryProjectEditor
             {
                 if (!checkBoxStoryLanguage.Checked
                     && !checkBoxNationalBT.Checked
-                    && !checkBoxEnglishBT.Checked)
+                    && !checkBoxEnglishBT.Checked
+                    && !checkBoxFreeTranslation.Checked)
                 {
                     throw new UserException(Properties.Resources.IDS_MustHaveAtLeastOneLanguage,
                         checkBoxEnglishBT, tabPageLanguages);
@@ -159,10 +170,23 @@ namespace OneStoryProjectEditor
                     _storyProjectData.TeamMembers.HasOutsideEnglishBTer = 
                         ProjSettings.InternationalBT.HasData = false;
 
+                if (checkBoxFreeTranslation.Checked)
+                {
+                    if (String.IsNullOrEmpty(textBoxLanguageNameFreeTranslation.Text)
+                        && !ProjSettings.FreeTranslation.HasData)
+                        textBoxLanguageNameFreeTranslation.Text = "English";
+                }
+                else
+                    ProjSettings.FreeTranslation.HasData = false;
+
                 // can't have an outside english bter, if we don't have an English BT or only an English BT
                 //  (the PF has to put something in!)
-                checkBoxOutsideEnglishBackTranslator.Enabled = (checkBoxEnglishBT.Checked 
-                    && (checkBoxNationalBT.Checked || checkBoxStoryLanguage.Checked));
+                checkBoxOutsideEnglishBackTranslator.Enabled = (
+                                                   (checkBoxEnglishBT.Checked ||
+                                                    checkBoxFreeTranslation.Checked)
+                                                   &&
+                                                   (checkBoxNationalBT.Checked ||
+                                                    checkBoxStoryLanguage.Checked));
 
                 checkBoxOutsideEnglishBackTranslator.Checked = _storyProjectData.TeamMembers.HasOutsideEnglishBTer;
                 checkBoxFirstPassMentor.Checked = _storyProjectData.TeamMembers.HasFirstPassMentor;
@@ -207,6 +231,19 @@ namespace OneStoryProjectEditor
                 {
                     LoggedInMember.OverrideInternationalBTKeyboard = strKeyboardOverride;
                     LoggedInMember.OverrideRtlInternationalBT = bRtfOverride;
+                }
+            }
+            else if (tabControl.SelectedTab == tabPageLanguageFreeTranslation)
+            {
+                bool bRtfOverride = false;
+                string strKeyboardOverride = null;
+                ProcessLanguageTab(comboBoxKeyboardFreeTranslation, ProjSettings.FreeTranslation, checkBoxIsRTLFreeTranslation,
+                    textBoxLanguageNameFreeTranslation, textBoxEthCodeFreeTranslation, textBoxSentFullStopFreeTranslation,
+                    ref strKeyboardOverride, ref bRtfOverride);
+                if (LoggedInMember != null)
+                {
+                    LoggedInMember.OverrideFreeTranslationKeyboard = strKeyboardOverride;
+                    LoggedInMember.OverrideRtlFreeTranslation = bRtfOverride;
                 }
             }
             else if (tabControl.SelectedTab == tabPageMemberRoles)
@@ -522,6 +559,19 @@ namespace OneStoryProjectEditor
             Modified = true;
         }
 
+        private void checkBoxFreeTranslation_CheckedChanged(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.Assert((sender is CheckBox) && (sender == checkBoxFreeTranslation));
+            if (checkBoxFreeTranslation.Checked)
+            {
+                int nIndex = IndexAfter(new[] { tabPageLanguageEnglishBT, tabPageLanguageNationalBT, tabPageLanguageVernacular, tabPageLanguages });
+                tabControl.TabPages.Insert(nIndex, tabPageLanguageFreeTranslation);
+            }
+            else
+                tabControl.TabPages.Remove(tabPageLanguageFreeTranslation);
+            Modified = true;
+        }
+
         private void checkBoxOutsideEnglishBackTranslator_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBoxOutsideEnglishBackTranslator.Checked
@@ -676,6 +726,11 @@ namespace OneStoryProjectEditor
             ProposeEthnologueCode(textBoxLanguageNameEnglishBT.Text, textBoxEthCodeEnglishBT);
         }
 
+        private void textBoxLanguageNameFreeTranslation_TextChanged(object sender, EventArgs e)
+        {
+            ProposeEthnologueCode(textBoxLanguageNameFreeTranslation.Text, textBoxEthCodeFreeTranslation);
+        }
+
         // for users that
         private void tabControl_Selecting(object sender, TabControlCancelEventArgs e)
         {
@@ -704,6 +759,11 @@ namespace OneStoryProjectEditor
         private void textBoxSentFullStopEnglishBT_Enter(object sender, EventArgs e)
         {
             SetKeyboard((string)comboBoxKeyboardEnglishBT.SelectedItem);
+        }
+
+        private void textBoxSentFullStopFreeTranslation_Enter(object sender, EventArgs e)
+        {
+            SetKeyboard((string)comboBoxKeyboardFreeTranslation.SelectedItem);
         }
 
         protected void DoFontDialog(ProjectSettings.LanguageInfo li, TextBox tb,
@@ -801,6 +861,19 @@ namespace OneStoryProjectEditor
             {
                 LoggedInMember.OverrideFontNameInternationalBT = strOverrideFont;
                 LoggedInMember.OverrideFontSizeInternationalBT = fOverrideFontSize;
+            }
+        }
+
+        private void buttonFontFreeTranslation_Click(object sender, EventArgs e)
+        {
+            string strOverrideFont;
+            float fOverrideFontSize;
+            DoFontDialog(ProjSettings.FreeTranslation, textBoxSentFullStopFreeTranslation,
+                out strOverrideFont, out fOverrideFontSize);
+            if (LoggedInMember != null)
+            {
+                LoggedInMember.OverrideFontNameFreeTranslation = strOverrideFont;
+                LoggedInMember.OverrideFontSizeFreeTranslation = fOverrideFontSize;
             }
         }
 

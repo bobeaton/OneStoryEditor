@@ -1930,4 +1930,23 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
   <data name="IDS_MustBeInBTState" xml:space="preserve">
     <value>You have to be in the state for entering the {0} back-translation to do this command. Click the 'Next State' button until you get to that state and retry.</value>
   </data>
+  <data name="StageTransition20Update" xml:space="preserve">
+    <value>&lt;StateTransition stage="eProjFacTypeFreeTranslation" MemberTypeWithEditToken="eProjectFacilitator" RequiresUsingFreeTranslation="true"&gt;
+    &lt;StageDisplayString&gt;Project Facilitator enters Free Translation&lt;/StageDisplayString&gt;
+    &lt;TransitionDisplayString&gt;enter the Free Translation&lt;/TransitionDisplayString&gt;
+    &lt;StageInstructions&gt;
+In this stage, you (the project facilitator) will enter the Free translation (FT) of the story.
+This Free Translation should be done by a UNS directly and you (the project facilitator) will just 
+type in what they say.
+
+When you are finished entering the Free translation, then click the "Select State" menu item
+and in the resulting window click on the next (green) state.
+    &lt;/StageInstructions&gt;
+    &lt;AllowableForewardsTransitions&gt;
+      &lt;AllowableTransition&gt;eProjFacAddAnchors&lt;/AllowableTransition&gt;
+      &lt;AllowableTransition&gt;eConsultantCheckNonBiblicalStory&lt;/AllowableTransition&gt;
+    &lt;/AllowableForewardsTransitions&gt;
+    &lt;ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewFreeTranslationField="true" viewAnchorField="false" viewStoryTestingQuestions="false" viewStoryTestingAnswers="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" /&gt;
+  &lt;/StateTransition&gt;</value>
+  </data>
 </root>

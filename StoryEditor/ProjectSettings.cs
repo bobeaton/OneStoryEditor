@@ -17,6 +17,7 @@ namespace OneStoryProjectEditor
         public LanguageInfo Vernacular = new LanguageInfo(new Font("Arial Unicode MS", 12), Color.Maroon);
         public LanguageInfo NationalBT = new LanguageInfo(new Font("Arial Unicode MS", 12), Color.Green);
         public LanguageInfo InternationalBT = new LanguageInfo("English", "en", new Font("Times New Roman", 10), Color.Blue);
+        public LanguageInfo FreeTranslation = new LanguageInfo("English", "en", new Font("Times New Roman", 10), Color.ForestGreen);
 
         public bool IsConfigured;
         public string HgRepoUrl = null;
@@ -42,6 +43,7 @@ namespace OneStoryProjectEditor
             Vernacular = new LanguageInfo(node.SelectSingleNode(CstrElementLabelLanguages + '/' + CstrElementLabelVernacular));
             NationalBT = new LanguageInfo(node.SelectSingleNode(CstrElementLabelLanguages + '/' + CstrElementLabelNationalBT));
             InternationalBT = new LanguageInfo(node.SelectSingleNode(CstrElementLabelLanguages + '/' + CstrElementLabelInternationalBT));
+            FreeTranslation = new LanguageInfo(node.SelectSingleNode(CstrElementLabelLanguages + '/' + CstrElementLabelFreeTranslation));
         }
 
         public void SerializeProjectSettings(NewDataSet projFile)
@@ -116,6 +118,33 @@ namespace OneStoryProjectEditor
                 //  so clear out the default language name in this case:
                 InternationalBT.LangName = null;
                 System.Diagnostics.Debug.Assert(!InternationalBT.HasData);
+            }
+
+            // the free translation language isn't strictly necessary... 
+            //  so only initialize if there's one in the file (shouldn't be more than 1)
+            if (projFile.FreeTranslation.Count == 1)
+            {
+                System.Diagnostics.Debug.Assert(projFile.FreeTranslation.Count == 1);
+                NewDataSet.FreeTranslationRow rowFtRow = projFile.FreeTranslation[0];
+                FreeTranslation.LangName = rowFtRow.name;
+                FreeTranslation.LangCode = rowFtRow.code;
+                FreeTranslation.DefaultFontName = rowFtRow.FontName;
+                FreeTranslation.DefaultFontSize = rowFtRow.FontSize;
+                FreeTranslation.FontToUse = new Font(rowFtRow.FontName, rowFtRow.FontSize);
+                FreeTranslation.FontColor = Color.FromName(rowFtRow.FontColor);
+                FreeTranslation.FullStop = rowFtRow.SentenceFinalPunct;
+                FreeTranslation.DefaultRtl = (!rowFtRow.IsRTLNull() && rowFtRow.RTL);
+                FreeTranslation.DefaultKeyboard =
+                    (!rowFtRow.IsKeyboardNull() && !String.IsNullOrEmpty(rowFtRow.Keyboard))
+                        ? rowFtRow.Keyboard
+                        : null;
+            }
+            else
+            {
+                // the "international language" will appear to "have data" even when it shouldn't
+                //  so clear out the default language name in this case:
+                FreeTranslation.LangName = null;
+                System.Diagnostics.Debug.Assert(!FreeTranslation.HasData);
             }
 
             // if we're setting this up from the file, then we're "configured"
@@ -334,13 +363,14 @@ namespace OneStoryProjectEditor
         public const string CstrElementLabelVernacular = "VernacularLang";
         public const string CstrElementLabelNationalBT = "NationalBTLang";
         public const string CstrElementLabelInternationalBT = "InternationalBTLang";
+        public const string CstrElementLabelFreeTranslation = "FreeTranslation";
 
         public XElement GetXml
         {
             get
             {
                 // have to have one or the other languages
-                System.Diagnostics.Debug.Assert(Vernacular.HasData || NationalBT.HasData || InternationalBT.HasData);
+                System.Diagnostics.Debug.Assert(Vernacular.HasData || NationalBT.HasData || InternationalBT.HasData || FreeTranslation.HasData);
 
                 XElement elem = new XElement(CstrElementLabelLanguages);
                 if (Vernacular.HasData)
@@ -351,6 +381,9 @@ namespace OneStoryProjectEditor
 
                 if (InternationalBT.HasData)
                     elem.Add(InternationalBT.GetXml(CstrElementLabelInternationalBT));
+
+                if (FreeTranslation.HasData)
+                    elem.Add(FreeTranslation.GetXml(CstrElementLabelFreeTranslation));
 
                 return elem;
             }
@@ -379,15 +412,21 @@ namespace OneStoryProjectEditor
             if (!String.IsNullOrEmpty(loggedOnMember.OverrideFontNameInternationalBT))
                 InternationalBT.FontToUse =
                     new Font(loggedOnMember.OverrideFontNameInternationalBT, loggedOnMember.OverrideFontSizeInternationalBT);
+            if (!String.IsNullOrEmpty(loggedOnMember.OverrideFontNameFreeTranslation))
+                FreeTranslation.FontToUse =
+                    new Font(loggedOnMember.OverrideFontNameFreeTranslation, loggedOnMember.OverrideFontSizeFreeTranslation);
             if (!String.IsNullOrEmpty(loggedOnMember.OverrideVernacularKeyboard))
                 Vernacular.KeyboardOverride = loggedOnMember.OverrideVernacularKeyboard;
             if (!String.IsNullOrEmpty(loggedOnMember.OverrideNationalBTKeyboard))
                 NationalBT.KeyboardOverride = loggedOnMember.OverrideNationalBTKeyboard;
             if (!String.IsNullOrEmpty(loggedOnMember.OverrideInternationalBTKeyboard))
                 InternationalBT.KeyboardOverride = loggedOnMember.OverrideInternationalBTKeyboard;
+            if (!String.IsNullOrEmpty(loggedOnMember.OverrideFreeTranslationKeyboard))
+                FreeTranslation.KeyboardOverride = loggedOnMember.OverrideFreeTranslationKeyboard;
             Vernacular.InvertRtl = loggedOnMember.OverrideRtlVernacular;
             NationalBT.InvertRtl = loggedOnMember.OverrideRtlNationalBT;
             InternationalBT.InvertRtl = loggedOnMember.OverrideRtlInternationalBT;
+            FreeTranslation.InvertRtl = loggedOnMember.OverrideRtlFreeTranslation;
         }
     }
 }

@@ -39,6 +39,8 @@ namespace OneStoryProjectEditor {
         
         private InternationalBTLangDataTable tableInternationalBTLang;
         
+        private FreeTranslationDataTable tableFreeTranslation;
+        
         private LnCNotesDataTable tableLnCNotes;
         
         private LnCNoteDataTable tableLnCNote;
@@ -110,6 +112,8 @@ namespace OneStoryProjectEditor {
         private global::System.Data.DataRelation relationLanguages_NationalBTLang;
         
         private global::System.Data.DataRelation relationLanguages_InternationalBTLang;
+        
+        private global::System.Data.DataRelation relationLanguages_FreeTranslation;
         
         private global::System.Data.DataRelation relationStoryProject_LnCNotes;
         
@@ -217,6 +221,9 @@ namespace OneStoryProjectEditor {
                 }
                 if ((ds.Tables["InternationalBTLang"] != null)) {
                     base.Tables.Add(new InternationalBTLangDataTable(ds.Tables["InternationalBTLang"]));
+                }
+                if ((ds.Tables["FreeTranslation"] != null)) {
+                    base.Tables.Add(new FreeTranslationDataTable(ds.Tables["FreeTranslation"]));
                 }
                 if ((ds.Tables["LnCNotes"] != null)) {
                     base.Tables.Add(new LnCNotesDataTable(ds.Tables["LnCNotes"]));
@@ -386,6 +393,15 @@ namespace OneStoryProjectEditor {
         public InternationalBTLangDataTable InternationalBTLang {
             get {
                 return this.tableInternationalBTLang;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public FreeTranslationDataTable FreeTranslation {
+            get {
+                return this.tableFreeTranslation;
             }
         }
         
@@ -739,6 +755,9 @@ namespace OneStoryProjectEditor {
                 if ((ds.Tables["InternationalBTLang"] != null)) {
                     base.Tables.Add(new InternationalBTLangDataTable(ds.Tables["InternationalBTLang"]));
                 }
+                if ((ds.Tables["FreeTranslation"] != null)) {
+                    base.Tables.Add(new FreeTranslationDataTable(ds.Tables["FreeTranslation"]));
+                }
                 if ((ds.Tables["LnCNotes"] != null)) {
                     base.Tables.Add(new LnCNotesDataTable(ds.Tables["LnCNotes"]));
                 }
@@ -899,6 +918,12 @@ namespace OneStoryProjectEditor {
             if ((initTable == true)) {
                 if ((this.tableInternationalBTLang != null)) {
                     this.tableInternationalBTLang.InitVars();
+                }
+            }
+            this.tableFreeTranslation = ((FreeTranslationDataTable)(base.Tables["FreeTranslation"]));
+            if ((initTable == true)) {
+                if ((this.tableFreeTranslation != null)) {
+                    this.tableFreeTranslation.InitVars();
                 }
             }
             this.tableLnCNotes = ((LnCNotesDataTable)(base.Tables["LnCNotes"]));
@@ -1087,6 +1112,7 @@ namespace OneStoryProjectEditor {
             this.relationLanguages_VernacularLang = this.Relations["Languages_VernacularLang"];
             this.relationLanguages_NationalBTLang = this.Relations["Languages_NationalBTLang"];
             this.relationLanguages_InternationalBTLang = this.Relations["Languages_InternationalBTLang"];
+            this.relationLanguages_FreeTranslation = this.Relations["Languages_FreeTranslation"];
             this.relationStoryProject_LnCNotes = this.Relations["StoryProject_LnCNotes"];
             this.relationLnCNotes_LnCNote = this.Relations["LnCNotes_LnCNote"];
             this.relationStoryProject_stories = this.Relations["StoryProject_stories"];
@@ -1140,6 +1166,8 @@ namespace OneStoryProjectEditor {
             base.Tables.Add(this.tableNationalBTLang);
             this.tableInternationalBTLang = new InternationalBTLangDataTable();
             base.Tables.Add(this.tableInternationalBTLang);
+            this.tableFreeTranslation = new FreeTranslationDataTable();
+            base.Tables.Add(this.tableFreeTranslation);
             this.tableLnCNotes = new LnCNotesDataTable();
             base.Tables.Add(this.tableLnCNotes);
             this.tableLnCNote = new LnCNoteDataTable();
@@ -1240,6 +1268,13 @@ namespace OneStoryProjectEditor {
                         this.tableLanguages.Languages_IdColumn}, new global::System.Data.DataColumn[] {
                         this.tableInternationalBTLang.Languages_IdColumn});
             this.tableInternationalBTLang.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.Cascade;
+            fkc.UpdateRule = global::System.Data.Rule.Cascade;
+            fkc = new global::System.Data.ForeignKeyConstraint("Languages_FreeTranslation", new global::System.Data.DataColumn[] {
+                        this.tableLanguages.Languages_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableFreeTranslation.Languages_IdColumn});
+            this.tableFreeTranslation.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
@@ -1483,6 +1518,11 @@ namespace OneStoryProjectEditor {
                         this.tableInternationalBTLang.Languages_IdColumn}, false);
             this.relationLanguages_InternationalBTLang.Nested = true;
             this.Relations.Add(this.relationLanguages_InternationalBTLang);
+            this.relationLanguages_FreeTranslation = new global::System.Data.DataRelation("Languages_FreeTranslation", new global::System.Data.DataColumn[] {
+                        this.tableLanguages.Languages_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableFreeTranslation.Languages_IdColumn}, false);
+            this.relationLanguages_FreeTranslation.Nested = true;
+            this.Relations.Add(this.relationLanguages_FreeTranslation);
             this.relationStoryProject_LnCNotes = new global::System.Data.DataRelation("StoryProject_LnCNotes", new global::System.Data.DataColumn[] {
                         this.tableStoryProject.StoryProject_IdColumn}, new global::System.Data.DataColumn[] {
                         this.tableLnCNotes.StoryProject_IdColumn}, false);
@@ -1667,6 +1707,11 @@ namespace OneStoryProjectEditor {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         private bool ShouldSerializeInternationalBTLang() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private bool ShouldSerializeFreeTranslation() {
             return false;
         }
         
@@ -1886,6 +1931,8 @@ namespace OneStoryProjectEditor {
         public delegate void NationalBTLangRowChangeEventHandler(object sender, NationalBTLangRowChangeEvent e);
         
         public delegate void InternationalBTLangRowChangeEventHandler(object sender, InternationalBTLangRowChangeEvent e);
+        
+        public delegate void FreeTranslationRowChangeEventHandler(object sender, FreeTranslationRowChangeEvent e);
         
         public delegate void LnCNotesRowChangeEventHandler(object sender, LnCNotesRowChangeEvent e);
         
@@ -2537,6 +2584,8 @@ namespace OneStoryProjectEditor {
             
             private global::System.Data.DataColumn columnOverrideInternationalBTKeyboard;
             
+            private global::System.Data.DataColumn columnOverrideFreeTranslationKeyboard;
+            
             private global::System.Data.DataColumn columnOverrideFontNameVernacular;
             
             private global::System.Data.DataColumn columnOverrideFontSizeVernacular;
@@ -2554,6 +2603,12 @@ namespace OneStoryProjectEditor {
             private global::System.Data.DataColumn columnOverrideFontSizeInternationalBT;
             
             private global::System.Data.DataColumn columnOverrideRtlInternationalBT;
+            
+            private global::System.Data.DataColumn columnOverrideFontNameFreeTranslation;
+            
+            private global::System.Data.DataColumn columnOverrideFontSizeFreeTranslation;
+            
+            private global::System.Data.DataColumn columnOverrideRtlFreeTranslation;
             
             private global::System.Data.DataColumn columnHgUsername;
             
@@ -2684,6 +2739,13 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn OverrideFreeTranslationKeyboardColumn {
+                get {
+                    return this.columnOverrideFreeTranslationKeyboard;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public global::System.Data.DataColumn OverrideFontNameVernacularColumn {
                 get {
                     return this.columnOverrideFontNameVernacular;
@@ -2743,6 +2805,27 @@ namespace OneStoryProjectEditor {
             public global::System.Data.DataColumn OverrideRtlInternationalBTColumn {
                 get {
                     return this.columnOverrideRtlInternationalBT;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn OverrideFontNameFreeTranslationColumn {
+                get {
+                    return this.columnOverrideFontNameFreeTranslation;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn OverrideFontSizeFreeTranslationColumn {
+                get {
+                    return this.columnOverrideFontSizeFreeTranslation;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn OverrideRtlFreeTranslationColumn {
+                get {
+                    return this.columnOverrideRtlFreeTranslation;
                 }
             }
             
@@ -2837,6 +2920,7 @@ namespace OneStoryProjectEditor {
                         string OverrideVernacularKeyboard, 
                         string OverrideNationalBTKeyboard, 
                         string OverrideInternationalBTKeyboard, 
+                        string OverrideFreeTranslationKeyboard, 
                         string OverrideFontNameVernacular, 
                         float OverrideFontSizeVernacular, 
                         bool OverrideRtlVernacular, 
@@ -2846,6 +2930,9 @@ namespace OneStoryProjectEditor {
                         string OverrideFontNameInternationalBT, 
                         float OverrideFontSizeInternationalBT, 
                         bool OverrideRtlInternationalBT, 
+                        string OverrideFontNameFreeTranslation, 
+                        float OverrideFontSizeFreeTranslation, 
+                        bool OverrideRtlFreeTranslation, 
                         string HgUsername, 
                         string HgPassword, 
                         string TransliteratorVernacular, 
@@ -2867,6 +2954,7 @@ namespace OneStoryProjectEditor {
                         OverrideVernacularKeyboard,
                         OverrideNationalBTKeyboard,
                         OverrideInternationalBTKeyboard,
+                        OverrideFreeTranslationKeyboard,
                         OverrideFontNameVernacular,
                         OverrideFontSizeVernacular,
                         OverrideRtlVernacular,
@@ -2876,6 +2964,9 @@ namespace OneStoryProjectEditor {
                         OverrideFontNameInternationalBT,
                         OverrideFontSizeInternationalBT,
                         OverrideRtlInternationalBT,
+                        OverrideFontNameFreeTranslation,
+                        OverrideFontSizeFreeTranslation,
+                        OverrideRtlFreeTranslation,
                         HgUsername,
                         HgPassword,
                         TransliteratorVernacular,
@@ -2884,7 +2975,7 @@ namespace OneStoryProjectEditor {
                         TransliteratorDirectionForwardNationalBT,
                         null};
                 if ((parentMembersRowByMembers_Member != null)) {
-                    columnValuesArray[27] = parentMembersRowByMembers_Member[3];
+                    columnValuesArray[31] = parentMembersRowByMembers_Member[3];
                 }
                 rowMemberRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowMemberRow);
@@ -2917,6 +3008,7 @@ namespace OneStoryProjectEditor {
                 this.columnOverrideVernacularKeyboard = base.Columns["OverrideVernacularKeyboard"];
                 this.columnOverrideNationalBTKeyboard = base.Columns["OverrideNationalBTKeyboard"];
                 this.columnOverrideInternationalBTKeyboard = base.Columns["OverrideInternationalBTKeyboard"];
+                this.columnOverrideFreeTranslationKeyboard = base.Columns["OverrideFreeTranslationKeyboard"];
                 this.columnOverrideFontNameVernacular = base.Columns["OverrideFontNameVernacular"];
                 this.columnOverrideFontSizeVernacular = base.Columns["OverrideFontSizeVernacular"];
                 this.columnOverrideRtlVernacular = base.Columns["OverrideRtlVernacular"];
@@ -2926,6 +3018,9 @@ namespace OneStoryProjectEditor {
                 this.columnOverrideFontNameInternationalBT = base.Columns["OverrideFontNameInternationalBT"];
                 this.columnOverrideFontSizeInternationalBT = base.Columns["OverrideFontSizeInternationalBT"];
                 this.columnOverrideRtlInternationalBT = base.Columns["OverrideRtlInternationalBT"];
+                this.columnOverrideFontNameFreeTranslation = base.Columns["OverrideFontNameFreeTranslation"];
+                this.columnOverrideFontSizeFreeTranslation = base.Columns["OverrideFontSizeFreeTranslation"];
+                this.columnOverrideRtlFreeTranslation = base.Columns["OverrideRtlFreeTranslation"];
                 this.columnHgUsername = base.Columns["HgUsername"];
                 this.columnHgPassword = base.Columns["HgPassword"];
                 this.columnTransliteratorVernacular = base.Columns["TransliteratorVernacular"];
@@ -2961,6 +3056,8 @@ namespace OneStoryProjectEditor {
                 base.Columns.Add(this.columnOverrideNationalBTKeyboard);
                 this.columnOverrideInternationalBTKeyboard = new global::System.Data.DataColumn("OverrideInternationalBTKeyboard", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnOverrideInternationalBTKeyboard);
+                this.columnOverrideFreeTranslationKeyboard = new global::System.Data.DataColumn("OverrideFreeTranslationKeyboard", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnOverrideFreeTranslationKeyboard);
                 this.columnOverrideFontNameVernacular = new global::System.Data.DataColumn("OverrideFontNameVernacular", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnOverrideFontNameVernacular);
                 this.columnOverrideFontSizeVernacular = new global::System.Data.DataColumn("OverrideFontSizeVernacular", typeof(float), null, global::System.Data.MappingType.Attribute);
@@ -2979,6 +3076,12 @@ namespace OneStoryProjectEditor {
                 base.Columns.Add(this.columnOverrideFontSizeInternationalBT);
                 this.columnOverrideRtlInternationalBT = new global::System.Data.DataColumn("OverrideRtlInternationalBT", typeof(bool), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnOverrideRtlInternationalBT);
+                this.columnOverrideFontNameFreeTranslation = new global::System.Data.DataColumn("OverrideFontNameFreeTranslation", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnOverrideFontNameFreeTranslation);
+                this.columnOverrideFontSizeFreeTranslation = new global::System.Data.DataColumn("OverrideFontSizeFreeTranslation", typeof(float), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnOverrideFontSizeFreeTranslation);
+                this.columnOverrideRtlFreeTranslation = new global::System.Data.DataColumn("OverrideRtlFreeTranslation", typeof(bool), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnOverrideRtlFreeTranslation);
                 this.columnHgUsername = new global::System.Data.DataColumn("HgUsername", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnHgUsername);
                 this.columnHgPassword = new global::System.Data.DataColumn("HgPassword", typeof(string), null, global::System.Data.MappingType.Attribute);
@@ -3008,6 +3111,7 @@ namespace OneStoryProjectEditor {
                 this.columnOverrideVernacularKeyboard.Namespace = "";
                 this.columnOverrideNationalBTKeyboard.Namespace = "";
                 this.columnOverrideInternationalBTKeyboard.Namespace = "";
+                this.columnOverrideFreeTranslationKeyboard.Namespace = "";
                 this.columnOverrideFontNameVernacular.Namespace = "";
                 this.columnOverrideFontSizeVernacular.Namespace = "";
                 this.columnOverrideRtlVernacular.Namespace = "";
@@ -3017,6 +3121,9 @@ namespace OneStoryProjectEditor {
                 this.columnOverrideFontNameInternationalBT.Namespace = "";
                 this.columnOverrideFontSizeInternationalBT.Namespace = "";
                 this.columnOverrideRtlInternationalBT.Namespace = "";
+                this.columnOverrideFontNameFreeTranslation.Namespace = "";
+                this.columnOverrideFontSizeFreeTranslation.Namespace = "";
+                this.columnOverrideRtlFreeTranslation.Namespace = "";
                 this.columnHgUsername.Namespace = "";
                 this.columnHgPassword.Namespace = "";
                 this.columnTransliteratorVernacular.Namespace = "";
@@ -4376,6 +4483,350 @@ namespace OneStoryProjectEditor {
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
                 attribute2.FixedValue = "InternationalBTLangDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class FreeTranslationDataTable : global::System.Data.TypedTableBase<FreeTranslationRow> {
+            
+            private global::System.Data.DataColumn columnname;
+            
+            private global::System.Data.DataColumn columncode;
+            
+            private global::System.Data.DataColumn columnFontName;
+            
+            private global::System.Data.DataColumn columnFontSize;
+            
+            private global::System.Data.DataColumn columnFontColor;
+            
+            private global::System.Data.DataColumn columnSentenceFinalPunct;
+            
+            private global::System.Data.DataColumn columnKeyboard;
+            
+            private global::System.Data.DataColumn columnRTL;
+            
+            private global::System.Data.DataColumn columnLanguages_Id;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public FreeTranslationDataTable() {
+                this.TableName = "FreeTranslation";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal FreeTranslationDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected FreeTranslationDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn nameColumn {
+                get {
+                    return this.columnname;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn codeColumn {
+                get {
+                    return this.columncode;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn FontNameColumn {
+                get {
+                    return this.columnFontName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn FontSizeColumn {
+                get {
+                    return this.columnFontSize;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn FontColorColumn {
+                get {
+                    return this.columnFontColor;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn SentenceFinalPunctColumn {
+                get {
+                    return this.columnSentenceFinalPunct;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn KeyboardColumn {
+                get {
+                    return this.columnKeyboard;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn RTLColumn {
+                get {
+                    return this.columnRTL;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn Languages_IdColumn {
+                get {
+                    return this.columnLanguages_Id;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public FreeTranslationRow this[int index] {
+                get {
+                    return ((FreeTranslationRow)(this.Rows[index]));
+                }
+            }
+            
+            public event FreeTranslationRowChangeEventHandler FreeTranslationRowChanging;
+            
+            public event FreeTranslationRowChangeEventHandler FreeTranslationRowChanged;
+            
+            public event FreeTranslationRowChangeEventHandler FreeTranslationRowDeleting;
+            
+            public event FreeTranslationRowChangeEventHandler FreeTranslationRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void AddFreeTranslationRow(FreeTranslationRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public FreeTranslationRow AddFreeTranslationRow(string name, string code, string FontName, float FontSize, string FontColor, string SentenceFinalPunct, string Keyboard, bool RTL, LanguagesRow parentLanguagesRowByLanguages_FreeTranslation) {
+                FreeTranslationRow rowFreeTranslationRow = ((FreeTranslationRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        name,
+                        code,
+                        FontName,
+                        FontSize,
+                        FontColor,
+                        SentenceFinalPunct,
+                        Keyboard,
+                        RTL,
+                        null};
+                if ((parentLanguagesRowByLanguages_FreeTranslation != null)) {
+                    columnValuesArray[8] = parentLanguagesRowByLanguages_FreeTranslation[0];
+                }
+                rowFreeTranslationRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowFreeTranslationRow);
+                return rowFreeTranslationRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public override global::System.Data.DataTable Clone() {
+                FreeTranslationDataTable cln = ((FreeTranslationDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new FreeTranslationDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal void InitVars() {
+                this.columnname = base.Columns["name"];
+                this.columncode = base.Columns["code"];
+                this.columnFontName = base.Columns["FontName"];
+                this.columnFontSize = base.Columns["FontSize"];
+                this.columnFontColor = base.Columns["FontColor"];
+                this.columnSentenceFinalPunct = base.Columns["SentenceFinalPunct"];
+                this.columnKeyboard = base.Columns["Keyboard"];
+                this.columnRTL = base.Columns["RTL"];
+                this.columnLanguages_Id = base.Columns["Languages_Id"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            private void InitClass() {
+                this.columnname = new global::System.Data.DataColumn("name", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnname);
+                this.columncode = new global::System.Data.DataColumn("code", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columncode);
+                this.columnFontName = new global::System.Data.DataColumn("FontName", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnFontName);
+                this.columnFontSize = new global::System.Data.DataColumn("FontSize", typeof(float), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnFontSize);
+                this.columnFontColor = new global::System.Data.DataColumn("FontColor", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnFontColor);
+                this.columnSentenceFinalPunct = new global::System.Data.DataColumn("SentenceFinalPunct", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnSentenceFinalPunct);
+                this.columnKeyboard = new global::System.Data.DataColumn("Keyboard", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnKeyboard);
+                this.columnRTL = new global::System.Data.DataColumn("RTL", typeof(bool), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnRTL);
+                this.columnLanguages_Id = new global::System.Data.DataColumn("Languages_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnLanguages_Id);
+                this.columnname.AllowDBNull = false;
+                this.columnname.Namespace = "";
+                this.columncode.AllowDBNull = false;
+                this.columncode.Namespace = "";
+                this.columnFontName.AllowDBNull = false;
+                this.columnFontName.Namespace = "";
+                this.columnFontSize.AllowDBNull = false;
+                this.columnFontSize.Namespace = "";
+                this.columnFontColor.AllowDBNull = false;
+                this.columnFontColor.Namespace = "";
+                this.columnSentenceFinalPunct.AllowDBNull = false;
+                this.columnSentenceFinalPunct.Namespace = "";
+                this.columnKeyboard.Namespace = "";
+                this.columnRTL.Namespace = "";
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public FreeTranslationRow NewFreeTranslationRow() {
+                return ((FreeTranslationRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new FreeTranslationRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Type GetRowType() {
+                return typeof(FreeTranslationRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.FreeTranslationRowChanged != null)) {
+                    this.FreeTranslationRowChanged(this, new FreeTranslationRowChangeEvent(((FreeTranslationRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.FreeTranslationRowChanging != null)) {
+                    this.FreeTranslationRowChanging(this, new FreeTranslationRowChangeEvent(((FreeTranslationRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.FreeTranslationRowDeleted != null)) {
+                    this.FreeTranslationRowDeleted(this, new FreeTranslationRowChangeEvent(((FreeTranslationRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.FreeTranslationRowDeleting != null)) {
+                    this.FreeTranslationRowDeleting(this, new FreeTranslationRowChangeEvent(((FreeTranslationRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void RemoveFreeTranslationRow(FreeTranslationRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                NewDataSet ds = new NewDataSet();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "FreeTranslationDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -7828,6 +8279,8 @@ namespace OneStoryProjectEditor {
             
             private global::System.Data.DataColumn columnInternationalBT;
             
+            private global::System.Data.DataColumn columnFreeTranslation;
+            
             private global::System.Data.DataColumn columnverse_Id;
             
             private global::System.Data.DataColumn columnverses_Id;
@@ -7905,6 +8358,13 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn FreeTranslationColumn {
+                get {
+                    return this.columnFreeTranslation;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public global::System.Data.DataColumn verse_IdColumn {
                 get {
                     return this.columnverse_Id;
@@ -7947,7 +8407,7 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public verseRow AddverseRow(string guid, bool first, bool visible, string Vernacular, string NationalBT, string InternationalBT, versesRow parentversesRowByverses_verse) {
+            public verseRow AddverseRow(string guid, bool first, bool visible, string Vernacular, string NationalBT, string InternationalBT, string FreeTranslation, versesRow parentversesRowByverses_verse) {
                 verseRow rowverseRow = ((verseRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         guid,
@@ -7956,10 +8416,11 @@ namespace OneStoryProjectEditor {
                         Vernacular,
                         NationalBT,
                         InternationalBT,
+                        FreeTranslation,
                         null,
                         null};
                 if ((parentversesRowByverses_verse != null)) {
-                    columnValuesArray[7] = parentversesRowByverses_verse[0];
+                    columnValuesArray[8] = parentversesRowByverses_verse[0];
                 }
                 rowverseRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowverseRow);
@@ -7986,6 +8447,7 @@ namespace OneStoryProjectEditor {
                 this.columnVernacular = base.Columns["Vernacular"];
                 this.columnNationalBT = base.Columns["NationalBT"];
                 this.columnInternationalBT = base.Columns["InternationalBT"];
+                this.columnFreeTranslation = base.Columns["FreeTranslation"];
                 this.columnverse_Id = base.Columns["verse_Id"];
                 this.columnverses_Id = base.Columns["verses_Id"];
             }
@@ -8004,6 +8466,8 @@ namespace OneStoryProjectEditor {
                 base.Columns.Add(this.columnNationalBT);
                 this.columnInternationalBT = new global::System.Data.DataColumn("InternationalBT", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnInternationalBT);
+                this.columnFreeTranslation = new global::System.Data.DataColumn("FreeTranslation", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnFreeTranslation);
                 this.columnverse_Id = new global::System.Data.DataColumn("verse_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnverse_Id);
                 this.columnverses_Id = new global::System.Data.DataColumn("verses_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
@@ -8237,7 +8701,7 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentverseRowByverse_anchors != null)) {
-                    columnValuesArray[2] = parentverseRowByverse_anchors[6];
+                    columnValuesArray[2] = parentverseRowByverse_anchors[7];
                 }
                 rowanchorsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowanchorsRow);
@@ -9240,7 +9704,7 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentverseRowByverse_TestQuestions != null)) {
-                    columnValuesArray[1] = parentverseRowByverse_TestQuestions[6];
+                    columnValuesArray[1] = parentverseRowByverse_TestQuestions[7];
                 }
                 rowTestQuestionsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowTestQuestionsRow);
@@ -10293,7 +10757,7 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentverseRowByverse_Retellings != null)) {
-                    columnValuesArray[1] = parentverseRowByverse_Retellings[6];
+                    columnValuesArray[1] = parentverseRowByverse_Retellings[7];
                 }
                 rowRetellingsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowRetellingsRow);
@@ -10790,7 +11254,7 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentverseRowByverse_ConsultantNotes != null)) {
-                    columnValuesArray[1] = parentverseRowByverse_ConsultantNotes[6];
+                    columnValuesArray[1] = parentverseRowByverse_ConsultantNotes[7];
                 }
                 rowConsultantNotesRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowConsultantNotesRow);
@@ -11621,7 +12085,7 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentverseRowByverse_CoachNotes != null)) {
-                    columnValuesArray[1] = parentverseRowByverse_CoachNotes[6];
+                    columnValuesArray[1] = parentverseRowByverse_CoachNotes[7];
                 }
                 rowCoachNotesRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowCoachNotesRow);
@@ -12797,6 +13261,22 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string OverrideFreeTranslationKeyboard {
+                get {
+                    try {
+                        return ((string)(this[this.tableMember.OverrideFreeTranslationKeyboardColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'OverrideFreeTranslationKeyboard\' in table \'Member\' is DBNul" +
+                                "l.", e);
+                    }
+                }
+                set {
+                    this[this.tableMember.OverrideFreeTranslationKeyboardColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public string OverrideFontNameVernacular {
                 get {
                     try {
@@ -12930,6 +13410,53 @@ namespace OneStoryProjectEditor {
                 }
                 set {
                     this[this.tableMember.OverrideRtlInternationalBTColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string OverrideFontNameFreeTranslation {
+                get {
+                    try {
+                        return ((string)(this[this.tableMember.OverrideFontNameFreeTranslationColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'OverrideFontNameFreeTranslation\' in table \'Member\' is DBNul" +
+                                "l.", e);
+                    }
+                }
+                set {
+                    this[this.tableMember.OverrideFontNameFreeTranslationColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public float OverrideFontSizeFreeTranslation {
+                get {
+                    try {
+                        return ((float)(this[this.tableMember.OverrideFontSizeFreeTranslationColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'OverrideFontSizeFreeTranslation\' in table \'Member\' is DBNul" +
+                                "l.", e);
+                    }
+                }
+                set {
+                    this[this.tableMember.OverrideFontSizeFreeTranslationColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool OverrideRtlFreeTranslation {
+                get {
+                    try {
+                        return ((bool)(this[this.tableMember.OverrideRtlFreeTranslationColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'OverrideRtlFreeTranslation\' in table \'Member\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableMember.OverrideRtlFreeTranslationColumn] = value;
                 }
             }
             
@@ -13141,6 +13668,16 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsOverrideFreeTranslationKeyboardNull() {
+                return this.IsNull(this.tableMember.OverrideFreeTranslationKeyboardColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetOverrideFreeTranslationKeyboardNull() {
+                this[this.tableMember.OverrideFreeTranslationKeyboardColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public bool IsOverrideFontNameVernacularNull() {
                 return this.IsNull(this.tableMember.OverrideFontNameVernacularColumn);
             }
@@ -13228,6 +13765,36 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public void SetOverrideRtlInternationalBTNull() {
                 this[this.tableMember.OverrideRtlInternationalBTColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsOverrideFontNameFreeTranslationNull() {
+                return this.IsNull(this.tableMember.OverrideFontNameFreeTranslationColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetOverrideFontNameFreeTranslationNull() {
+                this[this.tableMember.OverrideFontNameFreeTranslationColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsOverrideFontSizeFreeTranslationNull() {
+                return this.IsNull(this.tableMember.OverrideFontSizeFreeTranslationColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetOverrideFontSizeFreeTranslationNull() {
+                this[this.tableMember.OverrideFontSizeFreeTranslationColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsOverrideRtlFreeTranslationNull() {
+                return this.IsNull(this.tableMember.OverrideRtlFreeTranslationColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetOverrideRtlFreeTranslationNull() {
+                this[this.tableMember.OverrideRtlFreeTranslationColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -13387,6 +13954,16 @@ namespace OneStoryProjectEditor {
                 }
                 else {
                     return ((InternationalBTLangRow[])(base.GetChildRows(this.Table.ChildRelations["Languages_InternationalBTLang"])));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public FreeTranslationRow[] GetFreeTranslationRows() {
+                if ((this.Table.ChildRelations["Languages_FreeTranslation"] == null)) {
+                    return new FreeTranslationRow[0];
+                }
+                else {
+                    return ((FreeTranslationRow[])(base.GetChildRows(this.Table.ChildRelations["Languages_FreeTranslation"])));
                 }
             }
         }
@@ -13868,6 +14445,166 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public void SetLanguages_IdNull() {
                 this[this.tableInternationalBTLang.Languages_IdColumn] = global::System.Convert.DBNull;
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public partial class FreeTranslationRow : global::System.Data.DataRow {
+            
+            private FreeTranslationDataTable tableFreeTranslation;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal FreeTranslationRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableFreeTranslation = ((FreeTranslationDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string name {
+                get {
+                    return ((string)(this[this.tableFreeTranslation.nameColumn]));
+                }
+                set {
+                    this[this.tableFreeTranslation.nameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string code {
+                get {
+                    return ((string)(this[this.tableFreeTranslation.codeColumn]));
+                }
+                set {
+                    this[this.tableFreeTranslation.codeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string FontName {
+                get {
+                    return ((string)(this[this.tableFreeTranslation.FontNameColumn]));
+                }
+                set {
+                    this[this.tableFreeTranslation.FontNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public float FontSize {
+                get {
+                    return ((float)(this[this.tableFreeTranslation.FontSizeColumn]));
+                }
+                set {
+                    this[this.tableFreeTranslation.FontSizeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string FontColor {
+                get {
+                    return ((string)(this[this.tableFreeTranslation.FontColorColumn]));
+                }
+                set {
+                    this[this.tableFreeTranslation.FontColorColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string SentenceFinalPunct {
+                get {
+                    return ((string)(this[this.tableFreeTranslation.SentenceFinalPunctColumn]));
+                }
+                set {
+                    this[this.tableFreeTranslation.SentenceFinalPunctColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string Keyboard {
+                get {
+                    try {
+                        return ((string)(this[this.tableFreeTranslation.KeyboardColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Keyboard\' in table \'FreeTranslation\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableFreeTranslation.KeyboardColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool RTL {
+                get {
+                    try {
+                        return ((bool)(this[this.tableFreeTranslation.RTLColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RTL\' in table \'FreeTranslation\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableFreeTranslation.RTLColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int Languages_Id {
+                get {
+                    try {
+                        return ((int)(this[this.tableFreeTranslation.Languages_IdColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Languages_Id\' in table \'FreeTranslation\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableFreeTranslation.Languages_IdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public LanguagesRow LanguagesRow {
+                get {
+                    return ((LanguagesRow)(this.GetParentRow(this.Table.ParentRelations["Languages_FreeTranslation"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["Languages_FreeTranslation"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsKeyboardNull() {
+                return this.IsNull(this.tableFreeTranslation.KeyboardColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetKeyboardNull() {
+                this[this.tableFreeTranslation.KeyboardColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsRTLNull() {
+                return this.IsNull(this.tableFreeTranslation.RTLColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetRTLNull() {
+                this[this.tableFreeTranslation.RTLColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsLanguages_IdNull() {
+                return this.IsNull(this.tableFreeTranslation.Languages_IdColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetLanguages_IdNull() {
+                this[this.tableFreeTranslation.Languages_IdColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -15252,6 +15989,21 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string FreeTranslation {
+                get {
+                    try {
+                        return ((string)(this[this.tableverse.FreeTranslationColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'FreeTranslation\' in table \'verse\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableverse.FreeTranslationColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public int verse_Id {
                 get {
                     return ((int)(this[this.tableverse.verse_IdColumn]));
@@ -15334,6 +16086,16 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public void SetInternationalBTNull() {
                 this[this.tableverse.InternationalBTColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsFreeTranslationNull() {
+                return this.IsNull(this.tableverse.FreeTranslationColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetFreeTranslationNull() {
+                this[this.tableverse.FreeTranslationColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -17169,6 +17931,37 @@ namespace OneStoryProjectEditor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public InternationalBTLangRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public class FreeTranslationRowChangeEvent : global::System.EventArgs {
+            
+            private FreeTranslationRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public FreeTranslationRowChangeEvent(FreeTranslationRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public FreeTranslationRow Row {
                 get {
                     return this.eventRow;
                 }

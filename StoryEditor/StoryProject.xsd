@@ -21,6 +21,7 @@
 									<xs:attribute name="OverrideVernacularKeyboard" type="xs:string" use="optional" />
 									<xs:attribute name="OverrideNationalBTKeyboard" type="xs:string" use="optional" />
 									<xs:attribute name="OverrideInternationalBTKeyboard" type="xs:string" use="optional" />
+                  <xs:attribute name="OverrideFreeTranslationKeyboard" type="xs:string" use="optional" />
                   <xs:attribute name="OverrideFontNameVernacular" type="xs:string" use="optional" />
                   <xs:attribute name="OverrideFontSizeVernacular" type="xs:float" use="optional" />
                   <xs:attribute name="OverrideRtlVernacular" type="xs:boolean" use="optional" />
@@ -30,6 +31,9 @@
                   <xs:attribute name="OverrideFontNameInternationalBT" type="xs:string" use="optional" />
                   <xs:attribute name="OverrideFontSizeInternationalBT" type="xs:float" use="optional" />
                   <xs:attribute name="OverrideRtlInternationalBT" type="xs:boolean" use="optional" />
+                  <xs:attribute name="OverrideFontNameFreeTranslation" type="xs:string" use="optional" />
+                  <xs:attribute name="OverrideFontSizeFreeTranslation" type="xs:float" use="optional" />
+                  <xs:attribute name="OverrideRtlFreeTranslation" type="xs:boolean" use="optional" />
                   <xs:attribute name="HgUsername" type="xs:string" use="optional" />
 									<xs:attribute name="HgPassword" type="xs:string" use="optional" />
                   <xs:attribute name="TransliteratorVernacular" type="xs:string" use="optional" />
@@ -50,6 +54,7 @@
 							<xs:element name="VernacularLang" type="LanguageInfo" minOccurs="1" maxOccurs="1" />
 							<xs:element name="NationalBTLang" type="LanguageInfo" maxOccurs="1" />
 							<xs:element name="InternationalBTLang" type="LanguageInfo" maxOccurs="1" />
+              <xs:element name="FreeTranslation" type="LanguageInfo" maxOccurs="1" />
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
@@ -137,6 +142,7 @@
 																<xs:element name="Vernacular" minOccurs="0" maxOccurs="1" type="xs:string" />
 																<xs:element name="NationalBT" minOccurs="0" maxOccurs="1" type="xs:string" />
 																<xs:element name="InternationalBT" minOccurs="0" maxOccurs="1" type="xs:string" />
+                                <xs:element name="FreeTranslation" minOccurs="0" maxOccurs="1" type="xs:string" />
 																<xs:element name="anchors" minOccurs="1" maxOccurs="1">
 																	<xs:complexType>
 																		<xs:sequence>
@@ -340,6 +346,7 @@
 			<xs:enumeration value="ProjFacTypeVernacular" />
 			<xs:enumeration value="ProjFacTypeNationalBT" />
 			<xs:enumeration value="ProjFacTypeInternationalBT" />
+      <xs:enumeration value="ProjFacTypeFreeTranslation" />
 			<xs:enumeration value="ProjFacAddAnchors" />
 			<xs:enumeration value="ProjFacAddStoryQuestions" />
       <xs:enumeration value="ProjFacRevisesBeforeUnsTest" />

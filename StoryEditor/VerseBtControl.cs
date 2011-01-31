@@ -70,7 +70,10 @@ namespace OneStoryProjectEditor
 
             int nNumRows = 1;
             // if the user is requesting one of the story lines (vernacular, nationalBT, or English), then...
-            if (theSE.viewVernacularLangFieldMenuItem.Checked || theSE.viewNationalLangFieldMenuItem.Checked || theSE.viewEnglishBTFieldMenuItem.Checked)
+            if (theSE.viewVernacularLangFieldMenuItem.Checked 
+                || theSE.viewNationalLangFieldMenuItem.Checked 
+                || theSE.viewEnglishBTFieldMenuItem.Checked
+                || theSE.viewFreeTranslationToolStripMenuItem.Checked)
             {
                 // ask that control to do the Update View
                 InitStoryLine(theSE, _verseData, nNumRows);
@@ -654,8 +657,9 @@ namespace OneStoryProjectEditor
         {
             System.Diagnostics.Debug.Assert(tableLayoutPanel.Controls.ContainsKey(CstrFieldNameStoryLine));
             StoryLineControl slc = tableLayoutPanel.Controls[CstrFieldNameStoryLine] as StoryLineControl;
-            string strVernacular, strNationalBT, strEnglishBT;
-            slc.GetTextBoxValues(out strVernacular, out strNationalBT, out strEnglishBT);
+            string strVernacular, strNationalBT, strEnglishBT, strFreeTranslation;
+            slc.GetTextBoxValues(out strVernacular, out strNationalBT, out strEnglishBT,
+                out strFreeTranslation);
             
             // all this verse to have it's buttons shown (so the editor can delete now
             //  obsolete comments)
@@ -671,6 +675,8 @@ namespace OneStoryProjectEditor
             verseNew.VernacularText.SetValue(strVernacular);
             verseNew.NationalBTText.SetValue(strNationalBT);
             verseNew.InternationalBTText.SetValue(strEnglishBT);
+            verseNew.FreeTranslationText.SetValue(strFreeTranslation);
+
             theSE.DoPasteVerse(VerseNumber, verseNew);
             // VerseData verseDest = PasteVerseToIndex(theSE, VerseNumber);
             var dlg = new CutItemPicker(_verseData, verseNew, VerseNumber + 1, theSE);

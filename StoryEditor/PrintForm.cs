@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using ECInterfaces;
 using SilEncConverters40;
@@ -66,6 +60,10 @@ namespace OneStoryProjectEditor
                 checkBoxLangInternationalBT.Visible =
                 _theSE.StoryProject.ProjSettings.InternationalBT.HasData;
 
+            checkBoxLangFreeTranslation.Checked =
+                checkBoxLangFreeTranslation.Visible =
+                _theSE.StoryProject.ProjSettings.FreeTranslation.HasData;
+
             checkBoxShowHidden.Checked = _theSE.hiddenVersesToolStripMenuItem.Checked;
         }
 
@@ -94,6 +92,7 @@ namespace OneStoryProjectEditor
                     checkBoxLangVernacular.Checked,
                     checkBoxLangNationalBT.Checked,
                     checkBoxLangInternationalBT.Checked,
+                    checkBoxLangFreeTranslation.Checked,
                     checkBoxAnchors.Checked,
                     checkBoxStoryTestingQuestions.Checked,
                     checkBoxAnswers.Checked,

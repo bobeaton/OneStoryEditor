@@ -16,6 +16,7 @@ namespace OneStoryProjectEditor
         public StringTransfer VernacularText = null;
         public StringTransfer NationalBTText = null;
         public StringTransfer InternationalBTText = null;
+        public StringTransfer FreeTranslationText = null;
         public AnchorsData Anchors = null;
         public TestQuestionsData TestQuestions = null;
         public RetellingsData Retellings = null;
@@ -35,6 +36,7 @@ namespace OneStoryProjectEditor
             VernacularText = new StringTransfer((!theVerseRow.IsVernacularNull()) ? theVerseRow.Vernacular : null);
             NationalBTText = new StringTransfer((!theVerseRow.IsNationalBTNull()) ? theVerseRow.NationalBT : null);
             InternationalBTText = new StringTransfer((!theVerseRow.IsInternationalBTNull()) ? theVerseRow.InternationalBT : null);
+            FreeTranslationText = new StringTransfer((!theVerseRow.IsFreeTranslationNull()) ? theVerseRow.FreeTranslation : null);
 
             Anchors = new AnchorsData(theVerseRow, projFile);
             TestQuestions = new TestQuestionsData(theVerseRow, projFile);
@@ -49,6 +51,8 @@ namespace OneStoryProjectEditor
             VernacularText = new StringTransfer(null);
             NationalBTText = new StringTransfer(null);
             InternationalBTText = new StringTransfer(null);
+            FreeTranslationText = new StringTransfer(null);
+
             Anchors = new AnchorsData();
             TestQuestions = new TestQuestionsData();
             Retellings = new RetellingsData();
@@ -66,6 +70,8 @@ namespace OneStoryProjectEditor
             VernacularText = new StringTransfer(((elem = node.SelectSingleNode(CstrFieldNameVernacular)) != null) ? elem.InnerText : null);
             NationalBTText = new StringTransfer(((elem = node.SelectSingleNode(CstrFieldNameNationalBt)) != null) ? elem.InnerText : null);
             InternationalBTText = new StringTransfer(((elem = node.SelectSingleNode(CstrFieldNameInternationalBt)) != null) ? elem.InnerText : null);
+            FreeTranslationText = new StringTransfer(((elem = node.SelectSingleNode(CstrFieldNameFreeTranslation)) != null) ? elem.InnerText : null);
+
             Anchors = new AnchorsData(node.SelectSingleNode(AnchorsData.CstrElementLabelAnchors));
             TestQuestions = new TestQuestionsData(node.SelectSingleNode(TestQuestionsData.CstrElementLabelTestQuestions));
             Retellings = new RetellingsData(node.SelectSingleNode(RetellingsData.CstrElementLableRetellings));
@@ -83,6 +89,8 @@ namespace OneStoryProjectEditor
             VernacularText = new StringTransfer(rhs.VernacularText.ToString());
             NationalBTText = new StringTransfer(rhs.NationalBTText.ToString());
             InternationalBTText = new StringTransfer(rhs.InternationalBTText.ToString());
+            FreeTranslationText = new StringTransfer(rhs.FreeTranslationText.ToString());
+
             Anchors = new AnchorsData(rhs.Anchors);
             TestQuestions = new TestQuestionsData(rhs.TestQuestions);
             Retellings = new RetellingsData(rhs.Retellings);
@@ -96,6 +104,7 @@ namespace OneStoryProjectEditor
             public bool StoryLanguage { get; set; }
             public bool NationalBT { get; set; }
             public bool EnglishBT { get; set; }
+            public bool FreeTranslation { get; set; }
             public bool ConsultantNotes { get; set; }
             public bool CoachNotes { get; set; }
             public bool Retellings { get; set; }
@@ -171,6 +180,9 @@ namespace OneStoryProjectEditor
             if (InternationalBTText.HasData && findProperties.EnglishBT)
                 lstBoxesToSearch.AddNewVerseString(InternationalBTText,
                     ViewSettings.ItemToInsureOn.EnglishBTField);
+            if (FreeTranslationText.HasData && findProperties.FreeTranslation)
+                lstBoxesToSearch.AddNewVerseString(FreeTranslationText,
+                                                   ViewSettings.ItemToInsureOn.FreeTranslationField);
             if (TestQuestions.HasData && (findProperties.TestQs || findProperties.TestAs))
                 TestQuestions.IndexSearch(findProperties, ref lstBoxesToSearch);
             if (Retellings.HasData && findProperties.Retellings)
@@ -185,7 +197,7 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                return (VernacularText.HasData || NationalBTText.HasData || InternationalBTText.HasData
+                return (VernacularText.HasData || NationalBTText.HasData || InternationalBTText.HasData || FreeTranslationText.HasData
                     || Anchors.HasData || TestQuestions.HasData || Retellings.HasData 
                     || ConsultantNotes.HasData || CoachNotes.HasData);
             }
@@ -194,6 +206,7 @@ namespace OneStoryProjectEditor
         public const string CstrFieldNameVernacular = "Vernacular";
         public const string CstrFieldNameNationalBt = "NationalBT";
         public const string CstrFieldNameInternationalBt = "InternationalBT";
+        public const string CstrFieldNameFreeTranslation = "FreeTranslation";
 
         public const string CstrAttributeGuid = "guid";
         public const string CstrElementLabelVerse = "verse";
@@ -221,6 +234,8 @@ namespace OneStoryProjectEditor
                     elemVerse.Add(new XElement(CstrFieldNameNationalBt, NationalBTText));
                 if (InternationalBTText.HasData)
                     elemVerse.Add(new XElement(CstrFieldNameInternationalBt, InternationalBTText));
+                if (FreeTranslationText.HasData)
+                    elemVerse.Add(new XElement(CstrFieldNameFreeTranslation, FreeTranslationText));
                 if (Anchors.HasData)
                     elemVerse.Add(Anchors.GetXml);
                 if (TestQuestions.HasData)
@@ -262,7 +277,8 @@ namespace OneStoryProjectEditor
                 BibleViewer = 2048,
                 StoryFrontMatter = 4096,
                 HiddenStuff = 8192,
-                OpenConNotesOnly = 16384
+                OpenConNotesOnly = 16384,
+                FreeTranslationField = 32768
             }
 
             public DirectableEncConverter TransliteratorVernacular { get; set; }
@@ -297,6 +313,7 @@ namespace OneStoryProjectEditor
                 bool bLangVernacular,
                 bool bLangNationalBT,
                 bool bLangInternationalBT,
+                bool bLangFreeTranslation,
                 bool bAnchors,
                 bool bStoryTestingQuestions,
                 bool bStoryTestingQuestionAnswers,
@@ -316,6 +333,7 @@ namespace OneStoryProjectEditor
                                    bLangNationalBT,
                                    (decTransliteratorNationalBT != null),
                                    bLangInternationalBT,
+                                   bLangFreeTranslation,
                                    bAnchors,
                                    bStoryTestingQuestions,
                                    bStoryTestingQuestionAnswers,
@@ -342,6 +360,7 @@ namespace OneStoryProjectEditor
                 bool bLangNationalBT,
                 bool bLangNationalBTTransliterate,
                 bool bLangInternationalBT,
+                bool bLangFreeTranslation,
                 bool bAnchors,
                 bool bStoryTestingQuestions,
                 bool bStoryTestingQuestionAnswers,
@@ -365,6 +384,8 @@ namespace OneStoryProjectEditor
                     _itemToInsureOn |= ItemToInsureOn.NationalBTTransliterationField;
                 if (bLangInternationalBT)
                     _itemToInsureOn |= ItemToInsureOn.EnglishBTField;
+                if (bLangFreeTranslation)
+                    _itemToInsureOn |= ItemToInsureOn.FreeTranslationField;
                 if (bAnchors)
                     _itemToInsureOn |= ItemToInsureOn.AnchorFields;
                 if (bStoryTestingQuestions)
@@ -421,6 +442,12 @@ namespace OneStoryProjectEditor
             {
                 strRow += FormatLanguageColumn(nVerseIndex, nNumCols, CstrFieldNameInternationalBt,
                                                StoryData.CstrLangInternationalBtStyleClassName, InternationalBTText.ToString());
+            }
+
+            if (viewItemToInsureOn.IsViewItemOn(ViewSettings.ItemToInsureOn.FreeTranslationField))
+            {
+                strRow += FormatLanguageColumn(nVerseIndex, nNumCols, CstrFieldNameFreeTranslation,
+                                               StoryData.CstrLangFreeTranslationStyleClassName, FreeTranslationText.ToString());
             }
 
             string strStoryLineRow = String.Format(OseResources.Properties.Resources.HTML_TableRow,
@@ -525,6 +552,21 @@ namespace OneStoryProjectEditor
                                                StoryData.CstrLangInternationalBtStyleClassName, str);
             }
 
+            if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.FreeTranslationField))
+            {
+                string str;
+                if (!TryStoryLineStringDiff(null, bPrintPreview, theChildVerse,
+                    FreeTranslationText, out str))
+                {
+                    // otherise, it must be compared
+                    str = Diff.HtmlDiff(null, FreeTranslationText,
+                        theChildVerse.FreeTranslationText);
+                }
+
+                strRow += FormatLanguageColumn(nVerseIndex, nNumCols, CstrFieldNameFreeTranslation,
+                                               StoryData.CstrLangFreeTranslationStyleClassName, str);
+            }
+
             string strHtml = null;
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.AnchorFields))
                 strHtml += Anchors.PresentationHtml(nVerseIndex, nNumCols,
@@ -626,6 +668,14 @@ namespace OneStoryProjectEditor
                                                StoryData.CstrLangInternationalBtStyleClassName, str);
             }
 
+            if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.FreeTranslationField))
+            {
+                string str = Diff.HtmlDiff(null, FreeTranslationText);
+
+                strRow += FormatLanguageColumn(nVerseIndex, nNumCols, CstrFieldNameFreeTranslation,
+                                               StoryData.CstrLangFreeTranslationStyleClassName, str);
+            }
+
             string strHtml = null;
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.AnchorFields))
                 strHtml += Anchors.PresentationHtmlAsAddition(nVerseIndex, nNumCols);
@@ -712,13 +762,15 @@ namespace OneStoryProjectEditor
             FirstVerse = new VerseData { IsFirstVerse = true };
         }
 
-        public VerseData InsertVerse(int nIndex, string strVernacular, string strNationalBT, string strInternationalBT)
+        public VerseData InsertVerse(int nIndex, string strVernacular, 
+            string strNationalBT, string strInternationalBT, string strFreeTranslation)
         {
             var dataVerse = new VerseData
                                         {
                                             VernacularText = new StringTransfer(strVernacular),
                                             NationalBTText = new StringTransfer(strNationalBT),
-                                            InternationalBTText = new StringTransfer(strInternationalBT)
+                                            InternationalBTText = new StringTransfer(strInternationalBT),
+                                            FreeTranslationText = new StringTransfer(strFreeTranslation)
                                         };
             Insert(nIndex, dataVerse);
             return dataVerse;
@@ -822,6 +874,8 @@ namespace OneStoryProjectEditor
                 nColSpan++;
             if (viewItemToInsureOn.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.EnglishBTField))
                 nColSpan++;
+            if (viewItemToInsureOn.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.FreeTranslationField))
+                nColSpan++;
             return nColSpan;
         }
 
@@ -861,6 +915,9 @@ namespace OneStoryProjectEditor
             if (viewItemToInsureOn.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.EnglishBTField))
                 strHtml += String.Format(OseResources.Properties.Resources.HTML_TableCell,
                                          projectSettings.InternationalBT.LangName);
+            if (viewItemToInsureOn.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.FreeTranslationField))
+                strHtml += String.Format(OseResources.Properties.Resources.HTML_TableCell,
+                                         projectSettings.FreeTranslation.LangName);
 
             strHtml = String.Format(OseResources.Properties.Resources.HTML_TableRow,
                                      strHtml);

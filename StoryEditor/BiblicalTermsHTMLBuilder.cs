@@ -96,7 +96,7 @@ namespace OneStoryProjectEditor
             scrTextNames = new List<string>();
             projectVariablesList = new List<Dictionary<string, string>>();
 
-            // Figure out how many side-by-side projects we're going to show (max is: vern, natlBt, english)
+            // Figure out how many side-by-side projects we're going to show (max is: vern, natlBt, english, freeT)
             
             if (projSettings.Vernacular.HasData)
                 scrTextNames.Add(projSettings.Vernacular.LangCode);
@@ -104,6 +104,8 @@ namespace OneStoryProjectEditor
                 scrTextNames.Add(projSettings.NationalBT.LangCode);
             if (projSettings.InternationalBT.HasData)
                 scrTextNames.Add(projSettings.InternationalBT.LangCode);
+            if (projSettings.FreeTranslation.HasData)
+                scrTextNames.Add(projSettings.FreeTranslation.LangCode);
 
             // Create list of template variables which are the same for each reference
             int nProjectNum = 0;
@@ -113,6 +115,8 @@ namespace OneStoryProjectEditor
                 projectVariablesList.Add(setupProjectVars(projSettings.NationalBT, ++nProjectNum, scrTextNames.Count));
             if (projSettings.InternationalBT.HasData)
                 projectVariablesList.Add(setupProjectVars(projSettings.InternationalBT, ++nProjectNum, scrTextNames.Count));
+            if (projSettings.FreeTranslation.HasData)
+                projectVariablesList.Add(setupProjectVars(projSettings.FreeTranslation, ++nProjectNum, scrTextNames.Count));
 
             System.Diagnostics.Debug.Assert(nProjectNum == scrTextNames.Count);
         }
@@ -374,13 +378,16 @@ namespace OneStoryProjectEditor
             return termRendering;
         }
 
-        public void SearchVerseText(StoryProjectData theSPD, ProgressBar progressBarLoadingKeyTerms, bool bSearchHidden,
-            string strSearchPatternsVernacular, string strSearchPatternsNationalBT, string strSearchPatternsInternationalBT)
+        public void SearchVerseText(StoryProjectData theSPD, ProgressBar progressBarLoadingKeyTerms, 
+            bool bSearchHidden, string strSearchPatternsVernacular, 
+            string strSearchPatternsNationalBT, string strSearchPatternsInternationalBT,
+            string strSearchPatternsFreeTranslation)
         {
             // to *have* them, is to show them.
             bool bShowVernacular = theSPD.ProjSettings.Vernacular.HasData;
             bool bShowNationalBT = theSPD.ProjSettings.NationalBT.HasData;
             bool bShowInternationalBT = theSPD.ProjSettings.InternationalBT.HasData;
+            bool bShowFreeTranslation = theSPD.ProjSettings.FreeTranslation.HasData;
 
             mapReferenceToVerseTextList = new Dictionary<string, List<string>>();
             termRenderingsList = new List<TermRendering>();
@@ -388,6 +395,8 @@ namespace OneStoryProjectEditor
             List<Regex> arrRegexVernacular = null;
             List<Regex> arrRegexNationalBT = null;
             List<Regex> arrRegexInternationalBT = null;
+            List<Regex> arrRegexFreeTranslation = null;
+
             if (bShowVernacular)
                 arrRegexVernacular = GetRegexs(BuildFakeReferences(nColumnIndex++, strSearchPatternsVernacular));
 
@@ -395,8 +404,11 @@ namespace OneStoryProjectEditor
                 arrRegexNationalBT = GetRegexs(BuildFakeReferences(nColumnIndex++, strSearchPatternsNationalBT));
 
             if (bShowInternationalBT)
-                arrRegexInternationalBT = GetRegexs(BuildFakeReferences(nColumnIndex, strSearchPatternsInternationalBT));
-            
+                arrRegexInternationalBT = GetRegexs(BuildFakeReferences(nColumnIndex++, strSearchPatternsInternationalBT));
+
+            if (bShowFreeTranslation)
+                arrRegexFreeTranslation = GetRegexs(BuildFakeReferences(nColumnIndex, strSearchPatternsFreeTranslation));
+
             // get the current stories only (not the obsolete ones)
             StoriesData theStories = theSPD[OseResources.Properties.Resources.IDS_MainStoriesSet];
             progressBarLoadingKeyTerms.Maximum = theStories.Count;
@@ -417,8 +429,9 @@ namespace OneStoryProjectEditor
 
                     // don't need to continue checking the others if we find a hit earlier
                     if ((bShowVernacular && SearchForHit(arrRegexVernacular, aVerse.VernacularText.ToString()))
-                        ||  (bShowNationalBT && SearchForHit(arrRegexNationalBT, aVerse.NationalBTText.ToString()))
-                        ||  (bShowInternationalBT && SearchForHit(arrRegexInternationalBT, aVerse.InternationalBTText.ToString())))
+                        || (bShowNationalBT && SearchForHit(arrRegexNationalBT, aVerse.NationalBTText.ToString()))
+                        || (bShowInternationalBT && SearchForHit(arrRegexInternationalBT, aVerse.InternationalBTText.ToString()))
+                        || (bShowFreeTranslation && SearchForHit(arrRegexFreeTranslation, aVerse.FreeTranslationText.ToString())))
                     {
                         List<string> astrVerseText = new List<string>(scrTextNames.Count);
                         if (bShowVernacular)
@@ -427,6 +440,8 @@ namespace OneStoryProjectEditor
                             astrVerseText.Add(aVerse.NationalBTText.ToString());
                         if (bShowInternationalBT)
                             astrVerseText.Add(aVerse.InternationalBTText.ToString());
+                        if (bShowFreeTranslation)
+                            astrVerseText.Add(aVerse.FreeTranslationText.ToString());
                         mapReferenceToVerseTextList.Add(strVerseReference, astrVerseText);
                     }
                 }
@@ -498,6 +513,8 @@ namespace OneStoryProjectEditor
 	                        astrVerseText.Add(aVerse.NationalBTText.ToString());
 	                    if (theSPD.ProjSettings.InternationalBT.HasData)
 	                        astrVerseText.Add(aVerse.InternationalBTText.ToString());
+                        if (theSPD.ProjSettings.FreeTranslation.HasData)
+                            astrVerseText.Add(aVerse.FreeTranslationText.ToString());
 
 	                    // keep track of this verse and it's reference
 	                    if (!mapReferenceToVerseTextList.ContainsKey(strVerseReference))

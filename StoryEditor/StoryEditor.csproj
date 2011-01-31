@@ -703,6 +703,9 @@
     <None Include="Resources\oneStory2storyingRetelling.xsl" />
     <None Include="Resources\gradient.gif">
     </None>
+    <Content Include="Toolbox\FreeTranslation.lng">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Toolbox\BookReferences.lng">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

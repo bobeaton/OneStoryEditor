@@ -142,8 +142,8 @@ namespace OneStoryProjectEditor
 #endif
                 InsertRow(nLayoutRow);
                 if (nNumColumns > 2)
-                    tableLayoutPanel.SetColumnSpan(aAnswersCtrl, nNumColumns - 1);
-                tableLayoutPanel.Controls.Add(aAnswersCtrl, 1, nLayoutRow);
+                    tableLayoutPanel.SetColumnSpan(aAnswersCtrl, nNumColumns);
+                tableLayoutPanel.Controls.Add(aAnswersCtrl, 0, nLayoutRow);
                 tableLayoutPanel.DumpTable();
             }
 

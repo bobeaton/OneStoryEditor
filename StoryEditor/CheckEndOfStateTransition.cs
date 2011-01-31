@@ -60,7 +60,7 @@ namespace OneStoryProjectEditor
                                 while (nNewVerses-- > 1)
                                 {
                                     string strSentence = lstSentences[nNewVerses];
-                                    theCurrentStory.Verses.InsertVerse(nVerseNumber, strSentence, null, null);
+                                    theCurrentStory.Verses.InsertVerse(nVerseNumber, strSentence, null, null, null);
                                 }
 
                                 aVerseData.VernacularText.SetValue(lstSentences[nNewVerses]);
@@ -121,6 +121,9 @@ namespace OneStoryProjectEditor
                 }
             }
 #endif
+            if (eProposedNextState == StoryStageLogic.ProjectStages.eProjFacAddAnchors)
+                theSE._bAutoHide = false;
+
             return true;
         }
 
@@ -220,6 +223,9 @@ namespace OneStoryProjectEditor
             }
 #endif
 
+            if (eProposedNextState == StoryStageLogic.ProjectStages.eProjFacAddAnchors)
+                theSE._bAutoHide = false;
+
             return true;
         }
 
@@ -311,7 +317,98 @@ namespace OneStoryProjectEditor
                 System.Diagnostics.Debug.Assert(eProposedNextState ==
                     StoryStageLogic.ProjectStages.eProjFacAddAnchors);
 #endif
-            
+
+            if (eProposedNextState == StoryStageLogic.ProjectStages.eProjFacAddAnchors)
+                theSE._bAutoHide = false;
+
+            return true;
+        }
+
+        public static bool ProjFacTypeFreeTranslation(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
+        {
+            Console.WriteLine(String.Format("Checking if stage 'ProjFacTypeFreeTranslation' work is finished: Name: {0}", theCurrentStory.Name));
+
+            // this can happen if the person has a story in this state, but then gets rid of the EnglishBT (so just allow it)
+            if (!theStoryProjectData.ProjSettings.FreeTranslation.HasData)
+                return true;
+
+            // if going backwards, we don't have anything to check
+            if (IsGoingBackwards(theCurrentStory, eProposedNextState))
+            {
+                System.Diagnostics.Debug.Assert((eProposedNextState == StoryStageLogic.ProjectStages.eProjFacTypeVernacular)
+                    || (eProposedNextState == StoryStageLogic.ProjectStages.eProjFacTypeNationalBT)
+                    || (eProposedNextState == StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT));
+                return true;
+            }
+
+            // make sure that each verse has only one sentence
+            bool bRepeatAfterMe = false;
+            do
+            {
+                // if there are no verses, then just quit (before we get into an infinite loop)
+                if (theCurrentStory.Verses.Count == 0)
+                {
+                    ShowError(theSE, "Error: No verses in the story!");
+                    return false;
+                }
+
+                // now go thru the Free Translation parts and make sure that there's only one sentence/verse.
+                // make sure that each verse has only one sentence
+                int nVerseNumber = 1;
+                foreach (VerseData aVerseData in theCurrentStory.Verses)
+                {
+                    if (aVerseData.IsVisible)
+                    {
+                        string strSentenceFinalPunct = theStoryProjectData.ProjSettings.FreeTranslation.FullStop;
+                        List<string> lstSentences;
+                        if ((!GetListOfSentences(aVerseData.FreeTranslationText, strSentenceFinalPunct, out lstSentences))
+                            || (lstSentences.Count == 0))
+                        {
+                            // if there's nothing in this verse, then just get rid of it.
+                            if (!aVerseData.HasData)
+                            {
+                                theCurrentStory.Verses.Remove(aVerseData);
+                                bRepeatAfterMe = true;
+                                break; // we have to exit the loop since we've modified the collection
+                            }
+
+
+                            // if there's data in either the story box or the natl bt box...
+                            if (aVerseData.VernacularText.HasData || aVerseData.NationalBTText.HasData || aVerseData.InternationalBTText.HasData)
+                            {
+                                // then there ought to be some in the Free Translation box as well.
+                                // light it up and let the user know they need to do something!
+                                ShowErrorFocus(theSE, aVerseData.FreeTranslationText.TextBox,
+                                               String.Format(
+                                                   "Error: Verse {0} doesn't have any Free translation in it. Did you forget it?",
+                                                   nVerseNumber));
+                                return false;
+                            }
+                            return false;
+                        }
+
+                        if (lstSentences.Count > 1)
+                        {
+                            MessageBox.Show(String.Format(Properties.Resources.IDS_UseStoryCollapse,
+                                                          nVerseNumber,
+                                                          theStoryProjectData.ProjSettings.FreeTranslation.LangName),
+                                            OseResources.Properties.Resources.IDS_Caption);
+                            return false;
+                        }
+                    }
+
+                    nVerseNumber++;
+                    bRepeatAfterMe = false; // if we get this far without a problem, then we haven't changed anything
+                }
+            } while (bRepeatAfterMe);
+
+            // if there's only an English BT, then we need to know who (which UNS) did the BT.
+            if (!theStoryProjectData.ProjSettings.NationalBT.HasData && !theStoryProjectData.ProjSettings.InternationalBT.HasData)
+                QueryForUnsBackTranslator(theSE, theStoryProjectData, theCurrentStory);
+
+            if (eProposedNextState == StoryStageLogic.ProjectStages.eProjFacAddAnchors)
+                theSE._bAutoHide = false;
+
             return true;
         }
 
@@ -408,7 +505,8 @@ namespace OneStoryProjectEditor
             {
                 System.Diagnostics.Debug.Assert((eProposedNextState == StoryStageLogic.ProjectStages.eProjFacTypeVernacular)
                     || (eProposedNextState == StoryStageLogic.ProjectStages.eProjFacTypeNationalBT)
-                    || (eProposedNextState == StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT));
+                    || (eProposedNextState == StoryStageLogic.ProjectStages.eProjFacTypeNationalBT) 
+                    || (eProposedNextState == StoryStageLogic.ProjectStages.eProjFacTypeFreeTranslation));
                 return true;
             }
 
@@ -428,8 +526,10 @@ namespace OneStoryProjectEditor
                         return false;
                     }
 
+                    /*
                     if (aVerseData.Anchors.IsKeyTermChecked)
                         bHasAnyKeyTermBeenChecked = true;
+                    */
                 }
                 nVerseNumber++;
             }
@@ -466,6 +566,7 @@ namespace OneStoryProjectEditor
                 System.Diagnostics.Debug.Assert((eProposedNextState == StoryStageLogic.ProjectStages.eProjFacTypeVernacular)
                     || (eProposedNextState == StoryStageLogic.ProjectStages.eProjFacTypeNationalBT)
                     || (eProposedNextState == StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT)
+                    || (eProposedNextState == StoryStageLogic.ProjectStages.eProjFacTypeFreeTranslation)
                     || (eProposedNextState == StoryStageLogic.ProjectStages.eProjFacAddAnchors));
                 return true;
             }

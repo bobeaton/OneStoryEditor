@@ -66,6 +66,12 @@
 \mkrOverThis c
 \-mkr
 
+\+mkr ft
+\nam FreeTranslation
+\lng FreeTranslation
+\mkrOverThis c
+\-mkr
+
 \+mkr c
 \lng Default
 \-mkr

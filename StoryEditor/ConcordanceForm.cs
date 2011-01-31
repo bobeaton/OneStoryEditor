@@ -12,9 +12,11 @@ namespace OneStoryProjectEditor
         public string VernacularForm { get; set; }
         public string NationalForm { get; set; }
         public string InternationalForm { get; set; }
+        public string FreeTranslationForm { get; set; }
 
-        public ConcordanceForm(StoryEditor theSE, 
-            string strToSearchForVernacular, string strToSearchForNationalBT, string strToSearchForInternationalBT)
+        public ConcordanceForm(StoryEditor theSE, string strToSearchForVernacular, 
+            string strToSearchForNationalBT, string strToSearchForInternationalBT,
+            string strToSearchForFreeTranslation)
         {
             InitializeComponent();
             _theSE = theSE;
@@ -22,6 +24,7 @@ namespace OneStoryProjectEditor
             VernacularForm = TrimIfNeeded(strToSearchForVernacular);
             NationalForm = TrimIfNeeded(strToSearchForNationalBT);
             InternationalForm = TrimIfNeeded(strToSearchForInternationalBT);
+            FreeTranslationForm = TrimIfNeeded(strToSearchForFreeTranslation);
 
             InitSearchBoxes(_storyProject.ProjSettings.Vernacular, VernacularForm,
                 labelVernacular, textBoxWordsToSearchForVernacular);
@@ -29,6 +32,11 @@ namespace OneStoryProjectEditor
                 labelNationalBT, textBoxWordsToSearchForNationalBT);
             InitSearchBoxes(_storyProject.ProjSettings.InternationalBT, InternationalForm,
                 labelInternationalBT, textBoxWordsToSearchForInternationalBT);
+            InitSearchBoxes(_storyProject.ProjSettings.FreeTranslation, FreeTranslationForm,
+                            labelFreeTranslation, textBoxWordsToSearchForFreeTranslation);
+
+            if (labelFreeTranslation.Visible)
+                labelFreeTranslation.Text = "Free Translation";
 
             htmlBuilder = new BiblicalTermsHTMLBuilder(_storyProject.ProjSettings);
             buttonBeginSearch_Click(null, null);
@@ -40,7 +48,8 @@ namespace OneStoryProjectEditor
                 _theSE.hiddenVersesToolStripMenuItem.Checked,   // if the user is *showing* hidden verses, then search in them
                 textBoxWordsToSearchForVernacular.Text, 
                 textBoxWordsToSearchForNationalBT.Text,
-                textBoxWordsToSearchForInternationalBT.Text);
+                textBoxWordsToSearchForInternationalBT.Text,
+                textBoxWordsToSearchForFreeTranslation.Text);
 
             BiblicalTermStatus dontcare;
             string strHtml = htmlBuilder.Build(_storyProject, progressBarLoadingKeyTerms, false, out dontcare);
@@ -103,6 +112,7 @@ namespace OneStoryProjectEditor
             VernacularForm = textBoxWordsToSearchForVernacular.Text;
             NationalForm = textBoxWordsToSearchForNationalBT.Text;
             InternationalForm = textBoxWordsToSearchForInternationalBT.Text;
+            FreeTranslationForm = textBoxWordsToSearchForFreeTranslation.Text;
         }
     }
 }

@@ -179,6 +179,7 @@ namespace OneStoryProjectEditor
                 true,
                 true,
                 true,
+                true,
                 false,  // theSE.viewConsultantNoteFieldMenuItem.Checked,
                 false,  // theSE.viewCoachNotesFieldMenuItem.Checked,
                 false,  // theSE.viewNetBibleMenuItem.Checked
@@ -219,11 +220,13 @@ namespace OneStoryProjectEditor
             bool bShowVernacular = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.VernacularLangField);
             bool bShowNationalBT = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBTLangField);
             bool bShowEnglishBT = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.EnglishBTField);
+            bool bShowFreeTranslation = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.FreeTranslationField);
 
             int nNumCols = 0;
             if (bShowVernacular) nNumCols++;
             if (bShowNationalBT) nNumCols++;
             if (bShowEnglishBT) nNumCols++;
+            if (bShowFreeTranslation) nNumCols++;
 
             string strHtml = null;
             if (viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryFrontMatter))
@@ -254,6 +257,7 @@ namespace OneStoryProjectEditor
             if (viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.VernacularLangField)
                 || viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBTLangField)
                 || viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.EnglishBTField)
+                || viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.FreeTranslationField)
                 || viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.AnchorFields)
                 || viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.RetellingFields)
                 || viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestions)
@@ -285,16 +289,17 @@ namespace OneStoryProjectEditor
                                                              strLabel),
                                                String.Format(OseResources.Properties.Resources.HTML_TableCellWidth,
                                                              100,
-                                                             String.Format(OseResources.Properties.Resources.HTML_ParagraphText,
-                                                                           strLabel,
-                                                                           StoryData.
-                                                                              CstrLangInternationalBtStyleClassName,
-                                                                           strName))));
+                                                             String.Format(
+                                                                 OseResources.Properties.Resources.HTML_ParagraphText,
+                                                                 strLabel,
+                                                                 CstrLangInternationalBtStyleClassName,
+                                                                 strName))));
         }
 
         public const string CstrLangVernacularStyleClassName = "LangVernacular";
         public const string CstrLangNationalBtStyleClassName = "LangNationalBT";
         public const string CstrLangInternationalBtStyleClassName = "LangInternationalBT";
+        public const string CstrLangFreeTranslationStyleClassName = "LangFreeTranslation";
 
         public static string StylePrefix(ProjectSettings projSettings)
         {
@@ -305,6 +310,8 @@ namespace OneStoryProjectEditor
                 strLangStyles += projSettings.NationalBT.HtmlStyle(CstrLangNationalBtStyleClassName);
             if (projSettings.InternationalBT.HasData)
                 strLangStyles += projSettings.InternationalBT.HtmlStyle(CstrLangInternationalBtStyleClassName);
+            if (projSettings.FreeTranslation.HasData)
+                strLangStyles += projSettings.FreeTranslation.HtmlStyle(CstrLangFreeTranslationStyleClassName);
 
             return String.Format(OseResources.Properties.Resources.HTML_StyleDefinition,
                                  Properties.Settings.Default.ConNoteTableFontSize,
@@ -813,7 +820,7 @@ namespace OneStoryProjectEditor
         public ProjectSettings ProjSettings;
         public LnCNotesData LnCNotes;
         public string PanoramaFrontMatter;
-        public string XmlDataVersion = "1.3";
+        public string XmlDataVersion = "1.4";
 
         /// <summary>
         /// This version of the constructor should *always* be followed by a call to InitializeProjectSettings()

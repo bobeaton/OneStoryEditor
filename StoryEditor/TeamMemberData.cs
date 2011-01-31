@@ -53,6 +53,7 @@ namespace OneStoryProjectEditor
         public string OverrideVernacularKeyboard;
         public string OverrideNationalBTKeyboard;
         public string OverrideInternationalBTKeyboard;
+        public string OverrideFreeTranslationKeyboard;
         public string OverrideFontNameVernacular;
         public float OverrideFontSizeVernacular;
         public bool OverrideRtlVernacular;
@@ -62,6 +63,9 @@ namespace OneStoryProjectEditor
         public string OverrideFontNameInternationalBT;
         public float OverrideFontSizeInternationalBT;
         public bool OverrideRtlInternationalBT;
+        public string OverrideFontNameFreeTranslation;
+        public float OverrideFontSizeFreeTranslation;
+        public bool OverrideRtlFreeTranslation;
         public string HgUsername;
         public string HgPassword;
         public string TransliteratorVernacular;
@@ -135,6 +139,9 @@ namespace OneStoryProjectEditor
             if (!theMemberRow.IsOverrideInternationalBTKeyboardNull())
                 OverrideInternationalBTKeyboard = theMemberRow.OverrideInternationalBTKeyboard;
 
+            if (!theMemberRow.IsOverrideFreeTranslationKeyboardNull())
+                OverrideFreeTranslationKeyboard = theMemberRow.OverrideFreeTranslationKeyboard;
+
             if (!theMemberRow.IsOverrideFontNameVernacularNull())
                 OverrideFontNameVernacular = theMemberRow.OverrideFontNameVernacular;
 
@@ -161,6 +168,15 @@ namespace OneStoryProjectEditor
 
             if (!theMemberRow.IsOverrideRtlInternationalBTNull())
                 OverrideRtlInternationalBT = theMemberRow.OverrideRtlInternationalBT;
+
+            if (!theMemberRow.IsOverrideFontNameFreeTranslationNull())
+                OverrideFontNameFreeTranslation = theMemberRow.OverrideFontNameFreeTranslation;
+
+            if (!theMemberRow.IsOverrideFontSizeFreeTranslationNull())
+                OverrideFontSizeFreeTranslation = theMemberRow.OverrideFontSizeFreeTranslation;
+
+            if (!theMemberRow.IsOverrideRtlFreeTranslationNull())
+                OverrideRtlFreeTranslation = theMemberRow.OverrideRtlFreeTranslation;
 
             if (!theMemberRow.IsHgUsernameNull())
                 HgUsername = theMemberRow.HgUsername;
@@ -265,6 +281,7 @@ namespace OneStoryProjectEditor
         public const string CstrAttributeNameOverrideVernacularKeyboard = "OverrideVernacularKeyboard";
         public const string CstrAttributeNameOverrideNationalBTKeyboard = "OverrideNationalBTKeyboard";
         public const string CstrAttributeNameOverrideInternationalBTKeyboard = "OverrideInternationalBTKeyboard";
+        public const string CstrAttributeNameOverrideFreeTranslationKeyboard = "OverrideFreeTranslationKeyboard";
         public const string CstrAttributeNameOverrideFontNameVernacular = "OverrideFontNameVernacular";
         public const string CstrAttributeNameOverrideFontSizeVernacular = "OverrideFontSizeVernacular";
         public const string CstrAttributeNameOverrideRtlVernacular = "OverrideRtlVernacular";
@@ -274,6 +291,9 @@ namespace OneStoryProjectEditor
         public const string CstrAttributeNameOverrideFontNameInternationalBT = "OverrideFontNameInternationalBT";
         public const string CstrAttributeNameOverrideFontSizeInternationalBT = "OverrideFontSizeInternationalBT";
         public const string CstrAttributeNameOverrideRtlInternationalBT = "OverrideRtlInternationalBT";
+        public const string CstrAttributeNameOverrideFontNameFreeTranslation = "OverrideFontNameFreeTranslation";
+        public const string CstrAttributeNameOverrideFontSizeFreeTranslation = "OverrideFontSizeFreeTranslation";
+        public const string CstrAttributeNameOverrideRtlFreeTranslation = "OverrideRtlFreeTranslation";
         public const string CstrAttributeNameHgUsername = "HgUsername";
         public const string CstrAttributeNameHgPassword = "HgPassword";
         public const string CstrAttributeNameTransliteratorVernacular = "TransliteratorVernacular";
@@ -307,6 +327,8 @@ namespace OneStoryProjectEditor
                     eleMember.Add(new XAttribute(CstrAttributeNameOverrideNationalBTKeyboard, OverrideNationalBTKeyboard));
                 if (!String.IsNullOrEmpty(OverrideInternationalBTKeyboard))
                     eleMember.Add(new XAttribute(CstrAttributeNameOverrideInternationalBTKeyboard, OverrideInternationalBTKeyboard));
+                if (!String.IsNullOrEmpty(OverrideFreeTranslationKeyboard))
+                    eleMember.Add(new XAttribute(CstrAttributeNameOverrideFreeTranslationKeyboard, OverrideFreeTranslationKeyboard));
                 if (!String.IsNullOrEmpty(OverrideFontNameVernacular))
                 {
                     eleMember.Add(
@@ -333,6 +355,15 @@ namespace OneStoryProjectEditor
                 }
                 if (OverrideRtlInternationalBT)
                     eleMember.Add(new XAttribute(CstrAttributeNameOverrideRtlInternationalBT, OverrideRtlInternationalBT));
+
+                if (!String.IsNullOrEmpty(OverrideFontNameFreeTranslation))
+                {
+                    eleMember.Add(
+                        new XAttribute(CstrAttributeNameOverrideFontNameFreeTranslation, OverrideFontNameFreeTranslation),
+                        new XAttribute(CstrAttributeNameOverrideFontSizeFreeTranslation, OverrideFontSizeFreeTranslation));
+                }
+                if (OverrideRtlFreeTranslation)
+                    eleMember.Add(new XAttribute(CstrAttributeNameOverrideRtlFreeTranslation, OverrideRtlFreeTranslation));
 
                 if (!String.IsNullOrEmpty(HgUsername))
                     eleMember.Add(new XAttribute(CstrAttributeNameHgUsername, HgUsername));

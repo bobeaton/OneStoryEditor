@@ -145,7 +145,8 @@ namespace OneStoryProjectEditor
                 DataGridViewRow theRow = dataGridViewLnCNotes.Rows[nSelectedRowIndex];
                 var theLnCNote = theRow.Tag as LnCNote;
                 var dlg = new ConcordanceForm(_theSE, theLnCNote.VernacularRendering,
-                    theLnCNote.NationalBtRendering, theLnCNote.InternationalBtRendering);
+                    theLnCNote.NationalBtRendering, theLnCNote.InternationalBtRendering,
+                    null);
                 dlg.Show();
                 /* can't do this if we use 'Show' and can't not use 'Show' or we can't visit
                  * the lines found

@@ -20,6 +20,7 @@ namespace OneStoryProjectEditor
             eProjFacTypeVernacular,
             eProjFacTypeNationalBT,
             eProjFacTypeInternationalBT,
+            eProjFacTypeFreeTranslation,
             eProjFacAddAnchors,
             eProjFacAddStoryQuestions,
             eProjFacRevisesBeforeUnsTest,
@@ -60,12 +61,18 @@ namespace OneStoryProjectEditor
         {
             System.Diagnostics.Debug.Assert(projSettings.Vernacular.HasData 
                 || projSettings.NationalBT.HasData
-                || projSettings.InternationalBT.HasData);
+                || projSettings.InternationalBT.HasData
+                || projSettings.FreeTranslation.HasData);
 
             // the first state is either eProjFacTypeVernacular or eProjFacTypeNationalBT or eProjFacTypeInternationalBT
             //  (can't have a separate EngBTr if there's no Vernacular or National BT)
-            ProjectStage = (projSettings.Vernacular.HasData) ? ProjectStages.eProjFacTypeVernacular : 
-                (projSettings.NationalBT.HasData) ? ProjectStages.eProjFacTypeNationalBT : ProjectStages.eProjFacTypeInternationalBT;
+            ProjectStage = (projSettings.Vernacular.HasData)
+                               ? ProjectStages.eProjFacTypeVernacular
+                               : (projSettings.NationalBT.HasData)
+                                     ? ProjectStages.eProjFacTypeNationalBT
+                                     : (projSettings.InternationalBT.HasData)
+                                           ? ProjectStages.eProjFacTypeInternationalBT
+                                           : ProjectStages.eProjFacTypeFreeTranslation;
 
             if (stateTransitions == null)
                 stateTransitions = new StateTransitions(projSettings.ProjectFolder);
@@ -141,6 +148,7 @@ namespace OneStoryProjectEditor
             { "ProjFacTypeVernacular", ProjectStages.eProjFacTypeVernacular },
             { "ProjFacTypeNationalBT", ProjectStages.eProjFacTypeNationalBT },
             { "ProjFacTypeInternationalBT", ProjectStages.eProjFacTypeInternationalBT },
+            { "ProjFacTypeFreeTranslation", ProjectStages.eProjFacTypeFreeTranslation },
             { "ProjFacAddAnchors", ProjectStages.eProjFacAddAnchors },
             { "ProjFacAddStoryQuestions", ProjectStages.eProjFacAddStoryQuestions },
             { "ProjFacRevisesBeforeUnsTest", ProjectStages.eProjFacRevisesBeforeUnsTest },
@@ -211,11 +219,15 @@ namespace OneStoryProjectEditor
                 doc.Save(strCustomFile);
             }
 
+            protected string XmlDataVersion = "2.0";
+
             protected XElement GetXml
             {
                 get
                 {
-                    XElement elem = new XElement("ProjectStates");
+                    var elem = new XElement("ProjectStates",
+                        new XAttribute("version", XmlDataVersion));
+
                     foreach (KeyValuePair<ProjectStages, StateTransition> kvp in this)
                     {
                         elem.Add(kvp.Value.GetXml);
@@ -250,6 +262,19 @@ namespace OneStoryProjectEditor
                     XmlNamespaceManager manager;
                     GetXmlDocument(strProjectFolder, out doc, out navigator, out manager);
 
+#if DoUpdateTo20
+                    // first see if we need to upgrade from the previous format (which
+                    //  didn't have the FreeTranslation state, nor the viewFreeTranslation
+                    //  bool.
+                    var varProjectStateVersion = navigator.SelectSingleNode(String.Format("/{0}/@{1}",
+                                                                         StateTransition.CstrElementLabelProjectStates, StateTransition.CstrAttributeLabelVersion));
+
+                    if (varProjectStateVersion == null)
+                        FixupTo2_0(doc, navigator, manager);
+                    else if (varProjectStateVersion.ToString().CompareTo(XmlDataVersion) > 0)
+                        throw new ApplicationException(OseResources.Properties.Resources.IDS_GetNewVersion);
+#endif
+
                     XPathNodeIterator xpStageTransition = navigator.Select(String.Format("/{0}/{1}", 
                         StateTransition.CstrElementLabelProjectStates, StateTransition.CstrElementLabelStateTransition), manager);
 
@@ -266,6 +291,10 @@ namespace OneStoryProjectEditor
                              "true");
                         bool bRequiresUsingEnglishBT =
                             (xpStageTransition.Current.GetAttribute(StateTransition.CstrAttributeLabelRequiresUsingEnglishBT, navigator.NamespaceURI) ==
+                             "true");
+                        bool bRequiresUsingFreeTranslation =
+                            (xpStageTransition.Current.GetAttribute(
+                                StateTransition.CstrAttributeLabelRequiresUsingFreeTranslation, navigator.NamespaceURI) ==
                              "true");
 
                         string strRequiresUsingOtherEnglishBTer = xpStageTransition.Current.GetAttribute(StateTransition.CstrAttributeLableRequiresUsingOtherEnglishBTer, 
@@ -334,23 +363,25 @@ namespace OneStoryProjectEditor
                             lstAllowableBackwardsStages.Add(aps);
                         }
 
-                        StateTransition st = new StateTransition(eThisStage, lstAllowableForewardsStages, lstAllowableBackwardsStages)
-                            {
-                                MemberTypeWithEditToken = eMemberType,
-                                StageDisplayString = strStageDisplayString,
-                                TransitionDisplayString = strTransitionDisplayString,
-                                StageInstructions = strStageInstructions,
-                                RequiresUsingVernacular = bRequiresUsingVernacular,
-                                RequiresUsingNationalBT = bRequiresUsingNationalBT,
-                                RequiresUsingEnglishBT = bRequiresUsingEnglishBT,
-                                HasUsingOtherEnglishBTer = bHasUsingOtherEnglishBTer,
-                                RequiresUsingOtherEnglishBTer = bRequiresUsingOtherEnglishBTer,
-                                RequiresFirstPassMentor = bRequiresFirstPassMentor,
-                                RequiresBiblicalStory = bRequiresBiblicalStory,
-                                RequiresNonBiblicalStory = bRequiresNonBiblicalStory,
-                                RequiresManageWithCoaching = bRequiresManageWithCoaching,
-                                DontShowTilPast = bDontShowTilPast
-                            };
+                        StateTransition st = new StateTransition(eThisStage, lstAllowableForewardsStages,
+                                                                 lstAllowableBackwardsStages)
+                                                 {
+                                                     MemberTypeWithEditToken = eMemberType,
+                                                     StageDisplayString = strStageDisplayString,
+                                                     TransitionDisplayString = strTransitionDisplayString,
+                                                     StageInstructions = strStageInstructions,
+                                                     RequiresUsingVernacular = bRequiresUsingVernacular,
+                                                     RequiresUsingNationalBT = bRequiresUsingNationalBT,
+                                                     RequiresUsingEnglishBT = bRequiresUsingEnglishBT,
+                                                     HasUsingOtherEnglishBTer = bHasUsingOtherEnglishBTer,
+                                                     RequiresUsingFreeTranslation = bRequiresUsingFreeTranslation,
+                                                     RequiresUsingOtherEnglishBTer = bRequiresUsingOtherEnglishBTer,
+                                                     RequiresFirstPassMentor = bRequiresFirstPassMentor,
+                                                     RequiresBiblicalStory = bRequiresBiblicalStory,
+                                                     RequiresNonBiblicalStory = bRequiresNonBiblicalStory,
+                                                     RequiresManageWithCoaching = bRequiresManageWithCoaching,
+                                                     DontShowTilPast = bDontShowTilPast
+                                                 };
 
                         xpNextElement = xpStageTransition.Current.Select(StateTransition.CstrElementLabelViewSettings);
                         if (xpNextElement.MoveNext())
@@ -358,6 +389,7 @@ namespace OneStoryProjectEditor
                             st.IsVernacularVisible = (xpNextElement.Current.GetAttribute(StateTransition.CstrAttributeLabelViewVernacularLangField, navigator.NamespaceURI) == "true");
                             st.IsNationalBTVisible = (xpNextElement.Current.GetAttribute(StateTransition.CstrAttributeLabelViewNationalLangField, navigator.NamespaceURI) == "true");
                             st.IsEnglishBTVisible = (xpNextElement.Current.GetAttribute(StateTransition.CstrAttributeLabelViewEnglishBTField, navigator.NamespaceURI) == "true");
+                            st.IsFreeTranslationVisible = (xpNextElement.Current.GetAttribute(StateTransition.CstrAttributeLabelViewFreeTranslationField, navigator.NamespaceURI) == "true");
                             st.IsAnchorVisible = (xpNextElement.Current.GetAttribute(StateTransition.CstrAttributeLabelViewAnchorField, navigator.NamespaceURI) == "true");
                             st.IsStoryTestingQuestionVisible = (xpNextElement.Current.GetAttribute(StateTransition.CstrAttributeLabelViewStoryTestingQuestions, navigator.NamespaceURI) == "true");
                             st.IsStoryTestingQuestionAnswersVisible = (xpNextElement.Current.GetAttribute(StateTransition.CstrAttributeLabelViewStoryTestingAnswers, navigator.NamespaceURI) == "true");
@@ -375,6 +407,30 @@ namespace OneStoryProjectEditor
                     throw new ApplicationException(String.Format("Unable to process the xml file containing the State Transitions (i.e. {0})... Reinstall.", CstrStateTransitionsXmlFilename), ex);
                 }
             }
+
+#if DoUpdateTo20
+            private void FixupTo2_0(XmlDocument doc, XPathNavigator navigator, XmlNamespaceManager manager)
+            {
+                navigator.MoveToChild(StateTransition.CstrElementLabelProjectStates, navigator.NamespaceURI);
+                navigator.CreateAttribute(navigator.Prefix, "version", navigator.NamespaceURI, XmlDataVersion);
+
+                XPathNodeIterator xpStageTransition = navigator.Select(String.Format("{0}",
+                    StateTransition.CstrElementLabelStateTransition), manager);
+
+                while (xpStageTransition.MoveNext())
+                {
+                    ProjectStages eThisStage =
+                        (ProjectStages)
+                        Enum.Parse(typeof (ProjectStages),
+                                   xpStageTransition.Current.GetAttribute(StateTransition.CstrAttributeLabelStage,
+                                                                          navigator.NamespaceURI));
+
+                    // add the updated bit just before AddAnchors
+                    if (eThisStage == ProjectStages.eProjFacAddAnchors)
+                        xpStageTransition.Current.InsertBefore(Properties.Resources.StageTransition20Update);
+                }
+            }
+#endif
         }
 
         public class AllowableTransitions : List<AllowableTransition>
@@ -403,6 +459,7 @@ namespace OneStoryProjectEditor
                 }
             }
         }
+
         public class AllowableTransition
         {
             public ProjectStages ProjectStage { get; set; }
@@ -469,6 +526,7 @@ namespace OneStoryProjectEditor
             internal bool IsVernacularVisible { get; set; }
             internal bool IsNationalBTVisible { get; set; }
             internal bool IsEnglishBTVisible { get; set; }
+            internal bool IsFreeTranslationVisible { get; set; }
             internal bool IsAnchorVisible { get; set; }
             internal bool IsStoryTestingQuestionVisible { get; set; }
             internal bool IsStoryTestingQuestionAnswersVisible { get; set; }
@@ -494,6 +552,7 @@ namespace OneStoryProjectEditor
             internal bool RequiresUsingNationalBT { get; set; }
             internal bool RequiresUsingEnglishBT { get; set; }
             internal bool HasUsingOtherEnglishBTer { get; set; }
+            internal bool RequiresUsingFreeTranslation { get; set; }
             internal bool RequiresUsingOtherEnglishBTer { get; set; }
             internal bool RequiresFirstPassMentor { get; set; }
             internal bool RequiresBiblicalStory { get; set; }
@@ -533,6 +592,7 @@ namespace OneStoryProjectEditor
                 return ((!RequiresUsingVernacular || storyProjectData.ProjSettings.Vernacular.HasData)
                         && (!RequiresUsingNationalBT || storyProjectData.ProjSettings.NationalBT.HasData)
                         && (!RequiresUsingEnglishBT || storyProjectData.ProjSettings.InternationalBT.HasData)
+                        && (!RequiresUsingFreeTranslation || storyProjectData.ProjSettings.FreeTranslation.HasData)
                         && (!RequiresBiblicalStory || theCurrentStory.CraftingInfo.IsBiblicalStory)
                         && (!RequiresNonBiblicalStory || !theCurrentStory.CraftingInfo.IsBiblicalStory)
                         && (!RequiresFirstPassMentor || storyProjectData.TeamMembers.HasFirstPassMentor)
@@ -555,22 +615,34 @@ namespace OneStoryProjectEditor
                 //  state information) OR it's the only one in existance--i.e. an English story project)
                 theSE.viewVernacularLangFieldMenuItem.Checked = (theSE.StoryProject.ProjSettings.Vernacular.HasData
                     && (IsVernacularVisible 
-                        || (!theSE.StoryProject.ProjSettings.NationalBT.HasData 
-                        && !theSE.StoryProject.ProjSettings.InternationalBT.HasData)));
+                        || (!theSE.StoryProject.ProjSettings.NationalBT.HasData
+                        && !theSE.StoryProject.ProjSettings.InternationalBT.HasData
+                        && !theSE.StoryProject.ProjSettings.FreeTranslation.HasData)));
 
                 // the National BT should be visible if it is configured and either it's supposed to be visible (based on the
                 //  state information) OR it's the only one in existance--i.e. an EnglishBT-only project)
                 theSE.viewNationalLangFieldMenuItem.Checked = (theSE.StoryProject.ProjSettings.NationalBT.HasData
                     && (IsNationalBTVisible
                         || (!theSE.StoryProject.ProjSettings.Vernacular.HasData
-                        && !theSE.StoryProject.ProjSettings.InternationalBT.HasData)));
+                        && !theSE.StoryProject.ProjSettings.InternationalBT.HasData
+                        && !theSE.StoryProject.ProjSettings.FreeTranslation.HasData)));
 
                 // the English BT should be visible if it is configured and either it's supposed to be visible (based on the
                 //  state information) OR it's the only one in existance--i.e. an EnglishBT-only project)
                 theSE.viewEnglishBTFieldMenuItem.Checked = (theSE.StoryProject.ProjSettings.InternationalBT.HasData
                     &&  (IsEnglishBTVisible 
-                        || (!theSE.StoryProject.ProjSettings.Vernacular.HasData 
-                        && !theSE.StoryProject.ProjSettings.NationalBT.HasData)));
+                        || (!theSE.StoryProject.ProjSettings.Vernacular.HasData
+                        && !theSE.StoryProject.ProjSettings.NationalBT.HasData
+                        && !theSE.StoryProject.ProjSettings.FreeTranslation.HasData)));
+
+                // the Free translation should be visible if it is configured and either it's supposed to be visible 
+                //  (based on the state information) OR it's the only one in existance--i.e. a Free Translation-only 
+                //  project)
+                theSE.viewFreeTranslationToolStripMenuItem.Checked = (theSE.StoryProject.ProjSettings.FreeTranslation.HasData
+                    && (IsFreeTranslationVisible
+                        || (!theSE.StoryProject.ProjSettings.Vernacular.HasData
+                        && !theSE.StoryProject.ProjSettings.NationalBT.HasData
+                        && !theSE.StoryProject.ProjSettings.InternationalBT.HasData)));
 
                 theSE.viewAnchorFieldMenuItem.Checked = IsAnchorVisible;
                 theSE.viewStoryTestingQuestionMenuItem.Checked = IsStoryTestingQuestionVisible;
@@ -582,6 +654,7 @@ namespace OneStoryProjectEditor
             }
 #endif
             public const string CstrElementLabelProjectStates = "ProjectStates";
+            public const string CstrAttributeLabelVersion = "version";
             public const string CstrElementLabelStateTransition = "StateTransition";
             public const string CstrAttributeLabelStage = "stage";
             public const string CstrAttributeLabelMemberTypeWithEditToken = "MemberTypeWithEditToken";
@@ -589,6 +662,7 @@ namespace OneStoryProjectEditor
             public const string CstrAttributeLabelRequiresUsingNationalBT = "RequiresUsingNationalBT";
             public const string CstrAttributeLabelRequiresUsingEnglishBT = "RequiresUsingEnglishBT";
             public const string CstrAttributeLableRequiresUsingOtherEnglishBTer = "RequiresUsingOtherEnglishBTer";
+            public const string CstrAttributeLabelRequiresUsingFreeTranslation = "RequiresUsingFreeTranslation";
             public const string CstrAttributeLableRequiresFirstPassMentor = "RequiresFirstPassMentor";
             public const string CstrAttributeLabelRequiresBiblicalStory = "RequiresBiblicalStory";
             public const string CstrAttributeLabelRequiresNonBiblicalStory = "RequiresNonBiblicalStory";
@@ -601,6 +675,7 @@ namespace OneStoryProjectEditor
             public const string CstrAttributeLabelViewVernacularLangField = "viewVernacularLangField";
             public const string CstrAttributeLabelViewNationalLangField = "viewNationalLangField";
             public const string CstrAttributeLabelViewEnglishBTField = "viewEnglishBTField";
+            public const string CstrAttributeLabelViewFreeTranslationField = "viewFreeTranslationField";
             public const string CstrAttributeLabelViewAnchorField = "viewAnchorField";
             public const string CstrAttributeLabelViewStoryTestingQuestions = "viewStoryTestingQuestions";
             public const string CstrAttributeLabelViewStoryTestingAnswers = "viewStoryTestingAnswers";
@@ -629,6 +704,9 @@ namespace OneStoryProjectEditor
                     if (HasUsingOtherEnglishBTer)
                         elem.Add(new XAttribute(CstrAttributeLableRequiresUsingOtherEnglishBTer, RequiresUsingOtherEnglishBTer));
 
+                    if (RequiresUsingFreeTranslation)
+                        elem.Add(new XAttribute(CstrAttributeLabelRequiresUsingFreeTranslation, RequiresUsingFreeTranslation));
+
                     if (RequiresFirstPassMentor)
                         elem.Add(new XAttribute(CstrAttributeLableRequiresFirstPassMentor, RequiresFirstPassMentor));
 
@@ -653,6 +731,7 @@ namespace OneStoryProjectEditor
                                 new XAttribute(CstrAttributeLabelViewVernacularLangField, IsVernacularVisible),
                                 new XAttribute(CstrAttributeLabelViewNationalLangField, IsNationalBTVisible),
                                 new XAttribute(CstrAttributeLabelViewEnglishBTField, IsEnglishBTVisible),
+                                new XAttribute(CstrAttributeLabelViewFreeTranslationField, IsFreeTranslationVisible),
                                 new XAttribute(CstrAttributeLabelViewAnchorField, IsAnchorVisible),
                                 new XAttribute(CstrAttributeLabelViewStoryTestingQuestions, IsStoryTestingQuestionVisible),
                                 new XAttribute(CstrAttributeLabelViewStoryTestingAnswers, IsStoryTestingQuestionAnswersVisible),

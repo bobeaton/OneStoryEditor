@@ -49,6 +49,7 @@ namespace OneStoryProjectEditor
                 bool bDisableTabStopVernacular =
                     ((aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eProjFacTypeNationalBT)
                     || (aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT)
+                    || (aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eProjFacTypeFreeTranslation)
                     || (aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT));
 
                 _aVerseData.VernacularText.Transliterator = ctrlVerse.TransliteratorVernacular;
@@ -72,6 +73,7 @@ namespace OneStoryProjectEditor
                 //  international BT, then disable the National BT as a tab stop.
                 bool bDisableTabStopNationalBT =
                     ((aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT)
+                    || (aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eProjFacTypeFreeTranslation)
                     || (aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT));
 
                 _aVerseData.NationalBTText.Transliterator = ctrlVerse.TransliteratorNationalBT;
@@ -94,8 +96,14 @@ namespace OneStoryProjectEditor
                     InitLabel(aSE.StoryProject.ProjSettings.InternationalBT.LangName, nNumColumns);
 #endif
 
-                CtrlTextBox ctrlTextBoxEnglishBT = InitTextBox(ctrlVerse, VerseData.CstrFieldNameInternationalBt, _aVerseData.InternationalBTText,
-                    aSE.StoryProject.ProjSettings.InternationalBT, false, nNumColumns,
+                // if we're in the one of the states where the user is entering in the 
+                //  international BT, then disable the National BT as a tab stop.
+                bool bDisableTabStopInternationalBT =
+                    (aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eProjFacTypeFreeTranslation);
+
+                CtrlTextBox ctrlTextBoxEnglishBT = InitTextBox(ctrlVerse, 
+                    VerseData.CstrFieldNameInternationalBt, _aVerseData.InternationalBTText,
+                    aSE.StoryProject.ProjSettings.InternationalBT, bDisableTabStopInternationalBT, nNumColumns,
                     StoryEditor.TextFieldType.eInternational);
                 nNumColumns++;
 
@@ -104,6 +112,17 @@ namespace OneStoryProjectEditor
 
                 if (ctrlTextBoxNationalBT != null)
                     ctrlTextBoxNationalBT.EnglishBtSibling = ctrlTextBoxEnglishBT;
+            }
+
+            if (aSE.viewFreeTranslationToolStripMenuItem.Checked)
+            {
+                InsertColumn(nNumColumns);
+
+                InitTextBox(ctrlVerse, 
+                    VerseData.CstrFieldNameFreeTranslation, _aVerseData.FreeTranslationText,
+                    aSE.StoryProject.ProjSettings.FreeTranslation, false, nNumColumns,
+                    StoryEditor.TextFieldType.eFreeTranslation);
+                nNumColumns++;
             }
 
             tableLayoutPanel.ResumeLayout(false);
@@ -121,6 +140,9 @@ namespace OneStoryProjectEditor
             else if (_aVerseData.InternationalBTText.TextBox != null)
                 _aVerseData.InternationalBTText.TextBox.Focus();
 
+            else if (_aVerseData.FreeTranslationText.TextBox != null)
+                _aVerseData.FreeTranslationText.TextBox.Focus();
+
             else
                 return false;
 
@@ -128,11 +150,12 @@ namespace OneStoryProjectEditor
         }
 
         public void GetTextBoxValues(out string strVernacular, out string strNationalBT,
-            out string strEnglishBT)
+            out string strEnglishBT, out string strFreeTranslation)
         {
             _aVerseData.VernacularText.ExtractSelectedText(out strVernacular);
             _aVerseData.NationalBTText.ExtractSelectedText(out strNationalBT);
             _aVerseData.InternationalBTText.ExtractSelectedText(out strEnglishBT);
+            _aVerseData.FreeTranslationText.ExtractSelectedText(out strFreeTranslation);
         }
 
 #if ShowLabelRow

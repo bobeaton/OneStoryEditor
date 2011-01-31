@@ -61,7 +61,8 @@ namespace OneStoryProjectEditor
             eUndefined = 0,
             eVernacular,
             eNational,
-            eInternational
+            eInternational,
+            eFreeTranslation
         }
 
         public enum GlossType
@@ -368,6 +369,8 @@ namespace OneStoryProjectEditor
                 copyNationalBackTranslationToolStripMenuItem.Visible =
                 deleteEnglishBacktranslationToolStripMenuItem.Visible =
                 copyEnglishBackTranslationToolStripMenuItem.Visible =
+                deleteFreeTranslationToolStripMenuItem.Visible =
+                copyFreeTranslationMenuItem.Visible =
                 deleteTestToolStripMenuItem.Visible =
                 /* viewVernacularLangFieldMenuItem.Visible =
                 viewNationalLangFieldMenuItem.Visible =
@@ -901,7 +904,7 @@ namespace OneStoryProjectEditor
             ClearFlowControls();
             int nVerseIndex = 0;
             if (theVerses.Count == 0)
-                theCurrentStory.Verses.InsertVerse(0, null, null, null);
+                theCurrentStory.Verses.InsertVerse(0, null, null, null, null);
 
             flowLayoutPanelVerses.SuspendLayout();
 #if UsingHtmlDisplayForConNotes
@@ -1244,7 +1247,8 @@ namespace OneStoryProjectEditor
                 //  controls and add it.
                 if ((CtrlTextBox._inTextBox == ctrl._verseData.VernacularText.TextBox)
                     || (CtrlTextBox._inTextBox == ctrl._verseData.NationalBTText.TextBox)
-                    || (CtrlTextBox._inTextBox == ctrl._verseData.InternationalBTText.TextBox))
+                    || (CtrlTextBox._inTextBox == ctrl._verseData.InternationalBTText.TextBox)
+                    || (CtrlTextBox._inTextBox == ctrl._verseData.FreeTranslationText.TextBox))
                 {
                     // get selected text from all visible Story line controls
                     if (viewVernacularLangFieldMenuItem.Checked)
@@ -1262,6 +1266,12 @@ namespace OneStoryProjectEditor
                     if (viewEnglishBTFieldMenuItem.Checked)
                     {
                         string str = ctrl._verseData.InternationalBTText.TextBox.SelectedText.Trim();
+                        if (!String.IsNullOrEmpty(str))
+                            strNote += String.Format(" '{0}'", str);
+                    }
+                    if (viewFreeTranslationToolStripMenuItem.Checked)
+                    {
+                        string str = ctrl._verseData.FreeTranslationText.TextBox.SelectedText.Trim();
                         if (!String.IsNullOrEmpty(str))
                             strNote += String.Format(" '{0}'", str);
                     }
@@ -1408,10 +1418,15 @@ namespace OneStoryProjectEditor
             }
         }
 
-        internal void AddNewVerse(int nInsertionIndex, string strVernacular, string strNationalBT, string strInternationalBT)
+        internal void AddNewVerse(int nInsertionIndex, string strVernacular, 
+            string strNationalBT, string strInternationalBT, string strFreeTranslation)
         {
             Debug.Assert((theCurrentStory != null) && (theCurrentStory.Verses != null));
-            theCurrentStory.Verses.InsertVerse(nInsertionIndex, strVernacular, strNationalBT, strInternationalBT);
+            theCurrentStory.Verses.InsertVerse(nInsertionIndex,
+                                               strVernacular, 
+                                               strNationalBT, 
+                                               strInternationalBT,
+                                               strFreeTranslation);
             InitAllPanes();
 
             Modified = true;
@@ -2216,6 +2231,7 @@ namespace OneStoryProjectEditor
                 && (theCurrentStory.Verses.Count > 0))
             {
                 useAdaptItForBacktranslationToolStripMenuItem.Enabled = true;
+
                 if (StoryProject.ProjSettings.Vernacular.HasData && StoryProject.ProjSettings.NationalBT.HasData)
                     storyAdaptItVernacularToNationalMenuItem.Text = String.Format(Properties.Resources.IDS_AdaptItFromTo, 
                         StoryProject.ProjSettings.Vernacular.LangName, 
@@ -2361,11 +2377,13 @@ namespace OneStoryProjectEditor
                 copyToolStripMenuItem.Enabled =
                 copyNationalBackTranslationToolStripMenuItem.Enabled =
                 copyEnglishBackTranslationToolStripMenuItem.Enabled =
+                copyFreeTranslationMenuItem.Enabled =
                 ((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
 
             deleteBackTranslationToolStripMenuItem.Enabled =
                 deleteStoryNationalBackTranslationToolStripMenuItem.Enabled =
                 deleteEnglishBacktranslationToolStripMenuItem.Enabled =
+                deleteFreeTranslationToolStripMenuItem.Enabled =
                 editAddTestResultsToolStripMenuItem.Enabled =
                 (IsInStoriesSet && (theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
 
@@ -2395,6 +2413,10 @@ namespace OneStoryProjectEditor
                 if (!StoryProject.ProjSettings.InternationalBT.HasData)
                     deleteEnglishBacktranslationToolStripMenuItem.Visible =
                         copyEnglishBackTranslationToolStripMenuItem.Visible = false;
+
+                if (!StoryProject.ProjSettings.FreeTranslation.HasData)
+                    deleteFreeTranslationToolStripMenuItem.Visible =
+                        copyFreeTranslationMenuItem.Visible = false;
 
                 if (theCurrentStory.CraftingInfo.Testors.Count > 0)
                 {
@@ -2658,6 +2680,29 @@ namespace OneStoryProjectEditor
             }
         }
 
+        protected string GetFullStoryContentsFreeTranslationText
+        {
+            get
+            {
+                Debug.Assert((theCurrentStory != null)
+                    && (theCurrentStory.Verses.Count > 0));
+
+                VerseData aVerse = theCurrentStory.Verses[0];
+                string strText = null;
+                if (aVerse.IsVisible)
+                    strText = aVerse.FreeTranslationText.ToString();
+
+                for (int i = 1; i < theCurrentStory.Verses.Count; i++)
+                {
+                    aVerse = theCurrentStory.Verses[i];
+                    if (aVerse.IsVisible && aVerse.FreeTranslationText.HasData)
+                        strText += ' ' + aVerse.FreeTranslationText.ToString();
+                }
+
+                return strText;
+            }
+        }
+
         protected void PutOnClipboard(string strText)
         {
             try
@@ -2700,6 +2745,16 @@ namespace OneStoryProjectEditor
             string strStory = GetFullStoryContentsInternationalBTText;
             PutOnClipboard(strStory);
         }
+
+        private void copyFreeTranslationMenuItem_Click(object sender, EventArgs e)
+        {
+            // iterate thru the verses and copy them to the clipboard
+            Debug.Assert((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
+
+            string strStory = GetFullStoryContentsFreeTranslationText;
+            PutOnClipboard(strStory);
+        }
+
         /*
         private void exportStoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2762,6 +2817,23 @@ namespace OneStoryProjectEditor
                 {
                     foreach (VerseData aVerse in theCurrentStory.Verses)
                         aVerse.InternationalBTText.SetValue(null);
+                    ReInitVerseControls();
+                    Modified = true;
+                }
+        }
+
+        private void deleteFreeTranslationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Debug.Assert((theCurrentStory != null) && (sender is ToolStripItem));
+
+            ToolStripItem tsi = sender as ToolStripItem;
+            if (tsi != null)
+                if (MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmDeleteAllVerseLines,
+                                                  tsi.Text.Replace("&", null)), OseResources.Properties.Resources.IDS_Caption,
+                                    MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+                {
+                    foreach (VerseData aVerse in theCurrentStory.Verses)
+                        aVerse.FreeTranslationText.SetValue(null);
                     ReInitVerseControls();
                     Modified = true;
                 }
@@ -3078,6 +3150,7 @@ namespace OneStoryProjectEditor
                 viewVernacularLangFieldMenuItem.Visible = StoryProject.ProjSettings.Vernacular.HasData;
                 viewNationalLangFieldMenuItem.Visible = StoryProject.ProjSettings.NationalBT.HasData;
                 viewEnglishBTFieldMenuItem.Visible = StoryProject.ProjSettings.InternationalBT.HasData;
+                viewFreeTranslationToolStripMenuItem.Visible = StoryProject.ProjSettings.FreeTranslation.HasData;
             }
         }
 
@@ -3091,6 +3164,7 @@ namespace OneStoryProjectEditor
                                              viewVernacularLangFieldMenuItem.Checked,
                                              viewNationalLangFieldMenuItem.Checked,
                                              viewEnglishBTFieldMenuItem.Checked,
+                                             viewFreeTranslationToolStripMenuItem.Checked,
                                              viewAnchorFieldMenuItem.Checked,
                                              viewStoryTestingQuestionMenuItem.Checked,
                                              viewStoryTestingQuestionAnswerMenuItem.Checked,
@@ -3146,6 +3220,13 @@ namespace OneStoryProjectEditor
                 viewEnglishBTFieldMenuItem.Enabled = ((theCurrentStory != null)
                                                              && (((int)theCurrentStory.ProjStage.ProjectStage)
                                                                  >= (int)StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT));
+
+                viewFreeTranslationToolStripMenuItem.Enabled = ((theCurrentStory != null)
+                                                                && (((int) theCurrentStory.ProjStage.ProjectStage)
+                                                                    >=
+                                                                    (int)
+                                                                    StoryStageLogic.ProjectStages.
+                                                                        eProjFacTypeFreeTranslation));
 
                 viewAnchorFieldMenuItem.Enabled = ((theCurrentStory != null)
                                                              && (((int)theCurrentStory.ProjStage.ProjectStage)
@@ -3257,6 +3338,14 @@ namespace OneStoryProjectEditor
             return lstSentences;
         }
 
+        protected List<string> GetSentencesFreeTranslation(VerseData aVerseData)
+        {
+            string strSentenceFinalPunct = StoryProject.ProjSettings.FreeTranslation.FullStop;
+            List<string> lstSentences;
+            CheckEndOfStateTransition.GetListOfSentences(aVerseData.FreeTranslationText, strSentenceFinalPunct, out lstSentences);
+            return lstSentences;
+        }
+
         protected string GetSentence(int nIndex, List<string> lstSentences)
         {
             if ((lstSentences != null) && (lstSentences.Count > nIndex))
@@ -3278,18 +3367,23 @@ namespace OneStoryProjectEditor
             string strVernacular = GetFullStoryContentsVernacular;
             string strNationalBT = GetFullStoryContentsNationalBTText;
             string strEnglishBT = GetFullStoryContentsInternationalBTText;
+            string strFreeTranslation = GetFullStoryContentsFreeTranslationText;
 
             theCurrentStory.Verses.RemoveRange(0, theCurrentStory.Verses.Count);
             theCurrentStory.Verses.InsertVerse(0, strVernacular, strNationalBT,
-                strEnglishBT);
+                strEnglishBT, strFreeTranslation);
 
             // then split into lines
             VerseData aVerseData = theCurrentStory.Verses[0];
             List<string> lstSentencesVernacular = GetSentencesVernacular(aVerseData);
             List<string> lstSentencesNationalBT = GetSentencesNationalBT(aVerseData);
             List<string> lstSentencesEnglishBT = GetSentencesEnglishBT(aVerseData);
+            List<string> lstSentencesFreeTranslation = GetSentencesFreeTranslation(aVerseData);
+
             int nNumVerses = Math.Max(lstSentencesVernacular.Count,
-                Math.Max(lstSentencesNationalBT.Count, lstSentencesEnglishBT.Count));
+                                      Math.Max(lstSentencesNationalBT.Count,
+                                               Math.Max(lstSentencesEnglishBT.Count,
+                                                        lstSentencesFreeTranslation.Count)));
 
             // remove what's there so we can add the new ones from scratch
             theCurrentStory.Verses.Remove(aVerseData);
@@ -3299,7 +3393,8 @@ namespace OneStoryProjectEditor
                 theCurrentStory.Verses.InsertVerse(i,
                     GetSentence(i, lstSentencesVernacular),
                     GetSentence(i, lstSentencesNationalBT),
-                    GetSentence(i, lstSentencesEnglishBT));
+                    GetSentence(i, lstSentencesEnglishBT),
+                    GetSentence(i, lstSentencesFreeTranslation));
             }
 
             Modified = true;
@@ -3322,8 +3417,12 @@ namespace OneStoryProjectEditor
                 List<string> lstSentencesVernacular = GetSentencesVernacular(aVerseData);
                 List<string> lstSentencesNationalBT = GetSentencesNationalBT(aVerseData);
                 List<string> lstSentencesEnglishBT = GetSentencesEnglishBT(aVerseData);
+                List<string> lstSentencesFreeTranslation = GetSentencesFreeTranslation(aVerseData);
+
                 int nNumVerses = Math.Max(lstSentencesVernacular.Count,
-                    Math.Max(lstSentencesNationalBT.Count, lstSentencesEnglishBT.Count));
+                                          Math.Max(lstSentencesNationalBT.Count,
+                                                   Math.Max(lstSentencesEnglishBT.Count,
+                                                            lstSentencesFreeTranslation.Count)));
 
                 // remove what's there so we can add the new ones from scratch
                 theCurrentStory.Verses.Remove(aVerseData);
@@ -3333,7 +3432,8 @@ namespace OneStoryProjectEditor
                     theCurrentStory.Verses.InsertVerse(i,
                         GetSentence(i, lstSentencesVernacular),
                         GetSentence(i, lstSentencesNationalBT),
-                        GetSentence(i, lstSentencesEnglishBT));
+                        GetSentence(i, lstSentencesEnglishBT),
+                        GetSentence(i, lstSentencesFreeTranslation));
                 }
             }
             else
@@ -3342,10 +3442,11 @@ namespace OneStoryProjectEditor
                 string strVernacular = GetFullStoryContentsVernacular;
                 string strNationalBT = GetFullStoryContentsNationalBTText;
                 string strEnglishBT = GetFullStoryContentsInternationalBTText;
+                string strFreeTranslation = GetFullStoryContentsFreeTranslationText;
 
                 theCurrentStory.Verses.RemoveRange(0, theCurrentStory.Verses.Count);
                 theCurrentStory.Verses.InsertVerse(0, strVernacular, strNationalBT,
-                    strEnglishBT);
+                    strEnglishBT, strFreeTranslation);
             }
 
             Modified = true;
@@ -3411,6 +3512,10 @@ namespace OneStoryProjectEditor
             bSomethingChanged |= InsureVisible(viewEnglishBTFieldMenuItem,
                                                viewItemToInsureOn.IsViewItemOn(
                                                    VerseData.ViewSettings.ItemToInsureOn.EnglishBTField),
+                                               bDoOffToo);
+            bSomethingChanged |= InsureVisible(viewFreeTranslationToolStripMenuItem,
+                                               viewItemToInsureOn.IsViewItemOn(
+                                                   VerseData.ViewSettings.ItemToInsureOn.FreeTranslationField),
                                                bDoOffToo);
             bSomethingChanged |= InsureVisible(viewAnchorFieldMenuItem,
                                                viewItemToInsureOn.IsViewItemOn(
@@ -4027,13 +4132,14 @@ namespace OneStoryProjectEditor
 
         internal void concordanceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string strVernacular = null, strNationalBT = null, strInternationalBT = null;
-            GetSelectedLanguageText(ref strVernacular, ref strNationalBT, ref strInternationalBT);
-            ConcordanceForm dlg = new ConcordanceForm(this, strVernacular, strNationalBT, strInternationalBT);
+            string strVernacular = null, strNationalBT = null, strInternationalBT = null, strFreeTranslation = null;
+            GetSelectedLanguageText(ref strVernacular, ref strNationalBT, ref strInternationalBT, ref strFreeTranslation);
+            ConcordanceForm dlg = new ConcordanceForm(this, strVernacular, strNationalBT, strInternationalBT, strFreeTranslation);
             dlg.Show();
         }
 
-        private void GetSelectedLanguageText(ref string strVernacular, ref string strNationalBT, ref string strInternationalBT)
+        private void GetSelectedLanguageText(ref string strVernacular, ref string strNationalBT, 
+            ref string strInternationalBT, ref string strFreeTranslation)
         {
             if ((CtrlTextBox._inTextBox != null) && (CtrlTextBox._nLastVerse > 0))
             {
@@ -4059,6 +4165,11 @@ namespace OneStoryProjectEditor
                             Debug.Assert(theVerse._verseData.InternationalBTText.TextBox != null);
                             strInternationalBT = theVerse._verseData.InternationalBTText.TextBox.SelectedText;
                         }
+                        if (viewFreeTranslationToolStripMenuItem.Checked)
+                        {
+                            Debug.Assert(theVerse._verseData.FreeTranslationText.TextBox != null);
+                            strFreeTranslation = theVerse._verseData.FreeTranslationText.TextBox.SelectedText;
+                        }
                     }
                 }
             }
@@ -4072,8 +4183,9 @@ namespace OneStoryProjectEditor
 
         internal void AddLnCNote()
         {
-            string strVernacular = null, strNationalBT = null, strInternationalBT = null;
-            GetSelectedLanguageText(ref strVernacular, ref strNationalBT, ref strInternationalBT);
+            string strVernacular = null, strNationalBT = null, strInternationalBT = null,
+                strDummy = null;
+            GetSelectedLanguageText(ref strVernacular, ref strNationalBT, ref strInternationalBT, ref strDummy);
             var dlg = new AddLnCNoteForm(this, strVernacular, strNationalBT, strInternationalBT);
             if (dlg.ShowDialog() == DialogResult.OK)
             {

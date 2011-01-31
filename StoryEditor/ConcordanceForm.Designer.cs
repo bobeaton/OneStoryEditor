@@ -42,6 +42,8 @@
             this.buttonBeginSearch = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.helpProvider = new System.Windows.Forms.HelpProvider();
+            this.labelFreeTranslation = new System.Windows.Forms.Label();
+            this.textBoxWordsToSearchForFreeTranslation = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -50,11 +52,12 @@
             this.tableLayoutPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel.ColumnCount = 4;
+            this.tableLayoutPanel.ColumnCount = 5;
             this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel.Controls.Add(this.labelVernacular, 1, 0);
             this.tableLayoutPanel.Controls.Add(this.labelNationalBT, 2, 0);
             this.tableLayoutPanel.Controls.Add(this.labelInternationalBT, 3, 0);
@@ -64,6 +67,8 @@
             this.tableLayoutPanel.Controls.Add(this.webBrowser, 0, 2);
             this.tableLayoutPanel.Controls.Add(this.progressBarLoadingKeyTerms, 0, 3);
             this.tableLayoutPanel.Controls.Add(this.buttonBeginSearch, 0, 1);
+            this.tableLayoutPanel.Controls.Add(this.labelFreeTranslation, 4, 0);
+            this.tableLayoutPanel.Controls.Add(this.textBoxWordsToSearchForFreeTranslation, 4, 1);
             this.tableLayoutPanel.Location = new System.Drawing.Point(12, 12);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
             this.tableLayoutPanel.RowCount = 4;
@@ -71,7 +76,6 @@
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel.Size = new System.Drawing.Size(744, 444);
             this.tableLayoutPanel.TabIndex = 0;
             // 
@@ -81,7 +85,7 @@
             this.labelVernacular.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelVernacular.Location = new System.Drawing.Point(84, 0);
             this.labelVernacular.Name = "labelVernacular";
-            this.labelVernacular.Size = new System.Drawing.Size(215, 13);
+            this.labelVernacular.Size = new System.Drawing.Size(159, 13);
             this.labelVernacular.TabIndex = 7;
             this.labelVernacular.Text = "Vernacular";
             this.labelVernacular.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -90,9 +94,9 @@
             // 
             this.labelNationalBT.AutoSize = true;
             this.labelNationalBT.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelNationalBT.Location = new System.Drawing.Point(305, 0);
+            this.labelNationalBT.Location = new System.Drawing.Point(249, 0);
             this.labelNationalBT.Name = "labelNationalBT";
-            this.labelNationalBT.Size = new System.Drawing.Size(215, 13);
+            this.labelNationalBT.Size = new System.Drawing.Size(159, 13);
             this.labelNationalBT.TabIndex = 7;
             this.labelNationalBT.Text = "National BT";
             this.labelNationalBT.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -101,9 +105,9 @@
             // 
             this.labelInternationalBT.AutoSize = true;
             this.labelInternationalBT.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelInternationalBT.Location = new System.Drawing.Point(526, 0);
+            this.labelInternationalBT.Location = new System.Drawing.Point(414, 0);
             this.labelInternationalBT.Name = "labelInternationalBT";
-            this.labelInternationalBT.Size = new System.Drawing.Size(215, 13);
+            this.labelInternationalBT.Size = new System.Drawing.Size(159, 13);
             this.labelInternationalBT.TabIndex = 7;
             this.labelInternationalBT.Text = "English";
             this.labelInternationalBT.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -116,7 +120,7 @@
             this.textBoxWordsToSearchForVernacular.Location = new System.Drawing.Point(84, 16);
             this.textBoxWordsToSearchForVernacular.Name = "textBoxWordsToSearchForVernacular";
             this.helpProvider.SetShowHelp(this.textBoxWordsToSearchForVernacular, true);
-            this.textBoxWordsToSearchForVernacular.Size = new System.Drawing.Size(215, 20);
+            this.textBoxWordsToSearchForVernacular.Size = new System.Drawing.Size(159, 20);
             this.textBoxWordsToSearchForVernacular.TabIndex = 0;
             this.textBoxWordsToSearchForVernacular.Text = "word1, word2, \"phrase 3\"";
             this.toolTip.SetToolTip(this.textBoxWordsToSearchForVernacular, "Enter the word(s) to search. Press F1 for further instructions on how to enter da" +
@@ -127,10 +131,10 @@
             this.textBoxWordsToSearchForNationalBT.AcceptsReturn = true;
             this.textBoxWordsToSearchForNationalBT.Dock = System.Windows.Forms.DockStyle.Fill;
             this.helpProvider.SetHelpString(this.textBoxWordsToSearchForNationalBT, resources.GetString("textBoxWordsToSearchForNationalBT.HelpString"));
-            this.textBoxWordsToSearchForNationalBT.Location = new System.Drawing.Point(305, 16);
+            this.textBoxWordsToSearchForNationalBT.Location = new System.Drawing.Point(249, 16);
             this.textBoxWordsToSearchForNationalBT.Name = "textBoxWordsToSearchForNationalBT";
             this.helpProvider.SetShowHelp(this.textBoxWordsToSearchForNationalBT, true);
-            this.textBoxWordsToSearchForNationalBT.Size = new System.Drawing.Size(215, 20);
+            this.textBoxWordsToSearchForNationalBT.Size = new System.Drawing.Size(159, 20);
             this.textBoxWordsToSearchForNationalBT.TabIndex = 0;
             this.textBoxWordsToSearchForNationalBT.Text = "word1, word2, \"phrase 3\"";
             this.toolTip.SetToolTip(this.textBoxWordsToSearchForNationalBT, "Enter the word(s) to search. Press F1 for further instructions on how to enter da" +
@@ -141,10 +145,10 @@
             this.textBoxWordsToSearchForInternationalBT.AcceptsReturn = true;
             this.textBoxWordsToSearchForInternationalBT.Dock = System.Windows.Forms.DockStyle.Fill;
             this.helpProvider.SetHelpString(this.textBoxWordsToSearchForInternationalBT, resources.GetString("textBoxWordsToSearchForInternationalBT.HelpString"));
-            this.textBoxWordsToSearchForInternationalBT.Location = new System.Drawing.Point(526, 16);
+            this.textBoxWordsToSearchForInternationalBT.Location = new System.Drawing.Point(414, 16);
             this.textBoxWordsToSearchForInternationalBT.Name = "textBoxWordsToSearchForInternationalBT";
             this.helpProvider.SetShowHelp(this.textBoxWordsToSearchForInternationalBT, true);
-            this.textBoxWordsToSearchForInternationalBT.Size = new System.Drawing.Size(215, 20);
+            this.textBoxWordsToSearchForInternationalBT.Size = new System.Drawing.Size(159, 20);
             this.textBoxWordsToSearchForInternationalBT.TabIndex = 0;
             this.textBoxWordsToSearchForInternationalBT.Text = "word1, word2, \"phrase 3\"";
             this.toolTip.SetToolTip(this.textBoxWordsToSearchForInternationalBT, "Enter the word(s) to search. Press F1 for further instructions on how to enter da" +
@@ -152,7 +156,7 @@
             // 
             // webBrowser
             // 
-            this.tableLayoutPanel.SetColumnSpan(this.webBrowser, 4);
+            this.tableLayoutPanel.SetColumnSpan(this.webBrowser, 5);
             this.webBrowser.DefaultComposeSettings.BackColor = System.Drawing.Color.White;
             this.webBrowser.DefaultComposeSettings.DefaultFont = new System.Drawing.Font("Arial", 10F);
             this.webBrowser.DefaultComposeSettings.Enabled = false;
@@ -183,7 +187,7 @@
             this.progressBarLoadingKeyTerms.Dock = System.Windows.Forms.DockStyle.Fill;
             this.progressBarLoadingKeyTerms.Location = new System.Drawing.Point(3, 418);
             this.progressBarLoadingKeyTerms.Name = "progressBarLoadingKeyTerms";
-            this.progressBarLoadingKeyTerms.Size = new System.Drawing.Size(738, 23);
+            this.progressBarLoadingKeyTerms.Size = new System.Drawing.Size(570, 23);
             this.progressBarLoadingKeyTerms.TabIndex = 6;
             this.progressBarLoadingKeyTerms.Visible = false;
             // 
@@ -200,6 +204,29 @@
             this.toolTip.SetToolTip(this.buttonBeginSearch, "Click here to begin searching");
             this.buttonBeginSearch.UseVisualStyleBackColor = true;
             this.buttonBeginSearch.Click += new System.EventHandler(this.buttonBeginSearch_Click);
+            // 
+            // labelFreeTranslation
+            // 
+            this.labelFreeTranslation.AutoSize = true;
+            this.labelFreeTranslation.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelFreeTranslation.Location = new System.Drawing.Point(579, 0);
+            this.labelFreeTranslation.Name = "labelFreeTranslation";
+            this.labelFreeTranslation.Size = new System.Drawing.Size(162, 13);
+            this.labelFreeTranslation.TabIndex = 7;
+            this.labelFreeTranslation.Text = "Free Translation";
+            this.labelFreeTranslation.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // textBoxWordsToSearchForFreeTranslation
+            // 
+            this.textBoxWordsToSearchForFreeTranslation.AcceptsReturn = true;
+            this.textBoxWordsToSearchForFreeTranslation.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.helpProvider.SetHelpString(this.textBoxWordsToSearchForFreeTranslation, resources.GetString("textBoxWordsToSearchForFreeTranslation.HelpString"));
+            this.textBoxWordsToSearchForFreeTranslation.Location = new System.Drawing.Point(579, 16);
+            this.textBoxWordsToSearchForFreeTranslation.Name = "textBoxWordsToSearchForFreeTranslation";
+            this.helpProvider.SetShowHelp(this.textBoxWordsToSearchForFreeTranslation, true);
+            this.textBoxWordsToSearchForFreeTranslation.Size = new System.Drawing.Size(162, 20);
+            this.textBoxWordsToSearchForFreeTranslation.TabIndex = 0;
+            this.textBoxWordsToSearchForFreeTranslation.Text = "word1, word2, \"phrase 3\"";
             // 
             // ConcordanceForm
             // 
@@ -235,5 +262,7 @@
         private System.Windows.Forms.TextBox textBoxWordsToSearchForNationalBT;
         private System.Windows.Forms.TextBox textBoxWordsToSearchForInternationalBT;
         private System.Windows.Forms.TextBox textBoxWordsToSearchForVernacular;
+        private System.Windows.Forms.Label labelFreeTranslation;
+        private System.Windows.Forms.TextBox textBoxWordsToSearchForFreeTranslation;
     }
 }

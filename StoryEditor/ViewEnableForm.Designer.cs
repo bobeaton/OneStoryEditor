@@ -47,6 +47,7 @@
             this.buttonOK = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.checkBoxUseForAllStories = new System.Windows.Forms.CheckBox();
+            this.checkBoxLangFreeTranslation = new System.Windows.Forms.CheckBox();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -60,6 +61,7 @@
             this.flowLayoutPanel1.Controls.Add(this.checkBoxLangNationalBT);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxLangTransliterateNationalBT);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxLangInternationalBT);
+            this.flowLayoutPanel1.Controls.Add(this.checkBoxLangFreeTranslation);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxAnchors);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxStoryTestingQuestions);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxAnswers);
@@ -72,7 +74,7 @@
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(13, 13);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(325, 331);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(325, 359);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // checkBoxLangVernacular
@@ -132,7 +134,7 @@
             // checkBoxAnchors
             // 
             this.checkBoxAnchors.AutoSize = true;
-            this.checkBoxAnchors.Location = new System.Drawing.Point(3, 118);
+            this.checkBoxAnchors.Location = new System.Drawing.Point(3, 141);
             this.checkBoxAnchors.Name = "checkBoxAnchors";
             this.checkBoxAnchors.Size = new System.Drawing.Size(65, 17);
             this.checkBoxAnchors.TabIndex = 3;
@@ -142,7 +144,7 @@
             // checkBoxStoryTestingQuestions
             // 
             this.checkBoxStoryTestingQuestions.AutoSize = true;
-            this.checkBoxStoryTestingQuestions.Location = new System.Drawing.Point(3, 141);
+            this.checkBoxStoryTestingQuestions.Location = new System.Drawing.Point(3, 164);
             this.checkBoxStoryTestingQuestions.Name = "checkBoxStoryTestingQuestions";
             this.checkBoxStoryTestingQuestions.Size = new System.Drawing.Size(132, 17);
             this.checkBoxStoryTestingQuestions.TabIndex = 4;
@@ -152,7 +154,7 @@
             // checkBoxAnswers
             // 
             this.checkBoxAnswers.AutoSize = true;
-            this.checkBoxAnswers.Location = new System.Drawing.Point(3, 164);
+            this.checkBoxAnswers.Location = new System.Drawing.Point(3, 187);
             this.checkBoxAnswers.Name = "checkBoxAnswers";
             this.checkBoxAnswers.Size = new System.Drawing.Size(169, 17);
             this.checkBoxAnswers.TabIndex = 9;
@@ -162,7 +164,7 @@
             // checkBoxRetellings
             // 
             this.checkBoxRetellings.AutoSize = true;
-            this.checkBoxRetellings.Location = new System.Drawing.Point(3, 187);
+            this.checkBoxRetellings.Location = new System.Drawing.Point(3, 210);
             this.checkBoxRetellings.Name = "checkBoxRetellings";
             this.checkBoxRetellings.Size = new System.Drawing.Size(72, 17);
             this.checkBoxRetellings.TabIndex = 5;
@@ -172,7 +174,7 @@
             // checkBoxConsultantNotes
             // 
             this.checkBoxConsultantNotes.AutoSize = true;
-            this.checkBoxConsultantNotes.Location = new System.Drawing.Point(3, 210);
+            this.checkBoxConsultantNotes.Location = new System.Drawing.Point(3, 233);
             this.checkBoxConsultantNotes.Name = "checkBoxConsultantNotes";
             this.checkBoxConsultantNotes.Size = new System.Drawing.Size(105, 17);
             this.checkBoxConsultantNotes.TabIndex = 6;
@@ -182,7 +184,7 @@
             // checkBoxCoachNotes
             // 
             this.checkBoxCoachNotes.AutoSize = true;
-            this.checkBoxCoachNotes.Location = new System.Drawing.Point(3, 233);
+            this.checkBoxCoachNotes.Location = new System.Drawing.Point(3, 256);
             this.checkBoxCoachNotes.Name = "checkBoxCoachNotes";
             this.checkBoxCoachNotes.Size = new System.Drawing.Size(86, 17);
             this.checkBoxCoachNotes.TabIndex = 7;
@@ -193,7 +195,7 @@
             // 
             this.checkBoxOpenConNotesOnly.AutoSize = true;
             this.checkBoxOpenConNotesOnly.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxOpenConNotesOnly.Location = new System.Drawing.Point(3, 256);
+            this.checkBoxOpenConNotesOnly.Location = new System.Drawing.Point(3, 279);
             this.checkBoxOpenConNotesOnly.Name = "checkBoxOpenConNotesOnly";
             this.checkBoxOpenConNotesOnly.Size = new System.Drawing.Size(218, 17);
             this.checkBoxOpenConNotesOnly.TabIndex = 16;
@@ -203,7 +205,7 @@
             // checkBoxBibleViewer
             // 
             this.checkBoxBibleViewer.AutoSize = true;
-            this.checkBoxBibleViewer.Location = new System.Drawing.Point(3, 279);
+            this.checkBoxBibleViewer.Location = new System.Drawing.Point(3, 302);
             this.checkBoxBibleViewer.Name = "checkBoxBibleViewer";
             this.checkBoxBibleViewer.Size = new System.Drawing.Size(83, 17);
             this.checkBoxBibleViewer.TabIndex = 8;
@@ -213,7 +215,7 @@
             // checkBoxShowHidden
             // 
             this.checkBoxShowHidden.AutoSize = true;
-            this.checkBoxShowHidden.Location = new System.Drawing.Point(3, 302);
+            this.checkBoxShowHidden.Location = new System.Drawing.Point(3, 325);
             this.checkBoxShowHidden.Name = "checkBoxShowHidden";
             this.checkBoxShowHidden.Size = new System.Drawing.Size(122, 17);
             this.checkBoxShowHidden.TabIndex = 15;
@@ -223,7 +225,7 @@
             // buttonOK
             // 
             this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonOK.Location = new System.Drawing.Point(97, 380);
+            this.buttonOK.Location = new System.Drawing.Point(97, 408);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(75, 23);
             this.buttonOK.TabIndex = 1;
@@ -235,7 +237,7 @@
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(178, 380);
+            this.buttonCancel.Location = new System.Drawing.Point(178, 408);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 2;
@@ -246,12 +248,22 @@
             // 
             this.checkBoxUseForAllStories.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.checkBoxUseForAllStories.AutoSize = true;
-            this.checkBoxUseForAllStories.Location = new System.Drawing.Point(16, 350);
+            this.checkBoxUseForAllStories.Location = new System.Drawing.Point(16, 378);
             this.checkBoxUseForAllStories.Name = "checkBoxUseForAllStories";
             this.checkBoxUseForAllStories.Size = new System.Drawing.Size(174, 17);
             this.checkBoxUseForAllStories.TabIndex = 8;
             this.checkBoxUseForAllStories.Text = "&Use these settings for all stories";
             this.checkBoxUseForAllStories.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxLangFreeTranslation
+            // 
+            this.checkBoxLangFreeTranslation.AutoSize = true;
+            this.checkBoxLangFreeTranslation.Location = new System.Drawing.Point(3, 118);
+            this.checkBoxLangFreeTranslation.Name = "checkBoxLangFreeTranslation";
+            this.checkBoxLangFreeTranslation.Size = new System.Drawing.Size(125, 17);
+            this.checkBoxLangFreeTranslation.TabIndex = 17;
+            this.checkBoxLangFreeTranslation.Text = "&Free translation fields";
+            this.checkBoxLangFreeTranslation.UseVisualStyleBackColor = true;
             // 
             // ViewEnableForm
             // 
@@ -259,7 +271,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(350, 415);
+            this.ClientSize = new System.Drawing.Size(350, 443);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOK);
             this.Controls.Add(this.flowLayoutPanel1);
@@ -296,5 +308,6 @@
         private System.Windows.Forms.CheckBox checkBoxLangTransliterateNationalBT;
         private System.Windows.Forms.CheckBox checkBoxShowHidden;
         private System.Windows.Forms.CheckBox checkBoxOpenConNotesOnly;
+        private System.Windows.Forms.CheckBox checkBoxLangFreeTranslation;
     }
 }

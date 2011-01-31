@@ -69,6 +69,10 @@ namespace OneStoryProjectEditor
                 checkBoxLangInternationalBT.Visible = 
                 theSE.StoryProject.ProjSettings.InternationalBT.HasData;
 
+            checkBoxLangFreeTranslation.Checked =
+                checkBoxLangFreeTranslation.Visible =
+                theSE.StoryProject.ProjSettings.FreeTranslation.HasData;
+
             checkBoxShowHidden.Checked = theSE.hiddenVersesToolStripMenuItem.Checked;
 
             try
@@ -99,6 +103,7 @@ namespace OneStoryProjectEditor
                     checkBoxLangVernacular.Checked,
                     checkBoxLangNationalBT.Checked,
                     checkBoxLangInternationalBT.Checked,
+                    checkBoxLangFreeTranslation.Checked,
                     checkBoxAnchors.Checked,
                     checkBoxStoryTestingQuestions.Checked,
                     checkBoxAnswers.Checked,

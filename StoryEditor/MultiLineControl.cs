@@ -44,7 +44,7 @@ namespace OneStoryProjectEditor
         {
             Label label = new Label
                               {
-                                  Anchor = AnchorStyles.Left,
+                                  Anchor = AnchorStyles.Right,
                                   AutoSize = true,
                                   Name = strLabelTextFormat + nTest,
                                   Text = String.Format(strLabelTextFormat, nTest)

@@ -61,11 +61,13 @@ namespace OneStoryProjectEditor
             this.copyStoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyNationalBackTranslationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyEnglishBackTranslationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyFreeTranslationMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteBackTranslationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteStoryVersesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteStoryNationalBackTranslationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteEnglishBacktranslationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteFreeTranslationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteTestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.editFindToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -80,6 +82,7 @@ namespace OneStoryProjectEditor
             this.viewVernacularLangFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewNationalLangFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewEnglishBTFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewFreeTranslationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewAnchorFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewStoryTestingQuestionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewStoryTestingQuestionAnswerMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -113,6 +116,11 @@ namespace OneStoryProjectEditor
             this.storyCopyWithNewNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitIntoLinesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.realignStoryVersesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
+            this.useAdaptItForBacktranslationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.storyAdaptItVernacularToNationalMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.storyAdaptItVernacularToEnglishMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.storyAdaptItNationalToEnglishMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panoramaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insertNewStoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addNewStoryAfterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -146,11 +154,6 @@ namespace OneStoryProjectEditor
             this.buttonsStoryStage = new System.Windows.Forms.ToolStripSplitButton();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
-            this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
-            this.useAdaptItForBacktranslationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.storyAdaptItVernacularToNationalMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.storyAdaptItVernacularToEnglishMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.storyAdaptItNationalToEnglishMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainerUpDown = new OneStoryProjectEditor.MinimizableSplitterContainer();
             this.linkLabelVerseBT = new System.Windows.Forms.LinkLabel();
             this.flowLayoutPanelVerses = new OneStoryProjectEditor.VerseBtLineFlowLayoutPanel();
@@ -376,7 +379,8 @@ namespace OneStoryProjectEditor
             this.editCopySelectionToolStripMenuItem,
             this.copyStoryToolStripMenuItem,
             this.copyNationalBackTranslationToolStripMenuItem,
-            this.copyEnglishBackTranslationToolStripMenuItem});
+            this.copyEnglishBackTranslationToolStripMenuItem,
+            this.copyFreeTranslationMenuItem});
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
             this.copyToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.copyToolStripMenuItem.Text = "&Copy";
@@ -384,7 +388,7 @@ namespace OneStoryProjectEditor
             // editCopySelectionToolStripMenuItem
             // 
             this.editCopySelectionToolStripMenuItem.Name = "editCopySelectionToolStripMenuItem";
-            this.editCopySelectionToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
+            this.editCopySelectionToolStripMenuItem.Size = new System.Drawing.Size(386, 22);
             this.editCopySelectionToolStripMenuItem.Text = "Sele&ction";
             this.editCopySelectionToolStripMenuItem.ToolTipText = "Copy the selected text from the active text box to the clipboard";
             this.editCopySelectionToolStripMenuItem.Click += new System.EventHandler(this.editCopySelectionToolStripMenuItem_Click);
@@ -392,7 +396,7 @@ namespace OneStoryProjectEditor
             // copyStoryToolStripMenuItem
             // 
             this.copyStoryToolStripMenuItem.Name = "copyStoryToolStripMenuItem";
-            this.copyStoryToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
+            this.copyStoryToolStripMenuItem.Size = new System.Drawing.Size(386, 22);
             this.copyStoryToolStripMenuItem.Text = "&Story";
             this.copyStoryToolStripMenuItem.ToolTipText = "Copy all of the lines of text in the story language into one big paragraph of tex" +
                 "t";
@@ -401,7 +405,7 @@ namespace OneStoryProjectEditor
             // copyNationalBackTranslationToolStripMenuItem
             // 
             this.copyNationalBackTranslationToolStripMenuItem.Name = "copyNationalBackTranslationToolStripMenuItem";
-            this.copyNationalBackTranslationToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
+            this.copyNationalBackTranslationToolStripMenuItem.Size = new System.Drawing.Size(386, 22);
             this.copyNationalBackTranslationToolStripMenuItem.Text = "&National back-translation";
             this.copyNationalBackTranslationToolStripMenuItem.ToolTipText = "Copy all of the lines of text in the National back-translation language into one " +
                 "big paragraph of text";
@@ -410,11 +414,20 @@ namespace OneStoryProjectEditor
             // copyEnglishBackTranslationToolStripMenuItem
             // 
             this.copyEnglishBackTranslationToolStripMenuItem.Name = "copyEnglishBackTranslationToolStripMenuItem";
-            this.copyEnglishBackTranslationToolStripMenuItem.Size = new System.Drawing.Size(351, 22);
-            this.copyEnglishBackTranslationToolStripMenuItem.Text = "&English back-translation of the story to the clipboard";
+            this.copyEnglishBackTranslationToolStripMenuItem.Size = new System.Drawing.Size(386, 22);
+            this.copyEnglishBackTranslationToolStripMenuItem.Text = "&English back-translation of the whole story to the clipboard";
             this.copyEnglishBackTranslationToolStripMenuItem.ToolTipText = "Copy all of the lines of text in the English back-translation into one big paragr" +
                 "aph of text";
             this.copyEnglishBackTranslationToolStripMenuItem.Click += new System.EventHandler(this.copyEnglishBackTranslationToolStripMenuItem_Click);
+            // 
+            // copyFreeTranslationMenuItem
+            // 
+            this.copyFreeTranslationMenuItem.Name = "copyFreeTranslationMenuItem";
+            this.copyFreeTranslationMenuItem.Size = new System.Drawing.Size(386, 22);
+            this.copyFreeTranslationMenuItem.Text = "&Free translation of the whole story to the clipboard";
+            this.copyFreeTranslationMenuItem.ToolTipText = "Copy all of the lines of text in the Free translation into one big paragraph of t" +
+                "ext";
+            this.copyFreeTranslationMenuItem.Click += new System.EventHandler(this.copyFreeTranslationMenuItem_Click);
             // 
             // pasteToolStripMenuItem
             // 
@@ -430,6 +443,7 @@ namespace OneStoryProjectEditor
             this.deleteStoryVersesToolStripMenuItem,
             this.deleteStoryNationalBackTranslationToolStripMenuItem,
             this.deleteEnglishBacktranslationToolStripMenuItem,
+            this.deleteFreeTranslationToolStripMenuItem,
             this.deleteTestToolStripMenuItem});
             this.deleteBackTranslationToolStripMenuItem.Name = "deleteBackTranslationToolStripMenuItem";
             this.deleteBackTranslationToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
@@ -461,6 +475,15 @@ namespace OneStoryProjectEditor
             this.deleteEnglishBacktranslationToolStripMenuItem.ToolTipText = "Delete the contents of all of the text boxes of the English back-translation of t" +
                 "he story (the verses will remain, but just be emptied)";
             this.deleteEnglishBacktranslationToolStripMenuItem.Click += new System.EventHandler(this.deleteEnglishBacktranslationToolStripMenuItem_Click);
+            // 
+            // deleteFreeTranslationToolStripMenuItem
+            // 
+            this.deleteFreeTranslationToolStripMenuItem.Name = "deleteFreeTranslationToolStripMenuItem";
+            this.deleteFreeTranslationToolStripMenuItem.Size = new System.Drawing.Size(318, 22);
+            this.deleteFreeTranslationToolStripMenuItem.Text = "&Free translation (all verses)";
+            this.deleteFreeTranslationToolStripMenuItem.ToolTipText = "Delete the contents of all of the text boxes of the Free translation of the story" +
+                " (the verses will remain, but just be emptied)";
+            this.deleteFreeTranslationToolStripMenuItem.Click += new System.EventHandler(this.deleteFreeTranslationToolStripMenuItem_Click);
             // 
             // deleteTestToolStripMenuItem
             // 
@@ -525,6 +548,7 @@ namespace OneStoryProjectEditor
             this.viewVernacularLangFieldMenuItem,
             this.viewNationalLangFieldMenuItem,
             this.viewEnglishBTFieldMenuItem,
+            this.viewFreeTranslationToolStripMenuItem,
             this.viewAnchorFieldMenuItem,
             this.viewStoryTestingQuestionMenuItem,
             this.viewStoryTestingQuestionAnswerMenuItem,
@@ -605,6 +629,16 @@ namespace OneStoryProjectEditor
             this.viewEnglishBTFieldMenuItem.Text = "&English back translation fields";
             this.viewEnglishBTFieldMenuItem.ToolTipText = "Show the text boxes for the English language back-translation of the story lines";
             this.viewEnglishBTFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
+            // 
+            // viewFreeTranslationToolStripMenuItem
+            // 
+            this.viewFreeTranslationToolStripMenuItem.Checked = true;
+            this.viewFreeTranslationToolStripMenuItem.CheckOnClick = true;
+            this.viewFreeTranslationToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.viewFreeTranslationToolStripMenuItem.Name = "viewFreeTranslationToolStripMenuItem";
+            this.viewFreeTranslationToolStripMenuItem.Size = new System.Drawing.Size(284, 22);
+            this.viewFreeTranslationToolStripMenuItem.Text = "&Free Translation";
+            this.viewFreeTranslationToolStripMenuItem.ToolTipText = "Show the text boxes for the Free Translation of the story lines";
             // 
             // viewAnchorFieldMenuItem
             // 
@@ -896,6 +930,42 @@ namespace OneStoryProjectEditor
             this.realignStoryVersesToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
             this.realignStoryVersesToolStripMenuItem.Text = "&Re-align story lines";
             this.realignStoryVersesToolStripMenuItem.Click += new System.EventHandler(this.realignStoryVersesToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator14
+            // 
+            this.toolStripSeparator14.Name = "toolStripSeparator14";
+            this.toolStripSeparator14.Size = new System.Drawing.Size(242, 6);
+            // 
+            // useAdaptItForBacktranslationToolStripMenuItem
+            // 
+            this.useAdaptItForBacktranslationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.storyAdaptItVernacularToNationalMenuItem,
+            this.storyAdaptItVernacularToEnglishMenuItem,
+            this.storyAdaptItNationalToEnglishMenuItem});
+            this.useAdaptItForBacktranslationToolStripMenuItem.Name = "useAdaptItForBacktranslationToolStripMenuItem";
+            this.useAdaptItForBacktranslationToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
+            this.useAdaptItForBacktranslationToolStripMenuItem.Text = "&Use Adapt It for back-translation";
+            // 
+            // storyAdaptItVernacularToNationalMenuItem
+            // 
+            this.storyAdaptItVernacularToNationalMenuItem.Name = "storyAdaptItVernacularToNationalMenuItem";
+            this.storyAdaptItVernacularToNationalMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.storyAdaptItVernacularToNationalMenuItem.Text = "&Story language to National language";
+            this.storyAdaptItVernacularToNationalMenuItem.Click += new System.EventHandler(this.storyAdaptItVernacularToNationalMenuItem_Click);
+            // 
+            // storyAdaptItVernacularToEnglishMenuItem
+            // 
+            this.storyAdaptItVernacularToEnglishMenuItem.Name = "storyAdaptItVernacularToEnglishMenuItem";
+            this.storyAdaptItVernacularToEnglishMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.storyAdaptItVernacularToEnglishMenuItem.Text = "Story &language to English";
+            this.storyAdaptItVernacularToEnglishMenuItem.Click += new System.EventHandler(this.storyAdaptItVernacularToEnglishMenuItem_Click);
+            // 
+            // storyAdaptItNationalToEnglishMenuItem
+            // 
+            this.storyAdaptItNationalToEnglishMenuItem.Name = "storyAdaptItNationalToEnglishMenuItem";
+            this.storyAdaptItNationalToEnglishMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.storyAdaptItNationalToEnglishMenuItem.Text = "National language to English";
+            this.storyAdaptItNationalToEnglishMenuItem.Click += new System.EventHandler(this.storyAdaptItNationalToEnglishMenuItem_Click);
             // 
             // panoramaToolStripMenuItem
             // 
@@ -1256,42 +1326,6 @@ namespace OneStoryProjectEditor
             this.statusStrip.TabIndex = 1;
             this.statusStrip.Text = "statusStrip1";
             // 
-            // toolStripSeparator14
-            // 
-            this.toolStripSeparator14.Name = "toolStripSeparator14";
-            this.toolStripSeparator14.Size = new System.Drawing.Size(242, 6);
-            // 
-            // useAdaptItForBacktranslationToolStripMenuItem
-            // 
-            this.useAdaptItForBacktranslationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.storyAdaptItVernacularToNationalMenuItem,
-            this.storyAdaptItVernacularToEnglishMenuItem,
-            this.storyAdaptItNationalToEnglishMenuItem});
-            this.useAdaptItForBacktranslationToolStripMenuItem.Name = "useAdaptItForBacktranslationToolStripMenuItem";
-            this.useAdaptItForBacktranslationToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
-            this.useAdaptItForBacktranslationToolStripMenuItem.Text = "&Use Adapt It for back-translation";
-            // 
-            // storyAdaptItVernacularToNationalMenuItem
-            // 
-            this.storyAdaptItVernacularToNationalMenuItem.Name = "storyAdaptItVernacularToNationalMenuItem";
-            this.storyAdaptItVernacularToNationalMenuItem.Size = new System.Drawing.Size(267, 22);
-            this.storyAdaptItVernacularToNationalMenuItem.Text = "&Story language to National language";
-            this.storyAdaptItVernacularToNationalMenuItem.Click += new System.EventHandler(this.storyAdaptItVernacularToNationalMenuItem_Click);
-            // 
-            // storyAdaptItVernacularToEnglishMenuItem
-            // 
-            this.storyAdaptItVernacularToEnglishMenuItem.Name = "storyAdaptItVernacularToEnglishMenuItem";
-            this.storyAdaptItVernacularToEnglishMenuItem.Size = new System.Drawing.Size(267, 22);
-            this.storyAdaptItVernacularToEnglishMenuItem.Text = "Story &language to English";
-            this.storyAdaptItVernacularToEnglishMenuItem.Click += new System.EventHandler(this.storyAdaptItVernacularToEnglishMenuItem_Click);
-            // 
-            // storyAdaptItNationalToEnglishMenuItem
-            // 
-            this.storyAdaptItNationalToEnglishMenuItem.Name = "storyAdaptItNationalToEnglishMenuItem";
-            this.storyAdaptItNationalToEnglishMenuItem.Size = new System.Drawing.Size(267, 22);
-            this.storyAdaptItNationalToEnglishMenuItem.Text = "National language to English";
-            this.storyAdaptItNationalToEnglishMenuItem.Click += new System.EventHandler(this.storyAdaptItNationalToEnglishMenuItem_Click);
-            // 
             // splitContainerUpDown
             // 
             this.splitContainerUpDown.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -1557,6 +1591,9 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem storyAdaptItVernacularToNationalMenuItem;
         private ToolStripMenuItem storyAdaptItVernacularToEnglishMenuItem;
         private ToolStripMenuItem storyAdaptItNationalToEnglishMenuItem;
+        internal ToolStripMenuItem viewFreeTranslationToolStripMenuItem;
+        private ToolStripMenuItem copyFreeTranslationMenuItem;
+        private ToolStripMenuItem deleteFreeTranslationToolStripMenuItem;
     }
 
 #if UsingHtmlDisplayForConNotes

@@ -45,6 +45,7 @@
             this.checkBoxLangNationalBT = new System.Windows.Forms.CheckBox();
             this.checkBoxLangTransliterateNationalBT = new System.Windows.Forms.CheckBox();
             this.checkBoxLangInternationalBT = new System.Windows.Forms.CheckBox();
+            this.checkBoxLangFreeTranslation = new System.Windows.Forms.CheckBox();
             this.checkBoxAnchors = new System.Windows.Forms.CheckBox();
             this.checkBoxStoryTestingQuestions = new System.Windows.Forms.CheckBox();
             this.checkBoxAnswers = new System.Windows.Forms.CheckBox();
@@ -185,6 +186,7 @@
             this.flowLayoutPanel1.Controls.Add(this.checkBoxLangNationalBT);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxLangTransliterateNationalBT);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxLangInternationalBT);
+            this.flowLayoutPanel1.Controls.Add(this.checkBoxLangFreeTranslation);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxAnchors);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxStoryTestingQuestions);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxAnswers);
@@ -275,12 +277,25 @@
             this.toolTip.SetToolTip(this.checkBoxLangInternationalBT, "Check this box to have the English language back-translation shown in the report");
             this.checkBoxLangInternationalBT.UseVisualStyleBackColor = true;
             // 
+            // checkBoxLangFreeTranslation
+            // 
+            this.checkBoxLangFreeTranslation.AutoSize = true;
+            this.checkBoxLangFreeTranslation.Checked = true;
+            this.checkBoxLangFreeTranslation.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxLangFreeTranslation.Location = new System.Drawing.Point(152, 26);
+            this.checkBoxLangFreeTranslation.Name = "checkBoxLangFreeTranslation";
+            this.checkBoxLangFreeTranslation.Size = new System.Drawing.Size(125, 17);
+            this.checkBoxLangFreeTranslation.TabIndex = 14;
+            this.checkBoxLangFreeTranslation.Text = "&Free translation fields";
+            this.toolTip.SetToolTip(this.checkBoxLangFreeTranslation, "Check this box to have the English language back-translation shown in the report");
+            this.checkBoxLangFreeTranslation.UseVisualStyleBackColor = true;
+            // 
             // checkBoxAnchors
             // 
             this.checkBoxAnchors.AutoSize = true;
             this.checkBoxAnchors.Checked = true;
             this.checkBoxAnchors.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxAnchors.Location = new System.Drawing.Point(152, 26);
+            this.checkBoxAnchors.Location = new System.Drawing.Point(152, 49);
             this.checkBoxAnchors.Name = "checkBoxAnchors";
             this.checkBoxAnchors.Size = new System.Drawing.Size(65, 17);
             this.checkBoxAnchors.TabIndex = 3;
@@ -293,7 +308,7 @@
             this.checkBoxStoryTestingQuestions.AutoSize = true;
             this.checkBoxStoryTestingQuestions.Checked = true;
             this.checkBoxStoryTestingQuestions.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxStoryTestingQuestions.Location = new System.Drawing.Point(152, 49);
+            this.checkBoxStoryTestingQuestions.Location = new System.Drawing.Point(152, 72);
             this.checkBoxStoryTestingQuestions.Name = "checkBoxStoryTestingQuestions";
             this.checkBoxStoryTestingQuestions.Size = new System.Drawing.Size(132, 17);
             this.checkBoxStoryTestingQuestions.TabIndex = 4;
@@ -307,7 +322,7 @@
             this.checkBoxAnswers.AutoSize = true;
             this.checkBoxAnswers.Checked = true;
             this.checkBoxAnswers.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxAnswers.Location = new System.Drawing.Point(152, 72);
+            this.checkBoxAnswers.Location = new System.Drawing.Point(152, 95);
             this.checkBoxAnswers.Name = "checkBoxAnswers";
             this.checkBoxAnswers.Size = new System.Drawing.Size(132, 17);
             this.checkBoxAnswers.TabIndex = 9;
@@ -319,7 +334,7 @@
             this.checkBoxRetellings.AutoSize = true;
             this.checkBoxRetellings.Checked = true;
             this.checkBoxRetellings.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxRetellings.Location = new System.Drawing.Point(152, 95);
+            this.checkBoxRetellings.Location = new System.Drawing.Point(323, 3);
             this.checkBoxRetellings.Name = "checkBoxRetellings";
             this.checkBoxRetellings.Size = new System.Drawing.Size(72, 17);
             this.checkBoxRetellings.TabIndex = 5;
@@ -330,7 +345,7 @@
             // checkBoxShowHidden
             // 
             this.checkBoxShowHidden.AutoSize = true;
-            this.checkBoxShowHidden.Location = new System.Drawing.Point(323, 3);
+            this.checkBoxShowHidden.Location = new System.Drawing.Point(323, 26);
             this.checkBoxShowHidden.Name = "checkBoxShowHidden";
             this.checkBoxShowHidden.Size = new System.Drawing.Size(122, 17);
             this.checkBoxShowHidden.TabIndex = 13;
@@ -501,5 +516,6 @@
         private System.Windows.Forms.CheckBox checkBoxLangTransliterateVernacular;
         private System.Windows.Forms.CheckBox checkBoxLangTransliterateNationalBT;
         private System.Windows.Forms.CheckBox checkBoxShowHidden;
+        private System.Windows.Forms.CheckBox checkBoxLangFreeTranslation;
     }
 }

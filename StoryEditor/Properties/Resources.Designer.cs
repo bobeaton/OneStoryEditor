@@ -1212,5 +1212,19 @@ namespace OneStoryProjectEditor.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;StateTransition stage=&quot;eProjFacTypeFreeTranslation&quot; MemberTypeWithEditToken=&quot;eProjectFacilitator&quot; RequiresUsingFreeTranslation=&quot;true&quot;&gt;
+        ///    &lt;StageDisplayString&gt;Project Facilitator enters Free Translation&lt;/StageDisplayString&gt;
+        ///    &lt;TransitionDisplayString&gt;enter the Free Translation&lt;/TransitionDisplayString&gt;
+        ///    &lt;StageInstructions&gt;
+        ///In this stage, you (the project facilitator) will enter the Free translation (FT) of the story.
+        ///This Free Translation should be done by a UNS directly and you (the project faci [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string StageTransition20Update {
+            get {
+                return ResourceManager.GetString("StageTransition20Update", resourceCulture);
+            }
+        }
     }
 }
