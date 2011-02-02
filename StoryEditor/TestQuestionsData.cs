@@ -135,8 +135,9 @@ namespace OneStoryProjectEditor
             return String.Format("taTQ_{0}_{1}_{2}", nVerseIndex, nTQNum, strTextElementName);
         }
 
-        public string Html(int nVerseIndex, int nTQNum, int nNumTestQuestionCols, bool bShowVernacular,
-            bool bShowNationalBT, bool bShowEnglishBT)
+        public string Html(int nVerseIndex, int nTQNum, int nNumTestQuestionCols,
+            VerseData.ViewSettings viewItemToInsureOn, 
+            bool bShowVernacular, bool bShowNationalBT, bool bShowEnglishBT)
         {
             string strRow = String.Format(OseResources.Properties.Resources.HTML_TableCell,
                                           CstrTestQuestionsLabelFormat);
@@ -170,7 +171,10 @@ namespace OneStoryProjectEditor
             string strTQRow = String.Format(OseResources.Properties.Resources.HTML_TableRow,
                                                    strRow);
 
-            strTQRow += Answers.Html(nVerseIndex, nNumTestQuestionCols);
+            strTQRow += Answers.Html(nVerseIndex, nNumTestQuestionCols,
+                viewItemToInsureOn.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.AnswersVernacular),
+                viewItemToInsureOn.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.AnswersNationalBT),
+                viewItemToInsureOn.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.AnswersInternationalBT));
             return strTQRow;
         }
 
@@ -187,8 +191,9 @@ namespace OneStoryProjectEditor
         }
 
         public string PresentationHtml(int nVerseIndex, int nTQNum, int nNumTestQuestionCols, 
-            VerseData.ViewSettings viewSettings, bool bShowVernacular, bool bShowNationalBT, bool bShowEnglishBT,
-            List<string> astrTestors, TestQuestionsData child, bool bPrintPreview, bool bProcessingTheChild)
+            VerseData.ViewSettings viewSettings, bool bShowVernacular, bool bShowNationalBT, 
+            bool bShowEnglishBT, List<string> astrTestors, TestQuestionsData child, 
+            bool bPrintPreview, bool bProcessingTheChild)
         {
             TestQuestionData theChildTQ = null;
             if (child != null)
@@ -250,8 +255,12 @@ namespace OneStoryProjectEditor
             if (viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers))
             {
                 // add 1 to the number of columns so it spans properly (including the 'tst:' label)
-                strTQRow += Answers.PresentationHtml(nVerseIndex, nNumTestQuestionCols + 1, astrTestors,
-                    (theChildTQ != null) ? theChildTQ.Answers : null, bPrintPreview, bProcessingTheChild);
+                strTQRow += Answers.PresentationHtml(nVerseIndex, nNumTestQuestionCols + 1, 
+                    astrTestors, (theChildTQ != null) ? theChildTQ.Answers : null, bPrintPreview, 
+                    bProcessingTheChild,
+                    viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.AnswersVernacular),
+                    viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.AnswersNationalBT),
+                    viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.AnswersInternationalBT));
             }
 
             return strTQRow;
@@ -299,7 +308,10 @@ namespace OneStoryProjectEditor
             if (viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers))
             {
                 // add 1 to the number of columns so it spans properly (including the 'tst:' label)
-                strTQRow += Answers.PresentationHtmlAsAddition(nVerseIndex, nNumTestQuestionCols + 1, astrTestors);
+                strTQRow += Answers.PresentationHtmlAsAddition(nVerseIndex, nNumTestQuestionCols + 1, astrTestors,
+                    viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.AnswersVernacular),
+                    viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.AnswersNationalBT),
+                    viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.AnswersInternationalBT));
             }
 
             return strTQRow;
@@ -381,23 +393,15 @@ namespace OneStoryProjectEditor
         public string Html(ProjectSettings projectSettings, 
             VerseData.ViewSettings viewItemToInsureOn, 
             StoryStageLogic stageLogic, TeamMemberData loggedOnMember,
-            int nVerseIndex, int nNumCols, bool bHasOutsideEnglishBTer)
+            int nVerseIndex, int nNumCols)
         {
             int nNumTestQuestionCols = 0;
             bool bShowVernacular =
-                (viewItemToInsureOn.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.VernacularLangField));
-            bool bShowNationalBT = (projectSettings.NationalBT.HasData
-                                    && bHasOutsideEnglishBTer
-                                    &&
-                                    viewItemToInsureOn.IsViewItemOn(
-                                        VerseData.ViewSettings.ItemToInsureOn.NationalBTLangField));
-            bool bShowEnglishBT = (viewItemToInsureOn.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.EnglishBTField)
-                                   && (!bHasOutsideEnglishBTer
-                                       || (stageLogic.MemberTypeWithEditToken !=
-                                           TeamMemberData.UserTypes.eProjectFacilitator)
-                                       ||
-                                       (loggedOnMember.MemberType !=
-                                        TeamMemberData.UserTypes.eProjectFacilitator)));
+                viewItemToInsureOn.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.TestQuestionsVernacular);
+            bool bShowNationalBT = viewItemToInsureOn.IsViewItemOn(
+                                        VerseData.ViewSettings.ItemToInsureOn.TestQuestionsNationalBT);
+            bool bShowEnglishBT = viewItemToInsureOn.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.TestQuestionsInternationalBT);
+
             if (bShowVernacular) nNumTestQuestionCols++;
             if (bShowNationalBT) nNumTestQuestionCols++;
             if (bShowEnglishBT) nNumTestQuestionCols++;
@@ -407,7 +411,7 @@ namespace OneStoryProjectEditor
             {
                 TestQuestionData testQuestionData = this[i];
                 strRow += testQuestionData.Html(nVerseIndex, i, nNumTestQuestionCols,
-                    bShowVernacular, bShowNationalBT, bShowEnglishBT);
+                    viewItemToInsureOn, bShowVernacular, bShowNationalBT, bShowEnglishBT);
             }
 
             // make a sub-table out of all this

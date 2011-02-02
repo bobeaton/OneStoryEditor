@@ -268,17 +268,26 @@ namespace OneStoryProjectEditor
                 NationalBTLangField = 4,
                 NationalBTTransliterationField = 8,
                 EnglishBTField = 16,
-                AnchorFields = 32,
-                StoryTestingQuestions = 64,
-                StoryTestingQuestionAnswers = 128,
-                RetellingFields = 256,
-                ConsultantNoteFields = 512,
-                CoachNotesFields = 1024,
-                BibleViewer = 2048,
-                StoryFrontMatter = 4096,
-                HiddenStuff = 8192,
-                OpenConNotesOnly = 16384,
-                FreeTranslationField = 32768
+                FreeTranslationField = 32,
+                AnchorFields = 64,
+                StoryTestingQuestions = 128,
+                StoryTestingQuestionAnswers = 256,
+                RetellingFields = 512,
+                ConsultantNoteFields = 1024,
+                CoachNotesFields = 2048,
+                BibleViewer = 4096,
+                StoryFrontMatter = 8192,
+                HiddenStuff = 16384,
+                OpenConNotesOnly = 32768,
+                RetellingsVernacular = 65536,
+                RetellingsNationalBT = 131072,
+                RetellingsInternationalBT = 262144,
+                TestQuestionsVernacular = 524288,
+                TestQuestionsNationalBT = 1048576,
+                TestQuestionsInternationalBT = 2097152,
+                AnswersVernacular = 4194304,
+                AnswersNationalBT = 8388608,
+                AnswersInternationalBT = 16777216
             }
 
             public DirectableEncConverter TransliteratorVernacular { get; set; }
@@ -458,13 +467,17 @@ namespace OneStoryProjectEditor
 
             if (viewItemToInsureOn.IsViewItemOn(ViewSettings.ItemToInsureOn.RetellingFields)
                 && (Retellings.Count > 0))
-                strStoryLineRow += Retellings.Html(nVerseIndex, nNumCols);
+            {
+                strStoryLineRow += Retellings.Html(nVerseIndex, nNumCols,
+                    viewItemToInsureOn.IsViewItemOn(ViewSettings.ItemToInsureOn.RetellingsVernacular),
+                    viewItemToInsureOn.IsViewItemOn(ViewSettings.ItemToInsureOn.RetellingsNationalBT),
+                    viewItemToInsureOn.IsViewItemOn(ViewSettings.ItemToInsureOn.RetellingsInternationalBT));
+            }
 
             if (viewItemToInsureOn.IsViewItemOn(ViewSettings.ItemToInsureOn.StoryTestingQuestions | ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers)
                 && (TestQuestions.Count > 0))
                 strStoryLineRow += TestQuestions.Html(projectSettings, viewItemToInsureOn,
-                    stageLogic, loggedOnMember, nVerseIndex, nNumCols, 
-                    membersData.HasOutsideEnglishBTer);
+                    stageLogic, loggedOnMember, nVerseIndex, nNumCols);
 
             return strStoryLineRow;
         }
@@ -574,13 +587,20 @@ namespace OneStoryProjectEditor
                                                     bPrintPreview);
 
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.RetellingFields))
+            {
                 strHtml += Retellings.PresentationHtml(nVerseIndex, nNumCols,
                                                        craftingInfo.Testors,
                                                        (theChildVerse != null) ? theChildVerse.Retellings : null,
-                                                       bPrintPreview, false);
+                                                       bPrintPreview, false,
+                                                       viewSettings.IsViewItemOn(
+                                                           ViewSettings.ItemToInsureOn.RetellingsVernacular),
+                                                       viewSettings.IsViewItemOn(
+                                                           ViewSettings.ItemToInsureOn.RetellingsNationalBT),
+                                                       viewSettings.IsViewItemOn(
+                                                           ViewSettings.ItemToInsureOn.RetellingsInternationalBT));
+            }
 
-            if (
-                viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.StoryTestingQuestions |
+            if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.StoryTestingQuestions |
                                           ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers))
                 strHtml += TestQuestions.PresentationHtml(nVerseIndex, nNumCols, viewSettings,
                                                           craftingInfo.Testors,
@@ -681,8 +701,17 @@ namespace OneStoryProjectEditor
                 strHtml += Anchors.PresentationHtmlAsAddition(nVerseIndex, nNumCols);
 
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.RetellingFields))
+            {
                 strHtml += Retellings.PresentationHtmlAsAddition(nVerseIndex, nNumCols,
-                                                                 craftingInfo.Testors);
+                                                                 craftingInfo.Testors,
+                                                                 viewSettings.IsViewItemOn(
+                                                                     ViewSettings.ItemToInsureOn.RetellingsVernacular),
+                                                                 viewSettings.IsViewItemOn(
+                                                                     ViewSettings.ItemToInsureOn.RetellingsNationalBT),
+                                                                 viewSettings.IsViewItemOn(
+                                                                     ViewSettings.ItemToInsureOn.
+                                                                         RetellingsInternationalBT));
+            }
 
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.StoryTestingQuestions |
                                           ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers))

@@ -431,7 +431,7 @@ namespace OneStoryProjectEditor
 
                 string strLine = strParagraph.Substring(nStartIndex, nIndex - nStartIndex + 1).Trim();
                 strLine = strLine.Replace("\r\n", " ");
-                while (strLine.IndexOf("  ") != -1)
+                while (strLine.IndexOf("  ", StringComparison.Ordinal) != -1)
                     strLine = strLine.Replace("  ", " ");
                 if (!String.IsNullOrEmpty(strLine))
                     lstSentences.Add(strLine);
@@ -1313,10 +1313,10 @@ namespace OneStoryProjectEditor
                 if (aVerseData.IsVisible)
                 {
                     foreach (TestQuestionData aTQ in aVerseData.TestQuestions)
-                        foreach (StringTransfer aST in aTQ.Answers)
-                            if (!aST.HasData)
+                        foreach (LineData aLineData in aTQ.Answers)
+                            if (!aLineData.HasData)
                             {
-                                ShowErrorFocus(theSE, aST.TextBox,
+                                ShowErrorFocus(theSE, aLineData.ExistingTextBox,
                                                String.Format(
                                                    "Error: Verse {0} is missing an answer to a testing question. Did you forget it?",
                                                    nVerseNumber));

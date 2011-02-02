@@ -94,8 +94,9 @@ namespace OneStoryProjectEditor
             {
                 if (_verseData.Retellings.Count > 0)
                 {
-                    InitRetellings(_verseData.Retellings, nNumRows, theSE.theCurrentStory.CraftingInfo.Testors,
-                        TheSE.StoryProject.ProjSettings.InternationalBT);
+                    InitRetellings(_verseData.Retellings, nNumRows, 
+                        theSE.theCurrentStory.CraftingInfo.Testors,
+                        TheSE.StoryProject.ProjSettings);
                     nNumRows++;
                 }
             }
@@ -151,11 +152,15 @@ namespace OneStoryProjectEditor
         }
 
         protected void InitRetellings(RetellingsData aRetellingsData, int nLayoutRow,
-            List<string> astrTestors, ProjectSettings.LanguageInfo li)
+            List<string> astrTestors, ProjectSettings projSettings)
         {
             System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(CstrFieldNameRetellings));
-            MultiLineControl aRetellingsCtrl = new MultiLineControl(this, StageLogic, 
-                aRetellingsData, li, astrTestors);
+            MultiLineControl aRetellingsCtrl = new MultiLineControl(this, StageLogic,
+                aRetellingsData, projSettings, astrTestors, 
+                projSettings.ShowRetellingVernacular,
+                projSettings.ShowRetellingNationalBT,
+                projSettings.ShowRetellingInternationalBT);
+
             aRetellingsCtrl.Name = CstrFieldNameRetellings;
             aRetellingsCtrl.ParentControl = this;
 

@@ -3255,6 +3255,24 @@ namespace OneStoryProjectEditor {
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
         public partial class LanguagesDataTable : global::System.Data.TypedTableBase<LanguagesRow> {
             
+            private global::System.Data.DataColumn columnUseRetellingVernacular;
+            
+            private global::System.Data.DataColumn columnUseRetellingNationalBT;
+            
+            private global::System.Data.DataColumn columnUseRetellingInternationalBT;
+            
+            private global::System.Data.DataColumn columnUseTestQuestionVernacular;
+            
+            private global::System.Data.DataColumn columnUseTestQuestionNationalBT;
+            
+            private global::System.Data.DataColumn columnUseTestQuestionInternationalBT;
+            
+            private global::System.Data.DataColumn columnUseAnswerVernacular;
+            
+            private global::System.Data.DataColumn columnUseAnswerNationalBT;
+            
+            private global::System.Data.DataColumn columnUseAnswerInternationalBT;
+            
             private global::System.Data.DataColumn columnLanguages_Id;
             
             private global::System.Data.DataColumn columnStoryProject_Id;
@@ -3287,6 +3305,69 @@ namespace OneStoryProjectEditor {
             protected LanguagesDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn UseRetellingVernacularColumn {
+                get {
+                    return this.columnUseRetellingVernacular;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn UseRetellingNationalBTColumn {
+                get {
+                    return this.columnUseRetellingNationalBT;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn UseRetellingInternationalBTColumn {
+                get {
+                    return this.columnUseRetellingInternationalBT;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn UseTestQuestionVernacularColumn {
+                get {
+                    return this.columnUseTestQuestionVernacular;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn UseTestQuestionNationalBTColumn {
+                get {
+                    return this.columnUseTestQuestionNationalBT;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn UseTestQuestionInternationalBTColumn {
+                get {
+                    return this.columnUseTestQuestionInternationalBT;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn UseAnswerVernacularColumn {
+                get {
+                    return this.columnUseAnswerVernacular;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn UseAnswerNationalBTColumn {
+                get {
+                    return this.columnUseAnswerNationalBT;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn UseAnswerInternationalBTColumn {
+                get {
+                    return this.columnUseAnswerInternationalBT;
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3332,13 +3413,22 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public LanguagesRow AddLanguagesRow(StoryProjectRow parentStoryProjectRowByStoryProject_Languages) {
+            public LanguagesRow AddLanguagesRow(bool UseRetellingVernacular, bool UseRetellingNationalBT, bool UseRetellingInternationalBT, bool UseTestQuestionVernacular, bool UseTestQuestionNationalBT, bool UseTestQuestionInternationalBT, bool UseAnswerVernacular, bool UseAnswerNationalBT, bool UseAnswerInternationalBT, StoryProjectRow parentStoryProjectRowByStoryProject_Languages) {
                 LanguagesRow rowLanguagesRow = ((LanguagesRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
+                        UseRetellingVernacular,
+                        UseRetellingNationalBT,
+                        UseRetellingInternationalBT,
+                        UseTestQuestionVernacular,
+                        UseTestQuestionNationalBT,
+                        UseTestQuestionInternationalBT,
+                        UseAnswerVernacular,
+                        UseAnswerNationalBT,
+                        UseAnswerInternationalBT,
                         null,
                         null};
                 if ((parentStoryProjectRowByStoryProject_Languages != null)) {
-                    columnValuesArray[1] = parentStoryProjectRowByStoryProject_Languages[3];
+                    columnValuesArray[10] = parentStoryProjectRowByStoryProject_Languages[3];
                 }
                 rowLanguagesRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowLanguagesRow);
@@ -3359,18 +3449,54 @@ namespace OneStoryProjectEditor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
+                this.columnUseRetellingVernacular = base.Columns["UseRetellingVernacular"];
+                this.columnUseRetellingNationalBT = base.Columns["UseRetellingNationalBT"];
+                this.columnUseRetellingInternationalBT = base.Columns["UseRetellingInternationalBT"];
+                this.columnUseTestQuestionVernacular = base.Columns["UseTestQuestionVernacular"];
+                this.columnUseTestQuestionNationalBT = base.Columns["UseTestQuestionNationalBT"];
+                this.columnUseTestQuestionInternationalBT = base.Columns["UseTestQuestionInternationalBT"];
+                this.columnUseAnswerVernacular = base.Columns["UseAnswerVernacular"];
+                this.columnUseAnswerNationalBT = base.Columns["UseAnswerNationalBT"];
+                this.columnUseAnswerInternationalBT = base.Columns["UseAnswerInternationalBT"];
                 this.columnLanguages_Id = base.Columns["Languages_Id"];
                 this.columnStoryProject_Id = base.Columns["StoryProject_Id"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             private void InitClass() {
+                this.columnUseRetellingVernacular = new global::System.Data.DataColumn("UseRetellingVernacular", typeof(bool), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnUseRetellingVernacular);
+                this.columnUseRetellingNationalBT = new global::System.Data.DataColumn("UseRetellingNationalBT", typeof(bool), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnUseRetellingNationalBT);
+                this.columnUseRetellingInternationalBT = new global::System.Data.DataColumn("UseRetellingInternationalBT", typeof(bool), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnUseRetellingInternationalBT);
+                this.columnUseTestQuestionVernacular = new global::System.Data.DataColumn("UseTestQuestionVernacular", typeof(bool), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnUseTestQuestionVernacular);
+                this.columnUseTestQuestionNationalBT = new global::System.Data.DataColumn("UseTestQuestionNationalBT", typeof(bool), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnUseTestQuestionNationalBT);
+                this.columnUseTestQuestionInternationalBT = new global::System.Data.DataColumn("UseTestQuestionInternationalBT", typeof(bool), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnUseTestQuestionInternationalBT);
+                this.columnUseAnswerVernacular = new global::System.Data.DataColumn("UseAnswerVernacular", typeof(bool), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnUseAnswerVernacular);
+                this.columnUseAnswerNationalBT = new global::System.Data.DataColumn("UseAnswerNationalBT", typeof(bool), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnUseAnswerNationalBT);
+                this.columnUseAnswerInternationalBT = new global::System.Data.DataColumn("UseAnswerInternationalBT", typeof(bool), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnUseAnswerInternationalBT);
                 this.columnLanguages_Id = new global::System.Data.DataColumn("Languages_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnLanguages_Id);
                 this.columnStoryProject_Id = new global::System.Data.DataColumn("StoryProject_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnStoryProject_Id);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnLanguages_Id}, true));
+                this.columnUseRetellingVernacular.Namespace = "";
+                this.columnUseRetellingNationalBT.Namespace = "";
+                this.columnUseRetellingInternationalBT.Namespace = "";
+                this.columnUseTestQuestionVernacular.Namespace = "";
+                this.columnUseTestQuestionNationalBT.Namespace = "";
+                this.columnUseTestQuestionInternationalBT.Namespace = "";
+                this.columnUseAnswerVernacular.Namespace = "";
+                this.columnUseAnswerNationalBT.Namespace = "";
+                this.columnUseAnswerInternationalBT.Namespace = "";
                 this.columnLanguages_Id.AutoIncrement = true;
                 this.columnLanguages_Id.AllowDBNull = false;
                 this.columnLanguages_Id.Unique = true;
@@ -3652,7 +3778,7 @@ namespace OneStoryProjectEditor {
                         RTL,
                         null};
                 if ((parentLanguagesRowByLanguages_VernacularLang != null)) {
-                    columnValuesArray[8] = parentLanguagesRowByLanguages_VernacularLang[0];
+                    columnValuesArray[8] = parentLanguagesRowByLanguages_VernacularLang[9];
                 }
                 rowVernacularLangRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowVernacularLangRow);
@@ -3996,7 +4122,7 @@ namespace OneStoryProjectEditor {
                         RTL,
                         null};
                 if ((parentLanguagesRowByLanguages_NationalBTLang != null)) {
-                    columnValuesArray[8] = parentLanguagesRowByLanguages_NationalBTLang[0];
+                    columnValuesArray[8] = parentLanguagesRowByLanguages_NationalBTLang[9];
                 }
                 rowNationalBTLangRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowNationalBTLangRow);
@@ -4340,7 +4466,7 @@ namespace OneStoryProjectEditor {
                         RTL,
                         null};
                 if ((parentLanguagesRowByLanguages_InternationalBTLang != null)) {
-                    columnValuesArray[8] = parentLanguagesRowByLanguages_InternationalBTLang[0];
+                    columnValuesArray[8] = parentLanguagesRowByLanguages_InternationalBTLang[9];
                 }
                 rowInternationalBTLangRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowInternationalBTLangRow);
@@ -4684,7 +4810,7 @@ namespace OneStoryProjectEditor {
                         RTL,
                         null};
                 if ((parentLanguagesRowByLanguages_FreeTranslation != null)) {
-                    columnValuesArray[8] = parentLanguagesRowByLanguages_FreeTranslation[0];
+                    columnValuesArray[8] = parentLanguagesRowByLanguages_FreeTranslation[9];
                 }
                 rowFreeTranslationRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowFreeTranslationRow);
@@ -10423,6 +10549,8 @@ namespace OneStoryProjectEditor {
             
             private global::System.Data.DataColumn columnmemberID;
             
+            private global::System.Data.DataColumn columnlang;
+            
             private global::System.Data.DataColumn columnanswer_text;
             
             private global::System.Data.DataColumn columnAnswers_Id;
@@ -10461,6 +10589,13 @@ namespace OneStoryProjectEditor {
             public global::System.Data.DataColumn memberIDColumn {
                 get {
                     return this.columnmemberID;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn langColumn {
+                get {
+                    return this.columnlang;
                 }
             }
             
@@ -10507,14 +10642,15 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public answerRow AddanswerRow(string memberID, string answer_text, AnswersRow parentAnswersRowByAnswers_answer) {
+            public answerRow AddanswerRow(string memberID, string lang, string answer_text, AnswersRow parentAnswersRowByAnswers_answer) {
                 answerRow rowanswerRow = ((answerRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         memberID,
+                        lang,
                         answer_text,
                         null};
                 if ((parentAnswersRowByAnswers_answer != null)) {
-                    columnValuesArray[2] = parentAnswersRowByAnswers_answer[0];
+                    columnValuesArray[3] = parentAnswersRowByAnswers_answer[0];
                 }
                 rowanswerRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowanswerRow);
@@ -10536,6 +10672,7 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
                 this.columnmemberID = base.Columns["memberID"];
+                this.columnlang = base.Columns["lang"];
                 this.columnanswer_text = base.Columns["answer_text"];
                 this.columnAnswers_Id = base.Columns["Answers_Id"];
             }
@@ -10544,11 +10681,15 @@ namespace OneStoryProjectEditor {
             private void InitClass() {
                 this.columnmemberID = new global::System.Data.DataColumn("memberID", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnmemberID);
+                this.columnlang = new global::System.Data.DataColumn("lang", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnlang);
                 this.columnanswer_text = new global::System.Data.DataColumn("answer_text", typeof(string), null, global::System.Data.MappingType.SimpleContent);
                 base.Columns.Add(this.columnanswer_text);
                 this.columnAnswers_Id = new global::System.Data.DataColumn("Answers_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnAnswers_Id);
+                this.columnmemberID.AllowDBNull = false;
                 this.columnmemberID.Namespace = "";
+                this.columnlang.Namespace = "";
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -10920,6 +11061,8 @@ namespace OneStoryProjectEditor {
             
             private global::System.Data.DataColumn columnmemberID;
             
+            private global::System.Data.DataColumn columnlang;
+            
             private global::System.Data.DataColumn columnRetelling_text;
             
             private global::System.Data.DataColumn columnRetellings_Id;
@@ -10958,6 +11101,13 @@ namespace OneStoryProjectEditor {
             public global::System.Data.DataColumn memberIDColumn {
                 get {
                     return this.columnmemberID;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn langColumn {
+                get {
+                    return this.columnlang;
                 }
             }
             
@@ -11004,14 +11154,15 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public RetellingRow AddRetellingRow(string memberID, string Retelling_text, RetellingsRow parentRetellingsRowByRetellings_Retelling) {
+            public RetellingRow AddRetellingRow(string memberID, string lang, string Retelling_text, RetellingsRow parentRetellingsRowByRetellings_Retelling) {
                 RetellingRow rowRetellingRow = ((RetellingRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         memberID,
+                        lang,
                         Retelling_text,
                         null};
                 if ((parentRetellingsRowByRetellings_Retelling != null)) {
-                    columnValuesArray[2] = parentRetellingsRowByRetellings_Retelling[0];
+                    columnValuesArray[3] = parentRetellingsRowByRetellings_Retelling[0];
                 }
                 rowRetellingRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowRetellingRow);
@@ -11033,6 +11184,7 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
                 this.columnmemberID = base.Columns["memberID"];
+                this.columnlang = base.Columns["lang"];
                 this.columnRetelling_text = base.Columns["Retelling_text"];
                 this.columnRetellings_Id = base.Columns["Retellings_Id"];
             }
@@ -11041,11 +11193,15 @@ namespace OneStoryProjectEditor {
             private void InitClass() {
                 this.columnmemberID = new global::System.Data.DataColumn("memberID", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnmemberID);
+                this.columnlang = new global::System.Data.DataColumn("lang", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnlang);
                 this.columnRetelling_text = new global::System.Data.DataColumn("Retelling_text", typeof(string), null, global::System.Data.MappingType.SimpleContent);
                 base.Columns.Add(this.columnRetelling_text);
                 this.columnRetellings_Id = new global::System.Data.DataColumn("Retellings_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnRetellings_Id);
+                this.columnmemberID.AllowDBNull = false;
                 this.columnmemberID.Namespace = "";
+                this.columnlang.Namespace = "";
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -13883,6 +14039,143 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool UseRetellingVernacular {
+                get {
+                    try {
+                        return ((bool)(this[this.tableLanguages.UseRetellingVernacularColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'UseRetellingVernacular\' in table \'Languages\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableLanguages.UseRetellingVernacularColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool UseRetellingNationalBT {
+                get {
+                    try {
+                        return ((bool)(this[this.tableLanguages.UseRetellingNationalBTColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'UseRetellingNationalBT\' in table \'Languages\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableLanguages.UseRetellingNationalBTColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool UseRetellingInternationalBT {
+                get {
+                    try {
+                        return ((bool)(this[this.tableLanguages.UseRetellingInternationalBTColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'UseRetellingInternationalBT\' in table \'Languages\' is DBNull" +
+                                ".", e);
+                    }
+                }
+                set {
+                    this[this.tableLanguages.UseRetellingInternationalBTColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool UseTestQuestionVernacular {
+                get {
+                    try {
+                        return ((bool)(this[this.tableLanguages.UseTestQuestionVernacularColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'UseTestQuestionVernacular\' in table \'Languages\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableLanguages.UseTestQuestionVernacularColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool UseTestQuestionNationalBT {
+                get {
+                    try {
+                        return ((bool)(this[this.tableLanguages.UseTestQuestionNationalBTColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'UseTestQuestionNationalBT\' in table \'Languages\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableLanguages.UseTestQuestionNationalBTColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool UseTestQuestionInternationalBT {
+                get {
+                    try {
+                        return ((bool)(this[this.tableLanguages.UseTestQuestionInternationalBTColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'UseTestQuestionInternationalBT\' in table \'Languages\' is DBN" +
+                                "ull.", e);
+                    }
+                }
+                set {
+                    this[this.tableLanguages.UseTestQuestionInternationalBTColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool UseAnswerVernacular {
+                get {
+                    try {
+                        return ((bool)(this[this.tableLanguages.UseAnswerVernacularColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'UseAnswerVernacular\' in table \'Languages\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableLanguages.UseAnswerVernacularColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool UseAnswerNationalBT {
+                get {
+                    try {
+                        return ((bool)(this[this.tableLanguages.UseAnswerNationalBTColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'UseAnswerNationalBT\' in table \'Languages\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableLanguages.UseAnswerNationalBTColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool UseAnswerInternationalBT {
+                get {
+                    try {
+                        return ((bool)(this[this.tableLanguages.UseAnswerInternationalBTColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'UseAnswerInternationalBT\' in table \'Languages\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableLanguages.UseAnswerInternationalBTColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public int Languages_Id {
                 get {
                     return ((int)(this[this.tableLanguages.Languages_IdColumn]));
@@ -13915,6 +14208,96 @@ namespace OneStoryProjectEditor {
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["StoryProject_Languages"]);
                 }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsUseRetellingVernacularNull() {
+                return this.IsNull(this.tableLanguages.UseRetellingVernacularColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetUseRetellingVernacularNull() {
+                this[this.tableLanguages.UseRetellingVernacularColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsUseRetellingNationalBTNull() {
+                return this.IsNull(this.tableLanguages.UseRetellingNationalBTColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetUseRetellingNationalBTNull() {
+                this[this.tableLanguages.UseRetellingNationalBTColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsUseRetellingInternationalBTNull() {
+                return this.IsNull(this.tableLanguages.UseRetellingInternationalBTColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetUseRetellingInternationalBTNull() {
+                this[this.tableLanguages.UseRetellingInternationalBTColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsUseTestQuestionVernacularNull() {
+                return this.IsNull(this.tableLanguages.UseTestQuestionVernacularColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetUseTestQuestionVernacularNull() {
+                this[this.tableLanguages.UseTestQuestionVernacularColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsUseTestQuestionNationalBTNull() {
+                return this.IsNull(this.tableLanguages.UseTestQuestionNationalBTColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetUseTestQuestionNationalBTNull() {
+                this[this.tableLanguages.UseTestQuestionNationalBTColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsUseTestQuestionInternationalBTNull() {
+                return this.IsNull(this.tableLanguages.UseTestQuestionInternationalBTColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetUseTestQuestionInternationalBTNull() {
+                this[this.tableLanguages.UseTestQuestionInternationalBTColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsUseAnswerVernacularNull() {
+                return this.IsNull(this.tableLanguages.UseAnswerVernacularColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetUseAnswerVernacularNull() {
+                this[this.tableLanguages.UseAnswerVernacularColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsUseAnswerNationalBTNull() {
+                return this.IsNull(this.tableLanguages.UseAnswerNationalBTColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetUseAnswerNationalBTNull() {
+                this[this.tableLanguages.UseAnswerNationalBTColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsUseAnswerInternationalBTNull() {
+                return this.IsNull(this.tableLanguages.UseAnswerInternationalBTColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetUseAnswerInternationalBTNull() {
+                this[this.tableLanguages.UseAnswerInternationalBTColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -16842,15 +17225,25 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public string memberID {
                 get {
-                    try {
-                        return ((string)(this[this.tableanswer.memberIDColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'memberID\' in table \'answer\' is DBNull.", e);
-                    }
+                    return ((string)(this[this.tableanswer.memberIDColumn]));
                 }
                 set {
                     this[this.tableanswer.memberIDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string lang {
+                get {
+                    try {
+                        return ((string)(this[this.tableanswer.langColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'lang\' in table \'answer\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableanswer.langColumn] = value;
                 }
             }
             
@@ -16895,13 +17288,13 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsmemberIDNull() {
-                return this.IsNull(this.tableanswer.memberIDColumn);
+            public bool IslangNull() {
+                return this.IsNull(this.tableanswer.langColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetmemberIDNull() {
-                this[this.tableanswer.memberIDColumn] = global::System.Convert.DBNull;
+            public void SetlangNull() {
+                this[this.tableanswer.langColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -17012,15 +17405,25 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public string memberID {
                 get {
-                    try {
-                        return ((string)(this[this.tableRetelling.memberIDColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'memberID\' in table \'Retelling\' is DBNull.", e);
-                    }
+                    return ((string)(this[this.tableRetelling.memberIDColumn]));
                 }
                 set {
                     this[this.tableRetelling.memberIDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string lang {
+                get {
+                    try {
+                        return ((string)(this[this.tableRetelling.langColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'lang\' in table \'Retelling\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableRetelling.langColumn] = value;
                 }
             }
             
@@ -17065,13 +17468,13 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsmemberIDNull() {
-                return this.IsNull(this.tableRetelling.memberIDColumn);
+            public bool IslangNull() {
+                return this.IsNull(this.tableRetelling.langColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetmemberIDNull() {
-                this[this.tableRetelling.memberIDColumn] = global::System.Convert.DBNull;
+            public void SetlangNull() {
+                this[this.tableRetelling.langColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

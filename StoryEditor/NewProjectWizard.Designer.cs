@@ -47,10 +47,10 @@
             this.textBoxPassword = new System.Windows.Forms.TextBox();
             this.labelPassword = new System.Windows.Forms.Label();
             this.tabPageLanguages = new System.Windows.Forms.TabPage();
-            this.checkBoxFreeTranslation = new System.Windows.Forms.CheckBox();
-            this.checkBoxEnglishBT = new System.Windows.Forms.CheckBox();
-            this.checkBoxNationalBT = new System.Windows.Forms.CheckBox();
-            this.checkBoxStoryLanguage = new System.Windows.Forms.CheckBox();
+            this.checkBoxLanguageFreeTranslation = new System.Windows.Forms.CheckBox();
+            this.checkBoxLanguageInternationalBT = new System.Windows.Forms.CheckBox();
+            this.checkBoxLanguageNationalBT = new System.Windows.Forms.CheckBox();
+            this.checkBoxLanguageVernacular = new System.Windows.Forms.CheckBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.tabPageLanguageVernacular = new System.Windows.Forms.TabPage();
             this.tableLayoutPanelLanguageInformationVernacular = new System.Windows.Forms.TableLayoutPanel();
@@ -120,6 +120,24 @@
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.buttonPrevious = new System.Windows.Forms.Button();
             this.fontDialog = new System.Windows.Forms.FontDialog();
+            this.tableLayoutPanelWhichLanguagesWhere = new System.Windows.Forms.TableLayoutPanel();
+            this.labelStory = new System.Windows.Forms.Label();
+            this.labelVernacular = new System.Windows.Forms.Label();
+            this.labelNationalBT = new System.Windows.Forms.Label();
+            this.labelEnglishBT = new System.Windows.Forms.Label();
+            this.labelFreeTranslation = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.checkBoxRetellingsVernacular = new System.Windows.Forms.CheckBox();
+            this.checkBoxTestQuestionsVernacular = new System.Windows.Forms.CheckBox();
+            this.checkBoxAnswersVernacular = new System.Windows.Forms.CheckBox();
+            this.checkBoxRetellingsNationalBT = new System.Windows.Forms.CheckBox();
+            this.checkBoxRetellingsInternationalBT = new System.Windows.Forms.CheckBox();
+            this.checkBoxTestQuestionsNationalBT = new System.Windows.Forms.CheckBox();
+            this.checkBoxTestQuestionsInternationalBT = new System.Windows.Forms.CheckBox();
+            this.checkBoxAnswersNationalBT = new System.Windows.Forms.CheckBox();
+            this.checkBoxAnswersInternationalBT = new System.Windows.Forms.CheckBox();
             this.tabControl.SuspendLayout();
             this.tabPageProjectName.SuspendLayout();
             this.tabPageInternetRepository.SuspendLayout();
@@ -134,6 +152,7 @@
             this.tabPageLanguageFreeTranslation.SuspendLayout();
             this.tableLayoutPanelFreeTranslation.SuspendLayout();
             this.tabPageMemberRoles.SuspendLayout();
+            this.tableLayoutPanelWhichLanguagesWhere.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl
@@ -336,10 +355,7 @@
             // 
             // tabPageLanguages
             // 
-            this.tabPageLanguages.Controls.Add(this.checkBoxFreeTranslation);
-            this.tabPageLanguages.Controls.Add(this.checkBoxEnglishBT);
-            this.tabPageLanguages.Controls.Add(this.checkBoxNationalBT);
-            this.tabPageLanguages.Controls.Add(this.checkBoxStoryLanguage);
+            this.tabPageLanguages.Controls.Add(this.tableLayoutPanelWhichLanguagesWhere);
             this.tabPageLanguages.Controls.Add(this.textBox2);
             this.tabPageLanguages.Location = new System.Drawing.Point(4, 22);
             this.tabPageLanguages.Name = "tabPageLanguages";
@@ -349,51 +365,52 @@
             this.tabPageLanguages.Text = "Languages";
             this.tabPageLanguages.UseVisualStyleBackColor = true;
             // 
-            // checkBoxFreeTranslation
+            // checkBoxLanguageFreeTranslation
             // 
-            this.checkBoxFreeTranslation.AutoSize = true;
-            this.checkBoxFreeTranslation.Location = new System.Drawing.Point(16, 89);
-            this.checkBoxFreeTranslation.Name = "checkBoxFreeTranslation";
-            this.checkBoxFreeTranslation.Size = new System.Drawing.Size(98, 17);
-            this.checkBoxFreeTranslation.TabIndex = 4;
-            this.checkBoxFreeTranslation.Text = "&Free translation";
-            this.checkBoxFreeTranslation.UseVisualStyleBackColor = true;
-            this.checkBoxFreeTranslation.CheckedChanged += new System.EventHandler(this.checkBoxFreeTranslation_CheckedChanged);
+            this.checkBoxLanguageFreeTranslation.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.checkBoxLanguageFreeTranslation.AutoSize = true;
+            this.checkBoxLanguageFreeTranslation.Location = new System.Drawing.Point(206, 83);
+            this.checkBoxLanguageFreeTranslation.Name = "checkBoxLanguageFreeTranslation";
+            this.checkBoxLanguageFreeTranslation.Size = new System.Drawing.Size(15, 14);
+            this.checkBoxLanguageFreeTranslation.TabIndex = 4;
+            this.checkBoxLanguageFreeTranslation.UseVisualStyleBackColor = true;
+            this.checkBoxLanguageFreeTranslation.CheckedChanged += new System.EventHandler(this.checkBoxFreeTranslation_CheckedChanged);
             // 
-            // checkBoxEnglishBT
+            // checkBoxLanguageInternationalBT
             // 
-            this.checkBoxEnglishBT.AutoSize = true;
-            this.checkBoxEnglishBT.Checked = true;
-            this.checkBoxEnglishBT.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxEnglishBT.Location = new System.Drawing.Point(16, 66);
-            this.checkBoxEnglishBT.Name = "checkBoxEnglishBT";
-            this.checkBoxEnglishBT.Size = new System.Drawing.Size(138, 17);
-            this.checkBoxEnglishBT.TabIndex = 2;
-            this.checkBoxEnglishBT.Text = "&English back-translation";
-            this.checkBoxEnglishBT.UseVisualStyleBackColor = true;
-            this.checkBoxEnglishBT.CheckedChanged += new System.EventHandler(this.checkBoxEnglishBT_CheckedChanged);
+            this.checkBoxLanguageInternationalBT.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.checkBoxLanguageInternationalBT.AutoSize = true;
+            this.checkBoxLanguageInternationalBT.Checked = true;
+            this.checkBoxLanguageInternationalBT.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxLanguageInternationalBT.Location = new System.Drawing.Point(206, 63);
+            this.checkBoxLanguageInternationalBT.Name = "checkBoxLanguageInternationalBT";
+            this.checkBoxLanguageInternationalBT.Size = new System.Drawing.Size(15, 14);
+            this.checkBoxLanguageInternationalBT.TabIndex = 3;
+            this.checkBoxLanguageInternationalBT.UseVisualStyleBackColor = true;
+            this.checkBoxLanguageInternationalBT.CheckedChanged += new System.EventHandler(this.checkBoxEnglishBT_CheckedChanged);
             // 
-            // checkBoxNationalBT
+            // checkBoxLanguageNationalBT
             // 
-            this.checkBoxNationalBT.AutoSize = true;
-            this.checkBoxNationalBT.Location = new System.Drawing.Point(16, 42);
-            this.checkBoxNationalBT.Name = "checkBoxNationalBT";
-            this.checkBoxNationalBT.Size = new System.Drawing.Size(190, 17);
-            this.checkBoxNationalBT.TabIndex = 1;
-            this.checkBoxNationalBT.Text = "&National/Regional back-translation";
-            this.checkBoxNationalBT.UseVisualStyleBackColor = true;
-            this.checkBoxNationalBT.CheckedChanged += new System.EventHandler(this.checkBoxNationalBT_CheckedChanged);
+            this.checkBoxLanguageNationalBT.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.checkBoxLanguageNationalBT.AutoSize = true;
+            this.checkBoxLanguageNationalBT.Location = new System.Drawing.Point(206, 43);
+            this.checkBoxLanguageNationalBT.Name = "checkBoxLanguageNationalBT";
+            this.checkBoxLanguageNationalBT.Size = new System.Drawing.Size(15, 14);
+            this.checkBoxLanguageNationalBT.TabIndex = 1;
+            this.checkBoxLanguageNationalBT.UseVisualStyleBackColor = true;
+            this.checkBoxLanguageNationalBT.CheckedChanged += new System.EventHandler(this.checkBoxNationalBT_CheckedChanged);
             // 
-            // checkBoxStoryLanguage
+            // checkBoxLanguageVernacular
             // 
-            this.checkBoxStoryLanguage.AutoSize = true;
-            this.checkBoxStoryLanguage.Location = new System.Drawing.Point(16, 18);
-            this.checkBoxStoryLanguage.Name = "checkBoxStoryLanguage";
-            this.checkBoxStoryLanguage.Size = new System.Drawing.Size(97, 17);
-            this.checkBoxStoryLanguage.TabIndex = 0;
-            this.checkBoxStoryLanguage.Text = "&Story language";
-            this.checkBoxStoryLanguage.UseVisualStyleBackColor = true;
-            this.checkBoxStoryLanguage.CheckedChanged += new System.EventHandler(this.checkBoxStoryLanguage_CheckedChanged);
+            this.checkBoxLanguageVernacular.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.checkBoxLanguageVernacular.AutoSize = true;
+            this.checkBoxLanguageVernacular.Location = new System.Drawing.Point(206, 23);
+            this.checkBoxLanguageVernacular.Name = "checkBoxLanguageVernacular";
+            this.checkBoxLanguageVernacular.Size = new System.Drawing.Size(15, 14);
+            this.checkBoxLanguageVernacular.TabIndex = 0;
+            this.checkBoxLanguageVernacular.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBoxLanguageVernacular.UseVisualStyleBackColor = true;
+            this.checkBoxLanguageVernacular.CheckedChanged += new System.EventHandler(this.checkBoxStoryLanguage_CheckedChanged);
             // 
             // textBox2
             // 
@@ -1221,6 +1238,231 @@
             this.buttonPrevious.UseVisualStyleBackColor = true;
             this.buttonPrevious.Click += new System.EventHandler(this.buttonPrevious_Click);
             // 
+            // tableLayoutPanelWhichLanguagesWhere
+            // 
+            this.tableLayoutPanelWhichLanguagesWhere.ColumnCount = 5;
+            this.tableLayoutPanelWhichLanguagesWhere.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanelWhichLanguagesWhere.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanelWhichLanguagesWhere.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanelWhichLanguagesWhere.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanelWhichLanguagesWhere.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanelWhichLanguagesWhere.Controls.Add(this.labelFreeTranslation, 0, 4);
+            this.tableLayoutPanelWhichLanguagesWhere.Controls.Add(this.checkBoxLanguageFreeTranslation, 1, 4);
+            this.tableLayoutPanelWhichLanguagesWhere.Controls.Add(this.labelStory, 1, 0);
+            this.tableLayoutPanelWhichLanguagesWhere.Controls.Add(this.checkBoxLanguageInternationalBT, 1, 3);
+            this.tableLayoutPanelWhichLanguagesWhere.Controls.Add(this.labelVernacular, 0, 1);
+            this.tableLayoutPanelWhichLanguagesWhere.Controls.Add(this.checkBoxLanguageNationalBT, 1, 2);
+            this.tableLayoutPanelWhichLanguagesWhere.Controls.Add(this.labelNationalBT, 0, 2);
+            this.tableLayoutPanelWhichLanguagesWhere.Controls.Add(this.checkBoxLanguageVernacular, 1, 1);
+            this.tableLayoutPanelWhichLanguagesWhere.Controls.Add(this.labelEnglishBT, 0, 3);
+            this.tableLayoutPanelWhichLanguagesWhere.Controls.Add(this.label1, 2, 0);
+            this.tableLayoutPanelWhichLanguagesWhere.Controls.Add(this.label2, 3, 0);
+            this.tableLayoutPanelWhichLanguagesWhere.Controls.Add(this.label3, 4, 0);
+            this.tableLayoutPanelWhichLanguagesWhere.Controls.Add(this.checkBoxRetellingsVernacular, 2, 1);
+            this.tableLayoutPanelWhichLanguagesWhere.Controls.Add(this.checkBoxTestQuestionsVernacular, 3, 1);
+            this.tableLayoutPanelWhichLanguagesWhere.Controls.Add(this.checkBoxAnswersVernacular, 4, 1);
+            this.tableLayoutPanelWhichLanguagesWhere.Controls.Add(this.checkBoxRetellingsNationalBT, 2, 2);
+            this.tableLayoutPanelWhichLanguagesWhere.Controls.Add(this.checkBoxRetellingsInternationalBT, 2, 3);
+            this.tableLayoutPanelWhichLanguagesWhere.Controls.Add(this.checkBoxTestQuestionsNationalBT, 3, 2);
+            this.tableLayoutPanelWhichLanguagesWhere.Controls.Add(this.checkBoxTestQuestionsInternationalBT, 3, 3);
+            this.tableLayoutPanelWhichLanguagesWhere.Controls.Add(this.checkBoxAnswersNationalBT, 4, 2);
+            this.tableLayoutPanelWhichLanguagesWhere.Controls.Add(this.checkBoxAnswersInternationalBT, 4, 3);
+            this.tableLayoutPanelWhichLanguagesWhere.Location = new System.Drawing.Point(16, 18);
+            this.tableLayoutPanelWhichLanguagesWhere.Name = "tableLayoutPanelWhichLanguagesWhere";
+            this.tableLayoutPanelWhichLanguagesWhere.RowCount = 5;
+            this.tableLayoutPanelWhichLanguagesWhere.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanelWhichLanguagesWhere.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanelWhichLanguagesWhere.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanelWhichLanguagesWhere.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanelWhichLanguagesWhere.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanelWhichLanguagesWhere.Size = new System.Drawing.Size(553, 100);
+            this.tableLayoutPanelWhichLanguagesWhere.TabIndex = 5;
+            // 
+            // labelStory
+            // 
+            this.labelStory.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.labelStory.AutoSize = true;
+            this.labelStory.Location = new System.Drawing.Point(198, 7);
+            this.labelStory.Name = "labelStory";
+            this.labelStory.Size = new System.Drawing.Size(31, 13);
+            this.labelStory.TabIndex = 0;
+            this.labelStory.Text = "Story";
+            // 
+            // labelVernacular
+            // 
+            this.labelVernacular.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelVernacular.AutoSize = true;
+            this.labelVernacular.Location = new System.Drawing.Point(82, 23);
+            this.labelVernacular.Name = "labelVernacular";
+            this.labelVernacular.Size = new System.Drawing.Size(81, 13);
+            this.labelVernacular.TabIndex = 1;
+            this.labelVernacular.Text = "Story language:";
+            // 
+            // labelNationalBT
+            // 
+            this.labelNationalBT.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelNationalBT.AutoSize = true;
+            this.labelNationalBT.Location = new System.Drawing.Point(3, 43);
+            this.labelNationalBT.Name = "labelNationalBT";
+            this.labelNationalBT.Size = new System.Drawing.Size(160, 13);
+            this.labelNationalBT.TabIndex = 2;
+            this.labelNationalBT.Text = "National/Regional language BT:";
+            // 
+            // labelEnglishBT
+            // 
+            this.labelEnglishBT.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelEnglishBT.AutoSize = true;
+            this.labelEnglishBT.Location = new System.Drawing.Point(55, 63);
+            this.labelEnglishBT.Name = "labelEnglishBT";
+            this.labelEnglishBT.Size = new System.Drawing.Size(108, 13);
+            this.labelEnglishBT.TabIndex = 3;
+            this.labelEnglishBT.Text = "English language BT:";
+            // 
+            // labelFreeTranslation
+            // 
+            this.labelFreeTranslation.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelFreeTranslation.AutoSize = true;
+            this.labelFreeTranslation.Location = new System.Drawing.Point(77, 83);
+            this.labelFreeTranslation.Name = "labelFreeTranslation";
+            this.labelFreeTranslation.Size = new System.Drawing.Size(86, 13);
+            this.labelFreeTranslation.TabIndex = 4;
+            this.labelFreeTranslation.Text = "Free Translation:";
+            // 
+            // label1
+            // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(283, 7);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(53, 13);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "Retellings";
+            // 
+            // label2
+            // 
+            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(367, 7);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(78, 13);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "Test Questions";
+            // 
+            // label3
+            // 
+            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(480, 7);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(47, 13);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "Answers";
+            // 
+            // checkBoxRetellingsVernacular
+            // 
+            this.checkBoxRetellingsVernacular.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.checkBoxRetellingsVernacular.AutoSize = true;
+            this.checkBoxRetellingsVernacular.Location = new System.Drawing.Point(302, 23);
+            this.checkBoxRetellingsVernacular.Name = "checkBoxRetellingsVernacular";
+            this.checkBoxRetellingsVernacular.Size = new System.Drawing.Size(15, 14);
+            this.checkBoxRetellingsVernacular.TabIndex = 5;
+            this.checkBoxRetellingsVernacular.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBoxRetellingsVernacular.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxTestQuestionsVernacular
+            // 
+            this.checkBoxTestQuestionsVernacular.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.checkBoxTestQuestionsVernacular.AutoSize = true;
+            this.checkBoxTestQuestionsVernacular.Location = new System.Drawing.Point(398, 23);
+            this.checkBoxTestQuestionsVernacular.Name = "checkBoxTestQuestionsVernacular";
+            this.checkBoxTestQuestionsVernacular.Size = new System.Drawing.Size(15, 14);
+            this.checkBoxTestQuestionsVernacular.TabIndex = 8;
+            this.checkBoxTestQuestionsVernacular.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBoxTestQuestionsVernacular.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxAnswersVernacular
+            // 
+            this.checkBoxAnswersVernacular.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.checkBoxAnswersVernacular.AutoSize = true;
+            this.checkBoxAnswersVernacular.Location = new System.Drawing.Point(496, 23);
+            this.checkBoxAnswersVernacular.Name = "checkBoxAnswersVernacular";
+            this.checkBoxAnswersVernacular.Size = new System.Drawing.Size(15, 14);
+            this.checkBoxAnswersVernacular.TabIndex = 11;
+            this.checkBoxAnswersVernacular.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBoxAnswersVernacular.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxRetellingsNationalBT
+            // 
+            this.checkBoxRetellingsNationalBT.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.checkBoxRetellingsNationalBT.AutoSize = true;
+            this.checkBoxRetellingsNationalBT.Location = new System.Drawing.Point(302, 43);
+            this.checkBoxRetellingsNationalBT.Name = "checkBoxRetellingsNationalBT";
+            this.checkBoxRetellingsNationalBT.Size = new System.Drawing.Size(15, 14);
+            this.checkBoxRetellingsNationalBT.TabIndex = 6;
+            this.checkBoxRetellingsNationalBT.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBoxRetellingsNationalBT.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxRetellingsInternationalBT
+            // 
+            this.checkBoxRetellingsInternationalBT.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.checkBoxRetellingsInternationalBT.AutoSize = true;
+            this.checkBoxRetellingsInternationalBT.Checked = true;
+            this.checkBoxRetellingsInternationalBT.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxRetellingsInternationalBT.Location = new System.Drawing.Point(302, 63);
+            this.checkBoxRetellingsInternationalBT.Name = "checkBoxRetellingsInternationalBT";
+            this.checkBoxRetellingsInternationalBT.Size = new System.Drawing.Size(15, 14);
+            this.checkBoxRetellingsInternationalBT.TabIndex = 7;
+            this.checkBoxRetellingsInternationalBT.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBoxRetellingsInternationalBT.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxTestQuestionsNationalBT
+            // 
+            this.checkBoxTestQuestionsNationalBT.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.checkBoxTestQuestionsNationalBT.AutoSize = true;
+            this.checkBoxTestQuestionsNationalBT.Location = new System.Drawing.Point(398, 43);
+            this.checkBoxTestQuestionsNationalBT.Name = "checkBoxTestQuestionsNationalBT";
+            this.checkBoxTestQuestionsNationalBT.Size = new System.Drawing.Size(15, 14);
+            this.checkBoxTestQuestionsNationalBT.TabIndex = 9;
+            this.checkBoxTestQuestionsNationalBT.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBoxTestQuestionsNationalBT.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxTestQuestionsInternationalBT
+            // 
+            this.checkBoxTestQuestionsInternationalBT.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.checkBoxTestQuestionsInternationalBT.AutoSize = true;
+            this.checkBoxTestQuestionsInternationalBT.Checked = true;
+            this.checkBoxTestQuestionsInternationalBT.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxTestQuestionsInternationalBT.Location = new System.Drawing.Point(398, 63);
+            this.checkBoxTestQuestionsInternationalBT.Name = "checkBoxTestQuestionsInternationalBT";
+            this.checkBoxTestQuestionsInternationalBT.Size = new System.Drawing.Size(15, 14);
+            this.checkBoxTestQuestionsInternationalBT.TabIndex = 10;
+            this.checkBoxTestQuestionsInternationalBT.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBoxTestQuestionsInternationalBT.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxAnswersNationalBT
+            // 
+            this.checkBoxAnswersNationalBT.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.checkBoxAnswersNationalBT.AutoSize = true;
+            this.checkBoxAnswersNationalBT.Location = new System.Drawing.Point(496, 43);
+            this.checkBoxAnswersNationalBT.Name = "checkBoxAnswersNationalBT";
+            this.checkBoxAnswersNationalBT.Size = new System.Drawing.Size(15, 14);
+            this.checkBoxAnswersNationalBT.TabIndex = 12;
+            this.checkBoxAnswersNationalBT.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBoxAnswersNationalBT.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxAnswersInternationalBT
+            // 
+            this.checkBoxAnswersInternationalBT.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.checkBoxAnswersInternationalBT.AutoSize = true;
+            this.checkBoxAnswersInternationalBT.Checked = true;
+            this.checkBoxAnswersInternationalBT.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxAnswersInternationalBT.Location = new System.Drawing.Point(496, 63);
+            this.checkBoxAnswersInternationalBT.Name = "checkBoxAnswersInternationalBT";
+            this.checkBoxAnswersInternationalBT.Size = new System.Drawing.Size(15, 14);
+            this.checkBoxAnswersInternationalBT.TabIndex = 13;
+            this.checkBoxAnswersInternationalBT.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBoxAnswersInternationalBT.UseVisualStyleBackColor = true;
+            // 
             // NewProjectWizard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1256,6 +1498,8 @@
             this.tableLayoutPanelFreeTranslation.PerformLayout();
             this.tabPageMemberRoles.ResumeLayout(false);
             this.tabPageMemberRoles.PerformLayout();
+            this.tableLayoutPanelWhichLanguagesWhere.ResumeLayout(false);
+            this.tableLayoutPanelWhichLanguagesWhere.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1270,9 +1514,9 @@
         private System.Windows.Forms.Button buttonNext;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.CheckBox checkBoxStoryLanguage;
-        private System.Windows.Forms.CheckBox checkBoxNationalBT;
-        private System.Windows.Forms.CheckBox checkBoxEnglishBT;
+        private System.Windows.Forms.CheckBox checkBoxLanguageVernacular;
+        private System.Windows.Forms.CheckBox checkBoxLanguageNationalBT;
+        private System.Windows.Forms.CheckBox checkBoxLanguageInternationalBT;
         private System.Windows.Forms.TabPage tabPageLanguageEnglishBT;
         private System.Windows.Forms.TextBox textBoxLanguageTabInstructionsEnglishBT;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelLanguageInformationEnglishBT;
@@ -1337,7 +1581,7 @@
         private System.Windows.Forms.Label labelFontVernacular;
         private System.Windows.Forms.Label labelSentenceTermVernacular;
         private System.Windows.Forms.Label labelKeyboardVernacular;
-        private System.Windows.Forms.CheckBox checkBoxFreeTranslation;
+        private System.Windows.Forms.CheckBox checkBoxLanguageFreeTranslation;
         private System.Windows.Forms.TabPage tabPageLanguageFreeTranslation;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelFreeTranslation;
         private System.Windows.Forms.TextBox textBoxLanguageTabInstructionsFreeTranslation;
@@ -1352,5 +1596,23 @@
         private System.Windows.Forms.TextBox textBoxSentFullStopFreeTranslation;
         private System.Windows.Forms.Label labelKeyboardFreeTranslation;
         private System.Windows.Forms.ComboBox comboBoxKeyboardFreeTranslation;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanelWhichLanguagesWhere;
+        private System.Windows.Forms.Label labelStory;
+        private System.Windows.Forms.Label labelVernacular;
+        private System.Windows.Forms.Label labelFreeTranslation;
+        private System.Windows.Forms.Label labelNationalBT;
+        private System.Windows.Forms.Label labelEnglishBT;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.CheckBox checkBoxRetellingsVernacular;
+        private System.Windows.Forms.CheckBox checkBoxTestQuestionsVernacular;
+        private System.Windows.Forms.CheckBox checkBoxAnswersVernacular;
+        private System.Windows.Forms.CheckBox checkBoxRetellingsNationalBT;
+        private System.Windows.Forms.CheckBox checkBoxRetellingsInternationalBT;
+        private System.Windows.Forms.CheckBox checkBoxTestQuestionsNationalBT;
+        private System.Windows.Forms.CheckBox checkBoxTestQuestionsInternationalBT;
+        private System.Windows.Forms.CheckBox checkBoxAnswersNationalBT;
+        private System.Windows.Forms.CheckBox checkBoxAnswersInternationalBT;
     }
 }

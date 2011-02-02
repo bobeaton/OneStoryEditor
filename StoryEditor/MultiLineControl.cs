@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
 {
     public partial class MultiLineControl : ResizableControl
     {
-        public MultiLineControl(VerseControl ctrlVerse, StoryStageLogic storyStageLogic, 
-            MultipleLineDataConverter aMLDC, ProjectSettings.LanguageInfo li, List<string> astrTestors)
+        public MultiLineControl(VerseBtControl ctrlVerse, StoryStageLogic storyStageLogic, 
+            MultipleLineDataConverter aMLDC, ProjectSettings projSettings, List<string> astrTestors,
+            bool bShowVernacular, bool bShowNationalBT, bool bShowInternationalBT)
             : base(storyStageLogic)
         {
             InitializeComponent();
@@ -20,27 +17,84 @@ namespace OneStoryProjectEditor
             SuspendLayout();
 
             System.Diagnostics.Debug.Assert(tableLayoutPanel.RowCount == 1, "otherwise, fix this assumption: RetellingsControl.cs.20");
-            tableLayoutPanel.RemoveRow(1);  // remove the one default one we start with
+            tableLayoutPanel.RemoveRow(1);  // remove the one default one we start with (we add them back later)
+
+            // remove the columns, because we're going to add them back as equal sizes.
+            // But leave 1 for the label
+            while (tableLayoutPanel.ColumnCount > 1)
+                RemoveColumn(tableLayoutPanel.ColumnCount - 1);
 
             // finally populate the buttons on that tool strip
             System.Diagnostics.Debug.Assert(aMLDC.Count > 0);
-            int nNumRows = 0;
-            for (int i = 0; i < aMLDC.Count; i++)
+            for (int nNumRows = 0; nNumRows < aMLDC.Count; nNumRows++)
             {
-                StringTransfer strRowData = aMLDC[i];
-                string strUnsGui = aMLDC.MemberIDs[i];
+                LineData aLineData = aMLDC[nNumRows];
+                string strUnsGui = aLineData.MemberId;
                 System.Diagnostics.Debug.Assert(astrTestors.Contains(strUnsGui));
                 int nTest = astrTestors.IndexOf(strUnsGui) + 1;
-                InitRow(ctrlVerse, aMLDC.LabelTextFormat, li, strRowData, nTest, ref nNumRows);
+                InitRow(aMLDC.LabelTextFormat, nTest, nNumRows);
+
+                int nNumColumns = 1;
+                CtrlTextBox ctrlTextBoxVernacular = null;
+                if (bShowVernacular)
+                {
+                    InsertColumn(nNumColumns);
+                    aLineData[StoryEditor.CnVernacular].Transliterator = ctrlVerse.TransliteratorVernacular;
+                    ctrlTextBoxVernacular = InitTextBox(ctrlVerse, VerseData.CstrFieldNameVernacular,
+                                                        aLineData[StoryEditor.CnVernacular], projSettings.Vernacular,
+                                                        nNumColumns, nNumRows, 
+                                                        StoryEditor.TextFieldType.eVernacular);
+                    nNumColumns++;
+                }
+
+                CtrlTextBox ctrlTextBoxNationalBT = null;
+                if (bShowNationalBT)
+                {
+                    InsertColumn(nNumColumns);
+                    aLineData[StoryEditor.CnNationalBt].Transliterator = ctrlVerse.TransliteratorNationalBT;
+                    ctrlTextBoxNationalBT = InitTextBox(ctrlVerse, VerseData.CstrFieldNameNationalBt,
+                                                        aLineData[StoryEditor.CnNationalBt], projSettings.NationalBT,
+                                                        nNumColumns, nNumRows, 
+                                                        StoryEditor.TextFieldType.eNational);
+                    nNumColumns++;
+
+                    if (ctrlTextBoxVernacular != null)
+                        ctrlTextBoxVernacular.NationalBtSibling = ctrlTextBoxNationalBT;
+                }
+
+                if (bShowInternationalBT)
+                {
+                    InsertColumn(nNumColumns);
+                    CtrlTextBox ctrlTextBoxEnglishBT = InitTextBox(ctrlVerse, VerseData.CstrFieldNameInternationalBt,
+                                                        aLineData[StoryEditor.CnInternationalBt], projSettings.InternationalBT,
+                                                        nNumColumns, nNumRows, 
+                                                        StoryEditor.TextFieldType.eInternational);
+                    nNumColumns++;
+
+                    if (ctrlTextBoxVernacular != null)
+                        ctrlTextBoxVernacular.EnglishBtSibling = ctrlTextBoxEnglishBT;
+
+                    if (ctrlTextBoxNationalBT != null)
+                        ctrlTextBoxNationalBT.EnglishBtSibling = ctrlTextBoxEnglishBT;
+                }
             }
 
             tableLayoutPanel.ResumeLayout(false);
             ResumeLayout(false);
         }
 
-        protected void InitRow(VerseControl ctrlVerse, string strLabelTextFormat, 
-            ProjectSettings.LanguageInfo li, StringTransfer strRowData, int nTest, 
-            ref int nNumRows)
+        protected CtrlTextBox InitTextBox(VerseControl ctrlVerse, string strTbName, 
+            StringTransfer strTbText, ProjectSettings.LanguageInfo li, int nLayoutColumn, 
+            int nLayoutRow, StoryEditor.TextFieldType eFieldType)
+        {
+            System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(strTbName + CstrSuffixTextBox), "otherwise, fix wrong assumption");
+            var tb = new CtrlTextBox(strTbName + CstrSuffixTextBox, ctrlVerse, this,
+                strTbText, li, li.LangCode, eFieldType);
+            tableLayoutPanel.Controls.Add(tb, nLayoutColumn, nLayoutRow);
+            return tb;
+        }
+
+        protected void InitRow(string strLabelTextFormat, int nTest, int nNumRows)
         {
             Label label = new Label
                               {
@@ -50,15 +104,9 @@ namespace OneStoryProjectEditor
                                   Text = String.Format(strLabelTextFormat, nTest)
                               };
 
-            CtrlTextBox tb = new CtrlTextBox(
-                strLabelTextFormat + CstrSuffixTextBox + nTest, ctrlVerse, this, strRowData,
-                li, label.Text, StoryEditor.TextFieldType.eUndefined);
-
-            // add the label and tool strip as a new row to the table layout panel
-            int nLayoutRow = nNumRows++;
-            InsertRow(nLayoutRow);
-            tableLayoutPanel.Controls.Add(label, 0, nLayoutRow);
-            tableLayoutPanel.Controls.Add(tb, 1, nLayoutRow);
+            // add the label as a new row to the table layout panel
+            InsertRow(nNumRows);
+            tableLayoutPanel.Controls.Add(label, 0, nNumRows);
         }
     }
 }

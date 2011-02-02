@@ -58,8 +58,7 @@ namespace OneStoryProjectEditor
 
         public enum TextFieldType
         {
-            eUndefined = 0,
-            eVernacular,
+            eVernacular = 0,
             eNational,
             eInternational,
             eFreeTranslation
@@ -72,6 +71,11 @@ namespace OneStoryProjectEditor
             eVernacularToEnglish,   // use Vern -> Engl project
             eNationalToEnglish      // use Natl -> Engl project (which can be shared by other clients)
         }
+
+        public const int CnVernacular = 0;
+        public const int CnNationalBt = 1;
+        public const int CnInternationalBt = 2;
+        public const int CnFreeTranslation = 3;
 
         public StoryEditor(string strStoriesSet, string strProjectFilePath)
         {
@@ -2476,8 +2480,8 @@ namespace OneStoryProjectEditor
             foreach (VerseData aVerseData in theCurrentStory.Verses)
             {
                 foreach (TestQuestionData aTQ in aVerseData.TestQuestions)
-                    aTQ.Answers.AddNewLine(strUnsGuid).SetValue("");
-                aVerseData.Retellings.AddNewLine(strUnsGuid).SetValue("");
+                    aTQ.Answers.AddNewLine(strUnsGuid);
+                aVerseData.Retellings.AddNewLine(strUnsGuid);
             }
 
             Modified = true;
@@ -2503,13 +2507,12 @@ namespace OneStoryProjectEditor
             if (String.IsNullOrEmpty(strUnsGuid))
                 return false;
 
-            for (int i = 0; i < theTQ.Answers.MemberIDs.Count; i++)
+            LineData aLineData = theTQ.Answers.TryGetValue(strUnsGuid);
+            if (aLineData != null)
             {
-                if (theTQ.Answers.MemberIDs[i] != strUnsGuid)
-                    continue;
-
+                int nIndex = theTQ.Answers.IndexOf(aLineData);
                 MessageBox.Show(String.Format(Properties.Resources.IDS_AddTestSameUNS,
-                                              String.Format(theTQ.Answers.LabelTextFormat, i + 1)),
+                                              String.Format(theTQ.Answers.LabelTextFormat, nIndex + 1)),
                                 OseResources.Properties.Resources.IDS_Caption,
                                 MessageBoxButtons.OKCancel);
                 return false;
@@ -2525,7 +2528,7 @@ namespace OneStoryProjectEditor
 
             // by now, the user-chosen UNS *is* in the CraftingInfo list and *isn't* in
             //  the Answer list for this particular TQ, so add it now.
-            theTQ.Answers.AddNewLine(strUnsGuid).SetValue("");
+            theTQ.Answers.AddNewLine(strUnsGuid);
 
             Modified = true;
             return true;
@@ -2558,29 +2561,22 @@ namespace OneStoryProjectEditor
                 foreach (VerseData aVerseData in theCurrentStory.Verses)
                 {
                     int nIndex;
+                    LineData theLineData;
                     foreach (TestQuestionData aTQ in aVerseData.TestQuestions)
                     {
                         // it's possible that a question is *newer*, in which case, there may only be answers from a new UNS 
                         //  and not earlier ones. So delete the records based on the UnsGuid (since that is what the 
                         //  user will have selected off of to delete)
-                        nIndex = aTQ.Answers.MemberIDs.IndexOf(strUnsGuid);
-                        if (nIndex != -1)
-                        {
-                            aTQ.Answers.MemberIDs.RemoveAt(nIndex);
-                            Debug.Assert(nIndex < aTQ.Answers.Count);
-                            aTQ.Answers.RemoveAt(nIndex);
-                        }
+                        theLineData = aTQ.Answers.TryGetValue(strUnsGuid);
+                        if (theLineData != null)
+                            aTQ.Answers.Remove(theLineData);
                     }
 
                     // even the verse itself may be newer and only have a single retelling (compared
                     //  with multiple retellings for verses that we're present from draft 1)
-                    nIndex = aVerseData.Retellings.MemberIDs.IndexOf(strUnsGuid);
-                    if (nIndex != -1)
-                    {
-                        aVerseData.Retellings.MemberIDs.RemoveAt(nIndex);
-                        Debug.Assert(nIndex < aVerseData.Retellings.Count);
-                        aVerseData.Retellings.RemoveAt(nIndex);
-                    }
+                    theLineData = aVerseData.Retellings.TryGetValue(strUnsGuid);
+                    if (theLineData != null)
+                        aVerseData.Retellings.Remove(theLineData);
                 }
 
                 theCurrentStory.CraftingInfo.Testors.RemoveAt(nTestNum);

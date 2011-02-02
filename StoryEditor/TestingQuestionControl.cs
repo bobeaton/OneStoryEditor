@@ -61,7 +61,8 @@ namespace OneStoryProjectEditor
 
                 // insert the vernacular representation of the testing question
                 CtrlTextBox ctrlTextBoxVernacular = null;
-                if (theSE.viewVernacularLangFieldMenuItem.Checked)
+                if (theSE.viewVernacularLangFieldMenuItem.Checked 
+                    && theSE.StoryProject.ProjSettings.ShowTestQuestionsVernacular)
                 {
                     InsertColumn(nNumColumns);
                     if (bShowHeader)
@@ -75,7 +76,8 @@ namespace OneStoryProjectEditor
 
 #if !LimitWhenToShow
                 CtrlTextBox ctrlTextBoxNationalBT = null;
-                if (theSE.viewNationalLangFieldMenuItem.Checked)
+                if (theSE.viewNationalLangFieldMenuItem.Checked
+                    && theSE.StoryProject.ProjSettings.ShowTestQuestionsNationalBT)
 #else
                 // the only time we show the National BT is if there's an "other" English BTr (who will
                 //  do the EnglishBT from the NationalBT) OR there's no vernacular
@@ -99,7 +101,8 @@ namespace OneStoryProjectEditor
                 }
 
 #if !LimitWhenToShow
-                if (theSE.viewEnglishBTFieldMenuItem.Checked)
+                if (theSE.viewEnglishBTFieldMenuItem.Checked
+                    && theSE.StoryProject.ProjSettings.ShowTestQuestionsInternationalBT)
 #else
                 if (theSE.viewEnglishBTFieldMenuItem.Checked
                     && (!theSE.StoryProject.TeamMembers.HasOutsideEnglishBTer
@@ -130,8 +133,11 @@ namespace OneStoryProjectEditor
             {
                 System.Diagnostics.Debug.Assert(theSE.theCurrentStory.CraftingInfo.Testors.Count >= _aTQData.Answers.Count);
                 MultiLineControl aAnswersCtrl = new MultiLineControl(ctrlVerse, StageLogic,
-                    _aTQData.Answers, theSE.StoryProject.ProjSettings.InternationalBT,
-                    theSE.theCurrentStory.CraftingInfo.Testors);
+                    _aTQData.Answers, theSE.StoryProject.ProjSettings,
+                    theSE.theCurrentStory.CraftingInfo.Testors,
+                    theSE.StoryProject.ProjSettings.ShowAnswersVernacular,
+                    theSE.StoryProject.ProjSettings.ShowAnswersNationalBT,
+                    theSE.StoryProject.ProjSettings.ShowAnswersInternationalBT);
                 aAnswersCtrl.Name = CstrFieldNameAnswers;
                 aAnswersCtrl.ParentControl = this;
 
@@ -141,7 +147,7 @@ namespace OneStoryProjectEditor
                 const int nLayoutRow = 1;
 #endif
                 InsertRow(nLayoutRow);
-                if (nNumColumns > 2)
+                if (nNumColumns > 1)
                     tableLayoutPanel.SetColumnSpan(aAnswersCtrl, nNumColumns);
                 tableLayoutPanel.Controls.Add(aAnswersCtrl, 0, nLayoutRow);
                 tableLayoutPanel.DumpTable();

@@ -33,30 +33,50 @@ namespace OneStoryProjectEditor
             if (!checkBoxUseInternetRepo.Checked)
                 tabControl.TabPages.Remove(tabPageInternetRepository);
 
-            if ((_storyProjectData.ProjSettings == null) 
+            if ((_storyProjectData.ProjSettings == null)
                 || !_storyProjectData.ProjSettings.Vernacular.HasData)
                 tabControl.TabPages.Remove(tabPageLanguageVernacular);
             else
-                checkBoxStoryLanguage.Checked = true;
+            {
+                checkBoxLanguageVernacular.Checked = true;
+                checkBoxRetellingsVernacular.Checked = _storyProjectData.ProjSettings.ShowRetellingVernacular;
+                checkBoxTestQuestionsVernacular.Checked = _storyProjectData.ProjSettings.ShowTestQuestionsVernacular;
+                checkBoxAnswersVernacular.Checked = _storyProjectData.ProjSettings.ShowAnswersVernacular;
+            }
 
             if ((_storyProjectData.ProjSettings == null)
                 || !_storyProjectData.ProjSettings.NationalBT.HasData)
                 tabControl.TabPages.Remove(tabPageLanguageNationalBT);
             else
-                checkBoxNationalBT.Checked = true;
+            {
+                checkBoxLanguageNationalBT.Checked = true;
+                checkBoxRetellingsNationalBT.Checked = _storyProjectData.ProjSettings.ShowRetellingNationalBT;
+                checkBoxTestQuestionsNationalBT.Checked = _storyProjectData.ProjSettings.ShowTestQuestionsNationalBT;
+                checkBoxAnswersNationalBT.Checked = _storyProjectData.ProjSettings.ShowAnswersNationalBT;
+            }
 
             if ((_storyProjectData.ProjSettings != null)
                 && !_storyProjectData.ProjSettings.InternationalBT.HasData)
             {
-                checkBoxEnglishBT.Checked = false;
+                checkBoxLanguageInternationalBT.Checked = false;
                 tabControl.TabPages.Remove(tabPageLanguageEnglishBT);
+            }
+            else if (_storyProjectData.ProjSettings != null)
+            {
+                // checkBoxLanguageInternationalBT.Checked = true;
+                checkBoxRetellingsInternationalBT.Checked = _storyProjectData.ProjSettings.ShowRetellingInternationalBT;
+                checkBoxTestQuestionsInternationalBT.Checked =
+                    _storyProjectData.ProjSettings.ShowTestQuestionsInternationalBT;
+                checkBoxAnswersInternationalBT.Checked = _storyProjectData.ProjSettings.ShowAnswersInternationalBT;
             }
 
             if ((_storyProjectData.ProjSettings == null)
                 || !_storyProjectData.ProjSettings.FreeTranslation.HasData)
                 tabControl.TabPages.Remove(tabPageLanguageFreeTranslation);
             else
-                checkBoxFreeTranslation.Checked = true;
+            {
+                checkBoxLanguageFreeTranslation.Checked = true;
+            }
         }
 
         private void ProcessNext()
@@ -138,16 +158,16 @@ namespace OneStoryProjectEditor
             }
             else if (tabControl.SelectedTab == tabPageLanguages)
             {
-                if (!checkBoxStoryLanguage.Checked
-                    && !checkBoxNationalBT.Checked
-                    && !checkBoxEnglishBT.Checked
-                    && !checkBoxFreeTranslation.Checked)
+                if (!checkBoxLanguageVernacular.Checked
+                    && !checkBoxLanguageNationalBT.Checked
+                    && !checkBoxLanguageInternationalBT.Checked
+                    && !checkBoxLanguageFreeTranslation.Checked)
                 {
                     throw new UserException(Properties.Resources.IDS_MustHaveAtLeastOneLanguage,
-                        checkBoxEnglishBT, tabPageLanguages);
+                        checkBoxLanguageInternationalBT, tabPageLanguages);
                 }
 
-                if (checkBoxStoryLanguage.Checked)
+                if (checkBoxLanguageVernacular.Checked)
                 {
                     if (String.IsNullOrEmpty(textBoxLanguageNameVernacular.Text))
                         textBoxLanguageNameVernacular.Text = (String.IsNullOrEmpty(ProjSettings.Vernacular.LangName))
@@ -157,10 +177,10 @@ namespace OneStoryProjectEditor
                 else
                     ProjSettings.Vernacular.HasData = false;
 
-                if (!checkBoxNationalBT.Checked)
+                if (!checkBoxLanguageNationalBT.Checked)
                     ProjSettings.NationalBT.HasData = false;
 
-                if (checkBoxEnglishBT.Checked)
+                if (checkBoxLanguageInternationalBT.Checked)
                 {
                     if (String.IsNullOrEmpty(textBoxLanguageNameEnglishBT.Text)
                         && !ProjSettings.InternationalBT.HasData)
@@ -170,7 +190,7 @@ namespace OneStoryProjectEditor
                     _storyProjectData.TeamMembers.HasOutsideEnglishBTer = 
                         ProjSettings.InternationalBT.HasData = false;
 
-                if (checkBoxFreeTranslation.Checked)
+                if (checkBoxLanguageFreeTranslation.Checked)
                 {
                     if (String.IsNullOrEmpty(textBoxLanguageNameFreeTranslation.Text)
                         && !ProjSettings.FreeTranslation.HasData)
@@ -182,11 +202,11 @@ namespace OneStoryProjectEditor
                 // can't have an outside english bter, if we don't have an English BT or only an English BT
                 //  (the PF has to put something in!)
                 checkBoxOutsideEnglishBackTranslator.Enabled = (
-                                                   (checkBoxEnglishBT.Checked ||
-                                                    checkBoxFreeTranslation.Checked)
+                                                   (checkBoxLanguageInternationalBT.Checked ||
+                                                    checkBoxLanguageFreeTranslation.Checked)
                                                    &&
-                                                   (checkBoxNationalBT.Checked ||
-                                                    checkBoxStoryLanguage.Checked));
+                                                   (checkBoxLanguageNationalBT.Checked ||
+                                                    checkBoxLanguageVernacular.Checked));
 
                 checkBoxOutsideEnglishBackTranslator.Checked = _storyProjectData.TeamMembers.HasOutsideEnglishBTer;
                 checkBoxFirstPassMentor.Checked = _storyProjectData.TeamMembers.HasFirstPassMentor;
@@ -414,6 +434,15 @@ namespace OneStoryProjectEditor
             _storyProjectData.TeamMembers.HasOutsideEnglishBTer = checkBoxOutsideEnglishBackTranslator.Checked;
             _storyProjectData.TeamMembers.HasFirstPassMentor = checkBoxFirstPassMentor.Checked;
             _storyProjectData.TeamMembers.HasIndependentConsultant = radioButtonIndependentConsultant.Checked;
+            ProjSettings.ShowRetellingVernacular = checkBoxRetellingsVernacular.Checked;
+            ProjSettings.ShowRetellingNationalBT = checkBoxRetellingsNationalBT.Checked;
+            ProjSettings.ShowRetellingInternationalBT = checkBoxRetellingsInternationalBT.Checked;
+            ProjSettings.ShowTestQuestionsVernacular = checkBoxTestQuestionsVernacular.Checked;
+            ProjSettings.ShowTestQuestionsNationalBT = checkBoxTestQuestionsNationalBT.Checked;
+            ProjSettings.ShowTestQuestionsInternationalBT = checkBoxTestQuestionsInternationalBT.Checked;
+            ProjSettings.ShowAnswersVernacular = checkBoxAnswersVernacular.Checked;
+            ProjSettings.ShowAnswersNationalBT = checkBoxAnswersNationalBT.Checked;
+            ProjSettings.ShowAnswersInternationalBT = checkBoxAnswersInternationalBT.Checked;
 
             if (!checkBoxUseInternetRepo.Checked)
                 Program.ClearHgParameters(ProjectName);
@@ -522,8 +551,8 @@ namespace OneStoryProjectEditor
 
         private void checkBoxStoryLanguage_CheckedChanged(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.Assert((sender is CheckBox) && (sender == checkBoxStoryLanguage));
-            if (checkBoxStoryLanguage.Checked)
+            System.Diagnostics.Debug.Assert((sender is CheckBox) && (sender == checkBoxLanguageVernacular));
+            if (checkBoxLanguageVernacular.Checked)
             {
                 int nIndex = IndexAfter(new[] { tabPageLanguages });
                 tabControl.TabPages.Insert(nIndex, tabPageLanguageVernacular);
@@ -535,8 +564,8 @@ namespace OneStoryProjectEditor
 
         private void checkBoxNationalBT_CheckedChanged(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.Assert((sender is CheckBox) && (sender == checkBoxNationalBT));
-            if (checkBoxNationalBT.Checked)
+            System.Diagnostics.Debug.Assert((sender is CheckBox) && (sender == checkBoxLanguageNationalBT));
+            if (checkBoxLanguageNationalBT.Checked)
             {
                 int nIndex = IndexAfter(new[] { tabPageLanguageVernacular, tabPageLanguages });
                 tabControl.TabPages.Insert(nIndex, tabPageLanguageNationalBT);
@@ -548,8 +577,8 @@ namespace OneStoryProjectEditor
 
         private void checkBoxEnglishBT_CheckedChanged(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.Assert((sender is CheckBox) && (sender == checkBoxEnglishBT));
-            if (checkBoxEnglishBT.Checked)
+            System.Diagnostics.Debug.Assert((sender is CheckBox) && (sender == checkBoxLanguageInternationalBT));
+            if (checkBoxLanguageInternationalBT.Checked)
             {
                 int nIndex = IndexAfter(new[] { tabPageLanguageNationalBT, tabPageLanguageVernacular, tabPageLanguages });
                 tabControl.TabPages.Insert(nIndex, tabPageLanguageEnglishBT);
@@ -561,8 +590,8 @@ namespace OneStoryProjectEditor
 
         private void checkBoxFreeTranslation_CheckedChanged(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.Assert((sender is CheckBox) && (sender == checkBoxFreeTranslation));
-            if (checkBoxFreeTranslation.Checked)
+            System.Diagnostics.Debug.Assert((sender is CheckBox) && (sender == checkBoxLanguageFreeTranslation));
+            if (checkBoxLanguageFreeTranslation.Checked)
             {
                 int nIndex = IndexAfter(new[] { tabPageLanguageEnglishBT, tabPageLanguageNationalBT, tabPageLanguageVernacular, tabPageLanguages });
                 tabControl.TabPages.Insert(nIndex, tabPageLanguageFreeTranslation);

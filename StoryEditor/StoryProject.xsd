@@ -56,7 +56,16 @@
 							<xs:element name="InternationalBTLang" type="LanguageInfo" maxOccurs="1" />
               <xs:element name="FreeTranslation" type="LanguageInfo" maxOccurs="1" />
 						</xs:sequence>
-					</xs:complexType>
+            <xs:attribute name="UseRetellingVernacular" type="xs:boolean" use="optional" />
+            <xs:attribute name="UseRetellingNationalBT" type="xs:boolean" use="optional" />
+            <xs:attribute name="UseRetellingInternationalBT" type="xs:boolean" use="optional" />
+            <xs:attribute name="UseTestQuestionVernacular" type="xs:boolean" use="optional" />
+            <xs:attribute name="UseTestQuestionNationalBT" type="xs:boolean" use="optional" />
+            <xs:attribute name="UseTestQuestionInternationalBT" type="xs:boolean" use="optional" />
+            <xs:attribute name="UseAnswerVernacular" type="xs:boolean" use="optional" />
+            <xs:attribute name="UseAnswerNationalBT" type="xs:boolean" use="optional" />
+            <xs:attribute name="UseAnswerInternationalBT" type="xs:boolean" use="optional" />
+          </xs:complexType>
 				</xs:element>
         <xs:element name="LnCNotes" minOccurs="0" maxOccurs="1">
           <xs:complexType>
@@ -181,7 +190,8 @@
 																										<xs:complexType>
 																											<xs:simpleContent>
 																												<xs:extension base="xs:string">
-																													<xs:attribute name="memberID" type="xs:IDREF" use="optional" />
+																													<xs:attribute name="memberID" type="xs:IDREF" use="required" />
+                                                          <xs:attribute name="lang" type="xs:string" use="optional" />
 																												</xs:extension>
 																											</xs:simpleContent>
 																										</xs:complexType>
@@ -204,8 +214,9 @@
 																				<xs:complexType>
 																					<xs:simpleContent>
 																						<xs:extension base="xs:string">
-																							<xs:attribute name="memberID" type="xs:IDREF" use="optional" />
-																						</xs:extension>
+                                              <xs:attribute name="memberID" type="xs:IDREF" use="required" />
+                                              <xs:attribute name="lang" type="xs:string" use="optional" />
+                                            </xs:extension>
 																					</xs:simpleContent>
 																				</xs:complexType>
 																			</xs:element>
@@ -306,10 +317,6 @@
 		<xs:key name="TestQuestionKey" msdata:PrimaryKey="true">
 			<xs:selector xpath=".//TestQuestion" />
 			<xs:field xpath="@guid" />
-		</xs:key>
-		<xs:key name="AnswerKey" msdata:PrimaryKey="true">
-			<xs:selector xpath=".//answer" />
-			<xs:field xpath="@memberID" />
 		</xs:key>
 		<xs:key name="ConsultantConversationKey" msdata:PrimaryKey="true">
 			<xs:selector xpath=".//ConsultantConversation" />
