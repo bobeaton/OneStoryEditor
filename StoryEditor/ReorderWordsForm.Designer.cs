@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ReorderWordsForm));
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.buttonOK = new System.Windows.Forms.Button();
@@ -36,6 +37,7 @@
             this.textBoxReorderedText = new System.Windows.Forms.TextBox();
             this.buttonUndoLast = new System.Windows.Forms.Button();
             this.flowLayoutPanelPunctuation = new System.Windows.Forms.FlowLayoutPanel();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -152,5 +154,6 @@
         private System.Windows.Forms.TextBox textBoxReorderedText;
         private System.Windows.Forms.Button buttonUndoLast;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelPunctuation;
+        private System.Windows.Forms.ToolTip toolTip;
     }
 }

@@ -12,7 +12,7 @@ namespace OneStoryProjectEditor
         protected string _strKeyboardName;
         internal string _strLabel;
         protected string _strLangName;
-        protected string _strFullStop;
+        internal string _strFullStop;
         protected ContextMenuStrip _ctxMenu;
         internal CtrlTextBox NationalBtSibling;
         internal CtrlTextBox EnglishBtSibling;
@@ -499,13 +499,9 @@ namespace OneStoryProjectEditor
 
                     if (dlg.DoReorder)
                     {
-                        char[] achToIgnore = VersesData.GetSplitChars(NationalBtSibling._strFullStop);
-                        string[] astrWords = NationalBtSibling.MyStringTransfer.GetWords(achToIgnore);
-                        var dlgReorder = new ReorderWordsForm(astrWords, achToIgnore, NationalBtSibling.Font);
+                        var dlgReorder = new ReorderWordsForm(NationalBtSibling);
                         if (dlgReorder.ShowDialog() == DialogResult.OK)
-                        {
                             NationalBtSibling.Text = dlgReorder.ReorderedText;
-                        }
                     }
                     
                     NationalBtSibling.Focus();
@@ -538,13 +534,9 @@ namespace OneStoryProjectEditor
 
                     if (dlg.DoReorder)
                     {
-                        char[] achToIgnore = VersesData.GetSplitChars(EnglishBtSibling._strFullStop);
-                        string[] astrWords = EnglishBtSibling.MyStringTransfer.GetWords(achToIgnore);
-                        var dlgReorder = new ReorderWordsForm(astrWords, achToIgnore, EnglishBtSibling.Font);
+                        var dlgReorder = new ReorderWordsForm(EnglishBtSibling);
                         if (dlgReorder.ShowDialog() == DialogResult.OK)
-                        {
                             EnglishBtSibling.Text = dlgReorder.ReorderedText;
-                        }
                     }
 
                     EnglishBtSibling.Focus();
@@ -559,9 +551,7 @@ namespace OneStoryProjectEditor
         private void onReorderWords(object sender, EventArgs e)
         {
             System.Diagnostics.Debug.Assert(HasStringTransfer);
-            char[] achToIgnore = VersesData.GetSplitChars(_strFullStop);
-            string[] astrWords = MyStringTransfer.GetWords(achToIgnore);
-            var dlg = new ReorderWordsForm(astrWords, achToIgnore, Font);
+            var dlg = new ReorderWordsForm(this);
             if (dlg.ShowDialog() == DialogResult.OK)
                 Text = dlg.ReorderedText; // should trigger an update of MyStringTransfer
         }

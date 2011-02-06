@@ -641,5 +641,41 @@ namespace OneStoryProjectEditor.Properties {
                 this["ConNoteButtonFontSize"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("’”„,")]
+        public string RightEdgeQuotes {
+            get {
+                return ((string)(this["RightEdgeQuotes"]));
+            }
+            set {
+                this["RightEdgeQuotes"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("\"\'")]
+        public string EitherEdgeQuotes {
+            get {
+                return ((string)(this["EitherEdgeQuotes"]));
+            }
+            set {
+                this["EitherEdgeQuotes"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("‘‛“‟")]
+        public string LeftEdgeQuotes {
+            get {
+                return ((string)(this["LeftEdgeQuotes"]));
+            }
+            set {
+                this["LeftEdgeQuotes"] = value;
+            }
+        }
     }
 }

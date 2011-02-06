@@ -519,7 +519,13 @@ namespace OneStoryProjectEditor
                 theMembersRow = aMembersRows[0];
 
             foreach (NewDataSet.MemberRow aMemberRow in theMembersRow.GetMemberRows())
-                Add(aMemberRow.name, new TeamMemberData(aMemberRow));
+                if (ContainsKey(aMemberRow.name))  // Throw away any duplicates
+                {
+                    MessageBox.Show(String.Format(OseResources.Properties.Resources.IDS_DuplicateMemberName,
+                                                  aMemberRow.name), OseResources.Properties.Resources.IDS_Caption);
+                }
+                else
+                    Add(aMemberRow.name, new TeamMemberData(aMemberRow));
 
             // if the 'Has...' attributes are new, then get these values from the old method
             if (theMembersRow.IsHasOutsideEnglishBTerNull())

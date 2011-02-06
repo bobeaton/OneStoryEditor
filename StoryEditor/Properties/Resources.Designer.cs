@@ -812,6 +812,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You may need to click the &lt;Space&gt; button to put a space before opening quotes.
+        /// </summary>
+        internal static string IDS_ReorderClickSpaceTip {
+            get {
+                return ResourceManager.GetString("IDS_ReorderClickSpaceTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Would you like to save changes?.
         /// </summary>
         internal static string IDS_SaveChanges {

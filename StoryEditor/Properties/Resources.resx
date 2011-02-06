@@ -1949,4 +1949,7 @@ and in the resulting window click on the next (green) state.
     &lt;ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewFreeTranslationField="true" viewAnchorField="false" viewStoryTestingQuestions="false" viewStoryTestingAnswers="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" /&gt;
   &lt;/StateTransition&gt;</value>
   </data>
+  <data name="IDS_ReorderClickSpaceTip" xml:space="preserve">
+    <value>You may need to click the &lt;Space&gt; button to put a space before opening quotes</value>
+  </data>
 </root>

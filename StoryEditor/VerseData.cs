@@ -890,7 +890,7 @@ namespace OneStoryProjectEditor
 
         public static char[] GetSplitChars(string strFullStop)
         {
-            string strCharsToIgnore = CstrOtherPunctuation + strFullStop + QuoteCharsAsString + CstrWhiteSpace;
+            string strCharsToIgnore = strFullStop + QuoteCharsAsString + CstrWhiteSpace;
             return strCharsToIgnore.ToCharArray();
         }
 
@@ -908,24 +908,43 @@ namespace OneStoryProjectEditor
             return nColSpan;
         }
 
-        internal static char[] achQuotes = new[] { '"', '\'', '\u2018', '\u2019', '\u201B', 
-            '\u201C', '\u201d', '\u201E', '\u201F' };
+        /*
+        internal static char[] achQuotesRightEdge = new[] { '"', '\'', '\u2019', '\u201d', '\u201E' };
+        internal static char[] achQuotesLeftEdge = new[] { '\u2018', '\u201B', '\u201C', '\u201F' };
+        */
+
+        internal static char[] achQuotes
+        {
+            get
+            {
+                string strLeftEdgeQuotes = Properties.Settings.Default.RightEdgeQuotes;
+                string strRightEdgeQuotes = Properties.Settings.Default.LeftEdgeQuotes;
+                string strEitherEdgeQuotes = Properties.Settings.Default.EitherEdgeQuotes;
+                var ach = new char[strLeftEdgeQuotes.Length + strRightEdgeQuotes.Length + strEitherEdgeQuotes.Length];
+
+                int i = 0;
+                foreach (char ch in strLeftEdgeQuotes)
+                    ach[i++] += ch;
+                foreach (char ch in strRightEdgeQuotes)
+                    ach[i++] += ch;
+                foreach (char ch in strEitherEdgeQuotes)
+                    ach[i++] += ch;
+                return ach;
+            }
+        }
 
         internal static string QuoteCharsAsString
         {
             get
             {
-                string str = null;
-                foreach (char ch in achQuotes)
-                {
-                    str += ch;
-                }
-                return str;
+                string strLeftEdgeQuotes = Properties.Settings.Default.RightEdgeQuotes;
+                string strRightEdgeQuotes = Properties.Settings.Default.LeftEdgeQuotes;
+                string strEitherEdgeQuotes = Properties.Settings.Default.EitherEdgeQuotes;
+                return strLeftEdgeQuotes + strRightEdgeQuotes + strEitherEdgeQuotes;
             }
         }
 
         internal const string CstrWhiteSpace = "\r\n ";
-        private const string CstrOtherPunctuation = ",";
 
         public string StoryBtHtml(ProjectSettings projectSettings, bool bViewHidden,
             StoryStageLogic stageLogic, TeamMembersData membersData, TeamMemberData loggedOnMember,

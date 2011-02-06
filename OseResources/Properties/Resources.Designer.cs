@@ -485,6 +485,15 @@ namespace OseResources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to It appears that some other team member has added a duplicate member with the name &apos;{0}&apos;, but only one is allowed! The latter one will be discarded..
+        /// </summary>
+        public static string IDS_DuplicateMemberName {
+            get {
+                return ResourceManager.GetString("IDS_DuplicateMemberName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to One of the team members has used a newer version of this program to edit the file, which is not compatible with the version you are using. You will have to go to the http://palaso.org/install/onestory website and download and install the new version of the program in the &quot;Setup OneStory Editor.zip&quot; file..
         /// </summary>
         public static string IDS_GetNewVersion {

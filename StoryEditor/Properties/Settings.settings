@@ -256,5 +256,14 @@ DoAdaptingBeforeGlossing_InVerticalEdit	1</Value>
     <Setting Name="ConNoteButtonFontSize" Type="System.String" Scope="User">
       <Value Profile="(Default)">x-small</Value>
     </Setting>
+    <Setting Name="RightEdgeQuotes" Type="System.String" Scope="User">
+      <Value Profile="(Default)">’”„,</Value>
+    </Setting>
+    <Setting Name="EitherEdgeQuotes" Type="System.String" Scope="User">
+      <Value Profile="(Default)">"'</Value>
+    </Setting>
+    <Setting Name="LeftEdgeQuotes" Type="System.String" Scope="User">
+      <Value Profile="(Default)">‘‛“‟</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

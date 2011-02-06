@@ -703,6 +703,9 @@ eater Panorama
 \par }{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 
 \par }}</value>
   </data>
+  <data name="IDS_DuplicateMemberName" xml:space="preserve">
+    <value>It appears that some other team member has added a duplicate member with the name '{0}', but only one is allowed! The latter one will be discarded.</value>
+  </data>
   <data name="IDS_GetNewVersion" xml:space="preserve">
     <value>One of the team members has used a newer version of this program to edit the file, which is not compatible with the version you are using. You will have to go to the http://palaso.org/install/onestory website and download and install the new version of the program in the "Setup OneStory Editor.zip" file.</value>
   </data>
