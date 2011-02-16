@@ -1,4 +1,6 @@
-﻿what is meaning of“  until forever” ?
+﻿Allow purging of AI records
+
+Add commentary support to Bible pane.
 
 Allow user to select (and override) color 
 
