@@ -40,7 +40,9 @@ namespace OneStoryProjectEditor
             set
             {
                 _loggedOnMember = value;
-                if ((StoryProject != null) && (StoryProject.ProjSettings != null))
+                if ((StoryProject != null) 
+                    && (StoryProject.ProjSettings != null)
+                    && (File.Exists(StoryProject.ProjSettings.ProjectFolder)))
                     InitProjectNotes(StoryProject.ProjSettings, value.Name);
             }
         }
