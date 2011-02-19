@@ -27,8 +27,6 @@ namespace OneStoryProjectEditor
             if (!String.IsNullOrEmpty(strFollowingSource))
                 buttonJoin.Visible = false;
 
-            string strFollowingTarget = strTargetInBetween.Trim();
-
             textBoxSourceWord.Font = liSource.FontToUse;
             textBoxSourceWord.ForeColor = liSource.FontColor;
             if (liSource.DoRtl)
@@ -40,26 +38,34 @@ namespace OneStoryProjectEditor
             if (liTarget.DoRtl)
                 textBoxTargetWord.RightToLeft = RightToLeft.Yes;
 
-            MatchCollection mc = FindMultipleAmbiguities.Matches(strTargetWord);
-            if (mc.Count > 0)
-            {
-                string strAmbiguityList = mc[0].Groups[1].ToString();
-                strTargetWord = strAmbiguityList.Replace("%", strAmbiguitySeparator);
-            }
-
-            textBoxTargetWord.Text = strTargetWord + strFollowingTarget;
+            TargetWord = strTargetWord;
         }
 
         public string SourceWord
         {
             get { return textBoxSourceWord.Text; }
-            set { textBoxSourceWord.Text = value; }
+            set
+            {
+                textBoxSourceWord.Text = value;
+                ResizeTextBoxToFitText(textBoxSourceWord);
+            }
         }
 
         public string TargetWord
         {
             get { return textBoxTargetWord.Text; }
-            set { textBoxTargetWord.Text = value; }
+            set
+            {
+                MatchCollection mc = FindMultipleAmbiguities.Matches(value);
+                if (mc.Count > 0)
+                {
+                    string strAmbiguityList = mc[0].Groups[1].ToString();
+                    value = strAmbiguityList.Replace("%", strAmbiguitySeparator);
+                }
+
+                textBoxTargetWord.Text = value;
+                ResizeTextBoxToFitText(textBoxTargetWord);
+            }
         }
 
         public void DisableButton()
@@ -114,7 +120,9 @@ namespace OneStoryProjectEditor
             if (!String.IsNullOrEmpty(_strTargetKeyboard))
                 KeyboardController.ActivateKeyboard(_strTargetKeyboard);
 
-            contextMenuStripAmbiguityPicker.Items.Clear();
+            /*
+            while (contextMenuStripAmbiguityPicker.Items.Count > 1)
+                contextMenuStripAmbiguityPicker.Items.RemoveAt(0);
             if (String.IsNullOrEmpty(textBoxTargetWord.Text))
                 return;
 
@@ -122,15 +130,18 @@ namespace OneStoryProjectEditor
             if (textBoxTargetWord.Text.IndexOf(strAmbiguitySeparator) != -1)
             {
                 string[] astrWords = textBoxTargetWord.Text.Split(strAmbiguitySeparator.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-                foreach (string strWord in astrWords)
+                for (int i = 0; i < astrWords.Length; i++)
                 {
-                    ToolStripMenuItem aTSMI = new ToolStripMenuItem(strWord, null, OnSelectAmbiguity);
-                    aTSMI.Font = textBoxTargetWord.Font;
-                    contextMenuStripAmbiguityPicker.Items.Add(aTSMI);
+                    string strWord = astrWords[i];
+                    var aTSMI = new ToolStripMenuItem(strWord, null, OnSelectAmbiguity) {Font = textBoxTargetWord.Font};
+                    contextMenuStripAmbiguityPicker.Items.Insert(i, aTSMI);
                 }
 
                 contextMenuStripAmbiguityPicker.Show(textBoxTargetWord, textBoxTargetWord.Bounds.Location, ToolStripDropDownDirection.BelowRight);
             }
+            */
+            if (textBoxTargetWord.Text.IndexOf(strAmbiguitySeparator) != -1)
+                contextMenuStripAmbiguityPicker.Show(textBoxTargetWord, textBoxTargetWord.Bounds.Location, ToolStripDropDownDirection.BelowRight);
         }
 
         void textBoxTargetWord_Leave(object sender, System.EventArgs e)
@@ -166,6 +177,31 @@ namespace OneStoryProjectEditor
         private void splitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _parent.SplitMeUp(this);
+        }
+
+        private void editTargetWordsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _parent.EditTargetWords(this);
+        }
+
+        private void contextMenuStripAmbiguityPicker_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            while (contextMenuStripAmbiguityPicker.Items.Count > 1)
+                contextMenuStripAmbiguityPicker.Items.RemoveAt(0);
+            if (String.IsNullOrEmpty(textBoxTargetWord.Text))
+                return;
+
+            // if we have multiple interpretations, then throw up a choice list
+            if (textBoxTargetWord.Text.IndexOf(strAmbiguitySeparator) != -1)
+            {
+                string[] astrWords = textBoxTargetWord.Text.Split(strAmbiguitySeparator.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < astrWords.Length; i++)
+                {
+                    string strWord = astrWords[i];
+                    var aTSMI = new ToolStripMenuItem(strWord, null, OnSelectAmbiguity) { Font = textBoxTargetWord.Font };
+                    contextMenuStripAmbiguityPicker.Items.Insert(i, aTSMI);
+                }
+            }
         }
     }
 }

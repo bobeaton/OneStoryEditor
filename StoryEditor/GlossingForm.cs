@@ -140,5 +140,18 @@ namespace OneStoryProjectEditor
                 flowLayoutPanel.Controls.SetChildIndex(gc, ++nIndex);
             }
         }
+
+        public void EditTargetWords(GlossingControl glossingControl)
+        {
+            try
+            {
+                if (m_theEC.EditTargetWords(glossingControl.SourceWord))
+                    glossingControl.TargetWord = SafeConvert(glossingControl.SourceWord);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
+            }
+        }
     }
 }

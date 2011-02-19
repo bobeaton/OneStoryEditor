@@ -511,7 +511,6 @@ namespace OneStoryProjectEditor
             }
 
             // for each verse, make sure that there is at least one anchor.
-            bool bHasAnyKeyTermBeenChecked = false;
             int nVerseNumber = 1;
             foreach (VerseData aVerseData in theCurrentStory.Verses)
             {

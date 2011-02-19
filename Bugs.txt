@@ -1,6 +1,4 @@
-﻿Allow purging of AI records
-
-Add commentary support to Bible pane.
+﻿Add commentary support to Bible pane.
 
 Allow user to select (and override) color 
 
@@ -19,6 +17,7 @@ What the consultant should know
 properly check out C:\src\WW\Lib\src\EC\AIGuesserEC\AdaptItEncConverter.cs
 C:\src\WW\Lib\debug\AIGuesserEC.*
 C:\src\WW\Lib\src\EC\AIGuesserEC\AIGuesserEC.csproj
+C:\src\WW\Lib\src\EC\AIGuesserEC\AdaptItKBReader.cs
 
 no horizontal scroll bar in ConNotes
 

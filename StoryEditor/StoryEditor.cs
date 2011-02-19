@@ -2562,7 +2562,6 @@ namespace OneStoryProjectEditor
                 string strUnsGuid = theCurrentStory.CraftingInfo.Testors[nTestNum];
                 foreach (VerseData aVerseData in theCurrentStory.Verses)
                 {
-                    int nIndex;
                     LineData theLineData;
                     foreach (TestQuestionData aTQ in aVerseData.TestQuestions)
                     {
