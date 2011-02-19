@@ -12,7 +12,9 @@ namespace OneStoryProjectEditor
     [System.Runtime.InteropServices.ComVisible(true)]
     public partial class NetBibleViewer : UserControl
     {
-        protected string m_strScriptureReference = "gen 1:1";
+        protected string m_strScriptureReference = "Gen 1:1";
+        protected List<string> m_astrReferences = new List<string>();
+        protected int m_nReferenceArrayIndex = -1;
 
         #region "format strings for HTML items"
         protected const string CstrHtmlTableBegin = "<table border=\"1\">";
@@ -265,10 +267,8 @@ namespace OneStoryProjectEditor
                         {
                             if (tableLayoutPanelSpinControls.Controls[CstrRadioButtonPrefix + aSR.Name] != null)
                             {
-                                tableLayoutPanelSpinControls.DumpTable();
                                 // means the user deselected it and it's there. So remove it.
                                 tableLayoutPanelSpinControls.Controls.RemoveByKey(CstrRadioButtonPrefix + aSR.Name);
-                                tableLayoutPanelSpinControls.DumpTable();
                             }
 
                             // remove this one to the user's list of used modules
@@ -309,8 +309,31 @@ namespace OneStoryProjectEditor
         // this form is usually called from outside
         public void DisplayVerses(string strScriptureReference)
         {
+            if ((m_astrReferences.Count > 0) 
+                && (m_astrReferences.Count >= (m_nReferenceArrayIndex + 2))
+                && (m_astrReferences[m_nReferenceArrayIndex] != strScriptureReference))
+            {
+                m_astrReferences.RemoveRange(m_nReferenceArrayIndex + 1, m_astrReferences.Count - m_nReferenceArrayIndex - 1);
+            }
+            
+            // don't add this if it's already at the head
+            if ((m_nReferenceArrayIndex == -1)
+                ||  (m_astrReferences.Count > m_nReferenceArrayIndex)
+                    && (m_astrReferences[m_nReferenceArrayIndex] != strScriptureReference))
+            {
+                m_astrReferences.Add(strScriptureReference);
+                m_nReferenceArrayIndex = m_astrReferences.Count - 1;
+            }
+
+            UpdateNextPreviousButtons();
             ScriptureReference = strScriptureReference;
             DisplayVerses();
+        }
+
+        private void UpdateNextPreviousButtons()
+        {
+            buttonPreviousReference.Enabled = (m_nReferenceArrayIndex > 0);
+            buttonNextReference.Enabled = (m_astrReferences.Count >= (m_nReferenceArrayIndex + 2));
         }
 
         protected void DisplayVerses()
@@ -498,8 +521,7 @@ namespace OneStoryProjectEditor
         {
             Console.WriteLine("OnDoOnMouseUp: " + strScriptureReference);
             m_bMouseDown = false;
-            ScriptureReference = strScriptureReference;
-            DisplayVerses();
+            DisplayVerses(strScriptureReference);
             var theSE = FindForm() as StoryEditor;
             if (theSE != null)
                 theSE._bAutoHide = false;   // get it to stick if the user does this
@@ -543,12 +565,12 @@ namespace OneStoryProjectEditor
         {
             if (!m_bDisableInterrupts)
             {
-                ScriptureReference = String.Format("{0} {1}:{2}",
+                string strScriptureReference = String.Format("{0} {1}:{2}",
                     domainUpDownBookNames.SelectedItem,
                     numericUpDownChapterNumber.Value,
                     numericUpDownVerseNumber.Value);
 
-                DisplayVerses();
+                DisplayVerses(strScriptureReference);
             }
         }
 
@@ -632,9 +654,21 @@ namespace OneStoryProjectEditor
                 theSE.CheckBiblePaneCursorPosition();
         }
 
-        private void textBoxNetFlixViewer_TextChanged(object sender, EventArgs e)
+        private void buttonPreviousReference_Click(object sender, EventArgs e)
         {
+            System.Diagnostics.Debug.Assert((m_nReferenceArrayIndex > 0)
+                && (m_nReferenceArrayIndex < m_astrReferences.Count));
+            ScriptureReference = m_astrReferences[--m_nReferenceArrayIndex];
+            DisplayVerses();
+            UpdateNextPreviousButtons();
+        }
 
+        private void buttonNextReference_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.Assert(++m_nReferenceArrayIndex < m_astrReferences.Count);
+            ScriptureReference = m_astrReferences[m_nReferenceArrayIndex];
+            DisplayVerses();
+            UpdateNextPreviousButtons();
         }
     }
 }

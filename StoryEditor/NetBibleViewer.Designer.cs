@@ -41,6 +41,8 @@
             this.domainUpDownBookNames = new System.Windows.Forms.DomainUpDown();
             this.numericUpDownChapterNumber = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownVerseNumber = new System.Windows.Forms.NumericUpDown();
+            this.buttonPreviousReference = new System.Windows.Forms.Button();
+            this.buttonNextReference = new System.Windows.Forms.Button();
             this.textBoxNetFlixViewer = new System.Windows.Forms.TextBox();
             this.radioButtonShowOtherSwordResources = new System.Windows.Forms.RadioButton();
             this.tableLayoutPanel.SuspendLayout();
@@ -123,17 +125,21 @@
             // 
             // tableLayoutPanelSpinControls
             // 
-            this.tableLayoutPanelSpinControls.ColumnCount = 5;
+            this.tableLayoutPanelSpinControls.ColumnCount = 7;
             this.tableLayoutPanelSpinControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelSpinControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelSpinControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanelSpinControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 22F));
+            this.tableLayoutPanelSpinControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 22F));
             this.tableLayoutPanelSpinControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanelSpinControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelSpinControls.Controls.Add(this.domainUpDownBookNames, 0, 0);
             this.tableLayoutPanelSpinControls.Controls.Add(this.numericUpDownChapterNumber, 1, 0);
             this.tableLayoutPanelSpinControls.Controls.Add(this.numericUpDownVerseNumber, 2, 0);
-            this.tableLayoutPanelSpinControls.Controls.Add(this.textBoxNetFlixViewer, 3, 0);
-            this.tableLayoutPanelSpinControls.Controls.Add(this.radioButtonShowOtherSwordResources, 4, 0);
+            this.tableLayoutPanelSpinControls.Controls.Add(this.buttonPreviousReference, 3, 0);
+            this.tableLayoutPanelSpinControls.Controls.Add(this.buttonNextReference, 4, 0);
+            this.tableLayoutPanelSpinControls.Controls.Add(this.textBoxNetFlixViewer, 5, 0);
+            this.tableLayoutPanelSpinControls.Controls.Add(this.radioButtonShowOtherSwordResources, 6, 0);
             this.tableLayoutPanelSpinControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelSpinControls.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanelSpinControls.Margin = new System.Windows.Forms.Padding(0);
@@ -260,16 +266,40 @@
             this.numericUpDownVerseNumber.ValueChanged += new System.EventHandler(this.numericUpDownVerse_ValueChanged);
             this.numericUpDownVerseNumber.Enter += new System.EventHandler(this.numericUpDownVerseNumber_Enter);
             // 
+            // buttonPreviousReference
+            // 
+            this.buttonPreviousReference.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonPreviousReference.Image = global::OneStoryProjectEditor.Properties.Resources.DataContainer_MovePreviousHS;
+            this.buttonPreviousReference.Location = new System.Drawing.Point(152, 0);
+            this.buttonPreviousReference.Margin = new System.Windows.Forms.Padding(0);
+            this.buttonPreviousReference.Name = "buttonPreviousReference";
+            this.buttonPreviousReference.Size = new System.Drawing.Size(22, 20);
+            this.buttonPreviousReference.TabIndex = 8;
+            this.buttonPreviousReference.UseVisualStyleBackColor = true;
+            this.buttonPreviousReference.Click += new System.EventHandler(this.buttonPreviousReference_Click);
+            // 
+            // buttonNextReference
+            // 
+            this.buttonNextReference.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonNextReference.Image = global::OneStoryProjectEditor.Properties.Resources.DataContainer_MoveNextHS;
+            this.buttonNextReference.Location = new System.Drawing.Point(174, 0);
+            this.buttonNextReference.Margin = new System.Windows.Forms.Padding(0);
+            this.buttonNextReference.Name = "buttonNextReference";
+            this.buttonNextReference.Size = new System.Drawing.Size(22, 20);
+            this.buttonNextReference.TabIndex = 9;
+            this.buttonNextReference.UseVisualStyleBackColor = true;
+            this.buttonNextReference.Click += new System.EventHandler(this.buttonNextReference_Click);
+            // 
             // textBoxNetFlixViewer
             // 
             this.textBoxNetFlixViewer.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBoxNetFlixViewer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxNetFlixViewer.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxNetFlixViewer.Location = new System.Drawing.Point(152, 0);
+            this.textBoxNetFlixViewer.Location = new System.Drawing.Point(196, 0);
             this.textBoxNetFlixViewer.Margin = new System.Windows.Forms.Padding(0);
             this.textBoxNetFlixViewer.Name = "textBoxNetFlixViewer";
             this.textBoxNetFlixViewer.ReadOnly = true;
-            this.textBoxNetFlixViewer.Size = new System.Drawing.Size(360, 16);
+            this.textBoxNetFlixViewer.Size = new System.Drawing.Size(316, 16);
             this.textBoxNetFlixViewer.TabIndex = 6;
             this.textBoxNetFlixViewer.TabStop = false;
             this.textBoxNetFlixViewer.Text = "Bible";
@@ -319,5 +349,7 @@
         private System.Windows.Forms.RadioButton radioButtonShowOtherSwordResources;
         private System.Windows.Forms.ToolTip toolTip;
         internal System.Windows.Forms.CheckBox checkBoxAutoHide;
+        private System.Windows.Forms.Button buttonPreviousReference;
+        private System.Windows.Forms.Button buttonNextReference;
     }
 }
