@@ -23,7 +23,8 @@ namespace OneStoryProjectEditor
         protected const string CstrAddDirFormat = "<p dir=\"RTL\">{0}</p>";
         protected const string CstrHtmlTableEnd = "</table>";
         protected const string verseLineBreak = "<br />";
-        protected const string preDocumentDOMScript = "<script>" +
+        protected const string preDocumentDOMScript = "<style> body    { margin:0 } </style>" + 
+            "<script>" +
             "function OpenHoverWindow(link)" +
             "{" +
             "  window.external.ShowHoverOver(link.getAttribute(\"href\").substr(6,link.length));" +
