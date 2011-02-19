@@ -3587,13 +3587,23 @@ namespace OneStoryProjectEditor
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            HtmlForm dlg = new HtmlForm
-                               {
-                                   Text = "About... OneStory Editor",
-                                   ClientText = Properties.Resources.IDS_CopyrightInfo
-                               };
+            System.Reflection.Assembly assy = System.Reflection.Assembly.GetExecutingAssembly();
+            string strLocation = assy.Location;
+            if (!String.IsNullOrEmpty(strLocation))
+            {
+                var fv = FileVersionInfo.GetVersionInfo(strLocation);
 
-            dlg.ShowDialog();
+                string strHeader = String.Format("About... OneStory Editor v{0}",
+                                                 fv.FileVersion);
+
+                var dlg = new HtmlForm
+                              {
+                                  Text = strHeader,
+                                  ClientText = Properties.Resources.IDS_CopyrightInfo
+                              };
+
+                dlg.ShowDialog();
+            }
         }
 
         internal SearchForm m_frmFind = null;
