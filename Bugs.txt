@@ -1,7 +1,5 @@
 ﻿Add commentary support to Bible pane.
 
-Allow user to select (and override) color 
-
 What the consultant should know
 1) translation philosophy
 2) linguistic facts
