@@ -18,12 +18,13 @@ namespace OneStoryProjectEditor
 
         #region "format strings for HTML items"
         protected const string CstrHtmlTableBegin = "<table border=\"1\">";
-        protected const string CstrHtmlLineFormat = "<tr id=\"{0}\"><td><button type=\"button\">{1}</button></td><td>{2}</td>";
+        protected const string CstrHtmlLineFormat = "<tr id=\"{0}\"><td><button type=\"button\">{1}</button></td><td>{2}</td></tr>";
+        protected const string CstrHtmlLineFormatCommentary = "<tr><td>{0}</td></tr>";
         protected const string CstrAddFontFormat = "<font face=\"{1}\">{0}</font>";
         protected const string CstrAddDirFormat = "<p dir=\"RTL\">{0}</p>";
         protected const string CstrHtmlTableEnd = "</table>";
         protected const string verseLineBreak = "<br />";
-        protected const string preDocumentDOMScript = "<style> body    { margin:0 } </style>" + 
+        protected const string preDocumentDOMScript = "<style> body  { margin:0 } </style>" + 
             "<script>" +
             "function OpenHoverWindow(link)" +
             "{" +
@@ -96,6 +97,8 @@ namespace OneStoryProjectEditor
         }
 
         protected List<SwordResource> lstBibleResources = new List<SwordResource>();
+        protected List<SWModule> lstBibleCommentaries = new List<SWModule>();
+
         protected static char[] achAnchorDelimiters = new char[] { ' ', ':' };
         protected List<string> lstModulesToSuppress = new List<string>
         {
@@ -176,12 +179,13 @@ namespace OneStoryProjectEditor
             // first determine all the possible resources available
             int numOfModules = (int)manager.getModules().size();
             for (int i = 0; i < numOfModules; i++)
-                if (manager.getModuleAt(i).Type().Equals("Biblical Texts")) //Limit to just bibles, comment out to see all modules
+            {
+                string strModuleName = manager.getModuleAt(i).Name();
+                if (lstModulesToSuppress.Contains(strModuleName))
+                    continue;
+
+                if (manager.getModuleAt(i).Type().Equals("Biblical Texts"))
                 {
-                    string strModuleName = manager.getModuleAt(i).Name();
-                    if (lstModulesToSuppress.Contains(strModuleName))
-                        continue;
-                    
                     string strModuleDesc = manager.getModuleAt(i).Description();
                     if (Properties.Settings.Default.SwordModulesUsed.Contains(strModuleName))
                     {
@@ -191,6 +195,14 @@ namespace OneStoryProjectEditor
                     else
                         lstBibleResources.Add(new SwordResource(strModuleName, strModuleDesc, false));
                 }
+                else
+                {
+                    // otherwise 'commentaries'?
+                    // SwordResource sr = new SwordResource(strModuleName, strModuleDesc, true);
+                    SWModule swm = manager.getModule(strModuleName);
+                    lstBibleCommentaries.Add(swm);
+                }
+            }
 
             string moduleToStartWith = CstrNetFreeModuleName;
             if (!string.IsNullOrEmpty(Properties.Settings.Default.LastSwordModuleUsed))
@@ -422,6 +434,42 @@ namespace OneStoryProjectEditor
             catch { }
         }
 
+        private void DisplayCommentary(string strScriptureReference)
+        {
+            VerseKey keyVerse = new VerseKey(strScriptureReference);
+
+            // Build up the string which we're going to put in the HTML viewer
+            var sb = new StringBuilder(CstrHtmlTableBegin);
+
+            foreach (SWModule swm in lstBibleCommentaries)
+            {
+                // get the verse and remove any line break signals
+                string strVerseHtml = swm.RenderText(keyVerse); // .Replace(verseLineBreak, null);
+                if (String.IsNullOrEmpty(strVerseHtml))
+                    continue;
+
+                sb.Append(String.Format(CstrHtmlLineFormatCommentary, swm.Description()));
+
+                sb.Append(String.Format(CstrHtmlLineFormatCommentary, strVerseHtml));
+            }
+
+            if (sb.Length == CstrHtmlTableBegin.Length)
+                sb.Append("No commentary on this passage (you might want to install another \"Sword Project commentary\")");
+
+            // delimit the table
+            sb.Append(CstrHtmlTableEnd);
+
+            var theSE = FindForm() as StoryEditor;
+            var dlg = new HtmlForm
+                          {
+                              Text = "Commentary",
+                              ClientText = sb.ToString(),
+                              TheSE = theSE
+                          };
+
+            dlg.Show();
+        }
+
         private string strIdToScrollTo = null;
 
         private void ScrollToElement()
@@ -520,12 +568,16 @@ namespace OneStoryProjectEditor
 
         public void OnDoOnMouseUp(string strScriptureReference)
         {
-            Console.WriteLine("OnDoOnMouseUp: " + strScriptureReference);
             m_bMouseDown = false;
+#if !DoDisplayVerse
+            DisplayCommentary(strScriptureReference);
+#else
             DisplayVerses(strScriptureReference);
             var theSE = FindForm() as StoryEditor;
             if (theSE != null)
-                theSE._bAutoHide = false;   // get it to stick if the user does this
+                theSE._bAutoHide = false;
+            // get it to stick if the user does this
+#endif
         }
 
         protected NetBibleFootnoteTooltip _theFootnoteForm = null;
