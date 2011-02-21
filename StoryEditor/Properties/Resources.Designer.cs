@@ -200,6 +200,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Adapt It converter named &apos;{0}&apos; doesn&apos;t exist!.
+        /// </summary>
+        internal static string IDS_AdaptItConverterDoesntExist {
+            get {
+                return ResourceManager.GetString("IDS_AdaptItConverterDoesntExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Adapt It file for the project &apos;{0}&apos;, story &apos;{1}&apos; already exists. If you want to delete that file and do the English translation of the story all over again, then click &apos;Yes&apos;. If you just want to try to import the existing file again, choose &apos;No&apos;. Otherwise, click &apos;Cancel&apos; to stop this command..
         /// </summary>
         internal static string IDS_AdaptItFileAlreadyExists {
@@ -214,6 +223,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_AdaptItFromTo {
             get {
                 return ResourceManager.GetString("IDS_AdaptItFromTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} to {1} adaptations.
+        /// </summary>
+        internal static string IDS_AdaptItProjectFolderFormat {
+            get {
+                return ResourceManager.GetString("IDS_AdaptItProjectFolderFormat", resourceCulture);
             }
         }
         
@@ -313,6 +331,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_CheckOnKeyTerms {
             get {
                 return ResourceManager.GetString("IDS_CheckOnKeyTerms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose the Adapt It Lookup transducer.
+        /// </summary>
+        internal static string IDS_ChooseAdaptItEncConverter {
+            get {
+                return ResourceManager.GetString("IDS_ChooseAdaptItEncConverter", resourceCulture);
             }
         }
         
@@ -1023,6 +1050,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_UnableToSave {
             get {
                 return ResourceManager.GetString("IDS_UnableToSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Adapt It for {0} to {1} adaptation:.
+        /// </summary>
+        internal static string IDS_UseAiComboBoxText {
+            get {
+                return ResourceManager.GetString("IDS_UseAiComboBoxText", resourceCulture);
             }
         }
         

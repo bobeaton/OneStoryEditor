@@ -30,6 +30,12 @@ namespace OneStoryProjectEditor
         public bool ShowAnswersVernacular;
         public bool ShowAnswersNationalBT;
         public bool ShowAnswersInternationalBT = true;
+        public string VernacularToNationalBtAdaptItConverterName;
+        public string VernacularToInternationalBtAdaptItConverterName;
+        public string NationalBtToInternationalBtAdaptItConverterName;
+        public AdaptItConfigControl.AdaptItProjectType AdaptItProjectVernacularToNationalBt;
+        public AdaptItConfigControl.AdaptItProjectType AdaptItProjectVernacularToInternationalBt;
+        public AdaptItConfigControl.AdaptItProjectType AdaptItProjectNationalBtToInternationalBt;
 
         public ProjectSettings(string strProjectFolderDefaultIfNull, string strProjectName)
         {
@@ -87,6 +93,36 @@ namespace OneStoryProjectEditor
 
             if (!theLangRow.IsUseAnswerInternationalBTNull())
                 ShowAnswersInternationalBT = theLangRow.UseAnswerInternationalBT;
+
+            if (!theLangRow.IsVernacularToNationalBtAdaptItConverterNameNull())
+                VernacularToNationalBtAdaptItConverterName = 
+                    theLangRow.VernacularToNationalBtAdaptItConverterName;
+
+            if (!theLangRow.IsVernacularToInternationalBtAdaptItConverterNameNull())
+                VernacularToInternationalBtAdaptItConverterName =
+                    theLangRow.VernacularToInternationalBtAdaptItConverterName;
+
+            if (!theLangRow.IsNationalBtToInternationalBtAdaptItConverterNameNull())
+                NationalBtToInternationalBtAdaptItConverterName =
+                    theLangRow.NationalBtToInternationalBtAdaptItConverterName;
+
+            if (!theLangRow.IsAdaptItProjectTypeVernacularToNationalBtNull())
+                AdaptItProjectVernacularToNationalBt =
+                    (AdaptItConfigControl.AdaptItProjectType)
+                    Enum.Parse(typeof (AdaptItConfigControl.AdaptItProjectType),
+                               theLangRow.AdaptItProjectTypeVernacularToNationalBt);
+
+            if (!theLangRow.IsAdaptItProjectTypeVernacularToInternationalBtNull())
+                AdaptItProjectVernacularToInternationalBt = (AdaptItConfigControl.AdaptItProjectType)
+                                                            Enum.Parse(typeof (AdaptItConfigControl.AdaptItProjectType),
+                                                                       theLangRow.
+                                                                           AdaptItProjectTypeVernacularToInternationalBt);
+
+            if (!theLangRow.IsAdaptItProjectTypeNationalBtToInternationalBtNull())
+                AdaptItProjectNationalBtToInternationalBt =
+                    (AdaptItConfigControl.AdaptItProjectType)
+                    Enum.Parse(typeof (AdaptItConfigControl.AdaptItProjectType),
+                               theLangRow.AdaptItProjectTypeNationalBtToInternationalBt);
 
             // if there is no vernacular row, we must add it (it's required)
             if (projFile.VernacularLang.Count == 1)
@@ -158,10 +194,10 @@ namespace OneStoryProjectEditor
 
             // the free translation language isn't strictly necessary... 
             //  so only initialize if there's one in the file (shouldn't be more than 1)
-            if (projFile.FreeTranslation.Count == 1)
+            if (projFile.FreeTranslationLang.Count == 1)
             {
-                System.Diagnostics.Debug.Assert(projFile.FreeTranslation.Count == 1);
-                NewDataSet.FreeTranslationRow rowFtRow = projFile.FreeTranslation[0];
+                System.Diagnostics.Debug.Assert(projFile.FreeTranslationLang.Count == 1);
+                NewDataSet.FreeTranslationLangRow rowFtRow = projFile.FreeTranslationLang[0];
                 FreeTranslation.LangName = rowFtRow.name;
                 FreeTranslation.LangCode = rowFtRow.code;
                 FreeTranslation.DefaultFontName = rowFtRow.FontName;
@@ -407,10 +443,28 @@ namespace OneStoryProjectEditor
         public const string CstrAttributeLabelUseAnswerNationalBT = "UseAnswerNationalBT";
         public const string CstrAttributeLabelUseAnswerInternationalBT = "UseAnswerInternationalBT";
 
+        public const string CstrAttributeLabelVernacularToNationalBtAdaptItConverterName =
+            "VernacularToNationalBtAdaptItConverterName";
+
+        public const string CstrAttributeLabelVernacularToInternationalBtAdaptItConverterName =
+            "VernacularToInternationalBtAdaptItConverterName";
+
+        public const string CstrAttributeLabelNationalBtToInternationalBtAdaptItConverterName =
+            "NationalBtToInternationalBtAdaptItConverterName";
+
+        public const string CstrAttributeLabelAdaptItProjectVernacularToNationalBt =
+            "AdaptItProjectVernacularToNationalBt";
+
+        public const string CstrAttributeLabelAdaptItProjectVernacularToInternationalBt =
+            "AdaptItProjectVernacularToInternationalBt";
+
+        public const string CstrAttributeLabelAdaptItProjectNationalBtToInternationalBt =
+            "AdaptItProjectNationalBtToInternationalBt";
+
         public const string CstrElementLabelVernacular = "VernacularLang";
         public const string CstrElementLabelNationalBT = "NationalBTLang";
         public const string CstrElementLabelInternationalBT = "InternationalBTLang";
-        public const string CstrElementLabelFreeTranslation = "FreeTranslation";
+        public const string CstrElementLabelFreeTranslation = "FreeTranslationLang";
 
         public XElement GetXml
         {
@@ -430,6 +484,30 @@ namespace OneStoryProjectEditor
                     new XAttribute(CstrAttributeLabelUseAnswerNationalBT, ShowAnswersNationalBT),
                     new XAttribute(CstrAttributeLabelUseAnswerInternationalBT, ShowAnswersInternationalBT));
 
+                if (!String.IsNullOrEmpty(VernacularToNationalBtAdaptItConverterName))
+                    elem.Add(new XAttribute(CstrAttributeLabelVernacularToNationalBtAdaptItConverterName,
+                                            VernacularToNationalBtAdaptItConverterName));
+
+                if (!String.IsNullOrEmpty(VernacularToInternationalBtAdaptItConverterName))
+                    elem.Add(new XAttribute(CstrAttributeLabelVernacularToInternationalBtAdaptItConverterName,
+                                            VernacularToInternationalBtAdaptItConverterName));
+
+                if (!String.IsNullOrEmpty(NationalBtToInternationalBtAdaptItConverterName))
+                    elem.Add(new XAttribute(CstrAttributeLabelNationalBtToInternationalBtAdaptItConverterName,
+                                            NationalBtToInternationalBtAdaptItConverterName));
+
+                if (AdaptItProjectVernacularToNationalBt != AdaptItConfigControl.AdaptItProjectType.None)
+                    elem.Add(new XAttribute(CstrAttributeLabelAdaptItProjectVernacularToNationalBt,
+                                            AdaptItProjectVernacularToNationalBt.ToString()));
+
+                if (AdaptItProjectVernacularToInternationalBt != AdaptItConfigControl.AdaptItProjectType.None)
+                    elem.Add(new XAttribute(CstrAttributeLabelAdaptItProjectVernacularToInternationalBt,
+                                            AdaptItProjectVernacularToInternationalBt.ToString()));
+
+                if (AdaptItProjectNationalBtToInternationalBt != AdaptItConfigControl.AdaptItProjectType.None)
+                    elem.Add(new XAttribute(CstrAttributeLabelAdaptItProjectNationalBtToInternationalBt,
+                                            AdaptItProjectNationalBtToInternationalBt.ToString()));
+                
                 if (Vernacular.HasData)
                     elem.Add(Vernacular.GetXml(CstrElementLabelVernacular));
                     
@@ -454,6 +532,10 @@ namespace OneStoryProjectEditor
                     ShowRetellingVernacular, ShowRetellingNationalBT, ShowRetellingInternationalBT,
                     ShowTestQuestionsVernacular, ShowTestQuestionsNationalBT, ShowTestQuestionsInternationalBT,
                     ShowAnswersVernacular, ShowAnswersNationalBT, ShowAnswersInternationalBT,
+                    null, null, null,
+                    AdaptItProjectVernacularToNationalBt.ToString(),
+                    AdaptItProjectVernacularToInternationalBt.ToString(),
+                    AdaptItProjectNationalBtToInternationalBt.ToString(),
                     projFile.StoryProject[0]);
 
             System.Diagnostics.Debug.Assert(projFile.Languages.Count == 1);

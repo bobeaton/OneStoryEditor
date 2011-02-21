@@ -15,9 +15,14 @@ namespace OneStoryProjectEditor
         protected StoryProjectData _storyProjectData;
         public TeamMemberData LoggedInMember;
 
+        private AdaptItConfigControl adaptItConfigControlVernacularToNationalBT;
+        private AdaptItConfigControl adaptItConfigControlVernacularToInternationalBT;
+        private AdaptItConfigControl adaptItConfigControlNationalBtToInternationalBt;
+
         public NewProjectWizard(StoryProjectData storyProjectData)
         {
             InitializeComponent();
+
             _storyProjectData = storyProjectData;
 
             if ((_storyProjectData.ProjSettings != null) && 
@@ -77,6 +82,20 @@ namespace OneStoryProjectEditor
             {
                 checkBoxLanguageFreeTranslation.Checked = true;
             }
+        }
+
+        private AdaptItConfigControl GetAiControl(string strName, int nTabIndex)
+        {
+            var ctrl = new AdaptItConfigControl(flowLayoutPanelAdaptItControls, LoggedInMember)
+            {
+                AdaptItConverterName = null,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                Location = new System.Drawing.Point(3, 3),
+                Name = strName,
+                Size = new System.Drawing.Size(653, 74),
+                TabIndex = nTabIndex
+            };
+            return ctrl;
         }
 
         private void ProcessNext()
@@ -167,18 +186,29 @@ namespace OneStoryProjectEditor
                         checkBoxLanguageInternationalBT, tabPageLanguages);
                 }
 
-                if (checkBoxLanguageVernacular.Checked)
+                if (!checkBoxLanguageVernacular.Checked)
+                {
+                    System.Diagnostics.Debug.Assert(!checkBoxRetellingsVernacular.Checked
+                                                    && !checkBoxTestQuestionsVernacular.Checked
+                                                    && !checkBoxAnswersVernacular.Checked);
+                    ProjSettings.Vernacular.HasData = false;
+                }
+                else
                 {
                     if (String.IsNullOrEmpty(textBoxLanguageNameVernacular.Text))
                         textBoxLanguageNameVernacular.Text = (String.IsNullOrEmpty(ProjSettings.Vernacular.LangName))
                                                                  ? ProjectName
                                                                  : ProjSettings.Vernacular.LangName;
                 }
-                else
-                    ProjSettings.Vernacular.HasData = false;
+
 
                 if (!checkBoxLanguageNationalBT.Checked)
+                {
+                    System.Diagnostics.Debug.Assert(!checkBoxRetellingsNationalBT.Checked
+                                                    && !checkBoxTestQuestionsNationalBT.Checked
+                                                    && !checkBoxAnswersNationalBT.Checked);
                     ProjSettings.NationalBT.HasData = false;
+                }
 
                 if (checkBoxLanguageInternationalBT.Checked)
                 {
@@ -187,8 +217,13 @@ namespace OneStoryProjectEditor
                         textBoxLanguageNameEnglishBT.Text = "English";
                 }
                 else
-                    _storyProjectData.TeamMembers.HasOutsideEnglishBTer = 
+                {
+                    System.Diagnostics.Debug.Assert(!checkBoxRetellingsInternationalBT.Checked
+                                                    && !checkBoxTestQuestionsInternationalBT.Checked
+                                                    && !checkBoxAnswersInternationalBT.Checked);
+                    _storyProjectData.TeamMembers.HasOutsideEnglishBTer =
                         ProjSettings.InternationalBT.HasData = false;
+                }
 
                 if (checkBoxLanguageFreeTranslation.Checked)
                 {
@@ -211,6 +246,26 @@ namespace OneStoryProjectEditor
                 checkBoxOutsideEnglishBackTranslator.Checked = _storyProjectData.TeamMembers.HasOutsideEnglishBTer;
                 checkBoxFirstPassMentor.Checked = _storyProjectData.TeamMembers.HasFirstPassMentor;
                 radioButtonIndependentConsultant.Checked = _storyProjectData.TeamMembers.HasIndependentConsultant;
+
+                // now deal with the AdaptIt BT helpers (doing this here, because by now LoggedOnMember
+                //  will be initialized)
+                if (adaptItConfigControlVernacularToNationalBT == null)
+                    adaptItConfigControlVernacularToNationalBT = GetAiControl("adaptItConfigControlVernacularToNationalBT", 0);
+
+                if (adaptItConfigControlVernacularToInternationalBT == null)
+                    adaptItConfigControlVernacularToInternationalBT = GetAiControl("adaptItConfigControlVernacularToInternationalBT", 1);
+
+                if (adaptItConfigControlNationalBtToInternationalBt == null)
+                    adaptItConfigControlNationalBtToInternationalBt = GetAiControl("adaptItConfigControlNationalBtToInternationalBt", 2);
+
+                if (checkBoxLanguageVernacular.Checked && checkBoxLanguageNationalBT.Checked)
+                    adaptItConfigControlVernacularToNationalBT.Show();
+                adaptItConfigControlVernacularToNationalBT.Visible = (checkBoxLanguageVernacular.Checked &&
+                                                                      checkBoxLanguageNationalBT.Checked);
+                adaptItConfigControlVernacularToInternationalBT.Visible = (checkBoxLanguageVernacular.Checked &&
+                                                                           checkBoxLanguageInternationalBT.Checked);
+                adaptItConfigControlNationalBtToInternationalBt.Visible = (checkBoxLanguageNationalBT.Checked &&
+                                                                           checkBoxLanguageInternationalBT.Checked);
 
                 tabControl.SelectedIndex++;
             }
@@ -268,7 +323,65 @@ namespace OneStoryProjectEditor
             }
             else if (tabControl.SelectedTab == tabPageMemberRoles)
             {
+                if (adaptItConfigControlVernacularToNationalBT.Visible)
+                {
+                    ConfigureAdaptItConfig(adaptItConfigControlVernacularToNationalBT,
+                                           ProjSettings.AdaptItProjectVernacularToNationalBt,
+                                           ProjSettings.Vernacular.LangName,
+                                           ProjSettings.NationalBT.LangName,
+                                           ProjSettings.VernacularToNationalBtAdaptItConverterName);
+                }
+                if (adaptItConfigControlVernacularToInternationalBT.Visible)
+                {
+                    ConfigureAdaptItConfig(adaptItConfigControlVernacularToInternationalBT,
+                                           ProjSettings.AdaptItProjectVernacularToInternationalBt,
+                                           ProjSettings.Vernacular.LangName,
+                                           ProjSettings.InternationalBT.LangName,
+                                           ProjSettings.VernacularToNationalBtAdaptItConverterName);
+                }
+                if (adaptItConfigControlNationalBtToInternationalBt.Visible)
+                {
+                    ConfigureAdaptItConfig(adaptItConfigControlNationalBtToInternationalBt,
+                                           ProjSettings.AdaptItProjectNationalBtToInternationalBt,
+                                           ProjSettings.NationalBT.LangName,
+                                           ProjSettings.InternationalBT.LangName,
+                                           ProjSettings.NationalBtToInternationalBtAdaptItConverterName);
+                }
+                tabControl.SelectedIndex++;
             }
+            else if (tabControl.SelectedTab == tabPageAIBT)
+            {
+            }
+        }
+
+        private static void ReadAdaptItConfig(AdaptItConfigControl ctrl, 
+            ref AdaptItConfigControl.AdaptItProjectType adaptItProjectType, 
+            ref string strConverterName)
+        {
+            if (ctrl.Visible && !String.IsNullOrEmpty(ctrl.AdaptItConverterName))
+            {
+                adaptItProjectType = ctrl.AdaptItProject;
+                strConverterName = ctrl.Text;
+            }
+            else
+            {
+                adaptItProjectType = AdaptItConfigControl.AdaptItProjectType.None;
+                strConverterName = null;
+            }
+        }
+
+        private static void ConfigureAdaptItConfig(AdaptItConfigControl ctrl, 
+            AdaptItConfigControl.AdaptItProjectType typeAiProject,
+            string strSourceName, string strTargetName, string strProjectPath)
+        {
+            ctrl.AdaptItProject = typeAiProject;
+            ctrl.SourceLanguageName = strSourceName;
+            ctrl.TargetLanguageName = strTargetName;
+            ctrl.Label =
+                String.Format(Properties.Resources.IDS_UseAiComboBoxText,
+                              strSourceName,
+                              strTargetName);
+            ctrl.Text = strProjectPath;
         }
 
         internal static void RemoveProject(string strProjectFilename, string strProjectName)
@@ -444,6 +557,16 @@ namespace OneStoryProjectEditor
             ProjSettings.ShowAnswersNationalBT = checkBoxAnswersNationalBT.Checked;
             ProjSettings.ShowAnswersInternationalBT = checkBoxAnswersInternationalBT.Checked;
 
+            ReadAdaptItConfig(adaptItConfigControlVernacularToNationalBT,
+                              ref ProjSettings.AdaptItProjectVernacularToNationalBt,
+                              ref ProjSettings.VernacularToNationalBtAdaptItConverterName);
+            ReadAdaptItConfig(adaptItConfigControlVernacularToInternationalBT,
+                              ref ProjSettings.AdaptItProjectVernacularToInternationalBt,
+                              ref ProjSettings.VernacularToInternationalBtAdaptItConverterName);
+            ReadAdaptItConfig(adaptItConfigControlNationalBtToInternationalBt,
+                              ref ProjSettings.AdaptItProjectNationalBtToInternationalBt,
+                              ref ProjSettings.NationalBtToInternationalBtAdaptItConverterName);
+
             if (!checkBoxUseInternetRepo.Checked)
                 Program.ClearHgParameters(ProjectName);
 
@@ -556,9 +679,22 @@ namespace OneStoryProjectEditor
             {
                 int nIndex = IndexAfter(new[] { tabPageLanguages });
                 tabControl.TabPages.Insert(nIndex, tabPageLanguageVernacular);
+                checkBoxRetellingsVernacular.Checked =
+                    checkBoxAnswersVernacular.Checked = false;
+                checkBoxTestQuestionsVernacular.Checked = true;
             }
             else
+            {
                 tabControl.TabPages.Remove(tabPageLanguageVernacular);
+                checkBoxRetellingsVernacular.Checked =
+                    checkBoxTestQuestionsVernacular.Checked =
+                    checkBoxAnswersVernacular.Checked = false;
+            }
+
+            checkBoxRetellingsVernacular.Enabled =
+                checkBoxTestQuestionsVernacular.Enabled =
+                checkBoxAnswersVernacular.Enabled = checkBoxLanguageVernacular.Checked;
+
             Modified = true;
         }
 
@@ -572,6 +708,15 @@ namespace OneStoryProjectEditor
             }
             else
                 tabControl.TabPages.Remove(tabPageLanguageNationalBT);
+
+            checkBoxRetellingsNationalBT.Checked = 
+                checkBoxTestQuestionsNationalBT.Checked = 
+                checkBoxAnswersNationalBT.Checked = false;
+
+            checkBoxRetellingsNationalBT.Enabled =
+                checkBoxTestQuestionsNationalBT.Enabled =
+                checkBoxAnswersNationalBT.Enabled = checkBoxLanguageNationalBT.Checked;
+
             Modified = true;
         }
 
@@ -585,6 +730,15 @@ namespace OneStoryProjectEditor
             }
             else
                 tabControl.TabPages.Remove(tabPageLanguageEnglishBT);
+
+            checkBoxRetellingsInternationalBT.Checked =
+                checkBoxTestQuestionsInternationalBT.Checked =
+                checkBoxAnswersInternationalBT.Checked = checkBoxLanguageInternationalBT.Checked;
+
+            checkBoxRetellingsInternationalBT.Enabled =
+                checkBoxTestQuestionsInternationalBT.Enabled =
+                checkBoxAnswersInternationalBT.Enabled = checkBoxLanguageInternationalBT.Checked;
+
             Modified = true;
         }
 

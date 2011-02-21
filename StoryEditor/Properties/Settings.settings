@@ -265,5 +265,11 @@ DoAdaptingBeforeGlossing_InVerticalEdit	1</Value>
     <Setting Name="LeftEdgeQuotes" Type="System.String" Scope="User">
       <Value Profile="(Default)">‘‛“‟</Value>
     </Setting>
+    <Setting Name="AdaptItProjectRepositoryFormat" Type="System.String" Scope="User">
+      <Value Profile="(Default)">AdaptItKb{0}To{1}</Value>
+    </Setting>
+    <Setting Name="AdaptItDefaultServerLabel" Type="System.String" Scope="User">
+      <Value Profile="(Default)">private.languageDepot.org</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

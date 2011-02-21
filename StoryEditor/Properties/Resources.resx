@@ -1952,4 +1952,16 @@ and in the resulting window click on the next (green) state.
   <data name="IDS_ReorderClickSpaceTip" xml:space="preserve">
     <value>You may need to click the &lt;Space&gt; button to put a space before opening quotes</value>
   </data>
+  <data name="IDS_AdaptItConverterDoesntExist" xml:space="preserve">
+    <value>The Adapt It converter named '{0}' doesn't exist!</value>
+  </data>
+  <data name="IDS_UseAiComboBoxText" xml:space="preserve">
+    <value>Adapt It for {0} to {1} adaptation:</value>
+  </data>
+  <data name="IDS_AdaptItProjectFolderFormat" xml:space="preserve">
+    <value>{0} to {1} adaptations</value>
+  </data>
+  <data name="IDS_ChooseAdaptItEncConverter" xml:space="preserve">
+    <value>Choose the Adapt It Lookup transducer</value>
+  </data>
 </root>

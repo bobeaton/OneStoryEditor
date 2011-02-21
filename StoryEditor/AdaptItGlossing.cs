@@ -65,26 +65,29 @@ namespace OneStoryProjectEditor
             out ProjectSettings.LanguageInfo liSourceLang, out ProjectSettings.LanguageInfo liTargetLang)
         {
             var aECs = new EncConverters();
-            string strName, strConverterSpec;
+            string strName;
             switch (eGlossType)
             {
                 case StoryEditor.GlossType.eVernacularToNational:
-                    strName = AdaptItLookupConverterName(proj.Vernacular.LangName, proj.NationalBT.LangName);
-                    strConverterSpec = AdaptItLookupFileSpec(proj.Vernacular.LangName, proj.NationalBT.LangName);
+                    System.Diagnostics.Debug.Assert(
+                        !String.IsNullOrEmpty(proj.VernacularToNationalBtAdaptItConverterName));
+                    strName = proj.VernacularToNationalBtAdaptItConverterName;
                     liSourceLang = proj.Vernacular;
                     liTargetLang = proj.NationalBT;
                     break;
 
                 case StoryEditor.GlossType.eVernacularToEnglish:    // the glossing KB for the Vern to Natl project
-                    strName = AdaptItLookupConverterName(proj.Vernacular.LangName, proj.InternationalBT.LangName);
-                    strConverterSpec = AdaptItLookupFileSpec(proj.Vernacular.LangName, proj.InternationalBT.LangName);
+                    System.Diagnostics.Debug.Assert(
+                        !String.IsNullOrEmpty(proj.VernacularToInternationalBtAdaptItConverterName));
+                    strName = proj.VernacularToInternationalBtAdaptItConverterName;
                     liSourceLang = proj.Vernacular;
                     liTargetLang = proj.InternationalBT; // this is still the national lg project (but the glossing KB)
                     break;
 
                 case StoryEditor.GlossType.eNationalToEnglish:
-                    strName = AdaptItLookupConverterName(proj.NationalBT.LangName, proj.InternationalBT.LangName);
-                    strConverterSpec = AdaptItLookupFileSpec(proj.NationalBT.LangName, proj.InternationalBT.LangName);
+                    System.Diagnostics.Debug.Assert(
+                        !String.IsNullOrEmpty(proj.NationalBtToInternationalBtAdaptItConverterName));
+                    strName = proj.NationalBtToInternationalBtAdaptItConverterName;
                     liSourceLang = proj.NationalBT;         // this is a whole nuther national to English project
                     liTargetLang = proj.InternationalBT;
                     break;
@@ -93,7 +96,7 @@ namespace OneStoryProjectEditor
                     System.Diagnostics.Debug.Assert(false);
                     throw new ApplicationException("Wrong glossing type specified. Send to bob_eaton@sall.com for help");
             }
-
+            /*
             // just in case the project doesn't exist yet...
             WriteAdaptItProjectFiles(liSourceLang, liTargetLang, proj.InternationalBT); // move this to AIGuesserEC project when it's mature.
 
@@ -103,6 +106,11 @@ namespace OneStoryProjectEditor
                 aECs.AddConversionMap(strName, strConverterSpec, ConvType.Unicode_to_from_Unicode,
                     EncConverters.strTypeSILadaptit, "UNICODE", "UNICODE", ProcessTypeFlags.DontKnow);
             }
+            */
+
+            if (!aECs.ContainsKey(strName))
+                throw new ApplicationException(String.Format(Properties.Resources.IDS_AdaptItConverterDoesntExist,
+                                                             strName));
 
             IEncConverter aEC = aECs[strName];
             System.Diagnostics.Debug.Assert((aEC != null) && (aEC is AdaptItEncConverter));

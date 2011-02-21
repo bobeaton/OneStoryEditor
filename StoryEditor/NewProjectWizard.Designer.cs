@@ -133,11 +133,14 @@
             this.checkBoxFirstPassMentor = new System.Windows.Forms.CheckBox();
             this.checkBoxOutsideEnglishBackTranslator = new System.Windows.Forms.CheckBox();
             this.checkBoxProjectFacilitator = new System.Windows.Forms.CheckBox();
+            this.tabPageAIBT = new System.Windows.Forms.TabPage();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.buttonNext = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.buttonPrevious = new System.Windows.Forms.Button();
             this.fontDialog = new System.Windows.Forms.FontDialog();
+            this.flowLayoutPanelAdaptItControls = new System.Windows.Forms.FlowLayoutPanel();
             this.tabControl.SuspendLayout();
             this.tabPageProjectName.SuspendLayout();
             this.tabPageInternetRepository.SuspendLayout();
@@ -153,6 +156,8 @@
             this.tabPageLanguageFreeTranslation.SuspendLayout();
             this.tableLayoutPanelFreeTranslation.SuspendLayout();
             this.tabPageMemberRoles.SuspendLayout();
+            this.tabPageAIBT.SuspendLayout();
+            this.flowLayoutPanelAdaptItControls.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl
@@ -168,10 +173,11 @@
             this.tabControl.Controls.Add(this.tabPageLanguageEnglishBT);
             this.tabControl.Controls.Add(this.tabPageLanguageFreeTranslation);
             this.tabControl.Controls.Add(this.tabPageMemberRoles);
+            this.tabControl.Controls.Add(this.tabPageAIBT);
             this.tabControl.Location = new System.Drawing.Point(13, 13);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(595, 340);
+            this.tabControl.Size = new System.Drawing.Size(759, 340);
             this.tabControl.TabIndex = 0;
             this.tabControl.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabControl_Selecting);
             // 
@@ -183,7 +189,7 @@
             this.tabPageProjectName.Location = new System.Drawing.Point(4, 22);
             this.tabPageProjectName.Name = "tabPageProjectName";
             this.tabPageProjectName.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageProjectName.Size = new System.Drawing.Size(587, 314);
+            this.tabPageProjectName.Size = new System.Drawing.Size(751, 314);
             this.tabPageProjectName.TabIndex = 0;
             this.tabPageProjectName.Text = "Project Name";
             this.tabPageProjectName.UseVisualStyleBackColor = true;
@@ -208,7 +214,7 @@
             this.textBoxProjectNameInstructions.Multiline = true;
             this.textBoxProjectNameInstructions.Name = "textBoxProjectNameInstructions";
             this.textBoxProjectNameInstructions.ReadOnly = true;
-            this.textBoxProjectNameInstructions.Size = new System.Drawing.Size(550, 113);
+            this.textBoxProjectNameInstructions.Size = new System.Drawing.Size(715, 113);
             this.textBoxProjectNameInstructions.TabIndex = 2;
             this.textBoxProjectNameInstructions.TabStop = false;
             this.textBoxProjectNameInstructions.Text = resources.GetString("textBoxProjectNameInstructions.Text");
@@ -218,7 +224,7 @@
             this.textBoxProjectName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxProjectName.Location = new System.Drawing.Point(17, 27);
             this.textBoxProjectName.Name = "textBoxProjectName";
-            this.textBoxProjectName.Size = new System.Drawing.Size(550, 20);
+            this.textBoxProjectName.Size = new System.Drawing.Size(715, 20);
             this.textBoxProjectName.TabIndex = 0;
             // 
             // tabPageInternetRepository
@@ -227,7 +233,7 @@
             this.tabPageInternetRepository.Location = new System.Drawing.Point(4, 22);
             this.tabPageInternetRepository.Name = "tabPageInternetRepository";
             this.tabPageInternetRepository.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageInternetRepository.Size = new System.Drawing.Size(587, 314);
+            this.tabPageInternetRepository.Size = new System.Drawing.Size(751, 314);
             this.tabPageInternetRepository.TabIndex = 6;
             this.tabPageInternetRepository.Text = "Internet Repository";
             this.tabPageInternetRepository.UseVisualStyleBackColor = true;
@@ -260,7 +266,7 @@
             this.tableLayoutPanelInternetRepo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
             this.tableLayoutPanelInternetRepo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 55F));
             this.tableLayoutPanelInternetRepo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanelInternetRepo.Size = new System.Drawing.Size(554, 282);
+            this.tableLayoutPanelInternetRepo.Size = new System.Drawing.Size(731, 282);
             this.tableLayoutPanelInternetRepo.TabIndex = 1;
             // 
             // textBoxInternetRepoInstructions
@@ -273,7 +279,7 @@
             this.textBoxInternetRepoInstructions.Multiline = true;
             this.textBoxInternetRepoInstructions.Name = "textBoxInternetRepoInstructions";
             this.textBoxInternetRepoInstructions.ReadOnly = true;
-            this.textBoxInternetRepoInstructions.Size = new System.Drawing.Size(548, 108);
+            this.textBoxInternetRepoInstructions.Size = new System.Drawing.Size(725, 108);
             this.textBoxInternetRepoInstructions.TabIndex = 8;
             this.textBoxInternetRepoInstructions.TabStop = false;
             this.textBoxInternetRepoInstructions.Text = resources.GetString("textBoxInternetRepoInstructions.Text");
@@ -284,7 +290,7 @@
             this.textBoxHgRepoUrlBase.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxHgRepoUrlBase.Location = new System.Drawing.Point(3, 3);
             this.textBoxHgRepoUrlBase.Name = "textBoxHgRepoUrlBase";
-            this.textBoxHgRepoUrlBase.Size = new System.Drawing.Size(548, 20);
+            this.textBoxHgRepoUrlBase.Size = new System.Drawing.Size(725, 20);
             this.textBoxHgRepoUrlBase.TabIndex = 0;
             this.textBoxHgRepoUrlBase.TextChanged += new System.EventHandler(this.textBoxHgRepo_TextChanged);
             // 
@@ -303,7 +309,7 @@
             this.textBoxUsername.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxUsername.Location = new System.Drawing.Point(3, 59);
             this.textBoxUsername.Name = "textBoxUsername";
-            this.textBoxUsername.Size = new System.Drawing.Size(271, 20);
+            this.textBoxUsername.Size = new System.Drawing.Size(359, 20);
             this.textBoxUsername.TabIndex = 2;
             this.textBoxUsername.TextChanged += new System.EventHandler(this.textBoxHgRepo_TextChanged);
             // 
@@ -323,7 +329,7 @@
             this.textBoxHgRepoUrl.Location = new System.Drawing.Point(3, 115);
             this.textBoxHgRepoUrl.Name = "textBoxHgRepoUrl";
             this.textBoxHgRepoUrl.ReadOnly = true;
-            this.textBoxHgRepoUrl.Size = new System.Drawing.Size(548, 20);
+            this.textBoxHgRepoUrl.Size = new System.Drawing.Size(725, 20);
             this.textBoxHgRepoUrl.TabIndex = 6;
             this.textBoxHgRepoUrl.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textBoxHgRepoUrl_MouseClick);
             // 
@@ -338,7 +344,7 @@
             // 
             // textBoxPassword
             // 
-            this.textBoxPassword.Location = new System.Drawing.Point(280, 59);
+            this.textBoxPassword.Location = new System.Drawing.Point(368, 59);
             this.textBoxPassword.Name = "textBoxPassword";
             this.textBoxPassword.Size = new System.Drawing.Size(253, 20);
             this.textBoxPassword.TabIndex = 4;
@@ -347,7 +353,7 @@
             // labelPassword
             // 
             this.labelPassword.AutoSize = true;
-            this.labelPassword.Location = new System.Drawing.Point(280, 82);
+            this.labelPassword.Location = new System.Drawing.Point(368, 82);
             this.labelPassword.Name = "labelPassword";
             this.labelPassword.Size = new System.Drawing.Size(153, 13);
             this.labelPassword.TabIndex = 5;
@@ -360,7 +366,7 @@
             this.tabPageLanguages.Location = new System.Drawing.Point(4, 22);
             this.tabPageLanguages.Name = "tabPageLanguages";
             this.tabPageLanguages.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLanguages.Size = new System.Drawing.Size(587, 314);
+            this.tabPageLanguages.Size = new System.Drawing.Size(751, 314);
             this.tabPageLanguages.TabIndex = 1;
             this.tabPageLanguages.Text = "Languages";
             this.tabPageLanguages.UseVisualStyleBackColor = true;
@@ -536,6 +542,7 @@
             // 
             this.checkBoxRetellingsVernacular.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.checkBoxRetellingsVernacular.AutoSize = true;
+            this.checkBoxRetellingsVernacular.Enabled = false;
             this.checkBoxRetellingsVernacular.Location = new System.Drawing.Point(302, 23);
             this.checkBoxRetellingsVernacular.Name = "checkBoxRetellingsVernacular";
             this.checkBoxRetellingsVernacular.Size = new System.Drawing.Size(15, 14);
@@ -547,6 +554,7 @@
             // 
             this.checkBoxTestQuestionsVernacular.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.checkBoxTestQuestionsVernacular.AutoSize = true;
+            this.checkBoxTestQuestionsVernacular.Enabled = false;
             this.checkBoxTestQuestionsVernacular.Location = new System.Drawing.Point(398, 23);
             this.checkBoxTestQuestionsVernacular.Name = "checkBoxTestQuestionsVernacular";
             this.checkBoxTestQuestionsVernacular.Size = new System.Drawing.Size(15, 14);
@@ -558,6 +566,7 @@
             // 
             this.checkBoxAnswersVernacular.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.checkBoxAnswersVernacular.AutoSize = true;
+            this.checkBoxAnswersVernacular.Enabled = false;
             this.checkBoxAnswersVernacular.Location = new System.Drawing.Point(496, 23);
             this.checkBoxAnswersVernacular.Name = "checkBoxAnswersVernacular";
             this.checkBoxAnswersVernacular.Size = new System.Drawing.Size(15, 14);
@@ -569,6 +578,7 @@
             // 
             this.checkBoxRetellingsNationalBT.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.checkBoxRetellingsNationalBT.AutoSize = true;
+            this.checkBoxRetellingsNationalBT.Enabled = false;
             this.checkBoxRetellingsNationalBT.Location = new System.Drawing.Point(302, 43);
             this.checkBoxRetellingsNationalBT.Name = "checkBoxRetellingsNationalBT";
             this.checkBoxRetellingsNationalBT.Size = new System.Drawing.Size(15, 14);
@@ -593,6 +603,7 @@
             // 
             this.checkBoxTestQuestionsNationalBT.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.checkBoxTestQuestionsNationalBT.AutoSize = true;
+            this.checkBoxTestQuestionsNationalBT.Enabled = false;
             this.checkBoxTestQuestionsNationalBT.Location = new System.Drawing.Point(398, 43);
             this.checkBoxTestQuestionsNationalBT.Name = "checkBoxTestQuestionsNationalBT";
             this.checkBoxTestQuestionsNationalBT.Size = new System.Drawing.Size(15, 14);
@@ -617,6 +628,7 @@
             // 
             this.checkBoxAnswersNationalBT.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.checkBoxAnswersNationalBT.AutoSize = true;
+            this.checkBoxAnswersNationalBT.Enabled = false;
             this.checkBoxAnswersNationalBT.Location = new System.Drawing.Point(496, 43);
             this.checkBoxAnswersNationalBT.Name = "checkBoxAnswersNationalBT";
             this.checkBoxAnswersNationalBT.Size = new System.Drawing.Size(15, 14);
@@ -646,7 +658,7 @@
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
             this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(555, 158);
+            this.textBox2.Size = new System.Drawing.Size(719, 158);
             this.textBox2.TabIndex = 3;
             this.textBox2.TabStop = false;
             this.textBox2.Text = resources.GetString("textBox2.Text");
@@ -657,7 +669,7 @@
             this.tabPageLanguageVernacular.Location = new System.Drawing.Point(4, 22);
             this.tabPageLanguageVernacular.Name = "tabPageLanguageVernacular";
             this.tabPageLanguageVernacular.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLanguageVernacular.Size = new System.Drawing.Size(587, 314);
+            this.tabPageLanguageVernacular.Size = new System.Drawing.Size(751, 314);
             this.tabPageLanguageVernacular.TabIndex = 5;
             this.tabPageLanguageVernacular.Text = "Story Language";
             this.tabPageLanguageVernacular.UseVisualStyleBackColor = true;
@@ -692,7 +704,7 @@
             this.tableLayoutPanelLanguageInformationVernacular.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelLanguageInformationVernacular.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelLanguageInformationVernacular.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelLanguageInformationVernacular.Size = new System.Drawing.Size(554, 285);
+            this.tableLayoutPanelLanguageInformationVernacular.Size = new System.Drawing.Size(718, 285);
             this.tableLayoutPanelLanguageInformationVernacular.TabIndex = 0;
             // 
             // textBoxLanguageTabInstructionsVernacular
@@ -705,7 +717,7 @@
             this.textBoxLanguageTabInstructionsVernacular.Multiline = true;
             this.textBoxLanguageTabInstructionsVernacular.Name = "textBoxLanguageTabInstructionsVernacular";
             this.textBoxLanguageTabInstructionsVernacular.ReadOnly = true;
-            this.textBoxLanguageTabInstructionsVernacular.Size = new System.Drawing.Size(548, 145);
+            this.textBoxLanguageTabInstructionsVernacular.Size = new System.Drawing.Size(712, 145);
             this.textBoxLanguageTabInstructionsVernacular.TabIndex = 1;
             this.textBoxLanguageTabInstructionsVernacular.TabStop = false;
             this.textBoxLanguageTabInstructionsVernacular.Text = resources.GetString("textBoxLanguageTabInstructionsVernacular.Text");
@@ -726,7 +738,7 @@
             this.textBoxLanguageNameVernacular.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxLanguageNameVernacular.Location = new System.Drawing.Point(104, 3);
             this.textBoxLanguageNameVernacular.Name = "textBoxLanguageNameVernacular";
-            this.textBoxLanguageNameVernacular.Size = new System.Drawing.Size(447, 20);
+            this.textBoxLanguageNameVernacular.Size = new System.Drawing.Size(611, 20);
             this.textBoxLanguageNameVernacular.TabIndex = 1;
             this.textBoxLanguageNameVernacular.TextChanged += new System.EventHandler(this.textBoxLanguageNameVernacular_TextChanged);
             // 
@@ -746,7 +758,7 @@
             this.textBoxEthCodeVernacular.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxEthCodeVernacular.Location = new System.Drawing.Point(104, 29);
             this.textBoxEthCodeVernacular.Name = "textBoxEthCodeVernacular";
-            this.textBoxEthCodeVernacular.Size = new System.Drawing.Size(447, 20);
+            this.textBoxEthCodeVernacular.Size = new System.Drawing.Size(611, 20);
             this.textBoxEthCodeVernacular.TabIndex = 3;
             // 
             // buttonFontVernacular
@@ -796,7 +808,7 @@
             this.textBoxSentFullStopVernacular.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxSentFullStopVernacular.Location = new System.Drawing.Point(104, 111);
             this.textBoxSentFullStopVernacular.Name = "textBoxSentFullStopVernacular";
-            this.textBoxSentFullStopVernacular.Size = new System.Drawing.Size(447, 20);
+            this.textBoxSentFullStopVernacular.Size = new System.Drawing.Size(611, 20);
             this.textBoxSentFullStopVernacular.TabIndex = 10;
             this.textBoxSentFullStopVernacular.Leave += new System.EventHandler(this.textBoxSentFullStop_Leave);
             this.textBoxSentFullStopVernacular.Enter += new System.EventHandler(this.textBoxSentFullStopVernacular_Enter);
@@ -820,7 +832,7 @@
             this.comboBoxKeyboardVernacular.ItemHeight = 13;
             this.comboBoxKeyboardVernacular.Location = new System.Drawing.Point(104, 55);
             this.comboBoxKeyboardVernacular.Name = "comboBoxKeyboardVernacular";
-            this.comboBoxKeyboardVernacular.Size = new System.Drawing.Size(447, 21);
+            this.comboBoxKeyboardVernacular.Size = new System.Drawing.Size(611, 21);
             this.comboBoxKeyboardVernacular.TabIndex = 5;
             this.comboBoxKeyboardVernacular.SelectionChangeCommitted += new System.EventHandler(this.comboBoxKeyboard_SelectionChangeCommitted);
             // 
@@ -830,7 +842,7 @@
             this.tabPageLanguageNationalBT.Location = new System.Drawing.Point(4, 22);
             this.tabPageLanguageNationalBT.Name = "tabPageLanguageNationalBT";
             this.tabPageLanguageNationalBT.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLanguageNationalBT.Size = new System.Drawing.Size(587, 314);
+            this.tabPageLanguageNationalBT.Size = new System.Drawing.Size(751, 314);
             this.tabPageLanguageNationalBT.TabIndex = 4;
             this.tabPageLanguageNationalBT.Text = "National BT";
             this.tabPageLanguageNationalBT.UseVisualStyleBackColor = true;
@@ -865,7 +877,7 @@
             this.tableLayoutPanelLanguageInformationNationalBT.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelLanguageInformationNationalBT.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelLanguageInformationNationalBT.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelLanguageInformationNationalBT.Size = new System.Drawing.Size(554, 285);
+            this.tableLayoutPanelLanguageInformationNationalBT.Size = new System.Drawing.Size(731, 285);
             this.tableLayoutPanelLanguageInformationNationalBT.TabIndex = 0;
             // 
             // labelLanguageNameNationalBT
@@ -884,7 +896,7 @@
             this.textBoxLanguageNameNationalBT.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxLanguageNameNationalBT.Location = new System.Drawing.Point(104, 3);
             this.textBoxLanguageNameNationalBT.Name = "textBoxLanguageNameNationalBT";
-            this.textBoxLanguageNameNationalBT.Size = new System.Drawing.Size(447, 20);
+            this.textBoxLanguageNameNationalBT.Size = new System.Drawing.Size(624, 20);
             this.textBoxLanguageNameNationalBT.TabIndex = 1;
             this.textBoxLanguageNameNationalBT.TextChanged += new System.EventHandler(this.textBoxLanguageNameNationalBT_TextChanged);
             // 
@@ -904,7 +916,7 @@
             this.textBoxEthCodeNationalBT.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxEthCodeNationalBT.Location = new System.Drawing.Point(104, 29);
             this.textBoxEthCodeNationalBT.Name = "textBoxEthCodeNationalBT";
-            this.textBoxEthCodeNationalBT.Size = new System.Drawing.Size(447, 20);
+            this.textBoxEthCodeNationalBT.Size = new System.Drawing.Size(624, 20);
             this.textBoxEthCodeNationalBT.TabIndex = 3;
             // 
             // buttonFontNationalBT
@@ -954,7 +966,7 @@
             this.textBoxSentFullStopNationalBT.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxSentFullStopNationalBT.Location = new System.Drawing.Point(104, 111);
             this.textBoxSentFullStopNationalBT.Name = "textBoxSentFullStopNationalBT";
-            this.textBoxSentFullStopNationalBT.Size = new System.Drawing.Size(447, 20);
+            this.textBoxSentFullStopNationalBT.Size = new System.Drawing.Size(624, 20);
             this.textBoxSentFullStopNationalBT.TabIndex = 10;
             this.textBoxSentFullStopNationalBT.Leave += new System.EventHandler(this.textBoxSentFullStop_Leave);
             this.textBoxSentFullStopNationalBT.Enter += new System.EventHandler(this.textBoxSentFullStopNationalBT_Enter);
@@ -978,7 +990,7 @@
             this.comboBoxKeyboardNationalBT.ItemHeight = 13;
             this.comboBoxKeyboardNationalBT.Location = new System.Drawing.Point(104, 55);
             this.comboBoxKeyboardNationalBT.Name = "comboBoxKeyboardNationalBT";
-            this.comboBoxKeyboardNationalBT.Size = new System.Drawing.Size(447, 21);
+            this.comboBoxKeyboardNationalBT.Size = new System.Drawing.Size(624, 21);
             this.comboBoxKeyboardNationalBT.TabIndex = 5;
             this.comboBoxKeyboardNationalBT.SelectionChangeCommitted += new System.EventHandler(this.comboBoxKeyboard_SelectionChangeCommitted);
             // 
@@ -992,7 +1004,7 @@
             this.textBoxLanguageTabInstructionsNationalBT.Multiline = true;
             this.textBoxLanguageTabInstructionsNationalBT.Name = "textBoxLanguageTabInstructionsNationalBT";
             this.textBoxLanguageTabInstructionsNationalBT.ReadOnly = true;
-            this.textBoxLanguageTabInstructionsNationalBT.Size = new System.Drawing.Size(548, 145);
+            this.textBoxLanguageTabInstructionsNationalBT.Size = new System.Drawing.Size(725, 145);
             this.textBoxLanguageTabInstructionsNationalBT.TabIndex = 1;
             this.textBoxLanguageTabInstructionsNationalBT.TabStop = false;
             this.textBoxLanguageTabInstructionsNationalBT.Text = resources.GetString("textBoxLanguageTabInstructionsNationalBT.Text");
@@ -1003,7 +1015,7 @@
             this.tabPageLanguageEnglishBT.Location = new System.Drawing.Point(4, 22);
             this.tabPageLanguageEnglishBT.Name = "tabPageLanguageEnglishBT";
             this.tabPageLanguageEnglishBT.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLanguageEnglishBT.Size = new System.Drawing.Size(587, 314);
+            this.tabPageLanguageEnglishBT.Size = new System.Drawing.Size(751, 314);
             this.tabPageLanguageEnglishBT.TabIndex = 2;
             this.tabPageLanguageEnglishBT.Text = "English BT";
             this.tabPageLanguageEnglishBT.UseVisualStyleBackColor = true;
@@ -1038,7 +1050,7 @@
             this.tableLayoutPanelLanguageInformationEnglishBT.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelLanguageInformationEnglishBT.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelLanguageInformationEnglishBT.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelLanguageInformationEnglishBT.Size = new System.Drawing.Size(554, 285);
+            this.tableLayoutPanelLanguageInformationEnglishBT.Size = new System.Drawing.Size(731, 285);
             this.tableLayoutPanelLanguageInformationEnglishBT.TabIndex = 0;
             // 
             // textBoxLanguageTabInstructionsEnglishBT
@@ -1051,7 +1063,7 @@
             this.textBoxLanguageTabInstructionsEnglishBT.Multiline = true;
             this.textBoxLanguageTabInstructionsEnglishBT.Name = "textBoxLanguageTabInstructionsEnglishBT";
             this.textBoxLanguageTabInstructionsEnglishBT.ReadOnly = true;
-            this.textBoxLanguageTabInstructionsEnglishBT.Size = new System.Drawing.Size(548, 145);
+            this.textBoxLanguageTabInstructionsEnglishBT.Size = new System.Drawing.Size(725, 145);
             this.textBoxLanguageTabInstructionsEnglishBT.TabIndex = 1;
             this.textBoxLanguageTabInstructionsEnglishBT.TabStop = false;
             this.textBoxLanguageTabInstructionsEnglishBT.Text = resources.GetString("textBoxLanguageTabInstructionsEnglishBT.Text");
@@ -1072,7 +1084,7 @@
             this.textBoxLanguageNameEnglishBT.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxLanguageNameEnglishBT.Location = new System.Drawing.Point(104, 3);
             this.textBoxLanguageNameEnglishBT.Name = "textBoxLanguageNameEnglishBT";
-            this.textBoxLanguageNameEnglishBT.Size = new System.Drawing.Size(447, 20);
+            this.textBoxLanguageNameEnglishBT.Size = new System.Drawing.Size(624, 20);
             this.textBoxLanguageNameEnglishBT.TabIndex = 1;
             this.textBoxLanguageNameEnglishBT.TextChanged += new System.EventHandler(this.textBoxLanguageNameEnglishBT_TextChanged);
             // 
@@ -1092,7 +1104,7 @@
             this.textBoxEthCodeEnglishBT.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxEthCodeEnglishBT.Location = new System.Drawing.Point(104, 29);
             this.textBoxEthCodeEnglishBT.Name = "textBoxEthCodeEnglishBT";
-            this.textBoxEthCodeEnglishBT.Size = new System.Drawing.Size(447, 20);
+            this.textBoxEthCodeEnglishBT.Size = new System.Drawing.Size(624, 20);
             this.textBoxEthCodeEnglishBT.TabIndex = 3;
             // 
             // buttonFontEnglishBT
@@ -1142,7 +1154,7 @@
             this.textBoxSentFullStopEnglishBT.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxSentFullStopEnglishBT.Location = new System.Drawing.Point(104, 111);
             this.textBoxSentFullStopEnglishBT.Name = "textBoxSentFullStopEnglishBT";
-            this.textBoxSentFullStopEnglishBT.Size = new System.Drawing.Size(447, 20);
+            this.textBoxSentFullStopEnglishBT.Size = new System.Drawing.Size(624, 20);
             this.textBoxSentFullStopEnglishBT.TabIndex = 10;
             this.textBoxSentFullStopEnglishBT.Leave += new System.EventHandler(this.textBoxSentFullStop_Leave);
             this.textBoxSentFullStopEnglishBT.Enter += new System.EventHandler(this.textBoxSentFullStopEnglishBT_Enter);
@@ -1166,7 +1178,7 @@
             this.comboBoxKeyboardEnglishBT.ItemHeight = 13;
             this.comboBoxKeyboardEnglishBT.Location = new System.Drawing.Point(104, 55);
             this.comboBoxKeyboardEnglishBT.Name = "comboBoxKeyboardEnglishBT";
-            this.comboBoxKeyboardEnglishBT.Size = new System.Drawing.Size(447, 21);
+            this.comboBoxKeyboardEnglishBT.Size = new System.Drawing.Size(624, 21);
             this.comboBoxKeyboardEnglishBT.TabIndex = 5;
             this.comboBoxKeyboardEnglishBT.SelectionChangeCommitted += new System.EventHandler(this.comboBoxKeyboard_SelectionChangeCommitted);
             // 
@@ -1176,7 +1188,7 @@
             this.tabPageLanguageFreeTranslation.Location = new System.Drawing.Point(4, 22);
             this.tabPageLanguageFreeTranslation.Name = "tabPageLanguageFreeTranslation";
             this.tabPageLanguageFreeTranslation.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLanguageFreeTranslation.Size = new System.Drawing.Size(587, 314);
+            this.tabPageLanguageFreeTranslation.Size = new System.Drawing.Size(751, 314);
             this.tabPageLanguageFreeTranslation.TabIndex = 7;
             this.tabPageLanguageFreeTranslation.Text = "Free Tr";
             this.tabPageLanguageFreeTranslation.UseVisualStyleBackColor = true;
@@ -1211,7 +1223,7 @@
             this.tableLayoutPanelFreeTranslation.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelFreeTranslation.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelFreeTranslation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelFreeTranslation.Size = new System.Drawing.Size(554, 285);
+            this.tableLayoutPanelFreeTranslation.Size = new System.Drawing.Size(731, 285);
             this.tableLayoutPanelFreeTranslation.TabIndex = 1;
             // 
             // textBoxLanguageTabInstructionsFreeTranslation
@@ -1224,7 +1236,7 @@
             this.textBoxLanguageTabInstructionsFreeTranslation.Multiline = true;
             this.textBoxLanguageTabInstructionsFreeTranslation.Name = "textBoxLanguageTabInstructionsFreeTranslation";
             this.textBoxLanguageTabInstructionsFreeTranslation.ReadOnly = true;
-            this.textBoxLanguageTabInstructionsFreeTranslation.Size = new System.Drawing.Size(548, 145);
+            this.textBoxLanguageTabInstructionsFreeTranslation.Size = new System.Drawing.Size(725, 145);
             this.textBoxLanguageTabInstructionsFreeTranslation.TabIndex = 1;
             this.textBoxLanguageTabInstructionsFreeTranslation.TabStop = false;
             this.textBoxLanguageTabInstructionsFreeTranslation.Text = resources.GetString("textBoxLanguageTabInstructionsFreeTranslation.Text");
@@ -1245,7 +1257,7 @@
             this.textBoxLanguageNameFreeTranslation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxLanguageNameFreeTranslation.Location = new System.Drawing.Point(104, 3);
             this.textBoxLanguageNameFreeTranslation.Name = "textBoxLanguageNameFreeTranslation";
-            this.textBoxLanguageNameFreeTranslation.Size = new System.Drawing.Size(447, 20);
+            this.textBoxLanguageNameFreeTranslation.Size = new System.Drawing.Size(624, 20);
             this.textBoxLanguageNameFreeTranslation.TabIndex = 1;
             this.textBoxLanguageNameFreeTranslation.TextChanged += new System.EventHandler(this.textBoxLanguageNameFreeTranslation_TextChanged);
             // 
@@ -1265,7 +1277,7 @@
             this.textBoxEthCodeFreeTranslation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxEthCodeFreeTranslation.Location = new System.Drawing.Point(104, 29);
             this.textBoxEthCodeFreeTranslation.Name = "textBoxEthCodeFreeTranslation";
-            this.textBoxEthCodeFreeTranslation.Size = new System.Drawing.Size(447, 20);
+            this.textBoxEthCodeFreeTranslation.Size = new System.Drawing.Size(624, 20);
             this.textBoxEthCodeFreeTranslation.TabIndex = 3;
             // 
             // buttonFontFreeTranslation
@@ -1315,7 +1327,7 @@
             this.textBoxSentFullStopFreeTranslation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxSentFullStopFreeTranslation.Location = new System.Drawing.Point(104, 111);
             this.textBoxSentFullStopFreeTranslation.Name = "textBoxSentFullStopFreeTranslation";
-            this.textBoxSentFullStopFreeTranslation.Size = new System.Drawing.Size(447, 20);
+            this.textBoxSentFullStopFreeTranslation.Size = new System.Drawing.Size(624, 20);
             this.textBoxSentFullStopFreeTranslation.TabIndex = 10;
             this.textBoxSentFullStopFreeTranslation.Leave += new System.EventHandler(this.textBoxSentFullStop_Leave);
             this.textBoxSentFullStopFreeTranslation.Enter += new System.EventHandler(this.textBoxSentFullStopFreeTranslation_Enter);
@@ -1339,7 +1351,7 @@
             this.comboBoxKeyboardFreeTranslation.ItemHeight = 13;
             this.comboBoxKeyboardFreeTranslation.Location = new System.Drawing.Point(104, 55);
             this.comboBoxKeyboardFreeTranslation.Name = "comboBoxKeyboardFreeTranslation";
-            this.comboBoxKeyboardFreeTranslation.Size = new System.Drawing.Size(447, 21);
+            this.comboBoxKeyboardFreeTranslation.Size = new System.Drawing.Size(624, 21);
             this.comboBoxKeyboardFreeTranslation.TabIndex = 5;
             // 
             // tabPageMemberRoles
@@ -1353,7 +1365,7 @@
             this.tabPageMemberRoles.Location = new System.Drawing.Point(4, 22);
             this.tabPageMemberRoles.Name = "tabPageMemberRoles";
             this.tabPageMemberRoles.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageMemberRoles.Size = new System.Drawing.Size(587, 314);
+            this.tabPageMemberRoles.Size = new System.Drawing.Size(751, 314);
             this.tabPageMemberRoles.TabIndex = 3;
             this.tabPageMemberRoles.Text = "Team Members";
             this.tabPageMemberRoles.UseVisualStyleBackColor = true;
@@ -1367,7 +1379,7 @@
             this.textBoxTeamMembersInstructionBox.Multiline = true;
             this.textBoxTeamMembersInstructionBox.Name = "textBoxTeamMembersInstructionBox";
             this.textBoxTeamMembersInstructionBox.ReadOnly = true;
-            this.textBoxTeamMembersInstructionBox.Size = new System.Drawing.Size(552, 180);
+            this.textBoxTeamMembersInstructionBox.Size = new System.Drawing.Size(716, 180);
             this.textBoxTeamMembersInstructionBox.TabIndex = 5;
             this.textBoxTeamMembersInstructionBox.TabStop = false;
             this.textBoxTeamMembersInstructionBox.Text = resources.GetString("textBoxTeamMembersInstructionBox.Text");
@@ -1430,10 +1442,36 @@
             this.checkBoxProjectFacilitator.Text = "Project Facilitator";
             this.checkBoxProjectFacilitator.UseVisualStyleBackColor = true;
             // 
+            // tabPageAIBT
+            // 
+            this.tabPageAIBT.Controls.Add(this.flowLayoutPanelAdaptItControls);
+            this.tabPageAIBT.Controls.Add(this.textBox1);
+            this.tabPageAIBT.Location = new System.Drawing.Point(4, 22);
+            this.tabPageAIBT.Name = "tabPageAIBT";
+            this.tabPageAIBT.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageAIBT.Size = new System.Drawing.Size(751, 314);
+            this.tabPageAIBT.TabIndex = 8;
+            this.tabPageAIBT.Text = "AdaptIt";
+            this.tabPageAIBT.UseVisualStyleBackColor = true;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox1.Location = new System.Drawing.Point(6, 259);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
+            this.textBox1.Size = new System.Drawing.Size(739, 49);
+            this.textBox1.TabIndex = 9;
+            this.textBox1.TabStop = false;
+            this.textBox1.Text = resources.GetString("textBox1.Text");
+            // 
             // buttonNext
             // 
             this.buttonNext.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.buttonNext.Location = new System.Drawing.Point(429, 359);
+            this.buttonNext.Location = new System.Drawing.Point(511, 359);
             this.buttonNext.Name = "buttonNext";
             this.buttonNext.Size = new System.Drawing.Size(75, 23);
             this.buttonNext.TabIndex = 1;
@@ -1445,7 +1483,7 @@
             // 
             this.buttonCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(511, 359);
+            this.buttonCancel.Location = new System.Drawing.Point(593, 359);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 2;
@@ -1455,7 +1493,7 @@
             // buttonPrevious
             // 
             this.buttonPrevious.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.buttonPrevious.Location = new System.Drawing.Point(348, 359);
+            this.buttonPrevious.Location = new System.Drawing.Point(430, 359);
             this.buttonPrevious.Name = "buttonPrevious";
             this.buttonPrevious.Size = new System.Drawing.Size(75, 23);
             this.buttonPrevious.TabIndex = 1;
@@ -1467,12 +1505,25 @@
             // 
             this.fontDialog.ShowColor = true;
             // 
+            // flowLayoutPanelAdaptItControls
+            // 
+            this.flowLayoutPanelAdaptItControls.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.flowLayoutPanelAdaptItControls.AutoScroll = true;
+            this.flowLayoutPanelAdaptItControls.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanelAdaptItControls.Location = new System.Drawing.Point(18, 7);
+            this.flowLayoutPanelAdaptItControls.Name = "flowLayoutPanelAdaptItControls";
+            this.flowLayoutPanelAdaptItControls.Size = new System.Drawing.Size(716, 246);
+            this.flowLayoutPanelAdaptItControls.TabIndex = 10;
+            this.flowLayoutPanelAdaptItControls.WrapContents = false;
+            // 
             // NewProjectWizard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(620, 394);
+            this.ClientSize = new System.Drawing.Size(784, 394);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonPrevious);
             this.Controls.Add(this.buttonNext);
@@ -1504,6 +1555,9 @@
             this.tableLayoutPanelFreeTranslation.PerformLayout();
             this.tabPageMemberRoles.ResumeLayout(false);
             this.tabPageMemberRoles.PerformLayout();
+            this.tabPageAIBT.ResumeLayout(false);
+            this.tabPageAIBT.PerformLayout();
+            this.flowLayoutPanelAdaptItControls.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1618,5 +1672,8 @@
         private System.Windows.Forms.CheckBox checkBoxTestQuestionsInternationalBT;
         private System.Windows.Forms.CheckBox checkBoxAnswersNationalBT;
         private System.Windows.Forms.CheckBox checkBoxAnswersInternationalBT;
+        private System.Windows.Forms.TabPage tabPageAIBT;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelAdaptItControls;
     }
 }

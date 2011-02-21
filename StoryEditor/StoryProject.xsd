@@ -54,7 +54,7 @@
 							<xs:element name="VernacularLang" type="LanguageInfo" minOccurs="1" maxOccurs="1" />
 							<xs:element name="NationalBTLang" type="LanguageInfo" maxOccurs="1" />
 							<xs:element name="InternationalBTLang" type="LanguageInfo" maxOccurs="1" />
-              <xs:element name="FreeTranslation" type="LanguageInfo" maxOccurs="1" />
+              <xs:element name="FreeTranslationLang" type="LanguageInfo" maxOccurs="1" />
 						</xs:sequence>
             <xs:attribute name="UseRetellingVernacular" type="xs:boolean" use="optional" />
             <xs:attribute name="UseRetellingNationalBT" type="xs:boolean" use="optional" />
@@ -65,6 +65,12 @@
             <xs:attribute name="UseAnswerVernacular" type="xs:boolean" use="optional" />
             <xs:attribute name="UseAnswerNationalBT" type="xs:boolean" use="optional" />
             <xs:attribute name="UseAnswerInternationalBT" type="xs:boolean" use="optional" />
+            <xs:attribute name="VernacularToNationalBtAdaptItConverterName" type="xs:string" use="optional" />
+            <xs:attribute name="VernacularToInternationalBtAdaptItConverterName" type="xs:string" use="optional" />
+            <xs:attribute name="NationalBtToInternationalBtAdaptItConverterName" type="xs:string" use="optional" />
+            <xs:attribute name="AdaptItProjectTypeVernacularToNationalBt" type="AdaptItProjectType" use="optional" />
+            <xs:attribute name="AdaptItProjectTypeVernacularToInternationalBt" type="AdaptItProjectType" use="optional" />
+            <xs:attribute name="AdaptItProjectTypeNationalBtToInternationalBt" type="AdaptItProjectType" use="optional" />
           </xs:complexType>
 				</xs:element>
         <xs:element name="LnCNotes" minOccurs="0" maxOccurs="1">
@@ -405,7 +411,14 @@
       <xs:enumeration value="CoachToCoach" />
     </xs:restriction>
 	</xs:simpleType>
-	<xs:complexType name="Comment">
+  <xs:simpleType name="AdaptItProjectType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="None" />
+      <xs:enumeration value="LocalAiProjectOnly" />
+      <xs:enumeration value="SharedAiProject" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="Comment">
 		<xs:simpleContent>
 			<xs:extension base="xs:string">
 				<xs:attribute name="Direction" type="FromTo" use="required" />

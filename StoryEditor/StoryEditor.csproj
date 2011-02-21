@@ -151,6 +151,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdaptItConfigControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AdaptItConfigControl.Designer.cs">
+      <DependentUpon>AdaptItConfigControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="AdaptItGlossing.cs" />
     <Compile Include="AddLnCNoteForm.cs">
       <SubType>Form</SubType>
@@ -412,6 +418,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AdaptItConfigControl.resx">
+      <DependentUpon>AdaptItConfigControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AddLnCNoteForm.resx">
       <DependentUpon>AddLnCNoteForm.cs</DependentUpon>
     </EmbeddedResource>

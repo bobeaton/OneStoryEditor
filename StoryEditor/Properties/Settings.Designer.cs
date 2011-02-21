@@ -677,5 +677,29 @@ namespace OneStoryProjectEditor.Properties {
                 this["LeftEdgeQuotes"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("AdaptItKb{0}To{1}")]
+        public string AdaptItProjectRepositoryFormat {
+            get {
+                return ((string)(this["AdaptItProjectRepositoryFormat"]));
+            }
+            set {
+                this["AdaptItProjectRepositoryFormat"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("private.languageDepot.org")]
+        public string AdaptItDefaultServerLabel {
+            get {
+                return ((string)(this["AdaptItDefaultServerLabel"]));
+            }
+            set {
+                this["AdaptItDefaultServerLabel"] = value;
+            }
+        }
     }
 }

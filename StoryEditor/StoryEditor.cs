@@ -533,7 +533,7 @@ namespace OneStoryProjectEditor
             ProjectSettings projSettings = new ProjectSettings(strProjectFolder, strProjectName);
 
             // see if we can update from a repository first before opening.
-            string strDotHgFolder = projSettings.ProjectFolder + @"\.hg";
+            string strDotHgFolder = Path.Combine(projSettings.ProjectFolder, ".hg");
             if (IsInStoriesSet && Directory.Exists(strDotHgFolder))
             {
                 // clean up any existing open projects
@@ -2238,21 +2238,24 @@ namespace OneStoryProjectEditor
             {
                 useAdaptItForBacktranslationToolStripMenuItem.Enabled = true;
 
-                if (StoryProject.ProjSettings.Vernacular.HasData && StoryProject.ProjSettings.NationalBT.HasData)
+                // if (StoryProject.ProjSettings.Vernacular.HasData && StoryProject.ProjSettings.NationalBT.HasData)
+                if (StoryProject.ProjSettings.AdaptItProjectVernacularToNationalBt != AdaptItConfigControl.AdaptItProjectType.None)
                     storyAdaptItVernacularToNationalMenuItem.Text = String.Format(Properties.Resources.IDS_AdaptItFromTo, 
                         StoryProject.ProjSettings.Vernacular.LangName, 
                         StoryProject.ProjSettings.NationalBT.LangName);
                 else
                     storyAdaptItVernacularToNationalMenuItem.Visible = false;
 
-                if (StoryProject.ProjSettings.Vernacular.HasData && StoryProject.ProjSettings.InternationalBT.HasData)
+                // if (StoryProject.ProjSettings.Vernacular.HasData && StoryProject.ProjSettings.InternationalBT.HasData)
+                if (StoryProject.ProjSettings.AdaptItProjectVernacularToInternationalBt != AdaptItConfigControl.AdaptItProjectType.None)
                     storyAdaptItVernacularToEnglishMenuItem.Text = String.Format(Properties.Resources.IDS_AdaptItFromTo, 
                         StoryProject.ProjSettings.Vernacular.LangName, 
                         StoryProject.ProjSettings.InternationalBT.LangName);
                 else
                     storyAdaptItVernacularToEnglishMenuItem.Visible = false;
 
-                if (StoryProject.ProjSettings.NationalBT.HasData && StoryProject.ProjSettings.InternationalBT.HasData)
+                // if (StoryProject.ProjSettings.NationalBT.HasData && StoryProject.ProjSettings.InternationalBT.HasData)
+                if (StoryProject.ProjSettings.AdaptItProjectNationalBtToInternationalBt != AdaptItConfigControl.AdaptItProjectType.None)
                     storyAdaptItNationalToEnglishMenuItem.Text = String.Format(Properties.Resources.IDS_AdaptItFromTo, 
                         StoryProject.ProjSettings.NationalBT.LangName, 
                         StoryProject.ProjSettings.InternationalBT.LangName);

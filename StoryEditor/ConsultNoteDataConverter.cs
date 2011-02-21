@@ -851,7 +851,7 @@ namespace OneStoryProjectEditor
             if (bVerseVisible)
                 strColor = "#FFFFFF";
             else
-                strColor = "#F0E68C";
+                strColor = "#F0E68C";   // khakhi
 
             int nSpan = 3;
             if (bShowOnlyOpenConversations)
