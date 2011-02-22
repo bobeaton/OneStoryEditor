@@ -28,7 +28,7 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert(aMLDC.Count > 0);
             for (int nNumRows = 0; nNumRows < aMLDC.Count; nNumRows++)
             {
-                LineData aLineData = aMLDC[nNumRows];
+                LineMemberData aLineData = aMLDC[nNumRows];
                 string strUnsGui = aLineData.MemberId;
                 System.Diagnostics.Debug.Assert(astrTestors.Contains(strUnsGui));
                 int nTest = astrTestors.IndexOf(strUnsGui) + 1;
@@ -38,10 +38,11 @@ namespace OneStoryProjectEditor
                 CtrlTextBox ctrlTextBoxVernacular = null;
                 if (bShowVernacular)
                 {
-                    InsertColumn(nNumColumns);
-                    aLineData[StoryEditor.CnVernacular].Transliterator = ctrlVerse.TransliteratorVernacular;
-                    ctrlTextBoxVernacular = InitTextBox(ctrlVerse, VerseData.CstrFieldNameVernacular,
-                                                        aLineData[StoryEditor.CnVernacular], projSettings.Vernacular,
+                    if (nNumRows == 0)
+                        InsertColumn(nNumColumns);
+                    aLineData.Vernacular.Transliterator = ctrlVerse.TransliteratorVernacular;
+                    ctrlTextBoxVernacular = InitTextBox(ctrlVerse, LineData.CstrAttributeLangVernacular,
+                                                        aLineData.Vernacular, projSettings.Vernacular,
                                                         nNumColumns, nNumRows, 
                                                         StoryEditor.TextFieldType.eVernacular);
                     nNumColumns++;
@@ -50,10 +51,11 @@ namespace OneStoryProjectEditor
                 CtrlTextBox ctrlTextBoxNationalBT = null;
                 if (bShowNationalBT)
                 {
-                    InsertColumn(nNumColumns);
-                    aLineData[StoryEditor.CnNationalBt].Transliterator = ctrlVerse.TransliteratorNationalBT;
-                    ctrlTextBoxNationalBT = InitTextBox(ctrlVerse, VerseData.CstrFieldNameNationalBt,
-                                                        aLineData[StoryEditor.CnNationalBt], projSettings.NationalBT,
+                    if (nNumRows == 0)
+                        InsertColumn(nNumColumns);
+                    aLineData.NationalBt.Transliterator = ctrlVerse.TransliteratorNationalBT;
+                    ctrlTextBoxNationalBT = InitTextBox(ctrlVerse, LineData.CstrAttributeLangNationalBt,
+                                                        aLineData.NationalBt, projSettings.NationalBT,
                                                         nNumColumns, nNumRows, 
                                                         StoryEditor.TextFieldType.eNational);
                     nNumColumns++;
@@ -64,9 +66,10 @@ namespace OneStoryProjectEditor
 
                 if (bShowInternationalBT)
                 {
-                    InsertColumn(nNumColumns);
-                    CtrlTextBox ctrlTextBoxEnglishBT = InitTextBox(ctrlVerse, VerseData.CstrFieldNameInternationalBt,
-                                                        aLineData[StoryEditor.CnInternationalBt], projSettings.InternationalBT,
+                    if (nNumRows == 0)
+                        InsertColumn(nNumColumns);
+                    CtrlTextBox ctrlTextBoxEnglishBT = InitTextBox(ctrlVerse, LineData.CstrAttributeLangInternationalBt,
+                                                        aLineData.InternationalBt, projSettings.InternationalBT,
                                                         nNumColumns, nNumRows, 
                                                         StoryEditor.TextFieldType.eInternational);
                     nNumColumns++;
@@ -87,8 +90,9 @@ namespace OneStoryProjectEditor
             StringTransfer strTbText, ProjectSettings.LanguageInfo li, int nLayoutColumn, 
             int nLayoutRow, StoryEditor.TextFieldType eFieldType)
         {
-            System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(strTbName + CstrSuffixTextBox), "otherwise, fix wrong assumption");
-            var tb = new CtrlTextBox(strTbName + CstrSuffixTextBox, ctrlVerse, this,
+            string strTextBoxName = strTbName + CstrSuffixTextBox + nLayoutRow + nLayoutColumn;
+            System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(strTextBoxName), "otherwise, fix wrong assumption");
+            var tb = new CtrlTextBox(strTextBoxName, ctrlVerse, this,
                 strTbText, li, li.LangCode, eFieldType);
             tableLayoutPanel.Controls.Add(tb, nLayoutColumn, nLayoutRow);
             return tb;
@@ -100,7 +104,7 @@ namespace OneStoryProjectEditor
                               {
                                   Anchor = AnchorStyles.Right,
                                   AutoSize = true,
-                                  Name = strLabelTextFormat + nTest,
+                                  Name = String.Format(strLabelTextFormat, nTest),
                                   Text = String.Format(strLabelTextFormat, nTest)
                               };
 

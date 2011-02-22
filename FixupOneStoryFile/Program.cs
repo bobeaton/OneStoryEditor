@@ -11,7 +11,11 @@ namespace FixupOneStoryFile
     {
         static void Main(string[] args)
         {
-            List<string> lstOneStoryFiles = GetOneStoryFiles(new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\OneStory"));
+            List<string> lstOneStoryFiles = GetOneStoryFiles(new DirectoryInfo(
+                                                                 Path.Combine(
+                                                                     Environment.GetFolderPath(
+                                                                         Environment.SpecialFolder.MyDocuments),
+                                                                     "OneStory Editor Projects")));
             if ((args.Length > 0) && File.Exists(args[0]))
                 lstOneStoryFiles.Add(args[0]);
 

@@ -104,16 +104,16 @@ namespace OneStoryProjectEditor
             {
                 foreach (TestQuestionData aTQ in theTestQuestions)
                 {
-                    string strPrimary = (aTQ.QuestionVernacular.HasData)
-                                            ? aTQ.QuestionVernacular.ToString()
-                                            : (aTQ.QuestionNationalBT.HasData)
-                                                  ? aTQ.QuestionNationalBT.ToString()
-                                                  : aTQ.QuestionInternationalBT.ToString();
-                    string strSecondary = (aTQ.QuestionInternationalBT.HasData)
-                                              ? aTQ.QuestionInternationalBT.ToString()
-                                              : (aTQ.QuestionNationalBT.HasData)
-                                                    ? aTQ.QuestionNationalBT.ToString()
-                                                    : aTQ.QuestionVernacular.ToString();
+                    string strPrimary = (aTQ.TestQuestionLine.Vernacular.HasData)
+                                            ? aTQ.TestQuestionLine.Vernacular.ToString()
+                                            : (aTQ.TestQuestionLine.NationalBt.HasData)
+                                                  ? aTQ.TestQuestionLine.NationalBt.ToString()
+                                                  : aTQ.TestQuestionLine.InternationalBt.ToString();
+                    string strSecondary = (aTQ.TestQuestionLine.InternationalBt.HasData)
+                                              ? aTQ.TestQuestionLine.InternationalBt.ToString()
+                                              : (aTQ.TestQuestionLine.NationalBt.HasData)
+                                                    ? aTQ.TestQuestionLine.NationalBt.ToString()
+                                                    : aTQ.TestQuestionLine.Vernacular.ToString();
                     TreeNode theTQnode = nodeItems.Nodes.Add(strPrimary);
                     theTQnode.ToolTipText = strSecondary;
                     theTQnode.Checked = true;
@@ -128,12 +128,12 @@ namespace OneStoryProjectEditor
         private static string StringForTooltip(VerseData theVerse)
         {
             string strTooltip = null;
-            if (theVerse.VernacularText.HasData)
-                strTooltip += theVerse.VernacularText + Environment.NewLine;
-            if (theVerse.NationalBTText.HasData)
-                strTooltip += theVerse.NationalBTText + Environment.NewLine;
-            if (theVerse.InternationalBTText.HasData)
-                strTooltip += theVerse.InternationalBTText;
+            if (theVerse.StoryLine.Vernacular.HasData)
+                strTooltip += theVerse.StoryLine.Vernacular + Environment.NewLine;
+            if (theVerse.StoryLine.NationalBt.HasData)
+                strTooltip += theVerse.StoryLine.NationalBt + Environment.NewLine;
+            if (theVerse.StoryLine.InternationalBt.HasData)
+                strTooltip += theVerse.StoryLine.InternationalBt;
             return strTooltip;
         }
 

@@ -428,20 +428,20 @@ namespace OneStoryProjectEditor
                         continue;
 
                     // don't need to continue checking the others if we find a hit earlier
-                    if ((bShowVernacular && SearchForHit(arrRegexVernacular, aVerse.VernacularText.ToString()))
-                        || (bShowNationalBT && SearchForHit(arrRegexNationalBT, aVerse.NationalBTText.ToString()))
-                        || (bShowInternationalBT && SearchForHit(arrRegexInternationalBT, aVerse.InternationalBTText.ToString()))
-                        || (bShowFreeTranslation && SearchForHit(arrRegexFreeTranslation, aVerse.FreeTranslationText.ToString())))
+                    if ((bShowVernacular && SearchForHit(arrRegexVernacular, aVerse.StoryLine.Vernacular.ToString()))
+                        || (bShowNationalBT && SearchForHit(arrRegexNationalBT, aVerse.StoryLine.NationalBt.ToString()))
+                        || (bShowInternationalBT && SearchForHit(arrRegexInternationalBT, aVerse.StoryLine.InternationalBt.ToString()))
+                        || (bShowFreeTranslation && SearchForHit(arrRegexFreeTranslation, aVerse.StoryLine.FreeTranslation.ToString())))
                     {
                         List<string> astrVerseText = new List<string>(scrTextNames.Count);
                         if (bShowVernacular)
-                            astrVerseText.Add(aVerse.VernacularText.ToString());
+                            astrVerseText.Add(aVerse.StoryLine.Vernacular.ToString());
                         if (bShowNationalBT)
-                            astrVerseText.Add(aVerse.NationalBTText.ToString());
+                            astrVerseText.Add(aVerse.StoryLine.NationalBt.ToString());
                         if (bShowInternationalBT)
-                            astrVerseText.Add(aVerse.InternationalBTText.ToString());
+                            astrVerseText.Add(aVerse.StoryLine.InternationalBt.ToString());
                         if (bShowFreeTranslation)
-                            astrVerseText.Add(aVerse.FreeTranslationText.ToString());
+                            astrVerseText.Add(aVerse.StoryLine.FreeTranslation.ToString());
                         mapReferenceToVerseTextList.Add(strVerseReference, astrVerseText);
                     }
                 }
@@ -508,13 +508,13 @@ namespace OneStoryProjectEditor
                             
 	                    List<string> astrVerseText = new List<string>(projectVariablesList.Count);
 	                    if (theSPD.ProjSettings.Vernacular.HasData)
-	                        astrVerseText.Add(aVerse.VernacularText.ToString());
+	                        astrVerseText.Add(aVerse.StoryLine.Vernacular.ToString());
 	                    if (theSPD.ProjSettings.NationalBT.HasData)
-	                        astrVerseText.Add(aVerse.NationalBTText.ToString());
+                            astrVerseText.Add(aVerse.StoryLine.NationalBt.ToString());
 	                    if (theSPD.ProjSettings.InternationalBT.HasData)
-	                        astrVerseText.Add(aVerse.InternationalBTText.ToString());
+                            astrVerseText.Add(aVerse.StoryLine.InternationalBt.ToString());
                         if (theSPD.ProjSettings.FreeTranslation.HasData)
-                            astrVerseText.Add(aVerse.FreeTranslationText.ToString());
+                            astrVerseText.Add(aVerse.StoryLine.FreeTranslation.ToString());
 
 	                    // keep track of this verse and it's reference
 	                    if (!mapReferenceToVerseTextList.ContainsKey(strVerseReference))

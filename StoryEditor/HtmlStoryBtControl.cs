@@ -146,6 +146,7 @@ namespace OneStoryProjectEditor
             TheSE.FocusOnVerse(nVerseIndex, true, true);
         }
 
+        /*
         public bool TextareaOnKeyUp(string strId, string strText)
         {
             StoryEditor theSE;
@@ -173,7 +174,7 @@ namespace OneStoryProjectEditor
 
             return true;
         }
-
+        */
         protected bool GetIndicesFromId(string strId,
             out int nVerseIndex, out string strTextElement)
         {

@@ -83,9 +83,11 @@ namespace OneStoryProjectEditor
             if (theSE.viewAnchorFieldMenuItem.Checked)
             {
                 AnchorsData anAnchorsData = _verseData.Anchors;
+                ExegeticalHelpNotesData theExegeticalNotes = _verseData.ExegeticalHelpNotes;
                 if (anAnchorsData != null)
                 {
-                    InitAnchors(anAnchorsData, nNumRows, TheSE.StoryProject.ProjSettings.InternationalBT);
+                    InitAnchors(anAnchorsData, theExegeticalNotes, nNumRows, 
+                        TheSE.StoryProject.ProjSettings.InternationalBT);
                     nNumRows++;
                 }
             }
@@ -139,13 +141,17 @@ namespace OneStoryProjectEditor
             tableLayoutPanel.Controls.Add(aStoryLineCtrl, 0, nLayoutRow);
         }
 
-        protected void InitAnchors(AnchorsData anAnchorsData, int nLayoutRow, ProjectSettings.LanguageInfo li)
+        protected void InitAnchors(AnchorsData anAnchorsData, 
+            ExegeticalHelpNotesData theExegeticalHelpNotes,
+            int nLayoutRow, ProjectSettings.LanguageInfo li)
         {
             System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(CstrFieldNameAnchors));
-            AnchorControl anAnchorCtrl = new AnchorControl(this, StageLogic, anAnchorsData, li);
-            anAnchorCtrl.Name = CstrFieldNameAnchors;
-            anAnchorCtrl.ParentControl = this;
-            
+            var anAnchorCtrl = new AnchorControl(this, StageLogic, anAnchorsData, theExegeticalHelpNotes, li)
+                                   {
+                                       Name = CstrFieldNameAnchors,
+                                       ParentControl = this
+                                   };
+
             InsertRow(nLayoutRow);
             tableLayoutPanel.SetColumnSpan(anAnchorCtrl, 2);
             tableLayoutPanel.Controls.Add(anAnchorCtrl, 0, nLayoutRow);
@@ -155,14 +161,12 @@ namespace OneStoryProjectEditor
             List<string> astrTestors, ProjectSettings projSettings)
         {
             System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(CstrFieldNameRetellings));
-            MultiLineControl aRetellingsCtrl = new MultiLineControl(this, StageLogic,
-                aRetellingsData, projSettings, astrTestors, 
-                projSettings.ShowRetellingVernacular,
-                projSettings.ShowRetellingNationalBT,
-                projSettings.ShowRetellingInternationalBT);
-
-            aRetellingsCtrl.Name = CstrFieldNameRetellings;
-            aRetellingsCtrl.ParentControl = this;
+            var aRetellingsCtrl = new MultiLineControl(this, StageLogic,
+                                                       aRetellingsData, projSettings, astrTestors,
+                                                       projSettings.ShowRetellingVernacular,
+                                                       projSettings.ShowRetellingNationalBT,
+                                                       projSettings.ShowRetellingInternationalBT)
+                                      {Name = CstrFieldNameRetellings, ParentControl = this};
 
             InsertRow(nLayoutRow);
             tableLayoutPanel.SetColumnSpan(aRetellingsCtrl, 2);
@@ -517,7 +521,7 @@ namespace OneStoryProjectEditor
                 if (dlg.ShowDialog() == DialogResult.Cancel)
                     return;
 
-                tqd.Answers.AddNewLine(dlg.SelectedMember.MemberGuid);
+                tqd.Answers.TryAddNewLine(dlg.SelectedMember.MemberGuid);
                 break;
             }
 
@@ -541,7 +545,7 @@ namespace OneStoryProjectEditor
             if (String.IsNullOrEmpty(_strUnsMemberId))
                 return;
 
-            _verseData.Retellings.AddNewLine(_strUnsMemberId);
+            _verseData.Retellings.TryAddNewLine(_strUnsMemberId);
 
             // this is kind of sledge-hammer-y... but it works
             theSE.ReInitVerseControls();
@@ -677,10 +681,10 @@ namespace OneStoryProjectEditor
             verseNew.CoachNotes.Clear();
 
             // copyVerseToClipboardToolStripMenuItem_Click(null, null);
-            verseNew.VernacularText.SetValue(strVernacular);
-            verseNew.NationalBTText.SetValue(strNationalBT);
-            verseNew.InternationalBTText.SetValue(strEnglishBT);
-            verseNew.FreeTranslationText.SetValue(strFreeTranslation);
+            verseNew.StoryLine.Vernacular.SetValue(strVernacular);
+            verseNew.StoryLine.NationalBt.SetValue(strNationalBT);
+            verseNew.StoryLine.InternationalBt.SetValue(strEnglishBT);
+            verseNew.StoryLine.FreeTranslation.SetValue(strFreeTranslation);
 
             theSE.DoPasteVerse(VerseNumber, verseNew);
             // VerseData verseDest = PasteVerseToIndex(theSE, VerseNumber);

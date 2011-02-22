@@ -43,7 +43,7 @@ namespace OneStoryProjectEditor
                     {
                         string strSentenceFinalPunct = theStoryProjectData.ProjSettings.Vernacular.FullStop;
                         List<string> lstSentences;
-                        if (GetListOfSentences(aVerseData.VernacularText, strSentenceFinalPunct, out lstSentences))
+                        if (GetListOfSentences(aVerseData.StoryLine.Vernacular, strSentenceFinalPunct, out lstSentences))
                         {
                             if (lstSentences.Count > 1)
                             {
@@ -63,7 +63,7 @@ namespace OneStoryProjectEditor
                                     theCurrentStory.Verses.InsertVerse(nVerseNumber, strSentence, null, null, null);
                                 }
 
-                                aVerseData.VernacularText.SetValue(lstSentences[nNewVerses]);
+                                aVerseData.StoryLine.Vernacular.SetValue(lstSentences[nNewVerses]);
                                 bRepeatAfterMe = true;
                                 break; // we have to exit the loop since we've modified the collection
                             }
@@ -160,7 +160,7 @@ namespace OneStoryProjectEditor
                     {
                         string strSentenceFinalPunct = theStoryProjectData.ProjSettings.NationalBT.FullStop;
                         List<string> lstSentences;
-                        if (!GetListOfSentences(aVerseData.NationalBTText, strSentenceFinalPunct, out lstSentences))
+                        if (!GetListOfSentences(aVerseData.StoryLine.NationalBt, strSentenceFinalPunct, out lstSentences))
                         {
                             // if there's nothing in this verse, then just get rid of it.
                             if (!aVerseData.HasData)
@@ -170,9 +170,9 @@ namespace OneStoryProjectEditor
                                 break; // we have to exit the loop since we've modified the collection
                             }
 
-                            if (aVerseData.VernacularText.HasData)
+                            if (aVerseData.StoryLine.Vernacular.HasData)
                             {
-                                ShowErrorFocus(theSE, aVerseData.NationalBTText.TextBox,
+                                ShowErrorFocus(theSE, aVerseData.StoryLine.NationalBt.TextBox,
                                                String.Format(
                                                    "Error: Verse {0} is missing a back-translation. Did you forget it?",
                                                    nVerseNumber));
@@ -265,7 +265,7 @@ namespace OneStoryProjectEditor
                     {
                         string strSentenceFinalPunct = theStoryProjectData.ProjSettings.InternationalBT.FullStop;
                         List<string> lstSentences;
-                        if ((!GetListOfSentences(aVerseData.InternationalBTText, strSentenceFinalPunct, out lstSentences))
+                        if ((!GetListOfSentences(aVerseData.StoryLine.InternationalBt, strSentenceFinalPunct, out lstSentences))
                             || (lstSentences.Count == 0))
                         {
                             // if there's nothing in this verse, then just get rid of it.
@@ -278,11 +278,11 @@ namespace OneStoryProjectEditor
 
 
                             // if there's data in either the story box or the natl bt box...
-                            if (aVerseData.VernacularText.HasData || aVerseData.NationalBTText.HasData)
+                            if (aVerseData.StoryLine.Vernacular.HasData || aVerseData.StoryLine.NationalBt.HasData)
                             {
                                 // then there ought to be some in the English BT box as well.
                                 // light it up and let the user know they need to do something!
-                                ShowErrorFocus(theSE, aVerseData.InternationalBTText.TextBox,
+                                ShowErrorFocus(theSE, aVerseData.StoryLine.InternationalBt.TextBox,
                                                String.Format(
                                                    "Error: Verse {0} doesn't have any English back-translation in it. Did you forget it?",
                                                    nVerseNumber));
@@ -361,7 +361,7 @@ namespace OneStoryProjectEditor
                     {
                         string strSentenceFinalPunct = theStoryProjectData.ProjSettings.FreeTranslation.FullStop;
                         List<string> lstSentences;
-                        if ((!GetListOfSentences(aVerseData.FreeTranslationText, strSentenceFinalPunct, out lstSentences))
+                        if ((!GetListOfSentences(aVerseData.StoryLine.FreeTranslation, strSentenceFinalPunct, out lstSentences))
                             || (lstSentences.Count == 0))
                         {
                             // if there's nothing in this verse, then just get rid of it.
@@ -374,11 +374,13 @@ namespace OneStoryProjectEditor
 
 
                             // if there's data in either the story box or the natl bt box...
-                            if (aVerseData.VernacularText.HasData || aVerseData.NationalBTText.HasData || aVerseData.InternationalBTText.HasData)
+                            if (aVerseData.StoryLine.Vernacular.HasData 
+                                || aVerseData.StoryLine.NationalBt.HasData 
+                                || aVerseData.StoryLine.InternationalBt.HasData)
                             {
                                 // then there ought to be some in the Free Translation box as well.
                                 // light it up and let the user know they need to do something!
-                                ShowErrorFocus(theSE, aVerseData.FreeTranslationText.TextBox,
+                                ShowErrorFocus(theSE, aVerseData.StoryLine.FreeTranslation.TextBox,
                                                String.Format(
                                                    "Error: Verse {0} doesn't have any Free translation in it. Did you forget it?",
                                                    nVerseNumber));
@@ -689,11 +691,11 @@ namespace OneStoryProjectEditor
                 {
                     string strSentenceFinalPunct = theStoryProjectData.ProjSettings.InternationalBT.FullStop;
                     List<string> lstSentences;
-                    if ((!GetListOfSentences(aVerseData.InternationalBTText, strSentenceFinalPunct, out lstSentences))
+                    if ((!GetListOfSentences(aVerseData.StoryLine.InternationalBt, strSentenceFinalPunct, out lstSentences))
                         || (lstSentences.Count == 0))
                     {
                         // light it up and let the user know they need to do something!
-                        ShowErrorFocus(theSE, aVerseData.InternationalBTText.TextBox,
+                        ShowErrorFocus(theSE, aVerseData.StoryLine.InternationalBt.TextBox,
                                        String.Format(
                                            "Error: Verse {0} doesn't have any English back-translation in it. Did you forget it?",
                                            nVerseNumber));
@@ -703,7 +705,7 @@ namespace OneStoryProjectEditor
                     if (lstSentences.Count > 1)
                     {
                         // light it up and let the user know they need to do something!
-                        ShowErrorFocus(theSE, aVerseData.InternationalBTText.TextBox,
+                        ShowErrorFocus(theSE, aVerseData.StoryLine.InternationalBt.TextBox,
                                        String.Format(
                                            "Error: Verse {0} has multiple sentences in English, but only 1 in {1}. Adjust the English to match the {1}",
                                            nVerseNumber, theStoryProjectData.ProjSettings.NationalBT.LangName));

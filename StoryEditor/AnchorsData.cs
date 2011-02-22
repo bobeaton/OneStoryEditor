@@ -12,40 +12,33 @@ namespace OneStoryProjectEditor
     {
         public string JumpTarget = null;
         public string ToolTipText = null;
-        public ExegeticalHelpNotesData ExegeticalHelpNotes = null;
         public List<string> keyTerms = new List<string>();
 
-        public AnchorData(NewDataSet.anchorRow theAnchorRow, NewDataSet projFile)
+        public AnchorData(NewDataSet.AnchorRow theAnchorRow, NewDataSet projFile)
         {
             JumpTarget = theAnchorRow.jumpTarget;
 
             if (!theAnchorRow.IstoolTipNull())
                 ToolTipText = theAnchorRow.toolTip;
-
-            ExegeticalHelpNotes = new ExegeticalHelpNotesData(theAnchorRow, projFile);
         }
 
         public AnchorData(XmlNode node)
         {
             XmlAttribute attr;
             JumpTarget = ((attr = node.Attributes[CstrAttributeJumpTarget]) != null) ? attr.Value : null;
-            XmlNode elem;
-            ToolTipText = ((elem = node.SelectSingleNode(CstrElementLabelToolTip)) != null) ? elem.InnerText : null;
-            ExegeticalHelpNotes = new ExegeticalHelpNotesData(node.SelectSingleNode(ExegeticalHelpNotesData.CstrElementLabelExegeticalHelps));
+            ToolTipText = ((attr = node.Attributes[CstrAttributeToolTip]) != null) ? attr.Value : null;
         }
 
         public AnchorData(string strJumpTarget, string strComment)
         {
             JumpTarget = strJumpTarget;
             ToolTipText = strComment;
-            ExegeticalHelpNotes = new ExegeticalHelpNotesData();
         }
 
         public AnchorData(AnchorData rhs)
         {
             JumpTarget = rhs.JumpTarget;
             ToolTipText = rhs.ToolTipText;
-            ExegeticalHelpNotes = new ExegeticalHelpNotesData(rhs.ExegeticalHelpNotes);
             foreach (string str in rhs.keyTerms)
                 keyTerms.Add(str);
         }
@@ -139,9 +132,9 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public const string CstrElementLabelAnchor = "anchor";
+        public const string CstrElementLabelAnchor = "Anchor";
         public const string CstrAttributeJumpTarget = "jumpTarget";
-        public const string CstrElementLabelToolTip = "toolTip";
+        public const string CstrAttributeToolTip = "toolTip";
 
         public XElement GetXml
         {
@@ -152,10 +145,7 @@ namespace OneStoryProjectEditor
                     new XAttribute(CstrAttributeJumpTarget, JumpTarget));
 
                 if (!String.IsNullOrEmpty(ToolTipText))
-                    elemAnchor.Add(new XElement(CstrElementLabelToolTip, ToolTipText));
-
-                if (ExegeticalHelpNotes.HasData)
-                    elemAnchor.Add(ExegeticalHelpNotes.GetXml);
+                    elemAnchor.Add(new XAttribute(CstrAttributeToolTip, ToolTipText));
 
                 return elemAnchor;
             }
@@ -192,10 +182,6 @@ namespace OneStoryProjectEditor
                     {
                         bFound = true;
                         strToolTipText = anAnchor.ToolTipText;
-
-                        // get the ExegeticalHelp notes as well
-                        ExegeticalHelpNotes.PresentationHtml(anAnchor.ExegeticalHelpNotes, ref astrExegeticalHelpNotes);
-
                         childAnchorsData.Remove(anAnchor);   // so we know which ones we've "done"
                         break;
                     }
@@ -246,8 +232,6 @@ namespace OneStoryProjectEditor
                     strButtonLabel += CstrTooltipIndicator;
                     astrExegeticalHelpNotes.Add(Diff.HtmlDiff(null, ToolTipText, true));
                 }
-
-                ExegeticalHelpNotes.PresentationHtml(null, ref astrExegeticalHelpNotes);
             }
             else
             {
@@ -258,8 +242,6 @@ namespace OneStoryProjectEditor
                     strButtonLabel += CstrTooltipIndicator;
                     astrExegeticalHelpNotes.Add(ToolTipText);
                 }
-
-                ExegeticalHelpNotes.PresentationHtml(null, ref astrExegeticalHelpNotes);
             }
 
             return String.Format(OseResources.Properties.Resources.HTML_Button,
@@ -281,8 +263,6 @@ namespace OneStoryProjectEditor
                 astrExegeticalHelpNotes.Add(Diff.HtmlDiff(null, ToolTipText, true));
             }
 
-            ExegeticalHelpNotes.PresentationHtml(null, ref astrExegeticalHelpNotes);
-
             return String.Format(OseResources.Properties.Resources.HTML_Button,
                                     JumpTarget,
                                     "return OnBibRefJump(this);",
@@ -293,19 +273,19 @@ namespace OneStoryProjectEditor
     public class AnchorsData : List<AnchorData>
     {
         public bool IsKeyTermChecked = false;
-        public AnchorsData(NewDataSet.verseRow theVerseRow, NewDataSet projFile)
+        public AnchorsData(NewDataSet.VerseRow theVerseRow, NewDataSet projFile)
         {
-            NewDataSet.anchorsRow[] theAnchorsRows = theVerseRow.GetanchorsRows();
-            NewDataSet.anchorsRow theAnchorsRow;
+            NewDataSet.AnchorsRow[] theAnchorsRows = theVerseRow.GetAnchorsRows();
+            NewDataSet.AnchorsRow theAnchorsRow;
             if (theAnchorsRows.Length == 0)
-                theAnchorsRow = projFile.anchors.AddanchorsRow(false, theVerseRow);
+                theAnchorsRow = projFile.Anchors.AddAnchorsRow(false, theVerseRow);
             else
                 theAnchorsRow = theAnchorsRows[0];
 
             if (!theAnchorsRow.IskeyTermCheckedNull())
                 IsKeyTermChecked = theAnchorsRow.keyTermChecked;
 
-            foreach (NewDataSet.anchorRow anAnchorRow in theAnchorsRow.GetanchorRows())
+            foreach (NewDataSet.AnchorRow anAnchorRow in theAnchorsRow.GetAnchorRows())
                 Add(new AnchorData(anAnchorRow, projFile));
         }
 
@@ -345,7 +325,7 @@ namespace OneStoryProjectEditor
             get { return (Count > 0); }
         }
 
-        public const string CstrElementLabelAnchors = "anchors";
+        public const string CstrElementLabelAnchors = "Anchors";
 
         public XElement GetXml
         {
@@ -359,6 +339,7 @@ namespace OneStoryProjectEditor
             }
         }
 
+        /* don't thinks this is used (and it doesn't work)
         public string Html(int nVerseIndex, int nNumCols)
         {
             string strRow = null;
@@ -393,19 +374,28 @@ namespace OneStoryProjectEditor
 
             return strHtml;
         }
+        */
 
-        public string PresentationHtml(int nVerseIndex, int nNumCols, AnchorsData childAnchorsData,
+        public string PresentationHtml(int nVerseIndex, int nNumCols, 
+            AnchorsData childAnchorsData, 
+            ExegeticalHelpNotesData theExegeticalHelpNotes,
+            ExegeticalHelpNotesData theChildExegeticalHelpNotes,
             bool bPrintPreview)
         {
             List<string> astrExegeticalHelpNotes = new List<string>();
             string strRow = null;
             foreach (AnchorData anchorData in this)
                 strRow += anchorData.PresentationHtml(childAnchorsData, bPrintPreview, false, ref astrExegeticalHelpNotes);
-            
+
+            // get the ExegeticalHelp notes as well
+            theExegeticalHelpNotes.PresentationHtml(theChildExegeticalHelpNotes, ref astrExegeticalHelpNotes);
+
             // now put the anchors that are in the child (as additions)
             if (childAnchorsData != null)
                 foreach (AnchorData anchorData in childAnchorsData)
                     strRow += anchorData.PresentationHtmlAsAddition(ref astrExegeticalHelpNotes);
+
+            theChildExegeticalHelpNotes.PresentationHtml(null, ref astrExegeticalHelpNotes);
 
             return FinishPresentationHtml(nVerseIndex, nNumCols, strRow, astrExegeticalHelpNotes);
         }

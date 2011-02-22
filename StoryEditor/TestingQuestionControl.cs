@@ -67,8 +67,9 @@ namespace OneStoryProjectEditor
                     InsertColumn(nNumColumns);
                     if (bShowHeader)
                         InitColumnLabel(theSE.StoryProject.ProjSettings.Vernacular.LangName, nNumColumns);
-                    _aTQData.QuestionVernacular.Transliterator = ctrlVerse.TransliteratorVernacular;
-                    ctrlTextBoxVernacular = InitTextBox(ctrlVerse, CstrFieldNameVernacular, _aTQData.QuestionVernacular,
+                    _aTQData.TestQuestionLine.Vernacular.Transliterator = ctrlVerse.TransliteratorVernacular;
+                    ctrlTextBoxVernacular = InitTextBox(ctrlVerse, CstrFieldNameVernacular, 
+                        _aTQData.TestQuestionLine.Vernacular,
                         theSE.StoryProject.ProjSettings.Vernacular, nNumColumns,
                         StoryEditor.TextFieldType.eVernacular);
                     nNumColumns++;
@@ -89,9 +90,9 @@ namespace OneStoryProjectEditor
                     InsertColumn(nNumColumns);
                     if (bShowHeader)
                         InitColumnLabel(theSE.StoryProject.ProjSettings.NationalBT.LangName, nNumColumns);
-                    _aTQData.QuestionNationalBT.Transliterator = ctrlVerse.TransliteratorNationalBT;
-                    ctrlTextBoxNationalBT = InitTextBox(ctrlVerse, CstrFieldNameNationalBt, 
-                        _aTQData.QuestionNationalBT, 
+                    _aTQData.TestQuestionLine.NationalBt.Transliterator = ctrlVerse.TransliteratorNationalBT;
+                    ctrlTextBoxNationalBT = InitTextBox(ctrlVerse, CstrFieldNameNationalBt,
+                        _aTQData.TestQuestionLine.NationalBt, 
                         theSE.StoryProject.ProjSettings.NationalBT, nNumColumns,
                         StoryEditor.TextFieldType.eNational);
                     nNumColumns++;
@@ -114,7 +115,7 @@ namespace OneStoryProjectEditor
                     InsertColumn(nNumColumns);
                     if (bShowHeader)
                         InitColumnLabel(theSE.StoryProject.ProjSettings.InternationalBT.LangName, nNumColumns);
-                    CtrlTextBox ctrlTextBoxEnglishBT = InitTextBox(ctrlVerse, CstrFieldNameVernacular, _aTQData.QuestionInternationalBT,
+                    CtrlTextBox ctrlTextBoxEnglishBT = InitTextBox(ctrlVerse, CstrFieldNameVernacular, _aTQData.TestQuestionLine.InternationalBt,
                         theSE.StoryProject.ProjSettings.InternationalBT, nNumColumns,
                         StoryEditor.TextFieldType.eInternational);
                     nNumColumns++;

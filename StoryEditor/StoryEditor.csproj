@@ -696,6 +696,7 @@
     <None Include="Resources\DataContainer_MoveLastHS.png" />
     <None Include="Resources\Arrow.jpg" />
     <None Include="Resources\search.png" />
+    <Content Include="Resources\1.3 to 1.4.xslt" />
     <Content Include="StageTransitions.xml" />
     <None Include="Properties\app.manifest" />
     <None Include="Resources\DragDropHandle.bmp" />

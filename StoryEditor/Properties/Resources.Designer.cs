@@ -1229,6 +1229,30 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///&lt;xsl:stylesheet version=&quot;1.0&quot; xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot;
+        ///    xmlns:msxsl=&quot;urn:schemas-microsoft-com:xslt&quot; exclude-result-prefixes=&quot;msxsl&quot;
+        ///&gt;
+        ///  &lt;xsl:output method=&quot;xml&quot; indent=&quot;yes&quot;/&gt;
+        ///
+        ///  &lt;xsl:template match=&quot;@* | node()&quot;&gt;
+        ///    &lt;xsl:copy&gt;
+        ///      &lt;xsl:apply-templates select=&quot;@* | node()&quot;/&gt;
+        ///    &lt;/xsl:copy&gt;
+        ///  &lt;/xsl:template&gt;
+        ///
+        ///  &lt;!--verses was changed to Verses--&gt;
+        ///  &lt;xsl:template match=&quot;verses&quot;&gt;
+        ///    &lt;Verses&gt;
+        ///      &lt;xsl:apply-templates select [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string project_1_3_to_1_4 {
+            get {
+                return ResourceManager.GetString("project_1_3_to_1_4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to http://msdn2.microsoft.com/en-us/library/az24scfc.aspx.
         /// </summary>
         internal static string RegexHelpProgram {

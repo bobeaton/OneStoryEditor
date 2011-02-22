@@ -611,9 +611,9 @@ namespace OneStoryProjectEditor
                 for (int i = 0; i < verseData.TestQuestions.Count; i++)
                 {
                     var aTQ = verseData.TestQuestions[i];
-                    if ((aTQ.QuestionVernacular.ToString() == Text)
-                        || (aTQ.QuestionNationalBT.ToString() == Text)
-                        || (aTQ.QuestionInternationalBT.ToString() == Text))
+                    if ((aTQ.TestQuestionLine.Vernacular.ToString() == Text)
+                        || (aTQ.TestQuestionLine.NationalBt.ToString() == Text)
+                        || (aTQ.TestQuestionLine.InternationalBt.ToString() == Text))
                     {
                         if (_ctrlVerseParent.TheSE.AddSingleTestResult(aTQ))
                             theVerseCtrl.UpdateViewOfThisVerse(_ctrlVerseParent.TheSE);

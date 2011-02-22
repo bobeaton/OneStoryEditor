@@ -584,6 +584,15 @@ namespace OseResources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The project file you&apos;re trying to open (i.e. &apos;{0}&apos;) was lasted edited with v1.4 of the OneStory editor. I can automatically upgrade the project file to be readable by this newer version of OSE, but it will make it inaccessible to the earlier version. So if the rest of the team (Project Facilitators, Consultant, etc) have all upgraded to the new version of OSE and you want the project file to be converted to the new format, then click &apos;Yes&apos;.
+        /// </summary>
+        public static string IDS_QueryConvertProjectFile1_3to1_4 {
+            get {
+                return ResourceManager.GetString("IDS_QueryConvertProjectFile1_3to1_4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to  was hidden, but now is visible.
         /// </summary>
         public static string IDS_WasHidden {

@@ -8,8 +8,8 @@ namespace OneStoryProjectEditor
 {
     public class ExegeticalHelpNoteData : StringTransfer
     {
-        public ExegeticalHelpNoteData(NewDataSet.exegeticalHelpRow theExHelpNoteRow)
-            : base(theExHelpNoteRow.exegeticalHelp_Column)
+        public ExegeticalHelpNoteData(NewDataSet.ExegeticalHelpRow theExHelpNoteRow)
+            : base(theExHelpNoteRow.ExegeticalHelp_Column)
         {
         }
 
@@ -23,7 +23,7 @@ namespace OneStoryProjectEditor
         {
         }
 
-        public const string CstrElementNameExegeticalHelp = "exegeticalHelp";
+        public const string CstrElementNameExegeticalHelp = "ExegeticalHelp";
 
         public XElement GetXml
         {
@@ -37,16 +37,16 @@ namespace OneStoryProjectEditor
 
     public class ExegeticalHelpNotesData : List<ExegeticalHelpNoteData>
     {
-        public ExegeticalHelpNotesData(NewDataSet.anchorRow theAnchorRow, NewDataSet projFile)
+        public ExegeticalHelpNotesData(NewDataSet.VerseRow theVerseRow, NewDataSet projFile)
         {
-            NewDataSet.exegeticalHelpsRow[] theExHelpNotesRows = theAnchorRow.GetexegeticalHelpsRows();
-            NewDataSet.exegeticalHelpsRow theExHelpNotesRow;
+            NewDataSet.ExegeticalHelpsRow[] theExHelpNotesRows = theVerseRow.GetExegeticalHelpsRows();
+            NewDataSet.ExegeticalHelpsRow theExHelpNotesRow;
             if (theExHelpNotesRows.Length == 0)
-                theExHelpNotesRow = projFile.exegeticalHelps.AddexegeticalHelpsRow(theAnchorRow);
+                theExHelpNotesRow = projFile.ExegeticalHelps.AddExegeticalHelpsRow(theVerseRow);
             else
                 theExHelpNotesRow = theExHelpNotesRows[0];
 
-            foreach (NewDataSet.exegeticalHelpRow anExHelpNoteRow in theExHelpNotesRow.GetexegeticalHelpRows())
+            foreach (NewDataSet.ExegeticalHelpRow anExHelpNoteRow in theExHelpNotesRow.GetExegeticalHelpRows())
                 Add(new ExegeticalHelpNoteData(anExHelpNoteRow));
         }
 
@@ -85,7 +85,7 @@ namespace OneStoryProjectEditor
             get { return (Count > 0); }
         }
 
-        public const string CstrElementLabelExegeticalHelps = "exegeticalHelps";
+        public const string CstrElementLabelExegeticalHelps = "ExegeticalHelps";
 
         public XElement GetXml
         {

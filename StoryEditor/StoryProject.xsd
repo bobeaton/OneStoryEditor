@@ -148,56 +148,65 @@
                         </xs:sequence>
                       </xs:complexType>
                     </xs:element>
-                    <xs:element name="verses" minOccurs="1" maxOccurs="1">
+                    <xs:element name="Verses" minOccurs="1" maxOccurs="1">
 											<xs:complexType>
 												<xs:sequence>
-													<xs:element name="verse" maxOccurs="unbounded">
+													<xs:element name="Verse" maxOccurs="unbounded">
 														<xs:complexType>
 															<xs:sequence>
-																<xs:element name="Vernacular" minOccurs="0" maxOccurs="1" type="xs:string" />
-																<xs:element name="NationalBT" minOccurs="0" maxOccurs="1" type="xs:string" />
-																<xs:element name="InternationalBT" minOccurs="0" maxOccurs="1" type="xs:string" />
-                                <xs:element name="FreeTranslation" minOccurs="0" maxOccurs="1" type="xs:string" />
-																<xs:element name="anchors" minOccurs="1" maxOccurs="1">
+																<xs:element name="StoryLine" minOccurs="0" maxOccurs="unbounded">
+																	<xs:complexType>
+																		<xs:simpleContent>
+																			<xs:extension base="xs:string">
+                                        <xs:attribute name="lang" type="xs:string" />
+                                      </xs:extension>
+																		</xs:simpleContent>
+																	</xs:complexType>
+																</xs:element>
+																<xs:element name="Anchors" minOccurs="1" maxOccurs="1">
 																	<xs:complexType>
 																		<xs:sequence>
-																			<xs:element maxOccurs="unbounded" name="anchor">
+																			<xs:element maxOccurs="unbounded" name="Anchor">
 																				<xs:complexType>
-																					<xs:sequence>
-																						<xs:element name="toolTip" type="xs:string" minOccurs="0" maxOccurs="1" />
-																						<xs:element name="exegeticalHelps" minOccurs="0" maxOccurs="1">
-																							<xs:complexType>
-																								<xs:sequence>
-																									<xs:element name="exegeticalHelp" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
-																								</xs:sequence>
-																							</xs:complexType>
-																						</xs:element>
-																					</xs:sequence>
 																					<xs:attribute name="jumpTarget" type="xs:string" use="required" />
-																				</xs:complexType>
+                                          <xs:attribute name="toolTip" type="xs:string" use="optional" />
+                                        </xs:complexType>
 																			</xs:element>
 																		</xs:sequence>
 																		<xs:attribute name="keyTermChecked" type="xs:boolean" />
 																	</xs:complexType>
 																</xs:element>
-																<xs:element name="TestQuestions" minOccurs="0" maxOccurs="1">
+                                <xs:element name="ExegeticalHelps" minOccurs="0" maxOccurs="1">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="ExegeticalHelp" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element name="TestQuestions" minOccurs="0" maxOccurs="1">
 																	<xs:complexType>
 																		<xs:sequence>
 																			<xs:element name="TestQuestion" minOccurs="0" maxOccurs="unbounded">
 																				<xs:complexType>
 																					<xs:sequence>
-																						<xs:element name="TQVernacular" minOccurs="0" maxOccurs="1" type="xs:string" />
-																						<xs:element name="TQNationalBT" minOccurs="0" maxOccurs="1" type="xs:string" />
-																						<xs:element name="TQInternationalBT" minOccurs="0" maxOccurs="1" type="xs:string" />
+																						<xs:element name="TestQuestionLine" minOccurs="0" maxOccurs="unbounded">
+                                              <xs:complexType>
+                                                <xs:simpleContent>
+                                                  <xs:extension base="xs:string">
+                                                    <xs:attribute name="lang" type="xs:string"/>
+                                                  </xs:extension>
+                                                </xs:simpleContent>
+                                              </xs:complexType>
+                                            </xs:element>
 																						<xs:element name="Answers" minOccurs="0" maxOccurs="1">
 																							<xs:complexType>
 																								<xs:sequence>
-																									<xs:element name="answer" minOccurs="0" maxOccurs="unbounded" nillable="true">
+																									<xs:element name="Answer" minOccurs="0" maxOccurs="unbounded" nillable="true">
 																										<xs:complexType>
 																											<xs:simpleContent>
 																												<xs:extension base="xs:string">
 																													<xs:attribute name="memberID" type="xs:IDREF" use="required" />
-                                                          <xs:attribute name="lang" type="xs:string" use="optional" />
+                                                          <xs:attribute name="lang" type="xs:string" />
 																												</xs:extension>
 																											</xs:simpleContent>
 																										</xs:complexType>

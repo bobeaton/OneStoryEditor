@@ -5,6 +5,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Xml.Xsl;
 using SilEncConverters40;
 
 namespace OneStoryProjectEditor
@@ -148,6 +149,7 @@ namespace OneStoryProjectEditor
             }
         }
 
+        /*
         public string VersesHtml(bool b, ProjectSettings projSettings, bool bViewHidden,
             TeamMembersData membersData, TeamMemberData loggedOnMember,
             VerseData.ViewSettings viewItemToInsureOn)
@@ -160,6 +162,7 @@ namespace OneStoryProjectEditor
                 OseResources.Properties.Resources.HTML_DOM_PrefixStoryBt,
                 strHtml);
         }
+        */
 
         // remotely accessible one from Chorus
         public string GetPresentationHtmlForChorus(XmlNode nodeProjectFile, string strProjectPath, XmlNode parentStory, XmlNode childStory)
@@ -847,7 +850,18 @@ namespace OneStoryProjectEditor
             else
             {
                 projFile.StoryProject[0].ProjectName = ProjSettings.ProjectName; // in case the user changed it.
-                if (projFile.StoryProject[0].version.CompareTo(XmlDataVersion) > 0)
+                if (projFile.StoryProject[0].version.CompareTo("1.3") == 0)
+                {
+                    // see if the user wants us to upgrade this one
+                    if (MessageBox.Show(String.Format(OseResources.Properties.Resources.IDS_QueryConvertProjectFile1_3to1_4,
+                        ProjSettings.ProjectName), OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
+                        throw BackOutWithNoUI;
+
+                    // convert the 1.3 file to 1.4 using xslt
+                    ConvertProjectFile1_3_to_1_4(ProjSettings.ProjectFilePath);
+                }
+
+                else if (projFile.StoryProject[0].version.CompareTo(XmlDataVersion) > 0)
                 {
                     MessageBox.Show(OseResources.Properties.Resources.IDS_GetNewVersion, OseResources.Properties.Resources.IDS_Caption);
                     throw BackOutWithNoUI;
@@ -873,6 +887,55 @@ namespace OneStoryProjectEditor
                 Add(aStoriesRow.SetName, new StoriesData(aStoriesRow, 
                                                          projFile,
                                                          ProjSettings.ProjectFolder));
+        }
+
+        private void ConvertProjectFile1_3_to_1_4(string strProjectFilePath)
+        {
+            // get the xml (.onestory) file into a memory string so it can be the 
+            //  input to the transformer
+            string strProjectFile = File.ReadAllText(strProjectFilePath);
+            var streamData = new MemoryStream(Encoding.UTF8.GetBytes(strProjectFile));
+
+#if DEBUG
+            string strXslt = File.ReadAllText(@"C:\src\StoryEditor\StoryEditor\Resources\1.3 to 1.4.xslt");
+#else
+            string strXslt = Properties.Resources.project_1_3_to_1_4;
+#endif
+            var streamXSLT = new MemoryStream(Encoding.UTF8.GetBytes(strXslt));
+            var xelemProjectFileXml = TransformedXmlDataToSfm(streamXSLT, streamData);
+            throw BackOut2Reopen(xelemProjectFileXml);
+        }
+
+        protected XElement TransformedXmlDataToSfm(Stream streamXSLT, Stream streamData)
+        {
+            var myProcessor = new XslCompiledTransform();
+            var xslReader = XmlReader.Create(streamXSLT);
+            myProcessor.Load(xslReader);
+
+            // rewind
+            streamData.Seek(0, SeekOrigin.Begin);
+            var reader = XmlReader.Create(streamData);
+            /*
+            using (MemoryStream stream = new MemoryStream())
+            {
+                using (StreamWriter writer = new StreamWriter(stream))
+                {
+                    _xslt.Transform(section.CreateReader(), null, writer);
+                    stream.Seek(0, SeekOrigin.Begin);
+                    transformed = XElement.Load(stream);
+                }
+            }
+            */
+            using (MemoryStream stream = new MemoryStream())
+            {
+                using (StreamWriter writer = new StreamWriter(stream))
+                {
+                    myProcessor.Transform(reader, null, writer);
+                    stream.Seek(0, SeekOrigin.Begin);
+                    XElement elem = XElement.Load(XmlReader.Create(stream));
+                    return elem;
+                }
+            }
         }
 
         // if this is "new", then we won't have a project name yet, so query the user for it
@@ -905,6 +968,16 @@ namespace OneStoryProjectEditor
         internal static BackOutWithNoUIException BackOutWithNoUI
         {
             get { return new BackOutWithNoUIException(); }
+        }
+
+        internal class Backout2ReOpenException : ApplicationException
+        {
+            public XElement XmlProjectFile;
+        }
+
+        internal static Backout2ReOpenException BackOut2Reopen(XElement xElement)
+        {
+            return new Backout2ReOpenException { XmlProjectFile = xElement };
         }
 
         internal string GetMemberNameFromMemberGuid(string strMemberGuid)

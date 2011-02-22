@@ -10,19 +10,18 @@ namespace OneStoryProjectEditor
     {
         public string guid;
         public bool IsVisible = true;
-        public StringTransfer QuestionVernacular = null;
-        public StringTransfer QuestionNationalBT = null;
-        public StringTransfer QuestionInternationalBT = null;
-        public AnswersData Answers = null;
+        public LineData TestQuestionLine;
+        public AnswersData Answers;
 
         public TestQuestionData(NewDataSet.TestQuestionRow theTestQuestionRow, NewDataSet projFile)
         {
             guid = theTestQuestionRow.guid;
             IsVisible = theTestQuestionRow.visible;
 
-            QuestionVernacular = new StringTransfer((theTestQuestionRow.IsTQVernacularNull()) ? null : theTestQuestionRow.TQVernacular);
-            QuestionNationalBT = new StringTransfer((theTestQuestionRow.IsTQNationalBTNull()) ? null : theTestQuestionRow.TQNationalBT);
-            QuestionInternationalBT = new StringTransfer((theTestQuestionRow.IsTQInternationalBTNull()) ? null : theTestQuestionRow.TQInternationalBT);
+            TestQuestionLine = new LineData();
+            foreach (NewDataSet.TestQuestionLineRow aTqLine in theTestQuestionRow.GetTestQuestionLineRows())
+                TestQuestionLine.SetValue(aTqLine.lang, aTqLine.TestQuestionLine_text);
+
             Answers = new AnswersData(theTestQuestionRow, projFile);
         }
 
@@ -32,11 +31,7 @@ namespace OneStoryProjectEditor
 
             XmlAttribute attr;
             IsVisible = ((attr = node.Attributes[CstrAttributeVisible]) != null) ? (attr.Value == "true") : true;
-
-            XmlNode elem;
-            QuestionVernacular = new StringTransfer(((elem = node.SelectSingleNode(CstrElementLabelTQVernacular)) != null) ? elem.InnerText : null);
-            QuestionNationalBT = new StringTransfer(((elem = node.SelectSingleNode(CstrElementLabelTQNationalBT)) != null) ? elem.InnerText : null);
-            QuestionInternationalBT = new StringTransfer(((elem = node.SelectSingleNode(CstrElementLabelTQInternationalBT)) != null) ? elem.InnerText : null);
+            TestQuestionLine = new LineData(node, CstrElementLabelTestQuestionLine);
             Answers = new AnswersData(node.SelectSingleNode(AnswersData.CstrElementLableAnswers));
         }
 
@@ -46,18 +41,14 @@ namespace OneStoryProjectEditor
             guid = Guid.NewGuid().ToString();   // rhs.guid;
 
             IsVisible = rhs.IsVisible;
-            QuestionVernacular = new StringTransfer(rhs.QuestionVernacular.ToString());
-            QuestionNationalBT = new StringTransfer(rhs.QuestionNationalBT.ToString());
-            QuestionInternationalBT = new StringTransfer(rhs.QuestionInternationalBT.ToString());
+            TestQuestionLine = new LineData(rhs.TestQuestionLine);
             Answers = new AnswersData(rhs.Answers);
         }
 
         public TestQuestionData()
         {
             guid = Guid.NewGuid().ToString();
-            QuestionVernacular = new StringTransfer(null);
-            QuestionNationalBT = new StringTransfer(null);
-            QuestionInternationalBT = new StringTransfer(null);
+            TestQuestionLine = new LineData();
             Answers = new AnswersData();
         }
 
@@ -65,9 +56,7 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                return (QuestionVernacular.HasData
-                    || QuestionNationalBT.HasData
-                    || QuestionInternationalBT.HasData 
+                return (TestQuestionLine.HasData
                     || Answers.HasData);
             }
         }
@@ -75,29 +64,21 @@ namespace OneStoryProjectEditor
         public const string CstrElementLabelTestQuestion = "TestQuestion";
         public const string CstrAttributeGuid = "guid";
         public const string CstrAttributeVisible = "visible";
-        public const string CstrElementLabelTQVernacular = "TQVernacular";
-        public const string CstrElementLabelTQNationalBT = "TQNationalBT";
-        public const string CstrElementLabelTQInternationalBT = "TQInternationalBT";
+        public const string CstrElementLabelTestQuestionLine = "TestQuestionLine";
 
         public XElement GetXml
         {
             get
             {
-                System.Diagnostics.Debug.Assert(QuestionVernacular.HasData
-                    || QuestionNationalBT.HasData
-                    || QuestionInternationalBT.HasData
+                System.Diagnostics.Debug.Assert(TestQuestionLine.HasData
                     || Answers.HasData, "you have an empty TestQuestionData");
 
                 XElement eleTQ = new XElement(CstrElementLabelTestQuestion,
                     new XAttribute(CstrAttributeVisible, IsVisible),
                     new XAttribute(CstrAttributeGuid, guid));
                 
-                if (QuestionVernacular.HasData)
-                    eleTQ.Add(new XElement(CstrElementLabelTQVernacular, QuestionVernacular));
-                if (QuestionNationalBT.HasData)
-                    eleTQ.Add(new XElement(CstrElementLabelTQNationalBT, QuestionNationalBT));
-                if (QuestionInternationalBT.HasData)
-                    eleTQ.Add(new XElement(CstrElementLabelTQInternationalBT, QuestionInternationalBT));
+                if (TestQuestionLine.HasData)
+                    TestQuestionLine.AddXml(eleTQ, CstrElementLabelTestQuestionLine);
                 if (Answers.HasData)
                     eleTQ.Add(Answers.GetXml);
 
@@ -110,18 +91,9 @@ namespace OneStoryProjectEditor
         {
             if (findProperties.TestQs)
             {
-                if (QuestionVernacular.HasData && findProperties.StoryLanguage)
-                    lstBoxesToSearch.AddNewVerseString(QuestionVernacular,
-                        VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestions |
-                        VerseData.ViewSettings.ItemToInsureOn.VernacularLangField);
-                if (QuestionNationalBT.HasData && findProperties.NationalBT)
-                    lstBoxesToSearch.AddNewVerseString(QuestionNationalBT,
-                        VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestions |
-                        VerseData.ViewSettings.ItemToInsureOn.NationalBTLangField);
-                if (QuestionInternationalBT.HasData && findProperties.EnglishBT)
-                    lstBoxesToSearch.AddNewVerseString(QuestionInternationalBT,
-                        VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestions |
-                        VerseData.ViewSettings.ItemToInsureOn.EnglishBTField);
+                TestQuestionLine.IndexSearch(findProperties,
+                                             VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestions,
+                                             ref lstBoxesToSearch);
             }
 
             if (Answers.HasData && findProperties.TestAs)
@@ -141,31 +113,32 @@ namespace OneStoryProjectEditor
         {
             string strRow = String.Format(OseResources.Properties.Resources.HTML_TableCell,
                                           CstrTestQuestionsLabelFormat);
+
             if (bShowVernacular)
             {
                 strRow += String.Format(OseResources.Properties.Resources.HTML_TableCellWidthAlignTop, 100 / nNumTestQuestionCols,
                                         String.Format(OseResources.Properties.Resources.HTML_Textarea,
-                                                      TextareaId(nVerseIndex, nTQNum, VerseData.CstrFieldNameVernacular),
+                                                      TextareaId(nVerseIndex, nTQNum, LineData.CstrAttributeLangVernacular),
                                                       StoryData.CstrLangVernacularStyleClassName,
-                                                      QuestionVernacular));
+                                                      TestQuestionLine.Vernacular));
             }
 
             if (bShowNationalBT)
             {
                 strRow += String.Format(OseResources.Properties.Resources.HTML_TableCellWidthAlignTop, 100 / nNumTestQuestionCols,
                                         String.Format(OseResources.Properties.Resources.HTML_Textarea,
-                                                      TextareaId(nVerseIndex, nTQNum, VerseData.CstrFieldNameNationalBt),
+                                                      TextareaId(nVerseIndex, nTQNum, LineData.CstrAttributeLangNationalBt),
                                                       StoryData.CstrLangNationalBtStyleClassName,
-                                                      QuestionNationalBT));
+                                                      TestQuestionLine.NationalBt));
             }
 
             if (bShowEnglishBT)
             {
                 strRow += String.Format(OseResources.Properties.Resources.HTML_TableCellWidthAlignTop, 100 / nNumTestQuestionCols,
                                         String.Format(OseResources.Properties.Resources.HTML_Textarea,
-                                                      TextareaId(nVerseIndex, nTQNum, VerseData.CstrFieldNameInternationalBt),
+                                                      TextareaId(nVerseIndex, nTQNum, LineData.CstrAttributeLangInternationalBt),
                                                       StoryData.CstrLangInternationalBtStyleClassName,
-                                                      QuestionInternationalBT));
+                                                      TestQuestionLine.InternationalBt));
             }
 
             string strTQRow = String.Format(OseResources.Properties.Resources.HTML_TableRow,
@@ -179,13 +152,13 @@ namespace OneStoryProjectEditor
         }
 
         protected string PresentationHtmlCell(int nVerseIndex, int nTQNum, int nNumTestQuestionCols,
-            string strStyleClass, string str)
+            string strStyleClass, string strTextAreaSuffix, string str)
         {
             if (String.IsNullOrEmpty(str))
                 str = "-";  // just so there's something there (or the cell doesn't show)
             return String.Format(OseResources.Properties.Resources.HTML_TableCellWidthAlignTop, 100 / nNumTestQuestionCols,
                                  String.Format(OseResources.Properties.Resources.HTML_ParagraphText,
-                                               TextareaId(nVerseIndex, nTQNum, VerseData.CstrFieldNameInternationalBt),
+                                               TextareaId(nVerseIndex, nTQNum, strTextAreaSuffix),
                                                strStyleClass,
                                                str));
         }
@@ -215,12 +188,12 @@ namespace OneStoryProjectEditor
                     DirectableEncConverter transliterator = viewSettings.TransliteratorVernacular;
                     string str = (!bPrintPreview)
                         ? (child != null)
-                            ? Diff.HtmlDiff(transliterator, QuestionVernacular, (theChildTQ != null) ? theChildTQ.QuestionVernacular : null)
-                            : Diff.HtmlDiff(transliterator, null, QuestionVernacular)
-                        : QuestionVernacular.GetValue(transliterator);
+                            ? Diff.HtmlDiff(transliterator, TestQuestionLine.Vernacular, (theChildTQ != null) ? theChildTQ.TestQuestionLine.Vernacular : null)
+                            : Diff.HtmlDiff(transliterator, null, TestQuestionLine.Vernacular)
+                        : TestQuestionLine.Vernacular.GetValue(transliterator);
 
                     strRow += PresentationHtmlCell(nVerseIndex, nTQNum, nNumTestQuestionCols,
-                        StoryData.CstrLangVernacularStyleClassName, str);
+                        StoryData.CstrLangVernacularStyleClassName, LineData.CstrAttributeLangVernacular, str);
                 }
 
                 if (bShowNationalBT)
@@ -228,24 +201,24 @@ namespace OneStoryProjectEditor
                     DirectableEncConverter transliterator = viewSettings.TransliteratorNationalBT;
                     string str = (!bPrintPreview)
                         ? (child != null)
-                            ? Diff.HtmlDiff(transliterator, QuestionNationalBT, (theChildTQ != null) ? theChildTQ.QuestionNationalBT : null)
-                            : Diff.HtmlDiff(transliterator, null, QuestionNationalBT)
-                        : QuestionNationalBT.GetValue(transliterator);
+                            ? Diff.HtmlDiff(transliterator, TestQuestionLine.NationalBt, (theChildTQ != null) ? theChildTQ.TestQuestionLine.NationalBt : null)
+                            : Diff.HtmlDiff(transliterator, null, TestQuestionLine.NationalBt)
+                        : TestQuestionLine.NationalBt.GetValue(transliterator);
 
                     strRow += PresentationHtmlCell(nVerseIndex, nTQNum, nNumTestQuestionCols,
-                        StoryData.CstrLangNationalBtStyleClassName, str);
+                        StoryData.CstrLangNationalBtStyleClassName, LineData.CstrAttributeLangNationalBt, str);
                 }
 
                 if (bShowEnglishBT)
                 {
                     string str = (!bPrintPreview)
                         ? (child != null)
-                            ? Diff.HtmlDiff(QuestionInternationalBT, (theChildTQ != null) ? theChildTQ.QuestionInternationalBT : null)
-                            : Diff.HtmlDiff(null, QuestionInternationalBT)
-                        : QuestionInternationalBT.ToString();
+                            ? Diff.HtmlDiff(TestQuestionLine.InternationalBt, (theChildTQ != null) ? theChildTQ.TestQuestionLine.InternationalBt : null)
+                            : Diff.HtmlDiff(null, TestQuestionLine.InternationalBt)
+                        : TestQuestionLine.InternationalBt.ToString();
 
                     strRow += PresentationHtmlCell(nVerseIndex, nTQNum, nNumTestQuestionCols,
-                        StoryData.CstrLangInternationalBtStyleClassName, str);
+                        StoryData.CstrLangInternationalBtStyleClassName, LineData.CstrAttributeLangInternationalBt, str);
                 }
 
                 strTQRow = String.Format(OseResources.Properties.Resources.HTML_TableRow,
@@ -278,27 +251,27 @@ namespace OneStoryProjectEditor
                 if (bShowVernacular)
                 {
                     DirectableEncConverter transliterator = viewSettings.TransliteratorVernacular;
-                    string str = Diff.HtmlDiff(transliterator, null, QuestionVernacular);
+                    string str = Diff.HtmlDiff(transliterator, null, TestQuestionLine.Vernacular);
 
                     strRow += PresentationHtmlCell(nVerseIndex, nTQNum, nNumTestQuestionCols,
-                        StoryData.CstrLangVernacularStyleClassName, str);
+                        StoryData.CstrLangVernacularStyleClassName, LineData.CstrAttributeLangVernacular, str);
                 }
 
                 if (bShowNationalBT)
                 {
                     DirectableEncConverter transliterator = viewSettings.TransliteratorNationalBT;
-                    string str = Diff.HtmlDiff(transliterator, null, QuestionNationalBT);
+                    string str = Diff.HtmlDiff(transliterator, null, TestQuestionLine.NationalBt);
 
                     strRow += PresentationHtmlCell(nVerseIndex, nTQNum, nNumTestQuestionCols,
-                        StoryData.CstrLangNationalBtStyleClassName, str);
+                        StoryData.CstrLangNationalBtStyleClassName, LineData.CstrAttributeLangNationalBt, str);
                 }
 
                 if (bShowEnglishBT)
                 {
-                    string str = Diff.HtmlDiff(null, QuestionInternationalBT);
+                    string str = Diff.HtmlDiff(null, TestQuestionLine.InternationalBt);
 
                     strRow += PresentationHtmlCell(nVerseIndex, nTQNum, nNumTestQuestionCols,
-                        StoryData.CstrLangInternationalBtStyleClassName, str);
+                        StoryData.CstrLangInternationalBtStyleClassName, LineData.CstrAttributeLangInternationalBt, str);
                 }
 
                 strTQRow = String.Format(OseResources.Properties.Resources.HTML_TableRow,
@@ -320,7 +293,7 @@ namespace OneStoryProjectEditor
 
     public class TestQuestionsData : List<TestQuestionData>
     {
-        public TestQuestionsData(NewDataSet.verseRow theVerseRow, NewDataSet projFile)
+        public TestQuestionsData(NewDataSet.VerseRow theVerseRow, NewDataSet projFile)
         {
             NewDataSet.TestQuestionsRow[] theTestQuestionsRows = theVerseRow.GetTestQuestionsRows();
             NewDataSet.TestQuestionsRow theTestQuestionsRow;

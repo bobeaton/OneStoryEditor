@@ -880,7 +880,7 @@ namespace OneStoryProjectEditor
     {
         protected const string CstrCollectionElementName = "ConsultantNotes";
 
-        public ConsultantNotesData(NewDataSet.verseRow theVerseRow, NewDataSet projFile)
+        public ConsultantNotesData(NewDataSet.VerseRow theVerseRow, NewDataSet projFile)
             : base(CstrCollectionElementName)
         {
             NewDataSet.ConsultantNotesRow[] theConsultantNotesRows = theVerseRow.GetConsultantNotesRows();
@@ -975,7 +975,7 @@ namespace OneStoryProjectEditor
     {
         protected const string CstrCollectionElementName = "CoachNotes";
 
-        public CoachNotesData(NewDataSet.verseRow theVerseRow, NewDataSet projFile)
+        public CoachNotesData(NewDataSet.VerseRow theVerseRow, NewDataSet projFile)
             : base(CstrCollectionElementName)
         {
             NewDataSet.CoachNotesRow[] theCoachNotesRows = theVerseRow.GetCoachNotesRows();

@@ -65,25 +65,29 @@ namespace OneStoryProjectEditor {
         
         private StateTransitionDataTable tableStateTransition;
         
-        private versesDataTable tableverses;
+        private VersesDataTable tableVerses;
         
-        private verseDataTable tableverse;
+        private VerseDataTable tableVerse;
         
-        private anchorsDataTable tableanchors;
+        private StoryLineDataTable tableStoryLine;
         
-        private anchorDataTable tableanchor;
+        private AnchorsDataTable tableAnchors;
         
-        private exegeticalHelpsDataTable tableexegeticalHelps;
+        private AnchorDataTable tableAnchor;
         
-        private exegeticalHelpDataTable tableexegeticalHelp;
+        private ExegeticalHelpsDataTable tableExegeticalHelps;
+        
+        private ExegeticalHelpDataTable tableExegeticalHelp;
         
         private TestQuestionsDataTable tableTestQuestions;
         
         private TestQuestionDataTable tableTestQuestion;
         
+        private TestQuestionLineDataTable tableTestQuestionLine;
+        
         private AnswersDataTable tableAnswers;
         
-        private answerDataTable tableanswer;
+        private AnswerDataTable tableAnswer;
         
         private RetellingsDataTable tableRetellings;
         
@@ -139,37 +143,41 @@ namespace OneStoryProjectEditor {
         
         private global::System.Data.DataRelation relationTransitionHistory_StateTransition;
         
-        private global::System.Data.DataRelation relationstory_verses;
+        private global::System.Data.DataRelation relationstory_Verses;
         
-        private global::System.Data.DataRelation relationverses_verse;
+        private global::System.Data.DataRelation relationVerses_Verse;
         
-        private global::System.Data.DataRelation relationverse_anchors;
+        private global::System.Data.DataRelation relationVerse_StoryLine;
         
-        private global::System.Data.DataRelation relationanchors_anchor;
+        private global::System.Data.DataRelation relationVerse_Anchors;
         
-        private global::System.Data.DataRelation relationanchor_exegeticalHelps;
+        private global::System.Data.DataRelation relationAnchors_Anchor;
         
-        private global::System.Data.DataRelation relationexegeticalHelps_exegeticalHelp;
+        private global::System.Data.DataRelation relationVerse_ExegeticalHelps;
         
-        private global::System.Data.DataRelation relationverse_TestQuestions;
+        private global::System.Data.DataRelation relationExegeticalHelps_ExegeticalHelp;
+        
+        private global::System.Data.DataRelation relationVerse_TestQuestions;
         
         private global::System.Data.DataRelation relationTestQuestions_TestQuestion;
         
+        private global::System.Data.DataRelation relationTestQuestion_TestQuestionLine;
+        
         private global::System.Data.DataRelation relationTestQuestion_Answers;
         
-        private global::System.Data.DataRelation relationAnswers_answer;
+        private global::System.Data.DataRelation relationAnswers_Answer;
         
-        private global::System.Data.DataRelation relationverse_Retellings;
+        private global::System.Data.DataRelation relationVerse_Retellings;
         
         private global::System.Data.DataRelation relationRetellings_Retelling;
         
-        private global::System.Data.DataRelation relationverse_ConsultantNotes;
+        private global::System.Data.DataRelation relationVerse_ConsultantNotes;
         
         private global::System.Data.DataRelation relationConsultantNotes_ConsultantConversation;
         
         private global::System.Data.DataRelation relationConsultantConversation_ConsultantNote;
         
-        private global::System.Data.DataRelation relationverse_CoachNotes;
+        private global::System.Data.DataRelation relationVerse_CoachNotes;
         
         private global::System.Data.DataRelation relationCoachNotes_CoachConversation;
         
@@ -261,23 +269,26 @@ namespace OneStoryProjectEditor {
                 if ((ds.Tables["StateTransition"] != null)) {
                     base.Tables.Add(new StateTransitionDataTable(ds.Tables["StateTransition"]));
                 }
-                if ((ds.Tables["verses"] != null)) {
-                    base.Tables.Add(new versesDataTable(ds.Tables["verses"]));
+                if ((ds.Tables["Verses"] != null)) {
+                    base.Tables.Add(new VersesDataTable(ds.Tables["Verses"]));
                 }
-                if ((ds.Tables["verse"] != null)) {
-                    base.Tables.Add(new verseDataTable(ds.Tables["verse"]));
+                if ((ds.Tables["Verse"] != null)) {
+                    base.Tables.Add(new VerseDataTable(ds.Tables["Verse"]));
                 }
-                if ((ds.Tables["anchors"] != null)) {
-                    base.Tables.Add(new anchorsDataTable(ds.Tables["anchors"]));
+                if ((ds.Tables["StoryLine"] != null)) {
+                    base.Tables.Add(new StoryLineDataTable(ds.Tables["StoryLine"]));
                 }
-                if ((ds.Tables["anchor"] != null)) {
-                    base.Tables.Add(new anchorDataTable(ds.Tables["anchor"]));
+                if ((ds.Tables["Anchors"] != null)) {
+                    base.Tables.Add(new AnchorsDataTable(ds.Tables["Anchors"]));
                 }
-                if ((ds.Tables["exegeticalHelps"] != null)) {
-                    base.Tables.Add(new exegeticalHelpsDataTable(ds.Tables["exegeticalHelps"]));
+                if ((ds.Tables["Anchor"] != null)) {
+                    base.Tables.Add(new AnchorDataTable(ds.Tables["Anchor"]));
                 }
-                if ((ds.Tables["exegeticalHelp"] != null)) {
-                    base.Tables.Add(new exegeticalHelpDataTable(ds.Tables["exegeticalHelp"]));
+                if ((ds.Tables["ExegeticalHelps"] != null)) {
+                    base.Tables.Add(new ExegeticalHelpsDataTable(ds.Tables["ExegeticalHelps"]));
+                }
+                if ((ds.Tables["ExegeticalHelp"] != null)) {
+                    base.Tables.Add(new ExegeticalHelpDataTable(ds.Tables["ExegeticalHelp"]));
                 }
                 if ((ds.Tables["TestQuestions"] != null)) {
                     base.Tables.Add(new TestQuestionsDataTable(ds.Tables["TestQuestions"]));
@@ -285,11 +296,14 @@ namespace OneStoryProjectEditor {
                 if ((ds.Tables["TestQuestion"] != null)) {
                     base.Tables.Add(new TestQuestionDataTable(ds.Tables["TestQuestion"]));
                 }
+                if ((ds.Tables["TestQuestionLine"] != null)) {
+                    base.Tables.Add(new TestQuestionLineDataTable(ds.Tables["TestQuestionLine"]));
+                }
                 if ((ds.Tables["Answers"] != null)) {
                     base.Tables.Add(new AnswersDataTable(ds.Tables["Answers"]));
                 }
-                if ((ds.Tables["answer"] != null)) {
-                    base.Tables.Add(new answerDataTable(ds.Tables["answer"]));
+                if ((ds.Tables["Answer"] != null)) {
+                    base.Tables.Add(new AnswerDataTable(ds.Tables["Answer"]));
                 }
                 if ((ds.Tables["Retellings"] != null)) {
                     base.Tables.Add(new RetellingsDataTable(ds.Tables["Retellings"]));
@@ -516,54 +530,63 @@ namespace OneStoryProjectEditor {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public versesDataTable verses {
+        public VersesDataTable Verses {
             get {
-                return this.tableverses;
+                return this.tableVerses;
             }
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public verseDataTable verse {
+        public VerseDataTable Verse {
             get {
-                return this.tableverse;
+                return this.tableVerse;
             }
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public anchorsDataTable anchors {
+        public StoryLineDataTable StoryLine {
             get {
-                return this.tableanchors;
+                return this.tableStoryLine;
             }
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public anchorDataTable anchor {
+        public AnchorsDataTable Anchors {
             get {
-                return this.tableanchor;
+                return this.tableAnchors;
             }
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public exegeticalHelpsDataTable exegeticalHelps {
+        public AnchorDataTable Anchor {
             get {
-                return this.tableexegeticalHelps;
+                return this.tableAnchor;
             }
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public exegeticalHelpDataTable exegeticalHelp {
+        public ExegeticalHelpsDataTable ExegeticalHelps {
             get {
-                return this.tableexegeticalHelp;
+                return this.tableExegeticalHelps;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public ExegeticalHelpDataTable ExegeticalHelp {
+            get {
+                return this.tableExegeticalHelp;
             }
         }
         
@@ -588,6 +611,15 @@ namespace OneStoryProjectEditor {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public TestQuestionLineDataTable TestQuestionLine {
+            get {
+                return this.tableTestQuestionLine;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
         public AnswersDataTable Answers {
             get {
                 return this.tableAnswers;
@@ -597,9 +629,9 @@ namespace OneStoryProjectEditor {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public answerDataTable answer {
+        public AnswerDataTable Answer {
             get {
-                return this.tableanswer;
+                return this.tableAnswer;
             }
         }
         
@@ -794,23 +826,26 @@ namespace OneStoryProjectEditor {
                 if ((ds.Tables["StateTransition"] != null)) {
                     base.Tables.Add(new StateTransitionDataTable(ds.Tables["StateTransition"]));
                 }
-                if ((ds.Tables["verses"] != null)) {
-                    base.Tables.Add(new versesDataTable(ds.Tables["verses"]));
+                if ((ds.Tables["Verses"] != null)) {
+                    base.Tables.Add(new VersesDataTable(ds.Tables["Verses"]));
                 }
-                if ((ds.Tables["verse"] != null)) {
-                    base.Tables.Add(new verseDataTable(ds.Tables["verse"]));
+                if ((ds.Tables["Verse"] != null)) {
+                    base.Tables.Add(new VerseDataTable(ds.Tables["Verse"]));
                 }
-                if ((ds.Tables["anchors"] != null)) {
-                    base.Tables.Add(new anchorsDataTable(ds.Tables["anchors"]));
+                if ((ds.Tables["StoryLine"] != null)) {
+                    base.Tables.Add(new StoryLineDataTable(ds.Tables["StoryLine"]));
                 }
-                if ((ds.Tables["anchor"] != null)) {
-                    base.Tables.Add(new anchorDataTable(ds.Tables["anchor"]));
+                if ((ds.Tables["Anchors"] != null)) {
+                    base.Tables.Add(new AnchorsDataTable(ds.Tables["Anchors"]));
                 }
-                if ((ds.Tables["exegeticalHelps"] != null)) {
-                    base.Tables.Add(new exegeticalHelpsDataTable(ds.Tables["exegeticalHelps"]));
+                if ((ds.Tables["Anchor"] != null)) {
+                    base.Tables.Add(new AnchorDataTable(ds.Tables["Anchor"]));
                 }
-                if ((ds.Tables["exegeticalHelp"] != null)) {
-                    base.Tables.Add(new exegeticalHelpDataTable(ds.Tables["exegeticalHelp"]));
+                if ((ds.Tables["ExegeticalHelps"] != null)) {
+                    base.Tables.Add(new ExegeticalHelpsDataTable(ds.Tables["ExegeticalHelps"]));
+                }
+                if ((ds.Tables["ExegeticalHelp"] != null)) {
+                    base.Tables.Add(new ExegeticalHelpDataTable(ds.Tables["ExegeticalHelp"]));
                 }
                 if ((ds.Tables["TestQuestions"] != null)) {
                     base.Tables.Add(new TestQuestionsDataTable(ds.Tables["TestQuestions"]));
@@ -818,11 +853,14 @@ namespace OneStoryProjectEditor {
                 if ((ds.Tables["TestQuestion"] != null)) {
                     base.Tables.Add(new TestQuestionDataTable(ds.Tables["TestQuestion"]));
                 }
+                if ((ds.Tables["TestQuestionLine"] != null)) {
+                    base.Tables.Add(new TestQuestionLineDataTable(ds.Tables["TestQuestionLine"]));
+                }
                 if ((ds.Tables["Answers"] != null)) {
                     base.Tables.Add(new AnswersDataTable(ds.Tables["Answers"]));
                 }
-                if ((ds.Tables["answer"] != null)) {
-                    base.Tables.Add(new answerDataTable(ds.Tables["answer"]));
+                if ((ds.Tables["Answer"] != null)) {
+                    base.Tables.Add(new AnswerDataTable(ds.Tables["Answer"]));
                 }
                 if ((ds.Tables["Retellings"] != null)) {
                     base.Tables.Add(new RetellingsDataTable(ds.Tables["Retellings"]));
@@ -998,40 +1036,46 @@ namespace OneStoryProjectEditor {
                     this.tableStateTransition.InitVars();
                 }
             }
-            this.tableverses = ((versesDataTable)(base.Tables["verses"]));
+            this.tableVerses = ((VersesDataTable)(base.Tables["Verses"]));
             if ((initTable == true)) {
-                if ((this.tableverses != null)) {
-                    this.tableverses.InitVars();
+                if ((this.tableVerses != null)) {
+                    this.tableVerses.InitVars();
                 }
             }
-            this.tableverse = ((verseDataTable)(base.Tables["verse"]));
+            this.tableVerse = ((VerseDataTable)(base.Tables["Verse"]));
             if ((initTable == true)) {
-                if ((this.tableverse != null)) {
-                    this.tableverse.InitVars();
+                if ((this.tableVerse != null)) {
+                    this.tableVerse.InitVars();
                 }
             }
-            this.tableanchors = ((anchorsDataTable)(base.Tables["anchors"]));
+            this.tableStoryLine = ((StoryLineDataTable)(base.Tables["StoryLine"]));
             if ((initTable == true)) {
-                if ((this.tableanchors != null)) {
-                    this.tableanchors.InitVars();
+                if ((this.tableStoryLine != null)) {
+                    this.tableStoryLine.InitVars();
                 }
             }
-            this.tableanchor = ((anchorDataTable)(base.Tables["anchor"]));
+            this.tableAnchors = ((AnchorsDataTable)(base.Tables["Anchors"]));
             if ((initTable == true)) {
-                if ((this.tableanchor != null)) {
-                    this.tableanchor.InitVars();
+                if ((this.tableAnchors != null)) {
+                    this.tableAnchors.InitVars();
                 }
             }
-            this.tableexegeticalHelps = ((exegeticalHelpsDataTable)(base.Tables["exegeticalHelps"]));
+            this.tableAnchor = ((AnchorDataTable)(base.Tables["Anchor"]));
             if ((initTable == true)) {
-                if ((this.tableexegeticalHelps != null)) {
-                    this.tableexegeticalHelps.InitVars();
+                if ((this.tableAnchor != null)) {
+                    this.tableAnchor.InitVars();
                 }
             }
-            this.tableexegeticalHelp = ((exegeticalHelpDataTable)(base.Tables["exegeticalHelp"]));
+            this.tableExegeticalHelps = ((ExegeticalHelpsDataTable)(base.Tables["ExegeticalHelps"]));
             if ((initTable == true)) {
-                if ((this.tableexegeticalHelp != null)) {
-                    this.tableexegeticalHelp.InitVars();
+                if ((this.tableExegeticalHelps != null)) {
+                    this.tableExegeticalHelps.InitVars();
+                }
+            }
+            this.tableExegeticalHelp = ((ExegeticalHelpDataTable)(base.Tables["ExegeticalHelp"]));
+            if ((initTable == true)) {
+                if ((this.tableExegeticalHelp != null)) {
+                    this.tableExegeticalHelp.InitVars();
                 }
             }
             this.tableTestQuestions = ((TestQuestionsDataTable)(base.Tables["TestQuestions"]));
@@ -1046,16 +1090,22 @@ namespace OneStoryProjectEditor {
                     this.tableTestQuestion.InitVars();
                 }
             }
+            this.tableTestQuestionLine = ((TestQuestionLineDataTable)(base.Tables["TestQuestionLine"]));
+            if ((initTable == true)) {
+                if ((this.tableTestQuestionLine != null)) {
+                    this.tableTestQuestionLine.InitVars();
+                }
+            }
             this.tableAnswers = ((AnswersDataTable)(base.Tables["Answers"]));
             if ((initTable == true)) {
                 if ((this.tableAnswers != null)) {
                     this.tableAnswers.InitVars();
                 }
             }
-            this.tableanswer = ((answerDataTable)(base.Tables["answer"]));
+            this.tableAnswer = ((AnswerDataTable)(base.Tables["Answer"]));
             if ((initTable == true)) {
-                if ((this.tableanswer != null)) {
-                    this.tableanswer.InitVars();
+                if ((this.tableAnswer != null)) {
+                    this.tableAnswer.InitVars();
                 }
             }
             this.tableRetellings = ((RetellingsDataTable)(base.Tables["Retellings"]));
@@ -1125,22 +1175,24 @@ namespace OneStoryProjectEditor {
             this.relationTests_Test = this.Relations["Tests_Test"];
             this.relationstory_TransitionHistory = this.Relations["story_TransitionHistory"];
             this.relationTransitionHistory_StateTransition = this.Relations["TransitionHistory_StateTransition"];
-            this.relationstory_verses = this.Relations["story_verses"];
-            this.relationverses_verse = this.Relations["verses_verse"];
-            this.relationverse_anchors = this.Relations["verse_anchors"];
-            this.relationanchors_anchor = this.Relations["anchors_anchor"];
-            this.relationanchor_exegeticalHelps = this.Relations["anchor_exegeticalHelps"];
-            this.relationexegeticalHelps_exegeticalHelp = this.Relations["exegeticalHelps_exegeticalHelp"];
-            this.relationverse_TestQuestions = this.Relations["verse_TestQuestions"];
+            this.relationstory_Verses = this.Relations["story_Verses"];
+            this.relationVerses_Verse = this.Relations["Verses_Verse"];
+            this.relationVerse_StoryLine = this.Relations["Verse_StoryLine"];
+            this.relationVerse_Anchors = this.Relations["Verse_Anchors"];
+            this.relationAnchors_Anchor = this.Relations["Anchors_Anchor"];
+            this.relationVerse_ExegeticalHelps = this.Relations["Verse_ExegeticalHelps"];
+            this.relationExegeticalHelps_ExegeticalHelp = this.Relations["ExegeticalHelps_ExegeticalHelp"];
+            this.relationVerse_TestQuestions = this.Relations["Verse_TestQuestions"];
             this.relationTestQuestions_TestQuestion = this.Relations["TestQuestions_TestQuestion"];
+            this.relationTestQuestion_TestQuestionLine = this.Relations["TestQuestion_TestQuestionLine"];
             this.relationTestQuestion_Answers = this.Relations["TestQuestion_Answers"];
-            this.relationAnswers_answer = this.Relations["Answers_answer"];
-            this.relationverse_Retellings = this.Relations["verse_Retellings"];
+            this.relationAnswers_Answer = this.Relations["Answers_Answer"];
+            this.relationVerse_Retellings = this.Relations["Verse_Retellings"];
             this.relationRetellings_Retelling = this.Relations["Retellings_Retelling"];
-            this.relationverse_ConsultantNotes = this.Relations["verse_ConsultantNotes"];
+            this.relationVerse_ConsultantNotes = this.Relations["Verse_ConsultantNotes"];
             this.relationConsultantNotes_ConsultantConversation = this.Relations["ConsultantNotes_ConsultantConversation"];
             this.relationConsultantConversation_ConsultantNote = this.Relations["ConsultantConversation_ConsultantNote"];
-            this.relationverse_CoachNotes = this.Relations["verse_CoachNotes"];
+            this.relationVerse_CoachNotes = this.Relations["Verse_CoachNotes"];
             this.relationCoachNotes_CoachConversation = this.Relations["CoachNotes_CoachConversation"];
             this.relationCoachConversation_CoachNote = this.Relations["CoachConversation_CoachNote"];
         }
@@ -1192,26 +1244,30 @@ namespace OneStoryProjectEditor {
             base.Tables.Add(this.tableTransitionHistory);
             this.tableStateTransition = new StateTransitionDataTable();
             base.Tables.Add(this.tableStateTransition);
-            this.tableverses = new versesDataTable();
-            base.Tables.Add(this.tableverses);
-            this.tableverse = new verseDataTable();
-            base.Tables.Add(this.tableverse);
-            this.tableanchors = new anchorsDataTable();
-            base.Tables.Add(this.tableanchors);
-            this.tableanchor = new anchorDataTable();
-            base.Tables.Add(this.tableanchor);
-            this.tableexegeticalHelps = new exegeticalHelpsDataTable();
-            base.Tables.Add(this.tableexegeticalHelps);
-            this.tableexegeticalHelp = new exegeticalHelpDataTable();
-            base.Tables.Add(this.tableexegeticalHelp);
+            this.tableVerses = new VersesDataTable();
+            base.Tables.Add(this.tableVerses);
+            this.tableVerse = new VerseDataTable();
+            base.Tables.Add(this.tableVerse);
+            this.tableStoryLine = new StoryLineDataTable();
+            base.Tables.Add(this.tableStoryLine);
+            this.tableAnchors = new AnchorsDataTable();
+            base.Tables.Add(this.tableAnchors);
+            this.tableAnchor = new AnchorDataTable();
+            base.Tables.Add(this.tableAnchor);
+            this.tableExegeticalHelps = new ExegeticalHelpsDataTable();
+            base.Tables.Add(this.tableExegeticalHelps);
+            this.tableExegeticalHelp = new ExegeticalHelpDataTable();
+            base.Tables.Add(this.tableExegeticalHelp);
             this.tableTestQuestions = new TestQuestionsDataTable();
             base.Tables.Add(this.tableTestQuestions);
             this.tableTestQuestion = new TestQuestionDataTable();
             base.Tables.Add(this.tableTestQuestion);
+            this.tableTestQuestionLine = new TestQuestionLineDataTable();
+            base.Tables.Add(this.tableTestQuestionLine);
             this.tableAnswers = new AnswersDataTable();
             base.Tables.Add(this.tableAnswers);
-            this.tableanswer = new answerDataTable();
-            base.Tables.Add(this.tableanswer);
+            this.tableAnswer = new AnswerDataTable();
+            base.Tables.Add(this.tableAnswer);
             this.tableRetellings = new RetellingsDataTable();
             base.Tables.Add(this.tableRetellings);
             this.tableRetelling = new RetellingDataTable();
@@ -1362,51 +1418,58 @@ namespace OneStoryProjectEditor {
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
-            fkc = new global::System.Data.ForeignKeyConstraint("story_verses", new global::System.Data.DataColumn[] {
+            fkc = new global::System.Data.ForeignKeyConstraint("story_Verses", new global::System.Data.DataColumn[] {
                         this.tablestory.story_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableverses.story_IdColumn});
-            this.tableverses.Constraints.Add(fkc);
+                        this.tableVerses.story_IdColumn});
+            this.tableVerses.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
-            fkc = new global::System.Data.ForeignKeyConstraint("verses_verse", new global::System.Data.DataColumn[] {
-                        this.tableverses.verses_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableverse.verses_IdColumn});
-            this.tableverse.Constraints.Add(fkc);
+            fkc = new global::System.Data.ForeignKeyConstraint("Verses_Verse", new global::System.Data.DataColumn[] {
+                        this.tableVerses.Verses_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableVerse.Verses_IdColumn});
+            this.tableVerse.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
-            fkc = new global::System.Data.ForeignKeyConstraint("verse_anchors", new global::System.Data.DataColumn[] {
-                        this.tableverse.verse_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableanchors.verse_IdColumn});
-            this.tableanchors.Constraints.Add(fkc);
+            fkc = new global::System.Data.ForeignKeyConstraint("Verse_StoryLine", new global::System.Data.DataColumn[] {
+                        this.tableVerse.Verse_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableStoryLine.Verse_IdColumn});
+            this.tableStoryLine.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
-            fkc = new global::System.Data.ForeignKeyConstraint("anchors_anchor", new global::System.Data.DataColumn[] {
-                        this.tableanchors.anchors_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableanchor.anchors_IdColumn});
-            this.tableanchor.Constraints.Add(fkc);
+            fkc = new global::System.Data.ForeignKeyConstraint("Verse_Anchors", new global::System.Data.DataColumn[] {
+                        this.tableVerse.Verse_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableAnchors.Verse_IdColumn});
+            this.tableAnchors.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
-            fkc = new global::System.Data.ForeignKeyConstraint("anchor_exegeticalHelps", new global::System.Data.DataColumn[] {
-                        this.tableanchor.anchor_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableexegeticalHelps.anchor_IdColumn});
-            this.tableexegeticalHelps.Constraints.Add(fkc);
+            fkc = new global::System.Data.ForeignKeyConstraint("Anchors_Anchor", new global::System.Data.DataColumn[] {
+                        this.tableAnchors.Anchors_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableAnchor.Anchors_IdColumn});
+            this.tableAnchor.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
-            fkc = new global::System.Data.ForeignKeyConstraint("exegeticalHelps_exegeticalHelp", new global::System.Data.DataColumn[] {
-                        this.tableexegeticalHelps.exegeticalHelps_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableexegeticalHelp.exegeticalHelps_IdColumn});
-            this.tableexegeticalHelp.Constraints.Add(fkc);
+            fkc = new global::System.Data.ForeignKeyConstraint("Verse_ExegeticalHelps", new global::System.Data.DataColumn[] {
+                        this.tableVerse.Verse_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableExegeticalHelps.Verse_IdColumn});
+            this.tableExegeticalHelps.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
-            fkc = new global::System.Data.ForeignKeyConstraint("verse_TestQuestions", new global::System.Data.DataColumn[] {
-                        this.tableverse.verse_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableTestQuestions.verse_IdColumn});
+            fkc = new global::System.Data.ForeignKeyConstraint("ExegeticalHelps_ExegeticalHelp", new global::System.Data.DataColumn[] {
+                        this.tableExegeticalHelps.ExegeticalHelps_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableExegeticalHelp.ExegeticalHelps_IdColumn});
+            this.tableExegeticalHelp.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.Cascade;
+            fkc.UpdateRule = global::System.Data.Rule.Cascade;
+            fkc = new global::System.Data.ForeignKeyConstraint("Verse_TestQuestions", new global::System.Data.DataColumn[] {
+                        this.tableVerse.Verse_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableTestQuestions.Verse_IdColumn});
             this.tableTestQuestions.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
@@ -1418,6 +1481,13 @@ namespace OneStoryProjectEditor {
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
+            fkc = new global::System.Data.ForeignKeyConstraint("TestQuestion_TestQuestionLine", new global::System.Data.DataColumn[] {
+                        this.tableTestQuestion.TestQuestion_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableTestQuestionLine.TestQuestion_IdColumn});
+            this.tableTestQuestionLine.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.Cascade;
+            fkc.UpdateRule = global::System.Data.Rule.Cascade;
             fkc = new global::System.Data.ForeignKeyConstraint("TestQuestion_Answers", new global::System.Data.DataColumn[] {
                         this.tableTestQuestion.TestQuestion_IdColumn}, new global::System.Data.DataColumn[] {
                         this.tableAnswers.TestQuestion_IdColumn});
@@ -1425,16 +1495,16 @@ namespace OneStoryProjectEditor {
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
-            fkc = new global::System.Data.ForeignKeyConstraint("Answers_answer", new global::System.Data.DataColumn[] {
+            fkc = new global::System.Data.ForeignKeyConstraint("Answers_Answer", new global::System.Data.DataColumn[] {
                         this.tableAnswers.Answers_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableanswer.Answers_IdColumn});
-            this.tableanswer.Constraints.Add(fkc);
+                        this.tableAnswer.Answers_IdColumn});
+            this.tableAnswer.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
-            fkc = new global::System.Data.ForeignKeyConstraint("verse_Retellings", new global::System.Data.DataColumn[] {
-                        this.tableverse.verse_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableRetellings.verse_IdColumn});
+            fkc = new global::System.Data.ForeignKeyConstraint("Verse_Retellings", new global::System.Data.DataColumn[] {
+                        this.tableVerse.Verse_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableRetellings.Verse_IdColumn});
             this.tableRetellings.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
@@ -1446,9 +1516,9 @@ namespace OneStoryProjectEditor {
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
-            fkc = new global::System.Data.ForeignKeyConstraint("verse_ConsultantNotes", new global::System.Data.DataColumn[] {
-                        this.tableverse.verse_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableConsultantNotes.verse_IdColumn});
+            fkc = new global::System.Data.ForeignKeyConstraint("Verse_ConsultantNotes", new global::System.Data.DataColumn[] {
+                        this.tableVerse.Verse_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableConsultantNotes.Verse_IdColumn});
             this.tableConsultantNotes.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
@@ -1467,9 +1537,9 @@ namespace OneStoryProjectEditor {
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
-            fkc = new global::System.Data.ForeignKeyConstraint("verse_CoachNotes", new global::System.Data.DataColumn[] {
-                        this.tableverse.verse_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableCoachNotes.verse_IdColumn});
+            fkc = new global::System.Data.ForeignKeyConstraint("Verse_CoachNotes", new global::System.Data.DataColumn[] {
+                        this.tableVerse.Verse_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableCoachNotes.Verse_IdColumn});
             this.tableCoachNotes.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
@@ -1583,71 +1653,81 @@ namespace OneStoryProjectEditor {
                         this.tableStateTransition.TransitionHistory_IdColumn}, false);
             this.relationTransitionHistory_StateTransition.Nested = true;
             this.Relations.Add(this.relationTransitionHistory_StateTransition);
-            this.relationstory_verses = new global::System.Data.DataRelation("story_verses", new global::System.Data.DataColumn[] {
+            this.relationstory_Verses = new global::System.Data.DataRelation("story_Verses", new global::System.Data.DataColumn[] {
                         this.tablestory.story_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableverses.story_IdColumn}, false);
-            this.relationstory_verses.Nested = true;
-            this.Relations.Add(this.relationstory_verses);
-            this.relationverses_verse = new global::System.Data.DataRelation("verses_verse", new global::System.Data.DataColumn[] {
-                        this.tableverses.verses_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableverse.verses_IdColumn}, false);
-            this.relationverses_verse.Nested = true;
-            this.Relations.Add(this.relationverses_verse);
-            this.relationverse_anchors = new global::System.Data.DataRelation("verse_anchors", new global::System.Data.DataColumn[] {
-                        this.tableverse.verse_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableanchors.verse_IdColumn}, false);
-            this.relationverse_anchors.Nested = true;
-            this.Relations.Add(this.relationverse_anchors);
-            this.relationanchors_anchor = new global::System.Data.DataRelation("anchors_anchor", new global::System.Data.DataColumn[] {
-                        this.tableanchors.anchors_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableanchor.anchors_IdColumn}, false);
-            this.relationanchors_anchor.Nested = true;
-            this.Relations.Add(this.relationanchors_anchor);
-            this.relationanchor_exegeticalHelps = new global::System.Data.DataRelation("anchor_exegeticalHelps", new global::System.Data.DataColumn[] {
-                        this.tableanchor.anchor_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableexegeticalHelps.anchor_IdColumn}, false);
-            this.relationanchor_exegeticalHelps.Nested = true;
-            this.Relations.Add(this.relationanchor_exegeticalHelps);
-            this.relationexegeticalHelps_exegeticalHelp = new global::System.Data.DataRelation("exegeticalHelps_exegeticalHelp", new global::System.Data.DataColumn[] {
-                        this.tableexegeticalHelps.exegeticalHelps_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableexegeticalHelp.exegeticalHelps_IdColumn}, false);
-            this.relationexegeticalHelps_exegeticalHelp.Nested = true;
-            this.Relations.Add(this.relationexegeticalHelps_exegeticalHelp);
-            this.relationverse_TestQuestions = new global::System.Data.DataRelation("verse_TestQuestions", new global::System.Data.DataColumn[] {
-                        this.tableverse.verse_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableTestQuestions.verse_IdColumn}, false);
-            this.relationverse_TestQuestions.Nested = true;
-            this.Relations.Add(this.relationverse_TestQuestions);
+                        this.tableVerses.story_IdColumn}, false);
+            this.relationstory_Verses.Nested = true;
+            this.Relations.Add(this.relationstory_Verses);
+            this.relationVerses_Verse = new global::System.Data.DataRelation("Verses_Verse", new global::System.Data.DataColumn[] {
+                        this.tableVerses.Verses_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableVerse.Verses_IdColumn}, false);
+            this.relationVerses_Verse.Nested = true;
+            this.Relations.Add(this.relationVerses_Verse);
+            this.relationVerse_StoryLine = new global::System.Data.DataRelation("Verse_StoryLine", new global::System.Data.DataColumn[] {
+                        this.tableVerse.Verse_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableStoryLine.Verse_IdColumn}, false);
+            this.relationVerse_StoryLine.Nested = true;
+            this.Relations.Add(this.relationVerse_StoryLine);
+            this.relationVerse_Anchors = new global::System.Data.DataRelation("Verse_Anchors", new global::System.Data.DataColumn[] {
+                        this.tableVerse.Verse_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableAnchors.Verse_IdColumn}, false);
+            this.relationVerse_Anchors.Nested = true;
+            this.Relations.Add(this.relationVerse_Anchors);
+            this.relationAnchors_Anchor = new global::System.Data.DataRelation("Anchors_Anchor", new global::System.Data.DataColumn[] {
+                        this.tableAnchors.Anchors_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableAnchor.Anchors_IdColumn}, false);
+            this.relationAnchors_Anchor.Nested = true;
+            this.Relations.Add(this.relationAnchors_Anchor);
+            this.relationVerse_ExegeticalHelps = new global::System.Data.DataRelation("Verse_ExegeticalHelps", new global::System.Data.DataColumn[] {
+                        this.tableVerse.Verse_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableExegeticalHelps.Verse_IdColumn}, false);
+            this.relationVerse_ExegeticalHelps.Nested = true;
+            this.Relations.Add(this.relationVerse_ExegeticalHelps);
+            this.relationExegeticalHelps_ExegeticalHelp = new global::System.Data.DataRelation("ExegeticalHelps_ExegeticalHelp", new global::System.Data.DataColumn[] {
+                        this.tableExegeticalHelps.ExegeticalHelps_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableExegeticalHelp.ExegeticalHelps_IdColumn}, false);
+            this.relationExegeticalHelps_ExegeticalHelp.Nested = true;
+            this.Relations.Add(this.relationExegeticalHelps_ExegeticalHelp);
+            this.relationVerse_TestQuestions = new global::System.Data.DataRelation("Verse_TestQuestions", new global::System.Data.DataColumn[] {
+                        this.tableVerse.Verse_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableTestQuestions.Verse_IdColumn}, false);
+            this.relationVerse_TestQuestions.Nested = true;
+            this.Relations.Add(this.relationVerse_TestQuestions);
             this.relationTestQuestions_TestQuestion = new global::System.Data.DataRelation("TestQuestions_TestQuestion", new global::System.Data.DataColumn[] {
                         this.tableTestQuestions.TestQuestions_IdColumn}, new global::System.Data.DataColumn[] {
                         this.tableTestQuestion.TestQuestions_IdColumn}, false);
             this.relationTestQuestions_TestQuestion.Nested = true;
             this.Relations.Add(this.relationTestQuestions_TestQuestion);
+            this.relationTestQuestion_TestQuestionLine = new global::System.Data.DataRelation("TestQuestion_TestQuestionLine", new global::System.Data.DataColumn[] {
+                        this.tableTestQuestion.TestQuestion_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableTestQuestionLine.TestQuestion_IdColumn}, false);
+            this.relationTestQuestion_TestQuestionLine.Nested = true;
+            this.Relations.Add(this.relationTestQuestion_TestQuestionLine);
             this.relationTestQuestion_Answers = new global::System.Data.DataRelation("TestQuestion_Answers", new global::System.Data.DataColumn[] {
                         this.tableTestQuestion.TestQuestion_IdColumn}, new global::System.Data.DataColumn[] {
                         this.tableAnswers.TestQuestion_IdColumn}, false);
             this.relationTestQuestion_Answers.Nested = true;
             this.Relations.Add(this.relationTestQuestion_Answers);
-            this.relationAnswers_answer = new global::System.Data.DataRelation("Answers_answer", new global::System.Data.DataColumn[] {
+            this.relationAnswers_Answer = new global::System.Data.DataRelation("Answers_Answer", new global::System.Data.DataColumn[] {
                         this.tableAnswers.Answers_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableanswer.Answers_IdColumn}, false);
-            this.relationAnswers_answer.Nested = true;
-            this.Relations.Add(this.relationAnswers_answer);
-            this.relationverse_Retellings = new global::System.Data.DataRelation("verse_Retellings", new global::System.Data.DataColumn[] {
-                        this.tableverse.verse_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableRetellings.verse_IdColumn}, false);
-            this.relationverse_Retellings.Nested = true;
-            this.Relations.Add(this.relationverse_Retellings);
+                        this.tableAnswer.Answers_IdColumn}, false);
+            this.relationAnswers_Answer.Nested = true;
+            this.Relations.Add(this.relationAnswers_Answer);
+            this.relationVerse_Retellings = new global::System.Data.DataRelation("Verse_Retellings", new global::System.Data.DataColumn[] {
+                        this.tableVerse.Verse_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableRetellings.Verse_IdColumn}, false);
+            this.relationVerse_Retellings.Nested = true;
+            this.Relations.Add(this.relationVerse_Retellings);
             this.relationRetellings_Retelling = new global::System.Data.DataRelation("Retellings_Retelling", new global::System.Data.DataColumn[] {
                         this.tableRetellings.Retellings_IdColumn}, new global::System.Data.DataColumn[] {
                         this.tableRetelling.Retellings_IdColumn}, false);
             this.relationRetellings_Retelling.Nested = true;
             this.Relations.Add(this.relationRetellings_Retelling);
-            this.relationverse_ConsultantNotes = new global::System.Data.DataRelation("verse_ConsultantNotes", new global::System.Data.DataColumn[] {
-                        this.tableverse.verse_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableConsultantNotes.verse_IdColumn}, false);
-            this.relationverse_ConsultantNotes.Nested = true;
-            this.Relations.Add(this.relationverse_ConsultantNotes);
+            this.relationVerse_ConsultantNotes = new global::System.Data.DataRelation("Verse_ConsultantNotes", new global::System.Data.DataColumn[] {
+                        this.tableVerse.Verse_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableConsultantNotes.Verse_IdColumn}, false);
+            this.relationVerse_ConsultantNotes.Nested = true;
+            this.Relations.Add(this.relationVerse_ConsultantNotes);
             this.relationConsultantNotes_ConsultantConversation = new global::System.Data.DataRelation("ConsultantNotes_ConsultantConversation", new global::System.Data.DataColumn[] {
                         this.tableConsultantNotes.ConsultantNotes_IdColumn}, new global::System.Data.DataColumn[] {
                         this.tableConsultantConversation.ConsultantNotes_IdColumn}, false);
@@ -1658,11 +1738,11 @@ namespace OneStoryProjectEditor {
                         this.tableConsultantNote.ConsultantConversation_IdColumn}, false);
             this.relationConsultantConversation_ConsultantNote.Nested = true;
             this.Relations.Add(this.relationConsultantConversation_ConsultantNote);
-            this.relationverse_CoachNotes = new global::System.Data.DataRelation("verse_CoachNotes", new global::System.Data.DataColumn[] {
-                        this.tableverse.verse_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableCoachNotes.verse_IdColumn}, false);
-            this.relationverse_CoachNotes.Nested = true;
-            this.Relations.Add(this.relationverse_CoachNotes);
+            this.relationVerse_CoachNotes = new global::System.Data.DataRelation("Verse_CoachNotes", new global::System.Data.DataColumn[] {
+                        this.tableVerse.Verse_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableCoachNotes.Verse_IdColumn}, false);
+            this.relationVerse_CoachNotes.Nested = true;
+            this.Relations.Add(this.relationVerse_CoachNotes);
             this.relationCoachNotes_CoachConversation = new global::System.Data.DataRelation("CoachNotes_CoachConversation", new global::System.Data.DataColumn[] {
                         this.tableCoachNotes.CoachNotes_IdColumn}, new global::System.Data.DataColumn[] {
                         this.tableCoachConversation.CoachNotes_IdColumn}, false);
@@ -1776,32 +1856,37 @@ namespace OneStoryProjectEditor {
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        private bool ShouldSerializeverses() {
+        private bool ShouldSerializeVerses() {
             return false;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        private bool ShouldSerializeverse() {
+        private bool ShouldSerializeVerse() {
             return false;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        private bool ShouldSerializeanchors() {
+        private bool ShouldSerializeStoryLine() {
             return false;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        private bool ShouldSerializeanchor() {
+        private bool ShouldSerializeAnchors() {
             return false;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        private bool ShouldSerializeexegeticalHelps() {
+        private bool ShouldSerializeAnchor() {
             return false;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        private bool ShouldSerializeexegeticalHelp() {
+        private bool ShouldSerializeExegeticalHelps() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private bool ShouldSerializeExegeticalHelp() {
             return false;
         }
         
@@ -1816,12 +1901,17 @@ namespace OneStoryProjectEditor {
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private bool ShouldSerializeTestQuestionLine() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         private bool ShouldSerializeAnswers() {
             return false;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        private bool ShouldSerializeanswer() {
+        private bool ShouldSerializeAnswer() {
             return false;
         }
         
@@ -1958,25 +2048,29 @@ namespace OneStoryProjectEditor {
         
         public delegate void StateTransitionRowChangeEventHandler(object sender, StateTransitionRowChangeEvent e);
         
-        public delegate void versesRowChangeEventHandler(object sender, versesRowChangeEvent e);
+        public delegate void VersesRowChangeEventHandler(object sender, VersesRowChangeEvent e);
         
-        public delegate void verseRowChangeEventHandler(object sender, verseRowChangeEvent e);
+        public delegate void VerseRowChangeEventHandler(object sender, VerseRowChangeEvent e);
         
-        public delegate void anchorsRowChangeEventHandler(object sender, anchorsRowChangeEvent e);
+        public delegate void StoryLineRowChangeEventHandler(object sender, StoryLineRowChangeEvent e);
         
-        public delegate void anchorRowChangeEventHandler(object sender, anchorRowChangeEvent e);
+        public delegate void AnchorsRowChangeEventHandler(object sender, AnchorsRowChangeEvent e);
         
-        public delegate void exegeticalHelpsRowChangeEventHandler(object sender, exegeticalHelpsRowChangeEvent e);
+        public delegate void AnchorRowChangeEventHandler(object sender, AnchorRowChangeEvent e);
         
-        public delegate void exegeticalHelpRowChangeEventHandler(object sender, exegeticalHelpRowChangeEvent e);
+        public delegate void ExegeticalHelpsRowChangeEventHandler(object sender, ExegeticalHelpsRowChangeEvent e);
+        
+        public delegate void ExegeticalHelpRowChangeEventHandler(object sender, ExegeticalHelpRowChangeEvent e);
         
         public delegate void TestQuestionsRowChangeEventHandler(object sender, TestQuestionsRowChangeEvent e);
         
         public delegate void TestQuestionRowChangeEventHandler(object sender, TestQuestionRowChangeEvent e);
         
+        public delegate void TestQuestionLineRowChangeEventHandler(object sender, TestQuestionLineRowChangeEvent e);
+        
         public delegate void AnswersRowChangeEventHandler(object sender, AnswersRowChangeEvent e);
         
-        public delegate void answerRowChangeEventHandler(object sender, answerRowChangeEvent e);
+        public delegate void AnswerRowChangeEventHandler(object sender, AnswerRowChangeEvent e);
         
         public delegate void RetellingsRowChangeEventHandler(object sender, RetellingsRowChangeEvent e);
         
@@ -8247,22 +8341,22 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class versesDataTable : global::System.Data.TypedTableBase<versesRow> {
+        public partial class VersesDataTable : global::System.Data.TypedTableBase<VersesRow> {
             
-            private global::System.Data.DataColumn columnverses_Id;
+            private global::System.Data.DataColumn columnVerses_Id;
             
             private global::System.Data.DataColumn columnstory_Id;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public versesDataTable() {
-                this.TableName = "verses";
+            public VersesDataTable() {
+                this.TableName = "Verses";
                 this.BeginInit();
                 this.InitClass();
                 this.EndInit();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal versesDataTable(global::System.Data.DataTable table) {
+            internal VersesDataTable(global::System.Data.DataTable table) {
                 this.TableName = table.TableName;
                 if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
                     this.CaseSensitive = table.CaseSensitive;
@@ -8278,15 +8372,15 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected versesDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+            protected VersesDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn verses_IdColumn {
+            public global::System.Data.DataColumn Verses_IdColumn {
                 get {
-                    return this.columnverses_Id;
+                    return this.columnVerses_Id;
                 }
             }
             
@@ -8306,119 +8400,119 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public versesRow this[int index] {
+            public VersesRow this[int index] {
                 get {
-                    return ((versesRow)(this.Rows[index]));
+                    return ((VersesRow)(this.Rows[index]));
                 }
             }
             
-            public event versesRowChangeEventHandler versesRowChanging;
+            public event VersesRowChangeEventHandler VersesRowChanging;
             
-            public event versesRowChangeEventHandler versesRowChanged;
+            public event VersesRowChangeEventHandler VersesRowChanged;
             
-            public event versesRowChangeEventHandler versesRowDeleting;
+            public event VersesRowChangeEventHandler VersesRowDeleting;
             
-            public event versesRowChangeEventHandler versesRowDeleted;
+            public event VersesRowChangeEventHandler VersesRowDeleted;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void AddversesRow(versesRow row) {
+            public void AddVersesRow(VersesRow row) {
                 this.Rows.Add(row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public versesRow AddversesRow(storyRow parentstoryRowBystory_verses) {
-                versesRow rowversesRow = ((versesRow)(this.NewRow()));
+            public VersesRow AddVersesRow(storyRow parentstoryRowBystory_Verses) {
+                VersesRow rowVersesRow = ((VersesRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
                         null};
-                if ((parentstoryRowBystory_verses != null)) {
-                    columnValuesArray[1] = parentstoryRowBystory_verses[4];
+                if ((parentstoryRowBystory_Verses != null)) {
+                    columnValuesArray[1] = parentstoryRowBystory_Verses[4];
                 }
-                rowversesRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowversesRow);
-                return rowversesRow;
+                rowVersesRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowVersesRow);
+                return rowVersesRow;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public override global::System.Data.DataTable Clone() {
-                versesDataTable cln = ((versesDataTable)(base.Clone()));
+                VersesDataTable cln = ((VersesDataTable)(base.Clone()));
                 cln.InitVars();
                 return cln;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override global::System.Data.DataTable CreateInstance() {
-                return new versesDataTable();
+                return new VersesDataTable();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
-                this.columnverses_Id = base.Columns["verses_Id"];
+                this.columnVerses_Id = base.Columns["Verses_Id"];
                 this.columnstory_Id = base.Columns["story_Id"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             private void InitClass() {
-                this.columnverses_Id = new global::System.Data.DataColumn("verses_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
-                base.Columns.Add(this.columnverses_Id);
+                this.columnVerses_Id = new global::System.Data.DataColumn("Verses_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnVerses_Id);
                 this.columnstory_Id = new global::System.Data.DataColumn("story_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnstory_Id);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
-                                this.columnverses_Id}, true));
-                this.columnverses_Id.AutoIncrement = true;
-                this.columnverses_Id.AllowDBNull = false;
-                this.columnverses_Id.Unique = true;
+                                this.columnVerses_Id}, true));
+                this.columnVerses_Id.AutoIncrement = true;
+                this.columnVerses_Id.AllowDBNull = false;
+                this.columnVerses_Id.Unique = true;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public versesRow NewversesRow() {
-                return ((versesRow)(this.NewRow()));
+            public VersesRow NewVersesRow() {
+                return ((VersesRow)(this.NewRow()));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new versesRow(builder);
+                return new VersesRow(builder);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override global::System.Type GetRowType() {
-                return typeof(versesRow);
+                return typeof(VersesRow);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanged(e);
-                if ((this.versesRowChanged != null)) {
-                    this.versesRowChanged(this, new versesRowChangeEvent(((versesRow)(e.Row)), e.Action));
+                if ((this.VersesRowChanged != null)) {
+                    this.VersesRowChanged(this, new VersesRowChangeEvent(((VersesRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanging(e);
-                if ((this.versesRowChanging != null)) {
-                    this.versesRowChanging(this, new versesRowChangeEvent(((versesRow)(e.Row)), e.Action));
+                if ((this.VersesRowChanging != null)) {
+                    this.VersesRowChanging(this, new VersesRowChangeEvent(((VersesRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleted(e);
-                if ((this.versesRowDeleted != null)) {
-                    this.versesRowDeleted(this, new versesRowChangeEvent(((versesRow)(e.Row)), e.Action));
+                if ((this.VersesRowDeleted != null)) {
+                    this.VersesRowDeleted(this, new VersesRowChangeEvent(((VersesRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleting(e);
-                if ((this.versesRowDeleting != null)) {
-                    this.versesRowDeleting(this, new versesRowChangeEvent(((versesRow)(e.Row)), e.Action));
+                if ((this.VersesRowDeleting != null)) {
+                    this.VersesRowDeleting(this, new VersesRowChangeEvent(((VersesRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void RemoveversesRow(versesRow row) {
+            public void RemoveVersesRow(VersesRow row) {
                 this.Rows.Remove(row);
             }
             
@@ -8444,7 +8538,7 @@ namespace OneStoryProjectEditor {
                 type.Attributes.Add(attribute1);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "versesDataTable";
+                attribute2.FixedValue = "VersesDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -8491,7 +8585,7 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class verseDataTable : global::System.Data.TypedTableBase<verseRow> {
+        public partial class VerseDataTable : global::System.Data.TypedTableBase<VerseRow> {
             
             private global::System.Data.DataColumn columnguid;
             
@@ -8499,28 +8593,20 @@ namespace OneStoryProjectEditor {
             
             private global::System.Data.DataColumn columnvisible;
             
-            private global::System.Data.DataColumn columnVernacular;
+            private global::System.Data.DataColumn columnVerse_Id;
             
-            private global::System.Data.DataColumn columnNationalBT;
-            
-            private global::System.Data.DataColumn columnInternationalBT;
-            
-            private global::System.Data.DataColumn columnFreeTranslation;
-            
-            private global::System.Data.DataColumn columnverse_Id;
-            
-            private global::System.Data.DataColumn columnverses_Id;
+            private global::System.Data.DataColumn columnVerses_Id;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public verseDataTable() {
-                this.TableName = "verse";
+            public VerseDataTable() {
+                this.TableName = "Verse";
                 this.BeginInit();
                 this.InitClass();
                 this.EndInit();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal verseDataTable(global::System.Data.DataTable table) {
+            internal VerseDataTable(global::System.Data.DataTable table) {
                 this.TableName = table.TableName;
                 if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
                     this.CaseSensitive = table.CaseSensitive;
@@ -8536,7 +8622,7 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected verseDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+            protected VerseDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
             }
@@ -8563,44 +8649,16 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn VernacularColumn {
+            public global::System.Data.DataColumn Verse_IdColumn {
                 get {
-                    return this.columnVernacular;
+                    return this.columnVerse_Id;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn NationalBTColumn {
+            public global::System.Data.DataColumn Verses_IdColumn {
                 get {
-                    return this.columnNationalBT;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn InternationalBTColumn {
-                get {
-                    return this.columnInternationalBT;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn FreeTranslationColumn {
-                get {
-                    return this.columnFreeTranslation;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn verse_IdColumn {
-                get {
-                    return this.columnverse_Id;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn verses_IdColumn {
-                get {
-                    return this.columnverses_Id;
+                    return this.columnVerses_Id;
                 }
             }
             
@@ -8613,56 +8671,52 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public verseRow this[int index] {
+            public VerseRow this[int index] {
                 get {
-                    return ((verseRow)(this.Rows[index]));
+                    return ((VerseRow)(this.Rows[index]));
                 }
             }
             
-            public event verseRowChangeEventHandler verseRowChanging;
+            public event VerseRowChangeEventHandler VerseRowChanging;
             
-            public event verseRowChangeEventHandler verseRowChanged;
+            public event VerseRowChangeEventHandler VerseRowChanged;
             
-            public event verseRowChangeEventHandler verseRowDeleting;
+            public event VerseRowChangeEventHandler VerseRowDeleting;
             
-            public event verseRowChangeEventHandler verseRowDeleted;
+            public event VerseRowChangeEventHandler VerseRowDeleted;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void AddverseRow(verseRow row) {
+            public void AddVerseRow(VerseRow row) {
                 this.Rows.Add(row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public verseRow AddverseRow(string guid, bool first, bool visible, string Vernacular, string NationalBT, string InternationalBT, string FreeTranslation, versesRow parentversesRowByverses_verse) {
-                verseRow rowverseRow = ((verseRow)(this.NewRow()));
+            public VerseRow AddVerseRow(string guid, bool first, bool visible, VersesRow parentVersesRowByVerses_Verse) {
+                VerseRow rowVerseRow = ((VerseRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         guid,
                         first,
                         visible,
-                        Vernacular,
-                        NationalBT,
-                        InternationalBT,
-                        FreeTranslation,
                         null,
                         null};
-                if ((parentversesRowByverses_verse != null)) {
-                    columnValuesArray[8] = parentversesRowByverses_verse[0];
+                if ((parentVersesRowByVerses_Verse != null)) {
+                    columnValuesArray[4] = parentVersesRowByVerses_Verse[0];
                 }
-                rowverseRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowverseRow);
-                return rowverseRow;
+                rowVerseRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowVerseRow);
+                return rowVerseRow;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public override global::System.Data.DataTable Clone() {
-                verseDataTable cln = ((verseDataTable)(base.Clone()));
+                VerseDataTable cln = ((VerseDataTable)(base.Clone()));
                 cln.InitVars();
                 return cln;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override global::System.Data.DataTable CreateInstance() {
-                return new verseDataTable();
+                return new VerseDataTable();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -8670,12 +8724,8 @@ namespace OneStoryProjectEditor {
                 this.columnguid = base.Columns["guid"];
                 this.columnfirst = base.Columns["first"];
                 this.columnvisible = base.Columns["visible"];
-                this.columnVernacular = base.Columns["Vernacular"];
-                this.columnNationalBT = base.Columns["NationalBT"];
-                this.columnInternationalBT = base.Columns["InternationalBT"];
-                this.columnFreeTranslation = base.Columns["FreeTranslation"];
-                this.columnverse_Id = base.Columns["verse_Id"];
-                this.columnverses_Id = base.Columns["verses_Id"];
+                this.columnVerse_Id = base.Columns["Verse_Id"];
+                this.columnVerses_Id = base.Columns["Verses_Id"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -8686,80 +8736,72 @@ namespace OneStoryProjectEditor {
                 base.Columns.Add(this.columnfirst);
                 this.columnvisible = new global::System.Data.DataColumn("visible", typeof(bool), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnvisible);
-                this.columnVernacular = new global::System.Data.DataColumn("Vernacular", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnVernacular);
-                this.columnNationalBT = new global::System.Data.DataColumn("NationalBT", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnNationalBT);
-                this.columnInternationalBT = new global::System.Data.DataColumn("InternationalBT", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnInternationalBT);
-                this.columnFreeTranslation = new global::System.Data.DataColumn("FreeTranslation", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnFreeTranslation);
-                this.columnverse_Id = new global::System.Data.DataColumn("verse_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
-                base.Columns.Add(this.columnverse_Id);
-                this.columnverses_Id = new global::System.Data.DataColumn("verses_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
-                base.Columns.Add(this.columnverses_Id);
+                this.columnVerse_Id = new global::System.Data.DataColumn("Verse_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnVerse_Id);
+                this.columnVerses_Id = new global::System.Data.DataColumn("Verses_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnVerses_Id);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
-                                this.columnverse_Id}, true));
+                                this.columnVerse_Id}, true));
                 this.columnguid.AllowDBNull = false;
                 this.columnguid.Namespace = "";
                 this.columnfirst.Namespace = "";
                 this.columnfirst.DefaultValue = ((bool)(false));
                 this.columnvisible.Namespace = "";
                 this.columnvisible.DefaultValue = ((bool)(true));
-                this.columnverse_Id.AutoIncrement = true;
-                this.columnverse_Id.AllowDBNull = false;
-                this.columnverse_Id.Unique = true;
+                this.columnVerse_Id.AutoIncrement = true;
+                this.columnVerse_Id.AllowDBNull = false;
+                this.columnVerse_Id.Unique = true;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public verseRow NewverseRow() {
-                return ((verseRow)(this.NewRow()));
+            public VerseRow NewVerseRow() {
+                return ((VerseRow)(this.NewRow()));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new verseRow(builder);
+                return new VerseRow(builder);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override global::System.Type GetRowType() {
-                return typeof(verseRow);
+                return typeof(VerseRow);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanged(e);
-                if ((this.verseRowChanged != null)) {
-                    this.verseRowChanged(this, new verseRowChangeEvent(((verseRow)(e.Row)), e.Action));
+                if ((this.VerseRowChanged != null)) {
+                    this.VerseRowChanged(this, new VerseRowChangeEvent(((VerseRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanging(e);
-                if ((this.verseRowChanging != null)) {
-                    this.verseRowChanging(this, new verseRowChangeEvent(((verseRow)(e.Row)), e.Action));
+                if ((this.VerseRowChanging != null)) {
+                    this.VerseRowChanging(this, new VerseRowChangeEvent(((VerseRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleted(e);
-                if ((this.verseRowDeleted != null)) {
-                    this.verseRowDeleted(this, new verseRowChangeEvent(((verseRow)(e.Row)), e.Action));
+                if ((this.VerseRowDeleted != null)) {
+                    this.VerseRowDeleted(this, new VerseRowChangeEvent(((VerseRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleting(e);
-                if ((this.verseRowDeleting != null)) {
-                    this.verseRowDeleting(this, new verseRowChangeEvent(((verseRow)(e.Row)), e.Action));
+                if ((this.VerseRowDeleting != null)) {
+                    this.VerseRowDeleting(this, new VerseRowChangeEvent(((VerseRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void RemoveverseRow(verseRow row) {
+            public void RemoveVerseRow(VerseRow row) {
                 this.Rows.Remove(row);
             }
             
@@ -8785,7 +8827,7 @@ namespace OneStoryProjectEditor {
                 type.Attributes.Add(attribute1);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "verseDataTable";
+                attribute2.FixedValue = "VerseDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -8832,24 +8874,24 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class anchorsDataTable : global::System.Data.TypedTableBase<anchorsRow> {
+        public partial class StoryLineDataTable : global::System.Data.TypedTableBase<StoryLineRow> {
             
-            private global::System.Data.DataColumn columnkeyTermChecked;
+            private global::System.Data.DataColumn columnlang;
             
-            private global::System.Data.DataColumn columnanchors_Id;
+            private global::System.Data.DataColumn columnStoryLine_text;
             
-            private global::System.Data.DataColumn columnverse_Id;
+            private global::System.Data.DataColumn columnVerse_Id;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public anchorsDataTable() {
-                this.TableName = "anchors";
+            public StoryLineDataTable() {
+                this.TableName = "StoryLine";
                 this.BeginInit();
                 this.InitClass();
                 this.EndInit();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal anchorsDataTable(global::System.Data.DataTable table) {
+            internal StoryLineDataTable(global::System.Data.DataTable table) {
                 this.TableName = table.TableName;
                 if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
                     this.CaseSensitive = table.CaseSensitive;
@@ -8865,7 +8907,261 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected anchorsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+            protected StoryLineDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn langColumn {
+                get {
+                    return this.columnlang;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn StoryLine_textColumn {
+                get {
+                    return this.columnStoryLine_text;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn Verse_IdColumn {
+                get {
+                    return this.columnVerse_Id;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public StoryLineRow this[int index] {
+                get {
+                    return ((StoryLineRow)(this.Rows[index]));
+                }
+            }
+            
+            public event StoryLineRowChangeEventHandler StoryLineRowChanging;
+            
+            public event StoryLineRowChangeEventHandler StoryLineRowChanged;
+            
+            public event StoryLineRowChangeEventHandler StoryLineRowDeleting;
+            
+            public event StoryLineRowChangeEventHandler StoryLineRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void AddStoryLineRow(StoryLineRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public StoryLineRow AddStoryLineRow(string lang, string StoryLine_text, VerseRow parentVerseRowByVerse_StoryLine) {
+                StoryLineRow rowStoryLineRow = ((StoryLineRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        lang,
+                        StoryLine_text,
+                        null};
+                if ((parentVerseRowByVerse_StoryLine != null)) {
+                    columnValuesArray[2] = parentVerseRowByVerse_StoryLine[3];
+                }
+                rowStoryLineRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowStoryLineRow);
+                return rowStoryLineRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public override global::System.Data.DataTable Clone() {
+                StoryLineDataTable cln = ((StoryLineDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new StoryLineDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal void InitVars() {
+                this.columnlang = base.Columns["lang"];
+                this.columnStoryLine_text = base.Columns["StoryLine_text"];
+                this.columnVerse_Id = base.Columns["Verse_Id"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            private void InitClass() {
+                this.columnlang = new global::System.Data.DataColumn("lang", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnlang);
+                this.columnStoryLine_text = new global::System.Data.DataColumn("StoryLine_text", typeof(string), null, global::System.Data.MappingType.SimpleContent);
+                base.Columns.Add(this.columnStoryLine_text);
+                this.columnVerse_Id = new global::System.Data.DataColumn("Verse_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnVerse_Id);
+                this.columnlang.Namespace = "";
+                this.columnStoryLine_text.AllowDBNull = false;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public StoryLineRow NewStoryLineRow() {
+                return ((StoryLineRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new StoryLineRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Type GetRowType() {
+                return typeof(StoryLineRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.StoryLineRowChanged != null)) {
+                    this.StoryLineRowChanged(this, new StoryLineRowChangeEvent(((StoryLineRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.StoryLineRowChanging != null)) {
+                    this.StoryLineRowChanging(this, new StoryLineRowChangeEvent(((StoryLineRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.StoryLineRowDeleted != null)) {
+                    this.StoryLineRowDeleted(this, new StoryLineRowChangeEvent(((StoryLineRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.StoryLineRowDeleting != null)) {
+                    this.StoryLineRowDeleting(this, new StoryLineRowChangeEvent(((StoryLineRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void RemoveStoryLineRow(StoryLineRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                NewDataSet ds = new NewDataSet();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "StoryLineDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class AnchorsDataTable : global::System.Data.TypedTableBase<AnchorsRow> {
+            
+            private global::System.Data.DataColumn columnkeyTermChecked;
+            
+            private global::System.Data.DataColumn columnAnchors_Id;
+            
+            private global::System.Data.DataColumn columnVerse_Id;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public AnchorsDataTable() {
+                this.TableName = "Anchors";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal AnchorsDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected AnchorsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
             }
@@ -8878,16 +9174,16 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn anchors_IdColumn {
+            public global::System.Data.DataColumn Anchors_IdColumn {
                 get {
-                    return this.columnanchors_Id;
+                    return this.columnAnchors_Id;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn verse_IdColumn {
+            public global::System.Data.DataColumn Verse_IdColumn {
                 get {
-                    return this.columnverse_Id;
+                    return this.columnVerse_Id;
                 }
             }
             
@@ -8900,124 +9196,124 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public anchorsRow this[int index] {
+            public AnchorsRow this[int index] {
                 get {
-                    return ((anchorsRow)(this.Rows[index]));
+                    return ((AnchorsRow)(this.Rows[index]));
                 }
             }
             
-            public event anchorsRowChangeEventHandler anchorsRowChanging;
+            public event AnchorsRowChangeEventHandler AnchorsRowChanging;
             
-            public event anchorsRowChangeEventHandler anchorsRowChanged;
+            public event AnchorsRowChangeEventHandler AnchorsRowChanged;
             
-            public event anchorsRowChangeEventHandler anchorsRowDeleting;
+            public event AnchorsRowChangeEventHandler AnchorsRowDeleting;
             
-            public event anchorsRowChangeEventHandler anchorsRowDeleted;
+            public event AnchorsRowChangeEventHandler AnchorsRowDeleted;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void AddanchorsRow(anchorsRow row) {
+            public void AddAnchorsRow(AnchorsRow row) {
                 this.Rows.Add(row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public anchorsRow AddanchorsRow(bool keyTermChecked, verseRow parentverseRowByverse_anchors) {
-                anchorsRow rowanchorsRow = ((anchorsRow)(this.NewRow()));
+            public AnchorsRow AddAnchorsRow(bool keyTermChecked, VerseRow parentVerseRowByVerse_Anchors) {
+                AnchorsRow rowAnchorsRow = ((AnchorsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         keyTermChecked,
                         null,
                         null};
-                if ((parentverseRowByverse_anchors != null)) {
-                    columnValuesArray[2] = parentverseRowByverse_anchors[7];
+                if ((parentVerseRowByVerse_Anchors != null)) {
+                    columnValuesArray[2] = parentVerseRowByVerse_Anchors[3];
                 }
-                rowanchorsRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowanchorsRow);
-                return rowanchorsRow;
+                rowAnchorsRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowAnchorsRow);
+                return rowAnchorsRow;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public override global::System.Data.DataTable Clone() {
-                anchorsDataTable cln = ((anchorsDataTable)(base.Clone()));
+                AnchorsDataTable cln = ((AnchorsDataTable)(base.Clone()));
                 cln.InitVars();
                 return cln;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override global::System.Data.DataTable CreateInstance() {
-                return new anchorsDataTable();
+                return new AnchorsDataTable();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
                 this.columnkeyTermChecked = base.Columns["keyTermChecked"];
-                this.columnanchors_Id = base.Columns["anchors_Id"];
-                this.columnverse_Id = base.Columns["verse_Id"];
+                this.columnAnchors_Id = base.Columns["Anchors_Id"];
+                this.columnVerse_Id = base.Columns["Verse_Id"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             private void InitClass() {
                 this.columnkeyTermChecked = new global::System.Data.DataColumn("keyTermChecked", typeof(bool), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnkeyTermChecked);
-                this.columnanchors_Id = new global::System.Data.DataColumn("anchors_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
-                base.Columns.Add(this.columnanchors_Id);
-                this.columnverse_Id = new global::System.Data.DataColumn("verse_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
-                base.Columns.Add(this.columnverse_Id);
+                this.columnAnchors_Id = new global::System.Data.DataColumn("Anchors_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnAnchors_Id);
+                this.columnVerse_Id = new global::System.Data.DataColumn("Verse_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnVerse_Id);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
-                                this.columnanchors_Id}, true));
+                                this.columnAnchors_Id}, true));
                 this.columnkeyTermChecked.Namespace = "";
-                this.columnanchors_Id.AutoIncrement = true;
-                this.columnanchors_Id.AllowDBNull = false;
-                this.columnanchors_Id.Unique = true;
+                this.columnAnchors_Id.AutoIncrement = true;
+                this.columnAnchors_Id.AllowDBNull = false;
+                this.columnAnchors_Id.Unique = true;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public anchorsRow NewanchorsRow() {
-                return ((anchorsRow)(this.NewRow()));
+            public AnchorsRow NewAnchorsRow() {
+                return ((AnchorsRow)(this.NewRow()));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new anchorsRow(builder);
+                return new AnchorsRow(builder);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override global::System.Type GetRowType() {
-                return typeof(anchorsRow);
+                return typeof(AnchorsRow);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanged(e);
-                if ((this.anchorsRowChanged != null)) {
-                    this.anchorsRowChanged(this, new anchorsRowChangeEvent(((anchorsRow)(e.Row)), e.Action));
+                if ((this.AnchorsRowChanged != null)) {
+                    this.AnchorsRowChanged(this, new AnchorsRowChangeEvent(((AnchorsRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanging(e);
-                if ((this.anchorsRowChanging != null)) {
-                    this.anchorsRowChanging(this, new anchorsRowChangeEvent(((anchorsRow)(e.Row)), e.Action));
+                if ((this.AnchorsRowChanging != null)) {
+                    this.AnchorsRowChanging(this, new AnchorsRowChangeEvent(((AnchorsRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleted(e);
-                if ((this.anchorsRowDeleted != null)) {
-                    this.anchorsRowDeleted(this, new anchorsRowChangeEvent(((anchorsRow)(e.Row)), e.Action));
+                if ((this.AnchorsRowDeleted != null)) {
+                    this.AnchorsRowDeleted(this, new AnchorsRowChangeEvent(((AnchorsRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleting(e);
-                if ((this.anchorsRowDeleting != null)) {
-                    this.anchorsRowDeleting(this, new anchorsRowChangeEvent(((anchorsRow)(e.Row)), e.Action));
+                if ((this.AnchorsRowDeleting != null)) {
+                    this.AnchorsRowDeleting(this, new AnchorsRowChangeEvent(((AnchorsRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void RemoveanchorsRow(anchorsRow row) {
+            public void RemoveAnchorsRow(AnchorsRow row) {
                 this.Rows.Remove(row);
             }
             
@@ -9043,7 +9339,7 @@ namespace OneStoryProjectEditor {
                 type.Attributes.Add(attribute1);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "anchorsDataTable";
+                attribute2.FixedValue = "AnchorsDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -9090,26 +9386,24 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class anchorDataTable : global::System.Data.TypedTableBase<anchorRow> {
+        public partial class AnchorDataTable : global::System.Data.TypedTableBase<AnchorRow> {
             
             private global::System.Data.DataColumn columnjumpTarget;
             
             private global::System.Data.DataColumn columntoolTip;
             
-            private global::System.Data.DataColumn columnanchor_Id;
-            
-            private global::System.Data.DataColumn columnanchors_Id;
+            private global::System.Data.DataColumn columnAnchors_Id;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public anchorDataTable() {
-                this.TableName = "anchor";
+            public AnchorDataTable() {
+                this.TableName = "Anchor";
                 this.BeginInit();
                 this.InitClass();
                 this.EndInit();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal anchorDataTable(global::System.Data.DataTable table) {
+            internal AnchorDataTable(global::System.Data.DataTable table) {
                 this.TableName = table.TableName;
                 if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
                     this.CaseSensitive = table.CaseSensitive;
@@ -9125,7 +9419,7 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected anchorDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+            protected AnchorDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
             }
@@ -9145,16 +9439,9 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn anchor_IdColumn {
+            public global::System.Data.DataColumn Anchors_IdColumn {
                 get {
-                    return this.columnanchor_Id;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn anchors_IdColumn {
-                get {
-                    return this.columnanchors_Id;
+                    return this.columnAnchors_Id;
                 }
             }
             
@@ -9167,129 +9454,121 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public anchorRow this[int index] {
+            public AnchorRow this[int index] {
                 get {
-                    return ((anchorRow)(this.Rows[index]));
+                    return ((AnchorRow)(this.Rows[index]));
                 }
             }
             
-            public event anchorRowChangeEventHandler anchorRowChanging;
+            public event AnchorRowChangeEventHandler AnchorRowChanging;
             
-            public event anchorRowChangeEventHandler anchorRowChanged;
+            public event AnchorRowChangeEventHandler AnchorRowChanged;
             
-            public event anchorRowChangeEventHandler anchorRowDeleting;
+            public event AnchorRowChangeEventHandler AnchorRowDeleting;
             
-            public event anchorRowChangeEventHandler anchorRowDeleted;
+            public event AnchorRowChangeEventHandler AnchorRowDeleted;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void AddanchorRow(anchorRow row) {
+            public void AddAnchorRow(AnchorRow row) {
                 this.Rows.Add(row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public anchorRow AddanchorRow(string jumpTarget, string toolTip, anchorsRow parentanchorsRowByanchors_anchor) {
-                anchorRow rowanchorRow = ((anchorRow)(this.NewRow()));
+            public AnchorRow AddAnchorRow(string jumpTarget, string toolTip, AnchorsRow parentAnchorsRowByAnchors_Anchor) {
+                AnchorRow rowAnchorRow = ((AnchorRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         jumpTarget,
                         toolTip,
-                        null,
                         null};
-                if ((parentanchorsRowByanchors_anchor != null)) {
-                    columnValuesArray[3] = parentanchorsRowByanchors_anchor[1];
+                if ((parentAnchorsRowByAnchors_Anchor != null)) {
+                    columnValuesArray[2] = parentAnchorsRowByAnchors_Anchor[1];
                 }
-                rowanchorRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowanchorRow);
-                return rowanchorRow;
+                rowAnchorRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowAnchorRow);
+                return rowAnchorRow;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public override global::System.Data.DataTable Clone() {
-                anchorDataTable cln = ((anchorDataTable)(base.Clone()));
+                AnchorDataTable cln = ((AnchorDataTable)(base.Clone()));
                 cln.InitVars();
                 return cln;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override global::System.Data.DataTable CreateInstance() {
-                return new anchorDataTable();
+                return new AnchorDataTable();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
                 this.columnjumpTarget = base.Columns["jumpTarget"];
                 this.columntoolTip = base.Columns["toolTip"];
-                this.columnanchor_Id = base.Columns["anchor_Id"];
-                this.columnanchors_Id = base.Columns["anchors_Id"];
+                this.columnAnchors_Id = base.Columns["Anchors_Id"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             private void InitClass() {
                 this.columnjumpTarget = new global::System.Data.DataColumn("jumpTarget", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnjumpTarget);
-                this.columntoolTip = new global::System.Data.DataColumn("toolTip", typeof(string), null, global::System.Data.MappingType.Element);
+                this.columntoolTip = new global::System.Data.DataColumn("toolTip", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columntoolTip);
-                this.columnanchor_Id = new global::System.Data.DataColumn("anchor_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
-                base.Columns.Add(this.columnanchor_Id);
-                this.columnanchors_Id = new global::System.Data.DataColumn("anchors_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
-                base.Columns.Add(this.columnanchors_Id);
-                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
-                                this.columnanchor_Id}, true));
+                this.columnAnchors_Id = new global::System.Data.DataColumn("Anchors_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnAnchors_Id);
                 this.columnjumpTarget.AllowDBNull = false;
                 this.columnjumpTarget.Namespace = "";
-                this.columnanchor_Id.AutoIncrement = true;
-                this.columnanchor_Id.AllowDBNull = false;
-                this.columnanchor_Id.Unique = true;
+                this.columntoolTip.Namespace = "";
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public anchorRow NewanchorRow() {
-                return ((anchorRow)(this.NewRow()));
+            public AnchorRow NewAnchorRow() {
+                return ((AnchorRow)(this.NewRow()));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new anchorRow(builder);
+                return new AnchorRow(builder);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override global::System.Type GetRowType() {
-                return typeof(anchorRow);
+                return typeof(AnchorRow);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanged(e);
-                if ((this.anchorRowChanged != null)) {
-                    this.anchorRowChanged(this, new anchorRowChangeEvent(((anchorRow)(e.Row)), e.Action));
+                if ((this.AnchorRowChanged != null)) {
+                    this.AnchorRowChanged(this, new AnchorRowChangeEvent(((AnchorRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanging(e);
-                if ((this.anchorRowChanging != null)) {
-                    this.anchorRowChanging(this, new anchorRowChangeEvent(((anchorRow)(e.Row)), e.Action));
+                if ((this.AnchorRowChanging != null)) {
+                    this.AnchorRowChanging(this, new AnchorRowChangeEvent(((AnchorRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleted(e);
-                if ((this.anchorRowDeleted != null)) {
-                    this.anchorRowDeleted(this, new anchorRowChangeEvent(((anchorRow)(e.Row)), e.Action));
+                if ((this.AnchorRowDeleted != null)) {
+                    this.AnchorRowDeleted(this, new AnchorRowChangeEvent(((AnchorRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleting(e);
-                if ((this.anchorRowDeleting != null)) {
-                    this.anchorRowDeleting(this, new anchorRowChangeEvent(((anchorRow)(e.Row)), e.Action));
+                if ((this.AnchorRowDeleting != null)) {
+                    this.AnchorRowDeleting(this, new AnchorRowChangeEvent(((AnchorRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void RemoveanchorRow(anchorRow row) {
+            public void RemoveAnchorRow(AnchorRow row) {
                 this.Rows.Remove(row);
             }
             
@@ -9315,7 +9594,7 @@ namespace OneStoryProjectEditor {
                 type.Attributes.Add(attribute1);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "anchorDataTable";
+                attribute2.FixedValue = "AnchorDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -9362,22 +9641,22 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class exegeticalHelpsDataTable : global::System.Data.TypedTableBase<exegeticalHelpsRow> {
+        public partial class ExegeticalHelpsDataTable : global::System.Data.TypedTableBase<ExegeticalHelpsRow> {
             
-            private global::System.Data.DataColumn columnexegeticalHelps_Id;
+            private global::System.Data.DataColumn columnExegeticalHelps_Id;
             
-            private global::System.Data.DataColumn columnanchor_Id;
+            private global::System.Data.DataColumn columnVerse_Id;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public exegeticalHelpsDataTable() {
-                this.TableName = "exegeticalHelps";
+            public ExegeticalHelpsDataTable() {
+                this.TableName = "ExegeticalHelps";
                 this.BeginInit();
                 this.InitClass();
                 this.EndInit();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal exegeticalHelpsDataTable(global::System.Data.DataTable table) {
+            internal ExegeticalHelpsDataTable(global::System.Data.DataTable table) {
                 this.TableName = table.TableName;
                 if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
                     this.CaseSensitive = table.CaseSensitive;
@@ -9393,22 +9672,22 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected exegeticalHelpsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+            protected ExegeticalHelpsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn exegeticalHelps_IdColumn {
+            public global::System.Data.DataColumn ExegeticalHelps_IdColumn {
                 get {
-                    return this.columnexegeticalHelps_Id;
+                    return this.columnExegeticalHelps_Id;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn anchor_IdColumn {
+            public global::System.Data.DataColumn Verse_IdColumn {
                 get {
-                    return this.columnanchor_Id;
+                    return this.columnVerse_Id;
                 }
             }
             
@@ -9421,119 +9700,119 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public exegeticalHelpsRow this[int index] {
+            public ExegeticalHelpsRow this[int index] {
                 get {
-                    return ((exegeticalHelpsRow)(this.Rows[index]));
+                    return ((ExegeticalHelpsRow)(this.Rows[index]));
                 }
             }
             
-            public event exegeticalHelpsRowChangeEventHandler exegeticalHelpsRowChanging;
+            public event ExegeticalHelpsRowChangeEventHandler ExegeticalHelpsRowChanging;
             
-            public event exegeticalHelpsRowChangeEventHandler exegeticalHelpsRowChanged;
+            public event ExegeticalHelpsRowChangeEventHandler ExegeticalHelpsRowChanged;
             
-            public event exegeticalHelpsRowChangeEventHandler exegeticalHelpsRowDeleting;
+            public event ExegeticalHelpsRowChangeEventHandler ExegeticalHelpsRowDeleting;
             
-            public event exegeticalHelpsRowChangeEventHandler exegeticalHelpsRowDeleted;
+            public event ExegeticalHelpsRowChangeEventHandler ExegeticalHelpsRowDeleted;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void AddexegeticalHelpsRow(exegeticalHelpsRow row) {
+            public void AddExegeticalHelpsRow(ExegeticalHelpsRow row) {
                 this.Rows.Add(row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public exegeticalHelpsRow AddexegeticalHelpsRow(anchorRow parentanchorRowByanchor_exegeticalHelps) {
-                exegeticalHelpsRow rowexegeticalHelpsRow = ((exegeticalHelpsRow)(this.NewRow()));
+            public ExegeticalHelpsRow AddExegeticalHelpsRow(VerseRow parentVerseRowByVerse_ExegeticalHelps) {
+                ExegeticalHelpsRow rowExegeticalHelpsRow = ((ExegeticalHelpsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
                         null};
-                if ((parentanchorRowByanchor_exegeticalHelps != null)) {
-                    columnValuesArray[1] = parentanchorRowByanchor_exegeticalHelps[2];
+                if ((parentVerseRowByVerse_ExegeticalHelps != null)) {
+                    columnValuesArray[1] = parentVerseRowByVerse_ExegeticalHelps[3];
                 }
-                rowexegeticalHelpsRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowexegeticalHelpsRow);
-                return rowexegeticalHelpsRow;
+                rowExegeticalHelpsRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowExegeticalHelpsRow);
+                return rowExegeticalHelpsRow;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public override global::System.Data.DataTable Clone() {
-                exegeticalHelpsDataTable cln = ((exegeticalHelpsDataTable)(base.Clone()));
+                ExegeticalHelpsDataTable cln = ((ExegeticalHelpsDataTable)(base.Clone()));
                 cln.InitVars();
                 return cln;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override global::System.Data.DataTable CreateInstance() {
-                return new exegeticalHelpsDataTable();
+                return new ExegeticalHelpsDataTable();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
-                this.columnexegeticalHelps_Id = base.Columns["exegeticalHelps_Id"];
-                this.columnanchor_Id = base.Columns["anchor_Id"];
+                this.columnExegeticalHelps_Id = base.Columns["ExegeticalHelps_Id"];
+                this.columnVerse_Id = base.Columns["Verse_Id"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             private void InitClass() {
-                this.columnexegeticalHelps_Id = new global::System.Data.DataColumn("exegeticalHelps_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
-                base.Columns.Add(this.columnexegeticalHelps_Id);
-                this.columnanchor_Id = new global::System.Data.DataColumn("anchor_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
-                base.Columns.Add(this.columnanchor_Id);
+                this.columnExegeticalHelps_Id = new global::System.Data.DataColumn("ExegeticalHelps_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnExegeticalHelps_Id);
+                this.columnVerse_Id = new global::System.Data.DataColumn("Verse_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnVerse_Id);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
-                                this.columnexegeticalHelps_Id}, true));
-                this.columnexegeticalHelps_Id.AutoIncrement = true;
-                this.columnexegeticalHelps_Id.AllowDBNull = false;
-                this.columnexegeticalHelps_Id.Unique = true;
+                                this.columnExegeticalHelps_Id}, true));
+                this.columnExegeticalHelps_Id.AutoIncrement = true;
+                this.columnExegeticalHelps_Id.AllowDBNull = false;
+                this.columnExegeticalHelps_Id.Unique = true;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public exegeticalHelpsRow NewexegeticalHelpsRow() {
-                return ((exegeticalHelpsRow)(this.NewRow()));
+            public ExegeticalHelpsRow NewExegeticalHelpsRow() {
+                return ((ExegeticalHelpsRow)(this.NewRow()));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new exegeticalHelpsRow(builder);
+                return new ExegeticalHelpsRow(builder);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override global::System.Type GetRowType() {
-                return typeof(exegeticalHelpsRow);
+                return typeof(ExegeticalHelpsRow);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanged(e);
-                if ((this.exegeticalHelpsRowChanged != null)) {
-                    this.exegeticalHelpsRowChanged(this, new exegeticalHelpsRowChangeEvent(((exegeticalHelpsRow)(e.Row)), e.Action));
+                if ((this.ExegeticalHelpsRowChanged != null)) {
+                    this.ExegeticalHelpsRowChanged(this, new ExegeticalHelpsRowChangeEvent(((ExegeticalHelpsRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanging(e);
-                if ((this.exegeticalHelpsRowChanging != null)) {
-                    this.exegeticalHelpsRowChanging(this, new exegeticalHelpsRowChangeEvent(((exegeticalHelpsRow)(e.Row)), e.Action));
+                if ((this.ExegeticalHelpsRowChanging != null)) {
+                    this.ExegeticalHelpsRowChanging(this, new ExegeticalHelpsRowChangeEvent(((ExegeticalHelpsRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleted(e);
-                if ((this.exegeticalHelpsRowDeleted != null)) {
-                    this.exegeticalHelpsRowDeleted(this, new exegeticalHelpsRowChangeEvent(((exegeticalHelpsRow)(e.Row)), e.Action));
+                if ((this.ExegeticalHelpsRowDeleted != null)) {
+                    this.ExegeticalHelpsRowDeleted(this, new ExegeticalHelpsRowChangeEvent(((ExegeticalHelpsRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleting(e);
-                if ((this.exegeticalHelpsRowDeleting != null)) {
-                    this.exegeticalHelpsRowDeleting(this, new exegeticalHelpsRowChangeEvent(((exegeticalHelpsRow)(e.Row)), e.Action));
+                if ((this.ExegeticalHelpsRowDeleting != null)) {
+                    this.ExegeticalHelpsRowDeleting(this, new ExegeticalHelpsRowChangeEvent(((ExegeticalHelpsRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void RemoveexegeticalHelpsRow(exegeticalHelpsRow row) {
+            public void RemoveExegeticalHelpsRow(ExegeticalHelpsRow row) {
                 this.Rows.Remove(row);
             }
             
@@ -9559,7 +9838,7 @@ namespace OneStoryProjectEditor {
                 type.Attributes.Add(attribute1);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "exegeticalHelpsDataTable";
+                attribute2.FixedValue = "ExegeticalHelpsDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -9606,22 +9885,22 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class exegeticalHelpDataTable : global::System.Data.TypedTableBase<exegeticalHelpRow> {
+        public partial class ExegeticalHelpDataTable : global::System.Data.TypedTableBase<ExegeticalHelpRow> {
             
-            private global::System.Data.DataColumn columnexegeticalHelp_Column;
+            private global::System.Data.DataColumn columnExegeticalHelp_Column;
             
-            private global::System.Data.DataColumn columnexegeticalHelps_Id;
+            private global::System.Data.DataColumn columnExegeticalHelps_Id;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public exegeticalHelpDataTable() {
-                this.TableName = "exegeticalHelp";
+            public ExegeticalHelpDataTable() {
+                this.TableName = "ExegeticalHelp";
                 this.BeginInit();
                 this.InitClass();
                 this.EndInit();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal exegeticalHelpDataTable(global::System.Data.DataTable table) {
+            internal ExegeticalHelpDataTable(global::System.Data.DataTable table) {
                 this.TableName = table.TableName;
                 if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
                     this.CaseSensitive = table.CaseSensitive;
@@ -9637,22 +9916,22 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected exegeticalHelpDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+            protected ExegeticalHelpDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn exegeticalHelp_ColumnColumn {
+            public global::System.Data.DataColumn ExegeticalHelp_ColumnColumn {
                 get {
-                    return this.columnexegeticalHelp_Column;
+                    return this.columnExegeticalHelp_Column;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn exegeticalHelps_IdColumn {
+            public global::System.Data.DataColumn ExegeticalHelps_IdColumn {
                 get {
-                    return this.columnexegeticalHelps_Id;
+                    return this.columnExegeticalHelps_Id;
                 }
             }
             
@@ -9665,114 +9944,114 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public exegeticalHelpRow this[int index] {
+            public ExegeticalHelpRow this[int index] {
                 get {
-                    return ((exegeticalHelpRow)(this.Rows[index]));
+                    return ((ExegeticalHelpRow)(this.Rows[index]));
                 }
             }
             
-            public event exegeticalHelpRowChangeEventHandler exegeticalHelpRowChanging;
+            public event ExegeticalHelpRowChangeEventHandler ExegeticalHelpRowChanging;
             
-            public event exegeticalHelpRowChangeEventHandler exegeticalHelpRowChanged;
+            public event ExegeticalHelpRowChangeEventHandler ExegeticalHelpRowChanged;
             
-            public event exegeticalHelpRowChangeEventHandler exegeticalHelpRowDeleting;
+            public event ExegeticalHelpRowChangeEventHandler ExegeticalHelpRowDeleting;
             
-            public event exegeticalHelpRowChangeEventHandler exegeticalHelpRowDeleted;
+            public event ExegeticalHelpRowChangeEventHandler ExegeticalHelpRowDeleted;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void AddexegeticalHelpRow(exegeticalHelpRow row) {
+            public void AddExegeticalHelpRow(ExegeticalHelpRow row) {
                 this.Rows.Add(row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public exegeticalHelpRow AddexegeticalHelpRow(string exegeticalHelp_Column, exegeticalHelpsRow parentexegeticalHelpsRowByexegeticalHelps_exegeticalHelp) {
-                exegeticalHelpRow rowexegeticalHelpRow = ((exegeticalHelpRow)(this.NewRow()));
+            public ExegeticalHelpRow AddExegeticalHelpRow(string ExegeticalHelp_Column, ExegeticalHelpsRow parentExegeticalHelpsRowByExegeticalHelps_ExegeticalHelp) {
+                ExegeticalHelpRow rowExegeticalHelpRow = ((ExegeticalHelpRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        exegeticalHelp_Column,
+                        ExegeticalHelp_Column,
                         null};
-                if ((parentexegeticalHelpsRowByexegeticalHelps_exegeticalHelp != null)) {
-                    columnValuesArray[1] = parentexegeticalHelpsRowByexegeticalHelps_exegeticalHelp[0];
+                if ((parentExegeticalHelpsRowByExegeticalHelps_ExegeticalHelp != null)) {
+                    columnValuesArray[1] = parentExegeticalHelpsRowByExegeticalHelps_ExegeticalHelp[0];
                 }
-                rowexegeticalHelpRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowexegeticalHelpRow);
-                return rowexegeticalHelpRow;
+                rowExegeticalHelpRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowExegeticalHelpRow);
+                return rowExegeticalHelpRow;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public override global::System.Data.DataTable Clone() {
-                exegeticalHelpDataTable cln = ((exegeticalHelpDataTable)(base.Clone()));
+                ExegeticalHelpDataTable cln = ((ExegeticalHelpDataTable)(base.Clone()));
                 cln.InitVars();
                 return cln;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override global::System.Data.DataTable CreateInstance() {
-                return new exegeticalHelpDataTable();
+                return new ExegeticalHelpDataTable();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
-                this.columnexegeticalHelp_Column = base.Columns["exegeticalHelp_Column"];
-                this.columnexegeticalHelps_Id = base.Columns["exegeticalHelps_Id"];
+                this.columnExegeticalHelp_Column = base.Columns["ExegeticalHelp_Column"];
+                this.columnExegeticalHelps_Id = base.Columns["ExegeticalHelps_Id"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             private void InitClass() {
-                this.columnexegeticalHelp_Column = new global::System.Data.DataColumn("exegeticalHelp_Column", typeof(string), null, global::System.Data.MappingType.SimpleContent);
-                base.Columns.Add(this.columnexegeticalHelp_Column);
-                this.columnexegeticalHelps_Id = new global::System.Data.DataColumn("exegeticalHelps_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
-                base.Columns.Add(this.columnexegeticalHelps_Id);
+                this.columnExegeticalHelp_Column = new global::System.Data.DataColumn("ExegeticalHelp_Column", typeof(string), null, global::System.Data.MappingType.SimpleContent);
+                base.Columns.Add(this.columnExegeticalHelp_Column);
+                this.columnExegeticalHelps_Id = new global::System.Data.DataColumn("ExegeticalHelps_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnExegeticalHelps_Id);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public exegeticalHelpRow NewexegeticalHelpRow() {
-                return ((exegeticalHelpRow)(this.NewRow()));
+            public ExegeticalHelpRow NewExegeticalHelpRow() {
+                return ((ExegeticalHelpRow)(this.NewRow()));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new exegeticalHelpRow(builder);
+                return new ExegeticalHelpRow(builder);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override global::System.Type GetRowType() {
-                return typeof(exegeticalHelpRow);
+                return typeof(ExegeticalHelpRow);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanged(e);
-                if ((this.exegeticalHelpRowChanged != null)) {
-                    this.exegeticalHelpRowChanged(this, new exegeticalHelpRowChangeEvent(((exegeticalHelpRow)(e.Row)), e.Action));
+                if ((this.ExegeticalHelpRowChanged != null)) {
+                    this.ExegeticalHelpRowChanged(this, new ExegeticalHelpRowChangeEvent(((ExegeticalHelpRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanging(e);
-                if ((this.exegeticalHelpRowChanging != null)) {
-                    this.exegeticalHelpRowChanging(this, new exegeticalHelpRowChangeEvent(((exegeticalHelpRow)(e.Row)), e.Action));
+                if ((this.ExegeticalHelpRowChanging != null)) {
+                    this.ExegeticalHelpRowChanging(this, new ExegeticalHelpRowChangeEvent(((ExegeticalHelpRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleted(e);
-                if ((this.exegeticalHelpRowDeleted != null)) {
-                    this.exegeticalHelpRowDeleted(this, new exegeticalHelpRowChangeEvent(((exegeticalHelpRow)(e.Row)), e.Action));
+                if ((this.ExegeticalHelpRowDeleted != null)) {
+                    this.ExegeticalHelpRowDeleted(this, new ExegeticalHelpRowChangeEvent(((ExegeticalHelpRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleting(e);
-                if ((this.exegeticalHelpRowDeleting != null)) {
-                    this.exegeticalHelpRowDeleting(this, new exegeticalHelpRowChangeEvent(((exegeticalHelpRow)(e.Row)), e.Action));
+                if ((this.ExegeticalHelpRowDeleting != null)) {
+                    this.ExegeticalHelpRowDeleting(this, new ExegeticalHelpRowChangeEvent(((ExegeticalHelpRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void RemoveexegeticalHelpRow(exegeticalHelpRow row) {
+            public void RemoveExegeticalHelpRow(ExegeticalHelpRow row) {
                 this.Rows.Remove(row);
             }
             
@@ -9798,7 +10077,7 @@ namespace OneStoryProjectEditor {
                 type.Attributes.Add(attribute1);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "exegeticalHelpDataTable";
+                attribute2.FixedValue = "ExegeticalHelpDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -9849,7 +10128,7 @@ namespace OneStoryProjectEditor {
             
             private global::System.Data.DataColumn columnTestQuestions_Id;
             
-            private global::System.Data.DataColumn columnverse_Id;
+            private global::System.Data.DataColumn columnVerse_Id;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public TestQuestionsDataTable() {
@@ -9889,9 +10168,9 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn verse_IdColumn {
+            public global::System.Data.DataColumn Verse_IdColumn {
                 get {
-                    return this.columnverse_Id;
+                    return this.columnVerse_Id;
                 }
             }
             
@@ -9924,13 +10203,13 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public TestQuestionsRow AddTestQuestionsRow(verseRow parentverseRowByverse_TestQuestions) {
+            public TestQuestionsRow AddTestQuestionsRow(VerseRow parentVerseRowByVerse_TestQuestions) {
                 TestQuestionsRow rowTestQuestionsRow = ((TestQuestionsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
                         null};
-                if ((parentverseRowByverse_TestQuestions != null)) {
-                    columnValuesArray[1] = parentverseRowByverse_TestQuestions[7];
+                if ((parentVerseRowByVerse_TestQuestions != null)) {
+                    columnValuesArray[1] = parentVerseRowByVerse_TestQuestions[3];
                 }
                 rowTestQuestionsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowTestQuestionsRow);
@@ -9952,15 +10231,15 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
                 this.columnTestQuestions_Id = base.Columns["TestQuestions_Id"];
-                this.columnverse_Id = base.Columns["verse_Id"];
+                this.columnVerse_Id = base.Columns["Verse_Id"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             private void InitClass() {
                 this.columnTestQuestions_Id = new global::System.Data.DataColumn("TestQuestions_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnTestQuestions_Id);
-                this.columnverse_Id = new global::System.Data.DataColumn("verse_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
-                base.Columns.Add(this.columnverse_Id);
+                this.columnVerse_Id = new global::System.Data.DataColumn("Verse_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnVerse_Id);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnTestQuestions_Id}, true));
                 this.columnTestQuestions_Id.AutoIncrement = true;
@@ -10095,12 +10374,6 @@ namespace OneStoryProjectEditor {
             
             private global::System.Data.DataColumn columnguid;
             
-            private global::System.Data.DataColumn columnTQVernacular;
-            
-            private global::System.Data.DataColumn columnTQNationalBT;
-            
-            private global::System.Data.DataColumn columnTQInternationalBT;
-            
             private global::System.Data.DataColumn columnTestQuestion_Id;
             
             private global::System.Data.DataColumn columnTestQuestions_Id;
@@ -10150,27 +10423,6 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn TQVernacularColumn {
-                get {
-                    return this.columnTQVernacular;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn TQNationalBTColumn {
-                get {
-                    return this.columnTQNationalBT;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn TQInternationalBTColumn {
-                get {
-                    return this.columnTQInternationalBT;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public global::System.Data.DataColumn TestQuestion_IdColumn {
                 get {
                     return this.columnTestQuestion_Id;
@@ -10213,18 +10465,15 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public TestQuestionRow AddTestQuestionRow(bool visible, string guid, string TQVernacular, string TQNationalBT, string TQInternationalBT, TestQuestionsRow parentTestQuestionsRowByTestQuestions_TestQuestion) {
+            public TestQuestionRow AddTestQuestionRow(bool visible, string guid, TestQuestionsRow parentTestQuestionsRowByTestQuestions_TestQuestion) {
                 TestQuestionRow rowTestQuestionRow = ((TestQuestionRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         visible,
                         guid,
-                        TQVernacular,
-                        TQNationalBT,
-                        TQInternationalBT,
                         null,
                         null};
                 if ((parentTestQuestionsRowByTestQuestions_TestQuestion != null)) {
-                    columnValuesArray[6] = parentTestQuestionsRowByTestQuestions_TestQuestion[0];
+                    columnValuesArray[3] = parentTestQuestionsRowByTestQuestions_TestQuestion[0];
                 }
                 rowTestQuestionRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowTestQuestionRow);
@@ -10247,9 +10496,6 @@ namespace OneStoryProjectEditor {
             internal void InitVars() {
                 this.columnvisible = base.Columns["visible"];
                 this.columnguid = base.Columns["guid"];
-                this.columnTQVernacular = base.Columns["TQVernacular"];
-                this.columnTQNationalBT = base.Columns["TQNationalBT"];
-                this.columnTQInternationalBT = base.Columns["TQInternationalBT"];
                 this.columnTestQuestion_Id = base.Columns["TestQuestion_Id"];
                 this.columnTestQuestions_Id = base.Columns["TestQuestions_Id"];
             }
@@ -10260,12 +10506,6 @@ namespace OneStoryProjectEditor {
                 base.Columns.Add(this.columnvisible);
                 this.columnguid = new global::System.Data.DataColumn("guid", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnguid);
-                this.columnTQVernacular = new global::System.Data.DataColumn("TQVernacular", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnTQVernacular);
-                this.columnTQNationalBT = new global::System.Data.DataColumn("TQNationalBT", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnTQNationalBT);
-                this.columnTQInternationalBT = new global::System.Data.DataColumn("TQInternationalBT", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnTQInternationalBT);
                 this.columnTestQuestion_Id = new global::System.Data.DataColumn("TestQuestion_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnTestQuestion_Id);
                 this.columnTestQuestions_Id = new global::System.Data.DataColumn("TestQuestions_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
@@ -10401,6 +10641,260 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class TestQuestionLineDataTable : global::System.Data.TypedTableBase<TestQuestionLineRow> {
+            
+            private global::System.Data.DataColumn columnlang;
+            
+            private global::System.Data.DataColumn columnTestQuestionLine_text;
+            
+            private global::System.Data.DataColumn columnTestQuestion_Id;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public TestQuestionLineDataTable() {
+                this.TableName = "TestQuestionLine";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal TestQuestionLineDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected TestQuestionLineDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn langColumn {
+                get {
+                    return this.columnlang;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn TestQuestionLine_textColumn {
+                get {
+                    return this.columnTestQuestionLine_text;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn TestQuestion_IdColumn {
+                get {
+                    return this.columnTestQuestion_Id;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public TestQuestionLineRow this[int index] {
+                get {
+                    return ((TestQuestionLineRow)(this.Rows[index]));
+                }
+            }
+            
+            public event TestQuestionLineRowChangeEventHandler TestQuestionLineRowChanging;
+            
+            public event TestQuestionLineRowChangeEventHandler TestQuestionLineRowChanged;
+            
+            public event TestQuestionLineRowChangeEventHandler TestQuestionLineRowDeleting;
+            
+            public event TestQuestionLineRowChangeEventHandler TestQuestionLineRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void AddTestQuestionLineRow(TestQuestionLineRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public TestQuestionLineRow AddTestQuestionLineRow(string lang, string TestQuestionLine_text, TestQuestionRow parentTestQuestionRowByTestQuestion_TestQuestionLine) {
+                TestQuestionLineRow rowTestQuestionLineRow = ((TestQuestionLineRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        lang,
+                        TestQuestionLine_text,
+                        null};
+                if ((parentTestQuestionRowByTestQuestion_TestQuestionLine != null)) {
+                    columnValuesArray[2] = parentTestQuestionRowByTestQuestion_TestQuestionLine[2];
+                }
+                rowTestQuestionLineRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowTestQuestionLineRow);
+                return rowTestQuestionLineRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public override global::System.Data.DataTable Clone() {
+                TestQuestionLineDataTable cln = ((TestQuestionLineDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new TestQuestionLineDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal void InitVars() {
+                this.columnlang = base.Columns["lang"];
+                this.columnTestQuestionLine_text = base.Columns["TestQuestionLine_text"];
+                this.columnTestQuestion_Id = base.Columns["TestQuestion_Id"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            private void InitClass() {
+                this.columnlang = new global::System.Data.DataColumn("lang", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnlang);
+                this.columnTestQuestionLine_text = new global::System.Data.DataColumn("TestQuestionLine_text", typeof(string), null, global::System.Data.MappingType.SimpleContent);
+                base.Columns.Add(this.columnTestQuestionLine_text);
+                this.columnTestQuestion_Id = new global::System.Data.DataColumn("TestQuestion_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnTestQuestion_Id);
+                this.columnlang.Namespace = "";
+                this.columnTestQuestionLine_text.AllowDBNull = false;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public TestQuestionLineRow NewTestQuestionLineRow() {
+                return ((TestQuestionLineRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new TestQuestionLineRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Type GetRowType() {
+                return typeof(TestQuestionLineRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.TestQuestionLineRowChanged != null)) {
+                    this.TestQuestionLineRowChanged(this, new TestQuestionLineRowChangeEvent(((TestQuestionLineRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.TestQuestionLineRowChanging != null)) {
+                    this.TestQuestionLineRowChanging(this, new TestQuestionLineRowChangeEvent(((TestQuestionLineRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.TestQuestionLineRowDeleted != null)) {
+                    this.TestQuestionLineRowDeleted(this, new TestQuestionLineRowChangeEvent(((TestQuestionLineRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.TestQuestionLineRowDeleting != null)) {
+                    this.TestQuestionLineRowDeleting(this, new TestQuestionLineRowChangeEvent(((TestQuestionLineRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void RemoveTestQuestionLineRow(TestQuestionLineRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                NewDataSet ds = new NewDataSet();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "TestQuestionLineDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
         public partial class AnswersDataTable : global::System.Data.TypedTableBase<AnswersRow> {
             
             private global::System.Data.DataColumn columnAnswers_Id;
@@ -10486,7 +10980,7 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentTestQuestionRowByTestQuestion_Answers != null)) {
-                    columnValuesArray[1] = parentTestQuestionRowByTestQuestion_Answers[5];
+                    columnValuesArray[1] = parentTestQuestionRowByTestQuestion_Answers[2];
                 }
                 rowAnswersRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowAnswersRow);
@@ -10645,26 +11139,26 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class answerDataTable : global::System.Data.TypedTableBase<answerRow> {
+        public partial class AnswerDataTable : global::System.Data.TypedTableBase<AnswerRow> {
             
             private global::System.Data.DataColumn columnmemberID;
             
             private global::System.Data.DataColumn columnlang;
             
-            private global::System.Data.DataColumn columnanswer_text;
+            private global::System.Data.DataColumn columnAnswer_text;
             
             private global::System.Data.DataColumn columnAnswers_Id;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public answerDataTable() {
-                this.TableName = "answer";
+            public AnswerDataTable() {
+                this.TableName = "Answer";
                 this.BeginInit();
                 this.InitClass();
                 this.EndInit();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal answerDataTable(global::System.Data.DataTable table) {
+            internal AnswerDataTable(global::System.Data.DataTable table) {
                 this.TableName = table.TableName;
                 if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
                     this.CaseSensitive = table.CaseSensitive;
@@ -10680,7 +11174,7 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected answerDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+            protected AnswerDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
             }
@@ -10700,9 +11194,9 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn answer_textColumn {
+            public global::System.Data.DataColumn Answer_textColumn {
                 get {
-                    return this.columnanswer_text;
+                    return this.columnAnswer_text;
                 }
             }
             
@@ -10722,58 +11216,58 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public answerRow this[int index] {
+            public AnswerRow this[int index] {
                 get {
-                    return ((answerRow)(this.Rows[index]));
+                    return ((AnswerRow)(this.Rows[index]));
                 }
             }
             
-            public event answerRowChangeEventHandler answerRowChanging;
+            public event AnswerRowChangeEventHandler AnswerRowChanging;
             
-            public event answerRowChangeEventHandler answerRowChanged;
+            public event AnswerRowChangeEventHandler AnswerRowChanged;
             
-            public event answerRowChangeEventHandler answerRowDeleting;
+            public event AnswerRowChangeEventHandler AnswerRowDeleting;
             
-            public event answerRowChangeEventHandler answerRowDeleted;
+            public event AnswerRowChangeEventHandler AnswerRowDeleted;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void AddanswerRow(answerRow row) {
+            public void AddAnswerRow(AnswerRow row) {
                 this.Rows.Add(row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public answerRow AddanswerRow(string memberID, string lang, string answer_text, AnswersRow parentAnswersRowByAnswers_answer) {
-                answerRow rowanswerRow = ((answerRow)(this.NewRow()));
+            public AnswerRow AddAnswerRow(string memberID, string lang, string Answer_text, AnswersRow parentAnswersRowByAnswers_Answer) {
+                AnswerRow rowAnswerRow = ((AnswerRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         memberID,
                         lang,
-                        answer_text,
+                        Answer_text,
                         null};
-                if ((parentAnswersRowByAnswers_answer != null)) {
-                    columnValuesArray[3] = parentAnswersRowByAnswers_answer[0];
+                if ((parentAnswersRowByAnswers_Answer != null)) {
+                    columnValuesArray[3] = parentAnswersRowByAnswers_Answer[0];
                 }
-                rowanswerRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowanswerRow);
-                return rowanswerRow;
+                rowAnswerRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowAnswerRow);
+                return rowAnswerRow;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public override global::System.Data.DataTable Clone() {
-                answerDataTable cln = ((answerDataTable)(base.Clone()));
+                AnswerDataTable cln = ((AnswerDataTable)(base.Clone()));
                 cln.InitVars();
                 return cln;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override global::System.Data.DataTable CreateInstance() {
-                return new answerDataTable();
+                return new AnswerDataTable();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
                 this.columnmemberID = base.Columns["memberID"];
                 this.columnlang = base.Columns["lang"];
-                this.columnanswer_text = base.Columns["answer_text"];
+                this.columnAnswer_text = base.Columns["Answer_text"];
                 this.columnAnswers_Id = base.Columns["Answers_Id"];
             }
             
@@ -10783,8 +11277,8 @@ namespace OneStoryProjectEditor {
                 base.Columns.Add(this.columnmemberID);
                 this.columnlang = new global::System.Data.DataColumn("lang", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnlang);
-                this.columnanswer_text = new global::System.Data.DataColumn("answer_text", typeof(string), null, global::System.Data.MappingType.SimpleContent);
-                base.Columns.Add(this.columnanswer_text);
+                this.columnAnswer_text = new global::System.Data.DataColumn("Answer_text", typeof(string), null, global::System.Data.MappingType.SimpleContent);
+                base.Columns.Add(this.columnAnswer_text);
                 this.columnAnswers_Id = new global::System.Data.DataColumn("Answers_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnAnswers_Id);
                 this.columnmemberID.AllowDBNull = false;
@@ -10793,54 +11287,54 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public answerRow NewanswerRow() {
-                return ((answerRow)(this.NewRow()));
+            public AnswerRow NewAnswerRow() {
+                return ((AnswerRow)(this.NewRow()));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new answerRow(builder);
+                return new AnswerRow(builder);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override global::System.Type GetRowType() {
-                return typeof(answerRow);
+                return typeof(AnswerRow);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanged(e);
-                if ((this.answerRowChanged != null)) {
-                    this.answerRowChanged(this, new answerRowChangeEvent(((answerRow)(e.Row)), e.Action));
+                if ((this.AnswerRowChanged != null)) {
+                    this.AnswerRowChanged(this, new AnswerRowChangeEvent(((AnswerRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanging(e);
-                if ((this.answerRowChanging != null)) {
-                    this.answerRowChanging(this, new answerRowChangeEvent(((answerRow)(e.Row)), e.Action));
+                if ((this.AnswerRowChanging != null)) {
+                    this.AnswerRowChanging(this, new AnswerRowChangeEvent(((AnswerRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleted(e);
-                if ((this.answerRowDeleted != null)) {
-                    this.answerRowDeleted(this, new answerRowChangeEvent(((answerRow)(e.Row)), e.Action));
+                if ((this.AnswerRowDeleted != null)) {
+                    this.AnswerRowDeleted(this, new AnswerRowChangeEvent(((AnswerRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleting(e);
-                if ((this.answerRowDeleting != null)) {
-                    this.answerRowDeleting(this, new answerRowChangeEvent(((answerRow)(e.Row)), e.Action));
+                if ((this.AnswerRowDeleting != null)) {
+                    this.AnswerRowDeleting(this, new AnswerRowChangeEvent(((AnswerRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void RemoveanswerRow(answerRow row) {
+            public void RemoveAnswerRow(AnswerRow row) {
                 this.Rows.Remove(row);
             }
             
@@ -10866,7 +11360,7 @@ namespace OneStoryProjectEditor {
                 type.Attributes.Add(attribute1);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "answerDataTable";
+                attribute2.FixedValue = "AnswerDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -10917,7 +11411,7 @@ namespace OneStoryProjectEditor {
             
             private global::System.Data.DataColumn columnRetellings_Id;
             
-            private global::System.Data.DataColumn columnverse_Id;
+            private global::System.Data.DataColumn columnVerse_Id;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public RetellingsDataTable() {
@@ -10957,9 +11451,9 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn verse_IdColumn {
+            public global::System.Data.DataColumn Verse_IdColumn {
                 get {
-                    return this.columnverse_Id;
+                    return this.columnVerse_Id;
                 }
             }
             
@@ -10992,13 +11486,13 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public RetellingsRow AddRetellingsRow(verseRow parentverseRowByverse_Retellings) {
+            public RetellingsRow AddRetellingsRow(VerseRow parentVerseRowByVerse_Retellings) {
                 RetellingsRow rowRetellingsRow = ((RetellingsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
                         null};
-                if ((parentverseRowByverse_Retellings != null)) {
-                    columnValuesArray[1] = parentverseRowByverse_Retellings[7];
+                if ((parentVerseRowByVerse_Retellings != null)) {
+                    columnValuesArray[1] = parentVerseRowByVerse_Retellings[3];
                 }
                 rowRetellingsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowRetellingsRow);
@@ -11020,15 +11514,15 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
                 this.columnRetellings_Id = base.Columns["Retellings_Id"];
-                this.columnverse_Id = base.Columns["verse_Id"];
+                this.columnVerse_Id = base.Columns["Verse_Id"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             private void InitClass() {
                 this.columnRetellings_Id = new global::System.Data.DataColumn("Retellings_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnRetellings_Id);
-                this.columnverse_Id = new global::System.Data.DataColumn("verse_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
-                base.Columns.Add(this.columnverse_Id);
+                this.columnVerse_Id = new global::System.Data.DataColumn("Verse_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnVerse_Id);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnRetellings_Id}, true));
                 this.columnRetellings_Id.AutoIncrement = true;
@@ -11429,7 +11923,7 @@ namespace OneStoryProjectEditor {
             
             private global::System.Data.DataColumn columnConsultantNotes_Id;
             
-            private global::System.Data.DataColumn columnverse_Id;
+            private global::System.Data.DataColumn columnVerse_Id;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public ConsultantNotesDataTable() {
@@ -11469,9 +11963,9 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn verse_IdColumn {
+            public global::System.Data.DataColumn Verse_IdColumn {
                 get {
-                    return this.columnverse_Id;
+                    return this.columnVerse_Id;
                 }
             }
             
@@ -11504,13 +11998,13 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public ConsultantNotesRow AddConsultantNotesRow(verseRow parentverseRowByverse_ConsultantNotes) {
+            public ConsultantNotesRow AddConsultantNotesRow(VerseRow parentVerseRowByVerse_ConsultantNotes) {
                 ConsultantNotesRow rowConsultantNotesRow = ((ConsultantNotesRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
                         null};
-                if ((parentverseRowByverse_ConsultantNotes != null)) {
-                    columnValuesArray[1] = parentverseRowByverse_ConsultantNotes[7];
+                if ((parentVerseRowByVerse_ConsultantNotes != null)) {
+                    columnValuesArray[1] = parentVerseRowByVerse_ConsultantNotes[3];
                 }
                 rowConsultantNotesRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowConsultantNotesRow);
@@ -11532,15 +12026,15 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
                 this.columnConsultantNotes_Id = base.Columns["ConsultantNotes_Id"];
-                this.columnverse_Id = base.Columns["verse_Id"];
+                this.columnVerse_Id = base.Columns["Verse_Id"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             private void InitClass() {
                 this.columnConsultantNotes_Id = new global::System.Data.DataColumn("ConsultantNotes_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnConsultantNotes_Id);
-                this.columnverse_Id = new global::System.Data.DataColumn("verse_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
-                base.Columns.Add(this.columnverse_Id);
+                this.columnVerse_Id = new global::System.Data.DataColumn("Verse_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnVerse_Id);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnConsultantNotes_Id}, true));
                 this.columnConsultantNotes_Id.AutoIncrement = true;
@@ -12260,7 +12754,7 @@ namespace OneStoryProjectEditor {
             
             private global::System.Data.DataColumn columnCoachNotes_Id;
             
-            private global::System.Data.DataColumn columnverse_Id;
+            private global::System.Data.DataColumn columnVerse_Id;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public CoachNotesDataTable() {
@@ -12300,9 +12794,9 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn verse_IdColumn {
+            public global::System.Data.DataColumn Verse_IdColumn {
                 get {
-                    return this.columnverse_Id;
+                    return this.columnVerse_Id;
                 }
             }
             
@@ -12335,13 +12829,13 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public CoachNotesRow AddCoachNotesRow(verseRow parentverseRowByverse_CoachNotes) {
+            public CoachNotesRow AddCoachNotesRow(VerseRow parentVerseRowByVerse_CoachNotes) {
                 CoachNotesRow rowCoachNotesRow = ((CoachNotesRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
                         null};
-                if ((parentverseRowByverse_CoachNotes != null)) {
-                    columnValuesArray[1] = parentverseRowByverse_CoachNotes[7];
+                if ((parentVerseRowByVerse_CoachNotes != null)) {
+                    columnValuesArray[1] = parentVerseRowByVerse_CoachNotes[3];
                 }
                 rowCoachNotesRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowCoachNotesRow);
@@ -12363,15 +12857,15 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
                 this.columnCoachNotes_Id = base.Columns["CoachNotes_Id"];
-                this.columnverse_Id = base.Columns["verse_Id"];
+                this.columnVerse_Id = base.Columns["Verse_Id"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             private void InitClass() {
                 this.columnCoachNotes_Id = new global::System.Data.DataColumn("CoachNotes_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnCoachNotes_Id);
-                this.columnverse_Id = new global::System.Data.DataColumn("verse_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
-                base.Columns.Add(this.columnverse_Id);
+                this.columnVerse_Id = new global::System.Data.DataColumn("Verse_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnVerse_Id);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnCoachNotes_Id}, true));
                 this.columnCoachNotes_Id.AutoIncrement = true;
@@ -15717,12 +16211,12 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public versesRow[] GetversesRows() {
-                if ((this.Table.ChildRelations["story_verses"] == null)) {
-                    return new versesRow[0];
+            public VersesRow[] GetVersesRows() {
+                if ((this.Table.ChildRelations["story_Verses"] == null)) {
+                    return new VersesRow[0];
                 }
                 else {
-                    return ((versesRow[])(base.GetChildRows(this.Table.ChildRelations["story_verses"])));
+                    return ((VersesRow[])(base.GetChildRows(this.Table.ChildRelations["story_Verses"])));
                 }
             }
         }
@@ -16462,23 +16956,23 @@ namespace OneStoryProjectEditor {
         ///Represents strongly named DataRow class.
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        public partial class versesRow : global::System.Data.DataRow {
+        public partial class VersesRow : global::System.Data.DataRow {
             
-            private versesDataTable tableverses;
+            private VersesDataTable tableVerses;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal versesRow(global::System.Data.DataRowBuilder rb) : 
+            internal VersesRow(global::System.Data.DataRowBuilder rb) : 
                     base(rb) {
-                this.tableverses = ((versesDataTable)(this.Table));
+                this.tableVerses = ((VersesDataTable)(this.Table));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int verses_Id {
+            public int Verses_Id {
                 get {
-                    return ((int)(this[this.tableverses.verses_IdColumn]));
+                    return ((int)(this[this.tableVerses.Verses_IdColumn]));
                 }
                 set {
-                    this[this.tableverses.verses_IdColumn] = value;
+                    this[this.tableVerses.Verses_IdColumn] = value;
                 }
             }
             
@@ -16486,44 +16980,44 @@ namespace OneStoryProjectEditor {
             public int story_Id {
                 get {
                     try {
-                        return ((int)(this[this.tableverses.story_IdColumn]));
+                        return ((int)(this[this.tableVerses.story_IdColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'story_Id\' in table \'verses\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'story_Id\' in table \'Verses\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableverses.story_IdColumn] = value;
+                    this[this.tableVerses.story_IdColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public storyRow storyRow {
                 get {
-                    return ((storyRow)(this.GetParentRow(this.Table.ParentRelations["story_verses"])));
+                    return ((storyRow)(this.GetParentRow(this.Table.ParentRelations["story_Verses"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["story_verses"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["story_Verses"]);
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public bool Isstory_IdNull() {
-                return this.IsNull(this.tableverses.story_IdColumn);
+                return this.IsNull(this.tableVerses.story_IdColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public void Setstory_IdNull() {
-                this[this.tableverses.story_IdColumn] = global::System.Convert.DBNull;
+                this[this.tableVerses.story_IdColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public verseRow[] GetverseRows() {
-                if ((this.Table.ChildRelations["verses_verse"] == null)) {
-                    return new verseRow[0];
+            public VerseRow[] GetVerseRows() {
+                if ((this.Table.ChildRelations["Verses_Verse"] == null)) {
+                    return new VerseRow[0];
                 }
                 else {
-                    return ((verseRow[])(base.GetChildRows(this.Table.ChildRelations["verses_verse"])));
+                    return ((VerseRow[])(base.GetChildRows(this.Table.ChildRelations["Verses_Verse"])));
                 }
             }
         }
@@ -16532,23 +17026,23 @@ namespace OneStoryProjectEditor {
         ///Represents strongly named DataRow class.
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        public partial class verseRow : global::System.Data.DataRow {
+        public partial class VerseRow : global::System.Data.DataRow {
             
-            private verseDataTable tableverse;
+            private VerseDataTable tableVerse;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal verseRow(global::System.Data.DataRowBuilder rb) : 
+            internal VerseRow(global::System.Data.DataRowBuilder rb) : 
                     base(rb) {
-                this.tableverse = ((verseDataTable)(this.Table));
+                this.tableVerse = ((VerseDataTable)(this.Table));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public string guid {
                 get {
-                    return ((string)(this[this.tableverse.guidColumn]));
+                    return ((string)(this[this.tableVerse.guidColumn]));
                 }
                 set {
-                    this[this.tableverse.guidColumn] = value;
+                    this[this.tableVerse.guidColumn] = value;
                 }
             }
             
@@ -16556,14 +17050,14 @@ namespace OneStoryProjectEditor {
             public bool first {
                 get {
                     try {
-                        return ((bool)(this[this.tableverse.firstColumn]));
+                        return ((bool)(this[this.tableVerse.firstColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'first\' in table \'verse\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'first\' in table \'Verse\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableverse.firstColumn] = value;
+                    this[this.tableVerse.firstColumn] = value;
                 }
             }
             
@@ -16571,229 +17065,149 @@ namespace OneStoryProjectEditor {
             public bool visible {
                 get {
                     try {
-                        return ((bool)(this[this.tableverse.visibleColumn]));
+                        return ((bool)(this[this.tableVerse.visibleColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'visible\' in table \'verse\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'visible\' in table \'Verse\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableverse.visibleColumn] = value;
+                    this[this.tableVerse.visibleColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string Vernacular {
+            public int Verse_Id {
+                get {
+                    return ((int)(this[this.tableVerse.Verse_IdColumn]));
+                }
+                set {
+                    this[this.tableVerse.Verse_IdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int Verses_Id {
                 get {
                     try {
-                        return ((string)(this[this.tableverse.VernacularColumn]));
+                        return ((int)(this[this.tableVerse.Verses_IdColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Vernacular\' in table \'verse\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Verses_Id\' in table \'Verse\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableverse.VernacularColumn] = value;
+                    this[this.tableVerse.Verses_IdColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string NationalBT {
+            public VersesRow VersesRow {
                 get {
-                    try {
-                        return ((string)(this[this.tableverse.NationalBTColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'NationalBT\' in table \'verse\' is DBNull.", e);
-                    }
+                    return ((VersesRow)(this.GetParentRow(this.Table.ParentRelations["Verses_Verse"])));
                 }
                 set {
-                    this[this.tableverse.NationalBTColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string InternationalBT {
-                get {
-                    try {
-                        return ((string)(this[this.tableverse.InternationalBTColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'InternationalBT\' in table \'verse\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableverse.InternationalBTColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string FreeTranslation {
-                get {
-                    try {
-                        return ((string)(this[this.tableverse.FreeTranslationColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'FreeTranslation\' in table \'verse\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableverse.FreeTranslationColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int verse_Id {
-                get {
-                    return ((int)(this[this.tableverse.verse_IdColumn]));
-                }
-                set {
-                    this[this.tableverse.verse_IdColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int verses_Id {
-                get {
-                    try {
-                        return ((int)(this[this.tableverse.verses_IdColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'verses_Id\' in table \'verse\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableverse.verses_IdColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public versesRow versesRow {
-                get {
-                    return ((versesRow)(this.GetParentRow(this.Table.ParentRelations["verses_verse"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["verses_verse"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["Verses_Verse"]);
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public bool IsfirstNull() {
-                return this.IsNull(this.tableverse.firstColumn);
+                return this.IsNull(this.tableVerse.firstColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public void SetfirstNull() {
-                this[this.tableverse.firstColumn] = global::System.Convert.DBNull;
+                this[this.tableVerse.firstColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public bool IsvisibleNull() {
-                return this.IsNull(this.tableverse.visibleColumn);
+                return this.IsNull(this.tableVerse.visibleColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public void SetvisibleNull() {
-                this[this.tableverse.visibleColumn] = global::System.Convert.DBNull;
+                this[this.tableVerse.visibleColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsVernacularNull() {
-                return this.IsNull(this.tableverse.VernacularColumn);
+            public bool IsVerses_IdNull() {
+                return this.IsNull(this.tableVerse.Verses_IdColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetVernacularNull() {
-                this[this.tableverse.VernacularColumn] = global::System.Convert.DBNull;
+            public void SetVerses_IdNull() {
+                this[this.tableVerse.Verses_IdColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsNationalBTNull() {
-                return this.IsNull(this.tableverse.NationalBTColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetNationalBTNull() {
-                this[this.tableverse.NationalBTColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsInternationalBTNull() {
-                return this.IsNull(this.tableverse.InternationalBTColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetInternationalBTNull() {
-                this[this.tableverse.InternationalBTColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsFreeTranslationNull() {
-                return this.IsNull(this.tableverse.FreeTranslationColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetFreeTranslationNull() {
-                this[this.tableverse.FreeTranslationColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool Isverses_IdNull() {
-                return this.IsNull(this.tableverse.verses_IdColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void Setverses_IdNull() {
-                this[this.tableverse.verses_IdColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public anchorsRow[] GetanchorsRows() {
-                if ((this.Table.ChildRelations["verse_anchors"] == null)) {
-                    return new anchorsRow[0];
+            public StoryLineRow[] GetStoryLineRows() {
+                if ((this.Table.ChildRelations["Verse_StoryLine"] == null)) {
+                    return new StoryLineRow[0];
                 }
                 else {
-                    return ((anchorsRow[])(base.GetChildRows(this.Table.ChildRelations["verse_anchors"])));
+                    return ((StoryLineRow[])(base.GetChildRows(this.Table.ChildRelations["Verse_StoryLine"])));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public AnchorsRow[] GetAnchorsRows() {
+                if ((this.Table.ChildRelations["Verse_Anchors"] == null)) {
+                    return new AnchorsRow[0];
+                }
+                else {
+                    return ((AnchorsRow[])(base.GetChildRows(this.Table.ChildRelations["Verse_Anchors"])));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public ExegeticalHelpsRow[] GetExegeticalHelpsRows() {
+                if ((this.Table.ChildRelations["Verse_ExegeticalHelps"] == null)) {
+                    return new ExegeticalHelpsRow[0];
+                }
+                else {
+                    return ((ExegeticalHelpsRow[])(base.GetChildRows(this.Table.ChildRelations["Verse_ExegeticalHelps"])));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public TestQuestionsRow[] GetTestQuestionsRows() {
-                if ((this.Table.ChildRelations["verse_TestQuestions"] == null)) {
+                if ((this.Table.ChildRelations["Verse_TestQuestions"] == null)) {
                     return new TestQuestionsRow[0];
                 }
                 else {
-                    return ((TestQuestionsRow[])(base.GetChildRows(this.Table.ChildRelations["verse_TestQuestions"])));
+                    return ((TestQuestionsRow[])(base.GetChildRows(this.Table.ChildRelations["Verse_TestQuestions"])));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public RetellingsRow[] GetRetellingsRows() {
-                if ((this.Table.ChildRelations["verse_Retellings"] == null)) {
+                if ((this.Table.ChildRelations["Verse_Retellings"] == null)) {
                     return new RetellingsRow[0];
                 }
                 else {
-                    return ((RetellingsRow[])(base.GetChildRows(this.Table.ChildRelations["verse_Retellings"])));
+                    return ((RetellingsRow[])(base.GetChildRows(this.Table.ChildRelations["Verse_Retellings"])));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public ConsultantNotesRow[] GetConsultantNotesRows() {
-                if ((this.Table.ChildRelations["verse_ConsultantNotes"] == null)) {
+                if ((this.Table.ChildRelations["Verse_ConsultantNotes"] == null)) {
                     return new ConsultantNotesRow[0];
                 }
                 else {
-                    return ((ConsultantNotesRow[])(base.GetChildRows(this.Table.ChildRelations["verse_ConsultantNotes"])));
+                    return ((ConsultantNotesRow[])(base.GetChildRows(this.Table.ChildRelations["Verse_ConsultantNotes"])));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public CoachNotesRow[] GetCoachNotesRows() {
-                if ((this.Table.ChildRelations["verse_CoachNotes"] == null)) {
+                if ((this.Table.ChildRelations["Verse_CoachNotes"] == null)) {
                     return new CoachNotesRow[0];
                 }
                 else {
-                    return ((CoachNotesRow[])(base.GetChildRows(this.Table.ChildRelations["verse_CoachNotes"])));
+                    return ((CoachNotesRow[])(base.GetChildRows(this.Table.ChildRelations["Verse_CoachNotes"])));
                 }
             }
         }
@@ -16802,93 +17216,178 @@ namespace OneStoryProjectEditor {
         ///Represents strongly named DataRow class.
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        public partial class anchorsRow : global::System.Data.DataRow {
+        public partial class StoryLineRow : global::System.Data.DataRow {
             
-            private anchorsDataTable tableanchors;
+            private StoryLineDataTable tableStoryLine;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal anchorsRow(global::System.Data.DataRowBuilder rb) : 
+            internal StoryLineRow(global::System.Data.DataRowBuilder rb) : 
                     base(rb) {
-                this.tableanchors = ((anchorsDataTable)(this.Table));
+                this.tableStoryLine = ((StoryLineDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string lang {
+                get {
+                    try {
+                        return ((string)(this[this.tableStoryLine.langColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'lang\' in table \'StoryLine\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableStoryLine.langColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string StoryLine_text {
+                get {
+                    return ((string)(this[this.tableStoryLine.StoryLine_textColumn]));
+                }
+                set {
+                    this[this.tableStoryLine.StoryLine_textColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int Verse_Id {
+                get {
+                    try {
+                        return ((int)(this[this.tableStoryLine.Verse_IdColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Verse_Id\' in table \'StoryLine\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableStoryLine.Verse_IdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public VerseRow VerseRow {
+                get {
+                    return ((VerseRow)(this.GetParentRow(this.Table.ParentRelations["Verse_StoryLine"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["Verse_StoryLine"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IslangNull() {
+                return this.IsNull(this.tableStoryLine.langColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetlangNull() {
+                this[this.tableStoryLine.langColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsVerse_IdNull() {
+                return this.IsNull(this.tableStoryLine.Verse_IdColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetVerse_IdNull() {
+                this[this.tableStoryLine.Verse_IdColumn] = global::System.Convert.DBNull;
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public partial class AnchorsRow : global::System.Data.DataRow {
+            
+            private AnchorsDataTable tableAnchors;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal AnchorsRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableAnchors = ((AnchorsDataTable)(this.Table));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public bool keyTermChecked {
                 get {
                     try {
-                        return ((bool)(this[this.tableanchors.keyTermCheckedColumn]));
+                        return ((bool)(this[this.tableAnchors.keyTermCheckedColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'keyTermChecked\' in table \'anchors\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'keyTermChecked\' in table \'Anchors\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableanchors.keyTermCheckedColumn] = value;
+                    this[this.tableAnchors.keyTermCheckedColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int anchors_Id {
+            public int Anchors_Id {
                 get {
-                    return ((int)(this[this.tableanchors.anchors_IdColumn]));
+                    return ((int)(this[this.tableAnchors.Anchors_IdColumn]));
                 }
                 set {
-                    this[this.tableanchors.anchors_IdColumn] = value;
+                    this[this.tableAnchors.Anchors_IdColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int verse_Id {
+            public int Verse_Id {
                 get {
                     try {
-                        return ((int)(this[this.tableanchors.verse_IdColumn]));
+                        return ((int)(this[this.tableAnchors.Verse_IdColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'verse_Id\' in table \'anchors\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Verse_Id\' in table \'Anchors\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableanchors.verse_IdColumn] = value;
+                    this[this.tableAnchors.Verse_IdColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public verseRow verseRow {
+            public VerseRow VerseRow {
                 get {
-                    return ((verseRow)(this.GetParentRow(this.Table.ParentRelations["verse_anchors"])));
+                    return ((VerseRow)(this.GetParentRow(this.Table.ParentRelations["Verse_Anchors"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["verse_anchors"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["Verse_Anchors"]);
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public bool IskeyTermCheckedNull() {
-                return this.IsNull(this.tableanchors.keyTermCheckedColumn);
+                return this.IsNull(this.tableAnchors.keyTermCheckedColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public void SetkeyTermCheckedNull() {
-                this[this.tableanchors.keyTermCheckedColumn] = global::System.Convert.DBNull;
+                this[this.tableAnchors.keyTermCheckedColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool Isverse_IdNull() {
-                return this.IsNull(this.tableanchors.verse_IdColumn);
+            public bool IsVerse_IdNull() {
+                return this.IsNull(this.tableAnchors.Verse_IdColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void Setverse_IdNull() {
-                this[this.tableanchors.verse_IdColumn] = global::System.Convert.DBNull;
+            public void SetVerse_IdNull() {
+                this[this.tableAnchors.Verse_IdColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public anchorRow[] GetanchorRows() {
-                if ((this.Table.ChildRelations["anchors_anchor"] == null)) {
-                    return new anchorRow[0];
+            public AnchorRow[] GetAnchorRows() {
+                if ((this.Table.ChildRelations["Anchors_Anchor"] == null)) {
+                    return new AnchorRow[0];
                 }
                 else {
-                    return ((anchorRow[])(base.GetChildRows(this.Table.ChildRelations["anchors_anchor"])));
+                    return ((AnchorRow[])(base.GetChildRows(this.Table.ChildRelations["Anchors_Anchor"])));
                 }
             }
         }
@@ -16897,23 +17396,23 @@ namespace OneStoryProjectEditor {
         ///Represents strongly named DataRow class.
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        public partial class anchorRow : global::System.Data.DataRow {
+        public partial class AnchorRow : global::System.Data.DataRow {
             
-            private anchorDataTable tableanchor;
+            private AnchorDataTable tableAnchor;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal anchorRow(global::System.Data.DataRowBuilder rb) : 
+            internal AnchorRow(global::System.Data.DataRowBuilder rb) : 
                     base(rb) {
-                this.tableanchor = ((anchorDataTable)(this.Table));
+                this.tableAnchor = ((AnchorDataTable)(this.Table));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public string jumpTarget {
                 get {
-                    return ((string)(this[this.tableanchor.jumpTargetColumn]));
+                    return ((string)(this[this.tableAnchor.jumpTargetColumn]));
                 }
                 set {
-                    this[this.tableanchor.jumpTargetColumn] = value;
+                    this[this.tableAnchor.jumpTargetColumn] = value;
                 }
             }
             
@@ -16921,79 +17420,129 @@ namespace OneStoryProjectEditor {
             public string toolTip {
                 get {
                     try {
-                        return ((string)(this[this.tableanchor.toolTipColumn]));
+                        return ((string)(this[this.tableAnchor.toolTipColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'toolTip\' in table \'anchor\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'toolTip\' in table \'Anchor\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableanchor.toolTipColumn] = value;
+                    this[this.tableAnchor.toolTipColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int anchor_Id {
-                get {
-                    return ((int)(this[this.tableanchor.anchor_IdColumn]));
-                }
-                set {
-                    this[this.tableanchor.anchor_IdColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int anchors_Id {
+            public int Anchors_Id {
                 get {
                     try {
-                        return ((int)(this[this.tableanchor.anchors_IdColumn]));
+                        return ((int)(this[this.tableAnchor.Anchors_IdColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'anchors_Id\' in table \'anchor\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Anchors_Id\' in table \'Anchor\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableanchor.anchors_IdColumn] = value;
+                    this[this.tableAnchor.Anchors_IdColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public anchorsRow anchorsRow {
+            public AnchorsRow AnchorsRow {
                 get {
-                    return ((anchorsRow)(this.GetParentRow(this.Table.ParentRelations["anchors_anchor"])));
+                    return ((AnchorsRow)(this.GetParentRow(this.Table.ParentRelations["Anchors_Anchor"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["anchors_anchor"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["Anchors_Anchor"]);
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public bool IstoolTipNull() {
-                return this.IsNull(this.tableanchor.toolTipColumn);
+                return this.IsNull(this.tableAnchor.toolTipColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public void SettoolTipNull() {
-                this[this.tableanchor.toolTipColumn] = global::System.Convert.DBNull;
+                this[this.tableAnchor.toolTipColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool Isanchors_IdNull() {
-                return this.IsNull(this.tableanchor.anchors_IdColumn);
+            public bool IsAnchors_IdNull() {
+                return this.IsNull(this.tableAnchor.Anchors_IdColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void Setanchors_IdNull() {
-                this[this.tableanchor.anchors_IdColumn] = global::System.Convert.DBNull;
+            public void SetAnchors_IdNull() {
+                this[this.tableAnchor.Anchors_IdColumn] = global::System.Convert.DBNull;
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public partial class ExegeticalHelpsRow : global::System.Data.DataRow {
+            
+            private ExegeticalHelpsDataTable tableExegeticalHelps;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal ExegeticalHelpsRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableExegeticalHelps = ((ExegeticalHelpsDataTable)(this.Table));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public exegeticalHelpsRow[] GetexegeticalHelpsRows() {
-                if ((this.Table.ChildRelations["anchor_exegeticalHelps"] == null)) {
-                    return new exegeticalHelpsRow[0];
+            public int ExegeticalHelps_Id {
+                get {
+                    return ((int)(this[this.tableExegeticalHelps.ExegeticalHelps_IdColumn]));
+                }
+                set {
+                    this[this.tableExegeticalHelps.ExegeticalHelps_IdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int Verse_Id {
+                get {
+                    try {
+                        return ((int)(this[this.tableExegeticalHelps.Verse_IdColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Verse_Id\' in table \'ExegeticalHelps\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableExegeticalHelps.Verse_IdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public VerseRow VerseRow {
+                get {
+                    return ((VerseRow)(this.GetParentRow(this.Table.ParentRelations["Verse_ExegeticalHelps"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["Verse_ExegeticalHelps"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsVerse_IdNull() {
+                return this.IsNull(this.tableExegeticalHelps.Verse_IdColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetVerse_IdNull() {
+                this[this.tableExegeticalHelps.Verse_IdColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public ExegeticalHelpRow[] GetExegeticalHelpRows() {
+                if ((this.Table.ChildRelations["ExegeticalHelps_ExegeticalHelp"] == null)) {
+                    return new ExegeticalHelpRow[0];
                 }
                 else {
-                    return ((exegeticalHelpsRow[])(base.GetChildRows(this.Table.ChildRelations["anchor_exegeticalHelps"])));
+                    return ((ExegeticalHelpRow[])(base.GetChildRows(this.Table.ChildRelations["ExegeticalHelps_ExegeticalHelp"])));
                 }
             }
         }
@@ -17002,145 +17551,75 @@ namespace OneStoryProjectEditor {
         ///Represents strongly named DataRow class.
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        public partial class exegeticalHelpsRow : global::System.Data.DataRow {
+        public partial class ExegeticalHelpRow : global::System.Data.DataRow {
             
-            private exegeticalHelpsDataTable tableexegeticalHelps;
+            private ExegeticalHelpDataTable tableExegeticalHelp;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal exegeticalHelpsRow(global::System.Data.DataRowBuilder rb) : 
+            internal ExegeticalHelpRow(global::System.Data.DataRowBuilder rb) : 
                     base(rb) {
-                this.tableexegeticalHelps = ((exegeticalHelpsDataTable)(this.Table));
+                this.tableExegeticalHelp = ((ExegeticalHelpDataTable)(this.Table));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int exegeticalHelps_Id {
-                get {
-                    return ((int)(this[this.tableexegeticalHelps.exegeticalHelps_IdColumn]));
-                }
-                set {
-                    this[this.tableexegeticalHelps.exegeticalHelps_IdColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int anchor_Id {
+            public string ExegeticalHelp_Column {
                 get {
                     try {
-                        return ((int)(this[this.tableexegeticalHelps.anchor_IdColumn]));
+                        return ((string)(this[this.tableExegeticalHelp.ExegeticalHelp_ColumnColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'anchor_Id\' in table \'exegeticalHelps\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableexegeticalHelps.anchor_IdColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public anchorRow anchorRow {
-                get {
-                    return ((anchorRow)(this.GetParentRow(this.Table.ParentRelations["anchor_exegeticalHelps"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["anchor_exegeticalHelps"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool Isanchor_IdNull() {
-                return this.IsNull(this.tableexegeticalHelps.anchor_IdColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void Setanchor_IdNull() {
-                this[this.tableexegeticalHelps.anchor_IdColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public exegeticalHelpRow[] GetexegeticalHelpRows() {
-                if ((this.Table.ChildRelations["exegeticalHelps_exegeticalHelp"] == null)) {
-                    return new exegeticalHelpRow[0];
-                }
-                else {
-                    return ((exegeticalHelpRow[])(base.GetChildRows(this.Table.ChildRelations["exegeticalHelps_exegeticalHelp"])));
-                }
-            }
-        }
-        
-        /// <summary>
-        ///Represents strongly named DataRow class.
-        ///</summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        public partial class exegeticalHelpRow : global::System.Data.DataRow {
-            
-            private exegeticalHelpDataTable tableexegeticalHelp;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal exegeticalHelpRow(global::System.Data.DataRowBuilder rb) : 
-                    base(rb) {
-                this.tableexegeticalHelp = ((exegeticalHelpDataTable)(this.Table));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string exegeticalHelp_Column {
-                get {
-                    try {
-                        return ((string)(this[this.tableexegeticalHelp.exegeticalHelp_ColumnColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'exegeticalHelp_Column\' in table \'exegeticalHelp\' is DBNull." +
+                        throw new global::System.Data.StrongTypingException("The value for column \'ExegeticalHelp_Column\' in table \'ExegeticalHelp\' is DBNull." +
                                 "", e);
                     }
                 }
                 set {
-                    this[this.tableexegeticalHelp.exegeticalHelp_ColumnColumn] = value;
+                    this[this.tableExegeticalHelp.ExegeticalHelp_ColumnColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int exegeticalHelps_Id {
+            public int ExegeticalHelps_Id {
                 get {
                     try {
-                        return ((int)(this[this.tableexegeticalHelp.exegeticalHelps_IdColumn]));
+                        return ((int)(this[this.tableExegeticalHelp.ExegeticalHelps_IdColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'exegeticalHelps_Id\' in table \'exegeticalHelp\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'ExegeticalHelps_Id\' in table \'ExegeticalHelp\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableexegeticalHelp.exegeticalHelps_IdColumn] = value;
+                    this[this.tableExegeticalHelp.ExegeticalHelps_IdColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public exegeticalHelpsRow exegeticalHelpsRow {
+            public ExegeticalHelpsRow ExegeticalHelpsRow {
                 get {
-                    return ((exegeticalHelpsRow)(this.GetParentRow(this.Table.ParentRelations["exegeticalHelps_exegeticalHelp"])));
+                    return ((ExegeticalHelpsRow)(this.GetParentRow(this.Table.ParentRelations["ExegeticalHelps_ExegeticalHelp"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["exegeticalHelps_exegeticalHelp"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["ExegeticalHelps_ExegeticalHelp"]);
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsexegeticalHelp_ColumnNull() {
-                return this.IsNull(this.tableexegeticalHelp.exegeticalHelp_ColumnColumn);
+            public bool IsExegeticalHelp_ColumnNull() {
+                return this.IsNull(this.tableExegeticalHelp.ExegeticalHelp_ColumnColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetexegeticalHelp_ColumnNull() {
-                this[this.tableexegeticalHelp.exegeticalHelp_ColumnColumn] = global::System.Convert.DBNull;
+            public void SetExegeticalHelp_ColumnNull() {
+                this[this.tableExegeticalHelp.ExegeticalHelp_ColumnColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsexegeticalHelps_IdNull() {
-                return this.IsNull(this.tableexegeticalHelp.exegeticalHelps_IdColumn);
+            public bool IsExegeticalHelps_IdNull() {
+                return this.IsNull(this.tableExegeticalHelp.ExegeticalHelps_IdColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetexegeticalHelps_IdNull() {
-                this[this.tableexegeticalHelp.exegeticalHelps_IdColumn] = global::System.Convert.DBNull;
+            public void SetExegeticalHelps_IdNull() {
+                this[this.tableExegeticalHelp.ExegeticalHelps_IdColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -17169,38 +17648,38 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int verse_Id {
+            public int Verse_Id {
                 get {
                     try {
-                        return ((int)(this[this.tableTestQuestions.verse_IdColumn]));
+                        return ((int)(this[this.tableTestQuestions.Verse_IdColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'verse_Id\' in table \'TestQuestions\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Verse_Id\' in table \'TestQuestions\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableTestQuestions.verse_IdColumn] = value;
+                    this[this.tableTestQuestions.Verse_IdColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public verseRow verseRow {
+            public VerseRow VerseRow {
                 get {
-                    return ((verseRow)(this.GetParentRow(this.Table.ParentRelations["verse_TestQuestions"])));
+                    return ((VerseRow)(this.GetParentRow(this.Table.ParentRelations["Verse_TestQuestions"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["verse_TestQuestions"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["Verse_TestQuestions"]);
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool Isverse_IdNull() {
-                return this.IsNull(this.tableTestQuestions.verse_IdColumn);
+            public bool IsVerse_IdNull() {
+                return this.IsNull(this.tableTestQuestions.Verse_IdColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void Setverse_IdNull() {
-                this[this.tableTestQuestions.verse_IdColumn] = global::System.Convert.DBNull;
+            public void SetVerse_IdNull() {
+                this[this.tableTestQuestions.Verse_IdColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -17254,51 +17733,6 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string TQVernacular {
-                get {
-                    try {
-                        return ((string)(this[this.tableTestQuestion.TQVernacularColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'TQVernacular\' in table \'TestQuestion\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableTestQuestion.TQVernacularColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string TQNationalBT {
-                get {
-                    try {
-                        return ((string)(this[this.tableTestQuestion.TQNationalBTColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'TQNationalBT\' in table \'TestQuestion\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableTestQuestion.TQNationalBTColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string TQInternationalBT {
-                get {
-                    try {
-                        return ((string)(this[this.tableTestQuestion.TQInternationalBTColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'TQInternationalBT\' in table \'TestQuestion\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableTestQuestion.TQInternationalBTColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public int TestQuestion_Id {
                 get {
                     return ((int)(this[this.tableTestQuestion.TestQuestion_IdColumn]));
@@ -17344,36 +17778,6 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsTQVernacularNull() {
-                return this.IsNull(this.tableTestQuestion.TQVernacularColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetTQVernacularNull() {
-                this[this.tableTestQuestion.TQVernacularColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsTQNationalBTNull() {
-                return this.IsNull(this.tableTestQuestion.TQNationalBTColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetTQNationalBTNull() {
-                this[this.tableTestQuestion.TQNationalBTColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsTQInternationalBTNull() {
-                return this.IsNull(this.tableTestQuestion.TQInternationalBTColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetTQInternationalBTNull() {
-                this[this.tableTestQuestion.TQInternationalBTColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public bool IsTestQuestions_IdNull() {
                 return this.IsNull(this.tableTestQuestion.TestQuestions_IdColumn);
             }
@@ -17384,6 +17788,16 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public TestQuestionLineRow[] GetTestQuestionLineRows() {
+                if ((this.Table.ChildRelations["TestQuestion_TestQuestionLine"] == null)) {
+                    return new TestQuestionLineRow[0];
+                }
+                else {
+                    return ((TestQuestionLineRow[])(base.GetChildRows(this.Table.ChildRelations["TestQuestion_TestQuestionLine"])));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public AnswersRow[] GetAnswersRows() {
                 if ((this.Table.ChildRelations["TestQuestion_Answers"] == null)) {
                     return new AnswersRow[0];
@@ -17391,6 +17805,91 @@ namespace OneStoryProjectEditor {
                 else {
                     return ((AnswersRow[])(base.GetChildRows(this.Table.ChildRelations["TestQuestion_Answers"])));
                 }
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public partial class TestQuestionLineRow : global::System.Data.DataRow {
+            
+            private TestQuestionLineDataTable tableTestQuestionLine;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal TestQuestionLineRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableTestQuestionLine = ((TestQuestionLineDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string lang {
+                get {
+                    try {
+                        return ((string)(this[this.tableTestQuestionLine.langColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'lang\' in table \'TestQuestionLine\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableTestQuestionLine.langColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string TestQuestionLine_text {
+                get {
+                    return ((string)(this[this.tableTestQuestionLine.TestQuestionLine_textColumn]));
+                }
+                set {
+                    this[this.tableTestQuestionLine.TestQuestionLine_textColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int TestQuestion_Id {
+                get {
+                    try {
+                        return ((int)(this[this.tableTestQuestionLine.TestQuestion_IdColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TestQuestion_Id\' in table \'TestQuestionLine\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableTestQuestionLine.TestQuestion_IdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public TestQuestionRow TestQuestionRow {
+                get {
+                    return ((TestQuestionRow)(this.GetParentRow(this.Table.ParentRelations["TestQuestion_TestQuestionLine"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["TestQuestion_TestQuestionLine"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IslangNull() {
+                return this.IsNull(this.tableTestQuestionLine.langColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetlangNull() {
+                this[this.tableTestQuestionLine.langColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsTestQuestion_IdNull() {
+                return this.IsNull(this.tableTestQuestionLine.TestQuestion_IdColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetTestQuestion_IdNull() {
+                this[this.tableTestQuestionLine.TestQuestion_IdColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -17454,12 +17953,12 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public answerRow[] GetanswerRows() {
-                if ((this.Table.ChildRelations["Answers_answer"] == null)) {
-                    return new answerRow[0];
+            public AnswerRow[] GetAnswerRows() {
+                if ((this.Table.ChildRelations["Answers_Answer"] == null)) {
+                    return new AnswerRow[0];
                 }
                 else {
-                    return ((answerRow[])(base.GetChildRows(this.Table.ChildRelations["Answers_answer"])));
+                    return ((AnswerRow[])(base.GetChildRows(this.Table.ChildRelations["Answers_Answer"])));
                 }
             }
         }
@@ -17468,23 +17967,23 @@ namespace OneStoryProjectEditor {
         ///Represents strongly named DataRow class.
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        public partial class answerRow : global::System.Data.DataRow {
+        public partial class AnswerRow : global::System.Data.DataRow {
             
-            private answerDataTable tableanswer;
+            private AnswerDataTable tableAnswer;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal answerRow(global::System.Data.DataRowBuilder rb) : 
+            internal AnswerRow(global::System.Data.DataRowBuilder rb) : 
                     base(rb) {
-                this.tableanswer = ((answerDataTable)(this.Table));
+                this.tableAnswer = ((AnswerDataTable)(this.Table));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public string memberID {
                 get {
-                    return ((string)(this[this.tableanswer.memberIDColumn]));
+                    return ((string)(this[this.tableAnswer.memberIDColumn]));
                 }
                 set {
-                    this[this.tableanswer.memberIDColumn] = value;
+                    this[this.tableAnswer.memberIDColumn] = value;
                 }
             }
             
@@ -17492,29 +17991,29 @@ namespace OneStoryProjectEditor {
             public string lang {
                 get {
                     try {
-                        return ((string)(this[this.tableanswer.langColumn]));
+                        return ((string)(this[this.tableAnswer.langColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'lang\' in table \'answer\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'lang\' in table \'Answer\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableanswer.langColumn] = value;
+                    this[this.tableAnswer.langColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string answer_text {
+            public string Answer_text {
                 get {
                     try {
-                        return ((string)(this[this.tableanswer.answer_textColumn]));
+                        return ((string)(this[this.tableAnswer.Answer_textColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'answer_text\' in table \'answer\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Answer_text\' in table \'Answer\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableanswer.answer_textColumn] = value;
+                    this[this.tableAnswer.Answer_textColumn] = value;
                 }
             }
             
@@ -17522,55 +18021,55 @@ namespace OneStoryProjectEditor {
             public int Answers_Id {
                 get {
                     try {
-                        return ((int)(this[this.tableanswer.Answers_IdColumn]));
+                        return ((int)(this[this.tableAnswer.Answers_IdColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Answers_Id\' in table \'answer\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Answers_Id\' in table \'Answer\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableanswer.Answers_IdColumn] = value;
+                    this[this.tableAnswer.Answers_IdColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public AnswersRow AnswersRow {
                 get {
-                    return ((AnswersRow)(this.GetParentRow(this.Table.ParentRelations["Answers_answer"])));
+                    return ((AnswersRow)(this.GetParentRow(this.Table.ParentRelations["Answers_Answer"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["Answers_answer"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["Answers_Answer"]);
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public bool IslangNull() {
-                return this.IsNull(this.tableanswer.langColumn);
+                return this.IsNull(this.tableAnswer.langColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public void SetlangNull() {
-                this[this.tableanswer.langColumn] = global::System.Convert.DBNull;
+                this[this.tableAnswer.langColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool Isanswer_textNull() {
-                return this.IsNull(this.tableanswer.answer_textColumn);
+            public bool IsAnswer_textNull() {
+                return this.IsNull(this.tableAnswer.Answer_textColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void Setanswer_textNull() {
-                this[this.tableanswer.answer_textColumn] = global::System.Convert.DBNull;
+            public void SetAnswer_textNull() {
+                this[this.tableAnswer.Answer_textColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public bool IsAnswers_IdNull() {
-                return this.IsNull(this.tableanswer.Answers_IdColumn);
+                return this.IsNull(this.tableAnswer.Answers_IdColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public void SetAnswers_IdNull() {
-                this[this.tableanswer.Answers_IdColumn] = global::System.Convert.DBNull;
+                this[this.tableAnswer.Answers_IdColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -17599,38 +18098,38 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int verse_Id {
+            public int Verse_Id {
                 get {
                     try {
-                        return ((int)(this[this.tableRetellings.verse_IdColumn]));
+                        return ((int)(this[this.tableRetellings.Verse_IdColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'verse_Id\' in table \'Retellings\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Verse_Id\' in table \'Retellings\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableRetellings.verse_IdColumn] = value;
+                    this[this.tableRetellings.Verse_IdColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public verseRow verseRow {
+            public VerseRow VerseRow {
                 get {
-                    return ((verseRow)(this.GetParentRow(this.Table.ParentRelations["verse_Retellings"])));
+                    return ((VerseRow)(this.GetParentRow(this.Table.ParentRelations["Verse_Retellings"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["verse_Retellings"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["Verse_Retellings"]);
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool Isverse_IdNull() {
-                return this.IsNull(this.tableRetellings.verse_IdColumn);
+            public bool IsVerse_IdNull() {
+                return this.IsNull(this.tableRetellings.Verse_IdColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void Setverse_IdNull() {
-                this[this.tableRetellings.verse_IdColumn] = global::System.Convert.DBNull;
+            public void SetVerse_IdNull() {
+                this[this.tableRetellings.Verse_IdColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -17779,38 +18278,38 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int verse_Id {
+            public int Verse_Id {
                 get {
                     try {
-                        return ((int)(this[this.tableConsultantNotes.verse_IdColumn]));
+                        return ((int)(this[this.tableConsultantNotes.Verse_IdColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'verse_Id\' in table \'ConsultantNotes\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Verse_Id\' in table \'ConsultantNotes\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableConsultantNotes.verse_IdColumn] = value;
+                    this[this.tableConsultantNotes.Verse_IdColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public verseRow verseRow {
+            public VerseRow VerseRow {
                 get {
-                    return ((verseRow)(this.GetParentRow(this.Table.ParentRelations["verse_ConsultantNotes"])));
+                    return ((VerseRow)(this.GetParentRow(this.Table.ParentRelations["Verse_ConsultantNotes"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["verse_ConsultantNotes"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["Verse_ConsultantNotes"]);
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool Isverse_IdNull() {
-                return this.IsNull(this.tableConsultantNotes.verse_IdColumn);
+            public bool IsVerse_IdNull() {
+                return this.IsNull(this.tableConsultantNotes.Verse_IdColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void Setverse_IdNull() {
-                this[this.tableConsultantNotes.verse_IdColumn] = global::System.Convert.DBNull;
+            public void SetVerse_IdNull() {
+                this[this.tableConsultantNotes.Verse_IdColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -18096,38 +18595,38 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int verse_Id {
+            public int Verse_Id {
                 get {
                     try {
-                        return ((int)(this[this.tableCoachNotes.verse_IdColumn]));
+                        return ((int)(this[this.tableCoachNotes.Verse_IdColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'verse_Id\' in table \'CoachNotes\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Verse_Id\' in table \'CoachNotes\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableCoachNotes.verse_IdColumn] = value;
+                    this[this.tableCoachNotes.Verse_IdColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public verseRow verseRow {
+            public VerseRow VerseRow {
                 get {
-                    return ((verseRow)(this.GetParentRow(this.Table.ParentRelations["verse_CoachNotes"])));
+                    return ((VerseRow)(this.GetParentRow(this.Table.ParentRelations["Verse_CoachNotes"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["verse_CoachNotes"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["Verse_CoachNotes"]);
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool Isverse_IdNull() {
-                return this.IsNull(this.tableCoachNotes.verse_IdColumn);
+            public bool IsVerse_IdNull() {
+                return this.IsNull(this.tableCoachNotes.Verse_IdColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void Setverse_IdNull() {
-                this[this.tableCoachNotes.verse_IdColumn] = global::System.Convert.DBNull;
+            public void SetVerse_IdNull() {
+                this[this.tableCoachNotes.Verse_IdColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -19010,20 +19509,20 @@ namespace OneStoryProjectEditor {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        public class versesRowChangeEvent : global::System.EventArgs {
+        public class VersesRowChangeEvent : global::System.EventArgs {
             
-            private versesRow eventRow;
+            private VersesRow eventRow;
             
             private global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public versesRowChangeEvent(versesRow row, global::System.Data.DataRowAction action) {
+            public VersesRowChangeEvent(VersesRow row, global::System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public versesRow Row {
+            public VersesRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -19041,20 +19540,20 @@ namespace OneStoryProjectEditor {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        public class verseRowChangeEvent : global::System.EventArgs {
+        public class VerseRowChangeEvent : global::System.EventArgs {
             
-            private verseRow eventRow;
+            private VerseRow eventRow;
             
             private global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public verseRowChangeEvent(verseRow row, global::System.Data.DataRowAction action) {
+            public VerseRowChangeEvent(VerseRow row, global::System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public verseRow Row {
+            public VerseRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -19072,20 +19571,20 @@ namespace OneStoryProjectEditor {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        public class anchorsRowChangeEvent : global::System.EventArgs {
+        public class StoryLineRowChangeEvent : global::System.EventArgs {
             
-            private anchorsRow eventRow;
+            private StoryLineRow eventRow;
             
             private global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public anchorsRowChangeEvent(anchorsRow row, global::System.Data.DataRowAction action) {
+            public StoryLineRowChangeEvent(StoryLineRow row, global::System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public anchorsRow Row {
+            public StoryLineRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -19103,20 +19602,20 @@ namespace OneStoryProjectEditor {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        public class anchorRowChangeEvent : global::System.EventArgs {
+        public class AnchorsRowChangeEvent : global::System.EventArgs {
             
-            private anchorRow eventRow;
+            private AnchorsRow eventRow;
             
             private global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public anchorRowChangeEvent(anchorRow row, global::System.Data.DataRowAction action) {
+            public AnchorsRowChangeEvent(AnchorsRow row, global::System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public anchorRow Row {
+            public AnchorsRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -19134,20 +19633,20 @@ namespace OneStoryProjectEditor {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        public class exegeticalHelpsRowChangeEvent : global::System.EventArgs {
+        public class AnchorRowChangeEvent : global::System.EventArgs {
             
-            private exegeticalHelpsRow eventRow;
+            private AnchorRow eventRow;
             
             private global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public exegeticalHelpsRowChangeEvent(exegeticalHelpsRow row, global::System.Data.DataRowAction action) {
+            public AnchorRowChangeEvent(AnchorRow row, global::System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public exegeticalHelpsRow Row {
+            public AnchorRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -19165,20 +19664,51 @@ namespace OneStoryProjectEditor {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        public class exegeticalHelpRowChangeEvent : global::System.EventArgs {
+        public class ExegeticalHelpsRowChangeEvent : global::System.EventArgs {
             
-            private exegeticalHelpRow eventRow;
+            private ExegeticalHelpsRow eventRow;
             
             private global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public exegeticalHelpRowChangeEvent(exegeticalHelpRow row, global::System.Data.DataRowAction action) {
+            public ExegeticalHelpsRowChangeEvent(ExegeticalHelpsRow row, global::System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public exegeticalHelpRow Row {
+            public ExegeticalHelpsRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public class ExegeticalHelpRowChangeEvent : global::System.EventArgs {
+            
+            private ExegeticalHelpRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public ExegeticalHelpRowChangeEvent(ExegeticalHelpRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public ExegeticalHelpRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -19258,6 +19788,37 @@ namespace OneStoryProjectEditor {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public class TestQuestionLineRowChangeEvent : global::System.EventArgs {
+            
+            private TestQuestionLineRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public TestQuestionLineRowChangeEvent(TestQuestionLineRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public TestQuestionLineRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         public class AnswersRowChangeEvent : global::System.EventArgs {
             
             private AnswersRow eventRow;
@@ -19289,20 +19850,20 @@ namespace OneStoryProjectEditor {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        public class answerRowChangeEvent : global::System.EventArgs {
+        public class AnswerRowChangeEvent : global::System.EventArgs {
             
-            private answerRow eventRow;
+            private AnswerRow eventRow;
             
             private global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public answerRowChangeEvent(answerRow row, global::System.Data.DataRowAction action) {
+            public AnswerRowChangeEvent(AnswerRow row, global::System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public answerRow Row {
+            public AnswerRow Row {
                 get {
                     return this.eventRow;
                 }
