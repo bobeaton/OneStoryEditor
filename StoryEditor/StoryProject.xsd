@@ -68,9 +68,9 @@
             <xs:attribute name="VernacularToNationalBtAdaptItConverterName" type="xs:string" use="optional" />
             <xs:attribute name="VernacularToInternationalBtAdaptItConverterName" type="xs:string" use="optional" />
             <xs:attribute name="NationalBtToInternationalBtAdaptItConverterName" type="xs:string" use="optional" />
-            <xs:attribute name="AdaptItProjectTypeVernacularToNationalBt" type="AdaptItProjectType" use="optional" />
-            <xs:attribute name="AdaptItProjectTypeVernacularToInternationalBt" type="AdaptItProjectType" use="optional" />
-            <xs:attribute name="AdaptItProjectTypeNationalBtToInternationalBt" type="AdaptItProjectType" use="optional" />
+            <xs:attribute name="AdaptItProjectTypeVernacularToNationalBt" type="xs:string" use="optional" />
+            <xs:attribute name="AdaptItProjectTypeVernacularToInternationalBt" type="xs:string" use="optional" />
+            <xs:attribute name="AdaptItProjectTypeNationalBtToInternationalBt" type="xs:string" use="optional" />
           </xs:complexType>
 				</xs:element>
         <xs:element name="LnCNotes" minOccurs="0" maxOccurs="1">
@@ -297,17 +297,9 @@
 			<xs:attribute name="ProjectName" type="xs:string" use="required" />
 			<xs:attribute name="PanoramaFrontMatter" type="xs:string" />
 		</xs:complexType>
-		<xs:key name="MemberKey">
-			<xs:selector xpath=".//Member" />
-			<xs:field xpath="@name" />
-		</xs:key>
 		<xs:key name="MemberGuidKey" msdata:PrimaryKey="true">
 			<xs:selector xpath=".//Member" />
 			<xs:field xpath="@memberKey" />
-		</xs:key>
-		<xs:key name="StoryKey" msdata:PrimaryKey="true">
-			<xs:selector xpath=".//story" />
-			<xs:field xpath="@name" />
 		</xs:key>
 		<xs:key name="StoryGuidKey" msdata:PrimaryKey="true">
 			<xs:selector xpath=".//story" />
