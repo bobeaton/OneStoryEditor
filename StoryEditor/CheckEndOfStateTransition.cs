@@ -195,8 +195,12 @@ namespace OneStoryProjectEditor
                 }
             } while (bRepeatAfterMe);
 
-            // we need to know who (which UNS) did the BT.
-            QueryForUnsBackTranslator(theSE, theStoryProjectData, theCurrentStory);
+            // we need to know who (which UNS) did the BT (but only if we don't have a free tr,
+            //  which otherwise is assumed to be the one that the UNS did). Might as well only
+            //  ask if we're done with BT'ing, so also not if there's an International BT.
+            if (!theStoryProjectData.ProjSettings.FreeTranslation.HasData
+                && !theStoryProjectData.ProjSettings.InternationalBT.HasData)
+                QueryForUnsBackTranslator(theSE, theStoryProjectData, theCurrentStory);
 
 #if CheckProposedNextState
             if (theCurrentStory.CraftingInfo.IsBiblicalStory)
@@ -306,8 +310,10 @@ namespace OneStoryProjectEditor
                 }
             } while (bRepeatAfterMe);
 
-            // if there's only an English BT, then we need to know who (which UNS) did the BT.
-            if (!theStoryProjectData.ProjSettings.NationalBT.HasData)
+            // if there's not a free translation and we haven't already figured it out, then
+            //  query for the UNS who did the BT
+            if (!theStoryProjectData.ProjSettings.FreeTranslation.HasData
+                && String.IsNullOrEmpty(theCurrentStory.CraftingInfo.BackTranslatorMemberID))
                 QueryForUnsBackTranslator(theSE, theStoryProjectData, theCurrentStory);
 
 #if CheckProposedNextState
@@ -404,8 +410,8 @@ namespace OneStoryProjectEditor
                 }
             } while (bRepeatAfterMe);
 
-            // if there's only an English BT, then we need to know who (which UNS) did the BT.
-            if (!theStoryProjectData.ProjSettings.NationalBT.HasData && !theStoryProjectData.ProjSettings.InternationalBT.HasData)
+            // if we haven't already figured it out, then query for the UNS who did the BT
+            if (String.IsNullOrEmpty(theCurrentStory.CraftingInfo.BackTranslatorMemberID))
                 QueryForUnsBackTranslator(theSE, theStoryProjectData, theCurrentStory);
 
             if (eProposedNextState == StoryStageLogic.ProjectStages.eProjFacAddAnchors)
@@ -716,10 +722,8 @@ namespace OneStoryProjectEditor
                 nVerseNumber++;
             }
 
-            // if there's only an English BT (this really can't happen... the only reason you'd
-            //  have a separate English BTer is if there's a national BT), then we need to 
-            //  know who (which UNS) did the BT.
-            if (!theStoryProjectData.ProjSettings.NationalBT.HasData)
+            // if we haven't already figured it out, then query for the UNS who did the BT
+            if (String.IsNullOrEmpty(theCurrentStory.CraftingInfo.BackTranslatorMemberID))
                 QueryForUnsBackTranslator(theSE, theStoryProjectData, theCurrentStory);
 
 #if CheckProposedNextState

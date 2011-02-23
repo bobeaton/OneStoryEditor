@@ -1,9 +1,12 @@
-﻿properly check out C:\src\WW\Lib\src\EC\AIGuesserEC\AdaptItEncConverter.cs
-C:\src\WW\Lib\debug\AIGuesserEC.*
-C:\src\WW\Lib\src\EC\AIGuesserEC\AIGuesserEC.csproj
-C:\src\WW\Lib\src\EC\AIGuesserEC\AdaptItKBReader.cs
-C:\src\WW\Lib\src\EC\AIGuesserEC\AdaptItLookupAutoConfigDialog.cs
-C:\src\WW\Lib\src\EC\AIGuesserEC\AdaptItAutoConfigDialog.cs
+﻿Add the ability to save the Print dialog in HTML
+
+Fix "Last settings" in Print dialog
+
+Add ConNotes to print
+
+set the Bounds on the Commentary window to match the ConNotes pane (and/or remember where it was last moved to).
+
+add back and forward for line jumps as well
 
 no horizontal scroll bar in ConNotes
 
