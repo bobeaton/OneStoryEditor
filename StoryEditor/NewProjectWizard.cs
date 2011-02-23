@@ -84,9 +84,9 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private AdaptItConfigControl GetAiControl(string strName, int nTabIndex)
+        private AdaptItConfigControl GetAiControl(string strName, int nTabIndex, StoryEditor.GlossType eGlossType)
         {
-            var ctrl = new AdaptItConfigControl(flowLayoutPanelAdaptItControls, LoggedInMember)
+            var ctrl = new AdaptItConfigControl(this, eGlossType)
             {
                 AdaptItConverterName = null,
                 AutoSizeMode = AutoSizeMode.GrowAndShrink,
@@ -250,13 +250,13 @@ namespace OneStoryProjectEditor
                 // now deal with the AdaptIt BT helpers (doing this here, because by now LoggedOnMember
                 //  will be initialized)
                 if (adaptItConfigControlVernacularToNationalBT == null)
-                    adaptItConfigControlVernacularToNationalBT = GetAiControl("adaptItConfigControlVernacularToNationalBT", 0);
+                    adaptItConfigControlVernacularToNationalBT = GetAiControl("adaptItConfigControlVernacularToNationalBT", 0, StoryEditor.GlossType.eVernacularToNational);
 
                 if (adaptItConfigControlVernacularToInternationalBT == null)
-                    adaptItConfigControlVernacularToInternationalBT = GetAiControl("adaptItConfigControlVernacularToInternationalBT", 1);
+                    adaptItConfigControlVernacularToInternationalBT = GetAiControl("adaptItConfigControlVernacularToInternationalBT", 1, StoryEditor.GlossType.eVernacularToEnglish);
 
                 if (adaptItConfigControlNationalBtToInternationalBt == null)
-                    adaptItConfigControlNationalBtToInternationalBt = GetAiControl("adaptItConfigControlNationalBtToInternationalBt", 2);
+                    adaptItConfigControlNationalBtToInternationalBt = GetAiControl("adaptItConfigControlNationalBtToInternationalBt", 2, StoryEditor.GlossType.eNationalToEnglish);
 
                 if (checkBoxLanguageVernacular.Checked && checkBoxLanguageNationalBT.Checked)
                     adaptItConfigControlVernacularToNationalBT.Show();
@@ -337,7 +337,7 @@ namespace OneStoryProjectEditor
                                            ProjSettings.AdaptItProjectVernacularToInternationalBt,
                                            ProjSettings.Vernacular.LangName,
                                            ProjSettings.InternationalBT.LangName,
-                                           ProjSettings.VernacularToNationalBtAdaptItConverterName);
+                                           ProjSettings.VernacularToInternationalBtAdaptItConverterName);
                 }
                 if (adaptItConfigControlNationalBtToInternationalBt.Visible)
                 {

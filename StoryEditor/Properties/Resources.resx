@@ -229,7 +229,7 @@
     <comment>कहानी: </comment>
   </data>
   <data name="IDS_OSEUpgradeServer" xml:space="preserve">
-    <value>ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE1.4.0/StoryEditor.exe.manifest.xml</value>
+    <value>ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE2.0/StoryEditor.exe.manifest.xml</value>
   </data>
   <data name="IDS_NoSearchString" xml:space="preserve">
     <value>Nothing to search for!</value>
@@ -1966,5 +1966,8 @@ and in the resulting window click on the next (green) state.
   </data>
   <data name="project_1_3_to_1_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\1.3 to 1.4.xslt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="IDS_QueryCreateAdaptItProject" xml:space="preserve">
+    <value>Click 'Yes' to create an Adapt It project to use for back-translation from '{0}' to '{1}'. Click 'No' to browse for an existing Adapt It project instead</value>
   </data>
 </root>

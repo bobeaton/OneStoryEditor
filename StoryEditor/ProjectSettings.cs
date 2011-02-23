@@ -453,13 +453,13 @@ namespace OneStoryProjectEditor
             "NationalBtToInternationalBtAdaptItConverterName";
 
         public const string CstrAttributeLabelAdaptItProjectVernacularToNationalBt =
-            "AdaptItProjectVernacularToNationalBt";
+            "AdaptItProjectTypeVernacularToNationalBt";
 
         public const string CstrAttributeLabelAdaptItProjectVernacularToInternationalBt =
-            "AdaptItProjectVernacularToInternationalBt";
+            "AdaptItProjectTypeVernacularToInternationalBt";
 
         public const string CstrAttributeLabelAdaptItProjectNationalBtToInternationalBt =
-            "AdaptItProjectNationalBtToInternationalBt";
+            "AdaptItProjectTypeNationalBtToInternationalBt";
 
         public const string CstrElementLabelVernacular = "VernacularLang";
         public const string CstrElementLabelNationalBT = "NationalBTLang";

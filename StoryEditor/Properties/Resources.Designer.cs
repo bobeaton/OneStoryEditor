@@ -785,7 +785,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE1.4.0/StoryEditor.exe.manifest.xml.
+        ///   Looks up a localized string similar to ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE2.0/StoryEditor.exe.manifest.xml.
         /// </summary>
         internal static string IDS_OSEUpgradeServer {
             get {
@@ -835,6 +835,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_QueryAboutUpdateProgram {
             get {
                 return ResourceManager.GetString("IDS_QueryAboutUpdateProgram", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Click &apos;Yes&apos; to create an Adapt It project to use for back-translation from &apos;{0}&apos; to &apos;{1}&apos;. Click &apos;No&apos; to browse for an existing Adapt It project instead.
+        /// </summary>
+        internal static string IDS_QueryCreateAdaptItProject {
+            get {
+                return ResourceManager.GetString("IDS_QueryCreateAdaptItProject", resourceCulture);
             }
         }
         
@@ -1241,10 +1250,9 @@ namespace OneStoryProjectEditor.Properties {
         ///    &lt;/xsl:copy&gt;
         ///  &lt;/xsl:template&gt;
         ///
-        ///  &lt;!--verses was changed to Verses--&gt;
-        ///  &lt;xsl:template match=&quot;verses&quot;&gt;
-        ///    &lt;Verses&gt;
-        ///      &lt;xsl:apply-templates select [rest of string was truncated]&quot;;.
+        ///  &lt;!--StoryProject@version changed from 1.3 to 1.4--&gt;
+        ///  &lt;xsl:template match=&quot;StoryProject/@version&quot;&gt;
+        ///    &lt;xsl:attribu [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string project_1_3_to_1_4 {
             get {

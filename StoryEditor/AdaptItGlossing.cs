@@ -55,7 +55,7 @@ namespace OneStoryProjectEditor
                 "Adaptations");
         }
 
-        protected static string AdaptItLookupConverterName(string strSourceLangName, string strTargetLangName)
+        public static string AdaptItLookupConverterName(string strSourceLangName, string strTargetLangName)
         {
             return String.Format(@"Lookup in {0} to {1} adaptations",
                 strSourceLangName, strTargetLangName);
@@ -69,24 +69,18 @@ namespace OneStoryProjectEditor
             switch (eGlossType)
             {
                 case StoryEditor.GlossType.eVernacularToNational:
-                    System.Diagnostics.Debug.Assert(
-                        !String.IsNullOrEmpty(proj.VernacularToNationalBtAdaptItConverterName));
                     strName = proj.VernacularToNationalBtAdaptItConverterName;
                     liSourceLang = proj.Vernacular;
                     liTargetLang = proj.NationalBT;
                     break;
 
                 case StoryEditor.GlossType.eVernacularToEnglish:    // the glossing KB for the Vern to Natl project
-                    System.Diagnostics.Debug.Assert(
-                        !String.IsNullOrEmpty(proj.VernacularToInternationalBtAdaptItConverterName));
                     strName = proj.VernacularToInternationalBtAdaptItConverterName;
                     liSourceLang = proj.Vernacular;
                     liTargetLang = proj.InternationalBT; // this is still the national lg project (but the glossing KB)
                     break;
 
                 case StoryEditor.GlossType.eNationalToEnglish:
-                    System.Diagnostics.Debug.Assert(
-                        !String.IsNullOrEmpty(proj.NationalBtToInternationalBtAdaptItConverterName));
                     strName = proj.NationalBtToInternationalBtAdaptItConverterName;
                     liSourceLang = proj.NationalBT;         // this is a whole nuther national to English project
                     liTargetLang = proj.InternationalBT;
@@ -96,17 +90,21 @@ namespace OneStoryProjectEditor
                     System.Diagnostics.Debug.Assert(false);
                     throw new ApplicationException("Wrong glossing type specified. Send to bob_eaton@sall.com for help");
             }
-            /*
+
             // just in case the project doesn't exist yet...
             WriteAdaptItProjectFiles(liSourceLang, liTargetLang, proj.InternationalBT); // move this to AIGuesserEC project when it's mature.
+
+            // if there wasn't one configured, then just use the default
+            if (String.IsNullOrEmpty(strName))
+                strName = AdaptItLookupConverterName(liSourceLang.LangName, liTargetLang.LangName);
 
             // if we don't have the converter already in the repository.
             if (!aECs.ContainsKey(strName))
             {
+                string strConverterSpec = AdaptItLookupFileSpec(proj.Vernacular.LangName, proj.NationalBT.LangName); 
                 aECs.AddConversionMap(strName, strConverterSpec, ConvType.Unicode_to_from_Unicode,
                     EncConverters.strTypeSILadaptit, "UNICODE", "UNICODE", ProcessTypeFlags.DontKnow);
             }
-            */
 
             if (!aECs.ContainsKey(strName))
                 throw new ApplicationException(String.Format(Properties.Resources.IDS_AdaptItConverterDoesntExist,
@@ -131,6 +129,9 @@ namespace OneStoryProjectEditor
             // create Project file
             if (!File.Exists(AdaptItProjectFileSpec(liSourceLang.LangName, liTargetLang.LangName)))
             {
+                string strSourcePunct, strTargetPunct;
+                AiPunctuation(liSourceLang.FullStop, liTargetLang.FullStop, 
+                    out strSourcePunct, out strTargetPunct);
                 string strFormat = Properties.Settings.Default.DefaultAIProjectFile;
                 string strProjectFileContents = String.Format(strFormat,
                     liSourceLang.FontToUse.Name,
@@ -139,8 +140,8 @@ namespace OneStoryProjectEditor
                     liSourceLang.LangName,
                     liTargetLang.LangName,
                     Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                    AIPunctuation(liSourceLang.FullStop),
-                    AIPunctuation(liTargetLang.FullStop),
+                    strSourcePunct,
+                    strTargetPunct,
                     (liSourceLang.DoRtl) ? "1" : "0",
                     (liTargetLang.DoRtl) ? "1" : "0");
                 File.WriteAllText(AdaptItProjectFileSpec(liSourceLang.LangName, liTargetLang.LangName), strProjectFileContents);
@@ -162,14 +163,26 @@ namespace OneStoryProjectEditor
             }
         }
 
-        protected static string AIPunctuation(string strSentenceFinalPuncts)
+        const string CstrAdaptItPunct = "?.,;:\"!()<>{}[]“”‘’";
+            
+        private static void AiPunctuation(string strSourceSentenceFinalPuncts, string strTargetSentenceFinalPuncts, out string strSourcePunct, out string strTargetPunct)
         {
-            const string CstrAdaptItPunct = "?.,;:\"!()<>{}[]“”‘’";
-            string strAllPunctuation = CstrAdaptItPunct;
-            foreach (char ch in strSentenceFinalPuncts)
-                if (strAllPunctuation.IndexOf(ch) == -1)
-                    strAllPunctuation += ch;
-            return strAllPunctuation;
+            strSourcePunct = strTargetPunct = null;
+            int nLen = Math.Min(strSourceSentenceFinalPuncts.Length, strTargetSentenceFinalPuncts.Length);
+            while(nLen-- > 0)
+            {
+                char chSrc = strSourceSentenceFinalPuncts[nLen];
+                char chTgt = strTargetSentenceFinalPuncts[nLen];
+                if ((CstrAdaptItPunct.IndexOf(chSrc) == -1)
+                    || (CstrAdaptItPunct.IndexOf(chTgt) == -1))
+                {
+                    strSourcePunct += chSrc;
+                    strTargetPunct += chTgt;
+                }
+            }
+
+            strSourcePunct = CstrAdaptItPunct + strSourcePunct;
+            strTargetPunct = CstrAdaptItPunct + strTargetPunct;
         }
     }
 }

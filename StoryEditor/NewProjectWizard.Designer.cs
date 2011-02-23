@@ -1674,6 +1674,6 @@
         private System.Windows.Forms.CheckBox checkBoxAnswersInternationalBT;
         private System.Windows.Forms.TabPage tabPageAIBT;
         private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelAdaptItControls;
+        internal System.Windows.Forms.FlowLayoutPanel flowLayoutPanelAdaptItControls;
     }
 }

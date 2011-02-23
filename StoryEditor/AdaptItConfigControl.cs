@@ -9,13 +9,14 @@ namespace OneStoryProjectEditor
 {
     public partial class AdaptItConfigControl : UserControl
     {
-        private FlowLayoutPanel _parent;
-        private TeamMemberData _theLoggedOnUser;
-        public AdaptItConfigControl(FlowLayoutPanel parent, TeamMemberData theLoggedOnUser)
+        private NewProjectWizard _parent;
+        private StoryEditor.GlossType _eGlossType;
+
+        public AdaptItConfigControl(NewProjectWizard parent, StoryEditor.GlossType eGlossType)
         {
             InitializeComponent();
             _parent = parent;
-            _theLoggedOnUser = theLoggedOnUser;
+            _eGlossType = eGlossType;
         }
 
         public string AdaptItConverterName
@@ -66,49 +67,59 @@ namespace OneStoryProjectEditor
             {
                 if (AdaptItProjectType.LocalAiProjectOnly == value)
                     radioButtonLocal.Checked = true;
-                if (AdaptItProjectType.SharedAiProject == value)
+                else if (AdaptItProjectType.SharedAiProject == value)
                     radioButtonShared.Checked = true;
-                radioButtonNone.Checked = true;
+                else 
+                    radioButtonNone.Checked = true;
             }
         }
 
         public new bool Visible
         {
-            get { return _parent.Controls.Contains(this); }
+            get { return _parent.flowLayoutPanelAdaptItControls.Contains(this); }
             set 
             {
                 if (!value && Visible)
-                    _parent.Controls.Remove(this);
+                    _parent.flowLayoutPanelAdaptItControls.Controls.Remove(this);
                 else if (value && !Visible)
-                    _parent.Controls.Add(this);
-            }
-        }
-
-        protected string DefaultConverterName
-        {
-            get
-            {
-                return String.Format("Lookup in {0} to {1} adaptations",
-                                     SourceLanguageName, TargetLanguageName);
+                    _parent.flowLayoutPanelAdaptItControls.Controls.Add(this);
             }
         }
 
         private void radioButtonLocal_Click(object sender, EventArgs e)
         {
-            // first let's see if it already exists
-            string strConverterName = DefaultConverterName;
-
+            // first let's see if an AI Lookup transducer already exists with the
+            //  proper name
+            string strConverterName = AdaptItGlossing.AdaptItLookupConverterName(SourceLanguageName, TargetLanguageName);
             if (theECs.ContainsKey(strConverterName))
             {
-                IEncConverter theEC = theECs[strConverterName];
-                if (theEC is AdaptItEncConverter)
+                IEncConverter theEc = theECs[strConverterName];
+                if (theEc is AdaptItEncConverter)
                 {
-                    AdaptItConverterName = theEC.Name;
+                    AdaptItConverterName = theEc.Name;
                     return;
                 }
             }
 
-            buttonBrowse_Click(sender, e);
+            // otherwise, let's see if the user wants us to create it or browse for it
+            DialogResult res = MessageBox.Show(String.Format(Properties.Resources.IDS_QueryCreateAdaptItProject,
+                                                             SourceLanguageName, TargetLanguageName),
+                                               OseResources.Properties.Resources.IDS_Caption,
+                                               MessageBoxButtons.YesNoCancel);
+            
+            // 'Yes' means the user is asking us to create the AI project
+            if (res == DialogResult.Yes)
+            {
+                ProjectSettings.LanguageInfo liSource, liTarget;
+                AdaptItEncConverter theEc = AdaptItGlossing.InitLookupAdapter(_parent.ProjSettings, _eGlossType,
+                                                                              out liSource, out liTarget);
+                AdaptItConverterName = theEc.Name;
+                return;
+            }
+            
+            // 'No' means browse for it
+            if (res == DialogResult.No)
+                buttonBrowse_Click(sender, e);
         }
 
         private void radioButtonShared_Click(object sender, EventArgs e)
@@ -173,10 +184,10 @@ namespace OneStoryProjectEditor
         private bool CreateRepository(ref string strProjectFolder)
         {
             string strHgUsername = null, strHgPassword = null;
-            if (_theLoggedOnUser != null)
+            if (_parent.LoggedInMember != null)
             {
-                strHgUsername = _theLoggedOnUser.HgUsername;
-                strHgPassword = _theLoggedOnUser.HgPassword;
+                strHgUsername = _parent.LoggedInMember.HgUsername;
+                strHgPassword = _parent.LoggedInMember.HgPassword;
             }
 
             var model = new GetCloneFromInternetModel(strProjectFolder)

@@ -50,7 +50,7 @@ namespace OneStoryProjectEditor
                     FreeTranslation));
         }
 
-        public void IndexSearch(VerseData.SearchLookInProperties findProperties,
+        public override void IndexSearch(VerseData.SearchLookInProperties findProperties,
             VerseData.ViewSettings.ItemToInsureOn itemToInsureOn,
             ref VerseData.StringTransferSearchIndex lstBoxesToSearch)
         {
