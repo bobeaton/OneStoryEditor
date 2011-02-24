@@ -41,6 +41,10 @@ namespace OneStoryProjectEditor {
         
         private FreeTranslationLangDataTable tableFreeTranslationLang;
         
+        private AdaptItConfigurationsDataTable tableAdaptItConfigurations;
+        
+        private AdaptItConfigurationDataTable tableAdaptItConfiguration;
+        
         private LnCNotesDataTable tableLnCNotes;
         
         private LnCNoteDataTable tableLnCNote;
@@ -118,6 +122,10 @@ namespace OneStoryProjectEditor {
         private global::System.Data.DataRelation relationLanguages_InternationalBTLang;
         
         private global::System.Data.DataRelation relationLanguages_FreeTranslationLang;
+        
+        private global::System.Data.DataRelation relationStoryProject_AdaptItConfigurations;
+        
+        private global::System.Data.DataRelation relationAdaptItConfigurations_AdaptItConfiguration;
         
         private global::System.Data.DataRelation relationStoryProject_LnCNotes;
         
@@ -232,6 +240,12 @@ namespace OneStoryProjectEditor {
                 }
                 if ((ds.Tables["FreeTranslationLang"] != null)) {
                     base.Tables.Add(new FreeTranslationLangDataTable(ds.Tables["FreeTranslationLang"]));
+                }
+                if ((ds.Tables["AdaptItConfigurations"] != null)) {
+                    base.Tables.Add(new AdaptItConfigurationsDataTable(ds.Tables["AdaptItConfigurations"]));
+                }
+                if ((ds.Tables["AdaptItConfiguration"] != null)) {
+                    base.Tables.Add(new AdaptItConfigurationDataTable(ds.Tables["AdaptItConfiguration"]));
                 }
                 if ((ds.Tables["LnCNotes"] != null)) {
                     base.Tables.Add(new LnCNotesDataTable(ds.Tables["LnCNotes"]));
@@ -416,6 +430,24 @@ namespace OneStoryProjectEditor {
         public FreeTranslationLangDataTable FreeTranslationLang {
             get {
                 return this.tableFreeTranslationLang;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public AdaptItConfigurationsDataTable AdaptItConfigurations {
+            get {
+                return this.tableAdaptItConfigurations;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public AdaptItConfigurationDataTable AdaptItConfiguration {
+            get {
+                return this.tableAdaptItConfiguration;
             }
         }
         
@@ -790,6 +822,12 @@ namespace OneStoryProjectEditor {
                 if ((ds.Tables["FreeTranslationLang"] != null)) {
                     base.Tables.Add(new FreeTranslationLangDataTable(ds.Tables["FreeTranslationLang"]));
                 }
+                if ((ds.Tables["AdaptItConfigurations"] != null)) {
+                    base.Tables.Add(new AdaptItConfigurationsDataTable(ds.Tables["AdaptItConfigurations"]));
+                }
+                if ((ds.Tables["AdaptItConfiguration"] != null)) {
+                    base.Tables.Add(new AdaptItConfigurationDataTable(ds.Tables["AdaptItConfiguration"]));
+                }
                 if ((ds.Tables["LnCNotes"] != null)) {
                     base.Tables.Add(new LnCNotesDataTable(ds.Tables["LnCNotes"]));
                 }
@@ -962,6 +1000,18 @@ namespace OneStoryProjectEditor {
             if ((initTable == true)) {
                 if ((this.tableFreeTranslationLang != null)) {
                     this.tableFreeTranslationLang.InitVars();
+                }
+            }
+            this.tableAdaptItConfigurations = ((AdaptItConfigurationsDataTable)(base.Tables["AdaptItConfigurations"]));
+            if ((initTable == true)) {
+                if ((this.tableAdaptItConfigurations != null)) {
+                    this.tableAdaptItConfigurations.InitVars();
+                }
+            }
+            this.tableAdaptItConfiguration = ((AdaptItConfigurationDataTable)(base.Tables["AdaptItConfiguration"]));
+            if ((initTable == true)) {
+                if ((this.tableAdaptItConfiguration != null)) {
+                    this.tableAdaptItConfiguration.InitVars();
                 }
             }
             this.tableLnCNotes = ((LnCNotesDataTable)(base.Tables["LnCNotes"]));
@@ -1163,6 +1213,8 @@ namespace OneStoryProjectEditor {
             this.relationLanguages_NationalBTLang = this.Relations["Languages_NationalBTLang"];
             this.relationLanguages_InternationalBTLang = this.Relations["Languages_InternationalBTLang"];
             this.relationLanguages_FreeTranslationLang = this.Relations["Languages_FreeTranslationLang"];
+            this.relationStoryProject_AdaptItConfigurations = this.Relations["StoryProject_AdaptItConfigurations"];
+            this.relationAdaptItConfigurations_AdaptItConfiguration = this.Relations["AdaptItConfigurations_AdaptItConfiguration"];
             this.relationStoryProject_LnCNotes = this.Relations["StoryProject_LnCNotes"];
             this.relationLnCNotes_LnCNote = this.Relations["LnCNotes_LnCNote"];
             this.relationStoryProject_stories = this.Relations["StoryProject_stories"];
@@ -1220,6 +1272,10 @@ namespace OneStoryProjectEditor {
             base.Tables.Add(this.tableInternationalBTLang);
             this.tableFreeTranslationLang = new FreeTranslationLangDataTable();
             base.Tables.Add(this.tableFreeTranslationLang);
+            this.tableAdaptItConfigurations = new AdaptItConfigurationsDataTable();
+            base.Tables.Add(this.tableAdaptItConfigurations);
+            this.tableAdaptItConfiguration = new AdaptItConfigurationDataTable();
+            base.Tables.Add(this.tableAdaptItConfiguration);
             this.tableLnCNotes = new LnCNotesDataTable();
             base.Tables.Add(this.tableLnCNotes);
             this.tableLnCNote = new LnCNoteDataTable();
@@ -1331,6 +1387,20 @@ namespace OneStoryProjectEditor {
                         this.tableLanguages.Languages_IdColumn}, new global::System.Data.DataColumn[] {
                         this.tableFreeTranslationLang.Languages_IdColumn});
             this.tableFreeTranslationLang.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.Cascade;
+            fkc.UpdateRule = global::System.Data.Rule.Cascade;
+            fkc = new global::System.Data.ForeignKeyConstraint("StoryProject_AdaptItConfigurations", new global::System.Data.DataColumn[] {
+                        this.tableStoryProject.StoryProject_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableAdaptItConfigurations.StoryProject_IdColumn});
+            this.tableAdaptItConfigurations.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.Cascade;
+            fkc.UpdateRule = global::System.Data.Rule.Cascade;
+            fkc = new global::System.Data.ForeignKeyConstraint("AdaptItConfigurations_AdaptItConfiguration", new global::System.Data.DataColumn[] {
+                        this.tableAdaptItConfigurations.AdaptItConfigurations_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableAdaptItConfiguration.AdaptItConfigurations_IdColumn});
+            this.tableAdaptItConfiguration.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
@@ -1593,6 +1663,16 @@ namespace OneStoryProjectEditor {
                         this.tableFreeTranslationLang.Languages_IdColumn}, false);
             this.relationLanguages_FreeTranslationLang.Nested = true;
             this.Relations.Add(this.relationLanguages_FreeTranslationLang);
+            this.relationStoryProject_AdaptItConfigurations = new global::System.Data.DataRelation("StoryProject_AdaptItConfigurations", new global::System.Data.DataColumn[] {
+                        this.tableStoryProject.StoryProject_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableAdaptItConfigurations.StoryProject_IdColumn}, false);
+            this.relationStoryProject_AdaptItConfigurations.Nested = true;
+            this.Relations.Add(this.relationStoryProject_AdaptItConfigurations);
+            this.relationAdaptItConfigurations_AdaptItConfiguration = new global::System.Data.DataRelation("AdaptItConfigurations_AdaptItConfiguration", new global::System.Data.DataColumn[] {
+                        this.tableAdaptItConfigurations.AdaptItConfigurations_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableAdaptItConfiguration.AdaptItConfigurations_IdColumn}, false);
+            this.relationAdaptItConfigurations_AdaptItConfiguration.Nested = true;
+            this.Relations.Add(this.relationAdaptItConfigurations_AdaptItConfiguration);
             this.relationStoryProject_LnCNotes = new global::System.Data.DataRelation("StoryProject_LnCNotes", new global::System.Data.DataColumn[] {
                         this.tableStoryProject.StoryProject_IdColumn}, new global::System.Data.DataColumn[] {
                         this.tableLnCNotes.StoryProject_IdColumn}, false);
@@ -1792,6 +1872,16 @@ namespace OneStoryProjectEditor {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         private bool ShouldSerializeFreeTranslationLang() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private bool ShouldSerializeAdaptItConfigurations() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private bool ShouldSerializeAdaptItConfiguration() {
             return false;
         }
         
@@ -2023,6 +2113,10 @@ namespace OneStoryProjectEditor {
         public delegate void InternationalBTLangRowChangeEventHandler(object sender, InternationalBTLangRowChangeEvent e);
         
         public delegate void FreeTranslationLangRowChangeEventHandler(object sender, FreeTranslationLangRowChangeEvent e);
+        
+        public delegate void AdaptItConfigurationsRowChangeEventHandler(object sender, AdaptItConfigurationsRowChangeEvent e);
+        
+        public delegate void AdaptItConfigurationRowChangeEventHandler(object sender, AdaptItConfigurationRowChangeEvent e);
         
         public delegate void LnCNotesRowChangeEventHandler(object sender, LnCNotesRowChangeEvent e);
         
@@ -3367,18 +3461,6 @@ namespace OneStoryProjectEditor {
             
             private global::System.Data.DataColumn columnUseAnswerInternationalBT;
             
-            private global::System.Data.DataColumn columnVernacularToNationalBtAdaptItConverterName;
-            
-            private global::System.Data.DataColumn columnVernacularToInternationalBtAdaptItConverterName;
-            
-            private global::System.Data.DataColumn columnNationalBtToInternationalBtAdaptItConverterName;
-            
-            private global::System.Data.DataColumn columnAdaptItProjectTypeVernacularToNationalBt;
-            
-            private global::System.Data.DataColumn columnAdaptItProjectTypeVernacularToInternationalBt;
-            
-            private global::System.Data.DataColumn columnAdaptItProjectTypeNationalBtToInternationalBt;
-            
             private global::System.Data.DataColumn columnLanguages_Id;
             
             private global::System.Data.DataColumn columnStoryProject_Id;
@@ -3477,48 +3559,6 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn VernacularToNationalBtAdaptItConverterNameColumn {
-                get {
-                    return this.columnVernacularToNationalBtAdaptItConverterName;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn VernacularToInternationalBtAdaptItConverterNameColumn {
-                get {
-                    return this.columnVernacularToInternationalBtAdaptItConverterName;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn NationalBtToInternationalBtAdaptItConverterNameColumn {
-                get {
-                    return this.columnNationalBtToInternationalBtAdaptItConverterName;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn AdaptItProjectTypeVernacularToNationalBtColumn {
-                get {
-                    return this.columnAdaptItProjectTypeVernacularToNationalBt;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn AdaptItProjectTypeVernacularToInternationalBtColumn {
-                get {
-                    return this.columnAdaptItProjectTypeVernacularToInternationalBt;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn AdaptItProjectTypeNationalBtToInternationalBtColumn {
-                get {
-                    return this.columnAdaptItProjectTypeNationalBtToInternationalBt;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public global::System.Data.DataColumn Languages_IdColumn {
                 get {
                     return this.columnLanguages_Id;
@@ -3561,23 +3601,7 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public LanguagesRow AddLanguagesRow(
-                        bool UseRetellingVernacular, 
-                        bool UseRetellingNationalBT, 
-                        bool UseRetellingInternationalBT, 
-                        bool UseTestQuestionVernacular, 
-                        bool UseTestQuestionNationalBT, 
-                        bool UseTestQuestionInternationalBT, 
-                        bool UseAnswerVernacular, 
-                        bool UseAnswerNationalBT, 
-                        bool UseAnswerInternationalBT, 
-                        string VernacularToNationalBtAdaptItConverterName, 
-                        string VernacularToInternationalBtAdaptItConverterName, 
-                        string NationalBtToInternationalBtAdaptItConverterName, 
-                        string AdaptItProjectTypeVernacularToNationalBt, 
-                        string AdaptItProjectTypeVernacularToInternationalBt, 
-                        string AdaptItProjectTypeNationalBtToInternationalBt, 
-                        StoryProjectRow parentStoryProjectRowByStoryProject_Languages) {
+            public LanguagesRow AddLanguagesRow(bool UseRetellingVernacular, bool UseRetellingNationalBT, bool UseRetellingInternationalBT, bool UseTestQuestionVernacular, bool UseTestQuestionNationalBT, bool UseTestQuestionInternationalBT, bool UseAnswerVernacular, bool UseAnswerNationalBT, bool UseAnswerInternationalBT, StoryProjectRow parentStoryProjectRowByStoryProject_Languages) {
                 LanguagesRow rowLanguagesRow = ((LanguagesRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         UseRetellingVernacular,
@@ -3589,16 +3613,10 @@ namespace OneStoryProjectEditor {
                         UseAnswerVernacular,
                         UseAnswerNationalBT,
                         UseAnswerInternationalBT,
-                        VernacularToNationalBtAdaptItConverterName,
-                        VernacularToInternationalBtAdaptItConverterName,
-                        NationalBtToInternationalBtAdaptItConverterName,
-                        AdaptItProjectTypeVernacularToNationalBt,
-                        AdaptItProjectTypeVernacularToInternationalBt,
-                        AdaptItProjectTypeNationalBtToInternationalBt,
                         null,
                         null};
                 if ((parentStoryProjectRowByStoryProject_Languages != null)) {
-                    columnValuesArray[16] = parentStoryProjectRowByStoryProject_Languages[3];
+                    columnValuesArray[10] = parentStoryProjectRowByStoryProject_Languages[3];
                 }
                 rowLanguagesRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowLanguagesRow);
@@ -3628,12 +3646,6 @@ namespace OneStoryProjectEditor {
                 this.columnUseAnswerVernacular = base.Columns["UseAnswerVernacular"];
                 this.columnUseAnswerNationalBT = base.Columns["UseAnswerNationalBT"];
                 this.columnUseAnswerInternationalBT = base.Columns["UseAnswerInternationalBT"];
-                this.columnVernacularToNationalBtAdaptItConverterName = base.Columns["VernacularToNationalBtAdaptItConverterName"];
-                this.columnVernacularToInternationalBtAdaptItConverterName = base.Columns["VernacularToInternationalBtAdaptItConverterName"];
-                this.columnNationalBtToInternationalBtAdaptItConverterName = base.Columns["NationalBtToInternationalBtAdaptItConverterName"];
-                this.columnAdaptItProjectTypeVernacularToNationalBt = base.Columns["AdaptItProjectTypeVernacularToNationalBt"];
-                this.columnAdaptItProjectTypeVernacularToInternationalBt = base.Columns["AdaptItProjectTypeVernacularToInternationalBt"];
-                this.columnAdaptItProjectTypeNationalBtToInternationalBt = base.Columns["AdaptItProjectTypeNationalBtToInternationalBt"];
                 this.columnLanguages_Id = base.Columns["Languages_Id"];
                 this.columnStoryProject_Id = base.Columns["StoryProject_Id"];
             }
@@ -3658,18 +3670,6 @@ namespace OneStoryProjectEditor {
                 base.Columns.Add(this.columnUseAnswerNationalBT);
                 this.columnUseAnswerInternationalBT = new global::System.Data.DataColumn("UseAnswerInternationalBT", typeof(bool), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnUseAnswerInternationalBT);
-                this.columnVernacularToNationalBtAdaptItConverterName = new global::System.Data.DataColumn("VernacularToNationalBtAdaptItConverterName", typeof(string), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnVernacularToNationalBtAdaptItConverterName);
-                this.columnVernacularToInternationalBtAdaptItConverterName = new global::System.Data.DataColumn("VernacularToInternationalBtAdaptItConverterName", typeof(string), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnVernacularToInternationalBtAdaptItConverterName);
-                this.columnNationalBtToInternationalBtAdaptItConverterName = new global::System.Data.DataColumn("NationalBtToInternationalBtAdaptItConverterName", typeof(string), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnNationalBtToInternationalBtAdaptItConverterName);
-                this.columnAdaptItProjectTypeVernacularToNationalBt = new global::System.Data.DataColumn("AdaptItProjectTypeVernacularToNationalBt", typeof(string), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnAdaptItProjectTypeVernacularToNationalBt);
-                this.columnAdaptItProjectTypeVernacularToInternationalBt = new global::System.Data.DataColumn("AdaptItProjectTypeVernacularToInternationalBt", typeof(string), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnAdaptItProjectTypeVernacularToInternationalBt);
-                this.columnAdaptItProjectTypeNationalBtToInternationalBt = new global::System.Data.DataColumn("AdaptItProjectTypeNationalBtToInternationalBt", typeof(string), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnAdaptItProjectTypeNationalBtToInternationalBt);
                 this.columnLanguages_Id = new global::System.Data.DataColumn("Languages_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnLanguages_Id);
                 this.columnStoryProject_Id = new global::System.Data.DataColumn("StoryProject_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
@@ -3685,12 +3685,6 @@ namespace OneStoryProjectEditor {
                 this.columnUseAnswerVernacular.Namespace = "";
                 this.columnUseAnswerNationalBT.Namespace = "";
                 this.columnUseAnswerInternationalBT.Namespace = "";
-                this.columnVernacularToNationalBtAdaptItConverterName.Namespace = "";
-                this.columnVernacularToInternationalBtAdaptItConverterName.Namespace = "";
-                this.columnNationalBtToInternationalBtAdaptItConverterName.Namespace = "";
-                this.columnAdaptItProjectTypeVernacularToNationalBt.Namespace = "";
-                this.columnAdaptItProjectTypeVernacularToInternationalBt.Namespace = "";
-                this.columnAdaptItProjectTypeNationalBtToInternationalBt.Namespace = "";
                 this.columnLanguages_Id.AutoIncrement = true;
                 this.columnLanguages_Id.AllowDBNull = false;
                 this.columnLanguages_Id.Unique = true;
@@ -3972,7 +3966,7 @@ namespace OneStoryProjectEditor {
                         RTL,
                         null};
                 if ((parentLanguagesRowByLanguages_VernacularLang != null)) {
-                    columnValuesArray[8] = parentLanguagesRowByLanguages_VernacularLang[15];
+                    columnValuesArray[8] = parentLanguagesRowByLanguages_VernacularLang[9];
                 }
                 rowVernacularLangRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowVernacularLangRow);
@@ -4316,7 +4310,7 @@ namespace OneStoryProjectEditor {
                         RTL,
                         null};
                 if ((parentLanguagesRowByLanguages_NationalBTLang != null)) {
-                    columnValuesArray[8] = parentLanguagesRowByLanguages_NationalBTLang[15];
+                    columnValuesArray[8] = parentLanguagesRowByLanguages_NationalBTLang[9];
                 }
                 rowNationalBTLangRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowNationalBTLangRow);
@@ -4660,7 +4654,7 @@ namespace OneStoryProjectEditor {
                         RTL,
                         null};
                 if ((parentLanguagesRowByLanguages_InternationalBTLang != null)) {
-                    columnValuesArray[8] = parentLanguagesRowByLanguages_InternationalBTLang[15];
+                    columnValuesArray[8] = parentLanguagesRowByLanguages_InternationalBTLang[9];
                 }
                 rowInternationalBTLangRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowInternationalBTLangRow);
@@ -5004,7 +4998,7 @@ namespace OneStoryProjectEditor {
                         RTL,
                         null};
                 if ((parentLanguagesRowByLanguages_FreeTranslationLang != null)) {
-                    columnValuesArray[8] = parentLanguagesRowByLanguages_FreeTranslationLang[15];
+                    columnValuesArray[8] = parentLanguagesRowByLanguages_FreeTranslationLang[9];
                 }
                 rowFreeTranslationLangRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowFreeTranslationLangRow);
@@ -5147,6 +5141,549 @@ namespace OneStoryProjectEditor {
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
                 attribute2.FixedValue = "FreeTranslationLangDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class AdaptItConfigurationsDataTable : global::System.Data.TypedTableBase<AdaptItConfigurationsRow> {
+            
+            private global::System.Data.DataColumn columnAdaptItConfigurations_Id;
+            
+            private global::System.Data.DataColumn columnStoryProject_Id;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public AdaptItConfigurationsDataTable() {
+                this.TableName = "AdaptItConfigurations";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal AdaptItConfigurationsDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected AdaptItConfigurationsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn AdaptItConfigurations_IdColumn {
+                get {
+                    return this.columnAdaptItConfigurations_Id;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn StoryProject_IdColumn {
+                get {
+                    return this.columnStoryProject_Id;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public AdaptItConfigurationsRow this[int index] {
+                get {
+                    return ((AdaptItConfigurationsRow)(this.Rows[index]));
+                }
+            }
+            
+            public event AdaptItConfigurationsRowChangeEventHandler AdaptItConfigurationsRowChanging;
+            
+            public event AdaptItConfigurationsRowChangeEventHandler AdaptItConfigurationsRowChanged;
+            
+            public event AdaptItConfigurationsRowChangeEventHandler AdaptItConfigurationsRowDeleting;
+            
+            public event AdaptItConfigurationsRowChangeEventHandler AdaptItConfigurationsRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void AddAdaptItConfigurationsRow(AdaptItConfigurationsRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public AdaptItConfigurationsRow AddAdaptItConfigurationsRow(StoryProjectRow parentStoryProjectRowByStoryProject_AdaptItConfigurations) {
+                AdaptItConfigurationsRow rowAdaptItConfigurationsRow = ((AdaptItConfigurationsRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        null,
+                        null};
+                if ((parentStoryProjectRowByStoryProject_AdaptItConfigurations != null)) {
+                    columnValuesArray[1] = parentStoryProjectRowByStoryProject_AdaptItConfigurations[3];
+                }
+                rowAdaptItConfigurationsRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowAdaptItConfigurationsRow);
+                return rowAdaptItConfigurationsRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public override global::System.Data.DataTable Clone() {
+                AdaptItConfigurationsDataTable cln = ((AdaptItConfigurationsDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new AdaptItConfigurationsDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal void InitVars() {
+                this.columnAdaptItConfigurations_Id = base.Columns["AdaptItConfigurations_Id"];
+                this.columnStoryProject_Id = base.Columns["StoryProject_Id"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            private void InitClass() {
+                this.columnAdaptItConfigurations_Id = new global::System.Data.DataColumn("AdaptItConfigurations_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnAdaptItConfigurations_Id);
+                this.columnStoryProject_Id = new global::System.Data.DataColumn("StoryProject_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnStoryProject_Id);
+                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
+                                this.columnAdaptItConfigurations_Id}, true));
+                this.columnAdaptItConfigurations_Id.AutoIncrement = true;
+                this.columnAdaptItConfigurations_Id.AllowDBNull = false;
+                this.columnAdaptItConfigurations_Id.Unique = true;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public AdaptItConfigurationsRow NewAdaptItConfigurationsRow() {
+                return ((AdaptItConfigurationsRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new AdaptItConfigurationsRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Type GetRowType() {
+                return typeof(AdaptItConfigurationsRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.AdaptItConfigurationsRowChanged != null)) {
+                    this.AdaptItConfigurationsRowChanged(this, new AdaptItConfigurationsRowChangeEvent(((AdaptItConfigurationsRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.AdaptItConfigurationsRowChanging != null)) {
+                    this.AdaptItConfigurationsRowChanging(this, new AdaptItConfigurationsRowChangeEvent(((AdaptItConfigurationsRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.AdaptItConfigurationsRowDeleted != null)) {
+                    this.AdaptItConfigurationsRowDeleted(this, new AdaptItConfigurationsRowChangeEvent(((AdaptItConfigurationsRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.AdaptItConfigurationsRowDeleting != null)) {
+                    this.AdaptItConfigurationsRowDeleting(this, new AdaptItConfigurationsRowChangeEvent(((AdaptItConfigurationsRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void RemoveAdaptItConfigurationsRow(AdaptItConfigurationsRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                NewDataSet ds = new NewDataSet();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "AdaptItConfigurationsDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class AdaptItConfigurationDataTable : global::System.Data.TypedTableBase<AdaptItConfigurationRow> {
+            
+            private global::System.Data.DataColumn columnProjectType;
+            
+            private global::System.Data.DataColumn columnBtDirection;
+            
+            private global::System.Data.DataColumn columnConverterName;
+            
+            private global::System.Data.DataColumn columnRepositoryUrl;
+            
+            private global::System.Data.DataColumn columnAdaptItConfiguration_text;
+            
+            private global::System.Data.DataColumn columnAdaptItConfigurations_Id;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public AdaptItConfigurationDataTable() {
+                this.TableName = "AdaptItConfiguration";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal AdaptItConfigurationDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected AdaptItConfigurationDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn ProjectTypeColumn {
+                get {
+                    return this.columnProjectType;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn BtDirectionColumn {
+                get {
+                    return this.columnBtDirection;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn ConverterNameColumn {
+                get {
+                    return this.columnConverterName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn RepositoryUrlColumn {
+                get {
+                    return this.columnRepositoryUrl;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn AdaptItConfiguration_textColumn {
+                get {
+                    return this.columnAdaptItConfiguration_text;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn AdaptItConfigurations_IdColumn {
+                get {
+                    return this.columnAdaptItConfigurations_Id;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public AdaptItConfigurationRow this[int index] {
+                get {
+                    return ((AdaptItConfigurationRow)(this.Rows[index]));
+                }
+            }
+            
+            public event AdaptItConfigurationRowChangeEventHandler AdaptItConfigurationRowChanging;
+            
+            public event AdaptItConfigurationRowChangeEventHandler AdaptItConfigurationRowChanged;
+            
+            public event AdaptItConfigurationRowChangeEventHandler AdaptItConfigurationRowDeleting;
+            
+            public event AdaptItConfigurationRowChangeEventHandler AdaptItConfigurationRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void AddAdaptItConfigurationRow(AdaptItConfigurationRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public AdaptItConfigurationRow AddAdaptItConfigurationRow(string ProjectType, string BtDirection, string ConverterName, string RepositoryUrl, string AdaptItConfiguration_text, AdaptItConfigurationsRow parentAdaptItConfigurationsRowByAdaptItConfigurations_AdaptItConfiguration) {
+                AdaptItConfigurationRow rowAdaptItConfigurationRow = ((AdaptItConfigurationRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        ProjectType,
+                        BtDirection,
+                        ConverterName,
+                        RepositoryUrl,
+                        AdaptItConfiguration_text,
+                        null};
+                if ((parentAdaptItConfigurationsRowByAdaptItConfigurations_AdaptItConfiguration != null)) {
+                    columnValuesArray[5] = parentAdaptItConfigurationsRowByAdaptItConfigurations_AdaptItConfiguration[0];
+                }
+                rowAdaptItConfigurationRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowAdaptItConfigurationRow);
+                return rowAdaptItConfigurationRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public override global::System.Data.DataTable Clone() {
+                AdaptItConfigurationDataTable cln = ((AdaptItConfigurationDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new AdaptItConfigurationDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal void InitVars() {
+                this.columnProjectType = base.Columns["ProjectType"];
+                this.columnBtDirection = base.Columns["BtDirection"];
+                this.columnConverterName = base.Columns["ConverterName"];
+                this.columnRepositoryUrl = base.Columns["RepositoryUrl"];
+                this.columnAdaptItConfiguration_text = base.Columns["AdaptItConfiguration_text"];
+                this.columnAdaptItConfigurations_Id = base.Columns["AdaptItConfigurations_Id"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            private void InitClass() {
+                this.columnProjectType = new global::System.Data.DataColumn("ProjectType", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnProjectType);
+                this.columnBtDirection = new global::System.Data.DataColumn("BtDirection", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnBtDirection);
+                this.columnConverterName = new global::System.Data.DataColumn("ConverterName", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnConverterName);
+                this.columnRepositoryUrl = new global::System.Data.DataColumn("RepositoryUrl", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnRepositoryUrl);
+                this.columnAdaptItConfiguration_text = new global::System.Data.DataColumn("AdaptItConfiguration_text", typeof(string), null, global::System.Data.MappingType.SimpleContent);
+                base.Columns.Add(this.columnAdaptItConfiguration_text);
+                this.columnAdaptItConfigurations_Id = new global::System.Data.DataColumn("AdaptItConfigurations_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnAdaptItConfigurations_Id);
+                this.columnProjectType.AllowDBNull = false;
+                this.columnProjectType.Namespace = "";
+                this.columnBtDirection.AllowDBNull = false;
+                this.columnBtDirection.Namespace = "";
+                this.columnConverterName.AllowDBNull = false;
+                this.columnConverterName.Namespace = "";
+                this.columnRepositoryUrl.Namespace = "";
+                this.columnAdaptItConfiguration_text.AllowDBNull = false;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public AdaptItConfigurationRow NewAdaptItConfigurationRow() {
+                return ((AdaptItConfigurationRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new AdaptItConfigurationRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Type GetRowType() {
+                return typeof(AdaptItConfigurationRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.AdaptItConfigurationRowChanged != null)) {
+                    this.AdaptItConfigurationRowChanged(this, new AdaptItConfigurationRowChangeEvent(((AdaptItConfigurationRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.AdaptItConfigurationRowChanging != null)) {
+                    this.AdaptItConfigurationRowChanging(this, new AdaptItConfigurationRowChangeEvent(((AdaptItConfigurationRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.AdaptItConfigurationRowDeleted != null)) {
+                    this.AdaptItConfigurationRowDeleted(this, new AdaptItConfigurationRowChangeEvent(((AdaptItConfigurationRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.AdaptItConfigurationRowDeleting != null)) {
+                    this.AdaptItConfigurationRowDeleting(this, new AdaptItConfigurationRowChangeEvent(((AdaptItConfigurationRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void RemoveAdaptItConfigurationRow(AdaptItConfigurationRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                NewDataSet ds = new NewDataSet();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "AdaptItConfigurationDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -13665,6 +14202,16 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public AdaptItConfigurationsRow[] GetAdaptItConfigurationsRows() {
+                if ((this.Table.ChildRelations["StoryProject_AdaptItConfigurations"] == null)) {
+                    return new AdaptItConfigurationsRow[0];
+                }
+                else {
+                    return ((AdaptItConfigurationsRow[])(base.GetChildRows(this.Table.ChildRelations["StoryProject_AdaptItConfigurations"])));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public LnCNotesRow[] GetLnCNotesRows() {
                 if ((this.Table.ChildRelations["StoryProject_LnCNotes"] == null)) {
                     return new LnCNotesRow[0];
@@ -14770,102 +15317,6 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string VernacularToNationalBtAdaptItConverterName {
-                get {
-                    try {
-                        return ((string)(this[this.tableLanguages.VernacularToNationalBtAdaptItConverterNameColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'VernacularToNationalBtAdaptItConverterName\' in table \'Langu" +
-                                "ages\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableLanguages.VernacularToNationalBtAdaptItConverterNameColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string VernacularToInternationalBtAdaptItConverterName {
-                get {
-                    try {
-                        return ((string)(this[this.tableLanguages.VernacularToInternationalBtAdaptItConverterNameColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'VernacularToInternationalBtAdaptItConverterName\' in table \'" +
-                                "Languages\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableLanguages.VernacularToInternationalBtAdaptItConverterNameColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string NationalBtToInternationalBtAdaptItConverterName {
-                get {
-                    try {
-                        return ((string)(this[this.tableLanguages.NationalBtToInternationalBtAdaptItConverterNameColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'NationalBtToInternationalBtAdaptItConverterName\' in table \'" +
-                                "Languages\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableLanguages.NationalBtToInternationalBtAdaptItConverterNameColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string AdaptItProjectTypeVernacularToNationalBt {
-                get {
-                    try {
-                        return ((string)(this[this.tableLanguages.AdaptItProjectTypeVernacularToNationalBtColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'AdaptItProjectTypeVernacularToNationalBt\' in table \'Languag" +
-                                "es\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableLanguages.AdaptItProjectTypeVernacularToNationalBtColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string AdaptItProjectTypeVernacularToInternationalBt {
-                get {
-                    try {
-                        return ((string)(this[this.tableLanguages.AdaptItProjectTypeVernacularToInternationalBtColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'AdaptItProjectTypeVernacularToInternationalBt\' in table \'La" +
-                                "nguages\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableLanguages.AdaptItProjectTypeVernacularToInternationalBtColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string AdaptItProjectTypeNationalBtToInternationalBt {
-                get {
-                    try {
-                        return ((string)(this[this.tableLanguages.AdaptItProjectTypeNationalBtToInternationalBtColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'AdaptItProjectTypeNationalBtToInternationalBt\' in table \'La" +
-                                "nguages\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableLanguages.AdaptItProjectTypeNationalBtToInternationalBtColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public int Languages_Id {
                 get {
                     return ((int)(this[this.tableLanguages.Languages_IdColumn]));
@@ -14988,66 +15439,6 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public void SetUseAnswerInternationalBTNull() {
                 this[this.tableLanguages.UseAnswerInternationalBTColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsVernacularToNationalBtAdaptItConverterNameNull() {
-                return this.IsNull(this.tableLanguages.VernacularToNationalBtAdaptItConverterNameColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetVernacularToNationalBtAdaptItConverterNameNull() {
-                this[this.tableLanguages.VernacularToNationalBtAdaptItConverterNameColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsVernacularToInternationalBtAdaptItConverterNameNull() {
-                return this.IsNull(this.tableLanguages.VernacularToInternationalBtAdaptItConverterNameColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetVernacularToInternationalBtAdaptItConverterNameNull() {
-                this[this.tableLanguages.VernacularToInternationalBtAdaptItConverterNameColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsNationalBtToInternationalBtAdaptItConverterNameNull() {
-                return this.IsNull(this.tableLanguages.NationalBtToInternationalBtAdaptItConverterNameColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetNationalBtToInternationalBtAdaptItConverterNameNull() {
-                this[this.tableLanguages.NationalBtToInternationalBtAdaptItConverterNameColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsAdaptItProjectTypeVernacularToNationalBtNull() {
-                return this.IsNull(this.tableLanguages.AdaptItProjectTypeVernacularToNationalBtColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetAdaptItProjectTypeVernacularToNationalBtNull() {
-                this[this.tableLanguages.AdaptItProjectTypeVernacularToNationalBtColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsAdaptItProjectTypeVernacularToInternationalBtNull() {
-                return this.IsNull(this.tableLanguages.AdaptItProjectTypeVernacularToInternationalBtColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetAdaptItProjectTypeVernacularToInternationalBtNull() {
-                this[this.tableLanguages.AdaptItProjectTypeVernacularToInternationalBtColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsAdaptItProjectTypeNationalBtToInternationalBtNull() {
-                return this.IsNull(this.tableLanguages.AdaptItProjectTypeNationalBtToInternationalBtColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetAdaptItProjectTypeNationalBtToInternationalBtNull() {
-                this[this.tableLanguages.AdaptItProjectTypeNationalBtToInternationalBtColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -15738,6 +16129,193 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public void SetLanguages_IdNull() {
                 this[this.tableFreeTranslationLang.Languages_IdColumn] = global::System.Convert.DBNull;
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public partial class AdaptItConfigurationsRow : global::System.Data.DataRow {
+            
+            private AdaptItConfigurationsDataTable tableAdaptItConfigurations;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal AdaptItConfigurationsRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableAdaptItConfigurations = ((AdaptItConfigurationsDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int AdaptItConfigurations_Id {
+                get {
+                    return ((int)(this[this.tableAdaptItConfigurations.AdaptItConfigurations_IdColumn]));
+                }
+                set {
+                    this[this.tableAdaptItConfigurations.AdaptItConfigurations_IdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int StoryProject_Id {
+                get {
+                    try {
+                        return ((int)(this[this.tableAdaptItConfigurations.StoryProject_IdColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'StoryProject_Id\' in table \'AdaptItConfigurations\' is DBNull" +
+                                ".", e);
+                    }
+                }
+                set {
+                    this[this.tableAdaptItConfigurations.StoryProject_IdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public StoryProjectRow StoryProjectRow {
+                get {
+                    return ((StoryProjectRow)(this.GetParentRow(this.Table.ParentRelations["StoryProject_AdaptItConfigurations"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["StoryProject_AdaptItConfigurations"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsStoryProject_IdNull() {
+                return this.IsNull(this.tableAdaptItConfigurations.StoryProject_IdColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetStoryProject_IdNull() {
+                this[this.tableAdaptItConfigurations.StoryProject_IdColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public AdaptItConfigurationRow[] GetAdaptItConfigurationRows() {
+                if ((this.Table.ChildRelations["AdaptItConfigurations_AdaptItConfiguration"] == null)) {
+                    return new AdaptItConfigurationRow[0];
+                }
+                else {
+                    return ((AdaptItConfigurationRow[])(base.GetChildRows(this.Table.ChildRelations["AdaptItConfigurations_AdaptItConfiguration"])));
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public partial class AdaptItConfigurationRow : global::System.Data.DataRow {
+            
+            private AdaptItConfigurationDataTable tableAdaptItConfiguration;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal AdaptItConfigurationRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableAdaptItConfiguration = ((AdaptItConfigurationDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string ProjectType {
+                get {
+                    return ((string)(this[this.tableAdaptItConfiguration.ProjectTypeColumn]));
+                }
+                set {
+                    this[this.tableAdaptItConfiguration.ProjectTypeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string BtDirection {
+                get {
+                    return ((string)(this[this.tableAdaptItConfiguration.BtDirectionColumn]));
+                }
+                set {
+                    this[this.tableAdaptItConfiguration.BtDirectionColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string ConverterName {
+                get {
+                    return ((string)(this[this.tableAdaptItConfiguration.ConverterNameColumn]));
+                }
+                set {
+                    this[this.tableAdaptItConfiguration.ConverterNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string RepositoryUrl {
+                get {
+                    try {
+                        return ((string)(this[this.tableAdaptItConfiguration.RepositoryUrlColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RepositoryUrl\' in table \'AdaptItConfiguration\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableAdaptItConfiguration.RepositoryUrlColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string AdaptItConfiguration_text {
+                get {
+                    return ((string)(this[this.tableAdaptItConfiguration.AdaptItConfiguration_textColumn]));
+                }
+                set {
+                    this[this.tableAdaptItConfiguration.AdaptItConfiguration_textColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int AdaptItConfigurations_Id {
+                get {
+                    try {
+                        return ((int)(this[this.tableAdaptItConfiguration.AdaptItConfigurations_IdColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'AdaptItConfigurations_Id\' in table \'AdaptItConfiguration\' i" +
+                                "s DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableAdaptItConfiguration.AdaptItConfigurations_IdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public AdaptItConfigurationsRow AdaptItConfigurationsRow {
+                get {
+                    return ((AdaptItConfigurationsRow)(this.GetParentRow(this.Table.ParentRelations["AdaptItConfigurations_AdaptItConfiguration"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["AdaptItConfigurations_AdaptItConfiguration"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsRepositoryUrlNull() {
+                return this.IsNull(this.tableAdaptItConfiguration.RepositoryUrlColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetRepositoryUrlNull() {
+                this[this.tableAdaptItConfiguration.RepositoryUrlColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsAdaptItConfigurations_IdNull() {
+                return this.IsNull(this.tableAdaptItConfiguration.AdaptItConfigurations_IdColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetAdaptItConfigurations_IdNull() {
+                this[this.tableAdaptItConfiguration.AdaptItConfigurations_IdColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -19120,6 +19698,68 @@ namespace OneStoryProjectEditor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public FreeTranslationLangRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public class AdaptItConfigurationsRowChangeEvent : global::System.EventArgs {
+            
+            private AdaptItConfigurationsRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public AdaptItConfigurationsRowChangeEvent(AdaptItConfigurationsRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public AdaptItConfigurationsRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public class AdaptItConfigurationRowChangeEvent : global::System.EventArgs {
+            
+            private AdaptItConfigurationRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public AdaptItConfigurationRowChangeEvent(AdaptItConfigurationRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public AdaptItConfigurationRow Row {
                 get {
                     return this.eventRow;
                 }

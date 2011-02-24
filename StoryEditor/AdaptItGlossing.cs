@@ -61,27 +61,28 @@ namespace OneStoryProjectEditor
                 strSourceLangName, strTargetLangName);
         }
 
-        public static AdaptItEncConverter InitLookupAdapter(ProjectSettings proj, StoryEditor.GlossType eGlossType,
+        public static AdaptItEncConverter InitLookupAdapter(ProjectSettings proj, 
+            ProjectSettings.AdaptItConfiguration.AdaptItBtDirection eBtDirection,
             out ProjectSettings.LanguageInfo liSourceLang, out ProjectSettings.LanguageInfo liTargetLang)
         {
             var aECs = new EncConverters();
             string strName;
-            switch (eGlossType)
+            switch (eBtDirection)
             {
-                case StoryEditor.GlossType.eVernacularToNational:
-                    strName = proj.VernacularToNationalBtAdaptItConverterName;
+                case ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.VernacularToNationalBt:
+                    strName = (proj.VernacularToNationalBt != null) ? proj.VernacularToNationalBt.ConverterName : null;
                     liSourceLang = proj.Vernacular;
                     liTargetLang = proj.NationalBT;
                     break;
 
-                case StoryEditor.GlossType.eVernacularToEnglish:    // the glossing KB for the Vern to Natl project
-                    strName = proj.VernacularToInternationalBtAdaptItConverterName;
+                case ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.VernacularToInternationalBt:    // the glossing KB for the Vern to Natl project
+                    strName = (proj.VernacularToInternationalBt != null) ? proj.VernacularToInternationalBt.ConverterName : null;
                     liSourceLang = proj.Vernacular;
                     liTargetLang = proj.InternationalBT; // this is still the national lg project (but the glossing KB)
                     break;
 
-                case StoryEditor.GlossType.eNationalToEnglish:
-                    strName = proj.NationalBtToInternationalBtAdaptItConverterName;
+                case ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.NationalBtToInternationalBt:
+                    strName = (proj.NationalBtToInternationalBt != null) ? proj.NationalBtToInternationalBt.ConverterName : null;
                     liSourceLang = proj.NationalBT;         // this is a whole nuther national to English project
                     liTargetLang = proj.InternationalBT;
                     break;

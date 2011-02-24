@@ -9,80 +9,84 @@ namespace OneStoryProjectEditor
 {
     public partial class AdaptItConfigControl : UserControl
     {
-        private NewProjectWizard _parent;
-        private StoryEditor.GlossType _eGlossType;
+        public new NewProjectWizard Parent;
+        public ProjectSettings.AdaptItConfiguration.AdaptItBtDirection BtDirection;
 
-        public AdaptItConfigControl(NewProjectWizard parent, StoryEditor.GlossType eGlossType)
+        public new bool Visible
         {
-            InitializeComponent();
-            _parent = parent;
-            _eGlossType = eGlossType;
-        }
-
-        public string AdaptItConverterName
-        { 
-            get { return textBoxProjectPath.Text; } 
-            set { textBoxProjectPath.Text = value; }
-        }
-
-        public override string Text
-        {
-            get
-            {
-                return textBoxProjectPath.Text;
-            }
-            set
-            {
-                textBoxProjectPath.Text = value;
-            }
-        }
-
-        public string Label
-        {
-            get { return labelBT.Text; }
-            set { labelBT.Text = value; }
+            get { return Parent.tlpAdaptItConfiguration.Controls.Contains(this); }
         }
 
         public string SourceLanguageName { get; set; }
         public string TargetLanguageName { get; set; }
 
-        public enum AdaptItProjectType
+        public AdaptItConfigControl()
         {
-            None,
-            LocalAiProjectOnly,
-            SharedAiProject
+            InitializeComponent();
         }
 
-        public AdaptItProjectType AdaptItProject
+        private ProjectSettings.AdaptItConfiguration _adaptItConfiguration;
+        public ProjectSettings.AdaptItConfiguration AdaptItConfiguration
+        { 
+            get
+            {
+                if (AdaptItProject == ProjectSettings.AdaptItConfiguration.AdaptItProjectType.None)
+                    return null;
+
+                if (_adaptItConfiguration == null)
+                    _adaptItConfiguration = new ProjectSettings.AdaptItConfiguration();
+
+                _adaptItConfiguration.BtDirection = BtDirection;    // from parent
+                _adaptItConfiguration.ProjectType = AdaptItProject; // from user
+                _adaptItConfiguration.ConverterName = AdaptItConverterName;
+                _adaptItConfiguration.RepositoryUrl = _strAdaptItRepositoryUrl;
+                return _adaptItConfiguration;
+            }
+            set
+            {
+                _adaptItConfiguration = value;
+                if (_adaptItConfiguration != null)
+                {
+                    AdaptItConverterName = _adaptItConfiguration.ConverterName;
+                    _strAdaptItRepositoryUrl = _adaptItConfiguration.RepositoryUrl;
+                    AdaptItProject = _adaptItConfiguration.ProjectType;
+                    System.Diagnostics.Debug.Assert(_adaptItConfiguration.BtDirection == BtDirection);
+                }
+                else
+                {
+                    textBoxProjectPath.Clear();
+                    AdaptItProject = ProjectSettings.AdaptItConfiguration.AdaptItProjectType.None;
+                    AdaptItConverterName = _strAdaptItRepositoryUrl = null;
+                }
+            }
+        }
+
+        private string AdaptItConverterName
+        {
+            get { return textBoxProjectPath.Text; }
+            set { textBoxProjectPath.Text = value; }
+        }
+
+        private string _strAdaptItRepositoryUrl;
+
+        private ProjectSettings.AdaptItConfiguration.AdaptItProjectType AdaptItProject
         {
             get
             {
                 if (radioButtonLocal.Checked)
-                    return AdaptItProjectType.LocalAiProjectOnly;
+                    return ProjectSettings.AdaptItConfiguration.AdaptItProjectType.LocalAiProjectOnly;
                 if (radioButtonShared.Checked)
-                    return AdaptItProjectType.SharedAiProject;
-                return AdaptItProjectType.None;
+                    return ProjectSettings.AdaptItConfiguration.AdaptItProjectType.SharedAiProject;
+                return ProjectSettings.AdaptItConfiguration.AdaptItProjectType.None;
             }
             set
             {
-                if (AdaptItProjectType.LocalAiProjectOnly == value)
+                if (ProjectSettings.AdaptItConfiguration.AdaptItProjectType.LocalAiProjectOnly == value)
                     radioButtonLocal.Checked = true;
-                else if (AdaptItProjectType.SharedAiProject == value)
+                else if (ProjectSettings.AdaptItConfiguration.AdaptItProjectType.SharedAiProject == value)
                     radioButtonShared.Checked = true;
                 else 
                     radioButtonNone.Checked = true;
-            }
-        }
-
-        public new bool Visible
-        {
-            get { return _parent.flowLayoutPanelAdaptItControls.Contains(this); }
-            set 
-            {
-                if (!value && Visible)
-                    _parent.flowLayoutPanelAdaptItControls.Controls.Remove(this);
-                else if (value && !Visible)
-                    _parent.flowLayoutPanelAdaptItControls.Controls.Add(this);
             }
         }
 
@@ -111,7 +115,7 @@ namespace OneStoryProjectEditor
             if (res == DialogResult.Yes)
             {
                 ProjectSettings.LanguageInfo liSource, liTarget;
-                AdaptItEncConverter theEc = AdaptItGlossing.InitLookupAdapter(_parent.ProjSettings, _eGlossType,
+                AdaptItEncConverter theEc = AdaptItGlossing.InitLookupAdapter(Parent.ProjSettings, BtDirection,
                                                                               out liSource, out liTarget);
                 AdaptItConverterName = theEc.Name;
                 return;
@@ -131,10 +135,10 @@ namespace OneStoryProjectEditor
 
         private void buttonBrowse_Click(object sender, EventArgs e)
         {
-            if (AdaptItProject == AdaptItProjectType.None)
+            if (AdaptItProject == ProjectSettings.AdaptItConfiguration.AdaptItProjectType.None)
                 return;
 
-            if (AdaptItProject == AdaptItProjectType.LocalAiProjectOnly)
+            if (AdaptItProject == ProjectSettings.AdaptItConfiguration.AdaptItProjectType.LocalAiProjectOnly)
             {
                 string strConverterName = null;
                 IEncConverter theEC = new AdaptItEncConverter();
@@ -147,7 +151,7 @@ namespace OneStoryProjectEditor
                 }
             }
 
-            if (AdaptItProject == AdaptItProjectType.SharedAiProject)
+            if (AdaptItProject == ProjectSettings.AdaptItConfiguration.AdaptItProjectType.SharedAiProject)
             {
                 folderBrowserDialog.SelectedPath =
                     Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
@@ -184,10 +188,10 @@ namespace OneStoryProjectEditor
         private bool CreateRepository(ref string strProjectFolder)
         {
             string strHgUsername = null, strHgPassword = null;
-            if (_parent.LoggedInMember != null)
+            if (Parent.LoggedInMember != null)
             {
-                strHgUsername = _parent.LoggedInMember.HgUsername;
-                strHgPassword = _parent.LoggedInMember.HgPassword;
+                strHgUsername = Parent.LoggedInMember.HgUsername;
+                strHgPassword = Parent.LoggedInMember.HgPassword;
             }
 
             var model = new GetCloneFromInternetModel(strProjectFolder)
@@ -210,6 +214,11 @@ namespace OneStoryProjectEditor
                 }
             }
             return false;
+        }
+
+        private void radioButtonNone_Click(object sender, EventArgs e)
+        {
+            AdaptItConverterName = null;
         }
     }
 }

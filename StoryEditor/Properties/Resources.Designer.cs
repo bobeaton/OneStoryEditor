@@ -1063,7 +1063,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Adapt It for {0} to {1} adaptation:.
+        ///   Looks up a localized string similar to {0} to {1} adaptation:.
         /// </summary>
         internal static string IDS_UseAiComboBoxText {
             get {

@@ -15,10 +15,6 @@ namespace OneStoryProjectEditor
         protected StoryProjectData _storyProjectData;
         public TeamMemberData LoggedInMember;
 
-        private AdaptItConfigControl adaptItConfigControlVernacularToNationalBT;
-        private AdaptItConfigControl adaptItConfigControlVernacularToInternationalBT;
-        private AdaptItConfigControl adaptItConfigControlNationalBtToInternationalBt;
-
         public NewProjectWizard(StoryProjectData storyProjectData)
         {
             InitializeComponent();
@@ -82,20 +78,6 @@ namespace OneStoryProjectEditor
             {
                 checkBoxLanguageFreeTranslation.Checked = true;
             }
-        }
-
-        private AdaptItConfigControl GetAiControl(string strName, int nTabIndex, StoryEditor.GlossType eGlossType)
-        {
-            var ctrl = new AdaptItConfigControl(this, eGlossType)
-            {
-                AdaptItConverterName = null,
-                AutoSizeMode = AutoSizeMode.GrowAndShrink,
-                Location = new System.Drawing.Point(3, 3),
-                Name = strName,
-                Size = new System.Drawing.Size(653, 74),
-                TabIndex = nTabIndex
-            };
-            return ctrl;
         }
 
         private void ProcessNext()
@@ -249,23 +231,23 @@ namespace OneStoryProjectEditor
 
                 // now deal with the AdaptIt BT helpers (doing this here, because by now LoggedOnMember
                 //  will be initialized)
-                if (adaptItConfigControlVernacularToNationalBT == null)
-                    adaptItConfigControlVernacularToNationalBT = GetAiControl("adaptItConfigControlVernacularToNationalBT", 0, StoryEditor.GlossType.eVernacularToNational);
+                SetAdaptItControlVisibility(checkBoxLanguageVernacular,
+                                            checkBoxLanguageNationalBT,
+                                            labelAdaptItVernacularToNationalBt,
+                                            adaptItConfigCtrlVernacularToNationalBt,
+                                            0);
 
-                if (adaptItConfigControlVernacularToInternationalBT == null)
-                    adaptItConfigControlVernacularToInternationalBT = GetAiControl("adaptItConfigControlVernacularToInternationalBT", 1, StoryEditor.GlossType.eVernacularToEnglish);
+                SetAdaptItControlVisibility(checkBoxLanguageVernacular,
+                                            checkBoxLanguageInternationalBT,
+                                            labelAdaptItVernacularToInternationalBt,
+                                            adaptItConfigCtrlVernacularToInternationalBt,
+                                            1);
 
-                if (adaptItConfigControlNationalBtToInternationalBt == null)
-                    adaptItConfigControlNationalBtToInternationalBt = GetAiControl("adaptItConfigControlNationalBtToInternationalBt", 2, StoryEditor.GlossType.eNationalToEnglish);
-
-                if (checkBoxLanguageVernacular.Checked && checkBoxLanguageNationalBT.Checked)
-                    adaptItConfigControlVernacularToNationalBT.Show();
-                adaptItConfigControlVernacularToNationalBT.Visible = (checkBoxLanguageVernacular.Checked &&
-                                                                      checkBoxLanguageNationalBT.Checked);
-                adaptItConfigControlVernacularToInternationalBT.Visible = (checkBoxLanguageVernacular.Checked &&
-                                                                           checkBoxLanguageInternationalBT.Checked);
-                adaptItConfigControlNationalBtToInternationalBt.Visible = (checkBoxLanguageNationalBT.Checked &&
-                                                                           checkBoxLanguageInternationalBT.Checked);
+                SetAdaptItControlVisibility(checkBoxLanguageNationalBT,
+                                            checkBoxLanguageInternationalBT,
+                                            labelAdaptItNationalBtToInternationalBt,
+                                            adaptItConfigCtrlNationalBtToInternationalBt,
+                                            2);
 
                 tabControl.SelectedIndex++;
             }
@@ -323,29 +305,32 @@ namespace OneStoryProjectEditor
             }
             else if (tabControl.SelectedTab == tabPageMemberRoles)
             {
-                if (adaptItConfigControlVernacularToNationalBT.Visible)
+                if (tlpAdaptItConfiguration.Controls.ContainsKey(adaptItConfigCtrlVernacularToNationalBt.Name))
                 {
-                    ConfigureAdaptItConfig(adaptItConfigControlVernacularToNationalBT,
-                                           ProjSettings.AdaptItProjectVernacularToNationalBt,
+                    ConfigureAdaptItConfig(adaptItConfigCtrlVernacularToNationalBt,
+                                           labelAdaptItVernacularToNationalBt,
+                                           ProjSettings.VernacularToNationalBt,
+                                           ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.VernacularToNationalBt,
                                            ProjSettings.Vernacular.LangName,
-                                           ProjSettings.NationalBT.LangName,
-                                           ProjSettings.VernacularToNationalBtAdaptItConverterName);
+                                           ProjSettings.NationalBT.LangName);
                 }
-                if (adaptItConfigControlVernacularToInternationalBT.Visible)
+                if (tlpAdaptItConfiguration.Controls.ContainsKey(adaptItConfigCtrlVernacularToInternationalBt.Name))
                 {
-                    ConfigureAdaptItConfig(adaptItConfigControlVernacularToInternationalBT,
-                                           ProjSettings.AdaptItProjectVernacularToInternationalBt,
+                    ConfigureAdaptItConfig(adaptItConfigCtrlVernacularToInternationalBt,
+                                           labelAdaptItVernacularToInternationalBt,
+                                           ProjSettings.VernacularToInternationalBt,
+                                           ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.VernacularToInternationalBt,
                                            ProjSettings.Vernacular.LangName,
-                                           ProjSettings.InternationalBT.LangName,
-                                           ProjSettings.VernacularToInternationalBtAdaptItConverterName);
+                                           ProjSettings.InternationalBT.LangName);
                 }
-                if (adaptItConfigControlNationalBtToInternationalBt.Visible)
+                if (tlpAdaptItConfiguration.Controls.ContainsKey(adaptItConfigCtrlNationalBtToInternationalBt.Name))
                 {
-                    ConfigureAdaptItConfig(adaptItConfigControlNationalBtToInternationalBt,
-                                           ProjSettings.AdaptItProjectNationalBtToInternationalBt,
+                    ConfigureAdaptItConfig(adaptItConfigCtrlNationalBtToInternationalBt,
+                                           labelAdaptItNationalBtToInternationalBt,
+                                           ProjSettings.NationalBtToInternationalBt,
+                                           ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.NationalBtToInternationalBt,
                                            ProjSettings.NationalBT.LangName,
-                                           ProjSettings.InternationalBT.LangName,
-                                           ProjSettings.NationalBtToInternationalBtAdaptItConverterName);
+                                           ProjSettings.InternationalBT.LangName);
                 }
                 tabControl.SelectedIndex++;
             }
@@ -354,34 +339,44 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private static void ReadAdaptItConfig(AdaptItConfigControl ctrl, 
-            ref AdaptItConfigControl.AdaptItProjectType adaptItProjectType, 
-            ref string strConverterName)
+        private void SetAdaptItControlVisibility(CheckBox cbSource, CheckBox cbTarget,
+            Label label, AdaptItConfigControl ctrlAdaptItConfig, int nRowNum)
         {
-            if (ctrl.Visible && !String.IsNullOrEmpty(ctrl.AdaptItConverterName))
+            if (cbSource.Checked && cbTarget.Checked)
             {
-                adaptItProjectType = ctrl.AdaptItProject;
-                strConverterName = ctrl.Text;
+                if (!tlpAdaptItConfiguration.Controls.ContainsKey(label.Name))
+                {
+                    tlpAdaptItConfiguration.Controls.Add(label, 0, nRowNum);
+                    tlpAdaptItConfiguration.Controls.Add(ctrlAdaptItConfig, 1, nRowNum);
+                }
             }
-            else
+            else if (tlpAdaptItConfiguration.Controls.ContainsKey(label.Name))
             {
-                adaptItProjectType = AdaptItConfigControl.AdaptItProjectType.None;
-                strConverterName = null;
+                tlpAdaptItConfiguration.Controls.Remove(label);
+                tlpAdaptItConfiguration.Controls.Remove(ctrlAdaptItConfig);
             }
         }
 
-        private static void ConfigureAdaptItConfig(AdaptItConfigControl ctrl, 
-            AdaptItConfigControl.AdaptItProjectType typeAiProject,
-            string strSourceName, string strTargetName, string strProjectPath)
+        private static void ReadAdaptItConfig(AdaptItConfigControl ctrl,
+            ref ProjectSettings.AdaptItConfiguration adaptItConfig)
         {
-            ctrl.AdaptItProject = typeAiProject;
+            adaptItConfig = ctrl.AdaptItConfiguration;
+        }
+
+        private void ConfigureAdaptItConfig(AdaptItConfigControl ctrl, Label label,
+            ProjectSettings.AdaptItConfiguration aiProjectConfig, 
+            ProjectSettings.AdaptItConfiguration.AdaptItBtDirection eBtDirection,
+            string strSourceName, string strTargetName)
+        {
+            ctrl.Parent = this;
+            ctrl.BtDirection = eBtDirection;
+            ctrl.AdaptItConfiguration = aiProjectConfig;
             ctrl.SourceLanguageName = strSourceName;
             ctrl.TargetLanguageName = strTargetName;
-            ctrl.Label =
+            label.Text =
                 String.Format(Properties.Resources.IDS_UseAiComboBoxText,
                               strSourceName,
                               strTargetName);
-            ctrl.Text = strProjectPath;
         }
 
         internal static void RemoveProject(string strProjectFilename, string strProjectName)
@@ -557,15 +552,12 @@ namespace OneStoryProjectEditor
             ProjSettings.ShowAnswersNationalBT = checkBoxAnswersNationalBT.Checked;
             ProjSettings.ShowAnswersInternationalBT = checkBoxAnswersInternationalBT.Checked;
 
-            ReadAdaptItConfig(adaptItConfigControlVernacularToNationalBT,
-                              ref ProjSettings.AdaptItProjectVernacularToNationalBt,
-                              ref ProjSettings.VernacularToNationalBtAdaptItConverterName);
-            ReadAdaptItConfig(adaptItConfigControlVernacularToInternationalBT,
-                              ref ProjSettings.AdaptItProjectVernacularToInternationalBt,
-                              ref ProjSettings.VernacularToInternationalBtAdaptItConverterName);
-            ReadAdaptItConfig(adaptItConfigControlNationalBtToInternationalBt,
-                              ref ProjSettings.AdaptItProjectNationalBtToInternationalBt,
-                              ref ProjSettings.NationalBtToInternationalBtAdaptItConverterName);
+            ReadAdaptItConfig(adaptItConfigCtrlVernacularToNationalBt,
+                              ref ProjSettings.VernacularToNationalBt);
+            ReadAdaptItConfig(adaptItConfigCtrlVernacularToInternationalBt,
+                              ref ProjSettings.VernacularToInternationalBt);
+            ReadAdaptItConfig(adaptItConfigCtrlNationalBtToInternationalBt,
+                              ref ProjSettings.NationalBtToInternationalBt);
 
             if (!checkBoxUseInternetRepo.Checked)
                 Program.ClearHgParameters(ProjectName);
@@ -691,6 +683,8 @@ namespace OneStoryProjectEditor
                     checkBoxAnswersVernacular.Checked = false;
             }
 
+            UpdateTabPageAIBT();
+
             checkBoxRetellingsVernacular.Enabled =
                 checkBoxTestQuestionsVernacular.Enabled =
                 checkBoxAnswersVernacular.Enabled = checkBoxLanguageVernacular.Checked;
@@ -708,6 +702,8 @@ namespace OneStoryProjectEditor
             }
             else
                 tabControl.TabPages.Remove(tabPageLanguageNationalBT);
+
+            UpdateTabPageAIBT();
 
             checkBoxRetellingsNationalBT.Checked = 
                 checkBoxTestQuestionsNationalBT.Checked = 
@@ -731,6 +727,8 @@ namespace OneStoryProjectEditor
             else
                 tabControl.TabPages.Remove(tabPageLanguageEnglishBT);
 
+            UpdateTabPageAIBT();
+
             checkBoxRetellingsInternationalBT.Checked =
                 checkBoxTestQuestionsInternationalBT.Checked =
                 checkBoxAnswersInternationalBT.Checked = checkBoxLanguageInternationalBT.Checked;
@@ -740,6 +738,22 @@ namespace OneStoryProjectEditor
                 checkBoxAnswersInternationalBT.Enabled = checkBoxLanguageInternationalBT.Checked;
 
             Modified = true;
+        }
+
+        private void UpdateTabPageAIBT()
+        {
+            // if we don't have either the vernacular or the national bt, then we can't do
+            //  any adaptIt BT'ing
+            if ((checkBoxLanguageVernacular.Checked
+                && (checkBoxLanguageNationalBT.Checked
+                    || checkBoxLanguageInternationalBT.Checked))
+                || (checkBoxLanguageNationalBT.Checked && checkBoxLanguageInternationalBT.Checked))
+            {
+                if (!tabControl.TabPages.Contains(tabPageAIBT))
+                    tabControl.Controls.Add(tabPageAIBT);
+            }
+            else // means we can remove it
+                tabControl.TabPages.Remove(tabPageAIBT);
         }
 
         private void checkBoxFreeTranslation_CheckedChanged(object sender, EventArgs e)

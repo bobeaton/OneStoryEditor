@@ -1195,8 +1195,12 @@ namespace OneStoryProjectEditor
                         new XAttribute(CstrAttributeProjectName, ProjSettings.ProjectName),
                         new XAttribute("PanoramaFrontMatter", PanoramaFrontMatter),
                         TeamMembers.GetXml,
-                        ProjSettings.GetXml,
-                        LnCNotes.GetXml);
+                        ProjSettings.GetXml);
+                
+                if (ProjSettings.HasAdaptItConfigurationData)
+                    elemStoryProject.Add(ProjSettings.AdaptItConfigXml);
+
+                elemStoryProject.Add(LnCNotes.GetXml);
 
                 foreach (StoriesData aSsD in Values)
                     elemStoryProject.Add(aSsD.GetXml);

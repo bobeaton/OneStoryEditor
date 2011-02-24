@@ -134,13 +134,19 @@
             this.checkBoxOutsideEnglishBackTranslator = new System.Windows.Forms.CheckBox();
             this.checkBoxProjectFacilitator = new System.Windows.Forms.CheckBox();
             this.tabPageAIBT = new System.Windows.Forms.TabPage();
+            this.tlpAdaptItConfiguration = new System.Windows.Forms.TableLayoutPanel();
+            this.labelAdaptItVernacularToNationalBt = new System.Windows.Forms.Label();
+            this.labelAdaptItVernacularToInternationalBt = new System.Windows.Forms.Label();
+            this.labelAdaptItNationalBtToInternationalBt = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.buttonNext = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.buttonPrevious = new System.Windows.Forms.Button();
             this.fontDialog = new System.Windows.Forms.FontDialog();
-            this.flowLayoutPanelAdaptItControls = new System.Windows.Forms.FlowLayoutPanel();
+            this.adaptItConfigCtrlVernacularToNationalBt = new OneStoryProjectEditor.AdaptItConfigControl();
+            this.adaptItConfigCtrlVernacularToInternationalBt = new OneStoryProjectEditor.AdaptItConfigControl();
+            this.adaptItConfigCtrlNationalBtToInternationalBt = new OneStoryProjectEditor.AdaptItConfigControl();
             this.tabControl.SuspendLayout();
             this.tabPageProjectName.SuspendLayout();
             this.tabPageInternetRepository.SuspendLayout();
@@ -157,7 +163,7 @@
             this.tableLayoutPanelFreeTranslation.SuspendLayout();
             this.tabPageMemberRoles.SuspendLayout();
             this.tabPageAIBT.SuspendLayout();
-            this.flowLayoutPanelAdaptItControls.SuspendLayout();
+            this.tlpAdaptItConfiguration.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl
@@ -177,7 +183,7 @@
             this.tabControl.Location = new System.Drawing.Point(13, 13);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(759, 340);
+            this.tabControl.Size = new System.Drawing.Size(746, 340);
             this.tabControl.TabIndex = 0;
             this.tabControl.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabControl_Selecting);
             // 
@@ -189,7 +195,7 @@
             this.tabPageProjectName.Location = new System.Drawing.Point(4, 22);
             this.tabPageProjectName.Name = "tabPageProjectName";
             this.tabPageProjectName.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageProjectName.Size = new System.Drawing.Size(751, 314);
+            this.tabPageProjectName.Size = new System.Drawing.Size(738, 314);
             this.tabPageProjectName.TabIndex = 0;
             this.tabPageProjectName.Text = "Project Name";
             this.tabPageProjectName.UseVisualStyleBackColor = true;
@@ -233,7 +239,7 @@
             this.tabPageInternetRepository.Location = new System.Drawing.Point(4, 22);
             this.tabPageInternetRepository.Name = "tabPageInternetRepository";
             this.tabPageInternetRepository.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageInternetRepository.Size = new System.Drawing.Size(751, 314);
+            this.tabPageInternetRepository.Size = new System.Drawing.Size(738, 314);
             this.tabPageInternetRepository.TabIndex = 6;
             this.tabPageInternetRepository.Text = "Internet Repository";
             this.tabPageInternetRepository.UseVisualStyleBackColor = true;
@@ -366,7 +372,7 @@
             this.tabPageLanguages.Location = new System.Drawing.Point(4, 22);
             this.tabPageLanguages.Name = "tabPageLanguages";
             this.tabPageLanguages.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLanguages.Size = new System.Drawing.Size(751, 314);
+            this.tabPageLanguages.Size = new System.Drawing.Size(738, 314);
             this.tabPageLanguages.TabIndex = 1;
             this.tabPageLanguages.Text = "Languages";
             this.tabPageLanguages.UseVisualStyleBackColor = true;
@@ -669,7 +675,7 @@
             this.tabPageLanguageVernacular.Location = new System.Drawing.Point(4, 22);
             this.tabPageLanguageVernacular.Name = "tabPageLanguageVernacular";
             this.tabPageLanguageVernacular.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLanguageVernacular.Size = new System.Drawing.Size(751, 314);
+            this.tabPageLanguageVernacular.Size = new System.Drawing.Size(738, 314);
             this.tabPageLanguageVernacular.TabIndex = 5;
             this.tabPageLanguageVernacular.Text = "Story Language";
             this.tabPageLanguageVernacular.UseVisualStyleBackColor = true;
@@ -842,7 +848,7 @@
             this.tabPageLanguageNationalBT.Location = new System.Drawing.Point(4, 22);
             this.tabPageLanguageNationalBT.Name = "tabPageLanguageNationalBT";
             this.tabPageLanguageNationalBT.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLanguageNationalBT.Size = new System.Drawing.Size(751, 314);
+            this.tabPageLanguageNationalBT.Size = new System.Drawing.Size(738, 314);
             this.tabPageLanguageNationalBT.TabIndex = 4;
             this.tabPageLanguageNationalBT.Text = "National BT";
             this.tabPageLanguageNationalBT.UseVisualStyleBackColor = true;
@@ -1015,7 +1021,7 @@
             this.tabPageLanguageEnglishBT.Location = new System.Drawing.Point(4, 22);
             this.tabPageLanguageEnglishBT.Name = "tabPageLanguageEnglishBT";
             this.tabPageLanguageEnglishBT.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLanguageEnglishBT.Size = new System.Drawing.Size(751, 314);
+            this.tabPageLanguageEnglishBT.Size = new System.Drawing.Size(738, 314);
             this.tabPageLanguageEnglishBT.TabIndex = 2;
             this.tabPageLanguageEnglishBT.Text = "English BT";
             this.tabPageLanguageEnglishBT.UseVisualStyleBackColor = true;
@@ -1188,7 +1194,7 @@
             this.tabPageLanguageFreeTranslation.Location = new System.Drawing.Point(4, 22);
             this.tabPageLanguageFreeTranslation.Name = "tabPageLanguageFreeTranslation";
             this.tabPageLanguageFreeTranslation.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLanguageFreeTranslation.Size = new System.Drawing.Size(751, 314);
+            this.tabPageLanguageFreeTranslation.Size = new System.Drawing.Size(738, 314);
             this.tabPageLanguageFreeTranslation.TabIndex = 7;
             this.tabPageLanguageFreeTranslation.Text = "Free Tr";
             this.tabPageLanguageFreeTranslation.UseVisualStyleBackColor = true;
@@ -1365,7 +1371,7 @@
             this.tabPageMemberRoles.Location = new System.Drawing.Point(4, 22);
             this.tabPageMemberRoles.Name = "tabPageMemberRoles";
             this.tabPageMemberRoles.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageMemberRoles.Size = new System.Drawing.Size(751, 314);
+            this.tabPageMemberRoles.Size = new System.Drawing.Size(738, 314);
             this.tabPageMemberRoles.TabIndex = 3;
             this.tabPageMemberRoles.Text = "Team Members";
             this.tabPageMemberRoles.UseVisualStyleBackColor = true;
@@ -1444,15 +1450,69 @@
             // 
             // tabPageAIBT
             // 
-            this.tabPageAIBT.Controls.Add(this.flowLayoutPanelAdaptItControls);
+            this.tabPageAIBT.Controls.Add(this.tlpAdaptItConfiguration);
             this.tabPageAIBT.Controls.Add(this.textBox1);
             this.tabPageAIBT.Location = new System.Drawing.Point(4, 22);
             this.tabPageAIBT.Name = "tabPageAIBT";
             this.tabPageAIBT.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageAIBT.Size = new System.Drawing.Size(751, 314);
+            this.tabPageAIBT.Size = new System.Drawing.Size(738, 314);
             this.tabPageAIBT.TabIndex = 8;
             this.tabPageAIBT.Text = "AdaptIt";
             this.tabPageAIBT.UseVisualStyleBackColor = true;
+            // 
+            // tlpAdaptItConfiguration
+            // 
+            this.tlpAdaptItConfiguration.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tlpAdaptItConfiguration.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tlpAdaptItConfiguration.ColumnCount = 2;
+            this.tlpAdaptItConfiguration.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlpAdaptItConfiguration.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpAdaptItConfiguration.Controls.Add(this.labelAdaptItVernacularToNationalBt, 0, 0);
+            this.tlpAdaptItConfiguration.Controls.Add(this.adaptItConfigCtrlVernacularToNationalBt, 1, 0);
+            this.tlpAdaptItConfiguration.Controls.Add(this.labelAdaptItVernacularToInternationalBt, 0, 1);
+            this.tlpAdaptItConfiguration.Controls.Add(this.adaptItConfigCtrlVernacularToInternationalBt, 1, 1);
+            this.tlpAdaptItConfiguration.Controls.Add(this.labelAdaptItNationalBtToInternationalBt, 0, 2);
+            this.tlpAdaptItConfiguration.Controls.Add(this.adaptItConfigCtrlNationalBtToInternationalBt, 1, 2);
+            this.tlpAdaptItConfiguration.Location = new System.Drawing.Point(7, 7);
+            this.tlpAdaptItConfiguration.Name = "tlpAdaptItConfiguration";
+            this.tlpAdaptItConfiguration.RowCount = 3;
+            this.tlpAdaptItConfiguration.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpAdaptItConfiguration.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpAdaptItConfiguration.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpAdaptItConfiguration.Size = new System.Drawing.Size(725, 246);
+            this.tlpAdaptItConfiguration.TabIndex = 10;
+            // 
+            // labelAdaptItVernacularToNationalBt
+            // 
+            this.labelAdaptItVernacularToNationalBt.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.labelAdaptItVernacularToNationalBt.AutoSize = true;
+            this.labelAdaptItVernacularToNationalBt.Location = new System.Drawing.Point(3, 34);
+            this.labelAdaptItVernacularToNationalBt.Name = "labelAdaptItVernacularToNationalBt";
+            this.labelAdaptItVernacularToNationalBt.Size = new System.Drawing.Size(130, 13);
+            this.labelAdaptItVernacularToNationalBt.TabIndex = 3;
+            this.labelAdaptItVernacularToNationalBt.Text = "Use AdaptIt for X to Y BT:";
+            // 
+            // labelAdaptItVernacularToInternationalBt
+            // 
+            this.labelAdaptItVernacularToInternationalBt.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.labelAdaptItVernacularToInternationalBt.AutoSize = true;
+            this.labelAdaptItVernacularToInternationalBt.Location = new System.Drawing.Point(3, 115);
+            this.labelAdaptItVernacularToInternationalBt.Name = "labelAdaptItVernacularToInternationalBt";
+            this.labelAdaptItVernacularToInternationalBt.Size = new System.Drawing.Size(130, 13);
+            this.labelAdaptItVernacularToInternationalBt.TabIndex = 4;
+            this.labelAdaptItVernacularToInternationalBt.Text = "Use AdaptIt for X to Y BT:";
+            // 
+            // labelAdaptItNationalBtToInternationalBt
+            // 
+            this.labelAdaptItNationalBtToInternationalBt.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.labelAdaptItNationalBtToInternationalBt.AutoSize = true;
+            this.labelAdaptItNationalBtToInternationalBt.Location = new System.Drawing.Point(3, 198);
+            this.labelAdaptItNationalBtToInternationalBt.Name = "labelAdaptItNationalBtToInternationalBt";
+            this.labelAdaptItNationalBtToInternationalBt.Size = new System.Drawing.Size(130, 13);
+            this.labelAdaptItNationalBtToInternationalBt.TabIndex = 5;
+            this.labelAdaptItNationalBtToInternationalBt.Text = "Use AdaptIt for X to Y BT:";
             // 
             // textBox1
             // 
@@ -1463,7 +1523,7 @@
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(739, 49);
+            this.textBox1.Size = new System.Drawing.Size(726, 49);
             this.textBox1.TabIndex = 9;
             this.textBox1.TabStop = false;
             this.textBox1.Text = resources.GetString("textBox1.Text");
@@ -1471,7 +1531,7 @@
             // buttonNext
             // 
             this.buttonNext.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.buttonNext.Location = new System.Drawing.Point(511, 359);
+            this.buttonNext.Location = new System.Drawing.Point(598, 359);
             this.buttonNext.Name = "buttonNext";
             this.buttonNext.Size = new System.Drawing.Size(75, 23);
             this.buttonNext.TabIndex = 1;
@@ -1483,7 +1543,7 @@
             // 
             this.buttonCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(593, 359);
+            this.buttonCancel.Location = new System.Drawing.Point(680, 359);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 2;
@@ -1493,7 +1553,7 @@
             // buttonPrevious
             // 
             this.buttonPrevious.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.buttonPrevious.Location = new System.Drawing.Point(430, 359);
+            this.buttonPrevious.Location = new System.Drawing.Point(517, 359);
             this.buttonPrevious.Name = "buttonPrevious";
             this.buttonPrevious.Size = new System.Drawing.Size(75, 23);
             this.buttonPrevious.TabIndex = 1;
@@ -1505,25 +1565,45 @@
             // 
             this.fontDialog.ShowColor = true;
             // 
-            // flowLayoutPanelAdaptItControls
+            // adaptItConfigCtrlVernacularToNationalBt
             // 
-            this.flowLayoutPanelAdaptItControls.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.flowLayoutPanelAdaptItControls.AutoScroll = true;
-            this.flowLayoutPanelAdaptItControls.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanelAdaptItControls.Location = new System.Drawing.Point(18, 7);
-            this.flowLayoutPanelAdaptItControls.Name = "flowLayoutPanelAdaptItControls";
-            this.flowLayoutPanelAdaptItControls.Size = new System.Drawing.Size(716, 246);
-            this.flowLayoutPanelAdaptItControls.TabIndex = 10;
-            this.flowLayoutPanelAdaptItControls.WrapContents = false;
+            this.adaptItConfigCtrlVernacularToNationalBt.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.adaptItConfigCtrlVernacularToNationalBt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.adaptItConfigCtrlVernacularToNationalBt.Location = new System.Drawing.Point(139, 3);
+            this.adaptItConfigCtrlVernacularToNationalBt.Name = "adaptItConfigCtrlVernacularToNationalBt";
+            this.adaptItConfigCtrlVernacularToNationalBt.Size = new System.Drawing.Size(583, 75);
+            this.adaptItConfigCtrlVernacularToNationalBt.SourceLanguageName = null;
+            this.adaptItConfigCtrlVernacularToNationalBt.TabIndex = 6;
+            this.adaptItConfigCtrlVernacularToNationalBt.TargetLanguageName = null;
+            // 
+            // adaptItConfigCtrlVernacularToInternationalBt
+            // 
+            this.adaptItConfigCtrlVernacularToInternationalBt.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.adaptItConfigCtrlVernacularToInternationalBt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.adaptItConfigCtrlVernacularToInternationalBt.Location = new System.Drawing.Point(139, 84);
+            this.adaptItConfigCtrlVernacularToInternationalBt.Name = "adaptItConfigCtrlVernacularToInternationalBt";
+            this.adaptItConfigCtrlVernacularToInternationalBt.Size = new System.Drawing.Size(583, 76);
+            this.adaptItConfigCtrlVernacularToInternationalBt.SourceLanguageName = null;
+            this.adaptItConfigCtrlVernacularToInternationalBt.TabIndex = 7;
+            this.adaptItConfigCtrlVernacularToInternationalBt.TargetLanguageName = null;
+            // 
+            // adaptItConfigCtrlNationalBtToInternationalBt
+            // 
+            this.adaptItConfigCtrlNationalBtToInternationalBt.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.adaptItConfigCtrlNationalBtToInternationalBt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.adaptItConfigCtrlNationalBtToInternationalBt.Location = new System.Drawing.Point(139, 166);
+            this.adaptItConfigCtrlNationalBtToInternationalBt.Name = "adaptItConfigCtrlNationalBtToInternationalBt";
+            this.adaptItConfigCtrlNationalBtToInternationalBt.Size = new System.Drawing.Size(583, 77);
+            this.adaptItConfigCtrlNationalBtToInternationalBt.SourceLanguageName = null;
+            this.adaptItConfigCtrlNationalBtToInternationalBt.TabIndex = 8;
+            this.adaptItConfigCtrlNationalBtToInternationalBt.TargetLanguageName = null;
             // 
             // NewProjectWizard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(784, 394);
+            this.ClientSize = new System.Drawing.Size(771, 394);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonPrevious);
             this.Controls.Add(this.buttonNext);
@@ -1557,7 +1637,8 @@
             this.tabPageMemberRoles.PerformLayout();
             this.tabPageAIBT.ResumeLayout(false);
             this.tabPageAIBT.PerformLayout();
-            this.flowLayoutPanelAdaptItControls.ResumeLayout(false);
+            this.tlpAdaptItConfiguration.ResumeLayout(false);
+            this.tlpAdaptItConfiguration.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1674,6 +1755,12 @@
         private System.Windows.Forms.CheckBox checkBoxAnswersInternationalBT;
         private System.Windows.Forms.TabPage tabPageAIBT;
         private System.Windows.Forms.TextBox textBox1;
-        internal System.Windows.Forms.FlowLayoutPanel flowLayoutPanelAdaptItControls;
+        private System.Windows.Forms.Label labelAdaptItNationalBtToInternationalBt;
+        private System.Windows.Forms.Label labelAdaptItVernacularToNationalBt;
+        private System.Windows.Forms.Label labelAdaptItVernacularToInternationalBt;
+        internal System.Windows.Forms.TableLayoutPanel tlpAdaptItConfiguration;
+        private AdaptItConfigControl adaptItConfigCtrlVernacularToNationalBt;
+        private AdaptItConfigControl adaptItConfigCtrlVernacularToInternationalBt;
+        private AdaptItConfigControl adaptItConfigCtrlNationalBtToInternationalBt;
     }
 }

@@ -65,14 +65,15 @@
             <xs:attribute name="UseAnswerVernacular" type="xs:boolean" use="optional" />
             <xs:attribute name="UseAnswerNationalBT" type="xs:boolean" use="optional" />
             <xs:attribute name="UseAnswerInternationalBT" type="xs:boolean" use="optional" />
-            <xs:attribute name="VernacularToNationalBtAdaptItConverterName" type="xs:string" use="optional" />
-            <xs:attribute name="VernacularToInternationalBtAdaptItConverterName" type="xs:string" use="optional" />
-            <xs:attribute name="NationalBtToInternationalBtAdaptItConverterName" type="xs:string" use="optional" />
-            <xs:attribute name="AdaptItProjectTypeVernacularToNationalBt" type="xs:string" use="optional" />
-            <xs:attribute name="AdaptItProjectTypeVernacularToInternationalBt" type="xs:string" use="optional" />
-            <xs:attribute name="AdaptItProjectTypeNationalBtToInternationalBt" type="xs:string" use="optional" />
           </xs:complexType>
 				</xs:element>
+        <xs:element name="AdaptItConfigurations" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="AdaptItConfiguration" type="AdaptItConfigurationType" minOccurs="1" maxOccurs="unbounded" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
         <xs:element name="LnCNotes" minOccurs="0" maxOccurs="1">
           <xs:complexType>
             <xs:sequence>
@@ -419,6 +420,14 @@
       <xs:enumeration value="SharedAiProject" />
     </xs:restriction>
   </xs:simpleType>
+  <xs:simpleType name="AdaptItBtDirection">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Undefined" />
+      <xs:enumeration value="VernacularToNationalBt" />
+      <xs:enumeration value="VernacularToInternationalBt" />
+      <xs:enumeration value="NationalBtToInternationalBt" />
+    </xs:restriction>
+  </xs:simpleType>
   <xs:complexType name="Comment">
 		<xs:simpleContent>
 			<xs:extension base="xs:string">
@@ -428,4 +437,14 @@
 			</xs:extension>
 		</xs:simpleContent>
 	</xs:complexType>
+  <xs:complexType name="AdaptItConfigurationType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="ProjectType" type="AdaptItProjectType" use="required" />
+        <xs:attribute name="BtDirection" type="AdaptItBtDirection" use="required" />
+        <xs:attribute name="ConverterName" type="xs:string" use="required" />
+        <xs:attribute name="RepositoryUrl" type="xs:string" use="optional" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
 </xs:schema>

@@ -492,7 +492,8 @@ namespace OneStoryProjectEditor
                     return;
 
                 var dlg = new GlossingForm(_ctrlVerseParent.TheSE.StoryProject.ProjSettings, 
-                    MyStringTransfer.ToString(), StoryEditor.GlossType.eVernacularToNational);
+                    MyStringTransfer.ToString(),
+                    ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.VernacularToNationalBt);
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
                     NationalBtSibling.Text = dlg.TargetSentence;
@@ -523,11 +524,19 @@ namespace OneStoryProjectEditor
                                                  (_eFieldType == StoryEditor.TextFieldType.eNational)));
                 if (!MyStringTransfer.HasData)
                     return;
-                StoryEditor.GlossType eGlossType = (_eFieldType == StoryEditor.TextFieldType.eVernacular)
-                                                       ? StoryEditor.GlossType.eVernacularToEnglish
-                                                       : StoryEditor.GlossType.eNationalToEnglish;
+                ProjectSettings.AdaptItConfiguration.AdaptItBtDirection eBtDirection = (_eFieldType ==
+                                                                                        StoryEditor.TextFieldType.
+                                                                                            eVernacular)
+                                                                                           ? ProjectSettings.
+                                                                                                 AdaptItConfiguration.
+                                                                                                 AdaptItBtDirection.
+                                                                                                 VernacularToInternationalBt
+                                                                                           : ProjectSettings.
+                                                                                                 AdaptItConfiguration.
+                                                                                                 AdaptItBtDirection.
+                                                                                                 NationalBtToInternationalBt;
                 var dlg = new GlossingForm(_ctrlVerseParent.TheSE.StoryProject.ProjSettings,
-                    MyStringTransfer.ToString(), eGlossType);
+                    MyStringTransfer.ToString(), eBtDirection);
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
                     EnglishBtSibling.Text = dlg.TargetSentence;

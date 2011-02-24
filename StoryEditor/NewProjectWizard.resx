@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="textBox1.Text" xml:space="preserve">
-    <value>You can use the Adapt It program to help make a literal word-by-word (or phrase-by-phrase) adaptation into one or both of the back-translation languages. This tab displays the options that are allowed based on the configured set of languages from the Languages tab (e.g. if you have only a story language and the English BT selected on the Languages tab, then only the 'Use AdaptIt for Story language to English BT adaptation' option will be displayed)</value>
+    <value>You can use the Adapt It program to help make a literal word-by-word (or phrase-by-phrase) adaptation into one or both of the back-translation languages. This tab displays the options that are allowed based on the configured set of languages from the Languages tab (e.g. if you have only a story language and the English BT selected on the Languages tab, then only the 'Adapt It for Story language to English BT adaptation' option will be displayed)</value>
   </data>
   <data name="textBoxProjectNameInstructions.Text" xml:space="preserve">
     <value>Type the name you want to give the project in the box above. If this project will be stored in an internet repository for sharing with other team members, then check the box above also. Note that if you are using an Internet repository, then you must make the name of project exactly the same as the repository name on the internet. For example, if the internet repository is at the URL, "http://hg-private.languagedepot.org/snwmtn-test", then the project name *must* be "snwmtn-test"</value>
