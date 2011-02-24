@@ -9,10 +9,11 @@
     <VernacularLang name="Kangri" code="xnr" FontName="Arial Unicode MS" FontSize="12" FontColor="Maroon" SentenceFinalPunct="।!?:" Keyboard="DevRom" />
     <NationalBTLang name="Hindi" code="hin" FontName="Arial Unicode MS" FontSize="12" FontColor="Green" SentenceFinalPunct="।!?:" Keyboard="DevRom" />
     <InternationalBTLang name="English" code="en" FontName="Times New Roman" FontSize="10" FontColor="Blue" SentenceFinalPunct=".!?:" />
+    <FreeTranslationLang name="English" code="eng" FontName="Times New Roman" FontSize="10" FontColor="ForestGreen" SentenceFinalPunct=".!?:" />
   </Languages>
   <LnCNotes />
   <stories SetName="Stories">
-    <story name="test" stage="ProjFacTypeInternationalBT" guid="8a2f84bd-dafc-4a79-856a-f62824f020b1" stageDateTimeStamp="2011-02-23T18:59:52">
+    <story name="test" stage="ProjFacTypeFreeTranslation" guid="8a2f84bd-dafc-4a79-856a-f62824f020b1" stageDateTimeStamp="2011-02-23T19:02:52">
       <CraftingInfo NonBiblicalStory="false">
         <StoryCrafter memberID="mem-6b8d5a0a-a919-4dbc-bd7b-ec2d85d101e8" />
         <ProjectFacilitator memberID="mem-987cb399-286e-4d17-97ef-650ba1f1eea3" />
@@ -22,6 +23,7 @@
       <TransitionHistory>
         <StateTransition LoggedInMemberId="mem-987cb399-286e-4d17-97ef-650ba1f1eea3" FromState="ProjFacTypeVernacular" ToState="ProjFacTypeNationalBT" TransitionDateTime="2011-02-22T17:12:25" WindowsUserName="VIRTUALASUS\Bob" />
         <StateTransition LoggedInMemberId="mem-987cb399-286e-4d17-97ef-650ba1f1eea3" FromState="ProjFacTypeNationalBT" ToState="ProjFacTypeInternationalBT" TransitionDateTime="2011-02-23T18:59:52" WindowsUserName="StudioXPS-1340\Bob" />
+        <StateTransition LoggedInMemberId="mem-987cb399-286e-4d17-97ef-650ba1f1eea3" FromState="ProjFacTypeInternationalBT" ToState="ProjFacTypeFreeTranslation" TransitionDateTime="2011-02-23T19:02:52" WindowsUserName="StudioXPS-1340\Bob" />
       </TransitionHistory>
       <verses>
         <verse guid="c089a570-0bb3-4d0d-879c-cfb6048a3792" first="true" />
@@ -29,11 +31,13 @@
           <StoryLine lang="Vernacular">एह़ लैणी कांगड़िआ च है।</StoryLine>
           <StoryLine lang="NationalBt">यह लाइन हिन्‍दी में है।</StoryLine>
           <StoryLine lang="InternationalBt">this line is in Hindi.</StoryLine>
+          <StoryLine lang="FreeTranslation">this line is in Hindi.</StoryLine>
         </verse>
         <verse guid="bd176051-689f-418d-abef-79ee7b955df1">
           <StoryLine lang="Vernacular">क्‍या गल्‍ल है!</StoryLine>
           <StoryLine lang="NationalBt">क्‍या बात है!</StoryLine>
           <StoryLine lang="InternationalBt">what is thing!</StoryLine>
+          <StoryLine lang="FreeTranslation">How great is that!</StoryLine>
         </verse>
       </verses>
     </story>
