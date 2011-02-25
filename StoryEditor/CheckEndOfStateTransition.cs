@@ -441,7 +441,15 @@ namespace OneStoryProjectEditor
                 strLine = strLine.Replace("\r\n", " ");
                 while (strLine.IndexOf("  ", StringComparison.Ordinal) != -1)
                     strLine = strLine.Replace("  ", " ");
-                if (!String.IsNullOrEmpty(strLine))
+                
+                if ((strLine.Length == 1) && (strLine.IndexOfAny(achSplitOn) == 0))
+                {
+                    // this means it was just a 2nd punctuation mark
+                    if (lstSentences.Count > 0)
+                        lstSentences[lstSentences.Count - 1] += strLine;
+                }
+
+                else if (!String.IsNullOrEmpty(strLine))
                     lstSentences.Add(strLine);
 
                 nStartIndex = nIndex + 1;
