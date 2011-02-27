@@ -12,11 +12,6 @@ namespace OneStoryProjectEditor
         public new NewProjectWizard Parent;
         public ProjectSettings.AdaptItConfiguration.AdaptItBtDirection BtDirection;
 
-        public new bool Visible
-        {
-            get { return Parent.tlpAdaptItConfiguration.Controls.Contains(this); }
-        }
-
         public string SourceLanguageName { get; set; }
         public string TargetLanguageName { get; set; }
 
@@ -30,16 +25,18 @@ namespace OneStoryProjectEditor
         { 
             get
             {
-                if (AdaptItProject == ProjectSettings.AdaptItConfiguration.AdaptItProjectType.None)
+                if (AdaptItProjectType == ProjectSettings.AdaptItConfiguration.AdaptItProjectType.None)
                     return null;
 
                 if (_adaptItConfiguration == null)
                     _adaptItConfiguration = new ProjectSettings.AdaptItConfiguration();
 
                 _adaptItConfiguration.BtDirection = BtDirection;    // from parent
-                _adaptItConfiguration.ProjectType = AdaptItProject; // from user
+                _adaptItConfiguration.ProjectType = AdaptItProjectType; // from user
                 _adaptItConfiguration.ConverterName = AdaptItConverterName;
-                _adaptItConfiguration.RepositoryUrl = _strAdaptItRepositoryUrl;
+                _adaptItConfiguration.RepoProjectName = GetProjectNameOrDefault;
+                _adaptItConfiguration.RepositoryServer = _strAdaptItRepositoryServer;
+                _adaptItConfiguration.NetworkRepositoryPath = _strAdaptItNetworkRepositoryPath;
                 return _adaptItConfiguration;
             }
             set
@@ -48,15 +45,19 @@ namespace OneStoryProjectEditor
                 if (_adaptItConfiguration != null)
                 {
                     AdaptItConverterName = _adaptItConfiguration.ConverterName;
-                    _strAdaptItRepositoryUrl = _adaptItConfiguration.RepositoryUrl;
-                    AdaptItProject = _adaptItConfiguration.ProjectType;
+                    _strAdaptItProjectName = _adaptItConfiguration.RepoProjectName;
+                    _strAdaptItRepositoryServer = _adaptItConfiguration.RepositoryServer;
+                    _strAdaptItNetworkRepositoryPath = _adaptItConfiguration.NetworkRepositoryPath;
+                    AdaptItProjectType = _adaptItConfiguration.ProjectType;
                     System.Diagnostics.Debug.Assert(_adaptItConfiguration.BtDirection == BtDirection);
                 }
                 else
                 {
                     textBoxProjectPath.Clear();
-                    AdaptItProject = ProjectSettings.AdaptItConfiguration.AdaptItProjectType.None;
-                    AdaptItConverterName = _strAdaptItRepositoryUrl = null;
+                    AdaptItProjectType = ProjectSettings.AdaptItConfiguration.AdaptItProjectType.None;
+                    AdaptItConverterName = _strAdaptItNetworkRepositoryPath = null;
+                    _strAdaptItProjectName = GetProjectNameOrDefault;
+                    _strAdaptItRepositoryServer = Properties.Resources.IDS_DefaultRepoServer;
                 }
             }
         }
@@ -67,9 +68,27 @@ namespace OneStoryProjectEditor
             set { textBoxProjectPath.Text = value; }
         }
 
-        private string _strAdaptItRepositoryUrl;
+        private string _strAdaptItProjectName;
+        private string _strAdaptItRepositoryServer;
+        private string _strAdaptItNetworkRepositoryPath;
 
-        private ProjectSettings.AdaptItConfiguration.AdaptItProjectType AdaptItProject
+        private string GetProjectNameOrDefault
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(_strAdaptItProjectName)
+                    && !String.IsNullOrEmpty(SourceLanguageName)
+                    && !String.IsNullOrEmpty(TargetLanguageName))
+                {
+                    _strAdaptItProjectName = String.Format(Properties.Resources.AdaptItProjectRepositoryFormat,
+                                                           SourceLanguageName.ToLower(), 
+                                                           TargetLanguageName.ToLower());
+                }
+                return _strAdaptItProjectName;
+            }
+        }
+
+        private ProjectSettings.AdaptItConfiguration.AdaptItProjectType AdaptItProjectType
         {
             get
             {
@@ -135,10 +154,10 @@ namespace OneStoryProjectEditor
 
         private void buttonBrowse_Click(object sender, EventArgs e)
         {
-            if (AdaptItProject == ProjectSettings.AdaptItConfiguration.AdaptItProjectType.None)
+            if (AdaptItProjectType == ProjectSettings.AdaptItConfiguration.AdaptItProjectType.None)
                 return;
 
-            if (AdaptItProject == ProjectSettings.AdaptItConfiguration.AdaptItProjectType.LocalAiProjectOnly)
+            if (AdaptItProjectType == ProjectSettings.AdaptItConfiguration.AdaptItProjectType.LocalAiProjectOnly)
             {
                 string strConverterName = null;
                 IEncConverter theEC = new AdaptItEncConverter();
@@ -151,69 +170,111 @@ namespace OneStoryProjectEditor
                 }
             }
 
-            if (AdaptItProject == ProjectSettings.AdaptItConfiguration.AdaptItProjectType.SharedAiProject)
+            if (AdaptItProjectType == ProjectSettings.AdaptItConfiguration.AdaptItProjectType.SharedAiProject)
             {
-                folderBrowserDialog.SelectedPath =
-                    Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                                 AdaptItAutoConfigDialog.CstrAdaptItWorkingDirUnicode);
-                folderBrowserDialog.ShowDialog();
-
-                string strAdaptItProjectFolder = folderBrowserDialog.SelectedPath;
-                string strDotHgFolder = Path.Combine(strAdaptItProjectFolder, ".hg");
-                if (!Directory.Exists(strDotHgFolder))
-                {
-                    // this means we haven't downloaded it yet, so go ahead and do a "from the internet"
-                    if (!CreateRepository(ref strAdaptItProjectFolder))
-                        return;
-                }
-
-                if (!Directory.Exists(strDotHgFolder))
-                    return;
-
-                string strProjectName = Path.GetFileNameWithoutExtension(strAdaptItProjectFolder);
-                string strConverterName = "Lookup in " + strProjectName;
-                if (!theECs.ContainsKey(strConverterName))
-                {
-                    string strConverterSpec = Path.Combine(strAdaptItProjectFolder,
-                                                           strProjectName + ".xml");
-                    theECs.AddConversionMap(strConverterName, strConverterSpec, ConvType.Unicode_to_from_Unicode,
-                        EncConverters.strTypeSILadaptit, "UNICODE", "UNICODE", ProcessTypeFlags.DontKnow);
-                }
-
-                IEncConverter theEC = theECs[strConverterName];
-                AdaptItConverterName = theEC.Name;
+                DoSharedAiProjectClick();
             }
         }
 
-        private bool CreateRepository(ref string strProjectFolder)
+        private void DoSharedAiProjectClick()
         {
-            string strHgUsername = null, strHgPassword = null;
-            if (Parent.LoggedInMember != null)
+            DialogResult res = MessageBox.Show(Properties.Resources.IDS_QueryIfAiProjectNeedsToBePulled,
+                                               OseResources.Properties.Resources.IDS_Caption,
+                                               MessageBoxButtons.YesNoCancel);
+            if (res == DialogResult.Cancel)
+                return;
+
+            if (res == DialogResult.No)
             {
-                strHgUsername = Parent.LoggedInMember.HgUsername;
-                strHgPassword = Parent.LoggedInMember.HgPassword;
+                string strProjectFolder;
+                DoPushPull(out strProjectFolder);
+                if (String.IsNullOrEmpty(strProjectFolder))
+                    return;
+
+                string strAiProjectName = Path.GetFileNameWithoutExtension(strProjectFolder);
+                string strConverterName = "Lookup in " + strAiProjectName;
+                string strConverterSpec = Path.Combine(strProjectFolder,
+                                                       strAiProjectName + ".xml");
+                theECs.AddConversionMap(strConverterName, strConverterSpec,
+                    ConvType.Unicode_to_from_Unicode, EncConverters.strTypeSILadaptit,
+                    "UNICODE", "UNICODE", ProcessTypeFlags.DontKnow);
+
+                IEncConverter theEc = theECs[strConverterName];
+                AdaptItConverterName = theEc.Name;
             }
-
-            var model = new GetCloneFromInternetModel(strProjectFolder)
-                            {
-                                AccountName = strHgUsername,
-                                Password = strHgPassword,
-                                ProjectId = String.Format(Properties.Settings.Default.AdaptItProjectRepositoryFormat,
-                                                          SourceLanguageName, TargetLanguageName),
-                                SelectedServerLabel = Properties.Settings.Default.AdaptItDefaultServerLabel,
-                                LocalFolderName = String.Format(Properties.Resources.IDS_AdaptItProjectFolderFormat,
-                                                                SourceLanguageName, TargetLanguageName)
-                            };
-
-            using (var dlg = new GetCloneFromInternetDialog(model))
+            else // the project *is* on this machine...
             {
-                if (DialogResult.OK == dlg.ShowDialog())
+                // first let's see if an AI Lookup transducer already exists with the
+                //  proper name
+                string strProjectFolder,
+                       strConverterName = AdaptItGlossing.AdaptItLookupConverterName(SourceLanguageName,
+                                                                                     TargetLanguageName);
+                IEncConverter theEc = null;
+                if (theECs.ContainsKey(strConverterName))
                 {
-                    strProjectFolder = dlg.PathToNewProject;
-                    return true;
+                    theEc = theECs[strConverterName];
+                    if (theEc is AdaptItEncConverter)
+                    {
+                        AdaptItConverterName = theEc.Name;
+                        strProjectFolder = Path.GetDirectoryName(theEc.ConverterIdentifier);
+                        res = MessageBox.Show(String.Format(Properties.Resources.IDS_QuerySharedAiProject,
+                                                            strProjectFolder),
+                                              OseResources.Properties.Resources.IDS_Caption,
+                                              MessageBoxButtons.YesNoCancel);
+                        if (res == DialogResult.Cancel)
+                            return;
+
+                        if (res == DialogResult.No)
+                            theEc = null;
+
+                        // the 'yes' case falls through and skips the next if statement
+                    }
                 }
+
+                if (theEc == null)
+                {
+                    // this means we don't know which one it was, so query for which project 
+                    //  the user wants to share
+                    theEc = new AdaptItEncConverter();
+                    if (theECs.AutoConfigureEx(theEc,
+                                               ConvType.Unicode_to_from_Unicode,
+                                               ref strConverterName,
+                                               "UNICODE", "UNICODE"))
+                    {
+                        AdaptItConverterName = theEc.Name;
+                    }
+                    else
+                        return;
+                }
+
+                // now we know which local AI project it is and it's EncConverter, but now
+                //  we need to possibly push the project.
+                DoPushPull(out strProjectFolder);
             }
-            return false;
+        }
+
+        private void DoPushPull(out string strProjectFolder)
+        {
+            var dlg = new AiRepoSelectionForm
+                          {
+                              SourceLanguageName = SourceLanguageName,
+                              TargetLanguageName = TargetLanguageName,
+                              InternetAddress = _strAdaptItRepositoryServer,
+                              NetworkAddress = _strAdaptItNetworkRepositoryPath,
+                              ProjectName = _strAdaptItProjectName,
+                              Parent = Parent
+                          };
+
+            // this dialog takes care of push and pull
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                strProjectFolder = dlg.ProjectFolder;
+                _strAdaptItProjectName = dlg.ProjectName;
+                _strAdaptItRepositoryServer = dlg.InternetAddress;
+                _strAdaptItNetworkRepositoryPath = dlg.NetworkAddress;
+            }
+            else
+                strProjectFolder = null;
         }
 
         private void radioButtonNone_Click(object sender, EventArgs e)

@@ -164,6 +164,12 @@
     <Compile Include="AddLnCNoteForm.Designer.cs">
       <DependentUpon>AddLnCNoteForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="AiRepoSelectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AiRepoSelectionForm.Designer.cs">
+      <DependentUpon>AiRepoSelectionForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="BiblicalKeyTermsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -423,6 +429,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AddLnCNoteForm.resx">
       <DependentUpon>AddLnCNoteForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AiRepoSelectionForm.resx">
+      <DependentUpon>AiRepoSelectionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="BiblicalKeyTermsForm.resx">
       <DependentUpon>BiblicalKeyTermsForm.cs</DependentUpon>

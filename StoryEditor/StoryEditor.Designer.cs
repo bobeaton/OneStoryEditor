@@ -289,7 +289,8 @@ namespace OneStoryProjectEditor
             this.projectFromASharedNetworkDriveToolStripMenu.Name = "projectFromASharedNetworkDriveToolStripMenu";
             this.projectFromASharedNetworkDriveToolStripMenu.Size = new System.Drawing.Size(277, 22);
             this.projectFromASharedNetworkDriveToolStripMenu.Text = "&Associate with a shared network folder";
-            this.projectFromASharedNetworkDriveToolStripMenu.ToolTipText = resources.GetString("projectFromASharedNetworkDriveToolStripMenu.ToolTipText");
+            this.projectFromASharedNetworkDriveToolStripMenu.ToolTipText = "Click here to associate this project with a repository on a network drive (e.g. f" +
+                "or working together at a workshop where Internet connectivity is difficult).";
             this.projectFromASharedNetworkDriveToolStripMenu.Click += new System.EventHandler(this.projectFromASharedNetworkDriveToolStripMenu_Click);
             // 
             // toolStripSeparator4

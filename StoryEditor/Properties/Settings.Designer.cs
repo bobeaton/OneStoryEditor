@@ -680,25 +680,41 @@ namespace OneStoryProjectEditor.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("AdaptItKb{0}To{1}")]
-        public string AdaptItProjectRepositoryFormat {
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>private.languageDepot.org</string>
+  <string>http://hg-private.languagedepot.org</string>
+  <string>languageDepot.org</string>
+  <string>http://hg-public.languagedepot.org</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection AdaptItDefaultServerLabels {
             get {
-                return ((string)(this["AdaptItProjectRepositoryFormat"]));
+                return ((global::System.Collections.Specialized.StringCollection)(this["AdaptItDefaultServerLabels"]));
             }
             set {
-                this["AdaptItProjectRepositoryFormat"] = value;
+                this["AdaptItDefaultServerLabels"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("private.languageDepot.org")]
-        public string AdaptItDefaultServerLabel {
+        public global::System.Collections.Specialized.StringCollection ProjectNameToAiHgUrl {
             get {
-                return ((string)(this["AdaptItDefaultServerLabel"]));
+                return ((global::System.Collections.Specialized.StringCollection)(this["ProjectNameToAiHgUrl"]));
             }
             set {
-                this["AdaptItDefaultServerLabel"] = value;
+                this["ProjectNameToAiHgUrl"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection ProjectNameToAiHgNetworkUrl {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["ProjectNameToAiHgNetworkUrl"]));
+            }
+            set {
+                this["ProjectNameToAiHgNetworkUrl"] = value;
             }
         }
     }

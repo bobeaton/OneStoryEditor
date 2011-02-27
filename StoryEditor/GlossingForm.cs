@@ -53,10 +53,10 @@ namespace OneStoryProjectEditor
         {
             foreach (GlossingControl aGC in flowLayoutPanel.Controls)
             {
-                // means we have to add it to the kb. The source word will get trimmed, but not the target
-                string strTargetWord = aGC.TargetWord.Trim(m_theEC.DelimitersReverse);
-                TargetWords.Add(strTargetWord);
-                m_theEC.AddEntryPair(aGC.SourceWord, strTargetWord);
+                // means we have to add it to the kb. But only if the user chose
+                //  all the ambiguities
+                if (aGC.TargetWord.IndexOf(GlossingControl.CstrAmbiguitySeparator) == -1)
+                    m_theEC.AddEntryPair(aGC.SourceWord, aGC.TargetWord);
             }
 
             System.Diagnostics.Debug.Assert(flowLayoutPanel.Controls.Count > 0);

@@ -9,7 +9,7 @@ namespace OneStoryProjectEditor
     public partial class GlossingControl : UserControl
     {
         protected GlossingForm _parent;
-        protected string strAmbiguitySeparator = "¦";
+        public const string CstrAmbiguitySeparator = "¦";
         protected string _strTargetKeyboard;
         public GlossingControl(GlossingForm parent, 
             ProjectSettings.LanguageInfo liSource, string strSourceWord, string strSourceInBetween,
@@ -60,7 +60,7 @@ namespace OneStoryProjectEditor
                 if (mc.Count > 0)
                 {
                     string strAmbiguityList = mc[0].Groups[1].ToString();
-                    value = strAmbiguityList.Replace("%", strAmbiguitySeparator);
+                    value = strAmbiguityList.Replace("%", CstrAmbiguitySeparator);
                 }
 
                 textBoxTargetWord.Text = value;
@@ -140,7 +140,7 @@ namespace OneStoryProjectEditor
                 contextMenuStripAmbiguityPicker.Show(textBoxTargetWord, textBoxTargetWord.Bounds.Location, ToolStripDropDownDirection.BelowRight);
             }
             */
-            if (textBoxTargetWord.Text.IndexOf(strAmbiguitySeparator) != -1)
+            if (textBoxTargetWord.Text.IndexOf(CstrAmbiguitySeparator) != -1)
                 contextMenuStripAmbiguityPicker.Show(textBoxTargetWord, textBoxTargetWord.Bounds.Location, ToolStripDropDownDirection.BelowRight);
         }
 
@@ -192,9 +192,9 @@ namespace OneStoryProjectEditor
                 return;
 
             // if we have multiple interpretations, then throw up a choice list
-            if (textBoxTargetWord.Text.IndexOf(strAmbiguitySeparator) != -1)
+            if (textBoxTargetWord.Text.IndexOf(CstrAmbiguitySeparator) != -1)
             {
-                string[] astrWords = textBoxTargetWord.Text.Split(strAmbiguitySeparator.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                string[] astrWords = textBoxTargetWord.Text.Split(CstrAmbiguitySeparator.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < astrWords.Length; i++)
                 {
                     string strWord = astrWords[i];

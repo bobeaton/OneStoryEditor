@@ -280,6 +280,37 @@ namespace OneStoryProjectEditor
             // has to be a "same-named" project open currently that we're just going to push
             //  to the network drive
             Debug.Assert((StoryProject != null) && (StoryProject.ProjSettings != null));
+#if !OldSharedNetworkApproach
+            var dlg = new FolderBrowserDialog
+                          {
+                              Description =
+                                  String.Format(Properties.Resources.IDS_QuerySharedNetworkFolder,
+                                                OseResources.Properties.Resources.DefMyDocsSubfolder,
+                                                StoryProject.ProjSettings.ProjectName)
+                          };
+
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                string strSharedNetworkFolder = Path.Combine(dlg.SelectedPath,
+                                                             Path.Combine(
+                                                                 OseResources.Properties.Resources.DefMyDocsSubfolder,
+                                                                 StoryProject.ProjSettings.ProjectName));
+
+                if (strSharedNetworkFolder.ToLower() == StoryProject.ProjSettings.ProjectFolder.ToLower())
+                {
+                    MessageBox.Show(Properties.Resources.IDS_CantPushToTheLocalRepo,
+                                    OseResources.Properties.Resources.IDS_Caption);
+                    return;
+                }
+
+                if (!Directory.Exists(strSharedNetworkFolder))
+                    Directory.CreateDirectory(strSharedNetworkFolder);
+
+                Program.SetHgParametersNetworkDrive(StoryProject.ProjSettings.ProjectFolder,
+                                                    StoryProject.ProjSettings.ProjectName,
+                                                    strSharedNetworkFolder);
+            }
+#else
             openFileDialog.FileName = ProjectSettings.OneStoryFileName(StoryProject.ProjSettings.ProjectName);
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
@@ -305,6 +336,7 @@ namespace OneStoryProjectEditor
                                     OseResources.Properties.Resources.IDS_Caption);
                 }
             }
+#endif
         }
 
         private static string ExtractUsernameFromUrl(string url)
@@ -2232,25 +2264,39 @@ namespace OneStoryProjectEditor
 
                 // if (StoryProject.ProjSettings.Vernacular.HasData && StoryProject.ProjSettings.NationalBT.HasData)
                 if (StoryProject.ProjSettings.VernacularToNationalBt != null)
-                    storyAdaptItVernacularToNationalMenuItem.Text = String.Format(Properties.Resources.IDS_AdaptItFromTo, 
-                        StoryProject.ProjSettings.Vernacular.LangName, 
+                {
+                    storyAdaptItVernacularToNationalMenuItem.Text = String.Format(
+                        Properties.Resources.IDS_AdaptItFromTo,
+                        StoryProject.ProjSettings.Vernacular.LangName,
                         StoryProject.ProjSettings.NationalBT.LangName);
+                    storyAdaptItVernacularToNationalMenuItem.Visible = true;
+                }
                 else
                     storyAdaptItVernacularToNationalMenuItem.Visible = false;
 
                 // if (StoryProject.ProjSettings.Vernacular.HasData && StoryProject.ProjSettings.InternationalBT.HasData)
                 if (StoryProject.ProjSettings.VernacularToInternationalBt != null)
-                    storyAdaptItVernacularToEnglishMenuItem.Text = String.Format(Properties.Resources.IDS_AdaptItFromTo, 
-                        StoryProject.ProjSettings.Vernacular.LangName, 
-                        StoryProject.ProjSettings.InternationalBT.LangName);
+                {
+                    storyAdaptItVernacularToEnglishMenuItem.Text = String.Format(Properties.Resources.IDS_AdaptItFromTo,
+                                                                                 StoryProject.ProjSettings.Vernacular.
+                                                                                     LangName,
+                                                                                 StoryProject.ProjSettings.
+                                                                                     InternationalBT.LangName);
+                    storyAdaptItVernacularToEnglishMenuItem.Visible = true;
+                }
                 else
                     storyAdaptItVernacularToEnglishMenuItem.Visible = false;
 
                 // if (StoryProject.ProjSettings.NationalBT.HasData && StoryProject.ProjSettings.InternationalBT.HasData)
                 if (StoryProject.ProjSettings.NationalBtToInternationalBt != null)
-                    storyAdaptItNationalToEnglishMenuItem.Text = String.Format(Properties.Resources.IDS_AdaptItFromTo, 
-                        StoryProject.ProjSettings.NationalBT.LangName, 
-                        StoryProject.ProjSettings.InternationalBT.LangName);
+                {
+                    storyAdaptItNationalToEnglishMenuItem.Text = String.Format(Properties.Resources.IDS_AdaptItFromTo,
+                                                                               StoryProject.ProjSettings.NationalBT.
+                                                                                   LangName,
+                                                                               StoryProject.ProjSettings.InternationalBT
+                                                                                   .LangName);
+                    storyAdaptItNationalToEnglishMenuItem.Visible = true;
+                }
                 else
                     storyAdaptItNationalToEnglishMenuItem.Visible = false;
             }

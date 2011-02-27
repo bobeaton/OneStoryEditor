@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using Chorus.UI.Sync;
 using Chorus.Utilities;
 using Chorus.VcsDrivers;
@@ -79,13 +80,11 @@ namespace OneStoryProjectEditor
                 }
 
                 foreach (string strProjectFolder in _astrProjectForSync)
-                {
-                    string strOneStoryFileSpec = Path.Combine(strProjectFolder,
-                        ProjectSettings.OneStoryFileName(Path.GetFileNameWithoutExtension(strProjectFolder)));
-
-                    System.Diagnostics.Debug.Assert(File.Exists(strOneStoryFileSpec));
                     SyncWithRepository(strProjectFolder, bPretendOpening);
-                }
+
+                if (_mapAiProjectsToSync != null)
+                    foreach (KeyValuePair<string, string> kvp in _mapAiProjectsToSync)
+                        SyncWithAiRepository(kvp.Value, kvp.Key, bPretendOpening);
             }
             catch (RestartException)
             {
@@ -156,6 +155,7 @@ namespace OneStoryProjectEditor
                 Properties.Settings.Default.RecentFindWhat = new StringCollection();
             if (Properties.Settings.Default.RecentReplaceWith == null)
                 Properties.Settings.Default.RecentReplaceWith = new StringCollection();
+            
             if (Properties.Settings.Default.ProjectNameToHgUrl == null)
                 Properties.Settings.Default.ProjectNameToHgUrl = new StringCollection();
             _mapProjectNameToHgHttpUrl = ArrayToDictionary(Properties.Settings.Default.ProjectNameToHgUrl);
@@ -167,6 +167,16 @@ namespace OneStoryProjectEditor
             if (Properties.Settings.Default.ProjectNameToHgNetworkUrl == null)
                 Properties.Settings.Default.ProjectNameToHgNetworkUrl = new StringCollection();
             _mapProjectNameToHgNetworkUrl = ArrayToDictionary(Properties.Settings.Default.ProjectNameToHgNetworkUrl);
+
+            if (Properties.Settings.Default.ProjectNameToAiHgUrl == null)
+                Properties.Settings.Default.ProjectNameToAiHgUrl = new StringCollection();
+            _mapProjectNameToAiHgHttpUrl = ArrayToDictionary(Properties.Settings.Default.ProjectNameToAiHgUrl);
+
+            if (Properties.Settings.Default.ProjectNameToAiHgNetworkUrl == null)
+                Properties.Settings.Default.ProjectNameToAiHgNetworkUrl = new StringCollection();
+            _mapProjectNameToAiHgNetworkUrl = ArrayToDictionary(Properties.Settings.Default.ProjectNameToAiHgNetworkUrl);
+
+            _mapServerToUrl = ArrayToDictionary(Properties.Settings.Default.AdaptItDefaultServerLabels);
         }
 
         private static void SetupErrorHandling()
@@ -178,10 +188,14 @@ namespace OneStoryProjectEditor
         }
 
         static List<string> _astrProjectForSync = new List<string>();
+        static Dictionary<string, string> _mapAiProjectsToSync;
         static Dictionary<string, string> _mapProjectNameToHgHttpUrl;
         static Dictionary<string, string> _mapProjectNameToHgUsername;
         static Dictionary<string, string> _mapProjectNameToHgNetworkUrl;
-
+        static Dictionary<string, string> _mapProjectNameToAiHgHttpUrl;
+        static Dictionary<string, string> _mapProjectNameToAiHgNetworkUrl;
+        public static Dictionary<string, string> _mapServerToUrl;
+        
         private const string CstrInternetName = "Internet";
         private const string CstrNetworkDriveName = "Network Drive";
 
@@ -235,17 +249,106 @@ namespace OneStoryProjectEditor
             Properties.Settings.Default.ProjectNameToHgNetworkUrl = DictionaryToArray(_mapProjectNameToHgNetworkUrl);
             Properties.Settings.Default.Save();
 
-            var repo = new HgRepository(strProjectFolder, new NullProgress());
+            try
+            {
+                var repo = HgRepository.CreateOrLocate(strProjectFolder, new NullProgress());
+                var address = RepositoryAddress.Create(CstrNetworkDriveName, strUrl);
+                var addresses = repo.GetRepositoryPathsInHgrc();
+                foreach (var addr in addresses)
+                    if (addr.URI == address.URI)
+                        return;
 
-            var address = RepositoryAddress.Create(CstrNetworkDriveName, strUrl);
-            var addresses = repo.GetRepositoryPathsInHgrc();
-            foreach (var addr in addresses)
-                if (addr.URI == address.URI)
-                    return;
+                var lstAddrs = new List<RepositoryAddress>(addresses);
+                lstAddrs.Add(address);
+                repo.SetKnownRepositoryAddresses(lstAddrs);
+            }
+            catch (Exception ex)
+            {
+                string strMessage = String.Format("Error occurred:{0}{0}{1}", Environment.NewLine, ex.Message);
+                if (ex.InnerException != null)
+                    strMessage += String.Format("{0}{1}", Environment.NewLine, ex.InnerException.Message);
+                MessageBox.Show(strMessage, OseResources.Properties.Resources.IDS_Caption);
+            }
+        }
 
-            var lstAddrs = new List<RepositoryAddress>(addresses);
-            lstAddrs.Add(address);
-            repo.SetKnownRepositoryAddresses(lstAddrs);
+        public static string LookupRepoUrl(string strServerName)
+        {
+            string strUrl;
+            return _mapServerToUrl.TryGetValue(strServerName, out strUrl) ? strUrl : null;
+        }
+
+        public static void SetAdaptItHgParameters(string strProjectFolder, string strProjectName,
+            string strRepoUrl, string strHgUsername, string strHgPassword)
+        {
+            // for the AI project, the Url we saved didn't have account info, so add it now.
+            strRepoUrl = AiRepoSelectionForm.GetFullInternetAddress(strRepoUrl, strProjectName);
+            if (String.IsNullOrEmpty(strRepoUrl))
+                return; 
+
+            var uri = new Uri(strRepoUrl);
+            strRepoUrl = String.Format("{0}://{1}{2}@{3}/{4}",
+                uri.Scheme, strHgUsername,
+                (String.IsNullOrEmpty(strHgPassword)) ? null : ':' + strHgPassword,
+                uri.Host, strProjectName);
+
+            System.Diagnostics.Debug.Assert(_mapProjectNameToAiHgHttpUrl != null);
+            _mapProjectNameToAiHgHttpUrl[strProjectName] = strRepoUrl;
+            Properties.Settings.Default.ProjectNameToAiHgUrl = DictionaryToArray(_mapProjectNameToAiHgHttpUrl);
+            Properties.Settings.Default.Save();
+
+            try
+            {
+                var repo = HgRepository.CreateOrLocate(strProjectFolder, new NullProgress());
+
+                var address = RepositoryAddress.Create(CstrInternetName, strRepoUrl);
+                var addresses = repo.GetRepositoryPathsInHgrc();
+                foreach (var addr in addresses)
+                    if (addr.URI == address.URI)
+                        return;
+
+                var lstAddrs = new List<RepositoryAddress>(addresses);
+                lstAddrs.Add(address);
+                repo.SetKnownRepositoryAddresses(lstAddrs);
+            }
+            catch (Exception ex)
+            {
+                string strMessage = String.Format("Error occurred:{0}{0}{1}", Environment.NewLine, ex.Message);
+                if (ex.InnerException != null)
+                    strMessage += String.Format("{0}{1}", Environment.NewLine, ex.InnerException.Message);
+                MessageBox.Show(strMessage, OseResources.Properties.Resources.IDS_Caption);
+            }
+        }
+
+        public static void SetAdaptItHgParametersNetworkDrive(string strProjectFolder, 
+            string strProjectName, string strUrl)
+        {
+            System.Diagnostics.Debug.Assert(_mapProjectNameToAiHgNetworkUrl != null);
+            strUrl = AiRepoSelectionForm.GetFullNetworkAddress(strUrl, strProjectName);
+
+            _mapProjectNameToAiHgNetworkUrl[strProjectName] = strUrl;
+            Properties.Settings.Default.ProjectNameToAiHgNetworkUrl = DictionaryToArray(_mapProjectNameToAiHgNetworkUrl);
+            Properties.Settings.Default.Save();
+
+            try
+            {
+                var repo = HgRepository.CreateOrLocate(strProjectFolder, new NullProgress());
+                var address = RepositoryAddress.Create(CstrNetworkDriveName, strUrl);
+                var addresses = repo.GetRepositoryPathsInHgrc();
+                foreach (var addr in addresses)
+                    if (addr.URI == address.URI)
+                        return;
+
+                var lstAddrs = new List<RepositoryAddress>(addresses);
+                lstAddrs.Add(address);
+                repo.SetKnownRepositoryAddresses(lstAddrs);
+            }
+            catch (Exception ex)
+            {
+                string strMessage = String.Format("Error occurred:{0}{0}{1}", Environment.NewLine, ex.Message);
+                if (ex.InnerException != null)
+                    strMessage += String.Format("{0}{1}", Environment.NewLine, ex.InnerException.Message);
+                MessageBox.Show(strMessage, OseResources.Properties.Resources.IDS_Caption);
+            }
         }
 
         // this is too dangerous. if an MTT moves the file or accidentally sets the 
@@ -264,6 +367,16 @@ namespace OneStoryProjectEditor
             // add it to the list to be sync'd, but only if it is in the OneStory data folder
             if (!_astrProjectForSync.Contains(strProjectFolder))
                 _astrProjectForSync.Add(strProjectFolder);
+        }
+
+        public static void SetAiProjectForSyncage(string strProjectFolder, string strProjectName)
+        {
+            if (_mapAiProjectsToSync == null)
+                _mapAiProjectsToSync = new Dictionary<string, string>();
+
+            // add it to the list to be sync'd, but only if it is in the OneStory data folder
+            if (!_mapAiProjectsToSync.ContainsKey(strProjectName))
+                _mapAiProjectsToSync.Add(strProjectName, strProjectFolder);
         }
 
         // e.g. http://bobeaton:helpmepld@hg-private.languagedepot.org/snwmtn-test
@@ -309,20 +422,6 @@ namespace OneStoryProjectEditor
                 //  be more informative
                 SyncUIDialogBehaviors suidb = SyncUIDialogBehaviors.Lazy;
                 SyncUIFeatures suif = SyncUIFeatures.NormalRecommended;
-                
-                /*
-                if (bIsOpening && String.IsNullOrEmpty(strSharedNetworkUrl))
-                {
-                    suidb = SyncUIDialogBehaviors.StartImmediatelyAndCloseWhenFinished;
-                    suif = SyncUIFeatures.Minimal;
-                }
-                else
-                {
-                    suidb = SyncUIDialogBehaviors.Lazy;
-                    suif = SyncUIFeatures.NormalRecommended;
-                }
-                */
-
                 using (var dlg = new SyncDialog(projectConfig, suidb, suif))
                 {
                     dlg.UseTargetsAsSpecifiedInSyncOptions = true;
@@ -344,6 +443,98 @@ namespace OneStoryProjectEditor
                     SyncUIFeatures.Minimal))
                 {
                     dlg.Text = "OneStory Automatic Backup";
+                    dlg.SyncOptions.DoMergeWithOthers = false;
+                    dlg.SyncOptions.DoPullFromOthers = false;
+                    dlg.SyncOptions.DoSendToOthers = false;
+                    dlg.ShowDialog();
+                }
+            }
+        }
+
+        // e.g. http://bobeaton:helpmepld@hg-private.languagedepot.org/aikb-{0}-{1}
+        // or \\Bob-StudioXPS\Backup\Storying\aikb-{0}-{1}
+        public static void SyncWithAiRepository(string strProjectFolder, string strProjectName, 
+            bool bIsOpening)
+        {
+            // the project folder name has come here bogus at times...
+            if (!Directory.Exists(strProjectFolder))
+                return;
+
+            // if there's no repo yet, then create one (even if we aren't going
+            //  to ultimately push with an internet repo, we still want one locally)
+            var projectConfig = new Chorus.sync.ProjectFolderConfiguration(strProjectFolder);
+            projectConfig.IncludePatterns.Add("*.xml"); // AI KB
+            projectConfig.IncludePatterns.Add("*.ChorusNotes"); // the new conflict file
+            projectConfig.IncludePatterns.Add("*.aic");
+
+            string strRepoUrl, strSharedNetworkUrl;
+            if (GetAiHgRepoParameters(strProjectName, out strRepoUrl, out strSharedNetworkUrl))
+            {
+                try
+                {
+                    if (!String.IsNullOrEmpty(strSharedNetworkUrl) && !Directory.Exists(strSharedNetworkUrl))
+                        Directory.CreateDirectory(strSharedNetworkUrl);
+                }
+                catch { }
+
+                if (!String.IsNullOrEmpty(strRepoUrl))
+                {
+                    var nullProgress = new NullProgress();
+                    var repo = new HgRepository(strProjectFolder, nullProgress);
+                    if (!repo.GetCanConnectToRemote(strRepoUrl, nullProgress))
+                        if (MessageBox.Show(Properties.Resources.IDS_ConnectToInternet,
+                                             OseResources.Properties.Resources.IDS_Caption,
+                                             MessageBoxButtons.OKCancel) ==
+                             DialogResult.Cancel)
+                        {
+                            strRepoUrl = null;
+                            if (String.IsNullOrEmpty(strSharedNetworkUrl))
+                                return;
+                        }
+                }
+
+                // AdaptIt creates the xml file in a different way than we'd like (it
+                //  triggers a whole file change set). So before we attempt to merge, let's
+                //  resave the file using the same approach that Chorus will use if a merge
+                //  is done so it'll always show differences only.
+                string strKbFilename = Path.Combine(strProjectFolder,
+                                                    Path.GetFileNameWithoutExtension(strProjectFolder) + ".xml");
+                if (File.Exists(strKbFilename))
+                {
+                    try
+                    {
+                        string strKbBackupFilename = strKbFilename + ".bak";
+                        File.Copy(strKbFilename, strKbBackupFilename, true);
+                        XDocument doc = XDocument.Load(strKbBackupFilename);
+                        File.Delete(strKbFilename);
+                        doc.Save(strKbFilename);
+                    }
+                    catch { }
+                }
+
+                SyncUIDialogBehaviors suidb = SyncUIDialogBehaviors.Lazy;
+                SyncUIFeatures suif = SyncUIFeatures.NormalRecommended;
+                using (var dlg = new SyncDialog(projectConfig, suidb, suif))
+                {
+                    dlg.UseTargetsAsSpecifiedInSyncOptions = true;
+                    if (!String.IsNullOrEmpty(strRepoUrl))
+                        dlg.SyncOptions.RepositorySourcesToTry.Add(RepositoryAddress.Create(CstrInternetName, strRepoUrl));
+                    if (!String.IsNullOrEmpty(strSharedNetworkUrl))
+                        dlg.SyncOptions.RepositorySourcesToTry.Add(RepositoryAddress.Create(CstrNetworkDriveName, strSharedNetworkUrl));
+
+                    dlg.Text = "Synchronizing Adapt It Project: " + strProjectName;
+                    dlg.ShowDialog();
+                }
+            }
+            else if (!bIsOpening)
+            {
+                // even if the user doesn't want to go to the internet, we
+                //  at least want to back up locally (when the user closes)
+                using (var dlg = new SyncDialog(projectConfig,
+                    SyncUIDialogBehaviors.StartImmediatelyAndCloseWhenFinished,
+                    SyncUIFeatures.Minimal))
+                {
+                    dlg.Text = "Adapt It Automatic Backup";
                     dlg.SyncOptions.DoMergeWithOthers = false;
                     dlg.SyncOptions.DoPullFromOthers = false;
                     dlg.SyncOptions.DoSendToOthers = false;
@@ -381,7 +572,7 @@ namespace OneStoryProjectEditor
             else
                 strSharedNetworkUrl = null;
 
-            if (!String.IsNullOrEmpty(strHgUrl))
+            if (!String.IsNullOrEmpty(strHgUrl) || !String.IsNullOrEmpty(strSharedNetworkUrl))
             {
                 strRepoUrl = strHgUrl;
                 strUsername = strHgUsername;
@@ -390,6 +581,20 @@ namespace OneStoryProjectEditor
 
             strUsername = strRepoUrl = null;
             return false;
+        }
+
+        public static bool GetAiHgRepoParameters(string strProjectName,
+            out string strRepoUrl, out string strSharedNetworkUrl)
+        {
+            strRepoUrl = (_mapProjectNameToAiHgHttpUrl.ContainsKey(strProjectName))
+                ? _mapProjectNameToAiHgHttpUrl[strProjectName] : null;
+
+            if (_mapProjectNameToAiHgNetworkUrl.ContainsKey(strProjectName))
+                strSharedNetworkUrl = _mapProjectNameToAiHgNetworkUrl[strProjectName];
+            else
+                strSharedNetworkUrl = null;
+
+            return !String.IsNullOrEmpty(strRepoUrl) || !String.IsNullOrEmpty(strSharedNetworkUrl);
         }
 
         public static Dictionary<string, string> ArrayToDictionary(StringCollection data)

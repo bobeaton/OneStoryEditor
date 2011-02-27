@@ -355,8 +355,8 @@ of the team before overwriting a list</value>
   <data name="AddTableHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AddTableHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="IDS_DefaultRepoBasePath" xml:space="preserve">
-    <value>http://hg-private.languagedepot.org</value>
+  <data name="IDS_DefaultRepoServer" xml:space="preserve">
+    <value>private.languageDepot.org</value>
   </data>
   <data name="IDS_SaveKeyTermsPrompt" xml:space="preserve">
     <value>A key term or its status has changed. Do you wish to save these changes?</value>
@@ -792,7 +792,7 @@ for more extensive study materials.&lt;/p&gt;
     <value>Click 'Yes' to do a UNS test now or click 'No' to send the story to the consultant first for checking.</value>
   </data>
   <data name="IDS_CantPushToTheLocalRepo" xml:space="preserve">
-    <value>You chose the local project folder. You have to browse for the network drive on which the associated project is present.</value>
+    <value>You chose the local project folder. You have to browse for a network drive on which to associate the current project</value>
   </data>
   <data name="IDS_MoveProjectsToNewProjectFolder" xml:space="preserve">
     <value>The '{0}' folder is now the root folder for OneStory Editor projects. You can use Windows Explorer to move the projects (sub-folders) in '{1}' to '{0}'. Then click the "Project" menu and choose the "Browse for project file" command to re-load your projects from the new location.</value>
@@ -1969,5 +1969,23 @@ and in the resulting window click on the next (green) state.
   </data>
   <data name="IDS_QueryCreateAdaptItProject" xml:space="preserve">
     <value>Click 'Yes' to create an Adapt It project to use for back-translation from '{0}' to '{1}'. Click 'No' to browse for an existing Adapt It project instead</value>
+  </data>
+  <data name="IDS_QueryHgType" xml:space="preserve">
+    <value>Is this repository on the internet (click 'Yes') or a network shared folder (click 'No')?</value>
+  </data>
+  <data name="IDS_QueryIfAiProjectNeedsToBePulled" xml:space="preserve">
+    <value>Is the shared Adapt It project on your computer now? (click 'Yes' to browse for it; click 'No' to enter the repository information for it)</value>
+  </data>
+  <data name="IDS_QuerySharedAiProject" xml:space="preserve">
+    <value>Is the shared Adapt It project in the '{0}' folder?</value>
+  </data>
+  <data name="IDS_QuerySharedNetworkFolder" xml:space="preserve">
+    <value>Browse to the shared network folder where the project will be stored (i.e. the path to parent folder in which the program will create a '{0}' folder in order to put the '{1}' sub-folder for this project)</value>
+  </data>
+  <data name="IDS_BrowseForNetworkFolder" xml:space="preserve">
+    <value>Browse for the Network folder where the shared Adapt It repository is located</value>
+  </data>
+  <data name="AdaptItProjectRepositoryFormat" xml:space="preserve">
+    <value>aikb-{0}-{1}</value>
   </data>
 </root>

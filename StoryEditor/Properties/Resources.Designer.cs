@@ -60,6 +60,15 @@ namespace OneStoryProjectEditor.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to aikb-{0}-{1}.
+        /// </summary>
+        internal static string AdaptItProjectRepositoryFormat {
+            get {
+                return ResourceManager.GetString("AdaptItProjectRepositoryFormat", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap AddTableHS {
             get {
                 object obj = ResourceManager.GetObject("AddTableHS", resourceCulture);
@@ -281,6 +290,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Browse for the Network folder where the shared Adapt It repository is located.
+        /// </summary>
+        internal static string IDS_BrowseForNetworkFolder {
+            get {
+                return ResourceManager.GetString("IDS_BrowseForNetworkFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You can only delete a key term from the editable key term (i.e. &quot;My Biblical Terms&quot;) list, which is not currently selected..
         /// </summary>
         internal static string IDS_CanDeleteOnlyFromMyBiblicalTerms {
@@ -308,7 +326,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You chose the local project folder. You have to browse for the network drive on which the associated project is present..
+        ///   Looks up a localized string similar to You chose the local project folder. You have to browse for a network drive on which to associate the current project.
         /// </summary>
         internal static string IDS_CantPushToTheLocalRepo {
             get {
@@ -477,11 +495,11 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://hg-private.languagedepot.org.
+        ///   Looks up a localized string similar to private.languageDepot.org.
         /// </summary>
-        internal static string IDS_DefaultRepoBasePath {
+        internal static string IDS_DefaultRepoServer {
             get {
-                return ResourceManager.GetString("IDS_DefaultRepoBasePath", resourceCulture);
+                return ResourceManager.GetString("IDS_DefaultRepoServer", resourceCulture);
             }
         }
         
@@ -844,6 +862,42 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_QueryCreateAdaptItProject {
             get {
                 return ResourceManager.GetString("IDS_QueryCreateAdaptItProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Is this repository on the internet (click &apos;Yes&apos;) or a network shared folder (click &apos;No&apos;)?.
+        /// </summary>
+        internal static string IDS_QueryHgType {
+            get {
+                return ResourceManager.GetString("IDS_QueryHgType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Is the shared Adapt It project on your computer now? (click &apos;Yes&apos; to browse for it; click &apos;No&apos; to enter the repository information for it).
+        /// </summary>
+        internal static string IDS_QueryIfAiProjectNeedsToBePulled {
+            get {
+                return ResourceManager.GetString("IDS_QueryIfAiProjectNeedsToBePulled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Is the shared Adapt It project in the &apos;{0}&apos; folder?.
+        /// </summary>
+        internal static string IDS_QuerySharedAiProject {
+            get {
+                return ResourceManager.GetString("IDS_QuerySharedAiProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Browse to the shared network folder where the project will be stored (i.e. the path to parent folder in which the program will create a &apos;{0}&apos; folder in order to put the &apos;{1}&apos; sub-folder for this project).
+        /// </summary>
+        internal static string IDS_QuerySharedNetworkFolder {
+            get {
+                return ResourceManager.GetString("IDS_QuerySharedNetworkFolder", resourceCulture);
             }
         }
         

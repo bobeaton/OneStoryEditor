@@ -50,12 +50,9 @@
 				</xs:element>
 				<xs:element name="Languages" minOccurs="0" maxOccurs="1">
 					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="VernacularLang" type="LanguageInfo" minOccurs="1" maxOccurs="1" />
-							<xs:element name="NationalBTLang" type="LanguageInfo" maxOccurs="1" />
-							<xs:element name="InternationalBTLang" type="LanguageInfo" maxOccurs="1" />
-              <xs:element name="FreeTranslationLang" type="LanguageInfo" maxOccurs="1" />
-						</xs:sequence>
+            <xs:sequence>
+              <xs:element name="LanguageInfo" type="LanguageInfo" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
             <xs:attribute name="UseRetellingVernacular" type="xs:boolean" use="optional" />
             <xs:attribute name="UseRetellingNationalBT" type="xs:boolean" use="optional" />
             <xs:attribute name="UseRetellingInternationalBT" type="xs:boolean" use="optional" />
@@ -70,7 +67,7 @@
         <xs:element name="AdaptItConfigurations" minOccurs="0" maxOccurs="1">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="AdaptItConfiguration" type="AdaptItConfigurationType" minOccurs="1" maxOccurs="unbounded" />
+              <xs:element name="AdaptItConfiguration" type="AdaptItConfigurationType" minOccurs="1" maxOccurs="unbounded" nillable="true" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -394,6 +391,7 @@
 	</xs:simpleType>
 	<xs:complexType name="LanguageInfo">
 		<xs:sequence />
+    <xs:attribute name="lang" type="xs:string" use="required" />
 		<xs:attribute name="name" type="xs:string" use="required" />
 		<xs:attribute name="code" type="xs:string" use="required" />
 		<xs:attribute name="FontName" type="xs:string" use="required" />
@@ -443,7 +441,9 @@
         <xs:attribute name="ProjectType" type="AdaptItProjectType" use="required" />
         <xs:attribute name="BtDirection" type="AdaptItBtDirection" use="required" />
         <xs:attribute name="ConverterName" type="xs:string" use="required" />
-        <xs:attribute name="RepositoryUrl" type="xs:string" use="optional" />
+        <xs:attribute name="RepoProjectName" type="xs:string" use="optional" />
+        <xs:attribute name="RepositoryServer" type="xs:string" use="optional" />
+        <xs:attribute name="NetworkRepositoryPath" type="xs:string" use="optional" />
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>

@@ -117,7 +117,7 @@ namespace OneStoryProjectEditor
                     out strUsername, out strPassword, out strRepoUrl))
                     UrlBase = strRepoUrl;
                 else
-                    UrlBase = Properties.Resources.IDS_DefaultRepoBasePath;
+                    UrlBase = Properties.Resources.IDS_DefaultRepoServer;
 
                 // these *might* have been initialized even if the call to GetHg... fails
                 HgUsername = strUsername;
@@ -357,12 +357,6 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private static void ReadAdaptItConfig(AdaptItConfigControl ctrl,
-            ref ProjectSettings.AdaptItConfiguration adaptItConfig)
-        {
-            adaptItConfig = ctrl.AdaptItConfiguration;
-        }
-
         private void ConfigureAdaptItConfig(AdaptItConfigControl ctrl, Label label,
             ProjectSettings.AdaptItConfiguration aiProjectConfig, 
             ProjectSettings.AdaptItConfiguration.AdaptItBtDirection eBtDirection,
@@ -370,9 +364,9 @@ namespace OneStoryProjectEditor
         {
             ctrl.Parent = this;
             ctrl.BtDirection = eBtDirection;
-            ctrl.AdaptItConfiguration = aiProjectConfig;
             ctrl.SourceLanguageName = strSourceName;
             ctrl.TargetLanguageName = strTargetName;
+            ctrl.AdaptItConfiguration = aiProjectConfig;
             label.Text =
                 String.Format(Properties.Resources.IDS_UseAiComboBoxText,
                               strSourceName,
@@ -552,12 +546,9 @@ namespace OneStoryProjectEditor
             ProjSettings.ShowAnswersNationalBT = checkBoxAnswersNationalBT.Checked;
             ProjSettings.ShowAnswersInternationalBT = checkBoxAnswersInternationalBT.Checked;
 
-            ReadAdaptItConfig(adaptItConfigCtrlVernacularToNationalBt,
-                              ref ProjSettings.VernacularToNationalBt);
-            ReadAdaptItConfig(adaptItConfigCtrlVernacularToInternationalBt,
-                              ref ProjSettings.VernacularToInternationalBt);
-            ReadAdaptItConfig(adaptItConfigCtrlNationalBtToInternationalBt,
-                              ref ProjSettings.NationalBtToInternationalBt);
+            ProjSettings.VernacularToNationalBt = adaptItConfigCtrlVernacularToNationalBt.AdaptItConfiguration;
+            ProjSettings.VernacularToInternationalBt = adaptItConfigCtrlVernacularToInternationalBt.AdaptItConfiguration;
+            ProjSettings.NationalBtToInternationalBt = adaptItConfigCtrlNationalBtToInternationalBt.AdaptItConfiguration;
 
             if (!checkBoxUseInternetRepo.Checked)
                 Program.ClearHgParameters(ProjectName);

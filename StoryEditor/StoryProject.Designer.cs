@@ -33,13 +33,7 @@ namespace OneStoryProjectEditor {
         
         private LanguagesDataTable tableLanguages;
         
-        private VernacularLangDataTable tableVernacularLang;
-        
-        private NationalBTLangDataTable tableNationalBTLang;
-        
-        private InternationalBTLangDataTable tableInternationalBTLang;
-        
-        private FreeTranslationLangDataTable tableFreeTranslationLang;
+        private LanguageInfoDataTable tableLanguageInfo;
         
         private AdaptItConfigurationsDataTable tableAdaptItConfigurations;
         
@@ -115,13 +109,7 @@ namespace OneStoryProjectEditor {
         
         private global::System.Data.DataRelation relationStoryProject_Languages;
         
-        private global::System.Data.DataRelation relationLanguages_VernacularLang;
-        
-        private global::System.Data.DataRelation relationLanguages_NationalBTLang;
-        
-        private global::System.Data.DataRelation relationLanguages_InternationalBTLang;
-        
-        private global::System.Data.DataRelation relationLanguages_FreeTranslationLang;
+        private global::System.Data.DataRelation relationLanguages_LanguageInfo;
         
         private global::System.Data.DataRelation relationStoryProject_AdaptItConfigurations;
         
@@ -229,17 +217,8 @@ namespace OneStoryProjectEditor {
                 if ((ds.Tables["Languages"] != null)) {
                     base.Tables.Add(new LanguagesDataTable(ds.Tables["Languages"]));
                 }
-                if ((ds.Tables["VernacularLang"] != null)) {
-                    base.Tables.Add(new VernacularLangDataTable(ds.Tables["VernacularLang"]));
-                }
-                if ((ds.Tables["NationalBTLang"] != null)) {
-                    base.Tables.Add(new NationalBTLangDataTable(ds.Tables["NationalBTLang"]));
-                }
-                if ((ds.Tables["InternationalBTLang"] != null)) {
-                    base.Tables.Add(new InternationalBTLangDataTable(ds.Tables["InternationalBTLang"]));
-                }
-                if ((ds.Tables["FreeTranslationLang"] != null)) {
-                    base.Tables.Add(new FreeTranslationLangDataTable(ds.Tables["FreeTranslationLang"]));
+                if ((ds.Tables["LanguageInfo"] != null)) {
+                    base.Tables.Add(new LanguageInfoDataTable(ds.Tables["LanguageInfo"]));
                 }
                 if ((ds.Tables["AdaptItConfigurations"] != null)) {
                     base.Tables.Add(new AdaptItConfigurationsDataTable(ds.Tables["AdaptItConfigurations"]));
@@ -400,36 +379,9 @@ namespace OneStoryProjectEditor {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public VernacularLangDataTable VernacularLang {
+        public LanguageInfoDataTable LanguageInfo {
             get {
-                return this.tableVernacularLang;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.ComponentModel.Browsable(false)]
-        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public NationalBTLangDataTable NationalBTLang {
-            get {
-                return this.tableNationalBTLang;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.ComponentModel.Browsable(false)]
-        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public InternationalBTLangDataTable InternationalBTLang {
-            get {
-                return this.tableInternationalBTLang;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.ComponentModel.Browsable(false)]
-        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public FreeTranslationLangDataTable FreeTranslationLang {
-            get {
-                return this.tableFreeTranslationLang;
+                return this.tableLanguageInfo;
             }
         }
         
@@ -810,17 +762,8 @@ namespace OneStoryProjectEditor {
                 if ((ds.Tables["Languages"] != null)) {
                     base.Tables.Add(new LanguagesDataTable(ds.Tables["Languages"]));
                 }
-                if ((ds.Tables["VernacularLang"] != null)) {
-                    base.Tables.Add(new VernacularLangDataTable(ds.Tables["VernacularLang"]));
-                }
-                if ((ds.Tables["NationalBTLang"] != null)) {
-                    base.Tables.Add(new NationalBTLangDataTable(ds.Tables["NationalBTLang"]));
-                }
-                if ((ds.Tables["InternationalBTLang"] != null)) {
-                    base.Tables.Add(new InternationalBTLangDataTable(ds.Tables["InternationalBTLang"]));
-                }
-                if ((ds.Tables["FreeTranslationLang"] != null)) {
-                    base.Tables.Add(new FreeTranslationLangDataTable(ds.Tables["FreeTranslationLang"]));
+                if ((ds.Tables["LanguageInfo"] != null)) {
+                    base.Tables.Add(new LanguageInfoDataTable(ds.Tables["LanguageInfo"]));
                 }
                 if ((ds.Tables["AdaptItConfigurations"] != null)) {
                     base.Tables.Add(new AdaptItConfigurationsDataTable(ds.Tables["AdaptItConfigurations"]));
@@ -978,28 +921,10 @@ namespace OneStoryProjectEditor {
                     this.tableLanguages.InitVars();
                 }
             }
-            this.tableVernacularLang = ((VernacularLangDataTable)(base.Tables["VernacularLang"]));
+            this.tableLanguageInfo = ((LanguageInfoDataTable)(base.Tables["LanguageInfo"]));
             if ((initTable == true)) {
-                if ((this.tableVernacularLang != null)) {
-                    this.tableVernacularLang.InitVars();
-                }
-            }
-            this.tableNationalBTLang = ((NationalBTLangDataTable)(base.Tables["NationalBTLang"]));
-            if ((initTable == true)) {
-                if ((this.tableNationalBTLang != null)) {
-                    this.tableNationalBTLang.InitVars();
-                }
-            }
-            this.tableInternationalBTLang = ((InternationalBTLangDataTable)(base.Tables["InternationalBTLang"]));
-            if ((initTable == true)) {
-                if ((this.tableInternationalBTLang != null)) {
-                    this.tableInternationalBTLang.InitVars();
-                }
-            }
-            this.tableFreeTranslationLang = ((FreeTranslationLangDataTable)(base.Tables["FreeTranslationLang"]));
-            if ((initTable == true)) {
-                if ((this.tableFreeTranslationLang != null)) {
-                    this.tableFreeTranslationLang.InitVars();
+                if ((this.tableLanguageInfo != null)) {
+                    this.tableLanguageInfo.InitVars();
                 }
             }
             this.tableAdaptItConfigurations = ((AdaptItConfigurationsDataTable)(base.Tables["AdaptItConfigurations"]));
@@ -1209,10 +1134,7 @@ namespace OneStoryProjectEditor {
             this.relationStoryProject_Members = this.Relations["StoryProject_Members"];
             this.relationMembers_Member = this.Relations["Members_Member"];
             this.relationStoryProject_Languages = this.Relations["StoryProject_Languages"];
-            this.relationLanguages_VernacularLang = this.Relations["Languages_VernacularLang"];
-            this.relationLanguages_NationalBTLang = this.Relations["Languages_NationalBTLang"];
-            this.relationLanguages_InternationalBTLang = this.Relations["Languages_InternationalBTLang"];
-            this.relationLanguages_FreeTranslationLang = this.Relations["Languages_FreeTranslationLang"];
+            this.relationLanguages_LanguageInfo = this.Relations["Languages_LanguageInfo"];
             this.relationStoryProject_AdaptItConfigurations = this.Relations["StoryProject_AdaptItConfigurations"];
             this.relationAdaptItConfigurations_AdaptItConfiguration = this.Relations["AdaptItConfigurations_AdaptItConfiguration"];
             this.relationStoryProject_LnCNotes = this.Relations["StoryProject_LnCNotes"];
@@ -1264,14 +1186,8 @@ namespace OneStoryProjectEditor {
             base.Tables.Add(this.tableMember);
             this.tableLanguages = new LanguagesDataTable();
             base.Tables.Add(this.tableLanguages);
-            this.tableVernacularLang = new VernacularLangDataTable();
-            base.Tables.Add(this.tableVernacularLang);
-            this.tableNationalBTLang = new NationalBTLangDataTable();
-            base.Tables.Add(this.tableNationalBTLang);
-            this.tableInternationalBTLang = new InternationalBTLangDataTable();
-            base.Tables.Add(this.tableInternationalBTLang);
-            this.tableFreeTranslationLang = new FreeTranslationLangDataTable();
-            base.Tables.Add(this.tableFreeTranslationLang);
+            this.tableLanguageInfo = new LanguageInfoDataTable();
+            base.Tables.Add(this.tableLanguageInfo);
             this.tableAdaptItConfigurations = new AdaptItConfigurationsDataTable();
             base.Tables.Add(this.tableAdaptItConfigurations);
             this.tableAdaptItConfiguration = new AdaptItConfigurationDataTable();
@@ -1362,31 +1278,10 @@ namespace OneStoryProjectEditor {
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
-            fkc = new global::System.Data.ForeignKeyConstraint("Languages_VernacularLang", new global::System.Data.DataColumn[] {
+            fkc = new global::System.Data.ForeignKeyConstraint("Languages_LanguageInfo", new global::System.Data.DataColumn[] {
                         this.tableLanguages.Languages_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableVernacularLang.Languages_IdColumn});
-            this.tableVernacularLang.Constraints.Add(fkc);
-            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
-            fkc.DeleteRule = global::System.Data.Rule.Cascade;
-            fkc.UpdateRule = global::System.Data.Rule.Cascade;
-            fkc = new global::System.Data.ForeignKeyConstraint("Languages_NationalBTLang", new global::System.Data.DataColumn[] {
-                        this.tableLanguages.Languages_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableNationalBTLang.Languages_IdColumn});
-            this.tableNationalBTLang.Constraints.Add(fkc);
-            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
-            fkc.DeleteRule = global::System.Data.Rule.Cascade;
-            fkc.UpdateRule = global::System.Data.Rule.Cascade;
-            fkc = new global::System.Data.ForeignKeyConstraint("Languages_InternationalBTLang", new global::System.Data.DataColumn[] {
-                        this.tableLanguages.Languages_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableInternationalBTLang.Languages_IdColumn});
-            this.tableInternationalBTLang.Constraints.Add(fkc);
-            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
-            fkc.DeleteRule = global::System.Data.Rule.Cascade;
-            fkc.UpdateRule = global::System.Data.Rule.Cascade;
-            fkc = new global::System.Data.ForeignKeyConstraint("Languages_FreeTranslationLang", new global::System.Data.DataColumn[] {
-                        this.tableLanguages.Languages_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableFreeTranslationLang.Languages_IdColumn});
-            this.tableFreeTranslationLang.Constraints.Add(fkc);
+                        this.tableLanguageInfo.Languages_IdColumn});
+            this.tableLanguageInfo.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
@@ -1643,26 +1538,11 @@ namespace OneStoryProjectEditor {
                         this.tableLanguages.StoryProject_IdColumn}, false);
             this.relationStoryProject_Languages.Nested = true;
             this.Relations.Add(this.relationStoryProject_Languages);
-            this.relationLanguages_VernacularLang = new global::System.Data.DataRelation("Languages_VernacularLang", new global::System.Data.DataColumn[] {
+            this.relationLanguages_LanguageInfo = new global::System.Data.DataRelation("Languages_LanguageInfo", new global::System.Data.DataColumn[] {
                         this.tableLanguages.Languages_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableVernacularLang.Languages_IdColumn}, false);
-            this.relationLanguages_VernacularLang.Nested = true;
-            this.Relations.Add(this.relationLanguages_VernacularLang);
-            this.relationLanguages_NationalBTLang = new global::System.Data.DataRelation("Languages_NationalBTLang", new global::System.Data.DataColumn[] {
-                        this.tableLanguages.Languages_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableNationalBTLang.Languages_IdColumn}, false);
-            this.relationLanguages_NationalBTLang.Nested = true;
-            this.Relations.Add(this.relationLanguages_NationalBTLang);
-            this.relationLanguages_InternationalBTLang = new global::System.Data.DataRelation("Languages_InternationalBTLang", new global::System.Data.DataColumn[] {
-                        this.tableLanguages.Languages_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableInternationalBTLang.Languages_IdColumn}, false);
-            this.relationLanguages_InternationalBTLang.Nested = true;
-            this.Relations.Add(this.relationLanguages_InternationalBTLang);
-            this.relationLanguages_FreeTranslationLang = new global::System.Data.DataRelation("Languages_FreeTranslationLang", new global::System.Data.DataColumn[] {
-                        this.tableLanguages.Languages_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableFreeTranslationLang.Languages_IdColumn}, false);
-            this.relationLanguages_FreeTranslationLang.Nested = true;
-            this.Relations.Add(this.relationLanguages_FreeTranslationLang);
+                        this.tableLanguageInfo.Languages_IdColumn}, false);
+            this.relationLanguages_LanguageInfo.Nested = true;
+            this.Relations.Add(this.relationLanguages_LanguageInfo);
             this.relationStoryProject_AdaptItConfigurations = new global::System.Data.DataRelation("StoryProject_AdaptItConfigurations", new global::System.Data.DataColumn[] {
                         this.tableStoryProject.StoryProject_IdColumn}, new global::System.Data.DataColumn[] {
                         this.tableAdaptItConfigurations.StoryProject_IdColumn}, false);
@@ -1856,22 +1736,7 @@ namespace OneStoryProjectEditor {
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        private bool ShouldSerializeVernacularLang() {
-            return false;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        private bool ShouldSerializeNationalBTLang() {
-            return false;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        private bool ShouldSerializeInternationalBTLang() {
-            return false;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        private bool ShouldSerializeFreeTranslationLang() {
+        private bool ShouldSerializeLanguageInfo() {
             return false;
         }
         
@@ -2106,13 +1971,7 @@ namespace OneStoryProjectEditor {
         
         public delegate void LanguagesRowChangeEventHandler(object sender, LanguagesRowChangeEvent e);
         
-        public delegate void VernacularLangRowChangeEventHandler(object sender, VernacularLangRowChangeEvent e);
-        
-        public delegate void NationalBTLangRowChangeEventHandler(object sender, NationalBTLangRowChangeEvent e);
-        
-        public delegate void InternationalBTLangRowChangeEventHandler(object sender, InternationalBTLangRowChangeEvent e);
-        
-        public delegate void FreeTranslationLangRowChangeEventHandler(object sender, FreeTranslationLangRowChangeEvent e);
+        public delegate void LanguageInfoRowChangeEventHandler(object sender, LanguageInfoRowChangeEvent e);
         
         public delegate void AdaptItConfigurationsRowChangeEventHandler(object sender, AdaptItConfigurationsRowChangeEvent e);
         
@@ -3811,7 +3670,9 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class VernacularLangDataTable : global::System.Data.TypedTableBase<VernacularLangRow> {
+        public partial class LanguageInfoDataTable : global::System.Data.TypedTableBase<LanguageInfoRow> {
+            
+            private global::System.Data.DataColumn columnlang;
             
             private global::System.Data.DataColumn columnname;
             
@@ -3832,15 +3693,15 @@ namespace OneStoryProjectEditor {
             private global::System.Data.DataColumn columnLanguages_Id;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public VernacularLangDataTable() {
-                this.TableName = "VernacularLang";
+            public LanguageInfoDataTable() {
+                this.TableName = "LanguageInfo";
                 this.BeginInit();
                 this.InitClass();
                 this.EndInit();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal VernacularLangDataTable(global::System.Data.DataTable table) {
+            internal LanguageInfoDataTable(global::System.Data.DataTable table) {
                 this.TableName = table.TableName;
                 if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
                     this.CaseSensitive = table.CaseSensitive;
@@ -3856,9 +3717,16 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected VernacularLangDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+            protected LanguageInfoDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn langColumn {
+                get {
+                    return this.columnlang;
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3933,29 +3801,30 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public VernacularLangRow this[int index] {
+            public LanguageInfoRow this[int index] {
                 get {
-                    return ((VernacularLangRow)(this.Rows[index]));
+                    return ((LanguageInfoRow)(this.Rows[index]));
                 }
             }
             
-            public event VernacularLangRowChangeEventHandler VernacularLangRowChanging;
+            public event LanguageInfoRowChangeEventHandler LanguageInfoRowChanging;
             
-            public event VernacularLangRowChangeEventHandler VernacularLangRowChanged;
+            public event LanguageInfoRowChangeEventHandler LanguageInfoRowChanged;
             
-            public event VernacularLangRowChangeEventHandler VernacularLangRowDeleting;
+            public event LanguageInfoRowChangeEventHandler LanguageInfoRowDeleting;
             
-            public event VernacularLangRowChangeEventHandler VernacularLangRowDeleted;
+            public event LanguageInfoRowChangeEventHandler LanguageInfoRowDeleted;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void AddVernacularLangRow(VernacularLangRow row) {
+            public void AddLanguageInfoRow(LanguageInfoRow row) {
                 this.Rows.Add(row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public VernacularLangRow AddVernacularLangRow(string name, string code, string FontName, float FontSize, string FontColor, string SentenceFinalPunct, string Keyboard, bool RTL, LanguagesRow parentLanguagesRowByLanguages_VernacularLang) {
-                VernacularLangRow rowVernacularLangRow = ((VernacularLangRow)(this.NewRow()));
+            public LanguageInfoRow AddLanguageInfoRow(string lang, string name, string code, string FontName, float FontSize, string FontColor, string SentenceFinalPunct, string Keyboard, bool RTL, LanguagesRow parentLanguagesRowByLanguages_LanguageInfo) {
+                LanguageInfoRow rowLanguageInfoRow = ((LanguageInfoRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
+                        lang,
                         name,
                         code,
                         FontName,
@@ -3965,28 +3834,29 @@ namespace OneStoryProjectEditor {
                         Keyboard,
                         RTL,
                         null};
-                if ((parentLanguagesRowByLanguages_VernacularLang != null)) {
-                    columnValuesArray[8] = parentLanguagesRowByLanguages_VernacularLang[9];
+                if ((parentLanguagesRowByLanguages_LanguageInfo != null)) {
+                    columnValuesArray[9] = parentLanguagesRowByLanguages_LanguageInfo[9];
                 }
-                rowVernacularLangRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowVernacularLangRow);
-                return rowVernacularLangRow;
+                rowLanguageInfoRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowLanguageInfoRow);
+                return rowLanguageInfoRow;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public override global::System.Data.DataTable Clone() {
-                VernacularLangDataTable cln = ((VernacularLangDataTable)(base.Clone()));
+                LanguageInfoDataTable cln = ((LanguageInfoDataTable)(base.Clone()));
                 cln.InitVars();
                 return cln;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override global::System.Data.DataTable CreateInstance() {
-                return new VernacularLangDataTable();
+                return new LanguageInfoDataTable();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
+                this.columnlang = base.Columns["lang"];
                 this.columnname = base.Columns["name"];
                 this.columncode = base.Columns["code"];
                 this.columnFontName = base.Columns["FontName"];
@@ -4000,6 +3870,8 @@ namespace OneStoryProjectEditor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             private void InitClass() {
+                this.columnlang = new global::System.Data.DataColumn("lang", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnlang);
                 this.columnname = new global::System.Data.DataColumn("name", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnname);
                 this.columncode = new global::System.Data.DataColumn("code", typeof(string), null, global::System.Data.MappingType.Attribute);
@@ -4018,6 +3890,8 @@ namespace OneStoryProjectEditor {
                 base.Columns.Add(this.columnRTL);
                 this.columnLanguages_Id = new global::System.Data.DataColumn("Languages_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnLanguages_Id);
+                this.columnlang.AllowDBNull = false;
+                this.columnlang.Namespace = "";
                 this.columnname.AllowDBNull = false;
                 this.columnname.Namespace = "";
                 this.columncode.AllowDBNull = false;
@@ -4035,54 +3909,54 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public VernacularLangRow NewVernacularLangRow() {
-                return ((VernacularLangRow)(this.NewRow()));
+            public LanguageInfoRow NewLanguageInfoRow() {
+                return ((LanguageInfoRow)(this.NewRow()));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new VernacularLangRow(builder);
+                return new LanguageInfoRow(builder);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override global::System.Type GetRowType() {
-                return typeof(VernacularLangRow);
+                return typeof(LanguageInfoRow);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanged(e);
-                if ((this.VernacularLangRowChanged != null)) {
-                    this.VernacularLangRowChanged(this, new VernacularLangRowChangeEvent(((VernacularLangRow)(e.Row)), e.Action));
+                if ((this.LanguageInfoRowChanged != null)) {
+                    this.LanguageInfoRowChanged(this, new LanguageInfoRowChangeEvent(((LanguageInfoRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanging(e);
-                if ((this.VernacularLangRowChanging != null)) {
-                    this.VernacularLangRowChanging(this, new VernacularLangRowChangeEvent(((VernacularLangRow)(e.Row)), e.Action));
+                if ((this.LanguageInfoRowChanging != null)) {
+                    this.LanguageInfoRowChanging(this, new LanguageInfoRowChangeEvent(((LanguageInfoRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleted(e);
-                if ((this.VernacularLangRowDeleted != null)) {
-                    this.VernacularLangRowDeleted(this, new VernacularLangRowChangeEvent(((VernacularLangRow)(e.Row)), e.Action));
+                if ((this.LanguageInfoRowDeleted != null)) {
+                    this.LanguageInfoRowDeleted(this, new LanguageInfoRowChangeEvent(((LanguageInfoRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleting(e);
-                if ((this.VernacularLangRowDeleting != null)) {
-                    this.VernacularLangRowDeleting(this, new VernacularLangRowChangeEvent(((VernacularLangRow)(e.Row)), e.Action));
+                if ((this.LanguageInfoRowDeleting != null)) {
+                    this.LanguageInfoRowDeleting(this, new LanguageInfoRowChangeEvent(((LanguageInfoRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void RemoveVernacularLangRow(VernacularLangRow row) {
+            public void RemoveLanguageInfoRow(LanguageInfoRow row) {
                 this.Rows.Remove(row);
             }
             
@@ -4108,1039 +3982,7 @@ namespace OneStoryProjectEditor {
                 type.Attributes.Add(attribute1);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "VernacularLangDataTable";
-                type.Attributes.Add(attribute2);
-                type.Particle = sequence;
-                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
-                if (xs.Contains(dsSchema.TargetNamespace)) {
-                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
-                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
-                    try {
-                        global::System.Xml.Schema.XmlSchema schema = null;
-                        dsSchema.Write(s1);
-                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
-                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
-                            s2.SetLength(0);
-                            schema.Write(s2);
-                            if ((s1.Length == s2.Length)) {
-                                s1.Position = 0;
-                                s2.Position = 0;
-                                for (; ((s1.Position != s1.Length) 
-                                            && (s1.ReadByte() == s2.ReadByte())); ) {
-                                    ;
-                                }
-                                if ((s1.Position == s1.Length)) {
-                                    return type;
-                                }
-                            }
-                        }
-                    }
-                    finally {
-                        if ((s1 != null)) {
-                            s1.Close();
-                        }
-                        if ((s2 != null)) {
-                            s2.Close();
-                        }
-                    }
-                }
-                xs.Add(dsSchema);
-                return type;
-            }
-        }
-        
-        /// <summary>
-        ///Represents the strongly named DataTable class.
-        ///</summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        [global::System.Serializable()]
-        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class NationalBTLangDataTable : global::System.Data.TypedTableBase<NationalBTLangRow> {
-            
-            private global::System.Data.DataColumn columnname;
-            
-            private global::System.Data.DataColumn columncode;
-            
-            private global::System.Data.DataColumn columnFontName;
-            
-            private global::System.Data.DataColumn columnFontSize;
-            
-            private global::System.Data.DataColumn columnFontColor;
-            
-            private global::System.Data.DataColumn columnSentenceFinalPunct;
-            
-            private global::System.Data.DataColumn columnKeyboard;
-            
-            private global::System.Data.DataColumn columnRTL;
-            
-            private global::System.Data.DataColumn columnLanguages_Id;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public NationalBTLangDataTable() {
-                this.TableName = "NationalBTLang";
-                this.BeginInit();
-                this.InitClass();
-                this.EndInit();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal NationalBTLangDataTable(global::System.Data.DataTable table) {
-                this.TableName = table.TableName;
-                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
-                    this.CaseSensitive = table.CaseSensitive;
-                }
-                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
-                    this.Locale = table.Locale;
-                }
-                if ((table.Namespace != table.DataSet.Namespace)) {
-                    this.Namespace = table.Namespace;
-                }
-                this.Prefix = table.Prefix;
-                this.MinimumCapacity = table.MinimumCapacity;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected NationalBTLangDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
-                    base(info, context) {
-                this.InitVars();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn nameColumn {
-                get {
-                    return this.columnname;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn codeColumn {
-                get {
-                    return this.columncode;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn FontNameColumn {
-                get {
-                    return this.columnFontName;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn FontSizeColumn {
-                get {
-                    return this.columnFontSize;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn FontColorColumn {
-                get {
-                    return this.columnFontColor;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn SentenceFinalPunctColumn {
-                get {
-                    return this.columnSentenceFinalPunct;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn KeyboardColumn {
-                get {
-                    return this.columnKeyboard;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn RTLColumn {
-                get {
-                    return this.columnRTL;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn Languages_IdColumn {
-                get {
-                    return this.columnLanguages_Id;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.ComponentModel.Browsable(false)]
-            public int Count {
-                get {
-                    return this.Rows.Count;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public NationalBTLangRow this[int index] {
-                get {
-                    return ((NationalBTLangRow)(this.Rows[index]));
-                }
-            }
-            
-            public event NationalBTLangRowChangeEventHandler NationalBTLangRowChanging;
-            
-            public event NationalBTLangRowChangeEventHandler NationalBTLangRowChanged;
-            
-            public event NationalBTLangRowChangeEventHandler NationalBTLangRowDeleting;
-            
-            public event NationalBTLangRowChangeEventHandler NationalBTLangRowDeleted;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void AddNationalBTLangRow(NationalBTLangRow row) {
-                this.Rows.Add(row);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public NationalBTLangRow AddNationalBTLangRow(string name, string code, string FontName, float FontSize, string FontColor, string SentenceFinalPunct, string Keyboard, bool RTL, LanguagesRow parentLanguagesRowByLanguages_NationalBTLang) {
-                NationalBTLangRow rowNationalBTLangRow = ((NationalBTLangRow)(this.NewRow()));
-                object[] columnValuesArray = new object[] {
-                        name,
-                        code,
-                        FontName,
-                        FontSize,
-                        FontColor,
-                        SentenceFinalPunct,
-                        Keyboard,
-                        RTL,
-                        null};
-                if ((parentLanguagesRowByLanguages_NationalBTLang != null)) {
-                    columnValuesArray[8] = parentLanguagesRowByLanguages_NationalBTLang[9];
-                }
-                rowNationalBTLangRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowNationalBTLangRow);
-                return rowNationalBTLangRow;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public override global::System.Data.DataTable Clone() {
-                NationalBTLangDataTable cln = ((NationalBTLangDataTable)(base.Clone()));
-                cln.InitVars();
-                return cln;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override global::System.Data.DataTable CreateInstance() {
-                return new NationalBTLangDataTable();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal void InitVars() {
-                this.columnname = base.Columns["name"];
-                this.columncode = base.Columns["code"];
-                this.columnFontName = base.Columns["FontName"];
-                this.columnFontSize = base.Columns["FontSize"];
-                this.columnFontColor = base.Columns["FontColor"];
-                this.columnSentenceFinalPunct = base.Columns["SentenceFinalPunct"];
-                this.columnKeyboard = base.Columns["Keyboard"];
-                this.columnRTL = base.Columns["RTL"];
-                this.columnLanguages_Id = base.Columns["Languages_Id"];
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            private void InitClass() {
-                this.columnname = new global::System.Data.DataColumn("name", typeof(string), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnname);
-                this.columncode = new global::System.Data.DataColumn("code", typeof(string), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columncode);
-                this.columnFontName = new global::System.Data.DataColumn("FontName", typeof(string), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnFontName);
-                this.columnFontSize = new global::System.Data.DataColumn("FontSize", typeof(float), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnFontSize);
-                this.columnFontColor = new global::System.Data.DataColumn("FontColor", typeof(string), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnFontColor);
-                this.columnSentenceFinalPunct = new global::System.Data.DataColumn("SentenceFinalPunct", typeof(string), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnSentenceFinalPunct);
-                this.columnKeyboard = new global::System.Data.DataColumn("Keyboard", typeof(string), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnKeyboard);
-                this.columnRTL = new global::System.Data.DataColumn("RTL", typeof(bool), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnRTL);
-                this.columnLanguages_Id = new global::System.Data.DataColumn("Languages_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
-                base.Columns.Add(this.columnLanguages_Id);
-                this.columnname.AllowDBNull = false;
-                this.columnname.Namespace = "";
-                this.columncode.AllowDBNull = false;
-                this.columncode.Namespace = "";
-                this.columnFontName.AllowDBNull = false;
-                this.columnFontName.Namespace = "";
-                this.columnFontSize.AllowDBNull = false;
-                this.columnFontSize.Namespace = "";
-                this.columnFontColor.AllowDBNull = false;
-                this.columnFontColor.Namespace = "";
-                this.columnSentenceFinalPunct.AllowDBNull = false;
-                this.columnSentenceFinalPunct.Namespace = "";
-                this.columnKeyboard.Namespace = "";
-                this.columnRTL.Namespace = "";
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public NationalBTLangRow NewNationalBTLangRow() {
-                return ((NationalBTLangRow)(this.NewRow()));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new NationalBTLangRow(builder);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override global::System.Type GetRowType() {
-                return typeof(NationalBTLangRow);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowChanged(e);
-                if ((this.NationalBTLangRowChanged != null)) {
-                    this.NationalBTLangRowChanged(this, new NationalBTLangRowChangeEvent(((NationalBTLangRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowChanging(e);
-                if ((this.NationalBTLangRowChanging != null)) {
-                    this.NationalBTLangRowChanging(this, new NationalBTLangRowChangeEvent(((NationalBTLangRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowDeleted(e);
-                if ((this.NationalBTLangRowDeleted != null)) {
-                    this.NationalBTLangRowDeleted(this, new NationalBTLangRowChangeEvent(((NationalBTLangRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowDeleting(e);
-                if ((this.NationalBTLangRowDeleting != null)) {
-                    this.NationalBTLangRowDeleting(this, new NationalBTLangRowChangeEvent(((NationalBTLangRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void RemoveNationalBTLangRow(NationalBTLangRow row) {
-                this.Rows.Remove(row);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
-                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
-                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                NewDataSet ds = new NewDataSet();
-                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
-                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
-                any1.MinOccurs = new decimal(0);
-                any1.MaxOccurs = decimal.MaxValue;
-                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
-                sequence.Items.Add(any1);
-                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
-                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
-                any2.MinOccurs = new decimal(1);
-                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
-                sequence.Items.Add(any2);
-                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
-                attribute1.Name = "namespace";
-                attribute1.FixedValue = ds.Namespace;
-                type.Attributes.Add(attribute1);
-                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
-                attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "NationalBTLangDataTable";
-                type.Attributes.Add(attribute2);
-                type.Particle = sequence;
-                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
-                if (xs.Contains(dsSchema.TargetNamespace)) {
-                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
-                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
-                    try {
-                        global::System.Xml.Schema.XmlSchema schema = null;
-                        dsSchema.Write(s1);
-                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
-                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
-                            s2.SetLength(0);
-                            schema.Write(s2);
-                            if ((s1.Length == s2.Length)) {
-                                s1.Position = 0;
-                                s2.Position = 0;
-                                for (; ((s1.Position != s1.Length) 
-                                            && (s1.ReadByte() == s2.ReadByte())); ) {
-                                    ;
-                                }
-                                if ((s1.Position == s1.Length)) {
-                                    return type;
-                                }
-                            }
-                        }
-                    }
-                    finally {
-                        if ((s1 != null)) {
-                            s1.Close();
-                        }
-                        if ((s2 != null)) {
-                            s2.Close();
-                        }
-                    }
-                }
-                xs.Add(dsSchema);
-                return type;
-            }
-        }
-        
-        /// <summary>
-        ///Represents the strongly named DataTable class.
-        ///</summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        [global::System.Serializable()]
-        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class InternationalBTLangDataTable : global::System.Data.TypedTableBase<InternationalBTLangRow> {
-            
-            private global::System.Data.DataColumn columnname;
-            
-            private global::System.Data.DataColumn columncode;
-            
-            private global::System.Data.DataColumn columnFontName;
-            
-            private global::System.Data.DataColumn columnFontSize;
-            
-            private global::System.Data.DataColumn columnFontColor;
-            
-            private global::System.Data.DataColumn columnSentenceFinalPunct;
-            
-            private global::System.Data.DataColumn columnKeyboard;
-            
-            private global::System.Data.DataColumn columnRTL;
-            
-            private global::System.Data.DataColumn columnLanguages_Id;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public InternationalBTLangDataTable() {
-                this.TableName = "InternationalBTLang";
-                this.BeginInit();
-                this.InitClass();
-                this.EndInit();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal InternationalBTLangDataTable(global::System.Data.DataTable table) {
-                this.TableName = table.TableName;
-                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
-                    this.CaseSensitive = table.CaseSensitive;
-                }
-                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
-                    this.Locale = table.Locale;
-                }
-                if ((table.Namespace != table.DataSet.Namespace)) {
-                    this.Namespace = table.Namespace;
-                }
-                this.Prefix = table.Prefix;
-                this.MinimumCapacity = table.MinimumCapacity;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected InternationalBTLangDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
-                    base(info, context) {
-                this.InitVars();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn nameColumn {
-                get {
-                    return this.columnname;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn codeColumn {
-                get {
-                    return this.columncode;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn FontNameColumn {
-                get {
-                    return this.columnFontName;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn FontSizeColumn {
-                get {
-                    return this.columnFontSize;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn FontColorColumn {
-                get {
-                    return this.columnFontColor;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn SentenceFinalPunctColumn {
-                get {
-                    return this.columnSentenceFinalPunct;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn KeyboardColumn {
-                get {
-                    return this.columnKeyboard;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn RTLColumn {
-                get {
-                    return this.columnRTL;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn Languages_IdColumn {
-                get {
-                    return this.columnLanguages_Id;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.ComponentModel.Browsable(false)]
-            public int Count {
-                get {
-                    return this.Rows.Count;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public InternationalBTLangRow this[int index] {
-                get {
-                    return ((InternationalBTLangRow)(this.Rows[index]));
-                }
-            }
-            
-            public event InternationalBTLangRowChangeEventHandler InternationalBTLangRowChanging;
-            
-            public event InternationalBTLangRowChangeEventHandler InternationalBTLangRowChanged;
-            
-            public event InternationalBTLangRowChangeEventHandler InternationalBTLangRowDeleting;
-            
-            public event InternationalBTLangRowChangeEventHandler InternationalBTLangRowDeleted;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void AddInternationalBTLangRow(InternationalBTLangRow row) {
-                this.Rows.Add(row);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public InternationalBTLangRow AddInternationalBTLangRow(string name, string code, string FontName, float FontSize, string FontColor, string SentenceFinalPunct, string Keyboard, bool RTL, LanguagesRow parentLanguagesRowByLanguages_InternationalBTLang) {
-                InternationalBTLangRow rowInternationalBTLangRow = ((InternationalBTLangRow)(this.NewRow()));
-                object[] columnValuesArray = new object[] {
-                        name,
-                        code,
-                        FontName,
-                        FontSize,
-                        FontColor,
-                        SentenceFinalPunct,
-                        Keyboard,
-                        RTL,
-                        null};
-                if ((parentLanguagesRowByLanguages_InternationalBTLang != null)) {
-                    columnValuesArray[8] = parentLanguagesRowByLanguages_InternationalBTLang[9];
-                }
-                rowInternationalBTLangRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowInternationalBTLangRow);
-                return rowInternationalBTLangRow;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public override global::System.Data.DataTable Clone() {
-                InternationalBTLangDataTable cln = ((InternationalBTLangDataTable)(base.Clone()));
-                cln.InitVars();
-                return cln;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override global::System.Data.DataTable CreateInstance() {
-                return new InternationalBTLangDataTable();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal void InitVars() {
-                this.columnname = base.Columns["name"];
-                this.columncode = base.Columns["code"];
-                this.columnFontName = base.Columns["FontName"];
-                this.columnFontSize = base.Columns["FontSize"];
-                this.columnFontColor = base.Columns["FontColor"];
-                this.columnSentenceFinalPunct = base.Columns["SentenceFinalPunct"];
-                this.columnKeyboard = base.Columns["Keyboard"];
-                this.columnRTL = base.Columns["RTL"];
-                this.columnLanguages_Id = base.Columns["Languages_Id"];
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            private void InitClass() {
-                this.columnname = new global::System.Data.DataColumn("name", typeof(string), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnname);
-                this.columncode = new global::System.Data.DataColumn("code", typeof(string), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columncode);
-                this.columnFontName = new global::System.Data.DataColumn("FontName", typeof(string), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnFontName);
-                this.columnFontSize = new global::System.Data.DataColumn("FontSize", typeof(float), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnFontSize);
-                this.columnFontColor = new global::System.Data.DataColumn("FontColor", typeof(string), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnFontColor);
-                this.columnSentenceFinalPunct = new global::System.Data.DataColumn("SentenceFinalPunct", typeof(string), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnSentenceFinalPunct);
-                this.columnKeyboard = new global::System.Data.DataColumn("Keyboard", typeof(string), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnKeyboard);
-                this.columnRTL = new global::System.Data.DataColumn("RTL", typeof(bool), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnRTL);
-                this.columnLanguages_Id = new global::System.Data.DataColumn("Languages_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
-                base.Columns.Add(this.columnLanguages_Id);
-                this.columnname.AllowDBNull = false;
-                this.columnname.Namespace = "";
-                this.columncode.AllowDBNull = false;
-                this.columncode.Namespace = "";
-                this.columnFontName.AllowDBNull = false;
-                this.columnFontName.Namespace = "";
-                this.columnFontSize.AllowDBNull = false;
-                this.columnFontSize.Namespace = "";
-                this.columnFontColor.AllowDBNull = false;
-                this.columnFontColor.Namespace = "";
-                this.columnSentenceFinalPunct.AllowDBNull = false;
-                this.columnSentenceFinalPunct.Namespace = "";
-                this.columnKeyboard.Namespace = "";
-                this.columnRTL.Namespace = "";
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public InternationalBTLangRow NewInternationalBTLangRow() {
-                return ((InternationalBTLangRow)(this.NewRow()));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new InternationalBTLangRow(builder);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override global::System.Type GetRowType() {
-                return typeof(InternationalBTLangRow);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowChanged(e);
-                if ((this.InternationalBTLangRowChanged != null)) {
-                    this.InternationalBTLangRowChanged(this, new InternationalBTLangRowChangeEvent(((InternationalBTLangRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowChanging(e);
-                if ((this.InternationalBTLangRowChanging != null)) {
-                    this.InternationalBTLangRowChanging(this, new InternationalBTLangRowChangeEvent(((InternationalBTLangRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowDeleted(e);
-                if ((this.InternationalBTLangRowDeleted != null)) {
-                    this.InternationalBTLangRowDeleted(this, new InternationalBTLangRowChangeEvent(((InternationalBTLangRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowDeleting(e);
-                if ((this.InternationalBTLangRowDeleting != null)) {
-                    this.InternationalBTLangRowDeleting(this, new InternationalBTLangRowChangeEvent(((InternationalBTLangRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void RemoveInternationalBTLangRow(InternationalBTLangRow row) {
-                this.Rows.Remove(row);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
-                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
-                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                NewDataSet ds = new NewDataSet();
-                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
-                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
-                any1.MinOccurs = new decimal(0);
-                any1.MaxOccurs = decimal.MaxValue;
-                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
-                sequence.Items.Add(any1);
-                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
-                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
-                any2.MinOccurs = new decimal(1);
-                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
-                sequence.Items.Add(any2);
-                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
-                attribute1.Name = "namespace";
-                attribute1.FixedValue = ds.Namespace;
-                type.Attributes.Add(attribute1);
-                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
-                attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "InternationalBTLangDataTable";
-                type.Attributes.Add(attribute2);
-                type.Particle = sequence;
-                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
-                if (xs.Contains(dsSchema.TargetNamespace)) {
-                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
-                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
-                    try {
-                        global::System.Xml.Schema.XmlSchema schema = null;
-                        dsSchema.Write(s1);
-                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
-                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
-                            s2.SetLength(0);
-                            schema.Write(s2);
-                            if ((s1.Length == s2.Length)) {
-                                s1.Position = 0;
-                                s2.Position = 0;
-                                for (; ((s1.Position != s1.Length) 
-                                            && (s1.ReadByte() == s2.ReadByte())); ) {
-                                    ;
-                                }
-                                if ((s1.Position == s1.Length)) {
-                                    return type;
-                                }
-                            }
-                        }
-                    }
-                    finally {
-                        if ((s1 != null)) {
-                            s1.Close();
-                        }
-                        if ((s2 != null)) {
-                            s2.Close();
-                        }
-                    }
-                }
-                xs.Add(dsSchema);
-                return type;
-            }
-        }
-        
-        /// <summary>
-        ///Represents the strongly named DataTable class.
-        ///</summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        [global::System.Serializable()]
-        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class FreeTranslationLangDataTable : global::System.Data.TypedTableBase<FreeTranslationLangRow> {
-            
-            private global::System.Data.DataColumn columnname;
-            
-            private global::System.Data.DataColumn columncode;
-            
-            private global::System.Data.DataColumn columnFontName;
-            
-            private global::System.Data.DataColumn columnFontSize;
-            
-            private global::System.Data.DataColumn columnFontColor;
-            
-            private global::System.Data.DataColumn columnSentenceFinalPunct;
-            
-            private global::System.Data.DataColumn columnKeyboard;
-            
-            private global::System.Data.DataColumn columnRTL;
-            
-            private global::System.Data.DataColumn columnLanguages_Id;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public FreeTranslationLangDataTable() {
-                this.TableName = "FreeTranslationLang";
-                this.BeginInit();
-                this.InitClass();
-                this.EndInit();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal FreeTranslationLangDataTable(global::System.Data.DataTable table) {
-                this.TableName = table.TableName;
-                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
-                    this.CaseSensitive = table.CaseSensitive;
-                }
-                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
-                    this.Locale = table.Locale;
-                }
-                if ((table.Namespace != table.DataSet.Namespace)) {
-                    this.Namespace = table.Namespace;
-                }
-                this.Prefix = table.Prefix;
-                this.MinimumCapacity = table.MinimumCapacity;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected FreeTranslationLangDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
-                    base(info, context) {
-                this.InitVars();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn nameColumn {
-                get {
-                    return this.columnname;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn codeColumn {
-                get {
-                    return this.columncode;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn FontNameColumn {
-                get {
-                    return this.columnFontName;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn FontSizeColumn {
-                get {
-                    return this.columnFontSize;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn FontColorColumn {
-                get {
-                    return this.columnFontColor;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn SentenceFinalPunctColumn {
-                get {
-                    return this.columnSentenceFinalPunct;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn KeyboardColumn {
-                get {
-                    return this.columnKeyboard;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn RTLColumn {
-                get {
-                    return this.columnRTL;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn Languages_IdColumn {
-                get {
-                    return this.columnLanguages_Id;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.ComponentModel.Browsable(false)]
-            public int Count {
-                get {
-                    return this.Rows.Count;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public FreeTranslationLangRow this[int index] {
-                get {
-                    return ((FreeTranslationLangRow)(this.Rows[index]));
-                }
-            }
-            
-            public event FreeTranslationLangRowChangeEventHandler FreeTranslationLangRowChanging;
-            
-            public event FreeTranslationLangRowChangeEventHandler FreeTranslationLangRowChanged;
-            
-            public event FreeTranslationLangRowChangeEventHandler FreeTranslationLangRowDeleting;
-            
-            public event FreeTranslationLangRowChangeEventHandler FreeTranslationLangRowDeleted;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void AddFreeTranslationLangRow(FreeTranslationLangRow row) {
-                this.Rows.Add(row);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public FreeTranslationLangRow AddFreeTranslationLangRow(string name, string code, string FontName, float FontSize, string FontColor, string SentenceFinalPunct, string Keyboard, bool RTL, LanguagesRow parentLanguagesRowByLanguages_FreeTranslationLang) {
-                FreeTranslationLangRow rowFreeTranslationLangRow = ((FreeTranslationLangRow)(this.NewRow()));
-                object[] columnValuesArray = new object[] {
-                        name,
-                        code,
-                        FontName,
-                        FontSize,
-                        FontColor,
-                        SentenceFinalPunct,
-                        Keyboard,
-                        RTL,
-                        null};
-                if ((parentLanguagesRowByLanguages_FreeTranslationLang != null)) {
-                    columnValuesArray[8] = parentLanguagesRowByLanguages_FreeTranslationLang[9];
-                }
-                rowFreeTranslationLangRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowFreeTranslationLangRow);
-                return rowFreeTranslationLangRow;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public override global::System.Data.DataTable Clone() {
-                FreeTranslationLangDataTable cln = ((FreeTranslationLangDataTable)(base.Clone()));
-                cln.InitVars();
-                return cln;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override global::System.Data.DataTable CreateInstance() {
-                return new FreeTranslationLangDataTable();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal void InitVars() {
-                this.columnname = base.Columns["name"];
-                this.columncode = base.Columns["code"];
-                this.columnFontName = base.Columns["FontName"];
-                this.columnFontSize = base.Columns["FontSize"];
-                this.columnFontColor = base.Columns["FontColor"];
-                this.columnSentenceFinalPunct = base.Columns["SentenceFinalPunct"];
-                this.columnKeyboard = base.Columns["Keyboard"];
-                this.columnRTL = base.Columns["RTL"];
-                this.columnLanguages_Id = base.Columns["Languages_Id"];
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            private void InitClass() {
-                this.columnname = new global::System.Data.DataColumn("name", typeof(string), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnname);
-                this.columncode = new global::System.Data.DataColumn("code", typeof(string), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columncode);
-                this.columnFontName = new global::System.Data.DataColumn("FontName", typeof(string), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnFontName);
-                this.columnFontSize = new global::System.Data.DataColumn("FontSize", typeof(float), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnFontSize);
-                this.columnFontColor = new global::System.Data.DataColumn("FontColor", typeof(string), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnFontColor);
-                this.columnSentenceFinalPunct = new global::System.Data.DataColumn("SentenceFinalPunct", typeof(string), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnSentenceFinalPunct);
-                this.columnKeyboard = new global::System.Data.DataColumn("Keyboard", typeof(string), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnKeyboard);
-                this.columnRTL = new global::System.Data.DataColumn("RTL", typeof(bool), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnRTL);
-                this.columnLanguages_Id = new global::System.Data.DataColumn("Languages_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
-                base.Columns.Add(this.columnLanguages_Id);
-                this.columnname.AllowDBNull = false;
-                this.columnname.Namespace = "";
-                this.columncode.AllowDBNull = false;
-                this.columncode.Namespace = "";
-                this.columnFontName.AllowDBNull = false;
-                this.columnFontName.Namespace = "";
-                this.columnFontSize.AllowDBNull = false;
-                this.columnFontSize.Namespace = "";
-                this.columnFontColor.AllowDBNull = false;
-                this.columnFontColor.Namespace = "";
-                this.columnSentenceFinalPunct.AllowDBNull = false;
-                this.columnSentenceFinalPunct.Namespace = "";
-                this.columnKeyboard.Namespace = "";
-                this.columnRTL.Namespace = "";
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public FreeTranslationLangRow NewFreeTranslationLangRow() {
-                return ((FreeTranslationLangRow)(this.NewRow()));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new FreeTranslationLangRow(builder);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override global::System.Type GetRowType() {
-                return typeof(FreeTranslationLangRow);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowChanged(e);
-                if ((this.FreeTranslationLangRowChanged != null)) {
-                    this.FreeTranslationLangRowChanged(this, new FreeTranslationLangRowChangeEvent(((FreeTranslationLangRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowChanging(e);
-                if ((this.FreeTranslationLangRowChanging != null)) {
-                    this.FreeTranslationLangRowChanging(this, new FreeTranslationLangRowChangeEvent(((FreeTranslationLangRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowDeleted(e);
-                if ((this.FreeTranslationLangRowDeleted != null)) {
-                    this.FreeTranslationLangRowDeleted(this, new FreeTranslationLangRowChangeEvent(((FreeTranslationLangRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowDeleting(e);
-                if ((this.FreeTranslationLangRowDeleting != null)) {
-                    this.FreeTranslationLangRowDeleting(this, new FreeTranslationLangRowChangeEvent(((FreeTranslationLangRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void RemoveFreeTranslationLangRow(FreeTranslationLangRow row) {
-                this.Rows.Remove(row);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
-                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
-                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                NewDataSet ds = new NewDataSet();
-                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
-                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
-                any1.MinOccurs = new decimal(0);
-                any1.MaxOccurs = decimal.MaxValue;
-                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
-                sequence.Items.Add(any1);
-                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
-                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
-                any2.MinOccurs = new decimal(1);
-                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
-                sequence.Items.Add(any2);
-                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
-                attribute1.Name = "namespace";
-                attribute1.FixedValue = ds.Namespace;
-                type.Attributes.Add(attribute1);
-                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
-                attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "FreeTranslationLangDataTable";
+                attribute2.FixedValue = "LanguageInfoDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -5439,7 +4281,11 @@ namespace OneStoryProjectEditor {
             
             private global::System.Data.DataColumn columnConverterName;
             
-            private global::System.Data.DataColumn columnRepositoryUrl;
+            private global::System.Data.DataColumn columnRepoProjectName;
+            
+            private global::System.Data.DataColumn columnRepositoryServer;
+            
+            private global::System.Data.DataColumn columnNetworkRepositoryPath;
             
             private global::System.Data.DataColumn columnAdaptItConfiguration_text;
             
@@ -5497,9 +4343,23 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn RepositoryUrlColumn {
+            public global::System.Data.DataColumn RepoProjectNameColumn {
                 get {
-                    return this.columnRepositoryUrl;
+                    return this.columnRepoProjectName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn RepositoryServerColumn {
+                get {
+                    return this.columnRepositoryServer;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn NetworkRepositoryPathColumn {
+                get {
+                    return this.columnNetworkRepositoryPath;
                 }
             }
             
@@ -5546,17 +4406,19 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public AdaptItConfigurationRow AddAdaptItConfigurationRow(string ProjectType, string BtDirection, string ConverterName, string RepositoryUrl, string AdaptItConfiguration_text, AdaptItConfigurationsRow parentAdaptItConfigurationsRowByAdaptItConfigurations_AdaptItConfiguration) {
+            public AdaptItConfigurationRow AddAdaptItConfigurationRow(string ProjectType, string BtDirection, string ConverterName, string RepoProjectName, string RepositoryServer, string NetworkRepositoryPath, string AdaptItConfiguration_text, AdaptItConfigurationsRow parentAdaptItConfigurationsRowByAdaptItConfigurations_AdaptItConfiguration) {
                 AdaptItConfigurationRow rowAdaptItConfigurationRow = ((AdaptItConfigurationRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ProjectType,
                         BtDirection,
                         ConverterName,
-                        RepositoryUrl,
+                        RepoProjectName,
+                        RepositoryServer,
+                        NetworkRepositoryPath,
                         AdaptItConfiguration_text,
                         null};
                 if ((parentAdaptItConfigurationsRowByAdaptItConfigurations_AdaptItConfiguration != null)) {
-                    columnValuesArray[5] = parentAdaptItConfigurationsRowByAdaptItConfigurations_AdaptItConfiguration[0];
+                    columnValuesArray[7] = parentAdaptItConfigurationsRowByAdaptItConfigurations_AdaptItConfiguration[0];
                 }
                 rowAdaptItConfigurationRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowAdaptItConfigurationRow);
@@ -5580,7 +4442,9 @@ namespace OneStoryProjectEditor {
                 this.columnProjectType = base.Columns["ProjectType"];
                 this.columnBtDirection = base.Columns["BtDirection"];
                 this.columnConverterName = base.Columns["ConverterName"];
-                this.columnRepositoryUrl = base.Columns["RepositoryUrl"];
+                this.columnRepoProjectName = base.Columns["RepoProjectName"];
+                this.columnRepositoryServer = base.Columns["RepositoryServer"];
+                this.columnNetworkRepositoryPath = base.Columns["NetworkRepositoryPath"];
                 this.columnAdaptItConfiguration_text = base.Columns["AdaptItConfiguration_text"];
                 this.columnAdaptItConfigurations_Id = base.Columns["AdaptItConfigurations_Id"];
             }
@@ -5593,8 +4457,12 @@ namespace OneStoryProjectEditor {
                 base.Columns.Add(this.columnBtDirection);
                 this.columnConverterName = new global::System.Data.DataColumn("ConverterName", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnConverterName);
-                this.columnRepositoryUrl = new global::System.Data.DataColumn("RepositoryUrl", typeof(string), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnRepositoryUrl);
+                this.columnRepoProjectName = new global::System.Data.DataColumn("RepoProjectName", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnRepoProjectName);
+                this.columnRepositoryServer = new global::System.Data.DataColumn("RepositoryServer", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnRepositoryServer);
+                this.columnNetworkRepositoryPath = new global::System.Data.DataColumn("NetworkRepositoryPath", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnNetworkRepositoryPath);
                 this.columnAdaptItConfiguration_text = new global::System.Data.DataColumn("AdaptItConfiguration_text", typeof(string), null, global::System.Data.MappingType.SimpleContent);
                 base.Columns.Add(this.columnAdaptItConfiguration_text);
                 this.columnAdaptItConfigurations_Id = new global::System.Data.DataColumn("AdaptItConfigurations_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
@@ -5605,8 +4473,9 @@ namespace OneStoryProjectEditor {
                 this.columnBtDirection.Namespace = "";
                 this.columnConverterName.AllowDBNull = false;
                 this.columnConverterName.Namespace = "";
-                this.columnRepositoryUrl.Namespace = "";
-                this.columnAdaptItConfiguration_text.AllowDBNull = false;
+                this.columnRepoProjectName.Namespace = "";
+                this.columnRepositoryServer.Namespace = "";
+                this.columnNetworkRepositoryPath.Namespace = "";
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -15452,42 +14321,12 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public VernacularLangRow[] GetVernacularLangRows() {
-                if ((this.Table.ChildRelations["Languages_VernacularLang"] == null)) {
-                    return new VernacularLangRow[0];
+            public LanguageInfoRow[] GetLanguageInfoRows() {
+                if ((this.Table.ChildRelations["Languages_LanguageInfo"] == null)) {
+                    return new LanguageInfoRow[0];
                 }
                 else {
-                    return ((VernacularLangRow[])(base.GetChildRows(this.Table.ChildRelations["Languages_VernacularLang"])));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public NationalBTLangRow[] GetNationalBTLangRows() {
-                if ((this.Table.ChildRelations["Languages_NationalBTLang"] == null)) {
-                    return new NationalBTLangRow[0];
-                }
-                else {
-                    return ((NationalBTLangRow[])(base.GetChildRows(this.Table.ChildRelations["Languages_NationalBTLang"])));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public InternationalBTLangRow[] GetInternationalBTLangRows() {
-                if ((this.Table.ChildRelations["Languages_InternationalBTLang"] == null)) {
-                    return new InternationalBTLangRow[0];
-                }
-                else {
-                    return ((InternationalBTLangRow[])(base.GetChildRows(this.Table.ChildRelations["Languages_InternationalBTLang"])));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public FreeTranslationLangRow[] GetFreeTranslationLangRows() {
-                if ((this.Table.ChildRelations["Languages_FreeTranslationLang"] == null)) {
-                    return new FreeTranslationLangRow[0];
-                }
-                else {
-                    return ((FreeTranslationLangRow[])(base.GetChildRows(this.Table.ChildRelations["Languages_FreeTranslationLang"])));
+                    return ((LanguageInfoRow[])(base.GetChildRows(this.Table.ChildRelations["Languages_LanguageInfo"])));
                 }
             }
         }
@@ -15496,73 +14335,83 @@ namespace OneStoryProjectEditor {
         ///Represents strongly named DataRow class.
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        public partial class VernacularLangRow : global::System.Data.DataRow {
+        public partial class LanguageInfoRow : global::System.Data.DataRow {
             
-            private VernacularLangDataTable tableVernacularLang;
+            private LanguageInfoDataTable tableLanguageInfo;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal VernacularLangRow(global::System.Data.DataRowBuilder rb) : 
+            internal LanguageInfoRow(global::System.Data.DataRowBuilder rb) : 
                     base(rb) {
-                this.tableVernacularLang = ((VernacularLangDataTable)(this.Table));
+                this.tableLanguageInfo = ((LanguageInfoDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string lang {
+                get {
+                    return ((string)(this[this.tableLanguageInfo.langColumn]));
+                }
+                set {
+                    this[this.tableLanguageInfo.langColumn] = value;
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public string name {
                 get {
-                    return ((string)(this[this.tableVernacularLang.nameColumn]));
+                    return ((string)(this[this.tableLanguageInfo.nameColumn]));
                 }
                 set {
-                    this[this.tableVernacularLang.nameColumn] = value;
+                    this[this.tableLanguageInfo.nameColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public string code {
                 get {
-                    return ((string)(this[this.tableVernacularLang.codeColumn]));
+                    return ((string)(this[this.tableLanguageInfo.codeColumn]));
                 }
                 set {
-                    this[this.tableVernacularLang.codeColumn] = value;
+                    this[this.tableLanguageInfo.codeColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public string FontName {
                 get {
-                    return ((string)(this[this.tableVernacularLang.FontNameColumn]));
+                    return ((string)(this[this.tableLanguageInfo.FontNameColumn]));
                 }
                 set {
-                    this[this.tableVernacularLang.FontNameColumn] = value;
+                    this[this.tableLanguageInfo.FontNameColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public float FontSize {
                 get {
-                    return ((float)(this[this.tableVernacularLang.FontSizeColumn]));
+                    return ((float)(this[this.tableLanguageInfo.FontSizeColumn]));
                 }
                 set {
-                    this[this.tableVernacularLang.FontSizeColumn] = value;
+                    this[this.tableLanguageInfo.FontSizeColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public string FontColor {
                 get {
-                    return ((string)(this[this.tableVernacularLang.FontColorColumn]));
+                    return ((string)(this[this.tableLanguageInfo.FontColorColumn]));
                 }
                 set {
-                    this[this.tableVernacularLang.FontColorColumn] = value;
+                    this[this.tableLanguageInfo.FontColorColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public string SentenceFinalPunct {
                 get {
-                    return ((string)(this[this.tableVernacularLang.SentenceFinalPunctColumn]));
+                    return ((string)(this[this.tableLanguageInfo.SentenceFinalPunctColumn]));
                 }
                 set {
-                    this[this.tableVernacularLang.SentenceFinalPunctColumn] = value;
+                    this[this.tableLanguageInfo.SentenceFinalPunctColumn] = value;
                 }
             }
             
@@ -15570,14 +14419,14 @@ namespace OneStoryProjectEditor {
             public string Keyboard {
                 get {
                     try {
-                        return ((string)(this[this.tableVernacularLang.KeyboardColumn]));
+                        return ((string)(this[this.tableLanguageInfo.KeyboardColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Keyboard\' in table \'VernacularLang\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Keyboard\' in table \'LanguageInfo\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableVernacularLang.KeyboardColumn] = value;
+                    this[this.tableLanguageInfo.KeyboardColumn] = value;
                 }
             }
             
@@ -15585,14 +14434,14 @@ namespace OneStoryProjectEditor {
             public bool RTL {
                 get {
                     try {
-                        return ((bool)(this[this.tableVernacularLang.RTLColumn]));
+                        return ((bool)(this[this.tableLanguageInfo.RTLColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'RTL\' in table \'VernacularLang\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'RTL\' in table \'LanguageInfo\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableVernacularLang.RTLColumn] = value;
+                    this[this.tableLanguageInfo.RTLColumn] = value;
                 }
             }
             
@@ -15600,535 +14449,55 @@ namespace OneStoryProjectEditor {
             public int Languages_Id {
                 get {
                     try {
-                        return ((int)(this[this.tableVernacularLang.Languages_IdColumn]));
+                        return ((int)(this[this.tableLanguageInfo.Languages_IdColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Languages_Id\' in table \'VernacularLang\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Languages_Id\' in table \'LanguageInfo\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableVernacularLang.Languages_IdColumn] = value;
+                    this[this.tableLanguageInfo.Languages_IdColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public LanguagesRow LanguagesRow {
                 get {
-                    return ((LanguagesRow)(this.GetParentRow(this.Table.ParentRelations["Languages_VernacularLang"])));
+                    return ((LanguagesRow)(this.GetParentRow(this.Table.ParentRelations["Languages_LanguageInfo"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["Languages_VernacularLang"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["Languages_LanguageInfo"]);
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public bool IsKeyboardNull() {
-                return this.IsNull(this.tableVernacularLang.KeyboardColumn);
+                return this.IsNull(this.tableLanguageInfo.KeyboardColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public void SetKeyboardNull() {
-                this[this.tableVernacularLang.KeyboardColumn] = global::System.Convert.DBNull;
+                this[this.tableLanguageInfo.KeyboardColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public bool IsRTLNull() {
-                return this.IsNull(this.tableVernacularLang.RTLColumn);
+                return this.IsNull(this.tableLanguageInfo.RTLColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public void SetRTLNull() {
-                this[this.tableVernacularLang.RTLColumn] = global::System.Convert.DBNull;
+                this[this.tableLanguageInfo.RTLColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public bool IsLanguages_IdNull() {
-                return this.IsNull(this.tableVernacularLang.Languages_IdColumn);
+                return this.IsNull(this.tableLanguageInfo.Languages_IdColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public void SetLanguages_IdNull() {
-                this[this.tableVernacularLang.Languages_IdColumn] = global::System.Convert.DBNull;
-            }
-        }
-        
-        /// <summary>
-        ///Represents strongly named DataRow class.
-        ///</summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        public partial class NationalBTLangRow : global::System.Data.DataRow {
-            
-            private NationalBTLangDataTable tableNationalBTLang;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal NationalBTLangRow(global::System.Data.DataRowBuilder rb) : 
-                    base(rb) {
-                this.tableNationalBTLang = ((NationalBTLangDataTable)(this.Table));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string name {
-                get {
-                    return ((string)(this[this.tableNationalBTLang.nameColumn]));
-                }
-                set {
-                    this[this.tableNationalBTLang.nameColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string code {
-                get {
-                    return ((string)(this[this.tableNationalBTLang.codeColumn]));
-                }
-                set {
-                    this[this.tableNationalBTLang.codeColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string FontName {
-                get {
-                    return ((string)(this[this.tableNationalBTLang.FontNameColumn]));
-                }
-                set {
-                    this[this.tableNationalBTLang.FontNameColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public float FontSize {
-                get {
-                    return ((float)(this[this.tableNationalBTLang.FontSizeColumn]));
-                }
-                set {
-                    this[this.tableNationalBTLang.FontSizeColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string FontColor {
-                get {
-                    return ((string)(this[this.tableNationalBTLang.FontColorColumn]));
-                }
-                set {
-                    this[this.tableNationalBTLang.FontColorColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string SentenceFinalPunct {
-                get {
-                    return ((string)(this[this.tableNationalBTLang.SentenceFinalPunctColumn]));
-                }
-                set {
-                    this[this.tableNationalBTLang.SentenceFinalPunctColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string Keyboard {
-                get {
-                    try {
-                        return ((string)(this[this.tableNationalBTLang.KeyboardColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Keyboard\' in table \'NationalBTLang\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableNationalBTLang.KeyboardColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool RTL {
-                get {
-                    try {
-                        return ((bool)(this[this.tableNationalBTLang.RTLColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'RTL\' in table \'NationalBTLang\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableNationalBTLang.RTLColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int Languages_Id {
-                get {
-                    try {
-                        return ((int)(this[this.tableNationalBTLang.Languages_IdColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Languages_Id\' in table \'NationalBTLang\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableNationalBTLang.Languages_IdColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public LanguagesRow LanguagesRow {
-                get {
-                    return ((LanguagesRow)(this.GetParentRow(this.Table.ParentRelations["Languages_NationalBTLang"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["Languages_NationalBTLang"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsKeyboardNull() {
-                return this.IsNull(this.tableNationalBTLang.KeyboardColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetKeyboardNull() {
-                this[this.tableNationalBTLang.KeyboardColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsRTLNull() {
-                return this.IsNull(this.tableNationalBTLang.RTLColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetRTLNull() {
-                this[this.tableNationalBTLang.RTLColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsLanguages_IdNull() {
-                return this.IsNull(this.tableNationalBTLang.Languages_IdColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetLanguages_IdNull() {
-                this[this.tableNationalBTLang.Languages_IdColumn] = global::System.Convert.DBNull;
-            }
-        }
-        
-        /// <summary>
-        ///Represents strongly named DataRow class.
-        ///</summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        public partial class InternationalBTLangRow : global::System.Data.DataRow {
-            
-            private InternationalBTLangDataTable tableInternationalBTLang;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal InternationalBTLangRow(global::System.Data.DataRowBuilder rb) : 
-                    base(rb) {
-                this.tableInternationalBTLang = ((InternationalBTLangDataTable)(this.Table));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string name {
-                get {
-                    return ((string)(this[this.tableInternationalBTLang.nameColumn]));
-                }
-                set {
-                    this[this.tableInternationalBTLang.nameColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string code {
-                get {
-                    return ((string)(this[this.tableInternationalBTLang.codeColumn]));
-                }
-                set {
-                    this[this.tableInternationalBTLang.codeColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string FontName {
-                get {
-                    return ((string)(this[this.tableInternationalBTLang.FontNameColumn]));
-                }
-                set {
-                    this[this.tableInternationalBTLang.FontNameColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public float FontSize {
-                get {
-                    return ((float)(this[this.tableInternationalBTLang.FontSizeColumn]));
-                }
-                set {
-                    this[this.tableInternationalBTLang.FontSizeColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string FontColor {
-                get {
-                    return ((string)(this[this.tableInternationalBTLang.FontColorColumn]));
-                }
-                set {
-                    this[this.tableInternationalBTLang.FontColorColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string SentenceFinalPunct {
-                get {
-                    return ((string)(this[this.tableInternationalBTLang.SentenceFinalPunctColumn]));
-                }
-                set {
-                    this[this.tableInternationalBTLang.SentenceFinalPunctColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string Keyboard {
-                get {
-                    try {
-                        return ((string)(this[this.tableInternationalBTLang.KeyboardColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Keyboard\' in table \'InternationalBTLang\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableInternationalBTLang.KeyboardColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool RTL {
-                get {
-                    try {
-                        return ((bool)(this[this.tableInternationalBTLang.RTLColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'RTL\' in table \'InternationalBTLang\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableInternationalBTLang.RTLColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int Languages_Id {
-                get {
-                    try {
-                        return ((int)(this[this.tableInternationalBTLang.Languages_IdColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Languages_Id\' in table \'InternationalBTLang\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableInternationalBTLang.Languages_IdColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public LanguagesRow LanguagesRow {
-                get {
-                    return ((LanguagesRow)(this.GetParentRow(this.Table.ParentRelations["Languages_InternationalBTLang"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["Languages_InternationalBTLang"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsKeyboardNull() {
-                return this.IsNull(this.tableInternationalBTLang.KeyboardColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetKeyboardNull() {
-                this[this.tableInternationalBTLang.KeyboardColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsRTLNull() {
-                return this.IsNull(this.tableInternationalBTLang.RTLColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetRTLNull() {
-                this[this.tableInternationalBTLang.RTLColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsLanguages_IdNull() {
-                return this.IsNull(this.tableInternationalBTLang.Languages_IdColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetLanguages_IdNull() {
-                this[this.tableInternationalBTLang.Languages_IdColumn] = global::System.Convert.DBNull;
-            }
-        }
-        
-        /// <summary>
-        ///Represents strongly named DataRow class.
-        ///</summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        public partial class FreeTranslationLangRow : global::System.Data.DataRow {
-            
-            private FreeTranslationLangDataTable tableFreeTranslationLang;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal FreeTranslationLangRow(global::System.Data.DataRowBuilder rb) : 
-                    base(rb) {
-                this.tableFreeTranslationLang = ((FreeTranslationLangDataTable)(this.Table));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string name {
-                get {
-                    return ((string)(this[this.tableFreeTranslationLang.nameColumn]));
-                }
-                set {
-                    this[this.tableFreeTranslationLang.nameColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string code {
-                get {
-                    return ((string)(this[this.tableFreeTranslationLang.codeColumn]));
-                }
-                set {
-                    this[this.tableFreeTranslationLang.codeColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string FontName {
-                get {
-                    return ((string)(this[this.tableFreeTranslationLang.FontNameColumn]));
-                }
-                set {
-                    this[this.tableFreeTranslationLang.FontNameColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public float FontSize {
-                get {
-                    return ((float)(this[this.tableFreeTranslationLang.FontSizeColumn]));
-                }
-                set {
-                    this[this.tableFreeTranslationLang.FontSizeColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string FontColor {
-                get {
-                    return ((string)(this[this.tableFreeTranslationLang.FontColorColumn]));
-                }
-                set {
-                    this[this.tableFreeTranslationLang.FontColorColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string SentenceFinalPunct {
-                get {
-                    return ((string)(this[this.tableFreeTranslationLang.SentenceFinalPunctColumn]));
-                }
-                set {
-                    this[this.tableFreeTranslationLang.SentenceFinalPunctColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string Keyboard {
-                get {
-                    try {
-                        return ((string)(this[this.tableFreeTranslationLang.KeyboardColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Keyboard\' in table \'FreeTranslationLang\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableFreeTranslationLang.KeyboardColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool RTL {
-                get {
-                    try {
-                        return ((bool)(this[this.tableFreeTranslationLang.RTLColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'RTL\' in table \'FreeTranslationLang\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableFreeTranslationLang.RTLColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int Languages_Id {
-                get {
-                    try {
-                        return ((int)(this[this.tableFreeTranslationLang.Languages_IdColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Languages_Id\' in table \'FreeTranslationLang\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableFreeTranslationLang.Languages_IdColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public LanguagesRow LanguagesRow {
-                get {
-                    return ((LanguagesRow)(this.GetParentRow(this.Table.ParentRelations["Languages_FreeTranslationLang"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["Languages_FreeTranslationLang"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsKeyboardNull() {
-                return this.IsNull(this.tableFreeTranslationLang.KeyboardColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetKeyboardNull() {
-                this[this.tableFreeTranslationLang.KeyboardColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsRTLNull() {
-                return this.IsNull(this.tableFreeTranslationLang.RTLColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetRTLNull() {
-                this[this.tableFreeTranslationLang.RTLColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsLanguages_IdNull() {
-                return this.IsNull(this.tableFreeTranslationLang.Languages_IdColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetLanguages_IdNull() {
-                this[this.tableFreeTranslationLang.Languages_IdColumn] = global::System.Convert.DBNull;
+                this[this.tableLanguageInfo.Languages_IdColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -16248,24 +14617,63 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string RepositoryUrl {
+            public string RepoProjectName {
                 get {
                     try {
-                        return ((string)(this[this.tableAdaptItConfiguration.RepositoryUrlColumn]));
+                        return ((string)(this[this.tableAdaptItConfiguration.RepoProjectNameColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'RepositoryUrl\' in table \'AdaptItConfiguration\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'RepoProjectName\' in table \'AdaptItConfiguration\' is DBNull." +
+                                "", e);
                     }
                 }
                 set {
-                    this[this.tableAdaptItConfiguration.RepositoryUrlColumn] = value;
+                    this[this.tableAdaptItConfiguration.RepoProjectNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string RepositoryServer {
+                get {
+                    try {
+                        return ((string)(this[this.tableAdaptItConfiguration.RepositoryServerColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RepositoryServer\' in table \'AdaptItConfiguration\' is DBNull" +
+                                ".", e);
+                    }
+                }
+                set {
+                    this[this.tableAdaptItConfiguration.RepositoryServerColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string NetworkRepositoryPath {
+                get {
+                    try {
+                        return ((string)(this[this.tableAdaptItConfiguration.NetworkRepositoryPathColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'NetworkRepositoryPath\' in table \'AdaptItConfiguration\' is D" +
+                                "BNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableAdaptItConfiguration.NetworkRepositoryPathColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public string AdaptItConfiguration_text {
                 get {
-                    return ((string)(this[this.tableAdaptItConfiguration.AdaptItConfiguration_textColumn]));
+                    try {
+                        return ((string)(this[this.tableAdaptItConfiguration.AdaptItConfiguration_textColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'AdaptItConfiguration_text\' in table \'AdaptItConfiguration\' " +
+                                "is DBNull.", e);
+                    }
                 }
                 set {
                     this[this.tableAdaptItConfiguration.AdaptItConfiguration_textColumn] = value;
@@ -16299,13 +14707,43 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsRepositoryUrlNull() {
-                return this.IsNull(this.tableAdaptItConfiguration.RepositoryUrlColumn);
+            public bool IsRepoProjectNameNull() {
+                return this.IsNull(this.tableAdaptItConfiguration.RepoProjectNameColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetRepositoryUrlNull() {
-                this[this.tableAdaptItConfiguration.RepositoryUrlColumn] = global::System.Convert.DBNull;
+            public void SetRepoProjectNameNull() {
+                this[this.tableAdaptItConfiguration.RepoProjectNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsRepositoryServerNull() {
+                return this.IsNull(this.tableAdaptItConfiguration.RepositoryServerColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetRepositoryServerNull() {
+                this[this.tableAdaptItConfiguration.RepositoryServerColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsNetworkRepositoryPathNull() {
+                return this.IsNull(this.tableAdaptItConfiguration.NetworkRepositoryPathColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetNetworkRepositoryPathNull() {
+                this[this.tableAdaptItConfiguration.NetworkRepositoryPathColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsAdaptItConfiguration_textNull() {
+                return this.IsNull(this.tableAdaptItConfiguration.AdaptItConfiguration_textColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetAdaptItConfiguration_textNull() {
+                this[this.tableAdaptItConfiguration.AdaptItConfiguration_textColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -19591,113 +18029,20 @@ namespace OneStoryProjectEditor {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        public class VernacularLangRowChangeEvent : global::System.EventArgs {
+        public class LanguageInfoRowChangeEvent : global::System.EventArgs {
             
-            private VernacularLangRow eventRow;
+            private LanguageInfoRow eventRow;
             
             private global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public VernacularLangRowChangeEvent(VernacularLangRow row, global::System.Data.DataRowAction action) {
+            public LanguageInfoRowChangeEvent(LanguageInfoRow row, global::System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public VernacularLangRow Row {
-                get {
-                    return this.eventRow;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataRowAction Action {
-                get {
-                    return this.eventAction;
-                }
-            }
-        }
-        
-        /// <summary>
-        ///Row event argument class
-        ///</summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        public class NationalBTLangRowChangeEvent : global::System.EventArgs {
-            
-            private NationalBTLangRow eventRow;
-            
-            private global::System.Data.DataRowAction eventAction;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public NationalBTLangRowChangeEvent(NationalBTLangRow row, global::System.Data.DataRowAction action) {
-                this.eventRow = row;
-                this.eventAction = action;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public NationalBTLangRow Row {
-                get {
-                    return this.eventRow;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataRowAction Action {
-                get {
-                    return this.eventAction;
-                }
-            }
-        }
-        
-        /// <summary>
-        ///Row event argument class
-        ///</summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        public class InternationalBTLangRowChangeEvent : global::System.EventArgs {
-            
-            private InternationalBTLangRow eventRow;
-            
-            private global::System.Data.DataRowAction eventAction;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public InternationalBTLangRowChangeEvent(InternationalBTLangRow row, global::System.Data.DataRowAction action) {
-                this.eventRow = row;
-                this.eventAction = action;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public InternationalBTLangRow Row {
-                get {
-                    return this.eventRow;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataRowAction Action {
-                get {
-                    return this.eventAction;
-                }
-            }
-        }
-        
-        /// <summary>
-        ///Row event argument class
-        ///</summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        public class FreeTranslationLangRowChangeEvent : global::System.EventArgs {
-            
-            private FreeTranslationLangRow eventRow;
-            
-            private global::System.Data.DataRowAction eventAction;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public FreeTranslationLangRowChangeEvent(FreeTranslationLangRow row, global::System.Data.DataRowAction action) {
-                this.eventRow = row;
-                this.eventAction = action;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public FreeTranslationLangRow Row {
+            public LanguageInfoRow Row {
                 get {
                     return this.eventRow;
                 }

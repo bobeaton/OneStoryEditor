@@ -66,23 +66,36 @@ namespace OneStoryProjectEditor
             out ProjectSettings.LanguageInfo liSourceLang, out ProjectSettings.LanguageInfo liTargetLang)
         {
             var aECs = new EncConverters();
-            string strName;
+            string strName = null;
+            ProjectSettings.AdaptItConfiguration adaptItConfiguration = null;
             switch (eBtDirection)
             {
                 case ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.VernacularToNationalBt:
-                    strName = (proj.VernacularToNationalBt != null) ? proj.VernacularToNationalBt.ConverterName : null;
+                    if ((proj.VernacularToNationalBt != null) && !String.IsNullOrEmpty(proj.VernacularToNationalBt.ConverterName))
+                    {
+                        strName = proj.VernacularToNationalBt.ConverterName;
+                        adaptItConfiguration = proj.VernacularToNationalBt;
+                    }
                     liSourceLang = proj.Vernacular;
                     liTargetLang = proj.NationalBT;
                     break;
 
                 case ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.VernacularToInternationalBt:    // the glossing KB for the Vern to Natl project
-                    strName = (proj.VernacularToInternationalBt != null) ? proj.VernacularToInternationalBt.ConverterName : null;
+                    if ((proj.VernacularToInternationalBt != null) && !String.IsNullOrEmpty(proj.VernacularToInternationalBt.ConverterName))
+                    {
+                        strName = proj.VernacularToInternationalBt.ConverterName;
+                        adaptItConfiguration = proj.VernacularToInternationalBt;
+                    }
                     liSourceLang = proj.Vernacular;
                     liTargetLang = proj.InternationalBT; // this is still the national lg project (but the glossing KB)
                     break;
 
                 case ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.NationalBtToInternationalBt:
-                    strName = (proj.NationalBtToInternationalBt != null) ? proj.NationalBtToInternationalBt.ConverterName : null;
+                    if ((proj.NationalBtToInternationalBt != null) && !String.IsNullOrEmpty(proj.NationalBtToInternationalBt.ConverterName))
+                    {
+                        strName = proj.NationalBtToInternationalBt.ConverterName;
+                        adaptItConfiguration = proj.NationalBtToInternationalBt;
+                    }
                     liSourceLang = proj.NationalBT;         // this is a whole nuther national to English project
                     liTargetLang = proj.InternationalBT;
                     break;
@@ -114,6 +127,12 @@ namespace OneStoryProjectEditor
             IEncConverter aEC = aECs[strName];
             System.Diagnostics.Debug.Assert((aEC != null) && (aEC is AdaptItEncConverter));
             AdaptItEncConverter theLookupAdapter = (AdaptItEncConverter)aEC;
+
+            if (adaptItConfiguration != null)
+            {
+                string strProjectFolder = Path.GetDirectoryName(aEC.ConverterIdentifier);
+                adaptItConfiguration.CheckForSync(strProjectFolder);
+            }
 
             // in order to get the converter to load the database, do a dummy Convert
             theLookupAdapter.Convert("nothing");
