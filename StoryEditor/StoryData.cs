@@ -43,9 +43,9 @@ namespace OneStoryProjectEditor
             ProjStage = new StoryStageLogic(strProjectFolder, node.Attributes[CstrAttributeStage].Value);
             guid = node.Attributes[CstrAttributeGuid].Value;
             StageTimeStamp = DateTime.Parse(node.Attributes[CstrAttributeTimeStamp].Value);
-            CraftingInfo = new CraftingInfoData(node.SelectSingleNode("CraftingInfo"));
-            TransitionHistory = new StoryStateTransitionHistory(node.SelectSingleNode("TransitionHistory"));
-            Verses = new VersesData(node.SelectSingleNode("verses"));
+            CraftingInfo = new CraftingInfoData(node.SelectSingleNode(CraftingInfoData.CstrElementLabelCraftingInfo));
+            TransitionHistory = new StoryStateTransitionHistory(node.SelectSingleNode(StoryStateTransitionHistory.CstrElementLabelTransitionHistory));
+            Verses = new VersesData(node.SelectSingleNode(VersesData.CstrElementLabelVerses));
         }
 
         public StoryData(NewDataSet.storyRow theStoryRow, NewDataSet projFile, string strProjectFolder)
@@ -569,7 +569,8 @@ namespace OneStoryProjectEditor
                 Testors.Add(strUnsGuid);
         }
 
-        public const string CstrElementLableNonBiblicalStory = "NonBiblicalStory";
+        public const string CstrElementLabelCraftingInfo = "CraftingInfo";
+        public const string CstrElementLabelNonBiblicalStory = "NonBiblicalStory";
         public const string CstrElementLabelStoryCrafter = "StoryCrafter";
         public const string CstrElementLabelProjectFacilitator = "ProjectFacilitator";
         public const string CstrElementLabelStoryPurpose = "StoryPurpose";
@@ -583,8 +584,8 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                var elemCraftingInfo = new XElement("CraftingInfo",
-                                                         new XAttribute(CstrElementLableNonBiblicalStory, !IsBiblicalStory),
+                var elemCraftingInfo = new XElement(CstrElementLabelCraftingInfo,
+                                                         new XAttribute(CstrElementLabelNonBiblicalStory, !IsBiblicalStory),
                                                          new XElement(CstrElementLabelStoryCrafter,
                                                                       new XAttribute(CstrAttributeMemberID, StoryCrafterMemberID)));
 

@@ -11,14 +11,13 @@ namespace OneStoryProjectEditor
     public class ProjectSettings
     {
         public string ProjectName;
-        public string RepositoryUrl;
         protected string _strProjectFolder = null;
 
         // default is to have all 3, but the user might disable one or the other bt languages
-        public LanguageInfo Vernacular = new LanguageInfo(new Font("Arial Unicode MS", 12), Color.Maroon);
-        public LanguageInfo NationalBT = new LanguageInfo(new Font("Arial Unicode MS", 12), Color.Green);
-        public LanguageInfo InternationalBT = new LanguageInfo("English", "en", new Font("Times New Roman", 10), Color.Blue);
-        public LanguageInfo FreeTranslation = new LanguageInfo("English", "en", new Font("Times New Roman", 10), Color.ForestGreen);
+        public LanguageInfo Vernacular = new LanguageInfo(LineData.CstrAttributeLangVernacular, new Font("Arial Unicode MS", 12), Color.Maroon);
+        public LanguageInfo NationalBT = new LanguageInfo(LineData.CstrAttributeLangNationalBt, new Font("Arial Unicode MS", 12), Color.Green);
+        public LanguageInfo InternationalBT = new LanguageInfo(LineData.CstrAttributeLangInternationalBt, "English", "en", new Font("Times New Roman", 10), Color.Blue);
+        public LanguageInfo FreeTranslation = new LanguageInfo(LineData.CstrAttributeLangFreeTranslation, "English", "en", new Font("Times New Roman", 10), Color.ForestGreen);
 
         public AdaptItConfiguration VernacularToNationalBt;
         public AdaptItConfiguration VernacularToInternationalBt;
@@ -52,13 +51,20 @@ namespace OneStoryProjectEditor
         {
             XmlAttribute attr;
             ProjectName = ((attr = node.Attributes[StoryProjectData.CstrAttributeProjectName]) != null) ? attr.Value : null;
-            RepositoryUrl = ((attr = node.Attributes[StoryProjectData.CstrAttributeProjectName]) != null) ? attr.Value : null;
             _strProjectFolder = strProjectFolder;
 
-            Vernacular = new LanguageInfo(node.SelectSingleNode(CstrElementLabelLanguages + '/' + CstrElementLabelVernacular));
-            NationalBT = new LanguageInfo(node.SelectSingleNode(CstrElementLabelLanguages + '/' + CstrElementLabelNationalBT));
-            InternationalBT = new LanguageInfo(node.SelectSingleNode(CstrElementLabelLanguages + '/' + CstrElementLabelInternationalBT));
-            FreeTranslation = new LanguageInfo(node.SelectSingleNode(CstrElementLabelLanguages + '/' + CstrElementLabelFreeTranslation));
+            Vernacular = new LanguageInfo(node.SelectSingleNode(XPathForLangInformation(LineData.CstrAttributeLangVernacular)));
+            NationalBT = new LanguageInfo(node.SelectSingleNode(XPathForLangInformation(LineData.CstrAttributeLangNationalBt)));
+            InternationalBT = new LanguageInfo(node.SelectSingleNode(XPathForLangInformation(LineData.CstrAttributeLangInternationalBt)));
+            FreeTranslation = new LanguageInfo(node.SelectSingleNode(XPathForLangInformation(LineData.CstrAttributeLangFreeTranslation)));
+        }
+
+        private static string XPathForLangInformation(string strLangType)
+        {
+            return String.Format("{0}/{1}[@lang = '{2}']",
+                                 CstrElementLabelLanguages,
+                                 LanguageInfo.CstrElementLabelLanguageInfo,
+                                 strLangType);
         }
 
         public void SerializeProjectSettings(NewDataSet projFile)
@@ -116,97 +122,37 @@ namespace OneStoryProjectEditor
                 }
             }
 
-            // if there is no vernacular row, we must add it (it's required)
-            if (projFile.VernacularLang.Count == 1)
+            bool bFoundInternationalBt = false, bFoundFreeTranslation = false;
+            foreach (NewDataSet.LanguageInfoRow aLangRow in theLangRow.GetLanguageInfoRows())
             {
-                // otherwise, read in the details
-                System.Diagnostics.Debug.Assert(projFile.VernacularLang.Count == 1);
-                NewDataSet.VernacularLangRow theVernRow = projFile.VernacularLang[0];
-                Vernacular.LangName = theVernRow.name;
-                Vernacular.LangCode = theVernRow.code;
-                Vernacular.DefaultFontName = theVernRow.FontName;
-                Vernacular.DefaultFontSize = theVernRow.FontSize;
-                Vernacular.FontToUse = new Font(theVernRow.FontName, theVernRow.FontSize);
-                Vernacular.FontColor = Color.FromName(theVernRow.FontColor);
-                Vernacular.FullStop = theVernRow.SentenceFinalPunct;
-                Vernacular.DefaultRtl = (!theVernRow.IsRTLNull() && theVernRow.RTL);
-                Vernacular.DefaultKeyboard = 
-                    (!theVernRow.IsKeyboardNull() && !String.IsNullOrEmpty(theVernRow.Keyboard))
-                        ? theVernRow.Keyboard
-                        : null;
+                if (aLangRow.lang == LineData.CstrAttributeLangVernacular)
+                    Vernacular.Serialize(aLangRow);
+                if (aLangRow.lang == LineData.CstrAttributeLangNationalBt)
+                    NationalBT.Serialize(aLangRow);
+                if (aLangRow.lang == LineData.CstrAttributeLangInternationalBt)
+                {
+                    bFoundInternationalBt = true;
+                    InternationalBT.Serialize(aLangRow);
+                }
+                if (aLangRow.lang == LineData.CstrAttributeLangFreeTranslation)
+                {
+                    bFoundFreeTranslation = true;
+                    FreeTranslation.Serialize(aLangRow);
+                }
             }
 
-            // the national language BT isn't strictly necessary...
-            //  so only initialize if there's one in the file (shouldn't be more than 1)
-            if (projFile.NationalBTLang.Count == 1)
+            // the "international language" will appear to "have data" even when it shouldn't
+            //  so clear out the default language name in this case:
+            if (!bFoundInternationalBt)
             {
-                System.Diagnostics.Debug.Assert(projFile.NationalBTLang.Count == 1);
-                NewDataSet.NationalBTLangRow rowNatlRow = projFile.NationalBTLang[0];
-                NationalBT.LangName = rowNatlRow.name;
-                NationalBT.LangCode = rowNatlRow.code;
-                NationalBT.DefaultFontName = rowNatlRow.FontName;
-                NationalBT.DefaultFontSize = rowNatlRow.FontSize;
-                NationalBT.FontToUse = new Font(rowNatlRow.FontName, rowNatlRow.FontSize);
-                NationalBT.FontColor = Color.FromName(rowNatlRow.FontColor);
-                NationalBT.FullStop = rowNatlRow.SentenceFinalPunct;
-                NationalBT.DefaultRtl = (!rowNatlRow.IsRTLNull() && rowNatlRow.RTL);
-                NationalBT.DefaultKeyboard =
-                    (!rowNatlRow.IsKeyboardNull() && !String.IsNullOrEmpty(rowNatlRow.Keyboard))
-                        ? rowNatlRow.Keyboard
-                        : null;
-            }
-
-            // the international language BT isn't strictly necessary... (e.g. if they're only doing
-            //  national lang BTs) (but have to have one or the other; neither is not acceptable)
-            //  so only initialize if there's one in the file (shouldn't be more than 1)
-            if (projFile.InternationalBTLang.Count == 1)
-            {
-                System.Diagnostics.Debug.Assert(projFile.InternationalBTLang.Count == 1);
-                NewDataSet.InternationalBTLangRow rowEngRow = projFile.InternationalBTLang[0];
-                InternationalBT.LangName = rowEngRow.name;
-                InternationalBT.LangCode = rowEngRow.code;
-                InternationalBT.DefaultFontName = rowEngRow.FontName;
-                InternationalBT.DefaultFontSize = rowEngRow.FontSize;
-                InternationalBT.FontToUse = new Font(rowEngRow.FontName, rowEngRow.FontSize);
-                InternationalBT.FontColor = Color.FromName(rowEngRow.FontColor);
-                InternationalBT.FullStop = rowEngRow.SentenceFinalPunct;
-                InternationalBT.DefaultRtl = (!rowEngRow.IsRTLNull() && rowEngRow.RTL);
-                InternationalBT.DefaultKeyboard =
-                    (!rowEngRow.IsKeyboardNull() && !String.IsNullOrEmpty(rowEngRow.Keyboard))
-                        ? rowEngRow.Keyboard
-                        : null;
-            }
-            else
-            {
-                // the "international language" will appear to "have data" even when it shouldn't
-                //  so clear out the default language name in this case:
                 InternationalBT.LangName = null;
                 System.Diagnostics.Debug.Assert(!InternationalBT.HasData);
             }
 
-            // the free translation language isn't strictly necessary... 
-            //  so only initialize if there's one in the file (shouldn't be more than 1)
-            if (projFile.FreeTranslationLang.Count == 1)
+            // the "international language" will appear to "have data" even when it shouldn't
+            //  so clear out the default language name in this case:
+            if (!bFoundFreeTranslation)
             {
-                System.Diagnostics.Debug.Assert(projFile.FreeTranslationLang.Count == 1);
-                NewDataSet.FreeTranslationLangRow rowFtRow = projFile.FreeTranslationLang[0];
-                FreeTranslation.LangName = rowFtRow.name;
-                FreeTranslation.LangCode = rowFtRow.code;
-                FreeTranslation.DefaultFontName = rowFtRow.FontName;
-                FreeTranslation.DefaultFontSize = rowFtRow.FontSize;
-                FreeTranslation.FontToUse = new Font(rowFtRow.FontName, rowFtRow.FontSize);
-                FreeTranslation.FontColor = Color.FromName(rowFtRow.FontColor);
-                FreeTranslation.FullStop = rowFtRow.SentenceFinalPunct;
-                FreeTranslation.DefaultRtl = (!rowFtRow.IsRTLNull() && rowFtRow.RTL);
-                FreeTranslation.DefaultKeyboard =
-                    (!rowFtRow.IsKeyboardNull() && !String.IsNullOrEmpty(rowFtRow.Keyboard))
-                        ? rowFtRow.Keyboard
-                        : null;
-            }
-            else
-            {
-                // the "international language" will appear to "have data" even when it shouldn't
-                //  so clear out the default language name in this case:
                 FreeTranslation.LangName = null;
                 System.Diagnostics.Debug.Assert(!FreeTranslation.HasData);
             }
@@ -218,7 +164,9 @@ namespace OneStoryProjectEditor
         public const string CstrAttributeLabelProjectType = "ProjectType";
         public const string CstrAttributeLabelBtDirection = "BtDirection";
         public const string CstrAttributeLabelConverterName = "ConverterName";
-        public const string CstrAttributeLabelRepositoryUrl = "RepositoryUrl";
+        public const string CstrAttributeLabelRepoProjectName = "RepoProjectName";
+        public const string CstrAttributeLabelRepositoryServer = "RepositoryServer";
+        public const string CstrAttributeLabelNetworkRepositoryPath = "NetworkRepositoryPath";
 
         public class AdaptItConfiguration
         {
@@ -241,13 +189,22 @@ namespace OneStoryProjectEditor
                 ProjectType = (AdaptItProjectType) Enum.Parse(typeof (AdaptItProjectType), aAiConfigRow.ProjectType);
                 BtDirection = (AdaptItBtDirection) Enum.Parse(typeof (AdaptItBtDirection), aAiConfigRow.BtDirection);
                 ConverterName = aAiConfigRow.ConverterName;
-                RepositoryUrl = aAiConfigRow.RepositoryUrl;
+                if (!aAiConfigRow.IsRepoProjectNameNull())
+                    RepoProjectName = aAiConfigRow.RepoProjectName;
+
+                if (!aAiConfigRow.IsRepositoryServerNull())
+                    RepositoryServer = aAiConfigRow.RepositoryServer;
+
+                if (!aAiConfigRow.IsNetworkRepositoryPathNull())
+                    NetworkRepositoryPath = aAiConfigRow.NetworkRepositoryPath;
             }
 
             public AdaptItProjectType ProjectType { get; set; }
             public AdaptItBtDirection BtDirection { get; set; }
             public string ConverterName { get; set; }
-            public string RepositoryUrl { get; set; }
+            public string RepoProjectName { get; set; }
+            public string RepositoryServer { get; set; }
+            public string NetworkRepositoryPath { get; set; }
 
             public bool HasData
             {
@@ -264,10 +221,32 @@ namespace OneStoryProjectEditor
                                             new XAttribute(CstrAttributeLabelProjectType, ProjectType.ToString()),
                                             new XAttribute(CstrAttributeLabelConverterName, ConverterName));
 
-                    if (!String.IsNullOrEmpty(RepositoryUrl))
-                        elem.Add(new XAttribute(CstrAttributeLabelRepositoryUrl, RepositoryUrl));
-                    
+                    if (!String.IsNullOrEmpty(RepoProjectName))
+                        elem.Add(new XAttribute(CstrAttributeLabelRepoProjectName, RepoProjectName));
+
+                    if (!String.IsNullOrEmpty(RepositoryServer))
+                        elem.Add(new XAttribute(CstrAttributeLabelRepositoryServer, RepositoryServer));
+
+                    if (!String.IsNullOrEmpty(NetworkRepositoryPath))
+                        elem.Add(new XAttribute(CstrAttributeLabelNetworkRepositoryPath, NetworkRepositoryPath));
+
                     return elem;
+                }
+            }
+
+            private static bool _bCheckedForSync;
+            public void CheckForSync(string strProjectFolder)
+            {
+                if (ProjectType != AdaptItProjectType.SharedAiProject)
+                    return;     // nothing to do
+
+                if (!_bCheckedForSync
+                    && !String.IsNullOrEmpty(strProjectFolder)
+                    && !String.IsNullOrEmpty(RepoProjectName))
+                {
+                    Program.SyncWithAiRepository(strProjectFolder, RepoProjectName, true);
+                    Program.SetAiProjectForSyncage(strProjectFolder, RepoProjectName);
+                    _bCheckedForSync = true;
                 }
             }
         }
@@ -276,6 +255,7 @@ namespace OneStoryProjectEditor
         {
             internal static string CstrSentenceFinalPunctuation = ".!?:";
 
+            public string LangType; // oneof: Vernacular, NationalBt, InternationalBt, or FreeTranslation
             public string LangName;
             public string LangCode;
             public string DefaultFontName;
@@ -290,8 +270,9 @@ namespace OneStoryProjectEditor
                                     // be overridden (which means toggle) for a particular
                                     // user.
 
-            public LanguageInfo(Font font, Color fontColor)
+            public LanguageInfo(string strLangType, Font font, Color fontColor)
             {
+                LangType = strLangType;
                 FontToUse = font;
                 DefaultFontName = font.Name;
                 DefaultFontSize = font.Size;
@@ -304,6 +285,7 @@ namespace OneStoryProjectEditor
                     return;
 
                 XmlAttribute attr;
+                LangType = ((attr = node.Attributes[CstrAttributeLang]) != null) ? attr.Value : null;
                 LangName = ((attr = node.Attributes[CstrAttributeName]) != null) ? attr.Value : null;
                 LangCode = ((attr = node.Attributes[CstrAttributeCode]) != null) ? attr.Value : null;
                 DefaultFontName = ((attr = node.Attributes[CstrAttributeFontName]) != null) ? attr.Value : null;
@@ -315,8 +297,9 @@ namespace OneStoryProjectEditor
                 DefaultRtl = ((attr = node.Attributes[CstrAttributeRTL]) != null) ? (attr.Value == "true") : false;
             }
 
-            public LanguageInfo(string strLangName, string strLangCode, Font font, Color fontColor)
+            public LanguageInfo(string strLangType, string strLangName, string strLangCode, Font font, Color fontColor)
             {
+                LangType = strLangType;
                 LangName = strLangName;
                 LangCode = strLangCode;
                 FontToUse = font;
@@ -354,6 +337,9 @@ namespace OneStoryProjectEditor
                 }
             }
 
+            public const string CstrElementLabelLanguageInfo = "LanguageInfo";
+
+            public const string CstrAttributeLang = "lang";
             public const string CstrAttributeName = "name";
             public const string CstrAttributeCode = "code";
             public const string CstrAttributeFontName = "FontName";
@@ -363,28 +349,32 @@ namespace OneStoryProjectEditor
             public const string CstrAttributeRTL = "RTL";
             public const string CstrAttributeKeyboard = "Keyboard";
 
-            public XElement GetXml(string strLangType)
+            public XElement GetXml
             {
-                XElement elemLang =
-                    new XElement(strLangType,
-                        new XAttribute(CstrAttributeName, LangName),
-                        new XAttribute(CstrAttributeCode, LangCode),
-                        new XAttribute(CstrAttributeFontName, DefaultFontName),
-                        new XAttribute(CstrAttributeFontSize, DefaultFontSize),
-                        new XAttribute(CstrAttributeFontColor, FontColor.Name));
+                get
+                {
+                    XElement elemLang =
+                        new XElement(CstrElementLabelLanguageInfo,
+                            new XAttribute(CstrAttributeLang, LangType),
+                            new XAttribute(CstrAttributeName, LangName),
+                            new XAttribute(CstrAttributeCode, LangCode),
+                            new XAttribute(CstrAttributeFontName, DefaultFontName),
+                            new XAttribute(CstrAttributeFontSize, DefaultFontSize),
+                            new XAttribute(CstrAttributeFontColor, FontColor.Name));
 
-                if (!String.IsNullOrEmpty(FullStop))
-                    elemLang.Add(new XAttribute(CstrAttributeSentenceFinalPunct, FullStop));
+                    if (!String.IsNullOrEmpty(FullStop))
+                        elemLang.Add(new XAttribute(CstrAttributeSentenceFinalPunct, FullStop));
 
-                // when saving, though, we only write out the default value (override
-                //  values (if any) are saved by the member ID info)
-                if (DefaultRtl)
-                    elemLang.Add(new XAttribute(CstrAttributeRTL, DefaultRtl));
+                    // when saving, though, we only write out the default value (override
+                    //  values (if any) are saved by the member ID info)
+                    if (DefaultRtl)
+                        elemLang.Add(new XAttribute(CstrAttributeRTL, DefaultRtl));
 
-                if (!String.IsNullOrEmpty(DefaultKeyboard))
-                    elemLang.Add(new XAttribute(CstrAttributeKeyboard, DefaultKeyboard));
+                    if (!String.IsNullOrEmpty(DefaultKeyboard))
+                        elemLang.Add(new XAttribute(CstrAttributeKeyboard, DefaultKeyboard));
 
-                return elemLang;
+                    return elemLang;
+                }
             }
 
             public string HtmlStyle(string strLangCat)
@@ -398,6 +388,23 @@ namespace OneStoryProjectEditor
                     (DoRtl) ? "right" : "left");
 
                 return strHtmlStyle;
+            }
+
+            public void Serialize(NewDataSet.LanguageInfoRow aLangRow)
+            {
+                LangName = aLangRow.name;
+                LangCode = aLangRow.code;
+                DefaultFontName = aLangRow.FontName;
+                DefaultFontSize = aLangRow.FontSize;
+                FontToUse = new Font(aLangRow.FontName, aLangRow.FontSize);
+                FontColor = Color.FromName(aLangRow.FontColor);
+                FullStop = aLangRow.SentenceFinalPunct;
+                DefaultRtl = (!aLangRow.IsRTLNull() && aLangRow.RTL);
+                DefaultKeyboard =
+                    (!aLangRow.IsKeyboardNull() && !String.IsNullOrEmpty(aLangRow.Keyboard))
+                        ? aLangRow.Keyboard
+                        : null;
+
             }
         }
 
@@ -495,11 +502,6 @@ namespace OneStoryProjectEditor
         public const string CstrElementLabelAdaptItConfigurations = "AdaptItConfigurations";
         public const string CstrElementLabelAdaptItConfiguration = "AdaptItConfiguration";
 
-        public const string CstrElementLabelVernacular = "VernacularLang";
-        public const string CstrElementLabelNationalBT = "NationalBTLang";
-        public const string CstrElementLabelInternationalBT = "InternationalBTLang";
-        public const string CstrElementLabelFreeTranslation = "FreeTranslationLang";
-
         public XElement GetXml
         {
             get
@@ -519,16 +521,16 @@ namespace OneStoryProjectEditor
                     new XAttribute(CstrAttributeLabelUseAnswerInternationalBT, ShowAnswersInternationalBT));
 
                 if (Vernacular.HasData)
-                    elem.Add(Vernacular.GetXml(CstrElementLabelVernacular));
+                    elem.Add(Vernacular.GetXml);
                     
                 if (NationalBT.HasData)
-                    elem.Add(NationalBT.GetXml(CstrElementLabelNationalBT));
+                    elem.Add(NationalBT.GetXml);
 
                 if (InternationalBT.HasData)
-                    elem.Add(InternationalBT.GetXml(CstrElementLabelInternationalBT));
+                    elem.Add(InternationalBT.GetXml);
 
                 if (FreeTranslation.HasData)
-                    elem.Add(FreeTranslation.GetXml(CstrElementLabelFreeTranslation));
+                    elem.Add(FreeTranslation.GetXml);
 
                 return elem;
             }

@@ -342,7 +342,7 @@ namespace OneStoryProjectEditor
         public const string CstrFieldNameStoryLine = "StoryLine";
 
         public const string CstrAttributeGuid = "guid";
-        public const string CstrElementLabelVerse = "verse";
+        public const string CstrElementLabelVerse = "Verse";
         public const string CstrAttributeFirstVerse = "first";
         public const string CstrAttributeVisible = "visible";
 
@@ -951,12 +951,14 @@ namespace OneStoryProjectEditor
             get { return (Count > 0) || ((FirstVerse != null) && (FirstVerse.HasData)); }
         }
 
+        public const string CstrElementLabelVerses = "Verses";
+
         public XElement GetXml
         {
             get
             {
                 System.Diagnostics.Debug.Assert(HasData);
-                XElement elemVerses = new XElement("verses");
+                XElement elemVerses = new XElement(CstrElementLabelVerses);
                 
                 // write out the zeroth verse first
                 elemVerses.Add(FirstVerse.GetXml);

@@ -44,6 +44,27 @@
     </Languages>
   </xsl:template>
   
+  <!--VernacularLang was changed to LanguageInfo + @lang="Vernacular"-->
+  <xsl:template match="VernacularLang">
+    <LanguageInfo lang="Vernacular">
+      <xsl:apply-templates select="@*|node()"/>
+    </LanguageInfo>
+  </xsl:template>
+
+  <!--NationalBTLang was changed to LanguageInfo + @lang="NationalBt"-->
+  <xsl:template match="NationalBTLang">
+    <LanguageInfo lang="NationalBt">
+      <xsl:apply-templates select="@*|node()"/>
+    </LanguageInfo>
+  </xsl:template>
+
+  <!--InternationalBTLang was changed to LanguageInfo + @lang="InternationalBt"-->
+  <xsl:template match="InternationalBTLang">
+    <LanguageInfo lang="InternationalBt">
+      <xsl:apply-templates select="@*|node()"/>
+    </LanguageInfo>
+  </xsl:template>
+
   <!--verses was changed to Verses-->
   <xsl:template match="verses">
     <Verses>
