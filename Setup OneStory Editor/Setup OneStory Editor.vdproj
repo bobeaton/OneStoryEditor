@@ -495,7 +495,19 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_6BE0248CE7344E5480F7E39FDD43EC21"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_6EBAA898691645D09D61D544B4E6BD93"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_70A92CA8EE73498391B961E5709D3A8D"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -705,12 +717,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_A52A32AA991243BBBE296E3F7578A1FE"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_AB1D084C84664CC0B806BAC97A9F3274"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -814,12 +820,6 @@
         "Entry"
         {
         "MsmKey" = "8:_C7B42E2C2763488FA14AB714A6BB9290"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_C84899BA1FA9406389A7DF5E0DEF7486"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1132,18 +1132,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_840CEF3014AF47AF8A95E6146E158832"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_DA2E9ED4A57242ADA57A2DA82364315E"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_E04BBAC74935462E9D3481217416E43F"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1163,6 +1151,18 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_F7F45E38095D4B5AB300368B53161053"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_DA2E9ED4A57242ADA57A2DA82364315E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_840CEF3014AF47AF8A95E6146E158832"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1720,11 +1720,11 @@
                 {
                     "_10606259325BA10A79C3CC7ACEF0BBDB"
                     {
-                    "Name" = "8:LibChorus.DLL"
+                    "Name" = "8:LibChorus.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:LibChorus.DLL"
+            "SourcePath" = "8:LibChorus.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_1E0B834CE697461C80146668203EA38A"
@@ -2779,12 +2779,52 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6BE0248CE7344E5480F7E39FDD43EC21"
+            {
+            "SourcePath" = "8:..\\StoryEditor\\Origin of Spirit World Biblical Support.doc"
+            "TargetName" = "8:Origin of Spirit World Biblical Support.doc"
+            "Tag" = "8:"
+            "Folder" = "8:_0BAC419E33554CDD9DAFD2EBC80E38D4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6EBAA898691645D09D61D544B4E6BD93"
             {
             "SourcePath" = "8:..\\mercurial\\templates\\atom\\map"
             "TargetName" = "8:map"
             "Tag" = "8:"
             "Folder" = "8:_8669DBFB82FB43A4B030CEB0019790AF"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_70A92CA8EE73498391B961E5709D3A8D"
+            {
+            "SourcePath" = "8:..\\StoryEditor\\NETBIBLE.TXT"
+            "TargetName" = "8:NETBIBLE.TXT"
+            "Tag" = "8:"
+            "Folder" = "8:_0BAC419E33554CDD9DAFD2EBC80E38D4"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -3443,26 +3483,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A52A32AA991243BBBE296E3F7578A1FE"
-            {
-            "SourcePath" = "8:L:\\Pahari\\Storying\\Origin of Spirit World Biblical Support.doc"
-            "TargetName" = "8:Origin of Spirit World Biblical Support.doc"
-            "Tag" = "8:"
-            "Folder" = "8:_0BAC419E33554CDD9DAFD2EBC80E38D4"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_AB1D084C84664CC0B806BAC97A9F3274"
             {
             "SourcePath" = "8:..\\mercurial\\templates\\raw\\map"
@@ -3809,26 +3829,6 @@
             "TargetName" = "8:hgicon.png"
             "Tag" = "8:"
             "Folder" = "8:_1377D812FBD746C08808712DB0BD2718"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C84899BA1FA9406389A7DF5E0DEF7486"
-            {
-            "SourcePath" = "8:L:\\Pahari\\Storying\\NETBIBLE.TXT"
-            "TargetName" = "8:NETBIBLE.TXT"
-            "Tag" = "8:"
-            "Folder" = "8:_0BAC419E33554CDD9DAFD2EBC80E38D4"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -5053,10 +5053,10 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:OneStory Editor 2.0"
         "ProductCode" = "8:{8B3AB484-92E3-47A2-AEB4-23E54F96B77D}"
-        "PackageCode" = "8:{C07B6A98-6FE1-4BFC-8228-6B07F66BD551}"
+        "PackageCode" = "8:{4500802D-03B3-4F48-912D-68ADA10862BB}"
         "UpgradeCode" = "8:{92A9B369-3609-4129-A09D-5BB5BBE30AAB}"
         "RestartWWWService" = "11:FALSE"
-        "RemovePreviousVersions" = "11:TRUE"
+        "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
         "ProductVersion" = "8:2.0.0"
@@ -5174,7 +5174,7 @@
         {
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_3B2ACF84C98A4E8A9BF9F19987BC7382"
             {
-            "Name" = "8:OneStory Editor"
+            "Name" = "8:OneStory Editor 2.0"
             "Arguments" = "8:"
             "Description" = "8:Click this command to launch the OneStory editor"
             "ShowCmd" = "3:1"
@@ -5194,7 +5194,7 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_A52A32AA991243BBBE296E3F7578A1FE"
+            "Target" = "8:_6BE0248CE7344E5480F7E39FDD43EC21"
             "Folder" = "8:_6F34DACAC6334C9C8C52F8BAE3086C0A"
             "WorkingFolder" = "8:_0BAC419E33554CDD9DAFD2EBC80E38D4"
             "Icon" = "8:"
@@ -5216,7 +5216,7 @@
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_9F02E09924A047AAA6561258485A0685"
             {
-            "Name" = "8:OneStory Editor"
+            "Name" = "8:OneStory Editor 2.0"
             "Arguments" = "8:"
             "Description" = "8:Click this command to launch the OneStory editor"
             "ShowCmd" = "3:1"
