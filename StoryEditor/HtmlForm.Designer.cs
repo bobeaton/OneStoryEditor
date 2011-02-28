@@ -41,7 +41,7 @@
             this.webBrowser.Location = new System.Drawing.Point(0, 0);
             this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser.Name = "webBrowser";
-            this.webBrowser.Size = new System.Drawing.Size(455, 352);
+            this.webBrowser.Size = new System.Drawing.Size(455, 364);
             this.webBrowser.TabIndex = 0;
             // 
             // buttonOK
@@ -66,6 +66,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "HtmlForm";
             this.Text = "About... OneStory Editor";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.HtmlForm_FormClosing);
             this.ResumeLayout(false);
 
         }

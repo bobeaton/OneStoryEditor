@@ -1648,7 +1648,7 @@ namespace OneStoryProjectEditor
             }
         }
 
-        protected int Panel2_Width
+        internal int Panel2_Width
         {
             get
             {

@@ -717,5 +717,41 @@ namespace OneStoryProjectEditor.Properties {
                 this["ProjectNameToAiHgNetworkUrl"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0")]
+        public global::System.Drawing.Point CommentaryDialogLocation {
+            get {
+                return ((global::System.Drawing.Point)(this["CommentaryDialogLocation"]));
+            }
+            set {
+                this["CommentaryDialogLocation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int CommentaryDialogWidth {
+            get {
+                return ((int)(this["CommentaryDialogWidth"]));
+            }
+            set {
+                this["CommentaryDialogWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int CommentaryDialogHeight {
+            get {
+                return ((int)(this["CommentaryDialogHeight"]));
+            }
+            set {
+                this["CommentaryDialogHeight"] = value;
+            }
+        }
     }
 }

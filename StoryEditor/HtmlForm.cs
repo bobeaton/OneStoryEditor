@@ -35,6 +35,18 @@ namespace OneStoryProjectEditor
             webBrowser.ObjectForScripting = this;
         }
 
+        public new void Show()
+        {
+            if (Properties.Settings.Default.CommentaryDialogHeight != 0)
+            {
+                Bounds = new Rectangle(Properties.Settings.Default.CommentaryDialogLocation,
+                    new Size(Properties.Settings.Default.CommentaryDialogWidth,
+                        Properties.Settings.Default.CommentaryDialogHeight));
+            }
+            
+            base.Show();
+        }
+
         public StoryEditor TheSE;
         
         public string ClientText
@@ -63,6 +75,14 @@ namespace OneStoryProjectEditor
         {
             DialogResult = DialogResult.Cancel;
             Close();
+        }
+
+        private void HtmlForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Properties.Settings.Default.CommentaryDialogLocation = Location;
+            Properties.Settings.Default.CommentaryDialogHeight = Bounds.Height;
+            Properties.Settings.Default.CommentaryDialogWidth = Bounds.Width;
+            Properties.Settings.Default.Save();
         }
     }
 }
