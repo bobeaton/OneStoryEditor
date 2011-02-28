@@ -416,6 +416,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The file that stores the view settings must be deleted to upgrade to the new format (these customizations were done via &apos;Select State&apos;, &apos;Advanced&apos; button, and then right-click on a state button to check or uncheck view fields for a given state). Because of this, it means that you will need to redo the settings..
+        /// </summary>
+        internal static string IDS_ConfirmDeleteStateTransitions {
+            get {
+                return ResourceManager.GetString("IDS_ConfirmDeleteStateTransitions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to delete the &apos;{0}&apos; story?.
         /// </summary>
         internal static string IDS_ConfirmDeleteStory {

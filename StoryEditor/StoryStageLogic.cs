@@ -180,7 +180,7 @@ namespace OneStoryProjectEditor
 
         public class StateTransitions : Dictionary<ProjectStages, StateTransition>
         {
-            protected const string CstrStateTransitionsXmlFilename = "StageTransitions.xml";
+            public const string CstrStateTransitionsXmlFilename = "StageTransitions.xml";
             protected string _strProjectFolder;
 
             public StateTransitions(string strProjectFolder)

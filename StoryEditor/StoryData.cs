@@ -892,6 +892,17 @@ namespace OneStoryProjectEditor
 
         private void ConvertProjectFile1_3_to_1_4(string strProjectFilePath)
         {
+            string strProjectFolder = Path.GetDirectoryName(strProjectFilePath);
+            string strStateTransitions = Path.Combine(strProjectFolder, StoryStageLogic.StateTransitions.CstrStateTransitionsXmlFilename);
+            if (File.Exists(strStateTransitions))
+            {
+                if (MessageBox.Show(Properties.Resources.IDS_ConfirmDeleteStateTransitions,
+                    OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.OKCancel) == DialogResult.Cancel)
+                    throw BackOutWithNoUI;
+
+                File.Delete(strStateTransitions);
+            }
+
             // get the xml (.onestory) file into a memory string so it can be the 
             //  input to the transformer
             string strProjectFile = File.ReadAllText(strProjectFilePath);
