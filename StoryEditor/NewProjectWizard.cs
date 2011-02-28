@@ -117,7 +117,7 @@ namespace OneStoryProjectEditor
                     out strUsername, out strPassword, out strRepoUrl))
                     UrlBase = strRepoUrl;
                 else
-                    UrlBase = Properties.Resources.IDS_DefaultRepoServer;
+                    UrlBase = Program.LookupRepoUrl(Properties.Resources.IDS_DefaultRepoServer);
 
                 // these *might* have been initialized even if the call to GetHg... fails
                 HgUsername = strUsername;
