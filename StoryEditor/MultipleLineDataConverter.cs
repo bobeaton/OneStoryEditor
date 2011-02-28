@@ -28,26 +28,21 @@ namespace OneStoryProjectEditor
 
         public override void AddXml(XElement elem, string strFieldName)
         {
-            if (Vernacular.HasData)
+            if (!Vernacular.IsNull)
                 elem.Add(new XElement(strFieldName,
                     new XAttribute(CstrAttributeLang, CstrAttributeLangVernacular),
                     new XAttribute(CstrAttributeMemberID, MemberId),
-                    Vernacular));
-            if (NationalBt.HasData)
+                    Vernacular.ToString()));
+            if (!NationalBt.IsNull)
                 elem.Add(new XElement(strFieldName,
                     new XAttribute(CstrAttributeLang, CstrAttributeLangNationalBt),
                     new XAttribute(CstrAttributeMemberID, MemberId),
-                    NationalBt));
-            if (InternationalBt.HasData)
+                    NationalBt.ToString()));
+            if (!InternationalBt.IsNull)
                 elem.Add(new XElement(strFieldName,
                     new XAttribute(CstrAttributeLang, CstrAttributeLangInternationalBt),
                     new XAttribute(CstrAttributeMemberID, MemberId),
-                    InternationalBt));
-            if (FreeTranslation.HasData)
-                elem.Add(new XElement(strFieldName,
-                    new XAttribute(CstrAttributeLang, CstrAttributeLangFreeTranslation),
-                    new XAttribute(CstrAttributeMemberID, MemberId),
-                    FreeTranslation));
+                    InternationalBt.ToString()));
         }
 
         public override void IndexSearch(VerseData.SearchLookInProperties findProperties,
@@ -60,8 +55,6 @@ namespace OneStoryProjectEditor
                 lstBoxesToSearch.AddNewVerseString(NationalBt, itemToInsureOn);
             if (InternationalBt.HasData && findProperties.EnglishBT)
                 lstBoxesToSearch.AddNewVerseString(InternationalBt, itemToInsureOn);
-            if (FreeTranslation.HasData && findProperties.FreeTranslation)
-                lstBoxesToSearch.AddNewVerseString(FreeTranslation, itemToInsureOn);
         }
     }
 
@@ -468,6 +461,7 @@ namespace OneStoryProjectEditor
         }
 
         public const string CstrElementLableRetellings = "Retellings";
+        public const string CstrElementLableRetelling = "Retelling";
 
         public override sealed string CollectionElementName
         {
@@ -476,7 +470,7 @@ namespace OneStoryProjectEditor
 
         protected override sealed string InstanceElementName
         {
-            get { return "Retelling"; }
+            get { return CstrElementLableRetelling; }
         }
 
         public override string LabelTextFormat
@@ -529,6 +523,7 @@ namespace OneStoryProjectEditor
         }
 
         public const string CstrElementLableAnswers = "Answers";
+        public const string CstrElementLableAnswer = "Answer";
 
         public override sealed string CollectionElementName
         {
@@ -537,7 +532,7 @@ namespace OneStoryProjectEditor
 
         protected override sealed string InstanceElementName
         {
-            get { return "answer"; }
+            get { return CstrElementLableAnswer; }
         }
 
         public override string LabelTextFormat
