@@ -58,7 +58,6 @@ namespace OneStoryProjectEditor
 
                 ProjectSettings.InsureOneStoryProjectFolderRootExists();
 
-                bool bPretendOpening = false;
                 if ((args.Length > 0) && (args[0] == "/sync_all"))
                 {
                     foreach (string strProjectName in _mapProjectNameToHgHttpUrl.Keys)
@@ -68,7 +67,7 @@ namespace OneStoryProjectEditor
                             strProjectName);
                         _astrProjectForSync.Add(strProjectPath);
                     }
-                    bPretendOpening = true; // this triggers minimal Sync UI
+                    SyncBeforeClose(true);
                 }
                 else
                 {
@@ -78,13 +77,6 @@ namespace OneStoryProjectEditor
                         strFilePathToOpen = args[0];
                     Application.Run(new StoryEditor(OseResources.Properties.Resources.IDS_MainStoriesSet, strFilePathToOpen));
                 }
-
-                foreach (string strProjectFolder in _astrProjectForSync)
-                    SyncWithRepository(strProjectFolder, bPretendOpening);
-
-                if (_mapAiProjectsToSync != null)
-                    foreach (KeyValuePair<string, string> kvp in _mapAiProjectsToSync)
-                        SyncWithAiRepository(kvp.Value, kvp.Key, bPretendOpening);
             }
             catch (RestartException)
             {
@@ -97,6 +89,16 @@ namespace OneStoryProjectEditor
                     strMessage += String.Format("{0}{1}", Environment.NewLine, ex.InnerException.Message);
                 MessageBox.Show(strMessage, OseResources.Properties.Resources.IDS_Caption);
             }
+        }
+
+        public static void SyncBeforeClose(bool bPretendOpening)
+        {
+            foreach (string strProjectFolder in _astrProjectForSync)
+                SyncWithRepository(strProjectFolder, bPretendOpening);
+
+            if (_mapAiProjectsToSync != null)
+                foreach (KeyValuePair<string, string> kvp in _mapAiProjectsToSync)
+                    SyncWithAiRepository(kvp.Value, kvp.Key, bPretendOpening);
         }
 
         internal class RestartException : Exception

@@ -2415,6 +2415,13 @@ namespace OneStoryProjectEditor
                 SaveClicked();
             }
 
+            // do the sync'ing now before the main window goes away (or users are too quick
+            //  to try to launch it again, before the first instance actually goes away)
+            //  also, this could be time consuming.
+            Cursor = Cursors.WaitCursor;
+            Program.SyncBeforeClose(false);
+            Cursor = Cursors.Default;
+
             m_frmFind = null;
         }
 
