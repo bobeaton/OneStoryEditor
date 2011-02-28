@@ -156,7 +156,7 @@
 																	<xs:complexType>
 																		<xs:simpleContent>
 																			<xs:extension base="xs:string">
-                                        <xs:attribute name="lang" type="xs:string" />
+                                        <xs:attribute name="lang" type="xs:string" use="required" />
                                       </xs:extension>
 																		</xs:simpleContent>
 																	</xs:complexType>
@@ -164,10 +164,13 @@
 																<xs:element name="Anchors" minOccurs="1" maxOccurs="1">
 																	<xs:complexType>
 																		<xs:sequence>
-																			<xs:element maxOccurs="unbounded" name="Anchor">
+																			<xs:element maxOccurs="unbounded" name="Anchor" nillable="true">
 																				<xs:complexType>
-																					<xs:attribute name="jumpTarget" type="xs:string" use="required" />
-                                          <xs:attribute name="toolTip" type="xs:string" use="optional" />
+                                          <xs:simpleContent>
+                                            <xs:extension base="xs:string">
+                                              <xs:attribute name="jumpTarget" type="xs:string" use="required" />
+                                            </xs:extension>
+                                          </xs:simpleContent>
                                         </xs:complexType>
 																			</xs:element>
 																		</xs:sequence>
@@ -203,9 +206,9 @@
 																										<xs:complexType>
 																											<xs:simpleContent>
 																												<xs:extension base="xs:string">
-																													<xs:attribute name="memberID" type="xs:IDREF" use="required" />
                                                           <xs:attribute name="lang" type="xs:string" />
-																												</xs:extension>
+                                                          <xs:attribute name="memberID" type="xs:IDREF" use="required" />
+                                                        </xs:extension>
 																											</xs:simpleContent>
 																										</xs:complexType>
 																									</xs:element>
@@ -227,8 +230,8 @@
 																				<xs:complexType>
 																					<xs:simpleContent>
 																						<xs:extension base="xs:string">
-                                              <xs:attribute name="memberID" type="xs:IDREF" use="required" />
                                               <xs:attribute name="lang" type="xs:string" use="optional" />
+                                              <xs:attribute name="memberID" type="xs:IDREF" use="required" />
                                             </xs:extension>
 																					</xs:simpleContent>
 																				</xs:complexType>

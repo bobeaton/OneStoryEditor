@@ -17,16 +17,17 @@ namespace OneStoryProjectEditor
         public AnchorData(NewDataSet.AnchorRow theAnchorRow, NewDataSet projFile)
         {
             JumpTarget = theAnchorRow.jumpTarget;
-
-            if (!theAnchorRow.IstoolTipNull())
-                ToolTipText = theAnchorRow.toolTip;
+            ToolTipText = (theAnchorRow.IsAnchor_textNull()) 
+                ? JumpTarget 
+                : theAnchorRow.Anchor_text;
         }
 
         public AnchorData(XmlNode node)
         {
             XmlAttribute attr;
             JumpTarget = ((attr = node.Attributes[CstrAttributeJumpTarget]) != null) ? attr.Value : null;
-            ToolTipText = ((attr = node.Attributes[CstrAttributeToolTip]) != null) ? attr.Value : null;
+            // ToolTipText = ((attr = node.Attributes[CstrAttributeToolTip]) != null) ? attr.Value : null;
+            ToolTipText = node.Value;
         }
 
         public AnchorData(string strJumpTarget, string strComment)
@@ -134,18 +135,17 @@ namespace OneStoryProjectEditor
 
         public const string CstrElementLabelAnchor = "Anchor";
         public const string CstrAttributeJumpTarget = "jumpTarget";
-        public const string CstrAttributeToolTip = "toolTip";
 
         public XElement GetXml
         {
             get
             {
-                System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(JumpTarget));
-                XElement elemAnchor = new XElement(CstrElementLabelAnchor,
-                    new XAttribute(CstrAttributeJumpTarget, JumpTarget));
+                System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(JumpTarget)
+                    && (!String.IsNullOrEmpty(ToolTipText)));
 
-                if (!String.IsNullOrEmpty(ToolTipText))
-                    elemAnchor.Add(new XAttribute(CstrAttributeToolTip, ToolTipText));
+                var elemAnchor = new XElement(CstrElementLabelAnchor,
+                                              new XAttribute(CstrAttributeJumpTarget, JumpTarget),
+                                              ToolTipText);
 
                 return elemAnchor;
             }
