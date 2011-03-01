@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<PropertyGroup>
+		<RootDir>$(teamcity_build_checkoutDir)</RootDir>
+	</PropertyGroup>
+
+	<UsingTask TaskName="StampAssemblies" AssemblyFile="$(RootDir)/build/Palaso.BuildTasks.dll" />
+	<!-- <UsingTask TaskName="MakeWixForDirTree" AssemblyFile="$(RootDir)/build/Palaso.BuildTasks.dll" /> -->
+	<UsingTask TaskName="MakePot" AssemblyFile="$(RootDir)/build/Palaso.BuildTasks.dll" />
+	<UsingTask TaskName="Split" AssemblyFile="$(RootDir)/build/Palaso.BuildTasks.dll" />
+	<UsingTask TaskName="Archive" AssemblyFile="$(RootDir)/build/Palaso.BuildTasks.dll" />
+	<UsingTask TaskName="FileUpdate" AssemblyFile="$(RootDir)/build/Palaso.BuildTasks.dll" />
+	<UsingTask TaskName="NUnitTeamCity" AssemblyFile="$(agent_home_dir)/plugins/dotnetPlugin/bin/JetBrains.BuildServer.MSBuildLoggers.dll" />
+
+	<PropertyGroup>
+		<Solution>StoryEditor.sln</Solution>
+		<ApplicationName>StoryEditor</ApplicationName>
+		<ApplicationNameLC>storyeditor</ApplicationNameLC>
+		<Configuration>Debug</Configuration>
+		<Platform>x86</Platform>
+	</PropertyGroup>
+  
+	<Import Project="$(RootDir)/build/build.common.proj" />
+  
+	<PropertyGroup>
+		<OutputDir>$(RootDir)/output/$(Configuration)</OutputDir>
+		
+	</PropertyGroup>
+  
+	<Target Name="Build">
+		<CallTarget Targets="Clean"/>
+		<CallTarget Targets="SetAssemblyVersion"/>
+		<CallTarget Targets="Compile"/>
+		<Message Text="Build Complete"/>
+	</Target>
+
+	<ItemGroup>
+		<ExistingObjectFiles 
+			Include="$(RootDir)/**/obj/**/*;$(RootDir)/output/$(Configuration)/**/*" 
+			Exclude="$(RootDir)/.hg/**/*"
+		/>
+	</ItemGroup>
+	<Target Name="Clean">
+		<Delete Files="@(ExistingObjectFiles)" />
+	</Target>
+
+	<Target Name="Compile">
+		<MSBuild
+			Projects="$(RootDir)\$(Solution)"
+			Targets="Build"
+			Properties="Configuration=$(Configuration);Platform=$(Platform)" />
+	</Target>
+
+	<Target Name="Test" DependsOnTargets="Build">
+		<CreateItem 
+			Include="$(RootDir)/output/$(Configuration)/*.Tests.dll" 
+			Exclude="$(RootDir)/output/$(Configuration)/Palaso*.dll">
+			<Output ItemName="TestAssemblies" TaskParameter="Include" />
+		</CreateItem>
+		<NUnitTeamCity
+			Assemblies="@(TestAssemblies)" 
+			ExcludeCategory="SkipOnBuildServer;SkipOnTeamCity"
+			NUnitVersion="NUnit-2.5.5" />
+	</Target>
+
+	<Target Name="MakePotFile">
+		<MakePot ProjectId="WeSay"
+			OutputFile="$(RootDir)\common\WeSay.pot"
+			MsdIdBugsTo="hattonjohn@gmail.com"
+			XmlFiles="@(XmlFiles)"
+			XPathToStrings="//label | //description[not(@UseInConstructor='false')]"
+			CSharpFiles="@(CSharpFiles)">
+		</MakePot>
+	</Target>
+
+	<Target Name="Upload">
+		<Split Input="$(BUILD_NUMBER)" Delimiter="-" OutputSubString="0">
+			<Output TaskParameter="ReturnValue" PropertyName="Revision" />
+		</Split>
+		<CreateProperty Value="$(Major).$(Minor).$(Revision)">
+			<Output PropertyName="Version" TaskParameter="Value"/>
+		</CreateProperty>
+		<Message Text="Version: $(Version)" />
+
+		<Exec
+			Command='"c:\program files\cwRsync\bin\rsync.exe" -vz -e"\"c:\program files\cwRsync\bin\ssh\" -oUserKnownHostsFile=C:\BuildAgent\conf\known_hosts -oIdentityFile=C:\BuildAgent\conf\bob.key -l bob" "output\installer\OneStoryInstaller.$(Version).msi" bob@wesay.org:/var/www/downloads/OneStoryInstaller.$(Version).msi'
+			WorkingDirectory="$(RootDir)" />
+	</Target>
+
+</Project>
