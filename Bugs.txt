@@ -1,4 +1,6 @@
-﻿Add the ability to save the Print dialog in HTML
+﻿forward button isn't working in Bible pane
+
+Add the ability to save the Print dialog in HTML
 
 Fix "Last settings" in Print dialog
 
