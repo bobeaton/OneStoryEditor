@@ -1,4 +1,4 @@
-﻿forward button isn't working in Bible pane
+﻿When I tried to sync with an AdaptIt project using other credentials, it threw an unhandled exception.
 
 Add the ability to save the Print dialog in HTML
 

@@ -395,7 +395,8 @@ namespace OneStoryProjectEditor
                 foreach (AnchorData anchorData in childAnchorsData)
                     strRow += anchorData.PresentationHtmlAsAddition(ref astrExegeticalHelpNotes);
 
-            theChildExegeticalHelpNotes.PresentationHtml(null, ref astrExegeticalHelpNotes);
+            if (theChildExegeticalHelpNotes != null)
+                theChildExegeticalHelpNotes.PresentationHtml(null, ref astrExegeticalHelpNotes);
 
             return FinishPresentationHtml(nVerseIndex, nNumCols, strRow, astrExegeticalHelpNotes);
         }

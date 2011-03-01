@@ -58,14 +58,15 @@ namespace OneStoryProjectEditor
 
         public LineData()
         {
-            Vernacular = new StringTransfer(null);
-            NationalBt = new StringTransfer(null);
-            InternationalBt = new StringTransfer(null);
-            FreeTranslation = new StringTransfer(null);
+            InitEmpty();
         }
 
         public LineData(XmlNode node, string strNodeLabel)
         {
+            InitEmpty();
+            if (node == null)
+                return;
+
             XmlNodeList list = node.SelectNodes(strNodeLabel);
             if (list != null)
                 foreach (XmlNode nodeData in list)
@@ -77,6 +78,14 @@ namespace OneStoryProjectEditor
                         SetValue(strLang, nodeData.InnerText);
                     }
                 }
+        }
+
+        private void InitEmpty()
+        {
+            Vernacular = new StringTransfer(null);
+            NationalBt = new StringTransfer(null);
+            InternationalBt = new StringTransfer(null);
+            FreeTranslation = new StringTransfer(null);
         }
 
         public virtual void IndexSearch(VerseData.SearchLookInProperties findProperties,
@@ -399,24 +408,24 @@ namespace OneStoryProjectEditor
                 EnglishBTField = 16,
                 FreeTranslationField = 32,
                 AnchorFields = 64,
-                StoryTestingQuestions = 128,
-                StoryTestingQuestionAnswers = 256,
-                RetellingFields = 512,
-                ConsultantNoteFields = 1024,
-                CoachNotesFields = 2048,
-                BibleViewer = 4096,
-                StoryFrontMatter = 8192,
-                HiddenStuff = 16384,
-                OpenConNotesOnly = 32768,
-                RetellingsVernacular = 65536,
-                RetellingsNationalBT = 131072,
-                RetellingsInternationalBT = 262144,
-                TestQuestionsVernacular = 524288,
-                TestQuestionsNationalBT = 1048576,
-                TestQuestionsInternationalBT = 2097152,
-                AnswersVernacular = 4194304,
-                AnswersNationalBT = 8388608,
-                AnswersInternationalBT = 16777216
+                ConsultantNoteFields = 128,
+                CoachNotesFields = 256,
+                BibleViewer = 512,
+                StoryFrontMatter = 1024,
+                HiddenStuff = 2048,
+                OpenConNotesOnly = 4096,
+                RetellingsVernacular = 8192,
+                RetellingsNationalBT = 16384,
+                RetellingsInternationalBT = 32768,
+                TestQuestionsVernacular = 65536,
+                TestQuestionsNationalBT = 131072,
+                TestQuestionsInternationalBT = 262144,
+                AnswersVernacular = 524288,
+                AnswersNationalBT = 1048576,
+                AnswersInternationalBT = 2097152,
+                RetellingFields = 8192 | 16384 | 32768,
+                StoryTestingQuestions = 65536 | 131072 | 262144,
+                StoryTestingQuestionAnswers = 524288 | 1048576 | 2097152
             }
 
             public DirectableEncConverter TransliteratorVernacular { get; set; }

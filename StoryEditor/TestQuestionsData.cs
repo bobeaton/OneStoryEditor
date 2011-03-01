@@ -403,9 +403,18 @@ namespace OneStoryProjectEditor
                 return null;
 
             // just get the column count from the first question (in case there are multiple)
-            bool bShowVernacular = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.VernacularLangField);
-            bool bShowNationalBT = bHasOutsideEnglishBTer && viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBTLangField);
-            bool bShowEnglishBT = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.EnglishBTField);
+            bool bShowVernacular = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.VernacularLangField)
+                                   &&
+                                   viewSettings.IsViewItemOn(
+                                       VerseData.ViewSettings.ItemToInsureOn.TestQuestionsVernacular);
+            bool bShowNationalBT = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBTLangField)
+                                   &&
+                                   viewSettings.IsViewItemOn(
+                                       VerseData.ViewSettings.ItemToInsureOn.TestQuestionsNationalBT);
+            bool bShowEnglishBT = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.EnglishBTField)
+                                  &&
+                                  viewSettings.IsViewItemOn(
+                                      VerseData.ViewSettings.ItemToInsureOn.TestQuestionsInternationalBT);
 
             int nNumTestQuestionCols = 0;
             if (bShowVernacular) nNumTestQuestionCols++;
