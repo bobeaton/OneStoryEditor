@@ -78,6 +78,8 @@ namespace OneStoryProjectEditor
             {
                 checkBoxLanguageFreeTranslation.Checked = true;
             }
+
+            UpdateTabPageAIBT();
         }
 
         private void ProcessNext()
