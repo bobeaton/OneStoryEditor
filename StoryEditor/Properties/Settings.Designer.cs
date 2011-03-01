@@ -753,5 +753,17 @@ namespace OneStoryProjectEditor.Properties {
                 this["CommentaryDialogHeight"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int CommentaryLastIndex {
+            get {
+                return ((int)(this["CommentaryLastIndex"]));
+            }
+            set {
+                this["CommentaryLastIndex"] = value;
+            }
+        }
     }
 }

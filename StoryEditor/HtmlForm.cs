@@ -29,6 +29,7 @@ namespace OneStoryProjectEditor
             "}" +
             "</script>";
 
+        private int _nIndexToScrollTo = 0;
         public HtmlForm()
         {
             InitializeComponent();
@@ -45,6 +46,8 @@ namespace OneStoryProjectEditor
             }
             
             base.Show();
+            Application.DoEvents(); // to get the doc to load
+            UpdateButtonEnabledState(true);
         }
 
         public StoryEditor TheSE;
@@ -83,6 +86,60 @@ namespace OneStoryProjectEditor
             Properties.Settings.Default.CommentaryDialogHeight = Bounds.Height;
             Properties.Settings.Default.CommentaryDialogWidth = Bounds.Width;
             Properties.Settings.Default.Save();
+        }
+
+        private void ScrollToElement(int nElemName)
+        {
+            if (webBrowser.Document != null)
+            {
+                HtmlDocument doc = webBrowser.Document;
+                HtmlElement elem = doc.GetElementById(Properties.Resources.IDS_CommentaryHeader + nElemName.ToString());
+                if (elem != null)
+                    elem.ScrollIntoView(true);
+            }
+        }
+
+        private int _nNumResources = 0;
+        public int NumberOfResources
+        {
+            get { return _nNumResources; }
+            set 
+            {
+                _nNumResources = value;
+                buttonNext.Visible = buttonPrev.Visible = (_nNumResources > 1);
+            }
+        }
+
+        private void buttonNext_Click(object sender, EventArgs e)
+        {
+            _nIndexToScrollTo = Math.Min(++_nIndexToScrollTo, NumberOfResources - 1);
+            ScrollToElement(_nIndexToScrollTo);
+
+            UpdateButtonEnabledState(false);
+        }
+
+        private void buttonPrev_Click(object sender, EventArgs e)
+        {
+            _nIndexToScrollTo = Math.Max(--_nIndexToScrollTo, 0);
+            ScrollToElement(_nIndexToScrollTo);
+
+            UpdateButtonEnabledState(false);
+        }
+
+        private void UpdateButtonEnabledState(bool bLoadFromSettings)
+        {
+            if (bLoadFromSettings)
+            {
+                _nIndexToScrollTo = Properties.Settings.Default.CommentaryLastIndex;
+                ScrollToElement(_nIndexToScrollTo);
+            }
+            else
+            {
+                Properties.Settings.Default.CommentaryLastIndex = _nIndexToScrollTo;
+                Properties.Settings.Default.Save();
+            }
+            buttonNext.Enabled = (_nIndexToScrollTo < (NumberOfResources - 1));
+            buttonPrev.Enabled = (_nIndexToScrollTo > 0);
         }
     }
 }

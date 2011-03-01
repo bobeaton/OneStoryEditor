@@ -31,6 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HtmlForm));
             this.webBrowser = new System.Windows.Forms.WebBrowser();
             this.buttonOK = new System.Windows.Forms.Button();
+            this.buttonNext = new System.Windows.Forms.Button();
+            this.buttonPrev = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // webBrowser
@@ -55,12 +57,38 @@
             this.buttonOK.UseVisualStyleBackColor = true;
             this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
             // 
+            // buttonNext
+            // 
+            this.buttonNext.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.buttonNext.Image = global::OneStoryProjectEditor.Properties.Resources.BuilderDialog_movedown1;
+            this.buttonNext.Location = new System.Drawing.Point(389, 370);
+            this.buttonNext.Name = "buttonNext";
+            this.buttonNext.Size = new System.Drawing.Size(24, 23);
+            this.buttonNext.TabIndex = 2;
+            this.buttonNext.UseVisualStyleBackColor = true;
+            this.buttonNext.Visible = false;
+            this.buttonNext.Click += new System.EventHandler(this.buttonNext_Click);
+            // 
+            // buttonPrev
+            // 
+            this.buttonPrev.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.buttonPrev.Image = global::OneStoryProjectEditor.Properties.Resources.BuilderDialog_moveup1;
+            this.buttonPrev.Location = new System.Drawing.Point(419, 370);
+            this.buttonPrev.Name = "buttonPrev";
+            this.buttonPrev.Size = new System.Drawing.Size(24, 23);
+            this.buttonPrev.TabIndex = 3;
+            this.buttonPrev.UseVisualStyleBackColor = true;
+            this.buttonPrev.Visible = false;
+            this.buttonPrev.Click += new System.EventHandler(this.buttonPrev_Click);
+            // 
             // HtmlForm
             // 
             this.AcceptButton = this.buttonOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(455, 405);
+            this.Controls.Add(this.buttonPrev);
+            this.Controls.Add(this.buttonNext);
             this.Controls.Add(this.buttonOK);
             this.Controls.Add(this.webBrowser);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -75,5 +103,7 @@
 
         private System.Windows.Forms.WebBrowser webBrowser;
         private System.Windows.Forms.Button buttonOK;
+        private System.Windows.Forms.Button buttonNext;
+        private System.Windows.Forms.Button buttonPrev;
     }
 }

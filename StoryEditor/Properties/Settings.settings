@@ -289,5 +289,8 @@ DoAdaptingBeforeGlossing_InVerticalEdit	1</Value>
     <Setting Name="CommentaryDialogHeight" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
+    <Setting Name="CommentaryLastIndex" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

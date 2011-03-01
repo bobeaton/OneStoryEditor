@@ -19,7 +19,7 @@ namespace OneStoryProjectEditor
         #region "format strings for HTML items"
         protected const string CstrHtmlTableBegin = "<table border=\"1\">";
         protected const string CstrHtmlLineFormat = "<tr id=\"{0}\"><td><button type=\"button\">{1}</button></td><td>{2}</td></tr>";
-        protected const string CstrHtmlLineFormatCommentaryHeader = "<tr BGCOLOR=\"#CCFFAA\"><td>{0}</td></tr>";
+        protected const string CstrHtmlLineFormatCommentaryHeader = "<tr id='{0}' BGCOLOR=\"#CCFFAA\"><td>{1}</td></tr>";
         protected const string CstrHtmlLineFormatCommentary = "<tr><td>{0}</td></tr>";
         protected const string CstrAddFontFormat = "<font face=\"{1}\">{0}</font>";
         protected const string CstrAddDirFormat = "<p dir=\"RTL\">{0}</p>";
@@ -442,14 +442,18 @@ namespace OneStoryProjectEditor
             // Build up the string which we're going to put in the HTML viewer
             var sb = new StringBuilder(CstrHtmlTableBegin);
 
-            foreach (SWModule swm in lstBibleCommentaries)
+            int i;
+            for (i = 0; i < lstBibleCommentaries.Count; i++)
             {
+                SWModule swm = lstBibleCommentaries[i];
+
                 // get the verse and remove any line break signals
                 string strVerseHtml = swm.RenderText(keyVerse);
                 if (String.IsNullOrEmpty(strVerseHtml))
                     continue;
 
-                sb.Append(String.Format(CstrHtmlLineFormatCommentaryHeader, swm.Description()));
+                sb.Append(String.Format(CstrHtmlLineFormatCommentaryHeader,
+                    Properties.Resources.IDS_CommentaryHeader + i, swm.Description()));
 
                 sb.Append(String.Format(CstrHtmlLineFormatCommentary, strVerseHtml));
             }
@@ -463,9 +467,10 @@ namespace OneStoryProjectEditor
             var theSE = FindForm() as StoryEditor;
             var dlg = new HtmlForm
                           {
-                              Text = "Commentary",
+                              Text = Properties.Resources.IDS_CommentaryHeader,
                               ClientText = sb.ToString(),
-                              TheSE = theSE
+                              TheSE = theSE,
+                              NumberOfResources = i
                           };
 
             dlg.Show();

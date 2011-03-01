@@ -1991,4 +1991,7 @@ and in the resulting window click on the next (green) state.
   <data name="IDS_ConfirmDeleteStateTransitions" xml:space="preserve">
     <value>The file that stores the view settings must be deleted to upgrade to the new format (these customizations were done via 'Select State', 'Advanced' button, and then right-click on a state button to check or uncheck view fields for a given state). Because of this, it means that you will need to redo the settings.</value>
   </data>
+	<data name="IDS_CommentaryHeader">
+		<value xml:space="preserve">Commentary</value>
+	</data>
 </root>
