@@ -92,4 +92,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PostBuildEvent>copy $(TargetPath) $(SolutionDir)DepDLLs</PostBuildEvent>
+  </PropertyGroup>
 </Project>
