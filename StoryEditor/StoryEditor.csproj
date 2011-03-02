@@ -76,7 +76,7 @@
     </Reference>
     <Reference Include="AutoUpgrade.Lib, Version=1.0.3869.15306, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\DepDLLs\AutoUpgrade.dll</HintPath>
+      <HintPath>..\DepDLLs\AutoUpgrade.Lib.dll</HintPath>
     </Reference>
     <Reference Include="Chorus, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <ExecutableExtension>.exe</ExecutableExtension>
