@@ -16,8 +16,25 @@ namespace OneStoryProjectEditor
 
         public override void Commit(System.Collections.IDictionary savedState)
         {
-            base.Commit(savedState);
-            RunFixupProgram();
+            // commenting out the base class call (if you do have it, then you really need
+            //  to call all of them in the setup project's custom actions)
+            // base.Commit(savedState);
+            // RunFixupProgram();
+            InitializeEncConverter();
+        }
+
+        /// <summary>
+        /// This method will run the EncConvertersAppDataMover40.exe program (during 
+        /// installation when we have elevated privileges, because that's needed in
+        /// order to add a registry key to the registry for machines that don't have
+        /// SEC otherwise installed.
+        /// </summary>
+        private void InitializeEncConverter()
+        {
+            string strPathToExe = String.Format(@"{0}\SIL\SILConverters\EncConvertersAppDataMover40.exe",
+                Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles));
+            if (File.Exists(strPathToExe))
+                StoryEditor.LaunchProgram(strPathToExe, null);
         }
 
         private void RunFixupProgram()

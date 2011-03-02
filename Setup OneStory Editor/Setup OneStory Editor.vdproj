@@ -699,12 +699,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_9CE5050A823246BF7576DB48C21E4BDC"
-        "OwnerKey" = "8:_1415ECBE7EFB434497FFE914D4CB51DB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_9FA15C21B7034147B734660F5E04DDA6"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -785,6 +779,12 @@
         {
         "MsmKey" = "8:_BBE325CF57B94660BF5E58AA8B5A111A"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_BCF6E99A5D0A5606D9D7F4229798D8E0"
+        "OwnerKey" = "8:_1415ECBE7EFB434497FFE914D4CB51DB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1174,7 +1174,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_9CE5050A823246BF7576DB48C21E4BDC"
+        "OwnerKey" = "8:_BCF6E99A5D0A5606D9D7F4229798D8E0"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1366,6 +1366,62 @@
     {
         "CustomAction"
         {
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_41DAF6E9E8A347E3B2C81D72BFBA4F67"
+            {
+            "Name" = "8:Primary output from StoryEditor (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_1415ECBE7EFB434497FFE914D4CB51DB"
+            "FileType" = "3:2"
+            "InstallAction" = "3:1"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:1"
+            "Identifier" = "8:_A7DAC7E6_7E4E_42EE_BA91_0CC670C822E2"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_82B9265165FB48E8A025E97A4E360D2F"
+            {
+            "Name" = "8:Primary output from StoryEditor (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_1415ECBE7EFB434497FFE914D4CB51DB"
+            "FileType" = "3:2"
+            "InstallAction" = "3:2"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:1"
+            "Identifier" = "8:_545E4A0E_D4D0_42CF_89BB_7A5314F5F1B1"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_A98D3E8F07584FE29EC19F9A49BE01BE"
+            {
+            "Name" = "8:Primary output from StoryEditor (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_1415ECBE7EFB434497FFE914D4CB51DB"
+            "FileType" = "3:2"
+            "InstallAction" = "3:3"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:1"
+            "Identifier" = "8:_6C4BC065_6079_4B7B_BE82_F77483F75A5A"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_E3650EC1B7254303AA4CC7E2C341AA04"
+            {
+            "Name" = "8:Primary output from StoryEditor (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_1415ECBE7EFB434497FFE914D4CB51DB"
+            "FileType" = "3:2"
+            "InstallAction" = "3:4"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:1"
+            "Identifier" = "8:_C7FF69F9_5F0E_4672_981A_BC9CDF1D6005"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
         }
         "DefaultFeature"
         {
@@ -3412,37 +3468,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_9CE5050A823246BF7576DB48C21E4BDC"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:OseResources, Version=2.0.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=x86"
-                "ScatterAssemblies"
-                {
-                    "_9CE5050A823246BF7576DB48C21E4BDC"
-                    {
-                    "Name" = "8:OseResources.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:OseResources.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_1E0B834CE697461C80146668203EA38A"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9FA15C21B7034147B734660F5E04DDA6"
             {
             "SourcePath" = "8:..\\mercurial\\templates\\monoblue\\filediff.tmpl"
@@ -3721,6 +3746,37 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_BCF6E99A5D0A5606D9D7F4229798D8E0"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:OseResources, Version=2.0.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=x86"
+                "ScatterAssemblies"
+                {
+                    "_BCF6E99A5D0A5606D9D7F4229798D8E0"
+                    {
+                    "Name" = "8:OseResources.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:OseResources.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_1E0B834CE697461C80146668203EA38A"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BDD27031D8B14AC3A51BD6CEF92B81B9"
@@ -5053,7 +5109,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:OneStory Editor 2.0"
         "ProductCode" = "8:{8B3AB484-92E3-47A2-AEB4-23E54F96B77D}"
-        "PackageCode" = "8:{4500802D-03B3-4F48-912D-68ADA10862BB}"
+        "PackageCode" = "8:{1B33FF6F-291D-4FF3-B3DB-04DA25C3E084}"
         "UpgradeCode" = "8:{92A9B369-3609-4129-A09D-5BB5BBE30AAB}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
