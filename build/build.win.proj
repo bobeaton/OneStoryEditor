@@ -47,8 +47,8 @@
 	<Target Name="Compile">
 		<MSBuild
 			Projects="$(RootDir)\$(Solution)"
-			Properties="Configuration=$(Configuration);Platform=$(Platform)" />
 			Targets="Build"
+			Properties="Configuration=$(Configuration);Platform=$(Platform)" />
 	</Target>
 
 	<Target Name="Test" DependsOnTargets="Build">
