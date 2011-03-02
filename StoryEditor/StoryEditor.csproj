@@ -69,18 +69,22 @@
   <ItemGroup>
     <Reference Include="AIGuesserEC, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\WW\Lib\release\AIGuesserEC.dll</HintPath>
+      <HintPath>..\DepDLLs\AIGuesserEC.dll</HintPath>
     </Reference>
-    <Reference Include="Autofac, Version=1.4.4.561, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL" />
+    <Reference Include="Autofac, Version=1.4.4.561, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\DepDLLs\Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="AutoUpgrade.Lib, Version=1.0.3869.15306, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DepDLLs\AutoUpgrade.dll</HintPath>
     </Reference>
     <Reference Include="Chorus, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <ExecutableExtension>.exe</ExecutableExtension>
+      <HintPath>..\DepDLLs\Chorus.exe</HintPath>
     </Reference>
     <Reference Include="ECInterfaces, Version=3.1.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\WW\Lib\release\ECInterfaces.dll</HintPath>
+      <HintPath>..\DepDLLs\ECInterfaces.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="HtmlEditor, Version=7.0.100.5147, Culture=neutral, processorArchitecture=x86">
@@ -96,35 +100,35 @@
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="NetLoc, Version=7.0.100.5029, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\NetLoc.dll</HintPath>
+      <HintPath>..\DepDLLs\NetLoc.dll</HintPath>
     </Reference>
     <Reference Include="OseResources, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\OseResources\bin\x86\Debug\OseResources.dll</HintPath>
+      <HintPath>..\OseResources\bin\x86\Release\OseResources.dll</HintPath>
     </Reference>
     <Reference Include="Palaso, Version=1.2.490.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\Palaso.dll</HintPath>
+      <HintPath>..\DepDLLs\Palaso.dll</HintPath>
     </Reference>
     <Reference Include="PalasoUIWindowsForms, Version=1.2.448.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\PalasoUIWindowsForms.dll</HintPath>
+      <HintPath>..\DepDLLs\PalasoUIWindowsForms.dll</HintPath>
     </Reference>
     <Reference Include="ParatextShared, Version=7.0.100.5029, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\ParatextShared.dll</HintPath>
+      <HintPath>..\DepDLLs\ParatextShared.dll</HintPath>
     </Reference>
     <Reference Include="SharedScrUtils, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\SharedScrUtils.dll</HintPath>
+      <HintPath>..\DepDLLs\SharedScrUtils.dll</HintPath>
     </Reference>
     <Reference Include="SilEncConverters40, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\WW\Lib\release\SilEncConverters40.dll</HintPath>
+      <HintPath>..\DepDLLs\SilEncConverters40.dll</HintPath>
     </Reference>
     <Reference Include="SwigSword, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\SwigSword.dll</HintPath>
+      <HintPath>..\DepDLLs\SwigSword.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
@@ -147,7 +151,7 @@
     </Reference>
     <Reference Include="Utilities, Version=7.0.100.5029, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\Utilities.dll</HintPath>
+      <HintPath>..\DepDLLs\Utilities.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
