@@ -301,6 +301,8 @@ namespace OneStoryProjectEditor
                 tableLayoutPanel.Controls.ContainsKey(CstrFieldNameStoryLine);
 
             moveItemsToolStripMenuItem.Enabled = (_verseData.TestQuestions.HasData ||
+                                                  _verseData.Anchors.HasData ||
+                                                  _verseData.ExegeticalHelpNotes.HasData ||
                                                   _verseData.ConsultantNotes.HasData ||
                                                   _verseData.CoachNotes.HasData);
         }
