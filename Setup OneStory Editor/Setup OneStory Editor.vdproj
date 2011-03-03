@@ -297,6 +297,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_3717C7FD571342C6BC38BE268B9F387F"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_37ED65DEDFFB4E95A48507340587C107"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -334,12 +340,6 @@
         "Entry"
         {
         "MsmKey" = "8:_3CF783F096A44014AB5E6B1F23A5B9B3"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_468CA35BBEF1486D895709330D0858F9"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -525,12 +525,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_7317E4239479421FA0D02C4F9D756B45"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_740AD471968349FABEDF5EA76F3DB336"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -562,12 +556,6 @@
         "Entry"
         {
         "MsmKey" = "8:_7E7495E9F7454AC09AC36C39F1E172D1"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_81FC662FBD2446B7866D2078ED728482"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -651,6 +639,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_8FBC90D43798412DB10223AB988F398F"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_923221395AA74199AAA41BE7DDA6D4A4"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -700,6 +694,12 @@
         "Entry"
         {
         "MsmKey" = "8:_A079FD60C2DD42508730322B8830BB2E"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_A2CB1F75568A4F6B945D01901F749BF6"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -849,6 +849,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_CF502DA3CC684EBF8458F003B32A767F"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_CFF00D9B0B3B77489491CC88E33313B7"
         "OwnerKey" = "8:_2FD65F994BA9BF00879FEC6EDDF95C43"
         "MsmSig" = "8:_UNDEFINED"
@@ -891,12 +897,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_DA2E9ED4A57242ADA57A2DA82364315E"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_DC13CB65A1BC4EF1A9FEC40383478E42"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -916,6 +916,12 @@
         "Entry"
         {
         "MsmKey" = "8:_DF9F8A2FF1C14AEFB4B44103BCCC171E"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E04007F5A1214999AC8F76DC154FEE8E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1053,12 +1059,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_F7F45E38095D4B5AB300368B53161053"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_F948E9CF63EA4AE4ACAEAC80DD42B368"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -1138,7 +1138,19 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_E0A6D16AC9E41B834B47D007AEE4FB13"
+        "OwnerKey" = "8:_A2CB1F75568A4F6B945D01901F749BF6"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_3717C7FD571342C6BC38BE268B9F387F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_E04007F5A1214999AC8F76DC154FEE8E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1162,31 +1174,19 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_F7F45E38095D4B5AB300368B53161053"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_DA2E9ED4A57242ADA57A2DA82364315E"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_840CEF3014AF47AF8A95E6146E158832"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_81FC662FBD2446B7866D2078ED728482"
+        "OwnerKey" = "8:_39A754771CBC433585887197F0E3A521"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_39A754771CBC433585887197F0E3A521"
+        "OwnerKey" = "8:_E0A6D16AC9E41B834B47D007AEE4FB13"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -5706,11 +5706,64 @@
             "Feature" = "8:"
             "IsolateTo" = "8:"
             }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_468CA35BBEF1486D895709330D0858F9"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_3717C7FD571342C6BC38BE268B9F387F"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:FALSE"
-            "SourcePath" = "8:..\\..\\WW\\Installer\\EcFolderACLs.msm"
+            "SourcePath" = "8:..\\DepDLLs\\Clipboard EncConverter MM.msm"
+                "Properties"
+                {
+                    "_DF61F5A72C590683705781CC36365A34.FF5D0E5C5120457485C4961576163578"
+                    {
+                    "Name" = "8:_DF61F5A72C590683705781CC36365A34.FF5D0E5C5120457485C4961576163578"
+                    "DisplayName" = "8:"
+                    "Description" = "8:"
+                    "Type" = "3:2"
+                    "ContextData" = "8:InstallToGAC=;IsolateToManifest=_A28F6C28130F4DBFAE3563D381FCFF23.FF5D0E5C5120457485C4961576163578"
+                    "Attributes" = "3:0"
+                    "Setting" = "3:2"
+                    "Value" = "8:_A28F6C28130F4DBFAE3563D381FCFF23.FF5D0E5C5120457485C4961576163578"
+                    "DefaultValue" = "8:_A28F6C28130F4DBFAE3563D381FCFF23.FF5D0E5C5120457485C4961576163578"
+                    "ParentName" = "8:_EE17FB5BBB234BE493AB2081E874F971.FF5D0E5C5120457485C4961576163578"
+                    "UsePlugInResources" = "11:FALSE"
+                    }
+                    "_EE17FB5BBB234BE493AB2081E874F971.FF5D0E5C5120457485C4961576163578"
+                    {
+                    "Name" = "8:_EE17FB5BBB234BE493AB2081E874F971.FF5D0E5C5120457485C4961576163578"
+                    "DisplayName" = "8:Module Retargetable Folder"
+                    "Description" = "8:"
+                    "Type" = "3:32769"
+                    "ContextData" = "8:_RetargetableFolder"
+                    "Attributes" = "3:6"
+                    "Setting" = "3:1"
+                    "UsePlugInResources" = "11:FALSE"
+                    }
+                }
+            "LanguageId" = "3:1033"
+            "Exclude" = "11:FALSE"
+            "Folder" = "8:"
+            "Feature" = "8:"
+            "IsolateTo" = "8:"
+            }
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_840CEF3014AF47AF8A95E6146E158832"
+            {
+            "UseDynamicProperties" = "11:TRUE"
+            "IsDependency" = "11:FALSE"
+            "SourcePath" = "8:..\\DepDLLs\\EC_40.msm"
+                "Properties"
+                {
+                }
+            "LanguageId" = "3:1033"
+            "Exclude" = "11:FALSE"
+            "Folder" = "8:"
+            "Feature" = "8:"
+            "IsolateTo" = "8:"
+            }
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_8FBC90D43798412DB10223AB988F398F"
+            {
+            "UseDynamicProperties" = "11:TRUE"
+            "IsDependency" = "11:FALSE"
+            "SourcePath" = "8:..\\DepDLLs\\SetPath.msm"
                 "Properties"
                 {
                 }
@@ -5720,25 +5773,11 @@
             "Feature" = "8:"
             "IsolateTo" = "8:"
             }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_7317E4239479421FA0D02C4F9D756B45"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_A2CB1F75568A4F6B945D01901F749BF6"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:FALSE"
-            "SourcePath" = "8:..\\..\\WW\\Installer\\SetPath.msm"
-                "Properties"
-                {
-                }
-            "LanguageId" = "3:0"
-            "Exclude" = "11:FALSE"
-            "Folder" = "8:"
-            "Feature" = "8:"
-            "IsolateTo" = "8:"
-            }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_81FC662FBD2446B7866D2078ED728482"
-            {
-            "UseDynamicProperties" = "11:TRUE"
-            "IsDependency" = "11:FALSE"
-            "SourcePath" = "8:..\\..\\WW\\Installer\\ExternalEncodingConverters\\SpellFixerEcMM.msm"
+            "SourcePath" = "8:..\\DepDLLs\\SpellFixerEcMM.msm"
                 "Properties"
                 {
                     "_5FF9565D502440D4B96A1BF4C3AA0E8E.11E5961F779444FAA97D308510A1D24B"
@@ -5777,20 +5816,6 @@
                     "ParentName" = "8:_AEB670733FB642DDBA4F942172EB2F4F.11E5961F779444FAA97D308510A1D24B"
                     "UsePlugInResources" = "11:FALSE"
                     }
-                }
-            "LanguageId" = "3:1033"
-            "Exclude" = "11:FALSE"
-            "Folder" = "8:"
-            "Feature" = "8:"
-            "IsolateTo" = "8:"
-            }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_840CEF3014AF47AF8A95E6146E158832"
-            {
-            "UseDynamicProperties" = "11:TRUE"
-            "IsDependency" = "11:FALSE"
-            "SourcePath" = "8:..\\DepDLLs\\EC_40.msm"
-                "Properties"
-                {
                 }
             "LanguageId" = "3:1033"
             "Exclude" = "11:FALSE"
@@ -5848,11 +5873,25 @@
             "Feature" = "8:"
             "IsolateTo" = "8:"
             }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_DA2E9ED4A57242ADA57A2DA82364315E"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_CF502DA3CC684EBF8458F003B32A767F"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:FALSE"
-            "SourcePath" = "8:..\\..\\WW\\Installer\\ExternalEncodingConverters\\AIGuesserMM.msm"
+            "SourcePath" = "8:..\\DepDLLs\\EcFolderACLs.msm"
+                "Properties"
+                {
+                }
+            "LanguageId" = "3:0"
+            "Exclude" = "11:FALSE"
+            "Folder" = "8:"
+            "Feature" = "8:"
+            "IsolateTo" = "8:"
+            }
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_E04007F5A1214999AC8F76DC154FEE8E"
+            {
+            "UseDynamicProperties" = "11:TRUE"
+            "IsDependency" = "11:FALSE"
+            "SourcePath" = "8:..\\DepDLLs\\AIGuesserMM.msm"
                 "Properties"
                 {
                     "_4873FBB6EC1401964448649538E73FAC.88DBA75B2D2241F38C3CBB12F0B9153E"
@@ -5874,45 +5913,6 @@
                     "Name" = "8:_F55FCD754AF7485FAA6EDBD078428DAF.88DBA75B2D2241F38C3CBB12F0B9153E"
                     "DisplayName" = "8:Module Retargetable Folder"
                     "Description" = "8:Common SIL Application Data folder"
-                    "Type" = "3:32769"
-                    "ContextData" = "8:_RetargetableFolder"
-                    "Attributes" = "3:6"
-                    "Setting" = "3:1"
-                    "UsePlugInResources" = "11:FALSE"
-                    }
-                }
-            "LanguageId" = "3:1033"
-            "Exclude" = "11:FALSE"
-            "Folder" = "8:"
-            "Feature" = "8:"
-            "IsolateTo" = "8:"
-            }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_F7F45E38095D4B5AB300368B53161053"
-            {
-            "UseDynamicProperties" = "11:TRUE"
-            "IsDependency" = "11:FALSE"
-            "SourcePath" = "8:..\\..\\WW\\Installer\\ExternalEncodingConverters\\Clipboard EncConverter MM.msm"
-                "Properties"
-                {
-                    "_DF61F5A72C590683705781CC36365A34.FF5D0E5C5120457485C4961576163578"
-                    {
-                    "Name" = "8:_DF61F5A72C590683705781CC36365A34.FF5D0E5C5120457485C4961576163578"
-                    "DisplayName" = "8:"
-                    "Description" = "8:"
-                    "Type" = "3:2"
-                    "ContextData" = "8:InstallToGAC=;IsolateToManifest=_A28F6C28130F4DBFAE3563D381FCFF23.FF5D0E5C5120457485C4961576163578"
-                    "Attributes" = "3:0"
-                    "Setting" = "3:2"
-                    "Value" = "8:_A28F6C28130F4DBFAE3563D381FCFF23.FF5D0E5C5120457485C4961576163578"
-                    "DefaultValue" = "8:_A28F6C28130F4DBFAE3563D381FCFF23.FF5D0E5C5120457485C4961576163578"
-                    "ParentName" = "8:_EE17FB5BBB234BE493AB2081E874F971.FF5D0E5C5120457485C4961576163578"
-                    "UsePlugInResources" = "11:FALSE"
-                    }
-                    "_EE17FB5BBB234BE493AB2081E874F971.FF5D0E5C5120457485C4961576163578"
-                    {
-                    "Name" = "8:_EE17FB5BBB234BE493AB2081E874F971.FF5D0E5C5120457485C4961576163578"
-                    "DisplayName" = "8:Module Retargetable Folder"
-                    "Description" = "8:"
                     "Type" = "3:32769"
                     "ContextData" = "8:_RetargetableFolder"
                     "Attributes" = "3:6"
