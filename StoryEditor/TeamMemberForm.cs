@@ -27,6 +27,7 @@ namespace OneStoryProjectEditor
         public bool Modified;
 
         public TeamMemberForm(TeamMembersData dataTeamMembers, string strOKLabel)
+            : base(true)
         {
             _dataTeamMembers = dataTeamMembers;
             InitializeComponent();

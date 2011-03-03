@@ -22,6 +22,7 @@ namespace OneStoryProjectEditor
         private int _nHeight;
 
         public LnCNotesForm(StoryEditor theSE)
+            : base(true)
         {
             InitializeComponent();
             _theSE = theSE;

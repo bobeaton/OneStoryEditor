@@ -16,6 +16,7 @@ namespace OneStoryProjectEditor
         public TeamMemberData LoggedInMember;
 
         public NewProjectWizard(StoryProjectData storyProjectData)
+            : base(true)
         {
             InitializeComponent();
 

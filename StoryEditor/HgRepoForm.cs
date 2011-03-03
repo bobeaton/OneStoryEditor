@@ -12,6 +12,7 @@ namespace OneStoryProjectEditor
     public partial class HgRepoForm : TopForm
     {
         public HgRepoForm()
+            : base(true)
         {
             InitializeComponent();
         }

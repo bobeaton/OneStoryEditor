@@ -7,6 +7,7 @@ namespace OneStoryProjectEditor
     {
         private TeamMemberData _theMemberData;
         public EditMemberForm(TeamMemberData theMemberData)
+            : base(true)
         {
             InitializeComponent();
 

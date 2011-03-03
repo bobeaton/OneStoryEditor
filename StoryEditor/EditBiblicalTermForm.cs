@@ -20,6 +20,7 @@ namespace OneStoryProjectEditor
         private Term biblicalTerm;
 
         public EditBiblicalTermForm(Term term, string strProjectFolder)
+            : base(true)
         {
             InitializeComponent();
             Localizer.Ctrl(this);

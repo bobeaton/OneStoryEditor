@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
 {
-    public partial class ViewSwordOptionsForm : Form
+    public partial class ViewSwordOptionsForm : TopForm
     {
         protected const string CstrSwordLink = "www.crosswire.org/sword/modules/ModDisp.jsp?modType=Bibles";
 
@@ -17,6 +17,7 @@ namespace OneStoryProjectEditor
         protected int _nIndexOfNetBible = -1;
         protected bool _bInCtor;
         public ViewSwordOptionsForm(ref List<NetBibleViewer.SwordResource> lstBibleResources)
+            : base(true)
         {
             _lstBibleResources = lstBibleResources;
 

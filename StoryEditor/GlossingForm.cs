@@ -20,6 +20,7 @@ namespace OneStoryProjectEditor
 
         public GlossingForm(ProjectSettings projSettings, string strSentence, 
             ProjectSettings.AdaptItConfiguration.AdaptItBtDirection eBtDirection)
+            : base(true)
         {
             InitializeComponent();
             m_theEC = AdaptItGlossing.InitLookupAdapter(projSettings, eBtDirection, out liSourceLang, out liTargetLang);

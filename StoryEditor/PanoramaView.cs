@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
 {
-    public partial class PanoramaView : Form
+    public partial class PanoramaView : TopForm
     {
         protected const int CnColumnStoryName = 0;
         protected const int CnColumnStoryPurpose = 1;
@@ -32,6 +32,7 @@ namespace OneStoryProjectEditor
         protected const int CnColumnNotes = 2;
 
         public PanoramaView(StoryProjectData storyProject)
+            : base(true)
         {
             _storyProject = storyProject;
             InitializeComponent();

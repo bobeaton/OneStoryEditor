@@ -3,13 +3,14 @@ using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
 {
-    public partial class StoryFrontMatterForm : Form
+    public partial class StoryFrontMatterForm : TopForm
     {
         protected StoryEditor _theSE;
         protected StoryProjectData _theStoryProjectData;
         protected StoryData _theCurrentStory;
 
         public StoryFrontMatterForm(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory)
+            : base(true)
         {
             _theSE = theSE;
             _theStoryProjectData = theStoryProjectData;

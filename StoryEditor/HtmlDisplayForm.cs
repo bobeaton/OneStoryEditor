@@ -22,6 +22,7 @@ namespace OneStoryProjectEditor
         public DirectableEncConverter TransliteratorNationalBT;
 
         public HtmlDisplayForm(StoryEditor theSE, StoryData storyData)
+            : base(true)
         {
             InitializeComponent();
 

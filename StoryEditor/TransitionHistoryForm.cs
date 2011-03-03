@@ -9,9 +9,10 @@ using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
 {
-    public partial class TransitionHistoryForm : Form
+    public partial class TransitionHistoryForm : TopForm
     {
         public TransitionHistoryForm(IEnumerable<StoryStateTransition> theHistory, TeamMembersData teamMembersData)
+            : base(true)
         {
             InitializeComponent();
 

@@ -38,6 +38,7 @@
             this.Name = "TopForm";
             this.Text = "TopForm";
             this.Load += new System.EventHandler(this.TopForm_Load);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.TopForm_FormClosed);
             this.ResumeLayout(false);
 
         }
