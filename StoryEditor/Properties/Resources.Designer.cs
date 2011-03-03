@@ -522,6 +522,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Choose the item(s) to delete and then click the Delete button.
+        /// </summary>
+        internal static string IDS_DeleteItemFrameTitle {
+            get {
+                return ResourceManager.GetString("IDS_DeleteItemFrameTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to delete this verse (and all associated consultant notes, etc)?.
         /// </summary>
         internal static string IDS_DeleteVerseQuery {

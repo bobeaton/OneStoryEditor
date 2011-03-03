@@ -12,13 +12,15 @@ namespace OneStoryProjectEditor
     public partial class CutItemPicker : Form
     {
         private const string CstrNodeTestingQuestions = "TestingQuestions";
+        private const string CstrNodeAnchors = "Anchors";
         private const string CstrNodeCulturalNotes = "CulturalNotes";
         private const string CstrNodeConsultantNotes = "ConsultantNotes";
         private const string CstrNodeCoachNotes = "CoachNotes";
 
         private VerseData _verseSource;
 
-        public CutItemPicker(VerseData verseSource, VersesData theVerses, StoryEditor theSE)
+        public CutItemPicker(VerseData verseSource, VersesData theVerses, 
+            StoryEditor theSE, bool bDeleteOnly)
         {
             InitializeComponent();
             _verseSource = verseSource;
@@ -26,26 +28,31 @@ namespace OneStoryProjectEditor
 
             InitializeFromVerse(verseSource);
 
-            // now list the verses in the current story
-            string strLine = "Story (Ln 0)";
-            AddLineButton(strLine, null, 0, theVerses.FirstVerse);
-            int i = 1;
-            for (; i <= theVerses.Count; i++)
+            if (bDeleteOnly)
             {
-                VerseData aVerseData = theVerses[i - 1];
-                if (aVerseData == _verseSource)
-                    continue;
-
-                strLine = "Ln: " + i;
-                string strToolTip = StringForTooltip(aVerseData);
-                AddLineButton(strLine, strToolTip, i, aVerseData);
+                // add the 'delete' button
+                AddLineButton("Delete", null, 0, null);
             }
+            else
+            {
+                // now list the verses in the current story
+                string strLine = "Story (Ln 0)";
+                AddLineButton(strLine, null, 0, theVerses.FirstVerse);
+                for (int i = 1; i <= theVerses.Count; i++)
+                {
+                    VerseData aVerseData = theVerses[i - 1];
+                    if (aVerseData == _verseSource)
+                        continue;
 
-            // add one more for 'delete'
-            AddLineButton("Delete", null, ++i, null);
+                    strLine = "Ln: " + i;
+                    string strToolTip = StringForTooltip(aVerseData);
+                    AddLineButton(strLine, strToolTip, i, aVerseData);
+                }
+            }
         }
 
-        public CutItemPicker(VerseData verseSource, VerseData verseDest, int nIndex, StoryEditor theSE)
+        public CutItemPicker(VerseData verseSource, VerseData verseDest, int nIndex, 
+            StoryEditor theSE)
         {
             InitializeComponent();
             _verseSource = verseSource;
@@ -66,8 +73,11 @@ namespace OneStoryProjectEditor
             TreeNode nodeItems = treeViewItems.Nodes[CstrNodeTestingQuestions];
             AddTestQuestionNodes(verseSource.TestQuestions, nodeItems);
 
-            nodeItems = treeViewItems.Nodes[CstrNodeCulturalNotes];
+            nodeItems = treeViewItems.Nodes[CstrNodeAnchors];
             AddAnchorNodes(verseSource.Anchors, nodeItems);
+
+            nodeItems = treeViewItems.Nodes[CstrNodeCulturalNotes];
+            AddExegeticalHelpNodes(verseSource.ExegeticalHelpNotes, nodeItems);
 
             nodeItems = treeViewItems.Nodes[CstrNodeConsultantNotes];
             AddConNoteNodes(verseSource.ConsultantNotes, nodeItems);
@@ -90,6 +100,23 @@ namespace OneStoryProjectEditor
                     theAnchorNode.ToolTipText = strSecondary;
                     theAnchorNode.Checked = true;
                     theAnchorNode.Tag = anAnchor;
+                }
+                IsSomethingToMove = nodeItems.Checked = true;
+            }
+            else
+                nodeItems.Remove();
+        }
+
+        private void AddExegeticalHelpNodes(ExegeticalHelpNotesData theExegHelps, TreeNode nodeItems)
+        {
+            if (theExegHelps.HasData)
+            {
+                foreach (ExegeticalHelpNoteData anExegHelp in theExegHelps)
+                {
+                    string strPrimary = anExegHelp.ToString();
+                    TreeNode theExegHelpNode = nodeItems.Nodes.Add(strPrimary);
+                    theExegHelpNode.Checked = true;
+                    theExegHelpNode.Tag = anExegHelp;
                 }
                 IsSomethingToMove = nodeItems.Checked = true;
             }
@@ -182,7 +209,7 @@ namespace OneStoryProjectEditor
                         verseDest.TestQuestions.Add(aTQ);
                 }
 
-            nodeItems = treeViewItems.Nodes[CstrNodeCulturalNotes];
+            nodeItems = treeViewItems.Nodes[CstrNodeAnchors];
             if (nodeItems != null)
                 foreach (var anAnchor in
                     from TreeNode node in nodeItems.Nodes
@@ -192,6 +219,18 @@ namespace OneStoryProjectEditor
                     _verseSource.Anchors.Remove(anAnchor);
                     if (verseDest != null)  // otherwise, it's just delete
                         verseDest.Anchors.Add(anAnchor);
+                }
+
+            nodeItems = treeViewItems.Nodes[CstrNodeCulturalNotes];
+            if (nodeItems != null)
+                foreach (var anExegHelpNote in
+                    from TreeNode node in nodeItems.Nodes
+                    where node.Checked
+                    select node.Tag as ExegeticalHelpNoteData)
+                {
+                    _verseSource.ExegeticalHelpNotes.Remove(anExegHelpNote);
+                    if (verseDest != null)  // otherwise, it's just delete
+                        verseDest.ExegeticalHelpNotes.Add(anExegHelpNote);
                 }
 
             nodeItems = treeViewItems.Nodes[CstrNodeConsultantNotes];
@@ -282,6 +321,9 @@ namespace OneStoryProjectEditor
         private static void CheckForAllCheck(TreeNode nodeLeaf)
         {
             var parent = nodeLeaf.Parent;
+            if (parent == null)
+                return;
+
             if (parent.Nodes.Cast<TreeNode>().Any(node => !node.Checked))
                 return;
             parent.Checked = true;
@@ -295,5 +337,18 @@ namespace OneStoryProjectEditor
 
         private StoryEditor TheSE;
         private MoveConNoteTooltip _toolTip;
+    }
+
+    class MyTreeView : TreeView
+    {
+        private const int WM_LBUTTONDBLCLK = 0x203;
+
+        protected override void DefWndProc(ref Message m)
+        {
+            if (m.Msg == WM_LBUTTONDBLCLK)
+                return;
+
+            base.DefWndProc(ref m);
+        }
     }
 }

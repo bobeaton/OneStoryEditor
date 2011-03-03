@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using ECInterfaces;
+using OneStoryProjectEditor.Properties;
 using SilEncConverters40;
 
 namespace OneStoryProjectEditor
@@ -311,7 +312,25 @@ namespace OneStoryProjectEditor
             if (!CheckForProperEditToken(out theSE))
                 return;
 
-            var dlg = new CutItemPicker(_verseData, theSE.theCurrentStory.Verses, theSE);
+            var dlg = new CutItemPicker(_verseData, theSE.theCurrentStory.Verses, theSE, false);
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                theSE.Modified = true;
+                theSE.InitAllPanes();
+            }
+        }
+
+        private void deleteItemsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // the only function of the button here is to add a slot to type a con note
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
+                return;
+
+            var dlg = new CutItemPicker(_verseData, theSE.theCurrentStory.Verses, theSE, true)
+                          {
+                              Text = Resources.IDS_DeleteItemFrameTitle
+                          };
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 theSE.Modified = true;

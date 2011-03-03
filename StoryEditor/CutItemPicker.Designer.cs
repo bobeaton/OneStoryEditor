@@ -29,13 +29,14 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Testing Questions (tst)");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Cultural and Exegetical Notes (cn)");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Cultural and Exegetical Notes (cn)");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Anchors");
             System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Consultant Notes");
             System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Coach Notes");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Testing Questions (tst)");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CutItemPicker));
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.treeViewItems = new System.Windows.Forms.TreeView();
+            this.treeViewItems = new MyTreeView();
             this.flowLayoutPanelLines = new System.Windows.Forms.FlowLayoutPanel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
@@ -68,19 +69,22 @@
             this.treeViewItems.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewItems.Location = new System.Drawing.Point(3, 3);
             this.treeViewItems.Name = "treeViewItems";
-            treeNode1.Name = "TestingQuestions";
-            treeNode1.Text = "Testing Questions (tst)";
-            treeNode2.Name = "CulturalNotes";
-            treeNode2.Text = "Cultural and Exegetical Notes (cn)";
+            treeNode1.Name = "CulturalNotes";
+            treeNode1.Text = "Cultural and Exegetical Notes (cn)";
+            treeNode2.Name = "Anchors";
+            treeNode2.Text = "Anchors";
             treeNode3.Name = "ConsultantNotes";
             treeNode3.Text = "Consultant Notes";
             treeNode4.Name = "CoachNotes";
             treeNode4.Text = "Coach Notes";
+            treeNode5.Name = "TestingQuestions";
+            treeNode5.Text = "Testing Questions (tst)";
             this.treeViewItems.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1,
             treeNode2,
             treeNode3,
-            treeNode4});
+            treeNode4,
+            treeNode5});
             this.treeViewItems.ShowRootLines = false;
             this.treeViewItems.Size = new System.Drawing.Size(321, 338);
             this.treeViewItems.TabIndex = 2;
@@ -126,7 +130,7 @@
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
-        private System.Windows.Forms.TreeView treeViewItems;
+        private MyTreeView treeViewItems;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelLines;
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.PictureBox pictureBox1;
