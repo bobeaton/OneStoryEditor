@@ -73,6 +73,20 @@
 		</MakePot>
 	</Target>
 
+	<Target Name="Installer">
+		<PropertyGroup>
+			<DevEnv>$(ProgramFiles)\Microsoft Visual Studio 9.0\Common7\IDE\devenv.com</DevEnv>
+			<SolutionFile>$(RootDir)\$(Solution)</SolutionFile>
+			<ProjectFile>Setup OneStory Editor</ProjectFile>
+			<Configuration>Debug</Configuration>
+		</PropertyGroup>
+		<Exec
+			Command="&quot;$(DevEnv)&quot; &quot;$(SolutionFile)&quot; /Project &quot;$(ProjectFile)&quot; /ProjectConfig &quot;$(Configuration)&quot; /Build $(Configuration) /Log log.txt"
+			ContinueOnError="false"
+			IgnoreExitCode="false"
+			WorkingDirectory="$(MSBuildProjectDirectory)" />
+    </Target> 
+
 	<Target Name="Upload">
 		<Split Input="$(BUILD_NUMBER)" Delimiter="-" OutputSubString="0">
 			<Output TaskParameter="ReturnValue" PropertyName="Revision" />
