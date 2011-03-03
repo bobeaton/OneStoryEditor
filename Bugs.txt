@@ -1,8 +1,6 @@
-﻿create repository if it doesn't exist (or it fatal excepts when you click Project Settings)
+﻿Can I add spelling check?
 
-have all the big dialogs (e.g. add new member, login, etc) start at the top so they show properly on the netbooks
-
-disable the auto save timing during other dialog opening (e.g. settings, Story Information, etc).
+in settings dialog, if a tab is clicked, then do 'Next'
 
 Add 'Revert' capability (cf. P7)
 

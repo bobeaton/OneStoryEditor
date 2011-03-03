@@ -12,7 +12,7 @@ namespace OneStoryProjectEditor
     public partial class CutItemPicker : TopForm
     {
         private const string CstrNodeTestingQuestions = "TestingQuestions";
-        private const string CstrNodeAnchors = "Anchors";
+        // private const string CstrNodeAnchors = "Anchors";
         private const string CstrNodeCulturalNotes = "CulturalNotes";
         private const string CstrNodeConsultantNotes = "ConsultantNotes";
         private const string CstrNodeCoachNotes = "CoachNotes";
@@ -21,6 +21,7 @@ namespace OneStoryProjectEditor
 
         public CutItemPicker(VerseData verseSource, VersesData theVerses, 
             StoryEditor theSE, bool bDeleteOnly)
+            : base(true)
         {
             InitializeComponent();
             _verseSource = verseSource;
@@ -73,8 +74,11 @@ namespace OneStoryProjectEditor
             TreeNode nodeItems = treeViewItems.Nodes[CstrNodeTestingQuestions];
             AddTestQuestionNodes(verseSource.TestQuestions, nodeItems);
 
+#if AllowMovingAnchors
+            // what does it mean to "move an anchor"... not very useful
             nodeItems = treeViewItems.Nodes[CstrNodeAnchors];
             AddAnchorNodes(verseSource.Anchors, nodeItems);
+#endif
 
             nodeItems = treeViewItems.Nodes[CstrNodeCulturalNotes];
             AddExegeticalHelpNodes(verseSource.ExegeticalHelpNotes, nodeItems);
@@ -88,6 +92,7 @@ namespace OneStoryProjectEditor
             treeViewItems.ExpandAll();
         }
 
+#if AllowMovingAnchors
         private void AddAnchorNodes(AnchorsData theAnchors, TreeNode nodeItems)
         {
             if (theAnchors.HasData)
@@ -106,6 +111,7 @@ namespace OneStoryProjectEditor
             else
                 nodeItems.Remove();
         }
+#endif
 
         private void AddExegeticalHelpNodes(ExegeticalHelpNotesData theExegHelps, TreeNode nodeItems)
         {
@@ -209,6 +215,7 @@ namespace OneStoryProjectEditor
                         verseDest.TestQuestions.Add(aTQ);
                 }
 
+#if AllowMovingAnchors
             nodeItems = treeViewItems.Nodes[CstrNodeAnchors];
             if (nodeItems != null)
                 foreach (var anAnchor in
@@ -220,6 +227,7 @@ namespace OneStoryProjectEditor
                     if (verseDest != null)  // otherwise, it's just delete
                         verseDest.Anchors.Add(anAnchor);
                 }
+#endif
 
             nodeItems = treeViewItems.Nodes[CstrNodeCulturalNotes];
             if (nodeItems != null)
