@@ -477,7 +477,7 @@ namespace OneStoryProjectEditor
             set { textBoxUsername.Text = value; }
         }
 
-        protected string HgPassword
+        public string HgPassword
         {
             get { return textBoxPassword.Text; }
             set { textBoxPassword.Text = value; }

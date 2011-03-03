@@ -189,11 +189,12 @@ namespace OneStoryProjectEditor
             if (!GetAiRepoSettings(out strAiWorkFolder, out strProjectFolderName))
                 return false;
 
-            if (Parent.LoggedInMember != null)
-            {
-                strHgUsername = Parent.LoggedInMember.HgUsername;
-                strHgPassword = Parent.LoggedInMember.HgPassword;
-            }
+            // but override by the current configuration
+            if (!String.IsNullOrEmpty(Parent.HgUsername))
+                strHgUsername = Parent.HgUsername;
+
+            if (!String.IsNullOrEmpty(Parent.HgPassword))
+                strHgPassword = Parent.HgPassword;
 
             return true;
         }
