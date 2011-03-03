@@ -57,12 +57,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_096640244AB74D08BB2C7905A83EDD06"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_09FE28D84D8F477E869360EDC64D8B6A"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -717,6 +711,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_A89CAEBD6790485FA69F0BA910707BA2"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_AB1D084C84664CC0B806BAC97A9F3274"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -785,12 +785,6 @@
         {
         "MsmKey" = "8:_BBE325CF57B94660BF5E58AA8B5A111A"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_BCF6E99A5D0A5606D9D7F4229798D8E0"
-        "OwnerKey" = "8:_1415ECBE7EFB434497FFE914D4CB51DB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1138,12 +1132,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_39A754771CBC433585887197F0E3A521"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_E04BBAC74935462E9D3481217416E43F"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1186,7 +1174,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_BCF6E99A5D0A5606D9D7F4229798D8E0"
+        "OwnerKey" = "8:_39A754771CBC433585887197F0E3A521"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -3760,37 +3748,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_BCF6E99A5D0A5606D9D7F4229798D8E0"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:OseResources, Version=2.0.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=x86"
-                "ScatterAssemblies"
-                {
-                    "_BCF6E99A5D0A5606D9D7F4229798D8E0"
-                    {
-                    "Name" = "8:OseResources.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:OseResources.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_1E0B834CE697461C80146668203EA38A"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:TRUE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BDD27031D8B14AC3A51BD6CEF92B81B9"
             {
             "SourcePath" = "8:..\\mercurial\\templates\\rss\\filelogentry.tmpl"
@@ -5706,31 +5663,6 @@
             "Feature" = "8:"
             "IsolateTo" = "8:"
             }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_096640244AB74D08BB2C7905A83EDD06"
-            {
-            "UseDynamicProperties" = "11:TRUE"
-            "IsDependency" = "11:FALSE"
-            "SourcePath" = "8:..\\..\\WW\\Installer\\ExternalEncodingConverters\\TECkit DLLs.msm"
-                "Properties"
-                {
-                    "_C4ADA69F75B740BB99108AB6A54F3402.BC62640396A74A318F87C918F22D10BB"
-                    {
-                    "Name" = "8:_C4ADA69F75B740BB99108AB6A54F3402.BC62640396A74A318F87C918F22D10BB"
-                    "DisplayName" = "8:Module Retargetable Folder"
-                    "Description" = "8:"
-                    "Type" = "3:32769"
-                    "ContextData" = "8:_RetargetableFolder"
-                    "Attributes" = "3:6"
-                    "Setting" = "3:1"
-                    "UsePlugInResources" = "11:FALSE"
-                    }
-                }
-            "LanguageId" = "3:1033"
-            "Exclude" = "11:FALSE"
-            "Folder" = "8:"
-            "Feature" = "8:"
-            "IsolateTo" = "8:"
-            }
             "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_18BFF1B8EA034BB08575B46AE96195F9"
             {
             "UseDynamicProperties" = "11:TRUE"
@@ -5841,6 +5773,31 @@
             "SourcePath" = "8:..\\DepDLLs\\EC_40.msm"
                 "Properties"
                 {
+                }
+            "LanguageId" = "3:1033"
+            "Exclude" = "11:FALSE"
+            "Folder" = "8:"
+            "Feature" = "8:"
+            "IsolateTo" = "8:"
+            }
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_A89CAEBD6790485FA69F0BA910707BA2"
+            {
+            "UseDynamicProperties" = "11:TRUE"
+            "IsDependency" = "11:FALSE"
+            "SourcePath" = "8:..\\DepDLLs\\TECkit DLLs.msm"
+                "Properties"
+                {
+                    "_C4ADA69F75B740BB99108AB6A54F3402.BC62640396A74A318F87C918F22D10BB"
+                    {
+                    "Name" = "8:_C4ADA69F75B740BB99108AB6A54F3402.BC62640396A74A318F87C918F22D10BB"
+                    "DisplayName" = "8:Module Retargetable Folder"
+                    "Description" = "8:"
+                    "Type" = "3:32769"
+                    "ContextData" = "8:_RetargetableFolder"
+                    "Attributes" = "3:6"
+                    "Setting" = "3:1"
+                    "UsePlugInResources" = "11:FALSE"
+                    }
                 }
             "LanguageId" = "3:1033"
             "Exclude" = "11:FALSE"
