@@ -4,7 +4,7 @@ using Palaso.UI.WindowsForms.Keyboarding;
 
 namespace OneStoryProjectEditor
 {
-    public partial class AddLnCNoteForm : Form
+    public partial class AddLnCNoteForm : TopForm
     {
         public LnCNote TheLnCNote;
 

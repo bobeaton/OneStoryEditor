@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
 {
-    public partial class MemberPicker : Form
+    public partial class MemberPicker : TopForm
     {
         protected StoryProjectData _theStoryProjectData;
         protected TeamMemberData _dataSelectedMember = null;

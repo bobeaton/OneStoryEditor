@@ -8,7 +8,7 @@ using SilEncConverters40;           // for AdaptItEncConverter
 
 namespace OneStoryProjectEditor
 {
-    public partial class GlossingForm : Form
+    public partial class GlossingForm : TopForm
     {
         internal static char[] achWordDelimiters = new[] { ' ' };
         private AdaptItEncConverter m_theEC = null;

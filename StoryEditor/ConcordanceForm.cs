@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
 {
-    public partial class ConcordanceForm : Form
+    public partial class ConcordanceForm : TopForm
     {
         readonly StoryEditor _theSE;
         readonly StoryProjectData _storyProject;

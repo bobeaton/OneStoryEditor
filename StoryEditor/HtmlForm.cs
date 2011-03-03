@@ -10,7 +10,7 @@ using System.Windows.Forms;
 namespace OneStoryProjectEditor
 {
     [System.Runtime.InteropServices.ComVisible(true)]
-    public partial class HtmlForm : Form
+    public partial class HtmlForm : TopForm
     {
         protected const string preDocumentDOMScript = "<style> body  { margin:1 } </style>" +
             "<script>" +

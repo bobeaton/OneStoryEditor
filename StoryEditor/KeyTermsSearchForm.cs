@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
 {
-    public partial class KeyTermsSearchForm : Form
+    public partial class KeyTermsSearchForm : TopForm
     {
         readonly StoryEditor _theSE;
         readonly StoryProjectData _storyProject;

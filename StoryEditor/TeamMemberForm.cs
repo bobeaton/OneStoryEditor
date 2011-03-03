@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
 using Palaso.UI.WindowsForms.Keyboarding;
 
 namespace OneStoryProjectEditor
 {
-    public partial class TeamMemberForm : Form
+    public partial class TeamMemberForm : TopForm
     {
         /*
         protected const string CstrDefaultFontTooltipVernacular =
@@ -23,13 +24,13 @@ namespace OneStoryProjectEditor
 
         Dictionary<string, TeamMemberData> m_mapNewMembersThisSession = new Dictionary<string, TeamMemberData>();
 
-        public bool Modified = false;
+        public bool Modified;
 
         public TeamMemberForm(TeamMembersData dataTeamMembers, string strOKLabel)
         {
             _dataTeamMembers = dataTeamMembers;
             InitializeComponent();
-
+            
             foreach (TeamMemberData aMember in _dataTeamMembers.Values)
             {
                 listBoxTeamMembers.Items.Add(aMember.Name);
@@ -547,6 +548,7 @@ namespace OneStoryProjectEditor
         {
             buttonOK_Click(sender, e);
         }
+
         /*
         private void textBoxVernacular_Leave(object sender, EventArgs e)
         {

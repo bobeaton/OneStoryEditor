@@ -13,7 +13,7 @@ using SilEncConverters40;
 
 namespace OneStoryProjectEditor
 {
-    public partial class HtmlDisplayForm : Form
+    public partial class HtmlDisplayForm : TopForm
     {
         HgRepository _repository;
         List<Revision> _lstRevisions;

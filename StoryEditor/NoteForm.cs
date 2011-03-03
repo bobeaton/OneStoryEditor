@@ -7,7 +7,7 @@ using Chorus.Utilities;
 
 namespace OneStoryProjectEditor
 {
-    public partial class NoteForm : Form
+    public partial class NoteForm : TopForm
     {
         private ChorusSystem _chorusSystem;
         private NotesBarView _notesBar;

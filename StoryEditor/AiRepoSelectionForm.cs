@@ -13,7 +13,7 @@ using SilEncConverters40;
 
 namespace OneStoryProjectEditor
 {
-    public partial class AiRepoSelectionForm : Form
+    public partial class AiRepoSelectionForm : TopForm
     {
         public new NewProjectWizard Parent;
 

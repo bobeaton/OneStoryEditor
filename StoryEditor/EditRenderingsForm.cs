@@ -13,7 +13,7 @@ namespace OneStoryProjectEditor
 	/// <summary>
 	/// Allow user to edit renderings associated with a Biblical term.
 	/// </summary>
-	public partial class EditRenderingsForm : Form
+	public partial class EditRenderingsForm : TopForm
 	{
 		private TermRendering termRendering;
 

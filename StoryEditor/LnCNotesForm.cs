@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
 {
-    public partial class LnCNotesForm : Form
+    public partial class LnCNotesForm : TopForm
     {
         private const int CnColumnInternationalBT = 0;
         private const int CnColumnVernacularBT = 1;

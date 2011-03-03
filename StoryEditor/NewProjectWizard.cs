@@ -5,7 +5,7 @@ using Palaso.UI.WindowsForms.Keyboarding;
 
 namespace OneStoryProjectEditor
 {
-    public partial class NewProjectWizard : Form
+    public partial class NewProjectWizard : TopForm
     {
         protected const string CstrDefaultFontTooltip =
                     "Click here to choose the font, size, and color of the font to use for this language{0}Currently, Font: {1}, Size: {2}, {3}";

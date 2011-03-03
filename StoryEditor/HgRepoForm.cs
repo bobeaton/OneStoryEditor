@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
 {
-    public partial class HgRepoForm : Form
+    public partial class HgRepoForm : TopForm
     {
         public HgRepoForm()
         {

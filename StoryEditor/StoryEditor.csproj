@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{EE63B2ED-1488-491F-990A-3FA16E2DB135}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -574,6 +574,9 @@
       <DependentUpon>MemberPicker.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="TopForm.resx">
+      <DependentUpon>TopForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TransitionHistoryForm.resx">
       <DependentUpon>TransitionHistoryForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -632,6 +635,12 @@
     </Compile>
     <Compile Include="MemberPicker.Designer.cs">
       <DependentUpon>MemberPicker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TopForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TopForm.Designer.cs">
+      <DependentUpon>TopForm.cs</DependentUpon>
     </Compile>
     <Compile Include="TransitionHistoryForm.cs">
       <SubType>Form</SubType>

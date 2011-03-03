@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
 {
-    public partial class EditMemberForm : Form
+    public partial class EditMemberForm : TopForm
     {
         private TeamMemberData _theMemberData;
         public EditMemberForm(TeamMemberData theMemberData)

@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
 {
-    public partial class CutItemPicker : Form
+    public partial class CutItemPicker : TopForm
     {
         private const string CstrNodeTestingQuestions = "TestingQuestions";
         private const string CstrNodeAnchors = "Anchors";

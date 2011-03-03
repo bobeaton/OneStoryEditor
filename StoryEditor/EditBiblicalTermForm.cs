@@ -8,7 +8,7 @@ using Paratext;
 
 namespace OneStoryProjectEditor
 {
-    public partial class EditBiblicalTermForm : Form
+    public partial class EditBiblicalTermForm : TopForm
     {
         // True if adding new term, false if editing existing term
         protected bool AddingTerm = true;
