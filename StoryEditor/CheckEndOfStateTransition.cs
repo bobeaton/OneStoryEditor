@@ -637,7 +637,7 @@ namespace OneStoryProjectEditor
             {
                 int nNumLacking = (theCurrentStory.Verses.Count / 2) - nNumOfVerses;
                 ShowError(theSE,
-                          String.Format("Error: You should have at least half as many Story Testing Questions as verses in the story. Please add at least {0} more testing question(s). (right-click on the 'verse options' button and choose 'Add a story testing question')", nNumLacking));
+                          String.Format("Error: You should have at least half as many Story Testing Questions as verses in the story. Please add at least {0} more testing question(s). (right-click on the 'line options' button and choose 'Add a story testing question')", nNumLacking));
                 return false;
             }
             return true;
