@@ -21,7 +21,7 @@ namespace OneStoryProjectEditor
         protected const string CstrHtmlLineFormat = "<tr id=\"{0}\"><td><button type=\"button\">{1}</button></td><td>{2}</td></tr>";
         protected const string CstrHtmlLineFormatCommentaryHeader = "<tr id='{0}' BGCOLOR=\"#CCFFAA\"><td>{1}</td></tr>";
         protected const string CstrHtmlLineFormatCommentary = "<tr><td>{0}</td></tr>";
-        protected const string CstrAddFontFormat = "<font face=\"{1}\">{0}</font>";
+        internal const string CstrAddFontFormat = "<font face=\"{1}\">{0}</font>";
         protected const string CstrAddDirFormat = "<p dir=\"RTL\">{0}</p>";
         protected const string CstrHtmlTableEnd = "</table>";
         protected const string verseLineBreak = "<br />";

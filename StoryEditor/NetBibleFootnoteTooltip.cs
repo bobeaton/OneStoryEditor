@@ -98,10 +98,10 @@ namespace OneStoryProjectEditor
                 ShowMorphRobinson(value);
             else 
             */
+            SWModule moduleForNote = null;
             if (action.Equals("showNote") && type.Contains("x") && !String.IsNullOrEmpty(strModule))
             {
                 // I'm imagining that the module of the note could be different from the module of the text
-                SWModule moduleForNote;
                 if (!_lstModules.TryGetValue(strModule, out moduleForNote))
                 {
                     moduleForNote = _manager.getModule(strModule);
@@ -112,7 +112,6 @@ namespace OneStoryProjectEditor
             else if (action.Equals("showNote") && type.Contains("n") && !String.IsNullOrEmpty(strModule))
             {
                 // I'm imagining that the module of the note could be different from the module of the text
-                SWModule moduleForNote;
                 if (!_lstModules.TryGetValue(strModule, out moduleForNote))
                 {
                     moduleForNote = _manager.getModule(strModule);
@@ -123,7 +122,7 @@ namespace OneStoryProjectEditor
             else
             {
                 System.Diagnostics.Debug.Assert(false);
-                SetDisplayText("");
+                SetDisplayText(moduleForNote, "");
             }
 
             Show();
@@ -145,10 +144,10 @@ namespace OneStoryProjectEditor
             listValue = list.get(new SWBuf(NoteType));
             string strFootnote = listValue.get(new SWBuf("body")).c_str();
 
-            SetDisplayText(strFootnote);    // module.StripText(strFootnote));
+            SetDisplayText(module, strFootnote);    // module.StripText(strFootnote));
         }
 
-        internal void SetDisplayText(string text)
+        internal void SetDisplayText(SWModule module, string text)
 		{
 			//Used until I 
 			if (string.IsNullOrEmpty(text))
@@ -163,7 +162,14 @@ namespace OneStoryProjectEditor
             byte[] aby = Encoding.Default.GetBytes(text);
             text = Encoding.UTF8.GetString(aby);
 
-			//Display text in a web browser so we get Greek/Hebrew, etc.
+            if (module != null)
+            {
+                string strFontName, strModuleVersion = module.Name();
+                if (Program._mapSwordModuleToFont.TryGetValue(strModuleVersion, out strFontName))
+                    text = String.Format(NetBibleViewer.CstrAddFontFormat, text, strFontName);
+            }
+
+            //Display text in a web browser so we get Greek/Hebrew, etc.
             webBrowser.DocumentText = text; // .Replace("<br>", "\r\n").Replace("<br />", "\r\n");
 		}
 
