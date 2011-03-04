@@ -23,7 +23,7 @@ namespace OneStoryProjectEditor
             return String.Format(@"{0}.xml", AdaptItProjectFolderName(strSourceLangName, strTargetLangName));
         }
 
-        protected static string AdaptItLookupFileSpec(string strSourceLangName, string strTargetLangName)
+        public static string AdaptItLookupFileSpec(string strSourceLangName, string strTargetLangName)
         {
             return Path.Combine(AdaptItProjectFolder(strSourceLangName, strTargetLangName),
                 AdaptationFileName(strSourceLangName, strTargetLangName));
@@ -49,7 +49,7 @@ namespace OneStoryProjectEditor
             return Path.Combine(AdaptItWorkFolder, AdaptItProjectFolderName(strSourceLangName, strTargetLangName));
         }
 
-        protected static string AdaptItProjectAdaptationsFolder(string strSourceLangName, string strTargetLangName)
+        public static string AdaptItProjectAdaptationsFolder(string strSourceLangName, string strTargetLangName)
         {
             return Path.Combine(AdaptItProjectFolder(strSourceLangName, strTargetLangName),
                 "Adaptations");

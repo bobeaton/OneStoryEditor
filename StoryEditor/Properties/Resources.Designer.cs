@@ -1081,6 +1081,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to Send/Receive the AdaptIt project &apos;{1}&apos; from the requested server{0}{2}{0}{3}.
+        /// </summary>
+        internal static string IDS_UnableToConfigureSharedAiProject {
+            get {
+                return ResourceManager.GetString("IDS_UnableToConfigureSharedAiProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to continue! Cause: {0}.
         /// </summary>
         internal static string IDS_UnableToContinue {
