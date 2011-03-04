@@ -141,7 +141,7 @@ namespace OneStoryProjectEditor
                 System.Diagnostics.Debug.Assert(eProposedNextState == StoryStageLogic.ProjectStages.eProjFacTypeVernacular);
                 return true;
             }
-
+#if CheckForOneSentencePerLine
             // make sure that each verse has only one sentence
             bool bRepeatAfterMe = false;
             do
@@ -194,6 +194,7 @@ namespace OneStoryProjectEditor
                     bRepeatAfterMe = false; // if we get this far without a problem, then we haven't changed anything
                 }
             } while (bRepeatAfterMe);
+#endif
 
             // we need to know who (which UNS) did the BT (but only if we don't have a free tr,
             //  which otherwise is assumed to be the one that the UNS did). Might as well only
@@ -249,6 +250,7 @@ namespace OneStoryProjectEditor
                 return true;
             }
 
+#if CheckForOneSentencePerLine
             // make sure that each verse has only one sentence
             bool bRepeatAfterMe = false;
             do
@@ -309,6 +311,7 @@ namespace OneStoryProjectEditor
                     bRepeatAfterMe = false; // if we get this far without a problem, then we haven't changed anything
                 }
             } while (bRepeatAfterMe);
+#endif
 
             // if there's not a free translation and we haven't already figured it out, then
             //  query for the UNS who did the BT
@@ -347,6 +350,7 @@ namespace OneStoryProjectEditor
                 return true;
             }
 
+#if CheckForOneSentencePerLine
             // make sure that each verse has only one sentence
             bool bRepeatAfterMe = false;
             do
@@ -409,6 +413,7 @@ namespace OneStoryProjectEditor
                     bRepeatAfterMe = false; // if we get this far without a problem, then we haven't changed anything
                 }
             } while (bRepeatAfterMe);
+#endif
 
             // if we haven't already figured it out, then query for the UNS who did the BT
             if (String.IsNullOrEmpty(theCurrentStory.CraftingInfo.BackTranslatorMemberID))
