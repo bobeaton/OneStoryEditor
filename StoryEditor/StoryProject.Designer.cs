@@ -8411,7 +8411,6 @@ namespace OneStoryProjectEditor {
                 base.Columns.Add(this.columnVerse_Id);
                 this.columnlang.AllowDBNull = false;
                 this.columnlang.Namespace = "";
-                this.columnStoryLine_text.AllowDBNull = false;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -10177,7 +10176,6 @@ namespace OneStoryProjectEditor {
                 this.columnTestQuestion_Id = new global::System.Data.DataColumn("TestQuestion_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnTestQuestion_Id);
                 this.columnlang.Namespace = "";
-                this.columnTestQuestionLine_text.AllowDBNull = false;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -16255,7 +16253,12 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public string StoryLine_text {
                 get {
-                    return ((string)(this[this.tableStoryLine.StoryLine_textColumn]));
+                    try {
+                        return ((string)(this[this.tableStoryLine.StoryLine_textColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'StoryLine_text\' in table \'StoryLine\' is DBNull.", e);
+                    }
                 }
                 set {
                     this[this.tableStoryLine.StoryLine_textColumn] = value;
@@ -16285,6 +16288,16 @@ namespace OneStoryProjectEditor {
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["Verse_StoryLine"]);
                 }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsStoryLine_textNull() {
+                return this.IsNull(this.tableStoryLine.StoryLine_textColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetStoryLine_textNull() {
+                this[this.tableStoryLine.StoryLine_textColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -16841,7 +16854,13 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public string TestQuestionLine_text {
                 get {
-                    return ((string)(this[this.tableTestQuestionLine.TestQuestionLine_textColumn]));
+                    try {
+                        return ((string)(this[this.tableTestQuestionLine.TestQuestionLine_textColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TestQuestionLine_text\' in table \'TestQuestionLine\' is DBNul" +
+                                "l.", e);
+                    }
                 }
                 set {
                     this[this.tableTestQuestionLine.TestQuestionLine_textColumn] = value;
@@ -16881,6 +16900,16 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public void SetlangNull() {
                 this[this.tableTestQuestionLine.langColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsTestQuestionLine_textNull() {
+                return this.IsNull(this.tableTestQuestionLine.TestQuestionLine_textColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetTestQuestionLine_textNull() {
+                this[this.tableTestQuestionLine.TestQuestionLine_textColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

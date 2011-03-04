@@ -201,7 +201,8 @@ namespace OneStoryProjectEditor
 
             StoryLine = new LineData();
             foreach (NewDataSet.StoryLineRow aStoryLine in theVerseRow.GetStoryLineRows())
-                StoryLine.SetValue(aStoryLine.lang, aStoryLine.StoryLine_text);
+                StoryLine.SetValue(aStoryLine.lang,
+                    (aStoryLine.IsStoryLine_textNull()) ? null : aStoryLine.StoryLine_text);
 
             Anchors = new AnchorsData(theVerseRow, projFile);
             ExegeticalHelpNotes = new ExegeticalHelpNotesData(theVerseRow, projFile);

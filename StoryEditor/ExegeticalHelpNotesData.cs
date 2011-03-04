@@ -9,7 +9,9 @@ namespace OneStoryProjectEditor
     public class ExegeticalHelpNoteData : StringTransfer
     {
         public ExegeticalHelpNoteData(NewDataSet.ExegeticalHelpRow theExHelpNoteRow)
-            : base(theExHelpNoteRow.ExegeticalHelp_Column)
+            : base((theExHelpNoteRow.IsExegeticalHelp_ColumnNull())
+            ? null
+            : theExHelpNoteRow.ExegeticalHelp_Column)
         {
         }
 

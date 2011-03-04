@@ -152,7 +152,7 @@
 													<xs:element name="Verse" maxOccurs="unbounded">
 														<xs:complexType>
 															<xs:sequence>
-																<xs:element name="StoryLine" minOccurs="0" maxOccurs="unbounded">
+																<xs:element name="StoryLine" minOccurs="0" maxOccurs="unbounded" nillable="true">
 																	<xs:complexType>
 																		<xs:simpleContent>
 																			<xs:extension base="xs:string">
@@ -180,7 +180,7 @@
                                 <xs:element name="ExegeticalHelps" minOccurs="0" maxOccurs="1">
                                   <xs:complexType>
                                     <xs:sequence>
-                                      <xs:element name="ExegeticalHelp" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
+                                      <xs:element name="ExegeticalHelp" minOccurs="0" maxOccurs="unbounded" type="xs:string" nillable="true" />
                                     </xs:sequence>
                                   </xs:complexType>
                                 </xs:element>
@@ -190,7 +190,7 @@
 																			<xs:element name="TestQuestion" minOccurs="0" maxOccurs="unbounded">
 																				<xs:complexType>
 																					<xs:sequence>
-																						<xs:element name="TestQuestionLine" minOccurs="0" maxOccurs="unbounded">
+																						<xs:element name="TestQuestionLine" minOccurs="0" maxOccurs="unbounded" nillable="true">
                                               <xs:complexType>
                                                 <xs:simpleContent>
                                                   <xs:extension base="xs:string">

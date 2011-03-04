@@ -20,7 +20,10 @@ namespace OneStoryProjectEditor
 
             TestQuestionLine = new LineData();
             foreach (NewDataSet.TestQuestionLineRow aTqLine in theTestQuestionRow.GetTestQuestionLineRows())
-                TestQuestionLine.SetValue(aTqLine.lang, aTqLine.TestQuestionLine_text);
+                TestQuestionLine.SetValue(aTqLine.lang,
+                                          (aTqLine.IsTestQuestionLine_textNull())
+                                              ? null
+                                              : aTqLine.TestQuestionLine_text);
 
             Answers = new AnswersData(theTestQuestionRow, projFile);
         }
