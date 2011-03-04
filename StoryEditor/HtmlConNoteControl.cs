@@ -308,16 +308,18 @@ namespace OneStoryProjectEditor
 
         public bool TextareaOnKeyUp(string strId, string strText)
         {
-            StoryEditor theSE;
-            if (!CheckForProperEditToken(out theSE))
-                return false;
-
             int nVerseIndex, nConversationIndex, nDontCare;
             if (!GetIndicesFromId(strId, out nVerseIndex, out nConversationIndex, out nDontCare))
                 return false;
 
-            ConsultNoteDataConverter theCNDC = DataConverter(nVerseIndex, nConversationIndex);
+            ConsultNotesDataConverter theCNsDC = DataConverter(nVerseIndex);
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(theCNsDC, out theSE))
+                return false;
+
+            ConsultNoteDataConverter theCNDC = theCNsDC[nConversationIndex];
             System.Diagnostics.Debug.Assert((theCNDC != null) && (theCNDC.Count > 0));
+
             CommInstance aCI = theCNDC[theCNDC.Count - 1];
             aCI.SetValue(strText);
 
@@ -342,12 +344,13 @@ namespace OneStoryProjectEditor
             if (!GetIndicesFromId(strId, out nVerseIndex, out nConversationIndex, out nDontCare))
                 return false;
 
-            StoryEditor theSE;
-            if (!CheckForProperEditToken(out theSE))
-                return false;
-
             theCNsDC = DataConverter(nVerseIndex);
             System.Diagnostics.Debug.Assert((theCNsDC != null) && (theCNsDC.Count > nConversationIndex));
+
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(theCNsDC, out theSE))
+                return false;
+
             theCNDC = theCNsDC[nConversationIndex];
 
             // this always leads to the document being modified
@@ -356,7 +359,8 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        protected new bool CheckForProperEditToken(out StoryEditor theSE)
+        protected bool CheckForProperEditToken(ConsultNotesDataConverter theCNsDC, 
+            out StoryEditor theSE)
         {
             theSE = TheSE;  // (StoryEditor)FindForm();
             try
@@ -368,11 +372,16 @@ namespace OneStoryProjectEditor
                 if (!theSE.IsInStoriesSet)
                     throw theSE.CantEditOldStoriesEx;
 
+#if !JustMentorsCanAddNotesWhenNotTheirTurn
+                if (theCNsDC.HasAddNotePrivilege(theSE.LoggedOnMember.MemberType))
+                    return true;
+#else
                 if (((this is HtmlConsultantNotesControl) && (theSE.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eConsultantInTraining))
                     || ((this is HtmlCoachNotesControl) && (theSE.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eCoach)))
                 {
                     return true;
                 }
+#endif
 
                 theSE.LoggedOnMember.ThrowIfEditIsntAllowed(theSE.theCurrentStory.ProjStage.MemberTypeWithEditToken);
             }
@@ -391,7 +400,7 @@ namespace OneStoryProjectEditor
         {
             // the only function of the button here is to add a slot to type a con note
             StoryEditor theSE;
-            if (!CheckForProperEditToken(out theSE))
+            if (!CheckForProperEditToken(aCNsDC, out theSE))
                 return null;
 
             // if we're not given anything to put in the box, at least put in the logged

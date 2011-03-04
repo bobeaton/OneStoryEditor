@@ -129,14 +129,14 @@ namespace OneStoryProjectEditor
 
             // don't bother, though, if the user has ended the conversation
             if (IsFinished ||
-                (!IsMentorLoggedOn(LoggedOnMember) &&
+                (!IsMentorLoggedOn(LoggedOnMember) && !IsMenteeLoggedOn(LoggedOnMember) &&
                 !LoggedOnMember.IsEditAllowed(theStoryStage.MemberTypeWithEditToken)))
             {
                 return;
             }
 
             TeamMemberData.UserTypes eLoggedOnMember = LoggedOnMember.MemberType;
-            if (((eLoggedOnMember & eMentorType) == eLoggedOnMember) && ((Count == 0) || (this[Count - 1].Direction == MenteeDirection)))
+            if (((eLoggedOnMember & eMentorType) == eLoggedOnMember) && ((Count == 0) || (IsFromMentee(this[Count - 1]))))
                 Add(new CommInstance(strValue, MentorDirection, null, DateTime.Now));
             else if (((eLoggedOnMember & eMenteeType) == eLoggedOnMember) && ((Count == 0) || (this[Count - 1].Direction == MentorDirection)))
                 Add(new CommInstance(strValue, MenteeDirection, null, DateTime.Now));
@@ -151,6 +151,7 @@ namespace OneStoryProjectEditor
         }
         */
         protected abstract bool IsMentorLoggedOn(TeamMemberData loggedOnMember);
+        protected abstract bool IsMenteeLoggedOn(TeamMemberData loggedOnMember);
 
         protected virtual bool IsWrongEditor(TeamMemberData.UserTypes eLoggedOnMember, TeamMemberData.UserTypes eRequiredEditor)
         {
@@ -307,7 +308,8 @@ namespace OneStoryProjectEditor
         {
             return (i == (Count - 1))
                    && !IsFinished
-                   && (IsMentorLoggedOn(LoggedOnMember)
+                   && ((IsMentorLoggedOn(LoggedOnMember) && IsFromMentor(aCI))
+                    || (IsMenteeLoggedOn(LoggedOnMember) && IsFromMentee(aCI))
                     || LoggedOnMember.IsEditAllowed(theStoryStage.MemberTypeWithEditToken)
                        && ((IsFromMentor(aCI) && !IsWrongEditor(LoggedOnMember.MemberType, MentorRequiredEditor))
                            || (!IsFromMentor(aCI) && !IsWrongEditor(LoggedOnMember.MemberType, MenteeRequiredEditor))));
@@ -329,11 +331,16 @@ namespace OneStoryProjectEditor
             return ((aCI.Direction == MentorDirection) || IsMyNoteToSelf(aCI));
         }
 
-        readonly Regex regexBibRef = new Regex(@"\b(([a-zA-Z]{3,4}|[1-3][a-zA-Z]{2,5}) \d{1,3}:\d{1,3})\b", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
-        readonly Regex regexLineRef = new Regex(@"\b((Ln|ln|line) ([1-9][0-9]?))\b", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
-        readonly Regex regexItalics = new Regex(@"\*\b(.+?)\b\*", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
-        // readonly Regex regexHttpRef = new Regex(@"\b(http://.*?)[ .!:)]", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
-        readonly Regex regexHttpRef = new Regex(@"((http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?)", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
+        public bool IsFromMentee(CommInstance aCI)
+        {
+            // it is from the mentor if if it has the mentor's direction or is a note to self
+            return (aCI.Direction == MenteeDirection);
+        }
+
+        readonly static Regex RegexBibRef = new Regex(@"\b(([a-zA-Z]{3,4}|[1-3][a-zA-Z]{2,5}) \d{1,3}:\d{1,3})\b", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
+        readonly static Regex RegexLineRef = new Regex(@"\b((Ln|ln|line) ([1-9][0-9]?))\b", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
+        readonly static Regex RegexItalics = new Regex(@"\*\b(.+?)\b\*", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
+        readonly static Regex RegexHttpRef = new Regex(@"((http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?)", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
 
         public string Html(object htmlConNoteCtrl, 
             StoryStageLogic theStoryStage, 
@@ -442,10 +449,10 @@ namespace OneStoryProjectEditor
                     if (aCI.HasData)
                     {
                         strHyperlinkedText = aCI.ToString().Replace("\r\n", "<br />");   // regexParagraph.Replace(aCI.ToString(), ParagraphFound);
-                        strHyperlinkedText = regexBibRef.Replace(strHyperlinkedText, BibleReferenceFound);
-                        strHyperlinkedText = regexLineRef.Replace(strHyperlinkedText, LineReferenceFound);
-                        strHyperlinkedText = regexItalics.Replace(strHyperlinkedText, EmphasizedTextFound);
-                        strHyperlinkedText = regexHttpRef.Replace(strHyperlinkedText, HttpReferenceFound);
+                        strHyperlinkedText = RegexBibRef.Replace(strHyperlinkedText, BibleReferenceFound);
+                        strHyperlinkedText = RegexLineRef.Replace(strHyperlinkedText, LineReferenceFound);
+                        strHyperlinkedText = RegexItalics.Replace(strHyperlinkedText, EmphasizedTextFound);
+                        strHyperlinkedText = RegexHttpRef.Replace(strHyperlinkedText, HttpReferenceFound);
                     }
 
                     strRow += String.Format(OseResources.Properties.Resources.HTML_TableCellWidth, 100,
@@ -589,7 +596,13 @@ namespace OneStoryProjectEditor
         protected override bool IsMentorLoggedOn(TeamMemberData loggedOnMember)
         {
             return ((loggedOnMember.MemberType == TeamMemberData.UserTypes.eConsultantInTraining) ||
-                    (loggedOnMember.MemberType == TeamMemberData.UserTypes.eIndependentConsultant));
+                    (loggedOnMember.MemberType == TeamMemberData.UserTypes.eIndependentConsultant) ||
+                    (loggedOnMember.MemberType == TeamMemberData.UserTypes.eFirstPassMentor));
+        }
+
+        protected override bool IsMenteeLoggedOn(TeamMemberData loggedOnMember)
+        {
+            return (loggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator);
         }
 
         protected override bool IsWrongEditor(TeamMemberData.UserTypes eLoggedOnMember, TeamMemberData.UserTypes eRequiredEditor)
@@ -719,6 +732,12 @@ namespace OneStoryProjectEditor
         protected override bool IsMentorLoggedOn(TeamMemberData loggedOnMember)
         {
             return (loggedOnMember.MemberType == TeamMemberData.UserTypes.eCoach);
+        }
+
+        protected override bool IsMenteeLoggedOn(TeamMemberData loggedOnMember)
+        {
+            return ((loggedOnMember.MemberType == TeamMemberData.UserTypes.eConsultantInTraining) ||
+                    (loggedOnMember.MemberType == TeamMemberData.UserTypes.eIndependentConsultant));
         }
 
         public override CommunicationDirections MenteeDirection
