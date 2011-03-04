@@ -765,5 +765,27 @@ namespace OneStoryProjectEditor.Properties {
                 this["CommentaryLastIndex"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>HINDI</string>
+  <string>Arial Unicode MS</string>
+  <string>HINWBTC</string>
+  <string>Arial Unicode MS</string>
+  <string>XNR</string>
+  <string>Arial Unicode MS</string>
+  <string>FarsiOPV</string>
+  <string>Nafees Nastaleeq</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection SwordModuleToFont {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["SwordModuleToFont"]));
+            }
+            set {
+                this["SwordModuleToFont"] = value;
+            }
+        }
     }
 }

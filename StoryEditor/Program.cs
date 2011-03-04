@@ -179,6 +179,7 @@ namespace OneStoryProjectEditor
             _mapProjectNameToAiHgNetworkUrl = ArrayToDictionary(Properties.Settings.Default.ProjectNameToAiHgNetworkUrl);
 
             _mapServerToUrl = ArrayToDictionary(Properties.Settings.Default.AdaptItDefaultServerLabels);
+            _mapSwordModuleToFont = ArrayToDictionary(Properties.Settings.Default.SwordModuleToFont);
         }
 
         private static void SetupErrorHandling()
@@ -197,6 +198,7 @@ namespace OneStoryProjectEditor
         static Dictionary<string, string> _mapProjectNameToAiHgHttpUrl;
         static Dictionary<string, string> _mapProjectNameToAiHgNetworkUrl;
         public static Dictionary<string, string> _mapServerToUrl;
+        public static Dictionary<string, string> _mapSwordModuleToFont;
         
         private const string CstrInternetName = "Internet";
         private const string CstrNetworkDriveName = "Network Drive";
