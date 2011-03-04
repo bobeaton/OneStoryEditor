@@ -78,12 +78,23 @@ namespace OneStoryProjectEditor
                     strTimeInState += String.Format("{0} hours, ", ts.Hours);
                 strTimeInState += String.Format("{0} minutes", ts.Minutes);
 
+                string strWhoHasEditToken =
+                    _storyProject.TeamMembers.GetMemberTypeAsDisplayString(aSD.ProjStage.MemberTypeWithEditToken);
+
+                if (strWhoHasEditToken == TeamMemberData.CstrProjectFacilitatorDisplay)
+                {
+                    strWhoHasEditToken = String.Format("{0} ({1})",
+                                                       strWhoHasEditToken,
+                                                       _storyProject.TeamMembers.GetNameFromMemberId(
+                                                           aSD.CraftingInfo.ProjectFacilitatorMemberID));
+                }
+
                 StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[aSD.ProjStage.ProjectStage];
                 object[] aObs = new object[]
                 {   
                     aSD.Name, 
                     aSD.CraftingInfo.StoryPurpose, 
-                    TeamMemberData.GetMemberTypeAsDisplayString(aSD.ProjStage.MemberTypeWithEditToken), 
+                    strWhoHasEditToken, 
                     st.StageDisplayString, 
                     strTimeInState,
                     aSD.NumOfLines,

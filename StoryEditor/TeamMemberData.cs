@@ -39,7 +39,7 @@ namespace OneStoryProjectEditor
         protected const string CstrFirstPassMentorDisplay = "First Pass Mentor";
         internal const string CstrConsultantInTrainingDisplay = "Consultant in Training";
         internal const string CstrIndependentConsultantDisplay = "Consultant";
-        protected const string CstrProjectFacilitatorDisplay = "Project Facilitator";
+        internal const string CstrProjectFacilitatorDisplay = "Project Facilitator";
         
         public string Name;
         public UserTypes MemberType = UserTypes.eUndefined;
@@ -649,6 +649,17 @@ namespace OneStoryProjectEditor
 #else
             return DialogResult.OK;
 #endif
+        }
+
+        // hack to work-around the fact that the file says it's a CIT, but in reality
+        //  it's an IC
+        public string GetMemberTypeAsDisplayString(TeamMemberData.UserTypes eMemberType)
+        {
+            if ((((eMemberType & TeamMemberData.UserTypes.eConsultantInTraining) == TeamMemberData.UserTypes.eConsultantInTraining))
+                && HasIndependentConsultant)
+                eMemberType = TeamMemberData.UserTypes.eIndependentConsultant;
+
+            return TeamMemberData.GetMemberTypeAsDisplayString(eMemberType);
         }
     }
 }
