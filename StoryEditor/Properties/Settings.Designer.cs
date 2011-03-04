@@ -787,5 +787,125 @@ namespace OneStoryProjectEditor.Properties {
                 this["SwordModuleToFont"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 192, 0")]
+        public global::System.Drawing.Color TQVernacularColor {
+            get {
+                return ((global::System.Drawing.Color)(this["TQVernacularColor"]));
+            }
+            set {
+                this["TQVernacularColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 192, 0")]
+        public global::System.Drawing.Color TQNationalBtColor {
+            get {
+                return ((global::System.Drawing.Color)(this["TQNationalBtColor"]));
+            }
+            set {
+                this["TQNationalBtColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 192, 0")]
+        public global::System.Drawing.Color TQInternationalBtColor {
+            get {
+                return ((global::System.Drawing.Color)(this["TQInternationalBtColor"]));
+            }
+            set {
+                this["TQInternationalBtColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("192, 0, 192")]
+        public global::System.Drawing.Color RetellingVernacularColor {
+            get {
+                return ((global::System.Drawing.Color)(this["RetellingVernacularColor"]));
+            }
+            set {
+                this["RetellingVernacularColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("192, 0, 192")]
+        public global::System.Drawing.Color RetellingNationalBtColor {
+            get {
+                return ((global::System.Drawing.Color)(this["RetellingNationalBtColor"]));
+            }
+            set {
+                this["RetellingNationalBtColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("192, 0, 192")]
+        public global::System.Drawing.Color RetellingInternationalBtColor {
+            get {
+                return ((global::System.Drawing.Color)(this["RetellingInternationalBtColor"]));
+            }
+            set {
+                this["RetellingInternationalBtColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("192, 0, 0")]
+        public global::System.Drawing.Color AnswersVernacularColor {
+            get {
+                return ((global::System.Drawing.Color)(this["AnswersVernacularColor"]));
+            }
+            set {
+                this["AnswersVernacularColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("192, 0, 0")]
+        public global::System.Drawing.Color AnswersNationalBtColor {
+            get {
+                return ((global::System.Drawing.Color)(this["AnswersNationalBtColor"]));
+            }
+            set {
+                this["AnswersNationalBtColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("192, 0, 0")]
+        public global::System.Drawing.Color AnswersInternationalBtColor {
+            get {
+                return ((global::System.Drawing.Color)(this["AnswersInternationalBtColor"]));
+            }
+            set {
+                this["AnswersInternationalBtColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 192, 192")]
+        public global::System.Drawing.Color ExegeticalHelpNoteColor {
+            get {
+                return ((global::System.Drawing.Color)(this["ExegeticalHelpNoteColor"]));
+            }
+            set {
+                this["ExegeticalHelpNoteColor"] = value;
+            }
+        }
     }
 }

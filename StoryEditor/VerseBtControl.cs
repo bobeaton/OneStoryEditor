@@ -166,7 +166,10 @@ namespace OneStoryProjectEditor
                                                        aRetellingsData, projSettings, astrTestors,
                                                        projSettings.ShowRetellingVernacular,
                                                        projSettings.ShowRetellingNationalBT,
-                                                       projSettings.ShowRetellingInternationalBT)
+                                                       projSettings.ShowRetellingInternationalBT,
+                                                       Settings.Default.RetellingVernacularColor,
+                                                       Settings.Default.RetellingNationalBtColor,
+                                                       Settings.Default.RetellingInternationalBtColor)
                                       {Name = CstrFieldNameRetellings, ParentControl = this};
 
             InsertRow(nLayoutRow);

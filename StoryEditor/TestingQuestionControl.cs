@@ -1,6 +1,7 @@
 ﻿// rde: removing lable row to save pixels
 // #define ShowLabelRow
 
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
@@ -71,7 +72,8 @@ namespace OneStoryProjectEditor
                     ctrlTextBoxVernacular = InitTextBox(ctrlVerse, CstrFieldNameVernacular, 
                         _aTQData.TestQuestionLine.Vernacular,
                         theSE.StoryProject.ProjSettings.Vernacular, nNumColumns,
-                        StoryEditor.TextFieldType.eVernacular);
+                        StoryEditor.TextFieldType.eVernacular,
+                        Properties.Settings.Default.TQVernacularColor);
                     nNumColumns++;
                 }
 
@@ -94,7 +96,8 @@ namespace OneStoryProjectEditor
                     ctrlTextBoxNationalBT = InitTextBox(ctrlVerse, CstrFieldNameNationalBt,
                         _aTQData.TestQuestionLine.NationalBt, 
                         theSE.StoryProject.ProjSettings.NationalBT, nNumColumns,
-                        StoryEditor.TextFieldType.eNational);
+                        StoryEditor.TextFieldType.eNational,
+                        Properties.Settings.Default.TQNationalBtColor);
                     nNumColumns++;
 
                     if (ctrlTextBoxVernacular != null)
@@ -117,7 +120,8 @@ namespace OneStoryProjectEditor
                         InitColumnLabel(theSE.StoryProject.ProjSettings.InternationalBT.LangName, nNumColumns);
                     CtrlTextBox ctrlTextBoxEnglishBT = InitTextBox(ctrlVerse, CstrFieldNameVernacular, _aTQData.TestQuestionLine.InternationalBt,
                         theSE.StoryProject.ProjSettings.InternationalBT, nNumColumns,
-                        StoryEditor.TextFieldType.eInternational);
+                        StoryEditor.TextFieldType.eInternational,
+                        Properties.Settings.Default.TQInternationalBtColor);
                     nNumColumns++;
 
                     if (ctrlTextBoxVernacular != null)
@@ -138,7 +142,10 @@ namespace OneStoryProjectEditor
                     theSE.theCurrentStory.CraftingInfo.Testors,
                     theSE.StoryProject.ProjSettings.ShowAnswersVernacular,
                     theSE.StoryProject.ProjSettings.ShowAnswersNationalBT,
-                    theSE.StoryProject.ProjSettings.ShowAnswersInternationalBT);
+                    theSE.StoryProject.ProjSettings.ShowAnswersInternationalBT,
+                    Properties.Settings.Default.AnswersVernacularColor,
+                    Properties.Settings.Default.AnswersNationalBtColor,
+                    Properties.Settings.Default.AnswersInternationalBtColor);
                 aAnswersCtrl.Name = CstrFieldNameAnswers;
                 aAnswersCtrl.ParentControl = this;
 
@@ -176,10 +183,10 @@ namespace OneStoryProjectEditor
 
         protected CtrlTextBox InitTextBox(VerseControl ctrlVerse, string strTbName, 
             StringTransfer strTbText, ProjectSettings.LanguageInfo li, int nLayoutColumn, 
-            StoryEditor.TextFieldType eFieldtype)
+            StoryEditor.TextFieldType eFieldtype, Color clrFont)
         {
             var tb = new CtrlTextBox(strTbName + CstrSuffixTextBox, ctrlVerse, this,
-                strTbText, li, CstrTestQuestionsLabelFormat, true, eFieldtype);
+                strTbText, li, CstrTestQuestionsLabelFormat, true, eFieldtype, clrFont);
 #if ShowLabelRow
             tableLayoutPanel.Controls.Add(tb, nLayoutColumn, 1);
 #else

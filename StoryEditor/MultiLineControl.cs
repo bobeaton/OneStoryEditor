@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
@@ -8,7 +9,8 @@ namespace OneStoryProjectEditor
     {
         public MultiLineControl(VerseBtControl ctrlVerse, StoryStageLogic storyStageLogic, 
             MultipleLineDataConverter aMLDC, ProjectSettings projSettings, List<string> astrTestors,
-            bool bShowVernacular, bool bShowNationalBT, bool bShowInternationalBT)
+            bool bShowVernacular, bool bShowNationalBT, bool bShowInternationalBT,
+            Color clrVernacular, Color clrNationalBt, Color clrInternationalBt)
             : base(storyStageLogic)
         {
             InitializeComponent();
@@ -44,7 +46,8 @@ namespace OneStoryProjectEditor
                     ctrlTextBoxVernacular = InitTextBox(ctrlVerse, LineData.CstrAttributeLangVernacular,
                                                         aLineData.Vernacular, projSettings.Vernacular,
                                                         nNumColumns, nNumRows, 
-                                                        StoryEditor.TextFieldType.eVernacular);
+                                                        StoryEditor.TextFieldType.eVernacular,
+                                                        clrVernacular);
                     nNumColumns++;
                 }
 
@@ -57,7 +60,8 @@ namespace OneStoryProjectEditor
                     ctrlTextBoxNationalBT = InitTextBox(ctrlVerse, LineData.CstrAttributeLangNationalBt,
                                                         aLineData.NationalBt, projSettings.NationalBT,
                                                         nNumColumns, nNumRows, 
-                                                        StoryEditor.TextFieldType.eNational);
+                                                        StoryEditor.TextFieldType.eNational,
+                                                        clrNationalBt);
                     nNumColumns++;
 
                     if (ctrlTextBoxVernacular != null)
@@ -71,7 +75,8 @@ namespace OneStoryProjectEditor
                     CtrlTextBox ctrlTextBoxEnglishBT = InitTextBox(ctrlVerse, LineData.CstrAttributeLangInternationalBt,
                                                         aLineData.InternationalBt, projSettings.InternationalBT,
                                                         nNumColumns, nNumRows, 
-                                                        StoryEditor.TextFieldType.eInternational);
+                                                        StoryEditor.TextFieldType.eInternational,
+                                                        clrInternationalBt);
                     nNumColumns++;
 
                     if (ctrlTextBoxVernacular != null)
@@ -87,13 +92,13 @@ namespace OneStoryProjectEditor
         }
 
         protected CtrlTextBox InitTextBox(VerseControl ctrlVerse, string strTbName, 
-            StringTransfer strTbText, ProjectSettings.LanguageInfo li, int nLayoutColumn, 
-            int nLayoutRow, StoryEditor.TextFieldType eFieldType)
+            StringTransfer strTbText, ProjectSettings.LanguageInfo li, int nLayoutColumn,
+            int nLayoutRow, StoryEditor.TextFieldType eFieldType, Color clrFont)
         {
             string strTextBoxName = strTbName + CstrSuffixTextBox + nLayoutRow + nLayoutColumn;
             System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(strTextBoxName), "otherwise, fix wrong assumption");
             var tb = new CtrlTextBox(strTextBoxName, ctrlVerse, this,
-                strTbText, li, li.LangCode, eFieldType);
+                strTbText, li, li.LangCode, eFieldType, clrFont);
             tableLayoutPanel.Controls.Add(tb, nLayoutColumn, nLayoutRow);
             return tb;
         }

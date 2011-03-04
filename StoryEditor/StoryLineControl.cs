@@ -173,7 +173,7 @@ namespace OneStoryProjectEditor
         {
             System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(strTbName + CstrSuffixTextBox), "otherwise, fix wrong assumption");
             CtrlTextBox tb = new CtrlTextBox(strTbName + CstrSuffixTextBox, ctrlVerse, this,
-                strTbText, li, li.LangCode, eFieldType);
+                strTbText, li, li.LangCode, eFieldType, li.FontColor);
             tb.TabStop = !bDisableTabStop;
 #if ShowLabelRow
             tableLayoutPanel.Controls.Add(tb, nLayoutColumn, 1);

@@ -57,30 +57,31 @@ namespace OneStoryProjectEditor
         public CtrlTextBox(string strName, VerseControl ctrlVerseParent, 
             ResizableControl ctrlParent, StringTransfer stData, 
             ProjectSettings.LanguageInfo li, string strLabel, bool bAddTqFlag,
-            StoryEditor.TextFieldType eFieldType)
+            StoryEditor.TextFieldType eFieldType, Color clrFont)
         {
             InitComponent(bAddTqFlag);
-            Init(strName, strLabel, li, stData, ctrlParent, ctrlVerseParent, eFieldType);
+            Init(strName, strLabel, li, stData, ctrlParent, ctrlVerseParent, eFieldType, clrFont);
         }
 
         public CtrlTextBox(string strName, VerseControl ctrlVerseParent, 
             ResizableControl ctrlParent, StringTransfer stData,
             ProjectSettings.LanguageInfo li, string strLabel,
-            StoryEditor.TextFieldType eFieldType)
+            StoryEditor.TextFieldType eFieldType, Color clrFont)
         {
             InitComponent(false);
-            Init(strName, strLabel, li, stData, ctrlParent, ctrlVerseParent, eFieldType);
+            Init(strName, strLabel, li, stData, ctrlParent, ctrlVerseParent, eFieldType,
+                clrFont);
         }
 
         private void Init(string strName, string strLabel, ProjectSettings.LanguageInfo li, 
             StringTransfer stData, ResizableControl ctrlParent, VerseControl ctrlVerseParent,
-            StoryEditor.TextFieldType eFieldType)
+            StoryEditor.TextFieldType eFieldType, Color clrFont)
         {
             Name = strName;
             _strLabel = strLabel;
             _strLangName = li.LangName;
             Font = li.FontToUse;
-            ForeColor = li.FontColor;
+            ForeColor = clrFont;
             BorderStyle = BorderStyle.FixedSingle;
             // BackColor = SystemColors.ButtonFace;
             if (li.DoRtl)
