@@ -1,4 +1,14 @@
-﻿Can I add spelling check?
+﻿check for loss of Retelling and Answers
+
+disable auto-save timeout when *any* messageBox is up.
+
+right-click on Project Facilitator in Story Information should pick PFs; not UNSs
+
+don't allow Line 0 (in Move Items) for TQs, CNs, etc.
+
+can't unview Story Testing Questions in the "Add Story Testing Question" state
+
+Can I add spelling check?
 
 in settings dialog, if a tab is clicked, then do 'Next'
 

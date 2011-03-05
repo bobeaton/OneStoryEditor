@@ -50,7 +50,7 @@ namespace OneStoryProjectEditor
         internal Timer myFocusTimer = new Timer();
         internal static Timer mySaveTimer = new Timer();
 
-        private const int CnIntervalBetweenAutoSaveReqs = 5 * 1000 * 60;
+        private const int CnIntervalBetweenAutoSaveReqs = 5000;
         protected DateTime tmLastSync = DateTime.Now;
         protected TimeSpan tsBackupTime = new TimeSpan(1, 0, 0);
 
@@ -136,6 +136,8 @@ namespace OneStoryProjectEditor
                 }
             }
         }
+
+        public static bool SuspendSaveDialog;
         protected TimeSpan tsLastKeyPressDelay = new TimeSpan(0, 0, CnSecondsToDelyLastKeyPress);
 
         private void TimeToSave(object sender, EventArgs e)
@@ -147,7 +149,8 @@ namespace OneStoryProjectEditor
                         && (LoggedOnMember.MemberType == TeamMemberData.UserTypes.eJustLooking)))
             {
                 // don't do it *now* if the user is typing
-                if ((DateTime.Now - LastKeyPressedTimeStamp) < tsLastKeyPressDelay)
+                if (SuspendSaveDialog ||
+                    (DateTime.Now - LastKeyPressedTimeStamp) < tsLastKeyPressDelay)
                 {
                     // wait at least 3 secs from the last key press
                     mySaveTimer.Interval = CnSecondsToDelyLastKeyPress * 1000;
@@ -175,7 +178,7 @@ namespace OneStoryProjectEditor
             get
             {
                 Debug.Assert((StoryProject != null) && !String.IsNullOrEmpty(_strStoriesSet) && (StoryProject[_strStoriesSet] != null));
-                return StoryProject[_strStoriesSet];
+                return (StoryProject == null) ? null : StoryProject[_strStoriesSet];
             }
         }
 

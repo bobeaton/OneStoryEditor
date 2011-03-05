@@ -28,13 +28,13 @@ namespace OneStoryProjectEditor
         {
             Top = 0;
             if (_bSuspendSaveTimer)
-                StoryEditor.mySaveTimer.Stop();
+                StoryEditor.SuspendSaveDialog = true;
         }
 
         private void TopForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             if (_bSuspendSaveTimer)
-                StoryEditor.mySaveTimer.Start();
+                StoryEditor.SuspendSaveDialog = false;
         }
     }
 }
