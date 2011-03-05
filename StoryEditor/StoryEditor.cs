@@ -809,7 +809,10 @@ namespace OneStoryProjectEditor
                 return;
 
             // query for the crafter
-            MemberPicker dlg = new MemberPicker(StoryProject, TeamMemberData.UserTypes.eCrafter);
+            MemberPicker dlg = new MemberPicker(StoryProject, TeamMemberData.UserTypes.eCrafter)
+            {
+                Text = "Choose the crafter that crafted this story"
+            };
             dlg.Text = Properties.Resources.IDS_ChooseTheStoryCrafter;
             if ((dlg.ShowDialog() != DialogResult.OK) || (dlg.SelectedMember == null))
                 return;

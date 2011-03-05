@@ -72,20 +72,28 @@ namespace OneStoryProjectEditor
 
         private void buttonBrowserForProjectFacilitator_MouseUp(object sender, MouseEventArgs e)
         {
-            HandleMouseUp(e.Button == MouseButtons.Right, textBoxProjectFacilitator);
+            HandleMouseUp(e.Button == MouseButtons.Right, textBoxProjectFacilitator,
+                TeamMemberData.UserTypes.eProjectFacilitator, 
+                "Choose the Project Facilitator for this story");
         }
 
         private void buttonBrowseForStoryCrafter_MouseUp(object sender, MouseEventArgs e)
         {
-            HandleMouseUp(e.Button == MouseButtons.Right, textBoxStoryCrafter);
+            HandleMouseUp(e.Button == MouseButtons.Right, textBoxStoryCrafter,
+                TeamMemberData.UserTypes.eCrafter,
+                "Choose the crafter for this story");
         }
 
-        protected void HandleMouseUp(bool bRightButton, TextBox textBox)
+        protected void HandleMouseUp(bool bRightButton, TextBox textBox,
+            TeamMemberData.UserTypes eType, string strPickerTitleDescription)
         {
-            TeamMemberData theTeamMember = null;
+            TeamMemberData theTeamMember;
             if (bRightButton)
             {
-                MemberPicker dlg = new MemberPicker(_theStoryProjectData, TeamMemberData.UserTypes.eCrafter);
+                var dlg = new MemberPicker(_theStoryProjectData, eType)
+                {
+                    Text = strPickerTitleDescription
+                };
                 if (dlg.ShowDialog() != DialogResult.OK)
                     return;
                 theTeamMember = dlg.SelectedMember;
@@ -118,7 +126,9 @@ namespace OneStoryProjectEditor
 
         private void buttonBrowseUNSBackTranslator_MouseUp(object sender, MouseEventArgs e)
         {
-            HandleMouseUp(e.Button == MouseButtons.Right, textBoxUnsBackTranslator);
+            HandleMouseUp(e.Button == MouseButtons.Right, textBoxUnsBackTranslator,
+                TeamMemberData.UserTypes.eUNS,
+                "Choose the back-translator for this story");
 
 #if false   // obsolete (I think)
             TeamMemberData aUns = SelectedUnsMember();
@@ -130,7 +140,8 @@ namespace OneStoryProjectEditor
 
         private void buttonBrowseUnsTest1_MouseUp(object sender, MouseEventArgs e)
         {
-            HandleMouseUp(false, textBoxUnsTest1);
+            HandleMouseUp(false, textBoxUnsTest1, TeamMemberData.UserTypes.eUNS,
+                "Choose the UNS that took this test");
 
 #if false   // obsolete (I think)
             TeamMemberData aUns = SelectedUnsMember();
@@ -142,7 +153,8 @@ namespace OneStoryProjectEditor
 
         private void buttonBrowseUnsTest2_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            HandleMouseUp(false, textBoxUnsTest2);
+            HandleMouseUp(false, textBoxUnsTest2, TeamMemberData.UserTypes.eUNS,
+                "Choose the UNS that took this test");
 
 #if false   // obsolete (I think)
             TeamMemberData aUns = SelectedUnsMember();
@@ -154,7 +166,8 @@ namespace OneStoryProjectEditor
 
         private void buttonBrowseUnsTest3_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            HandleMouseUp(false, textBoxUnsTest3);
+            HandleMouseUp(false, textBoxUnsTest3, TeamMemberData.UserTypes.eUNS,
+                "Choose the UNS that took this test");
 
 #if false   // obsolete (I think)
             TeamMemberData aUns = SelectedUnsMember();
