@@ -28,17 +28,20 @@ namespace OneStoryProjectEditor
 
         public override void AddXml(XElement elem, string strFieldName)
         {
-            if (!Vernacular.IsNull)
+            // Can't not write these! The only thing we could do is decide on the basis
+            //  of whether there project settings say to save in retelling or not, so 
+            //  until we decide to pass that information around, just write them all
+            // if (!Vernacular.IsNull)
                 elem.Add(new XElement(strFieldName,
                     new XAttribute(CstrAttributeLang, CstrAttributeLangVernacular),
                     new XAttribute(CstrAttributeMemberID, MemberId),
                     Vernacular.ToString()));
-            if (!NationalBt.IsNull)
+            // if (!NationalBt.IsNull)
                 elem.Add(new XElement(strFieldName,
                     new XAttribute(CstrAttributeLang, CstrAttributeLangNationalBt),
                     new XAttribute(CstrAttributeMemberID, MemberId),
                     NationalBt.ToString()));
-            if (!InternationalBt.IsNull)
+            // if (!InternationalBt.IsNull)
                 elem.Add(new XElement(strFieldName,
                     new XAttribute(CstrAttributeLang, CstrAttributeLangInternationalBt),
                     new XAttribute(CstrAttributeMemberID, MemberId),
