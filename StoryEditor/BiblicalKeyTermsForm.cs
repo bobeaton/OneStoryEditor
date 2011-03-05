@@ -134,7 +134,7 @@ namespace OneStoryProjectEditor
             if (visibleTerms.Count == 0)
             {
                 progressBarLoadingKeyTerms.Visible = false;
-                MessageBox.Show(Localizer.Str("There are no Biblical Terms in this verse(s)."));
+                MessageBox.Show(Localizer.Str("There are no Biblical Terms in this line(s)."));
                 return;
             }
 

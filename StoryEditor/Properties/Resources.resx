@@ -241,7 +241,7 @@
     <value>..\Resources\Arrow.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="IDS_ErrorInAdaptation" xml:space="preserve">
-    <value>"The data from Adapt It doesn't appear to match what's in the story.{0}In verse number {3}, I was expecting \"{4}\", but got \"{5}\" instead.{0}If you've made changes in the {1} or the {2} back-translation, then you need to do the back-translation in Adapt It again."</value>
+    <value>"The data from Adapt It doesn't appear to match what's in the story.{0}In line number {3}, I was expecting \"{4}\", but got \"{5}\" instead.{0}If you've made changes in the {1} or the {2} back-translation, then you need to do the back-translation in Adapt It again."</value>
   </data>
   <data name="IDS_NoProjectFromInternet" xml:space="preserve">
     <value>No project file was found at the internet repository: {0}{0}{1}{0}{0}Are you sure it there is one in the repository yet?</value>
@@ -253,7 +253,7 @@
     <value>Are you sure you want to change this member's name? [If you are trying to add a new member, then do it through the 'Project', 'Login' window instead. Clicking 'Yes' here will permanently remove the record for '{0}' and replace it with this new information for '{1}']</value>
   </data>
   <data name="IDS_UseStoryCollapse" xml:space="preserve">
-    <value>Verse number '{0}' has multiple sentences in the {1} column. Use the "Story" menu, "Collapse into 1 line" command followed by the "Split into Lines" command to break the story (and any back-translations) into lines based on sentence final punctuation (see "Project", "Settings" and any of the "Language" tabs to configure sentence final punctuation). The command "Story", "Re-align story lines" can also be used, which calls both of the above commands in one click</value>
+    <value>Line number '{0}' has multiple sentences in the {1} column. Use the "Story" menu, "Collapse into 1 line" command followed by the "Split into Lines" command to break the story (and any back-translations) into lines based on sentence final punctuation (see "Project", "Settings" and any of the "Language" tabs to configure sentence final punctuation). The command "Story", "Re-align story lines" can also be used, which calls both of the above commands in one click</value>
   </data>
   <data name="IDS_ConfirmDeleteAllVerseLines" xml:space="preserve">
     <value>Are you sure you want to delete the {0}?</value>
@@ -319,7 +319,7 @@ of the team before overwriting a list</value>
     <value>Unable to open the member list{0}{0}{1}{0}{0}Contact bob_eaton@sall.com for help</value>
   </data>
   <data name="IDS_DeleteVerseQuery" xml:space="preserve">
-    <value>Are you sure you want to delete this verse (and all associated consultant notes, etc)?</value>
+    <value>Are you sure you want to delete this line (and all associated consultant notes, etc)?</value>
   </data>
   <data name="IDS_WarnAboutNoInternet" xml:space="preserve">
     <value>This program uses the internet to update itself and download the latest versions of the project file(s). Please connect to the Internet.</value>
@@ -1903,7 +1903,7 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
     <value>Click 'Ignore' to overwrite the existing 'My Biblical Terms' list with the contents of the '{0}' list. Otherwise, click 'Retry' to merge the contents of the '{0}' list into the existing 'My Biblical Terms' list.</value>
   </data>
   <data name="IDS_VerseNotEmptyHideQuery" xml:space="preserve">
-    <value>This verse isn't empty! Instead of deleting it, it would be better to just hide it so it will be left around to know what it used to be. Would you like to hide it instead?</value>
+    <value>This line isn't empty! Instead of deleting it, it would be better to just hide it so it will be left around to know what it used to be.{0}{0}Would you like to hide it instead?</value>
   </data>
   <data name="IDS_SaveChanges" xml:space="preserve">
     <value>Would you like to save changes?</value>

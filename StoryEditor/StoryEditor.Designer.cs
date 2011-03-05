@@ -454,36 +454,36 @@ namespace OneStoryProjectEditor
             // 
             this.deleteStoryVersesToolStripMenuItem.Name = "deleteStoryVersesToolStripMenuItem";
             this.deleteStoryVersesToolStripMenuItem.Size = new System.Drawing.Size(318, 22);
-            this.deleteStoryVersesToolStripMenuItem.Text = "&Story (all verses)";
+            this.deleteStoryVersesToolStripMenuItem.Text = "&Story (all lines)";
             this.deleteStoryVersesToolStripMenuItem.ToolTipText = "Delete the contents of all of the text boxes of the story in the story language (" +
-                "the verses will remain, but just be emptied)";
+                "the lines will remain, but just be emptied)";
             this.deleteStoryVersesToolStripMenuItem.Click += new System.EventHandler(this.deleteStoryVersesToolStripMenuItem_Click);
             // 
             // deleteStoryNationalBackTranslationToolStripMenuItem
             // 
             this.deleteStoryNationalBackTranslationToolStripMenuItem.Name = "deleteStoryNationalBackTranslationToolStripMenuItem";
             this.deleteStoryNationalBackTranslationToolStripMenuItem.Size = new System.Drawing.Size(318, 22);
-            this.deleteStoryNationalBackTranslationToolStripMenuItem.Text = "&National language back-translation (all verses)";
+            this.deleteStoryNationalBackTranslationToolStripMenuItem.Text = "&National language back-translation (all lines)";
             this.deleteStoryNationalBackTranslationToolStripMenuItem.ToolTipText = "Delete the contents of all of the text boxes of the national back-translation of " +
-                "the story (the verses will remain, but just be emptied)";
+                "the story (the lines will remain, but just be emptied)";
             this.deleteStoryNationalBackTranslationToolStripMenuItem.Click += new System.EventHandler(this.deleteStoryNationalBackTranslationToolStripMenuItem_Click);
             // 
             // deleteEnglishBacktranslationToolStripMenuItem
             // 
             this.deleteEnglishBacktranslationToolStripMenuItem.Name = "deleteEnglishBacktranslationToolStripMenuItem";
             this.deleteEnglishBacktranslationToolStripMenuItem.Size = new System.Drawing.Size(318, 22);
-            this.deleteEnglishBacktranslationToolStripMenuItem.Text = "&English back-translation (all verses)";
+            this.deleteEnglishBacktranslationToolStripMenuItem.Text = "&English back-translation (all lines)";
             this.deleteEnglishBacktranslationToolStripMenuItem.ToolTipText = "Delete the contents of all of the text boxes of the English back-translation of t" +
-                "he story (the verses will remain, but just be emptied)";
+                "he story (the lines will remain, but just be emptied)";
             this.deleteEnglishBacktranslationToolStripMenuItem.Click += new System.EventHandler(this.deleteEnglishBacktranslationToolStripMenuItem_Click);
             // 
             // deleteFreeTranslationToolStripMenuItem
             // 
             this.deleteFreeTranslationToolStripMenuItem.Name = "deleteFreeTranslationToolStripMenuItem";
             this.deleteFreeTranslationToolStripMenuItem.Size = new System.Drawing.Size(318, 22);
-            this.deleteFreeTranslationToolStripMenuItem.Text = "&Free translation (all verses)";
+            this.deleteFreeTranslationToolStripMenuItem.Text = "&Free translation (all lines)";
             this.deleteFreeTranslationToolStripMenuItem.ToolTipText = "Delete the contents of all of the text boxes of the Free translation of the story" +
-                " (the verses will remain, but just be emptied)";
+                " (the lines will remain, but just be emptied)";
             this.deleteFreeTranslationToolStripMenuItem.Click += new System.EventHandler(this.deleteFreeTranslationToolStripMenuItem_Click);
             // 
             // deleteTestToolStripMenuItem
@@ -800,8 +800,8 @@ namespace OneStoryProjectEditor
             this.hiddenVersesToolStripMenuItem.CheckOnClick = true;
             this.hiddenVersesToolStripMenuItem.Name = "hiddenVersesToolStripMenuItem";
             this.hiddenVersesToolStripMenuItem.Size = new System.Drawing.Size(284, 22);
-            this.hiddenVersesToolStripMenuItem.Text = "H&idden verses";
-            this.hiddenVersesToolStripMenuItem.ToolTipText = "Check this menu to show hidden verses and hidden consultant note comments";
+            this.hiddenVersesToolStripMenuItem.Text = "H&idden lines";
+            this.hiddenVersesToolStripMenuItem.ToolTipText = "Check this menu to show hidden lines and hidden consultant note comments";
             this.hiddenVersesToolStripMenuItem.CheckStateChanged += new System.EventHandler(this.hiddenVersesToolStripMenuItem_CheckStateChanged);
             // 
             // viewOnlyOpenConversationsMenu

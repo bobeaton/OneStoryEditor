@@ -76,8 +76,9 @@ namespace OneStoryProjectEditor
             if (verseData.HasData)
             {
                 DialogResult res = MessageBox.Show(
-                    Properties.Resources.IDS_VerseNotEmptyHideQuery,
-                    OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+                    String.Format(Properties.Resources.IDS_VerseNotEmptyHideQuery,
+                    Environment.NewLine), OseResources.Properties.Resources.IDS_Caption, 
+                    MessageBoxButtons.YesNoCancel);
 
                 if (res == DialogResult.Yes)
                 {

@@ -247,7 +247,7 @@
             this.toolStripButtonShowAllTerms.Size = new System.Drawing.Size(23, 22);
             this.toolStripButtonShowAllTerms.Text = "Show All Terms";
             this.toolStripButtonShowAllTerms.ToolTipText = "Click this button to toggle between showing only those key terms used in the anch" +
-                "ored verses vs. showing all key terms in the selected key term list";
+                "ored lines vs. showing all key terms in the selected key term list";
             this.toolStripButtonShowAllTerms.Click += new System.EventHandler(this.toolStripButtonShowAllTerms_Click);
             // 
             // progressBarLoadingKeyTerms

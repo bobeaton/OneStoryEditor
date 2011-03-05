@@ -277,7 +277,7 @@
             this.checkBoxShowHidden.Name = "checkBoxShowHidden";
             this.checkBoxShowHidden.Size = new System.Drawing.Size(122, 17);
             this.checkBoxShowHidden.TabIndex = 11;
-            this.checkBoxShowHidden.Text = "Show &hidden verses";
+            this.checkBoxShowHidden.Text = "Show &hidden lines";
             this.checkBoxShowHidden.UseVisualStyleBackColor = true;
             // 
             // checkBoxSelectAll

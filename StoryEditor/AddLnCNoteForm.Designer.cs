@@ -225,7 +225,7 @@
             this.buttonKeyTermSelect.TabIndex = 9;
             this.buttonKeyTermSelect.Text = "Select Key Term(s)";
             this.toolTip.SetToolTip(this.buttonKeyTermSelect, "You can associate one or more biblical key terms with this note so that you can s" +
-                    "earch all anchored verses where these terms are used");
+                    "earch all anchored lines where these terms are used");
             this.buttonKeyTermSelect.UseVisualStyleBackColor = true;
             this.buttonKeyTermSelect.Visible = false;
             this.buttonKeyTermSelect.Click += new System.EventHandler(this.buttonKeyTermSelect_Click);

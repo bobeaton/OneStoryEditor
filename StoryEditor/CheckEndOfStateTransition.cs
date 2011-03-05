@@ -31,7 +31,7 @@ namespace OneStoryProjectEditor
                 // if there are no verses, then just quit (before we get into an infinite loop)
                 if (theCurrentStory.Verses.Count == 0)
                 {
-                    ShowError(theSE, "Error: No verses in the story!");
+                    ShowError(theSE, "Error: No lines in the story!");
                     return false;
                 }
 
@@ -50,7 +50,7 @@ namespace OneStoryProjectEditor
                                 if (
                                     MessageBox.Show(
                                         String.Format(
-                                            "Verse number '{0}' has multiple sentences. Click 'Yes' to have them separated into their own verses.",
+                                            "Line number '{0}' has multiple sentences. Click 'Yes' to have them separated into their own lines.",
                                             nVerseNumber), OseResources.Properties.Resources.IDS_Caption,
                                         MessageBoxButtons.YesNoCancel) !=
                                     DialogResult.Yes)
@@ -149,7 +149,7 @@ namespace OneStoryProjectEditor
                 // if there are no verses, then just quit (before we get into an infinite loop)
                 if (theCurrentStory.Verses.Count == 0)
                 {
-                    ShowError(theSE, "Error: No verses in the story!");
+                    ShowError(theSE, "Error: No lines in the story!");
                     return false;
                 }
 
@@ -258,7 +258,7 @@ namespace OneStoryProjectEditor
                 // if there are no verses, then just quit (before we get into an infinite loop)
                 if (theCurrentStory.Verses.Count == 0)
                 {
-                    ShowError(theSE, "Error: No verses in the story!");
+                    ShowError(theSE, "Error: No lines in the story!");
                     return false;
                 }
 
@@ -358,7 +358,7 @@ namespace OneStoryProjectEditor
                 // if there are no verses, then just quit (before we get into an infinite loop)
                 if (theCurrentStory.Verses.Count == 0)
                 {
-                    ShowError(theSE, "Error: No verses in the story!");
+                    ShowError(theSE, "Error: No lines in the story!");
                     return false;
                 }
 
@@ -642,7 +642,7 @@ namespace OneStoryProjectEditor
             {
                 int nNumLacking = (theCurrentStory.Verses.Count / 2) - nNumOfVerses;
                 ShowError(theSE,
-                          String.Format("Error: You should have at least half as many Story Testing Questions as verses in the story. Please add at least {0} more testing question(s). (right-click on the 'line options' button and choose 'Add a story testing question')", nNumLacking));
+                          String.Format("Error: You should have at least half as many Story Testing Questions as lines in the story. Please add at least {0} more testing question(s). (right-click on the 'line options' button and choose 'Add a story testing question')", nNumLacking));
                 return false;
             }
             return true;
@@ -697,7 +697,7 @@ namespace OneStoryProjectEditor
             // if there are no verses, then just quit (before we get into an infinite loop)
             if (theCurrentStory.Verses.Count == 0)
             {
-                ShowError(theSE, "Error: No verses in the story!");
+                ShowError(theSE, "Error: No lines in the story!");
                 return false;
             }
 
@@ -1481,7 +1481,7 @@ namespace OneStoryProjectEditor
             // if there are no verses, then just quit (before we get into an infinite loop)
             if (theCurrentStory.Verses.Count == 0)
             {
-                ShowError(theSE, "Error: No verses in the story!");
+                ShowError(theSE, "Error: No lines in the story!");
                 return false;
             }
 
@@ -1806,7 +1806,7 @@ namespace OneStoryProjectEditor
             // if there are no verses, then just quit (before we get into an infinite loop)
             if (theCurrentStory.Verses.Count == 0)
             {
-                ShowError(theSE, "Error: No verses in the story!");
+                ShowError(theSE, "Error: No lines in the story!");
                 return false;
             }
 

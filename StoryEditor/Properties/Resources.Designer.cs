@@ -531,7 +531,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to delete this verse (and all associated consultant notes, etc)?.
+        ///   Looks up a localized string similar to Are you sure you want to delete this line (and all associated consultant notes, etc)?.
         /// </summary>
         internal static string IDS_DeleteVerseQuery {
             get {
@@ -567,7 +567,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &quot;The data from Adapt It doesn&apos;t appear to match what&apos;s in the story.{0}In verse number {3}, I was expecting \&quot;{4}\&quot;, but got \&quot;{5}\&quot; instead.{0}If you&apos;ve made changes in the {1} or the {2} back-translation, then you need to do the back-translation in Adapt It again.&quot;.
+        ///   Looks up a localized string similar to &quot;The data from Adapt It doesn&apos;t appear to match what&apos;s in the story.{0}In line number {3}, I was expecting \&quot;{4}\&quot;, but got \&quot;{5}\&quot; instead.{0}If you&apos;ve made changes in the {1} or the {2} back-translation, then you need to do the back-translation in Adapt It again.&quot;.
         /// </summary>
         internal static string IDS_ErrorInAdaptation {
             get {
@@ -1054,7 +1054,8 @@ namespace OneStoryProjectEditor.Properties {
         ///
         ///\+mkr ans
         ///\nam Answers
-        ///\lng InternationalBT        /// [rest of string was truncated]&quot;;.
+        ///\lng InternationalBT
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string IDS_TbxFile_StoryBT {
             get {
@@ -1162,7 +1163,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Verse number &apos;{0}&apos; has multiple sentences in the {1} column. Use the &quot;Story&quot; menu, &quot;Collapse into 1 line&quot; command followed by the &quot;Split into Lines&quot; command to break the story (and any back-translations) into lines based on sentence final punctuation (see &quot;Project&quot;, &quot;Settings&quot; and any of the &quot;Language&quot; tabs to configure sentence final punctuation). The command &quot;Story&quot;, &quot;Re-align story lines&quot; can also be used, which calls both of the above commands in one click.
+        ///   Looks up a localized string similar to Line number &apos;{0}&apos; has multiple sentences in the {1} column. Use the &quot;Story&quot; menu, &quot;Collapse into 1 line&quot; command followed by the &quot;Split into Lines&quot; command to break the story (and any back-translations) into lines based on sentence final punctuation (see &quot;Project&quot;, &quot;Settings&quot; and any of the &quot;Language&quot; tabs to configure sentence final punctuation). The command &quot;Story&quot;, &quot;Re-align story lines&quot; can also be used, which calls both of the above commands in one click.
         /// </summary>
         internal static string IDS_UseStoryCollapse {
             get {
@@ -1189,7 +1190,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This verse isn&apos;t empty! Instead of deleting it, it would be better to just hide it so it will be left around to know what it used to be. Would you like to hide it instead?.
+        ///   Looks up a localized string similar to This line isn&apos;t empty! Instead of deleting it, it would be better to just hide it so it will be left around to know what it used to be.{0}{0}Would you like to hide it instead?.
         /// </summary>
         internal static string IDS_VerseNotEmptyHideQuery {
             get {
@@ -1220,7 +1221,8 @@ namespace OneStoryProjectEditor.Properties {
         ///    &lt;!-- oneStory2CoachNotes.xsl         
         ///        create by Bob Eaton based on Jim Albright&apos;s script for storyingBT 
         ///        (to handle conversion of onestory to sfm)
-        ///        2010-04-05        /// [rest of string was truncated]&quot;;.
+        ///        2010-04-05
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string oneStory2CoachNotes {
             get {

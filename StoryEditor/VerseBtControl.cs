@@ -293,11 +293,11 @@ namespace OneStoryProjectEditor
 
             if (_verseData.IsVisible)
             {
-                hideVerseToolStripMenuItem.Text = "&Hide verse";
+                hideVerseToolStripMenuItem.Text = "&Hide line";
             }
             else
             {
-                hideVerseToolStripMenuItem.Text = "&Unhide verse";
+                hideVerseToolStripMenuItem.Text = "&Unhide line";
             }
 
             moveSelectedTextToANewLineToolStripMenuItem.Enabled =
@@ -631,7 +631,8 @@ namespace OneStoryProjectEditor
             if (_verseData.HasData)
             {
                 DialogResult res = MessageBox.Show(
-                    Properties.Resources.IDS_VerseNotEmptyHideQuery,
+                    String.Format(Resources.IDS_VerseNotEmptyHideQuery,
+                                  Environment.NewLine),
                     OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
 
                 if (res == DialogResult.Yes)

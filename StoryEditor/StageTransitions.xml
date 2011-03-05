@@ -11,7 +11,7 @@ Now have the Project Facilitator listen line-by-line to the recording and type i
 line box shown in this window.
 
 You can type the entire story into a single line box. Then when you're finished, click on the 
-"Story" menu, "Re-align story verses" option to have the story split into sentences so that each 
+"Story" menu, "Re-align story lines" option to have the story split into sentences so that each 
 line has a single sentence in it.
 
 The lines will be split into sentences based on Sentence Final punctuation (i.e. ".!?", etc). If 
@@ -48,10 +48,10 @@ in crafting the story (audio recordings of Bibles, videos, etc).
 In this stage, you (the project facilitator) will enter the "back-translation" of the story 
 into the national language (e.g. Hindi) that you recorded from the UNS.
 
-Be sure to type the UNS's back-translation into the same line number as the story verse to the 
-left, so that the back-translation matches what's in the story verse.
+Be sure to type the UNS's back-translation into the same line number as the story line to the 
+left, so that the back-translation matches what's in the story line.
 
-You can repeatedly click the "Story" menu, "Re-align story verses" item (or press Ctrl+F5) to 
+You can repeatedly click the "Story" menu, "Re-align story lines" item (or press Ctrl+F5) to 
 re-adjust all lines until they match up. If you use a sentence final punctuation in the story
 line, then you need to use the same punctuation in the National BT line as well, so they will
 be split into lines accurately. This will insure that you have the proper punctuation in both 
@@ -127,12 +127,12 @@ and in the resulting window click on the next (green) state.
     <StageDisplayString>Project Facilitator adds Anchors</StageDisplayString>
     <TransitionDisplayString>add anchors</TransitionDisplayString>
     <StageInstructions>
-In this stage, you (the project facilitator) will go through the story verse-by-verse and look up one or more Bible references in the Bible pane 
-that supports the information in the verse. These Bible references are known as "Anchors", because they tie the story verse to the Bible.
+In this stage, you (the project facilitator) will go through the story line-by-line and look up one or more Bible references in the Bible pane 
+that supports the information in the line. These Bible references are known as "Anchors", because they tie the story line to the Bible.
 
 When you find a supporting Bible passage in the "Bible" pane (lower-left pane of the OneStory editor), then click and hold down the left mouse 
 button on the button to the left of the verse text. Then while the left mouse button is held down, drag the mouse onto the line in the story 
-verse area above with the label, "anc:". This is the anchor bar for the verse. When the mouse is over the anchor bar, release the left mouse 
+line area above with the label, "anc:". This is the anchor bar for the line. When the mouse is over the anchor bar, release the left mouse 
 button and a new "anchor button" will appear on the anchor bar for that passage.
 
 Once anchor buttons are in the anchor bar, you can click on them to jump to the referenced verse. You can also right-click on the anchor button 
@@ -143,10 +143,10 @@ why you chose the Bible reference that you did.
 
 In this stage, you can also select the key terms that are in the story line. To do this, right-click on the Anchor bar and choose "Edit Key 
 Terms". This will bring up the Key Terms dialog box which will show you all the Key biblical terms associated with your anchored bible 
-references. It will also list all the story verses in your project which use the same key term as those in the anchored scripture passages. 
+references. It will also list all the story lines in your project which use the same key term as those in the anchored scripture passages. 
 This is so that you can make sure that you are using the same term in each place where the same underlying Greek or Hebrew key term is used.
 
-When you are finished adding one or more anchors for each verse, then click the 'Next Stage' button in the left-hand side of the status bar 
+When you are finished adding one or more anchors for each line, then click the 'Next Stage' button in the left-hand side of the status bar 
 to go to the next stage in the process.
     </StageInstructions>
     <AllowableForewardsTransitions>
@@ -163,12 +163,12 @@ uninitiated native speaker (UNS) in order to test the implications of the story.
 
 The best kind of STQs are those that invite the UNS to speculate on "Why" or "How" of what is going on in the story. Or questions that ask, "What kinds of 
 things might be an example of this?" are also useful. They should be based on the story, but you should try to get the UNS to speculate beyond what the story 
-itself says. For example, suppose that the story had a verse like, "And the people took baptism and left their sins". You could ask a question like, "Why (or 
+itself says. For example, suppose that the story had a line like, "And the people took baptism and left their sins". You could ask a question like, "Why (or 
 how) do you think they took baptism?" or "How (or why) do you think they left their sins?" These would be good questions, because the answer isn't in the story 
 and based on what the UNS thinks, it might be necessary to change the story to avoid a wrong understanding. 
 
 Other kinds of questions that begin with "What", "Who", "When", "Where", are usually not as good, especially if they can be answered from the story itself. For 
-example, suppose the story verse says, "Jesus and three of his disciples went up on a hill..." Then the question, "How many disciples went up on the hill with 
+example, suppose the story line says, "Jesus and three of his disciples went up on a hill..." Then the question, "How many disciples went up on the hill with 
 Jesus?" would not be a good question, because the answer was just mentioned in the story. Such questions are known as "closed questions" and are not good 
 questions to test the story. However, such questions can be useful if the story itself is ambiguous. For example, if the story line were, "He said to Eve...", 
 since there are two possible referents of 'He' (the snake and Adam), you could ask "Who do you think said this to Eve?" to make sure that the UNS understood 
@@ -188,11 +188,11 @@ situation in the story, then it's probably a good question.
 Depending on what agreement you make with your consultant and coach, you may need to translate the testing questions you create into English so the 
 consultant and coach can review them. However, remember that these questions should always be asked and answered with the UNS in the story language itself; 
 not the national language, nor in English. And they should use the exact same wording as in the story itself. So, for example, if the story said, "Adam was 
-given the fruit and he ate.", then don't word the question as, "Why do you think Eve gave the fruit to Adam to eat?" (since the story verse didn't mention 
+given the fruit and he ate.", then don't word the question as, "Why do you think Eve gave the fruit to Adam to eat?" (since the story line didn't mention 
 Eve, you shouldn't add her to the question).
 
-You should have at least half as many story testing questions as verses in the story. So if your story is 20 verses long, then you need to have at least 10 
-questions, and don't forget that it's okay if some verses have multiple questions. If you have trouble coming up with enough questions, then contact your 
+You should have at least half as many story testing questions as lines in the story. So if your story is 20 lines long, then you need to have at least 10 
+questions, and don't forget that it's okay if some lines have multiple questions. If you have trouble coming up with enough questions, then contact your 
 consultant for some suggestions.
 
 When you are finished adding these testing questions, then click the "Select State" menu item and in the resulting window click on the next (green) state. 
@@ -418,7 +418,7 @@ anchored verse(s). If the story line has information which is not in the anchore
 to add further anchors if you can think of a scripture passage which supports what the story crafter is trying 
 say (or add a consultant note for the project facilitator to look up the passage and add the anchor themselves).
 
-As you evaluate whether the story verse is a valid interpretation of the anchored verses, in addition to the 
+As you evaluate whether the story line is a valid interpretation of the anchored verses, in addition to the 
 text in the Bible pane, it is recommended that you look in Translator's Workplace exegetical resources. If you 
 find a passage in a good exegetical resource that supports the rendering of the story crafter (when, perhaps, 
 the scripture passage in the Bible pane doesn't seem to support it), then you can copy the reference from TW 
@@ -459,7 +459,7 @@ In this stage, you (the consultant) need to check the story testing questions ad
 As you consider the story testing questions (STQs), keep in mind that their function is to test the implications of the story. The best kind of STQ are those 
 that invite the UNS to speculate on "Why" or "How" of what is going on in the story. Or questions that ask, "What kinds of things might be an example of this?" 
 are also useful. They should be based on the story, but you should try to get the UNS to speculate beyond what the story itself says. For example, suppose that 
-the story had a verse like, "And the people took baptism and left their sins". A good question would be, "Why (or how) do you think they took baptism?" or 
+the story had a line like, "And the people took baptism and left their sins". A good question would be, "Why (or how) do you think they took baptism?" or 
 "How (or why) do you think they left their sins?" These would be good questions, because the answer isn't in the story and based on what answer the UNS gives, 
 it might indicate that the story is giving a wrong understanding.
 
