@@ -50,7 +50,7 @@ namespace OneStoryProjectEditor
         internal Timer myFocusTimer = new Timer();
         internal static Timer mySaveTimer = new Timer();
 
-        private const int CnIntervalBetweenAutoSaveReqs = 5000;
+        private const int CnIntervalBetweenAutoSaveReqs = 5 * 1000 * 60;
         protected DateTime tmLastSync = DateTime.Now;
         protected TimeSpan tsBackupTime = new TimeSpan(1, 0, 0);
 
