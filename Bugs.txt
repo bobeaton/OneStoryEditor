@@ -1,7 +1,5 @@
 ﻿disable auto-save timeout when *any* messageBox is up.
 
-don't allow Line 0 (in Move Items) for TQs, CNs, etc.
-
 can't unview Story Testing Questions in the "Add Story Testing Question" state
 
 Can I add spelling check?
