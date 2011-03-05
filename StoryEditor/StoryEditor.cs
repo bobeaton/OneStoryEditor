@@ -3287,7 +3287,7 @@ namespace OneStoryProjectEditor
                     viewStoryTestingQuestionMenuItem.Enabled =
                     viewRetellingFieldMenuItem.Enabled = ((theCurrentStory != null)
                                                           && (((int)theCurrentStory.ProjStage.ProjectStage)
-                                                              >
+                                                              >=
                                                               (int)
                                                               StoryStageLogic.ProjectStages.
                                                                   eProjFacAddStoryQuestions));
