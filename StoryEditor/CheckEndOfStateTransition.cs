@@ -633,14 +633,17 @@ namespace OneStoryProjectEditor
 
         private static bool CheckForCountOfTestingQuestions(StoryData theCurrentStory, StoryEditor theSE)
         {
-            int nNumOfVerses = 0;
+            int nNumOfVerses = 0, nNumOfTQs = 0;
             foreach (VerseData aVerseData in theCurrentStory.Verses)
                 if (aVerseData.IsVisible)
-                    nNumOfVerses += aVerseData.TestQuestions.Count;
+                {
+                    nNumOfVerses++;
+                    nNumOfTQs += aVerseData.TestQuestions.Count;
+                }
 
-            if (nNumOfVerses < (theCurrentStory.Verses.Count / 2))
+            if (nNumOfTQs < ((nNumOfVerses + 1) / 2))
             {
-                int nNumLacking = (theCurrentStory.Verses.Count / 2) - nNumOfVerses;
+                int nNumLacking = ((nNumOfVerses + 1) / 2) - nNumOfTQs;
                 ShowError(theSE,
                           String.Format("Error: You should have at least half as many Story Testing Questions as lines in the story. Please add at least {0} more testing question(s). (right-click on the 'line options' button and choose 'Add a story testing question')", nNumLacking));
                 return false;
