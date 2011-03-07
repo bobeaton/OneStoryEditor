@@ -2000,4 +2000,7 @@ and in the resulting window click on the next (green) state.
   <data name="IDS_UnableToConfigureSharedAiProject" xml:space="preserve">
     <value>Unable to Send/Receive the AdaptIt project '{1}' from the requested server{0}{2}{0}{3}</value>
   </data>
+  <data name="IDS_QueryPullSharedAiProject" xml:space="preserve">
+    <value>The shared Adapt It project for this field is not on the local computer. Please enter the necessary information in the next window to download it from the internet (i.e. the repository server, username and password). These should be in an email message you received previously</value>
+  </data>
 </root>

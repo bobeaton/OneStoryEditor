@@ -152,7 +152,7 @@ namespace OneStoryProjectEditor
                     // here (with pull) is one of the few places we actually query the user
                     //  for a username/password. Currently, the code assumes that they will
                     //  be the same as the project account, so make sure that's the case
-                    if (Parent.LoggedInMember != null)
+                    if ((Parent != null) && (Parent.LoggedInMember != null))
                     {
                         if ((!String.IsNullOrEmpty(Parent.LoggedInMember.HgUsername)
                             && (Parent.LoggedInMember.HgUsername != model.AccountName))
@@ -189,12 +189,15 @@ namespace OneStoryProjectEditor
             if (!GetAiRepoSettings(out strAiWorkFolder, out strProjectFolderName))
                 return false;
 
-            // but override by the current configuration
-            if (!String.IsNullOrEmpty(Parent.HgUsername))
-                strHgUsername = Parent.HgUsername;
+            if (Parent != null)
+            {
+                // but override by the current configuration
+                if (!String.IsNullOrEmpty(Parent.HgUsername))
+                    strHgUsername = Parent.HgUsername;
 
-            if (!String.IsNullOrEmpty(Parent.HgPassword))
-                strHgPassword = Parent.HgPassword;
+                if (!String.IsNullOrEmpty(Parent.HgPassword))
+                    strHgPassword = Parent.HgPassword;
+            }
 
             return true;
         }
@@ -202,8 +205,7 @@ namespace OneStoryProjectEditor
         private bool GetAiRepoSettings(out string strAiWorkFolder, out string strProjectFolderName)
         {
             // e.g. <My Documents>\Adapt It Unicode Work
-            strAiWorkFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                                           AdaptItAutoConfigDialog.CstrAdaptItWorkingDirUnicode);
+            strAiWorkFolder = AdaptItGlossing.AdaptItWorkFolder;
 
             // e.g. "Kangri to Hindi adaptations"
             strProjectFolderName = String.Format(Properties.Resources.IDS_AdaptItProjectFolderFormat,

@@ -281,6 +281,11 @@ namespace OneStoryProjectEditor
             return _mapServerToUrl.TryGetValue(strServerName, out strUrl) ? strUrl : null;
         }
 
+        public static bool AreAdaptItHgParametersSet(string strProjectFolder)
+        {
+            return _mapProjectNameToAiHgHttpUrl.ContainsKey(strProjectFolder);
+        }
+
         public static void SetAdaptItHgParameters(string strProjectFolder, string strProjectName,
             string strRepoUrl, string strHgUsername, string strHgPassword)
         {
@@ -461,8 +466,11 @@ namespace OneStoryProjectEditor
             bool bIsOpening)
         {
             // the project folder name has come here bogus at times...
-            if (!Directory.Exists(strProjectFolder))
+            if (String.IsNullOrEmpty(strProjectFolder))
                 return;
+
+            if (!Directory.Exists(strProjectFolder))
+                Directory.CreateDirectory(strProjectFolder);
 
             // if there's no repo yet, then create one (even if we aren't going
             //  to ultimately push with an internet repo, we still want one locally)

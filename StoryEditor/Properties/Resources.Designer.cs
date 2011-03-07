@@ -911,6 +911,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The shared Adapt It project for this field is not on the local computer. Please enter the necessary information in the next window to download it from the internet (i.e. the repository server, username and password). These should be in an email message you received previously.
+        /// </summary>
+        internal static string IDS_QueryPullSharedAiProject {
+            get {
+                return ResourceManager.GetString("IDS_QueryPullSharedAiProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Is the shared Adapt It project in the &apos;{0}&apos; folder?.
         /// </summary>
         internal static string IDS_QuerySharedAiProject {
@@ -1054,8 +1063,7 @@ namespace OneStoryProjectEditor.Properties {
         ///
         ///\+mkr ans
         ///\nam Answers
-        ///\lng InternationalBT
-        /// [rest of string was truncated]&quot;;.
+        ///\lng InternationalBT        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string IDS_TbxFile_StoryBT {
             get {
@@ -1221,8 +1229,7 @@ namespace OneStoryProjectEditor.Properties {
         ///    &lt;!-- oneStory2CoachNotes.xsl         
         ///        create by Bob Eaton based on Jim Albright&apos;s script for storyingBT 
         ///        (to handle conversion of onestory to sfm)
-        ///        2010-04-05
-        /// [rest of string was truncated]&quot;;.
+        ///        2010-04-05        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string oneStory2CoachNotes {
             get {

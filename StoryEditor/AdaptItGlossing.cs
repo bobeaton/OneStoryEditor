@@ -63,7 +63,8 @@ namespace OneStoryProjectEditor
 
         public static AdaptItEncConverter InitLookupAdapter(ProjectSettings proj, 
             ProjectSettings.AdaptItConfiguration.AdaptItBtDirection eBtDirection,
-            out ProjectSettings.LanguageInfo liSourceLang, out ProjectSettings.LanguageInfo liTargetLang)
+            TeamMemberData loggedOnMember, out ProjectSettings.LanguageInfo liSourceLang, 
+            out ProjectSettings.LanguageInfo liTargetLang)
         {
             var aECs = new EncConverters();
             string strName = null;
@@ -105,6 +106,13 @@ namespace OneStoryProjectEditor
                     throw new ApplicationException("Wrong glossing type specified. Send to bob_eaton@sall.com for help");
             }
 
+            string strConverterSpec = AdaptItLookupFileSpec(liSourceLang.LangName, liTargetLang.LangName);
+            if (adaptItConfiguration != null)
+            {
+                string strProjectFolder = Path.GetDirectoryName(strConverterSpec);
+                adaptItConfiguration.CheckForSync(strProjectFolder, loggedOnMember);
+            }
+
             // just in case the project doesn't exist yet...
             WriteAdaptItProjectFiles(liSourceLang, liTargetLang, proj.InternationalBT); // move this to AIGuesserEC project when it's mature.
 
@@ -115,7 +123,6 @@ namespace OneStoryProjectEditor
             // if we don't have the converter already in the repository.
             if (!aECs.ContainsKey(strName))
             {
-                string strConverterSpec = AdaptItLookupFileSpec(liSourceLang.LangName, liTargetLang.LangName); 
                 aECs.AddConversionMap(strName, strConverterSpec, ConvType.Unicode_to_from_Unicode,
                     EncConverters.strTypeSILadaptit, "UNICODE", "UNICODE", ProcessTypeFlags.DontKnow);
             }
@@ -127,12 +134,6 @@ namespace OneStoryProjectEditor
             IEncConverter aEC = aECs[strName];
             System.Diagnostics.Debug.Assert((aEC != null) && (aEC is AdaptItEncConverter));
             AdaptItEncConverter theLookupAdapter = (AdaptItEncConverter)aEC;
-
-            if (adaptItConfiguration != null)
-            {
-                string strProjectFolder = Path.GetDirectoryName(aEC.ConverterIdentifier);
-                adaptItConfiguration.CheckForSync(strProjectFolder);
-            }
 
             // in order to get the converter to load the database, do a dummy Convert
             theLookupAdapter.Convert("nothing");

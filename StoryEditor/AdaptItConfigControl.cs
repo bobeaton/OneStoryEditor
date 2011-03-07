@@ -172,8 +172,9 @@ namespace OneStoryProjectEditor
             if (res == DialogResult.Yes)
             {
                 ProjectSettings.LanguageInfo liSource, liTarget;
-                AdaptItEncConverter theEc = AdaptItGlossing.InitLookupAdapter(Parent.ProjSettings, BtDirection,
-                                                                              out liSource, out liTarget);
+                var theEc = AdaptItGlossing.InitLookupAdapter(Parent.ProjSettings, BtDirection,
+                                                              Parent.LoggedInMember,
+                                                              out liSource, out liTarget);
                 AdaptItConverterName = theEc.Name;
                 return;
             }

@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
+using Chorus.UI.Clone;
 using Microsoft.Win32;                  // for RegistryKey
 
 namespace OneStoryProjectEditor
@@ -235,7 +236,7 @@ namespace OneStoryProjectEditor
             }
 
             private static bool _bCheckedForSync;
-            public void CheckForSync(string strProjectFolder)
+            public void CheckForSync(string strProjectFolder, TeamMemberData loggedOnMember)
             {
                 if (ProjectType != AdaptItProjectType.SharedAiProject)
                     return;     // nothing to do
@@ -244,10 +245,57 @@ namespace OneStoryProjectEditor
                     && !String.IsNullOrEmpty(strProjectFolder)
                     && !String.IsNullOrEmpty(RepoProjectName))
                 {
-                    Program.SyncWithAiRepository(strProjectFolder, RepoProjectName, true);
+                    if (!Program.AreAdaptItHgParametersSet(strProjectFolder))
+                    {
+                        if (MessageBox.Show(Properties.Resources.IDS_QueryPullSharedAiProject, 
+                                            OseResources.Properties.Resources.IDS_Caption, 
+                                            MessageBoxButtons.OKCancel) == DialogResult.Cancel)
+                            return;
+
+                        if (!DoPossiblePull(strProjectFolder, loggedOnMember))
+                            return;
+                    }
+                    else
+                        Program.SyncWithAiRepository(strProjectFolder, RepoProjectName, true);
+
                     Program.SetAiProjectForSyncage(strProjectFolder, RepoProjectName);
                     _bCheckedForSync = true;
                 }
+            }
+
+            public bool DoPossiblePull(string strProjectFolder, TeamMemberData loggedOnMember)
+            {
+                string strHgUsername = null, strHgPassword = null;
+                if (loggedOnMember != null)
+                {
+                    strHgUsername = loggedOnMember.HgUsername;
+                    strHgPassword = loggedOnMember.HgPassword;
+                }
+
+                string strAiProjectFolderName = Path.GetFileNameWithoutExtension(strProjectFolder);
+                var model = new GetCloneFromInternetModel(AdaptItGlossing.AdaptItWorkFolder)
+                {
+                    ProjectId = RepoProjectName,
+                    SelectedServerLabel = RepositoryServer,
+                    LocalFolderName = strAiProjectFolderName,
+                    AccountName = strHgUsername,
+                    Password = strHgPassword
+                };
+
+                using (var dlg = new GetCloneFromInternetDialog(model))
+                {
+                    if (DialogResult.Cancel == dlg.ShowDialog())
+                        return false;
+
+                    // we can save this information so we can use it automatically during the next restart
+                    Program.SetAdaptItHgParameters(dlg.PathToNewProject,
+                                                   RepoProjectName = model.ProjectId,
+                                                   RepositoryServer = model.SelectedServerLabel,
+                                                   model.AccountName, 
+                                                   model.Password);
+                }
+
+                return true;
             }
         }
 

@@ -494,7 +494,8 @@ namespace OneStoryProjectEditor
 
                 var dlg = new GlossingForm(_ctrlVerseParent.TheSE.StoryProject.ProjSettings, 
                     MyStringTransfer.ToString(),
-                    ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.VernacularToNationalBt);
+                    ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.VernacularToNationalBt,
+                    _ctrlVerseParent.TheSE.LoggedOnMember);
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
                     NationalBtSibling.Text = dlg.TargetSentence;
@@ -537,7 +538,8 @@ namespace OneStoryProjectEditor
                                                                                                  AdaptItBtDirection.
                                                                                                  NationalBtToInternationalBt;
                 var dlg = new GlossingForm(_ctrlVerseParent.TheSE.StoryProject.ProjSettings,
-                    MyStringTransfer.ToString(), eBtDirection);
+                                           MyStringTransfer.ToString(), eBtDirection,
+                                           _ctrlVerseParent.TheSE.LoggedOnMember);
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
                     EnglishBtSibling.Text = dlg.TargetSentence;

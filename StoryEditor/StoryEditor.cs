@@ -342,7 +342,7 @@ namespace OneStoryProjectEditor
 #endif
         }
 
-        private static string ExtractUsernameFromUrl(string url)
+        public static string ExtractUsernameFromUrl(string url)
         {
             // e.g. http://bobeaton:helpmepld@hg-private.languagedepot.org/
             int nIndex = url.IndexOf("//") + 2;
@@ -2909,7 +2909,9 @@ namespace OneStoryProjectEditor
         protected void GlossInAdaptIt(string strStoryText, ProjectSettings.AdaptItConfiguration.AdaptItBtDirection eBtDirection)
         {
             ProjectSettings.LanguageInfo liSourceLang, liTargetLang;
-            AdaptItEncConverter theEC = AdaptItGlossing.InitLookupAdapter(StoryProject.ProjSettings, eBtDirection, out liSourceLang, out liTargetLang);
+            var theEC = AdaptItGlossing.InitLookupAdapter(StoryProject.ProjSettings, 
+                                                          eBtDirection, LoggedOnMember,
+                                                          out liSourceLang, out liTargetLang);
             string strAdaptationFilespec = AdaptationFilespec(theEC.ConverterIdentifier, theCurrentStory.Name);
             string strProjectName = Path.GetFileNameWithoutExtension(theEC.ConverterIdentifier);
             DialogResult res = DialogResult.Yes;

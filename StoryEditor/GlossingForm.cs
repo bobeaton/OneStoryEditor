@@ -19,11 +19,13 @@ namespace OneStoryProjectEditor
         protected ProjectSettings.LanguageInfo liSourceLang, liTargetLang;
 
         public GlossingForm(ProjectSettings projSettings, string strSentence, 
-            ProjectSettings.AdaptItConfiguration.AdaptItBtDirection eBtDirection)
+            ProjectSettings.AdaptItConfiguration.AdaptItBtDirection eBtDirection,
+            TeamMemberData loggedOnMember)
             : base(true)
         {
             InitializeComponent();
-            m_theEC = AdaptItGlossing.InitLookupAdapter(projSettings, eBtDirection, out liSourceLang, out liTargetLang);
+            m_theEC = AdaptItGlossing.InitLookupAdapter(projSettings, eBtDirection, loggedOnMember, 
+                out liSourceLang, out liTargetLang);
 
             // get the EncConverter to break apart the given sentence into bundles
             m_theEC.SplitAndConvert(strSentence, out SourceWords, out SourceStringsInBetween, 
