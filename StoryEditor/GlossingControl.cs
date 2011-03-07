@@ -39,6 +39,8 @@ namespace OneStoryProjectEditor
                 textBoxTargetWord.RightToLeft = RightToLeft.Yes;
 
             TargetWord = strTargetWord;
+
+            Modified = false;   // reinitialize
         }
 
         public string SourceWord
@@ -73,10 +75,13 @@ namespace OneStoryProjectEditor
             buttonJoin.Visible = false;
         }
 
+        public bool Modified { get; set; }
+
         private void textBox_TextChanged(object sender, EventArgs e)
         {
             TextBox tb = (TextBox)sender;
             AdjustWidth(tb);
+            Modified = true;
         }
 
         protected void AdjustWidth(TextBox tb)

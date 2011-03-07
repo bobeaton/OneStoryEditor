@@ -11,7 +11,7 @@ namespace OneStoryProjectEditor
     public partial class GlossingForm : TopForm
     {
         internal static char[] achWordDelimiters = new[] { ' ' };
-        private AdaptItEncConverter m_theEC = null;
+        private AdaptItEncConverter m_theEC;
         public List<string> SourceWords;
         public List<string> TargetWords;
         public List<string> SourceStringsInBetween;
@@ -56,8 +56,11 @@ namespace OneStoryProjectEditor
             {
                 // means we have to add it to the kb. But only if the user chose
                 //  all the ambiguities
-                if (aGC.TargetWord.IndexOf(GlossingControl.CstrAmbiguitySeparator) == -1)
+                if ((aGC.TargetWord.IndexOf(GlossingControl.CstrAmbiguitySeparator) == -1)
+                    && aGC.Modified)
+                {
                     m_theEC.AddEntryPair(aGC.SourceWord, aGC.TargetWord);
+                }
             }
 
             System.Diagnostics.Debug.Assert(flowLayoutPanel.Controls.Count > 0);

@@ -498,7 +498,7 @@ namespace OneStoryProjectEditor
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
                     NationalBtSibling.Text = dlg.TargetSentence;
-
+                    _ctrlVerseParent.TheSE.Modified = true;
                     if (dlg.DoReorder)
                     {
                         var dlgReorder = new ReorderWordsForm(NationalBtSibling);
@@ -541,6 +541,7 @@ namespace OneStoryProjectEditor
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
                     EnglishBtSibling.Text = dlg.TargetSentence;
+                    _ctrlVerseParent.TheSE.Modified = true;
 
                     if (dlg.DoReorder)
                     {
