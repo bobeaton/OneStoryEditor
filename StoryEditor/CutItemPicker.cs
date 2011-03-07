@@ -203,7 +203,7 @@ namespace OneStoryProjectEditor
             // can't do line zero with TQ and other BT pane fields
             bool bLineZero = (btn.TabIndex == 0);
             var nodeItems = treeViewItems.Nodes[CstrNodeTestingQuestions];
-            if (!bLineZero && (nodeItems != null))
+            if ((!bLineZero || (verseDest == null)) && (nodeItems != null))
                 foreach (var aTQ in
                     from TreeNode node in nodeItems.Nodes 
                     where node.Checked 
@@ -229,7 +229,7 @@ namespace OneStoryProjectEditor
 #endif
 
             nodeItems = treeViewItems.Nodes[CstrNodeCulturalNotes];
-            if (!bLineZero && (nodeItems != null))
+            if ((!bLineZero || (verseDest == null)) && (nodeItems != null))
                 foreach (var anExegHelpNote in
                     from TreeNode node in nodeItems.Nodes
                     where node.Checked
