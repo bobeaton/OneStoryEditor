@@ -35,7 +35,7 @@ namespace OneStoryProjectEditor
                 "AI-ProjectConfiguration.aic");
         }
 
-        protected static string AdaptItWorkFolder
+        public static string AdaptItWorkFolder
         {
             get
             {
@@ -44,7 +44,7 @@ namespace OneStoryProjectEditor
             }
         }
 
-        protected static string AdaptItProjectFolder(string strSourceLangName, string strTargetLangName)
+        public static string AdaptItProjectFolder(string strSourceLangName, string strTargetLangName)
         {
             return Path.Combine(AdaptItWorkFolder, AdaptItProjectFolderName(strSourceLangName, strTargetLangName));
         }
@@ -115,7 +115,7 @@ namespace OneStoryProjectEditor
             // if we don't have the converter already in the repository.
             if (!aECs.ContainsKey(strName))
             {
-                string strConverterSpec = AdaptItLookupFileSpec(proj.Vernacular.LangName, proj.NationalBT.LangName); 
+                string strConverterSpec = AdaptItLookupFileSpec(liSourceLang.LangName, liTargetLang.LangName); 
                 aECs.AddConversionMap(strName, strConverterSpec, ConvType.Unicode_to_from_Unicode,
                     EncConverters.strTypeSILadaptit, "UNICODE", "UNICODE", ProcessTypeFlags.DontKnow);
             }

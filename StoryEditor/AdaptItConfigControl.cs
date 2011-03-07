@@ -143,9 +143,8 @@ namespace OneStoryProjectEditor
             ResetSharedOnlyFields();
             // first let's see if an AI Lookup transducer already exists with the
             //  proper name
-            string strAiWorkFolder = AdaptItGlossing.AdaptItProjectAdaptationsFolder(SourceLanguageName,
-                                                                                      TargetLanguageName);
-            if (Directory.Exists(strAiWorkFolder))
+            string strAiProjectFolder = AdaptItGlossing.AdaptItProjectFolder(SourceLanguageName, TargetLanguageName);
+            if (Directory.Exists(strAiProjectFolder))
             {
                 string strConverterSpec = AdaptItGlossing.AdaptItLookupFileSpec(SourceLanguageName, TargetLanguageName);
                 if (File.Exists(strConverterSpec))
