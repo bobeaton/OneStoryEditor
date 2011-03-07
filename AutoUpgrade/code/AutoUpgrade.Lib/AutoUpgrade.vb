@@ -21,7 +21,7 @@ Namespace devX
 
 #Region "    Storage for Properties    "
         Private mblnCancel As Boolean = False
-        Private mstrAppName As String = "AutoUpgrade"
+        Private mstrAppName As String = "OneStory Editor AutoUpdater"
         Private mstrSource As String = ""
         Private mlstManifest As New FileList()
         Private mlstUpgradeList As New FileList()

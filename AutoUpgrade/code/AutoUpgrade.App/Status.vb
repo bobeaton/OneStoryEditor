@@ -36,80 +36,89 @@ Friend Class Status
 	Private WithEvents cmdCancel As System.Windows.Forms.Button
 	Friend WithEvents picIcon As System.Windows.Forms.PictureBox
 	<System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-		Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(Status))
-		Me.picIcon = New System.Windows.Forms.PictureBox()
-		Me.lblTimeRemaining = New System.Windows.Forms.Label()
-		Me.lblTitle = New System.Windows.Forms.Label()
-		Me.pbrProgress = New System.Windows.Forms.ProgressBar()
-		Me.lblStatus = New System.Windows.Forms.Label()
-		Me.cmdCancel = New System.Windows.Forms.Button()
-		Me.SuspendLayout()
-		'
-		'picIcon
-		'
-		Me.picIcon.Image = CType(resources.GetObject("picIcon.Image"), System.Drawing.Bitmap)
-		Me.picIcon.Location = New System.Drawing.Point(28, 16)
-		Me.picIcon.Name = "picIcon"
-		Me.picIcon.Size = New System.Drawing.Size(32, 32)
-		Me.picIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
-		Me.picIcon.TabIndex = 5
-		Me.picIcon.TabStop = False
-		'
-		'lblTimeRemaining
-		'
-		Me.lblTimeRemaining.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.lblTimeRemaining.Location = New System.Drawing.Point(84, 92)
-		Me.lblTimeRemaining.Name = "lblTimeRemaining"
-		Me.lblTimeRemaining.Size = New System.Drawing.Size(306, 16)
-		Me.lblTimeRemaining.TabIndex = 1
-		'
-		'lblTitle
-		'
-		Me.lblTitle.Font = New System.Drawing.Font("Verdana", 9.75!)
-		Me.lblTitle.Location = New System.Drawing.Point(76, 16)
-		Me.lblTitle.Name = "lblTitle"
-		Me.lblTitle.Size = New System.Drawing.Size(400, 20)
-		Me.lblTitle.TabIndex = 2
-		'
-		'pbrProgress
-		'
-		Me.pbrProgress.Location = New System.Drawing.Point(84, 68)
-		Me.pbrProgress.Name = "pbrProgress"
-		Me.pbrProgress.Size = New System.Drawing.Size(316, 25)
-		Me.pbrProgress.TabIndex = 3
-		'
-		'lblStatus
-		'
-		Me.lblStatus.Font = New System.Drawing.Font("Verdana", 9.75!)
-		Me.lblStatus.Location = New System.Drawing.Point(76, 48)
-		Me.lblStatus.Name = "lblStatus"
-		Me.lblStatus.Size = New System.Drawing.Size(400, 16)
-		Me.lblStatus.TabIndex = 4
-		'
-		'cmdCancel
-		'
-		Me.cmdCancel.BackColor = System.Drawing.SystemColors.Control
-		Me.cmdCancel.Location = New System.Drawing.Point(404, 68)
-		Me.cmdCancel.Name = "cmdCancel"
-		Me.cmdCancel.Size = New System.Drawing.Size(72, 24)
-		Me.cmdCancel.TabIndex = 0
-		Me.cmdCancel.Text = "Cancel"
-		'
-		'Status
-		'
-		Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-		Me.ClientSize = New System.Drawing.Size(498, 123)
-		Me.ControlBox = False
-		Me.Controls.AddRange(New System.Windows.Forms.Control() {Me.lblTitle, Me.picIcon, Me.lblTimeRemaining, Me.cmdCancel, Me.pbrProgress, Me.lblStatus})
-		Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
-		Me.MaximizeBox = False
-		Me.MinimizeBox = False
-		Me.Name = "Status"
-		Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-		Me.Text = "Automatic Upgrade"
-		Me.ResumeLayout(False)
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Status))
+        Me.picIcon = New System.Windows.Forms.PictureBox
+        Me.lblTimeRemaining = New System.Windows.Forms.Label
+        Me.lblTitle = New System.Windows.Forms.Label
+        Me.pbrProgress = New System.Windows.Forms.ProgressBar
+        Me.lblStatus = New System.Windows.Forms.Label
+        Me.cmdCancel = New System.Windows.Forms.Button
+        CType(Me.picIcon, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SuspendLayout()
+        '
+        'picIcon
+        '
+        Me.picIcon.Image = CType(resources.GetObject("picIcon.Image"), System.Drawing.Image)
+        Me.picIcon.Location = New System.Drawing.Point(28, 16)
+        Me.picIcon.Name = "picIcon"
+        Me.picIcon.Size = New System.Drawing.Size(32, 32)
+        Me.picIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.picIcon.TabIndex = 5
+        Me.picIcon.TabStop = False
+        '
+        'lblTimeRemaining
+        '
+        Me.lblTimeRemaining.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTimeRemaining.Location = New System.Drawing.Point(84, 92)
+        Me.lblTimeRemaining.Name = "lblTimeRemaining"
+        Me.lblTimeRemaining.Size = New System.Drawing.Size(306, 16)
+        Me.lblTimeRemaining.TabIndex = 1
+        '
+        'lblTitle
+        '
+        Me.lblTitle.Font = New System.Drawing.Font("Verdana", 9.75!)
+        Me.lblTitle.Location = New System.Drawing.Point(76, 16)
+        Me.lblTitle.Name = "lblTitle"
+        Me.lblTitle.Size = New System.Drawing.Size(503, 20)
+        Me.lblTitle.TabIndex = 2
+        '
+        'pbrProgress
+        '
+        Me.pbrProgress.Location = New System.Drawing.Point(84, 68)
+        Me.pbrProgress.Name = "pbrProgress"
+        Me.pbrProgress.Size = New System.Drawing.Size(417, 25)
+        Me.pbrProgress.TabIndex = 3
+        '
+        'lblStatus
+        '
+        Me.lblStatus.Font = New System.Drawing.Font("Verdana", 9.75!)
+        Me.lblStatus.Location = New System.Drawing.Point(76, 48)
+        Me.lblStatus.Name = "lblStatus"
+        Me.lblStatus.Size = New System.Drawing.Size(400, 16)
+        Me.lblStatus.TabIndex = 4
+        '
+        'cmdCancel
+        '
+        Me.cmdCancel.BackColor = System.Drawing.SystemColors.Control
+        Me.cmdCancel.Location = New System.Drawing.Point(507, 68)
+        Me.cmdCancel.Name = "cmdCancel"
+        Me.cmdCancel.Size = New System.Drawing.Size(72, 24)
+        Me.cmdCancel.TabIndex = 0
+        Me.cmdCancel.Text = "Cancel"
+        Me.cmdCancel.UseVisualStyleBackColor = False
+        '
+        'Status
+        '
+        Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
+        Me.ClientSize = New System.Drawing.Size(615, 123)
+        Me.ControlBox = False
+        Me.Controls.Add(Me.lblTitle)
+        Me.Controls.Add(Me.picIcon)
+        Me.Controls.Add(Me.lblTimeRemaining)
+        Me.Controls.Add(Me.cmdCancel)
+        Me.Controls.Add(Me.pbrProgress)
+        Me.Controls.Add(Me.lblStatus)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
+        Me.MaximizeBox = False
+        Me.MinimizeBox = False
+        Me.Name = "Status"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
+        Me.Text = "Automatic Upgrade"
+        CType(Me.picIcon, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ResumeLayout(False)
+        Me.PerformLayout()
 
-	End Sub
+    End Sub
 
 #End Region
 
