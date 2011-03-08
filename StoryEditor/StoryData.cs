@@ -1025,6 +1025,8 @@ namespace OneStoryProjectEditor
             Add(OseResources.Properties.Resources.IDS_ObsoleteStoriesSet, new StoriesData(OseResources.Properties.Resources.IDS_ObsoleteStoriesSet));
         }
 
+        static bool bProjectConvertWarnedOnce = false;
+                
         public StoryProjectData(NewDataSet projFile, ProjectSettings projSettings)
         {
             // this version comes with a project settings object
@@ -1036,6 +1038,7 @@ namespace OneStoryProjectEditor
             else
             {
                 projFile.StoryProject[0].ProjectName = ProjSettings.ProjectName; // in case the user changed it.
+
                 if (projFile.StoryProject[0].version.CompareTo("1.3") == 0)
                 {
                     // see if the user wants us to upgrade this one
@@ -1044,17 +1047,20 @@ namespace OneStoryProjectEditor
                         throw BackOutWithNoUI;
 
                     // convert the 1.3 file to 1.4 using xslt
+                    bProjectConvertWarnedOnce = true;
                     ConvertProjectFile1_3_to_1_4(ProjSettings.ProjectFilePath);
                 }
 
                 else if (projFile.StoryProject[0].version.CompareTo("1.4") == 0)
                 {
                     // see if the user wants us to upgrade this one
-                    if (MessageBox.Show(String.Format(OseResources.Properties.Resources.IDS_QueryConvertProjectFile1_3to1_4,
-                        ProjSettings.ProjectName), OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
-                        throw BackOutWithNoUI;
+                    if (!bProjectConvertWarnedOnce)
+                        if (MessageBox.Show(String.Format(OseResources.Properties.Resources.IDS_QueryConvertProjectFile1_3to1_4,
+                            ProjSettings.ProjectName), OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
+                            throw BackOutWithNoUI;
 
                     // convert the 1.3 file to 1.4 using xslt
+                    bProjectConvertWarnedOnce = true;
                     ConvertProjectFile1_4_to_1_5(ProjSettings.ProjectFilePath);
                 }
 
@@ -1088,24 +1094,8 @@ namespace OneStoryProjectEditor
 
         private void ConvertProjectFile1_3_to_1_4(string strProjectFilePath)
         {
-            // get the xml (.onestory) file into a memory string so it can be the 
-            //  input to the transformer
-            string strProjectFile = File.ReadAllText(strProjectFilePath);
-            var streamData = new MemoryStream(Encoding.UTF8.GetBytes(strProjectFile));
-
-#if DEBUG
-            string strXslt = File.ReadAllText(@"C:\src\StoryEditor\StoryEditor\Resources\1.3 to 1.4.xslt");
-            System.Diagnostics.Debug.Assert(strXslt == Properties.Resources.project_1_3_to_1_4);
-#else
-            string strXslt = Properties.Resources.project_1_3_to_1_4;
-#endif
-            var streamXSLT = new MemoryStream(Encoding.UTF8.GetBytes(strXslt));
-            var xelemProjectFileXml = TransformedXmlDataToSfm(streamXSLT, streamData);
-            throw BackOut2Reopen(xelemProjectFileXml);
-        }
-
-        private void ConvertProjectFile1_4_to_1_5(string strProjectFilePath)
-        {
+            // if the user had 1.3 and customized the state transition xml file, 
+            //  then blow it away.
             string strProjectFolder = Path.GetDirectoryName(strProjectFilePath);
             string strStateTransitions = Path.Combine(strProjectFolder, StoryStageLogic.StateTransitions.CstrStateTransitionsXmlFilename);
             if (File.Exists(strStateTransitions))
@@ -1128,6 +1118,19 @@ namespace OneStoryProjectEditor
 #else
             string strXslt = Properties.Resources.project_1_3_to_1_4;
 #endif
+            var streamXSLT = new MemoryStream(Encoding.UTF8.GetBytes(strXslt));
+            var xelemProjectFileXml = TransformedXmlDataToSfm(streamXSLT, streamData);
+            throw BackOut2Reopen(xelemProjectFileXml);
+        }
+
+        private void ConvertProjectFile1_4_to_1_5(string strProjectFilePath)
+        {
+            // get the xml (.onestory) file into a memory string so it can be the 
+            //  input to the transformer
+            string strProjectFile = File.ReadAllText(strProjectFilePath);
+            var streamData = new MemoryStream(Encoding.UTF8.GetBytes(strProjectFile));
+
+            string strXslt = Properties.Resources._1_4_to_1_5;
             var streamXSLT = new MemoryStream(Encoding.UTF8.GetBytes(strXslt));
             var xelemProjectFileXml = TransformedXmlDataToSfm(streamXSLT, streamData);
             throw BackOut2Reopen(xelemProjectFileXml);
