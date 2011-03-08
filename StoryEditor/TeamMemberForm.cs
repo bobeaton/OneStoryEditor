@@ -17,8 +17,9 @@ namespace OneStoryProjectEditor
         protected const string CstrDefaultFontTooltipInternationalBT =
             "Click here to choose the font, size, and color of the English language back-translation text{0}Currently, Font: {1}, Color: {2}, RTL: {3}";
         */
-        internal const string CstrDefaultOKLabel = "&Login";
-
+        private const string CstrDefaultOKLabel = "&Login";
+        private const string CstrReturnLabel = "&Return";
+        
         protected TeamMembersData _dataTeamMembers;
         protected string m_strSelectedMember;
 
@@ -26,7 +27,7 @@ namespace OneStoryProjectEditor
 
         public bool Modified;
 
-        public TeamMemberForm(TeamMembersData dataTeamMembers, string strOKLabel)
+        public TeamMemberForm(TeamMembersData dataTeamMembers, bool bUseLoginLabel)
             : base(true)
         {
             _dataTeamMembers = dataTeamMembers;
@@ -34,8 +35,8 @@ namespace OneStoryProjectEditor
             
             foreach (TeamMemberData aMember in _dataTeamMembers.Values)
             {
-                listBoxTeamMembers.Items.Add(aMember.Name);
-                listBoxMemberRoles.Items.Add(TeamMemberData.GetMemberTypeAsDisplayString(aMember.MemberType));
+                int nIndex = listBoxTeamMembers.Items.Add(aMember.Name);
+                listBoxMemberRoles.Items.Insert(nIndex, TeamMemberData.GetMemberTypeAsDisplayString(aMember.MemberType));
             }
 
             if ((listBoxTeamMembers.Items.Count > 0) && !String.IsNullOrEmpty(Properties.Settings.Default.LastMemberLogin))
@@ -132,8 +133,11 @@ namespace OneStoryProjectEditor
 
             textBoxProjectName.Text = _projSettings.ProjectName;
             */
-            if (!String.IsNullOrEmpty(strOKLabel))
-                buttonOK.Text = strOKLabel;
+            if (!bUseLoginLabel)
+            {
+                buttonOK.Text = CstrReturnLabel;
+                toolTip.SetToolTip(buttonOK, "Click to return to the previous window");
+            }
             /*
             // if the user hasn't configured the language information, send them there first
             if (!_projSettings.IsConfigured)
@@ -389,8 +393,8 @@ namespace OneStoryProjectEditor
 
                     _dataTeamMembers.Add(dlg.MemberName, theNewMemberData);
                     m_mapNewMembersThisSession.Add(dlg.MemberName, theNewMemberData);
-                    listBoxTeamMembers.Items.Add(dlg.MemberName);
-                    listBoxMemberRoles.Items.Add(TeamMemberData.GetMemberTypeAsDisplayString(theNewMemberData.MemberType));
+                    int nIndex = listBoxTeamMembers.Items.Add(dlg.MemberName);
+                    listBoxMemberRoles.Items.Insert(nIndex, TeamMemberData.GetMemberTypeAsDisplayString(theNewMemberData.MemberType));
                     listBoxTeamMembers.SelectedItem = dlg.MemberName;
                 }
             }

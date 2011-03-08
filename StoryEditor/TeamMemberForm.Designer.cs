@@ -130,6 +130,7 @@
             this.tableLayoutPanelTeamMembers.SetRowSpan(this.listBoxTeamMembers, 3);
             this.helpProvider.SetShowHelp(this.listBoxTeamMembers, true);
             this.listBoxTeamMembers.Size = new System.Drawing.Size(213, 394);
+            this.listBoxTeamMembers.Sorted = true;
             this.listBoxTeamMembers.TabIndex = 0;
             this.listBoxTeamMembers.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBoxTeamMembers_MouseDoubleClick);
             this.listBoxTeamMembers.SelectedIndexChanged += new System.EventHandler(this.listBoxTeamMembers_SelectedIndexChanged);

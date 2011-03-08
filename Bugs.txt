@@ -1,8 +1,10 @@
-﻿add to SInfo dialog 6 tests (3 retellings and 3 TQAs).
+﻿Check out searching on L&C Notes.
+
+In Tbx, you could right-click to "Jump" to an L&C note... what could that mean in OSE?
+
+add to SInfo dialog 6 tests (3 retellings and 3 TQAs).
 
 For the retellings, ask explicitly how many times the UNS was played the story to give a particular retelling.
-
-Alphabetize the Login list
 
 do Hindi->English AIKB
 

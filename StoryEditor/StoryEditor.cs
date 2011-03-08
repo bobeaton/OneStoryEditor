@@ -520,7 +520,7 @@ namespace OneStoryProjectEditor
                     if (LoggedOnMember != null)
                         strMemberName = LoggedOnMember.Name;
 
-                    LoggedOnMember = StoryProject.EditTeamMembers(strMemberName, null, ref Modified);
+                    LoggedOnMember = StoryProject.EditTeamMembers(strMemberName, true, ref Modified);
 
                     if (theCurrentStory != null)
                     {

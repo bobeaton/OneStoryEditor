@@ -1056,7 +1056,7 @@ namespace OneStoryProjectEditor
 
             // otherwise, fall thru and make them pick it.
             if (loggedOnMember == null)
-                loggedOnMember = EditTeamMembers(strMemberName, null, ref bModified);
+                loggedOnMember = EditTeamMembers(strMemberName, true, ref bModified);
 
             // if we have a logged on person, then initialize the overrides for that
             //  person (i.e. fonts, keyboards)
@@ -1091,10 +1091,10 @@ namespace OneStoryProjectEditor
         }
 
         // returns the logged in member
-        internal TeamMemberData EditTeamMembers(string strMemberName, string strOKLabel,
+        internal TeamMemberData EditTeamMembers(string strMemberName, bool bUseLoginLabel,
             ref bool bModified)
         {
-            TeamMemberForm dlg = new TeamMemberForm(TeamMembers, strOKLabel);
+            TeamMemberForm dlg = new TeamMemberForm(TeamMembers, bUseLoginLabel);
             if (!String.IsNullOrEmpty(strMemberName))
             {
                 try
@@ -1108,7 +1108,7 @@ namespace OneStoryProjectEditor
 
             if (dlg.ShowDialog() != DialogResult.OK)
             {
-                if (String.IsNullOrEmpty(strOKLabel))
+                if (bUseLoginLabel)
                     MessageBox.Show(OseResources.Properties.Resources.IDS_HaveToLogInToContinue, OseResources.Properties.Resources.IDS_Caption);
 
                 throw BackOutWithNoUI;
