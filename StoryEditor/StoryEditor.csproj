@@ -669,6 +669,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="1.4 to 1.5.xslt" />
     <Content Include="BiblicalTerms\AllBiblicalTerms.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

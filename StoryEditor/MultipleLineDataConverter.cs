@@ -243,7 +243,7 @@ namespace OneStoryProjectEditor
                                                                 strRow)));
             return strRow;
         }
-        public string PresentationHtml(int nVerseIndex, int nNumCols, List<string> astrTestors,
+        public string PresentationHtml(int nVerseIndex, int nNumCols, TestInfo astrTestors,
             MultipleLineDataConverter child, bool bPrintPreview, bool bProcessingTheChild,
             bool bShowVernacular, bool bShowNationalBT, bool bShowInternationalBT)
         {
@@ -343,7 +343,7 @@ namespace OneStoryProjectEditor
         }
 
 
-        public string PresentationHtmlAsAddition(int nVerseIndex, int nNumCols, List<string> astrTestors,
+        public string PresentationHtmlAsAddition(int nVerseIndex, int nNumCols, TestInfo astrTestors,
             bool bShowVernacular, bool bShowNationalBT, bool bShowInternationalBT)
         {
             string strRow = null;

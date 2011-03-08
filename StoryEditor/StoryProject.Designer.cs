@@ -55,9 +55,13 @@ namespace OneStoryProjectEditor {
         
         private BackTranslatorDataTable tableBackTranslator;
         
-        private TestsDataTable tableTests;
+        private TestsRetellingsDataTable tableTestsRetellings;
         
-        private TestDataTable tableTest;
+        private TestRetellingDataTable tableTestRetelling;
+        
+        private TestsTqAnswersDataTable tableTestsTqAnswers;
+        
+        private TestTqAnswerDataTable tableTestTqAnswer;
         
         private TransitionHistoryDataTable tableTransitionHistory;
         
@@ -131,9 +135,13 @@ namespace OneStoryProjectEditor {
         
         private global::System.Data.DataRelation relationCraftingInfo_BackTranslator;
         
-        private global::System.Data.DataRelation relationCraftingInfo_Tests;
+        private global::System.Data.DataRelation relationCraftingInfo_TestsRetellings;
         
-        private global::System.Data.DataRelation relationTests_Test;
+        private global::System.Data.DataRelation relationTestsRetellings_TestRetelling;
+        
+        private global::System.Data.DataRelation relationCraftingInfo_TestsTqAnswers;
+        
+        private global::System.Data.DataRelation relationTestsTqAnswers_TestTqAnswer;
         
         private global::System.Data.DataRelation relationstory_TransitionHistory;
         
@@ -250,11 +258,17 @@ namespace OneStoryProjectEditor {
                 if ((ds.Tables["BackTranslator"] != null)) {
                     base.Tables.Add(new BackTranslatorDataTable(ds.Tables["BackTranslator"]));
                 }
-                if ((ds.Tables["Tests"] != null)) {
-                    base.Tables.Add(new TestsDataTable(ds.Tables["Tests"]));
+                if ((ds.Tables["TestsRetellings"] != null)) {
+                    base.Tables.Add(new TestsRetellingsDataTable(ds.Tables["TestsRetellings"]));
                 }
-                if ((ds.Tables["Test"] != null)) {
-                    base.Tables.Add(new TestDataTable(ds.Tables["Test"]));
+                if ((ds.Tables["TestRetelling"] != null)) {
+                    base.Tables.Add(new TestRetellingDataTable(ds.Tables["TestRetelling"]));
+                }
+                if ((ds.Tables["TestsTqAnswers"] != null)) {
+                    base.Tables.Add(new TestsTqAnswersDataTable(ds.Tables["TestsTqAnswers"]));
+                }
+                if ((ds.Tables["TestTqAnswer"] != null)) {
+                    base.Tables.Add(new TestTqAnswerDataTable(ds.Tables["TestTqAnswer"]));
                 }
                 if ((ds.Tables["TransitionHistory"] != null)) {
                     base.Tables.Add(new TransitionHistoryDataTable(ds.Tables["TransitionHistory"]));
@@ -478,18 +492,36 @@ namespace OneStoryProjectEditor {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public TestsDataTable Tests {
+        public TestsRetellingsDataTable TestsRetellings {
             get {
-                return this.tableTests;
+                return this.tableTestsRetellings;
             }
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public TestDataTable Test {
+        public TestRetellingDataTable TestRetelling {
             get {
-                return this.tableTest;
+                return this.tableTestRetelling;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public TestsTqAnswersDataTable TestsTqAnswers {
+            get {
+                return this.tableTestsTqAnswers;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public TestTqAnswerDataTable TestTqAnswer {
+            get {
+                return this.tableTestTqAnswer;
             }
         }
         
@@ -795,11 +827,17 @@ namespace OneStoryProjectEditor {
                 if ((ds.Tables["BackTranslator"] != null)) {
                     base.Tables.Add(new BackTranslatorDataTable(ds.Tables["BackTranslator"]));
                 }
-                if ((ds.Tables["Tests"] != null)) {
-                    base.Tables.Add(new TestsDataTable(ds.Tables["Tests"]));
+                if ((ds.Tables["TestsRetellings"] != null)) {
+                    base.Tables.Add(new TestsRetellingsDataTable(ds.Tables["TestsRetellings"]));
                 }
-                if ((ds.Tables["Test"] != null)) {
-                    base.Tables.Add(new TestDataTable(ds.Tables["Test"]));
+                if ((ds.Tables["TestRetelling"] != null)) {
+                    base.Tables.Add(new TestRetellingDataTable(ds.Tables["TestRetelling"]));
+                }
+                if ((ds.Tables["TestsTqAnswers"] != null)) {
+                    base.Tables.Add(new TestsTqAnswersDataTable(ds.Tables["TestsTqAnswers"]));
+                }
+                if ((ds.Tables["TestTqAnswer"] != null)) {
+                    base.Tables.Add(new TestTqAnswerDataTable(ds.Tables["TestTqAnswer"]));
                 }
                 if ((ds.Tables["TransitionHistory"] != null)) {
                     base.Tables.Add(new TransitionHistoryDataTable(ds.Tables["TransitionHistory"]));
@@ -987,16 +1025,28 @@ namespace OneStoryProjectEditor {
                     this.tableBackTranslator.InitVars();
                 }
             }
-            this.tableTests = ((TestsDataTable)(base.Tables["Tests"]));
+            this.tableTestsRetellings = ((TestsRetellingsDataTable)(base.Tables["TestsRetellings"]));
             if ((initTable == true)) {
-                if ((this.tableTests != null)) {
-                    this.tableTests.InitVars();
+                if ((this.tableTestsRetellings != null)) {
+                    this.tableTestsRetellings.InitVars();
                 }
             }
-            this.tableTest = ((TestDataTable)(base.Tables["Test"]));
+            this.tableTestRetelling = ((TestRetellingDataTable)(base.Tables["TestRetelling"]));
             if ((initTable == true)) {
-                if ((this.tableTest != null)) {
-                    this.tableTest.InitVars();
+                if ((this.tableTestRetelling != null)) {
+                    this.tableTestRetelling.InitVars();
+                }
+            }
+            this.tableTestsTqAnswers = ((TestsTqAnswersDataTable)(base.Tables["TestsTqAnswers"]));
+            if ((initTable == true)) {
+                if ((this.tableTestsTqAnswers != null)) {
+                    this.tableTestsTqAnswers.InitVars();
+                }
+            }
+            this.tableTestTqAnswer = ((TestTqAnswerDataTable)(base.Tables["TestTqAnswer"]));
+            if ((initTable == true)) {
+                if ((this.tableTestTqAnswer != null)) {
+                    this.tableTestTqAnswer.InitVars();
                 }
             }
             this.tableTransitionHistory = ((TransitionHistoryDataTable)(base.Tables["TransitionHistory"]));
@@ -1145,8 +1195,10 @@ namespace OneStoryProjectEditor {
             this.relationCraftingInfo_StoryCrafter = this.Relations["CraftingInfo_StoryCrafter"];
             this.relationCraftingInfo_ProjectFacilitator = this.Relations["CraftingInfo_ProjectFacilitator"];
             this.relationCraftingInfo_BackTranslator = this.Relations["CraftingInfo_BackTranslator"];
-            this.relationCraftingInfo_Tests = this.Relations["CraftingInfo_Tests"];
-            this.relationTests_Test = this.Relations["Tests_Test"];
+            this.relationCraftingInfo_TestsRetellings = this.Relations["CraftingInfo_TestsRetellings"];
+            this.relationTestsRetellings_TestRetelling = this.Relations["TestsRetellings_TestRetelling"];
+            this.relationCraftingInfo_TestsTqAnswers = this.Relations["CraftingInfo_TestsTqAnswers"];
+            this.relationTestsTqAnswers_TestTqAnswer = this.Relations["TestsTqAnswers_TestTqAnswer"];
             this.relationstory_TransitionHistory = this.Relations["story_TransitionHistory"];
             this.relationTransitionHistory_StateTransition = this.Relations["TransitionHistory_StateTransition"];
             this.relationstory_Verses = this.Relations["story_Verses"];
@@ -1208,10 +1260,14 @@ namespace OneStoryProjectEditor {
             base.Tables.Add(this.tableProjectFacilitator);
             this.tableBackTranslator = new BackTranslatorDataTable();
             base.Tables.Add(this.tableBackTranslator);
-            this.tableTests = new TestsDataTable();
-            base.Tables.Add(this.tableTests);
-            this.tableTest = new TestDataTable();
-            base.Tables.Add(this.tableTest);
+            this.tableTestsRetellings = new TestsRetellingsDataTable();
+            base.Tables.Add(this.tableTestsRetellings);
+            this.tableTestRetelling = new TestRetellingDataTable();
+            base.Tables.Add(this.tableTestRetelling);
+            this.tableTestsTqAnswers = new TestsTqAnswersDataTable();
+            base.Tables.Add(this.tableTestsTqAnswers);
+            this.tableTestTqAnswer = new TestTqAnswerDataTable();
+            base.Tables.Add(this.tableTestTqAnswer);
             this.tableTransitionHistory = new TransitionHistoryDataTable();
             base.Tables.Add(this.tableTransitionHistory);
             this.tableStateTransition = new StateTransitionDataTable();
@@ -1355,17 +1411,31 @@ namespace OneStoryProjectEditor {
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
-            fkc = new global::System.Data.ForeignKeyConstraint("CraftingInfo_Tests", new global::System.Data.DataColumn[] {
+            fkc = new global::System.Data.ForeignKeyConstraint("CraftingInfo_TestsRetellings", new global::System.Data.DataColumn[] {
                         this.tableCraftingInfo.CraftingInfo_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableTests.CraftingInfo_IdColumn});
-            this.tableTests.Constraints.Add(fkc);
+                        this.tableTestsRetellings.CraftingInfo_IdColumn});
+            this.tableTestsRetellings.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
-            fkc = new global::System.Data.ForeignKeyConstraint("Tests_Test", new global::System.Data.DataColumn[] {
-                        this.tableTests.Tests_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableTest.Tests_IdColumn});
-            this.tableTest.Constraints.Add(fkc);
+            fkc = new global::System.Data.ForeignKeyConstraint("TestsRetellings_TestRetelling", new global::System.Data.DataColumn[] {
+                        this.tableTestsRetellings.TestsRetellings_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableTestRetelling.TestsRetellings_IdColumn});
+            this.tableTestRetelling.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.Cascade;
+            fkc.UpdateRule = global::System.Data.Rule.Cascade;
+            fkc = new global::System.Data.ForeignKeyConstraint("CraftingInfo_TestsTqAnswers", new global::System.Data.DataColumn[] {
+                        this.tableCraftingInfo.CraftingInfo_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableTestsTqAnswers.CraftingInfo_IdColumn});
+            this.tableTestsTqAnswers.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.Cascade;
+            fkc.UpdateRule = global::System.Data.Rule.Cascade;
+            fkc = new global::System.Data.ForeignKeyConstraint("TestsTqAnswers_TestTqAnswer", new global::System.Data.DataColumn[] {
+                        this.tableTestsTqAnswers.TestsTqAnswers_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableTestTqAnswer.TestsTqAnswers_IdColumn});
+            this.tableTestTqAnswer.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
@@ -1593,16 +1663,26 @@ namespace OneStoryProjectEditor {
                         this.tableBackTranslator.CraftingInfo_IdColumn}, false);
             this.relationCraftingInfo_BackTranslator.Nested = true;
             this.Relations.Add(this.relationCraftingInfo_BackTranslator);
-            this.relationCraftingInfo_Tests = new global::System.Data.DataRelation("CraftingInfo_Tests", new global::System.Data.DataColumn[] {
+            this.relationCraftingInfo_TestsRetellings = new global::System.Data.DataRelation("CraftingInfo_TestsRetellings", new global::System.Data.DataColumn[] {
                         this.tableCraftingInfo.CraftingInfo_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableTests.CraftingInfo_IdColumn}, false);
-            this.relationCraftingInfo_Tests.Nested = true;
-            this.Relations.Add(this.relationCraftingInfo_Tests);
-            this.relationTests_Test = new global::System.Data.DataRelation("Tests_Test", new global::System.Data.DataColumn[] {
-                        this.tableTests.Tests_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableTest.Tests_IdColumn}, false);
-            this.relationTests_Test.Nested = true;
-            this.Relations.Add(this.relationTests_Test);
+                        this.tableTestsRetellings.CraftingInfo_IdColumn}, false);
+            this.relationCraftingInfo_TestsRetellings.Nested = true;
+            this.Relations.Add(this.relationCraftingInfo_TestsRetellings);
+            this.relationTestsRetellings_TestRetelling = new global::System.Data.DataRelation("TestsRetellings_TestRetelling", new global::System.Data.DataColumn[] {
+                        this.tableTestsRetellings.TestsRetellings_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableTestRetelling.TestsRetellings_IdColumn}, false);
+            this.relationTestsRetellings_TestRetelling.Nested = true;
+            this.Relations.Add(this.relationTestsRetellings_TestRetelling);
+            this.relationCraftingInfo_TestsTqAnswers = new global::System.Data.DataRelation("CraftingInfo_TestsTqAnswers", new global::System.Data.DataColumn[] {
+                        this.tableCraftingInfo.CraftingInfo_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableTestsTqAnswers.CraftingInfo_IdColumn}, false);
+            this.relationCraftingInfo_TestsTqAnswers.Nested = true;
+            this.Relations.Add(this.relationCraftingInfo_TestsTqAnswers);
+            this.relationTestsTqAnswers_TestTqAnswer = new global::System.Data.DataRelation("TestsTqAnswers_TestTqAnswer", new global::System.Data.DataColumn[] {
+                        this.tableTestsTqAnswers.TestsTqAnswers_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableTestTqAnswer.TestsTqAnswers_IdColumn}, false);
+            this.relationTestsTqAnswers_TestTqAnswer.Nested = true;
+            this.Relations.Add(this.relationTestsTqAnswers_TestTqAnswer);
             this.relationstory_TransitionHistory = new global::System.Data.DataRelation("story_TransitionHistory", new global::System.Data.DataColumn[] {
                         this.tablestory.story_IdColumn}, new global::System.Data.DataColumn[] {
                         this.tableTransitionHistory.story_IdColumn}, false);
@@ -1791,12 +1871,22 @@ namespace OneStoryProjectEditor {
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        private bool ShouldSerializeTests() {
+        private bool ShouldSerializeTestsRetellings() {
             return false;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        private bool ShouldSerializeTest() {
+        private bool ShouldSerializeTestRetelling() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private bool ShouldSerializeTestsTqAnswers() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private bool ShouldSerializeTestTqAnswer() {
             return false;
         }
         
@@ -1993,9 +2083,13 @@ namespace OneStoryProjectEditor {
         
         public delegate void BackTranslatorRowChangeEventHandler(object sender, BackTranslatorRowChangeEvent e);
         
-        public delegate void TestsRowChangeEventHandler(object sender, TestsRowChangeEvent e);
+        public delegate void TestsRetellingsRowChangeEventHandler(object sender, TestsRetellingsRowChangeEvent e);
         
-        public delegate void TestRowChangeEventHandler(object sender, TestRowChangeEvent e);
+        public delegate void TestRetellingRowChangeEventHandler(object sender, TestRetellingRowChangeEvent e);
+        
+        public delegate void TestsTqAnswersRowChangeEventHandler(object sender, TestsTqAnswersRowChangeEvent e);
+        
+        public delegate void TestTqAnswerRowChangeEventHandler(object sender, TestTqAnswerRowChangeEvent e);
         
         public delegate void TransitionHistoryRowChangeEventHandler(object sender, TransitionHistoryRowChangeEvent e);
         
@@ -5723,6 +5817,8 @@ namespace OneStoryProjectEditor {
             
             private global::System.Data.DataColumn columnResourcesUsed;
             
+            private global::System.Data.DataColumn columnMiscellaneousStoryInfo;
+            
             private global::System.Data.DataColumn columnCraftingInfo_Id;
             
             private global::System.Data.DataColumn columnstory_Id;
@@ -5779,6 +5875,13 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn MiscellaneousStoryInfoColumn {
+                get {
+                    return this.columnMiscellaneousStoryInfo;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public global::System.Data.DataColumn CraftingInfo_IdColumn {
                 get {
                     return this.columnCraftingInfo_Id;
@@ -5821,16 +5924,17 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public CraftingInfoRow AddCraftingInfoRow(bool NonBiblicalStory, string StoryPurpose, string ResourcesUsed, storyRow parentstoryRowBystory_CraftingInfo) {
+            public CraftingInfoRow AddCraftingInfoRow(bool NonBiblicalStory, string StoryPurpose, string ResourcesUsed, string MiscellaneousStoryInfo, storyRow parentstoryRowBystory_CraftingInfo) {
                 CraftingInfoRow rowCraftingInfoRow = ((CraftingInfoRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         NonBiblicalStory,
                         StoryPurpose,
                         ResourcesUsed,
+                        MiscellaneousStoryInfo,
                         null,
                         null};
                 if ((parentstoryRowBystory_CraftingInfo != null)) {
-                    columnValuesArray[4] = parentstoryRowBystory_CraftingInfo[4];
+                    columnValuesArray[5] = parentstoryRowBystory_CraftingInfo[4];
                 }
                 rowCraftingInfoRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowCraftingInfoRow);
@@ -5854,6 +5958,7 @@ namespace OneStoryProjectEditor {
                 this.columnNonBiblicalStory = base.Columns["NonBiblicalStory"];
                 this.columnStoryPurpose = base.Columns["StoryPurpose"];
                 this.columnResourcesUsed = base.Columns["ResourcesUsed"];
+                this.columnMiscellaneousStoryInfo = base.Columns["MiscellaneousStoryInfo"];
                 this.columnCraftingInfo_Id = base.Columns["CraftingInfo_Id"];
                 this.columnstory_Id = base.Columns["story_Id"];
             }
@@ -5866,6 +5971,8 @@ namespace OneStoryProjectEditor {
                 base.Columns.Add(this.columnStoryPurpose);
                 this.columnResourcesUsed = new global::System.Data.DataColumn("ResourcesUsed", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnResourcesUsed);
+                this.columnMiscellaneousStoryInfo = new global::System.Data.DataColumn("MiscellaneousStoryInfo", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnMiscellaneousStoryInfo);
                 this.columnCraftingInfo_Id = new global::System.Data.DataColumn("CraftingInfo_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnCraftingInfo_Id);
                 this.columnstory_Id = new global::System.Data.DataColumn("story_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
@@ -6084,7 +6191,7 @@ namespace OneStoryProjectEditor {
                         memberID,
                         null};
                 if ((parentCraftingInfoRowByCraftingInfo_StoryCrafter != null)) {
-                    columnValuesArray[1] = parentCraftingInfoRowByCraftingInfo_StoryCrafter[3];
+                    columnValuesArray[1] = parentCraftingInfoRowByCraftingInfo_StoryCrafter[4];
                 }
                 rowStoryCrafterRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowStoryCrafterRow);
@@ -6324,7 +6431,7 @@ namespace OneStoryProjectEditor {
                         memberID,
                         null};
                 if ((parentCraftingInfoRowByCraftingInfo_ProjectFacilitator != null)) {
-                    columnValuesArray[1] = parentCraftingInfoRowByCraftingInfo_ProjectFacilitator[3];
+                    columnValuesArray[1] = parentCraftingInfoRowByCraftingInfo_ProjectFacilitator[4];
                 }
                 rowProjectFacilitatorRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowProjectFacilitatorRow);
@@ -6564,7 +6671,7 @@ namespace OneStoryProjectEditor {
                         memberID,
                         null};
                 if ((parentCraftingInfoRowByCraftingInfo_BackTranslator != null)) {
-                    columnValuesArray[1] = parentCraftingInfoRowByCraftingInfo_BackTranslator[3];
+                    columnValuesArray[1] = parentCraftingInfoRowByCraftingInfo_BackTranslator[4];
                 }
                 rowBackTranslatorRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowBackTranslatorRow);
@@ -6719,22 +6826,22 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class TestsDataTable : global::System.Data.TypedTableBase<TestsRow> {
+        public partial class TestsRetellingsDataTable : global::System.Data.TypedTableBase<TestsRetellingsRow> {
             
-            private global::System.Data.DataColumn columnTests_Id;
+            private global::System.Data.DataColumn columnTestsRetellings_Id;
             
             private global::System.Data.DataColumn columnCraftingInfo_Id;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public TestsDataTable() {
-                this.TableName = "Tests";
+            public TestsRetellingsDataTable() {
+                this.TableName = "TestsRetellings";
                 this.BeginInit();
                 this.InitClass();
                 this.EndInit();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal TestsDataTable(global::System.Data.DataTable table) {
+            internal TestsRetellingsDataTable(global::System.Data.DataTable table) {
                 this.TableName = table.TableName;
                 if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
                     this.CaseSensitive = table.CaseSensitive;
@@ -6750,15 +6857,15 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected TestsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+            protected TestsRetellingsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn Tests_IdColumn {
+            public global::System.Data.DataColumn TestsRetellings_IdColumn {
                 get {
-                    return this.columnTests_Id;
+                    return this.columnTestsRetellings_Id;
                 }
             }
             
@@ -6778,119 +6885,119 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public TestsRow this[int index] {
+            public TestsRetellingsRow this[int index] {
                 get {
-                    return ((TestsRow)(this.Rows[index]));
+                    return ((TestsRetellingsRow)(this.Rows[index]));
                 }
             }
             
-            public event TestsRowChangeEventHandler TestsRowChanging;
+            public event TestsRetellingsRowChangeEventHandler TestsRetellingsRowChanging;
             
-            public event TestsRowChangeEventHandler TestsRowChanged;
+            public event TestsRetellingsRowChangeEventHandler TestsRetellingsRowChanged;
             
-            public event TestsRowChangeEventHandler TestsRowDeleting;
+            public event TestsRetellingsRowChangeEventHandler TestsRetellingsRowDeleting;
             
-            public event TestsRowChangeEventHandler TestsRowDeleted;
+            public event TestsRetellingsRowChangeEventHandler TestsRetellingsRowDeleted;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void AddTestsRow(TestsRow row) {
+            public void AddTestsRetellingsRow(TestsRetellingsRow row) {
                 this.Rows.Add(row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public TestsRow AddTestsRow(CraftingInfoRow parentCraftingInfoRowByCraftingInfo_Tests) {
-                TestsRow rowTestsRow = ((TestsRow)(this.NewRow()));
+            public TestsRetellingsRow AddTestsRetellingsRow(CraftingInfoRow parentCraftingInfoRowByCraftingInfo_TestsRetellings) {
+                TestsRetellingsRow rowTestsRetellingsRow = ((TestsRetellingsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
                         null};
-                if ((parentCraftingInfoRowByCraftingInfo_Tests != null)) {
-                    columnValuesArray[1] = parentCraftingInfoRowByCraftingInfo_Tests[3];
+                if ((parentCraftingInfoRowByCraftingInfo_TestsRetellings != null)) {
+                    columnValuesArray[1] = parentCraftingInfoRowByCraftingInfo_TestsRetellings[4];
                 }
-                rowTestsRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowTestsRow);
-                return rowTestsRow;
+                rowTestsRetellingsRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowTestsRetellingsRow);
+                return rowTestsRetellingsRow;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public override global::System.Data.DataTable Clone() {
-                TestsDataTable cln = ((TestsDataTable)(base.Clone()));
+                TestsRetellingsDataTable cln = ((TestsRetellingsDataTable)(base.Clone()));
                 cln.InitVars();
                 return cln;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override global::System.Data.DataTable CreateInstance() {
-                return new TestsDataTable();
+                return new TestsRetellingsDataTable();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
-                this.columnTests_Id = base.Columns["Tests_Id"];
+                this.columnTestsRetellings_Id = base.Columns["TestsRetellings_Id"];
                 this.columnCraftingInfo_Id = base.Columns["CraftingInfo_Id"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             private void InitClass() {
-                this.columnTests_Id = new global::System.Data.DataColumn("Tests_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
-                base.Columns.Add(this.columnTests_Id);
+                this.columnTestsRetellings_Id = new global::System.Data.DataColumn("TestsRetellings_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnTestsRetellings_Id);
                 this.columnCraftingInfo_Id = new global::System.Data.DataColumn("CraftingInfo_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnCraftingInfo_Id);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
-                                this.columnTests_Id}, true));
-                this.columnTests_Id.AutoIncrement = true;
-                this.columnTests_Id.AllowDBNull = false;
-                this.columnTests_Id.Unique = true;
+                                this.columnTestsRetellings_Id}, true));
+                this.columnTestsRetellings_Id.AutoIncrement = true;
+                this.columnTestsRetellings_Id.AllowDBNull = false;
+                this.columnTestsRetellings_Id.Unique = true;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public TestsRow NewTestsRow() {
-                return ((TestsRow)(this.NewRow()));
+            public TestsRetellingsRow NewTestsRetellingsRow() {
+                return ((TestsRetellingsRow)(this.NewRow()));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new TestsRow(builder);
+                return new TestsRetellingsRow(builder);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override global::System.Type GetRowType() {
-                return typeof(TestsRow);
+                return typeof(TestsRetellingsRow);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanged(e);
-                if ((this.TestsRowChanged != null)) {
-                    this.TestsRowChanged(this, new TestsRowChangeEvent(((TestsRow)(e.Row)), e.Action));
+                if ((this.TestsRetellingsRowChanged != null)) {
+                    this.TestsRetellingsRowChanged(this, new TestsRetellingsRowChangeEvent(((TestsRetellingsRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanging(e);
-                if ((this.TestsRowChanging != null)) {
-                    this.TestsRowChanging(this, new TestsRowChangeEvent(((TestsRow)(e.Row)), e.Action));
+                if ((this.TestsRetellingsRowChanging != null)) {
+                    this.TestsRetellingsRowChanging(this, new TestsRetellingsRowChangeEvent(((TestsRetellingsRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleted(e);
-                if ((this.TestsRowDeleted != null)) {
-                    this.TestsRowDeleted(this, new TestsRowChangeEvent(((TestsRow)(e.Row)), e.Action));
+                if ((this.TestsRetellingsRowDeleted != null)) {
+                    this.TestsRetellingsRowDeleted(this, new TestsRetellingsRowChangeEvent(((TestsRetellingsRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleting(e);
-                if ((this.TestsRowDeleting != null)) {
-                    this.TestsRowDeleting(this, new TestsRowChangeEvent(((TestsRow)(e.Row)), e.Action));
+                if ((this.TestsRetellingsRowDeleting != null)) {
+                    this.TestsRetellingsRowDeleting(this, new TestsRetellingsRowChangeEvent(((TestsRetellingsRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void RemoveTestsRow(TestsRow row) {
+            public void RemoveTestsRetellingsRow(TestsRetellingsRow row) {
                 this.Rows.Remove(row);
             }
             
@@ -6916,7 +7023,7 @@ namespace OneStoryProjectEditor {
                 type.Attributes.Add(attribute1);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "TestsDataTable";
+                attribute2.FixedValue = "TestsRetellingsDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -6963,22 +7070,24 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class TestDataTable : global::System.Data.TypedTableBase<TestRow> {
+        public partial class TestRetellingDataTable : global::System.Data.TypedTableBase<TestRetellingRow> {
             
             private global::System.Data.DataColumn columnmemberID;
             
-            private global::System.Data.DataColumn columnTests_Id;
+            private global::System.Data.DataColumn columnTestRetelling_text;
+            
+            private global::System.Data.DataColumn columnTestsRetellings_Id;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public TestDataTable() {
-                this.TableName = "Test";
+            public TestRetellingDataTable() {
+                this.TableName = "TestRetelling";
                 this.BeginInit();
                 this.InitClass();
                 this.EndInit();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal TestDataTable(global::System.Data.DataTable table) {
+            internal TestRetellingDataTable(global::System.Data.DataTable table) {
                 this.TableName = table.TableName;
                 if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
                     this.CaseSensitive = table.CaseSensitive;
@@ -6994,7 +7103,7 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected TestDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+            protected TestRetellingDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
             }
@@ -7007,9 +7116,16 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn Tests_IdColumn {
+            public global::System.Data.DataColumn TestRetelling_textColumn {
                 get {
-                    return this.columnTests_Id;
+                    return this.columnTestRetelling_text;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn TestsRetellings_IdColumn {
+                get {
+                    return this.columnTestsRetellings_Id;
                 }
             }
             
@@ -7022,115 +7138,120 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public TestRow this[int index] {
+            public TestRetellingRow this[int index] {
                 get {
-                    return ((TestRow)(this.Rows[index]));
+                    return ((TestRetellingRow)(this.Rows[index]));
                 }
             }
             
-            public event TestRowChangeEventHandler TestRowChanging;
+            public event TestRetellingRowChangeEventHandler TestRetellingRowChanging;
             
-            public event TestRowChangeEventHandler TestRowChanged;
+            public event TestRetellingRowChangeEventHandler TestRetellingRowChanged;
             
-            public event TestRowChangeEventHandler TestRowDeleting;
+            public event TestRetellingRowChangeEventHandler TestRetellingRowDeleting;
             
-            public event TestRowChangeEventHandler TestRowDeleted;
+            public event TestRetellingRowChangeEventHandler TestRetellingRowDeleted;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void AddTestRow(TestRow row) {
+            public void AddTestRetellingRow(TestRetellingRow row) {
                 this.Rows.Add(row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public TestRow AddTestRow(string memberID, TestsRow parentTestsRowByTests_Test) {
-                TestRow rowTestRow = ((TestRow)(this.NewRow()));
+            public TestRetellingRow AddTestRetellingRow(string memberID, string TestRetelling_text, TestsRetellingsRow parentTestsRetellingsRowByTestsRetellings_TestRetelling) {
+                TestRetellingRow rowTestRetellingRow = ((TestRetellingRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         memberID,
+                        TestRetelling_text,
                         null};
-                if ((parentTestsRowByTests_Test != null)) {
-                    columnValuesArray[1] = parentTestsRowByTests_Test[0];
+                if ((parentTestsRetellingsRowByTestsRetellings_TestRetelling != null)) {
+                    columnValuesArray[2] = parentTestsRetellingsRowByTestsRetellings_TestRetelling[0];
                 }
-                rowTestRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowTestRow);
-                return rowTestRow;
+                rowTestRetellingRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowTestRetellingRow);
+                return rowTestRetellingRow;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public override global::System.Data.DataTable Clone() {
-                TestDataTable cln = ((TestDataTable)(base.Clone()));
+                TestRetellingDataTable cln = ((TestRetellingDataTable)(base.Clone()));
                 cln.InitVars();
                 return cln;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override global::System.Data.DataTable CreateInstance() {
-                return new TestDataTable();
+                return new TestRetellingDataTable();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
                 this.columnmemberID = base.Columns["memberID"];
-                this.columnTests_Id = base.Columns["Tests_Id"];
+                this.columnTestRetelling_text = base.Columns["TestRetelling_text"];
+                this.columnTestsRetellings_Id = base.Columns["TestsRetellings_Id"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             private void InitClass() {
                 this.columnmemberID = new global::System.Data.DataColumn("memberID", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnmemberID);
-                this.columnTests_Id = new global::System.Data.DataColumn("Tests_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
-                base.Columns.Add(this.columnTests_Id);
+                this.columnTestRetelling_text = new global::System.Data.DataColumn("TestRetelling_text", typeof(string), null, global::System.Data.MappingType.SimpleContent);
+                base.Columns.Add(this.columnTestRetelling_text);
+                this.columnTestsRetellings_Id = new global::System.Data.DataColumn("TestsRetellings_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnTestsRetellings_Id);
+                this.columnmemberID.AllowDBNull = false;
                 this.columnmemberID.Namespace = "";
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public TestRow NewTestRow() {
-                return ((TestRow)(this.NewRow()));
+            public TestRetellingRow NewTestRetellingRow() {
+                return ((TestRetellingRow)(this.NewRow()));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new TestRow(builder);
+                return new TestRetellingRow(builder);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override global::System.Type GetRowType() {
-                return typeof(TestRow);
+                return typeof(TestRetellingRow);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanged(e);
-                if ((this.TestRowChanged != null)) {
-                    this.TestRowChanged(this, new TestRowChangeEvent(((TestRow)(e.Row)), e.Action));
+                if ((this.TestRetellingRowChanged != null)) {
+                    this.TestRetellingRowChanged(this, new TestRetellingRowChangeEvent(((TestRetellingRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanging(e);
-                if ((this.TestRowChanging != null)) {
-                    this.TestRowChanging(this, new TestRowChangeEvent(((TestRow)(e.Row)), e.Action));
+                if ((this.TestRetellingRowChanging != null)) {
+                    this.TestRetellingRowChanging(this, new TestRetellingRowChangeEvent(((TestRetellingRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleted(e);
-                if ((this.TestRowDeleted != null)) {
-                    this.TestRowDeleted(this, new TestRowChangeEvent(((TestRow)(e.Row)), e.Action));
+                if ((this.TestRetellingRowDeleted != null)) {
+                    this.TestRetellingRowDeleted(this, new TestRetellingRowChangeEvent(((TestRetellingRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleting(e);
-                if ((this.TestRowDeleting != null)) {
-                    this.TestRowDeleting(this, new TestRowChangeEvent(((TestRow)(e.Row)), e.Action));
+                if ((this.TestRetellingRowDeleting != null)) {
+                    this.TestRetellingRowDeleting(this, new TestRetellingRowChangeEvent(((TestRetellingRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void RemoveTestRow(TestRow row) {
+            public void RemoveTestRetellingRow(TestRetellingRow row) {
                 this.Rows.Remove(row);
             }
             
@@ -7156,7 +7277,505 @@ namespace OneStoryProjectEditor {
                 type.Attributes.Add(attribute1);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "TestDataTable";
+                attribute2.FixedValue = "TestRetellingDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class TestsTqAnswersDataTable : global::System.Data.TypedTableBase<TestsTqAnswersRow> {
+            
+            private global::System.Data.DataColumn columnTestsTqAnswers_Id;
+            
+            private global::System.Data.DataColumn columnCraftingInfo_Id;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public TestsTqAnswersDataTable() {
+                this.TableName = "TestsTqAnswers";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal TestsTqAnswersDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected TestsTqAnswersDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn TestsTqAnswers_IdColumn {
+                get {
+                    return this.columnTestsTqAnswers_Id;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn CraftingInfo_IdColumn {
+                get {
+                    return this.columnCraftingInfo_Id;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public TestsTqAnswersRow this[int index] {
+                get {
+                    return ((TestsTqAnswersRow)(this.Rows[index]));
+                }
+            }
+            
+            public event TestsTqAnswersRowChangeEventHandler TestsTqAnswersRowChanging;
+            
+            public event TestsTqAnswersRowChangeEventHandler TestsTqAnswersRowChanged;
+            
+            public event TestsTqAnswersRowChangeEventHandler TestsTqAnswersRowDeleting;
+            
+            public event TestsTqAnswersRowChangeEventHandler TestsTqAnswersRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void AddTestsTqAnswersRow(TestsTqAnswersRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public TestsTqAnswersRow AddTestsTqAnswersRow(CraftingInfoRow parentCraftingInfoRowByCraftingInfo_TestsTqAnswers) {
+                TestsTqAnswersRow rowTestsTqAnswersRow = ((TestsTqAnswersRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        null,
+                        null};
+                if ((parentCraftingInfoRowByCraftingInfo_TestsTqAnswers != null)) {
+                    columnValuesArray[1] = parentCraftingInfoRowByCraftingInfo_TestsTqAnswers[4];
+                }
+                rowTestsTqAnswersRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowTestsTqAnswersRow);
+                return rowTestsTqAnswersRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public override global::System.Data.DataTable Clone() {
+                TestsTqAnswersDataTable cln = ((TestsTqAnswersDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new TestsTqAnswersDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal void InitVars() {
+                this.columnTestsTqAnswers_Id = base.Columns["TestsTqAnswers_Id"];
+                this.columnCraftingInfo_Id = base.Columns["CraftingInfo_Id"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            private void InitClass() {
+                this.columnTestsTqAnswers_Id = new global::System.Data.DataColumn("TestsTqAnswers_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnTestsTqAnswers_Id);
+                this.columnCraftingInfo_Id = new global::System.Data.DataColumn("CraftingInfo_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnCraftingInfo_Id);
+                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
+                                this.columnTestsTqAnswers_Id}, true));
+                this.columnTestsTqAnswers_Id.AutoIncrement = true;
+                this.columnTestsTqAnswers_Id.AllowDBNull = false;
+                this.columnTestsTqAnswers_Id.Unique = true;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public TestsTqAnswersRow NewTestsTqAnswersRow() {
+                return ((TestsTqAnswersRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new TestsTqAnswersRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Type GetRowType() {
+                return typeof(TestsTqAnswersRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.TestsTqAnswersRowChanged != null)) {
+                    this.TestsTqAnswersRowChanged(this, new TestsTqAnswersRowChangeEvent(((TestsTqAnswersRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.TestsTqAnswersRowChanging != null)) {
+                    this.TestsTqAnswersRowChanging(this, new TestsTqAnswersRowChangeEvent(((TestsTqAnswersRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.TestsTqAnswersRowDeleted != null)) {
+                    this.TestsTqAnswersRowDeleted(this, new TestsTqAnswersRowChangeEvent(((TestsTqAnswersRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.TestsTqAnswersRowDeleting != null)) {
+                    this.TestsTqAnswersRowDeleting(this, new TestsTqAnswersRowChangeEvent(((TestsTqAnswersRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void RemoveTestsTqAnswersRow(TestsTqAnswersRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                NewDataSet ds = new NewDataSet();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "TestsTqAnswersDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class TestTqAnswerDataTable : global::System.Data.TypedTableBase<TestTqAnswerRow> {
+            
+            private global::System.Data.DataColumn columnmemberID;
+            
+            private global::System.Data.DataColumn columnTestTqAnswer_text;
+            
+            private global::System.Data.DataColumn columnTestsTqAnswers_Id;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public TestTqAnswerDataTable() {
+                this.TableName = "TestTqAnswer";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal TestTqAnswerDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected TestTqAnswerDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn memberIDColumn {
+                get {
+                    return this.columnmemberID;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn TestTqAnswer_textColumn {
+                get {
+                    return this.columnTestTqAnswer_text;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn TestsTqAnswers_IdColumn {
+                get {
+                    return this.columnTestsTqAnswers_Id;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public TestTqAnswerRow this[int index] {
+                get {
+                    return ((TestTqAnswerRow)(this.Rows[index]));
+                }
+            }
+            
+            public event TestTqAnswerRowChangeEventHandler TestTqAnswerRowChanging;
+            
+            public event TestTqAnswerRowChangeEventHandler TestTqAnswerRowChanged;
+            
+            public event TestTqAnswerRowChangeEventHandler TestTqAnswerRowDeleting;
+            
+            public event TestTqAnswerRowChangeEventHandler TestTqAnswerRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void AddTestTqAnswerRow(TestTqAnswerRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public TestTqAnswerRow AddTestTqAnswerRow(string memberID, string TestTqAnswer_text, TestsTqAnswersRow parentTestsTqAnswersRowByTestsTqAnswers_TestTqAnswer) {
+                TestTqAnswerRow rowTestTqAnswerRow = ((TestTqAnswerRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        memberID,
+                        TestTqAnswer_text,
+                        null};
+                if ((parentTestsTqAnswersRowByTestsTqAnswers_TestTqAnswer != null)) {
+                    columnValuesArray[2] = parentTestsTqAnswersRowByTestsTqAnswers_TestTqAnswer[0];
+                }
+                rowTestTqAnswerRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowTestTqAnswerRow);
+                return rowTestTqAnswerRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public override global::System.Data.DataTable Clone() {
+                TestTqAnswerDataTable cln = ((TestTqAnswerDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new TestTqAnswerDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal void InitVars() {
+                this.columnmemberID = base.Columns["memberID"];
+                this.columnTestTqAnswer_text = base.Columns["TestTqAnswer_text"];
+                this.columnTestsTqAnswers_Id = base.Columns["TestsTqAnswers_Id"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            private void InitClass() {
+                this.columnmemberID = new global::System.Data.DataColumn("memberID", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnmemberID);
+                this.columnTestTqAnswer_text = new global::System.Data.DataColumn("TestTqAnswer_text", typeof(string), null, global::System.Data.MappingType.SimpleContent);
+                base.Columns.Add(this.columnTestTqAnswer_text);
+                this.columnTestsTqAnswers_Id = new global::System.Data.DataColumn("TestsTqAnswers_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnTestsTqAnswers_Id);
+                this.columnmemberID.AllowDBNull = false;
+                this.columnmemberID.Namespace = "";
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public TestTqAnswerRow NewTestTqAnswerRow() {
+                return ((TestTqAnswerRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new TestTqAnswerRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Type GetRowType() {
+                return typeof(TestTqAnswerRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.TestTqAnswerRowChanged != null)) {
+                    this.TestTqAnswerRowChanged(this, new TestTqAnswerRowChangeEvent(((TestTqAnswerRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.TestTqAnswerRowChanging != null)) {
+                    this.TestTqAnswerRowChanging(this, new TestTqAnswerRowChangeEvent(((TestTqAnswerRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.TestTqAnswerRowDeleted != null)) {
+                    this.TestTqAnswerRowDeleted(this, new TestTqAnswerRowChangeEvent(((TestTqAnswerRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.TestTqAnswerRowDeleting != null)) {
+                    this.TestTqAnswerRowDeleting(this, new TestTqAnswerRowChangeEvent(((TestTqAnswerRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void RemoveTestTqAnswerRow(TestTqAnswerRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                NewDataSet ds = new NewDataSet();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "TestTqAnswerDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -15295,6 +15914,21 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string MiscellaneousStoryInfo {
+                get {
+                    try {
+                        return ((string)(this[this.tableCraftingInfo.MiscellaneousStoryInfoColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'MiscellaneousStoryInfo\' in table \'CraftingInfo\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableCraftingInfo.MiscellaneousStoryInfoColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public int CraftingInfo_Id {
                 get {
                     return ((int)(this[this.tableCraftingInfo.CraftingInfo_IdColumn]));
@@ -15360,6 +15994,16 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsMiscellaneousStoryInfoNull() {
+                return this.IsNull(this.tableCraftingInfo.MiscellaneousStoryInfoColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetMiscellaneousStoryInfoNull() {
+                this[this.tableCraftingInfo.MiscellaneousStoryInfoColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public bool Isstory_IdNull() {
                 return this.IsNull(this.tableCraftingInfo.story_IdColumn);
             }
@@ -15400,12 +16044,22 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public TestsRow[] GetTestsRows() {
-                if ((this.Table.ChildRelations["CraftingInfo_Tests"] == null)) {
-                    return new TestsRow[0];
+            public TestsRetellingsRow[] GetTestsRetellingsRows() {
+                if ((this.Table.ChildRelations["CraftingInfo_TestsRetellings"] == null)) {
+                    return new TestsRetellingsRow[0];
                 }
                 else {
-                    return ((TestsRow[])(base.GetChildRows(this.Table.ChildRelations["CraftingInfo_Tests"])));
+                    return ((TestsRetellingsRow[])(base.GetChildRows(this.Table.ChildRelations["CraftingInfo_TestsRetellings"])));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public TestsTqAnswersRow[] GetTestsTqAnswersRows() {
+                if ((this.Table.ChildRelations["CraftingInfo_TestsTqAnswers"] == null)) {
+                    return new TestsTqAnswersRow[0];
+                }
+                else {
+                    return ((TestsTqAnswersRow[])(base.GetChildRows(this.Table.ChildRelations["CraftingInfo_TestsTqAnswers"])));
                 }
             }
         }
@@ -15639,23 +16293,23 @@ namespace OneStoryProjectEditor {
         ///Represents strongly named DataRow class.
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        public partial class TestsRow : global::System.Data.DataRow {
+        public partial class TestsRetellingsRow : global::System.Data.DataRow {
             
-            private TestsDataTable tableTests;
+            private TestsRetellingsDataTable tableTestsRetellings;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal TestsRow(global::System.Data.DataRowBuilder rb) : 
+            internal TestsRetellingsRow(global::System.Data.DataRowBuilder rb) : 
                     base(rb) {
-                this.tableTests = ((TestsDataTable)(this.Table));
+                this.tableTestsRetellings = ((TestsRetellingsDataTable)(this.Table));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int Tests_Id {
+            public int TestsRetellings_Id {
                 get {
-                    return ((int)(this[this.tableTests.Tests_IdColumn]));
+                    return ((int)(this[this.tableTestsRetellings.TestsRetellings_IdColumn]));
                 }
                 set {
-                    this[this.tableTests.Tests_IdColumn] = value;
+                    this[this.tableTestsRetellings.TestsRetellings_IdColumn] = value;
                 }
             }
             
@@ -15663,44 +16317,44 @@ namespace OneStoryProjectEditor {
             public int CraftingInfo_Id {
                 get {
                     try {
-                        return ((int)(this[this.tableTests.CraftingInfo_IdColumn]));
+                        return ((int)(this[this.tableTestsRetellings.CraftingInfo_IdColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'CraftingInfo_Id\' in table \'Tests\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'CraftingInfo_Id\' in table \'TestsRetellings\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableTests.CraftingInfo_IdColumn] = value;
+                    this[this.tableTestsRetellings.CraftingInfo_IdColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public CraftingInfoRow CraftingInfoRow {
                 get {
-                    return ((CraftingInfoRow)(this.GetParentRow(this.Table.ParentRelations["CraftingInfo_Tests"])));
+                    return ((CraftingInfoRow)(this.GetParentRow(this.Table.ParentRelations["CraftingInfo_TestsRetellings"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["CraftingInfo_Tests"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["CraftingInfo_TestsRetellings"]);
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public bool IsCraftingInfo_IdNull() {
-                return this.IsNull(this.tableTests.CraftingInfo_IdColumn);
+                return this.IsNull(this.tableTestsRetellings.CraftingInfo_IdColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public void SetCraftingInfo_IdNull() {
-                this[this.tableTests.CraftingInfo_IdColumn] = global::System.Convert.DBNull;
+                this[this.tableTestsRetellings.CraftingInfo_IdColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public TestRow[] GetTestRows() {
-                if ((this.Table.ChildRelations["Tests_Test"] == null)) {
-                    return new TestRow[0];
+            public TestRetellingRow[] GetTestRetellingRows() {
+                if ((this.Table.ChildRelations["TestsRetellings_TestRetelling"] == null)) {
+                    return new TestRetellingRow[0];
                 }
                 else {
-                    return ((TestRow[])(base.GetChildRows(this.Table.ChildRelations["Tests_Test"])));
+                    return ((TestRetellingRow[])(base.GetChildRows(this.Table.ChildRelations["TestsRetellings_TestRetelling"])));
                 }
             }
         }
@@ -15709,74 +16363,239 @@ namespace OneStoryProjectEditor {
         ///Represents strongly named DataRow class.
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        public partial class TestRow : global::System.Data.DataRow {
+        public partial class TestRetellingRow : global::System.Data.DataRow {
             
-            private TestDataTable tableTest;
+            private TestRetellingDataTable tableTestRetelling;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal TestRow(global::System.Data.DataRowBuilder rb) : 
+            internal TestRetellingRow(global::System.Data.DataRowBuilder rb) : 
                     base(rb) {
-                this.tableTest = ((TestDataTable)(this.Table));
+                this.tableTestRetelling = ((TestRetellingDataTable)(this.Table));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public string memberID {
                 get {
-                    try {
-                        return ((string)(this[this.tableTest.memberIDColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'memberID\' in table \'Test\' is DBNull.", e);
-                    }
+                    return ((string)(this[this.tableTestRetelling.memberIDColumn]));
                 }
                 set {
-                    this[this.tableTest.memberIDColumn] = value;
+                    this[this.tableTestRetelling.memberIDColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int Tests_Id {
+            public string TestRetelling_text {
                 get {
                     try {
-                        return ((int)(this[this.tableTest.Tests_IdColumn]));
+                        return ((string)(this[this.tableTestRetelling.TestRetelling_textColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Tests_Id\' in table \'Test\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'TestRetelling_text\' in table \'TestRetelling\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableTest.Tests_IdColumn] = value;
+                    this[this.tableTestRetelling.TestRetelling_textColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public TestsRow TestsRow {
+            public int TestsRetellings_Id {
                 get {
-                    return ((TestsRow)(this.GetParentRow(this.Table.ParentRelations["Tests_Test"])));
+                    try {
+                        return ((int)(this[this.tableTestRetelling.TestsRetellings_IdColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TestsRetellings_Id\' in table \'TestRetelling\' is DBNull.", e);
+                    }
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["Tests_Test"]);
+                    this[this.tableTestRetelling.TestsRetellings_IdColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsmemberIDNull() {
-                return this.IsNull(this.tableTest.memberIDColumn);
+            public TestsRetellingsRow TestsRetellingsRow {
+                get {
+                    return ((TestsRetellingsRow)(this.GetParentRow(this.Table.ParentRelations["TestsRetellings_TestRetelling"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["TestsRetellings_TestRetelling"]);
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetmemberIDNull() {
-                this[this.tableTest.memberIDColumn] = global::System.Convert.DBNull;
+            public bool IsTestRetelling_textNull() {
+                return this.IsNull(this.tableTestRetelling.TestRetelling_textColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsTests_IdNull() {
-                return this.IsNull(this.tableTest.Tests_IdColumn);
+            public void SetTestRetelling_textNull() {
+                this[this.tableTestRetelling.TestRetelling_textColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetTests_IdNull() {
-                this[this.tableTest.Tests_IdColumn] = global::System.Convert.DBNull;
+            public bool IsTestsRetellings_IdNull() {
+                return this.IsNull(this.tableTestRetelling.TestsRetellings_IdColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetTestsRetellings_IdNull() {
+                this[this.tableTestRetelling.TestsRetellings_IdColumn] = global::System.Convert.DBNull;
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public partial class TestsTqAnswersRow : global::System.Data.DataRow {
+            
+            private TestsTqAnswersDataTable tableTestsTqAnswers;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal TestsTqAnswersRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableTestsTqAnswers = ((TestsTqAnswersDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int TestsTqAnswers_Id {
+                get {
+                    return ((int)(this[this.tableTestsTqAnswers.TestsTqAnswers_IdColumn]));
+                }
+                set {
+                    this[this.tableTestsTqAnswers.TestsTqAnswers_IdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int CraftingInfo_Id {
+                get {
+                    try {
+                        return ((int)(this[this.tableTestsTqAnswers.CraftingInfo_IdColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'CraftingInfo_Id\' in table \'TestsTqAnswers\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableTestsTqAnswers.CraftingInfo_IdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public CraftingInfoRow CraftingInfoRow {
+                get {
+                    return ((CraftingInfoRow)(this.GetParentRow(this.Table.ParentRelations["CraftingInfo_TestsTqAnswers"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["CraftingInfo_TestsTqAnswers"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsCraftingInfo_IdNull() {
+                return this.IsNull(this.tableTestsTqAnswers.CraftingInfo_IdColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetCraftingInfo_IdNull() {
+                this[this.tableTestsTqAnswers.CraftingInfo_IdColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public TestTqAnswerRow[] GetTestTqAnswerRows() {
+                if ((this.Table.ChildRelations["TestsTqAnswers_TestTqAnswer"] == null)) {
+                    return new TestTqAnswerRow[0];
+                }
+                else {
+                    return ((TestTqAnswerRow[])(base.GetChildRows(this.Table.ChildRelations["TestsTqAnswers_TestTqAnswer"])));
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public partial class TestTqAnswerRow : global::System.Data.DataRow {
+            
+            private TestTqAnswerDataTable tableTestTqAnswer;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal TestTqAnswerRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableTestTqAnswer = ((TestTqAnswerDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string memberID {
+                get {
+                    return ((string)(this[this.tableTestTqAnswer.memberIDColumn]));
+                }
+                set {
+                    this[this.tableTestTqAnswer.memberIDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string TestTqAnswer_text {
+                get {
+                    try {
+                        return ((string)(this[this.tableTestTqAnswer.TestTqAnswer_textColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TestTqAnswer_text\' in table \'TestTqAnswer\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableTestTqAnswer.TestTqAnswer_textColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int TestsTqAnswers_Id {
+                get {
+                    try {
+                        return ((int)(this[this.tableTestTqAnswer.TestsTqAnswers_IdColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TestsTqAnswers_Id\' in table \'TestTqAnswer\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableTestTqAnswer.TestsTqAnswers_IdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public TestsTqAnswersRow TestsTqAnswersRow {
+                get {
+                    return ((TestsTqAnswersRow)(this.GetParentRow(this.Table.ParentRelations["TestsTqAnswers_TestTqAnswer"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["TestsTqAnswers_TestTqAnswer"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsTestTqAnswer_textNull() {
+                return this.IsNull(this.tableTestTqAnswer.TestTqAnswer_textColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetTestTqAnswer_textNull() {
+                this[this.tableTestTqAnswer.TestTqAnswer_textColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsTestsTqAnswers_IdNull() {
+                return this.IsNull(this.tableTestTqAnswer.TestsTqAnswers_IdColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetTestsTqAnswers_IdNull() {
+                this[this.tableTestTqAnswer.TestsTqAnswers_IdColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -18384,20 +19203,20 @@ namespace OneStoryProjectEditor {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        public class TestsRowChangeEvent : global::System.EventArgs {
+        public class TestsRetellingsRowChangeEvent : global::System.EventArgs {
             
-            private TestsRow eventRow;
+            private TestsRetellingsRow eventRow;
             
             private global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public TestsRowChangeEvent(TestsRow row, global::System.Data.DataRowAction action) {
+            public TestsRetellingsRowChangeEvent(TestsRetellingsRow row, global::System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public TestsRow Row {
+            public TestsRetellingsRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -18415,20 +19234,82 @@ namespace OneStoryProjectEditor {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        public class TestRowChangeEvent : global::System.EventArgs {
+        public class TestRetellingRowChangeEvent : global::System.EventArgs {
             
-            private TestRow eventRow;
+            private TestRetellingRow eventRow;
             
             private global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public TestRowChangeEvent(TestRow row, global::System.Data.DataRowAction action) {
+            public TestRetellingRowChangeEvent(TestRetellingRow row, global::System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public TestRow Row {
+            public TestRetellingRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public class TestsTqAnswersRowChangeEvent : global::System.EventArgs {
+            
+            private TestsTqAnswersRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public TestsTqAnswersRowChangeEvent(TestsTqAnswersRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public TestsTqAnswersRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public class TestTqAnswerRowChangeEvent : global::System.EventArgs {
+            
+            private TestTqAnswerRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public TestTqAnswerRowChangeEvent(TestTqAnswerRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public TestTqAnswerRow Row {
                 get {
                     return this.eventRow;
                 }

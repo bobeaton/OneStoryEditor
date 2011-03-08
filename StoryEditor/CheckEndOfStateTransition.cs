@@ -174,7 +174,7 @@ namespace OneStoryProjectEditor
                             {
                                 ShowErrorFocus(theSE, aVerseData.StoryLine.NationalBt.TextBox,
                                                String.Format(
-                                                   "Error: Verse {0} is missing a back-translation. Did you forget it?",
+                                                   "Error: Line {0} is missing a back-translation. Did you forget it?",
                                                    nVerseNumber));
                                 return false;
                             }
@@ -290,7 +290,7 @@ namespace OneStoryProjectEditor
                                 // light it up and let the user know they need to do something!
                                 ShowErrorFocus(theSE, aVerseData.StoryLine.InternationalBt.TextBox,
                                                String.Format(
-                                                   "Error: Verse {0} doesn't have any English back-translation in it. Did you forget it?",
+                                                   "Error: Line {0} doesn't have any English back-translation in it. Did you forget it?",
                                                    nVerseNumber));
                                 return false;
                             }
@@ -392,7 +392,7 @@ namespace OneStoryProjectEditor
                                 // light it up and let the user know they need to do something!
                                 ShowErrorFocus(theSE, aVerseData.StoryLine.FreeTranslation.TextBox,
                                                String.Format(
-                                                   "Error: Verse {0} doesn't have any Free translation in it. Did you forget it?",
+                                                   "Error: Line {0} doesn't have any Free translation in it. Did you forget it?",
                                                    nVerseNumber));
                                 return false;
                             }
@@ -540,7 +540,7 @@ namespace OneStoryProjectEditor
                     if (aVerseData.Anchors.Count == 0)
                     {
                         ShowError(theSE,
-                                  String.Format("Error: Verse {0} doesn't have an anchor. Did you forget it?",
+                                  String.Format("Error: Line {0} doesn't have an anchor. Did you forget it?",
                                                 nVerseNumber));
                         theSE.FocusOnVerse(nVerseNumber, true, true);
                         return false;
@@ -616,7 +616,13 @@ namespace OneStoryProjectEditor
                 return false;
 
             if (res == DialogResult.Yes)
-                eProposedNextState = StoryStageLogic.ProjectStages.eProjFacReadyForTest1;
+            {
+                // add the retelling lines to the verses for test n
+                if (!QueryPrepareForRetellingBoxes(theSE))
+                    return false;
+
+                eProposedNextState = StoryStageLogic.ProjectStages.eProjFacEnterRetellingOfTest1;
+            }
 
 #if CheckProposedNextState
             else if (theStoryProjectData.TeamMembers.HasOutsideEnglishBTer)
@@ -719,7 +725,7 @@ namespace OneStoryProjectEditor
                         // light it up and let the user know they need to do something!
                         ShowErrorFocus(theSE, aVerseData.StoryLine.InternationalBt.TextBox,
                                        String.Format(
-                                           "Error: Verse {0} doesn't have any English back-translation in it. Did you forget it?",
+                                           "Error: Line {0} doesn't have any English back-translation in it. Did you forget it?",
                                            nVerseNumber));
                         return false;
                     }
@@ -729,7 +735,7 @@ namespace OneStoryProjectEditor
                         // light it up and let the user know they need to do something!
                         ShowErrorFocus(theSE, aVerseData.StoryLine.InternationalBt.TextBox,
                                        String.Format(
-                                           "Error: Verse {0} has multiple sentences in English, but only 1 in {1}. Adjust the English to match the {1}",
+                                           "Error: Line {0} has multiple sentences in English, but only 1 in {1}. Adjust the English to match the {1}",
                                            nVerseNumber, theStoryProjectData.ProjSettings.NationalBT.LangName));
                         return false;
                     }
@@ -1310,18 +1316,28 @@ namespace OneStoryProjectEditor
                 return true;
             }
 
-            // add the story question answer lines and retelling lines to the verses for test n
-            DialogResult res = MessageBox.Show(Properties.Resources.IDS_AddTestQuery, OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
-            if (res == DialogResult.Cancel)
+            // add the retelling lines to the verses for test n
+            if (!QueryPrepareForRetellingBoxes(theSE)) 
                 return false;
-
-            if (res == DialogResult.Yes)
-                theSE.AddTest();
 
 #if CheckProposedNextState
             System.Diagnostics.Debug.Assert(eProposedNextState == 
                 StoryStageLogic.ProjectStages.eProjFacEnterRetellingOfTest1);
 #endif
+
+            return true;
+        }
+
+        private static bool QueryPrepareForRetellingBoxes(StoryEditor theSE)
+        {
+            DialogResult res = MessageBox.Show(Properties.Resources.IDS_AddRetellingTestQuery,
+                                               OseResources.Properties.Resources.IDS_Caption,
+                                               MessageBoxButtons.YesNoCancel);
+            if (res == DialogResult.Cancel)
+                return false;
+
+            if (res == DialogResult.Yes)
+                theSE.AddRetellingTest();
 
             return true;
         }
@@ -1339,7 +1355,7 @@ namespace OneStoryProjectEditor
                             {
                                 ShowErrorFocus(theSE, aLineData.ExistingTextBox,
                                                String.Format(
-                                                   "Error: Verse {0} is missing an answer to a testing question. Did you forget it?",
+                                                   "Error: Line {0} is missing an answer to a testing question. Did you forget it?",
                                                    nVerseNumber));
                                 return false;
                             }
@@ -1362,6 +1378,16 @@ namespace OneStoryProjectEditor
 
                 return true;
             }
+
+            // add the answer lines to the verses for test n
+            DialogResult res = MessageBox.Show(Properties.Resources.IDS_AddInferenceTestQuery,
+                                               OseResources.Properties.Resources.IDS_Caption,
+                                               MessageBoxButtons.YesNoCancel);
+            if (res == DialogResult.Cancel)
+                return false;
+
+            if (res == DialogResult.Yes)
+                theSE.AddInferenceTest();
 
 #if CheckProposedNextState
             System.Diagnostics.Debug.Assert(eProposedNextState == 
@@ -1388,7 +1414,7 @@ namespace OneStoryProjectEditor
                 {
                     if (!CheckAnswersAnswered(theSE, theCurrentStory))
                         return false;
-                    theSE.AddTest();
+                    theSE.AddRetellingTest();
                 }
 
                 return true;
@@ -1414,7 +1440,7 @@ namespace OneStoryProjectEditor
 
             if (res == DialogResult.Yes)
             {
-                theSE.AddTest();
+                theSE.AddRetellingTest();
 
                 // this will go:
                 //  ProjFacEnterRetellingOfTest1 (to get answer from UNS_1), then

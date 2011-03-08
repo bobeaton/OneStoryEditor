@@ -36,7 +36,7 @@ namespace OneStoryProjectEditor
                     res = MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmTeamMemberNameChange,
                                                         _theMemberData.Name, MemberName),
                                           OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
-                    if (res != DialogResult.OK)
+                    if (res != DialogResult.Yes)
                         return res;
                 }
                 _theMemberData.Name = MemberName;

@@ -1789,7 +1789,7 @@ namespace OneStoryProjectEditor
 
         internal void QueryStoryPurpose()
         {
-            StoryFrontMatterForm dlg = new StoryFrontMatterForm(this, StoryProject, theCurrentStory);
+            var dlg = new StoryFrontMatterForm(this, StoryProject, theCurrentStory);
             dlg.ShowDialog();
         }
 
@@ -2444,7 +2444,7 @@ namespace OneStoryProjectEditor
                 deleteStoryNationalBackTranslationToolStripMenuItem.Enabled =
                 deleteEnglishBacktranslationToolStripMenuItem.Enabled =
                 deleteFreeTranslationToolStripMenuItem.Enabled =
-                editAddTestResultsToolStripMenuItem.Enabled =
+                editAddRetellingTestResultsToolStripMenuItem.Enabled =
                 (IsInStoriesSet && (theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
 
             pasteToolStripMenuItem.Enabled = (CtrlTextBox._inTextBox != null);
@@ -2478,15 +2478,25 @@ namespace OneStoryProjectEditor
                     deleteFreeTranslationToolStripMenuItem.Visible =
                         copyFreeTranslationMenuItem.Visible = false;
 
-                if (theCurrentStory.CraftingInfo.Testors.Count > 0)
+                deleteTestToolStripMenuItem.DropDownItems.Clear();
+                if ((theCurrentStory.CraftingInfo.TestorsToCommentsRetellings.Count > 0)
+                    || (theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Count > 0))
                 {
-                    deleteTestToolStripMenuItem.DropDownItems.Clear();
-                    for (int nTest = 0; nTest < theCurrentStory.CraftingInfo.Testors.Count; nTest++)
+                    for (int nTest = 0; nTest < theCurrentStory.CraftingInfo.TestorsToCommentsRetellings.Count; nTest++)
                     {
-                        string strUnsGuid = theCurrentStory.CraftingInfo.Testors[nTest];
+                        string strUnsGuid = theCurrentStory.CraftingInfo.TestorsToCommentsRetellings[nTest].TestorGuid;
                         AddDeleteTestSubmenu(deleteTestToolStripMenuItem,
-                            String.Format("Test {0} done by {1}", nTest + 1, StoryProject.GetMemberNameFromMemberGuid(strUnsGuid)),
-                            nTest, OnRemoveTest);
+                                             String.Format("Retelling Test {0} done by {1}", nTest + 1,
+                                                           StoryProject.GetMemberNameFromMemberGuid(strUnsGuid)),
+                                             nTest, OnRemoveRetellingTest);
+                    }
+                    for (int nTest = 0; nTest < theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Count; nTest++)
+                    {
+                        string strUnsGuid = theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers[nTest].TestorGuid;
+                        AddDeleteTestSubmenu(deleteTestToolStripMenuItem,
+                                             String.Format("Inference Test {0} done by {1}", nTest + 1,
+                                                           StoryProject.GetMemberNameFromMemberGuid(strUnsGuid)),
+                                             nTest, OnRemoveInferenceTest);
                     }
                 }
                 else
@@ -2498,16 +2508,22 @@ namespace OneStoryProjectEditor
 
         private void editAddTestResultsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            AddRetellingTest();
+            InitAllPanes();
+        }
+
+        private void editAddInferenceTestResultsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
             if (MessageBox.Show(Properties.Resources.IDS_AreAllTestingQuestionsEnteredQuery,
                                 OseResources.Properties.Resources.IDS_Caption,
                                 MessageBoxButtons.OKCancel) == DialogResult.Cancel)
                 return;
 
-            AddTest();
+            AddInferenceTest();
             InitAllPanes();
         }
 
-        internal bool AddTest()
+        internal bool AddRetellingTest()
         {
             // query for the UNSs that will be doing this test
             string strUnsGuid = null;
@@ -2517,11 +2533,11 @@ namespace OneStoryProjectEditor
                 if (String.IsNullOrEmpty(strUnsGuid))
                     return false;
 
-                foreach (string strGuid in theCurrentStory.CraftingInfo.Testors)
-                    if (strGuid == strUnsGuid)
+                foreach (var ti in theCurrentStory.CraftingInfo.TestorsToCommentsRetellings)
+                    if (ti.TestorGuid == strUnsGuid)
                     {
                         string strError = String.Format(Properties.Resources.IDS_AddTestSameUNS,
-                                                        StoryProject.TeamMembers.GetNameFromMemberId(strGuid));
+                                                        StoryProject.TeamMembers.GetNameFromMemberId(ti.TestorGuid));
                         DialogResult res = MessageBox.Show(strError,
                                                            OseResources.Properties.Resources.IDS_Caption,
                                                            MessageBoxButtons.OKCancel);
@@ -2532,13 +2548,54 @@ namespace OneStoryProjectEditor
                     }
             }
 
-            theCurrentStory.CraftingInfo.Testors.Add(strUnsGuid);
+            // also need to query for the number of times the UNS heard the story
+            string strAnswer = Microsoft.VisualBasic.Interaction.InputBox(Properties.Resources.IDS_QueryNumOfTimeHeard,
+                                                                          OseResources.Properties.Resources.IDS_Caption,
+                                                                          "3", 300, 200);
+
+            strAnswer = String.Format(Properties.Resources.IDS_RetellingCommentFormat,
+                                      DateTime.Now.ToString("yyyy-MMM-dd"), strAnswer);
+            var toi = new TestorInfo(strUnsGuid, strAnswer);
+            theCurrentStory.CraftingInfo.TestorsToCommentsRetellings.Add(toi);
             foreach (VerseData aVerseData in theCurrentStory.Verses)
+                aVerseData.Retellings.TryAddNewLine(strUnsGuid);
+
+            Modified = true;
+            return true;
+        }
+
+        internal bool AddInferenceTest()
+        {
+            // query for the UNSs that will be doing this test
+            string strUnsGuid = null;
+            while (String.IsNullOrEmpty(strUnsGuid))
             {
+                strUnsGuid = QueryForUnsTestor(StoryProject);
+                if (String.IsNullOrEmpty(strUnsGuid))
+                    return false;
+
+                foreach (var ti in theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers)
+                    if (ti.TestorGuid == strUnsGuid)
+                    {
+                        string strError = String.Format(Properties.Resources.IDS_AddTestSameUNS,
+                                                        StoryProject.TeamMembers.GetNameFromMemberId(ti.TestorGuid));
+                        DialogResult res = MessageBox.Show(strError,
+                                                           OseResources.Properties.Resources.IDS_Caption,
+                                                           MessageBoxButtons.OKCancel);
+                        if (res == DialogResult.Cancel)
+                            return false;
+                        strUnsGuid = null;
+                        break;
+                    }
+            }
+
+            string strAnswer = String.Format(Properties.Resources.IDS_InferenceCommentFormat,
+                                             DateTime.Now.ToString("yyyy-MMM-dd"));
+            var toi = new TestorInfo(strUnsGuid, strAnswer);
+            theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Add(toi);
+            foreach (VerseData aVerseData in theCurrentStory.Verses)
                 foreach (TestQuestionData aTQ in aVerseData.TestQuestions)
                     aTQ.Answers.TryAddNewLine(strUnsGuid);
-                aVerseData.Retellings.TryAddNewLine(strUnsGuid);
-            }
 
             Modified = true;
             return true;
@@ -2552,7 +2609,7 @@ namespace OneStoryProjectEditor
                                                MessageBoxButtons.YesNoCancel);
 
             if (res == DialogResult.No)
-                return AddTest();
+                return AddInferenceTest();
 
             if (res == DialogResult.Cancel)
                 return false;
@@ -2576,10 +2633,10 @@ namespace OneStoryProjectEditor
 
             // okay, so the selected UNS doesn't already have an Answer entry for this
             //  TQ. Now see if (s)he has been added to the story level list
-            if (theCurrentStory.CraftingInfo.Testors.IndexOf(strUnsGuid) == -1)
+            if (!theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Contains(strUnsGuid))
             {
                 // this means that this UNS has never been added for this story. Add now
-                theCurrentStory.CraftingInfo.Testors.Add(strUnsGuid);
+                theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Add(new TestorInfo(strUnsGuid, null));
             }
 
             // by now, the user-chosen UNS *is* in the CraftingInfo list and *isn't* in
@@ -2606,14 +2663,37 @@ namespace OneStoryProjectEditor
             return strUnsGuid;
         }
 
-        private void OnRemoveTest(object sender, EventArgs e)
+        private void OnRemoveRetellingTest(object sender, EventArgs e)
         {
             ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
-            if (MessageBox.Show("Are you sure you want to remove all of the results from " + tsmi.Text, OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+            if (MessageBox.Show("Are you sure you want to remove all of the retelling results from " + tsmi.Text, OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
             {
                 int nTestNum = (int)tsmi.Tag;
-                Debug.Assert((nTestNum >= 0) && (nTestNum < theCurrentStory.CraftingInfo.Testors.Count));
-                string strUnsGuid = theCurrentStory.CraftingInfo.Testors[nTestNum];
+                Debug.Assert((nTestNum >= 0) && (nTestNum < theCurrentStory.CraftingInfo.TestorsToCommentsRetellings.Count));
+                string strUnsGuid = theCurrentStory.CraftingInfo.TestorsToCommentsRetellings[nTestNum].TestorGuid;
+                foreach (VerseData aVerseData in theCurrentStory.Verses)
+                {
+                    // even the verse itself may be newer and only have a single retelling (compared
+                    //  with multiple retellings for verses that we're present from draft 1)
+                    LineMemberData theLineData = aVerseData.Retellings.TryGetValue(strUnsGuid);
+                    if (theLineData != null)
+                        aVerseData.Retellings.Remove(theLineData);
+                }
+
+                theCurrentStory.CraftingInfo.TestorsToCommentsRetellings.RemoveAt(nTestNum);
+                Modified = true;
+                InitAllPanes();
+            }
+        }
+
+        private void OnRemoveInferenceTest(object sender, EventArgs e)
+        {
+            ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
+            if (MessageBox.Show("Are you sure you want to remove all of the inference test results from " + tsmi.Text, OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+            {
+                int nTestNum = (int)tsmi.Tag;
+                Debug.Assert((nTestNum >= 0) && (nTestNum < theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Count));
+                string strUnsGuid = theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers[nTestNum].TestorGuid;
                 foreach (VerseData aVerseData in theCurrentStory.Verses)
                 {
                     LineMemberData theLineData;
@@ -2626,15 +2706,9 @@ namespace OneStoryProjectEditor
                         if (theLineData != null)
                             aTQ.Answers.Remove(theLineData);
                     }
-
-                    // even the verse itself may be newer and only have a single retelling (compared
-                    //  with multiple retellings for verses that we're present from draft 1)
-                    theLineData = aVerseData.Retellings.TryGetValue(strUnsGuid);
-                    if (theLineData != null)
-                        aVerseData.Retellings.Remove(theLineData);
                 }
 
-                theCurrentStory.CraftingInfo.Testors.RemoveAt(nTestNum);
+                theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.RemoveAt(nTestNum);
                 Modified = true;
                 InitAllPanes();
             }

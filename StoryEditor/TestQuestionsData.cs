@@ -168,7 +168,7 @@ namespace OneStoryProjectEditor
 
         public string PresentationHtml(int nVerseIndex, int nTQNum, int nNumTestQuestionCols, 
             VerseData.ViewSettings viewSettings, bool bShowVernacular, bool bShowNationalBT, 
-            bool bShowEnglishBT, List<string> astrTestors, TestQuestionsData child, 
+            bool bShowEnglishBT, TestInfo astrTestors, TestQuestionsData child, 
             bool bPrintPreview, bool bProcessingTheChild)
         {
             TestQuestionData theChildTQ = null;
@@ -244,7 +244,7 @@ namespace OneStoryProjectEditor
 
         public string PresentationHtmlAsAddition(int nVerseIndex, int nTQNum, int nNumTestQuestionCols,
             VerseData.ViewSettings viewSettings, bool bShowVernacular, bool bShowNationalBT, bool bShowEnglishBT,
-            List<string> astrTestors)
+            TestInfo astrTestors)
         {
             string strTQRow = null;
             if (viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestions))
@@ -398,8 +398,9 @@ namespace OneStoryProjectEditor
             return strRow;
         }
 
-        public string PresentationHtml(int nVerseIndex, int nNumCols, VerseData.ViewSettings viewSettings,
-            List<string> astrTestors, TestQuestionsData child, bool bPrintPreview, bool bHasOutsideEnglishBTer)
+        public string PresentationHtml(int nVerseIndex, int nNumCols, 
+            VerseData.ViewSettings viewSettings, TestInfo astrTestors, 
+            TestQuestionsData child, bool bPrintPreview, bool bHasOutsideEnglishBTer)
         {
             // return nothing if there's nothing to do
             if ((!HasData && ((child == null) || !child.HasData)))
@@ -449,7 +450,7 @@ namespace OneStoryProjectEditor
         }
 
         public string PresentationHtmlAsAddition(int nVerseIndex, int nNumCols,
-            VerseData.ViewSettings viewSettings, List<string> astrTestors, bool bHasOutsideEnglishBTer)
+            VerseData.ViewSettings viewSettings, TestInfo astrTestors, bool bHasOutsideEnglishBTer)
         {
             // return nothing if there's nothing to do
             if (!HasData)

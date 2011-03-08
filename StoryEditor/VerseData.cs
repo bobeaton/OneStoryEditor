@@ -737,7 +737,7 @@ namespace OneStoryProjectEditor
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.RetellingFields))
             {
                 strHtml += Retellings.PresentationHtml(nVerseIndex, nNumCols,
-                                                       craftingInfo.Testors,
+                                                       craftingInfo.TestorsToCommentsRetellings,
                                                        (theChildVerse != null) ? theChildVerse.Retellings : null,
                                                        bPrintPreview, false,
                                                        viewSettings.IsViewItemOn(
@@ -751,7 +751,7 @@ namespace OneStoryProjectEditor
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.StoryTestingQuestions |
                                           ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers))
                 strHtml += TestQuestions.PresentationHtml(nVerseIndex, nNumCols, viewSettings,
-                                                          craftingInfo.Testors,
+                                                          craftingInfo.TestorsToCommentsTqAnswers,
                                                           (theChildVerse != null) ? theChildVerse.TestQuestions : null,
                                                           bPrintPreview, bHasOutsideEnglishBTer);
             
@@ -851,7 +851,7 @@ namespace OneStoryProjectEditor
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.RetellingFields))
             {
                 strHtml += Retellings.PresentationHtmlAsAddition(nVerseIndex, nNumCols,
-                                                                 craftingInfo.Testors,
+                                                                 craftingInfo.TestorsToCommentsRetellings,
                                                                  viewSettings.IsViewItemOn(
                                                                      ViewSettings.ItemToInsureOn.RetellingsVernacular),
                                                                  viewSettings.IsViewItemOn(
@@ -864,7 +864,8 @@ namespace OneStoryProjectEditor
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.StoryTestingQuestions |
                                           ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers))
                 strHtml += TestQuestions.PresentationHtmlAsAddition(nVerseIndex, nNumCols, viewSettings,
-                                                                    craftingInfo.Testors, bHasOutsideEnglishBTer);
+                                                                    craftingInfo.TestorsToCommentsTqAnswers,
+                                                                    bHasOutsideEnglishBTer);
 
             return FinishPresentationHtml(strRow, strHtml, !IsVisible);
         }

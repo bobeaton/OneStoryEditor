@@ -30,29 +30,65 @@ namespace OneStoryProjectEditor
             InitToolboxTextTip(theCurrentStory.CraftingInfo.BackTranslatorMemberID,
                 textBoxUnsBackTranslator);
 
-            if (theCurrentStory.CraftingInfo.Testors.Count > 0)
+            if (theCurrentStory.CraftingInfo.TestorsToCommentsRetellings.Count > 0)
             {
-                InitToolboxTextTip(theCurrentStory.CraftingInfo.Testors[0],
-                    textBoxUnsTest1);
-
-                buttonBrowseUnsTest2.Enabled = true;
+                var ti = theCurrentStory.CraftingInfo.TestorsToCommentsRetellings[0];
+                InitToolboxTextTip(ti.TestorGuid, textBoxUnsRetellingTest1);
+                textBoxRetellingComment1.Text = ti.TestComment;
+                buttonBrowseUnsRetellingTest1.Enabled = true;
             }
             else
-                buttonBrowseUnsTest2.Enabled = false;
+                textBoxRetellingComment1.Enabled = buttonBrowseUnsRetellingTest1.Enabled = false;
 
-            if (theCurrentStory.CraftingInfo.Testors.Count > 1)
+            if (theCurrentStory.CraftingInfo.TestorsToCommentsRetellings.Count > 1)
             {
-                InitToolboxTextTip(theCurrentStory.CraftingInfo.Testors[1],
-                    textBoxUnsTest2);
-
-                buttonBrowseUnsTest3.Enabled = true;
+                var ti = theCurrentStory.CraftingInfo.TestorsToCommentsRetellings[1];
+                InitToolboxTextTip(ti.TestorGuid, textBoxUnsRetellingTest2);
+                textBoxRetellingComment2.Text = ti.TestComment;
+                buttonBrowseUnsRetellingTest2.Enabled = true;
             }
             else
-                buttonBrowseUnsTest3.Enabled = false;
+                textBoxRetellingComment2.Enabled = buttonBrowseUnsRetellingTest2.Enabled = false;
 
-            if (theCurrentStory.CraftingInfo.Testors.Count > 2)
-                InitToolboxTextTip(theCurrentStory.CraftingInfo.Testors[2],
-                    textBoxUnsTest3);
+            if (theCurrentStory.CraftingInfo.TestorsToCommentsRetellings.Count > 2)
+            {
+                var ti = theCurrentStory.CraftingInfo.TestorsToCommentsRetellings[2];
+                InitToolboxTextTip(ti.TestorGuid, textBoxUnsRetellingTest3);
+                textBoxRetellingComment3.Text = ti.TestComment;
+                buttonBrowseUnsRetellingTest3.Enabled = true;
+            }
+            else
+                textBoxRetellingComment3.Enabled = buttonBrowseUnsRetellingTest3.Enabled = false;
+
+            if (theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Count > 0)
+            {
+                var ti = theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers[0];
+                InitToolboxTextTip(ti.TestorGuid, textBoxUnsInferenceTest1);
+                textBoxInferenceComment1.Text = ti.TestComment;
+                buttonBrowseUnsInferenceTest1.Enabled = true;
+            }
+            else
+                textBoxInferenceComment1.Enabled = buttonBrowseUnsInferenceTest1.Enabled = false;
+
+            if (theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Count > 1)
+            {
+                var ti = theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers[1];
+                InitToolboxTextTip(ti.TestorGuid, textBoxUnsInferenceTest2);
+                textBoxInferenceComment2.Text = ti.TestComment;
+                buttonBrowseUnsInferenceTest2.Enabled = true;
+            }
+            else
+                textBoxInferenceComment2.Enabled = buttonBrowseUnsInferenceTest2.Enabled = false;
+
+            if (theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Count > 2)
+            {
+                var ti = theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers[2];
+                InitToolboxTextTip(ti.TestorGuid, textBoxUnsInferenceTest3);
+                textBoxInferenceComment3.Text = ti.TestComment;
+                buttonBrowseUnsInferenceTest3.Enabled = true;
+            }
+            else
+                textBoxInferenceComment3.Enabled = buttonBrowseUnsInferenceTest3.Enabled = false;
 
             Text = String.Format("Story Information for '{0}'", theCurrentStory.Name);
         }
@@ -108,12 +144,13 @@ namespace OneStoryProjectEditor
                 if (theTeamMember == null)
                     return;
 
-                if (_theStoryProjectData.TeamMembers.ShowEditDialog(theTeamMember) != DialogResult.OK)
+                if (_theStoryProjectData.TeamMembers.ShowEditDialog(theTeamMember) != DialogResult.Yes)
                     return;
             }
 
             textBox.Tag = theTeamMember;
             InitToolboxTextTip(theTeamMember, textBox);
+            _theSE.Modified = true;
         }
 
         protected TeamMemberData SelectedUnsMember()
@@ -138,9 +175,9 @@ namespace OneStoryProjectEditor
 #endif
         }
 
-        private void buttonBrowseUnsTest1_MouseUp(object sender, MouseEventArgs e)
+        private void buttonBrowseUnsRetellingTest1_MouseUp(object sender, MouseEventArgs e)
         {
-            HandleMouseUp(false, textBoxUnsTest1, TeamMemberData.UserTypes.eUNS,
+            HandleMouseUp(false, textBoxUnsRetellingTest1, TeamMemberData.UserTypes.eUNS,
                 "Choose the UNS that took this test");
 
 #if false   // obsolete (I think)
@@ -151,9 +188,9 @@ namespace OneStoryProjectEditor
 #endif
         }
 
-        private void buttonBrowseUnsTest2_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
+        private void buttonBrowseUnsRetellingTest2_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            HandleMouseUp(false, textBoxUnsTest2, TeamMemberData.UserTypes.eUNS,
+            HandleMouseUp(false, textBoxUnsRetellingTest2, TeamMemberData.UserTypes.eUNS,
                 "Choose the UNS that took this test");
 
 #if false   // obsolete (I think)
@@ -164,9 +201,9 @@ namespace OneStoryProjectEditor
 #endif
         }
 
-        private void buttonBrowseUnsTest3_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
+        private void buttonBrowseUnsRetellingTest3_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            HandleMouseUp(false, textBoxUnsTest3, TeamMemberData.UserTypes.eUNS,
+            HandleMouseUp(false, textBoxUnsRetellingTest3, TeamMemberData.UserTypes.eUNS,
                 "Choose the UNS that took this test");
 
 #if false   // obsolete (I think)
@@ -177,40 +214,78 @@ namespace OneStoryProjectEditor
 #endif
         }
 
+        private void buttonBrowseUnsInferenceTest1_MouseUp(object sender, MouseEventArgs e)
+        {
+            HandleMouseUp(false, textBoxUnsInferenceTest1, TeamMemberData.UserTypes.eUNS,
+                "Choose the UNS that took this test");
+        }
+
+        private void buttonBrowseUnsInferenceTest2_MouseUp(object sender, MouseEventArgs e)
+        {
+            HandleMouseUp(false, textBoxUnsInferenceTest2, TeamMemberData.UserTypes.eUNS,
+                "Choose the UNS that took this test");
+        }
+
+        private void buttonBrowseUnsInferenceTest3_MouseUp(object sender, MouseEventArgs e)
+        {
+            HandleMouseUp(false, textBoxUnsInferenceTest3, TeamMemberData.UserTypes.eUNS,
+                "Choose the UNS that took this test");
+        }
+
         private void buttonOK_Click(object sender, EventArgs e)
         {
+            bool bModified = false;
+
             if (textBoxProjectFacilitator.Tag != null)
             {
                 TeamMemberData thePF = (TeamMemberData)textBoxProjectFacilitator.Tag;
                 _theCurrentStory.CraftingInfo.ProjectFacilitatorMemberID = thePF.MemberGuid;
-                _theSE.Modified = true;
+                bModified = true;
             }
 
             if (textBoxStoryCrafter.Tag != null)
             {
                 TeamMemberData theSC = (TeamMemberData) textBoxStoryCrafter.Tag;
                 _theCurrentStory.CraftingInfo.StoryCrafterMemberID = theSC.MemberGuid;
-                _theSE.Modified = true;                
+                bModified = true;                
             }
 
             if (_theCurrentStory.CraftingInfo.StoryPurpose != textBoxStoryPurpose.Text)
             {
                 _theCurrentStory.CraftingInfo.StoryPurpose = textBoxStoryPurpose.Text;
-                _theSE.Modified = true;
+                bModified = true;
             }
 
             if (_theCurrentStory.CraftingInfo.ResourcesUsed != textBoxResourcesUsed.Text)
             {
                 _theCurrentStory.CraftingInfo.ResourcesUsed = textBoxResourcesUsed.Text;
-                _theSE.Modified = true;
+                bModified = true;
             }
 
             if (textBoxUnsBackTranslator.Tag != null)
             {
                 TeamMemberData theBT = (TeamMemberData)textBoxUnsBackTranslator.Tag;
                 _theCurrentStory.CraftingInfo.BackTranslatorMemberID = theBT.MemberGuid;
-                _theSE.Modified = true;
+                bModified = true;
             }
+
+            GetChangeToComment(_theCurrentStory.CraftingInfo.TestorsToCommentsRetellings,
+                textBoxRetellingComment1, 0, ref bModified);
+
+            GetChangeToComment(_theCurrentStory.CraftingInfo.TestorsToCommentsRetellings,
+                textBoxRetellingComment2, 1, ref bModified);
+
+            GetChangeToComment(_theCurrentStory.CraftingInfo.TestorsToCommentsRetellings,
+                textBoxRetellingComment3, 2, ref bModified);
+
+            GetChangeToComment(_theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers,
+                textBoxInferenceComment1, 0, ref bModified);
+
+            GetChangeToComment(_theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers,
+                textBoxInferenceComment2, 1, ref bModified);
+
+            GetChangeToComment(_theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers,
+                textBoxInferenceComment3, 2, ref bModified);
 
             /* we don't allow changes to UNSs
             if (textBoxUnsTest1.Tag != null)
@@ -222,11 +297,27 @@ namespace OneStoryProjectEditor
             if (textBoxUnsTest3.Tag != null)
                 AddOrInsertTestor(textBoxUnsTest3, 2);
             */
+            if (bModified)
+                _theSE.Modified = true;
 
             DialogResult = DialogResult.OK;
             Close();
         }
 
+        private static void GetChangeToComment(TestInfo testInfo, TextBox tb, int nIndex,
+            ref bool bModified)
+        {
+            if (testInfo.Count > nIndex)
+            {
+                if (tb.Text != testInfo[nIndex].TestComment)
+                {
+                    testInfo[nIndex].TestComment = tb.Text;
+                    bModified |= true;
+                }
+            }
+        }
+
+        /*
         protected void AddOrInsertTestor(TextBox tb, int nIndex)
         {
             TeamMemberData theUns = (TeamMemberData)tb.Tag;
@@ -242,5 +333,6 @@ namespace OneStoryProjectEditor
             }
             _theSE.Modified = true;
         }
+        */
     }
 }

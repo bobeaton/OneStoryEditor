@@ -111,23 +111,43 @@
 													</xs:element>
 													<xs:element name="StoryPurpose" minOccurs="0" maxOccurs="1" type="xs:string" />
 													<xs:element name="ResourcesUsed" minOccurs="0" maxOccurs="1" type="xs:string" />
+                          <xs:element name="MiscellaneousStoryInfo" minOccurs="0" maxOccurs="1" type="xs:string" />
 													<xs:element name="BackTranslator" minOccurs="1" maxOccurs="1">
 														<xs:complexType>
 															<xs:attribute name="memberID" type="xs:IDREF" use="optional" />
 														</xs:complexType>
 													</xs:element>
-													<xs:element name="Tests" minOccurs="0" maxOccurs="1">
+													<xs:element name="TestsRetellings" minOccurs="0" maxOccurs="1">
 														<xs:complexType>
 															<xs:sequence>
-																<xs:element name="Test" maxOccurs="unbounded">
-																	<xs:complexType>
-																		<xs:attribute name="memberID" type="xs:IDREF" />
-																	</xs:complexType>
-																</xs:element>
+                                <xs:element name="TestRetelling" minOccurs="1" maxOccurs="unbounded" nillable="true">
+                                  <xs:complexType>
+                                    <xs:simpleContent>
+                                      <xs:extension base="xs:string">
+                                        <xs:attribute name="memberID" type="xs:IDREF" use="required" />
+                                      </xs:extension>
+                                    </xs:simpleContent>
+                                  </xs:complexType>
+                                </xs:element>
 															</xs:sequence>
-														</xs:complexType>
+                            </xs:complexType>
 													</xs:element>
-												</xs:sequence>
+                          <xs:element name="TestsTqAnswers" minOccurs="0" maxOccurs="1">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="TestTqAnswer" minOccurs="1" maxOccurs="unbounded" nillable="true">
+                                  <xs:complexType>
+                                    <xs:simpleContent>
+                                      <xs:extension base="xs:string">
+                                        <xs:attribute name="memberID" type="xs:IDREF" use="required" />
+                                      </xs:extension>
+                                    </xs:simpleContent>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
 												<xs:attribute name="NonBiblicalStory" type="xs:boolean" use="optional" />
 											</xs:complexType>
 										</xs:element>
@@ -314,10 +334,6 @@
 			<xs:selector xpath=".//stories" />
 			<xs:field xpath="@SetName" />
 		</xs:key>
-		<xs:key name="TestorMemberKey" msdata:PrimaryKey="true">
-			<xs:selector xpath=".//Test" />
-			<xs:field xpath="@memberID" />
-		</xs:key>
 		<xs:key name="AnchorKey" msdata:PrimaryKey="true">
 			<xs:selector xpath=".//anchor" />
 			<xs:field xpath="@jumpTarget" />
@@ -404,7 +420,7 @@
 		<xs:attribute name="Keyboard" type="xs:string" />
 		<xs:attribute name="RTL" type="xs:boolean" />
 	</xs:complexType>
-	<xs:simpleType name="FromTo">
+  <xs:simpleType name="FromTo">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="ConsultantToProjFac" />
 			<xs:enumeration value="ProjFacToConsultant" />

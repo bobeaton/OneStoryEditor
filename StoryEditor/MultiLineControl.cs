@@ -8,7 +8,8 @@ namespace OneStoryProjectEditor
     public partial class MultiLineControl : ResizableControl
     {
         public MultiLineControl(VerseBtControl ctrlVerse, StoryStageLogic storyStageLogic, 
-            MultipleLineDataConverter aMLDC, ProjectSettings projSettings, List<string> astrTestors,
+            MultipleLineDataConverter aMLDC, ProjectSettings projSettings,
+            TestInfo lstTestInfo,
             bool bShowVernacular, bool bShowNationalBT, bool bShowInternationalBT,
             Color clrVernacular, Color clrNationalBt, Color clrInternationalBt)
             : base(storyStageLogic)
@@ -32,8 +33,8 @@ namespace OneStoryProjectEditor
             {
                 LineMemberData aLineData = aMLDC[nNumRows];
                 string strUnsGui = aLineData.MemberId;
-                System.Diagnostics.Debug.Assert(astrTestors.Contains(strUnsGui));
-                int nTest = astrTestors.IndexOf(strUnsGui) + 1;
+                System.Diagnostics.Debug.Assert(lstTestInfo.Contains(strUnsGui));
+                int nTest = lstTestInfo.IndexOf(strUnsGui) + 1;
                 InitRow(aMLDC.LabelTextFormat, nTest, nNumRows);
 
                 int nNumColumns = 1;

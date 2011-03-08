@@ -61,6 +61,29 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///&lt;xsl:stylesheet version=&quot;1.0&quot; xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot;
+        ///    xmlns:msxsl=&quot;urn:schemas-microsoft-com:xslt&quot; exclude-result-prefixes=&quot;msxsl&quot;
+        ///&gt;
+        ///  &lt;xsl:output method=&quot;xml&quot; indent=&quot;yes&quot;/&gt;
+        ///
+        ///  &lt;xsl:template match=&quot;@* | node()&quot;&gt;
+        ///    &lt;xsl:copy&gt;
+        ///      &lt;xsl:apply-templates select=&quot;@* | node()&quot;/&gt;
+        ///    &lt;/xsl:copy&gt;
+        ///  &lt;/xsl:template&gt;
+        ///
+        ///  &lt;!--StoryProject@version changed from 1.4 to 1.5--&gt;
+        ///  &lt;xsl:template match=&quot;StoryProject/@version&quot;&gt;
+        ///    &lt;xsl:attribu [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string _1_4_to_1_5 {
+            get {
+                return ResourceManager.GetString("_1_4_to_1_5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to aikb-{0}-{1}.
         /// </summary>
         internal static string AdaptItProjectRepositoryFormat {
@@ -245,7 +268,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Click &apos;Yes&apos; if you want to enter the results for another UNS test, or click &apos;No&apos; to send to the consultant for checking.
+        ///   Looks up a localized string similar to Click &apos;Yes&apos; if you want to enter the results for another UNS retelling test, or click &apos;No&apos; to send to the consultant for checking.
         /// </summary>
         internal static string IDS_AddAnotherTestQuery {
             get {
@@ -254,11 +277,20 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Click &apos;Yes&apos; to add boxes for the retelling and testing question answers? Or click &apos;No&apos; if you already have boxes..
+        ///   Looks up a localized string similar to Click &apos;Yes&apos; to add boxes for answers to the testing questions? Or click &apos;No&apos; if you already have boxes (you might have them if you had earlier clicked &quot;Edit&quot;, &quot;Add inference test results&quot;).
         /// </summary>
-        internal static string IDS_AddTestQuery {
+        internal static string IDS_AddInferenceTestQuery {
             get {
-                return ResourceManager.GetString("IDS_AddTestQuery", resourceCulture);
+                return ResourceManager.GetString("IDS_AddInferenceTestQuery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Click &apos;Yes&apos; to add boxes for the retelling lines? Or click &apos;No&apos; if you already have boxes (you might have them if you had earlier clicked &quot;Edit&quot;, &quot;Add retelling test results&quot;).
+        /// </summary>
+        internal static string IDS_AddRetellingTestQuery {
+            get {
+                return ResourceManager.GetString("IDS_AddRetellingTestQuery", resourceCulture);
             }
         }
         
@@ -335,7 +367,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Click &apos;Yes&apos; to do a UNS test now or click &apos;No&apos; to send the story to the consultant first for checking..
+        ///   Looks up a localized string similar to Click &apos;Yes&apos; to enter UNS test results now or click &apos;No&apos; to send the story to the consultant first for checking..
         /// </summary>
         internal static string IDS_CheckForSkipToUnsCheck {
             get {
@@ -630,6 +662,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Test done on: {0}.
+        /// </summary>
+        internal static string IDS_InferenceCommentFormat {
+            get {
+                return ResourceManager.GetString("IDS_InferenceCommentFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Is this a story from the Bible?.
         /// </summary>
         internal static string IDS_IsThisStoryFromTheBible {
@@ -911,6 +952,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to How many times did the UNS hear the story before giving this retelling?.
+        /// </summary>
+        internal static string IDS_QueryNumOfTimeHeard {
+            get {
+                return ResourceManager.GetString("IDS_QueryNumOfTimeHeard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The shared Adapt It project for this field is not on the local computer. Please enter the necessary information in the next window to download it from the internet (i.e. the repository server, username and password). These should be in an email message you received previously.
         /// </summary>
         internal static string IDS_QueryPullSharedAiProject {
@@ -943,6 +993,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_ReorderClickSpaceTip {
             get {
                 return ResourceManager.GetString("IDS_ReorderClickSpaceTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Test done on: {0}. UNS heard the story {1} times..
+        /// </summary>
+        internal static string IDS_RetellingCommentFormat {
+            get {
+                return ResourceManager.GetString("IDS_RetellingCommentFormat", resourceCulture);
             }
         }
         

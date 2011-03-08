@@ -467,6 +467,89 @@ namespace OneStoryProjectEditor
             }
         }
     }
+    
+    public class TestorInfo
+    {
+        public const string CstrAttributeMemberID = "memberID";
+
+        public TestorInfo(string strTestorGuid, string strTestComment)
+        {
+            TestorGuid = strTestorGuid;
+            TestComment = strTestComment;
+        }
+
+        public TestorInfo(TestorInfo rhs)
+        {
+            TestorGuid = rhs.TestorGuid;
+            TestComment = rhs.TestComment;
+        }
+
+        public TestorInfo(XmlNode nodeTest)
+        {
+            System.Diagnostics.Debug.Assert(nodeTest != null);
+            if (nodeTest.Attributes != null)
+            {
+                XmlAttribute attr;
+                TestorGuid = ((attr = nodeTest.Attributes[CstrAttributeMemberID]) != null) ? attr.Value : null;
+                TestComment = nodeTest.Value;
+            }
+        }
+
+        public string TestorGuid { get; set; }
+        public string TestComment { get; set; }
+    }
+
+    public class TestInfo : List<TestorInfo>
+    {
+        public TestInfo()
+        {
+            
+        }
+
+        public TestInfo(IEnumerable<TestorInfo> rhs)
+        {
+            foreach (TestorInfo rhsTi in rhs)
+                Add(new TestorInfo(rhsTi));
+        }
+
+        public bool Contains(string strGuid)
+        {
+            foreach (var testorInfo in this)
+                if (testorInfo.TestorGuid == strGuid)
+                    return true;
+            return false;
+        }
+
+        public int IndexOf(string strGuid)
+        {
+            for (int i = 0; i < Count; i++)
+            {
+                var testorInfo = this[i];
+                if (testorInfo.TestorGuid == strGuid)
+                    return i;
+            }
+            return -1;
+        }
+
+        public void Add(XmlNode node, string strCollectionElement, string strElementLabel)
+        {
+            XmlNodeList list = node.SelectNodes(String.Format("{0}/{1}",
+                strCollectionElement, strElementLabel));
+            if (list != null)
+                foreach (XmlNode nodeTest in list)
+                    Add(new TestorInfo(nodeTest));
+        }
+
+        public void WriteXml(string strCollectionLabel, string strElementLabel, XElement elemCraftingInfo)
+        {
+            var elemTestors = new XElement(strCollectionLabel);
+            foreach (TestorInfo testorInfo in this)
+                elemTestors.Add(new XElement(strElementLabel,
+                    new XAttribute(TestorInfo.CstrAttributeMemberID, testorInfo.TestorGuid),
+                    testorInfo.TestComment));
+            elemCraftingInfo.Add(elemTestors);
+        }
+    }
 
     public class CraftingInfoData
     {
@@ -474,8 +557,10 @@ namespace OneStoryProjectEditor
         public string ProjectFacilitatorMemberID;
         public string StoryPurpose;
         public string ResourcesUsed;
+        public string MiscellaneousStoryInfo;
         public string BackTranslatorMemberID;
-        public List<string> Testors = new List<string>();
+        public TestInfo TestorsToCommentsRetellings = new TestInfo();
+        public TestInfo TestorsToCommentsTqAnswers = new TestInfo();
         public bool IsBiblicalStory = true;
 
         public CraftingInfoData(string strCrafterMemberGuid, string strLoggedOnMemberGuid, bool bIsBiblicalStory)
@@ -504,17 +589,17 @@ namespace OneStoryProjectEditor
             ResourcesUsed = ((elem = node.SelectSingleNode(CstrElementLabelResourcesUsed)) != null)
                 ? elem.InnerText
                 : null;
+            MiscellaneousStoryInfo = ((elem = node.SelectSingleNode(CstrElementLabelMiscellaneousStoryInfo)) != null)
+                ? elem.InnerText
+                : null;
             BackTranslatorMemberID = ((elem = node.SelectSingleNode(String.Format("{0}[@{1}]",
                                                                                 CstrElementLabelBackTranslator,
                                                                                 CstrAttributeMemberID))) != null)
                                                                                 ? elem.Attributes[CstrAttributeMemberID].Value
                                                                                 : null;
 
-            XmlNodeList list = node.SelectNodes(String.Format("{0}/{1}[@{2}]", 
-                CstrElementLabelTests, CstrElementLabelTest, CstrAttributeMemberID));
-            if (list != null)
-                foreach (XmlNode nodeTest in list)
-                    Testors.Add(nodeTest.Attributes[CstrAttributeMemberID].Value);
+            TestorsToCommentsRetellings.Add(node, CstrElementLabelTestsRetellings, CstrElementLabelTestRetelling);
+            TestorsToCommentsTqAnswers.Add(node, CstrElementLabelTestsTqAnswers, CstrElementLabelTestTqAnswer);
         }
 
         public CraftingInfoData(NewDataSet.storyRow theStoryRow)
@@ -542,15 +627,33 @@ namespace OneStoryProjectEditor
                 if (!theCIR.IsResourcesUsedNull())
                     ResourcesUsed = theCIR.ResourcesUsed;
 
+                if (!theCIR.IsMiscellaneousStoryInfoNull())
+                    MiscellaneousStoryInfo = theCIR.MiscellaneousStoryInfo;
+
                 NewDataSet.BackTranslatorRow[] aBTRs = theCIR.GetBackTranslatorRows();
                 if (aBTRs.Length == 1)
                     BackTranslatorMemberID = aBTRs[0].memberID;
 
-                NewDataSet.TestsRow[] aTsRs = theCIR.GetTestsRows();
-                if (aTsRs.Length == 1)
+                NewDataSet.TestsRetellingsRow[] aTsReRs = theCIR.GetTestsRetellingsRows();
+                if (aTsReRs.Length == 1)
                 {
-                    foreach (NewDataSet.TestRow aTR in aTsRs[0].GetTestRows())
-                        Testors.Add(aTR.memberID);
+                    NewDataSet.TestRetellingRow[] aTReRs = aTsReRs[0].GetTestRetellingRows();
+                    foreach (NewDataSet.TestRetellingRow aTReR in aTReRs)
+                        TestorsToCommentsRetellings.Add(new TestorInfo(aTReR.memberID,
+                                                                       (aTReR.IsTestRetelling_textNull())
+                                                                           ? null
+                                                                           : aTReR.TestRetelling_text));
+                }
+
+                NewDataSet.TestsTqAnswersRow[] aTsAnRs = theCIR.GetTestsTqAnswersRows();
+                if (aTsAnRs.Length == 1)
+                {
+                    NewDataSet.TestTqAnswerRow[] aTReRs = aTsAnRs[0].GetTestTqAnswerRows();
+                    foreach (NewDataSet.TestTqAnswerRow aTReR in aTReRs)
+                        TestorsToCommentsTqAnswers.Add(new TestorInfo(aTReR.memberID,
+                                                                       (aTReR.IsTestTqAnswer_textNull())
+                                                                           ? null
+                                                                           : aTReR.TestTqAnswer_text));
                 }
             }
             else
@@ -563,10 +666,11 @@ namespace OneStoryProjectEditor
             ProjectFacilitatorMemberID = rhs.ProjectFacilitatorMemberID;
             StoryPurpose = rhs.StoryPurpose;
             ResourcesUsed = rhs.ResourcesUsed;
+            MiscellaneousStoryInfo = rhs.MiscellaneousStoryInfo;
             BackTranslatorMemberID = rhs.BackTranslatorMemberID;
             IsBiblicalStory = rhs.IsBiblicalStory;
-            foreach (string strUnsGuid in rhs.Testors)
-                Testors.Add(strUnsGuid);
+            TestorsToCommentsRetellings = new TestInfo(rhs.TestorsToCommentsRetellings);
+            TestorsToCommentsTqAnswers = new TestInfo(rhs.TestorsToCommentsTqAnswers);
         }
 
         public const string CstrElementLabelCraftingInfo = "CraftingInfo";
@@ -575,10 +679,14 @@ namespace OneStoryProjectEditor
         public const string CstrElementLabelProjectFacilitator = "ProjectFacilitator";
         public const string CstrElementLabelStoryPurpose = "StoryPurpose";
         public const string CstrElementLabelResourcesUsed = "ResourcesUsed";
+        public const string CstrElementLabelMiscellaneousStoryInfo = "MiscellaneousStoryInfo";
         public const string CstrElementLabelBackTranslator = "BackTranslator";
-        public const string CstrElementLabelTests = "Tests";
-        public const string CstrElementLabelTest = "Test";
         public const string CstrAttributeMemberID = "memberID";
+
+        public const string CstrElementLabelTestsRetellings = "TestsRetellings";
+        public const string CstrElementLabelTestRetelling = "TestRetelling";
+        public const string CstrElementLabelTestsTqAnswers = "TestsTqAnswers";
+        public const string CstrElementLabelTestTqAnswer = "TestTqAnswer";
 
         public XElement GetXml
         {
@@ -599,16 +707,25 @@ namespace OneStoryProjectEditor
                 if (!String.IsNullOrEmpty(ResourcesUsed))
                     elemCraftingInfo.Add(new XElement(CstrElementLabelResourcesUsed, ResourcesUsed));
 
+                if (!String.IsNullOrEmpty(MiscellaneousStoryInfo))
+                    elemCraftingInfo.Add(new XElement(CstrElementLabelMiscellaneousStoryInfo, MiscellaneousStoryInfo));
+
                 if (!String.IsNullOrEmpty(BackTranslatorMemberID))
                     elemCraftingInfo.Add(new XElement(CstrElementLabelBackTranslator, 
                         new XAttribute(CstrAttributeMemberID, BackTranslatorMemberID)));
 
-                if (Testors.Count > 0)
+                if (TestorsToCommentsRetellings.Count > 0)
                 {
-                    XElement elemTestors = new XElement("Tests");
-                    foreach (string strUnsGuid in Testors)
-                        elemTestors.Add(new XElement("Test", new XAttribute(CstrAttributeMemberID, strUnsGuid)));
-                    elemCraftingInfo.Add(elemTestors);
+                    TestorsToCommentsRetellings.WriteXml(CstrElementLabelTestsRetellings,
+                                                         CstrElementLabelTestRetelling,
+                                                         elemCraftingInfo);
+                }
+
+                if (TestorsToCommentsTqAnswers.Count > 0)
+                {
+                    TestorsToCommentsTqAnswers.WriteXml(CstrElementLabelTestsTqAnswers,
+                                                        CstrElementLabelTestTqAnswer,
+                                                        elemCraftingInfo);
                 }
 
                 return elemCraftingInfo;
@@ -634,6 +751,10 @@ namespace OneStoryProjectEditor
                 (child != null)
                 ? child.ResourcesUsed
                 : null);
+            strRow += PresentationHtmlRow(null, "Miscellaneous Comments", MiscellaneousStoryInfo,
+                (child != null)
+                ? child.MiscellaneousStoryInfo
+                : null);
             strRow += PresentationHtmlRow(teamMembers, "Back Translator", BackTranslatorMemberID,
                 (child != null)
                 ? child.BackTranslatorMemberID
@@ -641,24 +762,25 @@ namespace OneStoryProjectEditor
 
             int nInsertCount = 0;
             int i = 1;
-            while (i <= Testors.Count)
+            string strLabelFormat = "Retelling Testor {0}";
+            while (i <= TestorsToCommentsRetellings.Count)
             {
                 int nTestNumber = i + nInsertCount;
-                string strTestor = Testors[i - 1];
+                string strTestor = TestorsToCommentsRetellings[i - 1].TestorGuid;
 
                 // get the child tests that match this one
-                string strChildMatch = FindChildEquivalent(strTestor, child);
+                string strChildMatch = FindChildEquivalentRetellings(strTestor, child);
 
                 // see if there were any child verses that weren't processed
                 if (!String.IsNullOrEmpty(strChildMatch))
                 {
                     bool bFoundOne = false;
                     // the <= in the test led us to an infinite loop
-                    // for (int j = i; j <= child.Testors.IndexOf(strChildMatch); j++)
-                    for (int j = i; j < child.Testors.IndexOf(strChildMatch); j++)
+                    // for (int j = i; j <= child.TestorsToCommentsRetellings.IndexOf(strChildMatch); j++)
+                    for (int j = i; j < child.TestorsToCommentsRetellings.IndexOf(strChildMatch); j++)
                     {
-                        string strChildPassedBy = child.Testors[j - 1];
-                        strRow += PresentationHtmlRow(teamMembers, String.Format("Testor {0}", nTestNumber), strChildPassedBy, true);
+                        string strChildPassedBy = child.TestorsToCommentsRetellings[j - 1].TestorGuid;
+                        strRow += PresentationHtmlRow(teamMembers, String.Format(strLabelFormat, nTestNumber), strChildPassedBy, true);
                         bFoundOne = true;
                         nInsertCount++;
                     }
@@ -667,35 +789,94 @@ namespace OneStoryProjectEditor
                         continue;
                 }
 
-                strRow += PresentationHtmlRow(teamMembers, String.Format("Testor {0}", nTestNumber), strTestor, false);
+                strRow += PresentationHtmlRow(teamMembers, String.Format(strLabelFormat, nTestNumber), strTestor, false);
 
                 // if there is a child, but we couldn't find the equivalent testor...
-                if ((child != null) && String.IsNullOrEmpty(strChildMatch) && (child.Testors.Count >= i))
+                if ((child != null) && String.IsNullOrEmpty(strChildMatch) && (child.TestorsToCommentsRetellings.Count >= i))
                 {
                     // this means the original testor (which we just showed as deleted) 
                     //  was replaced by whatever is the same verse in the child collection
-                    strChildMatch = child.Testors[i - 1];
-                    strRow += PresentationHtmlRow(teamMembers, String.Format("Testor {0}", nTestNumber), strChildMatch, true);
+                    strChildMatch = child.TestorsToCommentsRetellings[i - 1].TestorGuid;
+                    strRow += PresentationHtmlRow(teamMembers, String.Format(strLabelFormat, nTestNumber), strChildMatch, true);
                 }
 
                 i++;    // do this here in case we redo one (from 'continue' above)
             }
 
             if (child != null)
-                while (i <= child.Testors.Count)
+                while (i <= child.TestorsToCommentsRetellings.Count)
                 {
-                    string strChildTestor = child.Testors[i - 1];
+                    string strChildTestor = child.TestorsToCommentsRetellings[i - 1].TestorGuid;
                     int nTestNumber = i + nInsertCount;
-                    strRow += PresentationHtmlRow(teamMembers, String.Format("Testor {0}", nTestNumber), strChildTestor, true);
+                    strRow += PresentationHtmlRow(teamMembers, String.Format(strLabelFormat, nTestNumber), strChildTestor, true);
                     i++;
                 }
+
+            strLabelFormat = "Inference testing {0}";
+            while (i <= TestorsToCommentsRetellings.Count)
+            {
+                int nTestNumber = i + nInsertCount;
+                string strTestor = TestorsToCommentsRetellings[i - 1].TestorGuid;
+
+                // get the child tests that match this one
+                string strChildMatch = FindChildEquivalentAnswers(strTestor, child);
+
+                // see if there were any child verses that weren't processed
+                if (!String.IsNullOrEmpty(strChildMatch))
+                {
+                    bool bFoundOne = false;
+                    // the <= in the test led us to an infinite loop
+                    // for (int j = i; j <= child.TestorsToCommentsRetellings.IndexOf(strChildMatch); j++)
+                    for (int j = i; j < child.TestorsToCommentsRetellings.IndexOf(strChildMatch); j++)
+                    {
+                        string strChildPassedBy = child.TestorsToCommentsRetellings[j - 1].TestorGuid;
+                        strRow += PresentationHtmlRow(teamMembers, String.Format(strLabelFormat, nTestNumber), strChildPassedBy, true);
+                        bFoundOne = true;
+                        nInsertCount++;
+                    }
+
+                    if (bFoundOne)
+                        continue;
+                }
+
+                strRow += PresentationHtmlRow(teamMembers, String.Format(strLabelFormat, nTestNumber), strTestor, false);
+
+                // if there is a child, but we couldn't find the equivalent testor...
+                if ((child != null) && String.IsNullOrEmpty(strChildMatch) && (child.TestorsToCommentsRetellings.Count >= i))
+                {
+                    // this means the original testor (which we just showed as deleted) 
+                    //  was replaced by whatever is the same verse in the child collection
+                    strChildMatch = child.TestorsToCommentsRetellings[i - 1].TestorGuid;
+                    strRow += PresentationHtmlRow(teamMembers, String.Format(strLabelFormat, nTestNumber), strChildMatch, true);
+                }
+
+                i++;    // do this here in case we redo one (from 'continue' above)
+            }
+
+            if (child != null)
+                while (i <= child.TestorsToCommentsRetellings.Count)
+                {
+                    string strChildTestor = child.TestorsToCommentsRetellings[i - 1].TestorGuid;
+                    int nTestNumber = i + nInsertCount;
+                    strRow += PresentationHtmlRow(teamMembers, String.Format(strLabelFormat, nTestNumber), strChildTestor, true);
+                    i++;
+                }
+            
             return strRow;
         }
 
-        private string FindChildEquivalent(string strTestor, CraftingInfoData child)
+        private string FindChildEquivalentRetellings(string strTestor, CraftingInfoData child)
         {
             if (child != null)
-                if (child.Testors.Contains(strTestor))
+                if (child.TestorsToCommentsRetellings.Contains(strTestor))
+                    return strTestor;
+            return null;
+        }
+
+        private string FindChildEquivalentAnswers(string strTestor, CraftingInfoData child)
+        {
+            if (child != null)
+                if (child.TestorsToCommentsTqAnswers.Contains(strTestor))
                     return strTestor;
             return null;
         }
@@ -786,11 +967,15 @@ namespace OneStoryProjectEditor
             return false;
         }
 
+        public const string CstrElementLabelStories = "stories";
+        public const string CstrAttributeLabelSetName = "SetName";
+
         public XElement GetXml
         {
             get
             {
-                XElement elemStories = new XElement("stories", new XAttribute("SetName", SetName));
+                XElement elemStories = new XElement(CstrElementLabelStories, 
+                    new XAttribute(CstrAttributeLabelSetName, SetName));
 
                 foreach (StoryData aSD in this)
                     elemStories.Add(aSD.GetXml);
@@ -824,7 +1009,7 @@ namespace OneStoryProjectEditor
         public ProjectSettings ProjSettings;
         public LnCNotesData LnCNotes;
         public string PanoramaFrontMatter;
-        public string XmlDataVersion = "1.4";
+        public string XmlDataVersion = "1.5";
 
         /// <summary>
         /// This version of the constructor should *always* be followed by a call to InitializeProjectSettings()
@@ -862,6 +1047,17 @@ namespace OneStoryProjectEditor
                     ConvertProjectFile1_3_to_1_4(ProjSettings.ProjectFilePath);
                 }
 
+                else if (projFile.StoryProject[0].version.CompareTo("1.4") == 0)
+                {
+                    // see if the user wants us to upgrade this one
+                    if (MessageBox.Show(String.Format(OseResources.Properties.Resources.IDS_QueryConvertProjectFile1_3to1_4,
+                        ProjSettings.ProjectName), OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
+                        throw BackOutWithNoUI;
+
+                    // convert the 1.3 file to 1.4 using xslt
+                    ConvertProjectFile1_4_to_1_5(ProjSettings.ProjectFilePath);
+                }
+
                 else if (projFile.StoryProject[0].version.CompareTo(XmlDataVersion) > 0)
                 {
                     MessageBox.Show(OseResources.Properties.Resources.IDS_GetNewVersion, OseResources.Properties.Resources.IDS_Caption);
@@ -891,6 +1087,24 @@ namespace OneStoryProjectEditor
         }
 
         private void ConvertProjectFile1_3_to_1_4(string strProjectFilePath)
+        {
+            // get the xml (.onestory) file into a memory string so it can be the 
+            //  input to the transformer
+            string strProjectFile = File.ReadAllText(strProjectFilePath);
+            var streamData = new MemoryStream(Encoding.UTF8.GetBytes(strProjectFile));
+
+#if DEBUG
+            string strXslt = File.ReadAllText(@"C:\src\StoryEditor\StoryEditor\Resources\1.3 to 1.4.xslt");
+            System.Diagnostics.Debug.Assert(strXslt == Properties.Resources.project_1_3_to_1_4);
+#else
+            string strXslt = Properties.Resources.project_1_3_to_1_4;
+#endif
+            var streamXSLT = new MemoryStream(Encoding.UTF8.GetBytes(strXslt));
+            var xelemProjectFileXml = TransformedXmlDataToSfm(streamXSLT, streamData);
+            throw BackOut2Reopen(xelemProjectFileXml);
+        }
+
+        private void ConvertProjectFile1_4_to_1_5(string strProjectFilePath)
         {
             string strProjectFolder = Path.GetDirectoryName(strProjectFilePath);
             string strStateTransitions = Path.Combine(strProjectFolder, StoryStageLogic.StateTransitions.CstrStateTransitionsXmlFilename);

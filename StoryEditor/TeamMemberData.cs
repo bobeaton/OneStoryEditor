@@ -639,7 +639,7 @@ namespace OneStoryProjectEditor
             DialogResult res = dlg.UpdateMember();
 
             // in case the name was changed
-            if ((res == DialogResult.OK) && (strName != theTeamMember.Name))
+            if ((res == DialogResult.Yes) && (strName != theTeamMember.Name))
             {
                 Remove(strName);
                 Add(theTeamMember.Name, theTeamMember);

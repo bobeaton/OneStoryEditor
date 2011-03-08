@@ -246,8 +246,8 @@
   <data name="IDS_NoProjectFromInternet" xml:space="preserve">
     <value>No project file was found at the internet repository: {0}{0}{1}{0}{0}Are you sure it there is one in the repository yet?</value>
   </data>
-  <data name="IDS_AddTestQuery" xml:space="preserve">
-    <value>Click 'Yes' to add boxes for the retelling and testing question answers? Or click 'No' if you already have boxes.</value>
+  <data name="IDS_AddRetellingTestQuery" xml:space="preserve">
+    <value>Click 'Yes' to add boxes for the retelling lines? Or click 'No' if you already have boxes (you might have them if you had earlier clicked "Edit", "Add retelling test results")</value>
   </data>
   <data name="IDS_ConfirmTeamMemberNameChange" xml:space="preserve">
     <value>Are you sure you want to change this member's name? [If you are trying to add a new member, then do it through the 'Project', 'Login' window instead. Clicking 'Yes' here will permanently remove the record for '{0}' and replace it with this new information for '{1}']</value>
@@ -288,7 +288,7 @@
     <value>..\Resources\CopyHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="IDS_AddAnotherTestQuery" xml:space="preserve">
-    <value>Click 'Yes' if you want to enter the results for another UNS test, or click 'No' to send to the consultant for checking</value>
+    <value>Click 'Yes' if you want to enter the results for another UNS retelling test, or click 'No' to send to the consultant for checking</value>
   </data>
   <data name="IDS_CreateMyBiblicalTermsQuery" xml:space="preserve">
     <value>In order to add or edit key terms, you have to begin using a local copy of one of the existing key
@@ -789,7 +789,7 @@ for more extensive study materials.&lt;/p&gt;
     <value>{0} story lines to the clipboard</value>
   </data>
   <data name="IDS_CheckForSkipToUnsCheck" xml:space="preserve">
-    <value>Click 'Yes' to do a UNS test now or click 'No' to send the story to the consultant first for checking.</value>
+    <value>Click 'Yes' to enter UNS test results now or click 'No' to send the story to the consultant first for checking.</value>
   </data>
   <data name="IDS_CantPushToTheLocalRepo" xml:space="preserve">
     <value>You chose the local project folder. You have to browse for a network drive on which to associate the current project</value>
@@ -2002,5 +2002,20 @@ and in the resulting window click on the next (green) state.
   </data>
   <data name="IDS_QueryPullSharedAiProject" xml:space="preserve">
     <value>The shared Adapt It project for this field is not on the local computer. Please enter the necessary information in the next window to download it from the internet (i.e. the repository server, username and password). These should be in an email message you received previously</value>
+  </data>
+  <data name="IDS_AddInferenceTestQuery" xml:space="preserve">
+    <value>Click 'Yes' to add boxes for answers to the testing questions? Or click 'No' if you already have boxes (you might have them if you had earlier clicked "Edit", "Add inference test results")</value>
+  </data>
+  <data name="IDS_QueryNumOfTimeHeard" xml:space="preserve">
+    <value>How many times did the UNS hear the story before giving this retelling?</value>
+  </data>
+  <data name="_1_4_to_1_5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\1.4 to 1.5.xslt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="IDS_InferenceCommentFormat" xml:space="preserve">
+    <value>Test done on: {0}</value>
+  </data>
+  <data name="IDS_RetellingCommentFormat" xml:space="preserve">
+    <value>Test done on: {0}. UNS heard the story {1} times.</value>
   </data>
 </root>
