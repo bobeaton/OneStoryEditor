@@ -103,7 +103,7 @@ namespace OneStoryProjectEditor
                 Answers.IndexSearch(findProperties, ref lstBoxesToSearch);
         }
 
-        protected const string CstrTestQuestionsLabelFormat = "tst:";
+        public const string CstrTestQuestionsLabelFormat = "tst {0}:";
 
         public static string TextareaId(int nVerseIndex, int nTQNum, string strTextElementName)
         {
@@ -115,7 +115,7 @@ namespace OneStoryProjectEditor
             bool bShowVernacular, bool bShowNationalBT, bool bShowEnglishBT)
         {
             string strRow = String.Format(OseResources.Properties.Resources.HTML_TableCell,
-                                          CstrTestQuestionsLabelFormat);
+                                          String.Format(CstrTestQuestionsLabelFormat, nTQNum + 1));
 
             if (bShowVernacular)
             {
@@ -185,7 +185,7 @@ namespace OneStoryProjectEditor
             if (viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestions))
             {
                 string strRow = String.Format(OseResources.Properties.Resources.HTML_TableCell,
-                                              CstrTestQuestionsLabelFormat);
+                                              String.Format(CstrTestQuestionsLabelFormat, nTQNum + 1));
                 if (bShowVernacular)
                 {
                     DirectableEncConverter transliterator = viewSettings.TransliteratorVernacular;
@@ -250,7 +250,8 @@ namespace OneStoryProjectEditor
             if (viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestions))
             {
                 string strRow = String.Format(OseResources.Properties.Resources.HTML_TableCell,
-                                              CstrTestQuestionsLabelFormat);
+                                              String.Format(CstrTestQuestionsLabelFormat,
+                                                            nTQNum + 1));
                 if (bShowVernacular)
                 {
                     DirectableEncConverter transliterator = viewSettings.TransliteratorVernacular;

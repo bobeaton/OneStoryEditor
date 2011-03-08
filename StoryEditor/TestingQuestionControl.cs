@@ -1,6 +1,7 @@
 ﻿// rde: removing lable row to save pixels
 // #define ShowLabelRow
 
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -13,13 +14,12 @@ namespace OneStoryProjectEditor
         protected const string CstrFieldNameInternationalBt = "TQInternationalBT";
         protected const string CstrFieldNameAnswers = "Answers";
         protected const string CstrFieldNameTestQuestionsLabel = "TestQuestionsLabel";
-        protected const string CstrTestQuestionsLabelFormat = "tst:";
 
         protected TestQuestionData _aTQData = null;
         protected int _nNumAnswerRows = 0;
 
         public TestingQuestionControl(StoryEditor theSE, VerseBtControl ctrlVerse, 
-            TestQuestionData aTQData, bool bShowHeader)
+            TestQuestionData aTQData, int nIndex, bool bShowHeader)
             : base(theSE.theCurrentStory.ProjStage)
         {
             _aTQData = aTQData;
@@ -42,16 +42,18 @@ namespace OneStoryProjectEditor
                 RemoveColumn(tableLayoutPanel.ColumnCount - 1);
 
             int nNumColumns = 0;
+            string strTestNumberLabel = String.Format(TestQuestionData.CstrTestQuestionsLabelFormat,
+                                                      nIndex + 1);
             if (theSE.viewStoryTestingQuestionMenuItem.Checked)
             {
                 // show the row label
-                Label label = new Label
-                {
-                    Anchor = AnchorStyles.Left,
-                    AutoSize = true,
-                    Name = CstrFieldNameTestQuestionsLabel,
-                    Text = CstrTestQuestionsLabelFormat
-                };
+                var label = new Label
+                                {
+                                    Anchor = AnchorStyles.Left,
+                                    AutoSize = true,
+                                    Name = CstrFieldNameTestQuestionsLabel,
+                                    Text = strTestNumberLabel
+                                };
 #if ShowLabelRow
                 tableLayoutPanel.Controls.Add(label, 0, 1);
 #else
@@ -73,7 +75,7 @@ namespace OneStoryProjectEditor
                         _aTQData.TestQuestionLine.Vernacular,
                         theSE.StoryProject.ProjSettings.Vernacular, nNumColumns,
                         StoryEditor.TextFieldType.eVernacular,
-                        Properties.Settings.Default.TQVernacularColor);
+                        strTestNumberLabel, Properties.Settings.Default.TQVernacularColor);
                     nNumColumns++;
                 }
 
@@ -96,8 +98,8 @@ namespace OneStoryProjectEditor
                     ctrlTextBoxNationalBT = InitTextBox(ctrlVerse, CstrFieldNameNationalBt,
                         _aTQData.TestQuestionLine.NationalBt, 
                         theSE.StoryProject.ProjSettings.NationalBT, nNumColumns,
-                        StoryEditor.TextFieldType.eNational,
-                        Properties.Settings.Default.TQNationalBtColor);
+                        StoryEditor.TextFieldType.eNational, 
+                        strTestNumberLabel, Properties.Settings.Default.TQNationalBtColor);
                     nNumColumns++;
 
                     if (ctrlTextBoxVernacular != null)
@@ -121,7 +123,7 @@ namespace OneStoryProjectEditor
                     CtrlTextBox ctrlTextBoxEnglishBT = InitTextBox(ctrlVerse, CstrFieldNameVernacular, _aTQData.TestQuestionLine.InternationalBt,
                         theSE.StoryProject.ProjSettings.InternationalBT, nNumColumns,
                         StoryEditor.TextFieldType.eInternational,
-                        Properties.Settings.Default.TQInternationalBtColor);
+                        strTestNumberLabel, Properties.Settings.Default.TQInternationalBtColor);
                     nNumColumns++;
 
                     if (ctrlTextBoxVernacular != null)
@@ -140,14 +142,17 @@ namespace OneStoryProjectEditor
                 MultiLineControl aAnswersCtrl = new MultiLineControl(ctrlVerse, StageLogic,
                     _aTQData.Answers, theSE.StoryProject.ProjSettings,
                     theSE.theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers,
-                    theSE.StoryProject.ProjSettings.ShowAnswersVernacular,
-                    theSE.StoryProject.ProjSettings.ShowAnswersNationalBT,
-                    theSE.StoryProject.ProjSettings.ShowAnswersInternationalBT,
+                    strTestNumberLabel,
+                    (theSE.StoryProject.ProjSettings.ShowAnswersVernacular && theSE.viewVernacularLangFieldMenuItem.Checked),
+                    (theSE.viewNationalLangFieldMenuItem.Checked && theSE.StoryProject.ProjSettings.ShowAnswersNationalBT),
+                    (theSE.viewEnglishBTFieldMenuItem.Checked && theSE.StoryProject.ProjSettings.ShowAnswersInternationalBT),
                     Properties.Settings.Default.AnswersVernacularColor,
                     Properties.Settings.Default.AnswersNationalBtColor,
-                    Properties.Settings.Default.AnswersInternationalBtColor);
-                aAnswersCtrl.Name = CstrFieldNameAnswers;
-                aAnswersCtrl.ParentControl = this;
+                    Properties.Settings.Default.AnswersInternationalBtColor)
+                                                    {
+                                                        Name = CstrFieldNameAnswers,
+                                                        ParentControl = this
+                                                    };
 
 #if ShowLabelRow
                 const int nLayoutRow = 2;
@@ -183,10 +188,11 @@ namespace OneStoryProjectEditor
 
         protected CtrlTextBox InitTextBox(VerseControl ctrlVerse, string strTbName, 
             StringTransfer strTbText, ProjectSettings.LanguageInfo li, int nLayoutColumn, 
-            StoryEditor.TextFieldType eFieldtype, Color clrFont)
+            StoryEditor.TextFieldType eFieldtype, string strTestNumberLabel, Color clrFont)
         {
             var tb = new CtrlTextBox(strTbName + CstrSuffixTextBox, ctrlVerse, this,
-                strTbText, li, CstrTestQuestionsLabelFormat, true, eFieldtype, clrFont);
+                strTbText, li, strTestNumberLabel, true, 
+                eFieldtype, clrFont);
 #if ShowLabelRow
             tableLayoutPanel.Controls.Add(tb, nLayoutColumn, 1);
 #else

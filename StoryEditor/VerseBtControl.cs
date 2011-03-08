@@ -99,7 +99,10 @@ namespace OneStoryProjectEditor
                 {
                     InitRetellings(_verseData.Retellings, nNumRows, 
                         theSE.theCurrentStory.CraftingInfo.TestorsToCommentsRetellings,
-                        TheSE.StoryProject.ProjSettings);
+                        TheSE.StoryProject.ProjSettings,
+                        (theSE.viewVernacularLangFieldMenuItem.Checked && TheSE.StoryProject.ProjSettings.ShowRetellingVernacular),
+                        (theSE.viewNationalLangFieldMenuItem.Checked && TheSE.StoryProject.ProjSettings.ShowRetellingNationalBT),
+                        (theSE.viewEnglishBTFieldMenuItem.Checked && TheSE.StoryProject.ProjSettings.ShowRetellingInternationalBT));
                     nNumRows++;
                 }
             }
@@ -159,15 +162,16 @@ namespace OneStoryProjectEditor
         }
 
         protected void InitRetellings(RetellingsData aRetellingsData, int nLayoutRow,
-            TestInfo lstTestInfo, ProjectSettings projSettings)
+            TestInfo lstTestInfo, ProjectSettings projSettings,
+            bool bShowVernacular, bool bShowNationalBt, bool bShowInternationalBt)
         {
             System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(CstrFieldNameRetellings));
             var aRetellingsCtrl = new MultiLineControl(this, StageLogic,
                                                        aRetellingsData, projSettings,
-                                                       lstTestInfo,
-                                                       projSettings.ShowRetellingVernacular,
-                                                       projSettings.ShowRetellingNationalBT,
-                                                       projSettings.ShowRetellingInternationalBT,
+                                                       lstTestInfo, null,
+                                                       bShowVernacular,
+                                                       bShowNationalBt,
+                                                       bShowInternationalBt,
                                                        Settings.Default.RetellingVernacularColor,
                                                        Settings.Default.RetellingNationalBtColor,
                                                        Settings.Default.RetellingInternationalBtColor)
@@ -186,7 +190,7 @@ namespace OneStoryProjectEditor
 
         protected void InitTestQuestion(StoryEditor theSE, int i, TestQuestionData aTQData, int nLayoutRow, bool bShowHeader)
         {
-            TestingQuestionControl aTestingQuestionCtrl = new TestingQuestionControl(theSE, this, aTQData, bShowHeader);
+            TestingQuestionControl aTestingQuestionCtrl = new TestingQuestionControl(theSE, this, aTQData, i, bShowHeader);
             aTestingQuestionCtrl.ParentControl = this;
             aTestingQuestionCtrl.Name = CstrFieldNameTestQuestions + nLayoutRow.ToString();
 

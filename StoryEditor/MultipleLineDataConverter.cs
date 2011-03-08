@@ -465,6 +465,7 @@ namespace OneStoryProjectEditor
 
         public const string CstrElementLableRetellings = "Retellings";
         public const string CstrElementLableRetelling = "Retelling";
+        public const string CstrRetellingLabelFormat = "ret {0}:";
 
         public override sealed string CollectionElementName
         {
@@ -478,7 +479,7 @@ namespace OneStoryProjectEditor
 
         public override string LabelTextFormat
         {
-            get { return "ret {0}:"; }
+            get { return CstrRetellingLabelFormat; }
         }
 
         protected override VerseData.ViewSettings.ItemToInsureOn AssociatedViewMenu
@@ -527,6 +528,7 @@ namespace OneStoryProjectEditor
 
         public const string CstrElementLableAnswers = "Answers";
         public const string CstrElementLableAnswer = "Answer";
+        public const string CstrAnswersLabelFormat = "ans {0}:";
 
         public override sealed string CollectionElementName
         {
@@ -540,7 +542,7 @@ namespace OneStoryProjectEditor
 
         public override string LabelTextFormat
         {
-            get { return "ans {0}:"; }
+            get { return CstrAnswersLabelFormat; }
         }
 
         protected override VerseData.ViewSettings.ItemToInsureOn AssociatedViewMenu

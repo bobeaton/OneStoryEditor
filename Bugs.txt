@@ -4,13 +4,7 @@ Check out searching on L&C Notes.
 
 In Tbx, you could right-click to "Jump" to an L&C note... what could that mean in OSE?
 
-add to SInfo dialog 6 tests (3 retellings and 3 TQAs).
-
-For the retellings, ask explicitly how many times the UNS was played the story to give a particular retelling.
-
 do Hindi->English AIKB
-
-fix the scroll problem in ConNotes pane
 
 fix the select multiple languages from retell, answers, etc, to 'add note on selected text'
 

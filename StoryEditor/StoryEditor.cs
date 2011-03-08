@@ -1316,11 +1316,16 @@ namespace OneStoryProjectEditor
                 {
                     // otherwise, it might have been a retelling or some other control
                     if (!String.IsNullOrEmpty(CtrlTextBox._inTextBox._strLabel))
-                        strNote += CtrlTextBox._inTextBox._strLabel;
-
-                    string str = CtrlTextBox._inTextBox.SelectedText.Trim();
-                    if (!String.IsNullOrEmpty(str))
-                        strNote += String.Format(" /{0}/", str);
+                    {
+                        AddExtraInfoBasedOnLabel(CtrlTextBox._inTextBox._strLabel,
+                                                 ctrl, ref strNote);
+                    }
+                    else
+                    {
+                        string str = CtrlTextBox._inTextBox.SelectedText.Trim();
+                        if (!String.IsNullOrEmpty(str))
+                            strNote += String.Format(" /{0}/", str);
+                    }
                 }
             }
             else if (CtrlTextBox._inTextBox != null)
@@ -1340,6 +1345,100 @@ namespace OneStoryProjectEditor
             strNote += ". ";
 
             SendNoteToCorrectPane(ctrlParent.VerseNumber, strNote);
+        }
+
+        private void AddExtraInfoBasedOnLabel(string strLabel, VerseBtControl ctrl, 
+            ref string strNote)
+        {
+            if (strLabel.Substring(0, 3) == TestQuestionData.CstrTestQuestionsLabelFormat.Substring(0, 3))
+            {
+                string strTestNumber = strLabel.Substring(4, 1);
+                int nTestNumber = Convert.ToInt32(strTestNumber) - 1;
+                TestQuestionData testQuestionData = ctrl._verseData.TestQuestions[nTestNumber];
+
+                strNote += strLabel;
+                // get selected text from all visible Story line controls
+                if (StoryProject.ProjSettings.ShowTestQuestionsVernacular && viewVernacularLangFieldMenuItem.Checked)
+                {
+                    string str = testQuestionData.TestQuestionLine.Vernacular.TextBox.SelectedText.Trim();
+                    if (!String.IsNullOrEmpty(str))
+                        strNote += String.Format(" /{0}/", str);
+                }
+                if (StoryProject.ProjSettings.ShowTestQuestionsNationalBT && viewNationalLangFieldMenuItem.Checked)
+                {
+                    string str = testQuestionData.TestQuestionLine.NationalBt.TextBox.SelectedText.Trim();
+                    if (!String.IsNullOrEmpty(str))
+                        strNote += String.Format(" /{0}/", str);
+                }
+                if (StoryProject.ProjSettings.ShowTestQuestionsInternationalBT && viewEnglishBTFieldMenuItem.Checked)
+                {
+                    string str = testQuestionData.TestQuestionLine.InternationalBt.TextBox.SelectedText.Trim();
+                    if (!String.IsNullOrEmpty(str))
+                        strNote += String.Format(" '{0}'", str);
+                }
+            }
+            else if (strLabel.Substring(0, 3) == RetellingsData.CstrRetellingLabelFormat.Substring(0, 3))
+            {
+                RetellingsData retellings = ctrl._verseData.Retellings;
+                string strTestNumber = strLabel.Substring(4, 1);
+                int nTestNumber = Convert.ToInt32(strTestNumber) - 1;
+                LineMemberData retellingData = retellings[nTestNumber];
+
+                strNote += strLabel;
+                // get selected text from all visible Story line controls
+                if (StoryProject.ProjSettings.ShowRetellingVernacular && viewVernacularLangFieldMenuItem.Checked)
+                {
+                    string str = retellingData.Vernacular.TextBox.SelectedText.Trim();
+                    if (!String.IsNullOrEmpty(str))
+                        strNote += String.Format(" /{0}/", str);
+                }
+                if (StoryProject.ProjSettings.ShowRetellingNationalBT && viewNationalLangFieldMenuItem.Checked)
+                {
+                    string str = retellingData.NationalBt.TextBox.SelectedText.Trim();
+                    if (!String.IsNullOrEmpty(str))
+                        strNote += String.Format(" /{0}/", str);
+                }
+                if (StoryProject.ProjSettings.ShowRetellingInternationalBT && viewEnglishBTFieldMenuItem.Checked)
+                {
+                    string str = retellingData.InternationalBt.TextBox.SelectedText.Trim();
+                    if (!String.IsNullOrEmpty(str))
+                        strNote += String.Format(" '{0}'", str);
+                }
+            }
+            else if (strLabel.Substring(0, 3) == AnswersData.CstrAnswersLabelFormat.Substring(0, 3))
+            {
+                // e.g. "ans 1:tst 1:"
+                string strTestNumber = strLabel.Substring(10, 1);
+                int nTestNumber = Convert.ToInt32(strTestNumber) - 1;
+                TestQuestionData testQuestionData = ctrl._verseData.TestQuestions[nTestNumber];
+                AnswersData answers = testQuestionData.Answers;
+                strTestNumber = strLabel.Substring(4, 1);
+                nTestNumber = Convert.ToInt32(strTestNumber) - 1;
+                LineMemberData answerData = answers[nTestNumber];
+
+                strNote += strLabel;
+                // get selected text from all visible Story line controls
+                if (StoryProject.ProjSettings.ShowAnswersVernacular && viewVernacularLangFieldMenuItem.Checked)
+                {
+                    string str = answerData.Vernacular.TextBox.SelectedText.Trim();
+                    if (!String.IsNullOrEmpty(str))
+                        strNote += String.Format(" /{0}/", str);
+                }
+                if (StoryProject.ProjSettings.ShowAnswersNationalBT && viewNationalLangFieldMenuItem.Checked)
+                {
+                    string str = answerData.NationalBt.TextBox.SelectedText.Trim();
+                    if (!String.IsNullOrEmpty(str))
+                        strNote += String.Format(" /{0}/", str);
+                }
+                if (StoryProject.ProjSettings.ShowAnswersInternationalBT && viewEnglishBTFieldMenuItem.Checked)
+                {
+                    string str = answerData.InternationalBt.TextBox.SelectedText.Trim();
+                    if (!String.IsNullOrEmpty(str))
+                        strNote += String.Format(" '{0}'", str);
+                }
+            }
+            else
+                strNote += CtrlTextBox._inTextBox._strLabel;
         }
 
         internal static string GetInitials(string name)
