@@ -1,4 +1,34 @@
-﻿disable auto-save timeout when *any* messageBox is up.
+﻿add to SInfo dialog 6 tests (3 retellings and 3 TQAs).
+
+For the retellings, ask explicitly how many times the UNS was played the story to give a particular retelling.
+
+Alphabetize the Login list
+
+do Hindi->English AIKB
+
+fix the scroll problem in ConNotes pane
+
+fix the select multiple languages from retell, answers, etc, to 'add note on selected text'
+
+change ln # references in ConNotes if lines are added/deleted.
+
+Make it possible to have multiple roles (i.e. use a bit field and check boxes rather than radio buttons)
+
+in local glossing, if there is no change between src & target, then display near source the "similar" words for them to choose from. Then all changes to the source line (which might need to be fed back to the source line in the editor).
+
+Add right-click on anchor button to all "NO ANCHOR" as a legitimate anchor.
+
+Where would general testing questions go?
+
+Have an option to do an orthogonal "task" rather than only state machine so that the PF can do anything they want when they want, with perhaps the only restriction being "have 1/2 TQs" check before going to the consultant.
+
+simplify the case of adding TQs immediately followed by answers.
+
+Add Story numbering
+
+Add to AdaptItEncConverter the ability to return words from the KB that are "similar" (ala Mark Penny's normalization algorithm). The provide those as right-click options to the glossing.
+
+disable auto-save timeout when *any* messageBox is up.
 
 Can I add spelling check?
 

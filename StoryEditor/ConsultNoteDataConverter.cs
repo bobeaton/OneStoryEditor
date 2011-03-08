@@ -301,7 +301,6 @@ namespace OneStoryProjectEditor
         public const string CstrButtonLabelUnhide = "Unhide";
         public const string CstrButtonLabelConversationReopen = "Reopen conversation";
         public const string CstrButtonLabelConversationEnd = "End conversation";
-        internal const string CstrRoundLabel = "Round: ";
 
         public bool IsEditable(StoryStageLogic theStoryStage, int i, 
             TeamMemberData LoggedOnMember, CommInstance aCI)
@@ -352,40 +351,38 @@ namespace OneStoryProjectEditor
                 (IsNoteToSelf && !IsMentorLoggedOn(LoggedOnMember)))
                 return null;
 
-            // r1: "Round: n"; "button"
-            // r2-n: "Label:"; "value in textbox"
-            string strRound = String.Format("{0}{1}", CstrRoundLabel, RoundNum);
-            if (!Visible)
-                strRound += " (Hidden)";
-            string strRow = String.Format(OseResources.Properties.Resources.HTML_TableCellWithSpanAndWidth, 100, 2,
-                strRound);
-
             // only the initiator of a conversation gets the buttons to delete, hide or
             //  end conversation.
+            string strRow = null;
             CommInstance aCInitiator = this[0];
             if (CanDoConversationButtons(LoggedOnMember.MemberType, aCInitiator.Initiator))
             {
-                strRow += String.Format(OseResources.Properties.Resources.HTML_TableCell,
+                strRow += // String.Format(OseResources.Properties.Resources.HTML_TableCellWidthPixels, 50,
                                         String.Format(OseResources.Properties.Resources.HTML_Button,
                                                       ButtonId(nVerseIndex, nConversationIndex, CnBtnIndexDelete),
                                                       "return window.external.OnClickDelete(this.id);",
-                                                      "Delete"));
+                                                      "Delete"); //);
 
-                strRow += String.Format(OseResources.Properties.Resources.HTML_TableCell,
+                strRow += // String.Format(OseResources.Properties.Resources.HTML_TableCellWidthPixels, 40,
                                         String.Format(OseResources.Properties.Resources.HTML_Button,
                                                       ButtonId(nVerseIndex, nConversationIndex, CnBtnIndexHide),
                                                       "return window.external.OnClickHide(this.id);",
-                                                      (Visible) ? CstrButtonLabelHide : CstrButtonLabelUnhide));
+                                                      (Visible) ? CstrButtonLabelHide : CstrButtonLabelUnhide);
 
-                strRow += String.Format(OseResources.Properties.Resources.HTML_TableCell,
+                strRow += // String.Format(OseResources.Properties.Resources.HTML_TableCellWidthPixels, 100,
                                         String.Format(OseResources.Properties.Resources.HTML_Button,
                                                       ButtonId(nVerseIndex, nConversationIndex,
                                                                CnBtnIndexEndConversation),
                                                       "return window.external.OnClickEndConversation(this.id);",
                                                       (IsFinished)
                                                           ? CstrButtonLabelConversationReopen
-                                                          : CstrButtonLabelConversationEnd));
+                                                          : CstrButtonLabelConversationEnd);
             }
+
+            if (!Visible)
+                strRow += "(Hidden)";
+
+            strRow = String.Format(OseResources.Properties.Resources.HTML_TableCell, strRow);
 
             // color changes if hidden
             string strColor = "#FFFFFF";    // default white background

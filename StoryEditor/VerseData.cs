@@ -1319,30 +1319,30 @@ namespace OneStoryProjectEditor
             string strHtmlButtons = null;
             if (theCNsDC.HasAddNotePrivilege(LoggedOnMember.MemberType))
             {
-                strHtmlButtons = String.Format(OseResources.Properties.Resources.HTML_TableCell,
+                strHtmlButtons += // String.Format(OseResources.Properties.Resources.HTML_TableCell,
                                                String.Format(OseResources.Properties.Resources.HTML_Button,
                                                              nVerseIndex,
                                                              "return window.external.OnAddNote(this.id, null);",
-                                                             "Add Note"));
+                                                             "Add Note");
             }
 
             if (theCNsDC.HasAddNoteToSelfPrivilege(LoggedOnMember.MemberType))
             {
-                strHtmlButtons += String.Format(OseResources.Properties.Resources.HTML_TableCell,
+                strHtmlButtons += // String.Format(OseResources.Properties.Resources.HTML_TableCell,
                                                 String.Format(OseResources.Properties.Resources.HTML_Button,
                                                               NoteToSelfButtonId(nVerseIndex),
                                                               "return window.external.OnAddNoteToSelf(this.id, null);",
-                                                              "Add Note to Self"));
+                                                              "Add Note to Self");
             }
 
             if (bShowOnlyOpenConversations)
-                strHtmlButtons = String.Format(OseResources.Properties.Resources.HTML_TableCell,
+                strHtmlButtons = // String.Format(OseResources.Properties.Resources.HTML_TableCell,
                                                String.Format(OseResources.Properties.Resources.HTML_Button,
                                                              ButtonId(nVerseIndex),
                                                              "return window.external.OnShowHideOpenConversations(this.id);",
                                                              (theCNsDC.ShowOpenConversations)
                                                                  ? CstrShowOpenHideClosed
-                                                                 : CstrShowOpenShowAll))
+                                                                 : CstrShowOpenShowAll)
                                                                  + strHtmlButtons;  // to have 'Add Note' come last
 
             string strLink = String.Format(OseResources.Properties.Resources.HTML_LinkJumpLine,
@@ -1352,11 +1352,11 @@ namespace OneStoryProjectEditor
 
             return String.Format(OseResources.Properties.Resources.HTML_TableRowColor, "#AACCFF",
                                  String.Format("{0}{1}",
-                                               String.Format(OseResources.Properties.Resources.HTML_TableCellWidthId,
+                                               String.Format(OseResources.Properties.Resources.HTML_TableCellId,
                                                              LineId(nVerseIndex),
-                                                             100,
                                                              strLink),
-                                               strHtmlButtons));
+                                               String.Format(OseResources.Properties.Resources.HTML_TableCellRightAlign,
+                                                             strHtmlButtons)));
         }
 
         public void ResetShowOpenConversationsFlags()

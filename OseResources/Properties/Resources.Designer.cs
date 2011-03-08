@@ -334,11 +334,29 @@ namespace OseResources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;td id=&quot;{0}&quot;&gt;{1}&lt;/td&gt;.
+        /// </summary>
+        public static string HTML_TableCellId {
+            get {
+                return ResourceManager.GetString("HTML_TableCellId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;td NOWRAP&gt;{0}&lt;/td&gt;.
         /// </summary>
         public static string HTML_TableCellNoWrap {
             get {
                 return ResourceManager.GetString("HTML_TableCellNoWrap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;td align=&quot;right&quot;&gt;{0}&lt;/td&gt;.
+        /// </summary>
+        public static string HTML_TableCellRightAlign {
+            get {
+                return ResourceManager.GetString("HTML_TableCellRightAlign", resourceCulture);
             }
         }
         
@@ -366,6 +384,15 @@ namespace OseResources.Properties {
         public static string HTML_TableCellWidthId {
             get {
                 return ResourceManager.GetString("HTML_TableCellWidthId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;td width=&quot;{0}&quot;&gt;{1}&lt;/td&gt;.
+        /// </summary>
+        public static string HTML_TableCellWidthPixels {
+            get {
+                return ResourceManager.GetString("HTML_TableCellWidthPixels", resourceCulture);
             }
         }
         

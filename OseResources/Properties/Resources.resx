@@ -546,8 +546,14 @@ initContextMenu();
   <data name="HTML_TableCellForTextArea" xml:space="preserve">
     <value>&lt;td width="100%" BGCOLOR={0}&gt;{1}&lt;/td&gt;</value>
   </data>
+  <data name="HTML_TableCellId" xml:space="preserve">
+    <value>&lt;td id="{0}"&gt;{1}&lt;/td&gt;</value>
+  </data>
   <data name="HTML_TableCellNoWrap" xml:space="preserve">
     <value>&lt;td NOWRAP&gt;{0}&lt;/td&gt;</value>
+  </data>
+  <data name="HTML_TableCellRightAlign" xml:space="preserve">
+    <value>&lt;td align="right"&gt;{0}&lt;/td&gt;</value>
   </data>
   <data name="HTML_TableCellWidth" xml:space="preserve">
     <value>&lt;td width="{0}%"&gt;{1}&lt;/td&gt;</value>
@@ -557,6 +563,9 @@ initContextMenu();
   </data>
   <data name="HTML_TableCellWidthId" xml:space="preserve">
     <value>&lt;td id="{0}" width="{1}%"&gt;{2}&lt;/td&gt;</value>
+  </data>
+  <data name="HTML_TableCellWidthPixels" xml:space="preserve">
+    <value>&lt;td width="{0}"&gt;{1}&lt;/td&gt;</value>
   </data>
   <data name="HTML_TableCellWidthSpanId" xml:space="preserve">
     <value>&lt;td id="{0}" width="{1}%" colspan="{2}"&gt;{3}&lt;/td&gt;</value>
