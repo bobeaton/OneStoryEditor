@@ -478,6 +478,7 @@ namespace OneStoryProjectEditor
             projectConfig.IncludePatterns.Add("*.xml"); // AI KB
             projectConfig.IncludePatterns.Add("*.ChorusNotes"); // the new conflict file
             projectConfig.IncludePatterns.Add("*.aic");
+            projectConfig.IncludePatterns.Add("*.cct"); // possible normalization spellfixer files
 
             string strRepoUrl, strSharedNetworkUrl;
             if (GetAiHgRepoParameters(strProjectName, out strRepoUrl, out strSharedNetworkUrl))
