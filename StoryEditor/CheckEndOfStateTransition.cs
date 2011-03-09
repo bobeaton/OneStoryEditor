@@ -650,9 +650,18 @@ namespace OneStoryProjectEditor
             if (nNumOfTQs < ((nNumOfVerses + 1) / 2))
             {
                 int nNumLacking = ((nNumOfVerses + 1) / 2) - nNumOfTQs;
+#if !NotRelaxRequirement
+                DialogResult res = MessageBox.Show(String.Format(Properties.Resources.IDS_WarnAboutNotEnoughTqs,
+                                                                 nNumLacking),
+                                                   OseResources.Properties.Resources.IDS_Caption,
+                                                   MessageBoxButtons.YesNoCancel);
+                
+                if (res != DialogResult.Yes)
+#else
                 ShowError(theSE,
                           String.Format("Error: You should have at least half as many Story Testing Questions as lines in the story. Please add at least {0} more testing question(s). (right-click on the 'line options' button and choose 'Add a story testing question')", nNumLacking));
-                return false;
+#endif
+                    return false;
             }
             return true;
         }

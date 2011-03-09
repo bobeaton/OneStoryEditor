@@ -2021,4 +2021,7 @@ and in the resulting window click on the next (green) state.
   <data name="IDS_EnterCorrectedSpelling" xml:space="preserve">
     <value>Enter the correct spelling</value>
   </data>
+  <data name="IDS_WarnAboutNotEnoughTqs" xml:space="preserve">
+    <value>You don't have at least half as many story inference testing questions as lines in the story. Unless you have prior permission from your consultant, you should click Cancel and add at least {0} more testing question(s). (right-click on the 'line options' button and choose 'Add a story testing question'). Otherwise, click 'Yes' to continue on to the next state.</value>
+  </data>
 </root>

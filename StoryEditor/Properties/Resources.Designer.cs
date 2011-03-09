@@ -1284,6 +1284,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You don&apos;t have at least half as many story inference testing questions as lines in the story. Unless you have prior permission from your consultant, you should click Cancel and add at least {0} more testing question(s). (right-click on the &apos;line options&apos; button and choose &apos;Add a story testing question&apos;). Otherwise, click &apos;Yes&apos; to continue on to the next state..
+        /// </summary>
+        internal static string IDS_WarnAboutNotEnoughTqs {
+            get {
+                return ResourceManager.GetString("IDS_WarnAboutNotEnoughTqs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
         ///&lt;!DOCTYPE stylesheet [
         ///&lt;!ENTITY cr &quot;&amp;#xD;&amp;#xA;&quot;&gt;
