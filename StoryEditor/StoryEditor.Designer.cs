@@ -75,6 +75,7 @@ namespace OneStoryProjectEditor
             this.replaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.editAddRetellingTestResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editAddInferenceTestResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showHideFieldsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.useSameSettingsForAllStoriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -161,7 +162,6 @@ namespace OneStoryProjectEditor
             this.buttonsStoryStage = new System.Windows.Forms.ToolStripSplitButton();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
-            this.editAddInferenceTestResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
             this.splitContainerLeftRight.Panel2.SuspendLayout();
@@ -541,6 +541,14 @@ namespace OneStoryProjectEditor
             this.editAddRetellingTestResultsToolStripMenuItem.ToolTipText = "Click here to add boxes for the retellings of the story";
             this.editAddRetellingTestResultsToolStripMenuItem.Click += new System.EventHandler(this.editAddTestResultsToolStripMenuItem_Click);
             // 
+            // editAddInferenceTestResultsToolStripMenuItem
+            // 
+            this.editAddInferenceTestResultsToolStripMenuItem.Name = "editAddInferenceTestResultsToolStripMenuItem";
+            this.editAddInferenceTestResultsToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.editAddInferenceTestResultsToolStripMenuItem.Text = "&Add inference test results";
+            this.editAddInferenceTestResultsToolStripMenuItem.ToolTipText = "Click here to add boxes for the answers to the testing questions";
+            this.editAddInferenceTestResultsToolStripMenuItem.Click += new System.EventHandler(this.editAddInferenceTestResultsToolStripMenuItem_Click);
+            // 
             // viewToolStripMenuItem
             // 
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -641,6 +649,7 @@ namespace OneStoryProjectEditor
             this.viewFreeTranslationToolStripMenuItem.Size = new System.Drawing.Size(284, 22);
             this.viewFreeTranslationToolStripMenuItem.Text = "&Free Translation";
             this.viewFreeTranslationToolStripMenuItem.ToolTipText = "Show the text boxes for the Free Translation of the story lines";
+            this.viewFreeTranslationToolStripMenuItem.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
             // 
             // viewAnchorFieldMenuItem
             // 
@@ -1429,14 +1438,6 @@ namespace OneStoryProjectEditor
             this.statusStrip.Size = new System.Drawing.Size(881, 22);
             this.statusStrip.TabIndex = 1;
             this.statusStrip.Text = "statusStrip1";
-            // 
-            // editAddInferenceTestResultsToolStripMenuItem
-            // 
-            this.editAddInferenceTestResultsToolStripMenuItem.Name = "editAddInferenceTestResultsToolStripMenuItem";
-            this.editAddInferenceTestResultsToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
-            this.editAddInferenceTestResultsToolStripMenuItem.Text = "&Add inference test results";
-            this.editAddInferenceTestResultsToolStripMenuItem.ToolTipText = "Click here to add boxes for the answers to the testing questions";
-            this.editAddInferenceTestResultsToolStripMenuItem.Click += new System.EventHandler(this.editAddInferenceTestResultsToolStripMenuItem_Click);
             // 
             // StoryEditor
             // 
