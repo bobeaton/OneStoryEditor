@@ -923,6 +923,8 @@ namespace OneStoryProjectEditor
         {
             // inform the user that they won't be able to edit this if they aren't the proper member type
             Debug.Assert((theCurrentStory != null) && (LoggedOnMember != null));
+            if (LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
+                viewCoachNotesFieldMenuItem.Checked = false;
             if (_bNagOnce)
                 LoggedOnMember.CheckIfThisAnAcceptableEditorForThisStory(theCurrentStory);
             _bNagOnce = false;
@@ -3475,6 +3477,11 @@ namespace OneStoryProjectEditor
 
                 viewLnCNotesMenu.Enabled =
                     concordanceToolStripMenuItem.Enabled = true;
+
+                // the coach pane shouldn't be visible except to Consultants and Coach
+                viewCoachNotesFieldMenuItem.Enabled = ((LoggedOnMember != null) &&
+                                                       (LoggedOnMember.MemberType !=
+                                                        TeamMemberData.UserTypes.eProjectFacilitator));
             }
             else
                 showHideFieldsToolStripMenuItem.Enabled =
