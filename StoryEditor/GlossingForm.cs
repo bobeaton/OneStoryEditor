@@ -28,6 +28,7 @@ namespace OneStoryProjectEditor
                 out liSourceLang, out liTargetLang);
 
             // get the EncConverter to break apart the given sentence into bundles
+            SourceSentence = strSentence;
             m_theEC.SplitAndConvert(strSentence, out SourceWords, out SourceStringsInBetween, 
                 out TargetWords, out TargetStringsInBetween);
             if (SourceWords.Count == 0)
@@ -50,6 +51,7 @@ namespace OneStoryProjectEditor
             ((GlossingControl)flowLayoutPanel.Controls[flowLayoutPanel.Controls.Count - 1]).DisableButton();
         }
 
+        public string SourceSentence { get; set; }
         public string TargetSentence { get; set; }
 
         private void buttonOK_Click(object sender, EventArgs e)
@@ -158,6 +160,23 @@ namespace OneStoryProjectEditor
             {
                 MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
             }
+        }
+
+        public void CheckForSimilarWords(GlossingControl glossingControl)
+        {
+            List<string> lstSimilarWords = m_theEC.GetSimilarWords(glossingControl.SourceWord);
+            if (lstSimilarWords != null)
+                glossingControl.ShowSimilarWordList(lstSimilarWords);
+        }
+
+        public void Update(GlossingControl theGc, string strNewSourceWord)
+        {
+            SourceSentence = SourceSentence.Replace(theGc.SourceWord, strNewSourceWord);
+            theGc.SourceWord = strNewSourceWord;
+            string strNewTarget = SafeConvert(theGc.SourceWord);
+            theGc.TargetWord = strNewTarget;
+            if (strNewTarget == theGc.SourceWord)
+                CheckForSimilarWords(theGc);
         }
     }
 }

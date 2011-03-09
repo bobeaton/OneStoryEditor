@@ -496,9 +496,11 @@ namespace OneStoryProjectEditor
                     MyStringTransfer.ToString(),
                     ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.VernacularToNationalBt,
                     _ctrlVerseParent.TheSE.LoggedOnMember);
+
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
                     NationalBtSibling.Text = dlg.TargetSentence;
+                    Text = dlg.SourceSentence;  // cause the user might have corrected some spelling
                     _ctrlVerseParent.TheSE.Modified = true;
                     if (dlg.DoReorder)
                     {
@@ -543,6 +545,7 @@ namespace OneStoryProjectEditor
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
                     EnglishBtSibling.Text = dlg.TargetSentence;
+                    Text = dlg.SourceSentence;  // because the user may have corrected spelling
                     _ctrlVerseParent.TheSE.Modified = true;
 
                     if (dlg.DoReorder)

@@ -2018,4 +2018,7 @@ and in the resulting window click on the next (green) state.
   <data name="IDS_RetellingCommentFormat" xml:space="preserve">
     <value>Test done on: {0}. UNS heard the story {1} times.</value>
   </data>
+  <data name="IDS_EnterCorrectedSpelling" xml:space="preserve">
+    <value>Enter the correct spelling</value>
+  </data>
 </root>

@@ -572,6 +572,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter the correct spelling.
+        /// </summary>
+        internal static string IDS_EnterCorrectedSpelling {
+            get {
+                return ResourceManager.GetString("IDS_EnterCorrectedSpelling", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter the name you want to give this project (e.g. the language name)..
         /// </summary>
         internal static string IDS_EnterProjectName {

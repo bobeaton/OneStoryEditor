@@ -33,6 +33,7 @@
             this.editTargetWordsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripForSplitting = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.splitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.correctSpellingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel = new OneStoryProjectEditor.DynamicTableLayoutPanel();
             this.textBoxSourceWord = new System.Windows.Forms.TextBox();
             this.buttonJoin = new System.Windows.Forms.Button();
@@ -60,17 +61,25 @@
             // contextMenuStripForSplitting
             // 
             this.contextMenuStripForSplitting.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.splitToolStripMenuItem});
+            this.splitToolStripMenuItem,
+            this.correctSpellingToolStripMenuItem});
             this.contextMenuStripForSplitting.Name = "contextMenuStripForSplitting";
-            this.contextMenuStripForSplitting.Size = new System.Drawing.Size(98, 26);
+            this.contextMenuStripForSplitting.Size = new System.Drawing.Size(226, 70);
             this.contextMenuStripForSplitting.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripForSplitting_Opening);
             // 
             // splitToolStripMenuItem
             // 
             this.splitToolStripMenuItem.Name = "splitToolStripMenuItem";
-            this.splitToolStripMenuItem.Size = new System.Drawing.Size(97, 22);
-            this.splitToolStripMenuItem.Text = "&Split";
+            this.splitToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
+            this.splitToolStripMenuItem.Text = "&Split source phrase";
             this.splitToolStripMenuItem.Click += new System.EventHandler(this.splitToolStripMenuItem_Click);
+            // 
+            // correctSpellingToolStripMenuItem
+            // 
+            this.correctSpellingToolStripMenuItem.Name = "correctSpellingToolStripMenuItem";
+            this.correctSpellingToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
+            this.correctSpellingToolStripMenuItem.Text = "&Correct source word spelling";
+            this.correctSpellingToolStripMenuItem.Click += new System.EventHandler(this.correctSpellingToolStripMenuItem_Click);
             // 
             // tableLayoutPanel
             // 
@@ -156,8 +165,9 @@
         private System.Windows.Forms.TextBox textBoxTargetWord;
         private System.Windows.Forms.Button buttonJoin;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripAmbiguityPicker;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStripForSplitting;
         private System.Windows.Forms.ToolStripMenuItem splitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editTargetWordsToolStripMenuItem1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripForSplitting;
+        private System.Windows.Forms.ToolStripMenuItem correctSpellingToolStripMenuItem;
     }
 }

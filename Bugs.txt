@@ -1,4 +1,10 @@
-﻿Bob, would it be nice to have a different tab for the non-biblical stories, so that they wouldn't mix up with the panorma? Just like the 'old stories' section, but then a different one for non-bibs?
+﻿Put http base address of repo in project file so that if the user accidentally does reset stored information, they won't lose the fact that there was an Internet repos (i.e. Send/Receive stops working).
+
+Check out: 
+C:\src\WW\Lib\src\EC\AIGuesserEC\AdaptItKBReader.cs and DLLs
+C:\src\WW\Lib\src\EC\AIGuesserEC\Properties\AssemblyInfo.cs
+
+Bob, would it be nice to have a different tab for the non-biblical stories, so that they wouldn't mix up with the panorma? Just like the 'old stories' section, but then a different one for non-bibs?
 
 Check out searching on L&C Notes.
 

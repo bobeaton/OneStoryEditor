@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -125,26 +126,14 @@ namespace OneStoryProjectEditor
             if (!String.IsNullOrEmpty(_strTargetKeyboard))
                 KeyboardController.ActivateKeyboard(_strTargetKeyboard);
 
-            /*
-            while (contextMenuStripAmbiguityPicker.Items.Count > 1)
-                contextMenuStripAmbiguityPicker.Items.RemoveAt(0);
-            if (String.IsNullOrEmpty(textBoxTargetWord.Text))
-                return;
-
-            // if we have multiple interpretations, then throw up a choice list
-            if (textBoxTargetWord.Text.IndexOf(strAmbiguitySeparator) != -1)
+            if (SourceWord == TargetWord)
             {
-                string[] astrWords = textBoxTargetWord.Text.Split(strAmbiguitySeparator.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-                for (int i = 0; i < astrWords.Length; i++)
-                {
-                    string strWord = astrWords[i];
-                    var aTSMI = new ToolStripMenuItem(strWord, null, OnSelectAmbiguity) {Font = textBoxTargetWord.Font};
-                    contextMenuStripAmbiguityPicker.Items.Insert(i, aTSMI);
-                }
-
-                contextMenuStripAmbiguityPicker.Show(textBoxTargetWord, textBoxTargetWord.Bounds.Location, ToolStripDropDownDirection.BelowRight);
+                // this might be because there was no lookup found. In this case, let's
+                //  throw up the context menu of "similar" words to make sure they might
+                //  want to correct the source word.
+                _parent.CheckForSimilarWords(this);
             }
-            */
+
             if (textBoxTargetWord.Text.IndexOf(CstrAmbiguitySeparator) != -1)
                 contextMenuStripAmbiguityPicker.Show(textBoxTargetWord, textBoxTargetWord.Bounds.Location, ToolStripDropDownDirection.BelowRight);
         }
@@ -171,12 +160,44 @@ namespace OneStoryProjectEditor
             }
         }
 
+        public void ShowSimilarWordList(List<string> lstSimilarWords)
+        {
+            SimilarWords = lstSimilarWords;
+            Point pt = textBoxSourceWord.Bounds.Location;
+            pt.Offset(textBoxSourceWord.Width, 0);
+            contextMenuStripForSplitting.Show(textBoxSourceWord,
+                                              pt, ToolStripDropDownDirection.AboveRight);
+        }
+        
+        private List<string> SimilarWords;
         private void contextMenuStripForSplitting_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            const int CnFixedItemsStripForSplitting = 2;
+            while (contextMenuStripForSplitting.Items.Count > CnFixedItemsStripForSplitting)
+                contextMenuStripForSplitting.Items.RemoveAt(contextMenuStripForSplitting.Items.Count - 1);
+
             if (String.IsNullOrEmpty(SourceWord))
                 return;
 
-            splitToolStripMenuItem.Visible = (SourceWord.Split(GlossingForm.achWordDelimiters).Length > 1);
+            splitToolStripMenuItem.Enabled = (SourceWord.Split(GlossingForm.achWordDelimiters).Length > 1);
+
+            // if we have some possible similar words, then add them to give the user 
+            //  the chance to change the source word to one of these forms.
+            if (SimilarWords != null)
+            {
+                foreach (string strSimilarWord in SimilarWords)
+                {
+                    System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(strSimilarWord));
+                    var aTsmi = new ToolStripMenuItem(strSimilarWord, null, OnChangeSourceWord) { Font = textBoxSourceWord.Font };
+                    contextMenuStripForSplitting.Items.Add(aTsmi);
+                }
+            }
+        }
+
+        private void OnChangeSourceWord(object sender, EventArgs e)
+        {
+            var aTsmi = (ToolStripMenuItem)sender;
+            _parent.Update(this, aTsmi.Text);
         }
 
         private void splitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -207,6 +228,15 @@ namespace OneStoryProjectEditor
                     contextMenuStripAmbiguityPicker.Items.Insert(i, aTSMI);
                 }
             }
+        }
+
+        private void correctSpellingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string strNewSourceWord = Microsoft.VisualBasic.Interaction.InputBox(Properties.Resources.IDS_EnterCorrectedSpelling, 
+                OseResources.Properties.Resources.IDS_Caption, SourceWord, 300, 200);
+
+            if (!String.IsNullOrEmpty(strNewSourceWord))
+                _parent.Update(this, strNewSourceWord);
         }
     }
 }
