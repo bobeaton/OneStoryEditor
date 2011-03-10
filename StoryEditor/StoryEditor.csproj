@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{EE63B2ED-1488-491F-990A-3FA16E2DB135}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -428,12 +428,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AdaptItConfigControl.resx">
       <DependentUpon>AdaptItConfigControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="AddLnCNoteForm.resx">
       <DependentUpon>AddLnCNoteForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="AiRepoSelectionForm.resx">
       <DependentUpon>AiRepoSelectionForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BiblicalKeyTermsForm.resx">
       <DependentUpon>BiblicalKeyTermsForm.cs</DependentUpon>
@@ -441,15 +444,19 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ConcordanceForm.resx">
       <DependentUpon>ConcordanceForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="CtrlTextBox.resx">
       <DependentUpon>CtrlTextBox.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="CutItemPicker.resx">
       <DependentUpon>CutItemPicker.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="EditBiblicalTermForm.resx">
       <DependentUpon>EditBiblicalTermForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="EditMemberForm.resx">
       <DependentUpon>EditMemberForm.cs</DependentUpon>
@@ -469,15 +476,19 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GlossingControl.resx">
       <DependentUpon>GlossingControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GlossingForm.resx">
       <DependentUpon>GlossingForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="HgRepoForm.resx">
       <DependentUpon>HgRepoForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="HtmlDisplayForm.resx">
       <DependentUpon>HtmlDisplayForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="HtmlForm.resx">
       <DependentUpon>HtmlForm.cs</DependentUpon>
@@ -485,12 +496,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="KeyTermsSearchForm.resx">
       <DependentUpon>KeyTermsSearchForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="LineFlowLayoutPanel.resx">
       <DependentUpon>LineFlowLayoutPanel.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="LnCNotesForm.resx">
       <DependentUpon>LnCNotesForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MultiLineControl.resx">
       <DependentUpon>MultiLineControl.cs</DependentUpon>
@@ -506,9 +520,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="NewProjectWizard.resx">
       <DependentUpon>NewProjectWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="NoteForm.resx">
       <DependentUpon>NoteForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="PanoramaView.resx">
       <DependentUpon>PanoramaView.cs</DependentUpon>
@@ -516,9 +532,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PrintForm.resx">
       <DependentUpon>PrintForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ReorderWordsForm.resx">
       <DependentUpon>ReorderWordsForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ResizableControl.resx">
       <DependentUpon>ResizableControl.cs</DependentUpon>
@@ -526,24 +544,31 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SearchForm.resx">
       <DependentUpon>SearchForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="SelectKeyTerms.resx">
       <DependentUpon>SelectKeyTerms.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="SelectStateBasicForm.resx">
       <DependentUpon>SelectStateBasicForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="SelectTermsListForm.resx">
       <DependentUpon>SelectTermsListForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="SplashScreenForm.resx">
       <DependentUpon>SplashScreenForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="StageEditorForm.resx">
       <DependentUpon>StageEditorForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="StateEditorForm.resx">
       <DependentUpon>StateEditorForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="StoryEditor.resx">
       <DependentUpon>StoryEditor.cs</DependentUpon>
@@ -576,9 +601,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TopForm.resx">
       <DependentUpon>TopForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="TransitionHistoryForm.resx">
       <DependentUpon>TransitionHistoryForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="VerseBtControl.resx">
       <DependentUpon>VerseBtControl.cs</DependentUpon>
@@ -586,6 +613,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ViewEnableForm.resx">
       <DependentUpon>ViewEnableForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ViewSwordOptionsForm.resx">
       <DependentUpon>ViewSwordOptionsForm.cs</DependentUpon>
