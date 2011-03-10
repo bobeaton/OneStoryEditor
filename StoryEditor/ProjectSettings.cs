@@ -43,7 +43,7 @@ namespace OneStoryProjectEditor
                 _strProjectFolder = GetDefaultProjectPath(ProjectName);
             else
             {
-                System.Diagnostics.Debug.Assert(strProjectFolderDefaultIfNull[strProjectFolderDefaultIfNull.Length-1] != '\\');
+                System.Diagnostics.Debug.Assert(strProjectFolderDefaultIfNull[strProjectFolderDefaultIfNull.Length - 1] != '\\');
                 _strProjectFolder = strProjectFolderDefaultIfNull;
             }
         }
@@ -187,8 +187,8 @@ namespace OneStoryProjectEditor
 
             public void SerializeFromProjectFile(NewDataSet.AdaptItConfigurationRow aAiConfigRow)
             {
-                ProjectType = (AdaptItProjectType) Enum.Parse(typeof (AdaptItProjectType), aAiConfigRow.ProjectType);
-                BtDirection = (AdaptItBtDirection) Enum.Parse(typeof (AdaptItBtDirection), aAiConfigRow.BtDirection);
+                ProjectType = (AdaptItProjectType)Enum.Parse(typeof(AdaptItProjectType), aAiConfigRow.ProjectType);
+                BtDirection = (AdaptItBtDirection)Enum.Parse(typeof(AdaptItBtDirection), aAiConfigRow.BtDirection);
                 ConverterName = aAiConfigRow.ConverterName;
                 if (!aAiConfigRow.IsRepoProjectNameNull())
                     RepoProjectName = aAiConfigRow.RepoProjectName;
@@ -245,10 +245,10 @@ namespace OneStoryProjectEditor
                     && !String.IsNullOrEmpty(strProjectFolder)
                     && !String.IsNullOrEmpty(RepoProjectName))
                 {
-                    if (!Program.AreAdaptItHgParametersSet(strProjectFolder))
+                    if (!Program.AreAdaptItHgParametersSet(RepoProjectName))
                     {
-                        if (MessageBox.Show(Properties.Resources.IDS_QueryPullSharedAiProject, 
-                                            OseResources.Properties.Resources.IDS_Caption, 
+                        if (MessageBox.Show(Properties.Resources.IDS_QueryPullSharedAiProject,
+                                            OseResources.Properties.Resources.IDS_Caption,
                                             MessageBoxButtons.OKCancel) == DialogResult.Cancel)
                             return;
 
@@ -291,7 +291,7 @@ namespace OneStoryProjectEditor
                     Program.SetAdaptItHgParameters(dlg.PathToNewProject,
                                                    RepoProjectName = model.ProjectId,
                                                    RepositoryServer = model.SelectedServerLabel,
-                                                   model.AccountName, 
+                                                   model.AccountName,
                                                    model.Password);
                 }
 
@@ -315,8 +315,8 @@ namespace OneStoryProjectEditor
             public string KeyboardOverride;
             public bool DefaultRtl; // this is the value that most of the team uses
             public bool InvertRtl;  // this indicates whether the default value should
-                                    // be overridden (which means toggle) for a particular
-                                    // user.
+            // be overridden (which means toggle) for a particular
+            // user.
 
             public LanguageInfo(string strLangType, Font font, Color fontColor)
             {
@@ -487,7 +487,7 @@ namespace OneStoryProjectEditor
 
         public static string GetDefaultProjectFilePath(string strProjectName)
         {
-            return Path.Combine(GetDefaultProjectPath(strProjectName), 
+            return Path.Combine(GetDefaultProjectPath(strProjectName),
                 OneStoryFileName(strProjectName));
         }
 
@@ -570,7 +570,7 @@ namespace OneStoryProjectEditor
 
                 if (Vernacular.HasData)
                     elem.Add(Vernacular.GetXml);
-                    
+
                 if (NationalBT.HasData)
                     elem.Add(NationalBT.GetXml);
 

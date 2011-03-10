@@ -1,6 +1,6 @@
 ﻿namespace OneStoryProjectEditor
 {
-    partial class GlossingForm
+    partial class CorrectSourceWordForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,28 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GlossingForm));
-            this.flowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CorrectSourceWordForm));
             this.buttonOK = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
-            this.buttonReorder = new System.Windows.Forms.Button();
+            this.textBoxCorrectedWord = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
-            // 
-            // flowLayoutPanel
-            // 
-            this.flowLayoutPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.flowLayoutPanel.AutoScroll = true;
-            this.flowLayoutPanel.Location = new System.Drawing.Point(13, 13);
-            this.flowLayoutPanel.Name = "flowLayoutPanel";
-            this.flowLayoutPanel.Size = new System.Drawing.Size(572, 327);
-            this.flowLayoutPanel.TabIndex = 0;
             // 
             // buttonOK
             // 
             this.buttonOK.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.buttonOK.Location = new System.Drawing.Point(220, 346);
+            this.buttonOK.Location = new System.Drawing.Point(66, 117);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(75, 23);
             this.buttonOK.TabIndex = 1;
@@ -61,48 +49,45 @@
             // 
             this.buttonCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(301, 346);
+            this.buttonCancel.Location = new System.Drawing.Point(148, 116);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
-            this.buttonCancel.TabIndex = 3;
+            this.buttonCancel.TabIndex = 2;
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
             // 
-            // buttonReorder
+            // textBoxCorrectedWord
             // 
-            this.buttonReorder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonReorder.Location = new System.Drawing.Point(509, 345);
-            this.buttonReorder.Name = "buttonReorder";
-            this.buttonReorder.Size = new System.Drawing.Size(75, 23);
-            this.buttonReorder.TabIndex = 2;
-            this.buttonReorder.Text = "&Reorder";
-            this.buttonReorder.UseVisualStyleBackColor = true;
-            this.buttonReorder.Click += new System.EventHandler(this.buttonReorder_Click);
+            this.textBoxCorrectedWord.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxCorrectedWord.Location = new System.Drawing.Point(12, 58);
+            this.textBoxCorrectedWord.Name = "textBoxCorrectedWord";
+            this.textBoxCorrectedWord.Size = new System.Drawing.Size(264, 20);
+            this.textBoxCorrectedWord.TabIndex = 0;
             // 
-            // GlossingForm
+            // CorrectSourceWordForm
             // 
+            this.AcceptButton = this.buttonOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(597, 381);
-            this.Controls.Add(this.buttonReorder);
+            this.ClientSize = new System.Drawing.Size(288, 151);
+            this.Controls.Add(this.textBoxCorrectedWord);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOK);
-            this.Controls.Add(this.flowLayoutPanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "GlossingForm";
-            this.Text = "Gloss Text";
+            this.Name = "CorrectSourceWordForm";
+            this.Text = "Correct Source Word";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel;
         private System.Windows.Forms.Button buttonOK;
         private System.Windows.Forms.Button buttonCancel;
-        private System.Windows.Forms.Button buttonReorder;
+        private System.Windows.Forms.TextBox textBoxCorrectedWord;
     }
 }

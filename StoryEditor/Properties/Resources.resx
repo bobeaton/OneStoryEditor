@@ -153,7 +153,7 @@
     <value>The Adapt It file for the project '{0}', story '{1}' already exists. If you want to delete that file and do the English translation of the story all over again, then click 'Yes'. If you just want to try to import the existing file again, choose 'No'. Otherwise, click 'Cancel' to stop this command.</value>
   </data>
   <data name="IDS_NoteNotEmptyHideQuery" xml:space="preserve">
-    <value>This conversation isn't empty! Instead of deleting it, it would be better to just hide it so it will be left around for history. Would you like to hide it instead?</value>
+    <value>This conversation isn't empty! Instead of deleting it, it would be better to just hide it so it will be left around for history. Click 'Yes' to hide the conversation or click 'No' to delete it?</value>
   </data>
   <data name="IDS_MainFrameTitleOldStories" xml:space="preserve">
     <value>OneStory Editor -- {0} Story Project -- Viewing Old Stories</value>
@@ -1903,7 +1903,7 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
     <value>Click 'Ignore' to overwrite the existing 'My Biblical Terms' list with the contents of the '{0}' list. Otherwise, click 'Retry' to merge the contents of the '{0}' list into the existing 'My Biblical Terms' list.</value>
   </data>
   <data name="IDS_VerseNotEmptyHideQuery" xml:space="preserve">
-    <value>This line isn't empty! Instead of deleting it, it would be better to just hide it so it will be left around to know what it used to be.{0}{0}Would you like to hide it instead?</value>
+    <value>This line isn't empty! Instead of deleting it, it would be better to just hide it so it will be left around to know what it used to be.{0}{0}Click 'Yes' to hide the line or click 'No' to delete it?</value>
   </data>
   <data name="IDS_SaveChanges" xml:space="preserve">
     <value>Would you like to save changes?</value>

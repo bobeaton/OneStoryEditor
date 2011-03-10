@@ -94,9 +94,14 @@ namespace OneStoryProjectEditor
 
             // But by combining it, we should at least see if this would result
             //  in a new form if it were converted. So let's check that.
+            // and use that in any case if there were ambiguities in the original
+            //  (concatenated) target forms
             string strConvertedTarget = SafeConvert(theNextGC.SourceWord);
-            if (strConvertedTarget != theNextGC.SourceWord)
-                strTargetPhrase = strConvertedTarget;   // means it was converted
+            if ((strConvertedTarget != theNextGC.SourceWord) ||
+                (strTargetPhrase.IndexOf(GlossingControl.CstrAmbiguitySeparator) != -1))
+            {
+                strTargetPhrase = strConvertedTarget; // means it was converted or had ambiguities
+            }
             theNextGC.TargetWord = strTargetPhrase;
 
             flowLayoutPanel.Controls.Remove(control);
@@ -177,6 +182,13 @@ namespace OneStoryProjectEditor
             theGc.TargetWord = strNewTarget;
             if (strNewTarget == theGc.SourceWord)
                 CheckForSimilarWords(theGc);
+        }
+
+        public void EditKb(GlossingControl glossingControl)
+        {
+            string strNewSourceWord = m_theEC.EditKnowledgeBase(glossingControl.SourceWord);
+            if (!String.IsNullOrEmpty(strNewSourceWord))
+                Update(glossingControl, strNewSourceWord);
         }
     }
 }

@@ -460,6 +460,8 @@ namespace OneStoryProjectEditor
             }
         }
 
+        public static bool HaveCalledAdaptIt;
+
         // e.g. http://bobeaton:helpmepld@hg-private.languagedepot.org/aikb-{0}-{1}
         // or \\Bob-StudioXPS\Backup\Storying\aikb-{0}-{1}
         public static void SyncWithAiRepository(string strProjectFolder, string strProjectName, 
@@ -506,23 +508,26 @@ namespace OneStoryProjectEditor
                         }
                 }
 
-                // AdaptIt creates the xml file in a different way than we'd like (it
-                //  triggers a whole file change set). So before we attempt to merge, let's
-                //  resave the file using the same approach that Chorus will use if a merge
-                //  is done so it'll always show differences only.
-                string strKbFilename = Path.Combine(strProjectFolder,
-                                                    Path.GetFileNameWithoutExtension(strProjectFolder) + ".xml");
-                if (File.Exists(strKbFilename))
+                if (HaveCalledAdaptIt)
                 {
-                    try
+                    // AdaptIt creates the xml file in a different way than we'd like (it
+                    //  triggers a whole file change set). So before we attempt to merge, let's
+                    //  resave the file using the same approach that Chorus will use if a merge
+                    //  is done so it'll always show differences only.
+                    string strKbFilename = Path.Combine(strProjectFolder,
+                                                        Path.GetFileNameWithoutExtension(strProjectFolder) + ".xml");
+                    if (File.Exists(strKbFilename))
                     {
-                        string strKbBackupFilename = strKbFilename + ".bak";
-                        File.Copy(strKbFilename, strKbBackupFilename, true);
-                        XDocument doc = XDocument.Load(strKbBackupFilename);
-                        File.Delete(strKbFilename);
-                        doc.Save(strKbFilename);
+                        try
+                        {
+                            string strKbBackupFilename = strKbFilename + ".bak";
+                            File.Copy(strKbFilename, strKbBackupFilename, true);
+                            XDocument doc = XDocument.Load(strKbBackupFilename);
+                            File.Delete(strKbFilename);
+                            doc.Save(strKbFilename);
+                        }
+                        catch { }
                     }
-                    catch { }
                 }
 
                 SyncUIDialogBehaviors suidb = SyncUIDialogBehaviors.Lazy;

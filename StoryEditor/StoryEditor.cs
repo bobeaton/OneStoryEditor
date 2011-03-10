@@ -3088,7 +3088,9 @@ namespace OneStoryProjectEditor
                                                           eBtDirection, LoggedOnMember,
                                                           out liSourceLang, out liTargetLang);
             string strAdaptationFilespec = AdaptationFilespec(theEC.ConverterIdentifier, theCurrentStory.Name);
-            string strProjectName = Path.GetFileNameWithoutExtension(theEC.ConverterIdentifier);
+            string strProjectName =
+                AdaptItGlossing.GetAiProjectFolderNameFromConverterIdentifier(theEC.ConverterIdentifier);
+
             DialogResult res = DialogResult.Yes;
             if (File.Exists(strAdaptationFilespec))
             {
@@ -3202,6 +3204,10 @@ namespace OneStoryProjectEditor
                     null 
                     // : "/frm"
                     );
+
+                // indicate that we've called AI so we can be sure to read/write the 
+                //  kb file in a way that facilitates minimal diffs
+                Program.HaveCalledAdaptIt = true;
 
                 res = MessageBox.Show(String.Format(Properties.Resources.IDS_AdaptationInstructions,
                                                     Environment.NewLine, liSourceLang.LangName,
@@ -3357,7 +3363,7 @@ namespace OneStoryProjectEditor
 
         protected string AdaptationFilespec(string strConverterFilespec, string strStoryName)
         {
-            return Path.Combine(Path.GetDirectoryName(strConverterFilespec),
+            return Path.Combine(AdaptItGlossing.GetAiProjectFolderFromConverterIdentifier(strConverterFilespec),
                 Path.Combine("Adaptations", String.Format(@"{0}.xml", strStoryName)));
         }
 

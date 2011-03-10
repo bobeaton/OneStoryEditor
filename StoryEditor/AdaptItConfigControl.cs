@@ -255,7 +255,8 @@ namespace OneStoryProjectEditor
                     if (theEc is AdaptItEncConverter)
                     {
                         AdaptItConverterName = theEc.Name;
-                        strProjectFolder = Path.GetDirectoryName(theEc.ConverterIdentifier);
+                        strProjectFolder =
+                            AdaptItGlossing.GetAiProjectFolderFromConverterIdentifier(theEc.ConverterIdentifier);
                         res = MessageBox.Show(String.Format(Properties.Resources.IDS_QuerySharedAiProject,
                                                             strProjectFolder),
                                               OseResources.Properties.Resources.IDS_Caption,

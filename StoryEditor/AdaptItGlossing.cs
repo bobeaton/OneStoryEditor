@@ -140,6 +140,21 @@ namespace OneStoryProjectEditor
             return theLookupAdapter;
         }
 
+        public static string GetAiProjectFolderFromConverterIdentifier(string strConverterIdentifier)
+        {
+            // the converter identifier can now have two parts separated by a ';'
+            int nIndex = strConverterIdentifier.IndexOf(';');
+            if (nIndex != -1)
+                strConverterIdentifier = strConverterIdentifier.Substring(0, nIndex);
+            return Path.GetDirectoryName(strConverterIdentifier);
+        }
+
+        public static string GetAiProjectFolderNameFromConverterIdentifier(string strConverterIdentifier)
+        {
+            return Path.GetFileNameWithoutExtension(
+                GetAiProjectFolderFromConverterIdentifier(strConverterIdentifier));
+        }
+
         protected static void WriteAdaptItProjectFiles(ProjectSettings.LanguageInfo liSourceLang,
             ProjectSettings.LanguageInfo liTargetLang, ProjectSettings.LanguageInfo liNavigation)
         {

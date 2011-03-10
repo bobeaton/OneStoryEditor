@@ -1,4 +1,8 @@
-﻿Put http base address of repo in project file so that if the user accidentally does reset stored information, they won't lose the fact that there was an Internet repos (i.e. Send/Receive stops working).
+﻿Check on removing ScrollIntoView (see what it feels like). Problem with overage on the screen jumping around too much.
+
+Resolving project notes doesn't seem to make them go away.
+
+Put http base address of repo in project file so that if the user accidentally does reset stored information, they won't lose the fact that there was an Internet repos (i.e. Send/Receive stops working).
 
 Check out: 
 C:\src\WW\Lib\src\EC\AIGuesserEC\AdaptItKBReader.cs and DLLs

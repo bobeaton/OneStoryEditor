@@ -28,7 +28,9 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                return checkBoxInternet.Checked ? comboBoxServer.SelectedItem.ToString() : null;
+                return (checkBoxInternet.Checked  && (comboBoxServer.SelectedItem != null))
+                    ? comboBoxServer.SelectedItem.ToString() 
+                    : null;
             }
             set
             {

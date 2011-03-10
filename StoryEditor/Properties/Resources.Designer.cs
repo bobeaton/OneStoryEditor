@@ -862,7 +862,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This conversation isn&apos;t empty! Instead of deleting it, it would be better to just hide it so it will be left around for history. Would you like to hide it instead?.
+        ///   Looks up a localized string similar to This conversation isn&apos;t empty! Instead of deleting it, it would be better to just hide it so it will be left around for history. Click &apos;Yes&apos; to hide the conversation or click &apos;No&apos; to delete it?.
         /// </summary>
         internal static string IDS_NoteNotEmptyHideQuery {
             get {
@@ -1266,7 +1266,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This line isn&apos;t empty! Instead of deleting it, it would be better to just hide it so it will be left around to know what it used to be.{0}{0}Would you like to hide it instead?.
+        ///   Looks up a localized string similar to This line isn&apos;t empty! Instead of deleting it, it would be better to just hide it so it will be left around to know what it used to be.{0}{0}Click &apos;Yes&apos; to hide the line or click &apos;No&apos; to delete it?.
         /// </summary>
         internal static string IDS_VerseNotEmptyHideQuery {
             get {

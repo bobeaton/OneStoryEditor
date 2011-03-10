@@ -11,7 +11,7 @@ namespace OneStoryProjectEditor
     {
         protected GlossingForm _parent;
         public const string CstrAmbiguitySeparator = "¦";
-        protected string _strTargetKeyboard;
+        protected string _strTargetKeyboard, _strSourceKeyboard;
         public GlossingControl(GlossingForm parent, 
             ProjectSettings.LanguageInfo liSource, string strSourceWord, string strSourceInBetween,
             ProjectSettings.LanguageInfo liTarget, string strTargetWord, string strTargetInBetween)
@@ -20,6 +20,7 @@ namespace OneStoryProjectEditor
             InitializeComponent();
 
             _strTargetKeyboard = liTarget.Keyboard;
+            _strSourceKeyboard = liSource.Keyboard;
 
             if (liSource.DoRtl)
                 this.tableLayoutPanel.RightToLeft = RightToLeft.Yes;
@@ -39,6 +40,8 @@ namespace OneStoryProjectEditor
             if (liTarget.DoRtl)
                 textBoxTargetWord.RightToLeft = RightToLeft.Yes;
 
+            if (strTargetInBetween != " ")
+                strTargetWord += strTargetInBetween;
             TargetWord = strTargetWord;
 
             Modified = false;   // reinitialize
@@ -54,17 +57,55 @@ namespace OneStoryProjectEditor
             }
         }
 
+        protected static Regex FindMultipleAmbiguities = new Regex(@"%\d%", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
         public string TargetWord
         {
             get { return textBoxTargetWord.Text; }
             set
             {
+                string strValue = FindMultipleAmbiguities.Replace(value, "");
+                string[] astrTokens = strValue.Split(new[] { '%' }, StringSplitOptions.RemoveEmptyEntries);
+                if (astrTokens.Length > 1)
+                {
+                    string strLine = astrTokens[0];
+                    for (int i = 1; i < astrTokens.Length; i++)
+                        strLine += CstrAmbiguitySeparator + astrTokens[i].Trim();
+                    value = strLine;
+                }
+#if false
                 MatchCollection mc = FindMultipleAmbiguities.Matches(value);
                 if (mc.Count > 0)
                 {
-                    string strAmbiguityList = mc[0].Groups[1].ToString();
-                    value = strAmbiguityList.Replace("%", CstrAmbiguitySeparator);
+                    
+                    try
+                    {
+                        string[] astrTokens = value.Split(new[] { '%' }, StringSplitOptions.RemoveEmptyEntries);
+
+                        // the zeroth token is the count of the first ambiguous word (in case
+                        //  there are multiple -- e.g. after joining two ambiguous words).
+                        int nIndex = -1;
+                        string strLine = null;
+                        do
+                        {
+                            int nNumOfAmbiguities = 0;
+                            try
+                            {
+                                if (astrTokens[++nIndex] == " ")    // if in between two sets of ambiguous strings
+                                    strLine += astrTokens[nIndex++];
+                                nNumOfAmbiguities = Convert.ToInt32(astrTokens[nIndex]);
+                            }
+                            catch { }
+
+                            strLine += astrTokens[++nIndex];
+                            for (int i = 1; i < nNumOfAmbiguities; i++)
+                                strLine += CstrAmbiguitySeparator + astrTokens[++nIndex];
+
+                        } while (nIndex < (astrTokens.Length - 1));
+                        value = strLine;
+                    }
+                    catch { }
                 }
+#endif
 
                 textBoxTargetWord.Text = value;
                 ResizeTextBoxToFitText(textBoxTargetWord);
@@ -119,8 +160,6 @@ namespace OneStoryProjectEditor
             _parent.MergeWithNext(this);
         }
 
-        protected static Regex FindMultipleAmbiguities = new Regex(@"%\d%(.*)%", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
-
         private void textBoxTargetWord_Enter(object sender, EventArgs e)
         {
             if (!String.IsNullOrEmpty(_strTargetKeyboard))
@@ -172,7 +211,7 @@ namespace OneStoryProjectEditor
         private List<string> SimilarWords;
         private void contextMenuStripForSplitting_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            const int CnFixedItemsStripForSplitting = 2;
+            const int CnFixedItemsStripForSplitting = 4;
             while (contextMenuStripForSplitting.Items.Count > CnFixedItemsStripForSplitting)
                 contextMenuStripForSplitting.Items.RemoveAt(contextMenuStripForSplitting.Items.Count - 1);
 
@@ -232,11 +271,27 @@ namespace OneStoryProjectEditor
 
         private void correctSpellingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string strNewSourceWord = Microsoft.VisualBasic.Interaction.InputBox(Properties.Resources.IDS_EnterCorrectedSpelling, 
-                OseResources.Properties.Resources.IDS_Caption, SourceWord, 300, 200);
+            var dlg = new CorrectSourceWordForm
+                          {
+                              Font = textBoxSourceWord.Font,
+                              CorrectedWord = SourceWord
+                          };
 
-            if (!String.IsNullOrEmpty(strNewSourceWord))
-                _parent.Update(this, strNewSourceWord);
+            if (!String.IsNullOrEmpty(_strSourceKeyboard))
+                KeyboardController.ActivateKeyboard(_strSourceKeyboard);
+            if (dlg.ShowDialog() == DialogResult.OK)
+                _parent.Update(this, dlg.CorrectedWord);
+            KeyboardController.DeactivateKeyboard();
+        }
+
+        private void retranslateSourceWordToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _parent.Update(this, SourceWord);
+        }
+
+        private void editTranslationDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _parent.EditKb(this);
         }
     }
 }
