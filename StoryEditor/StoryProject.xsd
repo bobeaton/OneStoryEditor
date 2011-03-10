@@ -90,6 +90,14 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="DefaultTaskSettings" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:attribute name="TasksAllowedPf" type="xs:long" use="required" />
+            <xs:attribute name="TasksRequiredPf" type="xs:long" use="required" />
+            <xs:attribute name="TasksAllowedCit" type="xs:long" use="required" />
+            <xs:attribute name="TasksRequiredCit" type="xs:long" use="required" />
+          </xs:complexType>
+        </xs:element>
         <xs:element name="stories" minOccurs="1" maxOccurs="unbounded">
 					<xs:complexType>
 						<xs:sequence>
@@ -305,13 +313,17 @@
 									</xs:sequence>
 									<xs:attribute name="name" type="xs:string" use="required" />
 									<xs:attribute name="stage" type="ProjectStages" use="required" />
-									<xs:attribute name="guid" type="xs:string" use="required" />
+                  <xs:attribute name="TasksAllowedPf" type="xs:long" use="optional" />
+                  <xs:attribute name="TasksRequiredPf" type="xs:long" use="optional" />
+                  <xs:attribute name="TasksAllowedCit" type="xs:long" use="optional" />
+                  <xs:attribute name="TasksRequiredCit" type="xs:long" use="optional" />
+                  <xs:attribute name="guid" type="xs:string" use="required" />
 									<xs:attribute name="stageDateTimeStamp" type="xs:dateTime" />
 								</xs:complexType>
 							</xs:element>
 						</xs:sequence>
 						<xs:attribute name="SetName" type="xs:string" use="required" />
-					</xs:complexType>
+          </xs:complexType>
 				</xs:element>
 			</xs:sequence>
 			<xs:attribute name="version" type="xs:string" use="required" />

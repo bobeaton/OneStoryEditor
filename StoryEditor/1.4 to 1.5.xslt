@@ -16,7 +16,26 @@
       <xsl:text>1.5</xsl:text>
     </xsl:attribute>
   </xsl:template>
-  
+
+  <!--Add the new DefaultTaskSettings element before the stories element-->
+  <xsl:template match="LnCNotes">
+    <LnCNotes>
+      <xsl:apply-templates select="@*|node()"/>
+    </LnCNotes >
+    <DefaultTaskSettings TasksAllowedPf="2047" TasksRequiredPf="32" TasksAllowedCit="3" TasksRequiredCit="2" />
+  </xsl:template>
+
+  <!--Add the same new attributes to the story element-->
+  <xsl:template match="story">
+    <story>
+      <xsl:attribute name="TasksAllowedPf">2047</xsl:attribute>
+      <xsl:attribute name="TasksRequiredPf">32</xsl:attribute>
+      <xsl:attribute name="TasksAllowedCit">3</xsl:attribute>
+      <xsl:attribute name="TasksRequiredCit">2</xsl:attribute>
+      <xsl:apply-templates select="@*|node()"/>
+    </story>
+  </xsl:template>
+
   <!--Tests was changed to TestsRetellings and an identical TestsTqAnswers-->
   <xsl:template match="Tests">
     <TestsRetellings>

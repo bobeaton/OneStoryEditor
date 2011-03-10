@@ -19,6 +19,10 @@ namespace OneStoryProjectEditor
         public CraftingInfoData CraftingInfo;
         public StoryStateTransitionHistory TransitionHistory;
         public VersesData Verses;
+        public TasksPf.TaskSettings TasksAllowedPf;
+        public TasksPf.TaskSettings TasksRequiredPf;
+        public TasksCit.TaskSettings TasksAllowedCit;
+        public TasksCit.TaskSettings TasksRequiredCit;
 
         public StoryData(string strStoryName, string strCrafterMemberGuid, 
             string strLoggedOnMemberGuid, bool bIsBiblicalStory, ProjectSettings projSettings)
@@ -31,13 +35,21 @@ namespace OneStoryProjectEditor
             TransitionHistory = new StoryStateTransitionHistory();
             Verses = new VersesData();
             Verses.CreateFirstVerse();
+            TasksAllowedPf = projSettings.DefaultAllowedPf;
+            TasksRequiredPf = projSettings.DefaultRequiredPf;
+            TasksAllowedCit = projSettings.DefaultAllowedCit;
+            TasksRequiredCit = projSettings.DefaultRequiredCit;
         }
 
         public StoryData(XmlNode node, string strProjectFolder)
         {
             XmlAttribute attr;
             Name = ((attr = node.Attributes[CstrAttributeName]) != null) ? attr.Value : null;
-            
+            TasksAllowedPf = (TasksPf.TaskSettings)GetAttributeValue(node, ProjectSettings.CstrAttributeLabelTasksAllowedPf, (long)TasksPf.DefaultAllowed);
+            TasksRequiredPf = (TasksPf.TaskSettings)GetAttributeValue(node, ProjectSettings.CstrAttributeLabelTasksRequiredPf, (long)TasksPf.DefaultRequired);
+            TasksAllowedCit = (TasksCit.TaskSettings)GetAttributeValue(node, ProjectSettings.CstrAttributeLabelTasksAllowedCit, (long)TasksCit.DefaultAllowed);
+            TasksRequiredCit = (TasksCit.TaskSettings)GetAttributeValue(node, ProjectSettings.CstrAttributeLabelTasksRequiredCit, (long)TasksCit.DefaultRequired);
+
             // the last param isn't really false, but this ctor is only called when that doesn't matter
             //  (during Chorus diff presentation)
             ProjStage = new StoryStageLogic(strProjectFolder, node.Attributes[CstrAttributeStage].Value);
@@ -51,6 +63,10 @@ namespace OneStoryProjectEditor
         public StoryData(NewDataSet.storyRow theStoryRow, NewDataSet projFile, string strProjectFolder)
         {
             Name = theStoryRow.name;
+            TasksAllowedPf = (TasksPf.TaskSettings)theStoryRow.TasksAllowedPf;
+            TasksRequiredPf = (TasksPf.TaskSettings)theStoryRow.TasksRequiredPf;
+            TasksAllowedCit = (TasksCit.TaskSettings)theStoryRow.TasksAllowedCit;
+            TasksRequiredCit = (TasksCit.TaskSettings)theStoryRow.TasksRequiredCit;
             guid = theStoryRow.guid;
             StageTimeStamp = (theStoryRow.IsstageDateTimeStampNull()) ? DateTime.Now : theStoryRow.stageDateTimeStamp;
             ProjStage = new StoryStageLogic(strProjectFolder, theStoryRow.stage);
@@ -62,6 +78,11 @@ namespace OneStoryProjectEditor
         public StoryData(StoryData rhs)
         {
             Name = rhs.Name;
+
+            TasksAllowedPf = rhs.TasksAllowedPf;
+            TasksRequiredPf = rhs.TasksRequiredPf;
+            TasksAllowedCit = rhs.TasksAllowedCit;
+            TasksRequiredCit = rhs.TasksRequiredCit;
 
             // the guid shouldn't be replicated
             guid = Guid.NewGuid().ToString();  // rhs.guid;
@@ -85,12 +106,20 @@ namespace OneStoryProjectEditor
                 System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(ProjStage.ProjectStage.ToString())
                                                 && !String.IsNullOrEmpty(guid));
 
-                XElement elemStory = new XElement("story",
-                        new XAttribute(CstrAttributeName, Name),
-                        new XAttribute(CstrAttributeStage, ProjStage.ToString()),
-                        new XAttribute(CstrAttributeGuid, guid),
-                        new XAttribute(CstrAttributeTimeStamp, StageTimeStamp.ToString("s")),
-                        CraftingInfo.GetXml);
+                var elemStory = new XElement("story",
+                                             new XAttribute(CstrAttributeName, Name),
+                                             new XAttribute(CstrAttributeStage, ProjStage.ToString()),
+                                             new XAttribute(ProjectSettings.CstrAttributeLabelTasksAllowedPf,
+                                                            TasksAllowedPf),
+                                             new XAttribute(ProjectSettings.CstrAttributeLabelTasksRequiredPf,
+                                                            TasksRequiredPf),
+                                             new XAttribute(ProjectSettings.CstrAttributeLabelTasksAllowedCit,
+                                                            TasksAllowedCit),
+                                             new XAttribute(ProjectSettings.CstrAttributeLabelTasksRequiredCit,
+                                                            TasksRequiredCit),
+                                             new XAttribute(CstrAttributeGuid, guid),
+                                             new XAttribute(CstrAttributeTimeStamp, StageTimeStamp.ToString("s")),
+                                             CraftingInfo.GetXml);
 
                 if (TransitionHistory.HasData)
                     elemStory.Add(TransitionHistory.GetXml);
@@ -147,6 +176,13 @@ namespace OneStoryProjectEditor
                 CraftingInfo.ProjectFacilitatorMemberID = dlg.SelectedMember.MemberGuid;
 #endif
             }
+        }
+
+        private static long GetAttributeValue(XmlNode node, string cstrAttributeLabel,
+            long lDefaultValue)
+        {
+            var attr = node.Attributes[cstrAttributeLabel];
+            return (attr != null) ? Convert.ToInt32(attr.Value) : lDefaultValue;
         }
 
         /*
@@ -974,7 +1010,7 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                XElement elemStories = new XElement(CstrElementLabelStories, 
+                var elemStories = new XElement(CstrElementLabelStories, 
                     new XAttribute(CstrAttributeLabelSetName, SetName));
 
                 foreach (StoryData aSD in this)
@@ -1077,8 +1113,10 @@ namespace OneStoryProjectEditor
 
             if (projFile.stories.Count == 0)
             {
-                projFile.stories.AddstoriesRow(OseResources.Properties.Resources.IDS_MainStoriesSet, projFile.StoryProject[0]);
-                projFile.stories.AddstoriesRow(OseResources.Properties.Resources.IDS_ObsoleteStoriesSet, projFile.StoryProject[0]);
+                projFile.stories.AddstoriesRow(OseResources.Properties.Resources.IDS_MainStoriesSet,
+                    projFile.StoryProject[0]);
+                projFile.stories.AddstoriesRow(OseResources.Properties.Resources.IDS_ObsoleteStoriesSet,
+                    projFile.StoryProject[0]);
             }
 
             TeamMembers = new TeamMembersData(projFile);
@@ -1431,6 +1469,8 @@ namespace OneStoryProjectEditor
                     elemStoryProject.Add(ProjSettings.AdaptItConfigXml);
 
                 elemStoryProject.Add(LnCNotes.GetXml);
+
+                elemStoryProject.Add(ProjSettings.DefaultTasksXml);
 
                 foreach (StoriesData aSsD in Values)
                     elemStoryProject.Add(aSsD.GetXml);
