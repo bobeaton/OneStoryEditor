@@ -28,7 +28,7 @@
   <xsl:text>&cr;&cr;\c </xsl:text>
   <xsl:number value="position()" format="01" />
   <xsl:text>&cr;\t </xsl:text><xsl:value-of select="@name"/>
-  <xsl:text>&cr;\co </xsl:text><xsl:value-of select="preceding::Languages/LanguageInfo[lang='Vernacular']/@name"/>
+  <xsl:text>&cr;\co </xsl:text><xsl:value-of select="preceding::Languages/LanguageInfo[@lang='Vernacular']/@name"/>
   <xsl:text>&cr;</xsl:text>
   <xsl:apply-templates select="descendant::Verses">
     <xsl:with-param name="chapNo" select="position()" />

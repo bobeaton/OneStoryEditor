@@ -28,7 +28,7 @@
   <xsl:text>&cr;&cr;\c </xsl:text>
   <xsl:number value="$chapNo" format="01" />
   <xsl:text>&cr;\t </xsl:text><xsl:value-of select="@name"/>
-  <xsl:text>&cr;\co </xsl:text><xsl:value-of select="preceding::Languages/LanguageInfo[lang='Vernacular']/@name"/>
+  <xsl:text>&cr;\co </xsl:text><xsl:value-of select="preceding::Languages/LanguageInfo[@lang='Vernacular']/@name"/>
 
   <xsl:for-each select="CraftingInfo/TestsRetellings/TestRetelling">
     <xsl:text>&cr;&cr;\co Test </xsl:text>
@@ -72,7 +72,7 @@
       <xsl:number value="position()-1" format="01" />
       <xsl:if test="Retellings/Retelling[@memberID=$testorId]">
         <xsl:text>&cr;\ret </xsl:text>
-        <xsl:value-of select="Retellings/Retelling[lang='InternationalBt'][@memberID=$testorId]"/>
+        <xsl:value-of select="Retellings/Retelling[@lang='InternationalBt'][@memberID=$testorId]"/>
       </xsl:if>
     </xsl:template>
 
