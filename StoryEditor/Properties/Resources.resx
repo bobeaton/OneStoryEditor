@@ -229,7 +229,7 @@
     <comment>कहानी: </comment>
   </data>
   <data name="IDS_OSEUpgradeServer" xml:space="preserve">
-    <value>ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE2.0/StoryEditor.exe.manifest.xml</value>
+    <value>ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE2.1/StoryEditor.exe.manifest.xml</value>
   </data>
   <data name="IDS_NoSearchString" xml:space="preserve">
     <value>Nothing to search for!</value>
@@ -1490,7 +1490,7 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
     <value>..\Resources\oneStory2CoachNotes.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="IDS_AreAllTestingQuestionsEnteredQuery" xml:space="preserve">
-    <value>Have you entered all of your testing questions? If not, then click 'Cancel' and finish entering all of the testing questions first. Then click 'OK' to add boxes for the retelling and answers to the testing questions.</value>
+    <value>Have you entered all of your testing questions? If not, then click 'Cancel' and finish entering all of the testing questions first. Then click 'OK' to add boxes for the answers to the testing questions.</value>
   </data>
   <data name="IDS_ConfirmOverride" xml:space="preserve">
     <value>Click 'Yes' to override the '{0}' {1} for yourself ('{2}') only. Click 'No' to make this change apply to every member of the team (if you all are switching to a new {1}).</value>
@@ -2023,5 +2023,44 @@ and in the resulting window click on the next (green) state.
   </data>
   <data name="IDS_WarnAboutNotEnoughTqs" xml:space="preserve">
     <value>You don't have at least half as many story inference testing questions as lines in the story. Unless you have prior permission from your consultant, you should click Cancel and add at least {0} more testing question(s). (right-click on the 'line options' button and choose 'Add a story testing question'). Otherwise, click 'Yes' to continue on to the next state.</value>
+  </data>
+  <data name="IDS_NoMultipleLines" xml:space="preserve">
+    <value>Your story doesn't have multiple lines! Did you forget to do: 'Story', 'Split into lines'?</value>
+  </data>
+  <data name="IDS_QuerySplitMultipleLines" xml:space="preserve">
+    <value>The '{0}' field of line '{1}' has multiple sentences. Click 'Yes' to have them separated into their own lines. Click 'No' to ignore and continue.</value>
+  </data>
+  <data name="IDS_CantAddAnchors" xml:space="preserve">
+    <value>The consultant has not allowed you to enter Anchors at this time</value>
+  </data>
+  <data name="IDS_CantAddTQs" xml:space="preserve">
+    <value>The consultant has not allowed you to enter testing questions at this time</value>
+  </data>
+  <data name="IDS_CantHaveNoRetellings" xml:space="preserve">
+    <value>The consultant is requiring you to do a retelling test, but there are none entered into the story. Click the 'Tasks', 'Add boxes for Retellings' button and enter the retelling test results.</value>
+  </data>
+  <data name="IDS_FieldCantBeEmpty" xml:space="preserve">
+    <value>The '{0}' field of line '{1}' is empty, but the '{2}' field of that same line is not. Did you forget to enter the back-translation?</value>
+  </data>
+  <data name="IDS_HideEmptyLine" xml:space="preserve">
+    <value>The '{0}' field of line '{1}' is empty. Click 'Yes' to hide the line? Click 'No' to ignore and continue.</value>
+  </data>
+  <data name="IDS_NoAnchor" xml:space="preserve">
+    <value>Line '{0}' doesn't have an anchor. Did you forget it?</value>
+  </data>
+  <data name="IDS_NotEnoughTqs" xml:space="preserve">
+    <value>You should have at least half as many Story Testing Questions as lines in the story. Please add at least {0} more testing question(s). (right-click on the 'line options' button and choose 'Add a story testing question')"</value>
+  </data>
+  <data name="IDS_DataMissing" xml:space="preserve">
+    <value>The '{1}' language field of the {2} in line '{3}' is empty. Did you forget it?{0}{0}(if you don't mean to enter data in the '{1}' field, then click 'Project', 'Settings' and on the 'Languages' tab, uncheck the box for that language in the '{2}s' column)</value>
+  </data>
+  <data name="IDS_CantHaveNoAnswers" xml:space="preserve">
+    <value>The consultant is requiring you to do a test with the inference testing questions, but there are no answers entered into the story. Click the 'Tasks', 'Add boxes for Answers' button and enter the UNS's answers.</value>
+  </data>
+  <data name="IDS_DoAfterOpen" xml:space="preserve">
+    <value>Can't configure these settings until after the project file is opened. Try again later.</value>
+  </data>
+  <data name="IDS_DontHaveTaskPermission" xml:space="preserve">
+    <value>The consultant hasn't given you permission to edit the '{0}' language fields</value>
   </data>
 </root>

@@ -74,7 +74,7 @@ namespace OneStoryProjectEditor
                     ctrlTextBoxVernacular = InitTextBox(ctrlVerse, CstrFieldNameVernacular, 
                         _aTQData.TestQuestionLine.Vernacular,
                         theSE.StoryProject.ProjSettings.Vernacular, nNumColumns,
-                        StoryEditor.TextFieldType.eVernacular,
+                        StoryEditor.TextFieldType.Vernacular,
                         strTestNumberLabel, Properties.Settings.Default.TQVernacularColor);
                     nNumColumns++;
                 }
@@ -98,7 +98,7 @@ namespace OneStoryProjectEditor
                     ctrlTextBoxNationalBT = InitTextBox(ctrlVerse, CstrFieldNameNationalBt,
                         _aTQData.TestQuestionLine.NationalBt, 
                         theSE.StoryProject.ProjSettings.NationalBT, nNumColumns,
-                        StoryEditor.TextFieldType.eNational, 
+                        StoryEditor.TextFieldType.NationalBt, 
                         strTestNumberLabel, Properties.Settings.Default.TQNationalBtColor);
                     nNumColumns++;
 
@@ -122,7 +122,7 @@ namespace OneStoryProjectEditor
                         InitColumnLabel(theSE.StoryProject.ProjSettings.InternationalBT.LangName, nNumColumns);
                     CtrlTextBox ctrlTextBoxEnglishBT = InitTextBox(ctrlVerse, CstrFieldNameVernacular, _aTQData.TestQuestionLine.InternationalBt,
                         theSE.StoryProject.ProjSettings.InternationalBT, nNumColumns,
-                        StoryEditor.TextFieldType.eInternational,
+                        StoryEditor.TextFieldType.InternationalBt,
                         strTestNumberLabel, Properties.Settings.Default.TQInternationalBtColor);
                     nNumColumns++;
 
@@ -139,13 +139,13 @@ namespace OneStoryProjectEditor
                 && (_aTQData.Answers != null) && (_aTQData.Answers.Count > 0))
             {
                 System.Diagnostics.Debug.Assert(theSE.theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Count >= _aTQData.Answers.Count);
-                MultiLineControl aAnswersCtrl = new MultiLineControl(ctrlVerse, StageLogic,
+                var aAnswersCtrl = new MultiLineControl(ctrlVerse, StageLogic,
                     _aTQData.Answers, theSE.StoryProject.ProjSettings,
                     theSE.theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers,
                     strTestNumberLabel,
                     (theSE.StoryProject.ProjSettings.ShowAnswersVernacular && theSE.viewVernacularLangFieldMenuItem.Checked),
-                    (theSE.viewNationalLangFieldMenuItem.Checked && theSE.StoryProject.ProjSettings.ShowAnswersNationalBT),
-                    (theSE.viewEnglishBTFieldMenuItem.Checked && theSE.StoryProject.ProjSettings.ShowAnswersInternationalBT),
+                    (theSE.StoryProject.ProjSettings.ShowAnswersNationalBT && theSE.viewNationalLangFieldMenuItem.Checked),
+                    (theSE.StoryProject.ProjSettings.ShowAnswersInternationalBT && theSE.viewEnglishBTFieldMenuItem.Checked),
                     Properties.Settings.Default.AnswersVernacularColor,
                     Properties.Settings.Default.AnswersNationalBtColor,
                     Properties.Settings.Default.AnswersInternationalBtColor)

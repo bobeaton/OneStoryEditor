@@ -36,6 +36,10 @@ namespace OneStoryProjectEditor
         {
             _storyProject = storyProject;
             InitializeComponent();
+            
+            // not really using key terms anymore
+            tabControlSets.TabPages.Remove(tabPageKeyTerms);
+
             richTextBoxPanoramaFrontMatter.Rtf = storyProject.PanoramaFrontMatter;
             _bInCtor = false;   // prevent the _TextChanged during ctor
             dataGridViewPanorama.Columns[CnColumnStoryName].DefaultCellStyle.Font =

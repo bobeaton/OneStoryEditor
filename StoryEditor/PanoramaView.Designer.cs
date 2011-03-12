@@ -295,7 +295,6 @@
             this.dataGridViewKeyTerms.RowHeadersWidth = 25;
             this.dataGridViewKeyTerms.Size = new System.Drawing.Size(848, 468);
             this.dataGridViewKeyTerms.TabIndex = 0;
-            this.dataGridViewKeyTerms.Visible = false;
             this.dataGridViewKeyTerms.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewKeyTerms_CellMouseDoubleClick);
             this.dataGridViewKeyTerms.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewKeyTerms_CellMouseDoubleClick);
             // 

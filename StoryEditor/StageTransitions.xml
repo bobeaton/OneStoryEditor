@@ -769,17 +769,15 @@ and in the resulting window click on the next (green) state.
       <AllowableTransition>eProjFacReadyForTest1</AllowableTransition>
       <AllowableTransition>eProjFacOnlineReview1WithConsultant</AllowableTransition>
     </AllowableBackwardsTransitions>
-    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="false" viewFreeTranslationField="false" viewAnchorField="false" viewStoryTestingQuestions="true" viewStoryTestingAnswers="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
+    <ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewFreeTranslationField="true" viewAnchorField="false" viewStoryTestingQuestions="true" viewStoryTestingAnswers="true" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" />
   </StateTransition>
   <StateTransition stage="eProjFacRevisesAfterUnsTest" MemberTypeWithEditToken="eProjectFacilitator" DontShowTilPast="true">
-    <StageDisplayString>Project Facilitator revises the story (after UNS test)</StageDisplayString>
-    <TransitionDisplayString>send to the project facilitator for corrections (to be sent back without a UNS test)</TransitionDisplayString>
+    <StageDisplayString>Project Facilitator revises the story</StageDisplayString>
+    <TransitionDisplayString>send to the project facilitator for corrections</TransitionDisplayString>
     <StageInstructions>
 In this stage, you (the project facilitator) will go through the feedback given by the consultant in the Consultant
-Notes pane and revise your story and then send it back to the Consultant and then Coach *before* doing a UNS test. 
-Generally, you will be in this state when the consultant/coach wants you to make some change to the story and they 
-want to review your changes before having you go on to do a UNS test. So they will have moved the story *backwards* 
-from a later state into this earlier state for you to make changes.
+Notes pane and revise your story. Click the 'Tasks' link and 'Send to Consultant' button to see what processing
+the consultant is requiring you to do (e.g. add testing questions, answer consultant note comments, etc).
 
 As you process the consultant's comments, decide on the appropriate change for each comment and then get the crafter
 to make a new recording incorporating all of the changes.
@@ -792,8 +790,8 @@ response in the boxes labeled 'prfc:' (for Project Facilitator) to close the loo
 is fine). If you have further questions, it's okay to ask for clarification in another line. You can add another line
 for additional comments by right-clicking on the small button and choosing "Add Note" if one is not already visible.
 
-When you are finished, then click the "Select State" menu item and in the resulting window click on the next (green)
-state.
+When you are finished, then click the "Send to Consultant" button on the Tasks window to indicate that the revision
+has been done.
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition>eBackTranslatorTypeInternationalBTTest1</AllowableTransition>

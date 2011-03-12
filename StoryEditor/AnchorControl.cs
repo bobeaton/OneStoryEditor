@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
@@ -121,7 +122,7 @@ namespace OneStoryProjectEditor
 
             CtrlTextBox tb = new CtrlTextBox(
                 CstrFieldNameExegeticalHelp + nLayoutRow, ctrlVerse, this, strQuote,
-                li, labelExegeticalHelp.Text, StoryEditor.TextFieldType.eInternational,
+                li, labelExegeticalHelp.Text, StoryEditor.TextFieldType.InternationalBt,
                 Properties.Settings.Default.ExegeticalHelpNoteColor);
 
             // add the label and tool strip as a new row to the table layout panel
@@ -151,13 +152,20 @@ namespace OneStoryProjectEditor
                 if (!CheckForProperEditToken(out theSE))
                     return;
 
-                NetBibleViewer theNetBibleViewer = (NetBibleViewer)e.Data.GetData(typeof(NetBibleViewer));
-                foreach (ToolStripButton btn in toolStripAnchors.Items)
-                    if (btn.Text == theNetBibleViewer.ScriptureReference)
-                    {
-                        e.Effect = DragDropEffects.None;
-                        return;
-                    }
+                if ((theSE.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
+                    && !TasksPf.IsTaskOn(theSE.theCurrentStory.TasksAllowedPf, TasksPf.TaskSettings.Anchors))
+                {
+                    MessageBox.Show(Properties.Resources.IDS_CantAddAnchors,
+                                    OseResources.Properties.Resources.IDS_Caption);
+                    return;
+                }
+
+                var theNetBibleViewer = (NetBibleViewer)e.Data.GetData(typeof(NetBibleViewer));
+                if (toolStripAnchors.Items.Cast<ToolStripButton>().Any(btn => btn.Text == theNetBibleViewer.ScriptureReference))
+                {
+                    e.Effect = DragDropEffects.None;
+                    return;
+                }
                 e.Effect = DragDropEffects.Link;
             }
         }

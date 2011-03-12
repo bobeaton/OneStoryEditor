@@ -141,6 +141,7 @@ namespace OneStoryProjectEditor
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.splitContainerLeftRight = new System.Windows.Forms.SplitContainer();
             this.splitContainerUpDown = new OneStoryProjectEditor.MinimizableSplitterContainer();
+            this.linkLabelTasks = new System.Windows.Forms.LinkLabel();
             this.linkLabelVerseBT = new System.Windows.Forms.LinkLabel();
             this.contextMenuStripVerseList = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.flowLayoutPanelVerses = new OneStoryProjectEditor.VerseBtLineFlowLayoutPanel();
@@ -356,6 +357,7 @@ namespace OneStoryProjectEditor
             this.toolStripMenuItemSelectState.Name = "toolStripMenuItemSelectState";
             this.toolStripMenuItemSelectState.Size = new System.Drawing.Size(79, 27);
             this.toolStripMenuItemSelectState.Text = "Select S&tate";
+            this.toolStripMenuItemSelectState.Visible = false;
             this.toolStripMenuItemSelectState.Click += new System.EventHandler(this.toolStripMenuItemSelectState_Click);
             // 
             // editToolStripMenuItem
@@ -1156,6 +1158,7 @@ namespace OneStoryProjectEditor
             // 
             // splitContainerUpDown.Panel1
             // 
+            this.splitContainerUpDown.Panel1.Controls.Add(this.linkLabelTasks);
             this.splitContainerUpDown.Panel1.Controls.Add(this.linkLabelVerseBT);
             this.splitContainerUpDown.Panel1.Controls.Add(this.flowLayoutPanelVerses);
             this.splitContainerUpDown.Panel1.Controls.Add(this.textBoxStoryVerse);
@@ -1166,6 +1169,19 @@ namespace OneStoryProjectEditor
             this.splitContainerUpDown.Size = new System.Drawing.Size(453, 470);
             this.splitContainerUpDown.SplitterDistance = 300;
             this.splitContainerUpDown.TabIndex = 2;
+            // 
+            // linkLabelTasks
+            // 
+            this.linkLabelTasks.AutoSize = true;
+            this.linkLabelTasks.Location = new System.Drawing.Point(63, 5);
+            this.linkLabelTasks.Name = "linkLabelTasks";
+            this.linkLabelTasks.Size = new System.Drawing.Size(36, 13);
+            this.linkLabelTasks.TabIndex = 4;
+            this.linkLabelTasks.TabStop = true;
+            this.linkLabelTasks.Tag = 1;
+            this.linkLabelTasks.Text = "Tasks";
+            this.linkLabelTasks.Visible = false;
+            this.linkLabelTasks.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelTasks_LinkClicked);
             // 
             // linkLabelVerseBT
             // 
@@ -1415,6 +1431,7 @@ namespace OneStoryProjectEditor
             this.buttonsStoryStage.Size = new System.Drawing.Size(65, 20);
             this.buttonsStoryStage.Text = "Next State";
             this.buttonsStoryStage.ToolTipText = "Use the \'Select State\' menu to move to a previous state";
+            this.buttonsStoryStage.Visible = false;
             this.buttonsStoryStage.Click += new System.EventHandler(this.buttonsStoryStage_Click);
             // 
             // statusLabel
@@ -1568,6 +1585,7 @@ namespace OneStoryProjectEditor
         internal LinkLabel linkLabelConsultantNotes;
         internal LinkLabel linkLabelCoachNotes;
         internal LinkLabel linkLabelVerseBT;
+        internal LinkLabel linkLabelTasks;
         private ContextMenuStrip contextMenuStripVerseList;
         private ToolStripMenuItem resetStoredInformationToolStripMenuItem;
         private ToolStripMenuItem historicalDifferencesToolStripMenuItem;

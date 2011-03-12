@@ -17,22 +17,32 @@
     </xsl:attribute>
   </xsl:template>
 
-  <!--Add the new DefaultTaskSettings element before the stories element-->
-  <xsl:template match="LnCNotes">
-    <LnCNotes>
-      <xsl:apply-templates select="@*|node()"/>
-    </LnCNotes >
-    <DefaultTaskSettings TasksAllowedPf="2047" TasksRequiredPf="32" TasksAllowedCit="3" TasksRequiredCit="2" />
+  <!--Add new DefaultAllowed and DefaultRequired attributes to the Member element-->
+  <xsl:template match="Member">
+    <Member>
+      <xsl:apply-templates select="@*"/>
+      <xsl:choose>
+        <xsl:when test="@memberType = 'ProjectFacilitator'">
+          <xsl:attribute name="DefaultTasksAllowed">VernacularLangFields, NationalBtLangFields, InternationalBtFields, FreeTranslationFields, Anchors, Retellings, TestQuestions, Answers</xsl:attribute>
+          <xsl:attribute name="DefaultTasksRequired">Anchors</xsl:attribute>
+        </xsl:when>
+        <xsl:when test="@memberType = 'ConsultantInTraining'">
+          <xsl:attribute name="DefaultTasksAllowed">SendToProjectFacilitatorForRevision, SendToCoachForReview</xsl:attribute>
+          <xsl:attribute name="DefaultTasksRequired">SendToCoachForReview</xsl:attribute>
+        </xsl:when>
+      </xsl:choose>
+    </Member>
   </xsl:template>
 
   <!--Add the same new attributes to the story element-->
   <xsl:template match="story">
     <story>
-      <xsl:attribute name="TasksAllowedPf">2047</xsl:attribute>
-      <xsl:attribute name="TasksRequiredPf">32</xsl:attribute>
-      <xsl:attribute name="TasksAllowedCit">3</xsl:attribute>
-      <xsl:attribute name="TasksRequiredCit">2</xsl:attribute>
-      <xsl:apply-templates select="@*|node()"/>
+      <xsl:apply-templates select="@*"/>
+      <xsl:attribute name="TasksAllowedPf">VernacularLangFields, NationalBtLangFields, InternationalBtFields, FreeTranslationFields, Anchors, Retellings, TestQuestions, Answers</xsl:attribute>
+      <xsl:attribute name="TasksRequiredPf">Anchors</xsl:attribute>
+      <xsl:attribute name="TasksAllowedCit">SendToProjectFacilitatorForRevision, SendToCoachForReview</xsl:attribute>
+      <xsl:attribute name="TasksRequiredCit">SendToCoachForReview</xsl:attribute>
+      <xsl:apply-templates select="node()"/>
     </story>
   </xsl:template>
 

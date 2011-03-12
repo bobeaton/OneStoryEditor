@@ -144,7 +144,7 @@ namespace OneStoryProjectEditor
                 if (theTeamMember == null)
                     return;
 
-                if (_theStoryProjectData.TeamMembers.ShowEditDialog(theTeamMember) != DialogResult.Yes)
+                if (_theStoryProjectData.TeamMembers.ShowEditDialog(theTeamMember, _theStoryProjectData.ProjSettings) != DialogResult.Yes)
                     return;
             }
 

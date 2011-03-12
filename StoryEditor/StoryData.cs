@@ -25,30 +25,37 @@ namespace OneStoryProjectEditor
         public TasksCit.TaskSettings TasksRequiredCit;
 
         public StoryData(string strStoryName, string strCrafterMemberGuid, 
-            string strLoggedOnMemberGuid, bool bIsBiblicalStory, ProjectSettings projSettings)
+            string strLoggedOnMemberGuid, bool bIsBiblicalStory, 
+            StoryProjectData projectData)
         {
             Name = strStoryName;
             guid = Guid.NewGuid().ToString();
             StageTimeStamp = DateTime.Now;
-            ProjStage = new StoryStageLogic(projSettings);
+            ProjStage = new StoryStageLogic(projectData.ProjSettings);
             CraftingInfo = new CraftingInfoData(strCrafterMemberGuid, strLoggedOnMemberGuid, bIsBiblicalStory);
             TransitionHistory = new StoryStateTransitionHistory();
             Verses = new VersesData();
             Verses.CreateFirstVerse();
-            TasksAllowedPf = projSettings.DefaultAllowedPf;
-            TasksRequiredPf = projSettings.DefaultRequiredPf;
-            TasksAllowedCit = projSettings.DefaultAllowedCit;
-            TasksRequiredCit = projSettings.DefaultRequiredCit;
+
+            string strMemberName = projectData.TeamMembers.GetNameFromMemberId(strLoggedOnMemberGuid);
+            System.Diagnostics.Debug.Assert(projectData.TeamMembers[strMemberName].MemberType ==
+                                            TeamMemberData.UserTypes.eProjectFacilitator);
+
+            TeamMemberData thePf = projectData.TeamMembers[strMemberName];
+            TasksAllowedPf = (TasksPf.TaskSettings)thePf.DefaultAllowed;
+            TasksRequiredPf = (TasksPf.TaskSettings)thePf.DefaultRequired;
+            TasksAllowedCit = TasksCit.DefaultAllowed;
+            TasksRequiredCit = TasksCit.DefaultRequired;
         }
 
         public StoryData(XmlNode node, string strProjectFolder)
         {
             XmlAttribute attr;
             Name = ((attr = node.Attributes[CstrAttributeName]) != null) ? attr.Value : null;
-            TasksAllowedPf = (TasksPf.TaskSettings)GetAttributeValue(node, ProjectSettings.CstrAttributeLabelTasksAllowedPf, (long)TasksPf.DefaultAllowed);
-            TasksRequiredPf = (TasksPf.TaskSettings)GetAttributeValue(node, ProjectSettings.CstrAttributeLabelTasksRequiredPf, (long)TasksPf.DefaultRequired);
-            TasksAllowedCit = (TasksCit.TaskSettings)GetAttributeValue(node, ProjectSettings.CstrAttributeLabelTasksAllowedCit, (long)TasksCit.DefaultAllowed);
-            TasksRequiredCit = (TasksCit.TaskSettings)GetAttributeValue(node, ProjectSettings.CstrAttributeLabelTasksRequiredCit, (long)TasksCit.DefaultRequired);
+            TasksAllowedPf = (TasksPf.TaskSettings)GetAttributeValue(node, typeof(TasksPf.TaskSettings), CstrAttributeLabelTasksAllowedPf, (long)TasksPf.DefaultAllowed);
+            TasksRequiredPf = (TasksPf.TaskSettings)GetAttributeValue(node, typeof(TasksPf.TaskSettings), CstrAttributeLabelTasksRequiredPf, (long)TasksPf.DefaultRequired);
+            TasksAllowedCit = (TasksCit.TaskSettings)GetAttributeValue(node, typeof(TasksCit.TaskSettings), CstrAttributeLabelTasksAllowedCit, (long)TasksCit.DefaultAllowed);
+            TasksRequiredCit = (TasksCit.TaskSettings)GetAttributeValue(node, typeof(TasksCit.TaskSettings), CstrAttributeLabelTasksRequiredCit, (long)TasksCit.DefaultRequired);
 
             // the last param isn't really false, but this ctor is only called when that doesn't matter
             //  (during Chorus diff presentation)
@@ -63,10 +70,10 @@ namespace OneStoryProjectEditor
         public StoryData(NewDataSet.storyRow theStoryRow, NewDataSet projFile, string strProjectFolder)
         {
             Name = theStoryRow.name;
-            TasksAllowedPf = (TasksPf.TaskSettings)theStoryRow.TasksAllowedPf;
-            TasksRequiredPf = (TasksPf.TaskSettings)theStoryRow.TasksRequiredPf;
-            TasksAllowedCit = (TasksCit.TaskSettings)theStoryRow.TasksAllowedCit;
-            TasksRequiredCit = (TasksCit.TaskSettings)theStoryRow.TasksRequiredCit;
+            TasksAllowedPf = (TasksPf.TaskSettings)Enum.Parse(typeof(TasksPf.TaskSettings), theStoryRow.TasksAllowedPf);
+            TasksRequiredPf = (TasksPf.TaskSettings)Enum.Parse(typeof(TasksPf.TaskSettings), theStoryRow.TasksRequiredPf);
+            TasksAllowedCit = (TasksCit.TaskSettings)Enum.Parse(typeof(TasksCit.TaskSettings), theStoryRow.TasksAllowedCit);
+            TasksRequiredCit = (TasksCit.TaskSettings)Enum.Parse(typeof(TasksCit.TaskSettings), theStoryRow.TasksRequiredCit);
             guid = theStoryRow.guid;
             StageTimeStamp = (theStoryRow.IsstageDateTimeStampNull()) ? DateTime.Now : theStoryRow.stageDateTimeStamp;
             ProjStage = new StoryStageLogic(strProjectFolder, theStoryRow.stage);
@@ -98,6 +105,11 @@ namespace OneStoryProjectEditor
         protected const string CstrAttributeStage = "stage";
         protected const string CstrAttributeGuid = "guid";
         public const string CstrAttributeTimeStamp = "stageDateTimeStamp";
+        public const string CstrAttributeLabelTasksAllowedPf = "TasksAllowedPf";
+        public const string CstrAttributeLabelTasksRequiredPf = "TasksRequiredPf";
+        public const string CstrAttributeLabelTasksAllowedCit = "TasksAllowedCit";
+        public const string CstrAttributeLabelTasksRequiredCit = "TasksRequiredCit";
+
 
         public XElement GetXml
         {
@@ -109,13 +121,13 @@ namespace OneStoryProjectEditor
                 var elemStory = new XElement("story",
                                              new XAttribute(CstrAttributeName, Name),
                                              new XAttribute(CstrAttributeStage, ProjStage.ToString()),
-                                             new XAttribute(ProjectSettings.CstrAttributeLabelTasksAllowedPf,
+                                             new XAttribute(CstrAttributeLabelTasksAllowedPf,
                                                             TasksAllowedPf),
-                                             new XAttribute(ProjectSettings.CstrAttributeLabelTasksRequiredPf,
+                                             new XAttribute(CstrAttributeLabelTasksRequiredPf,
                                                             TasksRequiredPf),
-                                             new XAttribute(ProjectSettings.CstrAttributeLabelTasksAllowedCit,
+                                             new XAttribute(CstrAttributeLabelTasksAllowedCit,
                                                             TasksAllowedCit),
-                                             new XAttribute(ProjectSettings.CstrAttributeLabelTasksRequiredCit,
+                                             new XAttribute(CstrAttributeLabelTasksRequiredCit,
                                                             TasksRequiredCit),
                                              new XAttribute(CstrAttributeGuid, guid),
                                              new XAttribute(CstrAttributeTimeStamp, StageTimeStamp.ToString("s")),
@@ -178,11 +190,16 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private static long GetAttributeValue(XmlNode node, string cstrAttributeLabel,
+        private static long GetAttributeValue(XmlNode node, Type typeEnum, string cstrAttributeLabel,
             long lDefaultValue)
         {
-            var attr = node.Attributes[cstrAttributeLabel];
-            return (attr != null) ? Convert.ToInt32(attr.Value) : lDefaultValue;
+            if (node.Attributes != null)
+            {
+                var attr = node.Attributes[cstrAttributeLabel];
+                if (attr != null) 
+                    return (long)Enum.Parse(typeEnum, attr.Value);
+            }
+            return lDefaultValue;
         }
 
         /*
@@ -1311,7 +1328,7 @@ namespace OneStoryProjectEditor
 
             // otherwise, fall thru and make them pick it.
             if (loggedOnMember == null)
-                loggedOnMember = EditTeamMembers(strMemberName, true, ref bModified);
+                loggedOnMember = EditTeamMembers(strMemberName, true, ProjSettings, ref bModified);
 
             // if we have a logged on person, then initialize the overrides for that
             //  person (i.e. fonts, keyboards)
@@ -1347,9 +1364,9 @@ namespace OneStoryProjectEditor
 
         // returns the logged in member
         internal TeamMemberData EditTeamMembers(string strMemberName, bool bUseLoginLabel,
-            ref bool bModified)
+            ProjectSettings projSettings, ref bool bModified)
         {
-            TeamMemberForm dlg = new TeamMemberForm(TeamMembers, bUseLoginLabel);
+            var dlg = new TeamMemberForm(TeamMembers, bUseLoginLabel, projSettings);
             if (!String.IsNullOrEmpty(strMemberName))
             {
                 try
@@ -1469,8 +1486,6 @@ namespace OneStoryProjectEditor
                     elemStoryProject.Add(ProjSettings.AdaptItConfigXml);
 
                 elemStoryProject.Add(LnCNotes.GetXml);
-
-                elemStoryProject.Add(ProjSettings.DefaultTasksXml);
 
                 foreach (StoriesData aSsD in Values)
                     elemStoryProject.Add(aSsD.GetXml);

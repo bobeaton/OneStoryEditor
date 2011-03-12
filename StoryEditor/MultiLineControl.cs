@@ -49,7 +49,7 @@ namespace OneStoryProjectEditor
                                                         aLineData.Vernacular, strLabelRow + strLabelSuffix, 
                                                         projSettings.Vernacular,
                                                         nNumColumns, nNumRows, 
-                                                        StoryEditor.TextFieldType.eVernacular,
+                                                        StoryEditor.TextFieldType.Vernacular,
                                                         clrVernacular);
                     nNumColumns++;
                 }
@@ -64,7 +64,7 @@ namespace OneStoryProjectEditor
                                                         aLineData.NationalBt, strLabelRow + strLabelSuffix, 
                                                         projSettings.NationalBT,
                                                         nNumColumns, nNumRows, 
-                                                        StoryEditor.TextFieldType.eNational,
+                                                        StoryEditor.TextFieldType.NationalBt,
                                                         clrNationalBt);
                     nNumColumns++;
 
@@ -80,7 +80,7 @@ namespace OneStoryProjectEditor
                                                         aLineData.InternationalBt, strLabelRow + strLabelSuffix, 
                                                         projSettings.InternationalBT,
                                                         nNumColumns, nNumRows, 
-                                                        StoryEditor.TextFieldType.eInternational,
+                                                        StoryEditor.TextFieldType.InternationalBt,
                                                         clrInternationalBt);
                     nNumColumns++;
 

@@ -43,8 +43,6 @@ namespace OneStoryProjectEditor {
         
         private LnCNoteDataTable tableLnCNote;
         
-        private DefaultTaskSettingsDataTable tableDefaultTaskSettings;
-        
         private storiesDataTable tablestories;
         
         private storyDataTable tablestory;
@@ -124,8 +122,6 @@ namespace OneStoryProjectEditor {
         private global::System.Data.DataRelation relationStoryProject_LnCNotes;
         
         private global::System.Data.DataRelation relationLnCNotes_LnCNote;
-        
-        private global::System.Data.DataRelation relationStoryProject_DefaultTaskSettings;
         
         private global::System.Data.DataRelation relationStoryProject_stories;
         
@@ -243,9 +239,6 @@ namespace OneStoryProjectEditor {
                 }
                 if ((ds.Tables["LnCNote"] != null)) {
                     base.Tables.Add(new LnCNoteDataTable(ds.Tables["LnCNote"]));
-                }
-                if ((ds.Tables["DefaultTaskSettings"] != null)) {
-                    base.Tables.Add(new DefaultTaskSettingsDataTable(ds.Tables["DefaultTaskSettings"]));
                 }
                 if ((ds.Tables["stories"] != null)) {
                     base.Tables.Add(new storiesDataTable(ds.Tables["stories"]));
@@ -439,15 +432,6 @@ namespace OneStoryProjectEditor {
         public LnCNoteDataTable LnCNote {
             get {
                 return this.tableLnCNote;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.ComponentModel.Browsable(false)]
-        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public DefaultTaskSettingsDataTable DefaultTaskSettings {
-            get {
-                return this.tableDefaultTaskSettings;
             }
         }
         
@@ -825,9 +809,6 @@ namespace OneStoryProjectEditor {
                 if ((ds.Tables["LnCNote"] != null)) {
                     base.Tables.Add(new LnCNoteDataTable(ds.Tables["LnCNote"]));
                 }
-                if ((ds.Tables["DefaultTaskSettings"] != null)) {
-                    base.Tables.Add(new DefaultTaskSettingsDataTable(ds.Tables["DefaultTaskSettings"]));
-                }
                 if ((ds.Tables["stories"] != null)) {
                     base.Tables.Add(new storiesDataTable(ds.Tables["stories"]));
                 }
@@ -1006,12 +987,6 @@ namespace OneStoryProjectEditor {
             if ((initTable == true)) {
                 if ((this.tableLnCNote != null)) {
                     this.tableLnCNote.InitVars();
-                }
-            }
-            this.tableDefaultTaskSettings = ((DefaultTaskSettingsDataTable)(base.Tables["DefaultTaskSettings"]));
-            if ((initTable == true)) {
-                if ((this.tableDefaultTaskSettings != null)) {
-                    this.tableDefaultTaskSettings.InitVars();
                 }
             }
             this.tablestories = ((storiesDataTable)(base.Tables["stories"]));
@@ -1214,7 +1189,6 @@ namespace OneStoryProjectEditor {
             this.relationAdaptItConfigurations_AdaptItConfiguration = this.Relations["AdaptItConfigurations_AdaptItConfiguration"];
             this.relationStoryProject_LnCNotes = this.Relations["StoryProject_LnCNotes"];
             this.relationLnCNotes_LnCNote = this.Relations["LnCNotes_LnCNote"];
-            this.relationStoryProject_DefaultTaskSettings = this.Relations["StoryProject_DefaultTaskSettings"];
             this.relationStoryProject_stories = this.Relations["StoryProject_stories"];
             this.relationstories_story = this.Relations["stories_story"];
             this.relationstory_CraftingInfo = this.Relations["story_CraftingInfo"];
@@ -1274,8 +1248,6 @@ namespace OneStoryProjectEditor {
             base.Tables.Add(this.tableLnCNotes);
             this.tableLnCNote = new LnCNoteDataTable();
             base.Tables.Add(this.tableLnCNote);
-            this.tableDefaultTaskSettings = new DefaultTaskSettingsDataTable();
-            base.Tables.Add(this.tableDefaultTaskSettings);
             this.tablestories = new storiesDataTable();
             base.Tables.Add(this.tablestories);
             this.tablestory = new storyDataTable();
@@ -1394,13 +1366,6 @@ namespace OneStoryProjectEditor {
                         this.tableLnCNotes.LnCNotes_IdColumn}, new global::System.Data.DataColumn[] {
                         this.tableLnCNote.LnCNotes_IdColumn});
             this.tableLnCNote.Constraints.Add(fkc);
-            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
-            fkc.DeleteRule = global::System.Data.Rule.Cascade;
-            fkc.UpdateRule = global::System.Data.Rule.Cascade;
-            fkc = new global::System.Data.ForeignKeyConstraint("StoryProject_DefaultTaskSettings", new global::System.Data.DataColumn[] {
-                        this.tableStoryProject.StoryProject_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableDefaultTaskSettings.StoryProject_IdColumn});
-            this.tableDefaultTaskSettings.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
@@ -1668,11 +1633,6 @@ namespace OneStoryProjectEditor {
                         this.tableLnCNote.LnCNotes_IdColumn}, false);
             this.relationLnCNotes_LnCNote.Nested = true;
             this.Relations.Add(this.relationLnCNotes_LnCNote);
-            this.relationStoryProject_DefaultTaskSettings = new global::System.Data.DataRelation("StoryProject_DefaultTaskSettings", new global::System.Data.DataColumn[] {
-                        this.tableStoryProject.StoryProject_IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableDefaultTaskSettings.StoryProject_IdColumn}, false);
-            this.relationStoryProject_DefaultTaskSettings.Nested = true;
-            this.Relations.Add(this.relationStoryProject_DefaultTaskSettings);
             this.relationStoryProject_stories = new global::System.Data.DataRelation("StoryProject_stories", new global::System.Data.DataColumn[] {
                         this.tableStoryProject.StoryProject_IdColumn}, new global::System.Data.DataColumn[] {
                         this.tablestories.StoryProject_IdColumn}, false);
@@ -1877,11 +1837,6 @@ namespace OneStoryProjectEditor {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         private bool ShouldSerializeLnCNote() {
-            return false;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        private bool ShouldSerializeDefaultTaskSettings() {
             return false;
         }
         
@@ -2115,8 +2070,6 @@ namespace OneStoryProjectEditor {
         public delegate void LnCNotesRowChangeEventHandler(object sender, LnCNotesRowChangeEvent e);
         
         public delegate void LnCNoteRowChangeEventHandler(object sender, LnCNoteRowChangeEvent e);
-        
-        public delegate void DefaultTaskSettingsRowChangeEventHandler(object sender, DefaultTaskSettingsRowChangeEvent e);
         
         public delegate void storiesRowChangeEventHandler(object sender, storiesRowChangeEvent e);
         
@@ -2810,6 +2763,10 @@ namespace OneStoryProjectEditor {
             
             private global::System.Data.DataColumn columnTransliteratorDirectionForwardNationalBT;
             
+            private global::System.Data.DataColumn columnDefaultTasksAllowed;
+            
+            private global::System.Data.DataColumn columnDefaultTasksRequired;
+            
             private global::System.Data.DataColumn columnMembers_Id;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3060,6 +3017,20 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn DefaultTasksAllowedColumn {
+                get {
+                    return this.columnDefaultTasksAllowed;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn DefaultTasksRequiredColumn {
+                get {
+                    return this.columnDefaultTasksRequired;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public global::System.Data.DataColumn Members_IdColumn {
                 get {
                     return this.columnMembers_Id;
@@ -3127,6 +3098,8 @@ namespace OneStoryProjectEditor {
                         bool TransliteratorDirectionForwardVernacular, 
                         string TransliteratorNationalBT, 
                         bool TransliteratorDirectionForwardNationalBT, 
+                        string DefaultTasksAllowed, 
+                        string DefaultTasksRequired, 
                         MembersRow parentMembersRowByMembers_Member) {
                 MemberRow rowMemberRow = ((MemberRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
@@ -3161,9 +3134,11 @@ namespace OneStoryProjectEditor {
                         TransliteratorDirectionForwardVernacular,
                         TransliteratorNationalBT,
                         TransliteratorDirectionForwardNationalBT,
+                        DefaultTasksAllowed,
+                        DefaultTasksRequired,
                         null};
                 if ((parentMembersRowByMembers_Member != null)) {
-                    columnValuesArray[31] = parentMembersRowByMembers_Member[3];
+                    columnValuesArray[33] = parentMembersRowByMembers_Member[3];
                 }
                 rowMemberRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowMemberRow);
@@ -3215,6 +3190,8 @@ namespace OneStoryProjectEditor {
                 this.columnTransliteratorDirectionForwardVernacular = base.Columns["TransliteratorDirectionForwardVernacular"];
                 this.columnTransliteratorNationalBT = base.Columns["TransliteratorNationalBT"];
                 this.columnTransliteratorDirectionForwardNationalBT = base.Columns["TransliteratorDirectionForwardNationalBT"];
+                this.columnDefaultTasksAllowed = base.Columns["DefaultTasksAllowed"];
+                this.columnDefaultTasksRequired = base.Columns["DefaultTasksRequired"];
                 this.columnMembers_Id = base.Columns["Members_Id"];
             }
             
@@ -3282,6 +3259,10 @@ namespace OneStoryProjectEditor {
                 base.Columns.Add(this.columnTransliteratorNationalBT);
                 this.columnTransliteratorDirectionForwardNationalBT = new global::System.Data.DataColumn("TransliteratorDirectionForwardNationalBT", typeof(bool), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnTransliteratorDirectionForwardNationalBT);
+                this.columnDefaultTasksAllowed = new global::System.Data.DataColumn("DefaultTasksAllowed", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnDefaultTasksAllowed);
+                this.columnDefaultTasksRequired = new global::System.Data.DataColumn("DefaultTasksRequired", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnDefaultTasksRequired);
                 this.columnMembers_Id = new global::System.Data.DataColumn("Members_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnMembers_Id);
                 this.columnname.AllowDBNull = false;
@@ -3318,6 +3299,8 @@ namespace OneStoryProjectEditor {
                 this.columnTransliteratorDirectionForwardVernacular.Namespace = "";
                 this.columnTransliteratorNationalBT.Namespace = "";
                 this.columnTransliteratorDirectionForwardNationalBT.Namespace = "";
+                this.columnDefaultTasksAllowed.Namespace = "";
+                this.columnDefaultTasksRequired.Namespace = "";
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -5294,292 +5277,6 @@ namespace OneStoryProjectEditor {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class DefaultTaskSettingsDataTable : global::System.Data.TypedTableBase<DefaultTaskSettingsRow> {
-            
-            private global::System.Data.DataColumn columnTasksAllowedPf;
-            
-            private global::System.Data.DataColumn columnTasksRequiredPf;
-            
-            private global::System.Data.DataColumn columnTasksAllowedCit;
-            
-            private global::System.Data.DataColumn columnTasksRequiredCit;
-            
-            private global::System.Data.DataColumn columnStoryProject_Id;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public DefaultTaskSettingsDataTable() {
-                this.TableName = "DefaultTaskSettings";
-                this.BeginInit();
-                this.InitClass();
-                this.EndInit();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal DefaultTaskSettingsDataTable(global::System.Data.DataTable table) {
-                this.TableName = table.TableName;
-                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
-                    this.CaseSensitive = table.CaseSensitive;
-                }
-                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
-                    this.Locale = table.Locale;
-                }
-                if ((table.Namespace != table.DataSet.Namespace)) {
-                    this.Namespace = table.Namespace;
-                }
-                this.Prefix = table.Prefix;
-                this.MinimumCapacity = table.MinimumCapacity;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected DefaultTaskSettingsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
-                    base(info, context) {
-                this.InitVars();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn TasksAllowedPfColumn {
-                get {
-                    return this.columnTasksAllowedPf;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn TasksRequiredPfColumn {
-                get {
-                    return this.columnTasksRequiredPf;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn TasksAllowedCitColumn {
-                get {
-                    return this.columnTasksAllowedCit;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn TasksRequiredCitColumn {
-                get {
-                    return this.columnTasksRequiredCit;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn StoryProject_IdColumn {
-                get {
-                    return this.columnStoryProject_Id;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.ComponentModel.Browsable(false)]
-            public int Count {
-                get {
-                    return this.Rows.Count;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public DefaultTaskSettingsRow this[int index] {
-                get {
-                    return ((DefaultTaskSettingsRow)(this.Rows[index]));
-                }
-            }
-            
-            public event DefaultTaskSettingsRowChangeEventHandler DefaultTaskSettingsRowChanging;
-            
-            public event DefaultTaskSettingsRowChangeEventHandler DefaultTaskSettingsRowChanged;
-            
-            public event DefaultTaskSettingsRowChangeEventHandler DefaultTaskSettingsRowDeleting;
-            
-            public event DefaultTaskSettingsRowChangeEventHandler DefaultTaskSettingsRowDeleted;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void AddDefaultTaskSettingsRow(DefaultTaskSettingsRow row) {
-                this.Rows.Add(row);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public DefaultTaskSettingsRow AddDefaultTaskSettingsRow(long TasksAllowedPf, long TasksRequiredPf, long TasksAllowedCit, long TasksRequiredCit, StoryProjectRow parentStoryProjectRowByStoryProject_DefaultTaskSettings) {
-                DefaultTaskSettingsRow rowDefaultTaskSettingsRow = ((DefaultTaskSettingsRow)(this.NewRow()));
-                object[] columnValuesArray = new object[] {
-                        TasksAllowedPf,
-                        TasksRequiredPf,
-                        TasksAllowedCit,
-                        TasksRequiredCit,
-                        null};
-                if ((parentStoryProjectRowByStoryProject_DefaultTaskSettings != null)) {
-                    columnValuesArray[4] = parentStoryProjectRowByStoryProject_DefaultTaskSettings[3];
-                }
-                rowDefaultTaskSettingsRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowDefaultTaskSettingsRow);
-                return rowDefaultTaskSettingsRow;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public override global::System.Data.DataTable Clone() {
-                DefaultTaskSettingsDataTable cln = ((DefaultTaskSettingsDataTable)(base.Clone()));
-                cln.InitVars();
-                return cln;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override global::System.Data.DataTable CreateInstance() {
-                return new DefaultTaskSettingsDataTable();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal void InitVars() {
-                this.columnTasksAllowedPf = base.Columns["TasksAllowedPf"];
-                this.columnTasksRequiredPf = base.Columns["TasksRequiredPf"];
-                this.columnTasksAllowedCit = base.Columns["TasksAllowedCit"];
-                this.columnTasksRequiredCit = base.Columns["TasksRequiredCit"];
-                this.columnStoryProject_Id = base.Columns["StoryProject_Id"];
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            private void InitClass() {
-                this.columnTasksAllowedPf = new global::System.Data.DataColumn("TasksAllowedPf", typeof(long), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnTasksAllowedPf);
-                this.columnTasksRequiredPf = new global::System.Data.DataColumn("TasksRequiredPf", typeof(long), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnTasksRequiredPf);
-                this.columnTasksAllowedCit = new global::System.Data.DataColumn("TasksAllowedCit", typeof(long), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnTasksAllowedCit);
-                this.columnTasksRequiredCit = new global::System.Data.DataColumn("TasksRequiredCit", typeof(long), null, global::System.Data.MappingType.Attribute);
-                base.Columns.Add(this.columnTasksRequiredCit);
-                this.columnStoryProject_Id = new global::System.Data.DataColumn("StoryProject_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
-                base.Columns.Add(this.columnStoryProject_Id);
-                this.columnTasksAllowedPf.AllowDBNull = false;
-                this.columnTasksAllowedPf.Namespace = "";
-                this.columnTasksRequiredPf.AllowDBNull = false;
-                this.columnTasksRequiredPf.Namespace = "";
-                this.columnTasksAllowedCit.AllowDBNull = false;
-                this.columnTasksAllowedCit.Namespace = "";
-                this.columnTasksRequiredCit.AllowDBNull = false;
-                this.columnTasksRequiredCit.Namespace = "";
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public DefaultTaskSettingsRow NewDefaultTaskSettingsRow() {
-                return ((DefaultTaskSettingsRow)(this.NewRow()));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new DefaultTaskSettingsRow(builder);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override global::System.Type GetRowType() {
-                return typeof(DefaultTaskSettingsRow);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowChanged(e);
-                if ((this.DefaultTaskSettingsRowChanged != null)) {
-                    this.DefaultTaskSettingsRowChanged(this, new DefaultTaskSettingsRowChangeEvent(((DefaultTaskSettingsRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowChanging(e);
-                if ((this.DefaultTaskSettingsRowChanging != null)) {
-                    this.DefaultTaskSettingsRowChanging(this, new DefaultTaskSettingsRowChangeEvent(((DefaultTaskSettingsRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowDeleted(e);
-                if ((this.DefaultTaskSettingsRowDeleted != null)) {
-                    this.DefaultTaskSettingsRowDeleted(this, new DefaultTaskSettingsRowChangeEvent(((DefaultTaskSettingsRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowDeleting(e);
-                if ((this.DefaultTaskSettingsRowDeleting != null)) {
-                    this.DefaultTaskSettingsRowDeleting(this, new DefaultTaskSettingsRowChangeEvent(((DefaultTaskSettingsRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void RemoveDefaultTaskSettingsRow(DefaultTaskSettingsRow row) {
-                this.Rows.Remove(row);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
-                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
-                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                NewDataSet ds = new NewDataSet();
-                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
-                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
-                any1.MinOccurs = new decimal(0);
-                any1.MaxOccurs = decimal.MaxValue;
-                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
-                sequence.Items.Add(any1);
-                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
-                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
-                any2.MinOccurs = new decimal(1);
-                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
-                sequence.Items.Add(any2);
-                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
-                attribute1.Name = "namespace";
-                attribute1.FixedValue = ds.Namespace;
-                type.Attributes.Add(attribute1);
-                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
-                attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "DefaultTaskSettingsDataTable";
-                type.Attributes.Add(attribute2);
-                type.Particle = sequence;
-                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
-                if (xs.Contains(dsSchema.TargetNamespace)) {
-                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
-                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
-                    try {
-                        global::System.Xml.Schema.XmlSchema schema = null;
-                        dsSchema.Write(s1);
-                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
-                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
-                            s2.SetLength(0);
-                            schema.Write(s2);
-                            if ((s1.Length == s2.Length)) {
-                                s1.Position = 0;
-                                s2.Position = 0;
-                                for (; ((s1.Position != s1.Length) 
-                                            && (s1.ReadByte() == s2.ReadByte())); ) {
-                                    ;
-                                }
-                                if ((s1.Position == s1.Length)) {
-                                    return type;
-                                }
-                            }
-                        }
-                    }
-                    finally {
-                        if ((s1 != null)) {
-                            s1.Close();
-                        }
-                        if ((s2 != null)) {
-                            s2.Close();
-                        }
-                    }
-                }
-                xs.Add(dsSchema);
-                return type;
-            }
-        }
-        
-        /// <summary>
-        ///Represents the strongly named DataTable class.
-        ///</summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        [global::System.Serializable()]
-        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
         public partial class storiesDataTable : global::System.Data.TypedTableBase<storiesRow> {
             
             private global::System.Data.DataColumn columnSetName;
@@ -5990,7 +5687,7 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public storyRow AddstoryRow(string name, string stage, long TasksAllowedPf, long TasksRequiredPf, long TasksAllowedCit, long TasksRequiredCit, string guid, System.DateTime stageDateTimeStamp, storiesRow parentstoriesRowBystories_story) {
+            public storyRow AddstoryRow(string name, string stage, string TasksAllowedPf, string TasksRequiredPf, string TasksAllowedCit, string TasksRequiredCit, string guid, System.DateTime stageDateTimeStamp, storiesRow parentstoriesRowBystories_story) {
                 storyRow rowstoryRow = ((storyRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         name,
@@ -6043,13 +5740,13 @@ namespace OneStoryProjectEditor {
                 base.Columns.Add(this.columnname);
                 this.columnstage = new global::System.Data.DataColumn("stage", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnstage);
-                this.columnTasksAllowedPf = new global::System.Data.DataColumn("TasksAllowedPf", typeof(long), null, global::System.Data.MappingType.Attribute);
+                this.columnTasksAllowedPf = new global::System.Data.DataColumn("TasksAllowedPf", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnTasksAllowedPf);
-                this.columnTasksRequiredPf = new global::System.Data.DataColumn("TasksRequiredPf", typeof(long), null, global::System.Data.MappingType.Attribute);
+                this.columnTasksRequiredPf = new global::System.Data.DataColumn("TasksRequiredPf", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnTasksRequiredPf);
-                this.columnTasksAllowedCit = new global::System.Data.DataColumn("TasksAllowedCit", typeof(long), null, global::System.Data.MappingType.Attribute);
+                this.columnTasksAllowedCit = new global::System.Data.DataColumn("TasksAllowedCit", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnTasksAllowedCit);
-                this.columnTasksRequiredCit = new global::System.Data.DataColumn("TasksRequiredCit", typeof(long), null, global::System.Data.MappingType.Attribute);
+                this.columnTasksRequiredCit = new global::System.Data.DataColumn("TasksRequiredCit", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnTasksRequiredCit);
                 this.columnguid = new global::System.Data.DataColumn("guid", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnguid);
@@ -14097,16 +13794,6 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public DefaultTaskSettingsRow[] GetDefaultTaskSettingsRows() {
-                if ((this.Table.ChildRelations["StoryProject_DefaultTaskSettings"] == null)) {
-                    return new DefaultTaskSettingsRow[0];
-                }
-                else {
-                    return ((DefaultTaskSettingsRow[])(base.GetChildRows(this.Table.ChildRelations["StoryProject_DefaultTaskSettings"])));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public storiesRow[] GetstoriesRows() {
                 if ((this.Table.ChildRelations["StoryProject_stories"] == null)) {
                     return new storiesRow[0];
@@ -14735,6 +14422,36 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string DefaultTasksAllowed {
+                get {
+                    try {
+                        return ((string)(this[this.tableMember.DefaultTasksAllowedColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'DefaultTasksAllowed\' in table \'Member\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableMember.DefaultTasksAllowedColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string DefaultTasksRequired {
+                get {
+                    try {
+                        return ((string)(this[this.tableMember.DefaultTasksRequiredColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'DefaultTasksRequired\' in table \'Member\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableMember.DefaultTasksRequiredColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public int Members_Id {
                 get {
                     try {
@@ -15037,6 +14754,26 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public void SetTransliteratorDirectionForwardNationalBTNull() {
                 this[this.tableMember.TransliteratorDirectionForwardNationalBTColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsDefaultTasksAllowedNull() {
+                return this.IsNull(this.tableMember.DefaultTasksAllowedColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetDefaultTasksAllowedNull() {
+                this[this.tableMember.DefaultTasksAllowedColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsDefaultTasksRequiredNull() {
+                return this.IsNull(this.tableMember.DefaultTasksRequiredColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetDefaultTasksRequiredNull() {
+                this[this.tableMember.DefaultTasksRequiredColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -16032,96 +15769,6 @@ namespace OneStoryProjectEditor {
         ///Represents strongly named DataRow class.
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        public partial class DefaultTaskSettingsRow : global::System.Data.DataRow {
-            
-            private DefaultTaskSettingsDataTable tableDefaultTaskSettings;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal DefaultTaskSettingsRow(global::System.Data.DataRowBuilder rb) : 
-                    base(rb) {
-                this.tableDefaultTaskSettings = ((DefaultTaskSettingsDataTable)(this.Table));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public long TasksAllowedPf {
-                get {
-                    return ((long)(this[this.tableDefaultTaskSettings.TasksAllowedPfColumn]));
-                }
-                set {
-                    this[this.tableDefaultTaskSettings.TasksAllowedPfColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public long TasksRequiredPf {
-                get {
-                    return ((long)(this[this.tableDefaultTaskSettings.TasksRequiredPfColumn]));
-                }
-                set {
-                    this[this.tableDefaultTaskSettings.TasksRequiredPfColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public long TasksAllowedCit {
-                get {
-                    return ((long)(this[this.tableDefaultTaskSettings.TasksAllowedCitColumn]));
-                }
-                set {
-                    this[this.tableDefaultTaskSettings.TasksAllowedCitColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public long TasksRequiredCit {
-                get {
-                    return ((long)(this[this.tableDefaultTaskSettings.TasksRequiredCitColumn]));
-                }
-                set {
-                    this[this.tableDefaultTaskSettings.TasksRequiredCitColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int StoryProject_Id {
-                get {
-                    try {
-                        return ((int)(this[this.tableDefaultTaskSettings.StoryProject_IdColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'StoryProject_Id\' in table \'DefaultTaskSettings\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableDefaultTaskSettings.StoryProject_IdColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public StoryProjectRow StoryProjectRow {
-                get {
-                    return ((StoryProjectRow)(this.GetParentRow(this.Table.ParentRelations["StoryProject_DefaultTaskSettings"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["StoryProject_DefaultTaskSettings"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsStoryProject_IdNull() {
-                return this.IsNull(this.tableDefaultTaskSettings.StoryProject_IdColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetStoryProject_IdNull() {
-                this[this.tableDefaultTaskSettings.StoryProject_IdColumn] = global::System.Convert.DBNull;
-            }
-        }
-        
-        /// <summary>
-        ///Represents strongly named DataRow class.
-        ///</summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         public partial class storiesRow : global::System.Data.DataRow {
             
             private storiesDataTable tablestories;
@@ -16233,10 +15880,10 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public long TasksAllowedPf {
+            public string TasksAllowedPf {
                 get {
                     try {
-                        return ((long)(this[this.tablestory.TasksAllowedPfColumn]));
+                        return ((string)(this[this.tablestory.TasksAllowedPfColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'TasksAllowedPf\' in table \'story\' is DBNull.", e);
@@ -16248,10 +15895,10 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public long TasksRequiredPf {
+            public string TasksRequiredPf {
                 get {
                     try {
-                        return ((long)(this[this.tablestory.TasksRequiredPfColumn]));
+                        return ((string)(this[this.tablestory.TasksRequiredPfColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'TasksRequiredPf\' in table \'story\' is DBNull.", e);
@@ -16263,10 +15910,10 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public long TasksAllowedCit {
+            public string TasksAllowedCit {
                 get {
                     try {
-                        return ((long)(this[this.tablestory.TasksAllowedCitColumn]));
+                        return ((string)(this[this.tablestory.TasksAllowedCitColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'TasksAllowedCit\' in table \'story\' is DBNull.", e);
@@ -16278,10 +15925,10 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public long TasksRequiredCit {
+            public string TasksRequiredCit {
                 get {
                     try {
-                        return ((long)(this[this.tablestory.TasksRequiredCitColumn]));
+                        return ((string)(this[this.tablestory.TasksRequiredCitColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'TasksRequiredCit\' in table \'story\' is DBNull.", e);
@@ -19589,37 +19236,6 @@ namespace OneStoryProjectEditor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public LnCNoteRow Row {
-                get {
-                    return this.eventRow;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataRowAction Action {
-                get {
-                    return this.eventAction;
-                }
-            }
-        }
-        
-        /// <summary>
-        ///Row event argument class
-        ///</summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        public class DefaultTaskSettingsRowChangeEvent : global::System.EventArgs {
-            
-            private DefaultTaskSettingsRow eventRow;
-            
-            private global::System.Data.DataRowAction eventAction;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public DefaultTaskSettingsRowChangeEvent(DefaultTaskSettingsRow row, global::System.Data.DataRowAction action) {
-                this.eventRow = row;
-                this.eventAction = action;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public DefaultTaskSettingsRow Row {
                 get {
                     return this.eventRow;
                 }

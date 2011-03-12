@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -35,11 +36,6 @@ namespace OneStoryProjectEditor
         public bool ShowAnswersVernacular;
         public bool ShowAnswersNationalBT;
         public bool ShowAnswersInternationalBT = true;
-
-        public TasksPf.TaskSettings DefaultAllowedPf;     // what the PF is allowed to do
-        public TasksPf.TaskSettings DefaultRequiredPf;    // what the PF is required to do
-        public TasksCit.TaskSettings DefaultAllowedCit;    // what the CIT is allowed to do
-        public TasksCit.TaskSettings DefaultRequiredCit;   // what the CIT is required to do
 
         public ProjectSettings(string strProjectFolderDefaultIfNull, string strProjectName)
         {
@@ -162,12 +158,6 @@ namespace OneStoryProjectEditor
                 FreeTranslation.LangName = null;
                 System.Diagnostics.Debug.Assert(!FreeTranslation.HasData);
             }
-
-            NewDataSet.DefaultTaskSettingsRow theDefaultTasksRow = InsureDefaultTasksRow(projFile);
-            DefaultAllowedPf = (TasksPf.TaskSettings)theDefaultTasksRow.TasksAllowedPf;
-            DefaultRequiredPf = (TasksPf.TaskSettings)theDefaultTasksRow.TasksRequiredPf;
-            DefaultAllowedCit = (TasksCit.TaskSettings)theDefaultTasksRow.TasksAllowedCit;
-            DefaultRequiredCit = (TasksCit.TaskSettings)theDefaultTasksRow.TasksRequiredCit;
 
             // if we're setting this up from the file, then we're "configured"
             IsConfigured = true;
@@ -625,24 +615,6 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public const string CstrElementLabelDefaultTaskSettings = "DefaultTaskSettings";
-        public const string CstrAttributeLabelTasksAllowedPf = "TasksAllowedPf";
-        public const string CstrAttributeLabelTasksRequiredPf = "TasksRequiredPf";
-        public const string CstrAttributeLabelTasksAllowedCit = "TasksAllowedCit";
-        public const string CstrAttributeLabelTasksRequiredCit = "TasksRequiredCit";
-
-        public XElement DefaultTasksXml
-        {
-            get
-            {
-                return new XElement(CstrElementLabelDefaultTaskSettings,
-                                    new XAttribute(CstrAttributeLabelTasksAllowedPf, DefaultAllowedPf),
-                                    new XAttribute(CstrAttributeLabelTasksRequiredPf, DefaultRequiredPf),
-                                    new XAttribute(CstrAttributeLabelTasksAllowedCit, DefaultAllowedCit),
-                                    new XAttribute(CstrAttributeLabelTasksRequiredCit, DefaultRequiredCit));
-            }
-        }
-
         protected NewDataSet.LanguagesRow InsureLanguagesRow(NewDataSet projFile)
         {
             System.Diagnostics.Debug.Assert(projFile.StoryProject.Count == 1);
@@ -655,17 +627,6 @@ namespace OneStoryProjectEditor
 
             System.Diagnostics.Debug.Assert(projFile.Languages.Count == 1);
             return projFile.Languages[0];
-        }
-
-        protected NewDataSet.DefaultTaskSettingsRow InsureDefaultTasksRow(NewDataSet projFile)
-        {
-            if (projFile.DefaultTaskSettings.Count == 0)
-                return projFile.DefaultTaskSettings.AddDefaultTaskSettingsRow(
-                    (long)TasksPf.DefaultAllowed, (long)TasksPf.DefaultRequired,
-                    (long)TasksCit.DefaultAllowed, (long)TasksCit.DefaultRequired,
-                    projFile.StoryProject[0]);
-
-            return projFile.DefaultTaskSettings[0];
         }
 
         public void InitializeOverrides(TeamMemberData loggedOnMember)
@@ -702,34 +663,37 @@ namespace OneStoryProjectEditor
         [Flags]
         public enum TaskSettings
         {
-            AddStory = 1,
-            VernacularLangFields = 2,
-            NationalBtLangFields = 4,
-            InternationalBtFields = 8,
-            FreeTranslationFields = 16,
-            Anchors = 32,
-            Retellings = 64,
-            TestQuestions = 128,
-            Answers = 256,
-            StoryFrontMatter = 512,
-            PanoramaFrontMatter = 1024
+            None = 0,
+            VernacularLangFields = 1,
+            NationalBtLangFields = 2,
+            InternationalBtFields = 4,
+            FreeTranslationFields = 8,
+            Anchors = 16,
+            Retellings = 32,
+            TestQuestions = 64,
+            Answers = 128 /*, I don't think these can be required...
+            StoryFrontMatter = 256,
+            PanoramaFrontMatter = 512
+            */
+        }
+
+        public static bool IsTaskOn(TaskSettings value, TaskSettings flagToTest)
+        {
+            return ((value & flagToTest) == flagToTest);
         }
 
         public static TaskSettings DefaultAllowed
         {
             get
             {
-                return TaskSettings.AddStory |
-                       TaskSettings.VernacularLangFields |
+                return TaskSettings.VernacularLangFields |
                        TaskSettings.NationalBtLangFields |
                        TaskSettings.InternationalBtFields |
                        TaskSettings.FreeTranslationFields |
                        TaskSettings.Anchors |
                        TaskSettings.Retellings |
                        TaskSettings.TestQuestions |
-                       TaskSettings.Answers |
-                       TaskSettings.StoryFrontMatter |
-                       TaskSettings.PanoramaFrontMatter;
+                       TaskSettings.Answers;
             }
         }
 

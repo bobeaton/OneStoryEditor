@@ -28,22 +28,34 @@
   <xsl:text>&cr;&cr;\c </xsl:text>
   <xsl:number value="$chapNo" format="01" />
   <xsl:text>&cr;\t </xsl:text><xsl:value-of select="@name"/>
-  <xsl:text>&cr;\co </xsl:text><xsl:value-of select="preceding::Languages/VernacularLang/@name"/>
+  <xsl:text>&cr;\co </xsl:text><xsl:value-of select="preceding::Languages/LanguageInfo[lang='Vernacular']/@name"/>
 
-  <xsl:for-each select="CraftingInfo/Tests/Test">
+  <xsl:for-each select="CraftingInfo/TestsRetellings/TestRetelling">
     <xsl:text>&cr;&cr;\co Test </xsl:text>
-    <xsl:value-of select="count(preceding-sibling::Test)+1"></xsl:value-of>
+    <xsl:value-of select="count(preceding-sibling::TestRetelling)+1"></xsl:value-of>
     <xsl:variable name="TestorID" select="@memberID"/>
     <xsl:text>: </xsl:text>
     <xsl:value-of select="preceding::Member[@memberKey=$TestorID]/@name"/>
-    <xsl:apply-templates select="ancestor::story/verses">
+    <xsl:apply-templates select="ancestor::story/Verses">
+      <xsl:with-param name="chapNo" select="$chapNo" />
+      <xsl:with-param name="testorId" select="$TestorID" />
+    </xsl:apply-templates>
+  </xsl:for-each>
+
+  <xsl:for-each select="CraftingInfo/TestsTqAnswers/TestTqAnswer">
+    <xsl:text>&cr;&cr;\co Test </xsl:text>
+    <xsl:value-of select="count(preceding-sibling::TestTqAnswer)+1"></xsl:value-of>
+    <xsl:variable name="TestorID" select="@memberID"/>
+    <xsl:text>: </xsl:text>
+    <xsl:value-of select="preceding::Member[@memberKey=$TestorID]/@name"/>
+    <xsl:apply-templates select="ancestor::story/Verses">
       <xsl:with-param name="chapNo" select="$chapNo" />
       <xsl:with-param name="testorId" select="$TestorID" />
     </xsl:apply-templates>
   </xsl:for-each>
 </xsl:template> 
    
-    <xsl:template match="verses">
+    <xsl:template match="Verses">
       <xsl:param name="chapNo" />
       <xsl:param name="testorId" />
       <xsl:apply-templates>
@@ -51,7 +63,7 @@
         <xsl:with-param name="testorId" select="$testorId" />
       </xsl:apply-templates>
     </xsl:template>
-    <xsl:template match="verse[not(@first)]">
+    <xsl:template match="Verse[not(@first)]">
       <xsl:param name="chapNo" />
       <xsl:param name="testorId" />
       <xsl:text>&cr;\ln </xsl:text>
@@ -60,7 +72,7 @@
       <xsl:number value="position()-1" format="01" />
       <xsl:if test="Retellings/Retelling[@memberID=$testorId]">
         <xsl:text>&cr;\ret </xsl:text>
-        <xsl:value-of select="Retellings/Retelling[@memberID=$testorId]"/>
+        <xsl:value-of select="Retellings/Retelling[lang='InternationalBt'][@memberID=$testorId]"/>
       </xsl:if>
     </xsl:template>
 

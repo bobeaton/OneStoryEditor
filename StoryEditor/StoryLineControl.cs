@@ -56,7 +56,7 @@ namespace OneStoryProjectEditor
                 ctrlTextBoxVernacular = InitTextBox(ctrlVerse, LineData.CstrAttributeLangVernacular, 
                     _aVerseData.StoryLine.Vernacular, 
                     aSE.StoryProject.ProjSettings.Vernacular, bDisableTabStopVernacular,
-                    nNumColumns, StoryEditor.TextFieldType.eVernacular);
+                    nNumColumns, StoryEditor.TextFieldType.Vernacular);
                 nNumColumns++;
             }
 
@@ -80,7 +80,7 @@ namespace OneStoryProjectEditor
                 _aVerseData.StoryLine.NationalBt.Transliterator = ctrlVerse.TransliteratorNationalBT;
                 ctrlTextBoxNationalBT = InitTextBox(ctrlVerse, LineData.CstrAttributeLangNationalBt, _aVerseData.StoryLine.NationalBt, 
                     aSE.StoryProject.ProjSettings.NationalBT, bDisableTabStopNationalBT,
-                    nNumColumns, StoryEditor.TextFieldType.eNational);
+                    nNumColumns, StoryEditor.TextFieldType.NationalBt);
 
                 nNumColumns++;
 
@@ -105,7 +105,7 @@ namespace OneStoryProjectEditor
                 CtrlTextBox ctrlTextBoxEnglishBT = InitTextBox(ctrlVerse, 
                     LineData.CstrAttributeLangInternationalBt, _aVerseData.StoryLine.InternationalBt,
                     aSE.StoryProject.ProjSettings.InternationalBT, bDisableTabStopInternationalBT, nNumColumns,
-                    StoryEditor.TextFieldType.eInternational);
+                    StoryEditor.TextFieldType.InternationalBt);
                 nNumColumns++;
 
                 if (ctrlTextBoxVernacular != null)
@@ -122,7 +122,7 @@ namespace OneStoryProjectEditor
                 InitTextBox(ctrlVerse, 
                     LineData.CstrAttributeLangFreeTranslation, _aVerseData.StoryLine.FreeTranslation,
                     aSE.StoryProject.ProjSettings.FreeTranslation, false, nNumColumns,
-                    StoryEditor.TextFieldType.eFreeTranslation);
+                    StoryEditor.TextFieldType.FreeTranslation);
                 nNumColumns++;
             }
 

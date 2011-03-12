@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define NotRelaxTqCountRequirement
+
+using System;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
@@ -47,15 +49,16 @@ namespace OneStoryProjectEditor
                         {
                             if (lstSentences.Count > 1)
                             {
-                                if (
-                                    MessageBox.Show(
-                                        String.Format(
-                                            "Line number '{0}' has multiple sentences. Click 'Yes' to have them separated into their own lines.",
+                                DialogResult res = MessageBox.Show(
+                                    String.Format(Properties.Resources.IDS_QuerySplitMultipleLines,
+                                                  theStoryProjectData.ProjSettings.Vernacular.LangName,
                                             nVerseNumber), OseResources.Properties.Resources.IDS_Caption,
-                                        MessageBoxButtons.YesNoCancel) !=
-                                    DialogResult.Yes)
+                                    MessageBoxButtons.YesNoCancel);
+                                if (res == DialogResult.Cancel)
                                     return false;
 
+                                if (res == DialogResult.Yes)
+                                {
                                 int nNewVerses = lstSentences.Count;
                                 while (nNewVerses-- > 1)
                                 {
@@ -67,6 +70,7 @@ namespace OneStoryProjectEditor
                                 bRepeatAfterMe = true;
                                 break; // we have to exit the loop since we've modified the collection
                             }
+                        }
                         }
                         else
                         {
@@ -141,8 +145,8 @@ namespace OneStoryProjectEditor
                 System.Diagnostics.Debug.Assert(eProposedNextState == StoryStageLogic.ProjectStages.eProjFacTypeVernacular);
                 return true;
             }
-#if CheckForOneSentencePerLine
-            // make sure that each verse has only one sentence
+
+            // see if the user would like us to break the sentences up
             bool bRepeatAfterMe = false;
             do
             {
@@ -194,7 +198,6 @@ namespace OneStoryProjectEditor
                     bRepeatAfterMe = false; // if we get this far without a problem, then we haven't changed anything
                 }
             } while (bRepeatAfterMe);
-#endif
 
             // we need to know who (which UNS) did the BT (but only if we don't have a free tr,
             //  which otherwise is assumed to be the one that the UNS did). Might as well only
@@ -489,7 +492,7 @@ namespace OneStoryProjectEditor
             return (lstSentences.Count > 0);
         }
 
-        protected static void ShowErrorFocus(StoryEditor theSE, CtrlTextBox tb, string strStatusMessage)
+        public static void ShowErrorFocus(StoryEditor theSE, CtrlTextBox tb, string strStatusMessage)
         {
             if (tb != null)
             {
@@ -499,14 +502,14 @@ namespace OneStoryProjectEditor
             ShowError(theSE, strStatusMessage);
         }
 
-        protected static void ShowErrorFocus(StoryEditor theSE, 
+        public static void ShowErrorFocus(StoryEditor theSE, 
             HtmlConNoteControl paneConNote, int nVerseNumber, string strStatusMessage)
         {
             paneConNote.ScrollToVerse(nVerseNumber);
             ShowError(theSE, strStatusMessage);
         }
 
-        protected static void ShowError(StoryEditor theSE, string strStatusMessage)
+        public static void ShowError(StoryEditor theSE, string strStatusMessage)
         {
             theSE.SetStatusBar(strStatusMessage);
             Console.Beep();
@@ -637,7 +640,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        private static bool CheckForCountOfTestingQuestions(StoryData theCurrentStory, StoryEditor theSE)
+        public static bool CheckForCountOfTestingQuestions(StoryData theCurrentStory, StoryEditor theSE)
         {
             int nNumOfVerses = 0, nNumOfTQs = 0;
             foreach (VerseData aVerseData in theCurrentStory.Verses)
@@ -650,7 +653,7 @@ namespace OneStoryProjectEditor
             if (nNumOfTQs < ((nNumOfVerses + 1) / 2))
             {
                 int nNumLacking = ((nNumOfVerses + 1) / 2) - nNumOfTQs;
-#if !NotRelaxRequirement
+#if !NotRelaxTqCountRequirement
                 DialogResult res = MessageBox.Show(String.Format(Properties.Resources.IDS_WarnAboutNotEnoughTqs,
                                                                  nNumLacking),
                                                    OseResources.Properties.Resources.IDS_Caption,
@@ -659,7 +662,7 @@ namespace OneStoryProjectEditor
                 if (res != DialogResult.Yes)
 #else
                 ShowError(theSE,
-                          String.Format("Error: You should have at least half as many Story Testing Questions as lines in the story. Please add at least {0} more testing question(s). (right-click on the 'line options' button and choose 'Add a story testing question')", nNumLacking));
+                          String.Format(Properties.Resources.IDS_NotEnoughTqs, nNumLacking));
 #endif
                     return false;
             }
@@ -981,7 +984,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        static bool CheckThatCoachAnsweredCITsQuestions(StoryEditor theSE, StoryData theCurrentStory)
+        public static bool CheckThatCoachAnsweredCITsQuestions(StoryEditor theSE, StoryData theCurrentStory)
         {
             int nVerseNumber = 0;   // this wants to be 0, because ConNotes have a 0th verse
             if (theCurrentStory.Verses.FirstVerse.IsVisible)
@@ -1015,7 +1018,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        static bool CheckThatCITAnsweredPFsQuestions(StoryEditor theSE, StoryData theCurrentStory)
+        public static bool CheckThatCITAnsweredPFsQuestions(StoryEditor theSE, StoryData theCurrentStory)
         {
             int nVerseNumber = 0;
             if (theCurrentStory.Verses.FirstVerse.IsVisible)
@@ -1049,7 +1052,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        static bool CheckThatCITRespondedToCoachQuestions(StoryEditor theSE, StoryData theCurrentStory)
+        public static bool CheckThatCITRespondedToCoachQuestions(StoryEditor theSE, StoryData theCurrentStory)
         {
             int nVerseNumber = 0;
             if (theCurrentStory.Verses.FirstVerse.IsVisible)
@@ -1072,7 +1075,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        static bool CheckThatPFRespondedToCITQuestions(StoryEditor theSE, StoryData theCurrentStory)
+        public static bool CheckThatPFRespondedToCITQuestions(StoryEditor theSE, StoryData theCurrentStory)
         {
             int nVerseNumber = 0;
             if (theCurrentStory.Verses.FirstVerse.IsVisible)
@@ -1351,7 +1354,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        static bool CheckAnswersAnswered(StoryEditor theSE, StoryData theCurrentStory)
+        public static bool CheckAnswersAnswered(StoryEditor theSE, StoryData theCurrentStory)
         {
             int nVerseNumber = 1;   // this wants to be 1, because it deals with the VerseBT pane
             foreach (VerseData aVerseData in theCurrentStory.Verses)

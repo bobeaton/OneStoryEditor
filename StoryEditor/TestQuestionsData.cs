@@ -73,17 +73,12 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                System.Diagnostics.Debug.Assert(TestQuestionLine.HasData
-                    || Answers.HasData, "you have an empty TestQuestionData");
-
-                XElement eleTQ = new XElement(CstrElementLabelTestQuestion,
+                var eleTQ = new XElement(CstrElementLabelTestQuestion,
                     new XAttribute(CstrAttributeVisible, IsVisible),
                     new XAttribute(CstrAttributeGuid, guid));
                 
-                if (TestQuestionLine.HasData)
-                    TestQuestionLine.AddXml(eleTQ, CstrElementLabelTestQuestionLine);
-                if (Answers.HasData)
-                    eleTQ.Add(Answers.GetXml);
+                TestQuestionLine.AddXml(eleTQ, CstrElementLabelTestQuestionLine);
+                eleTQ.Add(Answers.GetXml);
 
                 return eleTQ;
             }
@@ -351,11 +346,9 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                System.Diagnostics.Debug.Assert(HasData, "trying to serialize an empty TestQuestionsData");
-                XElement elemTestQuestions = new XElement(CstrElementLabelTestQuestions);
+                var elemTestQuestions = new XElement(CstrElementLabelTestQuestions);
                 foreach (TestQuestionData aTestQuestionData in this)
-                    if (aTestQuestionData.HasData)
-                        elemTestQuestions.Add(aTestQuestionData.GetXml);
+                    elemTestQuestions.Add(aTestQuestionData.GetXml);
                 return elemTestQuestions;
             }
         }

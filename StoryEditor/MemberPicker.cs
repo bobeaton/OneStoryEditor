@@ -48,7 +48,7 @@ namespace OneStoryProjectEditor
             try
             {
                 bool bModified = false;
-                TeamMemberData theMember = _theStoryProjectData.EditTeamMembers(null, false, ref bModified);
+                TeamMemberData theMember = _theStoryProjectData.EditTeamMembers(null, false, _theStoryProjectData.ProjSettings, ref bModified);
                 InitializeListBox(_eWantedType);
                 listBoxUNSs.SelectedItem = theMember.Name;
             }

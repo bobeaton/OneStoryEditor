@@ -5,13 +5,17 @@ namespace OneStoryProjectEditor
 {
     public partial class EditMemberForm : TopForm
     {
-        private TeamMemberData _theMemberData;
-        public EditMemberForm(TeamMemberData theMemberData)
+        private readonly TeamMemberData _theMemberData;
+        private readonly ProjectSettings _theProjSettings;
+
+        public EditMemberForm(TeamMemberData theMemberData, ProjectSettings theProjSettings)
             : base(true)
         {
             InitializeComponent();
 
             _theMemberData = theMemberData;
+            _theProjSettings = theProjSettings;
+
             if (theMemberData == null) 
                 return;
 
@@ -171,6 +175,45 @@ namespace OneStoryProjectEditor
         private void radioButtonEnglishBackTranslator_Click(object sender, EventArgs e)
         {
             MessageBox.Show(Properties.Resources.IDS_AreYouSureYouWantToHaveAnEnglishBter, OseResources.Properties.Resources.IDS_Caption);
+        }
+
+        private void radioButtonProjectFacilitator_CheckedChanged(object sender, EventArgs e)
+        {
+            buttonSetDefaultTasks.Visible = radioButtonProjectFacilitator.Checked;
+        }
+
+        private void buttonSetDefaultTasks_Click(object sender, EventArgs e)
+        {
+            if (_theProjSettings == null)
+            {
+                MessageBox.Show(Properties.Resources.IDS_DoAfterOpen,
+                                OseResources.Properties.Resources.IDS_Caption);
+                return;
+            }
+
+            // find out from the consultant what tasks they want to set in the story
+            try
+            {
+                var tasksAllowedPf = (_theMemberData.DefaultAllowed == 0)
+                                         ? TasksPf.DefaultAllowed
+                                         : (TasksPf.TaskSettings)_theMemberData.DefaultAllowed;
+                var tasksRequiredPf = (_theMemberData.DefaultRequired == 0)
+                                          ? TasksPf.DefaultRequired
+                                          : (TasksPf.TaskSettings) _theMemberData.DefaultRequired;
+
+                var dlg = new SetTasksForm(_theProjSettings, 
+                    tasksAllowedPf, tasksRequiredPf);
+
+                if (dlg.ShowDialog() != DialogResult.OK)
+                    return;
+
+                _theMemberData.DefaultAllowed = (long)dlg.TasksAllowed;
+                _theMemberData.DefaultRequired = (long)dlg.TasksRequired;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
+            }
         }
     }
 }

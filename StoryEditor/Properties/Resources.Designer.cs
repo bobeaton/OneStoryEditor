@@ -304,7 +304,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Have you entered all of your testing questions? If not, then click &apos;Cancel&apos; and finish entering all of the testing questions first. Then click &apos;OK&apos; to add boxes for the retelling and answers to the testing questions..
+        ///   Looks up a localized string similar to Have you entered all of your testing questions? If not, then click &apos;Cancel&apos; and finish entering all of the testing questions first. Then click &apos;OK&apos; to add boxes for the answers to the testing questions..
         /// </summary>
         internal static string IDS_AreAllTestingQuestionsEnteredQuery {
             get {
@@ -349,11 +349,47 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The consultant has not allowed you to enter Anchors at this time.
+        /// </summary>
+        internal static string IDS_CantAddAnchors {
+            get {
+                return ResourceManager.GetString("IDS_CantAddAnchors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The consultant has not allowed you to enter testing questions at this time.
+        /// </summary>
+        internal static string IDS_CantAddTQs {
+            get {
+                return ResourceManager.GetString("IDS_CantAddTQs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to export to Toolbox! Cause: {0} {1}.
         /// </summary>
         internal static string IDS_CantExport {
             get {
                 return ResourceManager.GetString("IDS_CantExport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The consultant is requiring you to do a test with the inference testing questions, but there are no answers entered into the story. Click the &apos;Tasks&apos;, &apos;Add boxes for Answers&apos; button and enter the UNS&apos;s answers..
+        /// </summary>
+        internal static string IDS_CantHaveNoAnswers {
+            get {
+                return ResourceManager.GetString("IDS_CantHaveNoAnswers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The consultant is requiring you to do a retelling test, but there are none entered into the story. Click the &apos;Tasks&apos;, &apos;Add boxes for Retellings&apos; button and enter the retelling test results..
+        /// </summary>
+        internal static string IDS_CantHaveNoRetellings {
+            get {
+                return ResourceManager.GetString("IDS_CantHaveNoRetellings", resourceCulture);
             }
         }
         
@@ -545,6 +581,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The &apos;{1}&apos; language field of the {2} in line &apos;{3}&apos; is empty. Did you forget it?{0}{0}(if you don&apos;t mean to enter data in the &apos;{1}&apos; field, then click &apos;Project&apos;, &apos;Settings&apos; and on the &apos;Languages&apos; tab, uncheck the box for that language in the &apos;{2}s&apos; column).
+        /// </summary>
+        internal static string IDS_DataMissing {
+            get {
+                return ResourceManager.GetString("IDS_DataMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to private.languageDepot.org.
         /// </summary>
         internal static string IDS_DefaultRepoServer {
@@ -568,6 +613,24 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_DeleteVerseQuery {
             get {
                 return ResourceManager.GetString("IDS_DeleteVerseQuery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t configure these settings until after the project file is opened. Try again later..
+        /// </summary>
+        internal static string IDS_DoAfterOpen {
+            get {
+                return ResourceManager.GetString("IDS_DoAfterOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The consultant hasn&apos;t given you permission to edit the &apos;{0}&apos; language fields.
+        /// </summary>
+        internal static string IDS_DontHaveTaskPermission {
+            get {
+                return ResourceManager.GetString("IDS_DontHaveTaskPermission", resourceCulture);
             }
         }
         
@@ -635,6 +698,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The &apos;{0}&apos; field of line &apos;{1}&apos; is empty, but the &apos;{2}&apos; field of that same line is not. Did you forget to enter the back-translation?.
+        /// </summary>
+        internal static string IDS_FieldCantBeEmpty {
+            get {
+                return ResourceManager.GetString("IDS_FieldCantBeEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The project file &apos;{0}&apos; is locked. Is it read-only? Or opened in some other program? Unlock it and try again. Or try to save it as a different name..
         /// </summary>
         internal static string IDS_FileLockedMessage {
@@ -667,6 +739,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_GoBackwardsYoungMan {
             get {
                 return ResourceManager.GetString("IDS_GoBackwardsYoungMan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The &apos;{0}&apos; field of line &apos;{1}&apos; is empty. Click &apos;Yes&apos; to hide the line? Click &apos;No&apos; to ignore and continue..
+        /// </summary>
+        internal static string IDS_HideEmptyLine {
+            get {
+                return ResourceManager.GetString("IDS_HideEmptyLine", resourceCulture);
             }
         }
         
@@ -835,6 +916,24 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Line &apos;{0}&apos; doesn&apos;t have an anchor. Did you forget it?.
+        /// </summary>
+        internal static string IDS_NoAnchor {
+            get {
+                return ResourceManager.GetString("IDS_NoAnchor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your story doesn&apos;t have multiple lines! Did you forget to do: &apos;Story&apos;, &apos;Split into lines&apos;?.
+        /// </summary>
+        internal static string IDS_NoMultipleLines {
+            get {
+                return ResourceManager.GetString("IDS_NoMultipleLines", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There are no program updates!.
         /// </summary>
         internal static string IDS_NoProgramUpdates {
@@ -871,6 +970,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You should have at least half as many Story Testing Questions as lines in the story. Please add at least {0} more testing question(s). (right-click on the &apos;line options&apos; button and choose &apos;Add a story testing question&apos;)&quot;.
+        /// </summary>
+        internal static string IDS_NotEnoughTqs {
+            get {
+                return ResourceManager.GetString("IDS_NotEnoughTqs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There is no state transition history for this story.
         /// </summary>
         internal static string IDS_NoTransitionHistory {
@@ -880,7 +988,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE2.0/StoryEditor.exe.manifest.xml.
+        ///   Looks up a localized string similar to ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE2.1/StoryEditor.exe.manifest.xml.
         /// </summary>
         internal static string IDS_OSEUpgradeServer {
             get {
@@ -993,6 +1101,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_QuerySharedNetworkFolder {
             get {
                 return ResourceManager.GetString("IDS_QuerySharedNetworkFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The &apos;{0}&apos; field of line &apos;{1}&apos; has multiple sentences. Click &apos;Yes&apos; to have them separated into their own lines. Click &apos;No&apos; to ignore and continue..
+        /// </summary>
+        internal static string IDS_QuerySplitMultipleLines {
+            get {
+                return ResourceManager.GetString("IDS_QuerySplitMultipleLines", resourceCulture);
             }
         }
         

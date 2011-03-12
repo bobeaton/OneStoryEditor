@@ -28,20 +28,20 @@
   <xsl:text>&cr;&cr;\c </xsl:text>
   <xsl:number value="position()" format="01" />
   <xsl:text>&cr;\t </xsl:text><xsl:value-of select="@name"/>
-  <xsl:text>&cr;\co </xsl:text><xsl:value-of select="preceding::Languages/VernacularLang/@name"/>
+  <xsl:text>&cr;\co </xsl:text><xsl:value-of select="preceding::Languages/LanguageInfo[lang='Vernacular']/@name"/>
   <xsl:text>&cr;</xsl:text>
-  <xsl:apply-templates select="descendant::verses">
+  <xsl:apply-templates select="descendant::Verses">
     <xsl:with-param name="chapNo" select="position()" />
   </xsl:apply-templates>
 </xsl:template> 
    
-    <xsl:template match="verses">
+    <xsl:template match="Verses">
       <xsl:param name="chapNo" />
       <xsl:apply-templates>
         <xsl:with-param name="chapNo" select="$chapNo" />
       </xsl:apply-templates>
     </xsl:template>
-    <xsl:template match="verse">
+    <xsl:template match="Verse">
       <xsl:param name="chapNo" />
       <xsl:text>&cr;\ln </xsl:text><xsl:number value="$chapNo" format="01" /><xsl:text>.</xsl:text><xsl:number value="position()-1" format="01" />
       <xsl:apply-templates select="descendant::CoachConversation"/>
@@ -53,14 +53,20 @@
   </xsl:template>
 
   <xsl:template match="CoachNote">
-    <xsl:if test="@Direction='ConsultantToCoach'">
-      <xsl:text>&cr;\fac </xsl:text>
-      <xsl:value-of select="."/>
-    </xsl:if>
-    <xsl:if test="@Direction='CoachToConsultant'">
-      <xsl:text>&cr;\cch </xsl:text>
-      <xsl:value-of select="."/>
-    </xsl:if>
+    <xsl:choose>
+      <xsl:when test="@Direction='ConsultantToCoach'">
+        <xsl:text>&cr;\con </xsl:text>
+        <xsl:value-of select="."/>
+      </xsl:when>
+      <xsl:when test="@Direction='CoachToConsultant'">
+        <xsl:text>&cr;\cch </xsl:text>
+        <xsl:value-of select="."/>
+      </xsl:when>
+      <xsl:when test="@Direction='CoachToCoach'">
+        <xsl:text>&cr;\cch2self </xsl:text>
+        <xsl:value-of select="."/>
+      </xsl:when>
+    </xsl:choose>
   </xsl:template>
 
     <!-- toss out anything else -->

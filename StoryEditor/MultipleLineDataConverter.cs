@@ -134,8 +134,7 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                System.Diagnostics.Debug.Assert(HasData, String.Format("You have an empty collection of {0} that you're trying to serialize", CollectionElementName));
-                XElement elem = new XElement(CollectionElementName);
+                var elem = new XElement(CollectionElementName);
                 foreach (LineMemberData aLineData in this)
                     aLineData.AddXml(elem, InstanceElementName);
 

@@ -44,6 +44,9 @@ namespace OneStoryProjectEditor
                     && (StoryProject.ProjSettings != null)
                     && (File.Exists(StoryProject.ProjSettings.ProjectFolder)))
                     InitProjectNotes(StoryProject.ProjSettings, value.Name);
+                linkLabelTasks.Visible = ((value != null) &&
+                                          ((value.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
+                                          || (value.MemberType == TeamMemberData.UserTypes.eIndependentConsultant)));
             }
         }
         internal bool Modified;
@@ -60,10 +63,10 @@ namespace OneStoryProjectEditor
 
         public enum TextFieldType
         {
-            eVernacular = 0,
-            eNational,
-            eInternational,
-            eFreeTranslation
+            Vernacular = 0,
+            NationalBt,
+            InternationalBt,
+            FreeTranslation
         }
 
         public StoryEditor(string strStoriesSet, string strProjectFilePath)
@@ -520,7 +523,7 @@ namespace OneStoryProjectEditor
                     if (LoggedOnMember != null)
                         strMemberName = LoggedOnMember.Name;
 
-                    LoggedOnMember = StoryProject.EditTeamMembers(strMemberName, true, ref Modified);
+                    LoggedOnMember = StoryProject.EditTeamMembers(strMemberName, true, StoryProject.ProjSettings, ref Modified);
 
                     if (theCurrentStory != null)
                     {
@@ -738,7 +741,7 @@ namespace OneStoryProjectEditor
             return false;
         }
 
-        private void addNewStoryAfterToolStripMenuItem_Click(object sender, EventArgs e)
+        internal void addNewStoryAfterToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string strStoryName;
             int nIndexOfCurrentStory = -1;
@@ -828,7 +831,7 @@ namespace OneStoryProjectEditor
             StoryData theNewStory = new StoryData(strStoryName, strCrafterGuid,
                 LoggedOnMember.MemberGuid,
                 (res == DialogResult.Yes),
-                StoryProject.ProjSettings);
+                StoryProject);
             InsertNewStoryAdjustComboBox(theNewStory, nIndexToInsert);
         }
 
@@ -1865,6 +1868,10 @@ namespace OneStoryProjectEditor
             string strTempFilename = strFilename + CstrExtraExtnToAvoidClobberingFilesWithFailedSaves;
             doc.Save(strTempFilename);
 
+#if DEBUG
+            // always do the reload test in debug mode
+            bDoReloadTest = true;
+#endif
             // this reload test is nice, but costly at the end of a project (where time
             //  is of an essense... so just check this when we're storing in the repo
             if (bDoReloadTest)
@@ -2318,15 +2325,25 @@ namespace OneStoryProjectEditor
             return bRet;
         }
 
-        protected void SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages stateToSet)
+        internal void SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages stateToSet,
+            bool bTriggerSnapshotSave)
         {
             // a record to our history
             theCurrentStory.TransitionHistory.Add(LoggedOnMember.MemberGuid,
                 theCurrentStory.ProjStage.ProjectStage, stateToSet);
             theCurrentStory.ProjStage.ProjectStage = stateToSet;  // if we are ready, then go ahead and transition
             theCurrentStory.StageTimeStamp = DateTime.Now;
-            tmLastSync = DateTime.Now - tsBackupTime;   // triggers a repository story when we ask if they want to save
             Modified = true;
+
+            SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage, true);
+
+            if (bTriggerSnapshotSave)
+            {
+                tmLastSync = DateTime.Now - tsBackupTime;   // triggers a repository store when we ask if they want to save
+                CheckForSaveDirtyFile();
+            }
+
+            InitAllPanes();
         }
 
         private void storyToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
@@ -2422,7 +2439,7 @@ namespace OneStoryProjectEditor
             toolStripMenuItemShowPanorama.Enabled = (StoryProject != null);
         }
 
-        private void toolStripMenuItemShowPanorama_Click(object sender, EventArgs e)
+        internal void toolStripMenuItemShowPanorama_Click(object sender, EventArgs e)
         {
             if (StoryProject == null)
                 return;
@@ -2607,13 +2624,13 @@ namespace OneStoryProjectEditor
             UpdateUIMenusWithShortCuts();
         }
 
-        private void editAddTestResultsToolStripMenuItem_Click(object sender, EventArgs e)
+        internal void editAddTestResultsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AddRetellingTest();
             InitAllPanes();
         }
 
-        private void editAddInferenceTestResultsToolStripMenuItem_Click(object sender, EventArgs e)
+        internal void editAddInferenceTestResultsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show(Properties.Resources.IDS_AreAllTestingQuestionsEnteredQuery,
                                 OseResources.Properties.Resources.IDS_Caption,
@@ -3877,7 +3894,7 @@ namespace OneStoryProjectEditor
                 m_frmFind.DoFindNext();
         }
 
-        private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
+        internal void refreshToolStripMenuItem_Click(object sender, EventArgs e)
         {
             InitAllPanes();
             if (m_frmFind != null)
@@ -4534,22 +4551,23 @@ namespace OneStoryProjectEditor
                 OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
                 return;
 
-            StageEditorForm dlg = new StageEditorForm(StoryProject, theCurrentStory, ptTooltip, true);
+            var dlg = new StageEditorForm(StoryProject, theCurrentStory, ptTooltip, true);
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 Debug.Assert(dlg.NextState != StoryStageLogic.ProjectStages.eUndefined);
                 if (theCurrentStory.ProjStage.ProjectStage == dlg.NextState)
                     return;
 
-                SetNextStateAdvancedOverride(dlg.NextState);
-                SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage, true);
-                Modified = true;
+                SetNextStateAdvancedOverride(dlg.NextState, 
+                    theCurrentStory.ProjStage.IsTerminalTransition(dlg.NextState));
             }
 
             // even if we don't change the state, we might 
             else if (dlg.ViewStateChanged)
+            {
                 SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage, false);
-            InitAllPanes(); // just in case there were changes
+                InitAllPanes(); // just in case there were changes
+            }
         }
 
         private void advancedToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
@@ -4752,6 +4770,15 @@ namespace OneStoryProjectEditor
 
             string strStory = GetFullStoryContentsNationalBTText;
             GlossInAdaptIt(strStory, ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.NationalBtToInternationalBt);
+        }
+
+        private void linkLabelTasks_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if ((StoryProject == null) || (theCurrentStory == null))
+                return;
+
+            var dlg = new TaskBarForm(this, StoryProject, theCurrentStory);
+            dlg.ShowDialog();
         }
     }
 }

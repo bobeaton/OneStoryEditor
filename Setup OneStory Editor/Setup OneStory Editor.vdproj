@@ -39,6 +39,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_048D55614ECE5325AE78A29EE396C89F"
+        "OwnerKey" = "8:_1415ECBE7EFB434497FFE914D4CB51DB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_04E65703DE36419B970B380CFF25FDBB"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -106,25 +112,13 @@
         "Entry"
         {
         "MsmKey" = "8:_101F5E2B19EBB3715A0511C1D5BA8242"
-        "OwnerKey" = "8:_10606259325BA10A79C3CC7ACEF0BBDB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_101F5E2B19EBB3715A0511C1D5BA8242"
-        "OwnerKey" = "8:_FD066A80D4B96554E3A93F12A065B899"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_101F5E2B19EBB3715A0511C1D5BA8242"
         "OwnerKey" = "8:_1415ECBE7EFB434497FFE914D4CB51DB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_101F5E2B19EBB3715A0511C1D5BA8242"
-        "OwnerKey" = "8:_0FF699ABABBD60F283935470F6617DE5"
+        "OwnerKey" = "8:_FD066A80D4B96554E3A93F12A065B899"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -939,12 +933,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_E0A6D16AC9E41B834B47D007AEE4FB13"
-        "OwnerKey" = "8:_1415ECBE7EFB434497FFE914D4CB51DB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_E1D38053BD49440D8CB13C8432798DFC"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -1138,24 +1126,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_A2CB1F75568A4F6B945D01901F749BF6"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_3717C7FD571342C6BC38BE268B9F387F"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_E04007F5A1214999AC8F76DC154FEE8E"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_E04BBAC74935462E9D3481217416E43F"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1174,7 +1144,25 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_E04007F5A1214999AC8F76DC154FEE8E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_A2CB1F75568A4F6B945D01901F749BF6"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_840CEF3014AF47AF8A95E6146E158832"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_3717C7FD571342C6BC38BE268B9F387F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1186,7 +1174,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_E0A6D16AC9E41B834B47D007AEE4FB13"
+        "OwnerKey" = "8:_048D55614ECE5325AE78A29EE396C89F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1217,6 +1205,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_FD066A80D4B96554E3A93F12A065B899"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_101F5E2B19EBB3715A0511C1D5BA8242"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1253,12 +1247,6 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_10606259325BA10A79C3CC7ACEF0BBDB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_101F5E2B19EBB3715A0511C1D5BA8242"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1537,6 +1525,37 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_048D55614ECE5325AE78A29EE396C89F"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:OseResources, Version=2.0.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_048D55614ECE5325AE78A29EE396C89F"
+                    {
+                    "Name" = "8:OseResources.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:OseResources.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_1E0B834CE697461C80146668203EA38A"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_088F03CF54824C8D953690E706E90A6D"
             {
             "SourcePath" = "8:..\\mercurial\\templates\\monoblue\\changeset.tmpl"
@@ -1752,7 +1771,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Palaso, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86"
+            "AssemblyAsmDisplayName" = "8:Palaso, Version=1.5.178.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_101F5E2B19EBB3715A0511C1D5BA8242"
@@ -2911,7 +2930,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:AutoUpgrade.Lib, Version=1.0.3965.33264, Culture=neutral, processorArchitecture=x86"
+            "AssemblyAsmDisplayName" = "8:AutoUpgrade.Lib, Version=1.0.4081.13830, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
                     "_7169C2B1756BBD1FADA474714D9A17D1"
@@ -4224,37 +4243,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E0A6D16AC9E41B834B47D007AEE4FB13"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:OseResources, Version=2.0.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=x86"
-                "ScatterAssemblies"
-                {
-                    "_E0A6D16AC9E41B834B47D007AEE4FB13"
-                    {
-                    "Name" = "8:OseResources.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:OseResources.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_1E0B834CE697461C80146668203EA38A"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E1D38053BD49440D8CB13C8432798DFC"
             {
             "SourcePath" = "8:..\\mercurial\\templates\\paper\\search.tmpl"
@@ -4730,7 +4718,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:PalasoUIWindowsForms, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86"
+            "AssemblyAsmDisplayName" = "8:PalasoUIWindowsForms, Version=1.5.178.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_FD066A80D4B96554E3A93F12A065B899"
@@ -4908,7 +4896,7 @@
                 {
                     "{9EF0B969-E518-4E46-987F-47570745A589}:_6F34DACAC6334C9C8C52F8BAE3086C0A"
                     {
-                    "Name" = "8:OneStory Editor 2.0"
+                    "Name" = "8:OneStory Editor 2.1"
                     "AlwaysCreate" = "11:FALSE"
                     "Condition" = "8:"
                     "Transitive" = "11:FALSE"
@@ -5119,15 +5107,15 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:OneStory Editor 2.0"
-        "ProductCode" = "8:{8B3AB484-92E3-47A2-AEB4-23E54F96B77D}"
-        "PackageCode" = "8:{A2F8AAB5-FD4A-424B-A274-4617112CDB60}"
+        "ProductName" = "8:OneStory Editor 2.1"
+        "ProductCode" = "8:{4DFFAEB8-242E-4742-B1B0-BB0ED855B6F9}"
+        "PackageCode" = "8:{9BA30F46-A85D-4863-A8D1-8E7932BCF7BE}"
         "UpgradeCode" = "8:{92A9B369-3609-4129-A09D-5BB5BBE30AAB}"
         "RestartWWWService" = "11:FALSE"
-        "RemovePreviousVersions" = "11:FALSE"
+        "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:2.0.0"
+        "ProductVersion" = "8:2.1.0"
         "Manufacturer" = "8:SIL"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -5242,7 +5230,7 @@
         {
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_3B2ACF84C98A4E8A9BF9F19987BC7382"
             {
-            "Name" = "8:OneStory Editor 2.0"
+            "Name" = "8:OneStory Editor 2.1"
             "Arguments" = "8:"
             "Description" = "8:Click this command to launch the OneStory editor"
             "ShowCmd" = "3:1"
@@ -5284,7 +5272,7 @@
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_9F02E09924A047AAA6561258485A0685"
             {
-            "Name" = "8:OneStory Editor 2.0"
+            "Name" = "8:OneStory Editor 2.1"
             "Arguments" = "8:"
             "Description" = "8:Click this command to launch the OneStory editor"
             "ShowCmd" = "3:1"
@@ -5959,7 +5947,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_1415ECBE7EFB434497FFE914D4CB51DB"
             {
-            "SourcePath" = "8:..\\StoryEditor\\obj\\x86\\Release\\StoryEditor.exe"
+            "SourcePath" = "8:..\\StoryEditor\\obj\\x86\\Debug\\StoryEditor.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_1E0B834CE697461C80146668203EA38A"
@@ -5987,7 +5975,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_39A754771CBC433585887197F0E3A521"
             {
-            "SourcePath" = "8:..\\OseResources\\obj\\x86\\Release\\OseResources.dll"
+            "SourcePath" = "8:..\\OseResources\\obj\\Debug\\OseResources.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_1E0B834CE697461C80146668203EA38A"

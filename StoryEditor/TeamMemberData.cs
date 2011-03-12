@@ -72,6 +72,8 @@ namespace OneStoryProjectEditor
         public bool TransliteratorDirectionForwardVernacular;
         public string TransliteratorNationalBT;
         public bool TransliteratorDirectionForwardNationalBT;
+        public long DefaultAllowed;
+        public long DefaultRequired;
 
         public TeamMemberData(string strName, UserTypes eMemberType, string strMemberGuid, string strEmail, string strSkypeID, string strTeamViewerID, string strPhone, string strAltPhone, string strBioData)
         {
@@ -196,6 +198,27 @@ namespace OneStoryProjectEditor
                 TransliteratorNationalBT = theMemberRow.TransliteratorNationalBT;
             if (!theMemberRow.IsTransliteratorDirectionForwardNationalBTNull())
                 TransliteratorDirectionForwardNationalBT = theMemberRow.TransliteratorDirectionForwardNationalBT;
+
+            switch(MemberType)
+            {
+                case UserTypes.eProjectFacilitator:
+                    DefaultAllowed =
+                        (long)(TasksPf.TaskSettings)Enum.Parse(typeof(TasksPf.TaskSettings), theMemberRow.DefaultTasksAllowed);
+                    DefaultRequired =
+                        (long)(TasksPf.TaskSettings)Enum.Parse(typeof(TasksPf.TaskSettings), theMemberRow.DefaultTasksRequired);
+                    break;
+
+                case UserTypes.eConsultantInTraining:
+                    DefaultAllowed =
+                        (long)(TasksCit.TaskSettings)Enum.Parse(typeof(TasksCit.TaskSettings), theMemberRow.DefaultTasksAllowed);
+                    DefaultRequired =
+                        (long)(TasksCit.TaskSettings)Enum.Parse(typeof(TasksCit.TaskSettings), theMemberRow.DefaultTasksRequired);
+                    break;
+
+                default:
+                    // must have changed roles, so just ignore
+                    break;
+            }
         }
 
         public static UserTypes GetMemberType(string strMemberTypeString)
@@ -302,6 +325,9 @@ namespace OneStoryProjectEditor
         public const string CstrAttributeNameTransliteratorDirectionForwardNationalBT = "TransliteratorDirectionForwardNationalBT";
         public const string CstrAttributeNameMemberKey = "memberKey";
 
+        public const string CstrAttributeLabelDefaultTasksAllowed = "DefaultTasksAllowed";
+        public const string CstrAttributeLabelDefaultTasksRequired = "DefaultTasksRequired";
+
         public XElement GetXml
         {
             get
@@ -389,6 +415,17 @@ namespace OneStoryProjectEditor
                 }
 
                 eleMember.Add(new XAttribute(CstrAttributeNameMemberKey, MemberGuid));
+
+                if (MemberType == UserTypes.eProjectFacilitator)
+                {
+                    eleMember.Add(new XAttribute(CstrAttributeLabelDefaultTasksAllowed, (TasksPf.TaskSettings)DefaultAllowed),
+                                  new XAttribute(CstrAttributeLabelDefaultTasksRequired, (TasksPf.TaskSettings)DefaultRequired));
+                }
+                else if (MemberType == UserTypes.eConsultantInTraining)
+                {
+                    eleMember.Add(new XAttribute(CstrAttributeLabelDefaultTasksAllowed, (TasksCit.TaskSettings)DefaultAllowed),
+                                  new XAttribute(CstrAttributeLabelDefaultTasksRequired, (TasksCit.TaskSettings)DefaultRequired));
+                }
 
                 return eleMember;
             }
@@ -629,13 +666,13 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public DialogResult ShowEditDialog(TeamMemberData theTeamMember)
+        public DialogResult ShowEditDialog(TeamMemberData theTeamMember, ProjectSettings projSettings)
         {
             string strName = theTeamMember.Name;
             System.Diagnostics.Debug.Assert(ContainsKey(strName));
  
 #if !DataDllBuild
-            var dlg = new EditMemberForm(theTeamMember);
+            var dlg = new EditMemberForm(theTeamMember, projSettings);
             DialogResult res = dlg.UpdateMember();
 
             // in case the name was changed

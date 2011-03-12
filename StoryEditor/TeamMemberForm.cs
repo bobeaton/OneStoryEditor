@@ -19,18 +19,20 @@ namespace OneStoryProjectEditor
         */
         private const string CstrDefaultOKLabel = "&Login";
         private const string CstrReturnLabel = "&Return";
-        
-        protected TeamMembersData _dataTeamMembers;
-        protected string m_strSelectedMember;
+
+        private readonly TeamMembersData _dataTeamMembers;
+        private readonly ProjectSettings _theProjSettings;
+        private string m_strSelectedMember;
 
         Dictionary<string, TeamMemberData> m_mapNewMembersThisSession = new Dictionary<string, TeamMemberData>();
 
         public bool Modified;
 
-        public TeamMemberForm(TeamMembersData dataTeamMembers, bool bUseLoginLabel)
+        public TeamMemberForm(TeamMembersData dataTeamMembers, bool bUseLoginLabel, ProjectSettings theProjSettings)
             : base(true)
         {
             _dataTeamMembers = dataTeamMembers;
+            _theProjSettings = theProjSettings;
             InitializeComponent();
             
             foreach (TeamMemberData aMember in _dataTeamMembers.Values)
@@ -349,7 +351,7 @@ namespace OneStoryProjectEditor
             //  tabControlProjectMetaData_Selected for what happens)
             listBoxTeamMembers.SelectedIndex = -1;
 
-            EditMemberForm dlg = new EditMemberForm(null);
+            var dlg = new EditMemberForm(null, _theProjSettings);
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 if (listBoxTeamMembers.Items.Contains(dlg.MemberName))
@@ -409,7 +411,7 @@ namespace OneStoryProjectEditor
             m_strSelectedMember = (string)listBoxTeamMembers.SelectedItem;
             System.Diagnostics.Debug.Assert(_dataTeamMembers.ContainsKey(m_strSelectedMember));
             TeamMemberData theMemberData = _dataTeamMembers[m_strSelectedMember];
-            EditMemberForm dlg = new EditMemberForm(theMemberData);
+            EditMemberForm dlg = new EditMemberForm(theMemberData, _theProjSettings);
             if (dlg.ShowDialog() != DialogResult.OK) 
                 return;
 

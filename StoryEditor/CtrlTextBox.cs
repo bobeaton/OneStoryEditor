@@ -207,6 +207,28 @@ namespace OneStoryProjectEditor
                     // finally, the last possible blockage is if the currently logged on member isn't the 
                     //  right editor for the state we are in (which has to do with who has the edit token)
                     theSE.LoggedOnMember.ThrowIfEditIsntAllowed(_stageLogic.MemberTypeWithEditToken);
+
+                    // one more finally, don't allow it if it's blocked by the consultant
+                    if ((theSE.StoryProject != null) 
+                        && (theSE.theCurrentStory != null)
+                        && (theSE.LoggedOnMember != null))
+                    {
+                        ProjectSettings projSettings = theSE.StoryProject.ProjSettings;
+                        StoryData theStory = theSE.theCurrentStory;
+                        if (theSE.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
+                        {
+                            ProjectSettings.LanguageInfo li;
+                            if (!CheckForTaskPermission((li = projSettings.Vernacular), StoryEditor.TextFieldType.Vernacular, TasksPf.IsTaskOn(theStory.TasksAllowedPf, TasksPf.TaskSettings.VernacularLangFields))
+                                || !CheckForTaskPermission((li = projSettings.NationalBT), StoryEditor.TextFieldType.NationalBt, TasksPf.IsTaskOn(theStory.TasksAllowedPf, TasksPf.TaskSettings.NationalBtLangFields))
+                                || !CheckForTaskPermission((li = projSettings.InternationalBT), StoryEditor.TextFieldType.InternationalBt, TasksPf.IsTaskOn(theStory.TasksAllowedPf, TasksPf.TaskSettings.InternationalBtFields))
+                                || !CheckForTaskPermission((li = projSettings.FreeTranslation), StoryEditor.TextFieldType.FreeTranslation, TasksPf.IsTaskOn(theStory.TasksAllowedPf, TasksPf.TaskSettings.FreeTranslationFields)))
+                            {
+                                throw new ApplicationException(
+                                    String.Format(Properties.Resources.IDS_DontHaveTaskPermission,
+                                                  li.LangName));
+                            }
+                        }
+                    }
                 }
 
                 // if we get here, we're all good!
@@ -226,6 +248,13 @@ namespace OneStoryProjectEditor
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
+        }
+
+        private bool CheckForTaskPermission(ProjectSettings.LanguageInfo li, StoryEditor.TextFieldType eType, bool isTaskOn)
+        {
+            if (_eFieldType == eType)
+                return (!li.HasData || isTaskOn);
+            return true;
         }
 
         // if we've click (or tabbed) into another edit box, then the 'last place we were
@@ -488,7 +517,7 @@ namespace OneStoryProjectEditor
             try
             {
                 System.Diagnostics.Debug.Assert((NationalBtSibling != null) && (_ctrlVerseParent != null)
-                    && (_eFieldType == StoryEditor.TextFieldType.eVernacular));
+                    && (_eFieldType == StoryEditor.TextFieldType.Vernacular));
                 if (!MyStringTransfer.HasData)
                     return;
 
@@ -524,13 +553,13 @@ namespace OneStoryProjectEditor
             {
                 System.Diagnostics.Debug.Assert((EnglishBtSibling != null) && (_ctrlVerseParent != null)
                                                 &&
-                                                ((_eFieldType == StoryEditor.TextFieldType.eVernacular) ||
-                                                 (_eFieldType == StoryEditor.TextFieldType.eNational)));
+                                                ((_eFieldType == StoryEditor.TextFieldType.Vernacular) ||
+                                                 (_eFieldType == StoryEditor.TextFieldType.NationalBt)));
                 if (!MyStringTransfer.HasData)
                     return;
                 ProjectSettings.AdaptItConfiguration.AdaptItBtDirection eBtDirection = (_eFieldType ==
                                                                                         StoryEditor.TextFieldType.
-                                                                                            eVernacular)
+                                                                                            Vernacular)
                                                                                            ? ProjectSettings.
                                                                                                  AdaptItConfiguration.
                                                                                                  AdaptItBtDirection.

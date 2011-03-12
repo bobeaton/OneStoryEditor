@@ -242,6 +242,14 @@ namespace OneStoryProjectEditor
             if (!CheckForProperEditToken(out theSE))
                 return;
 
+            if ((theSE.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
+                && !TasksPf.IsTaskOn(theSE.theCurrentStory.TasksAllowedPf, TasksPf.TaskSettings.TestQuestions))
+            {
+                MessageBox.Show(Resources.IDS_CantAddTQs, 
+                                OseResources.Properties.Resources.IDS_Caption);
+                return;
+            }
+
             _verseData.TestQuestions.AddTestQuestion();
             if (!theSE.viewStoryTestingQuestionMenuItem.Checked)
                 theSE.viewStoryTestingQuestionMenuItem.Checked = true;

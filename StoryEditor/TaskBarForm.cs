@@ -11,9 +11,11 @@ namespace OneStoryProjectEditor
 {
     public partial class TaskBarForm : Form
     {
-        public TaskBarForm()
+        public TaskBarForm(StoryEditor theSE, StoryProjectData theStoryProjectData, 
+            StoryData theStory)
         {
             InitializeComponent();
+            taskBarControl.Initialize(theSE, theStoryProjectData, theStory);
         }
     }
 }
