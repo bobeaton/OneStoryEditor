@@ -46,7 +46,12 @@ namespace OneStoryProjectEditor
                     InitProjectNotes(StoryProject.ProjSettings, value.Name);
                 linkLabelTasks.Visible = ((value != null) &&
                                           ((value.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
-                                          || (value.MemberType == TeamMemberData.UserTypes.eIndependentConsultant)));
+                                          || (value.MemberType == TeamMemberData.UserTypes.eIndependentConsultant)
+                                          || (value.MemberType == TeamMemberData.UserTypes.eConsultantInTraining)
+                                          || (value.MemberType == TeamMemberData.UserTypes.eCoach)
+                                          || (value.MemberType == TeamMemberData.UserTypes.eJustLooking)
+                                          || (value.MemberType == TeamMemberData.UserTypes.eEnglishBacktranslator)
+                                          || (value.MemberType == TeamMemberData.UserTypes.eFirstPassMentor)));
             }
         }
         internal bool Modified;
@@ -2612,7 +2617,7 @@ namespace OneStoryProjectEditor
                     {
                         string strUnsGuid = theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers[nTest].TestorGuid;
                         AddDeleteTestSubmenu(deleteTestToolStripMenuItem,
-                                             String.Format("Inference Test {0} done by {1}", nTest + 1,
+                                             String.Format("Story Question Testing {0} done by {1}", nTest + 1,
                                                            StoryProject.GetMemberNameFromMemberGuid(strUnsGuid)),
                                              nTest, OnRemoveInferenceTest);
                     }
@@ -2784,7 +2789,7 @@ namespace OneStoryProjectEditor
         private void OnRemoveRetellingTest(object sender, EventArgs e)
         {
             ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
-            if (MessageBox.Show("Are you sure you want to remove all of the retelling results from " + tsmi.Text, OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+            if (MessageBox.Show(Properties.Resources.IDS_ConfirmDeleteRetellings + tsmi.Text, OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
             {
                 int nTestNum = (int)tsmi.Tag;
                 Debug.Assert((nTestNum >= 0) && (nTestNum < theCurrentStory.CraftingInfo.TestorsToCommentsRetellings.Count));
@@ -2806,8 +2811,8 @@ namespace OneStoryProjectEditor
 
         private void OnRemoveInferenceTest(object sender, EventArgs e)
         {
-            ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
-            if (MessageBox.Show("Are you sure you want to remove all of the inference test results from " + tsmi.Text, OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+            var tsmi = sender as ToolStripMenuItem;
+            if (MessageBox.Show(Properties.Resources.IDS_ConfirmDeleteTQs + tsmi.Text, OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
             {
                 int nTestNum = (int)tsmi.Tag;
                 Debug.Assert((nTestNum >= 0) && (nTestNum < theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Count));

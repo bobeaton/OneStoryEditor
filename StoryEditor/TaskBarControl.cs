@@ -29,6 +29,9 @@ namespace OneStoryProjectEditor
                 case TeamMemberData.UserTypes.eIndependentConsultant:
                     SetIndependentConsultantButtons();
                     break;
+                case TeamMemberData.UserTypes.eConsultantInTraining:
+                    SetIndependentConsultantButtons();
+                    break;
             }
         }
 
