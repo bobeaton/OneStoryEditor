@@ -23,7 +23,21 @@
       <xsl:apply-templates select="@*"/>
       <xsl:choose>
         <xsl:when test="@memberType = 'ProjectFacilitator'">
-          <xsl:attribute name="DefaultTasksAllowed">VernacularLangFields, NationalBtLangFields, InternationalBtFields, FreeTranslationFields, Anchors, Retellings, TestQuestions, Answers</xsl:attribute>
+          <xsl:attribute name="DefaultTasksAllowed">
+            <xsl:if test="following::Languages/LanguageInfo[@lang='Vernacular']">
+              <xsl:text>VernacularLangFields, </xsl:text>
+            </xsl:if>
+            <xsl:if test="following::Languages/LanguageInfo[@lang='NationalBt']">
+              <xsl:text>NationalBtLangFields, </xsl:text>
+            </xsl:if>
+            <xsl:if test="following::Languages/LanguageInfo[@lang='InternationalBt']">
+              <xsl:text>InternationalBtFields, </xsl:text>
+            </xsl:if>
+            <xsl:if test="following::Languages/LanguageInfo[@lang='FreeTranslation']">
+              <xsl:text>FreeTranslationFields, </xsl:text>
+            </xsl:if>
+            <xsl:text>Anchors, Retellings, TestQuestions, Answers</xsl:text>
+          </xsl:attribute>
           <xsl:attribute name="DefaultTasksRequired">Anchors</xsl:attribute>
         </xsl:when>
         <xsl:when test="@memberType = 'ConsultantInTraining'">
@@ -38,7 +52,21 @@
   <xsl:template match="story">
     <story>
       <xsl:apply-templates select="@*"/>
-      <xsl:attribute name="TasksAllowedPf">VernacularLangFields, NationalBtLangFields, InternationalBtFields, FreeTranslationFields, Anchors, Retellings, TestQuestions, Answers</xsl:attribute>
+      <xsl:attribute name="TasksAllowedPf">
+        <xsl:if test="preceding::Languages/LanguageInfo[@lang='Vernacular']">
+          <xsl:text>VernacularLangFields, </xsl:text>
+        </xsl:if>
+        <xsl:if test="preceding::Languages/LanguageInfo[@lang='NationalBt']">
+          <xsl:text>NationalBtLangFields, </xsl:text>
+        </xsl:if>
+        <xsl:if test="preceding::Languages/LanguageInfo[@lang='InternationalBt']">
+          <xsl:text>InternationalBtFields, </xsl:text>
+        </xsl:if>
+        <xsl:if test="preceding::Languages/LanguageInfo[@lang='FreeTranslation']">
+          <xsl:text>FreeTranslationFields, </xsl:text>
+        </xsl:if>
+        <xsl:text>Anchors, Retellings, TestQuestions, Answers</xsl:text>
+      </xsl:attribute>
       <xsl:attribute name="TasksRequiredPf">Anchors</xsl:attribute>
       <xsl:attribute name="TasksAllowedCit">SendToProjectFacilitatorForRevision, SendToCoachForReview</xsl:attribute>
       <xsl:attribute name="TasksRequiredCit">SendToCoachForReview</xsl:attribute>
