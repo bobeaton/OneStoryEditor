@@ -277,7 +277,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Click &apos;Yes&apos; to add boxes for answers to the testing questions? Or click &apos;No&apos; if you already have boxes (you might have them if you had earlier clicked &quot;Edit&quot;, &quot;Add inference test results&quot;).
+        ///   Looks up a localized string similar to Click &apos;Yes&apos; to add boxes for answers to the testing questions? Or click &apos;No&apos; if you already have boxes (you might have them if you had earlier clicked &quot;Edit&quot;, &quot;Add story test results&quot;).
         /// </summary>
         internal static string IDS_AddInferenceTestQuery {
             get {
@@ -376,7 +376,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The consultant is requiring you to do a test with the inference testing questions, but there are no answers entered into the story. Click the &apos;Tasks&apos;, &apos;Add boxes for Answers&apos; button and enter the UNS&apos;s answers..
+        ///   Looks up a localized string similar to The consultant is requiring you to do a test with the story testing questions, but there are no answers entered into the story. Click the &apos;Tasks&apos;, &apos;Add boxes for Answers&apos; button and enter the UNS&apos;s answers..
         /// </summary>
         internal static string IDS_CantHaveNoAnswers {
             get {
@@ -493,6 +493,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove all of the retelling results from .
+        /// </summary>
+        internal static string IDS_ConfirmDeleteRetellings {
+            get {
+                return ResourceManager.GetString("IDS_ConfirmDeleteRetellings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The file that stores the view settings must be deleted to upgrade to the new format (these customizations were done via &apos;Select State&apos;, &apos;Advanced&apos; button, and then right-click on a state button to check or uncheck view fields for a given state). Because of this, it means that you will need to redo the settings..
         /// </summary>
         internal static string IDS_ConfirmDeleteStateTransitions {
@@ -507,6 +516,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_ConfirmDeleteStory {
             get {
                 return ResourceManager.GetString("IDS_ConfirmDeleteStory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove all of the story question test results from .
+        /// </summary>
+        internal static string IDS_ConfirmDeleteTQs {
+            get {
+                return ResourceManager.GetString("IDS_ConfirmDeleteTQs", resourceCulture);
             }
         }
         
@@ -1401,7 +1419,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You don&apos;t have at least half as many story inference testing questions as lines in the story. Unless you have prior permission from your consultant, you should click Cancel and add at least {0} more testing question(s). (right-click on the &apos;line options&apos; button and choose &apos;Add a story testing question&apos;). Otherwise, click &apos;Yes&apos; to continue on to the next state..
+        ///   Looks up a localized string similar to You don&apos;t have at least half as many story testing questions as lines in the story. Unless you have prior permission from your consultant, you should click Cancel and add at least {0} more testing question(s). (right-click on the &apos;line options&apos; button and choose &apos;Add a story testing question&apos;). Otherwise, click &apos;Yes&apos; to continue on to the next state..
         /// </summary>
         internal static string IDS_WarnAboutNotEnoughTqs {
             get {

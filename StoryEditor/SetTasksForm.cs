@@ -17,8 +17,8 @@ namespace OneStoryProjectEditor
         private const string CstrFreeTranslationFields = "Free translation fields";
         private const string CstrAnchors = "Anchors";
         private const string CstrRetellings = "Retelling fields";
-        private const string CstrTestQuestions = "Inference testing questions";
-        private const string CstrAnswers = "Answers to inference testing questions";
+        private const string CstrTestQuestions = "Story testing questions";
+        private const string CstrAnswers = "Answers to story testing questions";
 
         public SetTasksForm(ProjectSettings projSettings, 
             TasksPf.TaskSettings tasksAllowed, TasksPf.TaskSettings tasksRequired)

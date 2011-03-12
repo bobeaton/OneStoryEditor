@@ -865,7 +865,7 @@ namespace OneStoryProjectEditor
                     i++;
                 }
 
-            strLabelFormat = "Inference testing {0}";
+            strLabelFormat = "Story testing {0}";
             while (i <= TestorsToCommentsRetellings.Count)
             {
                 int nTestNumber = i + nInsertCount;

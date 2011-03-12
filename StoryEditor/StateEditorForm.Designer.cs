@@ -225,7 +225,7 @@
             this.checkBoxStoryTestingQuestions.Size = new System.Drawing.Size(168, 17);
             this.checkBoxStoryTestingQuestions.TabIndex = 4;
             this.checkBoxStoryTestingQuestions.Text = "Show Story Testing &Questions";
-            this.toolTip.SetToolTip(this.checkBoxStoryTestingQuestions, "Check this box to have the story (inference) testing questions visible when in th" +
+            this.toolTip.SetToolTip(this.checkBoxStoryTestingQuestions, "Check this box to have the story testing questions visible when in th" +
                     "is state");
             this.checkBoxStoryTestingQuestions.UseVisualStyleBackColor = true;
             this.checkBoxStoryTestingQuestions.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
@@ -238,7 +238,7 @@
             this.checkBoxStoryTestingQuestionAnswers.Size = new System.Drawing.Size(206, 17);
             this.checkBoxStoryTestingQuestionAnswers.TabIndex = 9;
             this.checkBoxStoryTestingQuestionAnswers.Text = "Show Story Testing Question &Answers";
-            this.toolTip.SetToolTip(this.checkBoxStoryTestingQuestionAnswers, "Check this box to have the story (inference) testing questions visible when in th" +
+            this.toolTip.SetToolTip(this.checkBoxStoryTestingQuestionAnswers, "Check this box to have the story testing questions visible when in th" +
                     "is state");
             this.checkBoxStoryTestingQuestionAnswers.UseVisualStyleBackColor = true;
             this.checkBoxStoryTestingQuestionAnswers.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);

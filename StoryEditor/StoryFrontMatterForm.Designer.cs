@@ -369,7 +369,7 @@
             this.labelInferenceTest1.Name = "labelInferenceTest1";
             this.labelInferenceTest1.Size = new System.Drawing.Size(88, 13);
             this.labelInferenceTest1.TabIndex = 13;
-            this.labelInferenceTest1.Text = "Inference Test &1:";
+            this.labelInferenceTest1.Text = "Story Question Test &1:";
             // 
             // labelInferenceTest2
             // 
@@ -379,7 +379,7 @@
             this.labelInferenceTest2.Name = "labelInferenceTest2";
             this.labelInferenceTest2.Size = new System.Drawing.Size(88, 13);
             this.labelInferenceTest2.TabIndex = 13;
-            this.labelInferenceTest2.Text = "Inference Test &2:";
+            this.labelInferenceTest2.Text = "Story Question Test &2:";
             // 
             // labelInferenceTest3
             // 
@@ -389,7 +389,7 @@
             this.labelInferenceTest3.Name = "labelInferenceTest3";
             this.labelInferenceTest3.Size = new System.Drawing.Size(88, 13);
             this.labelInferenceTest3.TabIndex = 13;
-            this.labelInferenceTest3.Text = "Inference Test &3:";
+            this.labelInferenceTest3.Text = "Story Question Test &3:";
             // 
             // textBoxUnsInferenceTest2
             // 
