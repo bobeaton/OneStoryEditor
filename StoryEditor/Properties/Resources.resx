@@ -2093,4 +2093,10 @@ and in the resulting window click on the next (green) state.
   <data name="IDS_PfNotAllowedToModified" xml:space="preserve">
     <value>You can view the {0} fields, but the consultant hasn't given you permission to make changes to them</value>
   </data>
+  <data name="IDS_DidntAnswerQuestion" xml:space="preserve">
+    <value>In line {0}, the {1} made a comment, which you didn't respond to. Did you forget it?</value>
+  </data>
+  <data name="IDS_MustAllowToRequireTask" xml:space="preserve">
+    <value>Oops. You have to allow a task in order to require it. Please check the box in the Allowed Tasks list for '{0}'</value>
+  </data>
 </root>

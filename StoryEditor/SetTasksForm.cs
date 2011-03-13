@@ -21,6 +21,17 @@ namespace OneStoryProjectEditor
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
+            // make sure that if something is required that it's also allowed.
+            foreach (int nIndex in checkedListBoxRequiredTasks.CheckedIndices)
+            {
+                if (!checkedListBoxAllowedTasks.GetItemChecked(nIndex))
+                {
+                    MessageBox.Show(String.Format(Properties.Resources.IDS_MustAllowToRequireTask,
+                                                  checkedListBoxRequiredTasks.Items[nIndex]),
+                                    OseResources.Properties.Resources.IDS_Caption);
+                    return;
+                }
+            }
             DialogResult = DialogResult.OK;
             Close();
         }

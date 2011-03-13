@@ -635,6 +635,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to In line {0}, the {1} made a comment, which you didn&apos;t respond to. Did you forget it?.
+        /// </summary>
+        internal static string IDS_DidntAnswerQuestion {
+            get {
+                return ResourceManager.GetString("IDS_DidntAnswerQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Can&apos;t configure these settings until after the project file is opened. Try again later..
         /// </summary>
         internal static string IDS_DoAfterOpen {
@@ -856,6 +865,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_MoveProjectsToNewProjectFolder {
             get {
                 return ResourceManager.GetString("IDS_MoveProjectsToNewProjectFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oops. You have to allow a task in order to require it. Please check the box in the Allowed Tasks list for &apos;{0}&apos;.
+        /// </summary>
+        internal static string IDS_MustAllowToRequireTask {
+            get {
+                return ResourceManager.GetString("IDS_MustAllowToRequireTask", resourceCulture);
             }
         }
         
