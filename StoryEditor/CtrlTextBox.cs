@@ -649,21 +649,12 @@ namespace OneStoryProjectEditor
         {
             System.Diagnostics.Debug.Assert((_ctrlVerseParent != null) && (_ctrlVerseParent.TheSE != null));
             var theVerseCtrl = _ctrlVerseParent as VerseBtControl;
-            if (theVerseCtrl != null)
-            {
-                VerseData verseData = theVerseCtrl._verseData;
-                for (int i = 0; i < verseData.TestQuestions.Count; i++)
-                {
-                    var aTQ = verseData.TestQuestions[i];
-                    if ((aTQ.TestQuestionLine.Vernacular.ToString() == Text)
-                        || (aTQ.TestQuestionLine.NationalBt.ToString() == Text)
-                        || (aTQ.TestQuestionLine.InternationalBt.ToString() == Text))
-                    {
-                        if (_ctrlVerseParent.TheSE.AddSingleTestResult(aTQ))
-                            theVerseCtrl.UpdateViewOfThisVerse(_ctrlVerseParent.TheSE);
-                    }
-                }
-            }
+            if (theVerseCtrl == null)
+                return;
+
+            var testQuestionData = StoryEditor.GetTestQuestionData(_strLabel, theVerseCtrl);
+            if (_ctrlVerseParent.TheSE.AddSingleTestResult(testQuestionData))
+                theVerseCtrl.UpdateViewOfThisVerse(_ctrlVerseParent.TheSE);
         }
 
         void CtrlTextBox_MouseUp(object sender, MouseEventArgs e)

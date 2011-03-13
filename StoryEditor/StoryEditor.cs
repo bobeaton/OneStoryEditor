@@ -1362,9 +1362,7 @@ namespace OneStoryProjectEditor
         {
             if (strLabel.Substring(0, 3) == TestQuestionData.CstrTestQuestionsLabelFormat.Substring(0, 3))
             {
-                string strTestNumber = strLabel.Substring(4, 1);
-                int nTestNumber = Convert.ToInt32(strTestNumber) - 1;
-                TestQuestionData testQuestionData = ctrl._verseData.TestQuestions[nTestNumber];
+                TestQuestionData testQuestionData = GetTestQuestionData(strLabel, ctrl);
 
                 strNote += strLabel;
                 // get selected text from all visible Story line controls
@@ -1449,6 +1447,13 @@ namespace OneStoryProjectEditor
             }
             else
                 strNote += CtrlTextBox._inTextBox._strLabel;
+        }
+
+        internal static TestQuestionData GetTestQuestionData(string strLabel, VerseBtControl ctrl)
+        {
+            string strTestNumber = strLabel.Substring(4, 1);
+            int nTestNumber = Convert.ToInt32(strTestNumber) - 1;
+            return ctrl._verseData.TestQuestions[nTestNumber];
         }
 
         internal static string GetInitials(string name)
@@ -2776,6 +2781,8 @@ namespace OneStoryProjectEditor
             //  the Answer list for this particular TQ, so add it now.
             theTQ.Answers.TryAddNewLine(strUnsGuid);
 
+            // make sure the answers field is open in case it's not
+            viewStoryTestingQuestionAnswerMenuItem.Checked = true;
             Modified = true;
             return true;
         }
