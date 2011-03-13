@@ -82,7 +82,8 @@ namespace OneStoryProjectEditor
                 toolTip.SetToolTip(btn, String.Format(Properties.Resources.IDS_PfNoEditToken,
                                                       strTooltipFormat,
                                                       TeamMemberData.GetMemberWithEditTokenAsDisplayString(
-                                                          TheSe)));
+                                                          TheSe.StoryProject.TeamMembers,
+                                                          TheSe.theCurrentStory.ProjStage.MemberTypeWithEditToken)));
 
             else if (!TasksPf.IsTaskOn(TheStory.TasksAllowedPf, taskToCheck))
                 toolTip.SetToolTip(btn, String.Format(Properties.Resources.IDS_PfNotAllowedToModified,

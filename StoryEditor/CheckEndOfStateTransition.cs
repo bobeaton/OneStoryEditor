@@ -1144,9 +1144,10 @@ namespace OneStoryProjectEditor
                                          null);
                         ShowErrorFocus(theSE, paneConNote, nVerseNumber,
                                        String.Format(
-                                           "Error: in line {0}, the {1} made a comment, which you didn't respond to. Did you forget it?",
+                                           Properties.Resources.IDS_DidntAnswerQuestion,
                                            nVerseNumber,
-                                           TeamMemberData.GetMemberTypeAsDisplayString(aConNote.MentorRequiredEditor)));
+                                           TeamMemberData.GetMemberWithEditTokenAsDisplayString(
+                                               theSE.StoryProject.TeamMembers, aConNote.MentorRequiredEditor)));
                         return false;
                     }
                 }

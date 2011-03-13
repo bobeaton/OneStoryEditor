@@ -251,20 +251,19 @@ namespace OneStoryProjectEditor
 
         // override to handle the case were the project state says it's in the 
         //  CIT's state, but really, it's an independent consultant
-        public static string GetMemberWithEditTokenAsDisplayString(StoryEditor theSe)
+        public static string GetMemberWithEditTokenAsDisplayString(TeamMembersData teamMembers, UserTypes eMemberType)
         {
-            UserTypes eMemberWithEditToken = theSe.theCurrentStory.ProjStage.MemberTypeWithEditToken;
-            switch (eMemberWithEditToken)
+            switch (eMemberType)
             {
                 case UserTypes.eIndependentConsultant:
                 case UserTypes.eConsultantInTraining:
                     // this is a special case where both the CIT and Independant Consultant are acceptable
                     return GetMemberTypeAsDisplayString(
-                        theSe.StoryProject.TeamMembers.HasIndependentConsultant
+                        teamMembers.HasIndependentConsultant
                             ? UserTypes.eIndependentConsultant
                             : UserTypes.eConsultantInTraining);
             }
-            return GetMemberTypeAsDisplayString(eMemberWithEditToken);
+            return GetMemberTypeAsDisplayString(eMemberType);
         }
 
         public static string GetMemberTypeAsDisplayString(UserTypes eMemberType)
