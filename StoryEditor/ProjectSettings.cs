@@ -273,6 +273,9 @@ namespace OneStoryProjectEditor
                     strHgPassword = loggedOnMember.HgPassword;
                 }
 
+                if (!Directory.Exists(strProjectFolder))
+                    Directory.CreateDirectory(strProjectFolder);
+
                 string strAiProjectFolderName = Path.GetFileNameWithoutExtension(strProjectFolder);
                 var model = new GetCloneFromInternetModel(AdaptItGlossing.AdaptItWorkFolder)
                 {
