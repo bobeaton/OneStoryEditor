@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.flowLayoutPanelTasks = new System.Windows.Forms.FlowLayoutPanel();
             this.buttonAddStory = new System.Windows.Forms.Button();
             this.buttonVernacular = new System.Windows.Forms.Button();
@@ -45,6 +46,9 @@
             this.buttonSendToConsultant = new System.Windows.Forms.Button();
             this.buttonReturnToProjectFacilitator = new System.Windows.Forms.Button();
             this.buttonMarkReadyForSfg = new System.Windows.Forms.Button();
+            this.buttonSendToCoach = new System.Windows.Forms.Button();
+            this.buttonSendToCIT = new System.Windows.Forms.Button();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.flowLayoutPanelTasks.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -67,13 +71,15 @@
             this.flowLayoutPanelTasks.Controls.Add(this.buttonViewPanorama);
             this.flowLayoutPanelTasks.Controls.Add(this.buttonSendToConsultant);
             this.flowLayoutPanelTasks.Controls.Add(this.buttonReturnToProjectFacilitator);
+            this.flowLayoutPanelTasks.Controls.Add(this.buttonSendToCoach);
+            this.flowLayoutPanelTasks.Controls.Add(this.buttonSendToCIT);
             this.flowLayoutPanelTasks.Controls.Add(this.buttonMarkReadyForSfg);
             this.flowLayoutPanelTasks.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanelTasks.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanelTasks.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanelTasks.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.flowLayoutPanelTasks.Name = "flowLayoutPanelTasks";
-            this.flowLayoutPanelTasks.Size = new System.Drawing.Size(216, 464);
+            this.flowLayoutPanelTasks.Size = new System.Drawing.Size(216, 522);
             this.flowLayoutPanelTasks.TabIndex = 1;
             // 
             // buttonAddStory
@@ -93,7 +99,7 @@
             this.buttonVernacular.Name = "buttonVernacular";
             this.buttonVernacular.Size = new System.Drawing.Size(210, 23);
             this.buttonVernacular.TabIndex = 1;
-            this.buttonVernacular.Text = "Enter Story Language (&Vernacular)";
+            this.buttonVernacular.Text = "View Story Language (&Vernacular)";
             this.buttonVernacular.UseVisualStyleBackColor = true;
             this.buttonVernacular.Visible = false;
             this.buttonVernacular.Click += new System.EventHandler(this.buttonVernacular_Click);
@@ -104,7 +110,7 @@
             this.buttonNationalBt.Name = "buttonNationalBt";
             this.buttonNationalBt.Size = new System.Drawing.Size(210, 23);
             this.buttonNationalBt.TabIndex = 2;
-            this.buttonNationalBt.Text = "Enter &National/Regional BT";
+            this.buttonNationalBt.Text = "View &National/Regional BT";
             this.buttonNationalBt.UseVisualStyleBackColor = true;
             this.buttonNationalBt.Visible = false;
             this.buttonNationalBt.Click += new System.EventHandler(this.buttonNationalBt_Click);
@@ -115,7 +121,7 @@
             this.buttonInternationalBt.Name = "buttonInternationalBt";
             this.buttonInternationalBt.Size = new System.Drawing.Size(210, 23);
             this.buttonInternationalBt.TabIndex = 3;
-            this.buttonInternationalBt.Text = "Enter &English BT";
+            this.buttonInternationalBt.Text = "View &English BT";
             this.buttonInternationalBt.UseVisualStyleBackColor = true;
             this.buttonInternationalBt.Visible = false;
             this.buttonInternationalBt.Click += new System.EventHandler(this.buttonInternationalBt_Click);
@@ -126,7 +132,7 @@
             this.buttonFreeTranslation.Name = "buttonFreeTranslation";
             this.buttonFreeTranslation.Size = new System.Drawing.Size(210, 23);
             this.buttonFreeTranslation.TabIndex = 4;
-            this.buttonFreeTranslation.Text = "Enter &Free Translation (UNS BT)";
+            this.buttonFreeTranslation.Text = "View &Free Translation (UNS BT)";
             this.buttonFreeTranslation.UseVisualStyleBackColor = true;
             this.buttonFreeTranslation.Visible = false;
             this.buttonFreeTranslation.Click += new System.EventHandler(this.buttonFreeTranslation_Click);
@@ -137,7 +143,7 @@
             this.buttonAnchors.Name = "buttonAnchors";
             this.buttonAnchors.Size = new System.Drawing.Size(210, 23);
             this.buttonAnchors.TabIndex = 5;
-            this.buttonAnchors.Text = "View/Enter &Anchors";
+            this.buttonAnchors.Text = "View &Anchors";
             this.buttonAnchors.UseVisualStyleBackColor = true;
             this.buttonAnchors.Click += new System.EventHandler(this.buttonAnchors_Click);
             // 
@@ -168,7 +174,7 @@
             this.buttonViewTestQuestions.Name = "buttonViewTestQuestions";
             this.buttonViewTestQuestions.Size = new System.Drawing.Size(210, 23);
             this.buttonViewTestQuestions.TabIndex = 7;
-            this.buttonViewTestQuestions.Text = "View/Enter &Testing Questions";
+            this.buttonViewTestQuestions.Text = "View &Testing Questions";
             this.buttonViewTestQuestions.UseVisualStyleBackColor = true;
             this.buttonViewTestQuestions.Click += new System.EventHandler(this.buttonTestQuestions_Click);
             // 
@@ -237,7 +243,7 @@
             // 
             // buttonMarkReadyForSfg
             // 
-            this.buttonMarkReadyForSfg.Location = new System.Drawing.Point(3, 438);
+            this.buttonMarkReadyForSfg.Location = new System.Drawing.Point(3, 496);
             this.buttonMarkReadyForSfg.Name = "buttonMarkReadyForSfg";
             this.buttonMarkReadyForSfg.Size = new System.Drawing.Size(210, 23);
             this.buttonMarkReadyForSfg.TabIndex = 15;
@@ -245,6 +251,28 @@
             this.buttonMarkReadyForSfg.UseVisualStyleBackColor = true;
             this.buttonMarkReadyForSfg.Visible = false;
             this.buttonMarkReadyForSfg.Click += new System.EventHandler(this.buttonMarkReadyForSfg_Click);
+            // 
+            // buttonSendToCoach
+            // 
+            this.buttonSendToCoach.Location = new System.Drawing.Point(3, 438);
+            this.buttonSendToCoach.Name = "buttonSendToCoach";
+            this.buttonSendToCoach.Size = new System.Drawing.Size(210, 23);
+            this.buttonSendToCoach.TabIndex = 16;
+            this.buttonSendToCoach.Text = "Send to Coac&h";
+            this.buttonSendToCoach.UseVisualStyleBackColor = true;
+            this.buttonSendToCoach.Visible = false;
+            this.buttonSendToCoach.Click += new System.EventHandler(this.buttonSendToCoach_Click);
+            // 
+            // buttonSendToCIT
+            // 
+            this.buttonSendToCIT.Location = new System.Drawing.Point(3, 467);
+            this.buttonSendToCIT.Name = "buttonSendToCIT";
+            this.buttonSendToCIT.Size = new System.Drawing.Size(210, 23);
+            this.buttonSendToCIT.TabIndex = 17;
+            this.buttonSendToCIT.Text = "Sen&d to CIT";
+            this.buttonSendToCIT.UseVisualStyleBackColor = true;
+            this.buttonSendToCIT.Visible = false;
+            this.buttonSendToCIT.Click += new System.EventHandler(this.buttonSendToCIT_Click);
             // 
             // TaskBarControl
             // 
@@ -255,7 +283,7 @@
             this.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.Controls.Add(this.flowLayoutPanelTasks);
             this.Name = "TaskBarControl";
-            this.Size = new System.Drawing.Size(216, 464);
+            this.Size = new System.Drawing.Size(216, 522);
             this.flowLayoutPanelTasks.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -281,5 +309,8 @@
         private System.Windows.Forms.Button buttonAddRetellingBoxes;
         private System.Windows.Forms.Button buttonAddBoxesForAnswers;
         private System.Windows.Forms.Button buttonMarkReadyForSfg;
+        private System.Windows.Forms.Button buttonSendToCoach;
+        private System.Windows.Forms.Button buttonSendToCIT;
+        private System.Windows.Forms.ToolTip toolTip;
     }
 }

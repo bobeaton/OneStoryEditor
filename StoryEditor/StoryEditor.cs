@@ -1582,6 +1582,7 @@ namespace OneStoryProjectEditor
             try
             {
                 InitAllPanes(theCurrentStory.Verses);
+                ResetStatusBar();
             }
             catch (Exception ex)
             {
@@ -2153,6 +2154,15 @@ namespace OneStoryProjectEditor
         internal void SetStatusBar(string strText)
         {
             statusLabel.Text = strText;
+        }
+
+        internal void ResetStatusBar()
+        {
+            if (theCurrentStory == null)
+                return;
+
+            StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[theCurrentStory.ProjStage.ProjectStage];
+            SetStatusBar(String.Format("{0}  Press F1 for instructions", st.StageDisplayString));
         }
 
         /*

@@ -629,7 +629,7 @@ namespace OseResources.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Right now, only a &apos;{0}&apos; can change the state of this story. If you&apos;re a {0}, click &apos;Project&apos;, &apos;Login&apos; to login. You can log in as a &apos;Just Looking&apos; member to be able to transition to any state, but without edit privileges..
+        ///   Looks up a localized string similar to Right now, only a &apos;{0}&apos; can change the state of this story. If you&apos;re a {0}, click &apos;Project&apos;, &apos;Login&apos; to login.
         /// </summary>
         public static string IDS_WhichUserEdits {
             get {

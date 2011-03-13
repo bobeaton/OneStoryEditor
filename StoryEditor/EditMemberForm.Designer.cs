@@ -231,6 +231,7 @@
             this.radioButtonConsultantInTraining.TabIndex = 5;
             this.radioButtonConsultantInTraining.Text = "&Consultant in Training";
             this.radioButtonConsultantInTraining.UseVisualStyleBackColor = true;
+            this.radioButtonConsultantInTraining.CheckedChanged += new System.EventHandler(this.radioButtonConsultantInTraining_CheckedChanged);
             // 
             // radioButtonFirstPassMentor
             // 

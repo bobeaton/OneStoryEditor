@@ -711,8 +711,14 @@ namespace OneStoryProjectEditor
         [Flags]
         public enum TaskSettings
         {
+            None = 0,
             SendToProjectFacilitatorForRevision = 1,
             SendToCoachForReview = 2
+        }
+
+        public static bool IsTaskOn(TaskSettings value, TaskSettings flagToTest)
+        {
+            return ((value & flagToTest) == flagToTest);
         }
 
         public static TaskSettings DefaultAllowed

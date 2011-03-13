@@ -237,8 +237,7 @@ namespace OneStoryProjectEditor
                 theSE.LastKeyPressedTimeStamp = DateTime.Now;   // so we can delay the autosave while typing
 
                 // update the status bar (in case we previously put an error there
-                StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[_stageLogic.ProjectStage];
-                theSE.SetStatusBar(String.Format("{0}  Press F1 for instructions", st.StageDisplayString));
+                theSE.ResetStatusBar();
             }
             catch (Exception ex)
             {

@@ -1,17 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
 {
-    class SendToCoachRequirementsCheck
+    public abstract class MentoreeRequirementsCheck
     {
-        private readonly StoryData _theStory;
-        private readonly StoryEditor _theSe;
-        private readonly StoryProjectData _theStoryProjectData;
+        protected readonly StoryData TheStory;
+        protected readonly StoryEditor TheSe;
 
+        protected MentoreeRequirementsCheck(StoryEditor theSe, StoryData theStory)
+        {
+            TheSe = theSe;
+            TheStory = theStory;
+        }
+
+        public abstract bool CheckIfRequirementsAreMet();
+    }
+
+    public class ProjectFacilitatorRequirementsCheck : MentoreeRequirementsCheck
+    {
         public readonly bool DoVernacularLangFields;
         public readonly bool DoNationalBtLangFields;
         public readonly bool DoInternationalBtFields;
@@ -21,21 +29,24 @@ namespace OneStoryProjectEditor
         public readonly bool DoTestQuestions;
         public readonly bool DoAnswers;
 
-        public SendToCoachRequirementsCheck(StoryEditor theSe,
+        public ProjectFacilitatorRequirementsCheck(StoryEditor theSe,
             StoryProjectData theStoryProjectData, StoryData theStory)
+            :base(theSe, theStory)
         {
-            _theStory = theStory;
-            _theSe = theSe;
-            _theStoryProjectData = theStoryProjectData;
+            ProjectSettings projSettings = TheSe.StoryProject.ProjSettings;
 
-            DoVernacularLangFields = TasksPf.IsTaskOn(theStory.TasksRequiredPf,
-                                                      TasksPf.TaskSettings.VernacularLangFields);
-            DoNationalBtLangFields = TasksPf.IsTaskOn(theStory.TasksRequiredPf,
-                                                      TasksPf.TaskSettings.NationalBtLangFields);
-            DoInternationalBtFields = TasksPf.IsTaskOn(theStory.TasksRequiredPf,
-                                                      TasksPf.TaskSettings.InternationalBtFields);
-            DoFreeTranslationFields = TasksPf.IsTaskOn(theStory.TasksRequiredPf,
-                                                      TasksPf.TaskSettings.FreeTranslationFields);
+            DoVernacularLangFields = projSettings.Vernacular.HasData && TasksPf.IsTaskOn(theStory.TasksRequiredPf,
+                                                                                         TasksPf.TaskSettings.
+                                                                                             VernacularLangFields);
+            DoNationalBtLangFields = projSettings.NationalBT.HasData && TasksPf.IsTaskOn(theStory.TasksRequiredPf,
+                                                                                         TasksPf.TaskSettings.
+                                                                                             NationalBtLangFields);
+            DoInternationalBtFields = projSettings.InternationalBT.HasData && TasksPf.IsTaskOn(theStory.TasksRequiredPf,
+                                                                                               TasksPf.TaskSettings.
+                                                                                                   InternationalBtFields);
+            DoFreeTranslationFields = projSettings.FreeTranslation.HasData && TasksPf.IsTaskOn(theStory.TasksRequiredPf,
+                                                                                               TasksPf.TaskSettings.
+                                                                                                   FreeTranslationFields);
             DoAnchors = TasksPf.IsTaskOn(theStory.TasksRequiredPf,
                                                       TasksPf.TaskSettings.Anchors);
             DoRetelling = TasksPf.IsTaskOn(theStory.TasksRequiredPf,
@@ -46,15 +57,16 @@ namespace OneStoryProjectEditor
                                                       TasksPf.TaskSettings.Answers);
         }
 
-        public bool CheckIfRequirementsAreMet()
+        public override bool CheckIfRequirementsAreMet()
         {
             bool bTriggerRefresh = false;
+            StoryProjectData theStoryProjectData = TheSe.StoryProject;
             try
             {
                 if (DoVernacularLangFields)
                 {
                     // for this one, make sure that every line of the story has something in the vernacular field
-                    if (!CheckForCompletion(_theSe, _theStoryProjectData, _theStory,
+                    if (!CheckForCompletion(TheSe, theStoryProjectData, TheStory,
                         StoryEditor.TextFieldType.Vernacular,
                         StoryEditor.TextFieldType.Vernacular, ref bTriggerRefresh))  // by definition is the highest
                         throw StoryProjectData.BackOutWithNoUI;
@@ -63,7 +75,7 @@ namespace OneStoryProjectEditor
                 if (DoNationalBtLangFields)
                 {
                     // for this one, make sure that every line of the story has something in the vernacular field
-                    if (!CheckForCompletion(_theSe, _theStoryProjectData, _theStory,
+                    if (!CheckForCompletion(TheSe, theStoryProjectData, TheStory,
                         StoryEditor.TextFieldType.NationalBt,
                         HighestLanguage, ref bTriggerRefresh))
                         throw StoryProjectData.BackOutWithNoUI;
@@ -72,7 +84,7 @@ namespace OneStoryProjectEditor
                 if (DoInternationalBtFields)
                 {
                     // for this one, make sure that every line of the story has something in the vernacular field
-                    if (!CheckForCompletion(_theSe, _theStoryProjectData, _theStory,
+                    if (!CheckForCompletion(TheSe, theStoryProjectData, TheStory,
                         StoryEditor.TextFieldType.InternationalBt,
                         HighestLanguage, ref bTriggerRefresh))
                         throw StoryProjectData.BackOutWithNoUI;
@@ -81,7 +93,7 @@ namespace OneStoryProjectEditor
                 if (DoFreeTranslationFields)
                 {
                     // for this one, make sure that every line of the story has something in the vernacular field
-                    if (!CheckForCompletion(_theSe, _theStoryProjectData, _theStory,
+                    if (!CheckForCompletion(TheSe, theStoryProjectData, TheStory,
                         StoryEditor.TextFieldType.FreeTranslation,
                         HighestLanguage, ref bTriggerRefresh))
                         throw StoryProjectData.BackOutWithNoUI;
@@ -90,33 +102,33 @@ namespace OneStoryProjectEditor
                 if (DoAnchors)
                 {
                     // for this one, make sure that every line of the story has something in the vernacular field
-                    if (!CheckForCompletionAnchors(_theSe, _theStory))
+                    if (!CheckForCompletionAnchors(TheSe, TheStory))
                         throw StoryProjectData.BackOutWithNoUI;
                 }
 
                 if (DoRetelling)
                 {
                     // for this one, make sure that every line of the story has something in the vernacular field
-                    if (!CheckForCompletionRetelling(_theSe, _theStoryProjectData, _theStory))
+                    if (!CheckForCompletionRetelling(TheSe, theStoryProjectData, TheStory))
                         throw StoryProjectData.BackOutWithNoUI;
                 }
 
                 if (DoTestQuestions)
                 {
                     // for this one, make sure that every line of the story has something in the vernacular field
-                    if (!CheckForCompletionTestQuestions(_theSe, _theStoryProjectData, _theStory))
+                    if (!CheckForCompletionTestQuestions(TheSe, theStoryProjectData, TheStory))
                         throw StoryProjectData.BackOutWithNoUI;
                 }
 
                 if (DoAnswers)
                 {
                     // for this one, make sure that every line of the story has something in the vernacular field
-                    if (!CheckForCompletionAnswers(_theSe, _theStoryProjectData, _theStory))
+                    if (!CheckForCompletionAnswers(TheSe, theStoryProjectData, TheStory))
                         throw StoryProjectData.BackOutWithNoUI;
                 }
 
                 // finally, they have to have responded to all of the CITs comments
-                if (!CheckEndOfStateTransition.CheckThatPFRespondedToCITQuestions(_theSe, _theStory))
+                if (!CheckEndOfStateTransition.CheckThatPFRespondedToCITQuestions(TheSe, TheStory))
                     throw StoryProjectData.BackOutWithNoUI;
             }
             catch (StoryProjectData.BackOutWithNoUIException)
@@ -126,7 +138,7 @@ namespace OneStoryProjectEditor
             finally
             {
                 if (bTriggerRefresh)
-                    _theSe.refreshToolStripMenuItem_Click(null, null);
+                    TheSe.refreshToolStripMenuItem_Click(null, null);
             }
 
             return true;

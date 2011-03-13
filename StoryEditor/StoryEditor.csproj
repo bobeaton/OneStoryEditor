@@ -381,7 +381,20 @@
     <Compile Include="SelectTermsListForm.designer.cs">
       <DependentUpon>SelectTermsListForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="SendToCoachRequirementsCheck.cs" />
+    <Compile Include="ProjectFacilitatorRequirementsCheck.cs" />
+    <Compile Include="ConsultantInTrainingRequirementsCheck.cs" />
+    <Compile Include="SetCitTasksForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SetCitTasksForm.designer.cs">
+      <DependentUpon>SetCitTasksForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SetPfTasksForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SetPfTasksForm.Designer.cs">
+      <DependentUpon>SetPfTasksForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="SetTasksForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -896,7 +896,7 @@ the "Select State" menu item and in the resulting window click on the next (gree
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewFreeTranslationField="true" viewAnchorField="true" viewStoryTestingQuestions="true" viewStoryTestingAnswers="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eConsultantCheck2" MemberTypeWithEditToken="eConsultantInTraining" RequiresBiblicalStory="true">
-    <StageDisplayString>Consultant checks story after UNS test</StageDisplayString>
+    <StageDisplayString>Consultant checks story</StageDisplayString>
     <TransitionDisplayString>send to the consultant for checking</TransitionDisplayString>
     <StageInstructions>
 In this stage, you (the consultant) will check the story again now that you have the answers to the story testing questions and the retelling 
@@ -941,7 +941,7 @@ State" button to move to the next (green) state.
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewFreeTranslationField="true" viewAnchorField="true" viewStoryTestingQuestions="true" viewStoryTestingAnswers="true" viewRetellingField="true" viewConsultantNoteField="true" viewCoachNotesField="false" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eConsultantCauseRevisionAfterUnsTest" MemberTypeWithEditToken="eConsultantInTraining" RequiresBiblicalStory="true" RequiresManageWithCoaching="true" DontShowTilPast="true">
-    <StageDisplayString>Consultant revises feedback based on Coach feedback (going backwards after UNS testing)</StageDisplayString>
+    <StageDisplayString>Consultant revises feedback based on Coach feedback</StageDisplayString>
     <TransitionDisplayString>send to the CIT to have the project facilitator do corrections (to be returned without UNS testing)</TransitionDisplayString>
     <StageInstructions>
 In this stage, you (the consultant) will go through the feedback given by the coach in the Coach Notes

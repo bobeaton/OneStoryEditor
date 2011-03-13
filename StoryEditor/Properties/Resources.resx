@@ -2069,4 +2069,28 @@ and in the resulting window click on the next (green) state.
   <data name="IDS_ConfirmDeleteRetellings" xml:space="preserve">
     <value>Are you sure you want to remove all of the retelling results from </value>
   </data>
+  <data name="IDS_PfButtonLabelAnchors" xml:space="preserve">
+    <value>Enter &amp;Anchors</value>
+  </data>
+  <data name="IDS_PfButtonLabelFreeTranslation" xml:space="preserve">
+    <value>Enter &amp;Free Translation (UNS BT)</value>
+  </data>
+  <data name="IDS_PfButtonLabelInternationalBt" xml:space="preserve">
+    <value>Enter &amp;English BT</value>
+  </data>
+  <data name="IDS_PfButtonLabelNationalBt" xml:space="preserve">
+    <value>Enter &amp;National/Regional BT</value>
+  </data>
+  <data name="IDS_PfButtonLabelTestQuestions" xml:space="preserve">
+    <value>Enter &amp;Testing Questions</value>
+  </data>
+  <data name="IDS_PfButtonLabelVernacular" xml:space="preserve">
+    <value>Enter Story Language (&amp;Vernacular)</value>
+  </data>
+  <data name="IDS_PfNoEditToken" xml:space="preserve">
+    <value>You can view the {0} fields, but you don't have the edit privilege to make changes (the {1} currently has the edit privilege)</value>
+  </data>
+  <data name="IDS_PfNotAllowedToModified" xml:space="preserve">
+    <value>You can view the {0} fields, but the consultant hasn't given you permission to make changes to them</value>
+  </data>
 </root>

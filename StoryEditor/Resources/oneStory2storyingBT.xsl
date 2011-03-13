@@ -289,29 +289,30 @@
   </xsl:template>
 
   <xsl:template match="Answer">
-    <xsl:if test="[@lang='Vernacular'][text()] and preceding::Languages/LanguageInfo[@lang='Vernacular'][@code]">
+    <xsl:variable name="testNo" select="{<xsl:number value='1'/>}"/>
+      <xsl:if test="@lang='Vernacular' and preceding::Languages/LanguageInfo[@lang='Vernacular'][@code]">
       <xsl:text>&cr;\ans</xsl:text>
       <xsl:value-of select="preceding::Languages/LanguageInfo[@lang='Vernacular']/@code"/>
       <xsl:text> T</xsl:text>
       <xsl:number value="position()" format="1"/>
       <xsl:text>: </xsl:text>
-      <xsl:value-of select="[@lang='Vernacular']"/>
+      <xsl:value-of select="."/>
     </xsl:if>
-    <xsl:if test="[@lang='NationalBt'][text()] and preceding::Languages/LanguageInfo[@lang='NationalBt'][@code]">
-      <xsl:text>&cr;\tst</xsl:text>
+    <xsl:if test="@lang='NationalBt' and preceding::Languages/LanguageInfo[@lang='NationalBt'][@code]">
+      <xsl:text>&cr;\ans</xsl:text>
       <xsl:value-of select="preceding::Languages/LanguageInfo[@lang='NationalBt']/@code"/>
       <xsl:text> T</xsl:text>
       <xsl:number value="position()" format="1"/>
       <xsl:text>: </xsl:text>
-      <xsl:value-of select="[@lang='NationalBt']"/>
+      <xsl:value-of select="."/>
     </xsl:if>
-    <xsl:if test="[@lang='InternationalBt'][text()] and preceding::Languages/LanguageInfo[@lang='InternationalBt'][@code]">
-      <xsl:text>&cr;\tst</xsl:text>
+    <xsl:if test="@lang='InternationalBt' and preceding::Languages/LanguageInfo[@lang='InternationalBt'][@code]">
+      <xsl:text>&cr;\ans</xsl:text>
       <xsl:value-of select="preceding::Languages/LanguageInfo[@lang='InternationalBt']/@code"/>
       <xsl:text> T</xsl:text>
       <xsl:number value="position()" format="1"/>
       <xsl:text>: </xsl:text>
-      <xsl:value-of select="[@lang='InternationalBt']"/>
+      <xsl:value-of select="."/>
     </xsl:if>
   </xsl:template>
   

@@ -148,12 +148,12 @@
 
         #endregion
 
-        private System.Windows.Forms.Button buttonOK;
-        private System.Windows.Forms.Button buttonCancel;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
-        private System.Windows.Forms.CheckedListBox checkedListBoxAllowedTasks;
-        private System.Windows.Forms.CheckedListBox checkedListBoxRequiredTasks;
-        private System.Windows.Forms.TextBox textBoxAllowedTasksLabel;
-        private System.Windows.Forms.TextBox textBoxRequiredTasksLabel;
+        protected internal System.Windows.Forms.Button buttonOK;
+        protected internal System.Windows.Forms.Button buttonCancel;
+        protected internal System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
+        protected internal System.Windows.Forms.CheckedListBox checkedListBoxAllowedTasks;
+        protected internal System.Windows.Forms.CheckedListBox checkedListBoxRequiredTasks;
+        protected internal System.Windows.Forms.TextBox textBoxAllowedTasksLabel;
+        protected internal System.Windows.Forms.TextBox textBoxRequiredTasksLabel;
     }
 }

@@ -1042,6 +1042,78 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter &amp;Anchors.
+        /// </summary>
+        internal static string IDS_PfButtonLabelAnchors {
+            get {
+                return ResourceManager.GetString("IDS_PfButtonLabelAnchors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter &amp;Free Translation (UNS BT).
+        /// </summary>
+        internal static string IDS_PfButtonLabelFreeTranslation {
+            get {
+                return ResourceManager.GetString("IDS_PfButtonLabelFreeTranslation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter &amp;English BT.
+        /// </summary>
+        internal static string IDS_PfButtonLabelInternationalBt {
+            get {
+                return ResourceManager.GetString("IDS_PfButtonLabelInternationalBt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter &amp;National/Regional BT.
+        /// </summary>
+        internal static string IDS_PfButtonLabelNationalBt {
+            get {
+                return ResourceManager.GetString("IDS_PfButtonLabelNationalBt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter &amp;Testing Questions.
+        /// </summary>
+        internal static string IDS_PfButtonLabelTestQuestions {
+            get {
+                return ResourceManager.GetString("IDS_PfButtonLabelTestQuestions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter Story Language (&amp;Vernacular).
+        /// </summary>
+        internal static string IDS_PfButtonLabelVernacular {
+            get {
+                return ResourceManager.GetString("IDS_PfButtonLabelVernacular", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You can view the {0} fields, but you don&apos;t have the edit privilege to make changes (the {1} currently has the edit privilege).
+        /// </summary>
+        internal static string IDS_PfNoEditToken {
+            get {
+                return ResourceManager.GetString("IDS_PfNoEditToken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You can view the {0} fields, but the consultant hasn&apos;t given you permission to make changes to them.
+        /// </summary>
+        internal static string IDS_PfNotAllowedToModified {
+            get {
+                return ResourceManager.GetString("IDS_PfNotAllowedToModified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0}  Press F1 for instructions.
         /// </summary>
         internal static string IDS_PressF1ForInstructions {
