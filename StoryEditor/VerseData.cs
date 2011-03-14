@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 using System.Text;
@@ -1434,6 +1435,24 @@ namespace OneStoryProjectEditor
             {
                 VerseData aVerseData = this[nVerseNum];
                 aVerseData.IndexSearch(findProperties, ref lstBoxesToSearch);
+            }
+        }
+
+        public void ChangeRetellingTestorGuid(string strOldGuid, string strNewGuid)
+        {
+            foreach (var retelling in
+                this.SelectMany(aVerseData => aVerseData.Retellings.Where(retelling => retelling.MemberId == strOldGuid)))
+            {
+                retelling.MemberId = strNewGuid;
+            }
+        }
+
+        public void ChangeTqAnswersTestorGuid(string strOldGuid, string strNewGuid)
+        {
+            foreach (var answer in
+                this.SelectMany(aVerse => aVerse.TestQuestions.SelectMany(testingQuestion => testingQuestion.Answers.Where(answer => answer.MemberId == strOldGuid))))
+            {
+                answer.MemberId = strNewGuid;
             }
         }
     }

@@ -23,6 +23,8 @@ namespace OneStoryProjectEditor
         public TasksPf.TaskSettings TasksRequiredPf;
         public TasksCit.TaskSettings TasksAllowedCit;
         public TasksCit.TaskSettings TasksRequiredCit;
+        public int CountRetellingsTests;
+        public int CountTestingQuestionTests;
 
         public StoryData(string strStoryName, string strCrafterMemberGuid, 
             string strLoggedOnMemberGuid, bool bIsBiblicalStory, 
@@ -57,6 +59,13 @@ namespace OneStoryProjectEditor
             TasksAllowedCit = (TasksCit.TaskSettings)GetAttributeValue(node, typeof(TasksCit.TaskSettings), CstrAttributeLabelTasksAllowedCit, (long)TasksCit.DefaultAllowed);
             TasksRequiredCit = (TasksCit.TaskSettings)GetAttributeValue(node, typeof(TasksCit.TaskSettings), CstrAttributeLabelTasksRequiredCit, (long)TasksCit.DefaultRequired);
 
+            CountRetellingsTests = ((attr = node.Attributes[CstrAttributeLabelCountRetellingsTests]) != null)
+                                       ? Convert.ToInt32(attr.Value)
+                                       : 0;
+            CountTestingQuestionTests = ((attr = node.Attributes[CstrAttributeLabelCountTestingQuestionTests]) != null)
+                                       ? Convert.ToInt32(attr.Value)
+                                       : 0;
+
             // the last param isn't really false, but this ctor is only called when that doesn't matter
             //  (during Chorus diff presentation)
             ProjStage = new StoryStageLogic(strProjectFolder, node.Attributes[CstrAttributeStage].Value);
@@ -70,10 +79,29 @@ namespace OneStoryProjectEditor
         public StoryData(NewDataSet.storyRow theStoryRow, NewDataSet projFile, string strProjectFolder)
         {
             Name = theStoryRow.name;
-            TasksAllowedPf = (TasksPf.TaskSettings)Enum.Parse(typeof(TasksPf.TaskSettings), theStoryRow.TasksAllowedPf);
-            TasksRequiredPf = (TasksPf.TaskSettings)Enum.Parse(typeof(TasksPf.TaskSettings), theStoryRow.TasksRequiredPf);
-            TasksAllowedCit = (TasksCit.TaskSettings)Enum.Parse(typeof(TasksCit.TaskSettings), theStoryRow.TasksAllowedCit);
-            TasksRequiredCit = (TasksCit.TaskSettings)Enum.Parse(typeof(TasksCit.TaskSettings), theStoryRow.TasksRequiredCit);
+            TasksAllowedPf = (!theStoryRow.IsTasksAllowedPfNull())
+                                 ? (TasksPf.TaskSettings)
+                                   Enum.Parse(typeof (TasksPf.TaskSettings), theStoryRow.TasksAllowedPf)
+                                 : TasksPf.DefaultAllowed;
+            TasksRequiredPf = (!theStoryRow.IsTasksRequiredPfNull())
+                                  ? (TasksPf.TaskSettings)
+                                    Enum.Parse(typeof (TasksPf.TaskSettings), theStoryRow.TasksRequiredPf)
+                                  : TasksPf.DefaultRequired;
+            TasksAllowedCit = (!theStoryRow.IsTasksAllowedCitNull())
+                                  ? (TasksCit.TaskSettings)
+                                    Enum.Parse(typeof (TasksCit.TaskSettings), theStoryRow.TasksAllowedCit)
+                                  : TasksCit.DefaultAllowed;
+            TasksRequiredCit = (!theStoryRow.IsTasksRequiredCitNull())
+                                   ? (TasksCit.TaskSettings)
+                                     Enum.Parse(typeof (TasksCit.TaskSettings), theStoryRow.TasksRequiredCit)
+                                   : TasksCit.DefaultRequired;
+            CountRetellingsTests = (!theStoryRow.IsCountRetellingsTestsNull()) 
+                                            ? theStoryRow.CountRetellingsTests 
+                                            : 0;
+            CountTestingQuestionTests = (!theStoryRow.IsCountTestingQuestionTestsNull())
+                                            ? theStoryRow.CountTestingQuestionTests
+                                            : 0;
+
             guid = theStoryRow.guid;
             StageTimeStamp = (theStoryRow.IsstageDateTimeStampNull()) ? DateTime.Now : theStoryRow.stageDateTimeStamp;
             ProjStage = new StoryStageLogic(strProjectFolder, theStoryRow.stage);
@@ -90,6 +118,8 @@ namespace OneStoryProjectEditor
             TasksRequiredPf = rhs.TasksRequiredPf;
             TasksAllowedCit = rhs.TasksAllowedCit;
             TasksRequiredCit = rhs.TasksRequiredCit;
+            CountRetellingsTests = rhs.CountRetellingsTests;
+            CountTestingQuestionTests = rhs.CountTestingQuestionTests;
 
             // the guid shouldn't be replicated
             guid = Guid.NewGuid().ToString();  // rhs.guid;
@@ -109,7 +139,8 @@ namespace OneStoryProjectEditor
         public const string CstrAttributeLabelTasksRequiredPf = "TasksRequiredPf";
         public const string CstrAttributeLabelTasksAllowedCit = "TasksAllowedCit";
         public const string CstrAttributeLabelTasksRequiredCit = "TasksRequiredCit";
-
+        public const string CstrAttributeLabelCountRetellingsTests = "CountRetellingsTests";
+        public const string CstrAttributeLabelCountTestingQuestionTests = "CountTestingQuestionTests";
 
         public XElement GetXml
         {
@@ -129,6 +160,10 @@ namespace OneStoryProjectEditor
                                                             TasksAllowedCit),
                                              new XAttribute(CstrAttributeLabelTasksRequiredCit,
                                                             TasksRequiredCit),
+                                             new XAttribute(CstrAttributeLabelCountRetellingsTests,
+                                                            CountRetellingsTests),
+                                             new XAttribute(CstrAttributeLabelCountTestingQuestionTests,
+                                                            CountTestingQuestionTests),
                                              new XAttribute(CstrAttributeGuid, guid),
                                              new XAttribute(CstrAttributeTimeStamp, StageTimeStamp.ToString("s")),
                                              CraftingInfo.GetXml);
@@ -141,6 +176,22 @@ namespace OneStoryProjectEditor
 
                 return elemStory;
             }
+        }
+
+        public void ChangeRetellingTestor(int nTestIndex, string strNewGuid)
+        {
+            var testorInfo = CraftingInfo.TestorsToCommentsRetellings[nTestIndex];
+            var strOldGuid = testorInfo.TestorGuid;
+            testorInfo.TestorGuid = strNewGuid;
+            Verses.ChangeRetellingTestorGuid(strOldGuid, strNewGuid);
+        }
+
+        public void ChangeTqAnswersTestor(int nTestIndex, string strNewGuid)
+        {
+            var testorInfo = CraftingInfo.TestorsToCommentsTqAnswers[nTestIndex];
+            var strOldGuid = testorInfo.TestorGuid;
+            testorInfo.TestorGuid = strNewGuid;
+            Verses.ChangeTqAnswersTestorGuid(strOldGuid, strNewGuid);
         }
 
         /// <summary>

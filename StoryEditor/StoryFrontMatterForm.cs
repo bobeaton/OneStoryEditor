@@ -177,7 +177,7 @@ namespace OneStoryProjectEditor
 
         private void buttonBrowseUnsRetellingTest1_MouseUp(object sender, MouseEventArgs e)
         {
-            HandleMouseUp(false, textBoxUnsRetellingTest1, TeamMemberData.UserTypes.eUNS,
+            HandleMouseUp(e.Button == MouseButtons.Right, textBoxUnsRetellingTest1, TeamMemberData.UserTypes.eUNS,
                 "Choose the UNS that took this test");
 
 #if false   // obsolete (I think)
@@ -190,7 +190,7 @@ namespace OneStoryProjectEditor
 
         private void buttonBrowseUnsRetellingTest2_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            HandleMouseUp(false, textBoxUnsRetellingTest2, TeamMemberData.UserTypes.eUNS,
+            HandleMouseUp(e.Button == MouseButtons.Right, textBoxUnsRetellingTest2, TeamMemberData.UserTypes.eUNS,
                 "Choose the UNS that took this test");
 
 #if false   // obsolete (I think)
@@ -203,7 +203,7 @@ namespace OneStoryProjectEditor
 
         private void buttonBrowseUnsRetellingTest3_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            HandleMouseUp(false, textBoxUnsRetellingTest3, TeamMemberData.UserTypes.eUNS,
+            HandleMouseUp(e.Button == MouseButtons.Right, textBoxUnsRetellingTest3, TeamMemberData.UserTypes.eUNS,
                 "Choose the UNS that took this test");
 
 #if false   // obsolete (I think)
@@ -216,19 +216,19 @@ namespace OneStoryProjectEditor
 
         private void buttonBrowseUnsInferenceTest1_MouseUp(object sender, MouseEventArgs e)
         {
-            HandleMouseUp(false, textBoxUnsInferenceTest1, TeamMemberData.UserTypes.eUNS,
+            HandleMouseUp(e.Button == MouseButtons.Right, textBoxUnsInferenceTest1, TeamMemberData.UserTypes.eUNS,
                 "Choose the UNS that took this test");
         }
 
         private void buttonBrowseUnsInferenceTest2_MouseUp(object sender, MouseEventArgs e)
         {
-            HandleMouseUp(false, textBoxUnsInferenceTest2, TeamMemberData.UserTypes.eUNS,
+            HandleMouseUp(e.Button == MouseButtons.Right, textBoxUnsInferenceTest2, TeamMemberData.UserTypes.eUNS,
                 "Choose the UNS that took this test");
         }
 
         private void buttonBrowseUnsInferenceTest3_MouseUp(object sender, MouseEventArgs e)
         {
-            HandleMouseUp(false, textBoxUnsInferenceTest3, TeamMemberData.UserTypes.eUNS,
+            HandleMouseUp(e.Button == MouseButtons.Right, textBoxUnsInferenceTest3, TeamMemberData.UserTypes.eUNS,
                 "Choose the UNS that took this test");
         }
 
@@ -287,16 +287,24 @@ namespace OneStoryProjectEditor
             GetChangeToComment(_theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers,
                 textBoxInferenceComment3, 2, ref bModified);
 
-            /* we don't allow changes to UNSs
-            if (textBoxUnsTest1.Tag != null)
-                AddOrInsertTestor(textBoxUnsTest1, 0);
+            if (textBoxUnsRetellingTest1.Tag != null)
+                ChangeRetellingTestor(textBoxUnsRetellingTest1, 0, ref bModified);
 
-            if (textBoxUnsTest2.Tag != null)
-                AddOrInsertTestor(textBoxUnsTest2, 1);
+            if (textBoxUnsRetellingTest2.Tag != null)
+                ChangeRetellingTestor(textBoxUnsRetellingTest2, 1, ref bModified);
 
-            if (textBoxUnsTest3.Tag != null)
-                AddOrInsertTestor(textBoxUnsTest3, 2);
-            */
+            if (textBoxUnsRetellingTest3.Tag != null)
+                ChangeRetellingTestor(textBoxUnsRetellingTest3, 2, ref bModified);
+
+            if (textBoxUnsInferenceTest1.Tag != null)
+                ChangeQuestionTestor(textBoxUnsInferenceTest1, 0, ref bModified);
+
+            if (textBoxUnsInferenceTest2.Tag != null)
+                ChangeQuestionTestor(textBoxUnsInferenceTest2, 1, ref bModified);
+
+            if (textBoxUnsInferenceTest3.Tag != null)
+                ChangeQuestionTestor(textBoxUnsInferenceTest3, 2, ref bModified);
+
             if (bModified)
                 _theSE.Modified = true;
 
@@ -312,27 +320,23 @@ namespace OneStoryProjectEditor
                 if (tb.Text != testInfo[nIndex].TestComment)
                 {
                     testInfo[nIndex].TestComment = tb.Text;
-                    bModified |= true;
+                    bModified = true;
                 }
             }
         }
 
-        /*
-        protected void AddOrInsertTestor(TextBox tb, int nIndex)
+        protected void ChangeRetellingTestor(TextBox tb, int nIndex, ref bool bModified)
         {
-            TeamMemberData theUns = (TeamMemberData)tb.Tag;
-            if (_theCurrentStory.CraftingInfo.Testors.Count <= nIndex)
-                _theCurrentStory.CraftingInfo.Testors.Add(theUns.MemberGuid);
-            else
-            {
-                // but might means that they've changed the UNS, which means we have
-                //  to update all the test values in the verses.
-
-                _theCurrentStory.CraftingInfo.Testors[nIndex] = theUns.MemberGuid;
-                System.Diagnostics.Debug.Assert(false);
-            }
-            _theSE.Modified = true;
+            var theUns = (TeamMemberData)tb.Tag;
+            _theCurrentStory.ChangeRetellingTestor(nIndex, theUns.MemberGuid);
+            bModified = true;
         }
-        */
+
+        protected void ChangeQuestionTestor(TextBox tb, int nIndex, ref bool bModified)
+        {
+            var theUns = (TeamMemberData)tb.Tag;
+            _theCurrentStory.ChangeTqAnswersTestor(nIndex, theUns.MemberGuid);
+            bModified = true;
+        }
     }
 }
