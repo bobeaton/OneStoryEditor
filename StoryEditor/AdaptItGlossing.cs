@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using ECInterfaces;                 // for IEncConverter
 using SilEncConverters40;           // for AdaptItEncConverter
@@ -61,12 +62,13 @@ namespace OneStoryProjectEditor
                 strSourceLangName, strTargetLangName);
         }
 
+        private static Dictionary<string, AdaptItEncConverter> mapNameToTheEc;
+
         public static AdaptItEncConverter InitLookupAdapter(ProjectSettings proj, 
             ProjectSettings.AdaptItConfiguration.AdaptItBtDirection eBtDirection,
             TeamMemberData loggedOnMember, out ProjectSettings.LanguageInfo liSourceLang, 
             out ProjectSettings.LanguageInfo liTargetLang)
         {
-            var aECs = new EncConverters();
             string strName = null;
             ProjectSettings.AdaptItConfiguration adaptItConfiguration = null;
             switch (eBtDirection)
@@ -120,24 +122,34 @@ namespace OneStoryProjectEditor
             if (String.IsNullOrEmpty(strName))
                 strName = AdaptItLookupConverterName(liSourceLang.LangName, liTargetLang.LangName);
 
-            // if we don't have the converter already in the repository.
-            if (!aECs.ContainsKey(strName))
+            if (mapNameToTheEc == null)
+                mapNameToTheEc = new Dictionary<string, AdaptItEncConverter>();
+
+            AdaptItEncConverter theEc;
+            if (!mapNameToTheEc.TryGetValue(strName, out theEc))
             {
-                aECs.AddConversionMap(strName, strConverterSpec, ConvType.Unicode_to_from_Unicode,
-                    EncConverters.strTypeSILadaptit, "UNICODE", "UNICODE", ProcessTypeFlags.DontKnow);
+                // if we don't have the converter already in the repository.
+                var aECs = new EncConverters();
+                if (!aECs.ContainsKey(strName))
+                {
+                    aECs.AddConversionMap(strName, strConverterSpec, ConvType.Unicode_to_from_Unicode,
+                        EncConverters.strTypeSILadaptit, "UNICODE", "UNICODE", ProcessTypeFlags.DontKnow);
+                }
+
+                if (!aECs.ContainsKey(strName))
+                    throw new ApplicationException(String.Format(Properties.Resources.IDS_AdaptItConverterDoesntExist,
+                                                                 strName));
+
+                IEncConverter aEC = aECs[strName];
+                System.Diagnostics.Debug.Assert((aEC != null) && (aEC is AdaptItEncConverter));
+                theEc = (AdaptItEncConverter)aEC;
+
+                // in order to get the converter to load the database, do a dummy Convert
+                theEc.Convert("nothing");
+                mapNameToTheEc.Add(strName, theEc);
             }
 
-            if (!aECs.ContainsKey(strName))
-                throw new ApplicationException(String.Format(Properties.Resources.IDS_AdaptItConverterDoesntExist,
-                                                             strName));
-
-            IEncConverter aEC = aECs[strName];
-            System.Diagnostics.Debug.Assert((aEC != null) && (aEC is AdaptItEncConverter));
-            AdaptItEncConverter theLookupAdapter = (AdaptItEncConverter)aEC;
-
-            // in order to get the converter to load the database, do a dummy Convert
-            theLookupAdapter.Convert("nothing");
-            return theLookupAdapter;
+            return theEc;
         }
 
         public static string GetAiProjectFolderFromConverterIdentifier(string strConverterIdentifier)

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<AutoUpgrade xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.devx.com/schemas/autoupgrade/1.0">
+  <ApplicationBasePath />
+  <ApplicationExecutable />
+  <ApplicationName>OneStory Editor AutoUpdater</ApplicationName>
+  <FullUpgradeFileName />
+  <OffsetFromUctWhereManifestWasOriginallyCreated>3/14/2011 7:28:04 AM -05:00</OffsetFromUctWhereManifestWasOriginallyCreated>
+  <ManifestFiles>
+    <File name="AIGuesserEC.dll" method="version" action="copy" version="4.0.0.2" optional="false" size="88576">AdaptIt Encoding Converters</File>
+    <File name="AutoUpgrade.Lib.dll" method="version" action="copy" version="1.0.4081.13830" optional="false" size="24576">AutoUpgrade Lib</File>
+    <File name="StoryEditor.exe" method="version" action="copy" version="2.1.0.1" optional="false" size="1322496">OneStory Editor</File>
+  </ManifestFiles>
+  <SourcePath />
+  <UpgradeFiles />
+</AutoUpgrade>
