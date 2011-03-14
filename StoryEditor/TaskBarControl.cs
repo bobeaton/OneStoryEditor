@@ -55,6 +55,8 @@ namespace OneStoryProjectEditor
 
         private void SetConsultantInTrainingButtons()
         {
+            buttonViewTasks.Visible = true;
+
             bool bEditAllowed = TheSe.LoggedOnMember.IsEditAllowed(TheStory.ProjStage.MemberTypeWithEditToken);
 
             buttonReturnToProjectFacilitator.Visible = (bEditAllowed &&
@@ -102,6 +104,7 @@ namespace OneStoryProjectEditor
             bool bEditAllowed = TheSe.LoggedOnMember.IsEditAllowed(theStory.ProjStage.MemberTypeWithEditToken);
 
             buttonAddStory.Visible = true;
+            buttonViewTasks.Visible = true;
 
             SetButtonsAndTooltip(buttonVernacular,
                                  bEditAllowed,
@@ -382,6 +385,25 @@ namespace OneStoryProjectEditor
             TheStory.TasksAllowedCit = dlg.TasksAllowed;
             TheStory.TasksRequiredCit = dlg.TasksRequired;
             TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eConsultantCauseRevisionAfterUnsTest, true);
+        }
+
+        private void buttonViewTasks_Click(object sender, EventArgs e)
+        {
+            SetTasksForm dlg;
+            if (TheSe.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
+                dlg = new SetPfTasksForm(TheSe.StoryProject.ProjSettings,
+                                         TheStory.TasksAllowedPf, TheStory.TasksRequiredPf)
+                          {Text = "Tasks for Project Facilitator"};
+            else if (TheSe.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eConsultantInTraining)
+                dlg = new SetCitTasksForm(TheStory.TasksAllowedCit, TheStory.TasksRequiredCit)
+                          {Text = "Tasks for CIT"};
+            else
+            {
+                System.Diagnostics.Debug.Assert(false);
+                return;
+            }
+            dlg.Readonly = true;
+            dlg.ShowDialog();
         }
     }
 }

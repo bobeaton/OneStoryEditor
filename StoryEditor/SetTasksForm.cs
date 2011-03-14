@@ -10,6 +10,16 @@ namespace OneStoryProjectEditor
             InitializeComponent();
         }
 
+        public bool Readonly
+        {
+            set
+            {
+                checkedListBoxAllowedTasks.Enabled =
+                    checkedListBoxRequiredTasks.Enabled = 
+                    buttonOK.Enabled = !value;
+            }
+        }
+
         protected void SetCheckState(string strItemText, TasksPf.TaskSettings task, 
             TasksPf.TaskSettings tasksAllowed, TasksPf.TaskSettings tasksRequired)
         {
