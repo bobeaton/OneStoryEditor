@@ -644,13 +644,17 @@ namespace OneStoryProjectEditor
                         && !theSE.StoryProject.ProjSettings.NationalBT.HasData
                         && !theSE.StoryProject.ProjSettings.InternationalBT.HasData)));
 
-                theSE.viewAnchorFieldMenuItem.Checked = IsAnchorVisible;
-                theSE.viewStoryTestingQuestionMenuItem.Checked = IsStoryTestingQuestionVisible;
-                theSE.viewStoryTestingQuestionAnswerMenuItem.Checked = IsStoryTestingQuestionAnswersVisible;
-                theSE.viewRetellingFieldMenuItem.Checked = IsRetellingVisible;
-                theSE.viewConsultantNoteFieldMenuItem.Checked = IsConsultantNotesVisible;
-                theSE.viewCoachNotesFieldMenuItem.Checked = IsCoachNotesVisible;
-                theSE.viewNetBibleMenuItem.Checked = IsNetBibleVisible;
+                // the rest never want to be on for a non-biblical story
+                bool bBiblicalStory = ((theSE.theCurrentStory == null) ||
+                                       theSE.theCurrentStory.CraftingInfo.IsBiblicalStory);
+
+                theSE.viewAnchorFieldMenuItem.Checked = IsAnchorVisible && bBiblicalStory;
+                theSE.viewStoryTestingQuestionMenuItem.Checked = IsStoryTestingQuestionVisible && bBiblicalStory;
+                theSE.viewStoryTestingQuestionAnswerMenuItem.Checked = IsStoryTestingQuestionAnswersVisible && bBiblicalStory;
+                theSE.viewRetellingFieldMenuItem.Checked = IsRetellingVisible && bBiblicalStory;
+                theSE.viewConsultantNoteFieldMenuItem.Checked = IsConsultantNotesVisible && bBiblicalStory;
+                theSE.viewCoachNotesFieldMenuItem.Checked = IsCoachNotesVisible && bBiblicalStory;
+                theSE.viewNetBibleMenuItem.Checked = IsNetBibleVisible && bBiblicalStory;
             }
 #endif
             public const string CstrElementLabelProjectStates = "ProjectStates";

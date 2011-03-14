@@ -359,7 +359,8 @@ namespace OneStoryProjectEditor
 
             // find out from the consultant what tasks they want to set in the story
             var dlg = new SetPfTasksForm(TheSe.StoryProject.ProjSettings,
-                TheStory.TasksAllowedPf, TheStory.TasksRequiredPf)
+                TheStory.TasksAllowedPf, TheStory.TasksRequiredPf, 
+                TheStory.CraftingInfo.IsBiblicalStory)
                           {
                               Text = String.Format("Set tasks for the Project Facilitator ({0}) to do on story: {1}",
                                                    TheSe.StoryProject.TeamMembers.GetNameFromMemberId(
@@ -436,7 +437,9 @@ namespace OneStoryProjectEditor
             SetTasksForm dlg;
             if (TheSe.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
                 dlg = new SetPfTasksForm(TheSe.StoryProject.ProjSettings,
-                                         TheStory.TasksAllowedPf, TheStory.TasksRequiredPf)
+                                         TheStory.TasksAllowedPf, 
+                                         TheStory.TasksRequiredPf,
+                                         TheStory.CraftingInfo.IsBiblicalStory)
                           {Text = "Tasks for Project Facilitator"};
             else if (TheSe.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eConsultantInTraining)
                 dlg = new SetCitTasksForm(TheStory.TasksAllowedCit, TheStory.TasksRequiredCit)

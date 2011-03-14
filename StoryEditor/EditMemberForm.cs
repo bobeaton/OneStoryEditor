@@ -234,7 +234,7 @@ namespace OneStoryProjectEditor
                                       : (TasksPf.TaskSettings) _theMemberData.DefaultRequired;
 
             var dlg = new SetPfTasksForm(_theProjSettings,
-                                         tasksAllowedPf, tasksRequiredPf)
+                                         tasksAllowedPf, tasksRequiredPf, true)
                                          {Text = GetDefaultTaskTitleText};
 
             if (dlg.ShowDialog() != DialogResult.OK)

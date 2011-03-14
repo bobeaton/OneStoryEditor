@@ -27,7 +27,8 @@ namespace OneStoryProjectEditor
         }
 
         public SetPfTasksForm(ProjectSettings projSettings,
-            TasksPf.TaskSettings tasksAllowed, TasksPf.TaskSettings tasksRequired)
+            TasksPf.TaskSettings tasksAllowed, TasksPf.TaskSettings tasksRequired,
+            bool bIsBiblicalStory)
         {
             InitializeComponent();
 
@@ -59,29 +60,32 @@ namespace OneStoryProjectEditor
                     tasksAllowed, tasksRequired);
             }
 
-            SetCheckState(CstrAnchors,
-                TasksPf.TaskSettings.Anchors,
-                tasksAllowed, tasksRequired);
+            if (bIsBiblicalStory)
+            {
+                SetCheckState(CstrAnchors,
+                    TasksPf.TaskSettings.Anchors,
+                    tasksAllowed, tasksRequired);
 
-            SetCheckState(CstrRetellingTest1,
-                TasksPf.TaskSettings.Retellings,
-                tasksAllowed, tasksRequired);
+                SetCheckState(CstrRetellingTest1,
+                    TasksPf.TaskSettings.Retellings,
+                    tasksAllowed, tasksRequired);
 
-            SetCheckState(CstrRetellingTest2,
-                TasksPf.TaskSettings.Retellings2,
-                tasksAllowed, tasksRequired);
+                SetCheckState(CstrRetellingTest2,
+                    TasksPf.TaskSettings.Retellings2,
+                    tasksAllowed, tasksRequired);
 
-            SetCheckState(CstrTestQuestion,
-                TasksPf.TaskSettings.TestQuestions,
-                tasksAllowed, tasksRequired);
+                SetCheckState(CstrTestQuestion,
+                    TasksPf.TaskSettings.TestQuestions,
+                    tasksAllowed, tasksRequired);
 
-            SetCheckState(CstrAnswers1,
-                TasksPf.TaskSettings.Answers,
-                tasksAllowed, tasksRequired);
+                SetCheckState(CstrAnswers1,
+                    TasksPf.TaskSettings.Answers,
+                    tasksAllowed, tasksRequired);
 
-            SetCheckState(CstrAnswers2,
-                TasksPf.TaskSettings.Answers2,
-                tasksAllowed, tasksRequired);
+                SetCheckState(CstrAnswers2,
+                    TasksPf.TaskSettings.Answers2,
+                    tasksAllowed, tasksRequired);
+            }
         }
 
         public TasksPf.TaskSettings TasksAllowed

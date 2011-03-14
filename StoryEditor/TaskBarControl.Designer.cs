@@ -30,8 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             this.flowLayoutPanelTasks = new System.Windows.Forms.FlowLayoutPanel();
-            this.buttonAddStory = new System.Windows.Forms.Button();
             this.buttonViewTasks = new System.Windows.Forms.Button();
+            this.buttonAddStory = new System.Windows.Forms.Button();
             this.buttonVernacular = new System.Windows.Forms.Button();
             this.buttonNationalBt = new System.Windows.Forms.Button();
             this.buttonInternationalBt = new System.Windows.Forms.Button();
@@ -84,17 +84,6 @@
             this.flowLayoutPanelTasks.Size = new System.Drawing.Size(216, 551);
             this.flowLayoutPanelTasks.TabIndex = 1;
             // 
-            // buttonAddStory
-            // 
-            this.buttonAddStory.Location = new System.Drawing.Point(3, 32);
-            this.buttonAddStory.Name = "buttonAddStory";
-            this.buttonAddStory.Size = new System.Drawing.Size(210, 23);
-            this.buttonAddStory.TabIndex = 0;
-            this.buttonAddStory.Text = "Add &Story";
-            this.buttonAddStory.UseVisualStyleBackColor = true;
-            this.buttonAddStory.Visible = false;
-            this.buttonAddStory.Click += new System.EventHandler(this.buttonAddStory_Click);
-            // 
             // buttonViewTasks
             // 
             this.buttonViewTasks.Location = new System.Drawing.Point(3, 3);
@@ -105,6 +94,17 @@
             this.buttonViewTasks.UseVisualStyleBackColor = true;
             this.buttonViewTasks.Visible = false;
             this.buttonViewTasks.Click += new System.EventHandler(this.buttonViewTasks_Click);
+            // 
+            // buttonAddStory
+            // 
+            this.buttonAddStory.Location = new System.Drawing.Point(3, 32);
+            this.buttonAddStory.Name = "buttonAddStory";
+            this.buttonAddStory.Size = new System.Drawing.Size(210, 23);
+            this.buttonAddStory.TabIndex = 0;
+            this.buttonAddStory.Text = "Add &Story";
+            this.buttonAddStory.UseVisualStyleBackColor = true;
+            this.buttonAddStory.Visible = false;
+            this.buttonAddStory.Click += new System.EventHandler(this.buttonAddStory_Click);
             // 
             // buttonVernacular
             // 
@@ -249,7 +249,7 @@
             this.buttonReturnToProjectFacilitator.Name = "buttonReturnToProjectFacilitator";
             this.buttonReturnToProjectFacilitator.Size = new System.Drawing.Size(210, 23);
             this.buttonReturnToProjectFacilitator.TabIndex = 12;
-            this.buttonReturnToProjectFacilitator.Text = "Send to &Project Facilitator for re-crafting";
+            this.buttonReturnToProjectFacilitator.Text = "Send to &Project Facilitator";
             this.buttonReturnToProjectFacilitator.UseVisualStyleBackColor = true;
             this.buttonReturnToProjectFacilitator.Visible = false;
             this.buttonReturnToProjectFacilitator.Click += new System.EventHandler(this.buttonReturnToProjectFacilitator_Click);
