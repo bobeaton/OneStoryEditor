@@ -30,6 +30,14 @@ namespace OneStoryProjectEditor
             {
                 // add the 'delete' button
                 AddLineButton("Delete", null, 0, null);
+
+                // start them all out initially as unchecked
+                foreach (TreeNode node in treeViewItems.Nodes)
+                {
+                    node.Checked = false;
+                    foreach (TreeNode treeNode in node.Nodes)
+                        treeNode.Checked = false;
+                }
             }
             else
             {
