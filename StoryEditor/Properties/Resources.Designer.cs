@@ -671,6 +671,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The consultant is requiring you to do {0} more {1} test(s).
+        /// </summary>
+        internal static string IDS_DoXMoreTqTests {
+            get {
+                return ResourceManager.GetString("IDS_DoXMoreTqTests", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter the correct spelling.
         /// </summary>
         internal static string IDS_EnterCorrectedSpelling {

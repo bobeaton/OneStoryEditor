@@ -2108,4 +2108,7 @@ and in the resulting window click on the next (green) state.
   <data name="IDS_PfRequiredToDoXTests" xml:space="preserve">
     <value>You can click this button to add boxes for up to {1} {0} test(s)</value>
   </data>
+  <data name="IDS_DoXMoreTqTests" xml:space="preserve">
+    <value>The consultant is requiring you to do {0} more {1} test(s)</value>
+  </data>
 </root>

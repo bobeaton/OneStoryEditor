@@ -792,12 +792,14 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        protected static void QueryForUnsBackTranslator(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory)
+        public static void QueryForUnsBackTranslator(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory)
         {
             while (String.IsNullOrEmpty(theCurrentStory.CraftingInfo.BackTranslatorMemberID))
             {
-                MemberPicker dlg = new MemberPicker(theStoryProjectData, TeamMemberData.UserTypes.eUNS);
-                dlg.Text = "Choose the UNS that did this back-translation";
+                var dlg = new MemberPicker(theStoryProjectData, TeamMemberData.UserTypes.eUNS)
+                              {
+                                  Text = "Choose the UNS that did this back-translation"
+                              };
                 if (dlg.ShowDialog() != DialogResult.OK)
                     return;
 

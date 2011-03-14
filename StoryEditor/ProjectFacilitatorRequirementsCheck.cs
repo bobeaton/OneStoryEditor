@@ -50,11 +50,11 @@ namespace OneStoryProjectEditor
             DoAnchors = TasksPf.IsTaskOn(theStory.TasksRequiredPf,
                                                       TasksPf.TaskSettings.Anchors);
             DoRetelling = TasksPf.IsTaskOn(theStory.TasksRequiredPf,
-                                                      TasksPf.TaskSettings.Retellings);
+                                           TasksPf.TaskSettings.Retellings | TasksPf.TaskSettings.Retellings2);
             DoTestQuestions = TasksPf.IsTaskOn(theStory.TasksRequiredPf,
                                                       TasksPf.TaskSettings.TestQuestions);
             DoAnswers = TasksPf.IsTaskOn(theStory.TasksRequiredPf,
-                                                      TasksPf.TaskSettings.Answers);
+                                         TasksPf.TaskSettings.Answers | TasksPf.TaskSettings.Answers2);
         }
 
         public override bool CheckIfRequirementsAreMet()
@@ -63,6 +63,9 @@ namespace OneStoryProjectEditor
             StoryProjectData theStoryProjectData = TheSe.StoryProject;
             try
             {
+                // make sure the PF has specified the UNS back-translator
+                CheckEndOfStateTransition.QueryForUnsBackTranslator(TheSe, theStoryProjectData, TheStory);
+
                 if (DoVernacularLangFields)
                 {
                     // for this one, make sure that every line of the story has something in the vernacular field
@@ -123,7 +126,7 @@ namespace OneStoryProjectEditor
                 if (DoAnswers)
                 {
                     // for this one, make sure that every line of the story has something in the vernacular field
-                    if (!CheckForCompletionAnswers(TheSe, theStoryProjectData, TheStory))
+                    if (!CheckForCompletionAnswers(theStoryProjectData, TheStory))
                         throw StoryProjectData.BackOutWithNoUI;
                 }
 
@@ -144,16 +147,27 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        private bool CheckForCompletionAnswers(StoryEditor theSe, StoryProjectData theStoryProjectData, StoryData theStory)
+        private static bool CheckForCompletionAnswers(StoryProjectData theStoryProjectData, StoryData theStory)
         {
-            int nVerseNumber = 1;   // this wants to be 1, because it deals with the VerseBT pane
-            foreach (VerseData aVerseData in theStory.Verses)
+            // the first/easiest check is that the count of question tests should be 0
+            if (theStory.CountTestingQuestionTests > 0)
             {
+                MessageBox.Show(String.Format(Properties.Resources.IDS_DoXMoreTqTests,
+                                              theStory.CountTestingQuestionTests,
+                                              "story question"),
+                                OseResources.Properties.Resources.IDS_Caption);
+                return false;
+            }
+
+            for (int nVerseNumber = 1; nVerseNumber <= theStory.Verses.Count; nVerseNumber++)
+            {
+                var aVerseData = theStory.Verses[nVerseNumber - 1];
                 if (!aVerseData.IsVisible || !aVerseData.TestQuestions.HasData)
                     continue;
 
                 foreach (TestQuestionData aTQ in aVerseData.TestQuestions)
                 {
+                    /* I'm not sure this is true... what if it were a new TQ?
                     // if there are no answers, then we have a problem
                     if (aTQ.Answers.Count == 0)
                     {
@@ -161,39 +175,53 @@ namespace OneStoryProjectEditor
                                         OseResources.Properties.Resources.IDS_Caption);
                         return false;
                     }
+                    */
 
-                    // then make sure that all fields configured are filled
-                    int nLastIndex = aTQ.Answers.Count - 1;
-                    ProjectSettings.LanguageInfo li;
-                    LineData theAnswerData = aTQ.Answers[nLastIndex];
-                    ProjectSettings projSettings = theStoryProjectData.ProjSettings;
-                    if (!HasProperData(projSettings.ShowAnswersVernacular, (li = projSettings.Vernacular), theAnswerData.Vernacular)
-                        || !HasProperData(projSettings.ShowAnswersNationalBT, (li = projSettings.NationalBT), theAnswerData.NationalBt)
-                        || !HasProperData(projSettings.ShowAnswersInternationalBT, (li = projSettings.InternationalBT), theAnswerData.InternationalBt))
+                    // at least make sure that all fields configured are filled
+                    foreach (var theAnswerData in aTQ.Answers)
                     {
-                        MessageBox.Show(String.Format(Properties.Resources.IDS_DataMissing,
-                                                      Environment.NewLine,
-                                                      li.LangName,
-                                                      "Answer",
-                                                      nVerseNumber));
-                        return false;
+                        ProjectSettings.LanguageInfo li;
+                        ProjectSettings projSettings = theStoryProjectData.ProjSettings;
+                        if (!HasProperData(projSettings.ShowAnswersVernacular, (li = projSettings.Vernacular), theAnswerData.Vernacular)
+                            || !HasProperData(projSettings.ShowAnswersNationalBT, (li = projSettings.NationalBT), theAnswerData.NationalBt)
+                            || !HasProperData(projSettings.ShowAnswersInternationalBT, (li = projSettings.InternationalBT), theAnswerData.InternationalBt))
+                        {
+                            MessageBox.Show(String.Format(Properties.Resources.IDS_DataMissing,
+                                                          Environment.NewLine,
+                                                          li.LangName,
+                                                          "Answer",
+                                                          nVerseNumber));
+                            return false;
+                        }
                     }
-                    nVerseNumber++;
                 }
             }
+
             return true;
         }
 
         private static bool CheckForCompletionRetelling(StoryEditor theSe, StoryProjectData theStoryProjectData, StoryData theStory)
         {
-            // until I figure out how to do this properly, for now just check to make sure there
-            //  *are* retellings.
-            int nVerseNumber = 1;
-            foreach (var aVerse in theStory.Verses)
+            // the first/easiest check is that the count of question tests should be 0
+            if (theStory.CountRetellingsTests > 0)
             {
+                MessageBox.Show(String.Format(Properties.Resources.IDS_DoXMoreTqTests,
+                                              theStory.CountRetellingsTests,
+                                              "retelling"),
+                                OseResources.Properties.Resources.IDS_Caption);
+                return false;
+            }
+
+            // make sure the TQs that are there are filled in for all requested languages
+            for (int nVerseNumber = 1; nVerseNumber <= theStory.Verses.Count; nVerseNumber++)
+            {
+                var aVerse = theStory.Verses[nVerseNumber - 1];
+
                 if (!aVerse.IsVisible) 
                     continue;
 
+                /* as with Answers, I'm not sure this is true. There may not be 
+                 * retelling boxes for any new lines
                 // if there are no retellings, then we have a problem
                 if (aVerse.Retellings.Count == 0)
                 {
@@ -201,24 +229,25 @@ namespace OneStoryProjectEditor
                                     OseResources.Properties.Resources.IDS_Caption);
                     return false;
                 }
+                */
 
-                // then make sure that all fields configured are filled
-                int nLastIndex = aVerse.Retellings.Count - 1;
-                ProjectSettings.LanguageInfo li;
-                LineData theRetellingData = aVerse.Retellings[nLastIndex];
-                ProjectSettings projSettings = theStoryProjectData.ProjSettings;
-                if (!HasProperData(projSettings.ShowRetellingVernacular, (li = projSettings.Vernacular), theRetellingData.Vernacular)
-                    || !HasProperData(projSettings.ShowRetellingNationalBT, (li = projSettings.NationalBT), theRetellingData.NationalBt)
-                    || !HasProperData(projSettings.ShowRetellingInternationalBT, (li = projSettings.InternationalBT), theRetellingData.InternationalBt))
+                // but at least make sure that all fields configured are filled
+                foreach (var theRetellingData in aVerse.Retellings)
                 {
-                    MessageBox.Show(String.Format(Properties.Resources.IDS_DataMissing,
-                                                  Environment.NewLine,
-                                                  li.LangName,
-                                                  "Retelling",
-                                                  nVerseNumber));
-                    return false;
+                    ProjectSettings.LanguageInfo li;
+                    ProjectSettings projSettings = theStoryProjectData.ProjSettings;
+                    if (!HasProperData(projSettings.ShowRetellingVernacular, (li = projSettings.Vernacular), theRetellingData.Vernacular)
+                        || !HasProperData(projSettings.ShowRetellingNationalBT, (li = projSettings.NationalBT), theRetellingData.NationalBt)
+                        || !HasProperData(projSettings.ShowRetellingInternationalBT, (li = projSettings.InternationalBT), theRetellingData.InternationalBt))
+                    {
+                        MessageBox.Show(String.Format(Properties.Resources.IDS_DataMissing,
+                                                      Environment.NewLine,
+                                                      li.LangName,
+                                                      "Retelling",
+                                                      nVerseNumber));
+                        return false;
+                    }
                 }
-                nVerseNumber++;
             }
 
             return true;
@@ -242,30 +271,37 @@ namespace OneStoryProjectEditor
                 return false;
 
             // make sure the TQs that are there are filled in for all requested languages
-            int nVerseNumber = 1;
-            foreach (var aVerse in theStory.Verses)
+            for (int nVerseNumber = 1; nVerseNumber <= theStory.Verses.Count; nVerseNumber++)
             {
+                var aVerse = theStory.Verses[nVerseNumber - 1];
+                
                 // skip the invisible ones and/or the ones with no testing questions
                 if (!aVerse.IsVisible || !aVerse.TestQuestions.HasData)
                     continue;
 
-                // then make sure that all fields configured are filled
-                int nLastIndex = aVerse.TestQuestions.Count - 1;
-                ProjectSettings.LanguageInfo li;
-                LineData theTqData = aVerse.TestQuestions[nLastIndex].TestQuestionLine;
-                ProjectSettings projSettings = theStoryProjectData.ProjSettings;
-                if (!HasProperData(projSettings.ShowTestQuestionsVernacular, (li = projSettings.Vernacular), theTqData.Vernacular)
-                    || !HasProperData(projSettings.ShowTestQuestionsNationalBT, (li = projSettings.NationalBT), theTqData.NationalBt)
-                    || !HasProperData(projSettings.ShowTestQuestionsInternationalBT, (li = projSettings.InternationalBT), theTqData.InternationalBt))
+                foreach (TestQuestionData t in aVerse.TestQuestions)
                 {
-                    MessageBox.Show(String.Format(Properties.Resources.IDS_DataMissing,
-                                                  Environment.NewLine,
-                                                  li.LangName,
-                                                  "Test Question",
-                                                  nVerseNumber));
-                    return false;
+                    // then make sure that all fields configured are filled
+                    ProjectSettings.LanguageInfo li;
+                    LineData theTqData = t.TestQuestionLine;
+                    ProjectSettings projSettings = theStoryProjectData.ProjSettings;
+                    if (!HasProperData(projSettings.ShowTestQuestionsVernacular, (li = projSettings.Vernacular),
+                                       theTqData.Vernacular)
+                        ||
+                        !HasProperData(projSettings.ShowTestQuestionsNationalBT, (li = projSettings.NationalBT),
+                                       theTqData.NationalBt)
+                        ||
+                        !HasProperData(projSettings.ShowTestQuestionsInternationalBT, (li = projSettings.InternationalBT),
+                                       theTqData.InternationalBt))
+                    {
+                        MessageBox.Show(String.Format(Properties.Resources.IDS_DataMissing,
+                                                      Environment.NewLine,
+                                                      li.LangName,
+                                                      "Test Question",
+                                                      nVerseNumber));
+                        return false;
+                    }
                 }
-                nVerseNumber++;
             }
 
             return true;
