@@ -1500,7 +1500,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Click &apos;Yes&apos; to add a single answer box for this testing question only. Click &apos;No&apos; to add answer and retelling boxes for all lines of the story. Click &apos;Cancel&apos; to do nothing..
+        ///   Looks up a localized string similar to Click &apos;Yes&apos; to add a single answer box for this testing question only. Click &apos;No&apos; to add answer boxes for all lines of the story. Click &apos;Cancel&apos; to do nothing..
         /// </summary>
         internal static string IDS_VerifyAddSingleTest {
             get {
