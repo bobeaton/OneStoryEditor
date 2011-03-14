@@ -3510,38 +3510,22 @@ namespace OneStoryProjectEditor
                     viewNationalLangFieldMenuItem.Text = String.Format(Properties.Resources.IDS_StoryLanguageField,
                                                                        StoryProject.ProjSettings.NationalBT.LangName);
 
+                    /* this doesn't make sense anymore in the 'task' world
                     viewNationalLangFieldMenuItem.Enabled = ((theCurrentStory != null)
                                                              && (((int)theCurrentStory.ProjStage.ProjectStage)
                                                                  >= (int)StoryStageLogic.ProjectStages.eProjFacTypeNationalBT));
+                    */
                 }
                 else
                     viewNationalLangFieldMenuItem.Checked = viewNationalLangFieldMenuItem.Visible = false;
 
-                viewEnglishBTFieldMenuItem.Enabled = ((theCurrentStory != null)
-                                                             && (((int)theCurrentStory.ProjStage.ProjectStage)
-                                                                 >= (int)StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT));
-
-                viewFreeTranslationToolStripMenuItem.Enabled = ((theCurrentStory != null)
-                                                                && (((int) theCurrentStory.ProjStage.ProjectStage)
-                                                                    >=
-                                                                    (int)
-                                                                    StoryStageLogic.ProjectStages.
-                                                                        eProjFacTypeFreeTranslation));
-
-                viewAnchorFieldMenuItem.Enabled = ((theCurrentStory != null)
-                                                             && (((int)theCurrentStory.ProjStage.ProjectStage)
-                                                                 >= (int)StoryStageLogic.ProjectStages.eProjFacAddAnchors));
-
-                viewStoryTestingQuestionAnswerMenuItem.Enabled =
+                viewEnglishBTFieldMenuItem.Enabled = 
+                    viewFreeTranslationToolStripMenuItem.Enabled = 
+                    viewAnchorFieldMenuItem.Enabled = 
+                    viewStoryTestingQuestionAnswerMenuItem.Enabled =
                     viewStoryTestingQuestionMenuItem.Enabled =
-                    viewRetellingFieldMenuItem.Enabled = ((theCurrentStory != null)
-                                                          && (((int)theCurrentStory.ProjStage.ProjectStage)
-                                                              >=
-                                                              (int)
-                                                              StoryStageLogic.ProjectStages.
-                                                                  eProjFacAddStoryQuestions));
-
-                viewConsultantNoteFieldMenuItem.Enabled =
+                    viewRetellingFieldMenuItem.Enabled = 
+                    viewConsultantNoteFieldMenuItem.Enabled =
                     viewCoachNotesFieldMenuItem.Enabled =
                     stateTransitionHistoryToolStripMenuItem.Enabled = (theCurrentStory != null);
 
