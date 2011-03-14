@@ -8,7 +8,8 @@ namespace OneStoryProjectEditor
         private readonly TeamMemberData _theMemberData;
         private readonly ProjectSettings _theProjSettings;
 
-        public EditMemberForm(TeamMemberData theMemberData, ProjectSettings theProjSettings)
+        public EditMemberForm(TeamMemberData theMemberData, 
+            ProjectSettings theProjSettings, bool bAllowNameRoleEdits)
             : base(true)
         {
             InitializeComponent();
@@ -27,6 +28,12 @@ namespace OneStoryProjectEditor
             textBoxSkypeID.Text = theMemberData.SkypeID;
             textBoxTeamViewer.Text = theMemberData.TeamViewerID;
             textBoxBioData.Text = theMemberData.BioData;
+
+            if (!bAllowNameRoleEdits)
+            {
+                textBoxName.Enabled = groupBoxRole.Enabled = false;
+                Text = "View Member Information (to edit, use 'Project', 'Login', 'Edit Member')";
+            }
         }
 
         public DialogResult UpdateMember()

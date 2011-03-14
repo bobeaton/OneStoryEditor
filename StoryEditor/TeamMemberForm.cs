@@ -351,7 +351,7 @@ namespace OneStoryProjectEditor
             //  tabControlProjectMetaData_Selected for what happens)
             listBoxTeamMembers.SelectedIndex = -1;
 
-            var dlg = new EditMemberForm(null, _theProjSettings);
+            var dlg = new EditMemberForm(null, _theProjSettings, true);
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 if (listBoxTeamMembers.Items.Contains(dlg.MemberName))
@@ -411,7 +411,7 @@ namespace OneStoryProjectEditor
             m_strSelectedMember = (string)listBoxTeamMembers.SelectedItem;
             System.Diagnostics.Debug.Assert(_dataTeamMembers.ContainsKey(m_strSelectedMember));
             TeamMemberData theMemberData = _dataTeamMembers[m_strSelectedMember];
-            EditMemberForm dlg = new EditMemberForm(theMemberData, _theProjSettings);
+            EditMemberForm dlg = new EditMemberForm(theMemberData, _theProjSettings, true);
             if (dlg.ShowDialog() != DialogResult.OK) 
                 return;
 

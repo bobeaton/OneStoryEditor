@@ -683,13 +683,14 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public DialogResult ShowEditDialog(TeamMemberData theTeamMember, ProjectSettings projSettings)
+        public DialogResult ShowEditDialog(TeamMemberData theTeamMember,
+            ProjectSettings projSettings)
         {
             string strName = theTeamMember.Name;
             System.Diagnostics.Debug.Assert(ContainsKey(strName));
  
 #if !DataDllBuild
-            var dlg = new EditMemberForm(theTeamMember, projSettings);
+            var dlg = new EditMemberForm(theTeamMember, projSettings, false);
             DialogResult res = dlg.UpdateMember();
 
             // in case the name was changed
