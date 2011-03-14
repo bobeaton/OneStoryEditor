@@ -171,7 +171,7 @@ namespace OneStoryProjectEditor
                 throw new ApplicationException("Unable to create the Sword utility manager");
 
             foreach (string strPath in GetModuleLocations())
-                manager.augmentModules(strPath);
+                manager.augmentModules(strPath, true);
 
             // first determine all the possible resources available
             int numOfModules = (int)manager.getModules().size();
@@ -524,11 +524,14 @@ namespace OneStoryProjectEditor
             List<string> lst = new List<string>();
             string strSwordProjectPath = Environment.GetEnvironmentVariable("SWORD_PATH");
             if (!String.IsNullOrEmpty(strSwordProjectPath))
-                lst.Add(strSwordProjectPath);
+            {
+                string[] astrPaths = strSwordProjectPath.Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries);
+                lst.AddRange(astrPaths);
+            }
 
             strSwordProjectPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles) +
                                   @"\CrossWire\The SWORD Project";
-            if (Directory.Exists(strSwordProjectPath))
+            if (Directory.Exists(strSwordProjectPath) && !lst.Contains(strSwordProjectPath))
                 lst.Add(strSwordProjectPath);
 
 #if DEBUG
@@ -540,7 +543,8 @@ namespace OneStoryProjectEditor
             // finally, we put at least the NetBible below our working dir.
             strSwordProjectPath = Path.Combine(strWorkingFolder, "SWORD");
             System.Diagnostics.Debug.Assert(Directory.Exists(strSwordProjectPath));
-            lst.Add(strSwordProjectPath);
+            if (!lst.Contains(strSwordProjectPath))
+                lst.Add(strSwordProjectPath);
 
             return lst;
         }
