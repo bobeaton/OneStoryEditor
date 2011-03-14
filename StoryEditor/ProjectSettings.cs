@@ -674,15 +674,14 @@ namespace OneStoryProjectEditor
             Anchors = 16,
             Retellings = 32,
             TestQuestions = 64,
-            Answers = 128 /*, I don't think these can be required...
-            StoryFrontMatter = 256,
-            PanoramaFrontMatter = 512
-            */
+            Answers = 128,
+            Retellings2 = 256,
+            Answers2 = 512
         }
 
         public static bool IsTaskOn(TaskSettings value, TaskSettings flagToTest)
         {
-            return ((value & flagToTest) == flagToTest);
+            return ((value & flagToTest) != TaskSettings.None);
         }
 
         public static TaskSettings DefaultAllowed
@@ -721,7 +720,7 @@ namespace OneStoryProjectEditor
 
         public static bool IsTaskOn(TaskSettings value, TaskSettings flagToTest)
         {
-            return ((value & flagToTest) == flagToTest);
+            return ((value & flagToTest) != TaskSettings.None);
         }
 
         public static TaskSettings DefaultAllowed

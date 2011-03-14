@@ -136,11 +136,27 @@ namespace OneStoryProjectEditor
                                  "anchor",
                                  Properties.Resources.IDS_PfButtonLabelAnchors);
 
+            const string cstrRetelling = "retelling";
             SetButtonsAndTooltip(buttonAddRetellingBoxes,
                                  bEditAllowed,
-                                 TasksPf.TaskSettings.Retellings,
-                                 "retelling",
+                                 TasksPf.TaskSettings.Retellings | TasksPf.TaskSettings.Retellings2,
+                                 cstrRetelling,
                                  null);
+
+            // then enable it whether there are any more tests to do
+            if (TasksPf.IsTaskOn(TheStory.TasksRequiredPf, TasksPf.TaskSettings.Retellings | TasksPf.TaskSettings.Retellings2))
+            {
+                if (TheStory.CountRetellingsTests > 0)
+                    toolTip.SetToolTip(buttonAddRetellingBoxes, String.Format(Properties.Resources.IDS_PfRequiredToDoXTests,
+                        cstrRetelling,
+                        TheStory.CountRetellingsTests));
+                else
+                {
+                    toolTip.SetToolTip(buttonAddRetellingBoxes, String.Format(Properties.Resources.IDS_PfRequiredTestsDone,
+                        cstrRetelling));
+                    buttonAddRetellingBoxes.Enabled = false;
+                }
+            }
 
             SetButtonsAndTooltip(buttonViewTestQuestions,
                                  bEditAllowed,
@@ -150,9 +166,26 @@ namespace OneStoryProjectEditor
 
             SetButtonsAndTooltip(buttonAddBoxesForAnswers,
                                  bEditAllowed,
-                                 TasksPf.TaskSettings.Answers,
+                                 TasksPf.TaskSettings.Answers | TasksPf.TaskSettings.Answers2,
                                  "answer",
                                  null);
+
+            const string cstrStoryQuestionLabel = "story question";
+
+            if (TasksPf.IsTaskOn(TheStory.TasksRequiredPf, TasksPf.TaskSettings.Answers | TasksPf.TaskSettings.Answers2))
+            {
+                // then enable it whether there are any more tests to do
+                if (TheStory.CountTestingQuestionTests > 0)
+                    toolTip.SetToolTip(buttonAddBoxesForAnswers, String.Format(Properties.Resources.IDS_PfRequiredToDoXTests,
+                        cstrStoryQuestionLabel,
+                        TheStory.CountTestingQuestionTests));
+                else
+                {
+                    toolTip.SetToolTip(buttonAddBoxesForAnswers, String.Format(Properties.Resources.IDS_PfRequiredTestsDone,
+                        cstrStoryQuestionLabel));
+                    buttonAddBoxesForAnswers.Enabled = false;
+                }
+            }
 
             // these also are added for short cuts
             buttonSendToConsultant.Visible = bEditAllowed;
@@ -286,8 +319,8 @@ namespace OneStoryProjectEditor
         {
             System.Diagnostics.Debug.Assert(TheSe.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator);
             ParentForm.Close();
-            TheSe.editAddInferenceTestResultsToolStripMenuItem_Click(sender, e);
-            TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eProjFacEnterAnswersToStoryQuestionsOfTest1, false);
+            if (TheSe.AddInferenceTestBoxes())
+                TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eProjFacEnterAnswersToStoryQuestionsOfTest1, false);
         }
 
         private void buttonStoryInformation_Click(object sender, EventArgs e)
@@ -339,6 +372,17 @@ namespace OneStoryProjectEditor
 
             TheStory.TasksAllowedPf = dlg.TasksAllowed;
             TheStory.TasksRequiredPf = dlg.TasksRequired;
+
+            // set the attributes that say how many tests are required
+            if (TasksPf.IsTaskOn(TheStory.TasksRequiredPf, TasksPf.TaskSettings.Retellings))
+                TheStory.CountRetellingsTests = 1;
+            if (TasksPf.IsTaskOn(TheStory.TasksRequiredPf, TasksPf.TaskSettings.Retellings2))
+                TheStory.CountRetellingsTests = 2;
+            if (TasksPf.IsTaskOn(TheStory.TasksRequiredPf, TasksPf.TaskSettings.Answers))
+                TheStory.CountTestingQuestionTests = 1;
+            if (TasksPf.IsTaskOn(TheStory.TasksRequiredPf, TasksPf.TaskSettings.Answers2))
+                TheStory.CountTestingQuestionTests = 2;
+
             TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eProjFacRevisesAfterUnsTest, true);
         }
 

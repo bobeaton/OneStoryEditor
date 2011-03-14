@@ -28,7 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // SetPfTasksForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.ClientSize = new System.Drawing.Size(477, 293);
+            this.Name = "SetPfTasksForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SetPfTasksForm_FormClosing);
+            this.ResumeLayout(false);
+
         }
 
         #endregion

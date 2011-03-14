@@ -311,6 +311,8 @@
                   <xs:attribute name="TasksRequiredPf" type="xs:string" use="optional" />
                   <xs:attribute name="TasksAllowedCit" type="xs:string" use="optional" />
                   <xs:attribute name="TasksRequiredCit" type="xs:string" use="optional" />
+                  <xs:attribute name="CountRetellingsTests" type="xs:int" use="optional" default="0" />
+                  <xs:attribute name="CountTestingQuestionTests" type="xs:int" use="optional" default="0" />
                   <xs:attribute name="guid" type="xs:string" use="required" />
 									<xs:attribute name="stageDateTimeStamp" type="xs:dateTime" />
 								</xs:complexType>

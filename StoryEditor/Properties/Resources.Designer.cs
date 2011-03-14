@@ -376,6 +376,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Did you want the project facilitator to do 1 or 2 {0} tests?.
+        /// </summary>
+        internal static string IDS_CantHaveBoth1And2 {
+            get {
+                return ResourceManager.GetString("IDS_CantHaveBoth1And2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The consultant is requiring you to do a test with the story testing questions, but there are no answers entered into the story. Click the &apos;Tasks&apos;, &apos;Add boxes for Answers&apos; button and enter the UNS&apos;s answers..
         /// </summary>
         internal static string IDS_CantHaveNoAnswers {
@@ -1128,6 +1137,24 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_PfNotAllowedToModified {
             get {
                 return ResourceManager.GetString("IDS_PfNotAllowedToModified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You&apos;ve added boxes for all of the required {0} tests.
+        /// </summary>
+        internal static string IDS_PfRequiredTestsDone {
+            get {
+                return ResourceManager.GetString("IDS_PfRequiredTestsDone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You can click this button to add boxes for up to {1} {0} test(s).
+        /// </summary>
+        internal static string IDS_PfRequiredToDoXTests {
+            get {
+                return ResourceManager.GetString("IDS_PfRequiredToDoXTests", resourceCulture);
             }
         }
         

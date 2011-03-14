@@ -5550,6 +5550,10 @@ namespace OneStoryProjectEditor {
             
             private global::System.Data.DataColumn columnTasksRequiredCit;
             
+            private global::System.Data.DataColumn columnCountRetellingsTests;
+            
+            private global::System.Data.DataColumn columnCountTestingQuestionTests;
+            
             private global::System.Data.DataColumn columnguid;
             
             private global::System.Data.DataColumn columnstageDateTimeStamp;
@@ -5631,6 +5635,20 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn CountRetellingsTestsColumn {
+                get {
+                    return this.columnCountRetellingsTests;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn CountTestingQuestionTestsColumn {
+                get {
+                    return this.columnCountTestingQuestionTests;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public global::System.Data.DataColumn guidColumn {
                 get {
                     return this.columnguid;
@@ -5687,7 +5705,7 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public storyRow AddstoryRow(string name, string stage, string TasksAllowedPf, string TasksRequiredPf, string TasksAllowedCit, string TasksRequiredCit, string guid, System.DateTime stageDateTimeStamp, storiesRow parentstoriesRowBystories_story) {
+            public storyRow AddstoryRow(string name, string stage, string TasksAllowedPf, string TasksRequiredPf, string TasksAllowedCit, string TasksRequiredCit, int CountRetellingsTests, int CountTestingQuestionTests, string guid, System.DateTime stageDateTimeStamp, storiesRow parentstoriesRowBystories_story) {
                 storyRow rowstoryRow = ((storyRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         name,
@@ -5696,12 +5714,14 @@ namespace OneStoryProjectEditor {
                         TasksRequiredPf,
                         TasksAllowedCit,
                         TasksRequiredCit,
+                        CountRetellingsTests,
+                        CountTestingQuestionTests,
                         guid,
                         stageDateTimeStamp,
                         null,
                         null};
                 if ((parentstoriesRowBystories_story != null)) {
-                    columnValuesArray[9] = parentstoriesRowBystories_story[1];
+                    columnValuesArray[11] = parentstoriesRowBystories_story[1];
                 }
                 rowstoryRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowstoryRow);
@@ -5728,6 +5748,8 @@ namespace OneStoryProjectEditor {
                 this.columnTasksRequiredPf = base.Columns["TasksRequiredPf"];
                 this.columnTasksAllowedCit = base.Columns["TasksAllowedCit"];
                 this.columnTasksRequiredCit = base.Columns["TasksRequiredCit"];
+                this.columnCountRetellingsTests = base.Columns["CountRetellingsTests"];
+                this.columnCountTestingQuestionTests = base.Columns["CountTestingQuestionTests"];
                 this.columnguid = base.Columns["guid"];
                 this.columnstageDateTimeStamp = base.Columns["stageDateTimeStamp"];
                 this.columnstory_Id = base.Columns["story_Id"];
@@ -5748,6 +5770,10 @@ namespace OneStoryProjectEditor {
                 base.Columns.Add(this.columnTasksAllowedCit);
                 this.columnTasksRequiredCit = new global::System.Data.DataColumn("TasksRequiredCit", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnTasksRequiredCit);
+                this.columnCountRetellingsTests = new global::System.Data.DataColumn("CountRetellingsTests", typeof(int), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnCountRetellingsTests);
+                this.columnCountTestingQuestionTests = new global::System.Data.DataColumn("CountTestingQuestionTests", typeof(int), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnCountTestingQuestionTests);
                 this.columnguid = new global::System.Data.DataColumn("guid", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnguid);
                 this.columnstageDateTimeStamp = new global::System.Data.DataColumn("stageDateTimeStamp", typeof(global::System.DateTime), null, global::System.Data.MappingType.Attribute);
@@ -5766,6 +5792,10 @@ namespace OneStoryProjectEditor {
                 this.columnTasksRequiredPf.Namespace = "";
                 this.columnTasksAllowedCit.Namespace = "";
                 this.columnTasksRequiredCit.Namespace = "";
+                this.columnCountRetellingsTests.Namespace = "";
+                this.columnCountRetellingsTests.DefaultValue = ((int)(0));
+                this.columnCountTestingQuestionTests.Namespace = "";
+                this.columnCountTestingQuestionTests.DefaultValue = ((int)(0));
                 this.columnguid.AllowDBNull = false;
                 this.columnguid.Namespace = "";
                 this.columnstageDateTimeStamp.Namespace = "";
@@ -6020,7 +6050,7 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentstoryRowBystory_CraftingInfo != null)) {
-                    columnValuesArray[5] = parentstoryRowBystory_CraftingInfo[8];
+                    columnValuesArray[5] = parentstoryRowBystory_CraftingInfo[10];
                 }
                 rowCraftingInfoRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowCraftingInfoRow);
@@ -7993,7 +8023,7 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentstoryRowBystory_TransitionHistory != null)) {
-                    columnValuesArray[1] = parentstoryRowBystory_TransitionHistory[8];
+                    columnValuesArray[1] = parentstoryRowBystory_TransitionHistory[10];
                 }
                 rowTransitionHistoryRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowTransitionHistoryRow);
@@ -8537,7 +8567,7 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentstoryRowBystory_Verses != null)) {
-                    columnValuesArray[1] = parentstoryRowBystory_Verses[8];
+                    columnValuesArray[1] = parentstoryRowBystory_Verses[10];
                 }
                 rowVersesRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowVersesRow);
@@ -15940,6 +15970,36 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int CountRetellingsTests {
+                get {
+                    try {
+                        return ((int)(this[this.tablestory.CountRetellingsTestsColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'CountRetellingsTests\' in table \'story\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablestory.CountRetellingsTestsColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int CountTestingQuestionTests {
+                get {
+                    try {
+                        return ((int)(this[this.tablestory.CountTestingQuestionTestsColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'CountTestingQuestionTests\' in table \'story\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablestory.CountTestingQuestionTestsColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public string guid {
                 get {
                     return ((string)(this[this.tablestory.guidColumn]));
@@ -16037,6 +16097,26 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public void SetTasksRequiredCitNull() {
                 this[this.tablestory.TasksRequiredCitColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsCountRetellingsTestsNull() {
+                return this.IsNull(this.tablestory.CountRetellingsTestsColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetCountRetellingsTestsNull() {
+                this[this.tablestory.CountRetellingsTestsColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsCountTestingQuestionTestsNull() {
+                return this.IsNull(this.tablestory.CountTestingQuestionTestsColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetCountTestingQuestionTestsNull() {
+                this[this.tablestory.CountTestingQuestionTestsColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

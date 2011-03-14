@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.flowLayoutPanelTasks = new System.Windows.Forms.FlowLayoutPanel();
             this.buttonAddStory = new System.Windows.Forms.Button();
+            this.buttonViewTasks = new System.Windows.Forms.Button();
             this.buttonVernacular = new System.Windows.Forms.Button();
             this.buttonNationalBt = new System.Windows.Forms.Button();
             this.buttonInternationalBt = new System.Windows.Forms.Button();
@@ -49,7 +50,6 @@
             this.buttonSendToCIT = new System.Windows.Forms.Button();
             this.buttonMarkReadyForSfg = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.buttonViewTasks = new System.Windows.Forms.Button();
             this.flowLayoutPanelTasks.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -57,8 +57,8 @@
             // 
             this.flowLayoutPanelTasks.AutoSize = true;
             this.flowLayoutPanelTasks.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowLayoutPanelTasks.Controls.Add(this.buttonAddStory);
             this.flowLayoutPanelTasks.Controls.Add(this.buttonViewTasks);
+            this.flowLayoutPanelTasks.Controls.Add(this.buttonAddStory);
             this.flowLayoutPanelTasks.Controls.Add(this.buttonVernacular);
             this.flowLayoutPanelTasks.Controls.Add(this.buttonNationalBt);
             this.flowLayoutPanelTasks.Controls.Add(this.buttonInternationalBt);
@@ -86,7 +86,7 @@
             // 
             // buttonAddStory
             // 
-            this.buttonAddStory.Location = new System.Drawing.Point(3, 3);
+            this.buttonAddStory.Location = new System.Drawing.Point(3, 32);
             this.buttonAddStory.Name = "buttonAddStory";
             this.buttonAddStory.Size = new System.Drawing.Size(210, 23);
             this.buttonAddStory.TabIndex = 0;
@@ -94,6 +94,17 @@
             this.buttonAddStory.UseVisualStyleBackColor = true;
             this.buttonAddStory.Visible = false;
             this.buttonAddStory.Click += new System.EventHandler(this.buttonAddStory_Click);
+            // 
+            // buttonViewTasks
+            // 
+            this.buttonViewTasks.Location = new System.Drawing.Point(3, 3);
+            this.buttonViewTasks.Name = "buttonViewTasks";
+            this.buttonViewTasks.Size = new System.Drawing.Size(210, 23);
+            this.buttonViewTasks.TabIndex = 18;
+            this.buttonViewTasks.Text = "&View Requested Tasks";
+            this.buttonViewTasks.UseVisualStyleBackColor = true;
+            this.buttonViewTasks.Visible = false;
+            this.buttonViewTasks.Click += new System.EventHandler(this.buttonViewTasks_Click);
             // 
             // buttonVernacular
             // 
@@ -275,17 +286,6 @@
             this.buttonMarkReadyForSfg.UseVisualStyleBackColor = true;
             this.buttonMarkReadyForSfg.Visible = false;
             this.buttonMarkReadyForSfg.Click += new System.EventHandler(this.buttonMarkReadyForSfg_Click);
-            // 
-            // buttonViewTasks
-            // 
-            this.buttonViewTasks.Location = new System.Drawing.Point(3, 32);
-            this.buttonViewTasks.Name = "buttonViewTasks";
-            this.buttonViewTasks.Size = new System.Drawing.Size(210, 23);
-            this.buttonViewTasks.TabIndex = 18;
-            this.buttonViewTasks.Text = "&View Requested Tasks";
-            this.buttonViewTasks.UseVisualStyleBackColor = true;
-            this.buttonViewTasks.Visible = false;
-            this.buttonViewTasks.Click += new System.EventHandler(this.buttonViewTasks_Click);
             // 
             // TaskBarControl
             // 

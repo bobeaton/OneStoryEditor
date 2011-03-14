@@ -2093,10 +2093,19 @@ and in the resulting window click on the next (green) state.
   <data name="IDS_PfNotAllowedToModified" xml:space="preserve">
     <value>You can view the {0} fields, but the consultant hasn't given you permission to make changes to them</value>
   </data>
+  <data name="IDS_CantHaveBoth1And2" xml:space="preserve">
+    <value>Did you want the project facilitator to do 1 or 2 {0} tests?</value>
+  </data>
   <data name="IDS_DidntAnswerQuestion" xml:space="preserve">
     <value>In line {0}, the {1} made a comment, which you didn't respond to. Did you forget it?</value>
   </data>
   <data name="IDS_MustAllowToRequireTask" xml:space="preserve">
     <value>Oops. You have to allow a task in order to require it. Please check the box in the Allowed Tasks list for '{0}'</value>
+  </data>
+  <data name="IDS_PfRequiredTestsDone" xml:space="preserve">
+    <value>You've added boxes for all of the required {0} tests</value>
+  </data>
+  <data name="IDS_PfRequiredToDoXTests" xml:space="preserve">
+    <value>You can click this button to add boxes for up to {1} {0} test(s)</value>
   </data>
 </root>

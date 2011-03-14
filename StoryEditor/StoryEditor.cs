@@ -2650,15 +2650,24 @@ namespace OneStoryProjectEditor
             InitAllPanes();
         }
 
-        internal void editAddInferenceTestResultsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void editAddInferenceTestResultsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            AddInferenceTestBoxes();
+        }
+
+        internal bool AddInferenceTestBoxes()
+        {
+            if (!CheckEndOfStateTransition.CheckForCountOfTestingQuestions(theCurrentStory, this))
+                return false;
+
             if (MessageBox.Show(Properties.Resources.IDS_AreAllTestingQuestionsEnteredQuery,
                                 OseResources.Properties.Resources.IDS_Caption,
                                 MessageBoxButtons.OKCancel) == DialogResult.Cancel)
-                return;
+                return false;
 
             AddInferenceTest();
             InitAllPanes();
+            return true;
         }
 
         internal bool AddRetellingTest()
@@ -2698,6 +2707,9 @@ namespace OneStoryProjectEditor
             foreach (VerseData aVerseData in theCurrentStory.Verses)
                 aVerseData.Retellings.TryAddNewLine(strUnsGuid);
 
+            if (theCurrentStory.CountRetellingsTests > 0)
+                theCurrentStory.CountRetellingsTests--; // to show we've added one
+
             Modified = true;
             return true;
         }
@@ -2734,6 +2746,9 @@ namespace OneStoryProjectEditor
             foreach (VerseData aVerseData in theCurrentStory.Verses)
                 foreach (TestQuestionData aTQ in aVerseData.TestQuestions)
                     aTQ.Answers.TryAddNewLine(strUnsGuid);
+
+            if (theCurrentStory.CountTestingQuestionTests > 0)
+                theCurrentStory.CountTestingQuestionTests--;    // to show we've added one
 
             Modified = true;
             return true;
@@ -2821,6 +2836,12 @@ namespace OneStoryProjectEditor
                 }
 
                 theCurrentStory.CraftingInfo.TestorsToCommentsRetellings.RemoveAt(nTestNum);
+
+                // if the consultant was requiring the PF to do retellings, 
+                //  then show that (s)he's lacking one
+                if (TasksPf.IsTaskOn(theCurrentStory.TasksRequiredPf, TasksPf.TaskSettings.Retellings | TasksPf.TaskSettings.Retellings2))
+                    theCurrentStory.CountRetellingsTests++;
+
                 Modified = true;
                 InitAllPanes();
             }
@@ -2849,6 +2870,12 @@ namespace OneStoryProjectEditor
                 }
 
                 theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.RemoveAt(nTestNum);
+
+                // if the consultant was requiring the PF to do retellings, 
+                //  then show that (s)he's lacking one
+                if (TasksPf.IsTaskOn(theCurrentStory.TasksRequiredPf, TasksPf.TaskSettings.Answers | TasksPf.TaskSettings.Answers2))
+                    theCurrentStory.CountTestingQuestionTests++;
+
                 Modified = true;
                 InitAllPanes();
             }
@@ -4721,11 +4748,11 @@ namespace OneStoryProjectEditor
 
         public void CheckBiblePaneCursorPosition()
         {
-            if (!_bAutoHide)
+            if (!_bAutoHide || !viewNetBibleMenuItem.Checked)
                 return;
 
             Point locationNetBibleViewer = netBibleViewer.PointToScreen(netBibleViewer.Location);
-            Rectangle rectangleNetBibleViewer = new Rectangle(locationNetBibleViewer, netBibleViewer.DisplayRectangle.Size);
+            var rectangleNetBibleViewer = new Rectangle(locationNetBibleViewer, netBibleViewer.DisplayRectangle.Size);
             if (rectangleNetBibleViewer.Contains(MousePosition))
             {
                 if (splitContainerUpDown.IsMinimized)
