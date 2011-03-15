@@ -236,11 +236,11 @@ namespace OneStoryProjectEditor
                 }
             }
 
-            private static bool _bCheckedForSync;
+            public bool AlreadyCheckedForSync;
             public void CheckForSync(string strProjectFolder, TeamMemberData loggedOnMember)
             {
                 System.Diagnostics.Debug.Assert(ProjectType == AdaptItProjectType.SharedAiProject);
-                if (!_bCheckedForSync
+                if (!AlreadyCheckedForSync
                     && !String.IsNullOrEmpty(strProjectFolder)
                     && !String.IsNullOrEmpty(RepoProjectName))
                 {
@@ -259,7 +259,7 @@ namespace OneStoryProjectEditor
                         Program.SyncWithAiRepository(strProjectFolder, RepoProjectName, true);
 
                     Program.SetAiProjectForSyncage(strProjectFolder, RepoProjectName);
-                    _bCheckedForSync = true;
+                    AlreadyCheckedForSync = true;
                 }
             }
 

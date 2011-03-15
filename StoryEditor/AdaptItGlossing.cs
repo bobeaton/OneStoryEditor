@@ -115,23 +115,23 @@ namespace OneStoryProjectEditor
             if (mapNameToTheEc == null)
                 mapNameToTheEc = new Dictionary<string, AdaptItEncConverter>();
 
+            string strConverterSpec = AdaptItLookupFileSpec(liSourceLang.LangName, liTargetLang.LangName);
+            if ((adaptItConfiguration != null) 
+                && (adaptItConfiguration.ProjectType == ProjectSettings.AdaptItConfiguration.AdaptItProjectType.SharedAiProject))
+            {
+                string strProjectFolder = Path.GetDirectoryName(strConverterSpec);
+                adaptItConfiguration.CheckForSync(strProjectFolder, loggedOnMember);
+            }
+            else
+            {
+                // just in case the project doesn't exist yet and nothing's been 
+                //  configured (i.e. else case)
+                WriteAdaptItProjectFiles(liSourceLang, liTargetLang, proj.InternationalBT); // move this to AIGuesserEC project when it's mature.
+            }
+
             AdaptItEncConverter theEc;
             if (!mapNameToTheEc.TryGetValue(strName, out theEc))
             {
-                string strConverterSpec = AdaptItLookupFileSpec(liSourceLang.LangName, liTargetLang.LangName);
-                if ((adaptItConfiguration != null) 
-                    && (adaptItConfiguration.ProjectType == ProjectSettings.AdaptItConfiguration.AdaptItProjectType.SharedAiProject))
-                {
-                    string strProjectFolder = Path.GetDirectoryName(strConverterSpec);
-                    adaptItConfiguration.CheckForSync(strProjectFolder, loggedOnMember);
-                }
-                else
-                {
-                    // just in case the project doesn't exist yet and nothing's been 
-                    //  configured (i.e. else case)
-                    WriteAdaptItProjectFiles(liSourceLang, liTargetLang, proj.InternationalBT); // move this to AIGuesserEC project when it's mature.
-                }
-
                 // if we don't have the converter already in the repository.
                 var aECs = new EncConverters();
                 if (!aECs.ContainsKey(strName) && File.Exists(strConverterSpec))

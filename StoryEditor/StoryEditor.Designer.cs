@@ -163,6 +163,7 @@ namespace OneStoryProjectEditor
             this.buttonsStoryStage = new System.Windows.Forms.ToolStripSplitButton();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.synchronizeSharedAdaptItProjectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
             this.splitContainerLeftRight.Panel2.SuspendLayout();
@@ -954,7 +955,8 @@ namespace OneStoryProjectEditor
             this.useAdaptItForBacktranslationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.storyAdaptItVernacularToNationalMenuItem,
             this.storyAdaptItVernacularToEnglishMenuItem,
-            this.storyAdaptItNationalToEnglishMenuItem});
+            this.storyAdaptItNationalToEnglishMenuItem,
+            this.synchronizeSharedAdaptItProjectsToolStripMenuItem});
             this.useAdaptItForBacktranslationToolStripMenuItem.Name = "useAdaptItForBacktranslationToolStripMenuItem";
             this.useAdaptItForBacktranslationToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
             this.useAdaptItForBacktranslationToolStripMenuItem.Text = "&Use Adapt It for back-translation";
@@ -1440,7 +1442,7 @@ namespace OneStoryProjectEditor
             this.statusLabel.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken;
             this.statusLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(801, 17);
+            this.statusLabel.Size = new System.Drawing.Size(866, 17);
             this.statusLabel.Spring = true;
             this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.statusLabel.Click += new System.EventHandler(this.statusLabel_Click);
@@ -1455,6 +1457,13 @@ namespace OneStoryProjectEditor
             this.statusStrip.Size = new System.Drawing.Size(881, 22);
             this.statusStrip.TabIndex = 1;
             this.statusStrip.Text = "statusStrip1";
+            // 
+            // synchronizeSharedAdaptItProjectsToolStripMenuItem
+            // 
+            this.synchronizeSharedAdaptItProjectsToolStripMenuItem.Name = "synchronizeSharedAdaptItProjectsToolStripMenuItem";
+            this.synchronizeSharedAdaptItProjectsToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.synchronizeSharedAdaptItProjectsToolStripMenuItem.Text = "Synchronize Shared Adapt It projects";
+            this.synchronizeSharedAdaptItProjectsToolStripMenuItem.Click += new System.EventHandler(this.synchronizeSharedAdaptItProjectsToolStripMenuItem_Click);
             // 
             // StoryEditor
             // 
@@ -1624,6 +1633,7 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem copyFreeTranslationMenuItem;
         private ToolStripMenuItem deleteFreeTranslationToolStripMenuItem;
         private ToolStripMenuItem editAddInferenceTestResultsToolStripMenuItem;
+        private ToolStripMenuItem synchronizeSharedAdaptItProjectsToolStripMenuItem;
     }
 
 #if UsingHtmlDisplayForConNotes

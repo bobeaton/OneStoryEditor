@@ -2405,8 +2405,7 @@ namespace OneStoryProjectEditor
                 && (theCurrentStory.Verses.Count > 0))
             {
                 useAdaptItForBacktranslationToolStripMenuItem.Enabled = true;
-
-                // if (StoryProject.ProjSettings.Vernacular.HasData && StoryProject.ProjSettings.NationalBT.HasData)
+                bool bAnySharedProjects = false;
                 if (StoryProject.ProjSettings.VernacularToNationalBt != null)
                 {
                     storyAdaptItVernacularToNationalMenuItem.Text = String.Format(
@@ -2414,6 +2413,8 @@ namespace OneStoryProjectEditor
                         StoryProject.ProjSettings.Vernacular.LangName,
                         StoryProject.ProjSettings.NationalBT.LangName);
                     storyAdaptItVernacularToNationalMenuItem.Visible = true;
+                    bAnySharedProjects |= (StoryProject.ProjSettings.VernacularToNationalBt.ProjectType ==
+                                           ProjectSettings.AdaptItConfiguration.AdaptItProjectType.SharedAiProject);
                 }
                 else
                     storyAdaptItVernacularToNationalMenuItem.Visible = false;
@@ -2427,6 +2428,8 @@ namespace OneStoryProjectEditor
                                                                                  StoryProject.ProjSettings.
                                                                                      InternationalBT.LangName);
                     storyAdaptItVernacularToEnglishMenuItem.Visible = true;
+                    bAnySharedProjects |= (StoryProject.ProjSettings.VernacularToInternationalBt.ProjectType ==
+                                           ProjectSettings.AdaptItConfiguration.AdaptItProjectType.SharedAiProject);
                 }
                 else
                     storyAdaptItVernacularToEnglishMenuItem.Visible = false;
@@ -2440,9 +2443,13 @@ namespace OneStoryProjectEditor
                                                                                StoryProject.ProjSettings.InternationalBT
                                                                                    .LangName);
                     storyAdaptItNationalToEnglishMenuItem.Visible = true;
+                    bAnySharedProjects |= (StoryProject.ProjSettings.NationalBtToInternationalBt.ProjectType ==
+                                           ProjectSettings.AdaptItConfiguration.AdaptItProjectType.SharedAiProject);
                 }
                 else
                     storyAdaptItNationalToEnglishMenuItem.Visible = false;
+
+                synchronizeSharedAdaptItProjectsToolStripMenuItem.Visible = bAnySharedProjects;
             }
             else
                 useAdaptItForBacktranslationToolStripMenuItem.Enabled = false;
@@ -4816,6 +4823,28 @@ namespace OneStoryProjectEditor
 
             var dlg = new TaskBarForm(this, StoryProject, theCurrentStory);
             dlg.ShowDialog();
+        }
+
+        private void synchronizeSharedAdaptItProjectsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SyncAiKb(StoryProject.ProjSettings.VernacularToNationalBt);
+            SyncAiKb(StoryProject.ProjSettings.VernacularToInternationalBt);
+            SyncAiKb(StoryProject.ProjSettings.NationalBtToInternationalBt);
+        }
+
+        private void SyncAiKb(ProjectSettings.AdaptItConfiguration aiconfig)
+        {
+            if ((aiconfig == null) ||
+                (aiconfig.ProjectType != ProjectSettings.AdaptItConfiguration.AdaptItProjectType.SharedAiProject))
+                return;
+
+            aiconfig.AlreadyCheckedForSync = false;
+            ProjectSettings.LanguageInfo liSourceLang, liTargetLang;
+            AdaptItGlossing.InitLookupAdapter(StoryProject.ProjSettings,
+                                              aiconfig.BtDirection,
+                                              LoggedOnMember,
+                                              out liSourceLang,
+                                              out liTargetLang);
         }
     }
 }
