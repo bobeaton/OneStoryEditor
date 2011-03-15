@@ -1,4 +1,14 @@
-﻿Check on removing ScrollIntoView (see what it feels like). Problem with overage on the screen jumping around too much.
+﻿fix acts.hindiwbtc
+
+add 'cn' lines to line option button (since there may not be anchors in non-biblical stories).
+
+add count of TQs to the panorama view
+
+check for answer boxes is not working
+
+automatically send emails when "Send to xxx" happens
+
+Check on removing ScrollIntoView (see what it feels like). Problem with overage on the screen jumping around too much.
 
 Resolving project notes doesn't seem to make them go away.
 

@@ -63,7 +63,14 @@ namespace OneStoryProjectEditor
                 if ((aGC.TargetWord.IndexOf(GlossingControl.CstrAmbiguitySeparator) == -1)
                     && aGC.Modified)
                 {
-                    m_theEC.AddEntryPair(aGC.SourceWord, aGC.TargetWord);
+                    try
+                    {
+                        m_theEC.AddEntryPair(aGC.SourceWord, aGC.TargetWord);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
+                    }
                 }
             }
 
@@ -169,9 +176,16 @@ namespace OneStoryProjectEditor
 
         public void CheckForSimilarWords(GlossingControl glossingControl)
         {
-            List<string> lstSimilarWords = m_theEC.GetSimilarWords(glossingControl.SourceWord);
-            if (lstSimilarWords != null)
-                glossingControl.ShowSimilarWordList(lstSimilarWords);
+            try
+            {
+                List<string> lstSimilarWords = m_theEC.GetSimilarWords(glossingControl.SourceWord);
+                if (lstSimilarWords != null)
+                    glossingControl.ShowSimilarWordList(lstSimilarWords);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
+            }
         }
 
         public void Update(GlossingControl theGc, string strNewSourceWord)
@@ -186,9 +200,16 @@ namespace OneStoryProjectEditor
 
         public void EditKb(GlossingControl glossingControl)
         {
-            string strNewSourceWord = m_theEC.EditKnowledgeBase(glossingControl.SourceWord);
-            if (!String.IsNullOrEmpty(strNewSourceWord))
-                Update(glossingControl, strNewSourceWord);
+            try
+            {
+                string strNewSourceWord = m_theEC.EditKnowledgeBase(glossingControl.SourceWord);
+                if (!String.IsNullOrEmpty(strNewSourceWord))
+                    Update(glossingControl, strNewSourceWord);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
+            }
         }
     }
 }

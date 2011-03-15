@@ -817,5 +817,19 @@ namespace OneStoryProjectEditor
 
             theSE.SplitStory(_verseData);
         }
+
+        private void addExegeticalCulturalNoteBelowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // the only function of the button here is to add a slot to type a con note
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
+                return;
+            /* fix later
+            ExegeticalHelpNoteData anEHN = _verseData.ExegeticalHelpNotes.AddExegeticalHelpNote("");
+            SetExegeticalHelpControls(_ctrlVerse, _li, anEHN, ref m_nNumRows);
+            AdjustHeightWithSuspendLayout(null);
+            theSE.Modified = true;
+            */
+        }
     }
 }

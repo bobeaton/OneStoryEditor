@@ -171,7 +171,7 @@ namespace OneStoryProjectEditor
                 throw new ApplicationException("Unable to create the Sword utility manager");
 
             foreach (string strPath in GetModuleLocations())
-                manager.augmentModules(strPath, true);
+                manager.augmentModules(strPath);
 
             // first determine all the possible resources available
             int numOfModules = (int)manager.getModules().size();
