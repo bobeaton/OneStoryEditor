@@ -76,7 +76,6 @@ namespace OneStoryProjectEditor
         // make it a little non-obvious how to get the string out so we can benefit from compiler-time errors
         public override string ToString()
         {
-            System.Diagnostics.Debug.WriteLine(HasData);
             return Value;
         }
 

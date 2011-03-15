@@ -10,16 +10,16 @@ namespace OneStoryProjectEditor
 {
     public partial class SetPfTasksForm : SetTasksForm
     {
-        private const string CstrVernacularLangFields = "Edit vernacular language fields";
-        private const string CstrNationalBtLangFields = "Edit national/regional BT language fields";
-        private const string CstrInternationalBtFields = "Edit English BT language fields";
-        private const string CstrFreeTranslationFields = "Edit free translation fields";
+        private const string CstrVernacularLangFields = "Edit story language";
+        private const string CstrNationalBtLangFields = "Edit national/regional BT language";
+        private const string CstrInternationalBtFields = "Edit English BT language";
+        private const string CstrFreeTranslationFields = "Edit free translation";
         private const string CstrAnchors = "Add Anchors";
-        private const string CstrRetellingTest1 = "Do 1 retelling test";
-        private const string CstrRetellingTest2 = "Do 2 retelling tests";
+        private const string CstrRetellingTest1 = "Do 1 more retelling test";
+        private const string CstrRetellingTest2 = "Do 2 more retelling tests";
         private const string CstrTestQuestion = "Add story testing questions";
-        private const string CstrAnswers1 = "Do 1 story question test";
-        private const string CstrAnswers2 = "Do 2 story question tests";
+        private const string CstrAnswers1 = "Do 1 more story question test";
+        private const string CstrAnswers2 = "Do 2 more story question tests";
 
         public SetPfTasksForm()
         {

@@ -238,7 +238,7 @@
             this.buttonSendToConsultant.Name = "buttonSendToConsultant";
             this.buttonSendToConsultant.Size = new System.Drawing.Size(210, 23);
             this.buttonSendToConsultant.TabIndex = 11;
-            this.buttonSendToConsultant.Text = "Send to &Consultant";
+            this.buttonSendToConsultant.Text = "Set to &Consultant\'s turn";
             this.buttonSendToConsultant.UseVisualStyleBackColor = true;
             this.buttonSendToConsultant.Visible = false;
             this.buttonSendToConsultant.Click += new System.EventHandler(this.buttonSendToConsultant_Click);
@@ -249,7 +249,7 @@
             this.buttonReturnToProjectFacilitator.Name = "buttonReturnToProjectFacilitator";
             this.buttonReturnToProjectFacilitator.Size = new System.Drawing.Size(210, 23);
             this.buttonReturnToProjectFacilitator.TabIndex = 12;
-            this.buttonReturnToProjectFacilitator.Text = "Send to &Project Facilitator";
+            this.buttonReturnToProjectFacilitator.Text = "Set to &Project Facilitator\'s turn";
             this.buttonReturnToProjectFacilitator.UseVisualStyleBackColor = true;
             this.buttonReturnToProjectFacilitator.Visible = false;
             this.buttonReturnToProjectFacilitator.Click += new System.EventHandler(this.buttonReturnToProjectFacilitator_Click);
@@ -260,7 +260,7 @@
             this.buttonSendToCoach.Name = "buttonSendToCoach";
             this.buttonSendToCoach.Size = new System.Drawing.Size(210, 23);
             this.buttonSendToCoach.TabIndex = 16;
-            this.buttonSendToCoach.Text = "Send to Coac&h";
+            this.buttonSendToCoach.Text = "Set to Coac&h\'s turn";
             this.buttonSendToCoach.UseVisualStyleBackColor = true;
             this.buttonSendToCoach.Visible = false;
             this.buttonSendToCoach.Click += new System.EventHandler(this.buttonSendToCoach_Click);
@@ -271,7 +271,7 @@
             this.buttonSendToCIT.Name = "buttonSendToCIT";
             this.buttonSendToCIT.Size = new System.Drawing.Size(210, 23);
             this.buttonSendToCIT.TabIndex = 17;
-            this.buttonSendToCIT.Text = "Sen&d to CIT";
+            this.buttonSendToCIT.Text = "Set to CIT\'s t&urn";
             this.buttonSendToCIT.UseVisualStyleBackColor = true;
             this.buttonSendToCIT.Visible = false;
             this.buttonSendToCIT.Click += new System.EventHandler(this.buttonSendToCIT_Click);

@@ -5,8 +5,8 @@ namespace OneStoryProjectEditor
 {
     public partial class SetCitTasksForm : SetTasksForm
     {
-        private const string CstrSendToCoach = "Send notes to coach for review";
-        private const string CstrSendToProjectFacilitator = "Send notes to project facilitator";
+        private const string CstrSendToCoach = "Set to coach's turn";
+        private const string CstrSendToProjectFacilitator = "Set to project facilitator's turn";
 
         public SetCitTasksForm(TasksCit.TaskSettings tasksAllowed, 
             TasksCit.TaskSettings tasksRequired)

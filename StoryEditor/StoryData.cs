@@ -48,16 +48,26 @@ namespace OneStoryProjectEditor
             TasksRequiredPf = (TasksPf.TaskSettings)thePf.DefaultRequired;
             TasksAllowedCit = TasksCit.DefaultAllowed;
             TasksRequiredCit = TasksCit.DefaultRequired;
+
+            // set the attributes that say how many tests are required
+            if (TasksPf.IsTaskOn(TasksRequiredPf, TasksPf.TaskSettings.Retellings))
+                CountRetellingsTests = 1;
+            if (TasksPf.IsTaskOn(TasksRequiredPf, TasksPf.TaskSettings.Retellings2))
+                CountRetellingsTests = 2;
+            if (TasksPf.IsTaskOn(TasksRequiredPf, TasksPf.TaskSettings.Answers))
+                CountTestingQuestionTests = 1;
+            if (TasksPf.IsTaskOn(TasksRequiredPf, TasksPf.TaskSettings.Answers2))
+                CountTestingQuestionTests = 2;
         }
 
         public StoryData(XmlNode node, string strProjectFolder)
         {
             XmlAttribute attr;
             Name = ((attr = node.Attributes[CstrAttributeName]) != null) ? attr.Value : null;
-            TasksAllowedPf = (TasksPf.TaskSettings)GetAttributeValue(node, typeof(TasksPf.TaskSettings), CstrAttributeLabelTasksAllowedPf, (long)TasksPf.DefaultAllowed);
-            TasksRequiredPf = (TasksPf.TaskSettings)GetAttributeValue(node, typeof(TasksPf.TaskSettings), CstrAttributeLabelTasksRequiredPf, (long)TasksPf.DefaultRequired);
-            TasksAllowedCit = (TasksCit.TaskSettings)GetAttributeValue(node, typeof(TasksCit.TaskSettings), CstrAttributeLabelTasksAllowedCit, (long)TasksCit.DefaultAllowed);
-            TasksRequiredCit = (TasksCit.TaskSettings)GetAttributeValue(node, typeof(TasksCit.TaskSettings), CstrAttributeLabelTasksRequiredCit, (long)TasksCit.DefaultRequired);
+            TasksAllowedPf = GetAttributeValue(node, CstrAttributeLabelTasksAllowedPf, TasksPf.DefaultAllowed);
+            TasksRequiredPf = GetAttributeValue(node, CstrAttributeLabelTasksRequiredPf, TasksPf.DefaultRequired);
+            TasksAllowedCit = GetAttributeValue(node, CstrAttributeLabelTasksAllowedCit, TasksCit.DefaultAllowed);
+            TasksRequiredCit = GetAttributeValue(node, CstrAttributeLabelTasksRequiredCit, TasksCit.DefaultRequired);
 
             CountRetellingsTests = ((attr = node.Attributes[CstrAttributeLabelCountRetellingsTests]) != null)
                                        ? Convert.ToInt32(attr.Value)
@@ -241,32 +251,29 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private static long GetAttributeValue(XmlNode node, Type typeEnum, string cstrAttributeLabel,
-            long lDefaultValue)
+        private static TasksPf.TaskSettings GetAttributeValue(XmlNode node, 
+            string cstrAttributeLabel, TasksPf.TaskSettings defaultValue)
         {
             if (node.Attributes != null)
             {
                 var attr = node.Attributes[cstrAttributeLabel];
-                if (attr != null) 
-                    return (long)Enum.Parse(typeEnum, attr.Value);
+                if (attr != null)
+                    return (TasksPf.TaskSettings)Enum.Parse(typeof(TasksPf.TaskSettings), attr.Value);
             }
-            return lDefaultValue;
+            return defaultValue;
         }
 
-        /*
-        public string VersesHtml(bool b, ProjectSettings projSettings, bool bViewHidden,
-            TeamMembersData membersData, TeamMemberData loggedOnMember,
-            VerseData.ViewSettings viewItemToInsureOn)
+        private static TasksCit.TaskSettings GetAttributeValue(XmlNode node, 
+            string cstrAttributeLabel, TasksCit.TaskSettings defaultValue)
         {
-            string strHtml = Verses.StoryBtHtml(projSettings, bViewHidden, ProjStage, 
-                membersData, loggedOnMember, viewItemToInsureOn);
-
-            return String.Format(OseResources.Properties.Resources.HTML_HeaderStoryBt,
-                StylePrefix(projSettings),
-                OseResources.Properties.Resources.HTML_DOM_PrefixStoryBt,
-                strHtml);
+            if (node.Attributes != null)
+            {
+                var attr = node.Attributes[cstrAttributeLabel];
+                if (attr != null)
+                    return (TasksCit.TaskSettings)Enum.Parse(typeof(TasksCit.TaskSettings), attr.Value);
+            }
+            return defaultValue;
         }
-        */
 
         // remotely accessible one from Chorus
         public string GetPresentationHtmlForChorus(XmlNode nodeProjectFile, string strProjectPath, XmlNode parentStory, XmlNode childStory)
@@ -279,6 +286,7 @@ namespace OneStoryProjectEditor
             if (childStory != null)
                 ChildStory = new StoryData(childStory, strProjectPath);
             VerseData.ViewSettings viewSettings = new VerseData.ViewSettings(
+                projSettings,
                 true,
                 true,
                 true,
@@ -595,7 +603,7 @@ namespace OneStoryProjectEditor
             {
                 XmlAttribute attr;
                 TestorGuid = ((attr = nodeTest.Attributes[CstrAttributeMemberID]) != null) ? attr.Value : null;
-                TestComment = nodeTest.Value;
+                TestComment = nodeTest.InnerText;
             }
         }
 
