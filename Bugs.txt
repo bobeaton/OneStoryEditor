@@ -1,4 +1,14 @@
-﻿fix acts.hindiwbtc
+﻿view historical differences is broken (I think it can't handle some of the earlier element names
+
+Find out why the 'ye' 'eh' alternation didn't trigger 'SimilarWords'
+
+OffsetFromUctWhereManifestWasOriginallyCreated to something less americo-centric
+
+check Glossing for non-biblical stories
+
+add tooltip for Story, UNS change message
+
+fix acts.hindiwbtc
 
 add 'cn' lines to line option button (since there may not be anchors in non-biblical stories).
 
@@ -11,6 +21,10 @@ automatically send emails when "Send to xxx" happens
 Check on removing ScrollIntoView (see what it feels like). Problem with overage on the screen jumping around too much.
 
 Resolving project notes doesn't seem to make them go away.
+
+Do check for program update in a background thread so it doesn't launch so slowly.
+
+Do a check to see if the same project is opened in two instances of the program.
 
 Put http base address of repo in project file so that if the user accidentally does reset stored information, they won't lose the fact that there was an Internet repos (i.e. Send/Receive stops working).
 

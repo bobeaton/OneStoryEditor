@@ -11,9 +11,12 @@ namespace OneStoryProjectEditor
 {
     public partial class ViewEnableForm : Form
     {
+        private ProjectSettings _projSettings;
         public ViewEnableForm(StoryEditor theSE, ProjectSettings projSettings, StoryData theCurrentStory, bool bUseForAllStories)
         {
+            _projSettings = projSettings;
             InitializeComponent();
+
             if (projSettings.Vernacular.HasData)
             {
                 checkBoxLangVernacular.Text = String.Format(Properties.Resources.IDS_LanguageFields,
@@ -136,6 +139,7 @@ namespace OneStoryProjectEditor
             get
             {
                 _viewSettings.SetItemsToInsureOn(
+                    _projSettings,
                     checkBoxLangVernacular.Checked,
                     checkBoxLangTransliterateVernacular.Checked,
                     checkBoxLangNationalBT.Checked,

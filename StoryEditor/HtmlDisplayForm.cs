@@ -98,9 +98,14 @@ namespace OneStoryProjectEditor
 
         private void tabControl_Selecting(object sender, TabControlCancelEventArgs e)
         {
+            System.Diagnostics.Debug.Assert((htmlStoryBtControl.TheSE != null)
+                && (htmlStoryBtControl.TheSE.StoryProject != null)
+                && (htmlStoryBtControl.TheSE.StoryProject.ProjSettings != null));
+
             if (e.TabPage == tabPageDisplayChangeReport)
             {
                 htmlStoryBtControl.ViewSettings = new VerseData.ViewSettings(
+                    htmlStoryBtControl.TheSE.StoryProject.ProjSettings,
                     checkBoxLangVernacular.Checked,
                     checkBoxLangNationalBT.Checked,
                     checkBoxLangInternationalBT.Checked,

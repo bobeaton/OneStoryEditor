@@ -459,6 +459,7 @@ namespace OneStoryProjectEditor
 
             public ViewSettings
                 (
+                ProjectSettings projSettings,
                 bool bLangVernacular,
                 bool bLangNationalBT,
                 bool bLangInternationalBT,
@@ -477,7 +478,8 @@ namespace OneStoryProjectEditor
                 DirectableEncConverter decTransliteratorNationalBT
                 )
             {
-                SetItemsToInsureOn(bLangVernacular,
+                SetItemsToInsureOn(projSettings,
+                                   bLangVernacular,
                                    (decTransliteratorVernacular != null),
                                    bLangNationalBT,
                                    (decTransliteratorNationalBT != null),
@@ -504,6 +506,7 @@ namespace OneStoryProjectEditor
 
             public void SetItemsToInsureOn
                 (
+                ProjectSettings projSettings,
                 bool bLangVernacular,
                 bool bLangVernacularTransliterate,
                 bool bLangNationalBT,
@@ -538,11 +541,35 @@ namespace OneStoryProjectEditor
                 if (bAnchors)
                     _itemToInsureOn |= ItemToInsureOn.AnchorFields;
                 if (bStoryTestingQuestions)
-                    _itemToInsureOn |= ItemToInsureOn.StoryTestingQuestions;
+                {
+                    // break this down based on projSettings
+                    if (projSettings.ShowTestQuestionsVernacular)
+                        _itemToInsureOn |= ItemToInsureOn.TestQuestionsVernacular;
+                    if (projSettings.ShowTestQuestionsNationalBT)
+                        _itemToInsureOn |= ItemToInsureOn.TestQuestionsNationalBT;
+                    if (projSettings.ShowTestQuestionsInternationalBT)
+                        _itemToInsureOn |= ItemToInsureOn.TestQuestionsInternationalBT;
+                }
                 if (bStoryTestingQuestionAnswers)
-                    _itemToInsureOn |= ItemToInsureOn.StoryTestingQuestionAnswers;
+                {
+                    // break this down based on projSettings
+                    if (projSettings.ShowAnswersVernacular)
+                        _itemToInsureOn |= ItemToInsureOn.AnswersVernacular;
+                    if (projSettings.ShowAnswersNationalBT)
+                        _itemToInsureOn |= ItemToInsureOn.AnswersNationalBT;
+                    if (projSettings.ShowAnswersInternationalBT)
+                        _itemToInsureOn |= ItemToInsureOn.AnswersInternationalBT;
+                }
                 if (bRetellings)
-                    _itemToInsureOn |= ItemToInsureOn.RetellingFields;
+                {
+                    // break this down based on projSettings
+                    if (projSettings.ShowRetellingVernacular)
+                        _itemToInsureOn |= ItemToInsureOn.RetellingsVernacular;
+                    if (projSettings.ShowRetellingNationalBT)
+                        _itemToInsureOn |= ItemToInsureOn.RetellingsNationalBT;
+                    if (projSettings.ShowRetellingInternationalBT)
+                        _itemToInsureOn |= ItemToInsureOn.RetellingsInternationalBT;
+                }
                 if (bConsultantNotes)
                     _itemToInsureOn |= ItemToInsureOn.ConsultantNoteFields;
                 if (bCoachNotes)

@@ -13,8 +13,8 @@ namespace OneStoryProjectEditor
 
         public PrintForm(StoryEditor theSE)
         {
-            InitializeComponent();
             _theSE = theSE;
+            InitializeComponent();
             htmlStoryBt.TheSE = theSE;  // so it can do anchor jumps
 
             foreach (StoryData aStory in _theSE.TheCurrentStoriesSet)
@@ -88,7 +88,11 @@ namespace OneStoryProjectEditor
         {
             get
             {
+                System.Diagnostics.Debug.Assert((_theSE != null)
+                                                && (_theSE.StoryProject != null)
+                                                && (_theSE.StoryProject.ProjSettings != null));
                 VerseData.ViewSettings viewSettings = new VerseData.ViewSettings(
+                    _theSE.StoryProject.ProjSettings,
                     checkBoxLangVernacular.Checked,
                     checkBoxLangNationalBT.Checked,
                     checkBoxLangInternationalBT.Checked,

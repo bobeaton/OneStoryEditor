@@ -259,10 +259,10 @@ namespace OneStoryProjectEditor
 
                 if (child != null)
                 {
-                    theChildLineData = TryGetValue(strMemberId);
+                    theChildLineData = child.TryGetValue(strMemberId);
                     if (theChildLineData != null)
                     {
-                        Remove(theChildLineData);
+                        child.Remove(theChildLineData);
                         bFound = true;
                     }
                 }

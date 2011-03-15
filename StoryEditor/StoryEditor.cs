@@ -3461,6 +3461,7 @@ namespace OneStoryProjectEditor
                                      {
                                          ViewSettings = new VerseData.ViewSettings
                                              (
+                                             StoryProject.ProjSettings,
                                              viewVernacularLangFieldMenuItem.Checked,
                                              viewNationalLangFieldMenuItem.Checked,
                                              viewEnglishBTFieldMenuItem.Checked,

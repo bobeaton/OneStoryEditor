@@ -27,7 +27,7 @@ namespace OneStoryProjectEditor
             XmlAttribute attr;
             JumpTarget = ((attr = node.Attributes[CstrAttributeJumpTarget]) != null) ? attr.Value : null;
             // ToolTipText = ((attr = node.Attributes[CstrAttributeToolTip]) != null) ? attr.Value : null;
-            ToolTipText = node.Value;
+            ToolTipText = node.InnerText;
         }
 
         public AnchorData(string strJumpTarget, string strComment)
@@ -140,12 +140,13 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(JumpTarget)
-                    && (!String.IsNullOrEmpty(ToolTipText)));
+                System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(JumpTarget));
 
                 var elemAnchor = new XElement(CstrElementLabelAnchor,
-                                              new XAttribute(CstrAttributeJumpTarget, JumpTarget),
-                                              ToolTipText);
+                                              new XAttribute(CstrAttributeJumpTarget, JumpTarget));
+                                              
+                if (!String.IsNullOrEmpty(ToolTipText))
+                    elemAnchor.Add(ToolTipText);
 
                 return elemAnchor;
             }
