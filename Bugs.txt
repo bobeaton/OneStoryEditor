@@ -1,10 +1,6 @@
-﻿add a menu option to trigger sync of shared AIKBs
-
-Find out why the 'ye' 'eh' alternation didn't trigger 'SimilarWords'
+﻿Find out why the 'ye' 'eh' alternation didn't trigger 'SimilarWords'
 
 OffsetFromUctWhereManifestWasOriginallyCreated to something less americo-centric
-
-check Glossing for non-biblical stories
 
 add tooltip for Story, UNS change message
 

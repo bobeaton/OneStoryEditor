@@ -32,7 +32,7 @@ namespace OneStoryProjectEditor
             switch (TheSe.LoggedOnMember.MemberType)
             {
                 case TeamMemberData.UserTypes.eProjectFacilitator:
-                    SetProjectFaciliatorButtons(theStory, theStoryProjectData);
+                    SetProjectFaciliatorButtons(theStory, theStoryProjectData, projSettings);
                     break;
                 case TeamMemberData.UserTypes.eIndependentConsultant:
                     SetIndependentConsultantButtons();
@@ -77,7 +77,7 @@ namespace OneStoryProjectEditor
                 TheSe.LoggedOnMember.IsEditAllowed(TheStory.ProjStage.MemberTypeWithEditToken);
         }
 
-        private void SetButtonsAndTooltip(Button btn, bool bEditAllowed, 
+        private void SetButtonsAndTooltip(Button btn, bool bEditAllowed, bool bDefaultVisibility,
             TasksPf.TaskSettings taskToCheck, string strTooltipFormat, string strButtonText)
         {
             if (!bEditAllowed)
@@ -93,13 +93,14 @@ namespace OneStoryProjectEditor
 
             else
             {
-                btn.Visible = true;
+                btn.Visible = bDefaultVisibility;
                 if (!String.IsNullOrEmpty(strButtonText))
                     btn.Text = strButtonText;
             }
         }
 
-        private void SetProjectFaciliatorButtons(StoryData theStory, StoryProjectData theStoryProjectData)
+        private void SetProjectFaciliatorButtons(StoryData theStory,
+            StoryProjectData theStoryProjectData, ProjectSettings projSettings)
         {
             bool bEditAllowed = TheSe.LoggedOnMember.IsEditAllowed(theStory.ProjStage.MemberTypeWithEditToken);
 
@@ -108,30 +109,35 @@ namespace OneStoryProjectEditor
 
             SetButtonsAndTooltip(buttonVernacular,
                                  bEditAllowed,
+                                 projSettings.Vernacular.HasData,
                                  TasksPf.TaskSettings.VernacularLangFields,
                                  "story language",
                                  Properties.Resources.IDS_PfButtonLabelVernacular);
 
             SetButtonsAndTooltip(buttonNationalBt,
                                  bEditAllowed,
+                                 projSettings.NationalBT.HasData,
                                  TasksPf.TaskSettings.NationalBtLangFields,
                                  "national language bt",
                                  Properties.Resources.IDS_PfButtonLabelNationalBt);
 
             SetButtonsAndTooltip(buttonInternationalBt,
                                  bEditAllowed,
+                                 projSettings.InternationalBT.HasData,
                                  TasksPf.TaskSettings.InternationalBtFields,
                                  "English bt",
                                  Properties.Resources.IDS_PfButtonLabelInternationalBt);
 
             SetButtonsAndTooltip(buttonFreeTranslation,
                                  bEditAllowed,
+                                 projSettings.FreeTranslation.HasData,
                                  TasksPf.TaskSettings.FreeTranslationFields,
                                  "free translation",
                                  Properties.Resources.IDS_PfButtonLabelFreeTranslation);
 
             SetButtonsAndTooltip(buttonAnchors,
                                  bEditAllowed,
+                                 true,
                                  TasksPf.TaskSettings.Anchors,
                                  "anchor",
                                  Properties.Resources.IDS_PfButtonLabelAnchors);
@@ -139,6 +145,7 @@ namespace OneStoryProjectEditor
             const string cstrRetelling = "retelling";
             SetButtonsAndTooltip(buttonAddRetellingBoxes,
                                  bEditAllowed,
+                                 true,
                                  TasksPf.TaskSettings.Retellings | TasksPf.TaskSettings.Retellings2,
                                  cstrRetelling,
                                  null);
@@ -160,12 +167,14 @@ namespace OneStoryProjectEditor
 
             SetButtonsAndTooltip(buttonViewTestQuestions,
                                  bEditAllowed,
+                                 true,
                                  TasksPf.TaskSettings.TestQuestions,
                                  "story testing question",
                                  Properties.Resources.IDS_PfButtonLabelTestQuestions);
 
             SetButtonsAndTooltip(buttonAddBoxesForAnswers,
                                  bEditAllowed,
+                                 true,
                                  TasksPf.TaskSettings.Answers | TasksPf.TaskSettings.Answers2,
                                  "answer",
                                  null);
