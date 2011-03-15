@@ -239,14 +239,13 @@ namespace OneStoryProjectEditor
             private static bool _bCheckedForSync;
             public void CheckForSync(string strProjectFolder, TeamMemberData loggedOnMember)
             {
-                if (ProjectType != AdaptItProjectType.SharedAiProject)
-                    return;     // nothing to do
-
+                System.Diagnostics.Debug.Assert(ProjectType == AdaptItProjectType.SharedAiProject);
                 if (!_bCheckedForSync
                     && !String.IsNullOrEmpty(strProjectFolder)
                     && !String.IsNullOrEmpty(RepoProjectName))
                 {
-                    if (!Program.AreAdaptItHgParametersSet(RepoProjectName))
+                    if (!Program.AreAdaptItHgParametersSet(RepoProjectName) 
+                        || !Directory.Exists(strProjectFolder))
                     {
                         if (MessageBox.Show(Properties.Resources.IDS_QueryPullSharedAiProject,
                                             OseResources.Properties.Resources.IDS_Caption,

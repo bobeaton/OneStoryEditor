@@ -232,7 +232,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Adapt It converter named &apos;{0}&apos; doesn&apos;t exist!.
+        ///   Looks up a localized string similar to The Adapt It converter named &apos;{0}&apos; doesn&apos;t exist! You probably need to do &apos;Project&apos;, &apos;Settings&apos; and configure it on the &apos;Adapt It&apos; tab.
         /// </summary>
         internal static string IDS_AdaptItConverterDoesntExist {
             get {

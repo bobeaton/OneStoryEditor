@@ -108,16 +108,6 @@ namespace OneStoryProjectEditor
                     throw new ApplicationException("Wrong glossing type specified. Send to bob_eaton@sall.com for help");
             }
 
-            string strConverterSpec = AdaptItLookupFileSpec(liSourceLang.LangName, liTargetLang.LangName);
-            if (adaptItConfiguration != null)
-            {
-                string strProjectFolder = Path.GetDirectoryName(strConverterSpec);
-                adaptItConfiguration.CheckForSync(strProjectFolder, loggedOnMember);
-            }
-
-            // just in case the project doesn't exist yet...
-            WriteAdaptItProjectFiles(liSourceLang, liTargetLang, proj.InternationalBT); // move this to AIGuesserEC project when it's mature.
-
             // if there wasn't one configured, then just use the default
             if (String.IsNullOrEmpty(strName))
                 strName = AdaptItLookupConverterName(liSourceLang.LangName, liTargetLang.LangName);
@@ -128,9 +118,23 @@ namespace OneStoryProjectEditor
             AdaptItEncConverter theEc;
             if (!mapNameToTheEc.TryGetValue(strName, out theEc))
             {
+                string strConverterSpec = AdaptItLookupFileSpec(liSourceLang.LangName, liTargetLang.LangName);
+                if ((adaptItConfiguration != null) 
+                    && (adaptItConfiguration.ProjectType == ProjectSettings.AdaptItConfiguration.AdaptItProjectType.SharedAiProject))
+                {
+                    string strProjectFolder = Path.GetDirectoryName(strConverterSpec);
+                    adaptItConfiguration.CheckForSync(strProjectFolder, loggedOnMember);
+                }
+                else
+                {
+                    // just in case the project doesn't exist yet and nothing's been 
+                    //  configured (i.e. else case)
+                    WriteAdaptItProjectFiles(liSourceLang, liTargetLang, proj.InternationalBT); // move this to AIGuesserEC project when it's mature.
+                }
+
                 // if we don't have the converter already in the repository.
                 var aECs = new EncConverters();
-                if (!aECs.ContainsKey(strName))
+                if (!aECs.ContainsKey(strName) && File.Exists(strConverterSpec))
                 {
                     aECs.AddConversionMap(strName, strConverterSpec, ConvType.Unicode_to_from_Unicode,
                         EncConverters.strTypeSILadaptit, "UNICODE", "UNICODE", ProcessTypeFlags.DontKnow);
