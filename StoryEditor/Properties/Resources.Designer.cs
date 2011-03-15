@@ -367,6 +367,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The program can&apos;t make this change right now. If this error continues, contact bob_eaton@sall.com for help.
+        /// </summary>
+        internal static string IDS_CantEditPanoramaView {
+            get {
+                return ResourceManager.GetString("IDS_CantEditPanoramaView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to export to Toolbox! Cause: {0} {1}.
         /// </summary>
         internal static string IDS_CantExport {

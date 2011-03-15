@@ -111,41 +111,71 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private void dataGridViewPanorama_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        private StoryData _theStoryBeingEdited;
+        private void dataGridViewPanorama_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
             if ((e.RowIndex < 0) || (e.RowIndex >= dataGridViewPanorama.Rows.Count)
                 || (e.ColumnIndex < 0) || (e.ColumnIndex > CnColumnStoryPurpose))
                 return;
 
             DataGridViewRow theRow = dataGridViewPanorama.Rows[e.RowIndex];
-            DataGridViewCell theCell = theRow.Cells[e.ColumnIndex];
+            DataGridViewCell theCell = theRow.Cells[CnColumnStoryName];
             if (theCell.Value == null)
                 return;
 
-            string strCellValue = ((string)theCell.Value).Trim();
-            if (String.IsNullOrEmpty(strCellValue))
+            _theStoryBeingEdited = _stories.GetStoryFromName(theCell.Value as string);
+        }
+
+        private void dataGridViewPanorama_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            if ((e.RowIndex < 0) || (e.RowIndex >= dataGridViewPanorama.Rows.Count)
+                || (e.ColumnIndex < 0) || (e.ColumnIndex > CnColumnStoryPurpose))
                 return;
 
-            System.Diagnostics.Debug.Assert(theRow.Index < _stories.Count);
-            StoryData theSD = _stories[theRow.Index];
-
-            if (e.ColumnIndex == CnColumnStoryName)
+            if (_theStoryBeingEdited == null)
             {
-                if (theSD.Name != strCellValue)
-                    theSD.Name = strCellValue;
-                else
-                    return; // return unModified
-            }
-            else
-            {
-                System.Diagnostics.Debug.Assert(e.ColumnIndex == CnColumnStoryPurpose);
-                if (theSD.CraftingInfo.StoryPurpose != strCellValue)
-                    theSD.CraftingInfo.StoryPurpose = strCellValue;
-                else
-                    return; // return unModified
+                MessageBox.Show(Properties.Resources.IDS_CantEditPanoramaView,
+                                OseResources.Properties.Resources.IDS_Caption);
+                return;
             }
 
-            Modified = true;
+            try
+            {
+                DataGridViewRow theRow = dataGridViewPanorama.Rows[e.RowIndex];
+                DataGridViewCell theCell = theRow.Cells[e.ColumnIndex];
+                if (theCell.Value == null)
+                    return;
+
+                string strCellValue = ((string)theCell.Value).Trim();
+                if (String.IsNullOrEmpty(strCellValue))
+                    return;
+
+                if (e.ColumnIndex == CnColumnStoryName)
+                {
+                    if (_theStoryBeingEdited.Name != strCellValue)
+                        _theStoryBeingEdited.Name = strCellValue;
+                    else
+                        return; // return unModified
+                }
+                else
+                {
+                    System.Diagnostics.Debug.Assert(e.ColumnIndex == CnColumnStoryPurpose);
+                    if (_theStoryBeingEdited.CraftingInfo.StoryPurpose != strCellValue)
+                        _theStoryBeingEdited.CraftingInfo.StoryPurpose = strCellValue;
+                    else
+                        return; // return unModified
+                }
+
+                Modified = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
+            }
+            finally
+            {
+                _theStoryBeingEdited = null;    // don't confuse different editing sessions
+            }
         }
 
         private void buttonMoveUp_Click(object sender, EventArgs e)
@@ -158,9 +188,27 @@ namespace OneStoryProjectEditor
             int nSelectedRowIndex = dataGridViewPanorama.SelectedCells[0].RowIndex;
             if (nSelectedRowIndex > 0)
             {
-                StoryData theSDToMove = _stories[nSelectedRowIndex];
-                _stories.RemoveAt(nSelectedRowIndex);
-                _stories.Insert(--nSelectedRowIndex, theSDToMove);
+                DataGridViewRow theRow = dataGridViewPanorama.Rows[nSelectedRowIndex];
+                DataGridViewCell theNameCell = theRow.Cells[CnColumnStoryName];
+                string strName = theNameCell.Value as String;
+                if (String.IsNullOrEmpty(strName))
+                    return;
+
+                StoryData theSDToMove = _stories.GetStoryFromName(strName);
+                int nStoryIndex = _stories.IndexOf(theSDToMove);
+                
+                // I've disabled the ability to sort the rows (because what would it mean
+                //  to move up if the order isn't in the panorama order). So the index
+                //  of the story in the _stories collection should be the same as the
+                //  index of the row in the datagrid
+                System.Diagnostics.Debug.Assert(nStoryIndex == nSelectedRowIndex);
+
+                _stories.Remove(theSDToMove);
+                _stories.Insert(--nStoryIndex, theSDToMove);
+                
+                // display index, which could be different from story index (e.g. if they
+                //  sorted the columns differently.
+                nSelectedRowIndex--;
                 InitGrid();
                 System.Diagnostics.Debug.Assert(nSelectedRowIndex < dataGridViewPanorama.Rows.Count);
                 dataGridViewPanorama.Rows[nSelectedRowIndex].Cells[nSelectedColumnIndex].Selected = true;
@@ -178,9 +226,27 @@ namespace OneStoryProjectEditor
             int nSelectedRowIndex = dataGridViewPanorama.SelectedCells[0].RowIndex;
             if (nSelectedRowIndex < dataGridViewPanorama.Rows.Count - 1)
             {
-                StoryData theSDToMove = _stories[nSelectedRowIndex];
-                _stories.RemoveAt(nSelectedRowIndex);
-                _stories.Insert(++nSelectedRowIndex, theSDToMove);
+                DataGridViewRow theRow = dataGridViewPanorama.Rows[nSelectedRowIndex];
+                DataGridViewCell theNameCell = theRow.Cells[CnColumnStoryName];
+                string strName = theNameCell.Value as String;
+                if (String.IsNullOrEmpty(strName))
+                    return;
+
+                StoryData theSDToMove = _stories.GetStoryFromName(strName);
+                int nStoryIndex = _stories.IndexOf(theSDToMove);
+
+                // I've disabled the ability to sort the rows (because what would it mean
+                //  to move up if the order isn't in the panorama order). So the index
+                //  of the story in the _stories collection should be the same as the
+                //  index of the row in the datagrid
+                System.Diagnostics.Debug.Assert(nStoryIndex == nSelectedRowIndex);
+
+                _stories.Remove(theSDToMove);
+                _stories.Insert(++nStoryIndex, theSDToMove);
+
+                // display index, which could be different from story index (e.g. if they
+                //  sorted the columns differently.
+                nSelectedRowIndex++;
                 InitGrid();
                 System.Diagnostics.Debug.Assert(nSelectedRowIndex < dataGridViewPanorama.Rows.Count);
                 dataGridViewPanorama.Rows[nSelectedRowIndex].Cells[nSelectedColumnIndex].Selected = true;
@@ -214,11 +280,16 @@ namespace OneStoryProjectEditor
             int nSelectedRowIndex = dataGridViewPanorama.SelectedCells[0].RowIndex;
             if (nSelectedRowIndex <= dataGridViewPanorama.Rows.Count - 1)
             {
-                StoryData theSD = new StoryData(_stories[nSelectedRowIndex]);
+                DataGridViewRow theRow = dataGridViewPanorama.Rows[nSelectedRowIndex];
+                DataGridViewCell theNameCell = theRow.Cells[CnColumnStoryName];
+                string strName = theNameCell.Value as String;
+                if (String.IsNullOrEmpty(strName))
+                    return;
+
+                var theSD = new StoryData(_stories.GetStoryFromName(strName));
                 int n = 1;
                 if (_storyProject[strDestSet].Contains(theSD))
                 {
-                    string strName = theSD.Name;
                     while (_storyProject[strDestSet].Contains(theSD))
                         theSD.Name = String.Format("{0}.{1}", strName, n++);
                     theSD.guid = Guid.NewGuid().ToString();
@@ -237,14 +308,22 @@ namespace OneStoryProjectEditor
             int nSelectedRowIndex = dataGridViewPanorama.SelectedCells[0].RowIndex;
             if (nSelectedRowIndex <= dataGridViewPanorama.Rows.Count - 1)
             {
-                // make sure the user really wants to do this
-                if (MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmDeleteStory,
-                    dataGridViewPanorama.Rows[nSelectedRowIndex].Cells[CnColumnStoryName].Value), 
-                    OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel)
-                    != DialogResult.Yes)
+                DataGridViewRow theRow = dataGridViewPanorama.Rows[nSelectedRowIndex];
+                DataGridViewCell theNameCell = theRow.Cells[CnColumnStoryName];
+                string strName = theNameCell.Value as String;
+                if (String.IsNullOrEmpty(strName))
                     return;
 
-                _stories.RemoveAt(nSelectedRowIndex);
+                StoryData theSd = _stories.GetStoryFromName(strName);
+
+                // make sure the user really wants to do this
+                if (MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmDeleteStory,
+                                                  strName),
+                                    OseResources.Properties.Resources.IDS_Caption, 
+                                    MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
+                    return;
+
+                _stories.Remove(theSd);
                 InitGrid();
                 if (nSelectedRowIndex >= dataGridViewPanorama.Rows.Count)
                     nSelectedRowIndex--;
@@ -405,7 +484,12 @@ namespace OneStoryProjectEditor
                 return;
 
             DataGridViewRow theRow = dataGridViewPanorama.Rows[e.RowIndex];
-            StoryData theSD = _stories[theRow.Index];
+            DataGridViewCell theNameCell = theRow.Cells[CnColumnStoryName];
+            string strName = theNameCell.Value as String;
+            if (String.IsNullOrEmpty(strName))
+                return;
+
+            StoryData theSD = _stories.GetStoryFromName(strName);
 
             if (!theSD.TransitionHistory.HasData)
             {

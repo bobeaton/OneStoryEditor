@@ -36,13 +36,6 @@
             this.tabPagePanorama = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.dataGridViewPanorama = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnTimeInState = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnLineCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnWordCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.buttonMoveUp = new System.Windows.Forms.Button();
             this.buttonDelete = new System.Windows.Forms.Button();
             this.buttonCopyToOldStories = new System.Windows.Forms.Button();
@@ -54,6 +47,13 @@
             this.ColumnRenderings = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnNotes = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnTimeInState = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnLineCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnWordCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControlSets.SuspendLayout();
             this.tabPageFrontMatter.SuspendLayout();
             this.tabPagePanorama.SuspendLayout();
@@ -157,52 +157,9 @@
             this.dataGridViewPanorama.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dataGridViewPanorama.Size = new System.Drawing.Size(810, 462);
             this.dataGridViewPanorama.TabIndex = 0;
+            this.dataGridViewPanorama.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewPanorama_CellBeginEdit);
             this.dataGridViewPanorama.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewPanorama_CellEndEdit);
             this.dataGridViewPanorama.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewPanorama_CellMouseDoubleClick);
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.HeaderText = "Story Name";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.HeaderText = "Purpose";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            this.dataGridViewTextBoxColumn3.HeaderText = "Who Edits";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            this.dataGridViewTextBoxColumn3.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn4
-            // 
-            this.dataGridViewTextBoxColumn4.HeaderText = "Stage";
-            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            this.dataGridViewTextBoxColumn4.ReadOnly = true;
-            this.dataGridViewTextBoxColumn4.ToolTipText = "Right-click to change state";
-            // 
-            // ColumnTimeInState
-            // 
-            this.ColumnTimeInState.HeaderText = "Time in Stage";
-            this.ColumnTimeInState.Name = "ColumnTimeInState";
-            this.ColumnTimeInState.ReadOnly = true;
-            // 
-            // ColumnLineCount
-            // 
-            this.ColumnLineCount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.ColumnLineCount.HeaderText = "# of Lines";
-            this.ColumnLineCount.Name = "ColumnLineCount";
-            this.ColumnLineCount.ReadOnly = true;
-            this.ColumnLineCount.Width = 79;
-            // 
-            // ColumnWordCount
-            // 
-            this.ColumnWordCount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.ColumnWordCount.HeaderText = "# of Words";
-            this.ColumnWordCount.Name = "ColumnWordCount";
-            this.ColumnWordCount.Width = 79;
             // 
             // buttonMoveUp
             // 
@@ -318,6 +275,57 @@
             this.ColumnNotes.HeaderText = "Notes";
             this.ColumnNotes.Name = "ColumnNotes";
             // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.HeaderText = "Story Name";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.HeaderText = "Purpose";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.HeaderText = "Who Edits";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.ReadOnly = true;
+            this.dataGridViewTextBoxColumn3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            this.dataGridViewTextBoxColumn4.HeaderText = "Stage";
+            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            this.dataGridViewTextBoxColumn4.ReadOnly = true;
+            this.dataGridViewTextBoxColumn4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dataGridViewTextBoxColumn4.ToolTipText = "Right-click to change state";
+            // 
+            // ColumnTimeInState
+            // 
+            this.ColumnTimeInState.HeaderText = "Time in Stage";
+            this.ColumnTimeInState.Name = "ColumnTimeInState";
+            this.ColumnTimeInState.ReadOnly = true;
+            this.ColumnTimeInState.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // ColumnLineCount
+            // 
+            this.ColumnLineCount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.ColumnLineCount.HeaderText = "# of Lines";
+            this.ColumnLineCount.Name = "ColumnLineCount";
+            this.ColumnLineCount.ReadOnly = true;
+            this.ColumnLineCount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.ColumnLineCount.Width = 60;
+            // 
+            // ColumnWordCount
+            // 
+            this.ColumnWordCount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.ColumnWordCount.HeaderText = "# of Words";
+            this.ColumnWordCount.Name = "ColumnWordCount";
+            this.ColumnWordCount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.ColumnWordCount.Width = 66;
+            // 
             // PanoramaView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -353,6 +361,11 @@
         private System.Windows.Forms.Button buttonMoveDown;
         private System.Windows.Forms.Button buttonCopyToOldStories;
         private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.TabPage tabPageKeyTerms;
+        private System.Windows.Forms.DataGridView dataGridViewKeyTerms;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnGloss;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnRenderings;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnNotes;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
@@ -360,10 +373,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnTimeInState;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnLineCount;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnWordCount;
-        private System.Windows.Forms.TabPage tabPageKeyTerms;
-        private System.Windows.Forms.DataGridView dataGridViewKeyTerms;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnGloss;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnRenderings;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnNotes;
     }
 }
