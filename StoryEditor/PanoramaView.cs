@@ -190,11 +190,15 @@ namespace OneStoryProjectEditor
             {
                 DataGridViewRow theRow = dataGridViewPanorama.Rows[nSelectedRowIndex];
                 DataGridViewCell theNameCell = theRow.Cells[CnColumnStoryName];
-                string strName = theNameCell.Value as String;
-                if (String.IsNullOrEmpty(strName))
-                    return;
+                if (theNameCell.Value == null)
+                    return; // shouldn't happen, but...
+
+                var strName = theNameCell.Value as String;
 
                 StoryData theSDToMove = _stories.GetStoryFromName(strName);
+                if (theSDToMove == null)
+                    return;
+
                 int nStoryIndex = _stories.IndexOf(theSDToMove);
                 
                 // I've disabled the ability to sort the rows (because what would it mean
@@ -228,11 +232,15 @@ namespace OneStoryProjectEditor
             {
                 DataGridViewRow theRow = dataGridViewPanorama.Rows[nSelectedRowIndex];
                 DataGridViewCell theNameCell = theRow.Cells[CnColumnStoryName];
-                string strName = theNameCell.Value as String;
-                if (String.IsNullOrEmpty(strName))
-                    return;
+                if (theNameCell.Value == null)
+                    return; // shouldn't happen, but...
+
+                var strName = theNameCell.Value as String;
 
                 StoryData theSDToMove = _stories.GetStoryFromName(strName);
+                if (theSDToMove == null)
+                    return;
+
                 int nStoryIndex = _stories.IndexOf(theSDToMove);
 
                 // I've disabled the ability to sort the rows (because what would it mean
@@ -282,11 +290,16 @@ namespace OneStoryProjectEditor
             {
                 DataGridViewRow theRow = dataGridViewPanorama.Rows[nSelectedRowIndex];
                 DataGridViewCell theNameCell = theRow.Cells[CnColumnStoryName];
-                string strName = theNameCell.Value as String;
-                if (String.IsNullOrEmpty(strName))
+                if (theNameCell.Value == null)
+                    return; // shouldn't happen, but...
+
+                var strName = theNameCell.Value as String;
+
+                var theOrigSd = _stories.GetStoryFromName(strName);
+                if (theOrigSd == null)
                     return;
 
-                var theSD = new StoryData(_stories.GetStoryFromName(strName));
+                var theSD = new StoryData(theOrigSd);
                 int n = 1;
                 if (_storyProject[strDestSet].Contains(theSD))
                 {
@@ -310,11 +323,14 @@ namespace OneStoryProjectEditor
             {
                 DataGridViewRow theRow = dataGridViewPanorama.Rows[nSelectedRowIndex];
                 DataGridViewCell theNameCell = theRow.Cells[CnColumnStoryName];
-                string strName = theNameCell.Value as String;
-                if (String.IsNullOrEmpty(strName))
-                    return;
+                if (theNameCell.Value == null)
+                    return; // shouldn't happen, but...
+
+                var strName = theNameCell.Value as String;
 
                 StoryData theSd = _stories.GetStoryFromName(strName);
+                if (theSd == null)
+                    return;
 
                 // make sure the user really wants to do this
                 if (MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmDeleteStory,
@@ -485,11 +501,13 @@ namespace OneStoryProjectEditor
 
             DataGridViewRow theRow = dataGridViewPanorama.Rows[e.RowIndex];
             DataGridViewCell theNameCell = theRow.Cells[CnColumnStoryName];
-            string strName = theNameCell.Value as String;
-            if (String.IsNullOrEmpty(strName))
-                return;
+            if (theNameCell.Value == null)
+                return; // shouldn't happen, but...
 
+            var strName = theNameCell.Value as String;
             StoryData theSD = _stories.GetStoryFromName(strName);
+            if (theSD == null)
+                return;
 
             if (!theSD.TransitionHistory.HasData)
             {
