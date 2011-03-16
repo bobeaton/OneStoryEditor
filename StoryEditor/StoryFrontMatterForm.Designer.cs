@@ -152,10 +152,10 @@
             // 
             this.tableLayoutPanel1.SetColumnSpan(this.textBoxStoryPurpose, 2);
             this.textBoxStoryPurpose.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxStoryPurpose.Location = new System.Drawing.Point(116, 3);
+            this.textBoxStoryPurpose.Location = new System.Drawing.Point(121, 3);
             this.textBoxStoryPurpose.Multiline = true;
             this.textBoxStoryPurpose.Name = "textBoxStoryPurpose";
-            this.textBoxStoryPurpose.Size = new System.Drawing.Size(467, 68);
+            this.textBoxStoryPurpose.Size = new System.Drawing.Size(462, 68);
             this.textBoxStoryPurpose.TabIndex = 1;
             // 
             // labelResourcesUsed
@@ -172,10 +172,10 @@
             // 
             this.tableLayoutPanel1.SetColumnSpan(this.textBoxResourcesUsed, 2);
             this.textBoxResourcesUsed.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxResourcesUsed.Location = new System.Drawing.Point(116, 77);
+            this.textBoxResourcesUsed.Location = new System.Drawing.Point(121, 77);
             this.textBoxResourcesUsed.Multiline = true;
             this.textBoxResourcesUsed.Name = "textBoxResourcesUsed";
-            this.textBoxResourcesUsed.Size = new System.Drawing.Size(467, 68);
+            this.textBoxResourcesUsed.Size = new System.Drawing.Size(462, 68);
             this.textBoxResourcesUsed.TabIndex = 3;
             // 
             // labelStoryCrafter
@@ -192,10 +192,10 @@
             // 
             this.tableLayoutPanel1.SetColumnSpan(this.textBoxStoryCrafter, 2);
             this.textBoxStoryCrafter.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxStoryCrafter.Location = new System.Drawing.Point(116, 180);
+            this.textBoxStoryCrafter.Location = new System.Drawing.Point(121, 180);
             this.textBoxStoryCrafter.Name = "textBoxStoryCrafter";
             this.textBoxStoryCrafter.ReadOnly = true;
-            this.textBoxStoryCrafter.Size = new System.Drawing.Size(467, 20);
+            this.textBoxStoryCrafter.Size = new System.Drawing.Size(462, 20);
             this.textBoxStoryCrafter.TabIndex = 8;
             // 
             // buttonBrowseForStoryCrafter
@@ -205,7 +205,8 @@
             this.buttonBrowseForStoryCrafter.Size = new System.Drawing.Size(24, 23);
             this.buttonBrowseForStoryCrafter.TabIndex = 9;
             this.buttonBrowseForStoryCrafter.Text = "...";
-            this.toolTip.SetToolTip(this.buttonBrowseForStoryCrafter, "Left-click to edit this team member; right-click to choose another team member");
+            this.toolTip.SetToolTip(this.buttonBrowseForStoryCrafter, "Left-click to edit the contact or bio data for this team member; right-click to c" +
+                    "hoose another team member as the Story Crafter");
             this.buttonBrowseForStoryCrafter.UseVisualStyleBackColor = true;
             this.buttonBrowseForStoryCrafter.MouseUp += new System.Windows.Forms.MouseEventHandler(this.buttonBrowseForStoryCrafter_MouseUp);
             // 
@@ -226,7 +227,8 @@
             this.buttonBrowseUNSBackTranslator.Size = new System.Drawing.Size(24, 23);
             this.buttonBrowseUNSBackTranslator.TabIndex = 12;
             this.buttonBrowseUNSBackTranslator.Text = "...";
-            this.toolTip.SetToolTip(this.buttonBrowseUNSBackTranslator, "Left-click to edit this team member; right-click to choose another team member");
+            this.toolTip.SetToolTip(this.buttonBrowseUNSBackTranslator, "Left-click to edit the contact or bio data for this team member; right-click to c" +
+                    "hoose another team member as the UNS Back-translator");
             this.buttonBrowseUNSBackTranslator.UseVisualStyleBackColor = true;
             this.buttonBrowseUNSBackTranslator.MouseUp += new System.Windows.Forms.MouseEventHandler(this.buttonBrowseUNSBackTranslator_MouseUp);
             // 
@@ -234,10 +236,10 @@
             // 
             this.tableLayoutPanel1.SetColumnSpan(this.textBoxUnsBackTranslator, 2);
             this.textBoxUnsBackTranslator.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxUnsBackTranslator.Location = new System.Drawing.Point(116, 209);
+            this.textBoxUnsBackTranslator.Location = new System.Drawing.Point(121, 209);
             this.textBoxUnsBackTranslator.Name = "textBoxUnsBackTranslator";
             this.textBoxUnsBackTranslator.ReadOnly = true;
-            this.textBoxUnsBackTranslator.Size = new System.Drawing.Size(467, 20);
+            this.textBoxUnsBackTranslator.Size = new System.Drawing.Size(462, 20);
             this.textBoxUnsBackTranslator.TabIndex = 11;
             // 
             // labelUnsRetellingTest1
@@ -253,10 +255,10 @@
             // textBoxUnsRetellingTest1
             // 
             this.textBoxUnsRetellingTest1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxUnsRetellingTest1.Location = new System.Drawing.Point(116, 238);
+            this.textBoxUnsRetellingTest1.Location = new System.Drawing.Point(121, 238);
             this.textBoxUnsRetellingTest1.Name = "textBoxUnsRetellingTest1";
             this.textBoxUnsRetellingTest1.ReadOnly = true;
-            this.textBoxUnsRetellingTest1.Size = new System.Drawing.Size(150, 20);
+            this.textBoxUnsRetellingTest1.Size = new System.Drawing.Size(148, 20);
             this.textBoxUnsRetellingTest1.TabIndex = 14;
             // 
             // buttonBrowseUnsRetellingTest1
@@ -266,7 +268,8 @@
             this.buttonBrowseUnsRetellingTest1.Size = new System.Drawing.Size(24, 23);
             this.buttonBrowseUnsRetellingTest1.TabIndex = 15;
             this.buttonBrowseUnsRetellingTest1.Text = "...";
-            this.toolTip.SetToolTip(this.buttonBrowseUnsRetellingTest1, "Left-click to edit this team member");
+            this.toolTip.SetToolTip(this.buttonBrowseUnsRetellingTest1, "Left-click to edit the contact or bio data for this team member; right-click to c" +
+                    "hoose another team member as the Retelling test UNS");
             this.buttonBrowseUnsRetellingTest1.UseVisualStyleBackColor = true;
             this.buttonBrowseUnsRetellingTest1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.buttonBrowseUnsRetellingTest1_MouseUp);
             // 
@@ -283,10 +286,10 @@
             // textBoxUnsRetellingTest2
             // 
             this.textBoxUnsRetellingTest2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxUnsRetellingTest2.Location = new System.Drawing.Point(116, 267);
+            this.textBoxUnsRetellingTest2.Location = new System.Drawing.Point(121, 267);
             this.textBoxUnsRetellingTest2.Name = "textBoxUnsRetellingTest2";
             this.textBoxUnsRetellingTest2.ReadOnly = true;
-            this.textBoxUnsRetellingTest2.Size = new System.Drawing.Size(150, 20);
+            this.textBoxUnsRetellingTest2.Size = new System.Drawing.Size(148, 20);
             this.textBoxUnsRetellingTest2.TabIndex = 17;
             // 
             // buttonBrowseUnsRetellingTest2
@@ -296,7 +299,8 @@
             this.buttonBrowseUnsRetellingTest2.Size = new System.Drawing.Size(24, 23);
             this.buttonBrowseUnsRetellingTest2.TabIndex = 18;
             this.buttonBrowseUnsRetellingTest2.Text = "...";
-            this.toolTip.SetToolTip(this.buttonBrowseUnsRetellingTest2, "Left-click to edit this team member");
+            this.toolTip.SetToolTip(this.buttonBrowseUnsRetellingTest2, "Left-click to edit the contact or bio data for this team member; right-click to c" +
+                    "hoose another team member as the Retelling test UNS");
             this.buttonBrowseUnsRetellingTest2.UseVisualStyleBackColor = true;
             this.buttonBrowseUnsRetellingTest2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.buttonBrowseUnsRetellingTest2_MouseUp);
             // 
@@ -313,10 +317,10 @@
             // textBoxUnsRetellingTest3
             // 
             this.textBoxUnsRetellingTest3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxUnsRetellingTest3.Location = new System.Drawing.Point(116, 296);
+            this.textBoxUnsRetellingTest3.Location = new System.Drawing.Point(121, 296);
             this.textBoxUnsRetellingTest3.Name = "textBoxUnsRetellingTest3";
             this.textBoxUnsRetellingTest3.ReadOnly = true;
-            this.textBoxUnsRetellingTest3.Size = new System.Drawing.Size(150, 20);
+            this.textBoxUnsRetellingTest3.Size = new System.Drawing.Size(148, 20);
             this.textBoxUnsRetellingTest3.TabIndex = 20;
             // 
             // buttonBrowseUnsRetellingTest3
@@ -326,7 +330,8 @@
             this.buttonBrowseUnsRetellingTest3.Size = new System.Drawing.Size(24, 23);
             this.buttonBrowseUnsRetellingTest3.TabIndex = 21;
             this.buttonBrowseUnsRetellingTest3.Text = "...";
-            this.toolTip.SetToolTip(this.buttonBrowseUnsRetellingTest3, "Left-click to edit this team member");
+            this.toolTip.SetToolTip(this.buttonBrowseUnsRetellingTest3, "Left-click to edit the contact or bio data for this team member; right-click to c" +
+                    "hoose another team member as the Retelling test UNS");
             this.buttonBrowseUnsRetellingTest3.UseVisualStyleBackColor = true;
             this.buttonBrowseUnsRetellingTest3.MouseUp += new System.Windows.Forms.MouseEventHandler(this.buttonBrowseUnsRetellingTest3_MouseUp);
             // 
@@ -344,10 +349,10 @@
             // 
             this.tableLayoutPanel1.SetColumnSpan(this.textBoxProjectFacilitator, 2);
             this.textBoxProjectFacilitator.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxProjectFacilitator.Location = new System.Drawing.Point(116, 151);
+            this.textBoxProjectFacilitator.Location = new System.Drawing.Point(121, 151);
             this.textBoxProjectFacilitator.Name = "textBoxProjectFacilitator";
             this.textBoxProjectFacilitator.ReadOnly = true;
-            this.textBoxProjectFacilitator.Size = new System.Drawing.Size(467, 20);
+            this.textBoxProjectFacilitator.Size = new System.Drawing.Size(462, 20);
             this.textBoxProjectFacilitator.TabIndex = 5;
             // 
             // buttonBrowserForProjectFacilitator
@@ -357,7 +362,8 @@
             this.buttonBrowserForProjectFacilitator.Size = new System.Drawing.Size(24, 23);
             this.buttonBrowserForProjectFacilitator.TabIndex = 6;
             this.buttonBrowserForProjectFacilitator.Text = "...";
-            this.toolTip.SetToolTip(this.buttonBrowserForProjectFacilitator, "Left-click to edit this team member; right-click to choose another team member");
+            this.toolTip.SetToolTip(this.buttonBrowserForProjectFacilitator, "Left-click to edit the contact or bio data for this team member; right-click to c" +
+                    "hoose another team member as the Project Facilitator");
             this.buttonBrowserForProjectFacilitator.UseVisualStyleBackColor = true;
             this.buttonBrowserForProjectFacilitator.MouseUp += new System.Windows.Forms.MouseEventHandler(this.buttonBrowserForProjectFacilitator_MouseUp);
             // 
@@ -367,7 +373,7 @@
             this.labelInferenceTest1.AutoSize = true;
             this.labelInferenceTest1.Location = new System.Drawing.Point(3, 330);
             this.labelInferenceTest1.Name = "labelInferenceTest1";
-            this.labelInferenceTest1.Size = new System.Drawing.Size(88, 13);
+            this.labelInferenceTest1.Size = new System.Drawing.Size(112, 13);
             this.labelInferenceTest1.TabIndex = 13;
             this.labelInferenceTest1.Text = "Story Question Test &1:";
             // 
@@ -377,7 +383,7 @@
             this.labelInferenceTest2.AutoSize = true;
             this.labelInferenceTest2.Location = new System.Drawing.Point(3, 359);
             this.labelInferenceTest2.Name = "labelInferenceTest2";
-            this.labelInferenceTest2.Size = new System.Drawing.Size(88, 13);
+            this.labelInferenceTest2.Size = new System.Drawing.Size(112, 13);
             this.labelInferenceTest2.TabIndex = 13;
             this.labelInferenceTest2.Text = "Story Question Test &2:";
             // 
@@ -387,35 +393,35 @@
             this.labelInferenceTest3.AutoSize = true;
             this.labelInferenceTest3.Location = new System.Drawing.Point(3, 388);
             this.labelInferenceTest3.Name = "labelInferenceTest3";
-            this.labelInferenceTest3.Size = new System.Drawing.Size(88, 13);
+            this.labelInferenceTest3.Size = new System.Drawing.Size(112, 13);
             this.labelInferenceTest3.TabIndex = 13;
             this.labelInferenceTest3.Text = "Story Question Test &3:";
             // 
             // textBoxUnsInferenceTest2
             // 
             this.textBoxUnsInferenceTest2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxUnsInferenceTest2.Location = new System.Drawing.Point(116, 354);
+            this.textBoxUnsInferenceTest2.Location = new System.Drawing.Point(121, 354);
             this.textBoxUnsInferenceTest2.Name = "textBoxUnsInferenceTest2";
             this.textBoxUnsInferenceTest2.ReadOnly = true;
-            this.textBoxUnsInferenceTest2.Size = new System.Drawing.Size(150, 20);
+            this.textBoxUnsInferenceTest2.Size = new System.Drawing.Size(148, 20);
             this.textBoxUnsInferenceTest2.TabIndex = 14;
             // 
             // textBoxUnsInferenceTest1
             // 
             this.textBoxUnsInferenceTest1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxUnsInferenceTest1.Location = new System.Drawing.Point(116, 325);
+            this.textBoxUnsInferenceTest1.Location = new System.Drawing.Point(121, 325);
             this.textBoxUnsInferenceTest1.Name = "textBoxUnsInferenceTest1";
             this.textBoxUnsInferenceTest1.ReadOnly = true;
-            this.textBoxUnsInferenceTest1.Size = new System.Drawing.Size(150, 20);
+            this.textBoxUnsInferenceTest1.Size = new System.Drawing.Size(148, 20);
             this.textBoxUnsInferenceTest1.TabIndex = 14;
             // 
             // textBoxUnsInferenceTest3
             // 
             this.textBoxUnsInferenceTest3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxUnsInferenceTest3.Location = new System.Drawing.Point(116, 383);
+            this.textBoxUnsInferenceTest3.Location = new System.Drawing.Point(121, 383);
             this.textBoxUnsInferenceTest3.Name = "textBoxUnsInferenceTest3";
             this.textBoxUnsInferenceTest3.ReadOnly = true;
-            this.textBoxUnsInferenceTest3.Size = new System.Drawing.Size(150, 20);
+            this.textBoxUnsInferenceTest3.Size = new System.Drawing.Size(148, 20);
             this.textBoxUnsInferenceTest3.TabIndex = 14;
             // 
             // buttonBrowseUnsInferenceTest1
@@ -425,6 +431,8 @@
             this.buttonBrowseUnsInferenceTest1.Size = new System.Drawing.Size(24, 23);
             this.buttonBrowseUnsInferenceTest1.TabIndex = 15;
             this.buttonBrowseUnsInferenceTest1.Text = "...";
+            this.toolTip.SetToolTip(this.buttonBrowseUnsInferenceTest1, "Left-click to edit the contact or bio data for this team member; right-click to c" +
+                    "hoose another team member as the Story Question test UNS");
             this.buttonBrowseUnsInferenceTest1.UseVisualStyleBackColor = true;
             this.buttonBrowseUnsInferenceTest1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.buttonBrowseUnsInferenceTest1_MouseUp);
             // 
@@ -435,6 +443,8 @@
             this.buttonBrowseUnsInferenceTest2.Size = new System.Drawing.Size(24, 23);
             this.buttonBrowseUnsInferenceTest2.TabIndex = 15;
             this.buttonBrowseUnsInferenceTest2.Text = "...";
+            this.toolTip.SetToolTip(this.buttonBrowseUnsInferenceTest2, "Left-click to edit the contact or bio data for this team member; right-click to c" +
+                    "hoose another team member as the Story Question test UNS");
             this.buttonBrowseUnsInferenceTest2.UseVisualStyleBackColor = true;
             this.buttonBrowseUnsInferenceTest2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.buttonBrowseUnsInferenceTest2_MouseUp);
             // 
@@ -445,55 +455,57 @@
             this.buttonBrowseUnsInferenceTest3.Size = new System.Drawing.Size(24, 23);
             this.buttonBrowseUnsInferenceTest3.TabIndex = 15;
             this.buttonBrowseUnsInferenceTest3.Text = "...";
+            this.toolTip.SetToolTip(this.buttonBrowseUnsInferenceTest3, "Left-click to edit the contact or bio data for this team member; right-click to c" +
+                    "hoose another team member as the Story Question test UNS");
             this.buttonBrowseUnsInferenceTest3.UseVisualStyleBackColor = true;
             this.buttonBrowseUnsInferenceTest3.MouseUp += new System.Windows.Forms.MouseEventHandler(this.buttonBrowseUnsInferenceTest3_MouseUp);
             // 
             // textBoxRetellingComment1
             // 
             this.textBoxRetellingComment1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxRetellingComment1.Location = new System.Drawing.Point(272, 238);
+            this.textBoxRetellingComment1.Location = new System.Drawing.Point(275, 238);
             this.textBoxRetellingComment1.Name = "textBoxRetellingComment1";
-            this.textBoxRetellingComment1.Size = new System.Drawing.Size(311, 20);
+            this.textBoxRetellingComment1.Size = new System.Drawing.Size(308, 20);
             this.textBoxRetellingComment1.TabIndex = 22;
             // 
             // textBoxRetellingComment2
             // 
             this.textBoxRetellingComment2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxRetellingComment2.Location = new System.Drawing.Point(272, 267);
+            this.textBoxRetellingComment2.Location = new System.Drawing.Point(275, 267);
             this.textBoxRetellingComment2.Name = "textBoxRetellingComment2";
-            this.textBoxRetellingComment2.Size = new System.Drawing.Size(311, 20);
+            this.textBoxRetellingComment2.Size = new System.Drawing.Size(308, 20);
             this.textBoxRetellingComment2.TabIndex = 23;
             // 
             // textBoxRetellingComment3
             // 
             this.textBoxRetellingComment3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxRetellingComment3.Location = new System.Drawing.Point(272, 296);
+            this.textBoxRetellingComment3.Location = new System.Drawing.Point(275, 296);
             this.textBoxRetellingComment3.Name = "textBoxRetellingComment3";
-            this.textBoxRetellingComment3.Size = new System.Drawing.Size(311, 20);
+            this.textBoxRetellingComment3.Size = new System.Drawing.Size(308, 20);
             this.textBoxRetellingComment3.TabIndex = 24;
             // 
             // textBoxInferenceComment1
             // 
             this.textBoxInferenceComment1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxInferenceComment1.Location = new System.Drawing.Point(272, 325);
+            this.textBoxInferenceComment1.Location = new System.Drawing.Point(275, 325);
             this.textBoxInferenceComment1.Name = "textBoxInferenceComment1";
-            this.textBoxInferenceComment1.Size = new System.Drawing.Size(311, 20);
+            this.textBoxInferenceComment1.Size = new System.Drawing.Size(308, 20);
             this.textBoxInferenceComment1.TabIndex = 25;
             // 
             // textBoxInferenceComment2
             // 
             this.textBoxInferenceComment2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxInferenceComment2.Location = new System.Drawing.Point(272, 354);
+            this.textBoxInferenceComment2.Location = new System.Drawing.Point(275, 354);
             this.textBoxInferenceComment2.Name = "textBoxInferenceComment2";
-            this.textBoxInferenceComment2.Size = new System.Drawing.Size(311, 20);
+            this.textBoxInferenceComment2.Size = new System.Drawing.Size(308, 20);
             this.textBoxInferenceComment2.TabIndex = 26;
             // 
             // textBoxInferenceComment3
             // 
             this.textBoxInferenceComment3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxInferenceComment3.Location = new System.Drawing.Point(272, 383);
+            this.textBoxInferenceComment3.Location = new System.Drawing.Point(275, 383);
             this.textBoxInferenceComment3.Name = "textBoxInferenceComment3";
-            this.textBoxInferenceComment3.Size = new System.Drawing.Size(311, 20);
+            this.textBoxInferenceComment3.Size = new System.Drawing.Size(308, 20);
             this.textBoxInferenceComment3.TabIndex = 27;
             // 
             // buttonOK
