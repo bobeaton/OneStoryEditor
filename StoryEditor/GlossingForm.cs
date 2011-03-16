@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using ECInterfaces;                 // for IEncConverter
 using SilEncConverters40;           // for AdaptItEncConverter
@@ -56,22 +57,18 @@ namespace OneStoryProjectEditor
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
-            foreach (GlossingControl aGC in flowLayoutPanel.Controls)
+            try
             {
-                // means we have to add it to the kb. But only if the user chose
-                //  all the ambiguities
-                if ((aGC.TargetWord.IndexOf(GlossingControl.CstrAmbiguitySeparator) == -1)
-                    && aGC.Modified)
+                foreach (GlossingControl aGc in
+                    flowLayoutPanel.Controls.Cast<GlossingControl>().Where(aGC => (aGC.TargetWord.IndexOf(GlossingControl.CstrAmbiguitySeparator) == -1) && aGC.Modified))
                 {
-                    try
-                    {
-                        m_theEC.AddEntryPair(aGC.SourceWord, aGC.TargetWord);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
-                    }
+                    m_theEC.AddEntryPair(aGc.SourceWord, aGc.TargetWord, false);
                 }
+                m_theEC.AddEntryPairSave();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
             }
 
             System.Diagnostics.Debug.Assert(flowLayoutPanel.Controls.Count > 0);
@@ -79,8 +76,8 @@ namespace OneStoryProjectEditor
 
             for (int i = 1; i < flowLayoutPanel.Controls.Count; i++)
             {
-                GlossingControl aGC = (GlossingControl)flowLayoutPanel.Controls[i];
-                strTargetSentence += " " + aGC.TargetWord;
+                var aGc = (GlossingControl)flowLayoutPanel.Controls[i];
+                strTargetSentence += " " + aGc.TargetWord;
             }
 
             TargetSentence = strTargetSentence;
