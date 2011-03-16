@@ -1,4 +1,6 @@
-﻿disable the add inference testing question boxes from 'Edit' menu when no story is current
+﻿if a new language is added in NewProject dialog, compare against the default tasks and ask if they want to set.
+
+disable the add inference testing question boxes from 'Edit' menu when no story is current
 
 disable the coach pane from StateTransitions.xml SetView
 
