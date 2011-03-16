@@ -652,8 +652,13 @@ namespace OneStoryProjectEditor
                 theSE.viewStoryTestingQuestionMenuItem.Checked = IsStoryTestingQuestionVisible && bBiblicalStory;
                 theSE.viewStoryTestingQuestionAnswerMenuItem.Checked = IsStoryTestingQuestionAnswersVisible && bBiblicalStory;
                 theSE.viewRetellingFieldMenuItem.Checked = IsRetellingVisible && bBiblicalStory;
-                theSE.viewConsultantNoteFieldMenuItem.Checked = IsConsultantNotesVisible && bBiblicalStory;
-                theSE.viewCoachNotesFieldMenuItem.Checked = IsCoachNotesVisible && bBiblicalStory;
+                theSE.viewConsultantNoteFieldMenuItem.Checked = IsConsultantNotesVisible;
+                
+                // diable the coach window also if the proj fac is logged in.
+                theSE.viewCoachNotesFieldMenuItem.Checked = IsCoachNotesVisible
+                                                            && ((theSE.LoggedOnMember != null)
+                                                                && (theSE.LoggedOnMember.MemberType !=
+                                                                    TeamMemberData.UserTypes.eProjectFacilitator));
                 theSE.viewNetBibleMenuItem.Checked = IsNetBibleVisible && bBiblicalStory;
             }
 #endif
