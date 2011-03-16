@@ -90,8 +90,12 @@ Namespace AutoUpgrade
 				End Try
 
 			Catch exc As Exception
-				' Error creating AutoUpgrade object
-				MsgBox(exc.Message, MsgBoxStyle.Critical, "AutoUpgrade")
+                ' Error creating AutoUpgrade object
+                strError = exc.Message
+                If (Not exc.InnerException Is Nothing) Then
+                    strError = String.Format("{1}{0}{0}{2}", Environment.NewLine, strError, exc.InnerException.Message)
+                End If
+                MsgBox(strError, MsgBoxStyle.Critical, "AutoUpgrade")
 			End Try
 		End Sub
 	End Module

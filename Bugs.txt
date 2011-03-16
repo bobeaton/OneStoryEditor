@@ -1,8 +1,18 @@
-﻿Find out why the 'ye' 'eh' alternation didn't trigger 'SimilarWords'
+﻿disable the add inference testing question boxes from 'Edit' menu when no story is current
 
-OffsetFromUctWhereManifestWasOriginallyCreated to something less americo-centric
+disable the coach pane from StateTransitions.xml SetView
 
-add tooltip for Story, UNS change message
+while in 'add story question' state, on the EnableFieldsForm some fields are disabled
+
+धन्य with and without ZWJ?
+
+if you do a pull in the AiSelect.. dialog, then don't bother doing a Send/Receive when 'OK' is clicked
+
+make sure there's a way to start and use a project with only thumbdrives
+
+add Spelling
+
+Find out why the 'ye' 'eh' alternation didn't trigger 'SimilarWords' (check it again on his machine)
 
 fix acts.hindiwbtc
 

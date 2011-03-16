@@ -1,3 +1,5 @@
+#Const Amerocentric = True
+
 Imports System.Runtime.InteropServices
 Imports System
 Imports System.Xml.Serialization
@@ -5,6 +7,8 @@ Imports System.Net
 Imports System.Security.Cryptography.X509Certificates
 Imports System.Security.Policy
 Imports System.Net.Security
+Imports System.Globalization
+Imports System.Windows.Forms
 
 Namespace devX
 
@@ -483,7 +487,15 @@ Namespace devX
 
                         ' this has to be adjusted based on how far we are now from when this was created
                         Dim nowOffset As DateTimeOffset = New DateTimeOffset(DateTime.Now)
+#If DEBUG Then
+                        MessageBox.Show(nowOffset.ToString())
+#End If
+#If Amerocentric Then
+                        Dim cultureInfo As CultureInfo = cultureInfo.CreateSpecificCulture("en-US")
+                        Dim thenOffset As DateTimeOffset = DateTimeOffset.ParseExact(Me.OffsetFromUctWhereManifestWasOriginallyCreated, "o", cultureInfo)
+#Else
                         Dim thenOffset As DateTimeOffset = DateTimeOffset.Parse(Me.OffsetFromUctWhereManifestWasOriginallyCreated)
+#End If
                         dateLastModified -= nowOffset.Offset - thenOffset.Offset
 #If DEBUG Then
                         Dim strMsg As String = String.Format("file: '{0}': LastModified timestamp from server: '{1}', but current offset here is '{2}' GMT and offset when created is: '{3}' GMT, so we're setting it to: '{4}'", _
@@ -546,11 +558,23 @@ Namespace devX
 
         Public Property OffsetFromUctWhereManifestWasOriginallyCreated() As String
             Get
-                Return mtsOffsetToUCT.ToString()
+                Return mtsOffsetToUCT.ToString("o")
             End Get
             Set(ByVal value As String)
                 ' e.g. 8/6/2010 9:17:27 AM -05:00
+#If Amerocentric Then
+                ' the first time we do this (since the user's machine will have the older
+                ' format), it'll fail. So be sure to back off to the older mechanism in
+                ' the catch
+                Try
+                    Dim cultureInfo As CultureInfo = cultureInfo.CreateSpecificCulture("en-US")
+                    mtsOffsetToUCT = DateTimeOffset.ParseExact(value, "o", cultureInfo)
+                Catch ex As Exception
+                    mtsOffsetToUCT = DateTimeOffset.Parse(value)
+                End Try
+#Else
                 mtsOffsetToUCT = DateTimeOffset.Parse(value)
+#End If
             End Set
         End Property
 
