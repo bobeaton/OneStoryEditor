@@ -2590,6 +2590,7 @@ namespace OneStoryProjectEditor
                 deleteEnglishBacktranslationToolStripMenuItem.Enabled =
                 deleteFreeTranslationToolStripMenuItem.Enabled =
                 editAddRetellingTestResultsToolStripMenuItem.Enabled =
+                editAddInferenceTestResultsToolStripMenuItem.Enabled = 
                 (IsInStoriesSet && (theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
 
             pasteToolStripMenuItem.Enabled = (CtrlTextBox._inTextBox != null);
