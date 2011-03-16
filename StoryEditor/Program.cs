@@ -287,19 +287,25 @@ namespace OneStoryProjectEditor
         }
 
         public static void SetAdaptItHgParameters(string strProjectFolder, string strProjectName,
-            string strRepoUrl, string strHgUsername, string strHgPassword)
+            string strServerName, string strHgUsername, string strHgPassword)
         {
             // for the AI project, the Url we saved didn't have account info, so add it now.
-            strRepoUrl = AiRepoSelectionForm.GetFullInternetAddress(strRepoUrl, strProjectName);
+            string strRepoUrl = AiRepoSelectionForm.GetFullInternetAddress(strServerName, strProjectName);
             if (String.IsNullOrEmpty(strRepoUrl))
-                return; 
+                return;
 
             var uri = new Uri(strRepoUrl);
             strRepoUrl = String.Format("{0}://{1}{2}@{3}/{4}",
-                uri.Scheme, strHgUsername,
-                (String.IsNullOrEmpty(strHgPassword)) ? null : ':' + strHgPassword,
-                uri.Host, strProjectName);
+                                       uri.Scheme, strHgUsername,
+                                       (String.IsNullOrEmpty(strHgPassword)) ? null : ':' + strHgPassword,
+                                       uri.Host, strProjectName);
 
+            SetAdaptItHgParameters(strProjectFolder, strProjectName, strRepoUrl);
+        }
+
+        public static void SetAdaptItHgParameters(string strProjectFolder, 
+            string strProjectName, string strRepoUrl)
+        {
             System.Diagnostics.Debug.Assert(_mapProjectNameToAiHgHttpUrl != null);
             _mapProjectNameToAiHgHttpUrl[strProjectName] = strRepoUrl;
             Properties.Settings.Default.ProjectNameToAiHgUrl = DictionaryToArray(_mapProjectNameToAiHgHttpUrl);

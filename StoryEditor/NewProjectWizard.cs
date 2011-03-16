@@ -549,9 +549,18 @@ namespace OneStoryProjectEditor
             ProjSettings.ShowAnswersNationalBT = checkBoxAnswersNationalBT.Checked;
             ProjSettings.ShowAnswersInternationalBT = checkBoxAnswersInternationalBT.Checked;
 
-            ProjSettings.VernacularToNationalBt = adaptItConfigCtrlVernacularToNationalBt.AdaptItConfiguration;
-            ProjSettings.VernacularToInternationalBt = adaptItConfigCtrlVernacularToInternationalBt.AdaptItConfiguration;
-            ProjSettings.NationalBtToInternationalBt = adaptItConfigCtrlNationalBtToInternationalBt.AdaptItConfiguration;
+            ProjSettings.VernacularToNationalBt =
+                (tlpAdaptItConfiguration.Controls.ContainsKey(adaptItConfigCtrlVernacularToNationalBt.Name))
+                    ? adaptItConfigCtrlVernacularToNationalBt.AdaptItConfiguration
+                    : null;
+            ProjSettings.VernacularToInternationalBt =
+                (tlpAdaptItConfiguration.Controls.ContainsKey(adaptItConfigCtrlVernacularToInternationalBt.Name))
+                    ? adaptItConfigCtrlVernacularToInternationalBt.AdaptItConfiguration
+                    : null;
+            ProjSettings.NationalBtToInternationalBt =
+                (tlpAdaptItConfiguration.Controls.ContainsKey(adaptItConfigCtrlNationalBtToInternationalBt.Name))
+                    ? adaptItConfigCtrlNationalBtToInternationalBt.AdaptItConfiguration
+                    : null;
 
             if (!checkBoxUseInternetRepo.Checked)
                 Program.ClearHgParameters(ProjectName);

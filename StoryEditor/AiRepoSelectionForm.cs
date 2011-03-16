@@ -135,6 +135,9 @@ namespace OneStoryProjectEditor
                 out strHgUsername, out strHgPassword))
                 return;
 
+            if (!Directory.Exists(strAiWorkFolder))
+                Directory.CreateDirectory(strAiWorkFolder);
+
             var model = new GetCloneFromInternetModel(strAiWorkFolder)
             {
                 AccountName = strHgUsername,
@@ -156,6 +159,7 @@ namespace OneStoryProjectEditor
                     //  be the same as the project account, so make sure that's the case
                     if ((Parent != null) && (Parent.LoggedInMember != null))
                     {
+                        /* I think this is not a problem
                         if ((!String.IsNullOrEmpty(Parent.LoggedInMember.HgUsername)
                             && (Parent.LoggedInMember.HgUsername != model.AccountName))
                             || (!String.IsNullOrEmpty(Parent.LoggedInMember.HgPassword)
@@ -166,7 +170,7 @@ namespace OneStoryProjectEditor
                             throw new ApplicationException(
                                 "It isn't currently supported for your username and password to be different from the username/password for the project account. Contact bob_eaton@sall.com to correct this");
                         }
-
+                        */
                         // in the case that the project isn't being used on the internet, but
                         //  the AdaptIt project is, then set the username/password for it.
                         if (String.IsNullOrEmpty(Parent.LoggedInMember.HgUsername))
@@ -177,8 +181,9 @@ namespace OneStoryProjectEditor
                     }
 
                     Program.SetAdaptItHgParameters(ProjectFolder, ProjectName,
-                        dlg.ThreadSafeUrl, model.AccountName, model.Password);
-                    Program.SyncWithAiRepository(ProjectFolder, ProjectName, true);
+                        dlg.ThreadSafeUrl);
+                    // don't need to do this if we just did a pull, no?
+                    //  Program.SyncWithAiRepository(ProjectFolder, ProjectName, true);
                 }
             }
         }
