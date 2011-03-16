@@ -35,9 +35,6 @@ namespace OneStoryProjectEditor
                 checkBoxLangNationalBT.Text = String.Format(Properties.Resources.IDS_StoryLanguageField,
                                                             projSettings.NationalBT.LangName);
 
-                checkBoxLangNationalBT.Enabled = ((theCurrentStory != null)
-                                                  && (((int) theCurrentStory.ProjStage.ProjectStage)
-                                                      >= (int) StoryStageLogic.ProjectStages.eProjFacTypeNationalBT));
                 checkBoxLangTransliterateNationalBT.Visible = (theSE.viewTransliterationNationalBT.Checked
                                                                &&
                                                                !String.IsNullOrEmpty(
@@ -48,38 +45,14 @@ namespace OneStoryProjectEditor
                 checkBoxLangNationalBT.Visible = false;
 
             if (projSettings.InternationalBT.HasData)
-            {
                 checkBoxLangInternationalBT.Visible = true;
-                checkBoxLangInternationalBT.Enabled = ((theCurrentStory != null)
-                                                       && (((int) theCurrentStory.ProjStage.ProjectStage)
-                                                           >=
-                                                           (int)
-                                                           StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT));
-            }
             else
                 checkBoxLangInternationalBT.Visible = false;
 
             if (projSettings.FreeTranslation.HasData)
-            {
                 checkBoxLangFreeTranslation.Visible = true;
-                checkBoxLangFreeTranslation.Enabled = ((theCurrentStory != null)
-                                                       && (((int)theCurrentStory.ProjStage.ProjectStage)
-                                                           >=
-                                                           (int)
-                                                           StoryStageLogic.ProjectStages.eProjFacTypeFreeTranslation));
-            }
             else
                 checkBoxLangFreeTranslation.Visible = false;
-
-            checkBoxAnchors.Enabled = ((theCurrentStory != null)
-                                       && (((int) theCurrentStory.ProjStage.ProjectStage)
-                                           >= (int) StoryStageLogic.ProjectStages.eProjFacAddAnchors));
-
-            checkBoxStoryTestingQuestions.Enabled =
-                checkBoxRetellings.Enabled = 
-                checkBoxAnswers.Enabled = ((theCurrentStory != null)
-                                           && (((int) theCurrentStory.ProjStage.ProjectStage)
-                                               > (int) StoryStageLogic.ProjectStages.eProjFacAddStoryQuestions));
 
             checkBoxConsultantNotes.Enabled =
                 checkBoxCoachNotes.Enabled = (theCurrentStory != null);
