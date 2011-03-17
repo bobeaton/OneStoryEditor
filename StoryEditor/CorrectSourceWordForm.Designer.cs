@@ -63,6 +63,7 @@
             this.textBoxCorrectedWord.Name = "textBoxCorrectedWord";
             this.textBoxCorrectedWord.Size = new System.Drawing.Size(264, 20);
             this.textBoxCorrectedWord.TabIndex = 0;
+            this.textBoxCorrectedWord.TextChanged += new System.EventHandler(this.textBoxCorrectedWord_TextChanged);
             // 
             // CorrectSourceWordForm
             // 
