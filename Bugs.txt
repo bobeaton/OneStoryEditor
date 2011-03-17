@@ -1,6 +1,4 @@
-﻿don't do end-sync when doing Advanced, Program Updates, check now
-
-if a new language is added in NewProject dialog, compare against the default tasks and ask if they want to set.
+﻿if a new language is added in NewProject dialog, compare against the default tasks and ask if they want to set.
 
 disable the add inference testing question boxes from 'Edit' menu when no story is current
 

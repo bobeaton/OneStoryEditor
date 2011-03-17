@@ -291,7 +291,7 @@ namespace OneStoryProjectEditor
 
         private string GetDefaultTaskTitleText
         {
-            get { return String.Format("Set Default Tasks for {0}", _theMemberData.Name); }
+            get { return String.Format("Set Default Tasks for {0}", textBoxName.Text); }
         }
     }
 }

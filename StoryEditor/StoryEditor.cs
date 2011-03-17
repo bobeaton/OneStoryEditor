@@ -460,7 +460,7 @@ namespace OneStoryProjectEditor
             try
             {
                 StoryProject = new StoryProjectData();    // null causes us to query for the project name
-                Modified = StoryProject.InitializeProjectSettings(LoggedOnMember);
+                Modified |= StoryProject.InitializeProjectSettings(LoggedOnMember);
                 CheckForLogon(StoryProject);
                 Debug.Assert(LoggedOnMember != null);
 

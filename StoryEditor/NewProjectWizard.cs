@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using Palaso.UI.WindowsForms.Keyboarding;
 
@@ -14,6 +16,11 @@ namespace OneStoryProjectEditor
 
         protected StoryProjectData _storyProjectData;
         public TeamMemberData LoggedInMember;
+
+        private bool _bStartedWithVernacular;
+        private bool _bStartedWithNationalBt;
+        private bool _bStartedWithInternationalBt;
+        private bool _bStartedWithFreeTranslation;
 
         public NewProjectWizard(StoryProjectData storyProjectData)
             : base(true)
@@ -40,7 +47,7 @@ namespace OneStoryProjectEditor
                 tabControl.TabPages.Remove(tabPageLanguageVernacular);
             else
             {
-                checkBoxLanguageVernacular.Checked = true;
+                _bStartedWithVernacular = checkBoxLanguageVernacular.Checked = true;
                 checkBoxRetellingsVernacular.Checked = _storyProjectData.ProjSettings.ShowRetellingVernacular;
                 checkBoxTestQuestionsVernacular.Checked = _storyProjectData.ProjSettings.ShowTestQuestionsVernacular;
                 checkBoxAnswersVernacular.Checked = _storyProjectData.ProjSettings.ShowAnswersVernacular;
@@ -51,7 +58,7 @@ namespace OneStoryProjectEditor
                 tabControl.TabPages.Remove(tabPageLanguageNationalBT);
             else
             {
-                checkBoxLanguageNationalBT.Checked = true;
+                _bStartedWithNationalBt = checkBoxLanguageNationalBT.Checked = true;
                 checkBoxRetellingsNationalBT.Checked = _storyProjectData.ProjSettings.ShowRetellingNationalBT;
                 checkBoxTestQuestionsNationalBT.Checked = _storyProjectData.ProjSettings.ShowTestQuestionsNationalBT;
                 checkBoxAnswersNationalBT.Checked = _storyProjectData.ProjSettings.ShowAnswersNationalBT;
@@ -65,7 +72,9 @@ namespace OneStoryProjectEditor
             }
             else if (_storyProjectData.ProjSettings != null)
             {
-                // checkBoxLanguageInternationalBT.Checked = true;
+                _bStartedWithInternationalBt
+                // checkBoxLanguageInternationalBT.Checked
+                    = true;
                 checkBoxRetellingsInternationalBT.Checked = _storyProjectData.ProjSettings.ShowRetellingInternationalBT;
                 checkBoxTestQuestionsInternationalBT.Checked =
                     _storyProjectData.ProjSettings.ShowTestQuestionsInternationalBT;
@@ -77,7 +86,8 @@ namespace OneStoryProjectEditor
                 tabControl.TabPages.Remove(tabPageLanguageFreeTranslation);
             else
             {
-                checkBoxLanguageFreeTranslation.Checked = true;
+                _bStartedWithFreeTranslation = 
+                    checkBoxLanguageFreeTranslation.Checked = true;
             }
 
             UpdateTabPageAIBT();
@@ -171,6 +181,11 @@ namespace OneStoryProjectEditor
                         checkBoxLanguageInternationalBT, tabPageLanguages);
                 }
 
+                // if we're editing the settings and we didn't start with Vern, but now have it...
+                SetDefaultAllowedForNewField(_bStartedWithVernacular,
+                                             checkBoxLanguageVernacular, 
+                                             TasksPf.TaskSettings.VernacularLangFields);
+
                 if (!checkBoxLanguageVernacular.Checked)
                 {
                     System.Diagnostics.Debug.Assert(!checkBoxRetellingsVernacular.Checked
@@ -181,11 +196,14 @@ namespace OneStoryProjectEditor
                 else
                 {
                     if (String.IsNullOrEmpty(textBoxLanguageNameVernacular.Text))
-                        textBoxLanguageNameVernacular.Text = (String.IsNullOrEmpty(ProjSettings.Vernacular.LangName))
-                                                                 ? ProjectName
-                                                                 : ProjSettings.Vernacular.LangName;
+                        textBoxLanguageNameVernacular.Text = (!String.IsNullOrEmpty(ProjSettings.Vernacular.LangName))
+                                                                 ? ProjSettings.Vernacular.LangName 
+                                                                 : null;
                 }
 
+                SetDefaultAllowedForNewField(_bStartedWithNationalBt,
+                                             checkBoxLanguageNationalBT,
+                                             TasksPf.TaskSettings.NationalBtLangFields);
 
                 if (!checkBoxLanguageNationalBT.Checked)
                 {
@@ -195,11 +213,16 @@ namespace OneStoryProjectEditor
                     ProjSettings.NationalBT.HasData = false;
                 }
 
+                SetDefaultAllowedForNewField(_bStartedWithInternationalBt,
+                                             checkBoxLanguageInternationalBT,
+                                             TasksPf.TaskSettings.InternationalBtFields);
+
+                const string CstrEnglish = "English";
                 if (checkBoxLanguageInternationalBT.Checked)
                 {
                     if (String.IsNullOrEmpty(textBoxLanguageNameEnglishBT.Text)
                         && !ProjSettings.InternationalBT.HasData)
-                        textBoxLanguageNameEnglishBT.Text = "English";
+                        textBoxLanguageNameEnglishBT.Text = CstrEnglish;
                 }
                 else
                 {
@@ -210,11 +233,19 @@ namespace OneStoryProjectEditor
                         ProjSettings.InternationalBT.HasData = false;
                 }
 
+                SetDefaultAllowedForNewField(_bStartedWithFreeTranslation,
+                                             checkBoxLanguageFreeTranslation,
+                                             TasksPf.TaskSettings.FreeTranslationFields);
+
                 if (checkBoxLanguageFreeTranslation.Checked)
                 {
                     if (String.IsNullOrEmpty(textBoxLanguageNameFreeTranslation.Text)
                         && !ProjSettings.FreeTranslation.HasData)
-                        textBoxLanguageNameFreeTranslation.Text = "English";
+                        textBoxLanguageNameFreeTranslation.Text = CstrEnglish;
+                    
+                    // make them different...
+                    if (textBoxLanguageNameEnglishBT.Text == CstrEnglish)
+                        textBoxLanguageNameFreeTranslation.Text = CstrEnglish + " FT";
                 }
                 else
                     ProjSettings.FreeTranslation.HasData = false;
@@ -339,6 +370,22 @@ namespace OneStoryProjectEditor
             }
             else if (tabControl.SelectedTab == tabPageAIBT)
             {
+            }
+        }
+
+        private void SetDefaultAllowedForNewField(bool bStartedWith, 
+            CheckBox checkBox, TasksPf.TaskSettings newTaskAllowed)
+        {
+            if (ProjSettings.IsConfigured
+                && !bStartedWith
+                && checkBox.Checked)
+            {
+                // then at least turn on the default
+                foreach (var aTeamMember in
+                    _storyProjectData.TeamMembers.Values.Where(aTeamMember => aTeamMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator))
+                {
+                    aTeamMember.DefaultAllowed |= (long)newTaskAllowed;
+                }
             }
         }
 
