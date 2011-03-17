@@ -239,11 +239,18 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                string strMessage = String.Format("Error occurred:{0}{0}{1}", Environment.NewLine, ex.Message);
-                if (ex.InnerException != null)
-                    strMessage += String.Format("{0}{1}", Environment.NewLine, ex.InnerException.Message);
-                MessageBox.Show(strMessage, OseResources.Properties.Resources.IDS_Caption);
+                ShowException(ex);
             }
+        }
+
+        public static void ShowException(Exception ex)
+        {
+            string strErrorMsg = ex.Message;
+            if (ex.InnerException != null)
+                strErrorMsg += String.Format("{0}{0}{1}",
+                                            Environment.NewLine,
+                                            ex.InnerException.Message);
+            MessageBox.Show(strErrorMsg, OseResources.Properties.Resources.IDS_Caption);
         }
 
         public static void SetHgParametersNetworkDrive(string strProjectFolder, string strProjectName, string strUrl)
