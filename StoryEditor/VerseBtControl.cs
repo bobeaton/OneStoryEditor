@@ -21,6 +21,8 @@ namespace OneStoryProjectEditor
         public DirectableEncConverter TransliteratorVernacular;
         public DirectableEncConverter TransliteratorNationalBT;
 
+        private bool IsGeneralQuestionsLine;
+
         public VerseBtControl(StoryEditor theSE, LineFlowLayoutPanel parentFlowLayoutPanel,
             VerseData dataVerse, int nVerseNumber)
             : base(theSE.theCurrentStory.ProjStage, nVerseNumber, theSE, 
@@ -29,9 +31,14 @@ namespace OneStoryProjectEditor
             _verseData = dataVerse;
             InitializeComponent();
 
+            IsGeneralQuestionsLine = (VerseNumber == 0);
+
             tableLayoutPanel.Controls.Add(labelReference, 0, 0);
             tableLayoutPanel.Controls.Add(buttonDragDropHandle, 1, 0);
-            labelReference.Text = CstrVerseName + VerseNumber;
+            if (IsGeneralQuestionsLine)
+                labelReference.Text = VersesData.CstrZerothLineNameBtPane;
+            else
+                labelReference.Text = CstrVerseName + VerseNumber;
 
             if (theSE.viewTransliterationVernacular.Checked
                 && !String.IsNullOrEmpty(theSE.LoggedOnMember.TransliteratorVernacular))
@@ -70,18 +77,20 @@ namespace OneStoryProjectEditor
             SuspendLayout();
 
             int nNumRows = 1;
+
             // if the user is requesting one of the story lines (vernacular, nationalBT, or English), then...
-            if (theSE.viewVernacularLangFieldMenuItem.Checked 
-                || theSE.viewNationalLangFieldMenuItem.Checked 
-                || theSE.viewEnglishBTFieldMenuItem.Checked
-                || theSE.viewFreeTranslationToolStripMenuItem.Checked)
+            if (!IsGeneralQuestionsLine &&
+                    (theSE.viewVernacularLangFieldMenuItem.Checked 
+                    || theSE.viewNationalLangFieldMenuItem.Checked 
+                    || theSE.viewEnglishBTFieldMenuItem.Checked
+                    || theSE.viewFreeTranslationToolStripMenuItem.Checked))
             {
                 // ask that control to do the Update View
                 InitStoryLine(theSE, _verseData, nNumRows);
                 nNumRows++;
             }
 
-            if (theSE.viewAnchorFieldMenuItem.Checked)
+            if (!IsGeneralQuestionsLine && theSE.viewAnchorFieldMenuItem.Checked)
             {
                 AnchorsData anAnchorsData = _verseData.Anchors;
                 ExegeticalHelpNotesData theExegeticalNotes = _verseData.ExegeticalHelpNotes;
@@ -93,7 +102,7 @@ namespace OneStoryProjectEditor
                 }
             }
 
-            if (theSE.viewRetellingFieldMenuItem.Checked)
+            if (!IsGeneralQuestionsLine && theSE.viewRetellingFieldMenuItem.Checked)
             {
                 if (_verseData.Retellings.Count > 0)
                 {
@@ -107,7 +116,9 @@ namespace OneStoryProjectEditor
                 }
             }
 
-            if (theSE.viewStoryTestingQuestionMenuItem.Checked || theSE.viewStoryTestingQuestionAnswerMenuItem.Checked)
+            if (theSE.viewStoryTestingQuestionMenuItem.Checked
+                || theSE.viewGeneralTestingQuestionMenuItem.Checked
+                || theSE.viewStoryTestingQuestionAnswerMenuItem.Checked)
             {
                 if (_verseData.TestQuestions.Count > 0)
                 {
@@ -242,7 +253,8 @@ namespace OneStoryProjectEditor
             if (!CheckForProperEditToken(out theSE))
                 return;
 
-            if ((theSE.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
+            if (!IsGeneralQuestionsLine 
+                && (theSE.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
                 && !TasksPf.IsTaskOn(theSE.theCurrentStory.TasksAllowedPf, TasksPf.TaskSettings.TestQuestions))
             {
                 MessageBox.Show(Resources.IDS_CantAddTQs, 
@@ -251,28 +263,10 @@ namespace OneStoryProjectEditor
             }
 
             _verseData.TestQuestions.AddTestQuestion();
-            if (!theSE.viewStoryTestingQuestionMenuItem.Checked)
-                theSE.viewStoryTestingQuestionMenuItem.Checked = true;
-            else
-                UpdateViewOfThisVerse(theSE);
-        }
-
-        private void addGeneralTestingQuestionMenu_Click(object sender, EventArgs e)
-        {
-            StoryEditor theSE;
-            if (!CheckForProperEditToken(out theSE))
-                return;
-
-            if ((theSE.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
-                && !TasksPf.IsTaskOn(theSE.theCurrentStory.TasksAllowedPf, TasksPf.TaskSettings.TestQuestions))
-            {
-                MessageBox.Show(Resources.IDS_CantAddTQs,
-                                OseResources.Properties.Resources.IDS_Caption);
-                return;
-            }
-
-            _verseData.TestQuestions.AddTestQuestion();
-            if (!theSE.viewStoryTestingQuestionMenuItem.Checked)
+            theSE.Modified = true;
+            if (IsGeneralQuestionsLine && !theSE.viewGeneralTestingQuestionMenuItem.Checked)
+                theSE.viewGeneralTestingQuestionMenuItem.Checked = true;
+            if (!IsGeneralQuestionsLine && !theSE.viewStoryTestingQuestionMenuItem.Checked)
                 theSE.viewStoryTestingQuestionMenuItem.Checked = true;
             else
                 UpdateViewOfThisVerse(theSE);
@@ -283,19 +277,15 @@ namespace OneStoryProjectEditor
             // if this is a Biblical story, we have to add a few menu items
             StoryEditor theSE = (StoryEditor)FindForm();
             if (theSE.theCurrentStory.CraftingInfo.IsBiblicalStory)
-            {
                 contextMenuStrip.Items.Insert(3, menuAddTestQuestion);
-                contextMenuStrip.Items.Insert(4, addGeneralTestingQuestionMenu);
-            }
+
+            if (IsGeneralQuestionsLine)
+                menuAddTestQuestion.Text = "Add a &general testing question";
 
             if (_verseData.IsVisible)
-            {
                 hideVerseToolStripMenuItem.Text = "&Hide line";
-            }
             else
-            {
                 hideVerseToolStripMenuItem.Text = "&Unhide line";
-            }
 
             moveSelectedTextToANewLineToolStripMenuItem.Enabled =
                 tableLayoutPanel.Controls.ContainsKey(CstrFieldNameStoryLine);

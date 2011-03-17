@@ -120,6 +120,7 @@ namespace OneStoryProjectEditor
                     checkBoxFrontMatter.Checked,
                     checkBoxShowHidden.Checked,
                     false,  // only open conversations (doesn't apply here)
+                    checkBoxGeneralTestingQuestions.Checked,
                     (checkBoxLangTransliterateVernacular.Checked)
                         ? TransliteratorVernacular
                         : null,

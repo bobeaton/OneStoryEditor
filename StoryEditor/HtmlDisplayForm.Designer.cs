@@ -63,6 +63,7 @@
             this.htmlStoryBtControl = new OneStoryProjectEditor.HtmlStoryBtControl();
             this.backgroundWorkerCheckRevisions = new System.ComponentModel.BackgroundWorker();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.checkBoxGeneralTestingQuestions = new System.Windows.Forms.CheckBox();
             this.tabControl.SuspendLayout();
             this.tabPageSelectReportOptions.SuspendLayout();
             this.tableLayoutPanelSettings.SuspendLayout();
@@ -188,6 +189,7 @@
             this.flowLayoutPanel1.Controls.Add(this.checkBoxLangInternationalBT);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxLangFreeTranslation);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxAnchors);
+            this.flowLayoutPanel1.Controls.Add(this.checkBoxGeneralTestingQuestions);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxStoryTestingQuestions);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxAnswers);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxRetellings);
@@ -308,13 +310,13 @@
             this.checkBoxStoryTestingQuestions.AutoSize = true;
             this.checkBoxStoryTestingQuestions.Checked = true;
             this.checkBoxStoryTestingQuestions.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxStoryTestingQuestions.Location = new System.Drawing.Point(152, 72);
+            this.checkBoxStoryTestingQuestions.Location = new System.Drawing.Point(152, 95);
             this.checkBoxStoryTestingQuestions.Name = "checkBoxStoryTestingQuestions";
             this.checkBoxStoryTestingQuestions.Size = new System.Drawing.Size(132, 17);
             this.checkBoxStoryTestingQuestions.TabIndex = 4;
             this.checkBoxStoryTestingQuestions.Text = "Story &testing questions";
-            this.toolTip.SetToolTip(this.checkBoxStoryTestingQuestions, "Check this box to have the Testing Questions (and answers, if available) shown in" +
-                    " the report");
+            this.toolTip.SetToolTip(this.checkBoxStoryTestingQuestions, "Check this box to have the Story testing questions (and answers, if available) sh" +
+                    "own in the report");
             this.checkBoxStoryTestingQuestions.UseVisualStyleBackColor = true;
             // 
             // checkBoxAnswers
@@ -322,7 +324,7 @@
             this.checkBoxAnswers.AutoSize = true;
             this.checkBoxAnswers.Checked = true;
             this.checkBoxAnswers.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxAnswers.Location = new System.Drawing.Point(152, 95);
+            this.checkBoxAnswers.Location = new System.Drawing.Point(323, 3);
             this.checkBoxAnswers.Name = "checkBoxAnswers";
             this.checkBoxAnswers.Size = new System.Drawing.Size(132, 17);
             this.checkBoxAnswers.TabIndex = 9;
@@ -334,7 +336,7 @@
             this.checkBoxRetellings.AutoSize = true;
             this.checkBoxRetellings.Checked = true;
             this.checkBoxRetellings.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxRetellings.Location = new System.Drawing.Point(323, 3);
+            this.checkBoxRetellings.Location = new System.Drawing.Point(323, 26);
             this.checkBoxRetellings.Name = "checkBoxRetellings";
             this.checkBoxRetellings.Size = new System.Drawing.Size(72, 17);
             this.checkBoxRetellings.TabIndex = 5;
@@ -345,9 +347,9 @@
             // checkBoxShowHidden
             // 
             this.checkBoxShowHidden.AutoSize = true;
-            this.checkBoxShowHidden.Location = new System.Drawing.Point(323, 26);
+            this.checkBoxShowHidden.Location = new System.Drawing.Point(323, 49);
             this.checkBoxShowHidden.Name = "checkBoxShowHidden";
-            this.checkBoxShowHidden.Size = new System.Drawing.Size(122, 17);
+            this.checkBoxShowHidden.Size = new System.Drawing.Size(112, 17);
             this.checkBoxShowHidden.TabIndex = 13;
             this.checkBoxShowHidden.Text = "Show &hidden lines";
             this.checkBoxShowHidden.UseVisualStyleBackColor = true;
@@ -458,6 +460,20 @@
             this.backgroundWorkerCheckRevisions.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorkerCheckRevisions_RunWorkerCompleted);
             this.backgroundWorkerCheckRevisions.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorkerCheckRevisions_ProgressChanged);
             // 
+            // checkBoxGeneralTestingQuestions
+            // 
+            this.checkBoxGeneralTestingQuestions.AutoSize = true;
+            this.checkBoxGeneralTestingQuestions.Checked = true;
+            this.checkBoxGeneralTestingQuestions.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxGeneralTestingQuestions.Location = new System.Drawing.Point(152, 72);
+            this.checkBoxGeneralTestingQuestions.Name = "checkBoxGeneralTestingQuestions";
+            this.checkBoxGeneralTestingQuestions.Size = new System.Drawing.Size(145, 17);
+            this.checkBoxGeneralTestingQuestions.TabIndex = 15;
+            this.checkBoxGeneralTestingQuestions.Text = "&General testing questions";
+            this.toolTip.SetToolTip(this.checkBoxGeneralTestingQuestions, "Check this box to have the General testing questions (and answers, if available) " +
+                    "shown in the report");
+            this.checkBoxGeneralTestingQuestions.UseVisualStyleBackColor = true;
+            // 
             // HtmlDisplayForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -517,5 +533,6 @@
         private System.Windows.Forms.CheckBox checkBoxLangTransliterateNationalBT;
         private System.Windows.Forms.CheckBox checkBoxShowHidden;
         private System.Windows.Forms.CheckBox checkBoxLangFreeTranslation;
+        private System.Windows.Forms.CheckBox checkBoxGeneralTestingQuestions;
     }
 }

@@ -156,7 +156,6 @@ namespace OneStoryProjectEditor
     {
         public string guid;
         public bool IsFirstVerse;
-        public bool IsLastVerse;
         public bool IsVisible = true;
         public LineData StoryLine;
         public AnchorsData Anchors;
@@ -198,9 +197,6 @@ namespace OneStoryProjectEditor
             if (!theVerseRow.IsfirstNull())
                 IsFirstVerse = theVerseRow.first;
 
-            if (!theVerseRow.IslastNull())
-                IsLastVerse = theVerseRow.last;
-
             if (!theVerseRow.IsvisibleNull())
                 IsVisible = theVerseRow.visible;
 
@@ -234,7 +230,6 @@ namespace OneStoryProjectEditor
             XmlAttribute attr;
             guid = ((attr = node.Attributes[CstrAttributeGuid]) != null) ? attr.Value : null;   // can't really happen
             IsFirstVerse = ((attr = node.Attributes[CstrAttributeFirstVerse]) != null) ? (attr.Value == "true") : false;
-            IsLastVerse = ((attr = node.Attributes[CstrAttributeLastVerse]) != null) ? (attr.Value == "true") : false;
             IsVisible = ((attr = node.Attributes[CstrAttributeVisible]) != null) ? (attr.Value == "true") : true;
             StoryLine = new LineData(node, CstrFieldNameStoryLine);
             Anchors = new AnchorsData(node.SelectSingleNode(AnchorsData.CstrElementLabelAnchors));
@@ -250,7 +245,6 @@ namespace OneStoryProjectEditor
             // the guid shouldn't be replicated
             guid = Guid.NewGuid().ToString();   // rhs.guid;
             IsFirstVerse = rhs.IsFirstVerse;
-            IsLastVerse = rhs.IsLastVerse;
             IsVisible = rhs.IsVisible;
             StoryLine = new LineData(rhs.StoryLine);
             Anchors = new AnchorsData(rhs.Anchors);
@@ -375,10 +369,6 @@ namespace OneStoryProjectEditor
                 if (IsFirstVerse)
                     elemVerse.Add(new XAttribute(CstrAttributeFirstVerse, IsFirstVerse));
 
-                // only need to write out the 'last' attribute if it's true
-                if (IsLastVerse)
-                    elemVerse.Add(new XAttribute(CstrAttributeLastVerse, IsLastVerse));
-
                 // only need to write out the 'visible' attribute if it's false
                 if (!IsVisible)
                     elemVerse.Add(new XAttribute(CstrAttributeVisible, IsVisible));
@@ -436,6 +426,7 @@ namespace OneStoryProjectEditor
                 AnswersVernacular = 524288,
                 AnswersNationalBT = 1048576,
                 AnswersInternationalBT = 2097152,
+                GeneralTestQuestions = 4194304,
                 RetellingFields = 8192 | 16384 | 32768,
                 StoryTestingQuestions = 65536 | 131072 | 262144,
                 StoryTestingQuestionAnswers = 524288 | 1048576 | 2097152
@@ -485,6 +476,7 @@ namespace OneStoryProjectEditor
                 bool bStoryFrontMatter,
                 bool bHiddenStuff,
                 bool bOpenConversationsOnly,
+                bool bGeneralTestQuestions,
                 DirectableEncConverter decTransliteratorVernacular,
                 DirectableEncConverter decTransliteratorNationalBT
                 )
@@ -505,7 +497,8 @@ namespace OneStoryProjectEditor
                                    bBibleViewer,
                                    bStoryFrontMatter,
                                    bHiddenStuff,
-                                   bOpenConversationsOnly);
+                                   bOpenConversationsOnly,
+                                   bGeneralTestQuestions);
                 TransliteratorVernacular = decTransliteratorVernacular;
                 TransliteratorNationalBT = decTransliteratorNationalBT;
             }
@@ -533,7 +526,8 @@ namespace OneStoryProjectEditor
                 bool bBibleViewer,
                 bool bStoryFrontMatter,
                 bool bHiddenStuff,
-                bool bOpenConNotesOnly
+                bool bOpenConNotesOnly,
+                bool bGeneralTestQuestions
                 )
             {
                 _itemToInsureOn = 0;
@@ -593,6 +587,8 @@ namespace OneStoryProjectEditor
                     _itemToInsureOn |= ItemToInsureOn.HiddenStuff;
                 if (bOpenConNotesOnly)
                     _itemToInsureOn |= ItemToInsureOn.OpenConNotesOnly;
+                if (bGeneralTestQuestions)
+                    _itemToInsureOn |= ItemToInsureOn.GeneralTestQuestions;
             }
         }
 
@@ -912,10 +908,9 @@ namespace OneStoryProjectEditor
 
     public class VersesData : List<VerseData>
     {
-        internal const string CstrZerothLineName = "Story:";
-        internal const string CstrLastLineName = "General Questions:";
+        internal const string CstrZerothLineNameConNotes = "Story:";
+        internal const string CstrZerothLineNameBtPane = "Gen Qs:";
         public VerseData FirstVerse;    // full-story oriented line (no BT) for ConNotes
-        public VerseData LastVerse;      // special end line for general Qs (no StoryLineData)
 
         public VersesData(NewDataSet.storyRow theStoryRow, NewDataSet projFile)
         {
@@ -929,7 +924,7 @@ namespace OneStoryProjectEditor
             foreach (NewDataSet.VerseRow aVerseRow in theVersesRow.GetVerseRows())
                 Add(new VerseData(aVerseRow, projFile));
 
-            AdjustmentForFirstLastVerse();
+            AdjustmentForFirstVerse();
         }
 
         public VersesData(XmlNode node)
@@ -944,7 +939,7 @@ namespace OneStoryProjectEditor
             foreach (XmlNode nodeVerse in list)
                 Add(new VerseData(nodeVerse));
 
-            AdjustmentForFirstLastVerse();
+            AdjustmentForFirstVerse();
         }
 
         public VersesData(VersesData rhs)
@@ -952,14 +947,13 @@ namespace OneStoryProjectEditor
             FirstVerse = new VerseData(rhs.FirstVerse);
             foreach (VerseData aVerse in rhs)
                 Add(new VerseData(aVerse));
-            LastVerse = new VerseData(rhs.LastVerse);
         }
 
         public VersesData()
         {
         }
 
-        private void AdjustmentForFirstLastVerse()
+        private void AdjustmentForFirstVerse()
         {
             // the zeroth verse is special for global connotes and the new last one
             //  is for general testing questions
@@ -970,27 +964,20 @@ namespace OneStoryProjectEditor
                     FirstVerse = this[0];
                     RemoveAt(0);
                 }
-                if (this[Count - 1].IsLastVerse)
-                {
-                    LastVerse = this[Count - 1];
-                    RemoveAt(Count - 1);
-                }
             }
 
-            InsureFirstAndLastVerse();
+            InsureFirstVerse();
 
             // sometimes the others think they are first verse too... (not sure how this
             //  happens)
             foreach (var aVerse in this)
-                aVerse.IsFirstVerse = aVerse.IsLastVerse = false;
+                aVerse.IsFirstVerse = false;
         }
 
-        public void InsureFirstAndLastVerse()
+        public void InsureFirstVerse()
         {
             if (FirstVerse == null)
                 FirstVerse = new VerseData {IsFirstVerse = true};
-            if (LastVerse == null)
-                LastVerse = new VerseData {IsLastVerse = true};
         }
 
         public VerseData InsertVerse(int nIndex, string strVernacular, 
@@ -1015,8 +1002,7 @@ namespace OneStoryProjectEditor
             get
             {
                 return (Count > 0)
-                       || ((FirstVerse != null) && (FirstVerse.HasData))
-                       || ((LastVerse != null) && (LastVerse.HasData));
+                       || ((FirstVerse != null) && (FirstVerse.HasData));
             }
         }
 
@@ -1035,9 +1021,6 @@ namespace OneStoryProjectEditor
                 // then write out the rest
                 foreach (VerseData aVerseData in this)
                     elemVerses.Add(aVerseData.GetXml);
-
-                // write out the last verse last
-                elemVerses.Add(LastVerse.GetXml);
 
                 return elemVerses;
             }
@@ -1429,9 +1412,6 @@ namespace OneStoryProjectEditor
             foreach (VerseData verseData in this)
                 verseData.ConsultantNotes.ShowOpenConversations =
                     verseData.CoachNotes.ShowOpenConversations = false;
-
-            LastVerse.ConsultantNotes.ShowOpenConversations =
-                LastVerse.CoachNotes.ShowOpenConversations = false;
         }
 
         public string ConsultantNotesHtml(object htmlConNoteCtrl, 
@@ -1439,7 +1419,7 @@ namespace OneStoryProjectEditor
             bool bViewHidden, bool bShowOnlyOpenConversations)
         {
             string strHtml = null;
-            strHtml += GetHeaderRow(CstrZerothLineName, 0, FirstVerse.IsVisible, 
+            strHtml += GetHeaderRow(CstrZerothLineNameConNotes, 0, FirstVerse.IsVisible, 
                 bShowOnlyOpenConversations, FirstVerse.ConsultantNotes, LoggedOnMember);
 
             strHtml += FirstVerse.ConsultantNotes.Html(htmlConNoteCtrl, theStoryStage,
@@ -1458,14 +1438,6 @@ namespace OneStoryProjectEditor
                 }
             }
 
-            int nVerseIndex = Count + 1;
-            strHtml += GetHeaderRow(CstrLastLineName, nVerseIndex, LastVerse.IsVisible,
-                bShowOnlyOpenConversations, LastVerse.ConsultantNotes, LoggedOnMember);
-
-            strHtml += LastVerse.ConsultantNotes.Html(htmlConNoteCtrl, theStoryStage,
-                LoggedOnMember, bViewHidden, LastVerse.IsVisible, bShowOnlyOpenConversations, 
-                nVerseIndex);
-
             return String.Format(OseResources.Properties.Resources.HTML_Table, strHtml);
         }
 
@@ -1474,7 +1446,7 @@ namespace OneStoryProjectEditor
             bool bViewHidden, bool bShowOnlyOpenConversations)
         {
             string strHtml = null;
-            strHtml += GetHeaderRow(CstrZerothLineName, 0, FirstVerse.IsVisible,
+            strHtml += GetHeaderRow(CstrZerothLineNameConNotes, 0, FirstVerse.IsVisible,
                 bShowOnlyOpenConversations, FirstVerse.CoachNotes, LoggedOnMember);
 
             strHtml += FirstVerse.CoachNotes.Html(htmlConNoteCtrl, theStoryStage,
@@ -1493,14 +1465,6 @@ namespace OneStoryProjectEditor
                 }
             }
 
-            int nVerseIndex = Count + 1;
-            strHtml += GetHeaderRow(CstrLastLineName, nVerseIndex, LastVerse.IsVisible,
-                bShowOnlyOpenConversations, LastVerse.CoachNotes, LoggedOnMember);
-
-            strHtml += LastVerse.CoachNotes.Html(htmlConNoteCtrl, theStoryStage,
-                LoggedOnMember, bViewHidden, LastVerse.IsVisible, bShowOnlyOpenConversations,
-                nVerseIndex);
-
             return String.Format(OseResources.Properties.Resources.HTML_Table, strHtml);
         }
 
@@ -1515,8 +1479,6 @@ namespace OneStoryProjectEditor
                 VerseData aVerseData = this[nVerseNum];
                 aVerseData.IndexSearch(findProperties, ref lstBoxesToSearch);
             }
-
-            LastVerse.IndexSearch(findProperties, ref lstBoxesToSearch);
         }
 
         public void ChangeRetellingTestorGuid(string strOldGuid, string strNewGuid)

@@ -107,6 +107,7 @@ namespace OneStoryProjectEditor
                     checkBoxFrontMatter.Checked,
                     checkBoxShowHidden.Checked,
                     false, // show only open conversations (doesn't apply)
+                    checkBoxGeneralTestingQuestions.Checked,
                     (checkBoxLangTransliterateVernacular.Checked)
                         ? TransliteratorVernacular
                         : null,
@@ -124,6 +125,8 @@ namespace OneStoryProjectEditor
             checkBoxLangNationalBT.Checked = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBTLangField);
             checkBoxLangInternationalBT.Checked = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.EnglishBTField);
             checkBoxAnchors.Checked = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.AnchorFields);
+            checkBoxGeneralTestingQuestions.Checked =
+                viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.GeneralTestQuestions);
             checkBoxStoryTestingQuestions.Checked = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestions);
             checkBoxAnswers.Checked = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers);
             checkBoxRetellings.Checked = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.RetellingFields);
@@ -177,6 +180,7 @@ namespace OneStoryProjectEditor
                     checkBoxLangNationalBT.Checked =
                     checkBoxLangInternationalBT.Checked =
                     checkBoxAnchors.Checked =
+                    checkBoxGeneralTestingQuestions.Checked = 
                     checkBoxStoryTestingQuestions.Checked =
                     checkBoxAnswers.Checked =
                     checkBoxRetellings.Checked =

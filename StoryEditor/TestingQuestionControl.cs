@@ -44,7 +44,8 @@ namespace OneStoryProjectEditor
             int nNumColumns = 0;
             string strTestNumberLabel = String.Format(TestQuestionData.CstrTestQuestionsLabelFormat,
                                                       nIndex + 1);
-            if (theSE.viewStoryTestingQuestionMenuItem.Checked)
+            if (theSE.viewStoryTestingQuestionMenuItem.Checked
+                || theSE.viewGeneralTestingQuestionMenuItem.Checked)
             {
                 // show the row label
                 var label = new Label

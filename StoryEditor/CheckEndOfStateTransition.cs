@@ -1001,11 +1001,6 @@ namespace OneStoryProjectEditor
                     return false;
                 nVerseNumber++;
             }
-
-            if (!CheckThatCoachAnsweredInVerse(theCurrentStory.Name, theSE,
-                    theCurrentStory.Verses.LastVerse, ref nVerseNumber))
-                return false;
-
             return true;
         }
 
@@ -1063,10 +1058,6 @@ namespace OneStoryProjectEditor
                 nVerseNumber++;
             }
 
-            if (!CheckThatConsultantAnsweredInVerse(theCurrentStory.Name, theSE,
-                theCurrentStory.Verses.LastVerse, ref nVerseNumber))
-                return false;
-
             return true;
         }
 
@@ -1091,13 +1082,6 @@ namespace OneStoryProjectEditor
                 nVerseNumber++;
             }
 
-            if (theCurrentStory.Verses.LastVerse.IsVisible)
-                if (!CheckThatMenteeAnsweredMentorsQuestions(theSE,
-                        theSE.htmlCoachNotesControl, theCurrentStory.Verses.LastVerse.CoachNotes,
-                        theCurrentStory.Name, VerseData.ViewSettings.ItemToInsureOn.CoachNotesFields,
-                        ref nVerseNumber))
-                    return false;
-
             return true;
         }
 
@@ -1121,13 +1105,6 @@ namespace OneStoryProjectEditor
 
                 nVerseNumber++;
             }
-
-            if (theCurrentStory.Verses.LastVerse.IsVisible)
-                if (!CheckThatMenteeAnsweredMentorsQuestions(theSE, theSE.htmlConsultantNotesControl,
-                    theCurrentStory.Verses.LastVerse.ConsultantNotes, theCurrentStory.Name,
-                    VerseData.ViewSettings.ItemToInsureOn.ConsultantNoteFields, ref nVerseNumber))
-                    return false;
-
             return true;
         }
 

@@ -53,14 +53,9 @@ namespace OneStoryProjectEditor
 
                 if (elemLnPrev != null)
                 {
-                    if (elemLnPrev.InnerText == VersesData.CstrZerothLineName)
+                    if (elemLnPrev.InnerText == VersesData.CstrZerothLineNameConNotes)
                     {
                         LineNumberLink.Text = "Story (Ln: 0)";
-                        LineNumberLink.Tag = 0;
-                    }
-                    else if (elemLnPrev.InnerText == VersesData.CstrLastLineName)
-                    {
-                        LineNumberLink.Text = "General Questions";
                         LineNumberLink.Tag = 0;
                     }
                     else
@@ -87,12 +82,10 @@ namespace OneStoryProjectEditor
 
         protected VerseData Verse(int nVerseIndex)
         {
-            System.Diagnostics.Debug.Assert(StoryData.Verses.Count > (nVerseIndex - 2));
+            System.Diagnostics.Debug.Assert(StoryData.Verses.Count > (nVerseIndex - 1));
             return (nVerseIndex == 0)
                        ? StoryData.Verses.FirstVerse
-                       : (nVerseIndex > StoryData.Verses.Count)
-                             ? StoryData.Verses.LastVerse
-                             : StoryData.Verses[nVerseIndex - 1];
+                       : StoryData.Verses[nVerseIndex - 1];
         }
 
         private void ScrollToElement(String strElemName, bool bAlignWithTop)

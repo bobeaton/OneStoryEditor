@@ -55,9 +55,6 @@ namespace OneStoryProjectEditor
                     string strToolTip = StringForTooltip(aVerseData);
                     AddLineButton(strLine, strToolTip, i, aVerseData);
                 }
-
-                strLine = VersesData.CstrLastLineName;
-                AddLineButton(strLine, null, theVerses.Count + 1, theVerses.LastVerse);
             }
         }
 

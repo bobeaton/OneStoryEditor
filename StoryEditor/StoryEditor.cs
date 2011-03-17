@@ -975,6 +975,9 @@ namespace OneStoryProjectEditor
             InitConsultNotesPane(flowLayoutPanelCoachNotes, theVerses.FirstVerse.CoachNotes, nVerseIndex);
 #endif
 
+            if (viewGeneralTestingQuestionMenuItem.Checked)
+                InitVerseControls(theVerses.FirstVerse, 0);
+
             AddDropTargetToFlowLayout(nVerseIndex++);
             foreach (VerseData aVerse in theVerses)
             {
@@ -995,10 +998,6 @@ namespace OneStoryProjectEditor
                 //  AND so it'll be a clue to the user that there are hidden verses present.
                 nVerseIndex++;
             }
-
-            // add the line for general testing questions
-            if (theVerses.LastVerse.HasData)
-                InitVerseControls(theVerses.LastVerse, nVerseIndex);
 
             flowLayoutPanelVerses.ResumeLayout(true);
 #if UsingHtmlDisplayForConNotes
@@ -1024,7 +1023,7 @@ namespace OneStoryProjectEditor
 
         protected void InitVerseControls(VerseData aVerse, int nVerseIndex)
         {
-            VerseBtControl aVerseCtrl = new VerseBtControl(this, flowLayoutPanelVerses, aVerse, nVerseIndex);
+            var aVerseCtrl = new VerseBtControl(this, flowLayoutPanelVerses, aVerse, nVerseIndex);
             if (!aVerse.IsVisible)
                 aVerseCtrl.BackColor = System.Drawing.Color.Khaki;
 
@@ -1049,6 +1048,9 @@ namespace OneStoryProjectEditor
             flowLayoutPanelVerses.Controls.Clear();
             flowLayoutPanelVerses.SuspendLayout();
             SuspendLayout();
+
+            if (viewGeneralTestingQuestionMenuItem.Checked)
+                InitVerseControls(theCurrentStory.Verses.FirstVerse, 0);
 
             AddDropTargetToFlowLayout(nVerseIndex++);
             foreach (VerseData aVerse in theCurrentStory.Verses)
@@ -1716,12 +1718,18 @@ namespace OneStoryProjectEditor
         internal void LightUpDropTargetButtons(VerseBtControl aVerseCtrl)
         {
             int nIndex = flowLayoutPanelVerses.Controls.IndexOf(aVerseCtrl);
-            for (int i = 0; i < flowLayoutPanelVerses.Controls.Count; i += 2)
+            int nOffset = 0;
+            if (viewGeneralTestingQuestionMenuItem.Checked)
+                nOffset++;
+
+            for (int i = nOffset; i < flowLayoutPanelVerses.Controls.Count; i += 2)
             {
                 Control ctrl = flowLayoutPanelVerses.Controls[i];
-                Debug.Assert(ctrl is Button);
-                if (Math.Abs(nIndex - i) > 1)
-                    ctrl.Visible = true;
+                if (ctrl is Button)
+                {
+                    if (Math.Abs(nIndex - i) > 1)
+                        ctrl.Visible = true;
+                }
             }
         }
 
@@ -3162,9 +3170,19 @@ namespace OneStoryProjectEditor
         protected void GlossInAdaptIt(string strStoryText, ProjectSettings.AdaptItConfiguration.AdaptItBtDirection eBtDirection)
         {
             ProjectSettings.LanguageInfo liSourceLang, liTargetLang;
-            var theEC = AdaptItGlossing.InitLookupAdapter(StoryProject.ProjSettings, 
+            AdaptItEncConverter theEC;
+            try
+            {
+                theEC = AdaptItGlossing.InitLookupAdapter(StoryProject.ProjSettings,
                                                           eBtDirection, LoggedOnMember,
                                                           out liSourceLang, out liTargetLang);
+            }
+            catch (Exception ex)
+            {
+                Program.ShowException(ex);
+                return;
+            }
+
             string strAdaptationFilespec = AdaptationFilespec(theEC.ConverterIdentifier, theCurrentStory.Name);
             string strProjectName =
                 AdaptItGlossing.GetAiProjectFolderNameFromConverterIdentifier(theEC.ConverterIdentifier);
@@ -3468,30 +3486,31 @@ namespace OneStoryProjectEditor
 
         private void showHideFieldsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ViewEnableForm dlg = new ViewEnableForm(this, StoryProject.ProjSettings, theCurrentStory,
-                                                    useSameSettingsForAllStoriesToolStripMenuItem.Checked)
-                                     {
-                                         ViewSettings = new VerseData.ViewSettings
-                                             (
-                                             StoryProject.ProjSettings,
-                                             viewVernacularLangFieldMenuItem.Checked,
-                                             viewNationalLangFieldMenuItem.Checked,
-                                             viewEnglishBTFieldMenuItem.Checked,
-                                             viewFreeTranslationToolStripMenuItem.Checked,
-                                             viewAnchorFieldMenuItem.Checked,
-                                             viewStoryTestingQuestionMenuItem.Checked,
-                                             viewStoryTestingQuestionAnswerMenuItem.Checked,
-                                             viewRetellingFieldMenuItem.Checked,
-                                             viewConsultantNoteFieldMenuItem.Checked,
-                                             viewCoachNotesFieldMenuItem.Checked,
-                                             viewNetBibleMenuItem.Checked,
-                                             true,
-                                             hiddenVersesToolStripMenuItem.Checked,
-                                             viewOnlyOpenConversationsMenu.Checked,
-                                             null,
-                                             null
-                                             )
-                                     };
+            var dlg = new ViewEnableForm(this, StoryProject.ProjSettings, theCurrentStory,
+                                         useSameSettingsForAllStoriesToolStripMenuItem.Checked)
+                          {
+                              ViewSettings = new VerseData.ViewSettings
+                                  (
+                                  StoryProject.ProjSettings,
+                                  viewVernacularLangFieldMenuItem.Checked,
+                                  viewNationalLangFieldMenuItem.Checked,
+                                  viewEnglishBTFieldMenuItem.Checked,
+                                  viewFreeTranslationToolStripMenuItem.Checked,
+                                  viewAnchorFieldMenuItem.Checked,
+                                  viewStoryTestingQuestionMenuItem.Checked,
+                                  viewStoryTestingQuestionAnswerMenuItem.Checked,
+                                  viewRetellingFieldMenuItem.Checked,
+                                  viewConsultantNoteFieldMenuItem.Checked,
+                                  viewCoachNotesFieldMenuItem.Checked,
+                                  viewNetBibleMenuItem.Checked,
+                                  true,
+                                  hiddenVersesToolStripMenuItem.Checked,
+                                  viewOnlyOpenConversationsMenu.Checked,
+                                  viewGeneralTestingQuestionMenuItem.Checked,
+                                  null,
+                                  null
+                                  )
+                          };
 
             if (dlg.ShowDialog() == DialogResult.OK)
             {
@@ -3540,6 +3559,7 @@ namespace OneStoryProjectEditor
 
                 // this have the added requirement that it be a biblical story
                 viewAnchorFieldMenuItem.Enabled =
+                    viewGeneralTestingQuestionMenuItem.Enabled = 
                     viewStoryTestingQuestionAnswerMenuItem.Enabled =
                     viewStoryTestingQuestionMenuItem.Enabled =
                     viewRetellingFieldMenuItem.Enabled =
@@ -3825,6 +3845,10 @@ namespace OneStoryProjectEditor
             bSomethingChanged |= InsureVisible(viewAnchorFieldMenuItem,
                                                viewItemToInsureOn.IsViewItemOn(
                                                    VerseData.ViewSettings.ItemToInsureOn.AnchorFields),
+                                               bDoOffToo);
+            bSomethingChanged |= InsureVisible(viewGeneralTestingQuestionMenuItem,
+                                               viewItemToInsureOn.IsViewItemOn(
+                                                   VerseData.ViewSettings.ItemToInsureOn.GeneralTestQuestions),
                                                bDoOffToo);
             bSomethingChanged |= InsureVisible(viewStoryTestingQuestionMenuItem,
                                                viewItemToInsureOn.IsViewItemOn(
@@ -4843,13 +4867,50 @@ namespace OneStoryProjectEditor
                 (aiconfig.ProjectType != ProjectSettings.AdaptItConfiguration.AdaptItProjectType.SharedAiProject))
                 return;
 
-            aiconfig.AlreadyCheckedForSync = false;
-            ProjectSettings.LanguageInfo liSourceLang, liTargetLang;
-            AdaptItGlossing.InitLookupAdapter(StoryProject.ProjSettings,
-                                              aiconfig.BtDirection,
-                                              LoggedOnMember,
-                                              out liSourceLang,
-                                              out liTargetLang);
+            try
+            {
+                aiconfig.AlreadyCheckedForSync = false;
+                ProjectSettings.LanguageInfo liSourceLang, liTargetLang;
+                AdaptItGlossing.InitLookupAdapter(StoryProject.ProjSettings,
+                                                  aiconfig.BtDirection,
+                                                  LoggedOnMember,
+                                                  out liSourceLang,
+                                                  out liTargetLang);
+            }
+            catch (Exception ex)
+            {
+                Program.ShowException(ex);
+                return;
+            }
+        }
+
+        private bool CheckForProperEditToken()
+        {
+            try
+            {
+                if (!IsInStoriesSet)
+                    throw CantEditOldStoriesEx;
+
+                LoggedOnMember.ThrowIfEditIsntAllowed(theCurrentStory.ProjStage.MemberTypeWithEditToken);
+            }
+            catch (Exception ex)
+            {
+                SetStatusBar(String.Format("Error: {0}", ex.Message));
+                return false;
+            }
+
+            return true;
+        }
+
+        private void addgeneralTestQuestionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!CheckForProperEditToken())
+                return;
+
+            theCurrentStory.Verses.FirstVerse.TestQuestions.AddTestQuestion();
+            viewGeneralTestingQuestionMenuItem.Checked = true;
+            ReInitVerseControls();
+            Modified = true;
         }
     }
 }

@@ -37,7 +37,7 @@ namespace OneStoryProjectEditor
             CraftingInfo = new CraftingInfoData(strCrafterMemberGuid, strLoggedOnMemberGuid, bIsBiblicalStory);
             TransitionHistory = new StoryStateTransitionHistory();
             Verses = new VersesData();
-            Verses.InsureFirstAndLastVerse();
+            Verses.InsureFirstVerse();
 
             string strMemberName = projectData.TeamMembers.GetNameFromMemberId(strLoggedOnMemberGuid);
             System.Diagnostics.Debug.Assert(projectData.TeamMembers[strMemberName].MemberType ==
@@ -285,22 +285,23 @@ namespace OneStoryProjectEditor
                 ParentStory = new StoryData(parentStory, strProjectPath);
             if (childStory != null)
                 ChildStory = new StoryData(childStory, strProjectPath);
-            VerseData.ViewSettings viewSettings = new VerseData.ViewSettings(
-                projSettings,
-                true,
-                true,
-                true,
-                true,
-                true,
-                true,
-                true,
-                true,
+            var viewSettings = new VerseData.ViewSettings(
+                projSettings, 
+                true,   // vernacular
+                true,   // national bt
+                true,   // english bt
+                true,   // free translation
+                true,   // anchors 
+                true,   // testing questions
+                true,   // answers
+                true,   // retellings
                 false,  // theSE.viewConsultantNoteFieldMenuItem.Checked,
                 false,  // theSE.viewCoachNotesFieldMenuItem.Checked,
                 false,  // theSE.viewNetBibleMenuItem.Checked
                 true,   // story front matter
                 false,  // hidden matter
                 false,  // only open conversations
+                true,   // General Testing questions
                 null,
                 null);
 

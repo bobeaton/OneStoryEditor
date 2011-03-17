@@ -91,6 +91,8 @@ namespace OneStoryProjectEditor
                     checkBoxLangFreeTranslation.Checked = true;
                 if (_viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.AnchorFields))
                     checkBoxAnchors.Checked = true;
+                if (_viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.GeneralTestQuestions))
+                    checkBoxGeneralTestingQuestions.Checked = true;
                 if (_viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestions))
                     checkBoxStoryTestingQuestions.Checked = true;
                 if (_viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers))
@@ -128,7 +130,8 @@ namespace OneStoryProjectEditor
                     checkBoxBibleViewer.Checked,
                     true,
                     checkBoxShowHidden.Checked,
-                    checkBoxOpenConNotesOnly.Checked);
+                    checkBoxOpenConNotesOnly.Checked,
+                    checkBoxGeneralTestingQuestions.Checked);
                 return _viewSettings;
             }
         }

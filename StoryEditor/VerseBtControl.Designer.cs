@@ -61,7 +61,6 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.splitStoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuAddTestQuestion = new System.Windows.Forms.ToolStripMenuItem();
-            this.addGeneralTestingQuestionMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -342,14 +341,6 @@
             this.menuAddTestQuestion.ToolTipText = "Click to add a story testing question";
             this.menuAddTestQuestion.Click += new System.EventHandler(this.menuAddTestQuestion_Click);
             // 
-            // addGeneralTestingQuestionMenu
-            // 
-            this.addGeneralTestingQuestionMenu.Name = "addGeneralTestingQuestionMenu";
-            this.addGeneralTestingQuestionMenu.Size = new System.Drawing.Size(342, 22);
-            this.addGeneralTestingQuestionMenu.Text = "Add &general testing question";
-            this.addGeneralTestingQuestionMenu.ToolTipText = "Click to add a general testing question";
-            this.addGeneralTestingQuestionMenu.Click += new System.EventHandler(this.addGeneralTestingQuestionMenu_Click);
-            // 
             // VerseBtControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -396,6 +387,5 @@
         private System.Windows.Forms.ToolStripMenuItem splitStoryToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteItemsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addExegeticalCulturalNoteBelowToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem addGeneralTestingQuestionMenu;
     }
 }

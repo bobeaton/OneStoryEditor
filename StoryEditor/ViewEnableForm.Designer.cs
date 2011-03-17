@@ -35,6 +35,7 @@
             this.checkBoxLangNationalBT = new System.Windows.Forms.CheckBox();
             this.checkBoxLangTransliterateNationalBT = new System.Windows.Forms.CheckBox();
             this.checkBoxLangInternationalBT = new System.Windows.Forms.CheckBox();
+            this.checkBoxLangFreeTranslation = new System.Windows.Forms.CheckBox();
             this.checkBoxAnchors = new System.Windows.Forms.CheckBox();
             this.checkBoxStoryTestingQuestions = new System.Windows.Forms.CheckBox();
             this.checkBoxAnswers = new System.Windows.Forms.CheckBox();
@@ -47,7 +48,7 @@
             this.buttonOK = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.checkBoxUseForAllStories = new System.Windows.Forms.CheckBox();
-            this.checkBoxLangFreeTranslation = new System.Windows.Forms.CheckBox();
+            this.checkBoxGeneralTestingQuestions = new System.Windows.Forms.CheckBox();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -63,6 +64,7 @@
             this.flowLayoutPanel1.Controls.Add(this.checkBoxLangInternationalBT);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxLangFreeTranslation);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxAnchors);
+            this.flowLayoutPanel1.Controls.Add(this.checkBoxGeneralTestingQuestions);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxStoryTestingQuestions);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxAnswers);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxRetellings);
@@ -131,6 +133,16 @@
             this.checkBoxLangInternationalBT.Text = "&English back translation fields";
             this.checkBoxLangInternationalBT.UseVisualStyleBackColor = true;
             // 
+            // checkBoxLangFreeTranslation
+            // 
+            this.checkBoxLangFreeTranslation.AutoSize = true;
+            this.checkBoxLangFreeTranslation.Location = new System.Drawing.Point(3, 118);
+            this.checkBoxLangFreeTranslation.Name = "checkBoxLangFreeTranslation";
+            this.checkBoxLangFreeTranslation.Size = new System.Drawing.Size(125, 17);
+            this.checkBoxLangFreeTranslation.TabIndex = 17;
+            this.checkBoxLangFreeTranslation.Text = "&Free translation fields";
+            this.checkBoxLangFreeTranslation.UseVisualStyleBackColor = true;
+            // 
             // checkBoxAnchors
             // 
             this.checkBoxAnchors.AutoSize = true;
@@ -144,7 +156,7 @@
             // checkBoxStoryTestingQuestions
             // 
             this.checkBoxStoryTestingQuestions.AutoSize = true;
-            this.checkBoxStoryTestingQuestions.Location = new System.Drawing.Point(3, 164);
+            this.checkBoxStoryTestingQuestions.Location = new System.Drawing.Point(3, 187);
             this.checkBoxStoryTestingQuestions.Name = "checkBoxStoryTestingQuestions";
             this.checkBoxStoryTestingQuestions.Size = new System.Drawing.Size(132, 17);
             this.checkBoxStoryTestingQuestions.TabIndex = 4;
@@ -154,7 +166,7 @@
             // checkBoxAnswers
             // 
             this.checkBoxAnswers.AutoSize = true;
-            this.checkBoxAnswers.Location = new System.Drawing.Point(3, 187);
+            this.checkBoxAnswers.Location = new System.Drawing.Point(3, 210);
             this.checkBoxAnswers.Name = "checkBoxAnswers";
             this.checkBoxAnswers.Size = new System.Drawing.Size(169, 17);
             this.checkBoxAnswers.TabIndex = 9;
@@ -164,7 +176,7 @@
             // checkBoxRetellings
             // 
             this.checkBoxRetellings.AutoSize = true;
-            this.checkBoxRetellings.Location = new System.Drawing.Point(3, 210);
+            this.checkBoxRetellings.Location = new System.Drawing.Point(3, 233);
             this.checkBoxRetellings.Name = "checkBoxRetellings";
             this.checkBoxRetellings.Size = new System.Drawing.Size(72, 17);
             this.checkBoxRetellings.TabIndex = 5;
@@ -174,7 +186,7 @@
             // checkBoxConsultantNotes
             // 
             this.checkBoxConsultantNotes.AutoSize = true;
-            this.checkBoxConsultantNotes.Location = new System.Drawing.Point(3, 233);
+            this.checkBoxConsultantNotes.Location = new System.Drawing.Point(3, 256);
             this.checkBoxConsultantNotes.Name = "checkBoxConsultantNotes";
             this.checkBoxConsultantNotes.Size = new System.Drawing.Size(105, 17);
             this.checkBoxConsultantNotes.TabIndex = 6;
@@ -184,7 +196,7 @@
             // checkBoxCoachNotes
             // 
             this.checkBoxCoachNotes.AutoSize = true;
-            this.checkBoxCoachNotes.Location = new System.Drawing.Point(3, 256);
+            this.checkBoxCoachNotes.Location = new System.Drawing.Point(3, 279);
             this.checkBoxCoachNotes.Name = "checkBoxCoachNotes";
             this.checkBoxCoachNotes.Size = new System.Drawing.Size(86, 17);
             this.checkBoxCoachNotes.TabIndex = 7;
@@ -195,7 +207,7 @@
             // 
             this.checkBoxOpenConNotesOnly.AutoSize = true;
             this.checkBoxOpenConNotesOnly.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxOpenConNotesOnly.Location = new System.Drawing.Point(3, 279);
+            this.checkBoxOpenConNotesOnly.Location = new System.Drawing.Point(3, 302);
             this.checkBoxOpenConNotesOnly.Name = "checkBoxOpenConNotesOnly";
             this.checkBoxOpenConNotesOnly.Size = new System.Drawing.Size(218, 17);
             this.checkBoxOpenConNotesOnly.TabIndex = 16;
@@ -205,7 +217,7 @@
             // checkBoxBibleViewer
             // 
             this.checkBoxBibleViewer.AutoSize = true;
-            this.checkBoxBibleViewer.Location = new System.Drawing.Point(3, 302);
+            this.checkBoxBibleViewer.Location = new System.Drawing.Point(3, 325);
             this.checkBoxBibleViewer.Name = "checkBoxBibleViewer";
             this.checkBoxBibleViewer.Size = new System.Drawing.Size(83, 17);
             this.checkBoxBibleViewer.TabIndex = 8;
@@ -215,9 +227,9 @@
             // checkBoxShowHidden
             // 
             this.checkBoxShowHidden.AutoSize = true;
-            this.checkBoxShowHidden.Location = new System.Drawing.Point(3, 325);
+            this.checkBoxShowHidden.Location = new System.Drawing.Point(227, 3);
             this.checkBoxShowHidden.Name = "checkBoxShowHidden";
-            this.checkBoxShowHidden.Size = new System.Drawing.Size(122, 17);
+            this.checkBoxShowHidden.Size = new System.Drawing.Size(112, 17);
             this.checkBoxShowHidden.TabIndex = 15;
             this.checkBoxShowHidden.Text = "Show &hidden lines";
             this.checkBoxShowHidden.UseVisualStyleBackColor = true;
@@ -255,15 +267,15 @@
             this.checkBoxUseForAllStories.Text = "&Use these settings for all stories";
             this.checkBoxUseForAllStories.UseVisualStyleBackColor = true;
             // 
-            // checkBoxLangFreeTranslation
+            // checkBoxGeneralTestingQuestions
             // 
-            this.checkBoxLangFreeTranslation.AutoSize = true;
-            this.checkBoxLangFreeTranslation.Location = new System.Drawing.Point(3, 118);
-            this.checkBoxLangFreeTranslation.Name = "checkBoxLangFreeTranslation";
-            this.checkBoxLangFreeTranslation.Size = new System.Drawing.Size(125, 17);
-            this.checkBoxLangFreeTranslation.TabIndex = 17;
-            this.checkBoxLangFreeTranslation.Text = "&Free translation fields";
-            this.checkBoxLangFreeTranslation.UseVisualStyleBackColor = true;
+            this.checkBoxGeneralTestingQuestions.AutoSize = true;
+            this.checkBoxGeneralTestingQuestions.Location = new System.Drawing.Point(3, 164);
+            this.checkBoxGeneralTestingQuestions.Name = "checkBoxGeneralTestingQuestions";
+            this.checkBoxGeneralTestingQuestions.Size = new System.Drawing.Size(145, 17);
+            this.checkBoxGeneralTestingQuestions.TabIndex = 18;
+            this.checkBoxGeneralTestingQuestions.Text = "&General testing questions";
+            this.checkBoxGeneralTestingQuestions.UseVisualStyleBackColor = true;
             // 
             // ViewEnableForm
             // 
@@ -309,5 +321,6 @@
         private System.Windows.Forms.CheckBox checkBoxShowHidden;
         private System.Windows.Forms.CheckBox checkBoxOpenConNotesOnly;
         private System.Windows.Forms.CheckBox checkBoxLangFreeTranslation;
+        private System.Windows.Forms.CheckBox checkBoxGeneralTestingQuestions;
     }
 }
