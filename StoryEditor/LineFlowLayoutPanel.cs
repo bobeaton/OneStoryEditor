@@ -226,13 +226,15 @@ namespace OneStoryProjectEditor
             // return Controls[((nVerseIndex - 1)*2) + 1]
             // but some verses may be hidden and so it's not so straightforward
             // start at that index (going backwards) and make sure the verse index matches
-            for (int i = Math.Min((((nVerseIndex - 1) * 2) + 1), Controls.Count - 2); i >= 0; i -= 2)
+            for (int i = Math.Min((((nVerseIndex - 1) * 2) + 2), Controls.Count - 2); i >= 0; i--)
             {
                 Control ctrl = Controls[i];
-                System.Diagnostics.Debug.Assert(ctrl is VerseControl);
-                VerseControl ctrlVerse = ctrl as VerseControl;
-                if (ctrlVerse.VerseNumber == nVerseIndex)
-                    return ctrlVerse;
+                if (ctrl is VerseControl)
+                {
+                    var ctrlVerse = ctrl as VerseControl;
+                    if (ctrlVerse.VerseNumber == nVerseIndex)
+                        return ctrlVerse;
+                }
             }
 
             return null;
