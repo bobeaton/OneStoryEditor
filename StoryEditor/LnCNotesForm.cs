@@ -16,7 +16,7 @@ namespace OneStoryProjectEditor
         private const int CnColumnNotes = 2;
 
         private const string CstrAddLnCNote = "Add L&C Note";
-        private const string CstrEditLnCNote = "Edit L&C Note";
+        internal const string CstrEditLnCNote = "Edit L&C Note";
 
         private StoryEditor _theSE;
         private int _nHeight;

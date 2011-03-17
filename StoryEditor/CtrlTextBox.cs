@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Drawing;
 using Palaso.UI.WindowsForms.Keyboarding;
@@ -626,6 +627,32 @@ namespace OneStoryProjectEditor
                 {
                     x.Visible = (EnglishBtSibling != null);
                 }
+                else if (x.Text == CstrAddLnCNote)
+                    CheckForLnCNoteLookup((ToolStripMenuItem)x);
+        }
+
+        private void CheckForLnCNoteLookup(ToolStripMenuItem x)
+        {
+            x.DropDownItems.Clear();
+            var mapFoundString2LnCnote = _ctrlVerseParent.TheSE.StoryProject.LnCNotes.FindHits(SelectedText, _eFieldType);
+            foreach (KeyValuePair<string, LnCNote> kvp in mapFoundString2LnCnote)
+            {
+                ToolStripItem tsi = x.DropDownItems.Add(kvp.Key, null, onLookupLnCnote);
+                tsi.Tag = kvp.Value;
+                tsi.Font = Font;
+            }
+        }
+
+        private void onLookupLnCnote(object sender, EventArgs e)
+        {
+            var tsi = sender as ToolStripItem;
+            if (tsi != null)
+            {
+                var note = (LnCNote)tsi.Tag;
+                var dlg = new AddLnCNoteForm(_ctrlVerseParent.TheSE, note) {Text = LnCNotesForm.CstrEditLnCNote};
+                if ((dlg.ShowDialog() == DialogResult.OK) && (note != null))
+                    _ctrlVerseParent.TheSE.Modified = true;
+            }
         }
 
         void CtrlTextBox_MouseWheel(object sender, MouseEventArgs e)

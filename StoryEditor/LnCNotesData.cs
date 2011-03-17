@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
 namespace OneStoryProjectEditor
@@ -37,6 +38,57 @@ namespace OneStoryProjectEditor
 
                 return elem;
             }
+        }
+
+        private static TermRendering GetTermRendering(string strSearchPatterns)
+        {
+            return new TermRendering { Renderings = strSearchPatterns.Trim() };
+        }
+
+        private static bool StringContains(string strSearchPatterns, string strSearchString)
+        {
+            if (!String.IsNullOrEmpty(strSearchPatterns))
+            {
+                // try a simple index of without case to see if the search string is part
+                //  of any of the L&C note words.
+                if (strSearchPatterns.IndexOf(strSearchString, StringComparison.OrdinalIgnoreCase) != -1)
+                    return true;
+
+                // also try the reverse: see if the L&C note search patterns find the 
+                //  search string (e.g. "God*" will find "God's")
+                var termRendering = GetTermRendering(strSearchPatterns);
+                var arrRegex = BiblicalTermsHTMLBuilder.GetRegexs(termRendering);
+                return BiblicalTermsHTMLBuilder.SearchForHit(arrRegex, strSearchString);
+            }
+            return false;
+        }
+
+        public Dictionary<string,LnCNote> FindHits(string strSearchString, StoryEditor.TextFieldType eFieldType)
+        {
+            var map = new Dictionary<string, LnCNote>();
+            strSearchString = strSearchString.Trim();
+
+            foreach (LnCNote anLnCnote in this)
+            {
+                switch (eFieldType)
+                {
+                    case StoryEditor.TextFieldType.Vernacular:
+                        if (StringContains(anLnCnote.VernacularRendering, strSearchString))
+                            map.Add(anLnCnote.VernacularRendering, anLnCnote);
+                        break;
+
+                    case StoryEditor.TextFieldType.NationalBt:
+                        if (StringContains(anLnCnote.NationalBtRendering, strSearchString))
+                            map.Add(anLnCnote.NationalBtRendering, anLnCnote);
+                        break;
+
+                    case StoryEditor.TextFieldType.InternationalBt:
+                        if (StringContains(anLnCnote.InternationalBtRendering, strSearchString))
+                            map.Add(anLnCnote.InternationalBtRendering, anLnCnote);
+                        break;
+                }
+            }
+            return map;
         }
     }
 

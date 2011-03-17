@@ -159,11 +159,11 @@
             // 
             this.labelInternationalBT.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelInternationalBT.AutoSize = true;
-            this.labelInternationalBT.Location = new System.Drawing.Point(8, 58);
+            this.labelInternationalBT.Location = new System.Drawing.Point(47, 58);
             this.labelInternationalBT.Name = "labelInternationalBT";
-            this.labelInternationalBT.Size = new System.Drawing.Size(100, 13);
+            this.labelInternationalBT.Size = new System.Drawing.Size(61, 13);
             this.labelInternationalBT.TabIndex = 4;
-            this.labelInternationalBT.Text = "International Lg BT:";
+            this.labelInternationalBT.Text = "English BT:";
             // 
             // textBoxInternationalBT
             // 

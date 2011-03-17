@@ -352,7 +352,7 @@ namespace OneStoryProjectEditor
             return new Regex(strSearch, RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Singleline | RegexOptions.Compiled);
         }
 
-        private static List<Regex> GetRegexs(TermRendering termRendering)
+        public static List<Regex> GetRegexs(TermRendering termRendering)
         {
             // get an array of RegEx searchers for each search string(s) in the list
             //  (may be none)
@@ -449,7 +449,7 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private static bool SearchForHit(IEnumerable<Regex> arrRegex, string strTextToSearch)
+        public static bool SearchForHit(IEnumerable<Regex> arrRegex, string strTextToSearch)
         {
             bool bFoundMatch = false;
             if (!String.IsNullOrEmpty(strTextToSearch) && (arrRegex != null))
