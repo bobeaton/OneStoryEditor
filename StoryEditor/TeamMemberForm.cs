@@ -391,7 +391,11 @@ namespace OneStoryProjectEditor
                     theNewMemberData = new TeamMemberData(dlg.MemberName,
                         dlg.MemberType, String.Format("mem-{0}", Guid.NewGuid()),
                         dlg.Email, dlg.SkypeID, dlg.TeamViewerID, dlg.Phone, dlg.AltPhone,
-                        dlg.BioData);
+                        dlg.BioData)
+                           {
+                               DefaultAllowed = dlg.DefaultAllowed, 
+                               DefaultRequired = dlg.DefaultRequired
+                           };
 
                     _dataTeamMembers.Add(dlg.MemberName, theNewMemberData);
                     m_mapNewMembersThisSession.Add(dlg.MemberName, theNewMemberData);
@@ -411,7 +415,7 @@ namespace OneStoryProjectEditor
             m_strSelectedMember = (string)listBoxTeamMembers.SelectedItem;
             System.Diagnostics.Debug.Assert(_dataTeamMembers.ContainsKey(m_strSelectedMember));
             TeamMemberData theMemberData = _dataTeamMembers[m_strSelectedMember];
-            EditMemberForm dlg = new EditMemberForm(theMemberData, _theProjSettings, true);
+            var dlg = new EditMemberForm(theMemberData, _theProjSettings, true);
             if (dlg.ShowDialog() != DialogResult.OK) 
                 return;
 
@@ -434,6 +438,8 @@ namespace OneStoryProjectEditor
             theMemberData.BioData = dlg.BioData;
             theMemberData.SkypeID = dlg.SkypeID;
             theMemberData.TeamViewerID = dlg.TeamViewerID;
+            theMemberData.DefaultAllowed = dlg.DefaultAllowed;
+            theMemberData.DefaultRequired = dlg.DefaultRequired;
 
             // update the role listbox
             listBoxMemberRoles.Items[nIndex] = TeamMemberData.GetMemberTypeAsDisplayString(theMemberData.MemberType);

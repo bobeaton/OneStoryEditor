@@ -158,6 +158,7 @@
             this.buttonAnchors.TabIndex = 5;
             this.buttonAnchors.Text = "View &Anchors";
             this.buttonAnchors.UseVisualStyleBackColor = true;
+            this.buttonAnchors.Visible = false;
             this.buttonAnchors.Click += new System.EventHandler(this.buttonAnchors_Click);
             // 
             // buttonViewRetellings
@@ -168,6 +169,7 @@
             this.buttonViewRetellings.TabIndex = 6;
             this.buttonViewRetellings.Text = "View &Retellings";
             this.buttonViewRetellings.UseVisualStyleBackColor = true;
+            this.buttonViewRetellings.Visible = false;
             this.buttonViewRetellings.Click += new System.EventHandler(this.buttonRetellings_Click);
             // 
             // buttonAddRetellingBoxes
@@ -189,6 +191,7 @@
             this.buttonViewTestQuestions.TabIndex = 7;
             this.buttonViewTestQuestions.Text = "View &Testing Questions";
             this.buttonViewTestQuestions.UseVisualStyleBackColor = true;
+            this.buttonViewTestQuestions.Visible = false;
             this.buttonViewTestQuestions.Click += new System.EventHandler(this.buttonTestQuestions_Click);
             // 
             // buttonViewTestQuestionAnswers
@@ -199,6 +202,7 @@
             this.buttonViewTestQuestionAnswers.TabIndex = 8;
             this.buttonViewTestQuestionAnswers.Text = "View Ans&wers";
             this.buttonViewTestQuestionAnswers.UseVisualStyleBackColor = true;
+            this.buttonViewTestQuestionAnswers.Visible = false;
             this.buttonViewTestQuestionAnswers.Click += new System.EventHandler(this.buttonTestQuestionAnswers_Click);
             // 
             // buttonAddBoxesForAnswers
@@ -220,6 +224,7 @@
             this.buttonStoryInformation.TabIndex = 9;
             this.buttonStoryInformation.Text = "View Story Infor&mation";
             this.buttonStoryInformation.UseVisualStyleBackColor = true;
+            this.buttonStoryInformation.Visible = false;
             this.buttonStoryInformation.Click += new System.EventHandler(this.buttonStoryInformation_Click);
             // 
             // buttonViewPanorama

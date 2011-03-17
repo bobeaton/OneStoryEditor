@@ -465,7 +465,10 @@ namespace OneStoryProjectEditor
                 Debug.Assert(LoggedOnMember != null);
 
                 if (Modified)
+                {
                     SaveClicked();
+                    UpdateFrameTitle();
+                }
 
                 return true;
             }
@@ -624,14 +627,7 @@ namespace OneStoryProjectEditor
 
                 UpdateUIMenusWithShortCuts();
 
-                if (IsInStoriesSet)
-                {
-                    Text = String.Format(Properties.Resources.IDS_MainFrameTitle, StoryProject.ProjSettings.ProjectName);
-                }
-                else
-                {
-                    Text = String.Format(Properties.Resources.IDS_MainFrameTitleOldStories, StoryProject.ProjSettings.ProjectName);
-                }
+                UpdateFrameTitle();
 
                 // show the chorus notes at load time
                 InitProjectNotes(projSettings, LoggedOnMember.Name);
@@ -651,6 +647,23 @@ namespace OneStoryProjectEditor
                     Environment.NewLine, projSettings.ProjectName,
                     ((ex.InnerException != null) ? ex.InnerException.Message : ""), ex.Message);
                 MessageBox.Show(strErrorMsg, OseResources.Properties.Resources.IDS_Caption);
+            }
+        }
+
+        private void UpdateFrameTitle()
+        {
+            if ((StoryProject == null)
+                || (StoryProject.ProjSettings == null)
+                || (String.IsNullOrEmpty(StoryProject.ProjSettings.ProjectName)))
+                return;
+
+            if (IsInStoriesSet)
+            {
+                Text = String.Format(Properties.Resources.IDS_MainFrameTitle, StoryProject.ProjSettings.ProjectName);
+            }
+            else
+            {
+                Text = String.Format(Properties.Resources.IDS_MainFrameTitleOldStories, StoryProject.ProjSettings.ProjectName);
             }
         }
 
@@ -4847,7 +4860,7 @@ namespace OneStoryProjectEditor
 
         private void linkLabelTasks_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if ((StoryProject == null) || (theCurrentStory == null))
+            if (StoryProject == null)
                 return;
 
             var dlg = new TaskBarForm(this, StoryProject, theCurrentStory);

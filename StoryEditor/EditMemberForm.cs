@@ -28,6 +28,8 @@ namespace OneStoryProjectEditor
             textBoxSkypeID.Text = theMemberData.SkypeID;
             textBoxTeamViewer.Text = theMemberData.TeamViewerID;
             textBoxBioData.Text = theMemberData.BioData;
+            DefaultAllowed = theMemberData.DefaultAllowed;
+            DefaultRequired = theMemberData.DefaultRequired;
 
             if (!bAllowNameRoleEdits)
             {
@@ -58,6 +60,8 @@ namespace OneStoryProjectEditor
                 _theMemberData.BioData = BioData;
                 _theMemberData.SkypeID = SkypeID;
                 _theMemberData.TeamViewerID = TeamViewerID;
+                _theMemberData.DefaultAllowed = DefaultAllowed;
+                _theMemberData.DefaultRequired = DefaultRequired;
             }
             return res;
         }
@@ -224,43 +228,65 @@ namespace OneStoryProjectEditor
             }
         }
 
+        private long _DefaultAllowed;
+        public long DefaultAllowed
+        {
+            get
+            {
+                if (_DefaultAllowed == 0)
+                {
+                    if (radioButtonProjectFacilitator.Checked)
+                        return (long) TasksPf.DefaultAllowed;
+                    if (radioButtonConsultantInTraining.Checked)
+                        return (long) TasksCit.DefaultAllowed;
+                }
+                return _DefaultAllowed;
+            }
+            set { _DefaultAllowed = value; }
+        }
+
+        private long _DefaultRequired;
+        public long DefaultRequired
+        {
+            get
+            {
+                if (_DefaultRequired == 0)
+                {
+                    if (radioButtonProjectFacilitator.Checked)
+                        return (long) TasksPf.DefaultRequired;
+                    if (radioButtonConsultantInTraining.Checked)
+                        return (long) TasksCit.DefaultRequired;
+                }
+                return _DefaultRequired;
+            }
+            set { _DefaultRequired = value; }
+        }
+
         private void GetPfDefaultTasks()
         {
-            var tasksAllowedPf = (_theMemberData.DefaultAllowed == 0)
-                                     ? TasksPf.DefaultAllowed
-                                     : (TasksPf.TaskSettings)_theMemberData.DefaultAllowed;
-            var tasksRequiredPf = (_theMemberData.DefaultRequired == 0)
-                                      ? TasksPf.DefaultRequired
-                                      : (TasksPf.TaskSettings) _theMemberData.DefaultRequired;
-
             var dlg = new SetPfTasksForm(_theProjSettings,
-                                         tasksAllowedPf, tasksRequiredPf, true)
+                                         (TasksPf.TaskSettings)DefaultAllowed,
+                                         (TasksPf.TaskSettings)DefaultRequired, true)
                                          {Text = GetDefaultTaskTitleText};
 
             if (dlg.ShowDialog() != DialogResult.OK)
                 return;
 
-            _theMemberData.DefaultAllowed = (long)dlg.TasksAllowed;
-            _theMemberData.DefaultRequired = (long)dlg.TasksRequired;
+            DefaultAllowed = (long)dlg.TasksAllowed;
+            DefaultRequired = (long)dlg.TasksRequired;
         }
 
         private void GetCitDefaultTasks()
         {
-            var tasksAllowedCit = (_theMemberData.DefaultAllowed == 0)
-                                     ? TasksCit.DefaultAllowed
-                                     : (TasksCit.TaskSettings)_theMemberData.DefaultAllowed;
-            var tasksRequiredCit = (_theMemberData.DefaultRequired == 0)
-                                      ? TasksCit.DefaultRequired
-                                      : (TasksCit.TaskSettings)_theMemberData.DefaultRequired;
-
-            var dlg = new SetCitTasksForm(tasksAllowedCit, tasksRequiredCit)
-                                         {Text = GetDefaultTaskTitleText};
+            var dlg = new SetCitTasksForm((TasksCit.TaskSettings) DefaultAllowed,
+                                          (TasksCit.TaskSettings) DefaultRequired) 
+                                          {Text = GetDefaultTaskTitleText};
 
             if (dlg.ShowDialog() != DialogResult.OK)
                 return;
 
-            _theMemberData.DefaultAllowed = (long)dlg.TasksAllowed;
-            _theMemberData.DefaultRequired = (long)dlg.TasksRequired;
+            DefaultAllowed = (long)dlg.TasksAllowed;
+            DefaultRequired = (long)dlg.TasksRequired;
         }
 
         private string GetDefaultTaskTitleText

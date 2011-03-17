@@ -20,6 +20,16 @@ namespace OneStoryProjectEditor
             TheSe = theSe;
             TheStory = theStory;
 
+            // if it's an empty project, then at least have the task for adding a story.
+            if (TheStory == null)
+            {
+                if ((TheSe.LoggedOnMember != null)
+                    && (TheSe.LoggedOnMember.MemberType 
+                            == TeamMemberData.UserTypes.eProjectFacilitator))
+                    buttonAddStory.Visible = true;
+                return;
+            }
+
             // these buttons probably want to be shone for all users (i.e. so they
             //  can view the fields), but the labels will be adjusted by the different
             //  roles depending on permission
@@ -28,6 +38,15 @@ namespace OneStoryProjectEditor
             buttonNationalBt.Visible = projSettings.NationalBT.HasData;
             buttonInternationalBt.Visible = projSettings.InternationalBT.HasData;
             buttonFreeTranslation.Visible = projSettings.FreeTranslation.HasData;
+
+            buttonAnchors.Visible = true;
+            buttonViewRetellings.Visible = true;
+            buttonViewTestQuestions.Visible = true;
+            buttonViewTestQuestionAnswers.Visible = true;
+            buttonStoryInformation.Visible = true;
+
+            if (TheSe.LoggedOnMember == null)
+                return;
 
             switch (TheSe.LoggedOnMember.MemberType)
             {
