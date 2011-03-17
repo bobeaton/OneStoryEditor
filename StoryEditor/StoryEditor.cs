@@ -996,6 +996,10 @@ namespace OneStoryProjectEditor
                 nVerseIndex++;
             }
 
+            // add the line for general testing questions
+            if (theVerses.LastVerse.HasData)
+                InitVerseControls(theVerses.LastVerse, nVerseIndex);
+
             flowLayoutPanelVerses.ResumeLayout(true);
 #if UsingHtmlDisplayForConNotes
             // ConNotes are not done in one swell-foop via an Html control

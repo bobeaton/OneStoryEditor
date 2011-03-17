@@ -37,7 +37,7 @@ namespace OneStoryProjectEditor
             CraftingInfo = new CraftingInfoData(strCrafterMemberGuid, strLoggedOnMemberGuid, bIsBiblicalStory);
             TransitionHistory = new StoryStateTransitionHistory();
             Verses = new VersesData();
-            Verses.CreateFirstVerse();
+            Verses.InsureFirstAndLastVerse();
 
             string strMemberName = projectData.TeamMembers.GetNameFromMemberId(strLoggedOnMemberGuid);
             System.Diagnostics.Debug.Assert(projectData.TeamMembers[strMemberName].MemberType ==

@@ -58,6 +58,11 @@ namespace OneStoryProjectEditor
                         LineNumberLink.Text = "Story (Ln: 0)";
                         LineNumberLink.Tag = 0;
                     }
+                    else if (elemLnPrev.InnerText == VersesData.CstrLastLineName)
+                    {
+                        LineNumberLink.Text = "General Questions";
+                        LineNumberLink.Tag = 0;
+                    }
                     else
                     {
                         LineNumberLink.Text = elemLnPrev.InnerText;
@@ -82,8 +87,12 @@ namespace OneStoryProjectEditor
 
         protected VerseData Verse(int nVerseIndex)
         {
-            System.Diagnostics.Debug.Assert(StoryData.Verses.Count > (nVerseIndex - 1));
-            return (nVerseIndex == 0) ? StoryData.Verses.FirstVerse : StoryData.Verses[nVerseIndex - 1];
+            System.Diagnostics.Debug.Assert(StoryData.Verses.Count > (nVerseIndex - 2));
+            return (nVerseIndex == 0)
+                       ? StoryData.Verses.FirstVerse
+                       : (nVerseIndex > StoryData.Verses.Count)
+                             ? StoryData.Verses.LastVerse
+                             : StoryData.Verses[nVerseIndex - 1];
         }
 
         private void ScrollToElement(String strElemName, bool bAlignWithTop)

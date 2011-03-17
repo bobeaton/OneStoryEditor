@@ -257,6 +257,27 @@ namespace OneStoryProjectEditor
                 UpdateViewOfThisVerse(theSE);
         }
 
+        private void addGeneralTestingQuestionMenu_Click(object sender, EventArgs e)
+        {
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
+                return;
+
+            if ((theSE.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
+                && !TasksPf.IsTaskOn(theSE.theCurrentStory.TasksAllowedPf, TasksPf.TaskSettings.TestQuestions))
+            {
+                MessageBox.Show(Resources.IDS_CantAddTQs,
+                                OseResources.Properties.Resources.IDS_Caption);
+                return;
+            }
+
+            _verseData.TestQuestions.AddTestQuestion();
+            if (!theSE.viewStoryTestingQuestionMenuItem.Checked)
+                theSE.viewStoryTestingQuestionMenuItem.Checked = true;
+            else
+                UpdateViewOfThisVerse(theSE);
+        }
+
         private void contextMenuStrip_Opening(object sender, CancelEventArgs e)
         {
             // if this is a Biblical story, we have to add a few menu items
@@ -264,45 +285,8 @@ namespace OneStoryProjectEditor
             if (theSE.theCurrentStory.CraftingInfo.IsBiblicalStory)
             {
                 contextMenuStrip.Items.Insert(3, menuAddTestQuestion);
-                /* adding answer and retelling spots is now done during end-of-state processing for ProjFacReadyForTest1
-                contextMenuStrip.Items.Insert(3, addTestQuestionAnswerToolStripMenuItem);
-                contextMenuStrip.Items.Insert(4, addRetellingToolStripMenuItem);
-                */
+                contextMenuStrip.Items.Insert(4, addGeneralTestingQuestionMenu);
             }
-
-            // for answers, we have to attach them to the correct question
-            /* adding answer spots is now done during end-of-state processing for ProjFacReadyForTest1
-            int nTestQuestionCount = _verseData.TestQuestions.Count;
-            if (nTestQuestionCount > 1)
-            {
-                addTestQuestionAnswerToolStripMenuItem.DropDown.Items.Clear();
-                int nIndex = 0;
-                foreach (TestQuestionData aTQD in _verseData.TestQuestions)
-                    AddAnswerSubmenu(aTQD.QuestionVernacular.ToString(), nIndex++);
-            }
-            else if (nTestQuestionCount == 0)
-                addTestQuestionAnswerToolStripMenuItem.Enabled = false;
-            */
-
-            // add all the test questions to a drop down menu to allow removing them
-            /*
-            removeToolStripMenuItem.DropDown.Items.Clear();
-            if (theSE.viewRetellingFieldMenuItem.Checked)
-                AddRemoveRetellingSubmenus(_verseData.Retellings);
-            if (theSE.viewStoryTestingQuestionMenuItem.Checked)
-                AddRemoveTestQuestionsAndAnswersSubmenus(_verseData.TestQuestions);
-            if (theSE.viewConsultantNoteFieldMenuItem.Checked)
-                AddRemoveConNoteSubmenus("Consultant Notes",
-                    _verseData.ConsultantNotes, remConNote_Click);
-            if (theSE.viewCoachNotesFieldMenuItem.Checked)
-                AddRemoveConNoteSubmenus("Coach Notes",
-                    _verseData.CoachNotes, remCoachNote_Click);
-
-            removeToolStripMenuItem.Enabled = (removeToolStripMenuItem.DropDown.Items.Count > 0);
-            pasteTestingQuestionToolStripMenuItem.Enabled = (_myTQClipboard != null);
-            pasteConsultantNoteToolStripMenuItem.Enabled = (_myConNoteClipboard != null);
-            pasteCoachNoteToolStripMenuItem.Enabled = (_myCoachNoteClipboard != null);
-            */
 
             if (_verseData.IsVisible)
             {

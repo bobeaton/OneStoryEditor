@@ -44,6 +44,7 @@ namespace OneStoryProjectEditor
                 // now list the verses in the current story
                 string strLine = "Story (Ln 0)";
                 AddLineButton(strLine, null, 0, theVerses.FirstVerse);
+
                 for (int i = 1; i <= theVerses.Count; i++)
                 {
                     VerseData aVerseData = theVerses[i - 1];
@@ -54,6 +55,9 @@ namespace OneStoryProjectEditor
                     string strToolTip = StringForTooltip(aVerseData);
                     AddLineButton(strLine, strToolTip, i, aVerseData);
                 }
+
+                strLine = VersesData.CstrLastLineName;
+                AddLineButton(strLine, null, theVerses.Count + 1, theVerses.LastVerse);
             }
         }
 

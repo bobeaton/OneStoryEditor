@@ -8732,6 +8732,8 @@ namespace OneStoryProjectEditor {
             
             private global::System.Data.DataColumn columnfirst;
             
+            private global::System.Data.DataColumn columnlast;
+            
             private global::System.Data.DataColumn columnvisible;
             
             private global::System.Data.DataColumn columnVerse_Id;
@@ -8779,6 +8781,13 @@ namespace OneStoryProjectEditor {
             public global::System.Data.DataColumn firstColumn {
                 get {
                     return this.columnfirst;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn lastColumn {
+                get {
+                    return this.columnlast;
                 }
             }
             
@@ -8832,16 +8841,17 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public VerseRow AddVerseRow(string guid, bool first, bool visible, VersesRow parentVersesRowByVerses_Verse) {
+            public VerseRow AddVerseRow(string guid, bool first, bool last, bool visible, VersesRow parentVersesRowByVerses_Verse) {
                 VerseRow rowVerseRow = ((VerseRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         guid,
                         first,
+                        last,
                         visible,
                         null,
                         null};
                 if ((parentVersesRowByVerses_Verse != null)) {
-                    columnValuesArray[4] = parentVersesRowByVerses_Verse[0];
+                    columnValuesArray[5] = parentVersesRowByVerses_Verse[0];
                 }
                 rowVerseRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowVerseRow);
@@ -8864,6 +8874,7 @@ namespace OneStoryProjectEditor {
             internal void InitVars() {
                 this.columnguid = base.Columns["guid"];
                 this.columnfirst = base.Columns["first"];
+                this.columnlast = base.Columns["last"];
                 this.columnvisible = base.Columns["visible"];
                 this.columnVerse_Id = base.Columns["Verse_Id"];
                 this.columnVerses_Id = base.Columns["Verses_Id"];
@@ -8875,6 +8886,8 @@ namespace OneStoryProjectEditor {
                 base.Columns.Add(this.columnguid);
                 this.columnfirst = new global::System.Data.DataColumn("first", typeof(bool), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnfirst);
+                this.columnlast = new global::System.Data.DataColumn("last", typeof(bool), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnlast);
                 this.columnvisible = new global::System.Data.DataColumn("visible", typeof(bool), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnvisible);
                 this.columnVerse_Id = new global::System.Data.DataColumn("Verse_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
@@ -8887,6 +8900,8 @@ namespace OneStoryProjectEditor {
                 this.columnguid.Namespace = "";
                 this.columnfirst.Namespace = "";
                 this.columnfirst.DefaultValue = ((bool)(false));
+                this.columnlast.Namespace = "";
+                this.columnlast.DefaultValue = ((bool)(false));
                 this.columnvisible.Namespace = "";
                 this.columnvisible.DefaultValue = ((bool)(true));
                 this.columnVerse_Id.AutoIncrement = true;
@@ -9110,7 +9125,7 @@ namespace OneStoryProjectEditor {
                         StoryLine_text,
                         null};
                 if ((parentVerseRowByVerse_StoryLine != null)) {
-                    columnValuesArray[2] = parentVerseRowByVerse_StoryLine[3];
+                    columnValuesArray[2] = parentVerseRowByVerse_StoryLine[4];
                 }
                 rowStoryLineRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowStoryLineRow);
@@ -9364,7 +9379,7 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentVerseRowByVerse_Anchors != null)) {
-                    columnValuesArray[2] = parentVerseRowByVerse_Anchors[3];
+                    columnValuesArray[2] = parentVerseRowByVerse_Anchors[4];
                 }
                 rowAnchorsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowAnchorsRow);
@@ -9866,7 +9881,7 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentVerseRowByVerse_ExegeticalHelps != null)) {
-                    columnValuesArray[1] = parentVerseRowByVerse_ExegeticalHelps[3];
+                    columnValuesArray[1] = parentVerseRowByVerse_ExegeticalHelps[4];
                 }
                 rowExegeticalHelpsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowExegeticalHelpsRow);
@@ -10349,7 +10364,7 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentVerseRowByVerse_TestQuestions != null)) {
-                    columnValuesArray[1] = parentVerseRowByVerse_TestQuestions[3];
+                    columnValuesArray[1] = parentVerseRowByVerse_TestQuestions[4];
                 }
                 rowTestQuestionsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowTestQuestionsRow);
@@ -11631,7 +11646,7 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentVerseRowByVerse_Retellings != null)) {
-                    columnValuesArray[1] = parentVerseRowByVerse_Retellings[3];
+                    columnValuesArray[1] = parentVerseRowByVerse_Retellings[4];
                 }
                 rowRetellingsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowRetellingsRow);
@@ -12143,7 +12158,7 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentVerseRowByVerse_ConsultantNotes != null)) {
-                    columnValuesArray[1] = parentVerseRowByVerse_ConsultantNotes[3];
+                    columnValuesArray[1] = parentVerseRowByVerse_ConsultantNotes[4];
                 }
                 rowConsultantNotesRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowConsultantNotesRow);
@@ -12974,7 +12989,7 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentVerseRowByVerse_CoachNotes != null)) {
-                    columnValuesArray[1] = parentVerseRowByVerse_CoachNotes[3];
+                    columnValuesArray[1] = parentVerseRowByVerse_CoachNotes[4];
                 }
                 rowCoachNotesRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowCoachNotesRow);
@@ -17211,6 +17226,21 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool last {
+                get {
+                    try {
+                        return ((bool)(this[this.tableVerse.lastColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'last\' in table \'Verse\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableVerse.lastColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public bool visible {
                 get {
                     try {
@@ -17268,6 +17298,16 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public void SetfirstNull() {
                 this[this.tableVerse.firstColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IslastNull() {
+                return this.IsNull(this.tableVerse.lastColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetlastNull() {
+                this[this.tableVerse.lastColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

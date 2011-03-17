@@ -989,68 +989,84 @@ namespace OneStoryProjectEditor
         public static bool CheckThatCoachAnsweredCITsQuestions(StoryEditor theSE, StoryData theCurrentStory)
         {
             int nVerseNumber = 0;   // this wants to be 0, because ConNotes have a 0th verse
-            if (theCurrentStory.Verses.FirstVerse.IsVisible)
-                if (!CheckThatMentorAnsweredMenteesQuestions(theSE, theSE.htmlCoachNotesControl,
-                    theCurrentStory.Verses.FirstVerse.CoachNotes, ref nVerseNumber))
+            if (!CheckThatCoachAnsweredInVerse(theCurrentStory.Name, theSE, 
+                theCurrentStory.Verses.FirstVerse, ref nVerseNumber))
+                return false;
+
+            nVerseNumber++;
+            foreach (VerseData aVerseData in theCurrentStory.Verses)
+            {
+                if (!CheckThatCoachAnsweredInVerse(theCurrentStory.Name, theSE, 
+                    aVerseData, ref nVerseNumber))
+                    return false;
+                nVerseNumber++;
+            }
+
+            if (!CheckThatCoachAnsweredInVerse(theCurrentStory.Name, theSE,
+                    theCurrentStory.Verses.LastVerse, ref nVerseNumber))
+                return false;
+
+            return true;
+        }
+
+        private static bool CheckThatConsultantAnsweredInVerse(string strStoryName,
+            StoryEditor theSE, VerseData theVerseData, ref int nVerseNumber)
+        {
+            return CheckThatMentorAnsweredInVerse(theVerseData, theSE,
+                theSE.htmlConsultantNotesControl, strStoryName, theVerseData.ConsultantNotes,
+                VerseData.ViewSettings.ItemToInsureOn.ConsultantNoteFields, ref nVerseNumber);
+        }
+
+        private static bool CheckThatCoachAnsweredInVerse(string strStoryName,
+            StoryEditor theSE, VerseData theVerseData, ref int nVerseNumber)
+        {
+            return CheckThatMentorAnsweredInVerse(theVerseData, theSE, 
+                theSE.htmlCoachNotesControl, strStoryName, theVerseData.CoachNotes, 
+                VerseData.ViewSettings.ItemToInsureOn.CoachNotesFields, ref nVerseNumber);
+        }
+
+        private static bool CheckThatMentorAnsweredInVerse(VerseData theVerseData,
+            StoryEditor theSE, HtmlConNoteControl htmlControl, string strStoryName,
+            ConsultNotesDataConverter dataConNotes, 
+            VerseData.ViewSettings.ItemToInsureOn itemToInsureOn, ref int nVerseNumber)
+        {
+            if (theVerseData.IsVisible)
+                if (!CheckThatMentorAnsweredMenteesQuestions(theSE,
+                                                             htmlControl,
+                                                             dataConNotes, 
+                                                             ref nVerseNumber))
                 {
-                    var viewSettings = new VerseData.ViewSettings(VerseData.ViewSettings.ItemToInsureOn.CoachNotesFields);
-                    theSE.NavigateTo(theCurrentStory.Name,
+                    var viewSettings = new VerseData.ViewSettings(itemToInsureOn);
+                    theSE.NavigateTo(strStoryName,
                                      viewSettings,
                                      false,
                                      null);
                     return false;
                 }
-
-            nVerseNumber++;
-            foreach (VerseData aVerseData in theCurrentStory.Verses)
-            {
-                if (aVerseData.IsVisible)
-                    if (!CheckThatMentorAnsweredMenteesQuestions(theSE, theSE.htmlCoachNotesControl,
-                        aVerseData.CoachNotes, ref nVerseNumber))
-                    {
-                        var viewSettings = new VerseData.ViewSettings(VerseData.ViewSettings.ItemToInsureOn.CoachNotesFields);
-                        theSE.NavigateTo(theCurrentStory.Name,
-                                         viewSettings,
-                                         false,
-                                         null);
-                        return false;
-                    }
-                nVerseNumber++;
-            }
             return true;
         }
 
         public static bool CheckThatCITAnsweredPFsQuestions(StoryEditor theSE, StoryData theCurrentStory)
         {
             int nVerseNumber = 0;
-            if (theCurrentStory.Verses.FirstVerse.IsVisible)
-                if (!CheckThatMentorAnsweredMenteesQuestions(theSE, theSE.htmlConsultantNotesControl,
-                    theCurrentStory.Verses.FirstVerse.ConsultantNotes, ref nVerseNumber))
-                {
-                    var viewSettings = new VerseData.ViewSettings(VerseData.ViewSettings.ItemToInsureOn.ConsultantNoteFields);
-                    theSE.NavigateTo(theCurrentStory.Name,
-                                     viewSettings,
-                                     false,
-                                     null);
-                    return false;
-                }
+            if (!CheckThatConsultantAnsweredInVerse(theCurrentStory.Name, theSE, 
+                theCurrentStory.Verses.FirstVerse, ref nVerseNumber))
+                return false;
 
             nVerseNumber++;
             foreach (VerseData aVerseData in theCurrentStory.Verses)
             {
-                if (aVerseData.IsVisible)
-                    if (!CheckThatMentorAnsweredMenteesQuestions(theSE, theSE.htmlConsultantNotesControl,
-                        aVerseData.ConsultantNotes, ref nVerseNumber))
-                    {
-                        var viewSettings = new VerseData.ViewSettings(VerseData.ViewSettings.ItemToInsureOn.ConsultantNoteFields);
-                        theSE.NavigateTo(theCurrentStory.Name,
-                                         viewSettings,
-                                         false,
-                                         null);
-                        return false;
-                    }
+                if (!CheckThatConsultantAnsweredInVerse(theCurrentStory.Name, theSE,
+                    aVerseData, ref nVerseNumber))
+                    return false;
+
                 nVerseNumber++;
             }
+
+            if (!CheckThatConsultantAnsweredInVerse(theCurrentStory.Name, theSE,
+                theCurrentStory.Verses.LastVerse, ref nVerseNumber))
+                return false;
+
             return true;
         }
 
@@ -1074,6 +1090,14 @@ namespace OneStoryProjectEditor
                         return false;
                 nVerseNumber++;
             }
+
+            if (theCurrentStory.Verses.LastVerse.IsVisible)
+                if (!CheckThatMenteeAnsweredMentorsQuestions(theSE,
+                        theSE.htmlCoachNotesControl, theCurrentStory.Verses.LastVerse.CoachNotes,
+                        theCurrentStory.Name, VerseData.ViewSettings.ItemToInsureOn.CoachNotesFields,
+                        ref nVerseNumber))
+                    return false;
+
             return true;
         }
 
@@ -1097,6 +1121,13 @@ namespace OneStoryProjectEditor
 
                 nVerseNumber++;
             }
+
+            if (theCurrentStory.Verses.LastVerse.IsVisible)
+                if (!CheckThatMenteeAnsweredMentorsQuestions(theSE, theSE.htmlConsultantNotesControl,
+                    theCurrentStory.Verses.LastVerse.ConsultantNotes, theCurrentStory.Name,
+                    VerseData.ViewSettings.ItemToInsureOn.ConsultantNoteFields, ref nVerseNumber))
+                    return false;
+
             return true;
         }
 
