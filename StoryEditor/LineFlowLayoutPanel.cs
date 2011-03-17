@@ -51,7 +51,8 @@ namespace OneStoryProjectEditor
             // for some reason, the scroll wheel doesn't result in the _Scroll
             //  event being called...
             VerseControl ctrlLastNegative = VerseControlJustAboveDisplayRectange;
-            SetLineNumberLink(ctrlLastNegative);
+            if (ctrlLastNegative != null)
+                SetLineNumberLink(ctrlLastNegative);
 
             base.OnMouseWheel(e);
         }
@@ -78,9 +79,9 @@ namespace OneStoryProjectEditor
                     ctrlNext = NextControlUp;
                 }
 
-                if (ctrlNext != null)
+                if ((ctrlNext != null) && (ctrlNext is VerseBtControl))
                 {
-                    VerseBtControl ctrlLastNegative = ctrlNext as VerseBtControl;
+                    var ctrlLastNegative = ctrlNext as VerseBtControl;
                     ScrollIntoView(ctrlLastNegative, true);
                     // SetLineNumberLink(ctrlLastNegative);
                 }
@@ -90,6 +91,8 @@ namespace OneStoryProjectEditor
             else 
             {
                 VerseBtControl ctrlLastNegative = VerseControlJustAboveDisplayRectange;
+                if (ctrlLastNegative == null)
+                    return;
 
                 // only do this next part if we're *not* thumb tracking and not single-
                 //  stepping up the screen (it's too annoying)
@@ -246,8 +249,11 @@ namespace OneStoryProjectEditor
             {
                 if (Controls.Count > 2)
                 {
-                    System.Diagnostics.Debug.Assert(Controls[1] is VerseControl);
-                    return Controls[1];
+                    Control ctrl;
+                    if ((ctrl = Controls[0]) is VerseControl)   // might be GenQ line
+                        return ctrl;
+                    if ((ctrl = Controls[1]) is VerseControl)   // might be ln 1 (after the drop button)
+                        return ctrl;
                 }
                 return null;
             }
