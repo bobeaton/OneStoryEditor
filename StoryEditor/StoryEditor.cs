@@ -4669,7 +4669,10 @@ namespace OneStoryProjectEditor
                 if (!CheckForSaveDirtyFile())
                     return;
 
+                // this shouldn't be needed, but it seems that occasionally, it is...
+                StoryEditor.SuspendSaveDialog = true;
                 Program.CheckForProgramUpdate(true);
+                StoryEditor.SuspendSaveDialog = false;
 
                 // since the call to SaveDirty will have removed them all
                 if (theCurrentStory != null)
