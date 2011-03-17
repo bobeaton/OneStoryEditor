@@ -25,8 +25,16 @@ namespace OneStoryProjectEditor
             : base(true)
         {
             InitializeComponent();
-            m_theEC = AdaptItGlossing.InitLookupAdapter(projSettings, eBtDirection, loggedOnMember, 
-                out liSourceLang, out liTargetLang);
+            try
+            {
+                m_theEC = AdaptItGlossing.InitLookupAdapter(projSettings, eBtDirection, loggedOnMember,
+                    out liSourceLang, out liTargetLang);
+            }
+            catch (Exception ex)
+            {
+                Program.ShowException(ex);
+                return;
+            }
 
             // get the EncConverter to break apart the given sentence into bundles
             SourceSentence = strSentence;
@@ -57,18 +65,26 @@ namespace OneStoryProjectEditor
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
+            string strSourceWord = null, strTargetWord = null;
             try
             {
                 foreach (GlossingControl aGc in
                     flowLayoutPanel.Controls.Cast<GlossingControl>().Where(aGC => (aGC.TargetWord.IndexOf(GlossingControl.CstrAmbiguitySeparator) == -1) && aGC.Modified))
                 {
-                    m_theEC.AddEntryPair(aGc.SourceWord, aGc.TargetWord, false);
+                    strSourceWord = aGc.SourceWord;
+                    strTargetWord = aGc.TargetWord;
+                    m_theEC.AddEntryPair(strSourceWord, strTargetWord, false);
                 }
                 m_theEC.AddEntryPairSave();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
+                MessageBox.Show(String.Format("adding {0}->{1} gave the error: {2}",
+                                              strSourceWord,
+                                              strTargetWord,
+                                              ex.Message),
+                                OseResources.Properties.Resources.IDS_Caption);
+                return;
             }
 
             System.Diagnostics.Debug.Assert(flowLayoutPanel.Controls.Count > 0);

@@ -171,11 +171,18 @@ namespace OneStoryProjectEditor
             // 'Yes' means the user is asking us to create the AI project
             if (res == DialogResult.Yes)
             {
-                ProjectSettings.LanguageInfo liSource, liTarget;
-                var theEc = AdaptItGlossing.InitLookupAdapter(Parent.ProjSettings, BtDirection,
-                                                              Parent.LoggedInMember,
-                                                              out liSource, out liTarget);
-                AdaptItConverterName = theEc.Name;
+                try
+                {
+                    ProjectSettings.LanguageInfo liSource, liTarget;
+                    var theEc = AdaptItGlossing.InitLookupAdapter(Parent.ProjSettings, BtDirection,
+                                                                  Parent.LoggedInMember,
+                                                                  out liSource, out liTarget);
+                    AdaptItConverterName = theEc.Name;
+                }
+                catch (Exception ex)
+                {
+                    Program.ShowException(ex);
+                }
                 return;
             }
             
