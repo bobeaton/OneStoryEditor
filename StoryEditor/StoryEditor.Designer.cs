@@ -167,6 +167,7 @@ namespace OneStoryProjectEditor
             this.netBibleViewer = new OneStoryProjectEditor.NetBibleViewer();
             this.htmlConsultantNotesControl = new OneStoryProjectEditor.HtmlConsultantNotesControl();
             this.htmlCoachNotesControl = new OneStoryProjectEditor.HtmlCoachNotesControl();
+            this.closeProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
             this.splitContainerLeftRight.Panel2.SuspendLayout();
@@ -205,6 +206,7 @@ namespace OneStoryProjectEditor
             this.recentProjectsToolStripMenuItem,
             this.sendReceiveToolStripMenuItem,
             this.newToolStripMenuItem,
+            this.closeProjectToolStripMenuItem,
             this.saveToolStripMenuItem,
             this.toolStripSeparator1,
             this.browseForProjectToolStripMenuItem,
@@ -246,7 +248,7 @@ namespace OneStoryProjectEditor
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.ShowShortcutKeys = false;
             this.newToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
-            this.newToolStripMenuItem.Text = "&New";
+            this.newToolStripMenuItem.Text = "&New Project";
             this.newToolStripMenuItem.ToolTipText = "Click to create a new OneStory project";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
@@ -255,7 +257,7 @@ namespace OneStoryProjectEditor
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
-            this.saveToolStripMenuItem.Text = "&Save";
+            this.saveToolStripMenuItem.Text = "&Save Project";
             this.saveToolStripMenuItem.ToolTipText = "Click to save the OneStory project";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
@@ -1494,6 +1496,13 @@ namespace OneStoryProjectEditor
             this.htmlCoachNotesControl.TabIndex = 3;
             this.htmlCoachNotesControl.TheSE = null;
             // 
+            // closeProjectToolStripMenuItem
+            // 
+            this.closeProjectToolStripMenuItem.Name = "closeProjectToolStripMenuItem";
+            this.closeProjectToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
+            this.closeProjectToolStripMenuItem.Text = "&Close project";
+            this.closeProjectToolStripMenuItem.Click += new System.EventHandler(this.closeProjectToolStripMenuItem_Click);
+            // 
             // StoryEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1666,6 +1675,7 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem addgeneralTestQuestionToolStripMenuItem;
         internal ToolStripMenuItem viewGeneralTestingQuestionMenuItem;
         private ToolStripMenuItem toAThumbdriveToolStripMenuItem;
+        private ToolStripMenuItem closeProjectToolStripMenuItem;
     }
 
 #if UsingHtmlDisplayForConNotes

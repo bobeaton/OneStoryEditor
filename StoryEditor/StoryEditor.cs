@@ -434,10 +434,9 @@ namespace OneStoryProjectEditor
 
         protected void NewProjectFile()
         {
-            if (!CheckForSaveDirtyFile())
+            if (!SaveAndCloseProject())
                 return;
 
-            CloseProjectFile();
             comboBoxStorySelector.Focus();
 
             // for a new project, we don't want to automatically log in (since this will be the first
@@ -467,7 +466,7 @@ namespace OneStoryProjectEditor
                 if (Modified)
                 {
                     SaveClicked();
-                    UpdateFrameTitle();
+                    Text = GetFrameTitle();
                 }
 
                 return true;
@@ -570,10 +569,8 @@ namespace OneStoryProjectEditor
             if (IsInStoriesSet && Directory.Exists(strDotHgFolder))
             {
                 // clean up any existing open projects
-                if (!CheckForSaveDirtyFile())
+                if (!SaveAndCloseProject())
                     return;
-
-                CloseProjectFile();
 
                 Program.SyncWithRepository(projSettings.ProjectFolder, true);
             }
@@ -584,10 +581,8 @@ namespace OneStoryProjectEditor
         protected void OpenProject(ProjectSettings projSettings)
         {
             // clean up any existing open projects
-            if (!CheckForSaveDirtyFile())
+            if (!SaveAndCloseProject())
                 return;
-
-            CloseProjectFile();
 
             // next, insure that the file for the project exists (do this outside the try,
             //  so the caller is informed of no file (so, for eg., it can remove from recently
@@ -627,7 +622,7 @@ namespace OneStoryProjectEditor
 
                 UpdateUIMenusWithShortCuts();
 
-                UpdateFrameTitle();
+                Text = GetFrameTitle();
 
                 // show the chorus notes at load time
                 InitProjectNotes(projSettings, LoggedOnMember.Name);
@@ -648,22 +643,24 @@ namespace OneStoryProjectEditor
                     ((ex.InnerException != null) ? ex.InnerException.Message : ""), ex.Message);
                 MessageBox.Show(strErrorMsg, OseResources.Properties.Resources.IDS_Caption);
             }
+
+            Program.InsureSingleInstanceOfProgramName(this);
         }
 
-        private void UpdateFrameTitle()
+        internal string GetFrameTitle()
         {
             if ((StoryProject == null)
                 || (StoryProject.ProjSettings == null)
                 || (String.IsNullOrEmpty(StoryProject.ProjSettings.ProjectName)))
-                return;
+                return OseResources.Properties.Resources.IDS_Caption;
 
             if (IsInStoriesSet)
             {
-                Text = String.Format(Properties.Resources.IDS_MainFrameTitle, StoryProject.ProjSettings.ProjectName);
+                return String.Format(Properties.Resources.IDS_MainFrameTitle, StoryProject.ProjSettings.ProjectName);
             }
             else
             {
-                Text = String.Format(Properties.Resources.IDS_MainFrameTitleOldStories, StoryProject.ProjSettings.ProjectName);
+                return String.Format(Properties.Resources.IDS_MainFrameTitleOldStories, StoryProject.ProjSettings.ProjectName);
             }
         }
 
@@ -4083,10 +4080,8 @@ namespace OneStoryProjectEditor
                 strProjectFolder = StoryProject.ProjSettings.ProjectFolder;
 
                 // clean up any existing open projects
-                if (!CheckForSaveDirtyFile())
+                if (!SaveAndCloseProject())
                     return;
-
-                CloseProjectFile();
             }
 
             // next, do the sync
@@ -4799,7 +4794,9 @@ namespace OneStoryProjectEditor
             }
             catch (Program.RestartException)
             {
-                throw;
+                // throw; if we do this, it seems it doesn't want to work (since it's
+                //  on a handler, I guess). So see if we can just close
+                Close();
             }
             catch (Exception ex)
             {
@@ -4972,6 +4969,21 @@ namespace OneStoryProjectEditor
             viewGeneralTestingQuestionMenuItem.Checked = true;
             ReInitVerseControls();
             Modified = true;
+        }
+
+        private bool SaveAndCloseProject()
+        {
+            // clean up any existing open projects
+            if (!CheckForSaveDirtyFile())
+                return false;
+
+            CloseProjectFile();
+            return true;
+        }
+
+        private void closeProjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveAndCloseProject();
         }
     }
 }

@@ -384,7 +384,7 @@ namespace OneStoryProjectEditor
                 foreach (var aTeamMember in
                     _storyProjectData.TeamMembers.Values.Where(aTeamMember => aTeamMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator))
                 {
-                    aTeamMember.DefaultAllowed |= (long)newTaskAllowed;
+                    aTeamMember.DefaultAllowed |= (long)(uint)newTaskAllowed;
                 }
             }
         }

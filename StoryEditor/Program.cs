@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using Chorus.sync;
@@ -75,7 +76,9 @@ namespace OneStoryProjectEditor
                     splashScreen.Close();
                     string strFilePathToOpen = null;
                     if (args.Length > 0)
+                    {
                         strFilePathToOpen = args[0];
+                    }
                     Application.Run(new StoryEditor(OseResources.Properties.Resources.IDS_MainStoriesSet, strFilePathToOpen));
                 }
             }
@@ -203,6 +206,28 @@ namespace OneStoryProjectEditor
         
         private const string CstrInternetName = "Internet";
         private const string CstrNetworkDriveName = "Network Drive";
+
+        private static EventWaitHandle EventForProjectName;
+
+        public static void InsureSingleInstanceOfProgramName(StoryEditor theSe)
+        {
+            if (EventForProjectName != null)
+                ResetSingleInstanceLock();
+
+            bool bCreatedNew;
+            string strEventName = theSe.GetFrameTitle();
+            EventForProjectName = new EventWaitHandle(false,
+                EventResetMode.ManualReset, strEventName, out bCreatedNew);
+            if (!bCreatedNew)
+                throw new RestartException();
+        }
+
+        public static void ResetSingleInstanceLock()
+        {
+            if (EventForProjectName != null)
+                EventForProjectName.Close();
+            EventForProjectName = null;
+        }
 
         public static void ClearHgParameters(string strProjectName)
         {
