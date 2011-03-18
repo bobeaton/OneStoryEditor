@@ -1,8 +1,4 @@
-﻿make sure there's a way to start and use a project with only thumbdrives
-
-add Spelling
-
-Find out why the 'ye' 'eh' alternation didn't trigger 'SimilarWords' (check it again on his machine)
+﻿add Spelling
 
 fix acts.hindiwbtc
 

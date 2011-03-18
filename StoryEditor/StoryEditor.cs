@@ -988,10 +988,12 @@ namespace OneStoryProjectEditor
             InitConsultNotesPane(flowLayoutPanelCoachNotes, theVerses.FirstVerse.CoachNotes, nVerseIndex);
 #endif
 
+            // either add the general testing question line (or a button)
             if (viewGeneralTestingQuestionMenuItem.Checked)
-                InitVerseControls(theVerses.FirstVerse, 0);
+                InitVerseControls(theVerses.FirstVerse, nVerseIndex++);
+            else
+                AddDropTargetToFlowLayout(nVerseIndex++);
 
-            AddDropTargetToFlowLayout(nVerseIndex++);
             foreach (VerseData aVerse in theVerses)
             {
                 if (aVerse.IsVisible || hiddenVersesToolStripMenuItem.Checked)
@@ -1062,10 +1064,12 @@ namespace OneStoryProjectEditor
             flowLayoutPanelVerses.SuspendLayout();
             SuspendLayout();
 
+            // add either the general testing question line or a button
             if (viewGeneralTestingQuestionMenuItem.Checked)
-                InitVerseControls(theCurrentStory.Verses.FirstVerse, 0);
+                InitVerseControls(theCurrentStory.Verses.FirstVerse, nVerseIndex++);
+            else
+                AddDropTargetToFlowLayout(nVerseIndex++);
 
-            AddDropTargetToFlowLayout(nVerseIndex++);
             foreach (VerseData aVerse in theCurrentStory.Verses)
             {
                 if (aVerse.IsVisible || hiddenVersesToolStripMenuItem.Checked)
@@ -2777,6 +2781,7 @@ namespace OneStoryProjectEditor
                                              DateTime.Now.ToString("yyyy-MMM-dd"));
             var toi = new TestorInfo(strUnsGuid, strAnswer);
             theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Add(toi);
+
             foreach (VerseData aVerseData in theCurrentStory.Verses)
                 foreach (TestQuestionData aTQ in aVerseData.TestQuestions)
                     aTQ.Answers.TryAddNewLine(strUnsGuid);
@@ -3794,9 +3799,10 @@ namespace OneStoryProjectEditor
 
         private bool WillBeLossInVerse(VersesData theVerses)
         {
-            foreach (VerseData aVerse in theVerses)
+            foreach (var aVerse in theVerses)
             {
                 if (aVerse.Anchors.HasData
+                    || aVerse.ExegeticalHelpNotes.HasData
                     || aVerse.Retellings.HasData
                     || aVerse.ConsultantNotes.HasData
                     || aVerse.CoachNotes.HasData
