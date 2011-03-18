@@ -1,16 +1,4 @@
-﻿if a new language is added in NewProject dialog, compare against the default tasks and ask if they want to set.
-
-disable the add inference testing question boxes from 'Edit' menu when no story is current
-
-disable the coach pane from StateTransitions.xml SetView
-
-while in 'add story question' state, on the EnableFieldsForm some fields are disabled
-
-धन्य with and without ZWJ?
-
-if you do a pull in the AiSelect.. dialog, then don't bother doing a Send/Receive when 'OK' is clicked
-
-make sure there's a way to start and use a project with only thumbdrives
+﻿make sure there's a way to start and use a project with only thumbdrives
 
 add Spelling
 

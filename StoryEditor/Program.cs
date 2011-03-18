@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using Chorus.sync;
 using Chorus.UI.Sync;
 using Chorus.Utilities;
 using Chorus.VcsDrivers;
@@ -413,12 +414,7 @@ namespace OneStoryProjectEditor
 
             // if there's no repo yet, then create one (even if we aren't going
             //  to ultimately push with an internet repo, we still want one locally)
-            var projectConfig = new Chorus.sync.ProjectFolderConfiguration(strProjectFolder);
-            projectConfig.IncludePatterns.Add("*.onestory");
-            projectConfig.IncludePatterns.Add("*.xml"); // the P7 key terms list
-            projectConfig.IncludePatterns.Add("*.bad"); // if we write a bad file, commit that as well
-            projectConfig.IncludePatterns.Add("*.conflict"); // include the conflicts file as well so we can fix them
-            projectConfig.IncludePatterns.Add("*.ChorusNotes"); // the new conflict file
+            var projectConfig = GetProjectFolderConfiguration(strProjectFolder);
 
             string strHgUsername, strRepoUrl, strSharedNetworkUrl;
             if (GetHgRepoParameters(strProjectName, out strHgUsername, out strRepoUrl, out strSharedNetworkUrl))
@@ -659,11 +655,7 @@ namespace OneStoryProjectEditor
 
             // if there's no repo yet, then create one (even if we aren't going
             //  to ultimately push with an internet repo, we still want one locally)
-            var projectConfig = new Chorus.sync.ProjectFolderConfiguration(strProjectFolder);
-            projectConfig.IncludePatterns.Add("*.onestory");
-            projectConfig.IncludePatterns.Add("*.xml"); // the P7 key terms list
-            projectConfig.IncludePatterns.Add("*.bad"); // if we write a bad file, commit that as well
-            projectConfig.IncludePatterns.Add("*.ChorusNotes"); // the new conflict file
+            var projectConfig = GetProjectFolderConfiguration(strProjectFolder);
 
             // even if the user doesn't want to go to the internet, we
             //  at least want to back up locally (when the user closes)
@@ -675,6 +667,41 @@ namespace OneStoryProjectEditor
                 dlg.SyncOptions.DoMergeWithOthers = false;
                 dlg.SyncOptions.DoPullFromOthers = false;
                 dlg.SyncOptions.DoSendToOthers = false;
+                dlg.ShowDialog();
+            }
+        }
+
+        private static ProjectFolderConfiguration GetProjectFolderConfiguration(string strProjectFolder)
+        {
+            var projectConfig = new ProjectFolderConfiguration(strProjectFolder);
+            projectConfig.IncludePatterns.Add("*.onestory");
+            projectConfig.IncludePatterns.Add("*.xml"); // the P7 key terms list
+            projectConfig.IncludePatterns.Add("*.bad"); // if we write a bad file, commit that as well
+            projectConfig.IncludePatterns.Add("*.conflict"); // include the conflicts file as well so we can fix them
+            projectConfig.IncludePatterns.Add("*.ChorusNotes"); // the new conflict file
+            return projectConfig;
+        }
+
+        public static void SyncWithRepositoryThumbdrive(string strProjectFolder)
+        {
+            if (String.IsNullOrEmpty(strProjectFolder))
+                return;
+
+            if (!Directory.Exists(strProjectFolder))
+                Directory.CreateDirectory(strProjectFolder);
+
+            string strProjectName = Path.GetFileNameWithoutExtension(strProjectFolder);
+
+            // if there's no repo yet, then create one (even if we aren't going
+            //  to ultimately push with an internet repo, we still want one locally)
+            var projectConfig = GetProjectFolderConfiguration(strProjectFolder);
+
+            SyncUIDialogBehaviors suidb = SyncUIDialogBehaviors.Lazy;
+            SyncUIFeatures suif = SyncUIFeatures.NormalRecommended;
+            using (var dlg = new SyncDialog(projectConfig, suidb, suif))
+            {
+                dlg.UseTargetsAsSpecifiedInSyncOptions = true;
+                dlg.Text = "Synchronizing OneStory Project: " + strProjectName;
                 dlg.ShowDialog();
             }
         }

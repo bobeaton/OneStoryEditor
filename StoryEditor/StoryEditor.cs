@@ -2615,7 +2615,8 @@ namespace OneStoryProjectEditor
                 deleteEnglishBacktranslationToolStripMenuItem.Enabled =
                 deleteFreeTranslationToolStripMenuItem.Enabled =
                 editAddRetellingTestResultsToolStripMenuItem.Enabled =
-                editAddInferenceTestResultsToolStripMenuItem.Enabled = 
+                editAddInferenceTestResultsToolStripMenuItem.Enabled =
+                addgeneralTestQuestionToolStripMenuItem.Enabled = 
                 (IsInStoriesSet && (theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
 
             pasteToolStripMenuItem.Enabled = (CtrlTextBox._inTextBox != null);
@@ -4048,6 +4049,44 @@ namespace OneStoryProjectEditor
             Program.QueryHgRepoParameters(StoryProject.ProjSettings.ProjectFolder,
                                           StoryProject.ProjSettings.ProjectName);
             Program.SyncWithRepository(StoryProject.ProjSettings.ProjectFolder, true);
+        }
+
+        private void toAThumbdriveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // if we're starting from a blank editor
+            string strProjectFolder, strProjectName;
+            if ((StoryProject == null) || (StoryProject.ProjSettings == null))
+            {
+                // we don't know where it's to go yet, so make the user browse for it
+                // on the thumbdrive
+                var dlg = new FolderBrowserDialog
+                              {
+                                  Description =
+                                      String.Format(Properties.Resources.IDS_QueryProjectFolderOnThumbDrive)
+                              };
+
+                if (dlg.ShowDialog() != DialogResult.OK)
+                    return;
+
+                strProjectName = Path.GetFileNameWithoutExtension(dlg.SelectedPath);
+                strProjectFolder = ProjectSettings.GetDefaultProjectPath(strProjectName);
+            }
+            else
+            {
+                strProjectName = StoryProject.ProjSettings.ProjectName;
+                strProjectFolder = StoryProject.ProjSettings.ProjectFolder;
+
+                // clean up any existing open projects
+                if (!CheckForSaveDirtyFile())
+                    return;
+
+                CloseProjectFile();
+            }
+
+            // next, do the sync
+            Program.SyncWithRepositoryThumbdrive(strProjectFolder);
+            var projSettings = new ProjectSettings(Path.GetDirectoryName(openFileDialog.FileName), strProjectName);
+            OpenProject(projSettings);
         }
 
         private void storyCopyWithNewNameToolStripMenuItem_Click(object sender, EventArgs e)

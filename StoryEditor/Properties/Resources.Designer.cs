@@ -1231,6 +1231,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Browse for the project folder on the thumbdrive.
+        /// </summary>
+        internal static string IDS_QueryProjectFolderOnThumbDrive {
+            get {
+                return ResourceManager.GetString("IDS_QueryProjectFolderOnThumbDrive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The shared Adapt It project for this field is not on the local computer. Please enter the necessary information in the next window to download it from the internet (i.e. the repository server, username and password). These should be in an email message you received previously.
         /// </summary>
         internal static string IDS_QueryPullSharedAiProject {

@@ -2114,4 +2114,7 @@ and in the resulting window click on the next (green) state.
   <data name="IDS_CantEditPanoramaView" xml:space="preserve">
     <value>The program can't make this change right now. If this error continues, contact bob_eaton@sall.com for help</value>
   </data>
+  <data name="IDS_QueryProjectFolderOnThumbDrive" xml:space="preserve">
+    <value>Browse for the project folder on the thumbdrive</value>
+  </data>
 </root>
