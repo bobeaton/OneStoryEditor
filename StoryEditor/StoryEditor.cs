@@ -4085,7 +4085,7 @@ namespace OneStoryProjectEditor
 
             // next, do the sync
             Program.SyncWithRepositoryThumbdrive(strProjectFolder);
-            var projSettings = new ProjectSettings(Path.GetDirectoryName(openFileDialog.FileName), strProjectName);
+            var projSettings = new ProjectSettings(strProjectFolder, strProjectName);
             OpenProject(projSettings);
         }
 
