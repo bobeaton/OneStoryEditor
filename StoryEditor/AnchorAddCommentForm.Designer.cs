@@ -30,29 +30,27 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AnchorAddCommentForm));
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.labelScriptureReference = new System.Windows.Forms.Label();
             this.labelJumpTarget = new System.Windows.Forms.Label();
             this.labelComment = new System.Windows.Forms.Label();
             this.textBoxAnchorComment = new System.Windows.Forms.TextBox();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
-            this.buttonSavePlusExNote = new System.Windows.Forms.Button();
+            this.labelScriptureReference = new System.Windows.Forms.Label();
             this.tableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel
             // 
             this.tableLayoutPanel.ColumnCount = 3;
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel.Controls.Add(this.labelScriptureReference, 0, 0);
             this.tableLayoutPanel.Controls.Add(this.labelJumpTarget, 1, 0);
             this.tableLayoutPanel.Controls.Add(this.labelComment, 0, 1);
             this.tableLayoutPanel.Controls.Add(this.textBoxAnchorComment, 1, 1);
             this.tableLayoutPanel.Controls.Add(this.buttonCancel, 2, 2);
             this.tableLayoutPanel.Controls.Add(this.buttonSave, 1, 2);
-            this.tableLayoutPanel.Controls.Add(this.buttonSavePlusExNote, 0, 2);
             this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
@@ -64,22 +62,12 @@
             this.tableLayoutPanel.Size = new System.Drawing.Size(585, 103);
             this.tableLayoutPanel.TabIndex = 0;
             // 
-            // labelScriptureReference
-            // 
-            this.labelScriptureReference.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.labelScriptureReference.AutoSize = true;
-            this.labelScriptureReference.Location = new System.Drawing.Point(13, 10);
-            this.labelScriptureReference.Name = "labelScriptureReference";
-            this.labelScriptureReference.Size = new System.Drawing.Size(105, 13);
-            this.labelScriptureReference.TabIndex = 0;
-            this.labelScriptureReference.Text = "Scripture Reference:";
-            // 
             // labelJumpTarget
             // 
             this.labelJumpTarget.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelJumpTarget.AutoSize = true;
             this.tableLayoutPanel.SetColumnSpan(this.labelJumpTarget, 2);
-            this.labelJumpTarget.Location = new System.Drawing.Point(201, 10);
+            this.labelJumpTarget.Location = new System.Drawing.Point(124, 10);
             this.labelJumpTarget.Name = "labelJumpTarget";
             this.labelJumpTarget.Size = new System.Drawing.Size(35, 13);
             this.labelJumpTarget.TabIndex = 1;
@@ -99,16 +87,16 @@
             // 
             this.tableLayoutPanel.SetColumnSpan(this.textBoxAnchorComment, 2);
             this.textBoxAnchorComment.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxAnchorComment.Location = new System.Drawing.Point(201, 26);
+            this.textBoxAnchorComment.Location = new System.Drawing.Point(124, 26);
             this.textBoxAnchorComment.Name = "textBoxAnchorComment";
-            this.textBoxAnchorComment.Size = new System.Drawing.Size(371, 20);
+            this.textBoxAnchorComment.Size = new System.Drawing.Size(448, 20);
             this.textBoxAnchorComment.TabIndex = 3;
             // 
             // buttonCancel
             // 
             this.buttonCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(443, 67);
+            this.buttonCancel.Location = new System.Drawing.Point(424, 67);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 4;
@@ -118,7 +106,7 @@
             // buttonSave
             // 
             this.buttonSave.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.buttonSave.Location = new System.Drawing.Point(254, 67);
+            this.buttonSave.Location = new System.Drawing.Point(197, 67);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 23);
             this.buttonSave.TabIndex = 5;
@@ -126,17 +114,15 @@
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
-            // buttonSavePlusExNote
+            // labelScriptureReference
             // 
-            this.buttonSavePlusExNote.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.buttonSavePlusExNote.AutoSize = true;
-            this.buttonSavePlusExNote.Location = new System.Drawing.Point(13, 67);
-            this.buttonSavePlusExNote.Name = "buttonSavePlusExNote";
-            this.buttonSavePlusExNote.Size = new System.Drawing.Size(182, 23);
-            this.buttonSavePlusExNote.TabIndex = 6;
-            this.buttonSavePlusExNote.Text = "Save/&Add Exegetical/Cultural Note";
-            this.buttonSavePlusExNote.UseVisualStyleBackColor = true;
-            this.buttonSavePlusExNote.Click += new System.EventHandler(this.buttonSavePlusExNote_Click);
+            this.labelScriptureReference.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.labelScriptureReference.AutoSize = true;
+            this.labelScriptureReference.Location = new System.Drawing.Point(13, 10);
+            this.labelScriptureReference.Name = "labelScriptureReference";
+            this.labelScriptureReference.Size = new System.Drawing.Size(105, 13);
+            this.labelScriptureReference.TabIndex = 0;
+            this.labelScriptureReference.Text = "Scripture Reference:";
             // 
             // AnchorAddCommentForm
             // 
@@ -158,12 +144,11 @@
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
-        private System.Windows.Forms.Label labelScriptureReference;
         private System.Windows.Forms.Label labelJumpTarget;
         private System.Windows.Forms.Label labelComment;
         private System.Windows.Forms.TextBox textBoxAnchorComment;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Button buttonSave;
-        private System.Windows.Forms.Button buttonSavePlusExNote;
+        private System.Windows.Forms.Label labelScriptureReference;
     }
 }

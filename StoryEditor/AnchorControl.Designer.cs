@@ -34,7 +34,6 @@
             this.contextMenuStripAnchorOptions = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addCommentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addExegeticalCulturalNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addConsultantCoachNoteOnThisAnchorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editKeyTermsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripAnchorOptions.SuspendLayout();
@@ -71,11 +70,10 @@
             this.contextMenuStripAnchorOptions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.deleteToolStripMenuItem,
             this.addCommentToolStripMenuItem,
-            this.addExegeticalCulturalNoteToolStripMenuItem,
             this.addConsultantCoachNoteOnThisAnchorToolStripMenuItem,
             this.editKeyTermsToolStripMenuItem});
             this.contextMenuStripAnchorOptions.Name = "contextMenuStripAnchorOptions";
-            this.contextMenuStripAnchorOptions.Size = new System.Drawing.Size(307, 136);
+            this.contextMenuStripAnchorOptions.Size = new System.Drawing.Size(307, 114);
             // 
             // deleteToolStripMenuItem
             // 
@@ -90,13 +88,6 @@
             this.addCommentToolStripMenuItem.Size = new System.Drawing.Size(306, 22);
             this.addCommentToolStripMenuItem.Text = "&Add Anchor Comment (becomes a tooltip)";
             this.addCommentToolStripMenuItem.Click += new System.EventHandler(this.addCommentToolStripMenuItem_Click);
-            // 
-            // addExegeticalCulturalNoteToolStripMenuItem
-            // 
-            this.addExegeticalCulturalNoteToolStripMenuItem.Name = "addExegeticalCulturalNoteToolStripMenuItem";
-            this.addExegeticalCulturalNoteToolStripMenuItem.Size = new System.Drawing.Size(306, 22);
-            this.addExegeticalCulturalNoteToolStripMenuItem.Text = "Add &Exegetical/Cultural Note below";
-            this.addExegeticalCulturalNoteToolStripMenuItem.Click += new System.EventHandler(this.addExegeticalCulturalNoteToolStripMenuItem_Click);
             // 
             // addConsultantCoachNoteOnThisAnchorToolStripMenuItem
             // 
@@ -133,7 +124,6 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStripAnchorOptions;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addCommentToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem addExegeticalCulturalNoteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editKeyTermsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addConsultantCoachNoteOnThisAnchorToolStripMenuItem;
     }

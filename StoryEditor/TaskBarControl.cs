@@ -291,6 +291,7 @@ namespace OneStoryProjectEditor
             else
             {
                 TheSe.viewAnchorFieldMenuItem.Checked = 
+                    TheSe.viewExegeticalHelps.Checked =     // this kind of goes with anchors
                     TheSe.viewNetBibleMenuItem.Checked = true;
             }
         }

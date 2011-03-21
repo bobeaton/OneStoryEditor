@@ -3513,6 +3513,7 @@ namespace OneStoryProjectEditor
                                   viewEnglishBTFieldMenuItem.Checked,
                                   viewFreeTranslationToolStripMenuItem.Checked,
                                   viewAnchorFieldMenuItem.Checked,
+                                  viewExegeticalHelps.Checked,
                                   viewStoryTestingQuestionMenuItem.Checked,
                                   viewStoryTestingQuestionAnswerMenuItem.Checked,
                                   viewRetellingFieldMenuItem.Checked,
@@ -3575,6 +3576,7 @@ namespace OneStoryProjectEditor
 
                 // this have the added requirement that it be a biblical story
                 viewAnchorFieldMenuItem.Enabled =
+                    viewExegeticalHelps.Enabled = 
                     viewGeneralTestingQuestionMenuItem.Enabled = 
                     viewStoryTestingQuestionAnswerMenuItem.Enabled =
                     viewStoryTestingQuestionMenuItem.Enabled =
@@ -3862,6 +3864,10 @@ namespace OneStoryProjectEditor
             bSomethingChanged |= InsureVisible(viewAnchorFieldMenuItem,
                                                viewItemToInsureOn.IsViewItemOn(
                                                    VerseData.ViewSettings.ItemToInsureOn.AnchorFields),
+                                               bDoOffToo);
+            bSomethingChanged |= InsureVisible(viewExegeticalHelps,
+                                               viewItemToInsureOn.IsViewItemOn(
+                                                   VerseData.ViewSettings.ItemToInsureOn.ExegeticalHelps),
                                                bDoOffToo);
             bSomethingChanged |= InsureVisible(viewGeneralTestingQuestionMenuItem,
                                                viewItemToInsureOn.IsViewItemOn(

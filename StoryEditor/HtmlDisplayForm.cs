@@ -111,6 +111,7 @@ namespace OneStoryProjectEditor
                     checkBoxLangInternationalBT.Checked,
                     checkBoxLangFreeTranslation.Checked,
                     checkBoxAnchors.Checked,
+                    checkBoxExegeticalHelps.Checked,
                     checkBoxStoryTestingQuestions.Checked,
                     checkBoxAnswers.Checked,
                     checkBoxRetellings.Checked,

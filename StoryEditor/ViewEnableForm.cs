@@ -91,6 +91,8 @@ namespace OneStoryProjectEditor
                     checkBoxLangFreeTranslation.Checked = true;
                 if (_viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.AnchorFields))
                     checkBoxAnchors.Checked = true;
+                if (_viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.ExegeticalHelps))
+                    checkBoxExegeticalNotes.Checked = true;
                 if (_viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.GeneralTestQuestions))
                     checkBoxGeneralTestingQuestions.Checked = true;
                 if (_viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestions))
@@ -122,6 +124,7 @@ namespace OneStoryProjectEditor
                     checkBoxLangInternationalBT.Checked,
                     checkBoxLangFreeTranslation.Checked,
                     checkBoxAnchors.Checked,
+                    checkBoxExegeticalNotes.Checked,
                     checkBoxStoryTestingQuestions.Checked,
                     checkBoxAnswers.Checked,
                     checkBoxRetellings.Checked,

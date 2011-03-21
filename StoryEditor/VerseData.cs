@@ -427,6 +427,7 @@ namespace OneStoryProjectEditor
                 AnswersNationalBT = 1048576,
                 AnswersInternationalBT = 2097152,
                 GeneralTestQuestions = 4194304,
+                ExegeticalHelps = 8388608,
                 RetellingFields = 8192 | 16384 | 32768,
                 StoryTestingQuestions = 65536 | 131072 | 262144,
                 StoryTestingQuestionAnswers = 524288 | 1048576 | 2097152
@@ -467,6 +468,7 @@ namespace OneStoryProjectEditor
                 bool bLangInternationalBT,
                 bool bLangFreeTranslation,
                 bool bAnchors,
+                bool bExegeticalHelps,
                 bool bStoryTestingQuestions,
                 bool bStoryTestingQuestionAnswers,
                 bool bRetellings,
@@ -489,6 +491,7 @@ namespace OneStoryProjectEditor
                                    bLangInternationalBT,
                                    bLangFreeTranslation,
                                    bAnchors,
+                                   bExegeticalHelps,
                                    bStoryTestingQuestions,
                                    bStoryTestingQuestionAnswers,
                                    bRetellings,
@@ -518,6 +521,7 @@ namespace OneStoryProjectEditor
                 bool bLangInternationalBT,
                 bool bLangFreeTranslation,
                 bool bAnchors,
+                bool bExegeticalHelps,
                 bool bStoryTestingQuestions,
                 bool bStoryTestingQuestionAnswers,
                 bool bRetellings,
@@ -545,6 +549,8 @@ namespace OneStoryProjectEditor
                     _itemToInsureOn |= ItemToInsureOn.FreeTranslationField;
                 if (bAnchors)
                     _itemToInsureOn |= ItemToInsureOn.AnchorFields;
+                if (bExegeticalHelps)
+                    _itemToInsureOn |= ItemToInsureOn.ExegeticalHelps;
                 if (bStoryTestingQuestions)
                 {
                     // break this down based on projSettings

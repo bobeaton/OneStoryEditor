@@ -10,24 +10,17 @@ namespace OneStoryProjectEditor
     public partial class AnchorControl : ResizableControl
     {
         protected const string CstrFieldNameAnchor = "AnchorButton";
-        protected const string CstrFieldNameExegeticalHelp = "ExegeticalHelp";
-        protected const string CstrFieldNameExegeticalHelpLabel = "ExegeticalHelpLabel";
         protected int m_nNumRows = 1;
         protected VerseControl _ctrlVerse;
         protected AnchorsData _myAnchorsData;
-        protected ExegeticalHelpNotesData _myExegeticalHelpNotes;
-        protected ProjectSettings.LanguageInfo _li;
         // protected Dictionary<ToolStripButton, List<TextBox>> _mapAnchorsToTextBoxes = new Dictionary<ToolStripButton, List<TextBox>>();
 
         public AnchorControl(VerseControl ctrlVerse, StoryStageLogic storyStageLogic,
-            AnchorsData anAnchorsData, ExegeticalHelpNotesData theExegeticalHelpNotes,
-            ProjectSettings.LanguageInfo li)
+            AnchorsData anAnchorsData)
             : base(storyStageLogic)
         {
             _ctrlVerse = ctrlVerse;
             _myAnchorsData = anAnchorsData;
-            _myExegeticalHelpNotes = theExegeticalHelpNotes;
-            _li = li;
             InitializeComponent();
 
             tableLayoutPanel.SuspendLayout();
@@ -40,10 +33,6 @@ namespace OneStoryProjectEditor
             // finally populate the buttons on that tool strip
             foreach (AnchorData anAnchorData in anAnchorsData)
                 InitAnchorButton(toolStripAnchors, anAnchorData);
-
-            if (_myExegeticalHelpNotes.Count > 0)
-                foreach (ExegeticalHelpNoteData anExHelpNoteData in _myExegeticalHelpNotes)
-                    SetExegeticalHelpControls(ctrlVerse, li, anExHelpNoteData, ref m_nNumRows);
 
             tableLayoutPanel.ResumeLayout(false);
             ResumeLayout(false);
@@ -105,42 +94,6 @@ namespace OneStoryProjectEditor
                 if (CtrlTextBox._inTextBox == null)
                     _ctrlVerse.Focus();
             }
-        }
-
-        protected void SetExegeticalHelpControls(VerseControl ctrlVerse, 
-            ProjectSettings.LanguageInfo li, StringTransfer strQuote, ref int nNumRows)
-        {
-            int nLayoutRow = nNumRows++;
-
-            Label labelExegeticalHelp = new Label
-                                            {
-                                                Anchor = AnchorStyles.Left,
-                                                AutoSize = true,
-                                                Name = CstrFieldNameExegeticalHelpLabel + nLayoutRow.ToString(),
-                                                Text = "cn:"
-                                            };
-
-            CtrlTextBox tb = new CtrlTextBox(
-                CstrFieldNameExegeticalHelp + nLayoutRow, ctrlVerse, this, strQuote,
-                li, labelExegeticalHelp.Text, StoryEditor.TextFieldType.InternationalBt,
-                Properties.Settings.Default.ExegeticalHelpNoteColor);
-
-            // add the label and tool strip as a new row to the table layout panel
-            InsertRow(nLayoutRow);
-            tableLayoutPanel.Controls.Add(labelExegeticalHelp, 0, nLayoutRow);
-            tableLayoutPanel.Controls.Add(tb, 1, nLayoutRow);
-/*
-            // add this row to the list of exe help lines added for this anchor button (so 
-            //  we can gracefully remove them if the anchor is deleted.
-            List<TextBox> lstTBs;
-            if (!_mapAnchorsToTextBoxes.TryGetValue(theAnchorButton, out lstTBs))
-            {
-                lstTBs = new List<TextBox>();
-                _mapAnchorsToTextBoxes.Add(theAnchorButton, lstTBs);
-            }
-
-            lstTBs.Add(tb);
-*/
         }
 
         private void toolStripAnchors_DragEnter(object sender, DragEventArgs e)
@@ -253,11 +206,6 @@ namespace OneStoryProjectEditor
                     if (strJumpTarget.Substring(strJumpTarget.Length - nIndLen, nIndLen) != AnchorData.CstrTooltipIndicator)
                         m_theLastButtonClicked.Text += AnchorData.CstrTooltipIndicator;
 
-                    if (res == DialogResult.Yes)
-                    {
-                        addExegeticalCulturalNoteToolStripMenuItem_Click(null, null);
-                    }
-
                     theSE.Modified = true;
                 }
             }
@@ -270,6 +218,7 @@ namespace OneStoryProjectEditor
             m_theLastButtonClicked = null;
         }
 
+        /*
         private void addExegeticalCulturalNoteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // the only function of the button here is to add a slot to type a con note
@@ -282,6 +231,7 @@ namespace OneStoryProjectEditor
             AdjustHeightWithSuspendLayout(null);
             theSE.Modified = true;
         }
+        */
 
         internal static BiblicalKeyTermsForm m_dlgKeyTerms = null;
 

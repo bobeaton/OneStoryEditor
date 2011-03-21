@@ -24,12 +24,6 @@ namespace OneStoryProjectEditor
             set { textBoxAnchorComment.Text = value; }
         }
 
-        private void buttonSavePlusExNote_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.Yes;
-            this.Close();
-        }
-
         private void buttonSave_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.OK;

@@ -105,7 +105,7 @@
             this.toolStripSeparator1,
             this.splitStoryToolStripMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(343, 324);
+            this.contextMenuStrip.Size = new System.Drawing.Size(343, 302);
             this.contextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Opening);
             // 
             // moveSelectedTextToANewLineToolStripMenuItem
@@ -139,7 +139,6 @@
             this.addExegeticalCulturalNoteBelowToolStripMenuItem.Name = "addExegeticalCulturalNoteBelowToolStripMenuItem";
             this.addExegeticalCulturalNoteBelowToolStripMenuItem.Size = new System.Drawing.Size(342, 22);
             this.addExegeticalCulturalNoteBelowToolStripMenuItem.Text = "Add &Exegetical/Cultural Note below";
-            this.addExegeticalCulturalNoteBelowToolStripMenuItem.Visible = false;
             this.addExegeticalCulturalNoteBelowToolStripMenuItem.Click += new System.EventHandler(this.addExegeticalCulturalNoteBelowToolStripMenuItem_Click);
             // 
             // toolStripSeparator2

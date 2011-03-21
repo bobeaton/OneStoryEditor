@@ -40,11 +40,13 @@ namespace OneStoryProjectEditor
             this.recentProjectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sendReceiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.closeProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.browseForProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.projectFromTheInternetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toTheInternetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toAThumbdriveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.projectFromASharedNetworkDriveToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.projectSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -158,7 +160,7 @@ namespace OneStoryProjectEditor
             this.buttonsStoryStage = new System.Windows.Forms.ToolStripSplitButton();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
-            this.toAThumbdriveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewExegeticalHelps = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainerUpDown = new OneStoryProjectEditor.MinimizableSplitterContainer();
             this.linkLabelTasks = new System.Windows.Forms.LinkLabel();
             this.linkLabelVerseBT = new System.Windows.Forms.LinkLabel();
@@ -167,7 +169,6 @@ namespace OneStoryProjectEditor
             this.netBibleViewer = new OneStoryProjectEditor.NetBibleViewer();
             this.htmlConsultantNotesControl = new OneStoryProjectEditor.HtmlConsultantNotesControl();
             this.htmlCoachNotesControl = new OneStoryProjectEditor.HtmlCoachNotesControl();
-            this.closeProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
             this.splitContainerLeftRight.Panel2.SuspendLayout();
@@ -252,6 +253,13 @@ namespace OneStoryProjectEditor
             this.newToolStripMenuItem.ToolTipText = "Click to create a new OneStory project";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
+            // closeProjectToolStripMenuItem
+            // 
+            this.closeProjectToolStripMenuItem.Name = "closeProjectToolStripMenuItem";
+            this.closeProjectToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
+            this.closeProjectToolStripMenuItem.Text = "&Close project";
+            this.closeProjectToolStripMenuItem.Click += new System.EventHandler(this.closeProjectToolStripMenuItem_Click);
+            // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
@@ -292,6 +300,13 @@ namespace OneStoryProjectEditor
             this.toTheInternetToolStripMenuItem.ToolTipText = "Click here to enter the Internet address of the repository to send this project t" +
                 "o (e.g. if someone has created a repository for this project)";
             this.toTheInternetToolStripMenuItem.Click += new System.EventHandler(this.toTheInternetToolStripMenuItem_Click);
+            // 
+            // toAThumbdriveToolStripMenuItem
+            // 
+            this.toAThumbdriveToolStripMenuItem.Name = "toAThumbdriveToolStripMenuItem";
+            this.toAThumbdriveToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
+            this.toAThumbdriveToolStripMenuItem.Text = "Transfer via thum&bdrive";
+            this.toAThumbdriveToolStripMenuItem.Click += new System.EventHandler(this.toAThumbdriveToolStripMenuItem_Click);
             // 
             // projectFromASharedNetworkDriveToolStripMenu
             // 
@@ -577,6 +592,7 @@ namespace OneStoryProjectEditor
             this.viewEnglishBTFieldMenuItem,
             this.viewFreeTranslationToolStripMenuItem,
             this.viewAnchorFieldMenuItem,
+            this.viewExegeticalHelps,
             this.viewGeneralTestingQuestionMenuItem,
             this.viewStoryTestingQuestionMenuItem,
             this.viewStoryTestingQuestionAnswerMenuItem,
@@ -1373,12 +1389,16 @@ namespace OneStoryProjectEditor
             this.statusStrip.TabIndex = 1;
             this.statusStrip.Text = "statusStrip1";
             // 
-            // toAThumbdriveToolStripMenuItem
+            // viewExegeticalHelps
             // 
-            this.toAThumbdriveToolStripMenuItem.Name = "toAThumbdriveToolStripMenuItem";
-            this.toAThumbdriveToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
-            this.toAThumbdriveToolStripMenuItem.Text = "Transfer via thum&bdrive";
-            this.toAThumbdriveToolStripMenuItem.Click += new System.EventHandler(this.toAThumbdriveToolStripMenuItem_Click);
+            this.viewExegeticalHelps.Checked = true;
+            this.viewExegeticalHelps.CheckOnClick = true;
+            this.viewExegeticalHelps.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.viewExegeticalHelps.Name = "viewExegeticalHelps";
+            this.viewExegeticalHelps.Size = new System.Drawing.Size(284, 22);
+            this.viewExegeticalHelps.Text = "&Exegetical/Cultural notes";
+            this.viewExegeticalHelps.ToolTipText = "Show the Anchor toolbar";
+            this.viewExegeticalHelps.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
             // 
             // splitContainerUpDown
             // 
@@ -1495,13 +1515,6 @@ namespace OneStoryProjectEditor
             this.htmlCoachNotesControl.StoryData = null;
             this.htmlCoachNotesControl.TabIndex = 3;
             this.htmlCoachNotesControl.TheSE = null;
-            // 
-            // closeProjectToolStripMenuItem
-            // 
-            this.closeProjectToolStripMenuItem.Name = "closeProjectToolStripMenuItem";
-            this.closeProjectToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
-            this.closeProjectToolStripMenuItem.Text = "&Close project";
-            this.closeProjectToolStripMenuItem.Click += new System.EventHandler(this.closeProjectToolStripMenuItem_Click);
             // 
             // StoryEditor
             // 
@@ -1676,6 +1689,7 @@ namespace OneStoryProjectEditor
         internal ToolStripMenuItem viewGeneralTestingQuestionMenuItem;
         private ToolStripMenuItem toAThumbdriveToolStripMenuItem;
         private ToolStripMenuItem closeProjectToolStripMenuItem;
+        internal ToolStripMenuItem viewExegeticalHelps;
     }
 
 #if UsingHtmlDisplayForConNotes

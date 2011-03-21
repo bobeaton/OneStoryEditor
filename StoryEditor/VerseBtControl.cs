@@ -13,10 +13,14 @@ namespace OneStoryProjectEditor
     {
         protected const string CstrFieldNameStoryLine = "StoryLine";
         protected const string CstrFieldNameAnchors = "Anchors";
+        protected const string CstrFieldNameExegeticalHelp = "ExegeticalHelp";
+        protected const string CstrFieldNameExegeticalHelpLabel = "ExegeticalHelpLabel";
         protected const string CstrFieldNameRetellings = "Retellings";
         protected const string CstrFieldNameTestQuestions = "TestQuestions";
 
         internal VerseData _verseData = null;
+        protected ExegeticalHelpNotesData _myExegeticalHelpNotes;
+        private int m_nNumRows;
 
         public DirectableEncConverter TransliteratorVernacular;
         public DirectableEncConverter TransliteratorNationalBT;
@@ -29,6 +33,7 @@ namespace OneStoryProjectEditor
                 parentFlowLayoutPanel)
         {
             _verseData = dataVerse;
+            _myExegeticalHelpNotes = dataVerse.ExegeticalHelpNotes;
             InitializeComponent();
 
             IsGeneralQuestionsLine = (VerseNumber == 0);
@@ -76,7 +81,7 @@ namespace OneStoryProjectEditor
             tableLayoutPanel.SuspendLayout();
             SuspendLayout();
 
-            int nNumRows = 1;
+            m_nNumRows = 1;
 
             // if the user is requesting one of the story lines (vernacular, nationalBT, or English), then...
             if (!IsGeneralQuestionsLine &&
@@ -86,33 +91,37 @@ namespace OneStoryProjectEditor
                     || theSE.viewFreeTranslationToolStripMenuItem.Checked))
             {
                 // ask that control to do the Update View
-                InitStoryLine(theSE, _verseData, nNumRows);
-                nNumRows++;
+                InitStoryLine(theSE, _verseData, m_nNumRows);
+                m_nNumRows++;
             }
 
             if (!IsGeneralQuestionsLine && theSE.viewAnchorFieldMenuItem.Checked)
             {
                 AnchorsData anAnchorsData = _verseData.Anchors;
-                ExegeticalHelpNotesData theExegeticalNotes = _verseData.ExegeticalHelpNotes;
                 if (anAnchorsData != null)
                 {
-                    InitAnchors(anAnchorsData, theExegeticalNotes, nNumRows, 
+                    InitAnchors(anAnchorsData, m_nNumRows, 
                         TheSE.StoryProject.ProjSettings.InternationalBT);
-                    nNumRows++;
+                    m_nNumRows++;
                 }
             }
+
+            if (_myExegeticalHelpNotes.Count > 0)
+                foreach (ExegeticalHelpNoteData anExHelpNoteData in _myExegeticalHelpNotes)
+                    SetExegeticalHelpControls(TheSE.StoryProject.ProjSettings.InternationalBT, 
+                        anExHelpNoteData, ref m_nNumRows);
 
             if (!IsGeneralQuestionsLine && theSE.viewRetellingFieldMenuItem.Checked)
             {
                 if (_verseData.Retellings.Count > 0)
                 {
-                    InitRetellings(_verseData.Retellings, nNumRows, 
+                    InitRetellings(_verseData.Retellings, m_nNumRows, 
                         theSE.theCurrentStory.CraftingInfo.TestorsToCommentsRetellings,
                         TheSE.StoryProject.ProjSettings,
                         (theSE.viewVernacularLangFieldMenuItem.Checked && TheSE.StoryProject.ProjSettings.ShowRetellingVernacular),
                         (theSE.viewNationalLangFieldMenuItem.Checked && TheSE.StoryProject.ProjSettings.ShowRetellingNationalBT),
                         (theSE.viewEnglishBTFieldMenuItem.Checked && TheSE.StoryProject.ProjSettings.ShowRetellingInternationalBT));
-                    nNumRows++;
+                    m_nNumRows++;
                 }
             }
 
@@ -122,8 +131,8 @@ namespace OneStoryProjectEditor
             {
                 if (_verseData.TestQuestions.Count > 0)
                 {
-                    InitTestingQuestions(theSE, _verseData.TestQuestions, nNumRows);
-                    nNumRows++;
+                    InitTestingQuestions(theSE, _verseData.TestQuestions, m_nNumRows);
+                    m_nNumRows++;
                 }
             }
 
@@ -157,11 +166,10 @@ namespace OneStoryProjectEditor
         }
 
         protected void InitAnchors(AnchorsData anAnchorsData, 
-            ExegeticalHelpNotesData theExegeticalHelpNotes,
             int nLayoutRow, ProjectSettings.LanguageInfo li)
         {
             System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(CstrFieldNameAnchors));
-            var anAnchorCtrl = new AnchorControl(this, StageLogic, anAnchorsData, theExegeticalHelpNotes, li)
+            var anAnchorCtrl = new AnchorControl(this, StageLogic, anAnchorsData)
                                    {
                                        Name = CstrFieldNameAnchors,
                                        ParentControl = this
@@ -170,6 +178,30 @@ namespace OneStoryProjectEditor
             InsertRow(nLayoutRow);
             tableLayoutPanel.SetColumnSpan(anAnchorCtrl, 2);
             tableLayoutPanel.Controls.Add(anAnchorCtrl, 0, nLayoutRow);
+        }
+
+        protected void SetExegeticalHelpControls(ProjectSettings.LanguageInfo li, 
+            StringTransfer strQuote, ref int nNumRows)
+        {
+            int nLayoutRow = nNumRows++;
+
+            Label labelExegeticalHelp = new Label
+            {
+                Anchor = AnchorStyles.Left,
+                AutoSize = true,
+                Name = CstrFieldNameExegeticalHelpLabel + nLayoutRow.ToString(),
+                Text = "cn:"
+            };
+
+            CtrlTextBox tb = new CtrlTextBox(
+                CstrFieldNameExegeticalHelp + nLayoutRow, this, this, strQuote,
+                li, labelExegeticalHelp.Text, StoryEditor.TextFieldType.InternationalBt,
+                Properties.Settings.Default.ExegeticalHelpNoteColor);
+
+            // add the label and tool strip as a new row to the table layout panel
+            InsertRow(nLayoutRow);
+            tableLayoutPanel.Controls.Add(labelExegeticalHelp, 0, nLayoutRow);
+            tableLayoutPanel.Controls.Add(tb, 1, nLayoutRow);
         }
 
         protected void InitRetellings(RetellingsData aRetellingsData, int nLayoutRow,
@@ -798,12 +830,10 @@ namespace OneStoryProjectEditor
             StoryEditor theSE;
             if (!CheckForProperEditToken(out theSE))
                 return;
-            /* fix later
-            ExegeticalHelpNoteData anEHN = _verseData.ExegeticalHelpNotes.AddExegeticalHelpNote("");
-            SetExegeticalHelpControls(_ctrlVerse, _li, anEHN, ref m_nNumRows);
-            AdjustHeightWithSuspendLayout(null);
+
+            _verseData.ExegeticalHelpNotes.AddExegeticalHelpNote("");
             theSE.Modified = true;
-            */
+            UpdateViewOfThisVerse(theSE);
         }
     }
 }

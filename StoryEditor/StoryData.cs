@@ -292,6 +292,7 @@ namespace OneStoryProjectEditor
                 true,   // english bt
                 true,   // free translation
                 true,   // anchors 
+                true,   // exegetical/cultural notes
                 true,   // testing questions
                 true,   // answers
                 true,   // retellings

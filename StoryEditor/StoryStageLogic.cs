@@ -648,7 +648,9 @@ namespace OneStoryProjectEditor
                 bool bBiblicalStory = ((theSE.theCurrentStory == null) ||
                                        theSE.theCurrentStory.CraftingInfo.IsBiblicalStory);
 
-                theSE.viewAnchorFieldMenuItem.Checked = IsAnchorVisible && bBiblicalStory;
+                theSE.viewAnchorFieldMenuItem.Checked = 
+                    theSE.viewExegeticalHelps.Checked =     // this kindof goes with anchors
+                        IsAnchorVisible && bBiblicalStory;
                 theSE.viewStoryTestingQuestionMenuItem.Checked = IsStoryTestingQuestionVisible && bBiblicalStory;
                 theSE.viewStoryTestingQuestionAnswerMenuItem.Checked = IsStoryTestingQuestionAnswersVisible && bBiblicalStory;
                 theSE.viewRetellingFieldMenuItem.Checked = IsRetellingVisible && bBiblicalStory;
