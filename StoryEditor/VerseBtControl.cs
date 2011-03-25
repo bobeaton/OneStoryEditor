@@ -106,7 +106,7 @@ namespace OneStoryProjectEditor
                 }
             }
 
-            if (_myExegeticalHelpNotes.Count > 0)
+            if (theSE.viewExegeticalHelps.Checked && (_myExegeticalHelpNotes.Count > 0))
                 foreach (ExegeticalHelpNoteData anExHelpNoteData in _myExegeticalHelpNotes)
                     SetExegeticalHelpControls(TheSE.StoryProject.ProjSettings.InternationalBT, 
                         anExHelpNoteData, ref m_nNumRows);

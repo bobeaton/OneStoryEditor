@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
@@ -287,23 +288,46 @@ namespace OneStoryProjectEditor
             GetChangeToComment(_theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers,
                 textBoxInferenceComment3, 2, ref bModified);
 
-            if (textBoxUnsRetellingTest1.Tag != null)
-                ChangeRetellingTestor(textBoxUnsRetellingTest1, 0, ref bModified);
+            // here's a scenario to avoid: the user is changing UNS#2 to be UNS#1 and
+            //  UNS#2 to be someone else (or accidentally leaving USE#2 as both).
+            // Because of the way the change is done (by re-writing the guids), we
+            //  have to make sure we don't change them in the wrong order--i.e. the 
+            //  "swap" problem (a->c, b->a, and c->b)
+            // suppose: Before          After
+            //          #1 = f4450160   #1 = 68b690f6
+            //          #2 = 68b690f6   #2 = 214f9152
+            // then 
+            var lstUnsGuids = new List<string>();
+            try
+            {
+                // this checks to make sure we don't have the same UNS for multiple tests
+                CheckForDuplicate(textBoxUnsRetellingTest1, ref lstUnsGuids);
+                CheckForDuplicate(textBoxUnsRetellingTest2, ref lstUnsGuids);
+                CheckForDuplicate(textBoxUnsRetellingTest3, ref lstUnsGuids);
+                lstUnsGuids.Clear();
+                CheckForDuplicate(textBoxUnsInferenceTest1, ref lstUnsGuids);
+                CheckForDuplicate(textBoxUnsInferenceTest2, ref lstUnsGuids);
+                CheckForDuplicate(textBoxUnsInferenceTest3, ref lstUnsGuids);
 
-            if (textBoxUnsRetellingTest2.Tag != null)
-                ChangeRetellingTestor(textBoxUnsRetellingTest2, 1, ref bModified);
+                var testInfoRetellings = new TestInfo();
+                ChangeRetellingTestor(textBoxUnsRetellingTest1, 0, ref testInfoRetellings, ref bModified);
+                ChangeRetellingTestor(textBoxUnsRetellingTest2, 1, ref testInfoRetellings, ref bModified);
+                ChangeRetellingTestor(textBoxUnsRetellingTest3, 2, ref testInfoRetellings, ref bModified);
 
-            if (textBoxUnsRetellingTest3.Tag != null)
-                ChangeRetellingTestor(textBoxUnsRetellingTest3, 2, ref bModified);
+                var testInfoInferenceTests = new TestInfo();
+                ChangeQuestionTestor(textBoxUnsInferenceTest1, 0, ref testInfoInferenceTests, ref bModified);
+                ChangeQuestionTestor(textBoxUnsInferenceTest2, 1, ref testInfoInferenceTests, ref bModified);
+                ChangeQuestionTestor(textBoxUnsInferenceTest3, 2, ref testInfoInferenceTests, ref bModified);
 
-            if (textBoxUnsInferenceTest1.Tag != null)
-                ChangeQuestionTestor(textBoxUnsInferenceTest1, 0, ref bModified);
-
-            if (textBoxUnsInferenceTest2.Tag != null)
-                ChangeQuestionTestor(textBoxUnsInferenceTest2, 1, ref bModified);
-
-            if (textBoxUnsInferenceTest3.Tag != null)
-                ChangeQuestionTestor(textBoxUnsInferenceTest3, 2, ref bModified);
+                // now that we've checked and verified everything, then update the stored info
+                _theCurrentStory.CraftingInfo.TestorsToCommentsRetellings = testInfoRetellings;
+                _theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers = testInfoInferenceTests;
+            }
+            catch (Exception ex)
+            {
+                Program.ShowException(ex);
+                return;
+            }
 
             if (bModified)
                 _theSE.Modified = true;
@@ -312,31 +336,78 @@ namespace OneStoryProjectEditor
             Close();
         }
 
+        private void CheckForDuplicate(TextBox textBox, ref List<string> lstUnsGuids)
+        {
+            if (String.IsNullOrEmpty(textBox.Text))
+                return;
+
+            var theUns = _theStoryProjectData.TeamMembers[textBox.Text];
+            if (lstUnsGuids.Contains(theUns.MemberGuid))
+                throw new ApplicationException(String.Format(Properties.Resources.IDS_AddTestSameUNS,
+                                                             _theStoryProjectData.TeamMembers.GetNameFromMemberId(
+                                                                 theUns.MemberGuid)));
+            lstUnsGuids.Add(theUns.MemberGuid);
+        }
+
         private static void GetChangeToComment(TestInfo testInfo, TextBox tb, int nIndex,
             ref bool bModified)
         {
             if (testInfo.Count > nIndex)
             {
-                if (tb.Text != testInfo[nIndex].TestComment)
+                var testorInfo = testInfo[nIndex];
+                if (tb.Text != testorInfo.TestComment)
                 {
-                    testInfo[nIndex].TestComment = tb.Text;
+                    testorInfo.TestComment = tb.Text;
                     bModified = true;
                 }
             }
         }
 
-        protected void ChangeRetellingTestor(TextBox tb, int nIndex, ref bool bModified)
+        protected void ChangeRetellingTestor(TextBox tb, int nIndex,
+            ref TestInfo testInfoNew, ref bool bModified)
         {
-            var theUns = (TeamMemberData)tb.Tag;
-            _theCurrentStory.ChangeRetellingTestor(nIndex, theUns.MemberGuid);
-            bModified = true;
+            TeamMemberData theUns;
+            if (ChangeTestor(tb, nIndex,
+                             _theCurrentStory.CraftingInfo.TestorsToCommentsRetellings,
+                             out theUns, ref bModified))
+            {
+                _theCurrentStory.ChangeRetellingTestor(nIndex, theUns.MemberGuid, ref testInfoNew);
+            }
         }
 
-        protected void ChangeQuestionTestor(TextBox tb, int nIndex, ref bool bModified)
+        protected void ChangeQuestionTestor(TextBox tb, int nIndex,
+            ref TestInfo testInfoNew, ref bool bModified)
         {
-            var theUns = (TeamMemberData)tb.Tag;
-            _theCurrentStory.ChangeTqAnswersTestor(nIndex, theUns.MemberGuid);
-            bModified = true;
+            TeamMemberData theUns;
+            if (ChangeTestor(tb, nIndex,
+                             _theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers,
+                             out theUns, ref bModified))
+            {
+                _theCurrentStory.ChangeTqAnswersTestor(nIndex, theUns.MemberGuid, ref testInfoNew);
+            }
+        }
+
+        private bool ChangeTestor(TextBox tb, int nIndex, TestInfo testInfoCurrent,
+            out TeamMemberData theUns, ref bool bModified)
+        {
+            if (tb.Tag != null)
+            {
+                theUns = (TeamMemberData)tb.Tag;
+                bModified = true;
+            }
+            else if (testInfoCurrent.Count > nIndex)
+            {
+                var testorInfo = testInfoCurrent[nIndex];
+                var strName = _theStoryProjectData.TeamMembers.GetNameFromMemberId(testorInfo.TestorGuid);
+                theUns = _theStoryProjectData.TeamMembers[strName];
+            }
+            else
+            {
+                theUns = null;
+                return false;
+            }
+
+            return true;
         }
     }
 }

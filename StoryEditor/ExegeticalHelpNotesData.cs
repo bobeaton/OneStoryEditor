@@ -161,5 +161,33 @@ namespace OneStoryProjectEditor
                 foreach (ExegeticalHelpNoteData anChildExHelpNoteData in child)
                     astrExegeticalHelpNotes.Add(Diff.HtmlDiff(null, anChildExHelpNoteData));
         }
+
+        public string FinishPresentationHtml(string strAnchorHtml, int nVerseIndex, 
+            int nNumCols, List<string> astrExegeticalHelpNotes)
+        {
+            string strHtml = strAnchorHtml;
+            // add exegetical comments as their own rows
+            for (int i = 0; i < astrExegeticalHelpNotes.Count; i++)
+            {
+                string strExegeticalHelpNote = astrExegeticalHelpNotes[i];
+                string strHtmlElementId = String.Format("paragraphExHelp{0}_{1}", nVerseIndex, i);
+                strHtml += String.Format(OseResources.Properties.Resources.HTML_TableRow,
+                                         String.Format("{0}{1}",
+                                                       String.Format(OseResources.Properties.Resources.HTML_TableCell, "cn:"),
+                                                       String.Format(OseResources.Properties.Resources.HTML_TableCellWidth,
+                                                                     100,
+                                                                     String.Format(OseResources.Properties.Resources.HTML_ParagraphText,
+                                                                                   strHtmlElementId,
+                                                                                   StoryData.
+                                                                                       CstrLangInternationalBtStyleClassName,
+                                                                                   strExegeticalHelpNote))));
+            }
+
+            // make a sub-table out of all this
+            return String.Format(OseResources.Properties.Resources.HTML_TableRow,
+                                 String.Format(OseResources.Properties.Resources.HTML_TableCellWithSpan, nNumCols,
+                                               String.Format(OseResources.Properties.Resources.HTML_Table,
+                                                             strHtml)));
+        }
     }
 }

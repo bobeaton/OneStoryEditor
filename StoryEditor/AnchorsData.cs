@@ -377,43 +377,34 @@ namespace OneStoryProjectEditor
         }
         */
 
-        public string PresentationHtml(int nVerseIndex, int nNumCols, 
-            AnchorsData childAnchorsData, 
-            ExegeticalHelpNotesData theExegeticalHelpNotes,
-            ExegeticalHelpNotesData theChildExegeticalHelpNotes,
-            bool bPrintPreview)
+        public string PresentationHtml(int nVerseIndex, int nNumCols,
+            AnchorsData childAnchorsData, bool bPrintPreview, 
+            ref List<string> astrExegeticalHelpNotes)
         {
-            List<string> astrExegeticalHelpNotes = new List<string>();
             string strRow = null;
             foreach (AnchorData anchorData in this)
                 strRow += anchorData.PresentationHtml(childAnchorsData, bPrintPreview, false, ref astrExegeticalHelpNotes);
-
-            // get the ExegeticalHelp notes as well
-            theExegeticalHelpNotes.PresentationHtml(theChildExegeticalHelpNotes, ref astrExegeticalHelpNotes);
 
             // now put the anchors that are in the child (as additions)
             if (childAnchorsData != null)
                 foreach (AnchorData anchorData in childAnchorsData)
                     strRow += anchorData.PresentationHtmlAsAddition(ref astrExegeticalHelpNotes);
 
-            if (theChildExegeticalHelpNotes != null)
-                theChildExegeticalHelpNotes.PresentationHtml(null, ref astrExegeticalHelpNotes);
-
-            return FinishPresentationHtml(nVerseIndex, nNumCols, strRow, astrExegeticalHelpNotes);
+            return FinishPresentationHtml(nVerseIndex, nNumCols, strRow);
         }
 
-        public string PresentationHtmlAsAddition(int nVerseIndex, int nNumCols)
+        public string PresentationHtmlAsAddition(int nVerseIndex, int nNumCols,
+            ref List<string> astrExegeticalHelpNotes)
         {
-            List<string> astrExegeticalHelpNotes = new List<string>();
             string strRow = null;
             foreach (AnchorData anchorData in this)
                 strRow += anchorData.PresentationHtmlAsAddition(ref astrExegeticalHelpNotes);
 
-            return FinishPresentationHtml(nVerseIndex, nNumCols, strRow, astrExegeticalHelpNotes);
+            return FinishPresentationHtml(nVerseIndex, nNumCols, strRow);
         }
 
         protected string FinishPresentationHtml(int nVerseIndex, int nNumCols, 
-            string strRow, List<string> astrExegeticalHelpNotes)
+            string strRow)
         {
             // stop if there was nothing
             if (String.IsNullOrEmpty(strRow))
@@ -425,36 +416,11 @@ namespace OneStoryProjectEditor
                                                strRow);
 
             // add combine with the 'anc:' header cell into a Table Row
-            string strHtml = String.Format(OseResources.Properties.Resources.HTML_TableRow,
-                                           String.Format("{0}{1}",
-                                                         String.Format(OseResources.Properties.Resources.HTML_TableCell,
-                                                                       "anc:"),
-                                                         strHtmlCell));
-
-            // add exegetical comments as their own rows
-            for (int i = 0; i < astrExegeticalHelpNotes.Count; i++)
-            {
-                string strExegeticalHelpNote = astrExegeticalHelpNotes[i];
-                string strHtmlElementId = String.Format("paragraphExHelp{0}_{1}", nVerseIndex, i);
-                strHtml += String.Format(OseResources.Properties.Resources.HTML_TableRow,
-                                         String.Format("{0}{1}",
-                                                       String.Format(OseResources.Properties.Resources.HTML_TableCell, "cn:"),
-                                                       String.Format(OseResources.Properties.Resources.HTML_TableCellWidth,
-                                                                     100,
-                                                                     String.Format(OseResources.Properties.Resources.HTML_ParagraphText,
-                                                                                   strHtmlElementId,
-                                                                                   StoryData.
-                                                                                       CstrLangInternationalBtStyleClassName,
-                                                                                   strExegeticalHelpNote))));
-            }
-
-            // make a sub-table out of all this
-            strHtml = String.Format(OseResources.Properties.Resources.HTML_TableRow,
-                                    String.Format(OseResources.Properties.Resources.HTML_TableCellWithSpan, nNumCols,
-                                                  String.Format(OseResources.Properties.Resources.HTML_Table,
-                                                                strHtml)));
-
-            return strHtml;
+            return String.Format(OseResources.Properties.Resources.HTML_TableRow,
+                                 String.Format("{0}{1}",
+                                               String.Format(OseResources.Properties.Resources.HTML_TableCell,
+                                                             "anc:"),
+                                               strHtmlCell));
         }
     }
 }

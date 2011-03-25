@@ -42,6 +42,7 @@
             this.checkBoxLangInternationalBT = new System.Windows.Forms.CheckBox();
             this.checkBoxLangFreeTranslation = new System.Windows.Forms.CheckBox();
             this.checkBoxAnchors = new System.Windows.Forms.CheckBox();
+            this.checkBoxExegeticalHelpNote = new System.Windows.Forms.CheckBox();
             this.checkBoxGeneralTestingQuestions = new System.Windows.Forms.CheckBox();
             this.checkBoxStoryTestingQuestions = new System.Windows.Forms.CheckBox();
             this.checkBoxAnswers = new System.Windows.Forms.CheckBox();
@@ -55,7 +56,6 @@
             this.htmlStoryBt = new OneStoryProjectEditor.HtmlStoryBtControl();
             this.buttonClose = new System.Windows.Forms.Button();
             this.buttonPrint = new System.Windows.Forms.Button();
-            this.checkBoxExegeticalHelpNote = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel.SuspendLayout();
             this.groupBoxViewOptions.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -238,6 +238,18 @@
             this.checkBoxAnchors.Text = "&Anchors";
             this.checkBoxAnchors.UseVisualStyleBackColor = true;
             // 
+            // checkBoxExegeticalHelpNote
+            // 
+            this.checkBoxExegeticalHelpNote.AutoSize = true;
+            this.checkBoxExegeticalHelpNote.Checked = true;
+            this.checkBoxExegeticalHelpNote.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxExegeticalHelpNote.Location = new System.Drawing.Point(3, 187);
+            this.checkBoxExegeticalHelpNote.Name = "checkBoxExegeticalHelpNote";
+            this.checkBoxExegeticalHelpNote.Size = new System.Drawing.Size(143, 17);
+            this.checkBoxExegeticalHelpNote.TabIndex = 14;
+            this.checkBoxExegeticalHelpNote.Text = "&Exegetical/cultural notes";
+            this.checkBoxExegeticalHelpNote.UseVisualStyleBackColor = true;
+            // 
             // checkBoxGeneralTestingQuestions
             // 
             this.checkBoxGeneralTestingQuestions.AutoSize = true;
@@ -397,18 +409,6 @@
             this.buttonPrint.Text = "&Print";
             this.buttonPrint.UseVisualStyleBackColor = true;
             this.buttonPrint.Click += new System.EventHandler(this.buttonPrint_Click);
-            // 
-            // checkBoxExegeticalHelpNote
-            // 
-            this.checkBoxExegeticalHelpNote.AutoSize = true;
-            this.checkBoxExegeticalHelpNote.Checked = true;
-            this.checkBoxExegeticalHelpNote.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxExegeticalHelpNote.Location = new System.Drawing.Point(3, 187);
-            this.checkBoxExegeticalHelpNote.Name = "checkBoxExegeticalHelpNote";
-            this.checkBoxExegeticalHelpNote.Size = new System.Drawing.Size(143, 17);
-            this.checkBoxExegeticalHelpNote.TabIndex = 14;
-            this.checkBoxExegeticalHelpNote.Text = "&Exegetical/cultural notes";
-            this.checkBoxExegeticalHelpNote.UseVisualStyleBackColor = true;
             // 
             // PrintForm
             // 

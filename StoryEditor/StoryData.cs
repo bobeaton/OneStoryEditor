@@ -188,20 +188,58 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public void ChangeRetellingTestor(int nTestIndex, string strNewGuid)
+        public void ChangeRetellingTestor(int nTestIndex, string strNewGuid, 
+            ref TestInfo testInfoNew)
         {
-            var testorInfo = CraftingInfo.TestorsToCommentsRetellings[nTestIndex];
-            var strOldGuid = testorInfo.TestorGuid;
-            testorInfo.TestorGuid = strNewGuid;
-            Verses.ChangeRetellingTestorGuid(strOldGuid, strNewGuid);
+            // first see if UNS being "added" is already there (i.e. it's just a change
+            //  of index)
+            if (ChangeTestor(CraftingInfo.TestorsToCommentsRetellings, 
+                    strNewGuid, nTestIndex, ref testInfoNew))
+            {
+                Verses.ChangeRetellingTestorGuid(nTestIndex, strNewGuid);
+            }
         }
 
-        public void ChangeTqAnswersTestor(int nTestIndex, string strNewGuid)
+        public void ChangeTqAnswersTestor(int nTestIndex, string strNewGuid,
+            ref TestInfo testInfoNew)
         {
-            var testorInfo = CraftingInfo.TestorsToCommentsTqAnswers[nTestIndex];
-            var strOldGuid = testorInfo.TestorGuid;
-            testorInfo.TestorGuid = strNewGuid;
-            Verses.ChangeTqAnswersTestorGuid(strOldGuid, strNewGuid);
+            // first see if UNS being "added" is already there (i.e. it's just a change
+            //  of index)
+            if (ChangeTestor(CraftingInfo.TestorsToCommentsTqAnswers,
+                    strNewGuid, nTestIndex, ref testInfoNew))
+            {
+                Verses.ChangeTqAnswersTestorGuid(nTestIndex, strNewGuid);
+            }
+        }
+
+        private static bool ChangeTestor(TestInfo testInfo, string strNewGuid, 
+            int nTestIndex, ref TestInfo testInfoNew)
+        {
+            bool bRet = false;
+            TestorInfo testorInfo;
+            if (testInfo.Count > nTestIndex)
+            {
+                var oldTestorInfo = testInfo[nTestIndex];
+                if (oldTestorInfo.TestorGuid != strNewGuid)
+                {
+                    testorInfo = new TestorInfo(strNewGuid, oldTestorInfo.TestComment);
+                    bRet = true;
+                }
+                else
+                {
+                    testorInfo = oldTestorInfo;
+                }
+            }
+            else
+            {
+                // default comment for both
+                string strComment = String.Format(Properties.Resources.IDS_InferenceCommentFormat,
+                                                  DateTime.Now.ToString("yyyy-MMM-dd"));
+                testorInfo = new TestorInfo(strNewGuid, strComment);
+            }
+
+            testInfoNew.Insert(nTestIndex, testorInfo);
+            return bRet;
         }
 
         /// <summary>
@@ -376,6 +414,7 @@ namespace OneStoryProjectEditor
                 || viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.EnglishBTField)
                 || viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.FreeTranslationField)
                 || viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.AnchorFields)
+                || viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.ExegeticalHelps)
                 || viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.RetellingFields)
                 || viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestions)
                 || viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers))

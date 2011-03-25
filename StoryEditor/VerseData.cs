@@ -766,14 +766,24 @@ namespace OneStoryProjectEditor
             }
 
             string strHtml = null;
+            var astrExegeticalHelpNotes = new List<string>();
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.AnchorFields))
             {
                 strHtml += Anchors.PresentationHtml(nVerseIndex, nNumCols,
                                                     (theChildVerse != null) ? theChildVerse.Anchors : null,
-                                                    ExegeticalHelpNotes,
-                                                    (theChildVerse != null) ? theChildVerse.ExegeticalHelpNotes : null,
-                                                    bPrintPreview);
+                                                    bPrintPreview, 
+                                                    ref astrExegeticalHelpNotes);
             }
+
+            if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.ExegeticalHelps))
+                ExegeticalHelpNotes.PresentationHtml((theChildVerse != null) ? theChildVerse.ExegeticalHelpNotes : null,
+                                                     ref astrExegeticalHelpNotes);
+
+            if (!String.IsNullOrEmpty(strHtml) || (astrExegeticalHelpNotes.Count > 0))
+                strHtml = ExegeticalHelpNotes.FinishPresentationHtml(strHtml,
+                                                                     nVerseIndex,
+                                                                     nNumCols,
+                                                                     astrExegeticalHelpNotes);
 
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.RetellingFields))
             {
@@ -886,8 +896,19 @@ namespace OneStoryProjectEditor
             }
 
             string strHtml = null;
+            var astrExegeticalHelpNotes = new List<string>();
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.AnchorFields))
-                strHtml += Anchors.PresentationHtmlAsAddition(nVerseIndex, nNumCols);
+                strHtml += Anchors.PresentationHtmlAsAddition(nVerseIndex, nNumCols,
+                    ref astrExegeticalHelpNotes);
+
+            if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.ExegeticalHelps))
+                ExegeticalHelpNotes.PresentationHtml(null, ref astrExegeticalHelpNotes);
+
+            if (astrExegeticalHelpNotes.Count > 0)
+                strHtml = ExegeticalHelpNotes.FinishPresentationHtml(strHtml,
+                                                                     nVerseIndex,
+                                                                     nNumCols,
+                                                                     astrExegeticalHelpNotes);
 
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.RetellingFields))
             {
@@ -1487,22 +1508,17 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public void ChangeRetellingTestorGuid(string strOldGuid, string strNewGuid)
+        public void ChangeRetellingTestorGuid(int nIndex, string strNewGuid)
         {
-            foreach (var retelling in
-                this.SelectMany(aVerseData => aVerseData.Retellings.Where(retelling => retelling.MemberId == strOldGuid)))
-            {
-                retelling.MemberId = strNewGuid;
-            }
+            foreach (var lineMemberData in this.Select(aVerseData => aVerseData.Retellings[nIndex]))
+                lineMemberData.MemberId = strNewGuid;
         }
 
-        public void ChangeTqAnswersTestorGuid(string strOldGuid, string strNewGuid)
+        public void ChangeTqAnswersTestorGuid(int nIndex, string strNewGuid)
         {
-            foreach (var answer in
-                this.SelectMany(aVerse => aVerse.TestQuestions.SelectMany(testingQuestion => testingQuestion.Answers.Where(answer => answer.MemberId == strOldGuid))))
-            {
-                answer.MemberId = strNewGuid;
-            }
+            foreach (var lineMemberData in
+                this.SelectMany(aVerseData => aVerseData.TestQuestions.Select(aTqData => aTqData.Answers[nIndex])))
+                lineMemberData.MemberId = strNewGuid;
         }
     }
 }
