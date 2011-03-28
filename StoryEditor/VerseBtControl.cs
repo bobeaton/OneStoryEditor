@@ -832,6 +832,7 @@ namespace OneStoryProjectEditor
                 return;
 
             _verseData.ExegeticalHelpNotes.AddExegeticalHelpNote("");
+            theSE.viewExegeticalHelps.Checked = true;
             theSE.Modified = true;
             UpdateViewOfThisVerse(theSE);
         }

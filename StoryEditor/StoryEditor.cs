@@ -3576,7 +3576,6 @@ namespace OneStoryProjectEditor
 
                 // this have the added requirement that it be a biblical story
                 viewAnchorFieldMenuItem.Enabled =
-                    viewExegeticalHelps.Enabled = 
                     viewGeneralTestingQuestionMenuItem.Enabled = 
                     viewStoryTestingQuestionAnswerMenuItem.Enabled =
                     viewStoryTestingQuestionMenuItem.Enabled =
