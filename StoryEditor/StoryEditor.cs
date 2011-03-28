@@ -2745,6 +2745,9 @@ namespace OneStoryProjectEditor
             if (theCurrentStory.CountRetellingsTests > 0)
                 theCurrentStory.CountRetellingsTests--; // to show we've added one
 
+            // just in case it wasn't showing
+            viewRetellingFieldMenuItem.Checked = true;
+
             Modified = true;
             return true;
         }
@@ -2785,6 +2788,9 @@ namespace OneStoryProjectEditor
 
             if (theCurrentStory.CountTestingQuestionTests > 0)
                 theCurrentStory.CountTestingQuestionTests--;    // to show we've added one
+
+            // just in case it isn't currently showing
+            viewStoryTestingQuestionAnswerMenuItem.Checked = true;
 
             Modified = true;
             return true;
@@ -2893,17 +2899,11 @@ namespace OneStoryProjectEditor
                 string strUnsGuid = theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers[nTestNum].TestorGuid;
                 foreach (VerseData aVerseData in theCurrentStory.Verses)
                 {
-                    LineMemberData theLineData;
-                    foreach (TestQuestionData aTQ in aVerseData.TestQuestions)
-                    {
-                        // it's possible that a question is *newer*, in which case, there may only be answers from a new UNS 
-                        //  and not earlier ones. So delete the records based on the UnsGuid (since that is what the 
-                        //  user will have selected off of to delete)
-                        theLineData = aTQ.Answers.TryGetValue(strUnsGuid);
-                        if (theLineData != null)
-                            aTQ.Answers.Remove(theLineData);
-                    }
+                    RemoveTestQuestion(aVerseData, strUnsGuid);
                 }
+
+                // also remove the answers to general questions in ln 0
+                RemoveTestQuestion(theCurrentStory.Verses.FirstVerse, strUnsGuid);
 
                 theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.RemoveAt(nTestNum);
 
@@ -2914,6 +2914,20 @@ namespace OneStoryProjectEditor
 
                 Modified = true;
                 InitAllPanes();
+            }
+        }
+
+        private void RemoveTestQuestion(VerseData aVerseData, string strUnsGuid)
+        {
+            LineMemberData theLineData;
+            foreach (TestQuestionData aTQ in aVerseData.TestQuestions)
+            {
+                // it's possible that a question is *newer*, in which case, there may only be answers from a new UNS 
+                //  and not earlier ones. So delete the records based on the UnsGuid (since that is what the 
+                //  user will have selected off of to delete)
+                theLineData = aTQ.Answers.TryGetValue(strUnsGuid);
+                if (theLineData != null)
+                    aTQ.Answers.Remove(theLineData);
             }
         }
 
@@ -4971,6 +4985,8 @@ namespace OneStoryProjectEditor
                 return;
 
             theCurrentStory.Verses.FirstVerse.TestQuestions.AddTestQuestion();
+            
+            // just in case it wasn't showing
             viewGeneralTestingQuestionMenuItem.Checked = true;
             ReInitVerseControls();
             Modified = true;

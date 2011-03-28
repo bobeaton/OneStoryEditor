@@ -348,7 +348,7 @@ namespace OneStoryProjectEditor
 
         protected void DisplayVerses()
         {
-            VerseKey keyVerse = new VerseKey(ScriptureReference);
+            var keyVerse = new VerseKey(ScriptureReference);
             int nBook = keyVerse.Book();
             int nChapter = keyVerse.Chapter();
             int nVerse = keyVerse.Verse();
@@ -358,10 +358,10 @@ namespace OneStoryProjectEditor
             {
                 // something changed
                 // Build up the string which we're going to put in the HTML viewer
-                StringBuilder sb = new StringBuilder(CstrHtmlTableBegin);
+                var sb = new StringBuilder(CstrHtmlTableBegin);
 
                 // Do the whole chapter
-                VerseKey keyWholeOfChapter = new VerseKey(keyVerse);
+                var keyWholeOfChapter = new VerseKey(keyVerse);
                 keyWholeOfChapter.Verse(1);
                 while ((keyWholeOfChapter.Chapter() == nChapter) && (keyWholeOfChapter.Book() == nBook) && (keyWholeOfChapter.Error() == '\0'))
                 {
