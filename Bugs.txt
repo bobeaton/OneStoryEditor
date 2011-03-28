@@ -1,4 +1,6 @@
-﻿Send Process check reports to Judy
+﻿don't offer to split into lines once there are anchors and beyond
+
+Send Process check reports to Judy
 
 Ask Dhanunjaya about whether he recorded any non-bib stories
 

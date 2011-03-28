@@ -3795,7 +3795,7 @@ namespace OneStoryProjectEditor
             InitAllPanes();
         }
 
-        private bool WillBeLossInVerse(VersesData theVerses)
+        public static bool WillBeLossInVerse(VersesData theVerses)
         {
             foreach (var aVerse in theVerses)
             {

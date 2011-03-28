@@ -399,6 +399,9 @@ namespace OneStoryProjectEditor
             StoryEditor.TextFieldType fieldToCheck, StoryEditor.TextFieldType fieldHighest,
             ref bool bTriggerRefresh)
         {
+            if (StoryEditor.WillBeLossInVerse(theStory.Verses))
+                return true;
+
             bool bRepeatAfterMe = false;
             var lstDontCheck = new List<int>();
             do
