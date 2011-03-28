@@ -17,7 +17,8 @@ namespace OneStoryProjectEditor
         protected const int CnColumnStoryStage = 3;
         protected const int CnColumnStoryTimeInStage = 4;
         protected const int CnColumnNumOfLines = 5;
-        protected const int CnColumnNumOfWords = 6;
+        protected const int CnColumnTestQuestions = 6;
+        protected const int CnColumnNumOfWords = 7;
 
         protected StoryProjectData _storyProject;
         protected StoriesData _stories;
@@ -94,7 +95,7 @@ namespace OneStoryProjectEditor
                 }
 
                 StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[aSD.ProjStage.ProjectStage];
-                object[] aObs = new object[]
+                var aObs = new object[]
                 {   
                     aSD.Name, 
                     aSD.CraftingInfo.StoryPurpose, 
@@ -102,6 +103,7 @@ namespace OneStoryProjectEditor
                     st.StageDisplayString, 
                     strTimeInState,
                     aSD.NumOfLines,
+                    aSD.NumOfTestQuestions,
                     aSD.NumOfWords(_storyProject.ProjSettings)
                 };
                 int nRowIndex = dataGridViewPanorama.Rows.Add(aObs);

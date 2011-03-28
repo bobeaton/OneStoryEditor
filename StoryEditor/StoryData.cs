@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 using System.Text;
@@ -248,6 +249,14 @@ namespace OneStoryProjectEditor
         public int NumOfLines
         {
             get { return Verses.NumOfLines; }
+        }
+
+        public int NumOfTestQuestions
+        {
+            get
+            {
+                return Verses.Where(aVerse => aVerse.IsVisible).Sum(aVerse => aVerse.TestQuestions.Count);
+            }
         }
 
         public string NumOfWords(ProjectSettings projSettings)
