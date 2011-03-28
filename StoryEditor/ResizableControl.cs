@@ -152,11 +152,10 @@ namespace OneStoryProjectEditor
 
         protected static bool ResizeTextBoxToFitText(CtrlTextBox tb)
         {
-            int nHeight = tb.PreferredHeight;
-            // Size sz = tb.GetPreferredSize(new Size(tb.Width, 1000));
-            bool bHeightChanged = (nHeight != tb.Size.Height);
+            Size sz = tb.GetPreferredSize(new Size(tb.Width, 1000));
+            bool bHeightChanged = (sz.Height != tb.Size.Height);
             if (bHeightChanged)
-                tb.Height = nHeight;
+                tb.Height = sz.Height;
             return bHeightChanged;
         }
 
