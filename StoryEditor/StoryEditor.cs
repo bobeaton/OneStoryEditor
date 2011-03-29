@@ -44,14 +44,21 @@ namespace OneStoryProjectEditor
                     && (StoryProject.ProjSettings != null)
                     && (File.Exists(StoryProject.ProjSettings.ProjectFolder)))
                     InitProjectNotes(StoryProject.ProjSettings, value.Name);
-                linkLabelTasks.Visible = ((value != null) &&
-                                          ((value.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
-                                          || (value.MemberType == TeamMemberData.UserTypes.eIndependentConsultant)
-                                          || (value.MemberType == TeamMemberData.UserTypes.eConsultantInTraining)
-                                          || (value.MemberType == TeamMemberData.UserTypes.eCoach)
-                                          || (value.MemberType == TeamMemberData.UserTypes.eJustLooking)
-                                          || (value.MemberType == TeamMemberData.UserTypes.eEnglishBacktranslator)
-                                          || (value.MemberType == TeamMemberData.UserTypes.eFirstPassMentor)));
+                
+                if (value != null)
+                {
+                    linkLabelTasks.Visible = ((value.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
+                                              || (value.MemberType == TeamMemberData.UserTypes.eIndependentConsultant)
+                                              || (value.MemberType == TeamMemberData.UserTypes.eConsultantInTraining)
+                                              || (value.MemberType == TeamMemberData.UserTypes.eCoach)
+                                              || (value.MemberType == TeamMemberData.UserTypes.eJustLooking)
+                                              || (value.MemberType == TeamMemberData.UserTypes.eEnglishBacktranslator)
+                                              || (value.MemberType == TeamMemberData.UserTypes.eFirstPassMentor));
+
+                    // check whether we should be showing the transliteration or not
+                    viewTransliterationVernacular.Checked = !String.IsNullOrEmpty(value.TransliteratorVernacular);
+                    viewTransliterationNationalBT.Checked = !String.IsNullOrEmpty(value.TransliteratorNationalBT);
+                }
             }
         }
         internal bool Modified;
@@ -608,10 +615,7 @@ namespace OneStoryProjectEditor
                     strStoryToLoad = TheCurrentStoriesSet[0].Name;    // default
                 }
 
-                // check whether we should be showing the transliteration or not
                 Debug.Assert(LoggedOnMember != null);
-                viewTransliterationVernacular.Checked = !String.IsNullOrEmpty(LoggedOnMember.TransliteratorVernacular);
-                viewTransliterationNationalBT.Checked = !String.IsNullOrEmpty(LoggedOnMember.TransliteratorNationalBT);
 
                 // check for project settings that might have been saved from a previous session
                 if (!String.IsNullOrEmpty(Properties.Settings.Default.LastStoryWorkedOn) && comboBoxStorySelector.Items.Contains(Properties.Settings.Default.LastStoryWorkedOn))
@@ -4388,6 +4392,11 @@ namespace OneStoryProjectEditor
                         LoggedOnMember.TransliteratorDirectionForwardVernacular = aEC.DirectionForward;
                         Modified = true;
                     }
+                    else
+                    {
+                        LoggedOnMember.TransliteratorVernacular = null;
+                        Modified = true;
+                    }
                 }
             }
 
@@ -4438,15 +4447,15 @@ namespace OneStoryProjectEditor
         private void viewTransliteratorVernacularConfigureToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LoggedOnMember.TransliteratorVernacular = null;
-            viewTransliterationVernacular.Checked = true;
             viewTransliterationVernacular_Click(viewTransliterationVernacular, null);
+            viewTransliterationVernacular.Checked = (LoggedOnMember.TransliteratorVernacular != null);
         }
 
         private void viewTransliteratorNationalBTConfigureToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LoggedOnMember.TransliteratorNationalBT = null;
-            viewTransliterationNationalBT.Checked = true;
             viewTransliterationNationalBT_Click(viewTransliterationNationalBT, null);
+            viewTransliterationNationalBT.Checked = (LoggedOnMember.TransliteratorNationalBT != null);
         }
 
         private void linkLabelConsultantNotes_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
