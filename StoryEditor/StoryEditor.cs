@@ -1351,8 +1351,21 @@ namespace OneStoryProjectEditor
                     // otherwise, it might have been a retelling or some other control
                     if (!String.IsNullOrEmpty(CtrlTextBox._inTextBox._strLabel))
                     {
-                        AddExtraInfoBasedOnLabel(CtrlTextBox._inTextBox._strLabel,
-                                                 ctrl, ref strNote);
+                        try
+                        {
+                            AddExtraInfoBasedOnLabel(CtrlTextBox._inTextBox._strLabel,
+                                                     ctrl, ref strNote);
+                        }
+                        catch (Exception ex)
+                        {
+                            var exApp = new ApplicationException(String.Format("Error while trying to add ConNote on: '{0}' in verse#: {1} with selected text: '{2}' (full text: '{3}')",
+                                CtrlTextBox._inTextBox._strLabel,
+                                ctrlParent.VerseNumber, 
+                                CtrlTextBox._inTextBox.SelectedText, 
+                                CtrlTextBox._inTextBox.Text), ex);
+                            Program.ShowException(exApp);
+                            return;
+                        }
                     }
                     else
                     {
@@ -1413,8 +1426,13 @@ namespace OneStoryProjectEditor
             {
                 RetellingsData retellings = ctrl._verseData.Retellings;
                 string strTestNumber = strLabel.Substring(4, 1);
+
+                // there are two cases we have to treat specially:
+                //  1) it's 'ret 0' (because somehow the member id was removed)
+                //  2) there's no 'ret 1' (in which case 'ret 2' is the zeroth element)
                 int nTestNumber = Convert.ToInt32(strTestNumber) - 1;
-                LineMemberData retellingData = retellings[nTestNumber];
+                var testor = theCurrentStory.CraftingInfo.TestorsToCommentsRetellings[nTestNumber];
+                LineMemberData retellingData = retellings.TryGetValue(testor.TestorGuid);
 
                 strNote += strLabel;
                 // get selected text from all visible Story line controls
@@ -1445,8 +1463,13 @@ namespace OneStoryProjectEditor
                 TestQuestionData testQuestionData = ctrl._verseData.TestQuestions[nTestNumber];
                 AnswersData answers = testQuestionData.Answers;
                 strTestNumber = strLabel.Substring(4, 1);
+
+                // there are two cases we have to treat specially:
+                //  1) it's 'ans 0' (because somehow the member id was removed)
+                //  2) there's no 'ans 1' (in which case 'ans 2' is the zeroth element)
                 nTestNumber = Convert.ToInt32(strTestNumber) - 1;
-                LineMemberData answerData = answers[nTestNumber];
+                var testor = theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers[nTestNumber];
+                LineMemberData answerData = answers.TryGetValue(testor.TestorGuid);
 
                 strNote += strLabel;
                 // get selected text from all visible Story line controls
