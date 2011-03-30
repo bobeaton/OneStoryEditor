@@ -435,6 +435,18 @@ namespace OneStoryProjectEditor
             if (!Directory.Exists(strProjectFolder))
                 return;
 
+            try
+            {
+                TrySyncWithRepository(strProjectFolder, bIsOpening);
+            }
+            catch (Exception ex)
+            {
+                ShowException(ex);
+            }
+        }
+
+        private static void TrySyncWithRepository(string strProjectFolder, bool bIsOpening)
+        {
             string strProjectName = Path.GetFileNameWithoutExtension(strProjectFolder);
 
             // if there's no repo yet, then create one (even if we aren't going
@@ -450,9 +462,9 @@ namespace OneStoryProjectEditor
                     var repo = new HgRepository(strProjectFolder, nullProgress);
                     if (!repo.GetCanConnectToRemote(strRepoUrl, nullProgress))
                         if (MessageBox.Show(Properties.Resources.IDS_ConnectToInternet,
-                                             OseResources.Properties.Resources.IDS_Caption,
-                                             MessageBoxButtons.OKCancel) ==
-                             DialogResult.Cancel)
+                                            OseResources.Properties.Resources.IDS_Caption,
+                                            MessageBoxButtons.OKCancel) ==
+                            DialogResult.Cancel)
                         {
                             strRepoUrl = null;
                             if (String.IsNullOrEmpty(strSharedNetworkUrl))
@@ -482,8 +494,8 @@ namespace OneStoryProjectEditor
                 // even if the user doesn't want to go to the internet, we
                 //  at least want to back up locally (when the user closes)
                 using (var dlg = new SyncDialog(projectConfig,
-                    SyncUIDialogBehaviors.StartImmediatelyAndCloseWhenFinished,
-                    SyncUIFeatures.Minimal))
+                                                SyncUIDialogBehaviors.StartImmediatelyAndCloseWhenFinished,
+                                                SyncUIFeatures.Minimal))
                 {
                     dlg.Text = "OneStory Automatic Backup";
                     dlg.SyncOptions.DoMergeWithOthers = false;
