@@ -30,18 +30,12 @@ namespace OneStoryProjectEditor
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 
-                SplashScreenForm splashScreen = new SplashScreenForm();
+                var splashScreen = new SplashScreenForm();
                 splashScreen.Show();
                 Application.DoEvents();
 
                 // do auto-upgrade handling
                 InitializeLocalSettingsCollections(true);
-
-#if !DEBUG
-                // since we expect to have internet at this point, check for program updates as well
-                if (Properties.Settings.Default.AutoCheckForProgramUpdatesAtStartup)
-                    CheckForProgramUpdate(false);
-#endif
 
                 // make sure we have HG (or we can't really do much)
                 HgSanityCheck();

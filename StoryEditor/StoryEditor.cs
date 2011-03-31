@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -129,6 +130,51 @@ namespace OneStoryProjectEditor
                         OpenProject(Properties.Settings.Default.LastProjectPath, Properties.Settings.Default.LastProject);
                 }
                 catch { }   // this was only a bene anyway, so just ignore it
+            }
+
+            if (Properties.Settings.Default.AutoCheckForProgramUpdatesAtStartup)
+                backgroundWorker.RunWorkerAsync();
+        }
+
+        private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            string strManifestAddress = Properties.Resources.IDS_OSEUpgradeServer;
+            devX.AutoUpgrade autoUpgrade = devX.AutoUpgrade.Create(strManifestAddress, false);
+            if (autoUpgrade.IsUpgradeAvailable(false))
+                e.Result = autoUpgrade;
+            else
+                e.Result = null;
+
+            return;
+        }
+
+        private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            try
+            {
+                var autoUpgrade = e.Result as devX.AutoUpgrade;
+
+                //  confirm this is what the user wants to do.
+                if ((autoUpgrade == null)
+                    || (MessageBox.Show(Properties.Resources.IDS_ConfirmAutoUpgrade,
+                                        OseResources.Properties.Resources.IDS_Caption,
+                                        MessageBoxButtons.YesNoCancel) != DialogResult.Yes))
+                    return;
+
+                if (!CheckForSaveDirtyFile())
+                    return;
+
+                Close();
+                autoUpgrade.StartUpgradeStub();
+            }
+            catch (Exception ex)
+            {
+                Program.ShowException(ex);
+            }
+            finally
+            {
+                // don't need this anymore
+                backgroundWorker = null;
             }
         }
 
@@ -4761,9 +4807,9 @@ namespace OneStoryProjectEditor
                     return;
 
                 // this shouldn't be needed, but it seems that occasionally, it is...
-                StoryEditor.SuspendSaveDialog = true;
+                SuspendSaveDialog = true;
                 Program.CheckForProgramUpdate(true);
-                StoryEditor.SuspendSaveDialog = false;
+                SuspendSaveDialog = false;
 
                 // since the call to SaveDirty will have removed them all
                 if (theCurrentStory != null)
